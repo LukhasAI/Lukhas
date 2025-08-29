@@ -295,9 +295,8 @@ async def memory_dump() -> MemoryDumpResponse:
         # Import memory system components
         import os
 
-        from memory.unified.fold_manager import FoldManager
-
         from lukhas.emotion import process_emotion
+        from memory.unified.fold_manager import FoldManager
 
         # Initialize memory manager
         fold_manager = FoldManager()

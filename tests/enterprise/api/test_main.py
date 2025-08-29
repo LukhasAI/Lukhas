@@ -1,10 +1,12 @@
-import pytest
-from unittest.mock import patch, AsyncMock
-from httpx import AsyncClient
-from asgi_lifespan import LifespanManager
+from unittest.mock import AsyncMock, patch
 
-from enterprise.api.main import app
+import pytest
+from asgi_lifespan import LifespanManager
+from httpx import AsyncClient
+
 from candidate.bridge.llm_wrappers.base import LLMProvider
+from enterprise.api.main import app
+
 
 @pytest.fixture
 def mock_orchestrator():
@@ -15,7 +17,7 @@ def mock_orchestrator():
 
 @pytest.fixture
 def test_app(mock_orchestrator):
-    with patch('enterprise.api.main.orchestrator', new=mock_orchestrator):
+    with patch("enterprise.api.main.orchestrator", new=mock_orchestrator):
         yield app
 
 @pytest.mark.asyncio

@@ -10,7 +10,7 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import pytest
 
@@ -71,7 +71,7 @@ class AuditMockRegistry:
     """Registry of audit-safe mock implementations."""
 
     @staticmethod
-    def mock_identity_authenticate(user_id: str, mode: str = "dry_run") -> Dict[str, Any]:
+    def mock_identity_authenticate(user_id: str, mode: str = "dry_run") -> dict[str, Any]:
         """Mock identity authentication for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -86,7 +86,7 @@ class AuditMockRegistry:
         }
 
     @staticmethod
-    def mock_governance_record_consent(consent_data: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
+    def mock_governance_record_consent(consent_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """Mock consent recording for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -101,7 +101,7 @@ class AuditMockRegistry:
         }
 
     @staticmethod
-    def mock_orchestration_build_context(context_data: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
+    def mock_orchestration_build_context(context_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """Mock context building for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -116,7 +116,7 @@ class AuditMockRegistry:
         }
 
     @staticmethod
-    def mock_policy_decide(policy_input: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
+    def mock_policy_decide(policy_input: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """Mock policy decision for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -332,7 +332,7 @@ class TestE2EAuditDryRun:
 # AUDIT REPORTING
 # ============================================================================
 
-def generate_e2e_audit_report() -> Dict[str, Any]:
+def generate_e2e_audit_report() -> dict[str, Any]:
     """Generate comprehensive E2E audit report."""
     return {
         "audit_metadata": {

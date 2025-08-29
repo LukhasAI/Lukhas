@@ -15,7 +15,7 @@ import os
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 
@@ -54,7 +54,7 @@ class T4LoadTester:
     def __init__(self, config: LoadTestConfig):
         self.config = config
         self.session: Optional[aiohttp.ClientSession] = None
-        self.results: List[Dict[str, Any]] = []
+        self.results: list[dict[str, Any]] = []
 
     async def __aenter__(self):
         """Async context manager entry"""
@@ -68,7 +68,7 @@ class T4LoadTester:
         if self.session:
             await self.session.close()
 
-    async def generate_load_pattern(self) -> List[Dict[str, Any]]:
+    async def generate_load_pattern(self) -> list[dict[str, Any]]:
         """Generate realistic load patterns for Trinity Framework"""
         patterns = [
             # Identity System Load (⚛️) - 30% of traffic
@@ -90,7 +90,7 @@ class T4LoadTester:
         return patterns
 
     async def single_request(self, endpoint: str, method: str = "GET",
-                           payload: Optional[Dict] = None) -> Dict[str, Any]:
+                           payload: Optional[dict] = None) -> dict[str, Any]:
         """Execute single API request with timing"""
         start_time = time.time()
 
@@ -101,11 +101,11 @@ class T4LoadTester:
                 if not payload:
                     payload = {"test": True, "timestamp": start_time}
                 async with self.session.post(url, json=payload) as response:
-                    content = await response.text()
+                    await response.text()
                     status = response.status
             else:
                 async with self.session.get(url) as response:
-                    content = await response.text()
+                    await response.text()
                     status = response.status
 
             latency = (time.time() - start_time) * 1000  # Convert to ms

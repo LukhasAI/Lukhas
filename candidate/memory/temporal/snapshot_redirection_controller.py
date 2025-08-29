@@ -21,9 +21,9 @@ from typing import Any, Optional
 import numpy as np
 from dream.core.dream_snapshot import DreamSnapshotStore
 from dream.stability.redirect_forecaster import RedirectForecaster
-from memory.emotional import EmotionalMemory, EmotionVector
 
 from candidate.core.common import get_logger
+from memory.emotional import EmotionalMemory, EmotionVector
 
 logger = get_logger(__name__)
 

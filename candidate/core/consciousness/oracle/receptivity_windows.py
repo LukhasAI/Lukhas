@@ -7,7 +7,7 @@ content based on forecasted user states and flow predictions.
 
 import datetime
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 # Placeholder for ABAS integration
 # from core.architectures.abas.core import ABASFlowState
@@ -30,7 +30,7 @@ class ReceptivityWindowCalculator:
 
     async def calculate_receptivity_windows(
         self, user_id: str, next_hours: int = 2
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Calculates windows of optimal receptivity for the user.
 

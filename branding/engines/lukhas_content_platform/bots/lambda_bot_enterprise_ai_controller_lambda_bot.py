@@ -7,16 +7,19 @@ Integrates workspace AGI Controller for enterprise-grade modularization
 
 import asyncio
 import logging
-import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any
 
-# Add workspace core to path
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+# Ensure repo-relative paths (avoid absolute user paths)
+try:
+    from lukhas.utils.runtime_paths import ensure_repo_paths
+
+    ensure_repo_paths(["core", "lukhas_ai_lambda_bot"])
+except Exception:
+    pass
 
 # Import workspace components
 try:

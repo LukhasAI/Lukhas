@@ -7,17 +7,21 @@ Integrates workspace quantum consciousness for transcendent modularization
 
 import asyncio
 import logging
-import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Complex
 
-# Add workspace core to path
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/quantum")
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+# Ensure repo-relative paths (no absolute user paths)
+try:
+    from lukhas.utils.runtime_paths import ensure_repo_paths
+
+    # Add common top-level modules if present
+    ensure_repo_paths(["core", "quantum", "lukhas_ai_lambda_bot"])
+except Exception:
+    # Safe to ignore if utility is unavailable
+    pass
 
 # Import workspace components
 try:
@@ -84,7 +88,7 @@ class QIAnalysisSession:
     session_id: str
     start_time: datetime
     consciousness_field: ConsciousnessField
-    quantum_modules: dict[str, QuantumModuleState] = field(default_factory=dict)
+    quantum_modules: dict[str, QIModuleState] = field(default_factory=dict)
     transcendence_events: list[dict[str, Any]] = field(default_factory=list)
     quantum_insights: dict[str, Any] = field(default_factory=dict)
 

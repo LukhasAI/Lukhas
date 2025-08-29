@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from tools.matriz.graph_compiler import compile_graph, validate_invariants
 
 

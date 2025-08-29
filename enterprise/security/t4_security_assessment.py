@@ -18,7 +18,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Security scanning imports
 try:
@@ -68,11 +68,11 @@ class ConstitutionalAIAssessment:
     """Constitutional AI and safety assessment results"""
     drift_score: float
     constitutional_compliance: bool
-    safety_violations: List[Dict[str, Any]]
+    safety_violations: list[dict[str, Any]]
     alignment_score: float
     ethical_boundaries_intact: bool
     guardian_system_active: bool
-    recommended_actions: List[str]
+    recommended_actions: list[str]
 
 @dataclass
 class T4SecurityAssessmentResults:
@@ -84,10 +84,10 @@ class T4SecurityAssessmentResults:
     medium_vulnerabilities: int
     low_vulnerabilities: int
     constitutional_assessment: ConstitutionalAIAssessment
-    vulnerabilities: List[SecurityVulnerability]
+    vulnerabilities: list[SecurityVulnerability]
     dario_amodei_compliance: bool  # Meets Dario's safety standards
     enterprise_ready: bool
-    recommendations: List[str]
+    recommendations: list[str]
     scan_duration_seconds: float
 
 class T4SecurityAssessment:
@@ -99,10 +99,10 @@ class T4SecurityAssessment:
         else:
             # Assumes the script is in enterprise/security/
             self.project_root = Path(__file__).resolve().parents[2]
-        self.vulnerabilities: List[SecurityVulnerability] = []
+        self.vulnerabilities: list[SecurityVulnerability] = []
         self.scan_start_time = time.time()
 
-    def scan_for_secrets_and_keys(self) -> List[SecurityVulnerability]:
+    def scan_for_secrets_and_keys(self) -> list[SecurityVulnerability]:
         """Scan for exposed secrets, API keys, and sensitive data"""
         logger.info("🔍 Scanning for exposed secrets and API keys...")
 
@@ -196,7 +196,7 @@ class T4SecurityAssessment:
 
         return False
 
-    def _scan_config_file(self, config_file: Path, secret_patterns: Dict[str, str]) -> List[SecurityVulnerability]:
+    def _scan_config_file(self, config_file: Path, secret_patterns: dict[str, str]) -> list[SecurityVulnerability]:
         """Scan configuration file for secrets"""
         vulnerabilities = []
 
@@ -223,7 +223,7 @@ class T4SecurityAssessment:
 
         return vulnerabilities
 
-    def scan_authentication_security(self) -> List[SecurityVulnerability]:
+    def scan_authentication_security(self) -> list[SecurityVulnerability]:
         """Scan authentication and identity security"""
         logger.info("🔐 Scanning authentication and identity security...")
 
@@ -248,7 +248,7 @@ class T4SecurityAssessment:
         logger.info(f"   Found {len(vulnerabilities)} authentication security issues")
         return vulnerabilities
 
-    def _scan_auth_file(self, file_path: Path, patterns: Dict[str, str]) -> List[SecurityVulnerability]:
+    def _scan_auth_file(self, file_path: Path, patterns: dict[str, str]) -> list[SecurityVulnerability]:
         """Scan individual authentication file"""
         vulnerabilities = []
 
@@ -367,7 +367,7 @@ class T4SecurityAssessment:
 
         return assessment
 
-    def scan_dependency_vulnerabilities(self) -> List[SecurityVulnerability]:
+    def scan_dependency_vulnerabilities(self) -> list[SecurityVulnerability]:
         """Scan for vulnerable dependencies"""
         logger.info("📦 Scanning dependency vulnerabilities...")
 
@@ -386,7 +386,7 @@ class T4SecurityAssessment:
         logger.info(f"   Skipping dependency scan to avoid timeout. Found {len(vulnerabilities)} dependency vulnerabilities")
         return vulnerabilities
 
-    def _scan_python_dependencies(self, requirements_file: Path) -> List[SecurityVulnerability]:
+    def _scan_python_dependencies(self, requirements_file: Path) -> list[SecurityVulnerability]:
         """Scan Python dependencies for vulnerabilities"""
         vulnerabilities = []
 
@@ -419,7 +419,7 @@ class T4SecurityAssessment:
 
         return vulnerabilities
 
-    def _scan_nodejs_dependencies(self, package_file: Path) -> List[SecurityVulnerability]:
+    def _scan_nodejs_dependencies(self, package_file: Path) -> list[SecurityVulnerability]:
         """Scan Node.js dependencies for vulnerabilities"""
         logger.info("   Skipping Node.js dependency scan to avoid timeout.")
         return []

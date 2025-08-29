@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+
 @dataclass
 class T4SLAMetrics:
     api_latency_p95: float

@@ -1,6 +1,7 @@
 # Placeholder for T4AutoScalingManager
 from dataclasses import dataclass
 
+
 @dataclass
 class T4ScalingConfig:
     max_concurrent_users: int

@@ -1,10 +1,9 @@
-import asyncio
-from typing import Optional, List, Dict
+from typing import Optional
 
-from candidate.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
-from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 from candidate.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+from candidate.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
 from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
 
 class ModelOrchestrator:
@@ -13,7 +12,7 @@ class ModelOrchestrator:
     """
 
     def __init__(self):
-        self.wrappers: Dict[LLMProvider, LLMWrapper] = {}
+        self.wrappers: dict[LLMProvider, LLMWrapper] = {}
         self._initialize_wrappers()
 
     def _initialize_wrappers(self):
@@ -73,7 +72,7 @@ class ModelOrchestrator:
         response_text, model_used = await selected_wrapper.generate_response(prompt, model=model, **kwargs)
         return response_text, selected_provider.value, model_used
 
-    def get_available_providers(self) -> List[LLMProvider]:
+    def get_available_providers(self) -> list[LLMProvider]:
         """
         Returns a list of available LLM providers.
         """

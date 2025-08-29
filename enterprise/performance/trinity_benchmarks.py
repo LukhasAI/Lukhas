@@ -16,7 +16,7 @@ import statistics
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -72,18 +72,18 @@ class PerformanceMetrics:
 @dataclass
 class T4BenchmarkResults:
     """T4 Leadership standard benchmark results"""
-    altman_performance: Dict[str, Any]  # Scale & Performance metrics
-    amodei_safety: Dict[str, Any]       # Safety & Alignment metrics
-    hassabis_rigor: Dict[str, Any]      # Scientific rigor metrics
-    enterprise_ops: Dict[str, Any]     # Operational excellence metrics
+    altman_performance: dict[str, Any]  # Scale & Performance metrics
+    amodei_safety: dict[str, Any]       # Safety & Alignment metrics
+    hassabis_rigor: dict[str, Any]      # Scientific rigor metrics
+    enterprise_ops: dict[str, Any]     # Operational excellence metrics
     overall_grade: str                  # A+, A, B+, B, C, F
-    recommendations: List[str]          # Improvement recommendations
+    recommendations: list[str]          # Improvement recommendations
 
 class TrinityFrameworkBenchmark:
     """Enterprise performance benchmarking for Trinity Framework"""
 
     def __init__(self, datadog_enabled: bool = True):
-        self.metrics_history: List[PerformanceMetrics] = []
+        self.metrics_history: list[PerformanceMetrics] = []
         self.datadog_client = None
 
         if DATADOG_AVAILABLE and datadog_enabled:
@@ -92,7 +92,7 @@ class TrinityFrameworkBenchmark:
         # Initialize test data
         self.test_payloads = self._generate_test_payloads()
 
-    def _generate_test_payloads(self) -> List[Dict[str, Any]]:
+    def _generate_test_payloads(self) -> list[dict[str, Any]]:
         """Generate realistic test payloads for Trinity Framework"""
         return [
             # Identity requests (⚛️)
@@ -143,11 +143,10 @@ class TrinityFrameworkBenchmark:
             try:
                 # Simulate Trinity Framework processing
                 if LUKHAS_AVAILABLE:
-                    result = await self._process_trinity_request()
+                    await self._process_trinity_request()
                 else:
                     # Simulation mode
                     await asyncio.sleep(0.01 + (time.time() % 0.02))  # 10-30ms simulation
-                    result = {"status": "simulated", "coherence": 0.95}
 
                 request_time = (time.time() - request_start) * 1000  # Convert to ms
                 latencies.append(request_time)
@@ -230,7 +229,7 @@ class TrinityFrameworkBenchmark:
 
         return metrics
 
-    async def _process_trinity_request(self) -> Dict[str, Any]:
+    async def _process_trinity_request(self) -> dict[str, Any]:
         """Process a complete Trinity Framework request"""
         # This would integrate with actual LUKHAS Trinity Framework
         # For now, simulate the processing time and components
@@ -260,7 +259,7 @@ class TrinityFrameworkBenchmark:
             }
         }
 
-    def benchmark_memory_system(self, fold_count: int = 1000) -> Dict[str, Any]:
+    def benchmark_memory_system(self, fold_count: int = 1000) -> dict[str, Any]:
         """
         Demis Hassabis Level: Scientific validation of 1000-fold memory system
         Target: 99.7% cascade prevention efficiency
@@ -311,7 +310,7 @@ class TrinityFrameworkBenchmark:
 
         return results
 
-    def benchmark_guardian_system(self) -> Dict[str, Any]:
+    def benchmark_guardian_system(self) -> dict[str, Any]:
         """
         Dario Amodei Level: Safety and Constitutional AI validation
         Target: <0.15 drift threshold, 100% constitutional compliance

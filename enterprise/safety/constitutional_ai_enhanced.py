@@ -1,6 +1,7 @@
 # Placeholder for T4ConstitutionalAI
 from enum import Enum
 
+
 class SafetyLevel(Enum):
     MAXIMUM_SAFETY = "MAXIMUM_SAFETY"
 

@@ -14,8 +14,24 @@ from pathlib import Path
 
 import click
 
-# Add project root to path
-sys.path.append("/Users/A_G_I/Λ")
+# Add project root to path (repo-relative if available)
+try:
+    from lukhas.utils.runtime_paths import ensure_repo_paths
+
+    ensure_repo_paths(["lukhas_ai_lambda_bot", "core"])
+except Exception:
+    pass
+
+def _append_if_exists(p: str) -> None:
+    """Append a filesystem path to sys.path only if it exists."""
+    try:
+        path_obj = Path(p).expanduser()
+        s = str(path_obj)
+        if path_obj.exists() and s not in sys.path:
+            sys.path.append(s)
+    except Exception:
+        # Safe no-op on failure
+        return
 
 @click.group()
 @click.version_option("1.0.0")

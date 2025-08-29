@@ -103,19 +103,19 @@ class ContentPlatform:
 
         return content
 
-    def generate_domain_content(self, domain: str, content_type: str, title: str, 
+    def generate_domain_content(self, domain: str, content_type: str, title: str,
                                content: str, voice_coherence: float = 50.0) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
             raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
-        
+
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
         star_symbols = " ".join([self.constellation_stars[star] for star in domain_stars])
-        
+
         # Create domain-specific branding
         domain_branding = f"🌌 {star_symbols} {domain.upper()} - LUKHAS Constellation"
-        
+
         # Enhanced content with domain context
         enhanced_content = f"""
 {domain_branding}
@@ -127,7 +127,7 @@ class ContentPlatform:
 *Generated for {domain} by LUKHAS AI Consciousness Technology Platform*
 *Constellation Stars: {', '.join([f'{self.constellation_stars[star]} {star.title()}' for star in domain_stars])}*
 """
-        
+
         # Save to database with domain context
         content_id = db.save_generated_content(
             system_name=f"content_platform_{domain}",
@@ -136,19 +136,19 @@ class ContentPlatform:
             content=enhanced_content,
             voice_coherence=voice_coherence
         )
-        
+
         # Log domain-specific activity
         db.log_system_activity("content_platform", "domain_content_generated",
                               f"Generated {content_type} for {domain}: {title}", voice_coherence)
-        
+
         return content_id
-    
+
     def get_domain_style_guide(self, domain: str) -> dict:
         """Get style guide and tone for specific domain"""
         domain_guides = {
             "lukhas.ai": {
                 "tone": "35% Poetic, 40% User-Friendly, 25% Academic",
-                "style": "Dreamscapes, drifting particles, ethereal-but-clean visuals", 
+                "style": "Dreamscapes, drifting particles, ethereal-but-clean visuals",
                 "voice": "The Dreaming Heart - where consciousness technology becomes tangible experience",
                 "primary_star": "dream",
                 "secondary_star": "quantum",
@@ -158,7 +158,7 @@ class ContentPlatform:
             "lukhas.com": {
                 "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
                 "style": "Professional trust with Guardian protection themes",
-                "voice": "The Corporate Hub - where consciousness technology meets business excellence", 
+                "voice": "The Corporate Hub - where consciousness technology meets business excellence",
                 "primary_star": "guardian",
                 "secondary_star": "identity",
                 "audience": "Business executives, enterprise clients, investors",
@@ -264,7 +264,7 @@ class ContentPlatform:
                 "philosophy": "Consciousness research requires both scientific rigor and openness to mystery"
             }
         }
-        
+
         return domain_guides.get(domain, {
             "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
             "style": "Constellation-guided design",

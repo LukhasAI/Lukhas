@@ -18,14 +18,14 @@ EXPECTED IMPROVEMENT: 83-117ms → <5ms authentication flow (95%+ reduction)
 import asyncio
 import functools
 import time
-from typing import Any, Callable, Dict, Optional
 from datetime import datetime
+from typing import Any, Callable, Optional
 
 # Import our extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (
-        get_extreme_optimizer,
         AuthPerformanceMetrics,
+        get_extreme_optimizer,
     )
 
     EXTREME_OPTIMIZATIONS_AVAILABLE = True
@@ -145,14 +145,13 @@ class ExtremePerformanceIdentityConnector:
             "lukhas.governance.ethics.constitutional_ai", "SafetyMonitor", metrics
         )
 
-        audit_logger = await self.extreme_optimizer.get_optimized_component(
+        await self.extreme_optimizer.get_optimized_component(
             "lukhas.governance.identity.auth_backend.audit_logger",
             "AuditLogger",
             metrics,
         )
 
         # 2. ULTRA-FAST ACCESS CONTROL CHECK
-        session_id = f"agent_session_{agent_id}"
 
         # Simulate optimized access control (in production, this would be the real check)
         db_start = time.perf_counter()
@@ -273,7 +272,7 @@ class ExtremePerformanceIdentityConnector:
 
     async def _create_fallback_response(
         self, agent_id: str, function_name: str, error_type: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create fast fallback response for error cases"""
         return {
             "success": False,
@@ -301,7 +300,7 @@ class ExtremePerformanceIdentityConnector:
 
     async def connect_to_module_optimized(
         self, module_name: str, module_instance: Any
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         🚀 EXTREME PERFORMANCE MODULE CONNECTION
 
@@ -428,7 +427,7 @@ class ExtremePerformanceIdentityConnector:
             ),
         }
 
-    async def setup_cross_module_auth_optimized(self) -> Dict[str, Any]:
+    async def setup_cross_module_auth_optimized(self) -> dict[str, Any]:
         """Setup cross-module authentication with extreme performance"""
         setup_start = time.time()
 
@@ -475,7 +474,7 @@ class ExtremePerformanceIdentityConnector:
             "openai_scale_ready": total_setup_time_ms < 10.0,  # <10ms for all modules
         }
 
-    async def _configure_auth_optimized(self, module: str, config: Dict[str, str]):
+    async def _configure_auth_optimized(self, module: str, config: dict[str, str]):
         """Configure authentication for module with performance optimization"""
         if not hasattr(self, "auth_configs"):
             self.auth_configs = {}
@@ -493,7 +492,7 @@ class ExtremePerformanceIdentityConnector:
                 }
             )
 
-    def get_performance_dashboard(self) -> Dict[str, Any]:
+    def get_performance_dashboard(self) -> dict[str, Any]:
         """Get comprehensive performance dashboard for this connector"""
         dashboard = {
             "connector_performance": {
@@ -532,7 +531,7 @@ class ExtremePerformanceIdentityConnector:
 
     async def run_authentication_benchmark(
         self, num_operations: int = 1000
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run authentication performance benchmark"""
         print(
             f"🧪 Running authentication benchmark with {num_operations} operations..."
@@ -604,13 +603,13 @@ async def require_tier_extreme(min_tier: int):
 
 async def connect_module_extreme(
     module_name: str, module_instance: Any
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Extreme performance version of module connection"""
     connector = await get_extreme_identity_connector()
     return await connector.connect_to_module_optimized(module_name, module_instance)
 
 
-async def run_auth_benchmark(num_operations: int = 1000) -> Dict[str, Any]:
+async def run_auth_benchmark(num_operations: int = 1000) -> dict[str, Any]:
     """Run authentication performance benchmark"""
     connector = await get_extreme_identity_connector()
     return await connector.run_authentication_benchmark(num_operations)

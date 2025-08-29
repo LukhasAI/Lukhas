@@ -1,14 +1,16 @@
-import pytest
-import asyncio
-import time
 import os
 import sys
-from unittest.mock import MagicMock
+import time
+
+import pytest
 
 # Add candidate modules to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from candidate.memory.protection.symbolic_quarantine_sanctum import SymbolicQuarantineSanctum, ThreatLevel
+from candidate.memory.protection.symbolic_quarantine_sanctum import (
+    SymbolicQuarantineSanctum,
+)
+
 
 # A mock memory fold system for testing purposes
 class MockMemoryFold:
@@ -103,7 +105,7 @@ protection:
 
             if is_contaminated:
                 assert len(findings) == 1, "Contaminated entry should be flagged."
-                assert findings[0]['entry_id'] == entry_id
+                assert findings[0]["entry_id"] == entry_id
                 assert entry_id in sanctum.quarantine_entries, "Contaminated entry should be in quarantine."
                 contaminated_entries += 1
             else:
@@ -115,7 +117,7 @@ protection:
 
         # Check the "cascade prevention rate"
         quarantined_count = len(sanctum.quarantine_entries)
-        prevention_rate = ((total_operations - (quarantined_count - contaminated_entries)) / total_operations) * 100
+        ((total_operations - (quarantined_count - contaminated_entries)) / total_operations) * 100
 
         # This is a simplified check. A real scenario is more complex.
         # We check if only the contaminated entries are quarantined.

@@ -6,23 +6,24 @@ concept, leveraging a full stack of advanced AI content generation tools.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 # Placeholder classes for external creative AI APIs
 class SoraVideoAPI:
-    async def generate(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"video_url": f"https://sora.example.com/video_{random.randint(1000, 9999)}.mp4"}
 
 class MidjourneyAPI:
-    async def generate(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"}
 
 class RunwayMLAPI:
-    async def generate(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"video_url": f"https://runwayml.example.com/video_{random.randint(1000, 9999)}.mp4"}
 
 class ElevenLabsAPI:
-    async def generate(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"}
 
 class AnthropicAPI:
@@ -35,7 +36,7 @@ class MockChoice:
         self.message = type("Message", (), {"content": content})()
 
 class MockCompletions:
-    async def create(self, messages: List[Dict[str, str]]) -> Any:
+    async def create(self, messages: list[dict[str, str]]) -> Any:
         return type("Completion", (), {"choices": [MockChoice("A visual metaphor of cosmic interconnectedness.")]})()
 
 class MockImages:
@@ -73,9 +74,9 @@ class MultiverseCreativeEngine:
 
     async def generate_consciousness_multiverse(
         self,
-        user_consciousness_profile: Dict[str, Any],
-        base_product: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        user_consciousness_profile: dict[str, Any],
+        base_product: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """
         Generate 50+ variations across all modalities.
         This is a simplified placeholder. A real implementation would have more

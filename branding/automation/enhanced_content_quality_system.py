@@ -20,12 +20,13 @@ from typing import Any, Optional
 sys.path.append(str(Path(__file__).parent.parent))
 
 from automation.content_quality_validator import ContentQualityValidator, QualityScore
-from enforcement.real_time_validator import RealTimeBrandValidator
 from engines.voice_coherence_engine import (
     AudienceType,
     VoiceContext,
     get_voice_coherence_engine,
 )
+
+from enforcement.real_time_validator import RealTimeBrandValidator
 
 
 @dataclass

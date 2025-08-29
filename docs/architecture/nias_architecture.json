@@ -1,14 +1,14 @@
 {
   "pillar": "NIAS",
   "full_name": "Non-Intrusive Advertising System",
-  "description": "NIAS delivers product images with quick 'Buy Now' buttons, using consciousness-aware timing and pre-stored user details for one-click purchases",
+  "description": "NIAS is the non-intrusive delivery substrate that renders cached or freshly generated creatives (images/videos) as ephemeral 'cloud' overlays with explicit consent and ABAS gating. One-click purchases are optional templates; NIAS is not limited to commerce.",
   "version": "1.0.0",
   "status": "implemented",
   
   "architecture": {
-    "core_concept": "Image-based commerce with consciousness-aware delivery timing",
-    "delivery_method": "Product images with embedded buy buttons",
-    "purchase_flow": "One-click purchase using pre-stored user payment/shipping details",
+    "core_concept": "Consent-led, cache-first delivery of symbolic creatives with ABAS/DAST timing",
+    "delivery_method": "Ephemeral cloud overlays; widgets are delivered by DAST",
+    "purchase_flow": "One-click purchase using pre-stored user payment/shipping details. All purchases require explicit user action; NIAS never auto-purchases.",
     "non_intrusive_principle": "Respects user emotional state and attention boundaries"
   },
 
@@ -29,7 +29,6 @@
         "emotional_gating", 
         "symbolic_processing",
         "tier_filtering",
-        "widget_generation",
         "delivery"
       ]
     },
@@ -179,10 +178,10 @@
       ]
     },
     "market_intelligence": {
-      "description": "Market Intelligence integration for trillion-dollar opportunity detection",
+      "description": "Market Intelligence integration for macro-scale opportunity detection",
       "components": [
         "market_intelligence_engine",
-        "economic_reality_manipulator", 
+        "economic_orchestrator", 
         "value_creation_synthesizer",
         "economic_causality_analyzer",
         "competitive_landscape_controller"
@@ -257,17 +256,17 @@
       "email_integration": {
         "platforms": ["gmail", "outlook", "yahoo"],
         "data_types": ["purchase_receipts", "order_confirmations", "newsletters"],
-        "privacy": "zero_knowledge_processing"
+        "privacy": "explicit_user_consent + zero_knowledge_processing"
       },
       "shopping_history": {
         "platforms": ["amazon", "ebay", "shopify"],
         "data_types": ["past_purchases", "wishlist_items", "cart_abandonment"],
-        "privacy": "category_level_only"
+        "privacy": "explicit_user_consent + category_level_only"
       },
       "social_signals": {
         "platforms": ["instagram", "pinterest", "tiktok"],
         "data_types": ["liked_products", "saved_posts", "interest_graph"],
-        "privacy": "no_personal_posts"
+        "privacy": "opt-in only; no personal content ingestion"
       },
       "behavioral_patterns": {
         "sources": ["device_usage", "app_interactions"],
@@ -312,7 +311,7 @@
   "earnings_model": {
     "description": "User earnings from NIAS participation",
     "profit_sharing": {
-      "base_percentage": "40-60%",
+      "base_percentage": "dynamic (e.g., 40/60 → 80/20 over time)",
       "calculation": "dynamic based on value creation",
       "payout_methods": ["λwallet", "bank_transfer", "crypto", "gift_cards"]
     },

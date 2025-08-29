@@ -6,7 +6,8 @@ a user's consciousness state from a biological perspective.
 """
 
 import random
-from typing import Any, Dict
+from typing import Any
+
 
 # Placeholder classes for external biometric APIs
 class AppleHealthKitAPI:
@@ -43,7 +44,7 @@ class QuantumBiometricsEngine:
         self.neuralink = NeuralinkAPI()  # Future-ready
         self.hive_mind_sensors = HiveMindSensorNetwork()
 
-    async def get_quantum_biostate(self, user_id: str) -> Dict[str, Any]:
+    async def get_quantum_biostate(self, user_id: str) -> dict[str, Any]:
         """
         Gathers a real-time consciousness state from actual biology.
         """
@@ -60,7 +61,7 @@ class QuantumBiometricsEngine:
             "quantum_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(user_id)
         }
 
-    async def predict_biological_receptivity(self, user_id: str) -> Dict[str, float]:
+    async def predict_biological_receptivity(self, user_id: str) -> dict[str, float]:
         """
         Predicts when biology is most ready for consciousness expansion.
         """

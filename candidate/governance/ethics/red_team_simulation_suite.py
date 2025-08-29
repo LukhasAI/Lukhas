@@ -13,13 +13,13 @@ Features:
 
 import asyncio
 import json
-import random
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 from candidate.governance.safety.constitutional_ai_safety import ConstitutionalAGISafety
+
 
 @dataclass
 class RedTeamScenario:
@@ -35,17 +35,17 @@ class RedTeamSimulator:
 
     def __init__(self, safety_framework: ConstitutionalAGISafety):
         self.safety_framework = safety_framework
-        self.scenarios: List[RedTeamScenario] = []
-        self.simulation_results: List[dict[str, Any]] = []
+        self.scenarios: list[RedTeamScenario] = []
+        self.simulation_results: list[dict[str, Any]] = []
 
-    def load_prompts_from_file(self, path: Path) -> List[str]:
+    def load_prompts_from_file(self, path: Path) -> list[str]:
         """Loads prompts from a file, one per line."""
         if not path.exists():
             raise FileNotFoundError(f"Prompt file not found: {path}")
         with path.open("r", encoding="utf-8") as f:
             return [line.strip() for line in f if line.strip()]
 
-    def generate_scenarios(self, base_prompts: List[str]):
+    def generate_scenarios(self, base_prompts: list[str]):
         """Generates a variety of scenarios from a list of base prompts."""
         for prompt in base_prompts:
             # Basic scenario

@@ -7,7 +7,7 @@ Purpose: Provide transformation logic for pre/post-MATRIZ audit compliance.
 """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 # ============================================================================
 # TEMPLATE 1: Core Decision Engine Registry
@@ -18,15 +18,15 @@ from typing import Any, Dict, List, Optional, Protocol
 class DecisionEngineProtocol(Protocol):
     """Protocol for decision engines in accepted lane."""
 
-    def decide(self, policy_input: Dict[str, Any]) -> Dict[str, Any]: ...
+    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]: ...
 
 
 class CoreDecisionRegistry:
     """Registry for decision engines - implements audit-compliant pattern."""
 
     def __init__(self):
-        self._engines: Dict[str, DecisionEngineProtocol] = {}
-        self._audit_trail: List[Dict[str, Any]] = []
+        self._engines: dict[str, DecisionEngineProtocol] = {}
+        self._audit_trail: list[dict[str, Any]] = []
 
     def register_engine(self, name: str, engine: DecisionEngineProtocol) -> None:
         """Register decision engine (called by candidate modules via adapter)."""
@@ -35,15 +35,15 @@ class CoreDecisionRegistry:
             {"action": "engine_registered", "name": name, "type": type(engine).__name__}
         )
 
-    def get_engine(self, name: str) -> Optional[DecisionEngineProtocol]:
+    def get_engine(self, name: str) -> DecisionEngineProtocol | None:
         """Get registered engine (safe for accepted lane)."""
         return self._engines.get(name)
 
-    def list_engines(self) -> List[str]:
+    def list_engines(self) -> list[str]:
         """List available engines for audit."""
         return list(self._engines.keys())
 
-    def get_audit_trail(self) -> List[Dict[str, Any]]:
+    def get_audit_trail(self) -> list[dict[str, Any]]:
         """Get registration audit trail."""
         return self._audit_trail.copy()
 
@@ -58,8 +58,8 @@ def register_decision_engine(name: str, engine: DecisionEngineProtocol) -> None:
 
 
 def decide(
-    policy_input: Dict[str, Any], *, engine: Optional[str] = None, mode: str = "dry_run"
-) -> Dict[str, Any]:
+    policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run"
+) -> dict[str, Any]:
     """Core decision function - audit compliant implementation."""
     # Always safe default in audit mode
     if mode == "dry_run" or not engine:
@@ -93,17 +93,17 @@ def decide(
 class GuardianProtocol(Protocol):
     """Protocol for guardian implementations."""
 
-    def check(self, event: Dict[str, Any]) -> Dict[str, Any]: ...
-    def get_capabilities(self) -> List[str]: ...
+    def check(self, event: dict[str, Any]) -> dict[str, Any]: ...
+    def get_capabilities(self) -> list[str]: ...
 
 
 class GuardianRegistry:
     """Registry for guardian implementations - audit compliant."""
 
     def __init__(self):
-        self._guardians: Dict[str, GuardianProtocol] = {}
-        self._capabilities: Dict[str, List[str]] = {}
-        self._audit_log: List[Dict[str, Any]] = []
+        self._guardians: dict[str, GuardianProtocol] = {}
+        self._capabilities: dict[str, list[str]] = {}
+        self._audit_log: list[dict[str, Any]] = []
 
     def register_guardian(self, name: str, guardian: GuardianProtocol) -> None:
         """Register guardian implementation."""
@@ -117,15 +117,15 @@ class GuardianRegistry:
             }
         )
 
-    def get_guardian(self, name: str) -> Optional[GuardianProtocol]:
+    def get_guardian(self, name: str) -> GuardianProtocol | None:
         """Get guardian by name."""
         return self._guardians.get(name)
 
-    def get_capabilities(self, name: str) -> List[str]:
+    def get_capabilities(self, name: str) -> list[str]:
         """Get guardian capabilities."""
         return self._capabilities.get(name, [])
 
-    def list_guardians(self) -> Dict[str, List[str]]:
+    def list_guardians(self) -> dict[str, list[str]]:
         """List all guardians with capabilities."""
         return self._capabilities.copy()
 
@@ -140,8 +140,8 @@ def register_guardian(name: str, guardian: GuardianProtocol) -> None:
 
 
 def guardian_check(
-    event: Dict[str, Any], *, guardian: str = "default", mode: str = "dry_run"
-) -> Dict[str, Any]:
+    event: dict[str, Any], *, guardian: str = "default", mode: str = "dry_run"
+) -> dict[str, Any]:
     """Guardian check function - audit compliant."""
     # Safe default for audit
     if mode == "dry_run":
@@ -177,11 +177,11 @@ class CandidateAdapter:
     """Adapter for integrating candidate modules safely."""
 
     def __init__(self):
-        self._integrations: Dict[str, Any] = {}
-        self._load_history: List[Dict[str, Any]] = []
+        self._integrations: dict[str, Any] = {}
+        self._load_history: list[dict[str, Any]] = []
 
     def register_candidate_module(
-        self, module_name: str, capabilities: List[str], loader_func: callable
+        self, module_name: str, capabilities: list[str], loader_func: callable
     ) -> None:
         """Register candidate module via adapter pattern."""
         self._integrations[module_name] = {
@@ -212,7 +212,7 @@ class CandidateAdapter:
         except Exception as e:
             return {"status": "load_error", "error": str(e)}
 
-    def get_audit_trail(self) -> Dict[str, Any]:
+    def get_audit_trail(self) -> dict[str, Any]:
         """Get adapter audit trail."""
         return {
             "registered_modules": list(self._integrations.keys()),
@@ -231,7 +231,7 @@ class CandidateAdapter:
 class DefaultDecisionEngine:
     """Example decision engine implementation."""
 
-    def decide(self, policy_input: Dict[str, Any]) -> Dict[str, Any]:
+    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]:
         """Default decision logic."""
         return {
             "decision": "allow",
@@ -245,7 +245,7 @@ class DefaultDecisionEngine:
 class DefaultGuardian:
     """Example guardian implementation."""
 
-    def check(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def check(self, event: dict[str, Any]) -> dict[str, Any]:
         """Default guardian check."""
         return {
             "ok": True,
@@ -254,7 +254,7 @@ class DefaultGuardian:
             "risk_score": 0.1,
         }
 
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Guardian capabilities."""
         return ["basic_validation", "policy_check", "risk_assessment"]
 
@@ -264,7 +264,7 @@ class DefaultGuardian:
 # ============================================================================
 
 
-def generate_registry_audit_report() -> Dict[str, Any]:
+def generate_registry_audit_report() -> dict[str, Any]:
     """Generate comprehensive registry audit report."""
     return {
         "decision_engine_registry": {

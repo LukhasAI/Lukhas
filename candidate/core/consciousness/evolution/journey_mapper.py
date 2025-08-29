@@ -7,7 +7,8 @@ predicting major life transitions and shifts in values.
 
 import datetime
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 class ConsciousnessJourneyMapper:
     """
@@ -26,7 +27,7 @@ class ConsciousnessJourneyMapper:
 
     async def map_consciousness_journey(
         self, user_id: str, timespan_months: int = 12
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Maps the user's past and predicted future consciousness journey.
 
@@ -67,8 +68,8 @@ class ConsciousnessJourneyMapper:
             "user_id": user_id,
             "map_generated_utc": now.isoformat(),
             "current_trajectory": f"Growing towards {random.choice(['creativity', 'leadership', 'mindfulness'])}",
-            "past_events": sorted(past_events, key=lambda x: x['event_time_utc']),
-            "predicted_transitions": sorted(predicted_transitions, key=lambda x: x['predicted_time_utc']),
+            "past_events": sorted(past_events, key=lambda x: x["event_time_utc"]),
+            "predicted_transitions": sorted(predicted_transitions, key=lambda x: x["predicted_time_utc"]),
             "recommended_nias_tier": random.choice(["T1_Aware", "T2_Enlightened", "T3_Transcendent"]),
         }
 

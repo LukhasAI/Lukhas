@@ -5,17 +5,30 @@ This module integrates all 12 visionary components into a single,
 unified platform for consciousness evolution through ethical advertising.
 """
 
-from typing import Any, Dict
+from typing import Any
 
-from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
 from candidate.core.collective.collective_ad_mind import CollectiveAdMind
-from candidate.core.quantum_biometrics.quantum_biometrics_engine import QuantumBiometricsEngine
-from candidate.core.multiverse_creative.multiverse_creative_engine import MultiverseCreativeEngine
+from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
+from candidate.core.consciousness_ascension.consciousness_ascension_catalyst_engine import (
+    ConsciousnessAscensionCatalystEngine,
+)
+from candidate.core.multiverse_creative.multiverse_creative_engine import (
+    MultiverseCreativeEngine,
+)
+from candidate.core.planetary_consciousness.planetary_consciousness_network import (
+    PlanetaryConsciousnessNetwork,
+)
+from candidate.core.quantum_biometrics.quantum_biometrics_engine import (
+    QuantumBiometricsEngine,
+)
 from candidate.core.quantum_empathy.quantum_empathy_engine import QuantumEmpathyEngine
-from candidate.core.planetary_consciousness.planetary_consciousness_network import PlanetaryConsciousnessNetwork
-from candidate.core.quantum_financial.quantum_financial_consciousness_engine import QuantumFinancialConsciousnessEngine
-from candidate.core.reality_synthesis.reality_synthesis_quantum_engine import RealitySynthesisQuantumEngine
-from candidate.core.consciousness_ascension.consciousness_ascension_catalyst_engine import ConsciousnessAscensionCatalystEngine
+from candidate.core.quantum_financial.quantum_financial_consciousness_engine import (
+    QuantumFinancialConsciousnessEngine,
+)
+from candidate.core.reality_synthesis.reality_synthesis_quantum_engine import (
+    RealitySynthesisQuantumEngine,
+)
+
 # Note: The original brief mentioned 5 components from previous phases.
 # The `ConsciousnessOracle` and `CollectiveAdMind` are the facades for those phases.
 # The other 3 are the sub-components of the `ConsciousnessOracle`.
@@ -47,7 +60,7 @@ class NIASTranscendenceQuantumPlatform:
 
     async def deliver_consciousness_evolution_experience(
         self, user_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         The complete consciousness evolution advertising experience.
         """

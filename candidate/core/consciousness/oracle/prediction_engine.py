@@ -7,7 +7,7 @@ attention, temporal patterns, and other contextual data.
 
 import datetime
 import random
-from typing import Any, Dict, List
+from typing import Any
 
 # Placeholder for ABAS and DAST integration
 # from core.architectures.abas.core import ABASAttentionState
@@ -32,7 +32,7 @@ class PredictionEngine:
 
     async def forecast_consciousness_state(
         self, user_id: str, minutes_ahead: int = 30
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Forecasts a user's consciousness state for a future time.
 
@@ -72,7 +72,7 @@ class PredictionEngine:
 
     async def get_receptivity_windows(
         self, user_id: str, next_hours: int = 1
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Predicts windows of high receptivity for different content types.
 

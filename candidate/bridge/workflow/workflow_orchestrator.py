@@ -41,12 +41,11 @@
 
 import asyncio
 import logging
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any, Callable, Optional
 
 from ..orchestration import MultiAIOrchestrator, OrchestrationRequest
 from .task_router import TaskRouter
@@ -99,12 +98,12 @@ class WorkflowTask:
     name: str
     task_type: TaskType
     handler: Callable
-    dependencies: Set[str] = field(default_factory=set)
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    dependencies: set[str] = field(default_factory=set)
+    parameters: dict[str, Any] = field(default_factory=dict)
     timeout_seconds: float = 300  # 5 minutes default
     retry_count: int = 3
     critical: bool = True
-    
+
     # Runtime state
     status: TaskStatus = TaskStatus.WAITING
     result: Any = None
@@ -121,17 +120,17 @@ class WorkflowDefinition:
     id: str
     name: str
     description: str
-    tasks: Dict[str, WorkflowTask]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tasks: dict[str, WorkflowTask]
+    metadata: dict[str, Any] = field(default_factory=dict)
     timeout_seconds: float = 3600  # 1 hour default
-    
+
     # Runtime state
     status: WorkflowStatus = WorkflowStatus.PENDING
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
     execution_time_ms: float = 0
-    results: Dict[str, Any] = field(default_factory=dict)
-    errors: List[str] = field(default_factory=list)
+    results: dict[str, Any] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
 
 
 class WorkflowOrchestrator:
@@ -140,54 +139,54 @@ class WorkflowOrchestrator:
     multi-AI operations with complete transparency and monitoring.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the workflow orchestrator"""
         self.config = config or {}
-        
+
         # Core components
         self.ai_orchestrator = MultiAIOrchestrator(self.config.get("ai_orchestration", {}))
         self.task_router = TaskRouter(self.config.get("task_routing", {}))
         self.workflow_monitor = WorkflowMonitor(self.config.get("monitoring", {}))
         self.transparency = WorkflowTransparency(self.config.get("transparency", {}))
-        
+
         # Execution state
-        self.active_workflows: Dict[str, WorkflowDefinition] = {}
-        self.workflow_history: Dict[str, WorkflowDefinition] = {}
-        
+        self.active_workflows: dict[str, WorkflowDefinition] = {}
+        self.workflow_history: dict[str, WorkflowDefinition] = {}
+
         # Resource management
         self.max_concurrent_workflows = self.config.get("max_concurrent_workflows", 10)
         self.max_concurrent_tasks = self.config.get("max_concurrent_tasks", 50)
         self.resource_semaphore = asyncio.Semaphore(self.max_concurrent_tasks)
-        
+
         logger.info("Workflow Orchestrator initialized with %d max workflows, %d max tasks",
                    self.max_concurrent_workflows, self.max_concurrent_tasks)
 
     async def create_workflow(self, definition: WorkflowDefinition) -> str:
         """
         Create and register a new workflow
-        
+
         Args:
             definition: Workflow definition
-            
+
         Returns:
             Workflow ID
         """
         try:
             # Validate workflow definition
             self._validate_workflow_definition(definition)
-            
+
             # Register workflow
             workflow_id = definition.id or str(uuid.uuid4())
             definition.id = workflow_id
-            
+
             self.active_workflows[workflow_id] = definition
-            
+
             # Initialize transparency tracking
             await self.transparency.initialize_workflow_tracking(workflow_id, definition)
-            
+
             logger.info("Created workflow: %s (%s)", definition.name, workflow_id)
             return workflow_id
-            
+
         except Exception as e:
             logger.error("Failed to create workflow: %s", str(e))
             raise
@@ -195,103 +194,103 @@ class WorkflowOrchestrator:
     async def execute_workflow(self, workflow_id: str) -> WorkflowDefinition:
         """
         Execute a workflow with real-time monitoring
-        
+
         Args:
             workflow_id: Workflow identifier
-            
+
         Returns:
             Completed workflow definition with results
         """
         if workflow_id not in self.active_workflows:
             raise ValueError(f"Workflow not found: {workflow_id}")
-        
+
         workflow = self.active_workflows[workflow_id]
-        
+
         try:
             # Check resource limits
             if len([w for w in self.active_workflows.values() if w.status == WorkflowStatus.RUNNING]) >= self.max_concurrent_workflows:
                 raise RuntimeError("Maximum concurrent workflows exceeded")
-            
+
             # Start workflow execution
             workflow.status = WorkflowStatus.RUNNING
             workflow.started_at = datetime.utcnow()
-            
+
             # Start transparency tracking
             await self.transparency.start_workflow_tracking(workflow_id)
-            
+
             logger.info("Starting workflow execution: %s", workflow.name)
-            
+
             # Execute workflow tasks
             await self._execute_workflow_tasks(workflow)
-            
+
             # Complete workflow
             workflow.completed_at = datetime.utcnow()
             workflow.execution_time_ms = (
                 (workflow.completed_at - workflow.started_at).total_seconds() * 1000
             )
-            
+
             # Check if workflow succeeded
             failed_critical_tasks = [
                 task for task in workflow.tasks.values()
                 if task.status == TaskStatus.FAILED and task.critical
             ]
-            
+
             if failed_critical_tasks:
                 workflow.status = WorkflowStatus.FAILED
                 workflow.errors.append(f"{len(failed_critical_tasks)} critical tasks failed")
             else:
                 workflow.status = WorkflowStatus.COMPLETED
-            
+
             # Finalize transparency tracking
             await self.transparency.complete_workflow_tracking(workflow_id, workflow.status)
-            
+
             # Move to history
             self.workflow_history[workflow_id] = workflow
             del self.active_workflows[workflow_id]
-            
+
             logger.info("Workflow completed: %s (%.2fms, status: %s)",
                        workflow.name, workflow.execution_time_ms, workflow.status.value)
-            
+
             return workflow
-            
+
         except Exception as e:
             workflow.status = WorkflowStatus.FAILED
             workflow.errors.append(str(e))
             workflow.completed_at = datetime.utcnow()
-            
+
             await self.transparency.complete_workflow_tracking(workflow_id, WorkflowStatus.FAILED)
-            
+
             logger.error("Workflow failed: %s - %s", workflow.name, str(e))
             raise
 
     async def _execute_workflow_tasks(self, workflow: WorkflowDefinition):
         """Execute all tasks in a workflow with dependency management"""
-        
+
         # Build dependency graph
-        dependency_graph = self._build_dependency_graph(workflow)
-        
+        self._build_dependency_graph(workflow)
+
         # Track completion
-        completed_tasks: Set[str] = set()
-        running_tasks: Dict[str, asyncio.Task] = {}
-        
+        completed_tasks: set[str] = set()
+        running_tasks: dict[str, asyncio.Task] = {}
+
         try:
             while len(completed_tasks) < len(workflow.tasks):
                 # Find ready tasks
                 ready_tasks = self._get_ready_tasks(workflow, completed_tasks, running_tasks)
-                
+
                 # Start ready tasks
                 for task in ready_tasks:
                     if len(running_tasks) < self.max_concurrent_tasks:
                         task_coroutine = self._execute_single_task(workflow, task)
                         running_task = asyncio.create_task(task_coroutine)
                         running_tasks[task.id] = running_task
-                        
+
                         task.status = TaskStatus.RUNNING
                         task.started_at = datetime.utcnow()
-                        
+
                         # Update transparency
                         await self.transparency.update_task_status(workflow.id, task.id, TaskStatus.RUNNING)
-                
+
                 # Wait for at least one task to complete
                 if running_tasks:
                     done, pending = await asyncio.wait(
@@ -299,7 +298,7 @@ class WorkflowOrchestrator:
                         return_when=asyncio.FIRST_COMPLETED,
                         timeout=1.0  # Check every second
                     )
-                    
+
                     # Process completed tasks
                     for task_future in done:
                         task_id = None
@@ -307,10 +306,10 @@ class WorkflowOrchestrator:
                             if future == task_future:
                                 task_id = tid
                                 break
-                        
+
                         if task_id:
                             task = workflow.tasks[task_id]
-                            
+
                             try:
                                 task.result = await task_future
                                 task.status = TaskStatus.COMPLETED
@@ -323,23 +322,23 @@ class WorkflowOrchestrator:
                                 else:
                                     logger.warning("Non-critical task failed: %s - %s", task.name, str(e))
                                     completed_tasks.add(task_id)  # Skip non-critical failures
-                            
+
                             task.completed_at = datetime.utcnow()
                             task.execution_time_ms = (
                                 (task.completed_at - task.started_at).total_seconds() * 1000
                             )
-                            
+
                             # Update transparency
                             await self.transparency.update_task_status(workflow.id, task_id, task.status)
-                            
+
                             # Clean up
                             del running_tasks[task_id]
-                
+
                 # Check for deadlock or failure conditions
                 if not running_tasks and len(completed_tasks) < len(workflow.tasks):
-                    remaining_tasks = [t for t in workflow.tasks.values() 
+                    remaining_tasks = [t for t in workflow.tasks.values()
                                      if t.id not in completed_tasks and t.id not in running_tasks]
-                    
+
                     if remaining_tasks:
                         # Check if any remaining tasks can be made ready
                         can_proceed = False
@@ -349,10 +348,10 @@ class WorkflowOrchestrator:
                                 if not unsatisfied_deps:
                                     can_proceed = True
                                     break
-                        
+
                         if not can_proceed:
                             raise RuntimeError("Workflow deadlock - remaining tasks cannot be executed")
-                
+
         finally:
             # Cancel any remaining tasks
             for running_task in running_tasks.values():
@@ -360,44 +359,44 @@ class WorkflowOrchestrator:
                     running_task.cancel()
 
     def _get_ready_tasks(
-        self, 
-        workflow: WorkflowDefinition, 
-        completed_tasks: Set[str],
-        running_tasks: Dict[str, asyncio.Task]
-    ) -> List[WorkflowTask]:
+        self,
+        workflow: WorkflowDefinition,
+        completed_tasks: set[str],
+        running_tasks: dict[str, asyncio.Task]
+    ) -> list[WorkflowTask]:
         """Get tasks that are ready to execute"""
-        
+
         ready_tasks = []
-        
+
         for task in workflow.tasks.values():
             # Skip already processed tasks
             if task.id in completed_tasks or task.id in running_tasks:
                 continue
-            
+
             # Skip failed tasks
             if task.status == TaskStatus.FAILED:
                 continue
-            
+
             # Check if dependencies are satisfied
             unsatisfied_deps = task.dependencies - completed_tasks
-            
+
             if not unsatisfied_deps:
                 task.status = TaskStatus.READY
                 ready_tasks.append(task)
-        
+
         return ready_tasks
 
     async def _execute_single_task(self, workflow: WorkflowDefinition, task: WorkflowTask) -> Any:
         """Execute a single workflow task with error handling and retries"""
-        
+
         async with self.resource_semaphore:
             for attempt in range(task.retry_count + 1):
                 try:
                     task.retry_attempts = attempt
-                    
+
                     # Update monitoring
                     await self.workflow_monitor.record_task_start(workflow.id, task.id)
-                    
+
                     # Execute task based on type
                     if task.task_type == TaskType.AI_GENERATION:
                         result = await self._execute_ai_task(task)
@@ -411,15 +410,15 @@ class WorkflowOrchestrator:
                         result = await self._execute_condition_task(task)
                     else:
                         result = await task.handler(**task.parameters)
-                    
+
                     # Record success
                     await self.workflow_monitor.record_task_completion(workflow.id, task.id, True)
-                    
+
                     return result
-                    
+
                 except Exception as e:
                     logger.warning("Task attempt %d failed: %s - %s", attempt + 1, task.name, str(e))
-                    
+
                     if attempt < task.retry_count:
                         # Wait before retry (exponential backoff)
                         await asyncio.sleep(2 ** attempt)
@@ -432,7 +431,7 @@ class WorkflowOrchestrator:
     async def _execute_ai_task(self, task: WorkflowTask) -> Any:
         """Execute an AI generation task"""
         params = task.parameters
-        
+
         orchestration_request = OrchestrationRequest(
             prompt=params.get("prompt", ""),
             task_type=params.get("task_type", "conversation"),
@@ -442,14 +441,14 @@ class WorkflowOrchestrator:
             context_id=params.get("context_id"),
             metadata=params.get("metadata", {})
         )
-        
+
         result = await self.ai_orchestrator.orchestrate(orchestration_request)
         return result.final_response
 
     async def _execute_consensus_task(self, task: WorkflowTask) -> Any:
         """Execute an AI consensus task"""
         params = task.parameters
-        
+
         orchestration_request = OrchestrationRequest(
             prompt=params.get("prompt", ""),
             task_type=params.get("task_type", "conversation"),
@@ -459,7 +458,7 @@ class WorkflowOrchestrator:
             context_id=params.get("context_id"),
             metadata=params.get("metadata", {})
         )
-        
+
         result = await self.ai_orchestrator.orchestrate(orchestration_request)
         return {
             "response": result.final_response,
@@ -487,23 +486,23 @@ class WorkflowOrchestrator:
             return {"condition_met": bool(condition), "value": condition}
         return {"condition_met": True, "value": None}
 
-    def _build_dependency_graph(self, workflow: WorkflowDefinition) -> Dict[str, Set[str]]:
+    def _build_dependency_graph(self, workflow: WorkflowDefinition) -> dict[str, set[str]]:
         """Build task dependency graph"""
         graph = {}
-        
+
         for task_id, task in workflow.tasks.items():
             graph[task_id] = task.dependencies.copy()
-        
+
         return graph
 
     def _validate_workflow_definition(self, workflow: WorkflowDefinition):
         """Validate workflow definition for correctness"""
-        
+
         # Check for circular dependencies
-        def has_cycle(node: str, visited: Set[str], rec_stack: Set[str]) -> bool:
+        def has_cycle(node: str, visited: set[str], rec_stack: set[str]) -> bool:
             visited.add(node)
             rec_stack.add(node)
-            
+
             task = workflow.tasks.get(node)
             if task:
                 for dependency in task.dependencies:
@@ -512,18 +511,18 @@ class WorkflowOrchestrator:
                             return True
                     elif dependency in rec_stack:
                         return True
-            
+
             rec_stack.remove(node)
             return False
-        
+
         visited = set()
         rec_stack = set()
-        
+
         for task_id in workflow.tasks:
             if task_id not in visited:
                 if has_cycle(task_id, visited, rec_stack):
                     raise ValueError("Circular dependency detected in workflow")
-        
+
         # Validate dependencies exist
         all_task_ids = set(workflow.tasks.keys())
         for task in workflow.tasks.values():
@@ -531,7 +530,7 @@ class WorkflowOrchestrator:
             if invalid_deps:
                 raise ValueError(f"Task {task.id} has invalid dependencies: {invalid_deps}")
 
-    async def get_workflow_status(self, workflow_id: str) -> Dict[str, Any]:
+    async def get_workflow_status(self, workflow_id: str) -> dict[str, Any]:
         """Get real-time workflow status"""
         if workflow_id in self.active_workflows:
             workflow = self.active_workflows[workflow_id]
@@ -539,10 +538,10 @@ class WorkflowOrchestrator:
             workflow = self.workflow_history[workflow_id]
         else:
             raise ValueError(f"Workflow not found: {workflow_id}")
-        
+
         # Get transparency data
         transparency_data = await self.transparency.get_workflow_transparency(workflow_id)
-        
+
         return {
             "workflow_id": workflow.id,
             "name": workflow.name,
@@ -569,19 +568,19 @@ class WorkflowOrchestrator:
         """Cancel a running workflow"""
         if workflow_id not in self.active_workflows:
             return False
-        
+
         workflow = self.active_workflows[workflow_id]
         workflow.status = WorkflowStatus.CANCELLED
         workflow.completed_at = datetime.utcnow()
-        
+
         # Move to history
         self.workflow_history[workflow_id] = workflow
         del self.active_workflows[workflow_id]
-        
+
         logger.info("Cancelled workflow: %s", workflow.name)
         return True
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for workflow orchestrator"""
         return {
             "status": "healthy",

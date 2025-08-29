@@ -1,20 +1,22 @@
 import asyncio
-import unittest
-from unittest.mock import patch, MagicMock
+import os
 
 # Ensure the root directory is in the Python path
 import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import unittest
+from unittest.mock import patch
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from production_main import LUKHASProduction
 
+
 class TestProductionMain(unittest.TestCase):
 
-    @patch('production_main.initialize_branding')
-    @patch('production_main.get_system_signature')
-    @patch('production_main.get_trinity_context')
-    @patch('production_main.uvicorn')
+    @patch("production_main.initialize_branding")
+    @patch("production_main.get_system_signature")
+    @patch("production_main.get_trinity_context")
+    @patch("production_main.uvicorn")
     def test_initialization(self, mock_uvicorn, mock_get_trinity_context, mock_get_system_signature, mock_initialize_branding):
         """Test that the LUKHASProduction class can be initialized."""
         # Arrange
@@ -29,17 +31,17 @@ class TestProductionMain(unittest.TestCase):
 
         # Assert
         self.assertTrue(initialized)
-        self.assertEqual(system.system_health['status'], 'operational')
-        self.assertIn('branding', system.components)
-        self.assertIn('consciousness', system.components)
-        self.assertIn('memory', system.components)
-        self.assertIn('identity', system.components)
-        self.assertIn('governance', system.components)
-        self.assertIn('creativity', system.components)
-        self.assertIn('api_gateway', system.components)
+        self.assertEqual(system.system_health["status"], "operational")
+        self.assertIn("branding", system.components)
+        self.assertIn("consciousness", system.components)
+        self.assertIn("memory", system.components)
+        self.assertIn("identity", system.components)
+        self.assertIn("governance", system.components)
+        self.assertIn("creativity", system.components)
+        self.assertIn("api_gateway", system.components)
 
-    @patch('production_main.LUKHASProduction.start_api_server')
-    @patch('production_main.LUKHASProduction.stop_systems')
+    @patch("production_main.LUKHASProduction.start_api_server")
+    @patch("production_main.LUKHASProduction.stop_systems")
     def test_main_function(self, mock_stop_systems, mock_start_api_server):
         """Test the main function runs without errors."""
         # Arrange
@@ -56,5 +58,5 @@ class TestProductionMain(unittest.TestCase):
         except Exception as e:
             self.fail(f"main() raised an exception: {e}")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

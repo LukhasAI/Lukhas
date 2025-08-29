@@ -6,15 +6,16 @@ analyzing global events, moods, and other planetary-scale phenomena.
 """
 
 import random
-from typing import Any, Dict
+from typing import Any
+
 
 # Placeholder classes for external planetary-scale data APIs
 class GlobalEventsAPI:
-    async def get_major_events(self) -> List[Dict[str, Any]]:
+    async def get_major_events(self) -> List[dict[str, Any]]:
         return [{"event": "global_meditation", "impact_score": 0.8}]
 
 class GlobalMoodAPI:
-    async def get_current_state(self) -> Dict[str, float]:
+    async def get_current_state(self) -> dict[str, float]:
         return {"joy": 0.6, "anxiety": 0.3, "compassion": 0.7, "trauma_level": 0.2}
 
 class SolarActivityAPI:
@@ -47,7 +48,7 @@ class PlanetaryConsciousnessNetwork:
         self.lunar_cycles = LunarCycleAPI()
         self.consciousness_field = MorphicResonanceAPI()
 
-    async def get_planetary_consciousness_state(self) -> Dict[str, Any]:
+    async def get_planetary_consciousness_state(self) -> dict[str, Any]:
         """
         Gathers the current state of planetary consciousness evolution.
         """
@@ -65,9 +66,9 @@ class PlanetaryConsciousnessNetwork:
 
     async def coordinate_with_planetary_field(
         self,
-        user_consciousness: Dict[str, Any],
-        proposed_ad: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_consciousness: dict[str, Any],
+        proposed_ad: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Ensures ads support planetary consciousness evolution.
         """

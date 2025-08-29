@@ -18,7 +18,7 @@ import json
 import pathlib
 import sys
 from datetime import datetime
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
@@ -29,8 +29,8 @@ class AuditTrail:
     """Comprehensive audit trail for workspace validation."""
 
     def __init__(self):
-        self.violations: List[Dict[str, Any]] = []
-        self.facades: List[Dict[str, Any]] = []
+        self.violations: list[dict[str, Any]] = []
+        self.facades: list[dict[str, Any]] = []
         self.stats = {
             "files_scanned": 0,
             "total_imports": 0,
@@ -216,7 +216,7 @@ class ImportScannerAST(ast.NodeVisitor):
 
 def analyze_facade_pattern(
     file_path: pathlib.Path, tree: ast.AST, source: str
-) -> Tuple[bool, float, Dict[str, Any]]:
+) -> tuple[bool, float, dict[str, Any]]:
     """
     Analyze file for facade pattern using multiple heuristics.
     Returns: (is_facade, facade_score, analysis_details)
@@ -291,7 +291,7 @@ def analyze_facade_pattern(
 
 def scan_file_comprehensive(
     file_path: pathlib.Path, audit: AuditTrail
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Comprehensive file analysis for audit preparation."""
     rel_path = file_path.relative_to(REPO).as_posix()
 

@@ -6,7 +6,8 @@ consciousness clusters, finding what has elevated similar users.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 class SwarmRecommendationSystem:
     """
@@ -26,7 +27,7 @@ class SwarmRecommendationSystem:
 
     async def get_swarm_recommendations(
         self, user_id: str, user_cluster_id: str
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Generates recommendations for a user based on their consciousness cluster.
 

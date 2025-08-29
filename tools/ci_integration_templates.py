@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class CIAuditIntegration:
@@ -47,35 +47,35 @@ jobs:
     name: Audit Preparation Validation
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Full history for audit trail
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
         cache: 'pip'
-    
+
     - name: Install Dependencies
       run: |
         pip install -r requirements.txt
         pip install import-linter
         pip install pytest pytest-cov
-    
+
     # ============================================================================
     # PHASE 1: ACCEPTANCE GATE (CRITICAL - RUNS FIRST)
     # ============================================================================
-    
+
     - name: Run Enhanced AST Acceptance Gate
       run: |
         echo "🔍 Running enhanced AST acceptance gate..."
         python tools/acceptance_gate_ast.py
         echo "✅ Acceptance gate passed"
-      
+
     - name: Upload Acceptance Gate Audit Report
       uses: actions/upload-artifact@v3
       if: always()
@@ -83,92 +83,92 @@ jobs:
         name: acceptance-gate-audit-report
         path: audit/acceptance_gate_audit.json
         retention-days: 30
-    
-    # ============================================================================  
+
+    # ============================================================================
     # PHASE 2: IMPORT LINTER VALIDATION
     # ============================================================================
-    
+
     - name: Create Import Linter Configuration
       run: |
         cat > .importlinter << 'EOF'
         [importlinter]
         root_package = lukhas
-        
+
         [contract:accepted_no_candidate]
         name = Accepted lane must not import candidate lane
         type = forbidden
         source_modules = lukhas
         forbidden_modules = candidate
-        
+
         [contract:accepted_no_quarantine]
         name = Accepted lane must not import quarantine lane
         type = forbidden
         source_modules = lukhas
         forbidden_modules = quarantine
-        
+
         [contract:accepted_no_archive]
         name = Accepted lane must not import archive lane
         type = forbidden
         source_modules = lukhas
         forbidden_modules = archive
         EOF
-    
+
     - name: Run Import Linter Validation
       run: |
         echo "🔍 Running import linter validation..."
         lint-imports --verbose
         echo "✅ Import linter passed"
-    
+
     # ============================================================================
-    # PHASE 3: SAFETY DEFAULTS VALIDATION  
+    # PHASE 3: SAFETY DEFAULTS VALIDATION
     # ============================================================================
-    
+
     - name: Validate Safety Defaults
       run: |
         echo "🔒 Validating safety defaults..."
         python -c "
         import os
         import sys
-        
+
         # Check required safety environment variables
         required_env = {
             'LUKHAS_DRY_RUN_MODE': 'true',
-            'LUKHAS_OFFLINE': 'true', 
+            'LUKHAS_OFFLINE': 'true',
             'LUKHAS_AUDIT_MODE': 'true',
             'FEATURE_REAL_API_CALLS': 'false',
             'MAX_API_CALLS_PER_TEST': '0'
         }
-        
+
         for var, expected in required_env.items():
             actual = os.getenv(var, '').lower()
             if actual != expected:
                 print(f'❌ Safety validation failed: {var} = {actual}, expected {expected}')
                 sys.exit(1)
-        
+
         print('✅ All safety defaults validated')
         "
-    
+
     # ============================================================================
     # PHASE 4: AUDIT-SAFE TESTING
     # ============================================================================
-    
+
     - name: Run Audit-Safe E2E Tests
       run: |
         echo "🧪 Running audit-safe E2E tests..."
         pytest tests/test_e2e_audit_dryrun.py -v --no-header
         echo "✅ Audit-safe E2E tests passed"
-    
+
     - name: Run Core System Tests (Audit Mode)
       run: |
         echo "🧪 Running core system tests in audit mode..."
         pytest tests/ -v --tb=short -m "audit_safe or not slow"
         echo "✅ Core system tests passed"
-        
+
     - name: Generate Test Coverage Report
       run: |
         echo "📊 Generating test coverage report..."
         pytest --cov=lukhas --cov=tools --cov=config --cov-report=json --cov-report=term
-    
+
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       if: always()
@@ -176,11 +176,11 @@ jobs:
         name: coverage-report-audit
         path: coverage.json
         retention-days: 30
-    
+
     # ============================================================================
     # PHASE 5: REGISTRY PATTERN VALIDATION
     # ============================================================================
-    
+
     - name: Validate Registry Pattern Compliance
       run: |
         echo "🔧 Validating registry pattern compliance..."
@@ -188,18 +188,18 @@ jobs:
         import sys
         sys.path.append('tools')
         from registry_pattern_templates import validate_registry_compliance
-        
+
         if not validate_registry_compliance():
             print('❌ Registry pattern compliance check failed')
             sys.exit(1)
-            
+
         print('✅ Registry pattern compliance validated')
         "
-    
+
     # ============================================================================
     # PHASE 6: COMPREHENSIVE AUDIT REPORT
     # ============================================================================
-    
+
     - name: Generate Comprehensive Audit Report
       run: |
         echo "📋 Generating comprehensive audit report..."
@@ -208,7 +208,7 @@ jobs:
         import os
         from datetime import datetime
         from pathlib import Path
-        
+
         # Generate comprehensive audit report
         report = {
             'audit_metadata': {
@@ -239,15 +239,15 @@ jobs:
                 'documentation_accurate': True
             }
         }
-        
+
         # Save comprehensive report
         Path('audit').mkdir(exist_ok=True)
         with open('audit/ci_audit_validation_report.json', 'w') as f:
             json.dump(report, f, indent=2)
-        
+
         print('✅ Comprehensive audit report generated')
         "
-    
+
     - name: Upload Comprehensive Audit Report
       uses: actions/upload-artifact@v3
       if: always()
@@ -255,18 +255,18 @@ jobs:
         name: comprehensive-audit-report
         path: audit/ci_audit_validation_report.json
         retention-days: 30
-    
+
     # ============================================================================
     # PHASE 7: AUDIT SUCCESS NOTIFICATION
     # ============================================================================
-    
+
     - name: Audit Validation Success
       run: |
         echo "🎉 ============================================================================"
         echo "🎉 LUKHAS AI AUDIT VALIDATION COMPLETE"
         echo "🎉 ============================================================================"
         echo "✅ Acceptance Gate: PASSED"
-        echo "✅ Import Linter: PASSED" 
+        echo "✅ Import Linter: PASSED"
         echo "✅ Safety Defaults: VALIDATED"
         echo "✅ E2E Tests: PASSED"
         echo "✅ Core Tests: PASSED"
@@ -283,14 +283,14 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.9', '3.10', '3.11']
-    
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    
+
     - name: Quick Audit Validation
       run: |
         pip install -r requirements.txt
@@ -312,7 +312,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-        
+
       # Validate safety defaults
       - id: safety-defaults-check
         name: Safety Defaults Validation
@@ -327,10 +327,10 @@ print('Safety defaults OK')
 "
         language: system
         pass_filenames: false
-        
+
       # Registry pattern compliance
       - id: registry-compliance
-        name: Registry Pattern Compliance  
+        name: Registry Pattern Compliance
         entry: python -c "
 import sys
 sys.path.append('tools')
@@ -348,12 +348,12 @@ print('Registry compliance OK')
     hooks:
       - id: black
         args: [--line-length=88]
-        
+
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
-        
+
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.292
     hooks:
@@ -377,7 +377,7 @@ audit-gate:
 	@echo "🔍 Running enhanced AST acceptance gate..."
 	python tools/acceptance_gate_ast.py
 
-# Validate import compliance  
+# Validate import compliance
 audit-imports:
 	@echo "🔍 Validating import compliance..."
 	@cat > .importlinter << 'EOF'
@@ -428,7 +428,7 @@ audit-validate: audit-gate audit-imports audit-test
         return makefile_content
 
 
-def generate_ci_integration_package(output_dir: Path) -> Dict[str, Any]:
+def generate_ci_integration_package(output_dir: Path) -> dict[str, Any]:
     """Generate complete CI integration package for audit preparation."""
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

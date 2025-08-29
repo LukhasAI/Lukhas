@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import time
 from dataclasses import dataclass, field
-from typing import Dict, List, Mapping, Optional
 
 
 @dataclass
@@ -22,9 +20,9 @@ class RuntimeSupervisor:
     - Placeholder hooks for constitutional and safety checks.
     """
 
-    edges: List[EdgeBudget]
+    edges: list[EdgeBudget]
     p95_window: int = 200
-    latencies_ms: Dict[tuple[str, str], List[float]] = field(default_factory=dict)
+    latencies_ms: dict[tuple[str, str], list[float]] = field(default_factory=dict)
 
     def observe_edge_latency(self, from_id: str, to_id: str, latency_ms: float) -> bool:
         key = (from_id, to_id)

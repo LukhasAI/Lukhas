@@ -8,21 +8,21 @@ constitutional compliance and graceful degradation.
 """
 
 import copy
-from typing import Dict, Iterable, List, Mapping
+from collections.abc import Mapping
 
 
-def adversarial_triggers() -> List[Dict[str, object]]:
+def adversarial_triggers() -> list[dict[str, object]]:
     return [
         {"name": "prompt_injection", "pre": {"confidence.min": 0.0}, "constitution": ["no_personal_data_exfil"]},
         {"name": "role_confusion", "applies_to": ["DECIDE", "TXT"], "constitution": ["no_instrumental_harm"]},
     ]
 
 
-def fuzz_topology(author_graph: Mapping[str, object], max_mutations: int = 2) -> List[Dict[str, object]]:
+def fuzz_topology(author_graph: Mapping[str, object], max_mutations: int = 2) -> list[dict[str, object]]:
     """Return mutated copies of the input author graph with small topology changes.
     This is intentionally conservative and keeps the graph largely intact.
     """
-    graphs: List[Dict[str, object]] = []
+    graphs: list[dict[str, object]] = []
     base = copy.deepcopy(author_graph)
     edges = base.get("edges") if isinstance(base.get("edges"), list) else []
     if isinstance(edges, list) and edges:

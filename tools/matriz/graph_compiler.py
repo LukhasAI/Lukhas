@@ -16,11 +16,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
-from dataclasses import dataclass
+from collections.abc import Mapping, MutableMapping, Sequence
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
-
 
 # Allowed node roles for v0.1
 ALLOWED_TYPES: set[str] = {
@@ -79,7 +76,7 @@ def _utc_timestamp() -> str:
         return "TBD"
 
 
-def _node_type(author_graph: Mapping[str, object], node_id: str) -> Optional[str]:
+def _node_type(author_graph: Mapping[str, object], node_id: str) -> str | None:
     nodes = author_graph.get("nodes", {})  # type: ignore[assignment]
     node = nodes.get(node_id) if isinstance(nodes, Mapping) else None  # type: ignore[index]
     if isinstance(node, Mapping):
@@ -89,24 +86,24 @@ def _node_type(author_graph: Mapping[str, object], node_id: str) -> Optional[str
     return None
 
 
-def _collect_nodes(author_graph: Mapping[str, object]) -> Dict[str, Mapping[str, object]]:
+def _collect_nodes(author_graph: Mapping[str, object]) -> dict[str, Mapping[str, object]]:
     nodes = author_graph.get("nodes", {})  # type: ignore[assignment]
     return {k: v for k, v in nodes.items() if isinstance(v, Mapping)} if isinstance(nodes, Mapping) else {}
 
 
-def _collect_edges(author_graph: Mapping[str, object]) -> List[Mapping[str, object]]:
+def _collect_edges(author_graph: Mapping[str, object]) -> list[Mapping[str, object]]:
     edges = author_graph.get("edges", [])  # type: ignore[assignment]
     return [e for e in edges if isinstance(e, Mapping)] if isinstance(edges, list) else []
 
 
-def _collect_triggers(author_graph: Mapping[str, object]) -> List[Mapping[str, object]]:
+def _collect_triggers(author_graph: Mapping[str, object]) -> list[Mapping[str, object]]:
     triggers = author_graph.get("triggers", [])  # type: ignore[assignment]
     return [t for t in triggers if isinstance(t, Mapping)] if isinstance(triggers, list) else []
 
 
-def validate_invariants(author: Mapping[str, object]) -> List[str]:
+def validate_invariants(author: Mapping[str, object]) -> list[str]:
     """Return list of invariant violations; empty if valid."""
-    errs: List[str] = []
+    errs: list[str] = []
 
     if not isinstance(author.get("graph"), Mapping):
         return ["graph: missing or invalid object"]
@@ -180,7 +177,7 @@ def validate_invariants(author: Mapping[str, object]) -> List[str]:
     return errs
 
 
-def compile_graph(author: MutableMapping[str, object], inputs: Sequence[Tuple[str, str]] | None = None) -> Tuple[Dict[str, object], Dict[str, object]]:
+def compile_graph(author: MutableMapping[str, object], inputs: Sequence[tuple[str, str]] | None = None) -> tuple[dict[str, object], dict[str, object]]:
     """Compile author graph -> (runtime_plan, validation_report).
 
     - Adds defaults where safe (schema_version, p95 budgets if missing via fallback).
@@ -230,7 +227,7 @@ def compile_graph(author: MutableMapping[str, object], inputs: Sequence[Tuple[st
     groups = [[nid] for nid in node_ids]
 
     # Emit budgeted edges with basic drop policy on breach
-    plan_edges: List[Dict[str, object]] = []
+    plan_edges: list[dict[str, object]] = []
     for e in _collect_edges(graph):
         src = e.get("from")
         dst = e.get("to")
@@ -244,7 +241,7 @@ def compile_graph(author: MutableMapping[str, object], inputs: Sequence[Tuple[st
                 }
             )
 
-    runtime_plan: Dict[str, object] = {
+    runtime_plan: dict[str, object] = {
         "schema_version": "0.1.0",
         "provenance": provenance,
         "execution": {"groups": groups, "edges": plan_edges},
@@ -252,7 +249,7 @@ def compile_graph(author: MutableMapping[str, object], inputs: Sequence[Tuple[st
         "observability": {"trace_ids": "stable", "metrics_tags": {}},
     }
 
-    validation_report: Dict[str, object] = {
+    validation_report: dict[str, object] = {
         "schema_version": "0.1.0",
         "provenance": provenance,
         "ok": ok,
@@ -263,7 +260,7 @@ def compile_graph(author: MutableMapping[str, object], inputs: Sequence[Tuple[st
     return runtime_plan, validation_report
 
 
-def _cli(argv: Optional[Sequence[str]] = None) -> int:
+def _cli(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="MATRIZ Graph Compiler v0.1")
     ap.add_argument("input", help="Author graph JSON path")
     ap.add_argument("--out-dir", default="reports/matriz", help="Output directory for plan and report")

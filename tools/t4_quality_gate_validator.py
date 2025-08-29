@@ -3,12 +3,12 @@
 T4 Quality Gate Validator for LUKHAS AI Multi-Agent Coordination
 ================================================================
 
-Comprehensive validation system that ensures all T4 agent contributions 
+Comprehensive validation system that ensures all T4 agent contributions
 meet the Demis Hassabis standard for rigorous testing and quality assurance.
 
 This validator runs:
 - Security vulnerability scanning
-- Acceptance gate validation  
+- Acceptance gate validation
 - Comprehensive test suite execution
 - Performance benchmarking
 - Quality metrics calculation
@@ -26,7 +26,6 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Repository root
 REPO_ROOT = Path(__file__).parent.parent
@@ -60,7 +59,7 @@ class T4QualityGateValidator:
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
         AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 
-    def run_command(self, command: List[str], description: str) -> Tuple[bool, str, str]:
+    def run_command(self, command: list[str], description: str) -> tuple[bool, str, str]:
         """Run a command and return success status, stdout, stderr."""
         print(f"🔧 {description}...")
         try:
@@ -232,7 +231,7 @@ class T4QualityGateValidator:
 
         return success
 
-    def calculate_quality_metrics(self) -> Dict:
+    def calculate_quality_metrics(self) -> dict:
         """Calculate comprehensive quality metrics."""
         print("📊 Calculating quality metrics...")
 
@@ -304,7 +303,7 @@ class T4QualityGateValidator:
 
         return metrics
 
-    def evaluate_quality_gates(self, metrics: Dict) -> bool:
+    def evaluate_quality_gates(self, metrics: dict) -> bool:
         """Evaluate T4 quality gates."""
         print("🎯 Evaluating T4 quality gates...")
 
@@ -352,7 +351,7 @@ class T4QualityGateValidator:
         self.results["quality_gates"] = gates
         return all_gates_passed
 
-    def generate_final_report(self, metrics: Dict, gates_passed: bool) -> None:
+    def generate_final_report(self, metrics: dict, gates_passed: bool) -> None:
         """Generate final validation report."""
         print("📋 Generating final validation report...")
 

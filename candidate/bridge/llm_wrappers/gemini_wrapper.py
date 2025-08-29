@@ -40,13 +40,13 @@
 """
 
 import logging
-import asyncio
 
 from candidate.branding.terminology import normalize_output
 
+from .base import LLMWrapper
+
 # Module imports
 from .env_loader import get_api_key
-from .base import LLMWrapper
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.gemini")

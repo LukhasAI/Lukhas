@@ -16,7 +16,6 @@ import re
 import secrets
 import tempfile
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 import pytest
 
@@ -55,7 +54,7 @@ class SecurityValidationFramework:
     }
 
     @classmethod
-    def scan_file_for_vulnerabilities(cls, file_path: Path) -> Dict[str, List[Tuple[int, str]]]:
+    def scan_file_for_vulnerabilities(cls, file_path: Path) -> dict[str, list[tuple[int, str]]]:
         """Scan a file for security vulnerabilities."""
         if not file_path.exists() or not file_path.suffix == ".py":
             return {}
@@ -82,7 +81,7 @@ class SecurityValidationFramework:
         return vulnerabilities
 
     @classmethod
-    def scan_directory_for_vulnerabilities(cls, directory: Path, patterns: List[str] = None) -> Dict[str, Dict[str, List[Tuple[int, str]]]]:
+    def scan_directory_for_vulnerabilities(cls, directory: Path, patterns: list[str] = None) -> dict[str, dict[str, list[tuple[int, str]]]]:
         """Scan directory for security vulnerabilities."""
         if patterns is None:
             patterns = ["**/*.py"]

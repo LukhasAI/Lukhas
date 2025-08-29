@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import production security modules
 try:
@@ -81,8 +81,8 @@ class SecurityFinding:
     fix_confidence: float = 0.0
 
     # Context
-    evidence: List[str] = field(default_factory=list)
-    references: List[str] = field(default_factory=list)
+    evidence: list[str] = field(default_factory=list)
+    references: list[str] = field(default_factory=list)
 
     # Tracking
     discovered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -103,7 +103,7 @@ class SecurityScanResult:
     completed_at: Optional[datetime] = None
 
     # Results
-    findings: List[SecurityFinding] = field(default_factory=list)
+    findings: list[SecurityFinding] = field(default_factory=list)
     files_scanned: int = 0
     lines_scanned: int = 0
 
@@ -125,7 +125,7 @@ class SecurityScanResult:
 class EnterprisSecurityScanner:
     """Enterprise security scanner with constitutional AI integration"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -160,7 +160,7 @@ class EnterprisSecurityScanner:
             self.audit_logger = AuditLogger()
 
         # Scan history
-        self.scan_history: List[SecurityScanResult] = []
+        self.scan_history: list[SecurityScanResult] = []
 
         # Metrics
         self.scan_metrics = {
@@ -173,7 +173,7 @@ class EnterprisSecurityScanner:
 
         logger.info("🛡️ Enterprise Security Scanner initialized")
 
-    def _initialize_security_rules(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_security_rules(self) -> dict[str, dict[str, Any]]:
         """Initialize comprehensive security rules"""
 
         return {
@@ -264,7 +264,7 @@ class EnterprisSecurityScanner:
     async def run_comprehensive_scan(
         self,
         scan_type: str = "full",
-        target_paths: Optional[List[str]] = None
+        target_paths: Optional[list[str]] = None
     ) -> SecurityScanResult:
         """Run comprehensive security scan"""
 
@@ -363,7 +363,7 @@ class EnterprisSecurityScanner:
             result.completed_at = datetime.now(timezone.utc)
             raise
 
-    async def _get_files_to_scan(self, target_paths: Optional[List[str]]) -> List[Path]:
+    async def _get_files_to_scan(self, target_paths: Optional[list[str]]) -> list[Path]:
         """Get list of files to scan"""
 
         files_to_scan = []
@@ -388,7 +388,7 @@ class EnterprisSecurityScanner:
 
         return filtered_files
 
-    def _find_files_in_directory(self, directory: Path) -> List[Path]:
+    def _find_files_in_directory(self, directory: Path) -> list[Path]:
         """Find files matching scan patterns in directory"""
 
         files = []
@@ -398,7 +398,7 @@ class EnterprisSecurityScanner:
 
         return files
 
-    async def _run_static_analysis(self, files: List[Path]) -> List[SecurityFinding]:
+    async def _run_static_analysis(self, files: list[Path]) -> list[SecurityFinding]:
         """Run static code analysis"""
 
         findings = []
@@ -435,7 +435,7 @@ class EnterprisSecurityScanner:
 
         return findings
 
-    async def _check_banned_imports(self, files: List[Path]) -> List[SecurityFinding]:
+    async def _check_banned_imports(self, files: list[Path]) -> list[SecurityFinding]:
         """Check for banned imports that violate lane architecture"""
 
         findings = []
@@ -478,7 +478,7 @@ class EnterprisSecurityScanner:
 
         return findings
 
-    async def _detect_hardcoded_secrets(self, files: List[Path]) -> List[SecurityFinding]:
+    async def _detect_hardcoded_secrets(self, files: list[Path]) -> list[SecurityFinding]:
         """Detect hardcoded secrets and credentials"""
 
         findings = []
@@ -533,7 +533,7 @@ class EnterprisSecurityScanner:
 
         return findings
 
-    async def _check_constitutional_compliance(self, files: List[Path]) -> List[SecurityFinding]:
+    async def _check_constitutional_compliance(self, files: list[Path]) -> list[SecurityFinding]:
         """Check constitutional AI compliance"""
 
         if not self.constitutional_framework:
@@ -593,7 +593,7 @@ class EnterprisSecurityScanner:
 
         return findings
 
-    async def _scan_dependencies(self) -> List[SecurityFinding]:
+    async def _scan_dependencies(self) -> list[SecurityFinding]:
         """Scan dependencies for known vulnerabilities"""
 
         findings = []
@@ -643,7 +643,7 @@ class EnterprisSecurityScanner:
 
         return findings
 
-    async def _attempt_auto_fixes(self, findings: List[SecurityFinding]) -> Dict[str, Any]:
+    async def _attempt_auto_fixes(self, findings: list[SecurityFinding]) -> dict[str, Any]:
         """Attempt to automatically fix security issues"""
 
         fixed_count = 0
@@ -799,7 +799,7 @@ class EnterprisSecurityScanner:
 
         return False
 
-    async def _calculate_overall_drift_score(self, findings: List[SecurityFinding]) -> float:
+    async def _calculate_overall_drift_score(self, findings: list[SecurityFinding]) -> float:
         """Calculate overall constitutional drift score from findings"""
 
         if not findings:
@@ -889,7 +889,7 @@ class EnterprisSecurityScanner:
                 (current_avg * (total_scans - 1) + scan_time) / total_scans
             )
 
-    def get_scan_summary(self) -> Dict[str, Any]:
+    def get_scan_summary(self) -> dict[str, Any]:
         """Get comprehensive scan summary"""
 
         recent_scans = self.scan_history[-10:]  # Last 10 scans

@@ -8,18 +8,12 @@ Comprehensive observability for LUKHAS AI Trinity Framework
 Designed for Jules Agent #4: Enterprise Observability Specialist
 """
 
-import asyncio
 import json
 import logging
 import os
 import socket
-import time
-from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
 from functools import wraps
-from typing import Any, Dict, List, Optional
-
-import psutil
+from typing import Optional
 
 # Observability integrations
 try:
@@ -93,7 +87,7 @@ class DatadogLogHandler(logging.Handler):
     """
     A logging handler that sends logs to Datadog via TCP.
     """
-    def __init__(self, host='127.0.0.1', port=10514):
+    def __init__(self, host="127.0.0.1", port=10514):
         super().__init__()
         self.host = host
         self.port = port
@@ -111,13 +105,13 @@ class DatadogLogHandler(logging.Handler):
             return
 
         try:
-            self.socket.sendall((log_entry + '\n').encode('utf-8'))
+            self.socket.sendall((log_entry + "\n").encode("utf-8"))
         except Exception:
             # Try to reconnect
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((self.host, self.port))
-                self.socket.sendall((log_entry + '\n').encode('utf-8'))
+                self.socket.sendall((log_entry + "\n").encode("utf-8"))
             except Exception:
                 logger.error("Failed to send log to Datadog agent.")
 
@@ -260,7 +254,7 @@ class T4ObservabilityStack:
             return wrapper
         return decorator
 
-    def submit_metric(self, metric_type: str, metric_name: str, value: float, tags: Optional[List[str]] = None):
+    def submit_metric(self, metric_type: str, metric_name: str, value: float, tags: Optional[list[str]] = None):
         """
         Submit a custom metric to Datadog.
 

@@ -6,13 +6,14 @@ measurably accelerate human consciousness evolution.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 # Placeholder classes for external consciousness research APIs
 class ConsciousnessScienceAPI:
-    async def analyze_consciousness_blockers(self, profile: Dict[str, Any]) -> List[str]:
+    async def analyze_consciousness_blockers(self, profile: dict[str, Any]) -> list[str]:
         return [random.choice(["ego_rigidity", "emotional_suppression"])]
-    async def measure_consciousness_evolution(self, params: Dict[str, Any]) -> Any:
+    async def measure_consciousness_evolution(self, params: dict[str, Any]) -> Any:
         return type("Metrics", (), {
             "evolution_score": random.uniform(0.1, 0.5),
             "improvement_areas": ["compassion", "clarity"],
@@ -22,15 +23,15 @@ class ConsciousnessScienceAPI:
         })()
 
 class TranspersonalPsychologyEngine:
-    async def design_ego_transcendence_experience(self, *args) -> Dict[str, Any]:
+    async def design_ego_transcendence_experience(self, *args) -> dict[str, Any]:
         return {"name": "Ego Dissolution Experience", "type": "meditation"}
 
 class FlowStateResearchAPI:
-    async def design_flow_activation_sequence(self, *args) -> Dict[str, Any]:
+    async def design_flow_activation_sequence(self, *args) -> dict[str, Any]:
         return {"name": "Flow State Activation", "type": "focus_exercise"}
 
 class ConsciousnessTechnologiesSDK:
-    async def integrate_experience(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def integrate_experience(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"tech_integration_id": f"tech_{random.randint(1000, 9999)}"}
 
 
@@ -52,9 +53,9 @@ class ConsciousnessAscensionCatalystEngine:
 
     async def design_consciousness_catalyst_experience(
         self,
-        user_consciousness_profile: Dict[str, Any],
-        catalyst_product: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_consciousness_profile: dict[str, Any],
+        catalyst_product: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Designs an experience that actually accelerates consciousness evolution.
         """
@@ -78,9 +79,9 @@ class ConsciousnessAscensionCatalystEngine:
     async def measure_actual_consciousness_evolution(
         self,
         user_id: str,
-        catalyst_experience: Dict[str, Any],
+        catalyst_experience: dict[str, Any],
         post_experience_timeframe: str = "30_days"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Measures actual consciousness evolution results.
         """

@@ -6,15 +6,16 @@ transacting based on consciousness contribution and collective abundance.
 """
 
 import random
-from typing import Any, Dict
+from typing import Any
+
 
 # Placeholder classes for post-monetary economic systems
 class ConsciousnessBlockchain:
-    def record_transaction(self, transaction: Dict[str, Any]):
+    def record_transaction(self, transaction: dict[str, Any]):
         print(f"Recording transaction on consciousness blockchain: {transaction}")
 
 class AbundanceCalculator:
-    async def calculate_abundance_impact(self, contribution: Dict[str, Any]) -> float:
+    async def calculate_abundance_impact(self, contribution: dict[str, Any]) -> float:
         return random.uniform(1.0, 2.0)
 
 class ConsciousnessTokenProtocol:
@@ -22,7 +23,7 @@ class ConsciousnessTokenProtocol:
         return f"token_{random.randint(1000, 9999)}"
 
 class GiftEconomyEngine:
-    async def calculate_gift_value(self, contribution: Dict[str, Any]) -> float:
+    async def calculate_gift_value(self, contribution: dict[str, Any]) -> float:
         return random.uniform(10, 100)
 
 
@@ -45,8 +46,8 @@ class QiFinancialConsciousnessEngine:
     async def calculate_consciousness_exchange_rate(
         self,
         user_id: str,
-        consciousness_contribution: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        consciousness_contribution: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Calculates value in consciousness rather than money.
         """
@@ -63,9 +64,9 @@ class QiFinancialConsciousnessEngine:
 
     async def propose_consciousness_based_exchange(
         self,
-        user_consciousness_profile: Dict[str, Any],
-        product_consciousness_value: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_consciousness_profile: dict[str, Any],
+        product_consciousness_value: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Proposes an exchange based on consciousness value, not money.
         """

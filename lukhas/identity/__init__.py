@@ -14,28 +14,18 @@ Integrated Components:
 # Core identity components
 from . import lambda_id, webauthn
 
-# Import IdentityCore from the correct location
+# Feature flags for optional identity components (no sys.path hacks here)
 try:
-    import sys
-
-    sys.path.insert(0, "/Users/agi_dev/LOCAL-REPOS/Lukhas")
     import importlib.util
 
+    # Prefer namespaced package lookups; do not mutate sys.path here.
     IDENTITY_CORE_AVAILABLE = (
-        importlib.util.find_spec("identity.identity_core") is not None
+        importlib.util.find_spec("lukhas.identity.identity_core") is not None
+        or importlib.util.find_spec("identity.identity_core") is not None
+        or importlib.util.find_spec("identity_core") is not None
     )
-except ImportError:
-    # Fallback: try relative import if absolute fails
-    try:
-        import os
-
-        identity_path = os.path.join(os.path.dirname(__file__), "../../identity")
-        sys.path.insert(0, identity_path)
-        import importlib.util
-
-        IDENTITY_CORE_AVAILABLE = importlib.util.find_spec("identity_core") is not None
-    except ImportError:
-        IDENTITY_CORE_AVAILABLE = False
+except Exception:
+    IDENTITY_CORE_AVAILABLE = False
 
 # Integrated authentication ecosystem (production-ready)
 try:
@@ -47,7 +37,7 @@ try:
         and importlib.util.find_spec("lukhas.identity.wallet") is not None
     )
 
-except ImportError:
+except Exception:
     # Graceful fallback if integration components not available
     AUTHENTICATION_AVAILABLE = False
 

@@ -6,7 +6,7 @@ patterns, using privacy-preserving techniques.
 """
 
 import random
-from typing import Any, Dict, List, Set
+
 
 class ConsciousnessClusteringEngine:
     """
@@ -24,7 +24,7 @@ class ConsciousnessClusteringEngine:
         # self.user_journey_store = AnonymizedUserJourneyStore()
         pass
 
-    async def get_consciousness_clusters(self) -> Dict[str, List[str]]:
+    async def get_consciousness_clusters(self) -> dict[str, list[str]]:
         """
         Analyzes all user data to form consciousness clusters.
 

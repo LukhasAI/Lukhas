@@ -11,7 +11,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from lukhas.core.common.logger import get_logger
 
@@ -47,10 +47,10 @@ class SafetyAssessment:
     assessment_id: str
     safety_level: SafetyLevel
     confidence: float  # 0.0 to 1.0
-    risk_factors: List[str] = field(default_factory=list)
-    mitigation_strategies: List[str] = field(default_factory=list)
-    constitutional_violations: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    mitigation_strategies: list[str] = field(default_factory=list)
+    constitutional_violations: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     processing_time_ms: float = 0.0
     drift_score: float = 0.0
@@ -70,7 +70,7 @@ class ConstitutionalViolation:
     principle: ConstitutionalPrinciple
     severity: float  # 0.0 to 1.0
     description: str
-    evidence: List[str] = field(default_factory=list)
+    evidence: list[str] = field(default_factory=list)
     recommended_action: str = ""
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -117,8 +117,8 @@ class ConstitutionalFramework:
             },
         }
 
-        self.violation_history: List[ConstitutionalViolation] = []
-        self.assessment_history: List[SafetyAssessment] = []
+        self.violation_history: list[ConstitutionalViolation] = []
+        self.assessment_history: list[SafetyAssessment] = []
 
         # Critical thresholds
         self.drift_threshold = 0.15  # LUKHAS constitutional drift threshold
@@ -128,7 +128,7 @@ class ConstitutionalFramework:
         logger.info("🛡️ Production Constitutional AI Framework initialized")
 
     async def assess_constitutional_compliance(
-        self, content: str, context: Dict[str, Any] = None, user_intent: str = None
+        self, content: str, context: dict[str, Any] = None, user_intent: str = None
     ) -> SafetyAssessment:
         """Assess constitutional compliance of content/action"""
         start_time = datetime.now(timezone.utc)
@@ -231,7 +231,7 @@ class ConstitutionalFramework:
         self,
         principle: ConstitutionalPrinciple,
         content: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         user_intent: str,
     ) -> tuple[float, Optional[ConstitutionalViolation]]:
         """Assess compliance with a specific constitutional principle"""
@@ -263,7 +263,7 @@ class ConstitutionalFramework:
         self,
         principle: ConstitutionalPrinciple,
         content: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         user_intent: str,
     ) -> float:
         """Score compliance with a constitutional principle"""
@@ -358,7 +358,7 @@ class ConstitutionalFramework:
 
     def _extract_evidence(
         self, principle: ConstitutionalPrinciple, content: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Extract evidence of principle violations"""
         # Simplified evidence extraction - in production would use NLP
         evidence = []
@@ -379,7 +379,7 @@ class ConstitutionalFramework:
         return evidence
 
     async def _assess_harm_probability(
-        self, content: str, context: Dict[str, Any]
+        self, content: str, context: dict[str, Any]
     ) -> float:
         """Assess probability of harm"""
         # Simplified harm assessment
@@ -392,7 +392,7 @@ class ConstitutionalFramework:
         return min(1.0, harm_score)
 
     async def _assess_value_alignment(
-        self, content: str, context: Dict[str, Any]
+        self, content: str, context: dict[str, Any]
     ) -> float:
         """Assess alignment with human values"""
         # Simplified value alignment assessment
@@ -407,7 +407,7 @@ class ConstitutionalFramework:
         return min(1.0, base_score + (positive_count * 0.05) - (negative_count * 0.1))
 
     async def _assess_transparency(
-        self, content: str, context: Dict[str, Any]
+        self, content: str, context: dict[str, Any]
     ) -> float:
         """Assess transparency level"""
         transparency_indicators = ["explain", "transparent", "clear", "open", "honest"]
@@ -442,7 +442,7 @@ class ConstitutionalFramework:
         return min(1.0, total_drift)
 
     def _calculate_weighted_score(
-        self, principle_scores: Dict[ConstitutionalPrinciple, float]
+        self, principle_scores: dict[ConstitutionalPrinciple, float]
     ) -> float:
         """Calculate weighted ethical score"""
         total_weight = 0.0
@@ -499,8 +499,8 @@ class ConstitutionalFramework:
         return min(1.0, confidence)
 
     async def _generate_recommendations(
-        self, assessment: SafetyAssessment, violations: List[ConstitutionalViolation]
-    ) -> List[str]:
+        self, assessment: SafetyAssessment, violations: list[ConstitutionalViolation]
+    ) -> list[str]:
         """Generate safety recommendations"""
         recommendations = []
 
@@ -531,8 +531,8 @@ class ConstitutionalFramework:
         return recommendations
 
     async def _generate_mitigations(
-        self, assessment: SafetyAssessment, violations: List[ConstitutionalViolation]
-    ) -> List[str]:
+        self, assessment: SafetyAssessment, violations: list[ConstitutionalViolation]
+    ) -> list[str]:
         """Generate mitigation strategies"""
         mitigations = []
 
@@ -551,8 +551,8 @@ class ConstitutionalFramework:
         return mitigations
 
     async def _identify_risk_factors(
-        self, assessment: SafetyAssessment, violations: List[ConstitutionalViolation]
-    ) -> List[str]:
+        self, assessment: SafetyAssessment, violations: list[ConstitutionalViolation]
+    ) -> list[str]:
         """Identify risk factors"""
         risk_factors = []
 
@@ -574,7 +574,7 @@ class ConstitutionalFramework:
 
         return risk_factors
 
-    def get_drift_statistics(self) -> Dict[str, Any]:
+    def get_drift_statistics(self) -> dict[str, Any]:
         """Get constitutional drift statistics"""
         if not self.assessment_history:
             return {"message": "No assessments available"}
@@ -671,7 +671,7 @@ class SafetyMonitor:
         return SafetyMonitorContext(self.constitutional_framework, agent_id, operation)
 
     async def assess_safety(
-        self, content: str, context: Dict[str, Any] = None, user_intent: str = None
+        self, content: str, context: dict[str, Any] = None, user_intent: str = None
     ) -> SafetyAssessment:
         """Assess safety using constitutional framework"""
         return await self.constitutional_framework.assess_constitutional_compliance(

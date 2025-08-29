@@ -27,14 +27,14 @@ except Exception:
     def env_get(key: str, default=None):
         return _os.getenv(key, default)
 
+from .consciousness_api import router as consciousness_router
 from .feedback_routes import router as feedback_router
+from .guardian_api import router as guardian_router
+from .identity_api import router as identity_router
 from .openai_routes import router as openai_router
+from .orchestration_routes import router as orchestration_router
 from .routes import router
 from .routes_traces import r as traces_router
-from .orchestration_routes import router as orchestration_router
-from .identity_api import router as identity_router
-from .consciousness_api import router as consciousness_router
-from .guardian_api import router as guardian_router
 
 logging.basicConfig(level=logging.INFO)
 

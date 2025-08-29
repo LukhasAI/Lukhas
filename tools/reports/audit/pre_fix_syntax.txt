@@ -1,0 +1,710 @@
+  File "candidate/core/integration/symbolic_network.py", line 167
+    def update_metrics(:
+                       ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/integration/symbolic_network.py
+  File "candidate/core/integration/pr_security_review_task.py", line 148
+    logger.warning(f"Failed to get reviews for PR "number']}")
+                                                   ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/integration/pr_security_review_task.py
+  File "candidate/core/output/message_hub.py", line 108
+    save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/output/message_hub.py
+candidate/core/utils/orchestration_energy_aware_execution_planner.py:617: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  or " + "(
+  File "candidate/core/explainability/decision_explainer.py", line 535
+    if "emergency" in decision_type:
+                                   ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/explainability/decision_explainer.py
+  File "candidate/core/tags/registry.py", line 560
+    decision_keywords = decision_type.lower().split()
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/tags/registry.py
+  File "candidate/core/safety/constitutional_safety.py", line 130
+    views, or revenue.",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/safety/constitutional_safety.py
+  File "candidate/core/module_registry.py", line 126
+    def register_module(:
+                        ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/module_registry.py
+  File "candidate/core/notion_sync.py", line 432
+    user_question = st.text_input(
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/notion_sync.py
+  File "candidate/core/audit/audit_decision_embedding_engine.py", line 591
+    notify stakeholders"
+           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/audit/audit_decision_embedding_engine.py
+  File "candidate/core/ai/integration_manager.py", line 115
+    def __init__(:
+                 ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/ai/integration_manager.py
+  File "candidate/core/orchestration/brain/symbol_validator.py", line 138
+    def __init__(:
+                 ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/symbol_validator.py
+  File "candidate/core/orchestration/brain/visualization/healix_visualizer.py", line 279
+    ],
+    ^
+SyntaxError: closing parenthesis ']' does not match opening parenthesis '(' on line 277
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/visualization/healix_visualizer.py
+  File "candidate/core/orchestration/brain/canadian_awareness_engine.py", line 233
+    def canadian_audit_log(:
+                           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/canadian_awareness_engine.py
+  File "candidate/core/orchestration/brain/brain_integration.py", line 48
+    except ImportError:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/brain_integration.py
+  File "candidate/core/orchestration/brain/core/capability_analyzer.py", line 147
+    perform symbolic collapse to the most resonant meaning for AI development",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/core/capability_analyzer.py
+  File "candidate/core/orchestration/brain/spine/main_loop.py", line 185
+    and voice synthesis? (yes / no): "
+              ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/spine/main_loop.py
+  File "candidate/core/orchestration/brain/spine/accent_adapter.py", line 45
+    def __init__(:
+                 ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/spine/accent_adapter.py
+  File "candidate/core/orchestration/brain/config/settings_editor.py", line 146
+    settings["system_behavior"]["access_gps"] = st.checkbox(
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/config/settings_editor.py
+  File "candidate/core/orchestration/brain/integration/brain_integration.py", line 48
+    except ImportError:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/integration/brain_integration.py
+  File "candidate/core/orchestration/brain/integration/federated_integrator.py", line 891
+    def enhance_meta_learning_with_federation(
+    ^
+SyntaxError: duplicate argument 'node_id' in function definition
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/integration/federated_integrator.py
+  File "candidate/core/orchestration/brain/autonomous_github_manager.py", line 625
+    report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/autonomous_github_manager.py
+  File "candidate/core/orchestration/brain/abstract_reasoning/confidence_calibrator.py", line 67
+    def estimate_confidence(:
+                            ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/abstract_reasoning/confidence_calibrator.py
+  File "candidate/core/orchestration/brain/github_vulnerability_manager.py", line 92
+    def __init__(:
+                 ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/github_vulnerability_manager.py
+  File "candidate/core/orchestration/brain/qrl_code/qrly.py", line 91
+    grainy film effect",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/qrl_code/qrly.py
+  File "candidate/core/orchestration/brain/privacy_manager.py", line 120
+    for item in d[key]:
+                      ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/privacy_manager.py
+  File "candidate/core/orchestration/brain/core_system.py", line 163
+    if all(:
+           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/core_system.py
+  File "candidate/core/orchestration/brain/lambda_bot_batch_processor.py", line 391
+    f"\n###"_', ' ').title()} Issues:"
+            ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/lambda_bot_batch_processor.py
+  File "candidate/core/orchestration/brain/cognitive_core.py", line 600
+    Level: {agi_response.capability_level.value}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/cognitive_core.py
+  File "candidate/core/orchestration/brain/lambdabot_autonomous_fixer.py", line 118
+    if vulnerability.severity == VulnerabilitySeverity.CRITICAL:
+                                                               ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/lambdabot_autonomous_fixer.py
+  File "candidate/core/orchestration/brain/governance/dao_governance_node.py", line 673
+    f.write(f"**Proposal ID:** {proposal['id']}\n")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/governance/dao_governance_node.py
+  File "candidate/core/orchestration/brain/dna/dna_link.py", line 48
+    preserving symbolic tone: \n\n{text}"
+               ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/dna/dna_link.py
+  File "candidate/core/orchestration/brain/main_bot.py", line 246
+    Level: {agi_response.capability_level.value}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/main_bot.py
+candidate/core/orchestration/brain/meta_cognitive/reflective_introspection_system.py:400: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  ) or " + "(
+  File "candidate/core/orchestration/brain/demo.py", line 257
+    f"Response voice parameters: {json.dumps(response['voice_parameters'],"}
+                                                                           ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '(' on line 256
+
+SYNTAX_ERROR: candidate/core/orchestration/brain/demo.py
+  File "candidate/core/glyph/glyph_ethics_validator.py", line 155
+    def validate_glyph_creation(:
+                                ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/glyph/glyph_ethics_validator.py
+  File "candidate/core/glyph/api_manager.py", line 136
+    def encrypt_api_key(:
+                        ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/glyph/api_manager.py
+  File "candidate/core/symbolic/entropy_calculator.py", line 166
+    Final: {final_entropy: .3f}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/entropy_calculator.py
+  File "candidate/core/symbolic/crista_optimizer.py", line 157
+    Activity={activity}, Entropy={entropy}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/crista_optimizer.py
+  File "candidate/core/symbolic/qrs_manager.py", line 209
+    Entropy: {entropy_score: .3f}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/qrs_manager.py
+  File "candidate/core/symbolic/symbolic_anomaly_explorer.py", line 194
+    def __init__(:
+                 ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/symbolic_anomaly_explorer.py
+  File "candidate/core/symbolic/symbolic_theme_clusterer.py", line 975
+    lines.append("=" * 50)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/symbolic_theme_clusterer.py
+  File "candidate/core/symbolic/lambda_sage.py", line 154
+    for system, strength in self.mythic_resonances.items():
+                                                          ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/lambda_sage.py
+candidate/core/symbolic/symbolic_validator.py:299: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  ) or " + "(
+  File "candidate/core/symbolic/message_hub.py", line 121
+    save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/symbolic/message_hub.py
+  File "candidate/core/identity_aware_base.py", line 72
+    using fallback",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/identity_aware_base.py
+  File "candidate/core/neural/topology_manager.py", line 193
+    if max_possible_connections > 0:
+                                   ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/neural/topology_manager.py
+  File "candidate/core/interfaces/ui/components/audio_exporter.py", line 124
+    f"🧪 Attempting to generate audio for: {entry.get('message_id',"}
+                                                                   ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '(' on line 123
+
+SYNTAX_ERROR: candidate/core/interfaces/ui/components/audio_exporter.py
+  File "candidate/core/interfaces/ui/app.py", line 60
+    try:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/ui/app.py
+  File "candidate/core/interfaces/research_dashboard.py", line 229
+    st.json(summary)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/research_dashboard.py
+  File "candidate/core/interfaces/tools/research/research_dashboard.py", line 228
+    st.json(summary)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/tools/research/research_dashboard.py
+  File "candidate/core/interfaces/tools/cli/command_registry.py", line 69
+    visuals).",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/tools/cli/command_registry.py
+Sorry: IndentationError: unexpected indent (agent_core.py, line 44)
+SYNTAX_ERROR: candidate/core/interfaces/logic/agent_core.py
+  File "candidate/core/interfaces/dashboad.py", line 30
+    symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',"}
+                                                                               ^
+SyntaxError: unmatched '}'
+
+SYNTAX_ERROR: candidate/core/interfaces/dashboad.py
+  File "candidate/core/interfaces/as_agent/streamlit/app.py", line 59
+    try:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/streamlit/app.py
+  File "candidate/core/interfaces/as_agent/core/reward_reputation.py", line 25
+    actions, and widgets.",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/core/reward_reputation.py
+  File "candidate/core/interfaces/as_agent/sys/nias/voice_narrator.py", line 76
+    if ev:
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/sys/nias/voice_narrator.py
+  File "candidate/core/interfaces/as_agent/sys/nias/narration_controller.py", line 46
+    for e in entries:
+                    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/sys/nias/narration_controller.py
+  File "candidate/core/interfaces/as_agent/widgets/widget_engine.py", line 148
+    "emoji_header": f"{tier_emojis.get(user_tier, '')} {props.get('label',"}
+                  ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/widgets/widget_engine.py
+  File "candidate/core/interfaces/as_agent/widgets/delivery_tracker_widget.py", line 59
+    "cta": "Track Delivery" if user_tier >= 2 else "Status Only",
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/core/interfaces/as_agent/widgets/delivery_tracker_widget.py
+  File "candidate/memory/temporal/generate_dream.py", line 106
+    if line and not line.startswith(")  # " and not line.startswith("//"):
+                                                                         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/temporal/generate_dream.py
+  File "candidate/memory/temporal/journal_engine.py", line 421
+    f"##"%H:%M')} - {entry.type.title()}\n"
+           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/temporal/journal_engine.py
+  File "candidate/memory/temporal/drift_dashboard_visual.py", line 156
+    "bar": {"color": colors.get(severity, ")  # 2196F3"},
+                                                       ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '('
+
+SYNTAX_ERROR: candidate/memory/temporal/drift_dashboard_visual.py
+  File "candidate/memory/temporal/hyperspace_dream_simulator.py", line 1146
+    ml_recommendations = await self._generate_ml_based_recommendations(scenario)
+                         ^
+SyntaxError: 'await' outside async function
+
+SYNTAX_ERROR: candidate/memory/temporal/hyperspace_dream_simulator.py
+  File "candidate/memory/temporal/generate_dream_data.py", line 106
+    if line and not line.startswith(")  # " and not line.startswith("//"):
+                                                                         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/temporal/generate_dream_data.py
+  File "candidate/memory/temporal/pattern_detector.py", line 925
+    report += f"\n##"pattern']}\n"
+                     ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/temporal/pattern_detector.py
+  File "candidate/memory/tools/__init__.py", line 6
+    from from from from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/tools/__init__.py
+  File "candidate/memory/tools/memory_drift_auditor.py", line 2085
+    md_lines.append(")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/tools/memory_drift_auditor.py
+  File "candidate/memory/tools/lambda_archive_inspector.py", line 1180
+    md.append(")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/tools/lambda_archive_inspector.py
+candidate/memory/folds/healix_mapper.py:634: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  ) / " + "(
+Sorry: IndentationError: unexpected indent (fold_engine.py, line 58)
+SYNTAX_ERROR: candidate/memory/folds/fold_engine.py
+Sorry: IndentationError: expected an indented block (in_memory_cache_storage_wrapper.py, line 55)
+SYNTAX_ERROR: candidate/memory/systems/in_memory_cache_storage_wrapper.py
+  File "candidate/memory/systems/dream_memory_manager.py", line 57
+    from from from from candidate.core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/systems/dream_memory_manager.py
+Sorry: IndentationError: unexpected indent (in_memory_span_exporter.py, line 26)
+SYNTAX_ERROR: candidate/memory/systems/in_memory_span_exporter.py
+Sorry: IndentationError: unexpected indent (memory_media_file_storage.py, line 28)
+SYNTAX_ERROR: candidate/memory/systems/memory_media_file_storage.py
+  File "candidate/memory/systems/memory_legacy/dreams.py", line 20
+    from from from from candidate.core.common import get_logger
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/systems/memory_legacy/dreams.py
+  File "candidate/memory/systems/memory_legacy/dream_cron.py", line 19
+    from from from from candidate.core.common import get_logger
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/systems/memory_legacy/dream_cron.py
+  File "candidate/memory/systems/memory_legacy/gpt_reflection.py", line 20
+    from from from from candidate.core.common import get_logger
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/systems/memory_legacy/gpt_reflection.py
+  File "candidate/memory/systems/memory_tracker.py", line 163
+    plt.ylabel("Memory (MB)")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/systems/memory_tracker.py
+  File "candidate/memory/consolidation/compliance_digest.py", line 62
+    plt.title(title)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/memory/consolidation/compliance_digest.py
+  File "candidate/bridge/voice/voice_narrator.py", line 83
+    if ev:
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/voice/voice_narrator.py
+  File "candidate/bridge/voice/interface.py", line 289
+    for k, v in context.items():
+                               ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/voice/interface.py
+  File "candidate/bridge/api_legacy/core/services.py", line 328
+    def _identity_core.resolve_access_tier(self, tier: int) -> List[str]:
+                      ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api_legacy/core/services.py
+  File "candidate/bridge/api_legacy/core/consciousness.py", line 327
+    "memory_coherence": f"Access to {stats.get('total_folds',"}
+                                                              ^
+SyntaxError: f-string: unmatched '('
+
+SYNTAX_ERROR: candidate/bridge/api_legacy/core/consciousness.py
+  File "candidate/bridge/api_legacy/core/__init__.py", line 23
+    from . import lukhas.consciousness, dream, emotion, glyph_exchange, memory
+                        ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api_legacy/core/__init__.py
+  File "candidate/bridge/api/ai_interface.py", line 140
+    def generate_response(:
+                          ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/ai_interface.py
+  File "candidate/bridge/api/config_manager.py", line 58
+    got {type(new_config)}."
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/config_manager.py
+  File "candidate/bridge/api/memory.py", line 88
+    for key, value in obj.__dict__.items():
+                                          ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/memory.py
+  File "candidate/bridge/api/intent_router.py", line 55
+    def _initialize_patterns(:
+                             ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/intent_router.py
+  File "candidate/bridge/api/controllers.py", line 223
+    def handle_api_error(:
+                         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/controllers.py
+  File "candidate/bridge/api/dream.py", line 130
+    message=f"Dream logged successfully with ID: {dream_log.get('fold_id',"}
+                                                                           ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '(' on line 123
+
+SYNTAX_ERROR: candidate/bridge/api/dream.py
+  File "candidate/bridge/api/lambd_id_routes.py", line 171
+    LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/lambd_id_routes.py
+  File "candidate/bridge/api/module_generator.py", line 659
+    f"##"_', ' ').title()}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
+         ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/module_generator.py
+  File "candidate/bridge/api/onboarding_api.py", line 41
+    OnboardingPersonality, and unified_api components(app, api_response)."
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/onboarding_api.py
+  File "candidate/bridge/api/simple_troubleshooter.py", line 31
+    if line and not line.startswith(")  # " and "=" in line:
+                                                           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/simple_troubleshooter.py
+  File "candidate/bridge/api/emotion.py", line 132
+    {landscape['total_unique_emotions']} unique emotions",
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/emotion.py
+  File "candidate/bridge/api/direct_ai_router.py", line 18
+    from typing import for
+                       ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/api/direct_ai_router.py
+  File "candidate/bridge/protocols/lambda_id_previewer.py", line 270
+    def preview_lambda_id(:
+                          ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/protocols/lambda_id_previewer.py
+  File "candidate/bridge/protocols/reasoning_report_generator.py", line 40
+    f"#"reasoning_request_id', 'N/A')}\n"
+        ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/bridge/protocols/reasoning_report_generator.py
+  File "candidate/consciousness/reasoning/id_reasoning_engine.py", line 188
+    if k != 'timestamp':
+                       ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/consciousness/reasoning/id_reasoning_engine.py
+  File "candidate/consciousness/qi_consciousness_integration.py", line 559
+    return f"🧠✨ Exploring {theme} via quantum consciousness! #QIConsciousness " ', '')}""
+                                                                                         ^
+SyntaxError: EOL while scanning string literal
+
+SYNTAX_ERROR: candidate/consciousness/qi_consciousness_integration.py
+  File "candidate/consciousness/qi_integration/qi_consciousness_integration.py", line 335
+    post = f"🧠✨ Exploring {theme} through the lens of quantum consciousness reveals infinite possibilities. When we elevate our awareness, every aspect of {theme} becomes a gateway to deeper understanding. #QIConsciousness " ', '')} #ConsciousLiving""
+                                                                                                                                                                                                                                                           ^
+SyntaxError: EOL while scanning string literal
+
+SYNTAX_ERROR: candidate/consciousness/qi_integration/qi_consciousness_integration.py
+  File "candidate/consciousness/qi_integration/qi_consciousness_integration_wrapper.py", line 470
+    "social_post": f"🌟 Discovering the conscious aspects of {theme} opens up infinite possibilities! " ', '')} #Consciousness","
+                                                                                                                                ^
+SyntaxError: EOL while scanning string literal
+
+SYNTAX_ERROR: candidate/consciousness/qi_integration/qi_consciousness_integration_wrapper.py
+  File "candidate/consciousness/reflection/id_reasoning_engine.py", line 377
+    def unlock_memory(:
+                      ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/consciousness/reflection/id_reasoning_engine.py
+Sorry: IndentationError: unindent does not match any outer indentation level (brain_integration.py, line 50)
+SYNTAX_ERROR: candidate/consciousness/reflection/brain_integration.py
+  File "candidate/consciousness/reflection/dreamseed_unified.py", line 317
+    )
+    ^
+SyntaxError: f-string: unmatched '('
+
+SYNTAX_ERROR: candidate/consciousness/reflection/dreamseed_unified.py
+  File "candidate/consciousness/reflection/distributed_state_manager.py", line 178
+    return hash_value % self.num_shards
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/consciousness/reflection/distributed_state_manager.py
+  File "candidate/qi/metrics/calibration.py", line 224
+    n = len(bins)
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/metrics/calibration.py
+  File "candidate/qi/bio/bio_qi_radar_integration.py", line 436
+    fig.add_trace(
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/bio/bio_qi_radar_integration.py
+  File "candidate/qi/trace/trace_graph.py", line 96
+    lines.append('  edge [color=")  # 999999"];'
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/trace/trace_graph.py
+  File "candidate/qi/safety/ci_report.py", line 33
+    lines.append(f"_Generated: {ts}_")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/safety/ci_report.py
+  File "candidate/qi/ops/auto_safety_report.py", line 71
+    md.append(f"**Generated:** {ts}")
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/ops/auto_safety_report.py
+  File "candidate/qi/ops/model_card.py", line 17
+    if __name__=="__main__":
+                           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/qi/ops/model_card.py
+  File "candidate/governance/identity/auth_utils/shared_logging.py", line 12
+    return logging.getLogger(name)
+    ^
+SyntaxError: 'return' outside function
+
+SYNTAX_ERROR: candidate/governance/identity/auth_utils/shared_logging.py
+  File "candidate/governance/identity/core/unified_auth_manager.py", line 304
+    "accent": cultural_context.get("accent_color", ")  # 7ED321",
+            ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/identity/core/unified_auth_manager.py
+  File "candidate/governance/identity/core/sing/cross_device_manager.py", line 175
+    xport main classes\n__all__ = [\n    \"CrossDeviceTokenManager\",\n    \"DeviceTrustScore\", \n    \"WebRTCDeviceSync\"\n]
+                                                                                                                              ^
+SyntaxError: unexpected character after line continuation character
+
+SYNTAX_ERROR: candidate/governance/identity/core/sing/cross_device_manager.py
+  File "candidate/governance/identity/auth/qrg_generators.py", line 876
+    def get_generation_stats(self) -> dict[str, Any]:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/identity/auth/qrg_generators.py
+  File "candidate/governance/identity/unified_login_interface.py", line 841
+    "privileges": f"Tier {tier_level} access granted",
+                ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/identity/unified_login_interface.py
+  File "candidate/governance/identity/api/controllers/lambd_id_controller.py", line 774
+    def _identity_core.resolve_access_tier(self, tier_level: int) -> Dict[str, Any]:
+                      ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/identity/api/controllers/lambd_id_controller.py
+  File "candidate/governance/security/security_compliance_check.py", line 302
+    for check_name, check_result in results["checks"].items():
+                                                             ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/security/security_compliance_check.py
+  File "candidate/governance/security/security_audit_engine.py", line 229
+    if not line or line.startswith(")  # ":
+                                          ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/security/security_audit_engine.py
+  File "candidate/governance/ethics/ethical_sentinel_dashboard.py", line 337
+    sentinel = initialize_sentinel()
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/ethics/ethical_sentinel_dashboard.py
+Sorry: IndentationError: unindent does not match any outer indentation level (intrinsic_governor.py, line 15)
+SYNTAX_ERROR: candidate/governance/ethics_legacy/intrinsic_governor.py
+  File "candidate/governance/ethics_legacy/safety/compliance_dashboard.py", line 34
+    with open(LOG_PATH) as f:
+    ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/ethics_legacy/safety/compliance_dashboard.py
+  File "candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py", line 43
+    if digest_path.exists():
+                           ^
+SyntaxError: invalid syntax
+
+SYNTAX_ERROR: candidate/governance/ethics_legacy/safety/compliance_dashboard_visual.py
+candidate/governance/ethics_legacy/policy_engines/examples/three_laws.py:329: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  if (concept in context_str and violation in action_lower) or " + "(
+candidate/governance/ethics_legacy/policy_engines/examples/three_laws.py:449: SyntaxWarning: 'str' object is not callable; perhaps you missed a comma?
+  if any(risk in action_lower for risk in risky_actions) or " + "(

@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from lukhas.core.common.logger import get_logger
 
@@ -78,8 +78,8 @@ class AuditEvent:
     request_id: Optional[str] = None
 
     # Detailed information
-    details: Dict[str, Any] = field(default_factory=dict)
-    evidence: List[str] = field(default_factory=list)
+    details: dict[str, Any] = field(default_factory=dict)
+    evidence: list[str] = field(default_factory=list)
 
     # Constitutional AI specific
     constitutional_compliance: bool = True
@@ -87,7 +87,7 @@ class AuditEvent:
     safety_assessment_id: Optional[str] = None
 
     # Compliance tracking
-    compliance_frameworks: List[ComplianceFramework] = field(default_factory=list)
+    compliance_frameworks: list[ComplianceFramework] = field(default_factory=list)
     retention_period_days: int = 2555  # 7 years default
 
     # Integrity protection
@@ -120,7 +120,7 @@ class AuditEvent:
         """Verify event integrity using hash"""
         return self.event_hash == self._calculate_hash()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return asdict(self)
 
@@ -131,7 +131,7 @@ class AuditTrail:
 
     trail_id: str
     correlation_id: str
-    events: List[AuditEvent] = field(default_factory=list)
+    events: list[AuditEvent] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     completed_at: Optional[datetime] = None
 
@@ -148,7 +148,7 @@ class AuditTrail:
         """Mark trail as completed"""
         self.completed_at = datetime.now(timezone.utc)
 
-    def get_timeline(self) -> List[Dict[str, Any]]:
+    def get_timeline(self) -> list[dict[str, Any]]:
         """Get chronological timeline of events"""
         timeline = []
         for event in sorted(self.events, key=lambda e: e.timestamp):
@@ -167,7 +167,7 @@ class AuditTrail:
 class AuditLogger:
     """Production audit logging system with constitutional AI compliance"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Storage configuration
@@ -178,9 +178,9 @@ class AuditLogger:
         self.retention_days = self.config.get("retention_days", 2555)  # 7 years
 
         # In-memory storage for real-time access
-        self.recent_events: List[AuditEvent] = []
-        self.active_trails: Dict[str, AuditTrail] = {}
-        self.event_counters: Dict[str, int] = {}
+        self.recent_events: list[AuditEvent] = []
+        self.active_trails: dict[str, AuditTrail] = {}
+        self.event_counters: dict[str, int] = {}
 
         # Ensure audit directory exists
         self.audit_file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -194,7 +194,7 @@ class AuditLogger:
 
         # Integrity protection
         self.tamper_detection = True
-        self.event_signatures: Dict[str, str] = {}
+        self.event_signatures: dict[str, str] = {}
 
         logger.info("🛡️ Production Audit Logger initialized")
 
@@ -208,8 +208,8 @@ class AuditLogger:
         session_id: Optional[str] = None,
         agent_id: Optional[str] = None,
         resource: str = "",
-        details: Optional[Dict[str, Any]] = None,
-        context: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Log audit event with comprehensive tracking"""
 
@@ -265,7 +265,7 @@ class AuditLogger:
         self,
         action: str,
         enforcement_type: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         agent_id: Optional[str] = None,
@@ -307,7 +307,7 @@ class AuditLogger:
         method: str = "password",
         ip_address: Optional[str] = None,
         user_agent: Optional[str] = None,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
     ) -> str:
         """Log authentication attempt"""
 
@@ -336,7 +336,7 @@ class AuditLogger:
     async def log_policy_violation(
         self,
         policy_type: str,
-        violation_details: Dict[str, Any],
+        violation_details: dict[str, Any],
         enforcement_action: str,
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
@@ -408,7 +408,7 @@ class AuditLogger:
         drift_score: float,
         threshold: float,
         source_system: str,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
     ) -> str:
         """Log drift detection event"""
 
@@ -530,7 +530,7 @@ class AuditLogger:
         count: int = 100,
         event_type: Optional[AuditEventType] = None,
         severity: Optional[AuditSeverity] = None,
-    ) -> List[AuditEvent]:
+    ) -> list[AuditEvent]:
         """Get recent audit events with filtering"""
 
         events = self.recent_events[-count:]
@@ -543,7 +543,7 @@ class AuditLogger:
 
         return sorted(events, key=lambda e: e.timestamp, reverse=True)
 
-    def get_audit_statistics(self) -> Dict[str, Any]:
+    def get_audit_statistics(self) -> dict[str, Any]:
         """Get audit logging statistics"""
 
         recent_events = self.recent_events[-1000:]  # Last 1000 events
@@ -582,7 +582,7 @@ class AuditLogger:
             "retention_days": self.retention_days,
         }
 
-    async def verify_audit_integrity(self) -> Dict[str, Any]:
+    async def verify_audit_integrity(self) -> dict[str, Any]:
         """Verify integrity of audit events"""
 
         verification_results = {

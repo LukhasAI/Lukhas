@@ -5,17 +5,28 @@ This module integrates all 12 visionary components into a single,
 unified platform for consciousness evolution through ethical advertising.
 """
 
-from typing import Any, Dict
+from typing import Any
 
-from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
 from candidate.core.collective.collective_ad_mind import CollectiveAdMind
+from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
+from candidate.core.consciousness_ascension.consciousness_ascension_catalyst_engine import (
+    ConsciousnessAscensionCatalystEngine,
+)
+from candidate.core.multiverse_creative.multiverse_creative_engine import (
+    MultiverseCreativeEngine,
+)
+from candidate.core.planetary_consciousness.planetary_consciousness_network import (
+    PlanetaryConsciousnessNetwork,
+)
 from candidate.core.qi_biometrics.qi_biometrics_engine import QiBiometricsEngine
-from candidate.core.multiverse_creative.multiverse_creative_engine import MultiverseCreativeEngine
 from candidate.core.qi_empathy.qi_empathy_engine import QiEmpathyEngine
-from candidate.core.planetary_consciousness.planetary_consciousness_network import PlanetaryConsciousnessNetwork
-from candidate.core.qi_financial.qi_financial_consciousness_engine import QiFinancialConsciousnessEngine
-from candidate.core.reality_synthesis.reality_synthesis_qi_engine import RealitySynthesisQiEngine
-from candidate.core.consciousness_ascension.consciousness_ascension_catalyst_engine import ConsciousnessAscensionCatalystEngine
+from candidate.core.qi_financial.qi_financial_consciousness_engine import (
+    QiFinancialConsciousnessEngine,
+)
+from candidate.core.reality_synthesis.reality_synthesis_qi_engine import (
+    RealitySynthesisQiEngine,
+)
+
 # Note: The original brief mentioned 5 components from previous phases.
 # The `ConsciousnessOracle` and `CollectiveAdMind` are the facades for those phases.
 # The other 3 are the sub-components of the `ConsciousnessOracle`.
@@ -47,7 +58,7 @@ class NIASTranscendenceQiPlatform:
 
     async def deliver_consciousness_evolution_experience(
         self, user_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         The complete consciousness evolution advertising experience.
         """

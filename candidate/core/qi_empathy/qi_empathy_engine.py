@@ -6,23 +6,24 @@ analyzing emotional resonance from multi-modal inputs.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 # Placeholder classes for external emotion AI APIs
 class HumeAI:
-    async def analyze(self, data: Any) -> Dict[str, float]:
+    async def analyze(self, data: Any) -> dict[str, float]:
         return {"joy": random.uniform(0, 1), "sadness": random.uniform(0, 1)}
 
 class AffectivaAPI:
-    async def analyze(self, data: Any) -> Dict[str, float]:
+    async def analyze(self, data: Any) -> dict[str, float]:
         return {"engagement": random.uniform(0, 1), "valence": random.uniform(-1, 1)}
 
 class PicovoiceAPI:
-    async def analyze(self, data: Any) -> Dict[str, float]:
+    async def analyze(self, data: Any) -> dict[str, float]:
         return {"intonation_calmness": random.uniform(0, 1)}
 
 class MirrorNeuronSimulator:
-    async def simulate_resonance(self, data: Dict[str, Any]) -> Any:
+    async def simulate_resonance(self, data: dict[str, Any]) -> Any:
         return type("Resonance", (), {
             "frequency": random.uniform(10, 100),
             "depth": random.uniform(0, 1),
@@ -30,7 +31,7 @@ class MirrorNeuronSimulator:
             "growth_potential": random.uniform(0, 1)
         })()
 
-    async def generate_resonant_content(self, data: Dict[str, Any]) -> Any:
+    async def generate_resonant_content(self, data: dict[str, Any]) -> Any:
         return type("ResonantContent", (), {
             "message": "A message designed to resonate with your current state.",
             "resonance_score": random.uniform(0.8, 0.99),
@@ -44,7 +45,7 @@ class MockChoice:
         self.message = type("Message", (), {"content": content})()
 
 class MockCompletions:
-    async def create(self, messages: List[Dict[str, str]]) -> Any:
+    async def create(self, messages: list[dict[str, str]]) -> Any:
         return type("Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]})()
 
 class MockOpenAI:
@@ -69,7 +70,7 @@ class QiEmpathyEngine:
         self.text_sentiment = MockOpenAI().chat.completions
         self.mirror_neurons = MirrorNeuronSimulator()
 
-    async def map_consciousness_resonance(self, user_interactions: List[Dict]) -> Dict[str, Any]:
+    async def map_consciousness_resonance(self, user_interactions: list[dict]) -> dict[str, Any]:
         """
         Map what truly resonates with this specific human consciousness.
         """
@@ -86,9 +87,9 @@ class QiEmpathyEngine:
 
     async def generate_empathic_response(
         self,
-        user_consciousness_state: Dict[str, Any],
-        resonance_history: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_consciousness_state: dict[str, Any],
+        resonance_history: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Generate response that creates genuine human connection.
         """

@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import List, Tuple
 
 from .graph_compiler import compile_graph
 
@@ -16,9 +15,9 @@ def _file_sha256(path: Path) -> str:
     return "sha256:" + h.hexdigest()
 
 
-def compile_dir(in_dir: Path, out_dir: Path) -> Tuple[int, List[str]]:
+def compile_dir(in_dir: Path, out_dir: Path) -> tuple[int, list[str]]:
     out_dir.mkdir(parents=True, exist_ok=True)
-    violations_accum: List[str] = []
+    violations_accum: list[str] = []
     processed = 0
     for p in sorted(in_dir.glob("*.json")):
         author = json.loads(p.read_text())
@@ -34,7 +33,7 @@ def compile_dir(in_dir: Path, out_dir: Path) -> Tuple[int, List[str]]:
     return processed, violations_accum
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Compile all MATRIZ graphs in a directory")
     ap.add_argument("in_dir", help="Input directory with *.json graphs")
     ap.add_argument("out_dir", help="Output directory for compiled plans")

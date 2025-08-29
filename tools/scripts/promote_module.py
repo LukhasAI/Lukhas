@@ -173,7 +173,7 @@ def main() -> int:
     rewritten = rewrite_imports(dst, copied, args.dry_run)
     shim = create_shim(args.shim_direction, src, dst, args.dry_run)
 
-    result = PromotionResult(
+    PromotionResult(
         copied_files=copied,
         rewritten_files=rewritten,
         shim_file=shim,

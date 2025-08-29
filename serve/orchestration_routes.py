@@ -9,26 +9,26 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 # Import the orchestration components
 try:
-    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
-    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
     from candidate.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
+    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
     ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
     logging.warning("Orchestration components not available: %s", e)
     ORCHESTRATION_AVAILABLE = False
-    
+
     # Create stub classes for graceful degradation
     class MultiAIOrchestrator:
         def __init__(self, **kwargs):
             self.providers = []
-        
+
         async def execute_consensus(self, prompt: str, **kwargs):
             return {
                 "response": "Multi-AI orchestration not configured",
@@ -46,11 +46,11 @@ class MultiAIRequest(BaseModel):
     """Multi-AI orchestration request model"""
     message: str
     task_type: str = "conversation"
-    providers: Optional[List[str]] = None
+    providers: Optional[list[str]] = None
     consensus_required: bool = True
     max_latency_ms: float = 5000
     context_id: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class MultiAIResponse(BaseModel):
@@ -58,11 +58,11 @@ class MultiAIResponse(BaseModel):
     response: str
     confidence: float
     latency_ms: float
-    providers_used: List[str]
+    providers_used: list[str]
     consensus_method: str
     participating_models: int
     context_id: Optional[str] = None
-    performance_metrics: Optional[Dict[str, Any]] = None
+    performance_metrics: Optional[dict[str, Any]] = None
 
 
 class ProviderResponse(BaseModel):
@@ -76,9 +76,9 @@ class ProviderResponse(BaseModel):
 class OrchestrationStatus(BaseModel):
     """Orchestration system status model"""
     status: str
-    available_providers: List[str]
-    performance_metrics: Dict[str, Any]
-    context_manager_health: Dict[str, Any]
+    available_providers: list[str]
+    performance_metrics: dict[str, Any]
+    context_manager_health: dict[str, Any]
 
 
 # Global orchestrator instance
@@ -179,7 +179,7 @@ async def multi_ai_chat(request: MultiAIRequest):
         raise HTTPException(status_code=500, detail=f"Orchestration failed: {str(e)}")
 
 
-@router.post("/compare", response_model=Dict[str, Any])
+@router.post("/compare", response_model=dict[str, Any])
 async def compare_providers(request: MultiAIRequest):
     """
     Compare responses from multiple AI providers

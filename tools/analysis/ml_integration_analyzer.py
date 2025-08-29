@@ -846,7 +846,7 @@ class IntegrationAnalyzer:
         self, orphan_view: ModuleView, naming_map: dict[str, Any]
     ) -> list[dict[str, str]]:
         tests: list[dict[str, str]] = []
-        fwd = naming_map.get("forward", {})
+        naming_map.get("forward", {})
         for f in orphan_view.functions:
             snake = camel_to_snake(f.name)
             test_name = f"test_{snake}"

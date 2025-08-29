@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 
 def find_missing_imports(roots: Iterable[Path]) -> list[dict]:

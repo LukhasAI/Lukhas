@@ -1,10 +1,11 @@
 import json
 import os
-import time
 import sys
-from openai import OpenAI
-from threading import Thread
+import time
 from queue import Queue
+from threading import Thread
+
+from openai import OpenAI
 
 # --- Caching ---
 CACHE_DIR = "candidate/orchestration/.cache"
@@ -19,9 +20,9 @@ def read_from_cache(seed: str) -> dict | None:
     cache_path = get_cache_path(seed)
     if os.path.exists(cache_path):
         try:
-            with open(cache_path, "r") as f:
+            with open(cache_path) as f:
                 return json.load(f)
-        except (IOError, json.JSONDecodeError):
+        except (OSError, json.JSONDecodeError):
             return None
     return None
 
@@ -30,7 +31,7 @@ def write_to_cache(seed: str, data: dict):
     try:
         with open(cache_path, "w") as f:
             json.dump(data, f)
-    except IOError:
+    except OSError:
         pass # Fail silently if cache write fails
 # --- End Caching ---
 

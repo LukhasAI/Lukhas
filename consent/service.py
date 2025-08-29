@@ -106,6 +106,7 @@ class ConsentLedgerEntry(BaseModel):
 
 from enum import Enum
 
+
 class EscalationLevel(Enum):
     """Escalation severity levels"""
     LOW = 1
@@ -734,7 +735,7 @@ class ConsentService:
 
     async def update_consent_grant(self, grant_id: str, new_data: dict) -> Optional[dict]:
         """Update a consent grant."""
-        async with self.db_pool.acquire() as conn:
+        async with self.db_pool.acquire():
             # For now, we will just log a message.
             # In a real implementation, this would update the data in the database.
             print(f"Updating consent grant {grant_id} with {new_data}")

@@ -1,0 +1,237 @@
+{
+  "$schema": "https://schema.lukhas.ai/opportunity/1",
+  "title": "LUKHAS Shared Opportunity Contract",
+  "description": "Common object exchanged between DAST (widgets) and NIAS (cloud overlays) for unified delivery engine",
+  "type": "object",
+  "required": ["id", "domain", "title", "window", "media", "provenance"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique opportunity identifier"
+    },
+    "domain": {
+      "type": "string", 
+      "description": "Opportunity domain classification",
+      "examples": ["retail.pet_food", "travel.flight", "saas.productivity", "content.streaming"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable opportunity title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed opportunity description"
+    },
+    "price_current": {
+      "type": "number",
+      "description": "Current price in user's currency"
+    },
+    "price_alt": {
+      "type": "number",
+      "description": "Alternative or comparison price"
+    },
+    "affiliate": {
+      "type": "object",
+      "properties": {
+        "merchant": {
+          "type": "string",
+          "description": "Merchant or service provider name"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Affiliate or direct purchase URL"
+        },
+        "est_commission_bps": {
+          "type": "integer",
+          "description": "Estimated commission in basis points (1/100th of a percent)"
+        }
+      },
+      "required": ["merchant", "url"]
+    },
+    "window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "integer", 
+          "description": "Opportunity window start time (epoch milliseconds)"
+        },
+        "end": {
+          "type": "integer",
+          "description": "Opportunity window end time (epoch milliseconds)"
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "properties": {
+        "alignment": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "User value alignment score (-1 to 1)"
+        },
+        "stress_block": {
+          "type": "boolean",
+          "description": "Whether this opportunity should be blocked during high-stress states"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional risk or alignment notes"
+        }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "properties": {
+        "split_user_bps": {
+          "type": "integer",
+          "description": "User share in basis points (e.g., 4000 for 40%)"
+        },
+        "split_platform_bps": {
+          "type": "integer", 
+          "description": "Platform share in basis points (e.g., 6000 for 60%)"
+        },
+        "tier": {
+          "type": "string",
+          "description": "User tier affecting economic split",
+          "enum": ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"]
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "properties": {
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Primary image for display"
+        },
+        "video_url": {
+          "type": "string",
+          "format": "uri", 
+          "description": "Optional video content"
+        },
+        "thumbnail_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Thumbnail for widget display"
+        },
+        "alt_text": {
+          "type": "string",
+          "description": "Accessibility alt text for media"
+        }
+      },
+      "required": ["alt_text"]
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sources", "version", "hash"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Data sources used to generate this opportunity"
+        },
+        "version": {
+          "type": "string",
+          "description": "Schema or algorithm version used"
+        },
+        "hash": {
+          "type": "string",
+          "description": "Content integrity hash for verification"
+        },
+        "generated_at": {
+          "type": "integer",
+          "description": "Generation timestamp (epoch milliseconds)"
+        },
+        "expires_at": {
+          "type": "integer",
+          "description": "Expiration timestamp (epoch milliseconds)"
+        }
+      }
+    },
+    "delivery_context": {
+      "type": "object",
+      "properties": {
+        "target_system": {
+          "type": "string",
+          "enum": ["NIAS", "DAST", "BOTH"],
+          "description": "Which delivery system should handle this opportunity"
+        },
+        "delivery_priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Delivery priority (1=lowest, 10=highest)"
+        },
+        "abas_gating": {
+          "type": "object",
+          "properties": {
+            "respect_flow_state": {"type": "boolean", "default": true},
+            "min_attention_level": {"type": "number", "minimum": 0, "maximum": 1},
+            "cognitive_cost": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": "opp_12345_pet_food_deal",
+      "domain": "retail.pet_food",
+      "title": "Premium Dog Food - 30% Off",
+      "description": "High-quality organic dog food with free shipping",
+      "price_current": 45.99,
+      "price_alt": 65.99,
+      "affiliate": {
+        "merchant": "PetCo",
+        "url": "https://petco.com/products/dog-food-premium?ref=lukhas",
+        "est_commission_bps": 800
+      },
+      "window": {
+        "start": 1703980800000,
+        "end": 1704067200000
+      },
+      "risk": {
+        "alignment": 0.85,
+        "stress_block": false,
+        "notes": "High user interest in pet products"
+      },
+      "economics": {
+        "split_user_bps": 4000,
+        "split_platform_bps": 6000,
+        "tier": "friend"
+      },
+      "media": {
+        "image_url": "https://cdn.lukhas.ai/opportunities/pet-food-premium.jpg",
+        "thumbnail_url": "https://cdn.lukhas.ai/opportunities/thumbs/pet-food-premium.jpg",
+        "alt_text": "Premium organic dog food bag with happy golden retriever"
+      },
+      "provenance": {
+        "sources": ["user_browsing_history", "affiliate_feed", "price_tracker"],
+        "version": "1.2.3",
+        "hash": "sha256:abc123def456",
+        "generated_at": 1703970000000,
+        "expires_at": 1704070000000
+      },
+      "delivery_context": {
+        "target_system": "BOTH",
+        "delivery_priority": 7,
+        "abas_gating": {
+          "respect_flow_state": true,
+          "min_attention_level": 0.3,
+          "cognitive_cost": 0.2
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "delivery_systems": {
+      "NIAS": "Non-Intrusive Advertising System - delivers ephemeral cloud overlays",
+      "DAST": "Dynamic Ambient Symbolic Tracker - delivers persistent sidebar widgets",
+      "unified_delivery_engine": "Common processing engine that routes opportunities to appropriate delivery systems based on user context, attention state, and content type"
+    }
+  }
+}

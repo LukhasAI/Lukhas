@@ -338,10 +338,10 @@ class SymbolicQuarantineSanctum:
             # Check quarantine capacity
             if len(self.quarantine_entries) >= self.max_quarantine_size:
                 logger.error(
-                    "Quarantine capacity exceeded | current_count=%d max_capacity=%d tag=%s",
-                    len(self.quarantine_entries),
-                    self.max_quarantine_size,
-                    "ΛCAPACITY_ERROR",
+                    "Quarantine capacity exceeded",
+                    current_count=len(self.quarantine_entries),
+                    max_capacity=self.max_quarantine_size,
+                    ΛTAG="ΛCAPACITY_ERROR",
                 )
                 return False
 
@@ -447,9 +447,9 @@ class SymbolicQuarantineSanctum:
         """
         if entry_id not in self.quarantine_entries:
             logger.error(
-                "Entry not found in quarantine | entry_id=%s tag=%s",
-                entry_id,
-                "ΛENTRY_NOT_FOUND",
+                "Entry not found in quarantine",
+                entry_id=entry_id,
+                ΛTAG="ΛENTRY_NOT_FOUND",
             )
             return False
 
@@ -457,10 +457,10 @@ class SymbolicQuarantineSanctum:
 
         if entry.status != QuarantineStatus.ISOLATED:
             logger.warning(
-                "Entry not in isolated status for repair | entry_id=%s status=%s tag=%s",
-                entry_id,
-                entry.status.value,
-                "AINVALID_STATUS",
+                "Entry not in isolated status for repair",
+                entry_id=entry_id,
+                status=entry.status.value,
+                ΛTAG="AINVALID_STATUS",
             )
             return False
 
@@ -516,11 +516,11 @@ class SymbolicQuarantineSanctum:
                 self.stats["successful_repairs"] += 1
 
                 logger.info(
-                    "Repair protocol successful | entry_id=%s protocol_type=%s confidence=%.3f tag=%s",
-                    entry_id,
-                    protocol_type.value,
-                    confidence,
-                    "ΛREPAIR",
+                    "Repair protocol successful",
+                    entry_id=entry_id,
+                    protocol_type=protocol_type.value,
+                    confidence=confidence,
+                    ΛTAG="ΛREPAIR",
                 )
 
             else:
@@ -536,10 +536,10 @@ class SymbolicQuarantineSanctum:
                 self.stats["failed_repairs"] += 1
 
                 logger.warning(
-                    "Repair protocol failed | entry_id=%s protocol_type=%s tag=%s",
-                    entry_id,
-                    protocol_type.value,
-                    "ΛREPAIR_FAILURE",
+                    "Repair protocol failed",
+                    entry_id=entry_id,
+                    protocol_type=protocol_type.value,
+                    ΛTAG="ΛREPAIR_FAILURE",
                 )
 
             # Log repair action
@@ -564,11 +564,11 @@ class SymbolicQuarantineSanctum:
             entry.add_audit_entry("REPAIR_ERROR", {"error": str(e)})
 
             logger.error(
-                "Repair protocol execution failed | entry_id=%s protocol_type=%s error=%s tag=%s",
-                entry_id,
-                protocol_type.value,
-                str(e),
-                "ΛREPAIR_ERROR",
+                "Repair protocol execution failed",
+                entry_id=entry_id,
+                protocol_type=protocol_type.value,
+                error=str(e),
+                ΛTAG="ΛREPAIR_ERROR",
             )
 
             return False
@@ -707,9 +707,9 @@ class SymbolicQuarantineSanctum:
         """
         if entry_id not in self.quarantine_entries:
             logger.error(
-                "Entry not found for release | entry_id=%s tag=%s",
-                entry_id,
-                "ΛENTRY_NOT_FOUND",
+                "Entry not found for release",
+                entry_id=entry_id,
+                ΛTAG="ΛENTRY_NOT_FOUND",
             )
             return False
 
@@ -725,19 +725,19 @@ class SymbolicQuarantineSanctum:
                     RestoreViability.IMPOSSIBLE,
                 ]:
                     logger.error(
-                        "Entry not safe for release | entry_id=%s viability=%s tag=%s",
-                        entry_id,
-                        viability.value,
-                        "ΛUNSAFE_RELEASE",
+                        "Entry not safe for release",
+                        entry_id=entry_id,
+                        viability=viability.value,
+                        ΛTAG="ΛUNSAFE_RELEASE",
                     )
                     return False
 
                 if viability == RestoreViability.RISKY and not reviewer_approval:
                     logger.warning(
-                        "Risky release requires reviewer approval | entry_id=%s viability=%s tag=%s",
-                        entry_id,
-                        viability.value,
-                        "ΛAPPROVAL_REQUIRED",
+                        "Risky release requires reviewer approval",
+                        entry_id=entry_id,
+                        viability=viability.value,
+                        ΛTAG="ΛAPPROVAL_REQUIRED",
                     )
                     return False
 
@@ -746,9 +746,9 @@ class SymbolicQuarantineSanctum:
                 integrity_valid = await self._validate_integrity(entry)
                 if not integrity_valid:
                     logger.error(
-                        "Entry failed integrity check | entry_id=%s tag=%s",
-                        entry_id,
-                        "AINTEGRITY_FAILURE",
+                        "Entry failed integrity check",
+                        entry_id=entry_id,
+                        ΛTAG="AINTEGRITY_FAILURE",
                     )
                     return False
 
@@ -796,11 +796,11 @@ class SymbolicQuarantineSanctum:
             await self._update_manifest()
 
             logger.info(
-                "Entry released from quarantine | entry_id=%s force_release=%s reviewer_approval=%s tag=%s",
-                entry_id,
-                str(force_release),
-                str(reviewer_approval is not None),
-                "ΛRELEASE",
+                "Entry released from quarantine",
+                entry_id=entry_id,
+                force_release=force_release,
+                reviewer_approval=reviewer_approval is not None,
+                ΛTAG="ΛRELEASE",
             )
 
             return True
@@ -809,10 +809,10 @@ class SymbolicQuarantineSanctum:
             entry.add_audit_entry("RELEASE_ERROR", {"error": str(e)})
 
             logger.error(
-                "Failed to release entry from quarantine | entry_id=%s error=%s tag=%s",
-                entry_id,
-                str(e),
-                "ΛRELEASE_ERROR",
+                "Failed to release entry from quarantine",
+                entry_id=entry_id,
+                error=str(e),
+                ΛTAG="ΛRELEASE_ERROR",
             )
 
             return False
@@ -862,9 +862,9 @@ class SymbolicQuarantineSanctum:
                 f.write(json.dumps(audit_entry) + "\n")
         except Exception as e:
             logger.error(
-                "Failed to write sanctum audit log | error=%s tag=%s",
-                str(e),
-                "ΛAUDIT_FAILURE",
+                "Failed to write sanctum audit log",
+                error=str(e),
+                ΛTAG="ΛAUDIT_FAILURE",
             )
 
     def get_quarantine_status(self, entry_id: str) -> Optional[dict[str, Any]]:
@@ -1307,9 +1307,9 @@ class SymbolicQuarantineSanctum:
                 f.write(json.dumps(manifest_entry) + "\n")
         except Exception as e:
             logger.error(
-                "Failed to update sanctum manifest | error=%s tag=%s",
-                str(e),
-                "ΛMANIFEST_ERROR",
+                "Failed to update sanctum manifest",
+                error=str(e),
+                ΛTAG="ΛMANIFEST_ERROR",
             )
 
     def _load_quarantine_entries(self):

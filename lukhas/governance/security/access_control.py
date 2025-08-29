@@ -11,7 +11,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from lukhas.core.common.logger import get_logger
 
@@ -57,7 +57,7 @@ class User:
     email: str
     current_tier: AccessTier = AccessTier.T1_ANONYMOUS
     max_tier: AccessTier = AccessTier.T2_USER
-    roles: Set[str] = field(default_factory=set)
+    roles: set[str] = field(default_factory=set)
     active: bool = True
     identity_verified: bool = False
     mfa_enabled: bool = False
@@ -67,7 +67,7 @@ class User:
     consciousness_level: int = 1  # 1-5 scale
     guardian_cleared: bool = False
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -78,7 +78,7 @@ class Permission:
     name: str
     description: str
     required_tier: AccessTier
-    required_roles: Set[str] = field(default_factory=set)
+    required_roles: set[str] = field(default_factory=set)
     constitutional_compliance_required: bool = True
     resource_pattern: str = "*"
     active: bool = True
@@ -92,7 +92,7 @@ class AccessRequest:
     user_id: str
     resource: str
     action: str
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     ip_address: Optional[str] = None
     user_agent: Optional[str] = None
@@ -107,7 +107,7 @@ class AccessLog:
     decision: AccessDecision
     reason: str
     tier_used: AccessTier
-    permissions_checked: List[str] = field(default_factory=list)
+    permissions_checked: list[str] = field(default_factory=list)
     processing_time_ms: float = 0.0
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -116,7 +116,7 @@ class PermissionManager:
     """Production permission management system"""
 
     def __init__(self):
-        self.permissions: Dict[str, Permission] = {}
+        self.permissions: dict[str, Permission] = {}
         self._initialize_default_permissions()
         logger.info("🛡️ Production Permission Manager initialized")
 
@@ -174,7 +174,7 @@ class PermissionManager:
         """Get permission by ID"""
         return self.permissions.get(permission_id)
 
-    def get_permissions_for_tier(self, tier: AccessTier) -> List[Permission]:
+    def get_permissions_for_tier(self, tier: AccessTier) -> list[Permission]:
         """Get all permissions available to a tier"""
         return [
             p
@@ -187,9 +187,9 @@ class AccessControlEngine:
     """Production access control engine with constitutional AI integration"""
 
     def __init__(self):
-        self.users: Dict[str, User] = {}
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
-        self.access_logs: List[AccessLog] = []
+        self.users: dict[str, User] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
+        self.access_logs: list[AccessLog] = []
         self.permission_manager = PermissionManager()
 
         # Security configuration
@@ -227,7 +227,7 @@ class AccessControlEngine:
         username: str,
         password: str,
         mfa_token: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[bool, Optional[str], Optional[User]]:
         """Authenticate user with MFA support"""
         context = context or {}
@@ -285,11 +285,11 @@ class AccessControlEngine:
         session_id: str,
         resource: str,
         action: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[AccessDecision, str]:
         """Check access with comprehensive validation"""
         context = context or {}
-        request_start = datetime.now(timezone.utc)
+        datetime.now(timezone.utc)
 
         # Create access request
         request = AccessRequest(
@@ -401,7 +401,7 @@ class AccessControlEngine:
                 [],
             )
 
-    def _create_session(self, user: User, context: Dict[str, Any]) -> str:
+    def _create_session(self, user: User, context: dict[str, Any]) -> str:
         """Create user session"""
         session_id = str(uuid.uuid4())
 
@@ -431,7 +431,7 @@ class AccessControlEngine:
 
     async def _get_required_permissions(
         self, resource: str, action: str
-    ) -> List[Permission]:
+    ) -> list[Permission]:
         """Get required permissions for resource/action"""
         # Simplified permission mapping - in production would use sophisticated pattern matching
         permission_map = {
@@ -454,7 +454,7 @@ class AccessControlEngine:
         decision: AccessDecision,
         reason: str,
         tier_used: AccessTier,
-        permissions_checked: List[str],
+        permissions_checked: list[str],
     ) -> tuple[AccessDecision, str]:
         """Log access decision and return result"""
         processing_time = (
@@ -480,14 +480,14 @@ class AccessControlEngine:
         return decision, reason
 
     async def _log_access_attempt(
-        self, username: str, success: bool, reason: str, context: Dict[str, Any]
+        self, username: str, success: bool, reason: str, context: dict[str, Any]
     ):
         """Log authentication attempt"""
         logger.info(
             f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}"
         )
 
-    def get_user_stats(self, user_id: str) -> Dict[str, Any]:
+    def get_user_stats(self, user_id: str) -> dict[str, Any]:
         """Get user statistics"""
         user = self.users.get(user_id)
         if not user:
@@ -512,7 +512,7 @@ class AccessControlEngine:
             ),
         }
 
-    def get_system_stats(self) -> Dict[str, Any]:
+    def get_system_stats(self) -> dict[str, Any]:
         """Get system-wide access control statistics"""
         return {
             "total_users": len(self.users),

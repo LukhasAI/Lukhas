@@ -6,7 +6,8 @@ based on consent and mutual benefit.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any
+
 
 class AltruisticAdRouter:
     """
@@ -26,8 +27,8 @@ class AltruisticAdRouter:
         pass
 
     async def find_routing_path(
-        self, user_id: str, recommendation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_id: str, recommendation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Finds an altruistic routing path for a recommendation.
 

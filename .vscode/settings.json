@@ -12,5 +12,12 @@
         ".pytest_cache": true,
         ".mypy_cache": true,
         ".ruff_cache": true
-    }
+    },
+    "python-envs.pythonProjects": [
+        {
+            "path": "",
+            "envManager": "ms-python.python:system",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
 }

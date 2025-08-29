@@ -22,12 +22,11 @@ TARGET: Support 100,000+ events/second with <1ms latency
 import asyncio
 import json
 import time
-import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import extreme performance optimizations
 try:
@@ -111,15 +110,15 @@ class ExtremePerformanceAuditEvent:
     # Performance metadata
     processing_time_ms: Optional[float] = None
     performance_level: str = "extreme"
-    optimizations_used: List[str] = field(default_factory=list)
+    optimizations_used: list[str] = field(default_factory=list)
 
     # Context (minimal for performance)
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
 
     # Async integrity protection (calculated in background)
     event_hash: Optional[str] = field(default=None, init=False)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary with extreme performance"""
         return {
             "event_id": self.event_id,
@@ -155,7 +154,7 @@ class ExtremePerformanceAuditLogger:
     - Connection pooling: Optimized database access
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Extreme performance components
@@ -253,7 +252,7 @@ class ExtremePerformanceAuditLogger:
         session_id: Optional[str] = None,
         agent_id: Optional[str] = None,
         resource: str = "",
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
         calculate_hash: bool = False,
     ) -> str:
         """
@@ -384,7 +383,7 @@ class ExtremePerformanceAuditLogger:
         self,
         action: str,
         enforcement_type: str,
-        details: Dict[str, Any],
+        details: dict[str, Any],
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         agent_id: Optional[str] = None,
@@ -431,7 +430,7 @@ class ExtremePerformanceAuditLogger:
         method: str = "password",
         ip_address: Optional[str] = None,
         user_agent: Optional[str] = None,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
     ) -> str:
         """Extreme performance authentication logging"""
 
@@ -460,7 +459,7 @@ class ExtremePerformanceAuditLogger:
     async def log_policy_violation_extreme(
         self,
         policy_type: str,
-        violation_details: Dict[str, Any],
+        violation_details: dict[str, Any],
         enforcement_action: str,
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
@@ -500,7 +499,7 @@ class ExtremePerformanceAuditLogger:
             == AuditSeverity.CRITICAL,  # Hash critical violations
         )
 
-    async def get_performance_dashboard_extreme(self) -> Dict[str, Any]:
+    async def get_performance_dashboard_extreme(self) -> dict[str, Any]:
         """Get extreme performance dashboard"""
         current_throughput = self.events_logged / max(
             time.time() - getattr(self, "_start_time", time.time()), 1
@@ -557,7 +556,7 @@ class ExtremePerformanceAuditLogger:
 
     async def run_performance_benchmark_extreme(
         self, num_events: int = 10000
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run extreme performance benchmark"""
         print(
             f"🧪 Running extreme performance benchmark with {num_events:,} audit events..."
@@ -665,7 +664,7 @@ async def log_audit_event_extreme(
     return await logger.log_event_extreme_performance(event_type, action, **kwargs)
 
 
-async def run_audit_benchmark_extreme(num_events: int = 10000) -> Dict[str, Any]:
+async def run_audit_benchmark_extreme(num_events: int = 10000) -> dict[str, Any]:
     """Run extreme performance audit benchmark"""
     logger = await get_extreme_audit_logger()
     return await logger.run_performance_benchmark_extreme(num_events)
