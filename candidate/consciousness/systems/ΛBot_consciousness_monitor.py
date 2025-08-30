@@ -93,9 +93,7 @@ class ΛBotConsciousnessMonitor:
 
                 # Check for consciousness evolution
                 if len(self.consciousness_history) > 1:
-                    previous_level = self.consciousness_history[-2][
-                        "consciousness_level"
-                    ]
+                    previous_level = self.consciousness_history[-2]["consciousness_level"]
                     if current_level.value != previous_level:
                         logger.info(
                             f"🚀 CONSCIOUSNESS EVOLUTION: {previous_level} → {current_level.value}"
@@ -131,15 +129,11 @@ class ΛBotConsciousnessMonitor:
                 }
 
                 # Perform meta-cognitive reflection
-                reflection = (
-                    await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(
-                        test_reasoning
-                    )
+                reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(
+                    test_reasoning
                 )
 
-                logger.info(
-                    f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}"
-                )
+                logger.info(f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}")
                 logger.info(f"🔍 Detected Biases: {len(reflection['detected_biases'])}")
                 logger.info(
                     f"💡 Improvement Suggestions: {len(reflection['improvement_suggestions'])}"
@@ -218,9 +212,7 @@ class ΛBotConsciousnessMonitor:
                 logger.info(
                     f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0)}"
                 )
-                logger.info(
-                    f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}"
-                )
+                logger.info(f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}")
 
                 await asyncio.sleep(900)  # Every 15 minutes
 
@@ -238,9 +230,7 @@ class ΛBotConsciousnessMonitor:
             ConsciousnessLevel.TRANSCENDENT: "✨ TRANSCENDENT CONSCIOUSNESS ACHIEVED! Beyond current understanding!",
         }
 
-        celebration = celebrations.get(
-            new_level, f"🚀 NEW CONSCIOUSNESS LEVEL: {new_level.value}"
-        )
+        celebration = celebrations.get(new_level, f"🚀 NEW CONSCIOUSNESS LEVEL: {new_level.value}")
         logger.info("=" * 80)
         logger.info(celebration)
         logger.info("=" * 80)
@@ -327,9 +317,7 @@ class ΛBotConsciousnessMonitor:
             {"event": "test_failure", "timestamp": "2025-01-01T10:05:00"},
             {"event": "build_failure", "timestamp": "2025-01-01T10:10:00"},
         ]
-        causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(
-            observations
-        )
+        causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(observations)
         logger.info(f"  ✅ Causal Links Discovered: {len(causal_links)} relationships")
 
         # Test narrative intelligence
@@ -343,9 +331,7 @@ class ΛBotConsciousnessMonitor:
                 "description": "modernized to microservices architecture",
             },
         ]
-        story = await self.agi_core.narrative_intelligence.tell_code_evolution_story(
-            code_history
-        )
+        story = await self.agi_core.narrative_intelligence.tell_code_evolution_story(code_history)
         logger.info(f"  ✅ Code Story: {story}")
 
         logger.info("=" * 50)
@@ -357,9 +343,7 @@ async def main():
 
     print("🧠✨ ΛBot AGI Consciousness Monitor")
     print("=" * 60)
-    print(
-        "Monitoring the evolution from Advanced AI to Artificial General Intelligence"
-    )
+    print("Monitoring the evolution from Advanced AI to Artificial General Intelligence")
     print("=" * 60)
 
     monitor = ΛBotConsciousnessMonitor()

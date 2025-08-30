@@ -161,9 +161,7 @@ class ProactiveAssistanceSystem:
         # Check for stuck patterns
         self._detect_stuck_patterns(user_id)
 
-    def check_user_needs_help(
-        self, user_id: str
-    ) -> tuple[bool, Optional[AssistanceOffer]]:
+    def check_user_needs_help(self, user_id: str) -> tuple[bool, Optional[AssistanceOffer]]:
         """
         Check if user needs help and generate appropriate assistance
         Returns (needs_help, assistance_offer)
@@ -242,9 +240,7 @@ class ProactiveAssistanceSystem:
 
         return pain_points_analysis
 
-    def optimize_ui_from_behavior(
-        self, behavioral_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def optimize_ui_from_behavior(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """
         Generate UI optimization suggestions based on behavior
         """
@@ -386,9 +382,7 @@ class ProactiveAssistanceSystem:
 
         # Check for frustration
         frustration_count = sum(
-            1
-            for action in recent_actions
-            if action.action_type in self.frustration_indicators
+            1 for action in recent_actions if action.action_type in self.frustration_indicators
         )
         if frustration_count >= 3:
             self.user_states[user_id] = UserState.FRUSTRATED
@@ -403,9 +397,7 @@ class ProactiveAssistanceSystem:
                 return
 
         # Check for searching
-        search_count = sum(
-            1 for action in recent_actions if "search" in action.action_type.lower()
-        )
+        search_count = sum(1 for action in recent_actions if "search" in action.action_type.lower())
         if search_count >= 2:
             self.user_states[user_id] = UserState.SEARCHING
             return
@@ -486,16 +478,12 @@ class ProactiveAssistanceSystem:
         unique_ratio = len(set(action_types)) / len(action_types)
 
         # High unique ratio with short durations indicates confusion
-        avg_duration = statistics.mean(
-            [a.duration for a in actions if a.duration > 0] or [1]
-        )
+        avg_duration = statistics.mean([a.duration for a in actions if a.duration > 0] or [1])
         return unique_ratio > 0.8 and avg_duration < 2.0
 
     def _is_stuck(self, user_id: str) -> bool:
         """Check if user is stuck based on patterns"""
-        high_confidence_patterns = [
-            p for p in self.stuck_patterns if p.confidence > 0.6
-        ]
+        high_confidence_patterns = [p for p in self.stuck_patterns if p.confidence > 0.6]
         return len(high_confidence_patterns) > 0
 
     def _calculate_idle_time(self, user_id: str) -> float:
@@ -511,9 +499,7 @@ class ProactiveAssistanceSystem:
         if user_id not in self.last_assistance_time:
             return True
 
-        time_since_last = (
-            datetime.now() - self.last_assistance_time[user_id]
-        ).total_seconds()
+        time_since_last = (datetime.now() - self.last_assistance_time[user_id]).total_seconds()
         return time_since_last > self.assistance_cooldown
 
     def _generate_stuck_assistance(self, user_id: str) -> Optional[AssistanceOffer]:
@@ -545,9 +531,7 @@ class ProactiveAssistanceSystem:
             context={"struggle_type": struggle_type},
         )
 
-    def _generate_frustration_assistance(
-        self, user_id: str
-    ) -> Optional[AssistanceOffer]:
+    def _generate_frustration_assistance(self, user_id: str) -> Optional[AssistanceOffer]:
         """Generate assistance for frustrated user"""
         return AssistanceOffer(
             offer_id=f"frustration_{user_id}_{int(time.time())}",
@@ -615,9 +599,7 @@ class ProactiveAssistanceSystem:
 
     def _identify_struggle_type(self, user_id: str) -> str:
         """Identify what user is struggling with"""
-        recent_errors = [
-            a for a in self.action_history.get(user_id, [])[-10:] if not a.success
-        ]
+        recent_errors = [a for a in self.action_history.get(user_id, [])[-10:] if not a.success]
 
         if not recent_errors:
             return "complete this action"
@@ -709,24 +691,18 @@ class ProactiveAssistanceSystem:
 
         return all_pain_points
 
-    def _generate_pain_point_recommendations(
-        self, pain_points: dict[str, Any]
-    ) -> list[str]:
+    def _generate_pain_point_recommendations(self, pain_points: dict[str, Any]) -> list[str]:
         """Generate recommendations based on pain points"""
         recommendations = []
 
         # High error areas
         if pain_points.get("common_errors"):
             top_error = max(pain_points["common_errors"].items(), key=lambda x: x[1])
-            recommendations.append(
-                f"Fix error '{top_error[0]}' - affecting {top_error[1]} users"
-            )
+            recommendations.append(f"Fix error '{top_error[0]}' - affecting {top_error[1]} users")
 
         # Abandonment points
         if pain_points.get("abandonment_points"):
-            top_abandonment = max(
-                pain_points["abandonment_points"].items(), key=lambda x: x[1]
-            )
+            top_abandonment = max(pain_points["abandonment_points"].items(), key=lambda x: x[1])
             recommendations.append(
                 f"Simplify '{top_abandonment[0]}' - {top_abandonment[1]} users quit here"
             )
@@ -741,30 +717,22 @@ class ProactiveAssistanceSystem:
 
         for _user_id, actions in self.action_history.items():
             for action in actions:
-                if "search" in action.action_type.lower() and action.context.get(
-                    "query"
-                ):
+                if "search" in action.action_type.lower() and action.context.get("query"):
                     query = action.context["query"]
                     search_counts[query] = search_counts.get(query, 0) + 1
 
         # Return top searched items
-        sorted_searches = sorted(
-            search_counts.items(), key=lambda x: x[1], reverse=True
-        )
+        sorted_searches = sorted(search_counts.items(), key=lambda x: x[1], reverse=True)
         return [{"name": s[0], "count": s[1]} for s in sorted_searches[:5]]
 
-    def _identify_abandonment_points(
-        self, behavioral_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _identify_abandonment_points(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify where users abandon tasks"""
         abandonment_points = []
 
         for _user_id, actions in self.action_history.items():
             # Look for long idle periods after specific actions
             for i in range(len(actions) - 1):
-                time_gap = (
-                    actions[i + 1].timestamp - actions[i].timestamp
-                ).total_seconds()
+                time_gap = (actions[i + 1].timestamp - actions[i].timestamp).total_seconds()
                 if time_gap > 60:  # 1 minute gap suggests abandonment
                     abandonment_points.append(
                         {
@@ -775,9 +743,7 @@ class ProactiveAssistanceSystem:
 
         return abandonment_points[:5]
 
-    def _identify_confusion_areas(
-        self, behavioral_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _identify_confusion_areas(self, behavioral_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Identify areas causing confusion"""
         confusion_areas = []
 
@@ -812,11 +778,7 @@ class ProactiveAssistanceSystem:
 
     def _count_navigation_issues(self, actions: list[UserAction]) -> int:
         """Count navigation-related issues"""
-        return sum(
-            1
-            for a in actions
-            if "navigation" in a.action_type.lower() and not a.success
-        )
+        return sum(1 for a in actions if "navigation" in a.action_type.lower() and not a.success)
 
     def _calculate_error_frequency(self, actions: list[UserAction]) -> float:
         """Calculate error frequency"""

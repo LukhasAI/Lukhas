@@ -58,7 +58,7 @@ class QIServiceAdapter(IQuantumService):
                 "engine": self._quantum_engine is not None,
                 "processor": self._quantum_processor is not None,
             },
-            "module": "QIM (Quantum Inspire Module)"
+            "module": "QIM (Quantum Inspire Module)",
         }
 
     async def process_quantum_state(self, state: Any) -> dict[str, Any]:
@@ -77,7 +77,7 @@ class QIServiceAdapter(IQuantumService):
         return {
             "status": "fallback",
             "result": "Quantum processing unavailable",
-            "state": str(state)
+            "state": str(state),
         }
 
     async def get_quantum_entanglement(self) -> float:
@@ -92,9 +92,5 @@ def register_quantum_service(container) -> None:
     """Register quantum service with container"""
     from candidate.core.interfaces.services import IQuantumService
 
-    container.register(
-        IQuantumService,
-        QIServiceAdapter,
-        ServiceLifetime.SINGLETON
-    )
+    container.register(IQuantumService, QIServiceAdapter, ServiceLifetime.SINGLETON)
     logger.info("QIM Quantum Service registered ⚛️")

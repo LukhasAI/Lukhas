@@ -33,6 +33,9 @@ ignore = [
 [lint.per-file-ignores]
 "**/__init__.py" = ["F401", "F403"]
 "tests/**" = ["ANN", "S101"]  # tests are less strict
+"candidate/**" = ["ANN"]
+"tools/**" = ["ANN"]
+"enterprise/**" = ["ANN"]
 
 [lint.isort]
 known-first-party = ["lukhas", "matriz"]

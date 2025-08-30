@@ -11,6 +11,7 @@ try:
         get_current_phase,
         get_quantum_mind,
     )
+
     QUANTUM_MIND_AVAILABLE = True
 except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
     import time
@@ -40,8 +41,10 @@ except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
     class QIMindInterface:
         def __init__(self):
             self.phase = ConsciousnessPhase.AWARE
+
         def get_phase(self):
             return self.phase
+
         def is_operational(self):
             return True
 
@@ -53,7 +56,7 @@ except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
 
 # Logging setup with optional structlog
 try:
-    import structlog  # type: ignore  # noqa: F401
+    import structlog  # type: ignore
 
     from candidate.core.common import get_logger
 
@@ -174,9 +177,9 @@ def create_core_memory_component(
 
 
 __all__ = [
-    "CoreMemoryComponent",
-    "create_core_memory_component",
-    "CoreMemoryConfig",
     "ConsciousnessPhase",
+    "CoreMemoryComponent",
+    "CoreMemoryConfig",
+    "create_core_memory_component",
     "get_current_phase",
 ]

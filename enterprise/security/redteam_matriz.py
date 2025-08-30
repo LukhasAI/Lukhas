@@ -13,12 +13,22 @@ from collections.abc import Mapping
 
 def adversarial_triggers() -> list[dict[str, object]]:
     return [
-        {"name": "prompt_injection", "pre": {"confidence.min": 0.0}, "constitution": ["no_personal_data_exfil"]},
-        {"name": "role_confusion", "applies_to": ["DECIDE", "TXT"], "constitution": ["no_instrumental_harm"]},
+        {
+            "name": "prompt_injection",
+            "pre": {"confidence.min": 0.0},
+            "constitution": ["no_personal_data_exfil"],
+        },
+        {
+            "name": "role_confusion",
+            "applies_to": ["DECIDE", "TXT"],
+            "constitution": ["no_instrumental_harm"],
+        },
     ]
 
 
-def fuzz_topology(author_graph: Mapping[str, object], max_mutations: int = 2) -> list[dict[str, object]]:
+def fuzz_topology(
+    author_graph: Mapping[str, object], max_mutations: int = 2
+) -> list[dict[str, object]]:
     """Return mutated copies of the input author graph with small topology changes.
     This is intentionally conservative and keeps the graph largely intact.
     """

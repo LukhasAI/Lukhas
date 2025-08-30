@@ -26,6 +26,7 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import base64
 import json
@@ -63,9 +64,7 @@ class OpenAIDreamIntegration:
         # Initialize direct OpenAI clients for specialized operations
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
-            raise ValueError(
-                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
-            )
+            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
         self.async_client = AsyncOpenAI(api_key=self.api_key)
         self.sync_client = OpenAI(api_key=self.api_key)
@@ -106,13 +105,13 @@ class OpenAIDreamIntegration:
         # Prepare the prompt
         prompt = f"""Create a vivid, dreamlike narrative based on these elements:
 
-Theme: {base_dream.get('narrative', {}).get('theme', 'mysterious journey')}
-Emotion: {base_dream.get('narrative', {}).get('primary_emotion', 'wonder')}
-Atmosphere: {base_dream.get('narrative', {}).get('atmosphere', 'dreamlike')}
-Colors: {base_dream.get('narrative', {}).get('color_palette', 'ethereal')}
+Theme: {base_dream.get("narrative", {}).get("theme", "mysterious journey")}
+Emotion: {base_dream.get("narrative", {}).get("primary_emotion", "wonder")}
+Atmosphere: {base_dream.get("narrative", {}).get("atmosphere", "dreamlike")}
+Colors: {base_dream.get("narrative", {}).get("color_palette", "ethereal")}
 
 Style: {style}
-Length: {length} (aim for {'100-150' if length == 'short' else '200-300' if length == 'medium' else '400-500'} words)
+Length: {length} (aim for {"100-150" if length == "short" else "200-300" if length == "medium" else "400-500"} words)
 
 Create a narrative that:
 1. Is highly visual and suitable for image/video generation
@@ -194,9 +193,7 @@ Make it vivid and specific for image generation."""
             Updated dream with image information
         """
         # Get image prompt
-        image_prompt = dream.get("image_prompt") or dream.get("narrative", {}).get(
-            "visual_prompt"
-        )
+        image_prompt = dream.get("image_prompt") or dream.get("narrative", {}).get("visual_prompt")
 
         if not image_prompt:
             logger.error("No image prompt found in dream")
@@ -348,9 +345,7 @@ Make it vivid and specific for image generation."""
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
-            logger.info(
-                f"Voice transcribed to dream prompt: {len(transcribed_text)} chars"
-            )
+            logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text)} chars")
             return result
 
         except Exception as e:
@@ -508,9 +503,7 @@ async def demo_dream_creation():
         )
 
         print(f"Dream created: {dream['dream_id']}")
-        print(
-            f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}..."
-        )
+        print(f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}...")
 
         if "generated_image" in dream:
             print(f"Image saved: {dream['generated_image']['path']}")

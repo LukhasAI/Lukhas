@@ -75,9 +75,7 @@ class EndocrineSignalEmitter:
 
         return signals
 
-    async def emit_consciousness_signals(
-        self, consciousness_state: dict
-    ) -> list[Signal]:
+    async def emit_consciousness_signals(self, consciousness_state: dict) -> list[Signal]:
         """Emit signals from Consciousness system"""
         signals = []
 
@@ -107,9 +105,7 @@ class EndocrineSignalEmitter:
 
         return signals
 
-    async def emit_orchestration_signals(
-        self, orchestration_context: dict
-    ) -> list[Signal]:
+    async def emit_orchestration_signals(self, orchestration_context: dict) -> list[Signal]:
         """Emit signals from Orchestration system"""
         signals = []
 
@@ -127,9 +123,7 @@ class EndocrineSignalEmitter:
 
         return signals
 
-    async def emit_universal_language_signals(
-        self, language_context: dict
-    ) -> list[Signal]:
+    async def emit_universal_language_signals(self, language_context: dict) -> list[Signal]:
         """Emit signals from Universal Language system"""
         signals = []
 
@@ -185,9 +179,7 @@ class EndocrineSignalEmitter:
 class EndocrineLLMOrchestrator:
     """Main orchestrator coordinating signals and LLM interactions"""
 
-    def __init__(
-        self, modulator: SignalModulator, openai_client: ModulatedOpenAIClient
-    ):
+    def __init__(self, modulator: SignalModulator, openai_client: ModulatedOpenAIClient):
         """Initialize with modulator and OpenAI client"""
         self.modulator = modulator
         self.openai_client = openai_client
@@ -196,9 +188,7 @@ class EndocrineLLMOrchestrator:
         # Interaction history for learning
         self.interaction_history: list[dict] = []
 
-    async def process_consciousness_query(
-        self, user_query: str, context: dict
-    ) -> dict[str, Any]:
+    async def process_consciousness_query(self, user_query: str, context: dict) -> dict[str, Any]:
         """Process query through endocrine-modulated consciousness pipeline"""
 
         # Gather signals from all LUKHAS systems
@@ -236,9 +226,7 @@ class EndocrineLLMOrchestrator:
 
         # Guardian signals
         guardian_context = context.get("guardian", {})
-        guardian_signals = await self.signal_emitter.emit_guardian_signals(
-            guardian_context
-        )
+        guardian_signals = await self.signal_emitter.emit_guardian_signals(guardian_context)
         all_signals.extend(guardian_signals)
 
         # Memory signals
@@ -275,15 +263,13 @@ class EndocrineLLMOrchestrator:
         # For now, return mock context snippets
 
         context_snippets = [
-            f"Memory context {i+1}: Related to '{query}' with relevance score {0.9 - i*0.1:.1f}"
+            f"Memory context {i + 1}: Related to '{query}' with relevance score {0.9 - i * 0.1:.1f}"
             for i in range(min(k, 5))
         ]
 
         return context_snippets
 
-    async def _store_consciousness_memory(
-        self, query: str, result: dict, params: ModulationParams
-    ):
+    async def _store_consciousness_memory(self, query: str, result: dict, params: ModulationParams):
         """Store interaction in consciousness memory systems"""
         # This would integrate with actual memory systems
         memory_entry = {
@@ -304,9 +290,7 @@ class EndocrineLLMOrchestrator:
             # Medium-importance memory
             print(f"💾 Storing medium-importance memory: {memory_entry['audit_id']}")
 
-    async def _learn_from_interaction(
-        self, query: str, result: dict, params: ModulationParams
-    ):
+    async def _learn_from_interaction(self, query: str, result: dict, params: ModulationParams):
         """Learn from interaction patterns to improve future modulation"""
         # Store interaction in history
         interaction = {
@@ -351,9 +335,7 @@ class EndocrineLLMOrchestrator:
 
         # Print insights
         for style, stats in style_success.items():
-            success_rate = (
-                stats["success"] / stats["total"] if stats["total"] > 0 else 0
-            )
+            success_rate = stats["success"] / stats["total"] if stats["total"] > 0 else 0
             if stats["total"] >= 3:  # Only report on styles with enough data
                 print(
                     f"📊 Style '{style}' success rate: {success_rate:.1%} ({stats['success']}/{stats['total']})"

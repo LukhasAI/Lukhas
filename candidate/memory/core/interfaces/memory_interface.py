@@ -283,9 +283,7 @@ class BaseMemoryInterface(ABC):
         # Wait for responses
         for colony_id, task in tasks:
             try:
-                response = await asyncio.wait_for(
-                    task, timeout=operation.timeout_seconds
-                )
+                response = await asyncio.wait_for(task, timeout=operation.timeout_seconds)
                 responses[colony_id] = response
             except asyncio.TimeoutError:
                 responses[colony_id] = MemoryResponse(
@@ -410,9 +408,7 @@ class BaseMemoryInterface(ABC):
         """Register callback for operation events"""
         self.operation_callbacks.append(callback)
 
-    async def _notify_callbacks(
-        self, operation: MemoryOperation, response: MemoryResponse
-    ):
+    async def _notify_callbacks(self, operation: MemoryOperation, response: MemoryResponse):
         """Notify registered callbacks"""
         for callback in self.operation_callbacks:
             try:
@@ -443,9 +439,7 @@ class MemoryInterfaceRegistry:
         self._interfaces: dict[MemoryType, BaseMemoryInterface] = {}
         self._factories: dict[MemoryType, Callable] = {}
 
-    def register_interface(
-        self, memory_type: MemoryType, interface: BaseMemoryInterface
-    ):
+    def register_interface(self, memory_type: MemoryType, interface: BaseMemoryInterface):
         """Register a memory interface implementation"""
         self._interfaces[memory_type] = interface
         logger.info(f"Registered {memory_type.value} memory interface")

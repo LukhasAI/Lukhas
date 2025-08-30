@@ -510,9 +510,7 @@ class SystemCoordinator:
 
         return {"neural_result": result}
 
-    async def _handle_consciousness_event(
-        self, request: SystemRequest
-    ) -> dict[str, Any]:
+    async def _handle_consciousness_event(self, request: SystemRequest) -> dict[str, Any]:
         """Handle consciousness event request"""
         if not self.consciousness_integrator:
             raise Exception("Consciousness integrator not available")
@@ -586,16 +584,12 @@ class SystemCoordinator:
             current_persona = await self.persona_manager.get_current_persona()
 
             if current_persona and self.voice_processor:
-                voice_characteristics = (
-                    await self.persona_manager.get_voice_characteristics(
-                        current_persona
-                    )
+                voice_characteristics = await self.persona_manager.get_voice_characteristics(
+                    current_persona
                 )
 
                 # Update voice processor with personality characteristics
-                await self.voice_processor.update_voice_characteristics(
-                    voice_characteristics
-                )
+                await self.voice_processor.update_voice_characteristics(voice_characteristics)
 
     async def _coordinate_consciousness(self):
         """Coordinate consciousness with all components"""
@@ -617,9 +611,7 @@ class SystemCoordinator:
         """Update system context with current state"""
         # Update component states
         for component_name in self.active_components:
-            self.component_states[component_name] = await self._get_component_state(
-                component_name
-            )
+            self.component_states[component_name] = await self._get_component_state(component_name)
 
     async def _get_component_state(self, component_name: str) -> dict[str, Any]:
         """Get current state of a component"""
@@ -648,9 +640,7 @@ class SystemCoordinator:
             health = await self._check_component_health(component_name)
 
             if not health["healthy"]:
-                logger.warning(
-                    f"Component {component_name} health check failed: {health['error']}"
-                )
+                logger.warning(f"Component {component_name} health check failed: {health['error']}")
 
                 # Trigger recovery if needed
                 await self._trigger_component_recovery(component_name)
@@ -665,12 +655,9 @@ class SystemCoordinator:
                 status = await self.neural_integrator.get_neural_status()
                 return {"healthy": True, "status": status}
             elif (
-                component_name == "memory"
-                and self.memory_manager
-                or component_name == "voice"
-                and self.voice_processor
-                or component_name == "personality"
-                and self.persona_manager
+                (component_name == "memory" and self.memory_manager)
+                or (component_name == "voice" and self.voice_processor)
+                or (component_name == "personality" and self.persona_manager)
             ):
                 return {"healthy": True, "status": "active"}
             else:
@@ -822,9 +809,7 @@ if __name__ == "__main__":
         # Get response
         response = await coordinator.get_response(request_id)
         if response:
-            logger.info(
-                f"Response: {json.dumps(asdict(response), indent=2, default=str)}"
-            )
+            logger.info(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
 
         # Get system status
         status = await coordinator.get_system_status()

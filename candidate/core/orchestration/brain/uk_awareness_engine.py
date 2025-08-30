@@ -254,9 +254,7 @@ def uk_audit_log(event: str, data: dict[str, Any], sector: str = "general"):
         "brexit_compliant": True,
     }
 
-    logging.getLogger("uk_institutional_audit").info(
-        json.dumps(audit_entry, ensure_ascii=False)
-    )
+    logging.getLogger("uk_institutional_audit").info(json.dumps(audit_entry, ensure_ascii=False))
 
 
 # ——— UK Institutional Awareness Modules ——————————————————————— #
@@ -322,8 +320,7 @@ class UKPrivacyModule(GlobalInstitutionalModule):
             adequacy_status=transfer_status.get("adequacy_status"),
             sector_compliance_status=sector_status,
             nhs_standards_met=inputs.is_healthcare_data and self.config.nhs_compliance,
-            fca_requirements_met=inputs.is_financial_data
-            and self.config.fca_compliance,
+            fca_requirements_met=inputs.is_financial_data and self.config.fca_compliance,
             automated_decision_safeguards=self._get_automated_safeguards(inputs),
             ai_transparency_provided=self.config.algorithmic_transparency,
             brexit_compliance_maintained=self.config.brexit_transition_complete,
@@ -366,10 +363,7 @@ class UKPrivacyModule(GlobalInstitutionalModule):
             score += 10.0
 
         # Cross-border compliance (10 points)
-        if (
-            not inputs.data_export_required
-            or self.config.international_transfer_controls
-        ):
+        if not inputs.data_export_required or self.config.international_transfer_controls:
             score += 10.0
 
         # Record keeping (10 points)

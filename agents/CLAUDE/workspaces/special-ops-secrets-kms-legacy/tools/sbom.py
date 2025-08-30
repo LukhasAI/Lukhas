@@ -2,6 +2,7 @@
 """
 Generate Software Bill of Materials (SBOM) for LUKHAS
 """
+
 import json
 import subprocess
 from datetime import datetime
@@ -13,29 +14,22 @@ def generate_sbom():
         "spdxVersion": "SPDX-2.3",
         "creationInfo": {
             "created": datetime.now().isoformat(),
-            "creators": ["Tool: lukhas-sbom-generator"]
+            "creators": ["Tool: lukhas-sbom-generator"],
         },
         "name": "LUKHAS AI System",
-        "packages": []
+        "packages": [],
     }
 
     # Get Python dependencies
-    result = subprocess.run(
-        ["pip", "freeze"],
-        capture_output=True,
-        text=True
-    )
+    result = subprocess.run(["pip", "freeze"], capture_output=True, text=True)
 
     for line in result.stdout.split("\n"):
         if "==" in line:
             name, version = line.split("==")
-            sbom["packages"].append({
-                "name": name,
-                "version": version,
-                "supplier": "PyPI"
-            })
+            sbom["packages"].append({"name": name, "version": version, "supplier": "PyPI"})
 
     return sbom
+
 
 if __name__ == "__main__":
     sbom = generate_sbom()

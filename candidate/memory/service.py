@@ -59,17 +59,13 @@ try:
 except ImportError:
     # Fallback for development
     class IdentityClient:
-        def verify_user_access(
-            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
-        ) -> bool:
+        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
             return True
 
         def check_consent(self, user_id: str, action: str) -> bool:
             return True
 
-        def log_activity(
-            self, activity_type: str, user_id: str, metadata: dict[str, Any]
-        ) -> None:
+        def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
             logging.info(f"MEMORY_LOG: {activity_type} by {user_id}: {metadata}")
 
 
@@ -164,7 +160,7 @@ class MemoryService:
             }
 
         except Exception as e:
-            error_msg = f"Memory storage error: {str(e)}"
+            error_msg = f"Memory storage error: {e!s}"
             self.identity_client.log_activity(
                 "memory_storage_error",
                 user_id,
@@ -191,9 +187,7 @@ class MemoryService:
             memory_record = self.memory_store[memory_id]
 
             # Check access permissions
-            required_tier = self.access_tiers.get(
-                memory_record["access_level"], "LAMBDA_TIER_2"
-            )
+            required_tier = self.access_tiers.get(memory_record["access_level"], "LAMBDA_TIER_2")
             if not self.identity_client.verify_user_access(user_id, required_tier):
                 return {
                     "success": False,
@@ -201,9 +195,7 @@ class MemoryService:
                 }
 
             # Check if user owns the memory or has system access
-            if memory_record[
-                "user_id"
-            ] != user_id and not self.identity_client.verify_user_access(
+            if memory_record["user_id"] != user_id and not self.identity_client.verify_user_access(
                 user_id, "LAMBDA_TIER_4"
             ):
                 return {
@@ -241,7 +233,7 @@ class MemoryService:
             }
 
         except Exception as e:
-            error_msg = f"Memory retrieval error: {str(e)}"
+            error_msg = f"Memory retrieval error: {e!s}"
             self.identity_client.log_activity(
                 "memory_retrieval_error",
                 user_id,
@@ -322,9 +314,7 @@ class MemoryService:
                             "access_level": memory_record["access_level"],
                             "created_at": memory_record["created_at"],
                             "preview": (
-                                content_str[:100] + "..."
-                                if len(content_str) > 100
-                                else content_str
+                                content_str[:100] + "..." if len(content_str) > 100 else content_str
                             ),
                         }
                     )
@@ -356,7 +346,7 @@ class MemoryService:
             }
 
         except Exception as e:
-            error_msg = f"Memory search error: {str(e)}"
+            error_msg = f"Memory search error: {e!s}"
             self.identity_client.log_activity(
                 "memory_search_error", user_id, {"query": query, "error": error_msg}
             )
@@ -381,9 +371,7 @@ class MemoryService:
             memory_record = self.memory_store[memory_id]
 
             # Check if user owns the memory or has system access
-            if memory_record[
-                "user_id"
-            ] != user_id and not self.identity_client.verify_user_access(
+            if memory_record["user_id"] != user_id and not self.identity_client.verify_user_access(
                 user_id, "LAMBDA_TIER_4"
             ):
                 return {
@@ -421,7 +409,7 @@ class MemoryService:
             }
 
         except Exception as e:
-            error_msg = f"Memory deletion error: {str(e)}"
+            error_msg = f"Memory deletion error: {e!s}"
             self.identity_client.log_activity(
                 "memory_deletion_error",
                 user_id,
@@ -446,9 +434,7 @@ class MemoryService:
             }
 
         try:
-            user_memories = [
-                m for m in self.memory_store.values() if m["user_id"] == user_id
-            ]
+            user_memories = [m for m in self.memory_store.values() if m["user_id"] == user_id]
 
             stats = {
                 "total_memories": len(user_memories),
@@ -493,10 +479,8 @@ class MemoryService:
             return {"success": True, "stats": stats}
 
         except Exception as e:
-            error_msg = f"Memory statistics error: {str(e)}"
-            self.identity_client.log_activity(
-                "memory_stats_error", user_id, {"error": error_msg}
-            )
+            error_msg = f"Memory statistics error: {e!s}"
+            self.identity_client.log_activity("memory_stats_error", user_id, {"error": error_msg})
             return {"success": False, "error": error_msg}
 
     def configure_cross_module_storage(self) -> None:
@@ -564,9 +548,7 @@ def retrieve_memory(user_id: str, memory_id: str) -> dict[str, Any]:
     return service.retrieve_memory(user_id, memory_id)
 
 
-def search_memory(
-    user_id: str, query: str, memory_type: Optional[str] = None
-) -> dict[str, Any]:
+def search_memory(user_id: str, query: str, memory_type: Optional[str] = None) -> dict[str, Any]:
     """Simplified API for memory search."""
     service = MemoryService()
     return service.search_memory(user_id, query, memory_type)
@@ -602,15 +584,11 @@ if __name__ == "__main__":
 
         # Test memory search
         search_results = memory_service.search_memory(test_user, "conversation")
-        logging.info(
-            f"Memory search found: {len(search_results.get('results', []))} results"
-        )
+        logging.info(f"Memory search found: {len(search_results.get('results', []))} results")
 
         # Test statistics
         stats = memory_service.get_memory_stats(test_user)
-        logging.info(
-            f"Memory stats: {stats.get('stats', {}).get('total_memories', 0)} memories"
-        )
+        logging.info(f"Memory stats: {stats.get('stats', {}).get('total_memories', 0)} memories")
 
 
 """

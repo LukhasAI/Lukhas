@@ -27,6 +27,7 @@
 ║ 6. Memory Storage → Dream Archive
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import json
 import logging
@@ -143,9 +144,7 @@ class UnifiedDreamPipeline:
         try:
             # Transcribe voice to text
             if self.openai_integration:
-                voice_result = await self.openai_integration.voice_to_dream_prompt(
-                    audio_file
-                )
+                voice_result = await self.openai_integration.voice_to_dream_prompt(audio_file)
                 dream["voice_transcription"] = voice_result
                 prompt = voice_result.get("dream_prompt", "a mysterious dream")
             else:
@@ -387,9 +386,7 @@ class UnifiedDreamPipeline:
 
                         # Display image if available
                         if "generated_image" in dream:
-                            print(
-                                f"🎨 Showing image: {dream['generated_image']['path']}"
-                            )
+                            print(f"🎨 Showing image: {dream['generated_image']['path']}")
 
                         return dream
 
@@ -415,15 +412,11 @@ class UnifiedDreamPipeline:
 
                     # Count by type
                     dream_type = dream.get("type", "unknown")
-                    analytics["by_type"][dream_type] = (
-                        analytics["by_type"].get(dream_type, 0) + 1
-                    )
+                    analytics["by_type"][dream_type] = analytics["by_type"].get(dream_type, 0) + 1
 
                     # Count by source
                     source = dream.get("source", "unknown")
-                    analytics["by_source"][source] = (
-                        analytics["by_source"].get(source, 0) + 1
-                    )
+                    analytics["by_source"][source] = analytics["by_source"].get(source, 0) + 1
 
                     # Count features
                     if "narration" in dream:

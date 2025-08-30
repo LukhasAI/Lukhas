@@ -115,9 +115,7 @@ class SymbolicEntity:
             "properties": self.properties,
             "confidence": self.confidence,
             "neural_embedding": (
-                self.neural_embedding.tolist()
-                if self.neural_embedding is not None
-                else None
+                self.neural_embedding.tolist() if self.neural_embedding is not None else None
             ),
             "extraction_context": self.extraction_context,
         }
@@ -134,9 +132,7 @@ class SymbolicEntity:
         )
 
         if data.get("neural_embedding"):
-            entity.neural_embedding = np.array(
-                data["neural_embedding"], dtype=np.float32
-            )
+            entity.neural_embedding = np.array(data["neural_embedding"], dtype=np.float32)
 
         return entity
 
@@ -384,9 +380,7 @@ class NeuralSymbolicExtractor:
             entity_type = self._classify_entity_type(candidate, memory_content)
 
             # Extract properties
-            properties = self._extract_entity_properties(
-                candidate, memory_content, memory_metadata
-            )
+            properties = self._extract_entity_properties(candidate, memory_content, memory_metadata)
 
             # Calculate confidence based on multiple factors
             confidence = self._calculate_entity_confidence(
@@ -565,22 +559,14 @@ class NeuralSymbolicExtractor:
         # Check for direct type indicators
         for entity_type, keywords in self.entity_type_keywords.items():
             for keyword in keywords:
-                if (
-                    keyword in entity_lower
-                    or f"{entity_lower} {keyword}" in context_lower
-                ):
+                if keyword in entity_lower or f"{entity_lower} {keyword}" in context_lower:
                     return entity_type
 
         # Heuristic classification based on patterns
         if entity[0].isupper():  # Proper noun
-            if any(
-                word in context_lower for word in ["said", "told", "person", "people"]
-            ):
+            if any(word in context_lower for word in ["said", "told", "person", "people"]):
                 return "person"
-            elif any(
-                word in context_lower
-                for word in ["place", "location", "city", "country"]
-            ):
+            elif any(word in context_lower for word in ["place", "location", "city", "country"]):
                 return "location"
 
         # Check for action words
@@ -645,9 +631,7 @@ class NeuralSymbolicExtractor:
         # Add contextual properties
         properties["context_mentions"] = content_lower.count(entity_lower)
         properties["content_position"] = (
-            content_lower.find(entity_lower) / len(content_lower)
-            if content_lower
-            else 0
+            content_lower.find(entity_lower) / len(content_lower) if content_lower else 0
         )
 
         return properties
@@ -837,9 +821,7 @@ class NeuralSymbolicExtractor:
 
         return consolidated
 
-    async def _merge_relations(
-        self, relations: list[SymbolicRelation]
-    ) -> SymbolicRelation:
+    async def _merge_relations(self, relations: list[SymbolicRelation]) -> SymbolicRelation:
         """Merge multiple instances of the same relation"""
 
         # Use the relation with highest confidence as base
@@ -1040,9 +1022,7 @@ class SymbolicReasoner:
             new_inferences = []
 
             for axiom in self.axioms:
-                axiom_inferences = await self._apply_rule(
-                    axiom, entities, current_relations
-                )
+                axiom_inferences = await self._apply_rule(axiom, entities, current_relations)
                 new_inferences.extend(axiom_inferences)
 
             if not new_inferences:
@@ -1050,9 +1030,7 @@ class SymbolicReasoner:
 
             # Filter inferences by confidence
             valid_inferences = [
-                inf
-                for inf in new_inferences
-                if inf.confidence >= self.confidence_threshold
+                inf for inf in new_inferences if inf.confidence >= self.confidence_threshold
             ]
 
             inferred_relations.extend(valid_inferences)
@@ -1072,9 +1050,7 @@ class SymbolicReasoner:
             inference_depth=depth + 1,
             total_inferences=len(unique_inferences),
             avg_confidence=(
-                np.mean([r.confidence for r in unique_inferences])
-                if unique_inferences
-                else 0
+                np.mean([r.confidence for r in unique_inferences]) if unique_inferences else 0
             ),
         )
 
@@ -1091,9 +1067,7 @@ class SymbolicReasoner:
         inferences = []
 
         # Find all variable bindings that satisfy the rule antecedent
-        bindings = await self._find_variable_bindings(
-            rule.antecedent, entities, relations
-        )
+        bindings = await self._find_variable_bindings(rule.antecedent, entities, relations)
 
         for binding in bindings:
             # Apply bindings to consequent to generate new relations
@@ -1117,18 +1091,14 @@ class SymbolicReasoner:
             return []
 
         # Start with first condition
-        bindings = await self._find_bindings_for_condition(
-            conditions[0], entities, relations
-        )
+        bindings = await self._find_bindings_for_condition(conditions[0], entities, relations)
 
         # Filter bindings through remaining conditions
         for condition in conditions[1:]:
             new_bindings = []
 
             for binding in bindings:
-                if await self._binding_satisfies_condition(
-                    condition, binding, entities, relations
-                ):
+                if await self._binding_satisfies_condition(condition, binding, entities, relations):
                     new_bindings.append(binding)
 
             bindings = new_bindings
@@ -1358,10 +1328,7 @@ class SymbolicReasoner:
                 path_relations = []
                 for i in range(len(path) - 1):
                     for relation in relations:
-                        if (
-                            relation.subject_id == path[i]
-                            and relation.object_id == path[i + 1]
-                        ):
+                        if relation.subject_id == path[i] and relation.object_id == path[i + 1]:
                             path_relations.append(relation)
                             break
 
@@ -1371,9 +1338,7 @@ class SymbolicReasoner:
                             "path": path,
                             "relations": [r.to_dict() for r in path_relations],
                             "length": len(path) - 1,
-                            "confidence": np.mean(
-                                [r.confidence for r in path_relations]
-                            ),
+                            "confidence": np.mean([r.confidence for r in path_relations]),
                         }
                     )
                 continue
@@ -1383,10 +1348,7 @@ class SymbolicReasoner:
                 visited.add(current_entity)
 
                 for relation in relations:
-                    if (
-                        relation.subject_id == current_entity
-                        and relation.object_id not in path
-                    ):
+                    if relation.subject_id == current_entity and relation.object_id not in path:
                         queue.append((relation.object_id, path + [relation.object_id]))
 
         return sorted(paths, key=lambda x: x["confidence"], reverse=True)
@@ -1412,7 +1374,6 @@ class SymbolicReasoner:
                 relation.subject_id == target_entity
                 and relation.predicate == SymbolicRelationType.ISA
             ):
-
                 classifications.append(
                     {
                         "classification": (
@@ -1562,9 +1523,7 @@ class NeurosymbolicIntegrationLayer:
         except Exception as e:
             logger.error(f"Failed to save knowledge: {e}")
 
-    async def process_memory_batch(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def process_memory_batch(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Process a batch of memories through the neurosymbolic pipeline.
 
@@ -1575,9 +1534,7 @@ class NeurosymbolicIntegrationLayer:
             Dictionary containing extraction and reasoning results
         """
 
-        logger.info(
-            f"Processing {len(memories)} memories through neurosymbolic pipeline"
-        )
+        logger.info(f"Processing {len(memories)} memories through neurosymbolic pipeline")
 
         # Extract entities from all memories
         all_entities = []
@@ -1603,9 +1560,7 @@ class NeurosymbolicIntegrationLayer:
                     "memory_id": memory.get("id", "unknown"),
                     "entities_extracted": len(memory_entities),
                     "avg_confidence": (
-                        np.mean([e.confidence for e in memory_entities])
-                        if memory_entities
-                        else 0
+                        np.mean([e.confidence for e in memory_entities]) if memory_entities else 0
                     ),
                 }
             )
@@ -1641,8 +1596,7 @@ class NeurosymbolicIntegrationLayer:
             # Running average update
             total_entities = self.extraction_stats["total_entities_extracted"]
             self.extraction_stats["avg_extraction_confidence"] = (
-                current_avg * (total_entities - len(all_entities))
-                + new_avg * len(all_entities)
+                current_avg * (total_entities - len(all_entities)) + new_avg * len(all_entities)
             ) / total_entities
 
         # Save updated knowledge
@@ -1722,9 +1676,7 @@ class NeurosymbolicIntegrationLayer:
                     {
                         "step": "rule_application",
                         "rule": relation.properties["rule_applied"],
-                        "variable_binding": relation.properties.get(
-                            "variable_binding", {}
-                        ),
+                        "variable_binding": relation.properties.get("variable_binding", {}),
                     }
                 )
 
@@ -1784,9 +1736,7 @@ class NeurosymbolicIntegrationLayer:
             "entities": {
                 "total": len(self.entities),
                 "types": dict(entity_types),
-                "avg_confidence": (
-                    np.mean(entity_confidences) if entity_confidences else 0
-                ),
+                "avg_confidence": (np.mean(entity_confidences) if entity_confidences else 0),
                 "confidence_distribution": {
                     "min": min(entity_confidences) if entity_confidences else 0,
                     "max": max(entity_confidences) if entity_confidences else 0,
@@ -1796,15 +1746,11 @@ class NeurosymbolicIntegrationLayer:
             "relations": {
                 "total": len(self.relations),
                 "types": dict(relation_types),
-                "avg_confidence": (
-                    np.mean(relation_confidences) if relation_confidences else 0
-                ),
+                "avg_confidence": (np.mean(relation_confidences) if relation_confidences else 0),
             },
             "inferences": {
                 "total": len(self.inferred_relations),
-                "avg_confidence": (
-                    np.mean(inference_confidences) if inference_confidences else 0
-                ),
+                "avg_confidence": (np.mean(inference_confidences) if inference_confidences else 0),
             },
             "extraction_stats": self.extraction_stats,
             "knowledge_coverage": {
@@ -1812,9 +1758,7 @@ class NeurosymbolicIntegrationLayer:
                     len(self.relations) / len(self.entities) if self.entities else 0
                 ),
                 "inference_ratio": (
-                    len(self.inferred_relations) / len(self.relations)
-                    if self.relations
-                    else 0
+                    len(self.inferred_relations) / len(self.relations) if self.relations else 0
                 ),
             },
         }
@@ -1859,9 +1803,7 @@ class NeurosymbolicIntegrationLayer:
             async def neurosymbolic_query_handler(query):
                 return await self.query_knowledge(query)
 
-            memory_system.add_query_handler(
-                "neurosymbolic", neurosymbolic_query_handler
-            )
+            memory_system.add_query_handler("neurosymbolic", neurosymbolic_query_handler)
             integration_results["query_handler_added"] = True
 
         logger.info("Neurosymbolic integration completed", **integration_results)
@@ -1954,7 +1896,7 @@ async def example_neurosymbolic_usage():
     print("\n📋 Extracted Entities:")
     for i, entity_dict in enumerate(results["new_entities"][:5]):  # Show first 5
         print(
-            f"   {i+1}. {entity_dict['name']} ({entity_dict['entity_type']}) - Confidence: {entity_dict['confidence']:.2f}"
+            f"   {i + 1}. {entity_dict['name']} ({entity_dict['entity_type']}) - Confidence: {entity_dict['confidence']:.2f}"
         )
 
     # Display extracted relations
@@ -1977,7 +1919,7 @@ async def example_neurosymbolic_usage():
             "unknown",
         )
         print(
-            f"   {i+1}. {subject_name} --{relation_dict['predicate']}--> {object_name} (Confidence: {relation_dict['confidence']:.2f})"
+            f"   {i + 1}. {subject_name} --{relation_dict['predicate']}--> {object_name} (Confidence: {relation_dict['confidence']:.2f})"
         )
 
     # Display inferences
@@ -2000,7 +1942,7 @@ async def example_neurosymbolic_usage():
             "unknown",
         )
         print(
-            f"   {i+1}. {subject_name} --{inference_dict['predicate']}--> {object_name} (Inferred, Confidence: {inference_dict['confidence']:.2f})"
+            f"   {i + 1}. {subject_name} --{inference_dict['predicate']}--> {object_name} (Inferred, Confidence: {inference_dict['confidence']:.2f})"
         )
 
     # Test knowledge querying
@@ -2027,9 +1969,7 @@ async def example_neurosymbolic_usage():
             entity_name = layer.entities[first_entity_id].name
             print(f"\n🏷️ Classifications for '{entity_name}':")
             for result in classification_results:
-                print(
-                    f"   • {result['classification']} (Confidence: {result['confidence']:.2f})"
-                )
+                print(f"   • {result['classification']} (Confidence: {result['confidence']:.2f})")
 
     # Show system statistics
     stats = layer.get_knowledge_statistics()

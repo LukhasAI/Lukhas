@@ -54,4 +54,4 @@ async def process_request(
             processing_time_ms=(time.time() - start_time) * 1000,
         )
     except Exception as e:
-        raise ProcessingError(f"Processing failed: {str(e)}")
+        raise ProcessingError(f"Processing failed: {e!s}")

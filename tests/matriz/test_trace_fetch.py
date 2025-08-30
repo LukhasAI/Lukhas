@@ -84,6 +84,7 @@ class TestTraceAPI(unittest.TestCase):
         """Clean up temporary files and reset environment variables."""
         # Clean up temporary directory
         import shutil
+
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
         # Reset environment variables
@@ -109,31 +110,36 @@ class TestTraceAPI(unittest.TestCase):
                 "timestamp": current_time.isoformat(),
                 "unix_time": current_time.timestamp(),
                 "level": i % 8,  # Levels 0-7
-                "level_name": ["SYSTEM", "CORE", "SYMBOLIC", "EMOTIONAL", "ETHICAL", "INTERACTION", "DEBUG", "VERBOSE"][i % 8],
+                "level_name": [
+                    "SYSTEM",
+                    "CORE",
+                    "SYMBOLIC",
+                    "EMOTIONAL",
+                    "ETHICAL",
+                    "INTERACTION",
+                    "DEBUG",
+                    "VERBOSE",
+                ][i % 8],
                 "message": f"Test trace message {i}",
                 "source_component": f"test_component_{i}",
                 "tags": [f"test_tag_{i}", "automated_test"],
-                "metadata": {
-                    "test_run": True,
-                    "sequence_number": i,
-                    "test_type": "unit_test"
-                },
+                "metadata": {"test_run": True, "sequence_number": i, "test_type": "unit_test"},
                 "emotional": {
                     "valence": 0.5 + (i * 0.1),
                     "arousal": 0.3 + (i * 0.05),
-                    "dominance": 0.4 + (i * 0.02)
+                    "dominance": 0.4 + (i * 0.02),
                 },
                 "ethical_score": min(1.0, 0.8 + (i * 0.05)),
                 "execution_context": {
                     "environment": "test",
                     "user_id": f"test_user_{i}",
-                    "session_id": f"test_session_{i}"
+                    "session_id": f"test_session_{i}",
                 },
                 "performance_metrics": {
                     "execution_time_ms": 10.5 + i,
-                    "memory_usage_mb": 5.2 + (i * 0.5)
+                    "memory_usage_mb": 5.2 + (i * 0.5),
                 },
-                "related_traces": [] if i == 0 else [traces[i-1]["trace_id"]]
+                "related_traces": [] if i == 0 else [traces[i - 1]["trace_id"]],
             }
             traces.append(trace_data)
 
@@ -160,10 +166,7 @@ class TestTraceAPI(unittest.TestCase):
         trace_id = test_trace["trace_id"]
 
         # Make request to fetch trace
-        response = self.client.get(
-            f"/v1/matriz/trace/{trace_id}",
-            headers=self.valid_auth_headers
-        )
+        response = self.client.get(f"/v1/matriz/trace/{trace_id}", headers=self.valid_auth_headers)
 
         # Verify successful response
         self.assertEqual(response.status_code, 200)
@@ -173,9 +176,20 @@ class TestTraceAPI(unittest.TestCase):
 
         # Verify all required fields are present
         expected_fields = [
-            "trace_id", "timestamp", "unix_time", "level", "level_name",
-            "message", "source_component", "tags", "metadata", "emotional",
-            "ethical_score", "execution_context", "performance_metrics", "related_traces"
+            "trace_id",
+            "timestamp",
+            "unix_time",
+            "level",
+            "level_name",
+            "message",
+            "source_component",
+            "tags",
+            "metadata",
+            "emotional",
+            "ethical_score",
+            "execution_context",
+            "performance_metrics",
+            "related_traces",
         ]
 
         for field in expected_fields:
@@ -212,8 +226,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Make request for nonexistent trace
         response = self.client.get(
-            f"/v1/matriz/trace/{nonexistent_id}",
-            headers=self.valid_auth_headers
+            f"/v1/matriz/trace/{nonexistent_id}", headers=self.valid_auth_headers
         )
 
         # Verify 404 response
@@ -249,8 +262,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Make request with invalid UUID
         response = self.client.get(
-            f"/v1/matriz/trace/{invalid_id}",
-            headers=self.valid_auth_headers
+            f"/v1/matriz/trace/{invalid_id}", headers=self.valid_auth_headers
         )
 
         # Verify 400 response
@@ -318,8 +330,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Make request with invalid authentication
         response = self.client.get(
-            f"/v1/matriz/trace/{trace_id}",
-            headers=self.invalid_auth_headers
+            f"/v1/matriz/trace/{trace_id}", headers=self.invalid_auth_headers
         )
 
         # Verify 401 response
@@ -348,10 +359,7 @@ class TestTraceAPI(unittest.TestCase):
         - Optional filtering by level and tag
         """
         # Test basic recent traces request
-        response = self.client.get(
-            "/v1/matriz/trace/recent",
-            headers=self.valid_auth_headers
-        )
+        response = self.client.get("/v1/matriz/trace/recent", headers=self.valid_auth_headers)
 
         # Verify successful response
         self.assertEqual(response.status_code, 200)
@@ -371,8 +379,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Test with limit parameter
         response_limited = self.client.get(
-            "/v1/matriz/trace/recent?limit=2",
-            headers=self.valid_auth_headers
+            "/v1/matriz/trace/recent?limit=2", headers=self.valid_auth_headers
         )
 
         self.assertEqual(response_limited.status_code, 200)
@@ -381,8 +388,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Test with level filter
         response_filtered = self.client.get(
-            "/v1/matriz/trace/recent?level=0",
-            headers=self.valid_auth_headers
+            "/v1/matriz/trace/recent?level=0", headers=self.valid_auth_headers
         )
 
         self.assertEqual(response_filtered.status_code, 200)
@@ -435,6 +441,7 @@ class TestTraceAPI(unittest.TestCase):
 
         # Test health check
         import asyncio
+
         health_result = asyncio.run(provider.health_check())
         self.assertIn("status", health_result)
 
@@ -471,7 +478,7 @@ class TestTraceAPI(unittest.TestCase):
         not_found_data = {
             "error": "trace_not_found",
             "message": "Test not found message",
-            "trace_id": str(uuid.uuid4())
+            "trace_id": str(uuid.uuid4()),
         }
         not_found_response = TraceNotFoundResponse(**not_found_data)
         self.assertEqual(not_found_response.error, "trace_not_found")
@@ -480,7 +487,7 @@ class TestTraceAPI(unittest.TestCase):
         error_data = {
             "error": "internal_error",
             "message": "Test error message",
-            "details": {"test": "data"}
+            "details": {"test": "data"},
         }
         error_response = TraceErrorResponse(**error_data)
         self.assertEqual(error_response.error, "internal_error")
@@ -490,7 +497,7 @@ class TestTraceAPI(unittest.TestCase):
             "error": "validation_error",
             "message": "Test validation error",
             "field": "test_field",
-            "value": "test_value"
+            "value": "test_value",
         }
         validation_response = TraceValidationErrorResponse(**validation_error_data)
         self.assertEqual(validation_response.field, "test_field")
@@ -508,30 +515,26 @@ class TestTraceAPI(unittest.TestCase):
         # Test with very long string as trace ID
         very_long_id = "a" * 1000
         response = self.client.get(
-            f"/v1/matriz/trace/{very_long_id}",
-            headers=self.valid_auth_headers
+            f"/v1/matriz/trace/{very_long_id}", headers=self.valid_auth_headers
         )
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test with special characters
         special_char_id = "trace@#$%^&*()"
         response = self.client.get(
-            f"/v1/matriz/trace/{special_char_id}",
-            headers=self.valid_auth_headers
+            f"/v1/matriz/trace/{special_char_id}", headers=self.valid_auth_headers
         )
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test recent traces with invalid level
         response = self.client.get(
-            "/v1/matriz/trace/recent?level=999",
-            headers=self.valid_auth_headers
+            "/v1/matriz/trace/recent?level=999", headers=self.valid_auth_headers
         )
         self.assertEqual(response.status_code, 400)  # Should be validation error
 
         # Test recent traces with excessive limit
         response = self.client.get(
-            "/v1/matriz/trace/recent?limit=10000",
-            headers=self.valid_auth_headers
+            "/v1/matriz/trace/recent?limit=10000", headers=self.valid_auth_headers
         )
         self.assertEqual(response.status_code, 200)
         # Limit should be capped at 100
@@ -556,8 +559,7 @@ class TestTraceAPI(unittest.TestCase):
         def make_request():
             try:
                 response = self.client.get(
-                    f"/v1/matriz/trace/{trace_id}",
-                    headers=self.valid_auth_headers
+                    f"/v1/matriz/trace/{trace_id}", headers=self.valid_auth_headers
                 )
                 results.append(response.status_code)
             except Exception as e:
@@ -579,8 +581,9 @@ class TestTraceAPI(unittest.TestCase):
 
         # Verify results
         self.assertEqual(len(errors), 0, f"Concurrent access errors: {errors}")
-        self.assertTrue(all(status == 200 for status in results),
-                       f"Some requests failed: {results}")
+        self.assertTrue(
+            all(status == 200 for status in results), f"Some requests failed: {results}"
+        )
 
 
 class TestTraceAPIWithoutAuth(unittest.TestCase):
@@ -615,7 +618,7 @@ class TestTraceAPIWithoutAuth(unittest.TestCase):
             "tags": ["test"],
             "metadata": {},
             "emotional": None,
-            "ethical_score": None
+            "ethical_score": None,
         }
 
         # Write test trace
@@ -626,6 +629,7 @@ class TestTraceAPIWithoutAuth(unittest.TestCase):
     def tearDown(self):
         """Clean up temporary files."""
         import shutil
+
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
         if "LUKHAS_TRACE_STORAGE" in os.environ:

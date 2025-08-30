@@ -151,10 +151,8 @@ class EnhancedWorkspaceGuardian:
         # Use superior ethics system if available
         if self.ethics_orchestrator:
             try:
-                ethics_result = (
-                    await self.ethics_orchestrator.evaluate_workspace_action(
-                        f"{operation} {file_path}", enhanced_context
-                    )
+                ethics_result = await self.ethics_orchestrator.evaluate_workspace_action(
+                    f"{operation} {file_path}", enhanced_context
                 )
 
                 # Enhanced decision with ethics integration
@@ -229,9 +227,7 @@ class EnhancedWorkspaceGuardian:
                 "scenarios_tested": red_team_results,
                 "overall_status": (
                     "VALIDATED"
-                    if all(
-                        r.get("status") != "SIMULATION_ERROR" for r in red_team_results
-                    )
+                    if all(r.get("status") != "SIMULATION_ERROR" for r in red_team_results)
                     else "PARTIAL_VALIDATION"
                 ),
             }
@@ -247,13 +243,9 @@ class EnhancedWorkspaceGuardian:
 
         # Generate security summary
         if self.ethics_orchestrator and self.red_team:
-            security_summary = (
-                "🌟 Enhanced security: LUKHAS ethics + red team protocols active"
-            )
+            security_summary = "🌟 Enhanced security: LUKHAS ethics + red team protocols active"
         elif self.ethics_orchestrator:
-            security_summary = (
-                "🛡️ Advanced security: LUKHAS ethics active, red team not available"
-            )
+            security_summary = "🛡️ Advanced security: LUKHAS ethics active, red team not available"
         else:
             security_summary = "⚠️ Basic security: Fallback governance only"
 
@@ -274,9 +266,7 @@ class EnhancedWorkspaceGuardian:
         if file_count > 15000:  # Higher threshold for enhanced system
             health_factors.append(0.5)
             issues.append(f"Very high file count: {file_count} files")
-            recommendations.append(
-                "Consider enhanced  cleanup with red team validation"
-            )
+            recommendations.append("Consider enhanced  cleanup with red team validation")
         elif file_count > 8000:
             health_factors.append(0.7)
             issues.append(f"High file count: {file_count} files")
@@ -285,9 +275,7 @@ class EnhancedWorkspaceGuardian:
 
         # Enhanced critical files check
         critical_present = sum(
-            1
-            for cf in self.critical_files
-            if os.path.exists(os.path.join(self.workspace_root, cf))
+            1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf))
         )
         critical_ratio = critical_present / len(self.critical_files)
         health_factors.append(critical_ratio)
@@ -355,9 +343,7 @@ async def enhanced_protect_workspace(workspace_root: str = None) -> dict:
     return await guardian.run_security_validation()
 
 
-async def enhanced_file_check(
-    operation: str, file_path: str, workspace_root: str = None
-) -> dict:
+async def enhanced_file_check(operation: str, file_path: str, workspace_root: str = None) -> dict:
     """Enhanced file operation check with LUKHAS ethics."""
     guardian = EnhancedWorkspaceGuardian(workspace_root)
     await guardian.initialize()

@@ -476,9 +476,7 @@ class CulturalSafetyChecker:
         recommendations = []
 
         for emoji in emojis:
-            result = self._validate_single_emoji(
-                emoji, contexts, regions, sensitivity_level
-            )
+            result = self._validate_single_emoji(emoji, contexts, regions, sensitivity_level)
 
             if result["validation_result"] == ValidationResult.APPROVED:
                 approved.append(emoji)
@@ -497,9 +495,7 @@ class CulturalSafetyChecker:
                     }
                 )
             elif result["validation_result"] == ValidationResult.CONTEXT_DEPENDENT:
-                if self._should_approve_context_dependent(
-                    emoji, contexts, sensitivity_level
-                ):
+                if self._should_approve_context_dependent(emoji, contexts, sensitivity_level):
                     approved.append(emoji)
                 else:
                     rejected.append(emoji)
@@ -510,9 +506,7 @@ class CulturalSafetyChecker:
         safety_score = self._calculate_safety_score(approved, rejected, warnings)
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(
-            approved, rejected, warnings, contexts
-        )
+        recommendations = self._generate_recommendations(approved, rejected, warnings, contexts)
 
         # Update statistics
         self.validation_stats["total_validations"] += len(emojis)
@@ -548,8 +542,7 @@ class CulturalSafetyChecker:
 
             # Check if any target region matches rule regions
             region_match = (
-                any(region in rule.regions for region in regions)
-                or "global" in rule.regions
+                any(region in rule.regions for region in regions) or "global" in rule.regions
             )
 
             # Check sensitivity level
@@ -661,18 +654,14 @@ class CulturalSafetyChecker:
         if len(warnings) > 0:
             recommendations.append("Review warned emojis for context appropriateness")
 
-        if CulturalContext.CORPORATE in contexts and any(
-            "🍷" in emoji for emoji in approved
-        ):
+        if CulturalContext.CORPORATE in contexts and any("🍷" in emoji for emoji in approved):
             recommendations.append("Avoid alcohol-related emojis in corporate contexts")
 
         if CulturalContext.EDUCATIONAL in contexts:
             recommendations.append("Ensure all emojis are age-appropriate")
 
         if len(approved) < 10:
-            recommendations.append(
-                "Consider expanding emoji set with universally safe options"
-            )
+            recommendations.append("Consider expanding emoji set with universally safe options")
 
         return recommendations
 
@@ -747,8 +736,7 @@ class CulturalSafetyChecker:
             "cultural_rules_count": len(self.cultural_rules),
             "regional_preferences_count": len(self.regional_preferences),
             "safe_emoji_sets": {
-                category: len(emojis)
-                for category, emojis in self.safe_emoji_sets.items()
+                category: len(emojis) for category, emojis in self.safe_emoji_sets.items()
             },
             "validation_statistics": self.validation_stats.copy(),
             "config": self.config.copy(),
@@ -757,10 +745,10 @@ class CulturalSafetyChecker:
 
 # Export the main classes
 __all__ = [
-    "CulturalSafetyChecker",
     "CulturalContext",
-    "SensitivityLevel",
-    "ValidationResult",
     "CulturalRule",
+    "CulturalSafetyChecker",
+    "SensitivityLevel",
     "ValidationReport",
+    "ValidationResult",
 ]

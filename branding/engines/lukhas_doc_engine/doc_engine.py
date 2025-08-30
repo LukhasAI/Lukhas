@@ -36,8 +36,13 @@ class DocEngine:
         # Log engine initialization
         db.log_system_activity("doc_engine", "engine_init", "Document engine initialized", 1.0)
 
-    def generate_document(self, doc_type: str, content: str, title: str = "Generated Document",
-                         tone: str = "user-friendly") -> dict:
+    def generate_document(
+        self,
+        doc_type: str,
+        content: str,
+        title: str = "Generated Document",
+        tone: str = "user-friendly",
+    ) -> dict:
         """Generate document with Trinity Framework and database integration"""
 
         # Get related content from knowledge base
@@ -60,11 +65,13 @@ class DocEngine:
 """
 
         # Add consciousness technology branding and knowledge context
-        enhanced_content = trinity_header + content.replace(
-            "AI", "consciousness technology"
-        ).replace(
-            "artificial intelligence", "consciousness technology"
-        ) + knowledge_context
+        enhanced_content = (
+            trinity_header
+            + content.replace("AI", "consciousness technology").replace(
+                "artificial intelligence", "consciousness technology"
+            )
+            + knowledge_context
+        )
 
         # Calculate voice coherence (basic implementation)
         voice_coherence = self._calculate_voice_coherence(enhanced_content)
@@ -75,12 +82,13 @@ class DocEngine:
             content_type=doc_type,
             title=title,
             content=enhanced_content,
-            voice_coherence=voice_coherence
+            voice_coherence=voice_coherence,
         )
 
         # Log generation activity
-        db.log_system_activity("doc_engine", "document_generated",
-                              f"Generated {doc_type}: {title}", voice_coherence)
+        db.log_system_activity(
+            "doc_engine", "document_generated", f"Generated {doc_type}: {title}", voice_coherence
+        )
 
         return {
             "id": doc_id,
@@ -89,7 +97,7 @@ class DocEngine:
             "doc_type": doc_type,
             "voice_coherence": voice_coherence,
             "knowledge_items_used": len(related_content),
-            "trinity_integrated": True
+            "trinity_integrated": True,
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
@@ -118,17 +126,30 @@ class DocEngine:
             knowledge = db.get_all_content(limit)
 
         # Log knowledge base access
-        db.log_system_activity("doc_engine", "knowledge_accessed",
-                              f"Accessed {len(knowledge)} knowledge items", len(knowledge))
+        db.log_system_activity(
+            "doc_engine",
+            "knowledge_accessed",
+            f"Accessed {len(knowledge)} knowledge items",
+            len(knowledge),
+        )
 
         return knowledge
 
     def get_available_formats(self) -> list:
         """Get all available document formats from consolidated systems"""
         formats = [
-            "landing_page", "blog_post", "api_docs", "marketing_copy",
-            "video_script", "social_media", "technical_docs", "knowledge_base",
-            "enterprise_docs", "mobile_docs", "training_materials", "user_manuals"
+            "landing_page",
+            "blog_post",
+            "api_docs",
+            "marketing_copy",
+            "video_script",
+            "social_media",
+            "technical_docs",
+            "knowledge_base",
+            "enterprise_docs",
+            "mobile_docs",
+            "training_materials",
+            "user_manuals",
         ]
         return formats
 
@@ -151,8 +172,9 @@ class DocEngine:
             "available_formats": len(self.get_available_formats()),
             "knowledge_base_items": len(db.get_all_content(1000)),
             "trinity_integration": True,
-            "database_connected": True
+            "database_connected": True,
         }
+
 
 if __name__ == "__main__":
     engine = DocEngine()

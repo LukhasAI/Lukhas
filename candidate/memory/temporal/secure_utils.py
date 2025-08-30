@@ -50,9 +50,7 @@ def safe_eval(expression: str, allowed_names: Optional[dict[str, Any]] = None) -
         try:
             tree = ast.parse(expression, mode="eval")
             if not _is_safe_ast(tree):
-                raise SecurityError(
-                    f"Expression contains unsafe operations: {expression}"
-                )
+                raise SecurityError(f"Expression contains unsafe operations: {expression}")
 
             # Create a restricted environment
             safe_env = {

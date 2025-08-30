@@ -2,6 +2,7 @@
 Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
+
 import json
 import logging
 from datetime import datetime, timedelta
@@ -179,16 +180,12 @@ class MemoryIdentityIntegration:
         # Check owner
         permission = self.memory_permissions[memory_key]
         if permission["owner_id"] != owner_id:
-            logger.warning(
-                f"Cannot share memory {memory_key}: User {owner_id} is not the owner"
-            )
+            logger.warning(f"Cannot share memory {memory_key}: User {owner_id} is not the owner")
             return False
 
         # Check if target user exists
         if not self.id_registry.get(target_user_id):
-            logger.warning(
-                f"Cannot share memory: Target user {target_user_id} doesn't exist"
-            )
+            logger.warning(f"Cannot share memory: Target user {target_user_id} doesn't exist")
             return False
 
         # Add target user to shared list
@@ -202,9 +199,7 @@ class MemoryIdentityIntegration:
         logger.debug(f"Memory {memory_key} shared with {target_user_id}")
         return True
 
-    def revoke_memory_access(
-        self, memory_key: str, owner_id: str, target_user_id: str
-    ) -> bool:
+    def revoke_memory_access(self, memory_key: str, owner_id: str, target_user_id: str) -> bool:
         """
         Revoke a user's access to a shared memory.
 
@@ -291,7 +286,7 @@ class MemoryIdentityIntegration:
             return encrypted_content
 
         except Exception as e:
-            logger.error(f"Error encrypting memory content: {str(e)}")
+            logger.error(f"Error encrypting memory content: {e!s}")
             return memory_content
 
     def decrypt_memory_content(
@@ -313,9 +308,7 @@ class MemoryIdentityIntegration:
 
         # Check if encryption key exists
         if memory_key not in self.encryption_keys:
-            logger.warning(
-                f"Cannot decrypt memory {memory_key}: Missing encryption key"
-            )
+            logger.warning(f"Cannot decrypt memory {memory_key}: Missing encryption key")
             return encrypted_memory
 
         try:
@@ -343,7 +336,7 @@ class MemoryIdentityIntegration:
             return decrypted_memory
 
         except Exception as e:
-            logger.error(f"Error decrypting memory content: {str(e)}")
+            logger.error(f"Error decrypting memory content: {e!s}")
             return encrypted_memory
 
     def _encrypt_data(self, memory_key: str, data_str: str) -> str:
@@ -431,9 +424,7 @@ class MemoryIdentityIntegration:
             ):
                 # Mark the memory as archived rather than removing it
                 self.memory_permissions[key]["archived"] = True
-                self.memory_permissions[key][
-                    "archive_date"
-                ] = datetime.now().isoformat()
+                self.memory_permissions[key]["archive_date"] = datetime.now().isoformat()
                 self.memory_permissions[key]["archive_reason"] = "removal_notification"
 
                 # Remove from active shared memories while preserving the record
@@ -444,9 +435,7 @@ class MemoryIdentityIntegration:
                 archived += 1
 
         if archived > 0:
-            logger.info(
-                f"Archived {archived} memory permissions based on removal notification"
-            )
+            logger.info(f"Archived {archived} memory permissions based on removal notification")
 
     def get_permission_status(self, memory_key: str) -> dict[str, Any]:
         """

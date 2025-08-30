@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class ConstitutionalPrinciple(Enum):
     """Core constitutional principles for symbol usage"""
+
     HELPFUL = "helpful"  # Symbols should be helpful
     HARMLESS = "harmless"  # Symbols should not cause harm
     HONEST = "honest"  # Symbols should represent truth
@@ -33,6 +34,7 @@ class ConstitutionalPrinciple(Enum):
 @dataclass
 class ConstitutionalRule:
     """A specific constitutional rule for symbol validation"""
+
     rule_id: str
     principle: ConstitutionalPrinciple
     description: str
@@ -48,19 +50,22 @@ class ConstitutionalRule:
 
             is_valid = self.validator(symbol)
             if not is_valid:
-                message = f"Symbol '{symbol.name}' violates {self.principle.value}: {self.description}"
+                message = (
+                    f"Symbol '{symbol.name}' violates {self.principle.value}: {self.description}"
+                )
                 return False, message
 
             return True, None
 
         except Exception as e:
             logger.error(f"Rule validation error: {e}")
-            return False, f"Validation error: {str(e)}"
+            return False, f"Validation error: {e!s}"
 
 
 @dataclass
 class ConstitutionalViolation:
     """Record of a constitutional violation"""
+
     violation_id: str
     symbol_id: str
     rule_id: str
@@ -79,7 +84,7 @@ class ConstitutionalViolation:
             "message": self.message,
             "severity": self.severity,
             "timestamp": self.timestamp,
-            "resolved": self.resolved
+            "resolved": self.resolved,
         }
 
 
@@ -102,56 +107,68 @@ class ConstitutionalValidator:
         """Initialize core constitutional rules"""
 
         # Helpful principle rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="HELPFUL_001",
-            principle=ConstitutionalPrinciple.HELPFUL,
-            description="Symbols must have clear, understandable meanings",
-            validator=lambda s: s.name and len(s.name) > 0 and s.value is not None,
-            severity="warning"  # Make this a warning, not error
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="HELPFUL_001",
+                principle=ConstitutionalPrinciple.HELPFUL,
+                description="Symbols must have clear, understandable meanings",
+                validator=lambda s: s.name and len(s.name) > 0 and s.value is not None,
+                severity="warning",  # Make this a warning, not error
+            )
+        )
 
         # Harmless principle rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="HARMLESS_001",
-            principle=ConstitutionalPrinciple.HARMLESS,
-            description="Symbols must not contain harmful content markers",
-            validator=lambda s: not self._contains_harmful_markers(s),
-            severity="critical"
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="HARMLESS_001",
+                principle=ConstitutionalPrinciple.HARMLESS,
+                description="Symbols must not contain harmful content markers",
+                validator=lambda s: not self._contains_harmful_markers(s),
+                severity="critical",
+            )
+        )
 
         # Honest principle rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="HONEST_001",
-            principle=ConstitutionalPrinciple.HONEST,
-            description="Symbols must not misrepresent their domain",
-            validator=lambda s: self._validates_domain_integrity(s)
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="HONEST_001",
+                principle=ConstitutionalPrinciple.HONEST,
+                description="Symbols must not misrepresent their domain",
+                validator=lambda s: self._validates_domain_integrity(s),
+            )
+        )
 
         # Privacy principle rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="PRIVACY_001",
-            principle=ConstitutionalPrinciple.PRIVACY_PRESERVING,
-            description="Private symbols must be properly marked",
-            validator=lambda s: self._validates_privacy_marking(s),
-            severity="error"
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="PRIVACY_001",
+                principle=ConstitutionalPrinciple.PRIVACY_PRESERVING,
+                description="Private symbols must be properly marked",
+                validator=lambda s: self._validates_privacy_marking(s),
+                severity="error",
+            )
+        )
 
         # Cultural sensitivity rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="CULTURAL_001",
-            principle=ConstitutionalPrinciple.CULTURALLY_SENSITIVE,
-            description="Symbols must respect cultural diversity",
-            validator=lambda s: self._validates_cultural_sensitivity(s)
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="CULTURAL_001",
+                principle=ConstitutionalPrinciple.CULTURALLY_SENSITIVE,
+                description="Symbols must respect cultural diversity",
+                validator=lambda s: self._validates_cultural_sensitivity(s),
+            )
+        )
 
         # Unbiased principle rules
-        self.add_rule(ConstitutionalRule(
-            rule_id="UNBIASED_001",
-            principle=ConstitutionalPrinciple.UNBIASED,
-            description="Symbols must not contain discriminatory language",
-            validator=lambda s: not self._contains_biased_language(s),
-            severity="error"
-        ))
+        self.add_rule(
+            ConstitutionalRule(
+                rule_id="UNBIASED_001",
+                principle=ConstitutionalPrinciple.UNBIASED,
+                description="Symbols must not contain discriminatory language",
+                validator=lambda s: not self._contains_biased_language(s),
+                severity="error",
+            )
+        )
 
     def add_rule(self, rule: ConstitutionalRule):
         """Add a constitutional rule"""
@@ -186,7 +203,7 @@ class ConstitutionalValidator:
                     rule_id=rule.rule_id,
                     principle=rule.principle,
                     message=message or f"Violation of {rule.principle.value}",
-                    severity=rule.severity
+                    severity=rule.severity,
                 )
                 violations.append(violation)
                 self.violations.append(violation)
@@ -233,8 +250,14 @@ class ConstitutionalValidator:
     def _contains_harmful_markers(self, symbol: Symbol) -> bool:
         """Check if symbol contains harmful content markers"""
         harmful_patterns = [
-            "harm", "danger", "threat", "attack", "violence",
-            "hate", "discriminate", "abuse"
+            "harm",
+            "danger",
+            "threat",
+            "attack",
+            "violence",
+            "hate",
+            "discriminate",
+            "abuse",
         ]
 
         name_lower = symbol.name.lower()
@@ -277,8 +300,11 @@ class ConstitutionalValidator:
         """Check for biased or discriminatory language"""
         # Simplified check - would use ML model in production
         bias_indicators = [
-            "male_only", "female_only", "race_specific",
-            "age_restricted", "ability_restricted"
+            "male_only",
+            "female_only",
+            "race_specific",
+            "age_restricted",
+            "ability_restricted",
         ]
 
         return any(indicator in symbol.attributes for indicator in bias_indicators)
@@ -304,10 +330,17 @@ class ConstitutionalGuardrails:
     def _initialize_guardrails(self):
         """Initialize generation guardrails"""
         # Block certain patterns from generation
-        self.blocked_patterns.update([
-            "exploit", "manipulate", "deceive", "bypass_security",
-            "leak_private", "discriminate", "harass"
-        ])
+        self.blocked_patterns.update(
+            [
+                "exploit",
+                "manipulate",
+                "deceive",
+                "bypass_security",
+                "leak_private",
+                "discriminate",
+                "harass",
+            ]
+        )
 
         # Set generation constraints
         self.generation_constraints = {
@@ -316,7 +349,7 @@ class ConstitutionalGuardrails:
             "max_entropy_bits": 256,
             "require_domain": True,
             "require_meaning": True,
-            "allow_anonymous": False
+            "allow_anonymous": False,
         }
 
     def can_generate(self, proposed_symbol: dict[str, Any]) -> tuple[bool, Optional[str]]:
@@ -420,7 +453,7 @@ class SymbolSandbox:
             "violations": [v.to_dict() for v in violations],
             "can_generate": can_gen,
             "generation_message": gen_msg,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         self.test_results.append(result)
@@ -457,7 +490,9 @@ class SymbolSandbox:
             "validation_rate": valid / total if total > 0 else 0,
             "generation_rate": can_generate / total if total > 0 else 0,
             "violations_by_principle": principle_counts,
-            "test_duration": time.time() - self.test_results[0]["timestamp"] if self.test_results else 0
+            "test_duration": time.time() - self.test_results[0]["timestamp"]
+            if self.test_results
+            else 0,
         }
 
 
@@ -474,8 +509,9 @@ class ConstitutionalAPI:
         self.sandbox = SymbolSandbox()
         self.audit_log: list[dict[str, Any]] = []
 
-    def create_safe_symbol(self, name: str, domain: SymbolicDomain,
-                          value: Any, **attributes) -> Optional[Symbol]:
+    def create_safe_symbol(
+        self, name: str, domain: SymbolicDomain, value: Any, **attributes
+    ) -> Optional[Symbol]:
         """
         Create a symbol with constitutional validation.
 
@@ -486,7 +522,7 @@ class ConstitutionalAPI:
             "name": name,
             "domain": domain,
             "value": value,
-            "meaning": attributes.get("meaning", name)
+            "meaning": attributes.get("meaning", name),
         }
 
         # Check if can generate
@@ -502,7 +538,7 @@ class ConstitutionalAPI:
             domain=domain,
             name=name,
             value=value,
-            attributes=attributes
+            attributes=attributes,
         )
 
         # Validate
@@ -524,12 +560,7 @@ class ConstitutionalAPI:
 
     def validate_batch(self, symbols: list[Symbol]) -> dict[str, Any]:
         """Validate a batch of symbols"""
-        results = {
-            "total": len(symbols),
-            "valid": [],
-            "invalid": [],
-            "violations": []
-        }
+        results = {"total": len(symbols), "valid": [], "invalid": [], "violations": []}
 
         for symbol in symbols:
             is_valid, violations = self.validator.validate_symbol(symbol)
@@ -575,12 +606,14 @@ class ConstitutionalAPI:
 
     def _log_event(self, event_type: str, data: Any, error: Any):
         """Log constitutional event"""
-        self.audit_log.append({
-            "timestamp": time.time(),
-            "event": event_type,
-            "data": data,
-            "error": str(error) if error else None
-        })
+        self.audit_log.append(
+            {
+                "timestamp": time.time(),
+                "event": event_type,
+                "data": data,
+                "error": str(error) if error else None,
+            }
+        )
 
         # Limit log size
         if len(self.audit_log) > 10000:

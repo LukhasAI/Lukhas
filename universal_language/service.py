@@ -88,17 +88,10 @@ class LocalSymbolStore:
         salt = secrets.token_urlsafe(32)
 
         # Hash the symbol data
-        symbol_hash = hash_symbol(
-            binding.symbol_data,
-            binding.symbol_type,
-            salt
-        )
+        symbol_hash = hash_symbol(binding.symbol_data, binding.symbol_type, salt)
 
         # Calculate quality score
-        quality_score = calculate_symbol_quality(
-            binding.symbol_data,
-            binding.symbol_type
-        )
+        quality_score = calculate_symbol_quality(binding.symbol_data, binding.symbol_type)
 
         # Create symbol record
         symbol = PersonalSymbol(
@@ -109,7 +102,7 @@ class LocalSymbolStore:
             meaning_type=binding.meaning_type,
             meaning_value=binding.meaning_value,
             created_at=datetime.now(timezone.utc),
-            quality_score=quality_score
+            quality_score=quality_score,
         )
 
         # Store locally
@@ -120,10 +113,7 @@ class LocalSymbolStore:
 
     def find_symbols_by_meaning(self, meaning: str) -> list[PersonalSymbol]:
         """Find all symbols bound to a specific meaning"""
-        return [
-            symbol for symbol in self.symbols.values()
-            if symbol.meaning_value == meaning
-        ]
+        return [symbol for symbol in self.symbols.values() if symbol.meaning_value == meaning]
 
     def verify_symbol(self, symbol_data: Any, symbol_type: SymbolType, meaning: str) -> bool:
         """
@@ -149,7 +139,9 @@ class LocalSymbolStore:
 
         return False
 
-    def create_composition(self, name: str, symbol_ids: list[str], operators: list[str], meaning: str) -> str:
+    def create_composition(
+        self, name: str, symbol_ids: list[str], operators: list[str], meaning: str
+    ) -> str:
         """
         Create a symbol composition.
 
@@ -163,7 +155,7 @@ class LocalSymbolStore:
             "symbols": symbol_ids,
             "operators": operators,
             "meaning": meaning,
-            "created_at": datetime.now(timezone.utc).isoformat()
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         self._save_symbols()
@@ -222,11 +214,11 @@ class LocalSymbolStore:
                     "created_at": s.created_at.isoformat(),
                     "last_used_at": s.last_used_at.isoformat() if s.last_used_at else None,
                     "use_count": s.use_count,
-                    "quality_score": s.quality_score
+                    "quality_score": s.quality_score,
                 }
                 for sid, s in self.symbols.items()
             },
-            "compositions": self.compositions
+            "compositions": self.compositions,
         }
 
 
@@ -243,10 +235,7 @@ class ULChallengeService:
         self.verified_signatures: dict[str, ULSignature] = {}
 
     async def generate_challenge(
-        self,
-        lid: str,
-        action: str,
-        required_meanings: list[str]
+        self, lid: str, action: str, required_meanings: list[str]
     ) -> CompositionChallenge:
         """
         Generate composition challenge for user.
@@ -278,18 +267,14 @@ class ULChallengeService:
             operators=operators,
             expected_symbols=len(required_meanings),
             expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
-            nonce=nonce
+            nonce=nonce,
         )
 
         self.active_challenges[challenge_id] = challenge
 
         return challenge
 
-    async def verify_composition_proof(
-        self,
-        lid: str,
-        proof: CompositionProof
-    ) -> bool:
+    async def verify_composition_proof(self, lid: str, proof: CompositionProof) -> bool:
         """
         Verify composition proof without seeing symbols.
 
@@ -331,7 +316,7 @@ class ULChallengeService:
         lid: str,
         action: str,
         symbol_proofs: list[str],
-        composition_proof: Optional[CompositionProof] = None
+        composition_proof: Optional[CompositionProof] = None,
     ) -> ULSignature:
         """
         Create UL signature for action approval.
@@ -351,7 +336,7 @@ class ULChallengeService:
             symbol_proofs=symbol_proofs,
             composition_proof=composition_proof,
             timestamp=datetime.now(timezone.utc),
-            expires_at=datetime.now(timezone.utc) + timedelta(minutes=1)
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=1),
         )
 
         # Store for verification
@@ -360,12 +345,7 @@ class ULChallengeService:
 
         return signature
 
-    def verify_ul_signature(
-        self,
-        lid: str,
-        action: str,
-        signature: ULSignature
-    ) -> bool:
+    def verify_ul_signature(self, lid: str, action: str, signature: ULSignature) -> bool:
         """
         Verify UL signature is valid for action.
 
@@ -424,7 +404,7 @@ class UniversalLanguageService:
         symbol_type: SymbolType,
         symbol_data: Any,
         meaning_type: MeaningType,
-        meaning_value: str
+        meaning_value: str,
     ) -> str:
         """
         Bind personal symbol to meaning (local only).
@@ -439,18 +419,14 @@ class UniversalLanguageService:
             symbol_type=symbol_type,
             symbol_data=symbol_data,
             meaning_type=meaning_type,
-            meaning_value=meaning_value
+            meaning_value=meaning_value,
         )
 
         symbol = self.local_store.bind_symbol(binding)
 
         return symbol.symbol_id
 
-    async def request_challenge(
-        self,
-        lid: str,
-        action: str
-    ) -> CompositionChallenge:
+    async def request_challenge(self, lid: str, action: str) -> CompositionChallenge:
         """
         Request composition challenge from server.
 
@@ -471,16 +447,12 @@ class UniversalLanguageService:
         else:
             required_meanings = ["confirm"]
 
-        challenge = await self.challenge_service.generate_challenge(
-            lid, action, required_meanings
-        )
+        challenge = await self.challenge_service.generate_challenge(lid, action, required_meanings)
 
         return challenge
 
     async def solve_challenge(
-        self,
-        challenge: CompositionChallenge,
-        symbol_data_list: list[tuple[Any, SymbolType]]
+        self, challenge: CompositionChallenge, symbol_data_list: list[tuple[Any, SymbolType]]
     ) -> CompositionProof:
         """
         Solve composition challenge locally.
@@ -526,16 +498,13 @@ class UniversalLanguageService:
             proof_hash=proof_hash,
             symbol_count=len(symbols),
             computation_time_ms=computation_time,
-            quality_score=avg_quality
+            quality_score=avg_quality,
         )
 
         return proof
 
     async def create_approval_signature(
-        self,
-        lid: str,
-        action: str,
-        composition_proof: Optional[CompositionProof] = None
+        self, lid: str, action: str, composition_proof: Optional[CompositionProof] = None
     ) -> ULSignature:
         """
         Create UL signature for action approval.
@@ -553,7 +522,7 @@ class UniversalLanguageService:
 
         # In production: generate proper cryptographic proofs
         # For now, use symbol hashes as proofs
-        for symbol in list(self.local_store.symbols.values())[:get_required_symbols(action)]:
+        for symbol in list(self.local_store.symbols.values())[: get_required_symbols(action)]:
             symbol_proofs.append(symbol.symbol_hash[:16])  # Truncated for demo
 
         signature = await self.challenge_service.create_ul_signature(
@@ -579,14 +548,11 @@ async def demonstrate_ul_workflow():
         SymbolType.EMOJI,
         "⚡️💪",  # Lightning + muscle = power
         MeaningType.CONCEPT,
-        "power"
+        "power",
     )
 
     await service.bind_symbol(
-        SymbolType.WORD,
-        "with great power",
-        MeaningType.CONCEPT,
-        "responsibility"
+        SymbolType.WORD, "with great power", MeaningType.CONCEPT, "responsibility"
     )
 
     print("✅ Bound 'power' to emoji: ⚡️💪")
@@ -605,9 +571,9 @@ async def demonstrate_ul_workflow():
     proof = await service.solve_challenge(
         challenge,
         [
-            ("⚡️💪", SymbolType.EMOJI),           # power
-            ("with great power", SymbolType.WORD)  # responsibility
-        ]
+            ("⚡️💪", SymbolType.EMOJI),  # power
+            ("with great power", SymbolType.WORD),  # responsibility
+        ],
     )
 
     print(f"✅ Proof generated in {proof.computation_time_ms:.2f}ms")
@@ -622,11 +588,7 @@ async def demonstrate_ul_workflow():
         print("✅ Proof verified! Creating UL signature...")
 
         # 5. Create approval signature
-        signature = await service.create_approval_signature(
-            "gonzo",
-            "grant_admin_scope",
-            proof
-        )
+        signature = await service.create_approval_signature("gonzo", "grant_admin_scope", proof)
 
         print(f"🔏 UL Signature created, expires: {signature.expires_at}")
         print("✅ Admin scope can now be granted with UL+GTΨ approval")

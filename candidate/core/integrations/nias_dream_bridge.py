@@ -101,9 +101,7 @@ class NIASDreamBridge:
         """
         try:
             # Analyze message for dream suitability
-            dream_analysis = await self._analyze_for_dream(
-                message, user_context, reason
-            )
+            dream_analysis = await self._analyze_for_dream(message, user_context, reason)
 
             # Create dream message
             dream_msg = DreamMessage(
@@ -204,9 +202,7 @@ class NIASDreamBridge:
                     function_call={"name": "analyze_dream_integration"},
                 )
 
-                func_result = json.loads(
-                    analysis.choices[0].message.function_call.arguments
-                )
+                func_result = json.loads(analysis.choices[0].message.function_call.arguments)
                 return func_result
 
             except Exception as e:
@@ -335,9 +331,7 @@ class NIASDreamBridge:
             except Exception as e:
                 logger.error(f"Quantum dream preparation failed: {e}")
 
-    async def extract_dream_insights(
-        self, user_id: str, time_window: int = 3600
-    ) -> dict[str, Any]:
+    async def extract_dream_insights(self, user_id: str, time_window: int = 3600) -> dict[str, Any]:
         """Extract insights from recent dream processing"""
         recent_dreams = [
             msg
@@ -392,9 +386,7 @@ class NIASDreamBridge:
         if self.openai:
             try:
                 # Extract interpretations
-                interpretations = [
-                    msg.symbolic_interpretation for msg in dream_messages
-                ]
+                interpretations = [msg.symbolic_interpretation for msg in dream_messages]
 
                 narrative = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
@@ -453,9 +445,7 @@ class NIASDreamBridge:
             )
 
         avg_priority = (
-            sum(msg.priority for msg in self.dream_queue) / total_dreams
-            if total_dreams > 0
-            else 0
+            sum(msg.priority for msg in self.dream_queue) / total_dreams if total_dreams > 0 else 0
         )
 
         return {
@@ -463,9 +453,7 @@ class NIASDreamBridge:
             "mode_distribution": mode_counts,
             "average_priority": avg_priority,
             "oldest_dream_age": (
-                (
-                    datetime.now() - min(msg.created_at for msg in self.dream_queue)
-                ).total_seconds()
+                (datetime.now() - min(msg.created_at for msg in self.dream_queue)).total_seconds()
                 if self.dream_queue
                 else 0
             ),

@@ -54,9 +54,7 @@ class AgentMemory:
     """
 
     # AIDENTITY: agent_id is core to this class, defining the memory scope.
-    def __init__(
-        self, agent_id: str = "default_agent", memory_base_path: Optional[str] = None
-    ):
+    def __init__(self, agent_id: str = "default_agent", memory_base_path: Optional[str] = None):
         """
         Initializes AgentMemory for a specific agent.
 
@@ -70,9 +68,7 @@ class AgentMemory:
         # ΛDRIFT_POINT: If LUKHAS_SHARED_MEMORY_PATH is inconsistent across environments/agents,
         # memory will be fragmented or inaccessible.
         if memory_base_path is None:
-            base_dir_str = os.getenv(
-                "LUKHAS_SHARED_MEMORY_PATH", "./.data/shared_memory"
-            )
+            base_dir_str = os.getenv("LUKHAS_SHARED_MEMORY_PATH", "./.data/shared_memory")
             base_dir = Path(base_dir_str)
             # ΛTRACE: Using shared memory path for agent memory.
             log.debug(
@@ -165,9 +161,7 @@ class AgentMemory:
             )
             return False
 
-    def _append_memory_internal(
-        self, agent_id: str, event_type: str, data: dict[str, Any]
-    ) -> bool:
+    def _append_memory_internal(self, agent_id: str, event_type: str, data: dict[str, Any]) -> bool:
         """Internal synchronous method to append an entry to the shared memory file."""
         # ΛTRACE: Internal sync append operation started.
         log.debug(
@@ -305,10 +299,7 @@ class AgentMemory:
                         # AIDENTITY: Filtering by agent_id.
                         if agent_filter and entry.get("agent_id") != agent_filter:
                             continue
-                        if (
-                            event_type_filter
-                            and entry.get("event_type") != event_type_filter
-                        ):
+                        if event_type_filter and entry.get("event_type") != event_type_filter:
                             continue
                         entries.append(entry)
                         if len(entries) >= limit:
@@ -347,9 +338,7 @@ class AgentMemory:
     # ΛRECALL: Specific recall for "insight_discovered" events.
     # AIDENTITY: Retrieves insights for a specific agent_id.
     @lukhas_tier_required(1)
-    async def get_agent_insights(
-        self, agent_id: str, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    async def get_agent_insights(self, agent_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Retrieves 'insight_discovered' entries for a given agent."""
         # ΛTRACE: Fetching agent insights.
         log.debug("Fetching agent insights.", for_agent_id=agent_id, result_limit=limit)
@@ -384,9 +373,7 @@ class AgentMemory:
                 entry_timestamp_str = entry["timestamp"]
                 entry_timestamp_obj = datetime.fromisoformat(entry_timestamp_str)
                 if entry_timestamp_obj.tzinfo is None:  # Ensure TZ aware for comparison
-                    entry_timestamp_obj = entry_timestamp_obj.replace(
-                        tzinfo=timezone.utc
-                    )
+                    entry_timestamp_obj = entry_timestamp_obj.replace(tzinfo=timezone.utc)
 
                 if entry_timestamp_obj.timestamp() >= cutoff_timestamp:
                     recent_filtered_entries.append(entry)
@@ -448,9 +435,7 @@ def get_shared_memory(
                     "Initializing default global shared memory instance.",
                     base_path=base_path,
                 )
-                _shared_memory_instance = AgentMemory(
-                    agent_id=agent_id, memory_base_path=base_path
-                )
+                _shared_memory_instance = AgentMemory(agent_id=agent_id, memory_base_path=base_path)
             return _shared_memory_instance
         else:
             # ΛTRACE: Providing new AgentMemory instance for specific agent.
@@ -471,9 +456,7 @@ async def append_to_shared_memory(
 ) -> bool:
     """Convenience async function to append to shared memory for a specific agent."""
     # ΛTRACE: Convenience function append_to_shared_memory called.
-    log.debug(
-        "append_to_shared_memory called.", for_agent_id=agent_id, event_type=event_type
-    )
+    log.debug("append_to_shared_memory called.", for_agent_id=agent_id, event_type=event_type)
     memory = get_shared_memory(agent_id, base_path=base_path)
     return await memory.append_memory(event_type, data)
 
@@ -561,9 +544,7 @@ async def main_example():
 
     # ΛRECALL: Getting insights for agent2.
     agent2_mem_instance = get_shared_memory(agent_id=agent2_id)
-    agent2_insights = await agent2_mem_instance.get_agent_insights(
-        agent_id=agent2_id, limit=5
-    )
+    agent2_insights = await agent2_mem_instance.get_agent_insights(agent_id=agent2_id, limit=5)
     log.info(
         f"Found {len(agent2_insights)} insights for {agent2_id}",
         insights_data_preview=[str(i)[:100] for i in agent2_insights],

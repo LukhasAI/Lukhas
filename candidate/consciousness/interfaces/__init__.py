@@ -12,8 +12,8 @@ from .natural_language_interface import (
 )
 
 __all__ = [
-    "NaturalLanguageConsciousnessInterface",
-    "ConversationManager",
     "ConversationIntent",
+    "ConversationManager",
     "EmotionalTone",
+    "NaturalLanguageConsciousnessInterface",
 ]

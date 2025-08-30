@@ -23,9 +23,7 @@ class ServiceDiscovery:
     def __init__(self):
         self.hub_registry = get_hub_registry()
 
-    def find_service(
-        self, service_name: str, preferred_hub: Optional[str] = None
-    ) -> Optional[Any]:
+    def find_service(self, service_name: str, preferred_hub: Optional[str] = None) -> Optional[Any]:
         """Find a service across all hubs"""
 
         # Try preferred hub first
@@ -34,9 +32,7 @@ class ServiceDiscovery:
             if hub:
                 service = hub.get_service(service_name)
                 if service:
-                    logger.debug(
-                        f"Found {service_name} in preferred hub {preferred_hub}"
-                    )
+                    logger.debug(f"Found {service_name} in preferred hub {preferred_hub}")
                     return service
 
         # Search all hubs
@@ -56,9 +52,7 @@ class ServiceDiscovery:
         logger.warning(f"Service {service_name} not found in any hub")
         return None
 
-    def register_service_globally(
-        self, service_name: str, service: Any, hub_name: str
-    ) -> bool:
+    def register_service_globally(self, service_name: str, service: Any, hub_name: str) -> bool:
         """Register a service in a specific hub"""
         hub = self.hub_registry.get_hub(hub_name)
         if hub:

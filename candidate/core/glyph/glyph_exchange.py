@@ -43,9 +43,7 @@ class CompressedDreamTagRequest(BaseModel):
     compressed_data: str = Field(
         ..., description="Base64-encoded zlib-compressed dream tag payload"
     )
-    activate_glyphs: bool = Field(
-        True, description="Whether to activate glyphs during processing"
-    )
+    activate_glyphs: bool = Field(True, description="Whether to activate glyphs during processing")
 
 
 class APIResponse(BaseModel):
@@ -70,8 +68,7 @@ async def export_glyphs(limit: int = 100) -> APIResponse:
     }
     sorted_glyphs = sorted(glyph_counts.items(), key=lambda x: x[1], reverse=True)
     export_list = [
-        {"glyph": g, "count": c, "meaning": GLYPH_MAP.get(g)}
-        for g, c in sorted_glyphs[:limit]
+        {"glyph": g, "count": c, "meaning": GLYPH_MAP.get(g)} for g, c in sorted_glyphs[:limit]
     ]
     return APIResponse(status="success", data=export_list, message="glyph_export")
 
@@ -98,7 +95,7 @@ async def submit_compressed_dream_tags(
         raw = base64.b64decode(request.compressed_data)
         payload_json = zlib.decompress(raw).decode()
         dream_data = json.loads(payload_json)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.error("Failed to decode dream tags: %s", exc)
         raise HTTPException(status_code=400, detail="Invalid compressed data")
 

@@ -152,9 +152,7 @@ class MemoryHealthDashboard:
         }
 
     # LUKHAS_TAG: health_metrics_core
-    def get_memory_health_metrics(
-        self, force_refresh: bool = False
-    ) -> MemoryHealthMetrics:
+    def get_memory_health_metrics(self, force_refresh: bool = False) -> MemoryHealthMetrics:
         """
         Get comprehensive memory health metrics.
 
@@ -202,9 +200,7 @@ class MemoryHealthDashboard:
         # Cache results
         self._cache_data(cache_key, metrics)
 
-        logger.info(
-            f"Memory health metrics calculated: stability_score={stability_score:.3f}"
-        )
+        logger.info(f"Memory health metrics calculated: stability_score={stability_score:.3f}")
 
         return metrics
 
@@ -253,9 +249,7 @@ class MemoryHealthDashboard:
         Returns:
             List of DriftEventSummary objects for recent drift events
         """
-        logger.debug(
-            f"Retrieving recent drift events: hours_back={hours_back}, limit={limit}"
-        )
+        logger.debug(f"Retrieving recent drift events: hours_back={hours_back}, limit={limit}")
 
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_back)
         drift_events = []
@@ -323,19 +317,13 @@ class MemoryHealthDashboard:
                 "critical_blocks": len(
                     [b for b in active_cascades if b.severity_level == "critical"]
                 ),
-                "intervention_types": Counter(
-                    [b.intervention_type for b in active_cascades]
-                ),
+                "intervention_types": Counter([b.intervention_type for b in active_cascades]),
             },
             "drift_overview": {
                 "recent_events": len(recent_drifts),
-                "high_severity_events": len(
-                    [d for d in recent_drifts if d.drift_score > 0.7]
-                ),
+                "high_severity_events": len([d for d in recent_drifts if d.drift_score > 0.7]),
                 "average_drift": (
-                    np.mean([d.drift_score for d in recent_drifts])
-                    if recent_drifts
-                    else 0.0
+                    np.mean([d.drift_score for d in recent_drifts]) if recent_drifts else 0.0
                 ),
             },
             "performance_metrics": performance_metrics,
@@ -401,9 +389,7 @@ class MemoryHealthDashboard:
 
                                 # Entanglement level analysis
                                 entanglement = trace_data.get("entanglement_level", 0)
-                                dream_analytics["integration_quality_scores"].append(
-                                    entanglement
-                                )
+                                dream_analytics["integration_quality_scores"].append(entanglement)
 
                                 # Tier distribution
                                 tier = trace_data.get("tier_gate", "unknown")
@@ -421,7 +407,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing dream integration: {str(e)}")
+            logger.error(f"Error analyzing dream integration: {e!s}")
 
         # Calculate averages
         if dream_analytics["integration_quality_scores"]:
@@ -432,9 +418,7 @@ class MemoryHealthDashboard:
         # Calculate success rate
         total = dream_analytics["total_dreams_processed"]
         if total > 0:
-            dream_analytics["success_rate"] = (
-                dream_analytics["successful_integrations"] / total
-            )
+            dream_analytics["success_rate"] = dream_analytics["successful_integrations"] / total
         else:
             dream_analytics["success_rate"] = 0.0
 
@@ -475,9 +459,7 @@ class MemoryHealthDashboard:
 
                                 new_state = entry.get("new_state", {})
                                 if "importance_score" in new_state:
-                                    importance_scores.append(
-                                        new_state["importance_score"]
-                                    )
+                                    importance_scores.append(new_state["importance_score"])
                                 if "access_count" in new_state:
                                     access_counts.append(new_state["access_count"])
 
@@ -489,13 +471,11 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing fold integrity log: {str(e)}")
+            logger.error(f"Error analyzing fold integrity log: {e!s}")
 
         # Calculate statistics
         stats["total_folds"] = len(fold_keys)
-        stats["active_folds"] = len(
-            fold_keys
-        )  # Simplified - all logged folds considered active
+        stats["active_folds"] = len(fold_keys)  # Simplified - all logged folds considered active
 
         if importance_scores:
             stats["average_importance"] = np.mean(importance_scores)
@@ -525,7 +505,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing compression efficiency: {str(e)}")
+            logger.error(f"Error analyzing compression efficiency: {e!s}")
 
         if compression_ratios:
             stats["average_efficiency"] = np.mean(compression_ratios)
@@ -551,7 +531,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing dream integration: {str(e)}")
+            logger.error(f"Error analyzing dream integration: {e!s}")
 
         if entanglement_levels:
             stats["average_entanglement"] = np.mean(entanglement_levels)
@@ -559,9 +539,7 @@ class MemoryHealthDashboard:
 
         return stats
 
-    def _calculate_system_stability(
-        self, fold_stats, compression_stats, dream_stats
-    ) -> float:
+    def _calculate_system_stability(self, fold_stats, compression_stats, dream_stats) -> float:
         """Calculate overall system stability score."""
         # Normalize components
         fold_stability = min(1.0 - fold_stats["drift_variance"], 1.0)
@@ -569,9 +547,7 @@ class MemoryHealthDashboard:
         dream_stability = min(dream_stats["average_entanglement"] / 15.0, 1.0)
 
         # Weighted combination
-        stability = (
-            fold_stability * 0.5 + compression_stability * 0.3 + dream_stability * 0.2
-        )
+        stability = fold_stability * 0.5 + compression_stability * 0.3 + dream_stability * 0.2
 
         return max(0.0, min(stability, 1.0))
 
@@ -608,11 +584,7 @@ class MemoryHealthDashboard:
                                         severity_level="critical",
                                         intervention_type="emergency_stabilization",
                                         duration_minutes=age_minutes,
-                                        status=(
-                                            "active"
-                                            if age_minutes < 30
-                                            else "cooling_down"
-                                        ),
+                                        status=("active" if age_minutes < 30 else "cooling_down"),
                                         related_metrics={
                                             "emotion_volatility": entry.get(
                                                 "emotion_volatility", 0.0
@@ -630,7 +602,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error getting emotional cascade blocks: {str(e)}")
+            logger.error(f"Error getting emotional cascade blocks: {e!s}")
 
         return blocks
 
@@ -674,15 +646,9 @@ class MemoryHealthDashboard:
                                                 "recommended_intervention", "monitor"
                                             ),
                                             duration_minutes=age_minutes,
-                                            status=(
-                                                "active"
-                                                if age_minutes < 60
-                                                else "monitoring"
-                                            ),
+                                            status=("active" if age_minutes < 60 else "monitoring"),
                                             related_metrics={
-                                                "risk_factors": entry.get(
-                                                    "risk_factors", {}
-                                                ),
+                                                "risk_factors": entry.get("risk_factors", {}),
                                                 "detected_patterns_count": len(
                                                     entry.get("detected_patterns", [])
                                                 ),
@@ -696,7 +662,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error getting ethical governance blocks: {str(e)}")
+            logger.error(f"Error getting ethical governance blocks: {e!s}")
 
         return blocks
 
@@ -736,11 +702,7 @@ class MemoryHealthDashboard:
                                             ).lower(),
                                             intervention_type="compression_throttle",
                                             duration_minutes=age_minutes,
-                                            status=(
-                                                "active"
-                                                if age_minutes < 15
-                                                else "recovering"
-                                            ),
+                                            status=("active" if age_minutes < 15 else "recovering"),
                                             related_metrics={
                                                 "entropy_ratio": loop_detection.get(
                                                     "entropy_analysis", {}
@@ -749,9 +711,7 @@ class MemoryHealthDashboard:
                                                     "call_stack_depth", 0
                                                 ),
                                                 "loop_indicators_count": len(
-                                                    loop_detection.get(
-                                                        "loop_indicators", []
-                                                    )
+                                                    loop_detection.get("loop_indicators", [])
                                                 ),
                                             },
                                         )
@@ -763,7 +723,7 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error getting compression loop blocks: {str(e)}")
+            logger.error(f"Error getting compression loop blocks: {e!s}")
 
         return blocks
 
@@ -796,9 +756,7 @@ class MemoryHealthDashboard:
                                         drift_type="importance_drift",
                                         causative_factors=["importance_change"],
                                         stability_impact=entry.get("drift_score", 0.0),
-                                        resolution_status=entry.get(
-                                            "severity", "unknown"
-                                        ),
+                                        resolution_status=entry.get("severity", "unknown"),
                                     )
                                     events.append(event)
 
@@ -806,13 +764,11 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing drift events: {str(e)}")
+            logger.error(f"Error analyzing drift events: {e!s}")
 
         return events
 
-    def _analyze_dream_induced_drifts(
-        self, cutoff_time: datetime
-    ) -> list[DriftEventSummary]:
+    def _analyze_dream_induced_drifts(self, cutoff_time: datetime) -> list[DriftEventSummary]:
         """Analyze dream-induced drift events."""
         events = []
 
@@ -823,26 +779,18 @@ class MemoryHealthDashboard:
                         try:
                             entry = json.loads(line.strip())
                             timestamp_str = entry.get("timestamp_utc", "")
-                            timestamp = datetime.fromisoformat(
-                                timestamp_str.replace("Z", "+00:00")
-                            )
+                            timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
 
-                            if (
-                                timestamp >= cutoff_time
-                                and entry.get("drift_score", 0.0) > 0.3
-                            ):
+                            if timestamp >= cutoff_time and entry.get("drift_score", 0.0) > 0.3:
                                 event = DriftEventSummary(
-                                    event_id=entry.get(
-                                        "link_id", f"dream_drift_{timestamp_str}"
-                                    ),
+                                    event_id=entry.get("link_id", f"dream_drift_{timestamp_str}"),
                                     fold_key=entry.get("dream_id", "unknown"),
                                     drift_score=entry.get("drift_score", 0.0),
                                     entropy_delta=entry.get("entropy_delta", 0.0),
                                     event_timestamp=timestamp_str,
                                     drift_type="dream_induced",
                                     causative_factors=entry.get("safeguard_flags", []),
-                                    stability_impact=entry.get("entanglement_level", 0)
-                                    / 15.0,
+                                    stability_impact=entry.get("entanglement_level", 0) / 15.0,
                                     resolution_status=(
                                         "integrated"
                                         if not entry.get("safeguard_flags")
@@ -855,13 +803,11 @@ class MemoryHealthDashboard:
                             continue
 
         except Exception as e:
-            logger.error(f"Error analyzing dream-induced drifts: {str(e)}")
+            logger.error(f"Error analyzing dream-induced drifts: {e!s}")
 
         return events
 
-    def _calculate_drift_trends(
-        self, recent_drifts: list[DriftEventSummary]
-    ) -> dict[str, Any]:
+    def _calculate_drift_trends(self, recent_drifts: list[DriftEventSummary]) -> dict[str, Any]:
         """Calculate trends in drift events."""
         if not recent_drifts:
             return {"trend": "stable", "average_drift": 0.0, "event_frequency": 0.0}
@@ -895,9 +841,7 @@ class MemoryHealthDashboard:
             "drift_variance": np.var(drift_scores),
         }
 
-    def _calculate_cascade_trends(
-        self, active_cascades: list[CascadeBlockInfo]
-    ) -> dict[str, Any]:
+    def _calculate_cascade_trends(self, active_cascades: list[CascadeBlockInfo]) -> dict[str, Any]:
         """Calculate trends in cascade activations."""
         cascade_types = Counter([c.block_type for c in active_cascades])
         severity_levels = Counter([c.severity_level for c in active_cascades])
@@ -908,9 +852,7 @@ class MemoryHealthDashboard:
             "severity_distribution": dict(severity_levels),
             "critical_count": severity_levels.get("critical", 0),
             "average_duration": (
-                np.mean([c.duration_minutes for c in active_cascades])
-                if active_cascades
-                else 0.0
+                np.mean([c.duration_minutes for c in active_cascades]) if active_cascades else 0.0
             ),
         }
 
@@ -947,9 +889,7 @@ class MemoryHealthDashboard:
             )
 
         # Cascade-based recommendations
-        critical_cascades = [
-            c for c in active_cascades if c.severity_level == "critical"
-        ]
+        critical_cascades = [c for c in active_cascades if c.severity_level == "critical"]
         if len(critical_cascades) > 2:
             recommendations.append(
                 "Multiple critical cascade blocks detected - recommend manual intervention review"
@@ -986,13 +926,9 @@ class MemoryHealthDashboard:
         else:
             return "critical"
 
-    def _determine_alert_level(
-        self, health_metrics, active_cascades, recent_drifts
-    ) -> str:
+    def _determine_alert_level(self, health_metrics, active_cascades, recent_drifts) -> str:
         """Determine system alert level."""
-        critical_cascades = [
-            c for c in active_cascades if c.severity_level == "critical"
-        ]
+        critical_cascades = [c for c in active_cascades if c.severity_level == "critical"]
         high_drift_count = len([d for d in recent_drifts if d.drift_score > 0.8])
 
         if len(critical_cascades) > 0 or health_metrics.stability_score < 0.5:
@@ -1028,10 +964,10 @@ def create_memory_dashboard() -> MemoryHealthDashboard:
 
 # Export main classes
 __all__ = [
-    "MemoryHealthDashboard",
-    "MemoryHealthMetrics",
     "CascadeBlockInfo",
     "DriftEventSummary",
+    "MemoryHealthDashboard",
+    "MemoryHealthMetrics",
     "create_memory_dashboard",
 ]
 

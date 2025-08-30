@@ -166,7 +166,7 @@ class EthicsReportExporter:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ethics Drift Report - {result.get('trace_index', 'Unknown')}</title>
+    <title>Ethics Drift Report - {result.get("trace_index", "Unknown")}</title>
     <style>
         body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }}
         .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }}
@@ -184,24 +184,24 @@ class EthicsReportExporter:
     <div class="container">
         <div class="header">
             <h1>🧠 LUKHAS Ethics Drift Report</h1>
-            <p><strong>Trace Index:</strong> {result.get('trace_index', 'Unknown')}</p>
-            <p><strong>Generated:</strong> {result.get('timestamp', 'Unknown')}</p>
+            <p><strong>Trace Index:</strong> {result.get("trace_index", "Unknown")}</p>
+            <p><strong>Generated:</strong> {result.get("timestamp", "Unknown")}</p>
         </div>
 
         <div class="metric-box">
             <h2>Overall Assessment</h2>
             <p><strong>Status:</strong> <span class="status-badge">{status}</span></p>
-            <p><strong>Drift Score:</strong> {result.get('drift_score', 0)}</p>
-            <p><strong>Confidence:</strong> {ethics_assessment.get('confidence', 'N/A')}</p>
-            <p><strong>Recommendation:</strong> {ethics_assessment.get('recommendation', 'No recommendation')}</p>
+            <p><strong>Drift Score:</strong> {result.get("drift_score", 0)}</p>
+            <p><strong>Confidence:</strong> {ethics_assessment.get("confidence", "N/A")}</p>
+            <p><strong>Recommendation:</strong> {ethics_assessment.get("recommendation", "No recommendation")}</p>
         </div>
 
         <div class="metric-box">
             <h2>Escalation Information</h2>
-            <p><strong>Escalation Triggered:</strong> {'Yes' if escalation.get('escalation_triggered', False) else 'No'}</p>
-            <p><strong>Level:</strong> {escalation.get('escalation_level', 'None')}</p>
-            <p><strong>Actions Required:</strong> {', '.join(escalation.get('actions_required', []))}</p>
-            <p><strong>Notifications:</strong> {', '.join(escalation.get('notifications', []))}</p>
+            <p><strong>Escalation Triggered:</strong> {"Yes" if escalation.get("escalation_triggered", False) else "No"}</p>
+            <p><strong>Level:</strong> {escalation.get("escalation_level", "None")}</p>
+            <p><strong>Actions Required:</strong> {", ".join(escalation.get("actions_required", []))}</p>
+            <p><strong>Notifications:</strong> {", ".join(escalation.get("notifications", []))}</p>
         </div>
         """
 
@@ -224,16 +224,14 @@ class EthicsReportExporter:
 
             for violation in violations:
                 severity = violation.get("severity", "LOW")
-                css_class = (
-                    "critical" if severity in ["CRITICAL", "HIGH"] else "violation"
-                )
+                css_class = "critical" if severity in ["CRITICAL", "HIGH"] else "violation"
                 html += f"""
                     <tr class="{css_class}">
-                        <td>{violation.get('attribute', '')}</td>
-                        <td>{violation.get('from', '')}</td>
-                        <td>{violation.get('to', '')}</td>
+                        <td>{violation.get("attribute", "")}</td>
+                        <td>{violation.get("from", "")}</td>
+                        <td>{violation.get("to", "")}</td>
                         <td>{severity}</td>
-                        <td>{', '.join(violation.get('tags', []))}</td>
+                        <td>{", ".join(violation.get("tags", []))}</td>
                     </tr>
                 """
 
@@ -279,9 +277,7 @@ class EthicsReportExporter:
             },
             "metrics": {
                 "confidence": result.get("ethics_assessment", {}).get("confidence", 0),
-                "escalation_level": result.get("escalation", {}).get(
-                    "escalation_level", "none"
-                ),
+                "escalation_level": result.get("escalation", {}).get("escalation_level", "none"),
             },
             "violations_by_severity": self._group_violations_by_severity(
                 result.get("violations", [])
@@ -335,9 +331,7 @@ class EthicsReportExporter:
             "trace_index": result.get("trace_index", ""),
             "drift_score": result.get("drift_score", 0),
             "status": result.get("ethics_assessment", {}).get("status", "UNKNOWN"),
-            "escalation_triggered": result.get("escalation", {}).get(
-                "escalation_triggered", False
-            ),
+            "escalation_triggered": result.get("escalation", {}).get("escalation_triggered", False),
             "violation_count": result.get("violation_count", 0),
             "agent": result.get("agent", ""),
             "context_id": result.get("context_id", ""),
@@ -363,19 +357,13 @@ class EthicsReportExporter:
 
         total_reports = len(results)
         critical_incidents = sum(
-            1
-            for r in results
-            if r.get("ethics_assessment", {}).get("status") == "CRITICAL"
+            1 for r in results if r.get("ethics_assessment", {}).get("status") == "CRITICAL"
         )
         warning_incidents = sum(
-            1
-            for r in results
-            if r.get("ethics_assessment", {}).get("status") == "WARNING"
+            1 for r in results if r.get("ethics_assessment", {}).get("status") == "WARNING"
         )
         escalations = sum(
-            1
-            for r in results
-            if r.get("escalation", {}).get("escalation_triggered", False)
+            1 for r in results if r.get("escalation", {}).get("escalation_triggered", False)
         )
         avg_drift_score = (
             sum(r.get("drift_score", 0) for r in results) / total_reports
@@ -392,9 +380,7 @@ class EthicsReportExporter:
             "risk_assessment": {
                 "critical_incidents": critical_incidents,
                 "warning_incidents": warning_incidents,
-                "normal_operations": total_reports
-                - critical_incidents
-                - warning_incidents,
+                "normal_operations": total_reports - critical_incidents - warning_incidents,
                 "escalations_triggered": escalations,
                 "average_drift_score": round(avg_drift_score, 2),
             },
@@ -438,9 +424,7 @@ class EthicsReportExporter:
                 "POLICY: Consider updating ethical thresholds and monitoring protocols"
             )
         if critical == 0 and warnings < 3 and avg_score < 2:
-            recommendations.append(
-                "NORMAL: Ethics monitoring within acceptable parameters"
-            )
+            recommendations.append("NORMAL: Ethics monitoring within acceptable parameters")
 
         return recommendations
 

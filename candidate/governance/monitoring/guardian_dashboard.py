@@ -140,13 +140,19 @@ class ThreatPredictor:
     def _update_governance_factors(self, threat: ThreatEvent):
         """Update governance-specific prediction factors"""
         if threat.governance_validated:
-            self.governance_factors["validation_rate"] = self.governance_factors.get("validation_rate", 0.5) + 0.1
+            self.governance_factors["validation_rate"] = (
+                self.governance_factors.get("validation_rate", 0.5) + 0.1
+            )
         else:
-            self.governance_factors["validation_rate"] = max(0.0, self.governance_factors.get("validation_rate", 0.5) - 0.2)
+            self.governance_factors["validation_rate"] = max(
+                0.0, self.governance_factors.get("validation_rate", 0.5) - 0.2
+            )
 
         # Track intervention effectiveness
         if threat.intervention_triggered and threat.resolved:
-            self.governance_factors["intervention_success"] = self.governance_factors.get("intervention_success", 0.5) + 0.1
+            self.governance_factors["intervention_success"] = (
+                self.governance_factors.get("intervention_success", 0.5) + 0.1
+            )
 
     def predict_next_threat(self) -> dict[str, float]:
         """Predict probability of next threat types with governance weighting"""
@@ -183,9 +189,7 @@ class ThreatPredictor:
         if prediction_scores:
             max_score = max(prediction_scores.values())
             if max_score > 0:
-                prediction_scores = {
-                    k: v / max_score for k, v in prediction_scores.items()
-                }
+                prediction_scores = {k: v / max_score for k, v in prediction_scores.items()}
 
         return dict(prediction_scores)
 
@@ -204,20 +208,18 @@ class ThreatPredictor:
         avg_severity_change = statistics.mean(severity_trend) if severity_trend else 0
 
         # Most common patterns
-        top_patterns = sorted(
-            self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True
-        )[:5]
+        top_patterns = sorted(self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True)[
+            :5
+        ]
 
         # Recent activity
-        recent_activity = len(
-            [t for t in threats if time.time() - t.timestamp < 300]
-        )  # 5 minutes
+        recent_activity = len([t for t in threats if time.time() - t.timestamp < 300])  # 5 minutes
 
         # Governance metrics
         validated_threats = len([t for t in threats if t.governance_validated])
-        intervention_success_rate = len([
-            t for t in threats if t.intervention_triggered and t.resolved
-        ]) / max(1, len([t for t in threats if t.intervention_triggered]))
+        intervention_success_rate = len(
+            [t for t in threats if t.intervention_triggered and t.resolved]
+        ) / max(1, len([t for t in threats if t.intervention_triggered]))
 
         return {
             "total_threats": len(threats),
@@ -227,7 +229,7 @@ class ThreatPredictor:
             "prediction_confidence": min(1.0, len(threats) / 50),
             "governance_validation_rate": validated_threats / len(threats) if threats else 1.0,
             "intervention_success_rate": intervention_success_rate,
-            "governance_factors": self.governance_factors
+            "governance_factors": self.governance_factors,
         }
 
 
@@ -248,8 +250,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": True,
                 "escalation_threshold": 0.7,
-                "symbolic_pattern": ["⚛️", "🌪️", "🛡️"]
-            }
+                "symbolic_pattern": ["⚛️", "🌪️", "🛡️"],
+            },
         },
         "entropy_surge": {
             "symbol": "🔥",
@@ -260,8 +262,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": True,
                 "escalation_threshold": 0.8,
-                "symbolic_pattern": ["🔥", "📈", "🛡️"]
-            }
+                "symbolic_pattern": ["🔥", "📈", "🛡️"],
+            },
         },
         "pattern_anomaly": {
             "symbol": "❌",
@@ -272,8 +274,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": False,
                 "escalation_threshold": 0.6,
-                "symbolic_pattern": ["❌", "🔄", "🛡️"]
-            }
+                "symbolic_pattern": ["❌", "🔄", "🛡️"],
+            },
         },
         "consciousness_instability": {
             "symbol": "⚡",
@@ -284,8 +286,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": True,
                 "escalation_threshold": 0.9,
-                "symbolic_pattern": ["🧠", "⚡", "🛡️"]
-            }
+                "symbolic_pattern": ["🧠", "⚡", "🛡️"],
+            },
         },
         "memory_fragmentation": {
             "symbol": "🧩",
@@ -296,8 +298,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": False,
                 "escalation_threshold": 0.5,
-                "symbolic_pattern": ["🧩", "💥", "🛡️"]
-            }
+                "symbolic_pattern": ["🧩", "💥", "🛡️"],
+            },
         },
         "governance_drift": {
             "symbol": "🛡️",
@@ -308,8 +310,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": True,
                 "escalation_threshold": 0.4,
-                "symbolic_pattern": ["🛡️", "⚠️", "🚨"]
-            }
+                "symbolic_pattern": ["🛡️", "⚠️", "🚨"],
+            },
         },
         "ethics_violation": {
             "symbol": "⚖️",
@@ -320,9 +322,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "governance": {
                 "human_oversight_required": True,
                 "escalation_threshold": 0.3,
-                "symbolic_pattern": ["⚖️", "🚨", "🛑"]
-            }
-        }
+                "symbolic_pattern": ["⚖️", "🚨", "🛑"],
+            },
+        },
     }
 
     def __init__(
@@ -353,7 +355,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             memory_usage=0.0,
             cpu_usage=0.0,
             ethics_compliance=1.0,
-            governance_health=1.0
+            governance_health=1.0,
         )
 
         # Emergency state with governance
@@ -365,7 +367,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             response_actions=[],
             escalation_history=[],
             governance_approval=True,
-            human_oversight_required=False
+            human_oversight_required=False,
         )
 
         # Emergency manifest data
@@ -374,7 +376,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
         self.emergency_response_actions: dict = {}
 
         # Dashboard state
-        self.current_view = "overview"  # overview, threats, predictions, analysis, emergency, governance
+        self.current_view = (
+            "overview"  # overview, threats, predictions, analysis, emergency, governance
+        )
         self.selected_threat_index = 0
         self.animation_phase = 0.0
         self.alert_flash_state = False
@@ -429,36 +433,34 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 "level_1_minor": {
                     "approval_authorities": ["system_guardian"],
                     "response_time": 300,
-                    "symbolic_pattern": ["🟡", "⚠️", "🛡️"]
+                    "symbolic_pattern": ["🟡", "⚠️", "🛡️"],
                 },
                 "level_2_moderate": {
                     "approval_authorities": ["system_guardian", "human_overseer"],
                     "response_time": 180,
-                    "symbolic_pattern": ["🟠", "⚠️", "🛡️"]
+                    "symbolic_pattern": ["🟠", "⚠️", "🛡️"],
                 },
                 "level_3_severe": {
                     "approval_authorities": ["human_overseer", "ethics_board"],
                     "response_time": 60,
-                    "symbolic_pattern": ["🔴", "🚨", "🛡️"]
-                }
+                    "symbolic_pattern": ["🔴", "🚨", "🛡️"],
+                },
             },
             "trigger_conditions": {
                 "governance_drift": {
                     "description": "Governance system drift detected",
                     "emergency_level": "level_2_moderate",
-                    "symbolic_sequence": ["🛡️", "🌊", "⚠️"]
+                    "symbolic_sequence": ["🛡️", "🌊", "⚠️"],
                 },
                 "ethics_violation": {
                     "description": "Ethical boundary violation",
                     "emergency_level": "level_3_severe",
-                    "symbolic_sequence": ["⚖️", "🚨", "🛑"]
-                }
-            }
+                    "symbolic_sequence": ["⚖️", "🚨", "🛑"],
+                },
+            },
         }
 
-    async def trigger_emergency_simulation(
-        self, condition_name: str = "governance_drift"
-    ):
+    async def trigger_emergency_simulation(self, condition_name: str = "governance_drift"):
         """Trigger emergency simulation for governance testing"""
         if condition_name not in self.emergency_trigger_conditions:
             print(f"❌ Unknown emergency condition: {condition_name}")
@@ -484,17 +486,18 @@ class GuardianDashboard(GlyphIntegrationMixin):
                     "action": "emergency_simulation_triggered",
                     "condition": condition_name,
                     "level": emergency_level,
-                    "governance_validated": True
+                    "governance_validated": True,
                 }
             ],
             governance_approval=True,
-            human_oversight_required="human_overseer" in level_config.get("approval_authorities", [])
+            human_oversight_required="human_overseer"
+            in level_config.get("approval_authorities", []),
         )
 
         # Log in governance system
         await self._log_governance_action(
             "emergency_simulation_triggered",
-            {"condition": condition_name, "level": emergency_level}
+            {"condition": condition_name, "level": emergency_level},
         )
 
         print(f"🚨 Emergency simulation triggered: {condition_name}")
@@ -504,14 +507,11 @@ class GuardianDashboard(GlyphIntegrationMixin):
     async def resolve_emergency(self):
         """Resolve active emergency with governance validation"""
         if self.emergency_state.active_emergency_level:
-            print(
-                f"✅ Emergency resolved: {self.emergency_state.active_emergency_level}"
-            )
+            print(f"✅ Emergency resolved: {self.emergency_state.active_emergency_level}")
 
             # Log resolution in governance
             await self._log_governance_action(
-                "emergency_resolved",
-                {"level": self.emergency_state.active_emergency_level}
+                "emergency_resolved", {"level": self.emergency_state.active_emergency_level}
             )
 
             self.emergency_state = EmergencyState(
@@ -522,7 +522,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 response_actions=[],
                 escalation_history=[],
                 governance_approval=True,
-                human_oversight_required=False
+                human_oversight_required=False,
             )
 
     async def start_monitoring(self):
@@ -540,7 +540,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 self._simulate_threat_detection(),  # Demo mode
                 self._render_dashboard(),
                 self._handle_input(),
-                self._governance_monitor()
+                self._governance_monitor(),
             )
         except KeyboardInterrupt:
             print(f"\n{Console.YELLOW}🛡️ Guardian Dashboard stopped{Console.RESET}")
@@ -566,7 +566,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 memory_usage=50 + 20 * math.sin(time.time() * 0.02),
                 cpu_usage=20 + 15 * math.sin(time.time() * 0.04),
                 ethics_compliance=0.95 + 0.05 * math.cos(time.time() * 0.02),
-                governance_health=0.98 + 0.02 * math.sin(time.time() * 0.01)
+                governance_health=0.98 + 0.02 * math.sin(time.time() * 0.01),
             )
 
             await asyncio.sleep(1.0)
@@ -577,9 +577,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
         while self.running:
             # Randomly generate threats
-            if (
-                len(self.active_threats) < 5 and time.time() % 10 < 0.5
-            ):  # Throttled generation
+            if len(self.active_threats) < 5 and time.time() % 10 < 0.5:  # Throttled generation
                 if (
                     not hasattr(self, "_last_threat_time")
                     or time.time() - self._last_threat_time > 8
@@ -596,7 +594,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                         source="guardian.sentinel",
                         symbolic_pattern=self._generate_symbolic_pattern(threat_type),
                         metadata=self._generate_threat_metadata(threat_type),
-                        governance_validated=True
+                        governance_validated=True,
                     )
 
                     self.active_threats.append(threat)
@@ -606,7 +604,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                     # Log threat in governance system
                     await self._log_governance_action(
                         "threat_detected",
-                        {"threat_id": threat.id, "type": threat_type, "severity": threat.severity}
+                        {"threat_id": threat.id, "type": threat_type, "severity": threat.severity},
                     )
 
             # Resolve old threats
@@ -624,8 +622,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
                     # Log resolution
                     await self._log_governance_action(
-                        "threat_resolved",
-                        {"threat_id": threat.id, "resolution_time": threat_age}
+                        "threat_resolved", {"threat_id": threat.id, "resolution_time": threat_age}
                     )
 
             await asyncio.sleep(2.0)
@@ -646,7 +643,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 governance_issues.append("threat_overload")
 
             # Generate governance-specific threats if needed
-            if governance_issues and not any(t.type.startswith("governance") for t in self.active_threats):
+            if governance_issues and not any(
+                t.type.startswith("governance") for t in self.active_threats
+            ):
                 await self._generate_governance_threat(governance_issues[0])
 
             await asyncio.sleep(15.0)  # Check every 15 seconds
@@ -664,15 +663,14 @@ class GuardianDashboard(GlyphIntegrationMixin):
             source="governance.monitor",
             symbolic_pattern=["🛡️", "⚠️", "🌊"],
             metadata={"issue_type": issue_type, "governance_validated": True},
-            governance_validated=True
+            governance_validated=True,
         )
 
         self.active_threats.append(threat)
         self.threat_predictor.add_threat(threat)
 
         await self._log_governance_action(
-            "governance_threat_generated",
-            {"threat_id": threat_id, "issue_type": issue_type}
+            "governance_threat_generated", {"threat_id": threat_id, "issue_type": issue_type}
         )
 
     def _generate_realistic_threat(self) -> str:
@@ -687,7 +685,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             ),
             "memory_fragmentation": max(0.1, self.current_metrics.memory_usage / 100),
             "governance_drift": max(0.1, 1.0 - self.current_metrics.governance_health) * 2,
-            "ethics_violation": max(0.05, 1.0 - self.current_metrics.ethics_compliance) * 3
+            "ethics_violation": max(0.05, 1.0 - self.current_metrics.ethics_compliance) * 3,
         }
 
         # Simple weighted selection
@@ -711,7 +709,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "consciousness_instability": 0.7,
             "memory_fragmentation": 0.2,
             "governance_drift": 0.8,
-            "ethics_violation": 0.9
+            "ethics_violation": 0.9,
         }.get(threat_type, 0.5)
 
         # Add randomness based on current system state
@@ -734,7 +732,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "consciousness_instability": ["🧠", "⚡", "🛡️"],
             "memory_fragmentation": ["🧩", "💥", "🛡️"],
             "governance_drift": ["🛡️", "🌊", "⚠️"],
-            "ethics_violation": ["⚖️", "🚨", "🛑"]
+            "ethics_violation": ["⚖️", "🚨", "🛑"],
         }
         return patterns.get(threat_type, ["⚠️", "🔍", "🛡️"])
 
@@ -752,8 +750,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "trinity_framework_impact": {
                 "identity": threat_type in ["governance_drift", "ethics_violation"],
                 "consciousness": threat_type in ["consciousness_instability", "pattern_anomaly"],
-                "guardian": True  # All threats affect guardian
-            }
+                "guardian": True,  # All threats affect guardian
+            },
         }
 
     async def _log_governance_action(self, action: str, metadata: dict):
@@ -762,7 +760,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "timestamp": time.time(),
             "action": action,
             "metadata": metadata,
-            "source": "guardian_dashboard"
+            "source": "guardian_dashboard",
         }
 
         self.governance_log.append(log_entry)
@@ -820,25 +818,35 @@ class GuardianDashboard(GlyphIntegrationMixin):
         print(f"{Console.BOLD}GOVERNANCE HEALTH{Console.RESET}", end="")
 
         gov_health_color = (
-            Console.GREEN if self.current_metrics.governance_health > 0.95
-            else Console.YELLOW if self.current_metrics.governance_health > 0.9
+            Console.GREEN
+            if self.current_metrics.governance_health > 0.95
+            else Console.YELLOW
+            if self.current_metrics.governance_health > 0.9
             else Console.RED
         )
         health_bar = "█" * int(self.current_metrics.governance_health * 20)
 
         print(Console.move_cursor(6, 5), end="")
-        print(f"System Health: {gov_health_color}{health_bar}{Console.RESET} {self.current_metrics.governance_health:.1%}", end="")
+        print(
+            f"System Health: {gov_health_color}{health_bar}{Console.RESET} {self.current_metrics.governance_health:.1%}",
+            end="",
+        )
 
         # Ethics Compliance
         ethics_color = (
-            Console.GREEN if self.current_metrics.ethics_compliance > 0.95
-            else Console.YELLOW if self.current_metrics.ethics_compliance > 0.9
+            Console.GREEN
+            if self.current_metrics.ethics_compliance > 0.95
+            else Console.YELLOW
+            if self.current_metrics.ethics_compliance > 0.9
             else Console.RED
         )
         ethics_bar = "█" * int(self.current_metrics.ethics_compliance * 20)
 
         print(Console.move_cursor(7, 5), end="")
-        print(f"Ethics Compliance: {ethics_color}{ethics_bar}{Console.RESET} {self.current_metrics.ethics_compliance:.1%}", end="")
+        print(
+            f"Ethics Compliance: {ethics_color}{ethics_bar}{Console.RESET} {self.current_metrics.ethics_compliance:.1%}",
+            end="",
+        )
 
         # Trinity Framework Status
         print(Console.move_cursor(9, 5), end="")
@@ -847,11 +855,13 @@ class GuardianDashboard(GlyphIntegrationMixin):
         trinity_status = {
             "⚛️ Identity": self.current_metrics.governance_health,
             "🧠 Consciousness": self.current_metrics.consciousness_stability,
-            "🛡️ Guardian": 1.0 - self.current_metrics.guardian_load
+            "🛡️ Guardian": 1.0 - self.current_metrics.guardian_load,
         }
 
         for i, (component, health) in enumerate(trinity_status.items()):
-            color = Console.GREEN if health > 0.8 else Console.YELLOW if health > 0.6 else Console.RED
+            color = (
+                Console.GREEN if health > 0.8 else Console.YELLOW if health > 0.6 else Console.RED
+            )
             bar = "█" * int(health * 15) + "░" * (15 - int(health * 15))
 
             print(Console.move_cursor(10 + i, 5), end="")
@@ -876,7 +886,13 @@ class GuardianDashboard(GlyphIntegrationMixin):
         print(f"Total Actions Logged: {len(self.governance_log)}", end="")
 
         print(Console.move_cursor(16, 5), end="")
-        governance_threats = len([t for t in self.active_threats if t.type.startswith("governance") or t.type.startswith("ethics")])
+        governance_threats = len(
+            [
+                t
+                for t in self.active_threats
+                if t.type.startswith("governance") or t.type.startswith("ethics")
+            ]
+        )
         print(f"Governance Threats: {governance_threats}", end="")
 
         print(Console.move_cursor(17, 5), end="")
@@ -944,39 +960,51 @@ class GuardianDashboard(GlyphIntegrationMixin):
             print(f"{Console.YELLOW}Duration: {age:.0f}s{Console.RESET}", end="")
 
             print(Console.move_cursor(9, 5), end="")
-            oversight_status = "REQUIRED" if self.emergency_state.human_oversight_required else "OPTIONAL"
+            oversight_status = (
+                "REQUIRED" if self.emergency_state.human_oversight_required else "OPTIONAL"
+            )
             print(f"{Console.CYAN}Human Oversight: {oversight_status}{Console.RESET}", end="")
         else:
             # Trinity Framework status with governance
             trinity_color = (
                 Console.GREEN
-                if (self.current_metrics.consciousness_stability > 0.8 and
-                    self.current_metrics.governance_health > 0.95)
+                if (
+                    self.current_metrics.consciousness_stability > 0.8
+                    and self.current_metrics.governance_health > 0.95
+                )
                 else Console.YELLOW
             )
-            print(
-                f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end=""
-            )
+            print(f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end="")
 
             # Governance health
             gov_color = (
-                Console.GREEN if self.current_metrics.governance_health > 0.95
-                else Console.YELLOW if self.current_metrics.governance_health > 0.9
+                Console.GREEN
+                if self.current_metrics.governance_health > 0.95
+                else Console.YELLOW
+                if self.current_metrics.governance_health > 0.9
                 else Console.RED
             )
 
             print(Console.move_cursor(7, 5), end="")
-            print(f"Governance Health: {gov_color}{self.current_metrics.governance_health:.1%}{Console.RESET}", end="")
+            print(
+                f"Governance Health: {gov_color}{self.current_metrics.governance_health:.1%}{Console.RESET}",
+                end="",
+            )
 
             # Ethics compliance
             ethics_color = (
-                Console.GREEN if self.current_metrics.ethics_compliance > 0.95
-                else Console.YELLOW if self.current_metrics.ethics_compliance > 0.9
+                Console.GREEN
+                if self.current_metrics.ethics_compliance > 0.95
+                else Console.YELLOW
+                if self.current_metrics.ethics_compliance > 0.9
                 else Console.RED
             )
 
             print(Console.move_cursor(8, 5), end="")
-            print(f"Ethics Compliance: {ethics_color}{self.current_metrics.ethics_compliance:.1%}{Console.RESET}", end="")
+            print(
+                f"Ethics Compliance: {ethics_color}{self.current_metrics.ethics_compliance:.1%}{Console.RESET}",
+                end="",
+            )
 
             # Uptime
             uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60):02d}"
@@ -993,15 +1021,21 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
         if not self.active_threats:
             print(Console.move_cursor(6, 45), end="")
-            print(
-                f"{Console.GREEN}✅ No active threats detected{Console.RESET}", end=""
-            )
+            print(f"{Console.GREEN}✅ No active threats detected{Console.RESET}", end="")
         else:
             # Categorize threats
-            governance_threats = [t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]]
-            system_threats = [t for t in self.active_threats if t.type not in ["governance_drift", "ethics_violation"]]
+            governance_threats = [
+                t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]
+            ]
+            system_threats = [
+                t
+                for t in self.active_threats
+                if t.type not in ["governance_drift", "ethics_violation"]
+            ]
 
-            displayed_threats = governance_threats[:3] + system_threats[:2]  # Prioritize governance threats
+            displayed_threats = (
+                governance_threats[:3] + system_threats[:2]
+            )  # Prioritize governance threats
 
             for i, threat in enumerate(displayed_threats):
                 config = self.THREAT_CONFIGS.get(threat.type, {})
@@ -1015,7 +1049,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 print(Console.CLEAR_LINE, end="")
 
                 # Add governance indicator
-                gov_indicator = "🛡️" if threat.type in ["governance_drift", "ethics_violation"] else ""
+                gov_indicator = (
+                    "🛡️" if threat.type in ["governance_drift", "ethics_violation"] else ""
+                )
 
                 print(f"{color}{symbol}{Console.RESET} {gov_indicator}{threat.id} ", end="")
                 print(
@@ -1041,7 +1077,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             ("Drift Velocity", self.current_metrics.drift_velocity, Console.RED),
             ("Consciousness", self.current_metrics.consciousness_stability, Console.BLUE),
             ("Governance", self.current_metrics.governance_health, Console.GREEN),
-            ("Ethics", self.current_metrics.ethics_compliance, Console.PURPLE)
+            ("Ethics", self.current_metrics.ethics_compliance, Console.PURPLE),
         ]
 
         for i, (name, value, color) in enumerate(metrics):
@@ -1058,9 +1094,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             print(Console.move_cursor(14, 45), end="")
             print(f"{Console.BOLD}THREAT PREDICTIONS{Console.RESET}", end="")
 
-            for i, (threat_type, probability) in enumerate(
-                list(predictions.items())[:3]
-            ):
+            for i, (threat_type, probability) in enumerate(list(predictions.items())[:3]):
                 config = self.THREAT_CONFIGS.get(threat_type, {})
                 symbol = config.get("symbol", "⚠️")
                 color = config.get("color", Console.YELLOW)
@@ -1069,7 +1103,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 print(Console.CLEAR_LINE, end="")
 
                 # Add governance indicator for governance threats
-                gov_indicator = "🛡️" if threat_type in ["governance_drift", "ethics_violation"] else ""
+                gov_indicator = (
+                    "🛡️" if threat_type in ["governance_drift", "ethics_violation"] else ""
+                )
 
                 print(
                     f"{color}{symbol}{Console.RESET} {gov_indicator}{threat_type}: {probability:.1%}",
@@ -1127,7 +1163,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
     def get_governance_summary(self) -> dict[str, any]:
         """Get governance monitoring summary"""
-        governance_threats = [t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]]
+        governance_threats = [
+            t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]
+        ]
 
         return {
             "governance_health": self.current_metrics.governance_health,
@@ -1136,14 +1174,14 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "emergency_state": {
                 "active": self.emergency_state.active_emergency_level is not None,
                 "level": self.emergency_state.active_emergency_level,
-                "human_oversight_required": self.emergency_state.human_oversight_required
+                "human_oversight_required": self.emergency_state.human_oversight_required,
             },
             "governance_actions_logged": len(self.governance_log),
             "trinity_framework_status": {
                 "identity": self.current_metrics.governance_health,
                 "consciousness": self.current_metrics.consciousness_stability,
-                "guardian": 1.0 - self.current_metrics.guardian_load
-            }
+                "guardian": 1.0 - self.current_metrics.guardian_load,
+            },
         }
 
 
@@ -1151,9 +1189,7 @@ async def main():
     """Main entry point for governance dashboard"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="LUKHAS Guardian Governance Dashboard"
-    )
+    parser = argparse.ArgumentParser(description="LUKHAS Guardian Governance Dashboard")
     parser.add_argument(
         "--update-interval",
         type=float,

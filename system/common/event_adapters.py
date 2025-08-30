@@ -48,9 +48,7 @@ class MemoryEventAdapter:
 
     def _register_handlers(self):
         """Register event handlers"""
-        event_bus.subscribe(
-            EventTypes.MEMORY_STORED, self._on_memory_stored, is_async=True
-        )
+        event_bus.subscribe(EventTypes.MEMORY_STORED, self._on_memory_stored, is_async=True)
 
     async def _on_memory_stored(self, event: Event):
         """Handle memory stored events"""

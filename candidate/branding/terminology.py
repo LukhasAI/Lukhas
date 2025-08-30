@@ -13,9 +13,9 @@ from . import (
 )
 
 __all__ = [
-    "normalize_output",
-    "normalize_chunk",
-    "validate_branding_compliance",
     "APPROVED_TERMS",
     "SYSTEM_NAME",
+    "normalize_chunk",
+    "normalize_output",
+    "validate_branding_compliance",
 ]

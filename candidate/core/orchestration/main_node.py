@@ -152,13 +152,9 @@ class AdaptiveAGISystem:
         session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
 
         # Check privacy and security
-        privacy_check = self.privacy_manager.check_permissions(
-            user_id, "create_session"
-        )
+        privacy_check = self.privacy_manager.check_permissions(user_id, "create_session")
         if not privacy_check["allowed"]:
-            logger.warning(
-                f"Privacy check failed for {user_id}: {privacy_check['reason']}"
-            )
+            logger.warning(f"Privacy check failed for {user_id}: {privacy_check['reason']}")
             return {"status": "denied", "reason": privacy_check["reason"]}
 
         # Load or create user identity
@@ -174,9 +170,7 @@ class AdaptiveAGISystem:
         }
 
         # Generate initial interface based on user profile
-        device_info = context.get(
-            "device_info", {"type": "desktop", "orientation": "landscape"}
-        )
+        device_info = context.get("device_info", {"type": "desktop", "orientation": "landscape"})
         interface_spec = self.interface_generator.generate_interface(
             user_id,
             context or {},

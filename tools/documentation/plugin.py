@@ -84,9 +84,7 @@ class DocuTutorPlugin(LUKHASPlugin):
 
         logger.info("DocuTutor plugin initialized and connected to Lukhas systems")
 
-    async def generate_documentation(
-        self, source_path: str, config: GenerationConfig
-    ) -> str:
+    async def generate_documentation(self, source_path: str, config: GenerationConfig) -> str:
         """
         Generate documentation using Lukhas's advanced capabilities.
         """
@@ -149,9 +147,7 @@ class DocuTutorPlugin(LUKHASPlugin):
         # Monitor bio-oscillator patterns if enabled
         if config.bio_oscillator_aware:
             session.set_bio_monitor(
-                self.bio.create_session_monitor(
-                    session_type="learning", user_id=user.id
-                )
+                self.bio.create_session_monitor(session_type="learning", user_id=user.id)
             )
 
         return session

@@ -33,9 +33,7 @@ try:
     from ...auth_backend.pqc_crypto_engine import PQCCryptoEngine
     from ...backend.dream_engine.dream_injector import create_dream_proposal
 except ImportError:
-    print(
-        "Warning: Some LUKHAS components not available. Dream authentication may be limited."
-    )
+    print("Warning: Some LUKHAS components not available. Dream authentication may be limited.")
 
 logger = logging.getLogger("LUKHAS_DREAM_AUTH")
 
@@ -183,9 +181,7 @@ class DreamAuthenticationEngine:
 
         logger.info("Dream Authentication Engine initialized")
 
-    def register_dream_pattern(
-        self, lambda_id: str, dream_data: dict[str, Any]
-    ) -> DreamPattern:
+    def register_dream_pattern(self, lambda_id: str, dream_data: dict[str, Any]) -> DreamPattern:
         """
         Register a new dream pattern for authentication
 
@@ -197,9 +193,7 @@ class DreamAuthenticationEngine:
             Created DreamPattern
         """
         # Extract dream elements
-        symbolic_content = self._extract_symbolic_content(
-            dream_data.get("narrative", "")
-        )
+        symbolic_content = self._extract_symbolic_content(dream_data.get("narrative", ""))
         emotional_signature = self._analyze_emotional_content(dream_data)
         consciousness_markers = self._extract_consciousness_markers(dream_data)
         temporal_structure = self._analyze_temporal_structure(dream_data)
@@ -224,9 +218,7 @@ class DreamAuthenticationEngine:
 
         # Create dream pattern
         pattern = DreamPattern(
-            pattern_id=hashlib.sha256(
-                f"{lambda_id}_{time.time()}".encode()
-            ).hexdigest()[:16],
+            pattern_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
             dream_state=DreamStateType(dream_data.get("dream_state", "rem")),
             symbolic_content=symbolic_content,
             emotional_signature=emotional_signature,
@@ -263,9 +255,7 @@ class DreamAuthenticationEngine:
         logger.info(f"Registered dream pattern {pattern.pattern_id} for {lambda_id}")
         return pattern
 
-    def create_dream_seed(
-        self, lambda_id: str, difficulty_level: float = 0.8
-    ) -> DreamSeed:
+    def create_dream_seed(self, lambda_id: str, difficulty_level: float = 0.8) -> DreamSeed:
         """
         Create a dream seed for authentication challenge
 
@@ -291,40 +281,26 @@ class DreamAuthenticationEngine:
             for symbol in all_symbols:
                 symbol_counts[symbol] = symbol_counts.get(symbol, 0) + 1
 
-            common_symbols = sorted(
-                symbol_counts.items(), key=lambda x: x[1], reverse=True
-            )
+            common_symbols = sorted(symbol_counts.items(), key=lambda x: x[1], reverse=True)
             expected_elements = [symbol for symbol, _ in common_symbols[:3]]
         else:
             # Use universal symbols for new users
-            expected_elements = random.sample(
-                self.cultural_dream_symbols["universal"], 3
-            )
+            expected_elements = random.sample(self.cultural_dream_symbols["universal"], 3)
 
         # Create symbolic prompt
-        symbolic_prompt = self._generate_symbolic_prompt(
-            expected_elements, difficulty_level
-        )
+        symbolic_prompt = self._generate_symbolic_prompt(expected_elements, difficulty_level)
 
         # Set consciousness target based on difficulty
         if difficulty_level < 0.3:
-            consciousness_target = self.dream_consciousness_signatures[
-                DreamStateType.REM
-            ]
+            consciousness_target = self.dream_consciousness_signatures[DreamStateType.REM]
         elif difficulty_level < 0.7:
-            consciousness_target = self.dream_consciousness_signatures[
-                DreamStateType.LUCID
-            ]
+            consciousness_target = self.dream_consciousness_signatures[DreamStateType.LUCID]
         else:
-            consciousness_target = self.dream_consciousness_signatures[
-                DreamStateType.MEDITATION
-            ]
+            consciousness_target = self.dream_consciousness_signatures[DreamStateType.MEDITATION]
 
         # Create dream seed
         seed = DreamSeed(
-            seed_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[
-                :16
-            ],
+            seed_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
             symbolic_prompt=symbolic_prompt,
             expected_elements=expected_elements,
             consciousness_target=consciousness_target,
@@ -420,15 +396,11 @@ class DreamAuthenticationEngine:
             )
 
             # Calculate archetypal resonance
-            archetypal_resonance = self._calculate_archetypal_resonance(
-                response_symbols
-            )
+            archetypal_resonance = self._calculate_archetypal_resonance(response_symbols)
 
             # Compare with user's historical dream patterns
             user_patterns = self.dream_patterns.get(lambda_id, [])
-            dream_pattern_match = self._calculate_pattern_match(
-                dream_response, user_patterns
-            )
+            dream_pattern_match = self._calculate_pattern_match(dream_response, user_patterns)
 
             # Calculate personal significance match
             personal_significance_match = self._calculate_personal_significance(
@@ -557,9 +529,7 @@ class DreamAuthenticationEngine:
 
         return found_symbols
 
-    def _analyze_emotional_content(
-        self, dream_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _analyze_emotional_content(self, dream_data: dict[str, Any]) -> dict[str, float]:
         """Analyze emotional content of dream"""
         # Extract emotions from dream data
         emotions = dream_data.get("emotions", {})
@@ -576,9 +546,7 @@ class DreamAuthenticationEngine:
 
         return emotions
 
-    def _extract_consciousness_markers(
-        self, dream_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _extract_consciousness_markers(self, dream_data: dict[str, Any]) -> dict[str, float]:
         """Extract consciousness markers from dream"""
         return {
             "awareness_level": dream_data.get("awareness_level", 0.5),
@@ -605,15 +573,11 @@ class DreamAuthenticationEngine:
 
         for symbol in symbols:
             if symbol in self.archetypal_symbols:
-                archetypal_content[symbol] = self.archetypal_symbols[symbol][
-                    "significance"
-                ]
+                archetypal_content[symbol] = self.archetypal_symbols[symbol]["significance"]
 
         return archetypal_content
 
-    def _generate_symbolic_prompt(
-        self, expected_elements: list[str], difficulty: float
-    ) -> str:
+    def _generate_symbolic_prompt(self, expected_elements: list[str], difficulty: float) -> str:
         """Generate symbolic prompt for dream challenge"""
         prompts = [
             f"In your dreams tonight, seek the wisdom of the {expected_elements[0]}",
@@ -670,13 +634,9 @@ class DreamAuthenticationEngine:
             coherence = 1.0 - diff
             coherence_scores.append(coherence)
 
-        return (
-            sum(coherence_scores) / len(coherence_scores) if coherence_scores else 0.0
-        )
+        return sum(coherence_scores) / len(coherence_scores) if coherence_scores else 0.0
 
-    def _verify_lucidity_claims(
-        self, dream_response: dict[str, Any], difficulty: float
-    ) -> bool:
+    def _verify_lucidity_claims(self, dream_response: dict[str, Any], difficulty: float) -> bool:
         """Verify lucidity claims in dream response"""
         lucidity_level = dream_response.get("lucidity_level", 0.0)
 
@@ -690,9 +650,7 @@ class DreamAuthenticationEngine:
             "conscious in the dream",
         ]
 
-        has_indicators = any(
-            indicator in narrative for indicator in lucidity_indicators
-        )
+        has_indicators = any(indicator in narrative for indicator in lucidity_indicators)
 
         # Verify consistency with difficulty level
         if difficulty > 0.7:
@@ -724,9 +682,7 @@ class DreamAuthenticationEngine:
         if not user_patterns:
             return 0.5  # Neutral for new users
 
-        response_symbols = self._extract_symbolic_content(
-            dream_response.get("narrative", "")
-        )
+        response_symbols = self._extract_symbolic_content(dream_response.get("narrative", ""))
         response_emotions = dream_response.get("emotions", {})
 
         best_match = 0.0
@@ -750,9 +706,7 @@ class DreamAuthenticationEngine:
 
         return best_match
 
-    def _calculate_symbol_similarity(
-        self, symbols1: list[str], symbols2: list[str]
-    ) -> float:
+    def _calculate_symbol_similarity(self, symbols1: list[str], symbols2: list[str]) -> float:
         """Calculate similarity between two symbol lists"""
         if not symbols1 and not symbols2:
             return 1.0
@@ -781,9 +735,7 @@ class DreamAuthenticationEngine:
         if not common_emotions:
             return 0.0
 
-        dot_product = sum(
-            emotions1[emotion] * emotions2[emotion] for emotion in common_emotions
-        )
+        dot_product = sum(emotions1[emotion] * emotions2[emotion] for emotion in common_emotions)
         norm1 = math.sqrt(sum(val**2 for val in emotions1.values()))
         norm2 = math.sqrt(sum(val**2 for val in emotions2.values()))
 
@@ -800,9 +752,7 @@ class DreamAuthenticationEngine:
             return 0.5
 
         # Average personal significance from user's patterns
-        avg_significance = sum(p.personal_significance for p in user_patterns) / len(
-            user_patterns
-        )
+        avg_significance = sum(p.personal_significance for p in user_patterns) / len(user_patterns)
 
         # Current dream significance
         current_significance = dream_response.get("personal_significance", 0.5)
@@ -854,10 +804,8 @@ class DreamAuthenticationEngine:
         return {
             "patterns_count": len(user_patterns),
             "seeds_count": len(user_seeds),
-            "avg_lucidity": sum(p.lucidity_level for p in user_patterns)
-            / len(user_patterns),
-            "avg_vividness": sum(p.vividness_score for p in user_patterns)
-            / len(user_patterns),
+            "avg_lucidity": sum(p.lucidity_level for p in user_patterns) / len(user_patterns),
+            "avg_vividness": sum(p.vividness_score for p in user_patterns) / len(user_patterns),
             "avg_significance": sum(p.personal_significance for p in user_patterns)
             / len(user_patterns),
             "most_common_symbols": self._get_most_common_symbols(user_patterns),

@@ -90,9 +90,7 @@ class SymptomReporter:
             # Critical symptom check (Altman: safety first)
             if is_critical:
                 requires_immediate_attention = True
-                await self._handle_critical_situation(
-                    session_id, symptoms + new_symptoms
-                )
+                await self._handle_critical_situation(session_id, symptoms + new_symptoms)
                 break
 
             # Update symptom list
@@ -134,9 +132,7 @@ class SymptomReporter:
             )
 
         # Session completion
-        return await self._complete_session(
-            session_id, symptoms, requires_immediate_attention
-        )
+        return await self._complete_session(session_id, symptoms, requires_immediate_attention)
 
     async def _communicate(self, message: str, user_id: str, mode: str) -> bool:
         """Handles communication in the specified mode with fallback"""
@@ -212,9 +208,7 @@ class SymptomReporter:
         requires_immediate_attention: bool,
     ) -> dict:
         """Completes the session and returns final statu"""
-        status = (
-            "completed_critical" if requires_immediate_attention else "completed_normal"
-        )
+        status = "completed_critical" if requires_immediate_attention else "completed_normal"
         self.data_manager.update_diagnostic_session(
             session_id,
             {

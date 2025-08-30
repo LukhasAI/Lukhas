@@ -134,13 +134,9 @@ class QITunnelingEthics:
             }
 
         # Normalize wavefunction
-        total_probability = sum(
-            state["probability_density"] for state in wavefunction.values()
-        )
+        total_probability = sum(state["probability_density"] for state in wavefunction.values())
         for state in wavefunction.values():
-            state["normalized_probability"] = (
-                state["probability_density"] / total_probability
-            )
+            state["normalized_probability"] = state["probability_density"] / total_probability
 
         return wavefunction
 
@@ -281,9 +277,7 @@ class ProtonMotiveProcessor:
         self.proton_gradient[gradient_id] = gradient_result
         return gradient_result
 
-    def synthesize_symbolic_atp(
-        self, gradient_id: str, processing_demand: dict
-    ) -> dict:
+    def synthesize_symbolic_atp(self, gradient_id: str, processing_demand: dict) -> dict:
         """Synthesize symbolic ATP for computational processes"""
         if gradient_id not in self.proton_gradient:
             return {"error": "gradient_not_found"}
@@ -396,25 +390,19 @@ class CristaeTopologyManager:
         self.topology_history = []
         self.optimization_cycles = 0
 
-    def optimize_cristae_topology(
-        self, current_state: dict, performance_metrics: dict
-    ) -> dict:
+    def optimize_cristae_topology(self, current_state: dict, performance_metrics: dict) -> dict:
         """Optimize cristae topology for improved performance"""
         optimization_id = str(uuid.uuid4())[:8]
         self.optimization_cycles += 1
 
         # Analyze current topology efficiency
-        efficiency_analysis = self._analyze_topology_efficiency(
-            current_state, performance_metrics
-        )
+        efficiency_analysis = self._analyze_topology_efficiency(current_state, performance_metrics)
 
         # Determine optimal cristae configuration
         optimal_config = self._design_optimal_cristae(efficiency_analysis)
 
         # Apply topology transformation
-        transformed_topology = self._apply_cristae_transformation(
-            current_state, optimal_config
-        )
+        transformed_topology = self._apply_cristae_transformation(current_state, optimal_config)
 
         optimization_result = {
             "optimization_id": optimization_id,
@@ -444,9 +432,7 @@ class CristaeTopologyManager:
 
         # Calculate energy efficiency
         energy_efficiency = metrics.get("average_confidence", 0.5)
-        processing_efficiency = 1.0 / max(
-            0.1, metrics.get("average_processing_time", 1.0)
-        )
+        processing_efficiency = 1.0 / max(0.1, metrics.get("average_processing_time", 1.0))
 
         efficiency_analysis = {
             "surface_area_volume_ratio": sa_vol_ratio,
@@ -482,9 +468,7 @@ class CristaeTopologyManager:
             "membrane_thickness": 0.1 + (1.0 - current_efficiency) * 0.2,
             "junction_strength": 0.5 + current_efficiency * 0.5,
             "respiratory_complex_density": fold_density * current_efficiency,
-            "atp_synthase_distribution": self._calculate_atp_distribution(
-                folding_pattern
-            ),
+            "atp_synthase_distribution": self._calculate_atp_distribution(folding_pattern),
         }
 
         return optimal_config
@@ -581,9 +565,7 @@ class CristaeTopologyManager:
             "optimized_hybrid": {"density": 0.9, "pattern": "adaptive"},
         }
 
-        return distributions.get(
-            folding_pattern, {"density": 0.5, "pattern": "uniform"}
-        )
+        return distributions.get(folding_pattern, {"density": 0.5, "pattern": "uniform"})
 
     def _calculate_improvement(self, analysis: dict, config: dict) -> float:
         """Calculate expected performance improvement"""
@@ -636,9 +618,7 @@ class QIBiologicalAGI:
             "cristae_optimization_count": 0,
         }
 
-        logger.info(
-            f"✅ Quantum-Biological AI initialized - Session: {self.session_id}"
-        )
+        logger.info(f"✅ Quantum-Biological AI initialized - Session: {self.session_id}")
         logger.info(f"🔬 Initial capability level: {self.capability_level.value}")
 
     async def integrate_with_ethics(self):
@@ -649,14 +629,10 @@ class QIBiologicalAGI:
         await trio.register_component("abas_qi_specialist", self)
         return True
 
-    async def process_with_qi_biology(
-        self, input_text: str, context: dict = None
-    ) -> QIBioResponse:
+    async def process_with_qi_biology(self, input_text: str, context: dict = None) -> QIBioResponse:
         """Process input using complete quantum-inspired biological pipeline"""
         start_time = datetime.now()
-        logger.info(
-            f"🧬 Processing with quantum-biological architecture: {input_text[:100]}..."
-        )
+        logger.info(f"🧬 Processing with quantum-biological architecture: {input_text[:100]}...")
 
         str(uuid.uuid4())[:8]
         context = context or {}
@@ -770,7 +746,7 @@ class QIBiologicalAGI:
             logger.error(f"❌ Error in quantum-biological processing: {e}")
 
             return QIBioResponse(
-                content=f"Quantum-biological processing error: {str(e)}",
+                content=f"Quantum-biological processing error: {e!s}",
                 bio_confidence=0.1,
                 qi_coherence=0.0,
                 atp_efficiency=0.0,
@@ -795,17 +771,11 @@ class QIBiologicalAGI:
         """Classify the type of processing required"""
         text_lower = input_text.lower()
 
-        if any(
-            word in text_lower for word in ["analyze", "reason", "explain", "solve"]
-        ):
+        if any(word in text_lower for word in ["analyze", "reason", "explain", "solve"]):
             return "analytical"
-        elif any(
-            word in text_lower for word in ["create", "imagine", "design", "invent"]
-        ):
+        elif any(word in text_lower for word in ["create", "imagine", "design", "invent"]):
             return "creative"
-        elif any(
-            word in text_lower for word in ["remember", "recall", "history", "past"]
-        ):
+        elif any(word in text_lower for word in ["remember", "recall", "history", "past"]):
             return "memory"
         elif any(word in text_lower for word in ["ethical", "moral", "right", "wrong"]):
             return "ethical"
@@ -825,9 +795,7 @@ class QIBiologicalAGI:
         response_parts = []
 
         # Base response generation
-        base_response = (
-            f"Quantum-biological analysis of your request: {input_text[:50]}..."
-        )
+        base_response = f"Quantum-biological analysis of your request: {input_text[:50]}..."
         response_parts.append(base_response)
 
         # Add ethical insights
@@ -868,9 +836,7 @@ class QIBiologicalAGI:
             )
 
         # Add capability level progression
-        response_parts.append(
-            f"\n🔬 Current bio-capability level: {self.capability_level.value}"
-        )
+        response_parts.append(f"\n🔬 Current bio-capability level: {self.capability_level.value}")
 
         return "".join(response_parts)
 
@@ -882,9 +848,7 @@ class QIBiologicalAGI:
         # Weight components differently
         weights = [0.4, 0.3, 0.3]  # ethical, attention, atp
 
-        weighted_score = sum(
-            score * weight for score, weight in zip(component_scores, weights)
-        )
+        weighted_score = sum(score * weight for score, weight in zip(component_scores, weights))
         return min(1.0, weighted_score)
 
     def _calculate_qi_coherence(self, ethical_arbitration: dict) -> float:
@@ -912,9 +876,7 @@ class QIBiologicalAGI:
         signature_data = json.dumps(state_data, sort_keys=True)
         return hashlib.sha256(signature_data.encode()).hexdigest()[:16]
 
-    def _update_biological_metrics(
-        self, response: QIBioResponse, processing_time: float
-    ):
+    def _update_biological_metrics(self, response: QIBioResponse, processing_time: float):
         """Update biological performance metrics"""
         self.bio_metrics["total_processing_cycles"] += 1
 
@@ -991,9 +953,7 @@ class QIBiologicalAGI:
                 "proton_processor": {
                     "membrane_potential": self.proton_processor.membrane_potential,
                     "active_gradients": len(self.proton_processor.proton_gradient),
-                    "atp_synthesis_events": len(
-                        self.proton_processor.atp_synthesis_history
-                    ),
+                    "atp_synthesis_events": len(self.proton_processor.atp_synthesis_history),
                 },
                 "cristae_manager": {
                     "optimization_cycles": self.cristae_manager.optimization_cycles,
@@ -1058,9 +1018,7 @@ async def main():
     logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
 
     # Save results
-    results_file = (
-        f"qi_bio_agi_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    )
+    results_file = f"qi_bio_agi_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, "w") as f:
         json.dump(
             {

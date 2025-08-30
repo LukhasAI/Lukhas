@@ -226,9 +226,7 @@ class ConsciousnessLayer:
         logger.info("🔍 Detecting consciousness state...")
 
         # Collect data from enabled sources
-        detection_data = self._collect_consciousness_data(
-            interaction_data, user_context
-        )
+        detection_data = self._collect_consciousness_data(interaction_data, user_context)
 
         # Generate VAD profile
         vad_profile = self._compute_vad_profile(detection_data)
@@ -368,9 +366,7 @@ class ConsciousnessLayer:
             source=primary_source,
         )
 
-    def _analyze_interaction_patterns(
-        self, detection_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _analyze_interaction_patterns(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """
         Analyze user interaction patterns for consciousness indicators
 
@@ -383,9 +379,7 @@ class ConsciousnessLayer:
 
         return self.interaction_analyzer.analyze_patterns(detection_data)
 
-    def _analyze_temporal_patterns(
-        self, detection_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _analyze_temporal_patterns(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """
         Analyze temporal characteristics of interactions
 
@@ -398,9 +392,7 @@ class ConsciousnessLayer:
 
         return self.temporal_detector.analyze_temporal_patterns(detection_data)
 
-    def _measure_symbolic_resonance(
-        self, detection_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def _measure_symbolic_resonance(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """
         Measure resonance with symbolic elements
 
@@ -431,9 +423,7 @@ class ConsciousnessLayer:
         timestamp = int(time.time() * 1000000) % 1000000
         return f"CS-{timestamp:06d}"
 
-    def classify_emotional_state(
-        self, signature: ConsciousnessSignature
-    ) -> EmotionalState:
+    def classify_emotional_state(self, signature: ConsciousnessSignature) -> EmotionalState:
         """
         Classify consciousness signature into emotional state
 
@@ -520,30 +510,22 @@ class ConsciousnessLayer:
             return self.adaptation_cache[cache_key]
 
         # Generate visual adaptations
-        visual_adaptations = self._generate_visual_adaptations(
-            signature, emotional_state
-        )
+        visual_adaptations = self._generate_visual_adaptations(signature, emotional_state)
 
         # Generate animation adaptations
-        animation_adaptations = self._generate_animation_adaptations(
-            signature, emotional_state
-        )
+        animation_adaptations = self._generate_animation_adaptations(signature, emotional_state)
 
         # Generate color palette
         color_palette = self._generate_color_palette(signature, emotional_state)
 
         # Calculate pattern complexity
-        pattern_complexity = self._calculate_pattern_complexity(
-            signature, emotional_state
-        )
+        pattern_complexity = self._calculate_pattern_complexity(signature, emotional_state)
 
         # Generate temporal dynamics
         temporal_dynamics = self._generate_temporal_dynamics(signature, emotional_state)
 
         # Generate security adjustments
-        security_adjustments = self._generate_security_adjustments(
-            signature, emotional_state
-        )
+        security_adjustments = self._generate_security_adjustments(signature, emotional_state)
 
         # Create adaptation
         adaptation = ConsciousnessAdaptation(
@@ -558,9 +540,7 @@ class ConsciousnessLayer:
         # Cache adaptation
         self.adaptation_cache[cache_key] = adaptation
 
-        logger.info(
-            f"✨ Consciousness adaptation generated for {emotional_state.value}"
-        )
+        logger.info(f"✨ Consciousness adaptation generated for {emotional_state.value}")
         return adaptation
 
     def _generate_visual_adaptations(
@@ -781,9 +761,7 @@ class ConsciousnessLayer:
             ],
         }
 
-        base_palette = state_palettes.get(
-            emotional_state, state_palettes[EmotionalState.NEUTRAL]
-        )
+        base_palette = state_palettes.get(emotional_state, state_palettes[EmotionalState.NEUTRAL])
 
         # Adjust colors based on VAD values
         adjusted_palette = []
@@ -911,15 +889,11 @@ class ConsciousnessLayer:
 
         elif emotional_state == EmotionalState.FOCUS:
             # Enhanced security for focused users
-            base_security.update(
-                {"qi_resistance_level": 1.2, "consciousness_verification": True}
-            )
+            base_security.update({"qi_resistance_level": 1.2, "consciousness_verification": True})
 
         elif emotional_state == EmotionalState.EXCITEMENT:
             # Account for potential input errors
-            base_security.update(
-                {"error_correction_boost": 0.3, "temporal_window_adjustment": 1.2}
-            )
+            base_security.update({"error_correction_boost": 0.3, "temporal_window_adjustment": 1.2})
 
         return base_security
 
@@ -973,9 +947,7 @@ class ConsciousnessLayer:
 
         return (r, g, b)
 
-    def get_consciousness_analytics(
-        self, time_window_hours: int = 24
-    ) -> dict[str, Any]:
+    def get_consciousness_analytics(self, time_window_hours: int = 24) -> dict[str, Any]:
         """
         Get consciousness analytics for the specified time window
 
@@ -985,18 +957,14 @@ class ConsciousnessLayer:
         """
         cutoff_time = datetime.now() - timedelta(hours=time_window_hours)
         recent_signatures = [
-            sig
-            for sig in self.consciousness_history
-            if sig.vad_profile.timestamp > cutoff_time
+            sig for sig in self.consciousness_history if sig.vad_profile.timestamp > cutoff_time
         ]
 
         if not recent_signatures:
             return {"error": "No consciousness data in specified time window"}
 
         # Emotional state distribution
-        emotional_states = [
-            self.classify_emotional_state(sig) for sig in recent_signatures
-        ]
+        emotional_states = [self.classify_emotional_state(sig) for sig in recent_signatures]
         state_distribution = {}
         for state in emotional_states:
             state_distribution[state.value] = state_distribution.get(state.value, 0) + 1
@@ -1033,12 +1001,8 @@ class ConsciousnessLayer:
                 if state_distribution
                 else "neutral"
             ),
-            "consciousness_stability": round(
-                1.0 - np.std([v[0] for v in vad_values]), 3
-            ),
-            "recommendations": self._generate_consciousness_recommendations(
-                recent_signatures
-            ),
+            "consciousness_stability": round(1.0 - np.std([v[0] for v in vad_values]), 3),
+            "recommendations": self._generate_consciousness_recommendations(recent_signatures),
         }
 
     def _generate_consciousness_recommendations(
@@ -1052,14 +1016,10 @@ class ConsciousnessLayer:
 
         # Analyze patterns
         emotional_states = [self.classify_emotional_state(sig) for sig in signatures]
-        stress_count = sum(
-            1 for state in emotional_states if state == EmotionalState.STRESS
-        )
+        stress_count = sum(1 for state in emotional_states if state == EmotionalState.STRESS)
 
         if stress_count > len(signatures) * 0.3:
-            recommendations.append(
-                "Consider taking breaks during authentication sessions"
-            )
+            recommendations.append("Consider taking breaks during authentication sessions")
             recommendations.append("Enable calm mode for more soothing visual patterns")
 
         # Check arousal patterns
@@ -1069,9 +1029,7 @@ class ConsciousnessLayer:
         if avg_arousal > 0.8:
             recommendations.append("High energy detected - consider using focus mode")
         elif avg_arousal < 0.3:
-            recommendations.append(
-                "Low energy detected - consider using energizing visual themes"
-            )
+            recommendations.append("Low energy detected - consider using energizing visual themes")
 
         # Check valence patterns
         valence_values = [sig.vad_profile.valence for sig in signatures]
@@ -1081,11 +1039,7 @@ class ConsciousnessLayer:
             recommendations.append("Enable joy-enhancing visual adaptations")
             recommendations.append("Consider using brighter, warmer color palettes")
 
-        return (
-            recommendations
-            if recommendations
-            else ["Consciousness patterns look healthy!"]
-        )
+        return recommendations if recommendations else ["Consciousness patterns look healthy!"]
 
 
 # Supporting classes for consciousness detection
@@ -1131,9 +1085,7 @@ class TemporalRhythmDetector:
     📚 Academic Layer: "Temporal pattern analysis and rhythm detection"
     """
 
-    def analyze_temporal_patterns(
-        self, detection_data: dict[str, Any]
-    ) -> dict[str, float]:
+    def analyze_temporal_patterns(self, detection_data: dict[str, Any]) -> dict[str, float]:
         """Analyze temporal characteristics"""
         temporal_data = {
             "rhythm_strength": 0.5,

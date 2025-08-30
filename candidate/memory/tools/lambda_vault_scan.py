@@ -79,9 +79,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = get_logger(__name__)
 
 
@@ -176,9 +174,7 @@ class SymbolicVaultScanner:
                             self._process_memory_entry(entry, str(file_path), line_num)
                             count += 1
                         except json.JSONDecodeError:
-                            logger.warning(
-                                f"⚠️ Invalid JSON on line {line_num} in {file_path}"
-                            )
+                            logger.warning(f"⚠️ Invalid JSON on line {line_num} in {file_path}")
         except Exception as e:
             logger.error(f"❌ Error reading JSONL file {file_path}: {e}")
         return count
@@ -274,9 +270,7 @@ class SymbolicVaultScanner:
                     "entry_id": f"{source}:text",
                     "source": source,
                     "context": {
-                        "raw_content": (
-                            content[:200] + "..." if len(content) > 200 else content
-                        )
+                        "raw_content": (content[:200] + "..." if len(content) > 200 else content)
                     },
                 }
             )
@@ -328,9 +322,7 @@ class SymbolicVaultScanner:
                 timestamp_str = occurrence.get("timestamp", "")
                 if timestamp_str:
                     try:
-                        timestamp = datetime.fromisoformat(
-                            timestamp_str.replace("Z", "+00:00")
-                        )
+                        timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
                         if timestamp > cutoff_date:
                             recent_count += 1
                         if latest_timestamp is None or timestamp > latest_timestamp:
@@ -347,16 +339,12 @@ class SymbolicVaultScanner:
                 "frequency": frequency,
                 "recent_usage": recent_count,
                 "staleness_score": staleness_score,
-                "latest_timestamp": (
-                    latest_timestamp.isoformat() if latest_timestamp else None
-                ),
+                "latest_timestamp": (latest_timestamp.isoformat() if latest_timestamp else None),
                 "sources": list({occ["source"] for occ in occurrences}),
             }
 
             # Flag as stale if score is high
-            if staleness_score > 0.7 or (
-                frequency < frequency_threshold and recent_count == 0
-            ):
+            if staleness_score > 0.7 or (frequency < frequency_threshold and recent_count == 0):
                 stale_symbols[symbol] = symbol_stats[symbol]
                 stale_symbols[symbol]["classification"] = "STALE"
 
@@ -368,9 +356,7 @@ class SymbolicVaultScanner:
             "stale_symbols": stale_symbols,
             "total_symbols": len(self.symbol_registry),
             "stale_count": len(stale_symbols),
-            "stale_percentage": len(stale_symbols)
-            / max(len(self.symbol_registry), 1)
-            * 100,
+            "stale_percentage": len(stale_symbols) / max(len(self.symbol_registry), 1) * 100,
             "analysis_parameters": {
                 "days_threshold": days_threshold,
                 "frequency_threshold": frequency_threshold,
@@ -459,9 +445,7 @@ class SymbolicVaultScanner:
             "missing_links": missing_links,
             "total_actual_links": len(actual_links),
             "missing_count": len(missing_links),
-            "link_health_score": max(
-                0, 1.0 - (len(missing_links) / max(len(expected_links), 1))
-            ),
+            "link_health_score": max(0, 1.0 - (len(missing_links) / max(len(expected_links), 1))),
         }
 
     def assess_vault_health(self) -> dict[str, Any]:
@@ -482,15 +466,11 @@ class SymbolicVaultScanner:
         link_integrity = link_analysis.get("link_health_score", 0.5)
 
         # Emotional stability score
-        emotional_coverage = len(self.emotional_anchors) / max(
-            len(self.symbol_registry), 1
-        )
+        emotional_coverage = len(self.emotional_anchors) / max(len(self.symbol_registry), 1)
         emotional_stability = min(emotional_coverage * 2, 1.0)  # Cap at 1.0
 
         # Entropy coherence (symbol distribution balance)
-        symbol_frequencies = [
-            len(occurrences) for occurrences in self.symbol_registry.values()
-        ]
+        symbol_frequencies = [len(occurrences) for occurrences in self.symbol_registry.values()]
         if symbol_frequencies:
             entropy = -sum(
                 (f / sum(symbol_frequencies)) * math.log2(f / sum(symbol_frequencies))
@@ -587,9 +567,7 @@ class SymbolicVaultScanner:
             )
 
         if not recommendations:
-            recommendations.append(
-                "✅ Vault health is good - continue regular monitoring"
-            )
+            recommendations.append("✅ Vault health is good - continue regular monitoring")
 
         return recommendations
 
@@ -652,7 +630,7 @@ class SymbolicVaultScanner:
 
 **ΛVAULT_HEALTH_SCORE**: `{health_score:.3f}` {health_emoji} **{health_status}**
 
-Generated: `{self.scan_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC')}`
+Generated: `{self.scan_timestamp.strftime("%Y-%m-%d %H:%M:%S UTC")}`
 Memory Directory: `{self.memory_dir}`
 Scanner Version: `v1.0.0`
 
@@ -662,10 +640,10 @@ Scanner Version: `v1.0.0`
 
 | Metric | Value | Status |
 |--------|--------|--------|
-| **Total Symbols** | {len(self.symbol_registry)} | {'🟢' if len(self.symbol_registry) > 50 else '🟡' if len(self.symbol_registry) > 10 else '🔴'} |
-| **Stale Symbols** | {stale_analysis['stale_count']} ({stale_analysis['stale_percentage']:.1f}%) | {'🟢' if stale_analysis['stale_percentage'] < 20 else '🟡' if stale_analysis['stale_percentage'] < 40 else '🔴'} |
-| **Missing Links** | {link_analysis['missing_count']} | {'🟢' if link_analysis['missing_count'] < 5 else '🟡' if link_analysis['missing_count'] < 15 else '🔴'} |
-| **Emotional Anchors** | {len(self.emotional_anchors)} | {'🟢' if len(self.emotional_anchors) > 5 else '🟡' if len(self.emotional_anchors) > 2 else '🔴'} |
+| **Total Symbols** | {len(self.symbol_registry)} | {"🟢" if len(self.symbol_registry) > 50 else "🟡" if len(self.symbol_registry) > 10 else "🔴"} |
+| **Stale Symbols** | {stale_analysis["stale_count"]} ({stale_analysis["stale_percentage"]:.1f}%) | {"🟢" if stale_analysis["stale_percentage"] < 20 else "🟡" if stale_analysis["stale_percentage"] < 40 else "🔴"} |
+| **Missing Links** | {link_analysis["missing_count"]} | {"🟢" if link_analysis["missing_count"] < 5 else "🟡" if link_analysis["missing_count"] < 15 else "🔴"} |
+| **Emotional Anchors** | {len(self.emotional_anchors)} | {"🟢" if len(self.emotional_anchors) > 5 else "🟡" if len(self.emotional_anchors) > 2 else "🔴"} |
 
 ---
 
@@ -673,11 +651,11 @@ Scanner Version: `v1.0.0`
 
 | Component | Score | Weight | Contribution |
 |-----------|-------|--------|--------------|
-| **Symbol Vitality** | {health_assessment['component_scores']['symbol_vitality']:.3f} | 30% | {health_assessment['component_scores']['symbol_vitality'] * 0.3:.3f} |
-| **Link Integrity** | {health_assessment['component_scores']['link_integrity']:.3f} | 25% | {health_assessment['component_scores']['link_integrity'] * 0.25:.3f} |
-| **Emotional Stability** | {health_assessment['component_scores']['emotional_stability']:.3f} | 20% | {health_assessment['component_scores']['emotional_stability'] * 0.2:.3f} |
-| **Entropy Coherence** | {health_assessment['component_scores']['entropy_coherence']:.3f} | 15% | {health_assessment['component_scores']['entropy_coherence'] * 0.15:.3f} |
-| **Coverage Efficiency** | {health_assessment['component_scores']['coverage_efficiency']:.3f} | 10% | {health_assessment['component_scores']['coverage_efficiency'] * 0.1:.3f} |
+| **Symbol Vitality** | {health_assessment["component_scores"]["symbol_vitality"]:.3f} | 30% | {health_assessment["component_scores"]["symbol_vitality"] * 0.3:.3f} |
+| **Link Integrity** | {health_assessment["component_scores"]["link_integrity"]:.3f} | 25% | {health_assessment["component_scores"]["link_integrity"] * 0.25:.3f} |
+| **Emotional Stability** | {health_assessment["component_scores"]["emotional_stability"]:.3f} | 20% | {health_assessment["component_scores"]["emotional_stability"] * 0.2:.3f} |
+| **Entropy Coherence** | {health_assessment["component_scores"]["entropy_coherence"]:.3f} | 15% | {health_assessment["component_scores"]["entropy_coherence"] * 0.15:.3f} |
+| **Coverage Efficiency** | {health_assessment["component_scores"]["coverage_efficiency"]:.3f} | 10% | {health_assessment["component_scores"]["coverage_efficiency"] * 0.1:.3f} |
 
 ---
 
@@ -698,15 +676,13 @@ Scanner Version: `v1.0.0`
             )
 
             for symbol, data in stale_items[:10]:  # Top 10 stale symbols
-                latest = (
-                    data["latest_timestamp"][:10]
-                    if data["latest_timestamp"]
-                    else "Never"
-                )
+                latest = data["latest_timestamp"][:10] if data["latest_timestamp"] else "Never"
                 sources_count = len(data["sources"])
                 report += f"| `{symbol}` | {data['frequency']} | {latest} | {data['staleness_score']:.2f} | {sources_count} |\n"
         else:
-            report += "✅ **No stale symbols detected** - all symbols show healthy usage patterns.\n"
+            report += (
+                "✅ **No stale symbols detected** - all symbols show healthy usage patterns.\n"
+            )
 
         report += "\n---\n\n## 🔗 Missing Link Analysis\n\n"
 
@@ -715,9 +691,7 @@ Scanner Version: `v1.0.0`
             report += "| Link | Reason | Symbol 1 Freq | Symbol 2 Freq | Expected | Actual |\n"
             report += "|------|--------|---------------|---------------|----------|--------|\n"
 
-            for link_name, link_data in list(link_analysis["missing_links"].items())[
-                :10
-            ]:
+            for link_name, link_data in list(link_analysis["missing_links"].items())[:10]:
                 reason = (
                     link_data["missing_reason"][:30] + "..."
                     if len(link_data["missing_reason"]) > 30
@@ -819,9 +793,7 @@ Examples:
 
         # Log summary
         health_assessment = scanner.assess_vault_health()
-        logger.info(
-            f"\n🎯 ΛVAULT_HEALTH_SCORE: {health_assessment['ΛVAULT_HEALTH_SCORE']:.3f}"
-        )
+        logger.info(f"\n🎯 ΛVAULT_HEALTH_SCORE: {health_assessment['ΛVAULT_HEALTH_SCORE']:.3f}")
         logger.info(
             f"📊 Status: {health_assessment['health_status']} {health_assessment['health_emoji']}"
         )

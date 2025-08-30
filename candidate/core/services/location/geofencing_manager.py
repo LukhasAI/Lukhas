@@ -91,9 +91,7 @@ class GeofencingManager:
             logger.error(f"Failed to update location: {e}")
             return []
 
-    def _calculate_distance(
-        self, lat1: float, lon1: float, lat2: float, lon2: float
-    ) -> float:
+    def _calculate_distance(self, lat1: float, lon1: float, lat2: float, lon2: float) -> float:
         """Calculate distance between two points using Haversine formula"""
         import math
 
@@ -103,19 +101,14 @@ class GeofencingManager:
         # Haversine formula
         dlat = lat2 - lat1
         dlon = lon2 - lon1
-        a = (
-            math.sin(dlat / 2) ** 2
-            + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-        )
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
         c = 2 * math.asin(math.sqrt(a))
 
         # Radius of earth in meters
         r = 6371000
         return c * r
 
-    async def get_nearby_regions(
-        self, max_distance: float = 1000
-    ) -> list[GeofenceRegion]:
+    async def get_nearby_regions(self, max_distance: float = 1000) -> list[GeofenceRegion]:
         """Get regions within specified distance from current location"""
         if not self.current_location:
             return []
@@ -124,9 +117,7 @@ class GeofencingManager:
         lat, lon = self.current_location
 
         for region in self.regions.values():
-            distance = self._calculate_distance(
-                lat, lon, region.latitude, region.longitude
-            )
+            distance = self._calculate_distance(lat, lon, region.latitude, region.longitude)
             if distance <= max_distance:
                 nearby.append(region)
 
@@ -140,9 +131,7 @@ class GeofencingManager:
         context = {
             "current_location": self.current_location,
             "active_triggers": self.active_triggers,
-            "nearby_regions": [
-                region.name for region in await self.get_nearby_regions()
-            ],
+            "nearby_regions": [region.name for region in await self.get_nearby_regions()],
             "timestamp": datetime.utcnow().isoformat(),
         }
 

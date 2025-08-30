@@ -45,6 +45,7 @@ try:
         LoadTestConfig,
         T4EnterpriseLoadTester,
     )
+
     T4_COMPONENTS_AVAILABLE = True
 except ImportError as e:
     T4_COMPONENTS_AVAILABLE = False
@@ -52,8 +53,10 @@ except ImportError as e:
 
 logger = logging.getLogger(__name__)
 
+
 class T4SystemStatus(Enum):
     """T4 Enterprise system status"""
+
     INITIALIZING = "initializing"
     OPERATIONAL = "operational"
     DEGRADED = "degraded"
@@ -61,16 +64,20 @@ class T4SystemStatus(Enum):
     CRITICAL = "critical"
     OFFLINE = "offline"
 
+
 class T4ServiceHealth(Enum):
     """Individual service health status"""
+
     HEALTHY = "healthy"
     WARNING = "warning"
     CRITICAL = "critical"
     UNKNOWN = "unknown"
 
+
 @dataclass
 class T4ServiceStatus:
     """T4 Enterprise service status"""
+
     service_name: str
     health: T4ServiceHealth
     last_check: datetime
@@ -79,9 +86,11 @@ class T4ServiceStatus:
     uptime_percentage: float
     details: dict[str, Any]
 
+
 @dataclass
 class T4EnterpriseMetrics:
     """Comprehensive T4 enterprise metrics"""
+
     timestamp: datetime
 
     # Sam Altman (Scale) Metrics
@@ -113,6 +122,7 @@ class T4EnterpriseMetrics:
     enterprise_readiness: float
     tier: str = "T4_ENTERPRISE_PREMIUM"
 
+
 class T4EnterpriseOrchestrator:
     """
     T4 Enterprise Premium Infrastructure Orchestrator
@@ -143,11 +153,11 @@ class T4EnterpriseOrchestrator:
                 "api_latency_p99_ms": 100.0,
                 "uptime_percentage": 99.99,
                 "constitutional_drift_threshold": 0.05,
-                "max_concurrent_users": 10000
+                "max_concurrent_users": 10000,
             },
             "monitoring_interval_seconds": 30,
             "health_check_interval_seconds": 60,
-            "enterprise_features_enabled": True
+            "enterprise_features_enabled": True,
         }
 
         logger.info("T4 Enterprise Orchestrator initialized")
@@ -194,7 +204,9 @@ class T4EnterpriseOrchestrator:
 
             logger.info("✅ T4 Enterprise Stack initialized successfully")
             logger.info(f"   System Status: {self.system_status.value}")
-            logger.info(f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])}")
+            logger.info(
+                f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])}"
+            )
 
             return True
 
@@ -218,7 +230,7 @@ class T4EnterpriseOrchestrator:
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
-                    details={"integration": "github_student_pack", "features": "sla_monitoring"}
+                    details={"integration": "github_student_pack", "features": "sla_monitoring"},
                 )
                 logger.info("   ✅ Datadog integration active")
             else:
@@ -234,7 +246,7 @@ class T4EnterpriseOrchestrator:
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
-                    details={"integration": "github_student_pack", "features": "error_tracking"}
+                    details={"integration": "github_student_pack", "features": "error_tracking"},
                 )
                 logger.info("   ✅ Sentry integration active")
             else:
@@ -258,7 +270,7 @@ class T4EnterpriseOrchestrator:
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
-                    details={"integration": "github_student_pack", "features": "enterprise_data"}
+                    details={"integration": "github_student_pack", "features": "enterprise_data"},
                 )
                 logger.info("   ✅ MongoDB Atlas integration active")
             else:
@@ -277,7 +289,7 @@ class T4EnterpriseOrchestrator:
                 target_url="http://localhost:8000",  # Would be enterprise endpoint
                 concurrent_users=10000,
                 test_duration_minutes=15,
-                expected_latency_p95_ms=50.0
+                expected_latency_p95_ms=50.0,
             )
             self.load_tester = T4EnterpriseLoadTester(load_test_config)
 
@@ -286,7 +298,7 @@ class T4EnterpriseOrchestrator:
                 max_concurrent_users=10000,
                 target_latency_p95_ms=50.0,
                 min_instances=5,
-                max_instances=100
+                max_instances=100,
             )
             self.auto_scaler = T4AutoScalingManager(scaling_config)
 
@@ -297,7 +309,7 @@ class T4EnterpriseOrchestrator:
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
-                details={"standard": "sam_altman_scale", "features": "load_testing_autoscaling"}
+                details={"standard": "sam_altman_scale", "features": "load_testing_autoscaling"},
             )
             logger.info("   ✅ Scaling systems initialized")
 
@@ -322,10 +334,15 @@ class T4EnterpriseOrchestrator:
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
-                details={"standard": "dario_amodei_safety", "features": "constitutional_ai_compliance"}
+                details={
+                    "standard": "dario_amodei_safety",
+                    "features": "constitutional_ai_compliance",
+                },
             )
             logger.info("   ✅ Safety systems initialized")
-            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}")
+            logger.info(
+                f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}"
+            )
 
         except Exception as e:
             logger.error(f"Failed to initialize safety stack: {e}")
@@ -345,10 +362,15 @@ class T4EnterpriseOrchestrator:
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
-                details={"standard": "demis_hassabis_rigor", "features": "ab_testing_statistical_analysis"}
+                details={
+                    "standard": "demis_hassabis_rigor",
+                    "features": "ab_testing_statistical_analysis",
+                },
             )
             logger.info("   ✅ Rigor systems initialized")
-            logger.info(f"   Statistical significance threshold: {self.ab_testing.significance_threshold}")
+            logger.info(
+                f"   Statistical significance threshold: {self.ab_testing.significance_threshold}"
+            )
 
         except Exception as e:
             logger.error(f"Failed to initialize rigor stack: {e}")
@@ -372,8 +394,16 @@ class T4EnterpriseOrchestrator:
                 service.health = health_result["health"]
                 service.details.update(health_result.get("details", {}))
 
-                health_icon = "✅" if service.health == T4ServiceHealth.HEALTHY else "⚠️" if service.health == T4ServiceHealth.WARNING else "❌"
-                logger.info(f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)")
+                health_icon = (
+                    "✅"
+                    if service.health == T4ServiceHealth.HEALTHY
+                    else "⚠️"
+                    if service.health == T4ServiceHealth.WARNING
+                    else "❌"
+                )
+                logger.info(
+                    f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)"
+                )
 
         except Exception as e:
             logger.error(f"Health checks failed: {e}")
@@ -386,25 +416,47 @@ class T4EnterpriseOrchestrator:
                 # Check Datadog connectivity
                 status = self.datadog_monitor.get_current_sla_status()
                 if status.get("monitoring_status") == "OPERATIONAL":
-                    return {"health": T4ServiceHealth.HEALTHY, "details": {"datadog_status": "operational"}}
+                    return {
+                        "health": T4ServiceHealth.HEALTHY,
+                        "details": {"datadog_status": "operational"},
+                    }
                 else:
-                    return {"health": T4ServiceHealth.WARNING, "details": {"datadog_status": "degraded"}}
+                    return {
+                        "health": T4ServiceHealth.WARNING,
+                        "details": {"datadog_status": "degraded"},
+                    }
 
             elif service_name == "sentry" and self.sentry_monitor and self.sentry_monitor.enabled:
                 # Check Sentry connectivity
                 dashboard_data = self.sentry_monitor.get_enterprise_dashboard_data()
                 if dashboard_data.get("sentry_integration", {}).get("status") == "ACTIVE":
-                    return {"health": T4ServiceHealth.HEALTHY, "details": {"sentry_status": "active"}}
+                    return {
+                        "health": T4ServiceHealth.HEALTHY,
+                        "details": {"sentry_status": "active"},
+                    }
                 else:
-                    return {"health": T4ServiceHealth.WARNING, "details": {"sentry_status": "inactive"}}
+                    return {
+                        "health": T4ServiceHealth.WARNING,
+                        "details": {"sentry_status": "inactive"},
+                    }
 
-            elif service_name == "mongodb" and self.mongodb_integration and self.mongodb_integration.enabled:
+            elif (
+                service_name == "mongodb"
+                and self.mongodb_integration
+                and self.mongodb_integration.enabled
+            ):
                 # Check MongoDB connectivity (would test actual connection)
-                return {"health": T4ServiceHealth.HEALTHY, "details": {"mongodb_status": "connected"}}
+                return {
+                    "health": T4ServiceHealth.HEALTHY,
+                    "details": {"mongodb_status": "connected"},
+                }
 
             elif service_name in ["scaling", "safety", "rigor"]:
                 # Internal systems are healthy if initialized
-                return {"health": T4ServiceHealth.HEALTHY, "details": {"system_status": "operational"}}
+                return {
+                    "health": T4ServiceHealth.HEALTHY,
+                    "details": {"system_status": "operational"},
+                }
 
             else:
                 return {"health": T4ServiceHealth.UNKNOWN, "details": {"status": "not_checked"}}
@@ -438,23 +490,34 @@ class T4EnterpriseOrchestrator:
             scientific_rigor_score = 91.8
 
             # Calculate overall health
-            healthy_services = len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])
+            healthy_services = len(
+                [s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]
+            )
             total_services = len(self.services)
-            service_availability = (healthy_services / total_services * 100) if total_services > 0 else 0
+            service_availability = (
+                (healthy_services / total_services * 100) if total_services > 0 else 0
+            )
 
             # Overall health score calculation
             scale_score = 100 if api_latency_p95 < 50 else max(0, 100 - (api_latency_p95 - 50))
-            safety_score = 100 if constitutional_drift < 0.05 else max(0, 100 - (constitutional_drift - 0.05) * 1000)
+            safety_score = (
+                100
+                if constitutional_drift < 0.05
+                else max(0, 100 - (constitutional_drift - 0.05) * 1000)
+            )
             rigor_score = scientific_rigor_score
 
             overall_health_score = (scale_score + safety_score + rigor_score) / 3
 
             # SLA compliance check
-            sla_compliance = all([
-                api_latency_p95 <= self.config["sla_targets"]["api_latency_p95_ms"],
-                uptime_percentage >= self.config["sla_targets"]["uptime_percentage"],
-                constitutional_drift <= self.config["sla_targets"]["constitutional_drift_threshold"]
-            ])
+            sla_compliance = all(
+                [
+                    api_latency_p95 <= self.config["sla_targets"]["api_latency_p95_ms"],
+                    uptime_percentage >= self.config["sla_targets"]["uptime_percentage"],
+                    constitutional_drift
+                    <= self.config["sla_targets"]["constitutional_drift_threshold"],
+                ]
+            )
 
             # Enterprise readiness score
             enterprise_readiness = min(100, (overall_health_score + service_availability) / 2)
@@ -478,7 +541,7 @@ class T4EnterpriseOrchestrator:
                 service_availability=service_availability,
                 error_rate=0.003,
                 sla_compliance=sla_compliance,
-                enterprise_readiness=enterprise_readiness
+                enterprise_readiness=enterprise_readiness,
             )
 
             return metrics
@@ -505,7 +568,7 @@ class T4EnterpriseOrchestrator:
                 service_availability=0.0,
                 error_rate=1.0,
                 sla_compliance=False,
-                enterprise_readiness=0.0
+                enterprise_readiness=0.0,
             )
 
     async def submit_enterprise_metrics(self):
@@ -527,7 +590,7 @@ class T4EnterpriseOrchestrator:
                     cpu_usage_percent=42.3,
                     drift_score=metrics.constitutional_ai_drift,
                     security_incidents=metrics.security_incidents,
-                    timestamp=metrics.timestamp
+                    timestamp=metrics.timestamp,
                 )
 
                 success = self.datadog_monitor.submit_sla_metrics(datadog_metrics)
@@ -545,7 +608,7 @@ class T4EnterpriseOrchestrator:
                     error_count=int(metrics.error_rate * 100),
                     memory_usage_mb=256.0,
                     cpu_usage_percent=42.3,
-                    timestamp=metrics.timestamp
+                    timestamp=metrics.timestamp,
                 )
 
                 success = self.sentry_monitor.track_t4_performance(sentry_metrics)
@@ -566,7 +629,7 @@ class T4EnterpriseOrchestrator:
                     concurrent_users=metrics.concurrent_users,
                     drift_score=metrics.constitutional_ai_drift,
                     security_incidents=metrics.security_incidents,
-                    resource_usage={"cpu": 42.3, "memory": 68.5, "disk": 23.1}
+                    resource_usage={"cpu": 42.3, "memory": 68.5, "disk": 23.1},
                 )
 
                 success = await self.mongodb_integration.store_system_metrics(mongodb_metrics)
@@ -605,7 +668,9 @@ class T4EnterpriseOrchestrator:
                 await self._perform_health_checks()
 
                 # Update system status based on service health
-                healthy_services = len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])
+                healthy_services = len(
+                    [s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]
+                )
                 total_services = len(self.services)
 
                 if total_services == 0:
@@ -642,20 +707,22 @@ class T4EnterpriseOrchestrator:
                     "last_check": service.last_check.isoformat(),
                     "response_time_ms": service.response_time_ms,
                     "uptime_percentage": service.uptime_percentage,
-                    "details": service.details
+                    "details": service.details,
                 }
                 for name, service in self.services.items()
             },
             "github_student_pack": {
                 "datadog_enabled": self.datadog_monitor.enabled if self.datadog_monitor else False,
                 "sentry_enabled": self.sentry_monitor.enabled if self.sentry_monitor else False,
-                "mongodb_enabled": self.mongodb_integration.enabled if self.mongodb_integration else False
+                "mongodb_enabled": self.mongodb_integration.enabled
+                if self.mongodb_integration
+                else False,
             },
             "enterprise_standards": {
                 "sam_altman_scale": "implemented",
                 "dario_amodei_safety": "implemented",
-                "demis_hassabis_rigor": "implemented"
-            }
+                "demis_hassabis_rigor": "implemented",
+            },
         }
 
     async def shutdown_gracefully(self):
@@ -688,6 +755,7 @@ class T4EnterpriseOrchestrator:
 # Global T4 Enterprise Orchestrator instance
 t4_orchestrator: Optional[T4EnterpriseOrchestrator] = None
 
+
 async def initialize_t4_enterprise() -> T4EnterpriseOrchestrator:
     """Initialize the global T4 Enterprise Orchestrator"""
     global t4_orchestrator
@@ -701,6 +769,7 @@ async def initialize_t4_enterprise() -> T4EnterpriseOrchestrator:
             raise RuntimeError("T4 Enterprise initialization failed")
 
     return t4_orchestrator
+
 
 def get_t4_orchestrator() -> Optional[T4EnterpriseOrchestrator]:
     """Get the global T4 Enterprise Orchestrator instance"""
@@ -759,10 +828,20 @@ async def main():
         status_report = orchestrator.get_system_status_report()
         print("🏥 Service Health Status:")
         for service_name, service_data in status_report["services"].items():
-            health_icon = "✅" if service_data["health"] == "healthy" else "⚠️" if service_data["health"] == "warning" else "❌"
-            print(f"  {health_icon} {service_name}: {service_data['health']} ({service_data['response_time_ms']:.1f}ms)")
+            health_icon = (
+                "✅"
+                if service_data["health"] == "healthy"
+                else "⚠️"
+                if service_data["health"] == "warning"
+                else "❌"
+            )
+            print(
+                f"  {health_icon} {service_name}: {service_data['health']} ({service_data['response_time_ms']:.1f}ms)"
+            )
 
-        print(f"\n🎯 T4 Enterprise Assessment: {'READY FOR PRODUCTION' if metrics.enterprise_readiness > 90 else 'NEEDS OPTIMIZATION'}")
+        print(
+            f"\n🎯 T4 Enterprise Assessment: {'READY FOR PRODUCTION' if metrics.enterprise_readiness > 90 else 'NEEDS OPTIMIZATION'}"
+        )
 
         # Graceful shutdown
         await orchestrator.shutdown_gracefully()

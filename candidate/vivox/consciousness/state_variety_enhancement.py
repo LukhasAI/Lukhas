@@ -74,9 +74,7 @@ class EnhancedStateDetermination:
         dominance = emotional.get("dominance", 0.5)
 
         # Calculate base probabilities for each state
-        state_probs = self._calculate_base_probabilities(
-            magnitude, valence, arousal, dominance
-        )
+        state_probs = self._calculate_base_probabilities(magnitude, valence, arousal, dominance)
 
         # Apply transition matrix from previous state
         if self.previous_state in self.transition_matrix:

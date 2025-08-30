@@ -39,9 +39,7 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
         # Extract module name and tier if available
         module_match = MODULE_INFO_PATTERN.search(content)
         module_name = (
-            module_match.group(1)
-            if module_match
-            else filepath.stem.replace("_", " ").title()
+            module_match.group(1) if module_match else filepath.stem.replace("_", " ").title()
         )
         tier = int(module_match.group(2)) if module_match else 3
 
@@ -107,11 +105,11 @@ def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     # Build a comprehensive prompt
     prompt = f"""Generate a module description that masterfully blends academic quantum-inspired computing terminology with poetic metaphors for the LUKHAS AGI system.
 
-Module: {code_analysis['module_name']}
-Filename: {code_analysis['filename']}
-Tier Level: {code_analysis['tier']}
-Key Classes: {', '.join(code_analysis['classes']) if code_analysis['classes'] else 'Various quantum components'}
-Quantum Features: {', '.join(code_analysis['qi_features']) if code_analysis['qi_features'] else 'General quantum-inspired processing'}
+Module: {code_analysis["module_name"]}
+Filename: {code_analysis["filename"]}
+Tier Level: {code_analysis["tier"]}
+Key Classes: {", ".join(code_analysis["classes"]) if code_analysis["classes"] else "Various quantum components"}
+Quantum Features: {", ".join(code_analysis["qi_features"]) if code_analysis["qi_features"] else "General quantum-inspired processing"}
 
 The description MUST:
 1. Start with the module name followed by equals signs (=) to match the length

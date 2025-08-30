@@ -12,7 +12,6 @@ from pathlib import Path
 
 
 class IsolatedFileFinder:
-
     def __init__(self):
         self.import_graph = defaultdict(set)  # file -> imported files
         self.reverse_graph = defaultdict(set)  # file -> files that import it
@@ -26,10 +25,7 @@ class IsolatedFileFinder:
 
         for root, _dirs, files in os.walk(root_path):
             # Skip certain directories
-            if any(
-                skip in root
-                for skip in [".git", "__pycache__", ".venv", "node_modules"]
-            ):
+            if any(skip in root for skip in [".git", "__pycache__", ".venv", "node_modules"]):
                 continue
 
             for file in files:
@@ -91,12 +87,8 @@ class IsolatedFileFinder:
             if "test" in file or "script" in file or "__pycache__" in file:
                 continue
 
-            imports_nothing = (
-                file not in self.import_graph or len(self.import_graph[file]) == 0
-            )
-            imported_by_none = (
-                file not in self.reverse_graph or len(self.reverse_graph[file]) == 0
-            )
+            imports_nothing = file not in self.import_graph or len(self.import_graph[file]) == 0
+            imported_by_none = file not in self.reverse_graph or len(self.reverse_graph[file]) == 0
 
             if imports_nothing and imported_by_none:
                 self.isolated_files.append(file)

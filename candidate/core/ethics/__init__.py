@@ -58,9 +58,7 @@ ETHICAL_PRINCIPLES: dict[str, str] = {
 
 class SafetyConstraintLevel(Enum):
     CRITICAL_STOP = "CRITICAL_STOP"  # Immediate cessation of problematic action.
-    WARNING_FLAG = (
-        "WARNING_FLAG"  # Log and flag for review, action may continue with caution.
-    )
+    WARNING_FLAG = "WARNING_FLAG"  # Log and flag for review, action may continue with caution.
     INFO_LOG = "INFO_LOG"  # Informational, no immediate action required.
 
 
@@ -132,9 +130,7 @@ def evaluate_ethics(
     confidence: float = 0.1  # ΛNOTE: Low confidence as it's a stub.
 
     # Example: Check against simplified safety constraints (keyword-based)
-    input_text = str(payload.get("text_content", "")) + str(
-        payload.get("action_description", "")
-    )
+    input_text = str(payload.get("text_content", "")) + str(payload.get("action_description", ""))
     for constraint in SAFETY_CONSTRAINTS_DEFINITIONS:
         if constraint.get("keywords"):
             for kw in constraint["keywords"]:
@@ -142,14 +138,10 @@ def evaluate_ethics(
                     ethical_concerns.append(
                         f"Potential violation of constraint {constraint['id']}: {constraint['description']}"
                     )
-                    if (
-                        constraint["default_level"]
-                        == SafetyConstraintLevel.CRITICAL_STOP
-                    ):
+                    if constraint["default_level"] == SafetyConstraintLevel.CRITICAL_STOP:
                         action_advisability = "NOT_ADVISABLE_CRITICAL"
                     elif (
-                        constraint["default_level"]
-                        == SafetyConstraintLevel.WARNING_FLAG
+                        constraint["default_level"] == SafetyConstraintLevel.WARNING_FLAG
                         and action_advisability != "NOT_ADVISABLE_CRITICAL"
                     ):
                         action_advisability = "CAUTION_ADVISED"

@@ -12,7 +12,6 @@ from pathlib import Path
 
 
 class AggressiveSyntaxFixer:
-
     def __init__(self):
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.quarantine_dir = Path("quarantine") / self.timestamp
@@ -25,9 +24,7 @@ class AggressiveSyntaxFixer:
     def find_all_syntax_errors(self):
         """Find all Python files with syntax errors"""
         for root, _dirs, files in os.walk("."):
-            if any(
-                skip in root for skip in [".git", "__pycache__", ".venv", "quarantine"]
-            ):
+            if any(skip in root for skip in [".git", "__pycache__", ".venv", "quarantine"]):
                 continue
 
             for file in files:
@@ -81,9 +78,7 @@ class AggressiveSyntaxFixer:
                 lines = fixed_content.split("\n")
                 if error["line"] <= len(lines):
                     # Comment out the problematic line
-                    lines[error["line"] - 1] = (
-                        "# SYNTAX_ERROR_FIXED: " + lines[error["line"] - 1]
-                    )
+                    lines[error["line"] - 1] = "# SYNTAX_ERROR_FIXED: " + lines[error["line"] - 1]
                     fixed_content = "\n".join(lines)
 
             # Test if fixed
@@ -235,9 +230,7 @@ def main():
         error_types[error_type] += 1
 
     print("\n📊 Error Types:")
-    for error_type, count in sorted(
-        error_types.items(), key=lambda x: x[1], reverse=True
-    )[:5]:
+    for error_type, count in sorted(error_types.items(), key=lambda x: x[1], reverse=True)[:5]:
         print(f"  - {error_type}: {count}")
 
     # Fix aggressively
@@ -246,7 +239,7 @@ def main():
         filepath = error_info["file"]
         error = error_info["error"]
 
-        print(f"Processing {i+1}/{len(errors)}: {filepath}...", end="")
+        print(f"Processing {i + 1}/{len(errors)}: {filepath}...", end="")
 
         if fixer.aggressive_fix(filepath, error):
             print(" [FIXED]")

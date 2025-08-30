@@ -104,9 +104,7 @@ class UsageAnalyticsLoop:
         self.pain_points: dict[str, PainPoint] = {}
         self.usage_patterns: list[UsagePattern] = []
         self.recommendations: list[OptimizationRecommendation] = []
-        self.metrics_history: dict[str, list[tuple[datetime, float]]] = defaultdict(
-            list
-        )
+        self.metrics_history: dict[str, list[tuple[datetime, float]]] = defaultdict(list)
 
         # Thresholds for pain point detection
         self.thresholds = {
@@ -124,9 +122,7 @@ class UsageAnalyticsLoop:
         self.pattern_min_users = 3
         self.recommendation_confidence_threshold = 0.7
 
-    def track_usage_event(
-        self, user_id: str, event_type: str, event_data: dict[str, Any]
-    ) -> None:
+    def track_usage_event(self, user_id: str, event_type: str, event_data: dict[str, Any]) -> None:
         """Track a usage event for analysis"""
         event = {
             "user_id": user_id,
@@ -216,10 +212,7 @@ class UsageAnalyticsLoop:
             )
 
         # High abandonment alert
-        if (
-            current_metrics.get("abandonment_rate", 0)
-            > self.thresholds["high_abandonment"]
-        ):
+        if current_metrics.get("abandonment_rate", 0) > self.thresholds["high_abandonment"]:
             insights["alerts"].append(
                 {
                     "type": "high_abandonment",
@@ -371,9 +364,7 @@ class UsageAnalyticsLoop:
                 last_occurrence=max(e["timestamp"] for e in events),
                 context={
                     "error_type": error_type,
-                    "error_locations": list(
-                        {e["data"].get("location", "") for e in events}
-                    ),
+                    "error_locations": list({e["data"].get("location", "") for e in events}),
                 },
             )
             patterns.append(pattern)
@@ -469,21 +460,13 @@ class UsageAnalyticsLoop:
                     pattern_type="frequent_search",
                     frequency=count,
                     users_affected=len(
-                        {
-                            e["user_id"]
-                            for e in search_events
-                            if e["data"].get("query") == query
-                        }
+                        {e["user_id"] for e in search_events if e["data"].get("query") == query}
                     ),
                     first_detected=min(
-                        e["timestamp"]
-                        for e in search_events
-                        if e["data"].get("query") == query
+                        e["timestamp"] for e in search_events if e["data"].get("query") == query
                     ),
                     last_occurrence=max(
-                        e["timestamp"]
-                        for e in search_events
-                        if e["data"].get("query") == query
+                        e["timestamp"] for e in search_events if e["data"].get("query") == query
                     ),
                     context={
                         "query": query,
@@ -494,9 +477,7 @@ class UsageAnalyticsLoop:
 
         return patterns
 
-    def _filter_significant_patterns(
-        self, patterns: list[UsagePattern]
-    ) -> list[UsagePattern]:
+    def _filter_significant_patterns(self, patterns: list[UsagePattern]) -> list[UsagePattern]:
         """Filter patterns to keep only significant ones"""
         significant = []
 
@@ -510,9 +491,7 @@ class UsageAnalyticsLoop:
 
         return significant
 
-    def _identify_pain_points_from_patterns(
-        self, patterns: list[UsagePattern]
-    ) -> list[PainPoint]:
+    def _identify_pain_points_from_patterns(self, patterns: list[UsagePattern]) -> list[PainPoint]:
         """Convert patterns into actionable pain points"""
         pain_points = []
 
@@ -644,9 +623,7 @@ class UsageAnalyticsLoop:
                     expected_impact=fix["expected_improvement"],
                     implementation_effort=self._estimate_effort(fix["type"]),
                     priority=self._calculate_priority(pain_point),
-                    metrics_improvement=self._estimate_metrics_improvement(
-                        pain_point, fix
-                    ),
+                    metrics_improvement=self._estimate_metrics_improvement(pain_point, fix),
                     evidence=[
                         {
                             "type": "pain_point",
@@ -690,11 +667,7 @@ class UsageAnalyticsLoop:
         recent_events = []
         for events in self.usage_data.values():
             recent_events.extend(
-                [
-                    e
-                    for e in events
-                    if (timestamp - e["timestamp"]).total_seconds() < 3600
-                ]
+                [e for e in events if (timestamp - e["timestamp"]).total_seconds() < 3600]
             )
 
         if recent_events:
@@ -710,9 +683,7 @@ class UsageAnalyticsLoop:
     def _update_session_metrics(self, timestamp: datetime, data: dict) -> None:
         """Update session-related metrics"""
         if "duration" in data:
-            self.metrics_history["session_duration"].append(
-                (timestamp, data["duration"])
-            )
+            self.metrics_history["session_duration"].append((timestamp, data["duration"]))
 
     def _identify_trending_problems(self) -> list[dict]:
         """Identify problems that are getting worse"""
@@ -823,13 +794,9 @@ class UsageAnalyticsLoop:
             ],
         }
 
-        return steps_map.get(
-            recommendation.optimization_type, ["Implement recommendation"]
-        )
+        return steps_map.get(recommendation.optimization_type, ["Implement recommendation"])
 
-    def _generate_success_criteria(
-        self, recommendation: OptimizationRecommendation
-    ) -> list[str]:
+    def _generate_success_criteria(self, recommendation: OptimizationRecommendation) -> list[str]:
         """Generate success criteria for recommendation"""
         criteria = []
 
@@ -874,9 +841,7 @@ class UsageAnalyticsLoop:
 
         return priority
 
-    def _estimate_metrics_improvement(
-        self, pain_point: PainPoint, fix: dict
-    ) -> dict[str, float]:
+    def _estimate_metrics_improvement(self, pain_point: PainPoint, fix: dict) -> dict[str, float]:
         """Estimate metrics improvement from fix"""
         improvements = {}
 

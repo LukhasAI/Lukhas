@@ -177,9 +177,7 @@ class PermissionManager:
     def get_permissions_for_tier(self, tier: AccessTier) -> list[Permission]:
         """Get all permissions available to a tier"""
         return [
-            p
-            for p in self.permissions.values()
-            if p.required_tier.value <= tier.value and p.active
+            p for p in self.permissions.values() if p.required_tier.value <= tier.value and p.active
         ]
 
 
@@ -339,9 +337,7 @@ class AccessControlEngine:
                 )
 
             # Get required permissions for resource/action
-            required_permissions = await self._get_required_permissions(
-                resource, action
-            )
+            required_permissions = await self._get_required_permissions(resource, action)
             permissions_checked = [p.permission_id for p in required_permissions]
 
             # Check each permission
@@ -357,9 +353,8 @@ class AccessControlEngine:
                     )
 
                 # Check role requirement
-                if (
-                    permission.required_roles
-                    and not permission.required_roles.intersection(user.roles)
+                if permission.required_roles and not permission.required_roles.intersection(
+                    user.roles
                 ):
                     return await self._log_and_return_decision(
                         request,
@@ -370,10 +365,7 @@ class AccessControlEngine:
                     )
 
                 # Check constitutional compliance requirement
-                if (
-                    permission.constitutional_compliance_required
-                    and not user.guardian_cleared
-                ):
+                if permission.constitutional_compliance_required and not user.guardian_cleared:
                     return await self._log_and_return_decision(
                         request,
                         AccessDecision.CONDITIONAL,
@@ -396,7 +388,7 @@ class AccessControlEngine:
             return await self._log_and_return_decision(
                 request,
                 AccessDecision.DENY,
-                f"System error: {str(e)}",
+                f"System error: {e!s}",
                 AccessTier.T1_ANONYMOUS,
                 [],
             )
@@ -429,9 +421,7 @@ class AccessControlEngine:
         # In production, this would integrate with TOTP/SMS/Push authentication
         return len(token) == 6 and token.isdigit()  # Simplified validation
 
-    async def _get_required_permissions(
-        self, resource: str, action: str
-    ) -> list[Permission]:
+    async def _get_required_permissions(self, resource: str, action: str) -> list[Permission]:
         """Get required permissions for resource/action"""
         # Simplified permission mapping - in production would use sophisticated pattern matching
         permission_map = {
@@ -457,9 +447,7 @@ class AccessControlEngine:
         permissions_checked: list[str],
     ) -> tuple[AccessDecision, str]:
         """Log access decision and return result"""
-        processing_time = (
-            datetime.now(timezone.utc) - request.timestamp
-        ).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - request.timestamp).total_seconds() * 1000
 
         log_entry = AccessLog(
             log_id=str(uuid.uuid4()),
@@ -483,9 +471,7 @@ class AccessControlEngine:
         self, username: str, success: bool, reason: str, context: dict[str, Any]
     ):
         """Log authentication attempt"""
-        logger.info(
-            f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}"
-        )
+        logger.info(f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}")
 
     def get_user_stats(self, user_id: str) -> dict[str, Any]:
         """Get user statistics"""
@@ -520,15 +506,11 @@ class AccessControlEngine:
             "total_access_logs": len(self.access_logs),
             "total_permissions": len(self.permission_manager.permissions),
             "access_decisions": {
-                decision.value: len(
-                    [log for log in self.access_logs if log.decision == decision]
-                )
+                decision.value: len([log for log in self.access_logs if log.decision == decision])
                 for decision in AccessDecision
             },
             "tier_distribution": {
-                tier.name: len(
-                    [u for u in self.users.values() if u.current_tier == tier]
-                )
+                tier.name: len([u for u in self.users.values() if u.current_tier == tier])
                 for tier in AccessTier
             },
         }
@@ -536,11 +518,11 @@ class AccessControlEngine:
 
 # Export classes for import
 __all__ = [
-    "AccessTier",
+    "AccessControlEngine",
     "AccessDecision",
-    "UserRole",
-    "User",
+    "AccessTier",
     "Permission",
     "PermissionManager",
-    "AccessControlEngine",
+    "User",
+    "UserRole",
 ]

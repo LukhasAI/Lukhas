@@ -41,8 +41,9 @@ class ProposalMapper:
         threshold_delta = None
         if drift_delta is not None:
             # Limit to max allowed shift
-            threshold_delta = max(-self.max_threshold_shift,
-                                 min(self.max_threshold_shift, drift_delta * 0.1))
+            threshold_delta = max(
+                -self.max_threshold_shift, min(self.max_threshold_shift, drift_delta * 0.1)
+            )
 
         # Determine explanation depth
         explain_depth = None
@@ -57,9 +58,7 @@ class ProposalMapper:
 
         try:
             patch = PolicySafePatch(
-                style=style,
-                threshold_delta=threshold_delta,
-                explain_depth=explain_depth
+                style=style, threshold_delta=threshold_delta, explain_depth=explain_depth
             )
             return patch
         except ValueError:
@@ -83,12 +82,14 @@ class ProposalMapper:
 
         return True
 
-    def to_change_proposal(self,
-                          patch: PolicySafePatch,
-                          cluster_id: str,
-                          target_file: str = "qi/safety/policy_packs/global/mappings.yaml",
-                          ttl_sec: int = 3600,
-                          risk: str = "low") -> dict[str, Any]:
+    def to_change_proposal(
+        self,
+        patch: PolicySafePatch,
+        cluster_id: str,
+        target_file: str = "qi/safety/policy_packs/global/mappings.yaml",
+        ttl_sec: int = 3600,
+        risk: str = "low",
+    ) -> dict[str, Any]:
         """Convert a patch to a change proposal."""
         # Build patch dict for the target file
         patch_dict = {}
@@ -108,14 +109,14 @@ class ProposalMapper:
             patch=patch_dict,
             risk=risk,
             ttl_sec=ttl_sec,
-            cluster_id=cluster_id
+            cluster_id=cluster_id,
         )
 
         return proposal.dict()
 
-    def promote_cluster(self,
-                       cluster_id: str,
-                       target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> str | None:
+    def promote_cluster(
+        self, cluster_id: str, target_file: str = "qi/safety/policy_packs/global/mappings.yaml"
+    ) -> str | None:
         """Promote a cluster to a change proposal."""
         # Get cluster
         cluster = self.triage.get_cluster_by_id(cluster_id)
@@ -136,7 +137,7 @@ class ProposalMapper:
             patch=patch,
             cluster_id=cluster_id,
             target_file=target_file,
-            risk="low"  # Feedback-based changes are low risk
+            risk="low",  # Feedback-based changes are low risk
         )
 
         # Queue proposal
@@ -144,12 +145,13 @@ class ProposalMapper:
 
         return proposal_id
 
-    def promote_feedback_card(self,
-                            fc_id: str,
-                            target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> str | None:
+    def promote_feedback_card(
+        self, fc_id: str, target_file: str = "qi/safety/policy_packs/global/mappings.yaml"
+    ) -> str | None:
         """Promote a single feedback card to a proposal."""
         # For single cards, create a minimal cluster
         from qi.feedback.store import get_store
+
         store = get_store()
 
         # Find the feedback card
@@ -173,7 +175,7 @@ class ProposalMapper:
             "sat_var": 0.0,
             "n_samples": 1,
             "common_issues": fc.get("feedback", {}).get("issues", []),
-            "drift_delta": None
+            "drift_delta": None,
         }
 
         # Map to patch
@@ -187,10 +189,7 @@ class ProposalMapper:
 
         # Create proposal
         proposal = self.to_change_proposal(
-            patch=patch,
-            cluster_id=f"single_{fc_id}",
-            target_file=target_file,
-            risk="low"
+            patch=patch, cluster_id=f"single_{fc_id}", target_file=target_file, risk="low"
         )
 
         # Add feedback reference
@@ -200,6 +199,7 @@ class ProposalMapper:
         proposal_id = queue_proposal(proposal)
 
         return proposal_id
+
 
 # Helper functions
 def queue_proposal(proposal: dict[str, Any]) -> str:

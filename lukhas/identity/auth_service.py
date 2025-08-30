@@ -36,6 +36,7 @@ except ImportError:
 # Note: These imports are conditionally loaded to maintain lane architecture
 REAL_IDENTITY_AVAILABLE = False
 
+
 def _try_import_candidate_components():
     """Dynamically import candidate components if available"""
     try:
@@ -49,7 +50,7 @@ def _try_import_candidate_components():
             "AuditLogger": "candidate.governance.identity.auth_backend.audit_logger",
             "AuthenticationServer": "candidate.governance.identity.auth_backend.authentication_server",
             "IdentityValidator": "candidate.governance.identity.identity_validator",
-            "QIIdentityManager": "candidate.qi.engines.identity.qi_identity_manager"
+            "QIIdentityManager": "candidate.qi.engines.identity.qi_identity_manager",
         }
 
         for component_name, module_path in module_map.items():
@@ -78,18 +79,31 @@ logger = logging.getLogger(__name__)
 
 # Define placeholder classes for linters when dynamic imports are unavailable
 if "AccessTierManager" not in globals():
+
     class AccessTierManager:  # type: ignore[no-redef]
         ...
+
+
 if "IdentityValidator" not in globals():
+
     class IdentityValidator:  # type: ignore[no-redef]
         ...
+
+
 if "QIIdentityManager" not in globals():
+
     class QIIdentityManager:  # type: ignore[no-redef]
         ...
+
+
 if "AuditLogger" not in globals():
+
     class AuditLogger:  # type: ignore[no-redef]
         ...
+
+
 if "AuthenticationServer" not in globals():
+
     class AuthenticationServer:  # type: ignore[no-redef]
         ...
 
@@ -211,9 +225,7 @@ class AuthenticationService:
             self._implementation_type = "production"
 
         except Exception as e:
-            self.logger.warning(
-                f"Failed to initialize real components, falling back: {e}"
-            )
+            self.logger.warning(f"Failed to initialize real components, falling back: {e}")
             self._init_fallback_components()
 
     def _init_fallback_components(self):
@@ -344,9 +356,7 @@ class AuthenticationService:
             self.logger.error(f"Token authentication error: {e}")
             return AuthResult(success=False, error=str(e), auth_method="token")
 
-    def authenticate_api_key(
-        self, api_key: str, service_name: str = "unknown"
-    ) -> AuthResult:
+    def authenticate_api_key(self, api_key: str, service_name: str = "unknown") -> AuthResult:
         """
         Authenticate using API key
 
@@ -367,9 +377,7 @@ class AuthenticationService:
                     break
 
             if not api_user:
-                return AuthResult(
-                    success=False, error="Invalid API key", auth_method="api_key"
-                )
+                return AuthResult(success=False, error="Invalid API key", auth_method="api_key")
 
             # Create session token
             session_token = self._create_session_token(api_user["user_id"])
@@ -474,9 +482,7 @@ class AuthenticationService:
             return True
         return False
 
-    def _authenticate_with_real_identity(
-        self, username: str, password: str
-    ) -> AuthResult:
+    def _authenticate_with_real_identity(self, username: str, password: str) -> AuthResult:
         """Enhanced authentication using real identity components"""
         # Find user
         user_data = None
@@ -529,9 +535,7 @@ class AuthenticationService:
             self._save_users()
 
             # Create enhanced session
-            session_token = self._create_enhanced_session_token(
-                user_id, validation_result
-            )
+            session_token = self._create_enhanced_session_token(user_id, validation_result)
 
             # Log successful authentication
             asyncio.run(
@@ -542,9 +546,7 @@ class AuthenticationService:
                         "username": username,
                         "tier": user_tier,
                         "validation_score": validation_result.get("trust_score", 0),
-                        "quantum_identity": (
-                            qi_identity[:16] + "..." if qi_identity else None
-                        ),
+                        "quantum_identity": (qi_identity[:16] + "..." if qi_identity else None),
                     },
                 )
             )
@@ -553,8 +555,7 @@ class AuthenticationService:
                 success=True,
                 user_id=user_id,
                 session_token=session_token,
-                permissions=user_data.get("permissions", ["basic_access"])
-                + [f"tier_{user_tier}"],
+                permissions=user_data.get("permissions", ["basic_access"]) + [f"tier_{user_tier}"],
                 expires_at=time.time() + self.session_timeout,
                 auth_method="enhanced_identity",
             )
@@ -571,9 +572,7 @@ class AuthenticationService:
         else:
             return self._authenticate_local(username, password)
 
-    def _create_enhanced_session_token(
-        self, user_id: str, validation_result: dict
-    ) -> str:
+    def _create_enhanced_session_token(self, user_id: str, validation_result: dict) -> str:
         """Create enhanced session token with additional security"""
         token = secrets.token_urlsafe(32)
         expires_at = time.time() + self.session_timeout
@@ -589,8 +588,7 @@ class AuthenticationService:
             "user_id": user_id,
             "created_at": time.time(),
             "expires_at": expires_at,
-            "permissions": user_data.get("permissions", ["basic_access"])
-            + [f"tier_{user_tier}"],
+            "permissions": user_data.get("permissions", ["basic_access"]) + [f"tier_{user_tier}"],
             "validation_score": validation_result.get("trust_score", 0.5),
             "risk_score": validation_result.get("risk_score", 0.1),
             "implementation": self._implementation_type,
@@ -612,15 +610,11 @@ class AuthenticationService:
                 break
 
         if not user_data:
-            return AuthResult(
-                success=False, error="User not found", auth_method="local"
-            )
+            return AuthResult(success=False, error="User not found", auth_method="local")
 
         # Verify password
         if not self._verify_password(password, user_data["password_hash"]):
-            return AuthResult(
-                success=False, error="Invalid password", auth_method="local"
-            )
+            return AuthResult(success=False, error="Invalid password", auth_method="local")
 
         # Update last login
         self.users[user_id]["last_login"] = time.time()
@@ -675,18 +669,14 @@ class AuthenticationService:
     def _authenticate_jwt(self, token: str) -> AuthResult:
         """JWT token authentication (if available)"""
         if not JWT_AVAILABLE:
-            return AuthResult(
-                success=False, error="JWT not available", auth_method="jwt"
-            )
+            return AuthResult(success=False, error="JWT not available", auth_method="jwt")
 
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=["HS256"])
             user_id = payload.get("user_id")
 
             if not user_id or user_id not in self.users:
-                return AuthResult(
-                    success=False, error="Invalid token payload", auth_method="jwt"
-                )
+                return AuthResult(success=False, error="Invalid token payload", auth_method="jwt")
 
             return AuthResult(
                 success=True,
@@ -707,17 +697,13 @@ class AuthenticationService:
         session_data = self.active_sessions.get(token)
 
         if not session_data:
-            return AuthResult(
-                success=False, error="Invalid session token", auth_method="session"
-            )
+            return AuthResult(success=False, error="Invalid session token", auth_method="session")
 
         # Check expiration
         if time.time() > session_data["expires_at"]:
             del self.active_sessions[token]
             self._save_sessions()
-            return AuthResult(
-                success=False, error="Session expired", auth_method="session"
-            )
+            return AuthResult(success=False, error="Session expired", auth_method="session")
 
         return AuthResult(
             success=True,
@@ -750,9 +736,7 @@ class AuthenticationService:
         salt = secrets.token_hex(32)
         # Combine password with pepper and salt
         combined = f"{password}{self.password_pepper}{salt}"
-        password_hash = hashlib.pbkdf2_hmac(
-            "sha256", combined.encode(), salt.encode(), 100000
-        )
+        password_hash = hashlib.pbkdf2_hmac("sha256", combined.encode(), salt.encode(), 100000)
         return f"{salt}:{password_hash.hex()}"
 
     def _verify_password(self, password: str, stored_hash: str) -> bool:
@@ -760,18 +744,14 @@ class AuthenticationService:
         try:
             salt, hash_hex = stored_hash.split(":", 1)
             combined = f"{password}{self.password_pepper}{salt}"
-            password_hash = hashlib.pbkdf2_hmac(
-                "sha256", combined.encode(), salt.encode(), 100000
-            )
+            password_hash = hashlib.pbkdf2_hmac("sha256", combined.encode(), salt.encode(), 100000)
             return hmac.compare_digest(hash_hex, password_hash.hex())
         except Exception:
             return False
 
     def _generate_user_id(self, username: str) -> str:
         """Generate a user ID from username"""
-        return hashlib.sha256(
-            f"lukhas_user_{username}_{time.time()}".encode()
-        ).hexdigest()[:16]
+        return hashlib.sha256(f"lukhas_user_{username}_{time.time()}".encode()).hexdigest()[:16]
 
     def _generate_api_key(self) -> str:
         """Generate an API key"""
@@ -849,12 +829,8 @@ class AuthenticationService:
         # Add real component status if available
         if hasattr(self, "access_tier_manager"):
             status["components"]["access_tier_manager"] = True
-            status["components"]["identity_validator"] = hasattr(
-                self, "identity_validator"
-            )
-            status["components"]["qi_identity_manager"] = hasattr(
-                self, "qi_identity_manager"
-            )
+            status["components"]["identity_validator"] = hasattr(self, "identity_validator")
+            status["components"]["qi_identity_manager"] = hasattr(self, "qi_identity_manager")
             status["components"]["audit_logger"] = hasattr(self, "audit_logger")
             status["components"]["auth_server"] = hasattr(self, "auth_server")
 
@@ -882,15 +858,10 @@ class AuthenticationService:
             "qi_identity_manager": (
                 "real" if self._implementation_type == "production" else "fallback"
             ),
-            "audit_logger": (
-                "real" if self._implementation_type == "production" else "fallback"
-            ),
-            "auth_server": (
-                "real" if self._implementation_type == "production" else "fallback"
-            ),
+            "audit_logger": ("real" if self._implementation_type == "production" else "fallback"),
+            "auth_server": ("real" if self._implementation_type == "production" else "fallback"),
             "features": {
-                "enhanced_identity_validation": self._implementation_type
-                == "production",
+                "enhanced_identity_validation": self._implementation_type == "production",
                 "quantum_proof_identity": self._implementation_type == "production",
                 "advanced_audit_logging": self._implementation_type == "production",
                 "enterprise_compliance": self._implementation_type == "production",
@@ -944,11 +915,11 @@ def authenticate_api_key(api_key: str, service_name: str = "unknown") -> AuthRes
 
 # Export key components
 __all__ = [
-    "AuthenticationService",
     "AuthResult",
+    "AuthenticationService",
     "UserProfile",
-    "get_auth_service",
-    "authenticate_user",
-    "authenticate_token",
     "authenticate_api_key",
+    "authenticate_token",
+    "authenticate_user",
+    "get_auth_service",
 ]

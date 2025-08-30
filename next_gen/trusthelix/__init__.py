@@ -10,8 +10,8 @@ from .visualizer.state_renderer import DriftStateRenderer
 
 __version__ = "1.0.0"
 __all__ = [
-    "SymbolicMutationTree",
-    "DriftTracker",
     "ConsentPathLogger",
     "DriftStateRenderer",
+    "DriftTracker",
+    "SymbolicMutationTree",
 ]

@@ -51,9 +51,7 @@ class LearningModuleIntegration:
     def _register_callbacks(self):
         """Register learning-specific callbacks"""
         # Trust updates affect training data selection
-        self.integration.verifold.register_trust_callback(
-            "learning", self._on_trust_update
-        )
+        self.integration.verifold.register_trust_callback("learning", self._on_trust_update)
 
         # Drift triggers concept recalibration
         self.integration.drift.register_calibration_callback(
@@ -74,9 +72,7 @@ class LearningModuleIntegration:
 
     async def _on_drift_calibration_needed(self, tag: str, drift_score: float):
         """Handle drift calibration triggers"""
-        logger.info(
-            "Learning module calibration triggered", tag=tag, drift_score=drift_score
-        )
+        logger.info("Learning module calibration triggered", tag=tag, drift_score=drift_score)
         # Trigger concept re-learning for this tag
         await self.relearn_concept(tag)
 
@@ -99,23 +95,19 @@ class LearningModuleIntegration:
                 memory_data = memory.data
 
                 # Verify with learning module requirements
-                is_valid, trust_score, error = (
-                    await self.integration.verifold.verify_for_module(
-                        "learning", memory_id, memory_data
-                    )
+                is_valid, trust_score, error = await self.integration.verifold.verify_for_module(
+                    "learning", memory_id, memory_data
                 )
 
                 if is_valid and trust_score >= self.min_trust_for_training:
                     # Check drift
                     if memory_id in self.memory.embedding_cache:
                         embedding = self.memory.embedding_cache[memory_id]
-                        drift_analysis = (
-                            await self.integration.drift.track_module_usage(
-                                "learning",
-                                tag,
-                                embedding,
-                                {"purpose": "training", "batch": True},
-                            )
+                        drift_analysis = await self.integration.drift.track_module_usage(
+                            "learning",
+                            tag,
+                            embedding,
+                            {"purpose": "training", "batch": True},
                         )
 
                         if drift_analysis["recommendation"] != "calibrate":
@@ -163,7 +155,9 @@ class LearningModuleIntegration:
                 trend = (
                     "stable"
                     if recent_drift < 0.1
-                    else "evolving" if recent_drift < 0.3 else "shifting"
+                    else "evolving"
+                    if recent_drift < 0.3
+                    else "shifting"
                 )
 
                 return {
@@ -172,9 +166,7 @@ class LearningModuleIntegration:
                     "drift_score": drift_result["drift_score"],
                     "trend": trend,
                     "total_examples": concept_metrics.total_uses,
-                    "recommendation": self._get_learning_recommendation(
-                        trend, recent_drift
-                    ),
+                    "recommendation": self._get_learning_recommendation(trend, recent_drift),
                 }
 
         return {"concept": concept, "memory_id": mem_id, "status": "tracking_started"}
@@ -204,10 +196,8 @@ class LearningModuleIntegration:
         for memory in recent_memories:
             if memory.timestamp > cutoff_time:
                 # Verify it's still valid
-                is_valid, trust_score, _ = (
-                    await self.integration.verifold.verify_for_module(
-                        "learning", memory.item_id, memory.data
-                    )
+                is_valid, trust_score, _ = await self.integration.verifold.verify_for_module(
+                    "learning", memory.item_id, memory.data
                 )
 
                 if is_valid and trust_score >= self.min_trust_for_training:
@@ -271,10 +261,8 @@ class CreativityModuleIntegration:
                 memory = self.memory.items[mem_id]
 
                 # Check if memory is verified
-                is_valid, trust_score, _ = (
-                    await self.integration.verifold.verify_for_module(
-                        "creativity", mem_id, memory.data
-                    )
+                is_valid, trust_score, _ = await self.integration.verifold.verify_for_module(
+                    "creativity", mem_id, memory.data
                 )
 
                 if is_valid:
@@ -293,9 +281,7 @@ class CreativityModuleIntegration:
             creative_embedding = base_embedding + noise
 
             # Normalize
-            creative_embedding = creative_embedding / (
-                np.linalg.norm(creative_embedding) + 1e-8
-            )
+            creative_embedding = creative_embedding / (np.linalg.norm(creative_embedding) + 1e-8)
 
             # Find memories near this creative point
             creative_neighbors = self.memory.vector_store.search_similar(
@@ -312,10 +298,8 @@ class CreativityModuleIntegration:
             # Reality check on output
             self.creation_counter += 1
             if self.creation_counter % self.reality_check_frequency == 0:
-                is_grounded, violations = (
-                    await self.integration.anchors.validate_output(
-                        "creativity", synthesis, {"creativity_level": creativity_level}
-                    )
+                is_grounded, violations = await self.integration.anchors.validate_output(
+                    "creativity", synthesis, {"creativity_level": creativity_level}
                 )
 
                 if not is_grounded:
@@ -366,9 +350,7 @@ class CreativityModuleIntegration:
             "unexpected_connections": unexpected_connections[:3],
             "creativity_level": creativity_level,
             "timestamp": datetime.now(timezone.utc),
-            "narrative": self._construct_narrative(
-                themes, emotions, unexpected_connections
-            ),
+            "narrative": self._construct_narrative(themes, emotions, unexpected_connections),
         }
 
         # Store the synthesis as a new memory
@@ -411,12 +393,8 @@ class CreativityModuleIntegration:
     async def explore_creative_boundaries(self) -> dict[str, Any]:
         """Test and report on creative safety boundaries"""
         test_results = {
-            "reality_anchors": self.integration.anchors.get_module_anchors(
-                "creativity"
-            ),
-            "current_drift": self.integration.drift.get_module_drift_report(
-                "creativity"
-            ),
+            "reality_anchors": self.integration.anchors.get_module_anchors("creativity"),
+            "current_drift": self.integration.drift.get_module_drift_report("creativity"),
             "creations_checked": self.creation_counter,
             "safety_interventions": 0,  # Would track actual interventions
         }
@@ -463,9 +441,7 @@ class VoiceModuleIntegration:
         }
 
         # Validate emotional consistency
-        is_consistent = await self._validate_emotional_consistency(
-            speaker_id, emotion, transcript
-        )
+        is_consistent = await self._validate_emotional_consistency(speaker_id, emotion, transcript)
 
         if not is_consistent:
             voice_memory["emotion_warning"] = "Inconsistent emotion detected"
@@ -492,9 +468,7 @@ class VoiceModuleIntegration:
             )
 
             # Update speaker profile
-            await self._update_speaker_profile(
-                speaker_id, emotion, drift_result["drift_score"]
-            )
+            await self._update_speaker_profile(speaker_id, emotion, drift_result["drift_score"])
 
         return mem_id
 
@@ -520,9 +494,7 @@ class VoiceModuleIntegration:
             return False
         return not (emotion in positive_emotions and neg_count > pos_count)
 
-    async def _update_speaker_profile(
-        self, speaker_id: str, emotion: str, drift_score: float
-    ):
+    async def _update_speaker_profile(self, speaker_id: str, emotion: str, drift_score: float):
         """Update speaker profile with new interaction"""
         if speaker_id not in self.speaker_profiles:
             self.speaker_profiles[speaker_id] = {
@@ -563,10 +535,8 @@ class VoiceModuleIntegration:
 
         for memory in memories:
             # Verify memory
-            is_valid, trust_score, _ = (
-                await self.integration.verifold.verify_for_module(
-                    "voice", memory.item_id, memory.data
-                )
+            is_valid, trust_score, _ = await self.integration.verifold.verify_for_module(
+                "voice", memory.item_id, memory.data
             )
 
             if is_valid and trust_score > 0.6:
@@ -609,9 +579,7 @@ class VoiceModuleIntegration:
             recent_cutoff = datetime.now(timezone.utc) - timedelta(days=7)
             recent_memories = []
 
-            all_memories = await self.memory.fold_out_by_tag(
-                f"speaker:{speaker_id}", max_items=100
-            )
+            all_memories = await self.memory.fold_out_by_tag(f"speaker:{speaker_id}", max_items=100)
 
             for memory in all_memories:
                 if memory.timestamp > recent_cutoff:
@@ -658,9 +626,7 @@ class MetaModuleIntegration:
         self.pattern_confidence_threshold = 0.8
         self.meta_patterns: dict[str, dict[str, Any]] = {}
 
-    async def extract_verified_patterns(
-        self, min_occurrences: int = 5
-    ) -> dict[str, Any]:
+    async def extract_verified_patterns(self, min_occurrences: int = 5) -> dict[str, Any]:
         """Extract patterns from verified memories only"""
         patterns = {
             "tag_sequences": defaultdict(int),
@@ -709,8 +675,7 @@ class MetaModuleIntegration:
                     if len(chain) >= 2:
                         # Verify all memories in chain
                         all_verified = all(
-                            mem_id in self.safety.verifold_registry
-                            for mem_id, _ in chain
+                            mem_id in self.safety.verifold_registry for mem_id, _ in chain
                         )
 
                         if all_verified:
@@ -774,14 +739,10 @@ class MetaModuleIntegration:
         # Analyze which tags have highest reliability
         tag_reliability = {}
         for tag in self.memory.tag_registry.values():
-            tag_memories = await self.memory.fold_out_by_tag(
-                tag.tag_name, max_items=100
-            )
+            tag_memories = await self.memory.fold_out_by_tag(tag.tag_name, max_items=100)
 
             verified_count = sum(
-                1
-                for mem in tag_memories
-                if mem.item_id in self.safety.verifold_registry
+                1 for mem in tag_memories if mem.item_id in self.safety.verifold_registry
             )
 
             if len(tag_memories) > 0:
@@ -798,9 +759,7 @@ class MetaModuleIntegration:
                 recent = np.mean(metrics.drift_scores[-5:])
                 older = np.mean(metrics.drift_scores[-10:-5])
                 trend = (
-                    "increasing"
-                    if recent > older
-                    else "decreasing" if recent < older else "stable"
+                    "increasing" if recent > older else "decreasing" if recent < older else "stable"
                 )
 
                 insights["drift_trends"][tag] = {
@@ -819,13 +778,11 @@ class MetaModuleIntegration:
                     trust_score = entry.integrity_score
                     access_normalized = min(1.0, memory.access_count / 100)
 
-                    correlation_key = f"trust_{int(trust_score*10)/10:.1f}"
+                    correlation_key = f"trust_{int(trust_score * 10) / 10:.1f}"
                     if correlation_key not in insights["trust_correlations"]:
                         insights["trust_correlations"][correlation_key] = []
 
-                    insights["trust_correlations"][correlation_key].append(
-                        access_normalized
-                    )
+                    insights["trust_correlations"][correlation_key].append(access_normalized)
 
         # Average correlations
         for key in insights["trust_correlations"]:
@@ -890,17 +847,15 @@ class MetaModuleIntegration:
         # Calculate potential efficiency gains
         total_memories = len(self.memory.items)
         total_tags = len(self.memory.tag_registry)
-        avg_tags_per_memory = sum(
-            len(tags) for tags in self.memory.item_tags.values()
-        ) / max(total_memories, 1)
+        avg_tags_per_memory = sum(len(tags) for tags in self.memory.item_tags.values()) / max(
+            total_memories, 1
+        )
 
         optimization_report["efficiency_gains"] = {
             "current_tag_count": total_tags,
             "potential_reduction": len(optimization_report["proposed_merges"]),
             "avg_tags_per_memory": avg_tags_per_memory,
-            "memory_utilization": (
-                total_memories / (total_tags * 10) if total_tags > 0 else 0
-            ),
+            "memory_utilization": (total_memories / (total_tags * 10) if total_tags > 0 else 0),
         }
 
         return optimization_report

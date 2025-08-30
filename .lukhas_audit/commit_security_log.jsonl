@@ -654,3 +654,41 @@ LUKHAS AI is now enterprise-ready for real-world partnerships at scale.
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
 {"timestamp":"2025-08-29T17:23:12Z","commit":"06b5e4b0db381e36cc1a581658e0d3766f69771d","branch":"main","author":"LukhasAI","message":"docs(deep-search): reference master JSON artifacts and extended indexes","security_scan":"pending"}
 {"timestamp":"2025-08-29T17:25:17Z","commit":"423823738912a68d20421117660df5b28ce28df4","branch":"main","author":"LukhasAI","message":"chore: finalize deep-search prep and commit MATRIZ schema/orchestrator updates","security_scan":"pending"}
+{"timestamp":"2025-08-30T02:31:30Z","commit":"d6beb24adff056d7a7e00f5493db33403995b707","branch":"main","author":"LukhasAI","message":"🗂️ Complete Root Directory Organization & Architecture Consolidation
+
+## Major Organization Improvements
+
+### 📊 Important JSON Files Consolidated
+Moved all 8 critical JSON files to `/docs/architecture/`:
+- LUKHAS_ARCHITECTURE_MASTER.json
+- DEPENDENCY_MATRIX.json
+- SECURITY_ARCHITECTURE.json
+- CONSCIOUSNESS_METRICS.json
+- PERFORMANCE_BASELINES.json
+- BUSINESS_METRICS.json
+- EVOLUTION_ROADMAP.json
+- VISUALIZATION_CONFIG.json
+
+### 🧹 Root Directory Cleanup
+- Reduced from 100+ scattered files to 38 essential files
+- Moved audit files → `/docs/audits/`
+- Moved reports → `/docs/reports/` & `/docs/reports_root/`
+- Moved scripts → `/scripts/`
+- Moved branding files → `/branding/`
+- Moved log files → `/logs/`
+- Moved data files → `/data/`
+
+### 📁 Clean Architecture
+Following CLAUDE.md organization guidelines:
+- Essential configs remain at root (CLAUDE.md, README.md, Makefile, etc.)
+- All supporting documentation properly categorized under `/docs/`
+- Scripts and utilities organized in `/scripts/`
+- Architecture assets consolidated for easy access
+
+### 🎯 Ready for Next Phase
+Important JSON files now organized together in `/docs/architecture/` for easy access during upcoming development phases.
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-08-30T05:49:58Z","commit":"91b21d722a673f1f9b3aad0c9c9ca9c940983f93","branch":"main","author":"LukhasAI","message":"deps: add pip-constraints.txt (psycopg2-binary==2.9.9) and document constrained installs","security_scan":"pending"}

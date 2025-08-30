@@ -45,7 +45,7 @@ def fix_directory(directory: str, max_files: int = 10):
         batch = py_files[i : i + max_files]
         batch_files = [str(f) for f in batch]
 
-        print(f"  Processing batch {i//max_files + 1} ({len(batch)} files)...")
+        print(f"  Processing batch {i // max_files + 1} ({len(batch)} files)...")
 
         # 1. Remove unused imports
         subprocess.run(
@@ -106,7 +106,7 @@ def main():
     # Priority directories (most likely to have issues)
     priority_dirs = [
         "bridge/llm_wrappers",
-        "lukhas" "bridge/api",
+        "lukhasbridge/api",
         "core",
         "serve",
         "tests",
@@ -133,9 +133,7 @@ def main():
 
 if __name__ == "__main__":
     # Check if tools are available
-    tools_check = subprocess.run(
-        ["which", "autoflake", "isort", "black"], capture_output=True
-    )
+    tools_check = subprocess.run(["which", "autoflake", "isort", "black"], capture_output=True)
 
     if tools_check.returncode != 0:
         print("⚠️ Required tools not found. Installing...")

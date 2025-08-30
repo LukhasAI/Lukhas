@@ -19,32 +19,28 @@ class EHRInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_patient_record(self,
-                               patient_id: str,
-                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
+    async def get_patient_record(
+        self, patient_id: str, record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Retrieve patient records from the EHR system"""
         pass
 
     @abstractmethod
-    async def update_patient_record(self,
-                                  patient_id: str,
-                                  data: dict[str, Any],
-                                  update_type: str) -> bool:
+    async def update_patient_record(
+        self, patient_id: str, data: dict[str, Any], update_type: str
+    ) -> bool:
         """Update patient records in the EHR system"""
         pass
 
     @abstractmethod
-    async def create_encounter(self,
-                             patient_id: str,
-                             encounter_data: dict[str, Any]) -> str:
+    async def create_encounter(self, patient_id: str, encounter_data: dict[str, Any]) -> str:
         """Create a new patient encounter record"""
         pass
 
     @abstractmethod
-    async def get_provider_schedule(self,
-                                  provider_id: str,
-                                  start_date: datetime,
-                                  end_date: datetime) -> list[dict[str, Any]]:
+    async def get_provider_schedule(
+        self, provider_id: str, start_date: datetime, end_date: datetime
+    ) -> list[dict[str, Any]]:
         """Get provider's schedule for a date range"""
         pass
 
@@ -63,16 +59,17 @@ class ProviderNotificationInterface(ABC):
     """Interface for provider notifications"""
 
     @abstractmethod
-    async def send_notification(self,
-                              provider_id: str,
-                              notification_type: str,
-                              content: dict[str, Any],
-                              priority: str = "normal") -> bool:
+    async def send_notification(
+        self,
+        provider_id: str,
+        notification_type: str,
+        content: dict[str, Any],
+        priority: str = "normal",
+    ) -> bool:
         """Send notification to healthcare provider"""
         pass
 
     @abstractmethod
-    async def get_notification_preferences(self,
-                                        provider_id: str) -> dict[str, Any]:
+    async def get_notification_preferences(self, provider_id: str) -> dict[str, Any]:
         """Get provider's notification preferences"""
         pass

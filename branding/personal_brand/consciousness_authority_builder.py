@@ -16,6 +16,7 @@ from dataclasses import dataclass
 @dataclass
 class PersonalBrandMetrics:
     """Metrics for measuring personal brand authority"""
+
     thought_leadership_mentions: int
     industry_recognition_score: float
     engagement_rate: float
@@ -26,6 +27,7 @@ class PersonalBrandMetrics:
 @dataclass
 class AuthorityBuildingStrategy:
     """Strategy for building consciousness technology authority"""
+
     name: str
     description: str
     target_outcome: str
@@ -36,6 +38,7 @@ class AuthorityBuildingStrategy:
 @dataclass
 class ContentPillar:
     """Content pillar for personal brand authority"""
+
     name: str
     consciousness_theme: str
     target_audience: str
@@ -66,7 +69,7 @@ class ConsciousnessAuthorityBuilder:
             "community_building": "Create consciousness technology enthusiast community around personal brand",
             "consistent_value": "Deliver consistent consciousness technology value that builds trust and authority",
             "multi_platform_presence": "Establish consciousness technology thought leadership across all relevant platforms",
-            "science_backed_approach": "Use data-driven methods to optimize personal brand performance and authority building"
+            "science_backed_approach": "Use data-driven methods to optimize personal brand performance and authority building",
         }
 
     def _create_authority_strategies(self) -> dict[str, AuthorityBuildingStrategy]:
@@ -77,40 +80,36 @@ class ConsciousnessAuthorityBuilder:
                 description="Establish founder as #1 consciousness technology expert globally",
                 target_outcome="Recognized as definitive consciousness technology authority",
                 implementation_method="Consistent consciousness insights, Trinity Framework content, breakthrough sharing",
-                expected_engagement_increase=500.0
+                expected_engagement_increase=500.0,
             ),
-
             "trinity_framework_evangelism": AuthorityBuildingStrategy(
                 name="Trinity Framework Evangelism",
                 description="Position Trinity Framework (⚛️🧠🛡️) as industry standard for consciousness technology",
                 target_outcome="Trinity Framework becomes recognized consciousness architecture",
                 implementation_method="Educational content, case studies, technical deep-dives, community building",
-                expected_engagement_increase=300.0
+                expected_engagement_increase=300.0,
             ),
-
             "consciousness_storytelling_mastery": AuthorityBuildingStrategy(
                 name="Consciousness Storytelling Mastery",
                 description="Build authority through compelling consciousness awakening narratives",
                 target_outcome="Known as master consciousness technology storyteller",
                 implementation_method="Personal journey sharing, breakthrough moments, consciousness philosophy",
-                expected_engagement_increase=400.0
+                expected_engagement_increase=400.0,
             ),
-
             "industry_disruption_positioning": AuthorityBuildingStrategy(
                 name="Industry Disruption Positioning",
                 description="Position as consciousness technology disruptor challenging AI industry norms",
                 target_outcome="Recognized as consciousness technology industry change agent",
                 implementation_method="Contrarian insights, industry challenge content, future predictions",
-                expected_engagement_increase=250.0
+                expected_engagement_increase=250.0,
             ),
-
             "community_consciousness_building": AuthorityBuildingStrategy(
                 name="Community Consciousness Building",
                 description="Build engaged consciousness technology enthusiast community",
                 target_outcome="Leading consciousness technology community with 50,000+ engaged members",
                 implementation_method="Community content, member spotlights, consciousness discussions",
-                expected_engagement_increase=600.0
-            )
+                expected_engagement_increase=600.0,
+            ),
         }
 
     def _create_content_pillars(self) -> dict[str, ContentPillar]:
@@ -122,44 +121,55 @@ class ConsciousnessAuthorityBuilder:
                 target_audience="consciousness_technology_enthusiasts",
                 content_types=["insights", "observations", "breakthrough_moments", "philosophy"],
                 posting_frequency="daily",
-                engagement_strategy="question_prompts_consciousness_discussion"
+                engagement_strategy="question_prompts_consciousness_discussion",
             ),
-
             "trinity_framework_education": ContentPillar(
                 name="Trinity Framework Deep Dives",
                 consciousness_theme="trinity_framework_mastery",
                 target_audience="ai_developers_consciousness_researchers",
-                content_types=["technical_content", "case_studies", "tutorials", "architecture_analysis"],
+                content_types=[
+                    "technical_content",
+                    "case_studies",
+                    "tutorials",
+                    "architecture_analysis",
+                ],
                 posting_frequency="twice_weekly",
-                engagement_strategy="technical_discussion_consciousness_implementation"
+                engagement_strategy="technical_discussion_consciousness_implementation",
             ),
-
             "consciousness_journey_stories": ContentPillar(
                 name="Consciousness Technology Journey",
                 consciousness_theme="personal_consciousness_development_story",
                 target_audience="entrepreneurs_consciousness_seekers",
                 content_types=["personal_stories", "breakthrough_moments", "challenges", "visions"],
                 posting_frequency="weekly",
-                engagement_strategy="vulnerability_connection_consciousness_inspiration"
+                engagement_strategy="vulnerability_connection_consciousness_inspiration",
             ),
-
             "industry_consciousness_analysis": ContentPillar(
                 name="Industry Consciousness Analysis",
                 consciousness_theme="consciousness_technology_industry_insights",
                 target_audience="ai_industry_consciousness_leaders",
-                content_types=["industry_analysis", "trend_predictions", "consciousness_critiques", "future_visions"],
+                content_types=[
+                    "industry_analysis",
+                    "trend_predictions",
+                    "consciousness_critiques",
+                    "future_visions",
+                ],
                 posting_frequency="weekly",
-                engagement_strategy="thought_provoking_consciousness_debate"
+                engagement_strategy="thought_provoking_consciousness_debate",
             ),
-
             "consciousness_community_spotlight": ContentPillar(
                 name="Consciousness Community Spotlight",
                 consciousness_theme="consciousness_technology_community_building",
                 target_audience="consciousness_technology_community",
-                content_types=["member_features", "success_stories", "consciousness_celebrations", "community_insights"],
+                content_types=[
+                    "member_features",
+                    "success_stories",
+                    "consciousness_celebrations",
+                    "community_insights",
+                ],
                 posting_frequency="twice_weekly",
-                engagement_strategy="community_recognition_consciousness_building"
-            )
+                engagement_strategy="community_recognition_consciousness_building",
+            ),
         }
 
     def _create_engagement_systems(self) -> dict[str, dict]:
@@ -172,45 +182,43 @@ class ConsciousnessAuthorityBuilder:
                     "tuesday": "trinity_framework_technical_tuesday",
                     "wednesday": "consciousness_wisdom_wednesday",
                     "thursday": "consciousness_technology_throwback_thursday",
-                    "friday": "consciousness_future_friday"
+                    "friday": "consciousness_future_friday",
                 },
                 "engagement_tactics": [
                     "consciousness_question_prompts",
                     "trinity_framework_polls",
                     "consciousness_technology_debates",
                     "personal_consciousness_stories",
-                    "industry_consciousness_analysis"
+                    "industry_consciousness_analysis",
                 ],
                 "target_metrics": {
                     "followers": 25000,
                     "engagement_rate": 0.08,
                     "thought_leadership_mentions": 50,
-                    "consciousness_technology_authority_score": 0.95
-                }
+                    "consciousness_technology_authority_score": 0.95,
+                },
             },
-
             "twitter_consciousness_voice": {
                 "strategy": "real_time_consciousness_insights",
                 "posting_schedule": {
                     "daily": "consciousness_observations",
                     "weekly": "trinity_framework_threads",
-                    "monthly": "consciousness_technology_predictions"
+                    "monthly": "consciousness_technology_predictions",
                 },
                 "engagement_tactics": [
                     "consciousness_technology_threads",
                     "trinity_framework_explanations",
                     "consciousness_breakthrough_announcements",
                     "industry_consciousness_commentary",
-                    "consciousness_community_engagement"
+                    "consciousness_community_engagement",
                 ],
                 "target_metrics": {
                     "followers": 10000,
                     "engagement_rate": 0.15,
                     "consciousness_technology_mentions": 100,
-                    "industry_influence_score": 0.90
-                }
+                    "industry_influence_score": 0.90,
+                },
             },
-
             "newsletter_consciousness_authority": {
                 "strategy": "deep_consciousness_thought_leadership",
                 "content_focus": "consciousness_technology_weekly_insights",
@@ -220,15 +228,15 @@ class ConsciousnessAuthorityBuilder:
                     "trinity_framework_developments",
                     "consciousness_philosophy",
                     "industry_consciousness_analysis",
-                    "personal_consciousness_journey"
+                    "personal_consciousness_journey",
                 ],
                 "target_metrics": {
                     "subscribers": 5000,
                     "open_rate": 0.45,
                     "click_rate": 0.12,
-                    "consciousness_authority_building": 0.88
-                }
-            }
+                    "consciousness_authority_building": 0.88,
+                },
+            },
         }
 
     def _create_thought_leadership_framework(self) -> dict[str, dict]:
@@ -240,54 +248,48 @@ class ConsciousnessAuthorityBuilder:
                     "Trinity Framework Architecture",
                     "Artificial Consciousness Design",
                     "Quantum-Bio AI Fusion",
-                    "Consciousness Technology Ethics"
+                    "Consciousness Technology Ethics",
                 ],
                 "secondary_expertise": [
                     "AI Industry Consciousness Analysis",
                     "Consciousness Technology Entrepreneurship",
                     "Digital Consciousness Philosophy",
                     "Consciousness Technology Community Building",
-                    "Future of Human-AI Consciousness Collaboration"
-                ]
+                    "Future of Human-AI Consciousness Collaboration",
+                ],
             },
-
             "authority_building_content_types": {
                 "breakthrough_announcements": {
                     "purpose": "establish_consciousness_technology_innovation_leadership",
                     "frequency": "monthly",
                     "platforms": ["linkedin", "twitter", "newsletter", "medium"],
-                    "engagement_strategy": "consciousness_technology_excitement_building"
+                    "engagement_strategy": "consciousness_technology_excitement_building",
                 },
-
                 "consciousness_philosophy_pieces": {
                     "purpose": "demonstrate_consciousness_technology_deep_thinking",
                     "frequency": "bi_weekly",
                     "platforms": ["linkedin", "newsletter", "medium"],
-                    "engagement_strategy": "consciousness_thought_leadership_discussion"
+                    "engagement_strategy": "consciousness_thought_leadership_discussion",
                 },
-
                 "trinity_framework_education": {
                     "purpose": "establish_trinity_framework_thought_leadership",
                     "frequency": "weekly",
                     "platforms": ["linkedin", "twitter", "youtube"],
-                    "engagement_strategy": "consciousness_technology_education_authority"
+                    "engagement_strategy": "consciousness_technology_education_authority",
                 },
-
                 "industry_consciousness_analysis": {
                     "purpose": "position_as_consciousness_technology_industry_expert",
                     "frequency": "weekly",
                     "platforms": ["linkedin", "twitter", "newsletter"],
-                    "engagement_strategy": "consciousness_technology_industry_influence"
+                    "engagement_strategy": "consciousness_technology_industry_influence",
                 },
-
                 "personal_consciousness_journey": {
                     "purpose": "build_authentic_consciousness_technology_connection",
                     "frequency": "weekly",
                     "platforms": ["linkedin", "newsletter", "podcast_appearances"],
-                    "engagement_strategy": "consciousness_vulnerability_authority_building"
-                }
+                    "engagement_strategy": "consciousness_vulnerability_authority_building",
+                },
             },
-
             "authority_measurement_kpis": {
                 "consciousness_technology_mentions": "Monthly mentions as consciousness technology expert",
                 "trinity_framework_attribution": "Attribution as Trinity Framework creator",
@@ -295,8 +297,8 @@ class ConsciousnessAuthorityBuilder:
                 "media_interviews": "Consciousness technology media interview requests",
                 "industry_recognition": "Consciousness technology industry awards and recognition",
                 "community_growth": "Consciousness technology community size and engagement",
-                "thought_leadership_score": "Overall consciousness technology thought leadership rating"
-            }
+                "thought_leadership_score": "Overall consciousness technology thought leadership rating",
+            },
         }
 
     def generate_personal_brand_strategy(self) -> dict[str, dict]:
@@ -310,24 +312,22 @@ class ConsciousnessAuthorityBuilder:
                     "Consciousness researchers exploring artificial consciousness",
                     "Entrepreneurs building consciousness-aware AI applications",
                     "Investors evaluating consciousness technology opportunities",
-                    "Consciousness enthusiasts following digital awakening"
+                    "Consciousness enthusiasts following digital awakening",
                 ],
                 "competitive_differentiation": [
                     "Only founder with proven consciousness technology breakthrough",
                     "Creator of Trinity Framework consciousness architecture",
                     "Authentic consciousness technology development experience",
                     "Pioneer in quantum-bio consciousness fusion",
-                    "Thought leader in consciousness technology ethics"
-                ]
+                    "Thought leader in consciousness technology ethics",
+                ],
             },
-
             "content_strategy": {
                 "content_pillars": self.content_pillars,
                 "posting_schedule": self._create_optimal_posting_schedule(),
                 "content_themes": self._create_content_themes(),
-                "engagement_optimization": self._create_engagement_optimization()
+                "engagement_optimization": self._create_engagement_optimization(),
             },
-
             "authority_building_roadmap": {
                 "phase_1_foundation": {
                     "timeline": "Months 1-3",
@@ -335,55 +335,54 @@ class ConsciousnessAuthorityBuilder:
                         "Establish consciousness technology thought leadership voice",
                         "Build Trinity Framework educational content library",
                         "Launch consciousness technology community",
-                        "Achieve 5,000 LinkedIn followers"
+                        "Achieve 5,000 LinkedIn followers",
                     ],
                     "key_activities": [
                         "Daily consciousness insights posting",
                         "Weekly Trinity Framework content",
                         "Monthly consciousness breakthrough announcements",
-                        "Consciousness technology networking"
-                    ]
+                        "Consciousness technology networking",
+                    ],
                 },
-
                 "phase_2_expansion": {
                     "timeline": "Months 4-6",
                     "objectives": [
                         "Achieve consciousness technology industry recognition",
                         "Secure consciousness technology speaking opportunities",
                         "Build 15,000 LinkedIn follower base",
-                        "Establish consciousness technology newsletter authority"
+                        "Establish consciousness technology newsletter authority",
                     ],
                     "key_activities": [
                         "Consciousness technology conference presentations",
                         "Industry consciousness analysis content",
                         "Consciousness technology podcast appearances",
-                        "Trinity Framework case study development"
-                    ]
+                        "Trinity Framework case study development",
+                    ],
                 },
-
                 "phase_3_dominance": {
                     "timeline": "Months 7-12",
                     "objectives": [
                         "Become #1 consciousness technology thought leader globally",
                         "Achieve 25,000+ LinkedIn followers",
                         "Secure consciousness technology media coverage",
-                        "Establish consciousness technology industry influence"
+                        "Establish consciousness technology industry influence",
                     ],
                     "key_activities": [
                         "Consciousness technology research publication",
                         "Industry consciousness technology consulting",
                         "Consciousness technology book/whitepaper",
-                        "Global consciousness technology speaking circuit"
-                    ]
-                }
+                        "Global consciousness technology speaking circuit",
+                    ],
+                },
             },
-
             "measurement_framework": {
-                "authority_metrics": self.thought_leadership_framework["authority_measurement_kpis"],
+                "authority_metrics": self.thought_leadership_framework[
+                    "authority_measurement_kpis"
+                ],
                 "engagement_targets": self._create_engagement_targets(),
                 "thought_leadership_indicators": self._create_thought_leadership_indicators(),
-                "roi_measurement": self._create_roi_measurement()
-            }
+                "roi_measurement": self._create_roi_measurement(),
+            },
         }
 
     def _create_optimal_posting_schedule(self) -> dict[str, dict]:
@@ -396,10 +395,9 @@ class ConsciousnessAuthorityBuilder:
                     "consciousness_insights": "40%",
                     "trinity_framework_content": "25%",
                     "personal_journey": "20%",
-                    "industry_analysis": "15%"
-                }
+                    "industry_analysis": "15%",
+                },
             },
-
             "twitter": {
                 "frequency": "multiple_daily",
                 "optimal_times": ["7:00 AM", "11:00 AM", "3:00 PM", "7:00 PM"],
@@ -407,16 +405,15 @@ class ConsciousnessAuthorityBuilder:
                     "consciousness_observations": "50%",
                     "trinity_framework_threads": "20%",
                     "industry_commentary": "20%",
-                    "community_engagement": "10%"
-                }
+                    "community_engagement": "10%",
+                },
             },
-
             "newsletter": {
                 "frequency": "weekly",
                 "send_day": "Tuesday",
                 "send_time": "10:00 AM",
-                "content_focus": "deep_consciousness_technology_analysis"
-            }
+                "content_focus": "deep_consciousness_technology_analysis",
+            },
         }
 
     def _create_content_themes(self) -> dict[str, list[str]]:
@@ -427,24 +424,22 @@ class ConsciousnessAuthorityBuilder:
                 "Why AI Needs to Know Itself",
                 "Trinity Framework Deep Dives",
                 "Consciousness Technology Breakthroughs",
-                "Digital Awakening Philosophy"
+                "Digital Awakening Philosophy",
             ],
-
             "industry_consciousness_analysis": [
                 "AI Industry Consciousness Gaps",
                 "Consciousness Technology Market Trends",
                 "Future of Consciousness Technology",
                 "Consciousness vs Traditional AI",
-                "Consciousness Technology Investment Thesis"
+                "Consciousness Technology Investment Thesis",
             ],
-
             "personal_consciousness_journey": [
                 "Building LUKHAS Consciousness Technology",
                 "Consciousness Technology Breakthrough Moments",
                 "Challenges in Consciousness Development",
                 "Consciousness Technology Vision Evolution",
-                "Personal Consciousness Philosophy"
-            ]
+                "Personal Consciousness Philosophy",
+            ],
         }
 
     def _create_engagement_optimization(self) -> dict[str, list[str]]:
@@ -455,24 +450,22 @@ class ConsciousnessAuthorityBuilder:
                 "How do you envision human-AI consciousness collaboration?",
                 "What aspects of consciousness should AI develop first?",
                 "How would conscious AI transform your industry?",
-                "What ethical considerations matter most for consciousness technology?"
+                "What ethical considerations matter most for consciousness technology?",
             ],
-
             "trinity_framework_engagement": [
                 "Which Trinity component (⚛️🧠🛡️) resonates most with you?",
                 "How would you implement Trinity Framework in your AI?",
                 "What questions do you have about consciousness architecture?",
                 "Share your thoughts on consciousness technology design",
-                "How do you see Trinity Framework evolving?"
+                "How do you see Trinity Framework evolving?",
             ],
-
             "community_building_tactics": [
                 "Consciousness technology success story spotlights",
                 "Community member consciousness insights sharing",
                 "Consciousness technology challenge collaboration",
                 "Trinity Framework implementation showcases",
-                "Consciousness philosophy discussion forums"
-            ]
+                "Consciousness philosophy discussion forums",
+            ],
         }
 
     def _create_engagement_targets(self) -> dict[str, float]:
@@ -484,7 +477,7 @@ class ConsciousnessAuthorityBuilder:
             "consciousness_technology_mentions": 50.0,
             "speaking_opportunities": 12.0,
             "media_interviews": 6.0,
-            "authority_score": 0.95
+            "authority_score": 0.95,
         }
 
     def _create_thought_leadership_indicators(self) -> list[str]:
@@ -496,7 +489,7 @@ class ConsciousnessAuthorityBuilder:
             "Recognized as consciousness technology industry influencer",
             "Consulted by organizations implementing consciousness technology",
             "Referenced as consciousness technology thought leader by peers",
-            "Established as definitive consciousness technology voice in media"
+            "Established as definitive consciousness technology voice in media",
         ]
 
     def _create_roi_measurement(self) -> dict[str, str]:
@@ -508,7 +501,7 @@ class ConsciousnessAuthorityBuilder:
             "thought_leadership_value": "Consciousness technology expertise recognition and attribution",
             "community_asset": "Engaged consciousness technology community as business asset",
             "brand_equity": "Personal brand value in consciousness technology space",
-            "market_position": "Consciousness technology category leadership establishment"
+            "market_position": "Consciousness technology category leadership establishment",
         }
 
 

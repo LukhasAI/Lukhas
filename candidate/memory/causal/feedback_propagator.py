@@ -53,6 +53,7 @@ LUKHAS_TAG: dream_causality_map, enterprise_compliance, ethical_verification
 TODO: Implement machine learning-based causality pattern recognition
 IDEA: Add predictive causality modeling for proactive feedback optimization
 """
+
 import json
 import logging
 import os
@@ -152,15 +153,12 @@ class DreamFeedbackPropagator:
 
         if drift_score is not None:
             log.info("Propagating drift score %s into mood regulator", drift_score)
-            trajectory_adjustment = self.mood_regulator.adjust_baseline_from_drift(
-                drift_score
-            )
+            trajectory_adjustment = self.mood_regulator.adjust_baseline_from_drift(drift_score)
 
             if trajectory_adjustment:
                 # Safety guard against overcorrection
                 total_adjustment = sum(
-                    abs(v)
-                    for v in trajectory_adjustment.get("emotional_context", {}).values()
+                    abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
                 )
                 if total_adjustment > MAX_ALLOWED_ADJUSTMENT:
                     log.warning(
@@ -171,18 +169,12 @@ class DreamFeedbackPropagator:
                     )
                     # Scale down the adjustment
                     scale_factor = MAX_ALLOWED_ADJUSTMENT / total_adjustment
-                    for k, v in trajectory_adjustment.get(
-                        "emotional_context", {}
-                    ).items():
+                    for k, v in trajectory_adjustment.get("emotional_context", {}).items():
                         trajectory_adjustment["emotional_context"][k] = v * scale_factor
 
                 log.info(f"Applying trajectory adjustment: {trajectory_adjustment}")
-                dream_data["emotional_context"] = dream_data.get(
-                    "emotional_context", {}
-                )
-                for emotion, value in trajectory_adjustment.get(
-                    "emotional_context", {}
-                ).items():
+                dream_data["emotional_context"] = dream_data.get("emotional_context", {})
+                for emotion, value in trajectory_adjustment.get("emotional_context", {}).items():
                     dream_data["emotional_context"][emotion] = (
                         dream_data["emotional_context"].get(emotion, 0) + value
                     )
@@ -203,9 +195,7 @@ class DreamFeedbackPropagator:
                 dream_data["narrative"] = redirect_narrative
 
                 # LUKHAS_TAG: dream_causality_map - Track redirection causality
-                self._track_redirection_causality(
-                    user_id, redirect_narrative, dream_data
-                )
+                self._track_redirection_causality(user_id, redirect_narrative, dream_data)
 
         # LUKHAS_TAG: dream_causality_map - Finalize causality trace
         self._finalize_causality_trace(dream_data)
@@ -218,12 +208,8 @@ class DreamFeedbackPropagator:
     ) -> None:
         """Track causality between dream processing and memory modifications."""
         try:
-            dream_id = dream_data.get(
-                "dream_id", f"dream_{datetime.now(timezone.utc).isoformat()}"
-            )
-            current_emotion = getattr(
-                self.emotional_memory, "current_emotion", "unknown"
-            )
+            dream_id = dream_data.get("dream_id", f"dream_{datetime.now(timezone.utc).isoformat()}")
+            current_emotion = getattr(self.emotional_memory, "current_emotion", "unknown")
 
             causal_event = {
                 "event_type": "dream_memory_causation",
@@ -235,18 +221,13 @@ class DreamFeedbackPropagator:
                     dream_data, trajectory_adjustment
                 ),
                 "metadata": {
-                    "drift_score": dream_data.get("affect_trace", {}).get(
-                        "total_drift"
-                    ),
+                    "drift_score": dream_data.get("affect_trace", {}).get("total_drift"),
                     "emotional_context": dream_data.get("emotional_context", {}),
                     "trajectory_adjustment": trajectory_adjustment,
                     "current_emotion_state": current_emotion,
                     "safety_guards_triggered": trajectory_adjustment
                     and sum(
-                        abs(v)
-                        for v in trajectory_adjustment.get(
-                            "emotional_context", {}
-                        ).values()
+                        abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
                     )
                     > MAX_ALLOWED_ADJUSTMENT,
                 },
@@ -273,7 +254,7 @@ class DreamFeedbackPropagator:
 
         except Exception as e:
             log.error(
-                f"Failed to track dream→memory causation: {str(e)}",
+                f"Failed to track dream→memory causation: {e!s}",
                 LUKHAS_TAG="dream_causality_map",
             )
 
@@ -312,14 +293,12 @@ class DreamFeedbackPropagator:
 
         except Exception as e:
             log.error(
-                f"Failed to track redirection causality: {str(e)}",
+                f"Failed to track redirection causality: {e!s}",
                 LUKHAS_TAG="dream_causality_map",
             )
 
     # LUKHAS_TAG: dream_causality_map
-    def _cross_check_redirection_ethics(
-        self, redirection_event: dict[str, Any]
-    ) -> None:
+    def _cross_check_redirection_ethics(self, redirection_event: dict[str, Any]) -> None:
         """Cross-check redirection events with ethical constraints in fold lineage."""
         try:
             # Query fold lineage for ethical constraint violations
@@ -342,9 +321,7 @@ class DreamFeedbackPropagator:
                     )
 
             if potential_conflicts:
-                redirection_event["metadata"][
-                    "ethical_conflicts_detected"
-                ] = potential_conflicts
+                redirection_event["metadata"]["ethical_conflicts_detected"] = potential_conflicts
                 log.warning(
                     "Potential ethical conflicts detected in dream redirection",
                     conflicts=len(potential_conflicts),
@@ -355,7 +332,7 @@ class DreamFeedbackPropagator:
 
         except Exception as e:
             log.error(
-                f"Failed to cross-check redirection ethics: {str(e)}",
+                f"Failed to cross-check redirection ethics: {e!s}",
                 LUKHAS_TAG="dream_causality_map",
             )
 
@@ -377,8 +354,7 @@ class DreamFeedbackPropagator:
             # Factor in trajectory adjustment magnitude
             if trajectory_adjustment:
                 adjustment_magnitude = sum(
-                    abs(v)
-                    for v in trajectory_adjustment.get("emotional_context", {}).values()
+                    abs(v) for v in trajectory_adjustment.get("emotional_context", {}).values()
                 )
                 base_strength += min(adjustment_magnitude, 0.3)
 
@@ -391,7 +367,7 @@ class DreamFeedbackPropagator:
             return min(base_strength, 1.0)
 
         except Exception as e:
-            log.error(f"Failed to calculate causation strength: {str(e)}")
+            log.error(f"Failed to calculate causation strength: {e!s}")
             return 0.5  # Default moderate strength
 
     # LUKHAS_TAG: dream_causality_map
@@ -434,11 +410,8 @@ class DreamFeedbackPropagator:
                     "ethical_compliance_status": (
                         "verified"
                         if all(
-                            e.get("metadata", {}).get("ethical_compliance")
-                            == "verified"
-                            or not e.get("metadata", {}).get(
-                                "ethical_conflicts_detected"
-                            )
+                            e.get("metadata", {}).get("ethical_compliance") == "verified"
+                            or not e.get("metadata", {}).get("ethical_conflicts_detected")
                             for e in self.causal_events
                         )
                         else "requires_review"
@@ -469,15 +442,13 @@ class DreamFeedbackPropagator:
                 "Dream causality trace finalized",
                 trace_id=causality_trace["trace_id"],
                 total_events=causality_trace["causality_summary"]["total_events"],
-                compliance_status=causality_trace["causality_summary"][
-                    "ethical_compliance_status"
-                ],
+                compliance_status=causality_trace["causality_summary"]["ethical_compliance_status"],
                 LUKHAS_TAG="dream_causality_map",
             )
 
         except Exception as e:
             log.error(
-                f"Failed to finalize causality trace: {str(e)}",
+                f"Failed to finalize causality trace: {e!s}",
                 LUKHAS_TAG="dream_causality_map",
             )
 

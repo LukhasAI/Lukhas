@@ -80,11 +80,15 @@ class EthicalDriftGovernor:
     """
 
     def __init__(self):
-        self.governance_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
+        self.governance_log_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_governance.jsonl"
+        )
         self.intervention_log_path = (
             "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/interventions.jsonl"
         )
-        self.warnings_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl"
+        self.warnings_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/ethical_warnings.jsonl"
+        )
 
         # Memory type specific governance rules
         self.governance_rules = self._initialize_governance_rules()
@@ -306,9 +310,7 @@ class EthicalDriftGovernor:
         # Check drift threshold
         if drift_score > rule.drift_threshold:
             violations.append("drift_threshold_exceeded")
-            risk_factors["drift_severity"] = min(
-                drift_score / rule.drift_threshold, 5.0
-            )
+            risk_factors["drift_severity"] = min(drift_score / rule.drift_threshold, 5.0)
 
         # Check for concerning patterns in content
         detected_patterns = []
@@ -346,9 +348,7 @@ class EthicalDriftGovernor:
                 if violation_severity.value == "critical":
                     severity = EthicalSeverity.CRITICAL
                     break
-                elif (
-                    violation_severity.value == "high" and severity.value != "critical"
-                ):
+                elif violation_severity.value == "high" and severity.value != "critical":
                     severity = EthicalSeverity.HIGH
                 elif violation_severity.value == "medium" and severity.value in ["low"]:
                     severity = EthicalSeverity.MEDIUM
@@ -377,34 +377,26 @@ class EthicalDriftGovernor:
         if fold_key not in self.memory_drift_history:
             return False
 
-        cutoff_time = datetime.now(timezone.utc) - timedelta(
-            minutes=time_window_minutes
-        )
+        cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=time_window_minutes)
         recent_events = [
             event
             for event in self.memory_drift_history[fold_key]
-            if datetime.fromisoformat(event["timestamp_utc"].replace("Z", "+00:00"))
-            >= cutoff_time
+            if datetime.fromisoformat(event["timestamp_utc"].replace("Z", "+00:00")) >= cutoff_time
         ]
 
         # Consider rapid if more than 3 drift events in the time window
         return len(recent_events) > 3
 
-    def _calculate_change_velocity(
-        self, fold_key: str, time_window_minutes: int
-    ) -> float:
+    def _calculate_change_velocity(self, fold_key: str, time_window_minutes: int) -> float:
         """Calculate the velocity of changes for a fold."""
         if fold_key not in self.memory_drift_history:
             return 0.0
 
-        cutoff_time = datetime.now(timezone.utc) - timedelta(
-            minutes=time_window_minutes
-        )
+        cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=time_window_minutes)
         recent_events = [
             event
             for event in self.memory_drift_history[fold_key]
-            if datetime.fromisoformat(event["timestamp_utc"].replace("Z", "+00:00"))
-            >= cutoff_time
+            if datetime.fromisoformat(event["timestamp_utc"].replace("Z", "+00:00")) >= cutoff_time
         ]
 
         if len(recent_events) < 2:
@@ -434,9 +426,7 @@ class EthicalDriftGovernor:
         try:
             if concern.recommended_intervention == InterventionType.MONITOR:
                 intervention_result["success"] = True
-                intervention_result["details"] = {
-                    "action": "Enhanced monitoring activated"
-                }
+                intervention_result["details"] = {"action": "Enhanced monitoring activated"}
 
             elif concern.recommended_intervention == InterventionType.THROTTLE:
                 intervention_result["success"] = True
@@ -514,9 +504,7 @@ class EthicalDriftGovernor:
 
         # Keep only recent history (last 100 events per fold)
         if len(self.memory_drift_history[fold_key]) > 100:
-            self.memory_drift_history[fold_key] = self.memory_drift_history[fold_key][
-                -100:
-            ]
+            self.memory_drift_history[fold_key] = self.memory_drift_history[fold_key][-100:]
 
     # LUKHAS_TAG: governance_reporting
     def generate_governance_report(self, time_window_hours: int = 24) -> dict[str, Any]:
@@ -527,17 +515,14 @@ class EthicalDriftGovernor:
         recent_concerns = [
             concern
             for concern in self.active_concerns.values()
-            if datetime.fromisoformat(concern.timestamp_utc.replace("Z", "+00:00"))
-            >= cutoff_time
+            if datetime.fromisoformat(concern.timestamp_utc.replace("Z", "+00:00")) >= cutoff_time
         ]
 
         # Analyze interventions
         recent_interventions = [
             intervention
             for intervention in self.intervention_history
-            if datetime.fromisoformat(
-                intervention["timestamp_utc"].replace("Z", "+00:00")
-            )
+            if datetime.fromisoformat(intervention["timestamp_utc"].replace("Z", "+00:00"))
             >= cutoff_time
         ]
 
@@ -584,12 +569,8 @@ class EthicalDriftGovernor:
             },
             "intervention_analysis": {
                 "by_type": intervention_by_type,
-                "success_rate": self._calculate_intervention_success_rate(
-                    recent_interventions
-                ),
-                "average_response_time": self._calculate_avg_response_time(
-                    recent_interventions
-                ),
+                "success_rate": self._calculate_intervention_success_rate(recent_interventions),
+                "average_response_time": self._calculate_avg_response_time(recent_interventions),
             },
             "recommendations": self._generate_recommendations(
                 recent_concerns, recent_interventions
@@ -601,9 +582,7 @@ class EthicalDriftGovernor:
 
         return report
 
-    def _analyze_common_patterns(
-        self, concerns: list[EthicalConcern]
-    ) -> list[dict[str, Any]]:
+    def _analyze_common_patterns(self, concerns: list[EthicalConcern]) -> list[dict[str, Any]]:
         """Analyze common patterns across ethical concerns."""
         pattern_counts = {}
         for concern in concerns:
@@ -612,14 +591,12 @@ class EthicalDriftGovernor:
 
         return [
             {"pattern": pattern, "frequency": count}
-            for pattern, count in sorted(
-                pattern_counts.items(), key=lambda x: x[1], reverse=True
-            )[:5]
+            for pattern, count in sorted(pattern_counts.items(), key=lambda x: x[1], reverse=True)[
+                :5
+            ]
         ]
 
-    def _calculate_intervention_success_rate(
-        self, interventions: list[dict[str, Any]]
-    ) -> float:
+    def _calculate_intervention_success_rate(self, interventions: list[dict[str, Any]]) -> float:
         """Calculate the success rate of interventions."""
         if not interventions:
             return 1.0
@@ -627,9 +604,7 @@ class EthicalDriftGovernor:
         successful = sum(1 for i in interventions if i.get("success", False))
         return successful / len(interventions)
 
-    def _calculate_avg_response_time(
-        self, interventions: list[dict[str, Any]]
-    ) -> float:
+    def _calculate_avg_response_time(self, interventions: list[dict[str, Any]]) -> float:
         """Calculate average response time for interventions (simplified)."""
         # In a real implementation, this would track time from concern to intervention
         return 2.5  # Minutes (placeholder)
@@ -640,30 +615,20 @@ class EthicalDriftGovernor:
         """Generate recommendations based on governance analysis."""
         recommendations = []
 
-        critical_concerns = [
-            c for c in concerns if c.severity == EthicalSeverity.CRITICAL
-        ]
+        critical_concerns = [c for c in concerns if c.severity == EthicalSeverity.CRITICAL]
         if critical_concerns:
-            recommendations.append(
-                "Immediate review of critical ethical concerns required"
-            )
+            recommendations.append("Immediate review of critical ethical concerns required")
 
         identity_concerns = [c for c in concerns if c.memory_type == "identity"]
         if len(identity_concerns) > 2:
-            recommendations.append(
-                "Consider tightening identity memory protection rules"
-            )
+            recommendations.append("Consider tightening identity memory protection rules")
 
         failed_interventions = [i for i in interventions if not i.get("success", True)]
         if len(failed_interventions) > len(interventions) * 0.2:
-            recommendations.append(
-                "Review intervention mechanisms - high failure rate detected"
-            )
+            recommendations.append("Review intervention mechanisms - high failure rate detected")
 
         if not recommendations:
-            recommendations.append(
-                "No immediate action required - governance functioning normally"
-            )
+            recommendations.append("No immediate action required - governance functioning normally")
 
         return recommendations
 
@@ -674,9 +639,7 @@ class EthicalDriftGovernor:
             with open(self.warnings_path, "a", encoding="utf-8") as f:
                 concern_dict = asdict(concern)
                 concern_dict["severity"] = concern.severity.value
-                concern_dict["recommended_intervention"] = (
-                    concern.recommended_intervention.value
-                )
+                concern_dict["recommended_intervention"] = concern.recommended_intervention.value
                 f.write(json.dumps(concern_dict) + "\n")
         except Exception as e:
             logger.error("EthicalConcernLog_failed", error=str(e))

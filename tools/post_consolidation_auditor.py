@@ -99,9 +99,7 @@ class PostConsolidationAuditor:
             dir_path = self.workspace_root / directory
             if dir_path.exists():
                 print(f"📁 Auditing: {directory}")
-                audit_results["directory_analysis"][directory] = self._audit_directory(
-                    dir_path
-                )
+                audit_results["directory_analysis"][directory] = self._audit_directory(dir_path)
             else:
                 audit_results["directory_analysis"][directory] = {"status": "NOT_FOUND"}
 
@@ -129,9 +127,7 @@ class PostConsolidationAuditor:
         audit_results["summary_statistics"] = self._calculate_statistics(audit_results)
 
         # Create detailed inventory
-        audit_results["detailed_inventory"] = self._create_detailed_inventory(
-            audit_results
-        )
+        audit_results["detailed_inventory"] = self._create_detailed_inventory(audit_results)
 
         return audit_results
 
@@ -163,9 +159,7 @@ class PostConsolidationAuditor:
 
                 # Count directories
                 analysis["total_directories"] += len(dirs)
-                analysis["subdirectories"].extend(
-                    [str(relative_path / d) for d in dirs]
-                )
+                analysis["subdirectories"].extend([str(relative_path / d) for d in dirs])
 
                 # Process files
                 for file in files:
@@ -192,9 +186,7 @@ class PostConsolidationAuditor:
                         analysis["file_types_found"].add(file_ext)
 
                         # Track largest files (top 10)
-                        analysis["largest_files"].append(
-                            (str(relative_file_path), file_size)
-                        )
+                        analysis["largest_files"].append((str(relative_file_path), file_size))
 
                         # Track recently modified files
                         if (datetime.now() - file_modified).days <= 7:
@@ -279,12 +271,8 @@ class PostConsolidationAuditor:
         file_analysis["size_analysis"] = {
             "total_size_bytes": total_size,
             "total_size_mb": round(total_size / (1024 * 1024), 2),
-            "average_file_size": (
-                round(total_size / len(all_files), 2) if all_files else 0
-            ),
-            "largest_file": (
-                max(all_files, key=lambda x: x["size"]) if all_files else None
-            ),
+            "average_file_size": (round(total_size / len(all_files), 2) if all_files else 0),
+            "largest_file": (max(all_files, key=lambda x: x["size"]) if all_files else None),
         }
 
         return file_analysis
@@ -326,9 +314,7 @@ class PostConsolidationAuditor:
                 best_confidence = confidence_scores[best_category]
 
                 categorization["categorized"][best_category].append(file_detail)
-                categorization["classification_confidence"][
-                    file_detail["full_path"]
-                ] = {
+                categorization["classification_confidence"][file_detail["full_path"]] = {
                     "category": best_category,
                     "confidence": best_confidence,
                     "all_scores": confidence_scores,
@@ -348,9 +334,7 @@ class PostConsolidationAuditor:
 
         return categorization
 
-    def _identify_unclassified(
-        self, categorization_report: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _identify_unclassified(self, categorization_report: dict[str, Any]) -> dict[str, Any]:
         """Identify and analyze unclassified components"""
 
         unclassified_analysis = {
@@ -366,12 +350,8 @@ class PostConsolidationAuditor:
             file_path = Path(file_detail["path"])
 
             # Group by parent directory
-            parent_dir = (
-                str(file_path.parent) if file_path.parent != Path(".") else "root"
-            )
-            unclassified_analysis["unclassified_patterns"][parent_dir].append(
-                file_detail
-            )
+            parent_dir = str(file_path.parent) if file_path.parent != Path(".") else "root"
+            unclassified_analysis["unclassified_patterns"][parent_dir].append(file_detail)
 
             # Look for potential category indicators
             path_parts = file_path.parts
@@ -379,9 +359,7 @@ class PostConsolidationAuditor:
                 if len(part) > 3 and part.isalpha():  # Potential category name
                     if part not in unclassified_analysis["potential_new_categories"]:
                         unclassified_analysis["potential_new_categories"][part] = []
-                    unclassified_analysis["potential_new_categories"][part].append(
-                        file_detail
-                    )
+                    unclassified_analysis["potential_new_categories"][part].append(file_detail)
 
         # Generate recommendations for unclassified items
         for pattern, files in unclassified_analysis["unclassified_patterns"].items():
@@ -397,17 +375,13 @@ class PostConsolidationAuditor:
 
         return unclassified_analysis
 
-    def _generate_recommendations(
-        self, audit_results: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _generate_recommendations(self, audit_results: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate consolidation recommendations"""
 
         recommendations = []
 
         # Recommendation 1: Move remaining files
-        total_remaining = audit_results["summary_statistics"].get(
-            "total_files_remaining", 0
-        )
+        total_remaining = audit_results["summary_statistics"].get("total_files_remaining", 0)
         if total_remaining > 0:
             recommendations.append(
                 {
@@ -420,9 +394,7 @@ class PostConsolidationAuditor:
             )
 
         # Recommendation 2: Handle unclassified files
-        unclassified_count = len(
-            audit_results["unclassified_components"]["unclassified_files"]
-        )
+        unclassified_count = len(audit_results["unclassified_components"]["unclassified_files"])
         if unclassified_count > 0:
             recommendations.append(
                 {
@@ -480,9 +452,7 @@ class PostConsolidationAuditor:
 
         # File type distribution
         if audit_results["file_analysis"].get("files_by_type"):
-            stats["files_by_type"] = dict(
-                audit_results["file_analysis"]["files_by_type"]
-            )
+            stats["files_by_type"] = dict(audit_results["file_analysis"]["files_by_type"])
 
         # Category distribution
         if audit_results["categorization_report"].get("category_statistics"):
@@ -493,16 +463,12 @@ class PostConsolidationAuditor:
 
         # Size calculations
         if audit_results["file_analysis"].get("size_analysis"):
-            size_mb = audit_results["file_analysis"]["size_analysis"].get(
-                "total_size_mb", 0
-            )
+            size_mb = audit_results["file_analysis"]["size_analysis"].get("total_size_mb", 0)
             stats["total_size_remaining_mb"] = size_mb
 
         return stats
 
-    def _create_detailed_inventory(
-        self, audit_results: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _create_detailed_inventory(self, audit_results: dict[str, Any]) -> dict[str, Any]:
         """Create detailed inventory of all components"""
 
         inventory = {
@@ -515,9 +481,7 @@ class PostConsolidationAuditor:
 
         # Organize by category
         if audit_results["categorization_report"].get("categorized"):
-            for category, files in audit_results["categorization_report"][
-                "categorized"
-            ].items():
+            for category, files in audit_results["categorization_report"]["categorized"].items():
                 inventory["inventory_by_category"][category] = [
                     {
                         "path": f["path"],
@@ -559,8 +523,8 @@ class PostConsolidationAuditor:
         report = f"""
 # 🔍 lukhas Post-Consolidation Comprehensive Audit Report
 
-**Generated:** {audit_results['audit_metadata']['timestamp']}
-**Workspace:** {audit_results['audit_metadata']['workspace_root']}
+**Generated:** {audit_results["audit_metadata"]["timestamp"]}
+**Workspace:** {audit_results["audit_metadata"]["workspace_root"]}
 
 ---
 
@@ -571,11 +535,11 @@ class PostConsolidationAuditor:
 
         stats = audit_results["summary_statistics"]
         report += f"""
-- **Total Files Remaining:** {stats.get('total_files_remaining', 0)}
-- **Total Size Remaining:** {stats.get('total_size_remaining_mb', 0):.2f} MB
-- **Directories Audited:** {len(audit_results['audit_metadata']['audit_directories'])}
-- **Categorized Files:** {sum(stats.get('files_by_category', {}).values())}
-- **Unclassified Files:** {len(audit_results['unclassified_components']['unclassified_files'])}
+- **Total Files Remaining:** {stats.get("total_files_remaining", 0)}
+- **Total Size Remaining:** {stats.get("total_size_remaining_mb", 0):.2f} MB
+- **Directories Audited:** {len(audit_results["audit_metadata"]["audit_directories"])}
+- **Categorized Files:** {sum(stats.get("files_by_category", {}).values())}
+- **Unclassified Files:** {len(audit_results["unclassified_components"]["unclassified_files"])}
 
 """
 
@@ -592,10 +556,10 @@ class PostConsolidationAuditor:
                 report += f"""
 ### **{dir_name}/**
 - **Status:** ✅ EXISTS
-- **Files:** {dir_data.get('total_files', 0)}
-- **Directories:** {dir_data.get('total_directories', 0)}
-- **File Types:** {', '.join(dir_data.get('file_types_found', []))}
-- **Recently Modified:** {len(dir_data.get('recently_modified', []))} files
+- **Files:** {dir_data.get("total_files", 0)}
+- **Directories:** {dir_data.get("total_directories", 0)}
+- **File Types:** {", ".join(dir_data.get("file_types_found", []))}
+- **Recently Modified:** {len(dir_data.get("recently_modified", []))} files
 """
             else:
                 report += f"""
@@ -613,20 +577,18 @@ class PostConsolidationAuditor:
 """
 
         for category, cat_stats in (
-            audit_results["categorization_report"]
-            .get("category_statistics", {})
-            .items()
+            audit_results["categorization_report"].get("category_statistics", {}).items()
         ):
             report += f"""
-- **{category.upper()}:** {cat_stats['file_count']} files ({cat_stats['total_size']} bytes)
-  - File types: {', '.join(cat_stats['file_types'])}
+- **{category.upper()}:** {cat_stats["file_count"]} files ({cat_stats["total_size"]} bytes)
+  - File types: {", ".join(cat_stats["file_types"])}
 """
 
         # Unclassified Components
         unclassified = audit_results["unclassified_components"]
         report += f"""
 
-### **UNCLASSIFIED COMPONENTS:** {unclassified['total_unclassified']} files
+### **UNCLASSIFIED COMPONENTS:** {unclassified["total_unclassified"]} files
 
 #### **Unclassified by Pattern:**
 """
@@ -655,9 +617,7 @@ class PostConsolidationAuditor:
 ### **File Type Distribution:**
 """
 
-        for file_type, count in (
-            audit_results["file_analysis"].get("files_by_type", {}).items()
-        ):
+        for file_type, count in audit_results["file_analysis"].get("files_by_type", {}).items():
             report += f"- **{file_type}:** {count} files\n"
 
         # Duplicates
@@ -673,9 +633,7 @@ class PostConsolidationAuditor:
 #### **{file_name}**
 """
                 for file_detail in file_list:
-                    report += (
-                        f"- {file_detail['source_directory']}/{file_detail['path']}\n"
-                    )
+                    report += f"- {file_detail['source_directory']}/{file_detail['path']}\n"
 
         # Recommendations
         report += """
@@ -686,15 +644,13 @@ class PostConsolidationAuditor:
 """
 
         for i, rec in enumerate(audit_results["consolidation_recommendations"], 1):
-            priority_emoji = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(
-                rec["priority"], "⚪"
-            )
+            priority_emoji = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(rec["priority"], "⚪")
             report += f"""
-### **{i}. {rec['title']}** {priority_emoji}
-- **Priority:** {rec['priority']}
-- **Type:** {rec['type']}
-- **Description:** {rec['description']}
-- **Action:** {rec['action']}
+### **{i}. {rec["title"]}** {priority_emoji}
+- **Priority:** {rec["priority"]}
+- **Type:** {rec["type"]}
+- **Description:** {rec["description"]}
+- **Action:** {rec["action"]}
 
 """
 
@@ -710,7 +666,7 @@ class PostConsolidationAuditor:
         for item in audit_results["detailed_inventory"].get("high_priority_items", []):
             priority_emoji = {"HIGH": "🔴", "MEDIUM": "🟡"}.get(item["priority"], "⚪")
             report += f"""
-- **{item['category']}:** {item['file_count']} files {priority_emoji}
+- **{item["category"]}:** {item["file_count"]} files {priority_emoji}
 """
 
         # Complete File Listing
@@ -770,7 +726,7 @@ class PostConsolidationAuditor:
 ---
 
 *lukhas Post-Consolidation Audit Report*
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 """
 
         return report
@@ -779,18 +735,14 @@ class PostConsolidationAuditor:
         """Save comprehensive audit results"""
 
         # Save JSON data
-        json_path = (
-            self.workspace_root
-            / f"post_consolidation_audit_{self.audit_timestamp}.json"
-        )
+        json_path = self.workspace_root / f"post_consolidation_audit_{self.audit_timestamp}.json"
         with open(json_path, "w") as f:
             json.dump(audit_results, f, indent=2, default=str)
 
         # Save detailed report
         report = self.generate_comprehensive_report(audit_results)
         report_path = (
-            self.workspace_root
-            / f"POST_CONSOLIDATION_AUDIT_REPORT_{self.audit_timestamp}.md"
+            self.workspace_root / f"POST_CONSOLIDATION_AUDIT_REPORT_{self.audit_timestamp}.md"
         )
         with open(report_path, "w") as f:
             f.write(report)
@@ -833,9 +785,7 @@ def main():
     # Show top recommendations
     print("\n🚀 TOP RECOMMENDATIONS:")
     for i, rec in enumerate(audit_results["consolidation_recommendations"][:3], 1):
-        priority_emoji = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(
-            rec["priority"], "⚪"
-        )
+        priority_emoji = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}.get(rec["priority"], "⚪")
         print(f"   {i}. {rec['title']} {priority_emoji}")
 
     print(f"\n📄 Complete report available at: {report_path}")

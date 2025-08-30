@@ -14,6 +14,7 @@ log = structlog.get_logger(__name__)
 # Import real implementations with graceful fallbacks
 try:
     from candidate.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
+
     SYMBOLIC_ENGINE_AVAILABLE = True
 except ImportError:
     warnings.warn("Real SymbolicEngine not available, using fallback", UserWarning)
@@ -30,6 +31,7 @@ try:
         sys.path.insert(0, candidate_path)
 
     from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
+
     MEMORY_MANAGER_AVAILABLE = True
 except ImportError as e:
     warnings.warn(f"Real MemoryManager not available: {e}, using fallback", UserWarning)
@@ -37,6 +39,7 @@ except ImportError as e:
 
 try:
     from candidate.governance.guardian_system import GuardianSystem
+
     GUARDIAN_SYSTEM_AVAILABLE = True
 except ImportError:
     warnings.warn("Real GuardianSystem not available, using fallback", UserWarning)
@@ -44,11 +47,13 @@ except ImportError:
 
 try:
     from candidate.emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
+
     EMOTION_ENGINE_AVAILABLE = True
 except ImportError:
     try:
         # Try alternative emotion system
         from lukhas.emotion import EmotionWrapper as EmotionEngine
+
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
         warnings.warn(f"Real EmotionEngine not available: {e}, using fallback", UserWarning)
@@ -56,6 +61,7 @@ except ImportError:
 
 try:
     from candidate.consciousness.dream.core.dream_engine import DreamEngine
+
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
     warnings.warn("Real DreamEngine not available, using fallback", UserWarning)
@@ -63,6 +69,7 @@ except ImportError:
 
 try:
     from candidate.core.coordination import ContractNetInitiator as CoordinationManager
+
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:
     warnings.warn("Real CoordinationManager not available, using fallback", UserWarning)
@@ -71,14 +78,19 @@ except ImportError:
 
 # Fallback stubs for cases where real implementations can't be imported
 if not SYMBOLIC_ENGINE_AVAILABLE:
+
     class SymbolicEngine:
         """Fallback stub for symbolic/GLYPH engine"""
 
         def __init__(self):
             self.initialized = False
             self.glyph_map = {
-                "love": "♥", "think": "🧠", "create": "✨",
-                "remember": "💭", "feel": "💫", "dream": "🌙",
+                "love": "♥",
+                "think": "🧠",
+                "create": "✨",
+                "remember": "💭",
+                "feel": "💫",
+                "dream": "🌙",
             }
 
         async def initialize(self):
@@ -91,7 +103,9 @@ if not SYMBOLIC_ENGINE_AVAILABLE:
             glyphs = [self.glyph_map.get(word.lower(), f"λ{word[:3]}") for word in words]
             return {"glyphs": glyphs, "entropy": 0.5, "resonance": 0.7}
 
+
 if not MEMORY_MANAGER_AVAILABLE:
+
     class MemoryManager:
         """Fallback stub for memory system"""
 
@@ -111,6 +125,7 @@ if not MEMORY_MANAGER_AVAILABLE:
 
 # Additional fallback stubs if needed
 if not GUARDIAN_SYSTEM_AVAILABLE:
+
     class GuardianSystem:
         """Fallback stub for Guardian system"""
 
@@ -143,7 +158,9 @@ def log_service_status():
     real_count = sum(status.values())
     total_count = len(status)
 
-    log.info(f"Service Implementation Status: {real_count}/{total_count} real implementations available")
+    log.info(
+        f"Service Implementation Status: {real_count}/{total_count} real implementations available"
+    )
 
     for service, available in status.items():
         if available:

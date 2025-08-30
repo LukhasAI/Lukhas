@@ -117,9 +117,7 @@ class MemoryNode:
     """
 
     # Mandatory fields (immutable)
-    id: str = field(
-        default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())}"
-    )
+    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())}")
     type: NodeType = NodeType.MEMORY
     created_at: datetime = field(default_factory=datetime.now)
     content_hash: str = ""  # SHA-256 of content for integrity
@@ -155,9 +153,7 @@ class MemoryNode:
         """Verify node hasn't been tampered with"""
         return self.content_hash == self._calculate_hash()
 
-    def evolve(
-        self, new_content: dict[str, Any], new_state: CognitiveState
-    ) -> MemoryNode:
+    def evolve(self, new_content: dict[str, Any], new_state: CognitiveState) -> MemoryNode:
         """
         Create evolved version of this node (immutable evolution).
         Original node remains unchanged.
@@ -174,9 +170,7 @@ class MemoryNode:
         self.evolves_to.append(new_node.id)
         return new_node
 
-    def add_reflection(
-        self, reflection_type: str, cause: str, old_state: dict, new_state: dict
-    ):
+    def add_reflection(self, reflection_type: str, cause: str, old_state: dict, new_state: dict):
         """Add meta-reflection about state changes"""
         self.reflections.append(
             {
@@ -355,8 +349,7 @@ class DNAHelixMemory:
         """Remove least important nodes when at capacity"""
         # Calculate importance for all nodes
         importances = [
-            (node.calculate_importance(), node_id)
-            for node_id, node in self.nodes.items()
+            (node.calculate_importance(), node_id) for node_id, node in self.nodes.items()
         ]
         importances.sort()
 
@@ -383,9 +376,7 @@ class DNAHelixMemory:
             "total_links": sum(len(n.links) for n in self.nodes.values()),
             "evolution_chains": len(self.temporal_strand),
             "spatial_slices": len(self.spatial_strand),
-            "avg_importance": np.mean(
-                [n.calculate_importance() for n in self.nodes.values()]
-            ),
+            "avg_importance": np.mean([n.calculate_importance() for n in self.nodes.values()]),
             "memory_entropy": np.mean([n.state.entropy() for n in self.nodes.values()]),
         }
 
@@ -414,9 +405,7 @@ class DNAMemoryArchitecture:
 
     def encode_memory(self, data):
         """Encode memory into DNA helix structure"""
-        node = self._helix.add_node(
-            node_type=NodeType.MEMORY, content=data, parent_ids=[]
-        )
+        node = self._helix.add_node(node_type=NodeType.MEMORY, content=data, parent_ids=[])
         return node.id
 
     def decode_memory(self, memory_id):

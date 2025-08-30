@@ -63,9 +63,7 @@ class ExponentialLearningSystem:
             initial_knowledge_base or {}
         )  # This is the system's memory.
         self.learning_rate: float = learning_rate
-        self.growth_factor: float = (
-            growth_factor  # ΛDRIFT_POINT: Key parameter for learning curve.
-        )
+        self.growth_factor: float = growth_factor  # ΛDRIFT_POINT: Key parameter for learning curve.
         self.adaptation_cycles: int = 0
 
         # ΛTRACE: ExponentialLearningSystem initialized.
@@ -98,9 +96,7 @@ class ExponentialLearningSystem:
         # ΛTRACE: Patterns extracted from experience (stub logic).
         log.debug("Patterns extracted (stub).", count=len(patterns))
 
-        current_weight: float = self.learning_rate * (
-            self.growth_factor**self.adaptation_cycles
-        )
+        current_weight: float = self.learning_rate * (self.growth_factor**self.adaptation_cycles)
         # ΛCAUTION: `_update_knowledge_base` is a STUB.
         self._update_knowledge_base(patterns, current_weight)
 
@@ -123,9 +119,7 @@ class ExponentialLearningSystem:
 
     # ΛCAUTION: STUB - Pattern extraction is critical for meaningful learning.
     # ΛDRIFT_POINT: Implemented logic here would be a major source of drift.
-    def _extract_patterns(
-        self, experience_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _extract_patterns(self, experience_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Extracts patterns from experience data. (STUB)"""
         # ΛTRACE: Executing _extract_patterns (stub).
         log.warning(
@@ -145,9 +139,7 @@ class ExponentialLearningSystem:
     # ΛDRIFT_POINT: Implemented logic here directly modifies the knowledge_base (memory).
     # ΛRECALL: Could implicitly recall existing patterns if update logic
     # involves comparison/merging.
-    def _update_knowledge_base(
-        self, patterns: list[dict[str, Any]], weight: float
-    ) -> None:
+    def _update_knowledge_base(self, patterns: list[dict[str, Any]], weight: float) -> None:
         """Updates knowledge base with new patterns. (STUB)"""
         # ΛTRACE: Executing _update_knowledge_base (stub).
         log.warning(

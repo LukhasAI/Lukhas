@@ -13,6 +13,7 @@ Original: client.py
 Advanced: client.py
 Integration Date: 2025-05-31T07:55:28.035055
 """
+
 import datetime
 import enum
 import logging
@@ -153,9 +154,7 @@ class BoundSyncStream(SyncByteStream):
     ensures the `response.elapsed` is set once the response is closed.
     """
 
-    def __init__(
-        self, stream: SyncByteStream, response: Response, start: float
-    ) -> None:
+    def __init__(self, stream: SyncByteStream, response: Response, start: float) -> None:
         self._stream = stream
         self._response = response
         self._start = start
@@ -175,9 +174,7 @@ class BoundAsyncStream(AsyncByteStream):
     ensures the `response.elapsed` is set once the response is closed.
     """
 
-    def __init__(
-        self, stream: AsyncByteStream, response: Response, start: float
-    ) -> None:
+    def __init__(self, stream: AsyncByteStream, response: Response, start: float) -> None:
         self._stream = stream
         self._response = response
         self._start = start
@@ -379,11 +376,7 @@ class BaseClient:
         params = self._merge_queryparams(params)
         extensions = {} if extensions is None else extensions
         if "timeout" not in extensions:
-            timeout = (
-                self.timeout
-                if isinstance(timeout, UseClientDefault)
-                else Timeout(timeout)
-            )
+            timeout = self.timeout if isinstance(timeout, UseClientDefault) else Timeout(timeout)
             extensions = dict(**extensions, timeout=timeout.as_dict())
         return Request(
             method,
@@ -440,9 +433,7 @@ class BaseClient:
         merged_headers.update(headers)
         return merged_headers
 
-    def _merge_queryparams(
-        self, params: QueryParamTypes | None = None
-    ) -> QueryParamTypes | None:
+    def _merge_queryparams(self, params: QueryParamTypes | None = None) -> QueryParamTypes | None:
         """
         Merge a queryparams argument together with any queryparams on the client,
         to create the queryparams used for the outgoing request.
@@ -469,9 +460,7 @@ class BaseClient:
         request: Request,
         auth: AuthTypes | UseClientDefault | None = USE_CLIENT_DEFAULT,
     ) -> Auth:
-        auth = (
-            self._auth if isinstance(auth, UseClientDefault) else self._build_auth(auth)
-        )
+        auth = self._auth if isinstance(auth, UseClientDefault) else self._build_auth(auth)
 
         if auth is not None:
             return auth
@@ -721,9 +710,7 @@ class Client(BaseClient):
             for key, proxy in proxy_map.items()
         }
         if mounts is not None:
-            self._mounts.update(
-                {URLPattern(key): transport for key, transport in mounts.items()}
-            )
+            self._mounts.update({URLPattern(key): transport for key, transport in mounts.items()})
 
         self._mounts = dict(sorted(self._mounts.items()))
 
@@ -981,9 +968,7 @@ class Client(BaseClient):
     ) -> Response:
         while True:
             if len(history) > self.max_redirects:
-                raise TooManyRedirects(
-                    "Exceeded maximum allowed redirects.", request=request
-                )
+                raise TooManyRedirects("Exceeded maximum allowed redirects.", request=request)
 
             for hook in self._event_hooks["request"]:
                 hook(request)
@@ -1018,9 +1003,7 @@ class Client(BaseClient):
         start = time.perf_counter()
 
         if not isinstance(request.stream, SyncByteStream):
-            raise RuntimeError(
-                "Attempted to send an async request with a sync Client instance."
-            )
+            raise RuntimeError("Attempted to send an async request with a sync Client instance.")
 
         with request_context(request=request):
             response = transport.handle_request(request)
@@ -1028,9 +1011,7 @@ class Client(BaseClient):
         assert isinstance(response.stream, SyncByteStream)
 
         response.request = request
-        response.stream = BoundSyncStream(
-            response.stream, response=response, start=start
-        )
+        response.stream = BoundSyncStream(response.stream, response=response, start=start)
         self.cookies.extract_cookies(response)
         response.default_encoding = self._default_encoding
 
@@ -1288,9 +1269,7 @@ class Client(BaseClient):
         if self._state != ClientState.UNOPENED:
             msg = {
                 ClientState.OPENED: "Cannot open a client instance more than once.",
-                ClientState.CLOSED: (
-                    "Cannot reopen a client instance, once it has been closed."
-                ),
+                ClientState.CLOSED: ("Cannot reopen a client instance, once it has been closed."),
             }[self._state]
             raise RuntimeError(msg)
 
@@ -1438,9 +1417,7 @@ class AsyncClient(BaseClient):
             for key, proxy in proxy_map.items()
         }
         if mounts is not None:
-            self._mounts.update(
-                {URLPattern(key): transport for key, transport in mounts.items()}
-            )
+            self._mounts.update({URLPattern(key): transport for key, transport in mounts.items()})
         self._mounts = dict(sorted(self._mounts.items()))
 
     def _init_transport(
@@ -1698,9 +1675,7 @@ class AsyncClient(BaseClient):
     ) -> Response:
         while True:
             if len(history) > self.max_redirects:
-                raise TooManyRedirects(
-                    "Exceeded maximum allowed redirects.", request=request
-                )
+                raise TooManyRedirects("Exceeded maximum allowed redirects.", request=request)
 
             for hook in self._event_hooks["request"]:
                 await hook(request)
@@ -1736,18 +1711,14 @@ class AsyncClient(BaseClient):
         start = time.perf_counter()
 
         if not isinstance(request.stream, AsyncByteStream):
-            raise RuntimeError(
-                "Attempted to send an sync request with an AsyncClient instance."
-            )
+            raise RuntimeError("Attempted to send an sync request with an AsyncClient instance.")
 
         with request_context(request=request):
             response = await transport.handle_async_request(request)
 
         assert isinstance(response.stream, AsyncByteStream)
         response.request = request
-        response.stream = BoundAsyncStream(
-            response.stream, response=response, start=start
-        )
+        response.stream = BoundAsyncStream(response.stream, response=response, start=start)
         self.cookies.extract_cookies(response)
         response.default_encoding = self._default_encoding
 
@@ -2005,9 +1976,7 @@ class AsyncClient(BaseClient):
         if self._state != ClientState.UNOPENED:
             msg = {
                 ClientState.OPENED: "Cannot open a client instance more than once.",
-                ClientState.CLOSED: (
-                    "Cannot reopen a client instance, once it has been closed."
-                ),
+                ClientState.CLOSED: ("Cannot reopen a client instance, once it has been closed."),
             }[self._state]
             raise RuntimeError(msg)
 

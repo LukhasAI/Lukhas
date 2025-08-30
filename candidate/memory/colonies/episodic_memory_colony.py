@@ -97,9 +97,7 @@ class EpisodicMemoryRecord:
 
     # Associations
     related_episodes: set[str] = field(default_factory=set)
-    causal_links: dict[str, str] = field(
-        default_factory=dict
-    )  # episode_id -> link_type
+    causal_links: dict[str, str] = field(default_factory=dict)  # episode_id -> link_type
 
 
 class EpisodicMemoryColony(BaseMemoryColony):
@@ -154,18 +152,10 @@ class EpisodicMemoryColony(BaseMemoryColony):
         self.memory_capacity = memory_capacity
 
         # Indexing for fast retrieval
-        self.temporal_index: dict[str, set[str]] = defaultdict(
-            set
-        )  # time_bucket -> memory_ids
-        self.spatial_index: dict[str, set[str]] = defaultdict(
-            set
-        )  # location_key -> memory_ids
-        self.emotional_index: dict[str, set[str]] = defaultdict(
-            set
-        )  # emotion_bucket -> memory_ids
-        self.event_type_index: dict[str, set[str]] = defaultdict(
-            set
-        )  # event_type -> memory_ids
+        self.temporal_index: dict[str, set[str]] = defaultdict(set)  # time_bucket -> memory_ids
+        self.spatial_index: dict[str, set[str]] = defaultdict(set)  # location_key -> memory_ids
+        self.emotional_index: dict[str, set[str]] = defaultdict(set)  # emotion_bucket -> memory_ids
+        self.event_type_index: dict[str, set[str]] = defaultdict(set)  # event_type -> memory_ids
 
         # Pattern separation and completion
         self.pattern_separation_threshold = 0.3
@@ -185,9 +175,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         """Initialize episodic-specific systems"""
         # Start replay processing for consolidation
         self.replay_task = asyncio.create_task(self._replay_processing_loop())
-        self.consolidation_task = asyncio.create_task(
-            self._consolidation_assessment_loop()
-        )
+        self.consolidation_task = asyncio.create_task(self._consolidation_assessment_loop())
 
         logger.info("Episodic memory systems initialized")
 
@@ -200,9 +188,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         logger.info("Episodic memory systems cleaned up")
 
-    async def _process_specialized_operation(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def _process_specialized_operation(self, operation: MemoryOperation) -> MemoryResponse:
         """Process episodic memory operations"""
 
         if operation.operation_type == "create":
@@ -226,9 +212,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
                 error_message=f"Unsupported operation: {operation.operation_type}",
             )
 
-    async def _create_episodic_memory(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def _create_episodic_memory(self, operation: MemoryOperation) -> MemoryResponse:
         """Create new episodic memory with rich context processing"""
 
         # Extract or create episodic content
@@ -251,12 +235,8 @@ class EpisodicMemoryColony(BaseMemoryColony):
         memory_id = operation.memory_id or str(uuid4())
 
         # Analyze context for distinctiveness
-        temporal_distinctiveness = self._analyze_temporal_distinctiveness(
-            episodic_content.context
-        )
-        spatial_distinctiveness = self._analyze_spatial_distinctiveness(
-            episodic_content.context
-        )
+        temporal_distinctiveness = self._analyze_temporal_distinctiveness(episodic_content.context)
+        spatial_distinctiveness = self._analyze_spatial_distinctiveness(episodic_content.context)
         emotional_intensity = abs(episodic_content.context.emotional_valence)
 
         # Calculate personal significance
@@ -266,9 +246,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         similar_episodes = self._find_similar_episodes(episodic_content)
         if len(similar_episodes) > 3:  # Too many similar episodes
             # Increase pattern separation
-            episodic_content = self._apply_pattern_separation(
-                episodic_content, similar_episodes
-            )
+            episodic_content = self._apply_pattern_separation(episodic_content, similar_episodes)
 
         # Create internal record
         record = EpisodicMemoryRecord(
@@ -340,9 +318,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             metadata=operation.metadata,
         )
 
-    async def _search_episodic_memories(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def _search_episodic_memories(self, operation: MemoryOperation) -> MemoryResponse:
         """Search episodic memories using multiple indices"""
 
         query = operation.content
@@ -409,13 +385,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
         # Convert to response format
         results = [record.content for record in matching_records]
 
-        return MemoryResponse(
-            operation_id=operation.operation_id, success=True, content=results
-        )
+        return MemoryResponse(operation_id=operation.operation_id, success=True, content=results)
 
-    async def _trigger_episodic_replay(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def _trigger_episodic_replay(self, operation: MemoryOperation) -> MemoryResponse:
         """Trigger replay of specific episodic memories"""
 
         memory_ids = operation.parameters.get("memory_ids", [])
@@ -457,9 +429,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             operation_id=operation.operation_id, success=True, content=replayed_memories
         )
 
-    async def _cast_consensus_vote(
-        self, consensus_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _cast_consensus_vote(self, consensus_request: dict[str, Any]) -> dict[str, Any]:
         """Cast vote based on episodic memory expertise"""
 
         request_type = consensus_request.get("type", "unknown")
@@ -516,9 +486,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         for record in self.episodic_records.values():
             if record.content.context.event_start:
-                time_diff = abs(
-                    context.event_start - record.content.context.event_start
-                )
+                time_diff = abs(context.event_start - record.content.context.event_start)
                 if time_diff < time_window:
                     similar_count += 1
 
@@ -580,17 +548,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
             # Temporal similarity (same day)
             if record.content.context.event_start and content.context.event_start:
-                time_diff = abs(
-                    record.content.context.event_start - content.context.event_start
-                )
+                time_diff = abs(record.content.context.event_start - content.context.event_start)
                 if time_diff < 86400:  # Same day
                     similarity_score += 0.3
 
             # Spatial similarity
-            if (
-                record.content.context.location is not None
-                and content.context.location is not None
-            ):
+            if record.content.context.location is not None and content.context.location is not None:
                 distance = np.linalg.norm(
                     record.content.context.location - content.context.location
                 )
@@ -613,15 +576,11 @@ class EpisodicMemoryColony(BaseMemoryColony):
         if not content.description:
             content.description = f"Distinct episode at {time.time()}"
         else:
-            content.description += (
-                f" [Distinct from {len(similar_episodes)} similar episodes]"
-            )
+            content.description += f" [Distinct from {len(similar_episodes)} similar episodes]"
 
         # Slightly modify context to increase distinctiveness
         if content.context.attention_level < 1.0:
-            content.context.attention_level = min(
-                1.0, content.context.attention_level + 0.1
-            )
+            content.context.attention_level = min(1.0, content.context.attention_level + 0.1)
 
         return content
 
@@ -647,9 +606,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             location_key = f"spatial_{hash(record.content.context.location.tobytes())}"
             self.spatial_index[location_key].add(memory_id)
 
-    def _matches_query(
-        self, record: EpisodicMemoryRecord, query: dict[str, Any]
-    ) -> bool:
+    def _matches_query(self, record: EpisodicMemoryRecord, query: dict[str, Any]) -> bool:
         """Check if record matches structured query"""
 
         # Check personal significance threshold
@@ -781,7 +738,6 @@ class EpisodicMemoryColony(BaseMemoryColony):
                     and record.replay_count >= 3
                     and record.personal_significance > 0.5
                 ):
-
                     self.consolidation_candidates.append(memory_id)
 
             # Sort by readiness

@@ -42,7 +42,9 @@ class MemoryFold:
 
     def compute_hash(self) -> str:
         """Compute symbolic hash of fold contents"""
-        content_str = f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
+        content_str = (
+            f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
+        )
         return hashlib.sha3_256(content_str.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict:
@@ -277,9 +279,7 @@ class ConsciousnessMemory:
 
     def recall_by_state(self, consciousness_state: str) -> list[MemoryFold]:
         """Recall memories from specific consciousness state"""
-        state_folds = [
-            f for f in self.active_folds if f.consciousness_state == consciousness_state
-        ]
+        state_folds = [f for f in self.active_folds if f.consciousness_state == consciousness_state]
 
         # Sort by emotional valence (most positive first)
         state_folds.sort(key=lambda f: f.emotional_valence, reverse=True)
@@ -354,13 +354,9 @@ class ConsciousnessMemory:
         return {
             "total_folds": len(self.active_folds),
             "memory_coherence": self.calculate_memory_coherence(),
-            "average_entropy": (
-                entropy_sum / len(self.active_folds) if self.active_folds else 0
-            ),
+            "average_entropy": (entropy_sum / len(self.active_folds) if self.active_folds else 0),
             "state_distribution": state_dist,
-            "top_glyphs": sorted(glyph_freq.items(), key=lambda x: x[1], reverse=True)[
-                :5
-            ],
+            "top_glyphs": sorted(glyph_freq.items(), key=lambda x: x[1], reverse=True)[:5],
             "current_consciousness": self.current_state,
             "database_size": (
                 Path(self.db_path).stat().st_size if Path(self.db_path).exists() else 0
@@ -438,17 +434,13 @@ if __name__ == "__main__":
     print("\n🎯 Recall by entropy similarity (target: 0.20):")
     similar = memory.recall_by_similarity(0.20, threshold=0.1)
     for fold in similar:
-        print(
-            f"   {fold.consciousness_state}: {fold.entropy_score:.3f} - {fold.content}"
-        )
+        print(f"   {fold.consciousness_state}: {fold.entropy_score:.3f} - {fold.content}")
 
     # Recall by glyph pattern
     print("\n🔍 Recall by glyph pattern [🔓, 🌱]:")
     pattern_match = memory.recall_by_glyphs(["🔓", "🌱"])
     for fold in pattern_match:
-        print(
-            f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs)} - {fold.content}"
-        )
+        print(f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs)} - {fold.content}")
 
     # Generate report
     print("\n📊 Memory System Report:")

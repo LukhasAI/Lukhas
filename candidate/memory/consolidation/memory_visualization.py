@@ -58,7 +58,7 @@ class ConsolidatedMemoryvisualization:
             "total_processed": 0,
             "average_processing_time": 0.0,
             "cascade_preventions": 0,
-            "cache_hits": 0
+            "cache_hits": 0,
         }
 
         # Initialize visualization components
@@ -72,7 +72,9 @@ class ConsolidatedMemoryvisualization:
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated pipeline with Trinity Framework integration"""
         start_time = time.time()
-        memory_id = memory_data.get("memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8])
+        memory_id = memory_data.get(
+            "memory_id", hashlib.md5(str(memory_data).encode()).hexdigest()[:8]
+        )
 
         try:
             # 🛡️ Guardian: Check for cascade prevention (99.7% success rate target)
@@ -96,7 +98,9 @@ class ConsolidatedMemoryvisualization:
                 return cached_result
 
             # Process through visualization pipeline
-            visualization_result = await self._process_visualization_pipeline(memory_data, identity_signature, consciousness_context)
+            visualization_result = await self._process_visualization_pipeline(
+                memory_data, identity_signature, consciousness_context
+            )
 
             # Update performance metrics
             processing_time = time.time() - start_time
@@ -110,25 +114,31 @@ class ConsolidatedMemoryvisualization:
             return visualization_result
 
         except Exception as e:
-            logger.error(f"Memory visualization processing failed for {memory_id}: {str(e)}")
+            logger.error(f"Memory visualization processing failed for {memory_id}: {e!s}")
             return {"status": "error", "error": str(e), "processing_time": time.time() - start_time}
 
-    async def _process_visualization_pipeline(self, memory_data: dict, identity_signature: dict, consciousness_context: dict) -> dict:
+    async def _process_visualization_pipeline(
+        self, memory_data: dict, identity_signature: dict, consciousness_context: dict
+    ) -> dict:
         """Process memory through consolidated visualization pipeline"""
         results = {
             "status": "success",
             "visualizations": {},
             "memory_traces": [],
             "fold_analysis": {},
-            "consciousness_overlay": consciousness_context
+            "consciousness_overlay": consciousness_context,
         }
 
         # 1. Memory Trace Animation
-        trace_result = await self.trace_animator.animate_memory_trace(memory_data, identity_signature)
+        trace_result = await self.trace_animator.animate_memory_trace(
+            memory_data, identity_signature
+        )
         results["visualizations"]["trace_animation"] = trace_result
 
         # 2. Memory Helix Visualization
-        helix_result = await self.memory_helix.visualize_memory_helix(memory_data, consciousness_context)
+        helix_result = await self.memory_helix.visualize_memory_helix(
+            memory_data, consciousness_context
+        )
         results["visualizations"]["memory_helix"] = helix_result
 
         # 3. Connection Network Visualization
@@ -172,7 +182,7 @@ class ConsolidatedMemoryvisualization:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "causal_chain": memory_data.get("causal_chain", []),
             "emotional_context": memory_data.get("emotional_context", {}),
-            "importance_score": memory_data.get("importance_score", 0.5)
+            "importance_score": memory_data.get("importance_score", 0.5),
         }
 
     async def _apply_consciousness_awareness(self, memory_data: dict) -> dict:
@@ -183,8 +193,8 @@ class ConsolidatedMemoryvisualization:
             "attention_focus": memory_data.get("attention_focus", []),
             "meta_cognitive_layer": {
                 "self_reflection": memory_data.get("meta_reflection", False),
-                "introspective_depth": memory_data.get("introspective_depth", 0.5)
-            }
+                "introspective_depth": memory_data.get("introspective_depth", 0.5),
+            },
         }
 
     def _generate_cache_key(self, memory_data: dict) -> str:
@@ -192,7 +202,7 @@ class ConsolidatedMemoryvisualization:
         key_components = [
             memory_data.get("memory_id", ""),
             str(memory_data.get("importance_score", 0.5)),
-            str(memory_data.get("timestamp", ""))
+            str(memory_data.get("timestamp", "")),
         ]
         return hashlib.md5("|".join(key_components).encode()).hexdigest()[:16]
 
@@ -201,8 +211,8 @@ class ConsolidatedMemoryvisualization:
         self.performance_metrics["total_processed"] += 1
         alpha = 0.1  # Smoothing factor
         self.performance_metrics["average_processing_time"] = (
-            alpha * processing_time +
-            (1 - alpha) * self.performance_metrics["average_processing_time"]
+            alpha * processing_time
+            + (1 - alpha) * self.performance_metrics["average_processing_time"]
         )
 
     def get_performance_metrics(self) -> dict:
@@ -220,7 +230,7 @@ class TraceAnimator:
             "trace_points": self._generate_trace_points(memory_data),
             "causal_flow": identity_signature.get("causal_chain", []),
             "emotional_coloring": self._calculate_emotional_coloring(memory_data),
-            "timeline": datetime.now(timezone.utc).isoformat()
+            "timeline": datetime.now(timezone.utc).isoformat(),
         }
 
     def _generate_trace_points(self, memory_data: dict) -> list[dict]:
@@ -237,7 +247,7 @@ class TraceAnimator:
         return {
             "primary_color": emotional_context.get("dominant_emotion", "neutral"),
             "intensity": emotional_context.get("intensity", 0.5),
-            "saturation": emotional_context.get("emotional_stability", 0.8)
+            "saturation": emotional_context.get("emotional_stability", 0.8),
         }
 
 
@@ -252,8 +262,8 @@ class MemoryHelixVisualizer:
             "spiral_parameters": {
                 "pitch": memory_data.get("complexity", 0.5),
                 "radius": memory_data.get("importance_score", 0.5),
-                "turns": min(int(len(str(memory_data)) / 100), 10)
-            }
+                "turns": min(int(len(str(memory_data)) / 100), 10),
+            },
         }
 
     def _generate_helix_structure(self, memory_data: dict) -> dict:
@@ -261,10 +271,7 @@ class MemoryHelixVisualizer:
         return {
             "vertices": [],
             "edges": [],
-            "material_properties": {
-                "transparency": 0.8,
-                "reflectance": 0.3
-            }
+            "material_properties": {"transparency": 0.8, "reflectance": 0.3},
         }
 
 
@@ -276,7 +283,7 @@ class ConnectionVisualizer:
         return {
             "connection_graph": self._build_connection_graph(memory_data),
             "relationship_strength": self._calculate_relationship_strengths(memory_data),
-            "network_topology": "small_world"
+            "network_topology": "small_world",
         }
 
     def _build_connection_graph(self, memory_data: dict) -> dict:
@@ -284,16 +291,12 @@ class ConnectionVisualizer:
         return {
             "nodes": memory_data.get("related_memories", []),
             "edges": memory_data.get("connections", []),
-            "centrality_measures": {}
+            "centrality_measures": {},
         }
 
     def _calculate_relationship_strengths(self, memory_data: dict) -> dict:
         """Calculate relationship strengths between memories"""
-        return {
-            "semantic_similarity": 0.7,
-            "temporal_proximity": 0.5,
-            "emotional_resonance": 0.6
-        }
+        return {"semantic_similarity": 0.7, "temporal_proximity": 0.5, "emotional_resonance": 0.6}
 
 
 class FoldEntropyVisualizer:
@@ -306,10 +309,10 @@ class FoldEntropyVisualizer:
             "entropy_visualization": {
                 "entropy_level": entropy_analysis["entropy"],
                 "complexity_score": entropy_analysis["complexity"],
-                "stability_index": entropy_analysis["stability"]
+                "stability_index": entropy_analysis["stability"],
             },
             "analysis": entropy_analysis,
-            "visualization_type": "entropy_heatmap"
+            "visualization_type": "entropy_heatmap",
         }
 
     def _analyze_fold_entropy(self, memory_data: dict) -> dict:
@@ -328,8 +331,8 @@ class FoldEntropyVisualizer:
             "fold_characteristics": {
                 "content_size": content_size,
                 "unique_elements": unique_elements,
-                "redundancy_ratio": 1.0 - (unique_elements / max(content_size, 1))
-            }
+                "redundancy_ratio": 1.0 - (unique_elements / max(content_size, 1)),
+            },
         }
 
 

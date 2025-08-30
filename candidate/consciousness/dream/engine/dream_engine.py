@@ -49,9 +49,7 @@ class DreamEngine:
         self.memory = HelixMapper()
         self.cognitive = CognitiveVoiceEngine()
 
-    async def generate_dream_sequence(
-        self, daily_data: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def generate_dream_sequence(self, daily_data: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate and process dream sequences"""
         dream_patterns = self._extract_dream_patterns(daily_data)
         learning_outcomes = self._process_dream_learning(dream_patterns)

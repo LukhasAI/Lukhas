@@ -120,9 +120,7 @@ class ActiveImportAnalyzer:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        self._check_import(
-                            file_path, alias.name, node.lineno, "absolute"
-                        )
+                        self._check_import(file_path, alias.name, node.lineno, "absolute")
                         self.import_graph[module_name].add(alias.name)
 
                 elif isinstance(node, ast.ImportFrom) and node.module:
@@ -130,9 +128,7 @@ class ActiveImportAnalyzer:
                         module = node.module
                         import_type = "absolute"
                     else:  # Relative import
-                        module = self._resolve_relative_import(
-                            file_path, node.module, node.level
-                        )
+                        module = self._resolve_relative_import(file_path, node.module, node.level)
                         import_type = "relative"
 
                     self._check_import(file_path, module, node.lineno, import_type)
@@ -154,9 +150,7 @@ class ActiveImportAnalyzer:
         parts = list(rel_path.parts[:-1]) + [rel_path.stem]
         return ".".join(parts)
 
-    def _resolve_relative_import(
-        self, file_path: Path, module: Optional[str], level: int
-    ) -> str:
+    def _resolve_relative_import(self, file_path: Path, module: Optional[str], level: int) -> str:
         """Resolve relative import to absolute module name"""
         current_parts = self._path_to_module(file_path).split(".")
 
@@ -404,9 +398,7 @@ def generate_fixes(report: dict) -> list[str]:
     # Install missing external dependencies
     if report["common_patterns"]["external_deps"]:
         fixes.append("\n# Install missing external dependencies:")
-        unique_deps = {
-            m.split(".")[0] for m in report["common_patterns"]["external_deps"]
-        }
+        unique_deps = {m.split(".")[0] for m in report["common_patterns"]["external_deps"]}
         for dep in sorted(unique_deps)[:10]:
             fixes.append(f"  pip install {dep}")
 
@@ -457,11 +449,7 @@ def main():
     import json
 
     report_path = (
-        PROJECT_ROOT
-        / "docs"
-        / "reports"
-        / "analysis"
-        / "_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
+        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_ACTIVE_IMPORT_ANALYSIS_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

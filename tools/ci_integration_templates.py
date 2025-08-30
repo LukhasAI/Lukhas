@@ -5,6 +5,7 @@ Implements CI pipeline logic without execution - for workspace audit preparation
 
 Purpose: Provide CI integration templates for pre/post-MATRIZ audit validation.
 """
+
 from __future__ import annotations
 
 import json
@@ -443,14 +444,10 @@ def generate_ci_integration_package(output_dir: Path) -> dict[str, Any]:
     )
 
     # Generate pre-commit configuration
-    (output_dir / ".pre-commit-config.yaml").write_text(
-        ci_integration.generate_pre_commit_config()
-    )
+    (output_dir / ".pre-commit-config.yaml").write_text(ci_integration.generate_pre_commit_config())
 
     # Generate Makefile targets
-    (output_dir / "Makefile.audit").write_text(
-        ci_integration.generate_makefile_targets()
-    )
+    (output_dir / "Makefile.audit").write_text(ci_integration.generate_makefile_targets())
 
     # Generate CI configuration summary
     ci_config = {
@@ -480,9 +477,7 @@ def generate_ci_integration_package(output_dir: Path) -> dict[str, Any]:
         },
     }
 
-    (output_dir / "ci_integration_config.json").write_text(
-        json.dumps(ci_config, indent=2)
-    )
+    (output_dir / "ci_integration_config.json").write_text(json.dumps(ci_config, indent=2))
 
     return {
         "files_generated": 4,

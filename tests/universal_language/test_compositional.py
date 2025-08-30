@@ -9,6 +9,7 @@ def _load_module(module_name: str, rel_path: str):
     # Provide a dummy universal_language.constitutional to avoid heavy imports
     import sys
     import types
+
     if "universal_language" not in sys.modules:
         sys.modules["universal_language"] = types.ModuleType("universal_language")
     # Minimal stubs for submodules to allow import
@@ -18,11 +19,27 @@ def _load_module(module_name: str, rel_path: str):
         sys.modules["universal_language.constitutional"] = cons
     if "universal_language.core" not in sys.modules:
         core = types.ModuleType("universal_language.core")
+
         class Symbol:  # type: ignore
-            def __init__(self, id: str = "", domain=None, name: str = "", value: float = 0.0, glyph: str | None = None):
-                self.id, self.domain, self.name, self.value, self.glyph = id, domain, name, value, glyph
+            def __init__(
+                self,
+                id: str = "",
+                domain=None,
+                name: str = "",
+                value: float = 0.0,
+                glyph: str | None = None,
+            ):
+                self.id, self.domain, self.name, self.value, self.glyph = (
+                    id,
+                    domain,
+                    name,
+                    value,
+                    glyph,
+                )
+
         class SymbolicDomain:  # type: ignore
             pass
+
         core.Symbol = Symbol
         core.SymbolicDomain = SymbolicDomain
         sys.modules["universal_language.core"] = core

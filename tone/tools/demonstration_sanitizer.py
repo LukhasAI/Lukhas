@@ -26,7 +26,7 @@ def demonstrate_sanitization():
         "Jung's concept of the collective unconscious.",
         "Darwin's evolutionary perspective on adaptation.",
         "Thoreau's connection to nature and simplicity.",
-        "Tesla's visionary approach to innovation."
+        "Tesla's visionary approach to innovation.",
     ]
 
     print("🔄 Author Reference Sanitizer Demonstration")
@@ -45,7 +45,9 @@ def demonstrate_sanitization():
 
     print("✅ Demonstration complete!")
     print()
-    print("Usage: echo 'Text with Keats references' | python tone/tools/author_reference_sanitizer_minimal.py")
+    print(
+        "Usage: echo 'Text with Keats references' | python tone/tools/author_reference_sanitizer_minimal.py"
+    )
 
 
 if __name__ == "__main__":

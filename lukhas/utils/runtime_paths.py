@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import site
 from collections.abc import Iterable
 from pathlib import Path
-import site
 
 
 def find_repo_root(start: Path | None = None) -> Path:
@@ -41,4 +41,4 @@ def ensure_repo_paths(subdirs: Iterable[str], *, base: Path | None = None) -> No
             site.addsitedir(str(p))
 
 
-__all__ = ["find_repo_root", "ensure_repo_paths"]
+__all__ = ["ensure_repo_paths", "find_repo_root"]

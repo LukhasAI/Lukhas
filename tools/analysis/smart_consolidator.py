@@ -143,9 +143,7 @@ class SmartConsolidator:
                                     ]
                                 ):
                                     methods = [
-                                        n.name
-                                        for n in node.body
-                                        if isinstance(n, ast.FunctionDef)
+                                        n.name for n in node.body if isinstance(n, ast.FunctionDef)
                                     ]
                                     key = ":".join(sorted(methods))
                                     base_classes[key].append((filepath, node.name))
@@ -526,9 +524,7 @@ def main():
     print("\n📊 Consolidation Opportunities Found:")
     print(f"  - Logger duplicates: {opportunities['logger_consolidation']['count']}")
     print(f"  - Config duplicates: {opportunities['config_consolidation']['count']}")
-    print(
-        f"  - Base class duplicates: {opportunities['base_class_consolidation']['count']}"
-    )
+    print(f"  - Base class duplicates: {opportunities['base_class_consolidation']['count']}")
 
     print("\n🧬 LUKHAS 2030 Vision Consolidations:")
     print("  - Memory → DNA-like helix with emotional vectors")

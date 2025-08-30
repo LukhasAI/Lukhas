@@ -149,15 +149,11 @@ class EthicalAuditor:
         self.max_tokens = max_tokens
         self.enable_notion = enable_notion
         self.enable_github_sync = enable_github_sync
-        self.lambda_id = lambda_id or os.getenv(
-            "AGI_LAMBDA_ID", "LUKHAS-Enterprise-Auditor"
-        )
+        self.lambda_id = lambda_id or os.getenv("AGI_LAMBDA_ID", "LUKHAS-Enterprise-Auditor")
 
         # Initialize core modules if available
         self.trust_scorer = SymbolicTrustScorer() if SymbolicTrustScorer else None
-        self.constitution_checker = (
-            AIConstitutionChecker() if AIConstitutionChecker else None
-        )
+        self.constitution_checker = AIConstitutionChecker() if AIConstitutionChecker else None
         self.secure_logger = EmotionalSecureLogger() if EmotionalSecureLogger else None
 
         # Audit storage
@@ -179,7 +175,7 @@ MODULE CONTEXT:
 - Type: {context.module_type}
 - Risk Tier: {context.risk_tier}
 - AI Level: {context.agi_level}
-- Symbolic Tags: {', '.join(context.symbolic_tags)}
+- Symbolic Tags: {", ".join(context.symbolic_tags)}
 
 AUDIT REQUIREMENTS:
 1. ETHICAL TRACEABILITY: Every action must be ethically traceable
@@ -214,7 +210,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         """Generate user prompt with rich metadata and context"""
         return f"""
 [MODULE TYPE]: {context.module_type}
-[SYMBOLIC TAGS]: {', '.join(context.symbolic_tags)}
+[SYMBOLIC TAGS]: {", ".join(context.symbolic_tags)}
 [RISK ZONE]: {context.risk_tier}
 [AI LEVEL]: {context.agi_level}
 [AUDIT PRIORITY]: {context.audit_priority}
@@ -236,9 +232,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 5. Provide actionable recommendations with code examples if needed
 """
 
-    def _parse_audit_response(
-        self, response: str, context: AuditContext
-    ) -> dict[str, Any]:
+    def _parse_audit_response(self, response: str, context: AuditContext) -> dict[str, Any]:
         """Parse OpenAI response into structured audit data"""
         try:
             # Extract structured information from response
@@ -304,7 +298,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 "overall_assessment": "REQUIRES_REVIEW",
                 "score": 50.0,
                 "improvements": ["Manual review required due to parsing error"],
-                "ethical_concerns": [f"Audit parsing error: {str(e)}"],
+                "ethical_concerns": [f"Audit parsing error: {e!s}"],
                 "symbolic_integrity": True,
                 "compliance_status": {},
             }
@@ -323,9 +317,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 
     def _sign_with_lambda_id(self, audit_result: AuditResult) -> str:
         """Sign audit result with AI Lambda ID"""
-        signature_data = (
-            f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
-        )
+        signature_data = f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
         return hashlib.sha256(signature_data.encode()).hexdigest()[:32]
 
     async def audit_module(
@@ -456,7 +448,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 result="FAIL",
                 overall_score=0.0,
                 improvements=[],
-                ethical_concerns=[f"Audit failed with error: {str(e)}"],
+                ethical_concerns=[f"Audit failed with error: {e!s}"],
                 symbolic_integrity=False,
                 compliance_status={},
                 trust_score=0.0,
@@ -471,7 +463,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 lambda_signature="ERROR",
             )
 
-            await self._log_audit_result(error_result, f"ERROR: {str(e)}")
+            await self._log_audit_result(error_result, f"ERROR: {e!s}")
             return error_result
 
     async def _log_audit_result(self, result: AuditResult, full_response: str):
@@ -491,10 +483,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             )
 
         # Save to audit directory
-        audit_file = (
-            self.audit_dir
-            / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
-        )
+        audit_file = self.audit_dir / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
         audit_data = {
             "result": asdict(result),
             "full_response": full_response,
@@ -510,7 +499,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             # Implementation would use Notion API
             print(f"[NOTION SYNC] Audit {result.audit_hash} for {result.module}")
         except Exception as e:
-            print(f"[NOTION SYNC ERROR] {str(e)}")
+            print(f"[NOTION SYNC ERROR] {e!s}")
 
     async def _sync_to_github(self, result: AuditResult):
         """Sync audit result to GitHub ethics log repository"""
@@ -518,16 +507,14 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             # Implementation would use GitHub API
             print(f"[GITHUB SYNC] Audit {result.audit_hash} for {result.module}")
         except Exception as e:
-            print(f"[GITHUB SYNC ERROR] {str(e)}")
+            print(f"[GITHUB SYNC ERROR] {e!s}")
 
     def get_audit_summary(self) -> dict[str, Any]:
         """Get comprehensive audit statistics"""
         return {
             "total_audits": self.audit_count,
             "total_cost_usd": round(self.total_cost, 4),
-            "average_cost_per_audit": round(
-                self.total_cost / max(self.audit_count, 1), 4
-            ),
+            "average_cost_per_audit": round(self.total_cost / max(self.audit_count, 1), 4),
             "auditor_id": self.lambda_id,
             "model": self.model,
             "elite_features_enabled": {

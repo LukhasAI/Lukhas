@@ -126,9 +126,7 @@ class WhisperClient:
                 ) as response:
                     if response.status != 200:
                         error_text = await response.text()
-                        logger.error(
-                            f"Whisper API error: {response.status} - {error_text}"
-                        )
+                        logger.error(f"Whisper API error: {response.status} - {error_text}")
                         return {
                             "error": f"API error: {response.status}",
                             "text": "",
@@ -157,7 +155,7 @@ class WhisperClient:
                     file_to_close.close()
 
         except Exception as e:
-            logger.error(f"Error transcribing audio: {str(e)}")
+            logger.error(f"Error transcribing audio: {e!s}")
             return {"error": str(e), "text": "", "confidence": 0.0}
 
     async def transcribe_from_file(

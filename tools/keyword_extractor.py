@@ -13,7 +13,6 @@ from pathlib import Path
 
 
 class KeywordExtractor:
-
     def __init__(self, workspace_root="/Users/A_G_I/CodexGPT_Lukhas"):
         self.workspace_root = Path(workspace_root)
         self.keywords = defaultdict(set)
@@ -154,9 +153,7 @@ class KeywordExtractor:
                 for kw in keywords
                 if len(kw) > 2 and kw not in {"the", "and", "for", "with", "from"}
             ]
-            enhanced_domains[domain] = filtered_keywords[
-                :20
-            ]  # Top 20 keywords per domain
+            enhanced_domains[domain] = filtered_keywords[:20]  # Top 20 keywords per domain
 
         return enhanced_domains
 
@@ -167,9 +164,7 @@ class KeywordExtractor:
             "enhanced_domains": self.generate_enhanced_domains(),
             "statistics": {
                 "total_domains": len(self.keywords),
-                "total_unique_keywords": sum(
-                    len(kws) for kws in self.keywords.values()
-                ),
+                "total_unique_keywords": sum(len(kws) for kws in self.keywords.values()),
             },
         }
 

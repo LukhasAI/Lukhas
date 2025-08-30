@@ -14,7 +14,7 @@ from .resource_allocation_optimizer import ResourceAllocationOptimizer
 
 __all__ = [
     "AutonomousInnovationOrchestrator",
-    "ResourceAllocationOptimizer",
+    "BreakthroughSynthesisEngine",
     "InnovationPrioritizationEngine",
-    "BreakthroughSynthesisEngine"
+    "ResourceAllocationOptimizer",
 ]

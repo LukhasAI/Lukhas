@@ -48,6 +48,7 @@ try:
         get_extreme_identity_connector,
         run_auth_benchmark,
     )
+
     EXTREME_OPTIMIZATIONS_AVAILABLE = True
     print("🚀 Extreme performance optimizations loaded for validation!")
 except ImportError as e:
@@ -57,6 +58,7 @@ except ImportError as e:
 # Import standard components for comparison
 try:
     from lukhas.governance.identity.connector import get_identity_connector
+
     STANDARD_COMPONENTS_AVAILABLE = True
 except ImportError:
     STANDARD_COMPONENTS_AVAILABLE = False
@@ -66,6 +68,7 @@ except ImportError:
 @dataclass
 class PerformanceValidationResult:
     """Performance validation result with detailed metrics"""
+
     test_name: str
     target_metric: str
     target_value: float
@@ -112,7 +115,7 @@ class ExtremePerformanceValidator:
             "throughput_rps": 100000,
             "audit_event_ms": 1.0,
             "hash_calculation_ms": 2.0,
-            "import_cache_ms": 1.0
+            "import_cache_ms": 1.0,
         }
 
         # Components for testing
@@ -159,7 +162,7 @@ class ExtremePerformanceValidator:
             ("Identity Connector", self._validate_identity_connector),
             ("End-to-End Performance", self._validate_end_to_end_performance),
             ("Throughput Capability", self._validate_throughput_capability),
-            ("Statistical Validation", self._validate_statistical_performance)
+            ("Statistical Validation", self._validate_statistical_performance),
         ]
 
         for test_name, test_func in validation_tests:
@@ -169,14 +172,16 @@ class ExtremePerformanceValidator:
                 print(f"✅ {test_name} completed")
             except Exception as e:
                 print(f"❌ {test_name} failed: {e}")
-                self.results.append(PerformanceValidationResult(
-                    test_name=test_name,
-                    target_metric="execution",
-                    target_value=1.0,
-                    actual_value=0.0,
-                    target_achieved=False,
-                    details={"error": str(e)}
-                ))
+                self.results.append(
+                    PerformanceValidationResult(
+                        test_name=test_name,
+                        target_metric="execution",
+                        target_value=1.0,
+                        actual_value=0.0,
+                        target_achieved=False,
+                        details={"error": str(e)},
+                    )
+                )
 
         # Generate comprehensive report
         validation_report = self._generate_validation_report()
@@ -198,8 +203,7 @@ class ExtremePerformanceValidator:
 
             # Test component import with caching
             await self.extreme_optimizer.get_optimized_component(
-                "lukhas.governance.security.access_control",
-                "AccessControlEngine"
+                "lukhas.governance.security.access_control", "AccessControlEngine"
             )
 
             import_time_ms = (time.perf_counter() - start_time) * 1000
@@ -211,21 +215,25 @@ class ExtremePerformanceValidator:
         # Get cache statistics
         cache_stats = self.extreme_optimizer.import_cache.get_cache_stats()
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Import Cache Performance",
-            target_metric="P95 import time (ms)",
-            target_value=self.targets["import_cache_ms"],
-            actual_value=p95_import_time,
-            target_achieved=p95_import_time <= self.targets["import_cache_ms"],
-            details={
-                "avg_import_time_ms": avg_import_time,
-                "p95_import_time_ms": p95_import_time,
-                "cache_stats": cache_stats,
-                "improvement_vs_baseline": f"~{20 - p95_import_time:.0f}ms saved per import"
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Import Cache Performance",
+                target_metric="P95 import time (ms)",
+                target_value=self.targets["import_cache_ms"],
+                actual_value=p95_import_time,
+                target_achieved=p95_import_time <= self.targets["import_cache_ms"],
+                details={
+                    "avg_import_time_ms": avg_import_time,
+                    "p95_import_time_ms": p95_import_time,
+                    "cache_stats": cache_stats,
+                    "improvement_vs_baseline": f"~{20 - p95_import_time:.0f}ms saved per import",
+                },
+            )
+        )
 
-        print(f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)")
+        print(
+            f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)"
+        )
         print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0):.1f}%")
 
     async def _validate_hash_calculation_performance(self):
@@ -234,10 +242,7 @@ class ExtremePerformanceValidator:
 
         # Test hash calculation performance
         hash_times = []
-        test_data = [
-            {"test": "data", "iteration": i, "timestamp": time.time()}
-            for i in range(100)
-        ]
+        test_data = [{"test": "data", "iteration": i, "timestamp": time.time()} for i in range(100)]
 
         for data in test_data:
             start_time = time.perf_counter()
@@ -253,21 +258,25 @@ class ExtremePerformanceValidator:
         # Get hash calculator statistics
         hash_stats = self.extreme_optimizer.hash_calculator.get_performance_stats()
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Async Hash Calculation",
-            target_metric="P95 hash time (ms)",
-            target_value=self.targets["hash_calculation_ms"],
-            actual_value=p95_hash_time,
-            target_achieved=p95_hash_time <= self.targets["hash_calculation_ms"],
-            details={
-                "avg_hash_time_ms": avg_hash_time,
-                "p95_hash_time_ms": p95_hash_time,
-                "hash_stats": hash_stats,
-                "improvement_vs_sync": f"~{10 - p95_hash_time:.0f}ms saved per hash"
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Async Hash Calculation",
+                target_metric="P95 hash time (ms)",
+                target_value=self.targets["hash_calculation_ms"],
+                actual_value=p95_hash_time,
+                target_achieved=p95_hash_time <= self.targets["hash_calculation_ms"],
+                details={
+                    "avg_hash_time_ms": avg_hash_time,
+                    "p95_hash_time_ms": p95_hash_time,
+                    "hash_stats": hash_stats,
+                    "improvement_vs_sync": f"~{10 - p95_hash_time:.0f}ms saved per hash",
+                },
+            )
+        )
 
-        print(f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)")
+        print(
+            f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)"
+        )
         print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0):.1f}%")
 
     async def _validate_audit_buffer_performance(self):
@@ -284,7 +293,7 @@ class ExtremePerformanceValidator:
                 event_type="PERFORMANCE_OPTIMIZED",
                 action=f"validation_test_{i}",
                 outcome="success",
-                details={"test_iteration": i, "validation": True}
+                details={"test_iteration": i, "validation": True},
             )
 
             audit_time_ms = (time.perf_counter() - start_time) * 1000
@@ -296,21 +305,25 @@ class ExtremePerformanceValidator:
         # Get audit buffer statistics
         audit_stats = await self.extreme_audit_logger.get_performance_dashboard_extreme()
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Async Audit Buffer",
-            target_metric="P95 audit time (ms)",
-            target_value=self.targets["audit_event_ms"],
-            actual_value=p95_audit_time,
-            target_achieved=p95_audit_time <= self.targets["audit_event_ms"],
-            details={
-                "avg_audit_time_ms": avg_audit_time,
-                "p95_audit_time_ms": p95_audit_time,
-                "audit_stats": audit_stats.get("extreme_performance_metrics", {}),
-                "improvement_vs_sync": f"~{70 - p95_audit_time:.0f}ms saved per audit event"
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Async Audit Buffer",
+                target_metric="P95 audit time (ms)",
+                target_value=self.targets["audit_event_ms"],
+                actual_value=p95_audit_time,
+                target_achieved=p95_audit_time <= self.targets["audit_event_ms"],
+                details={
+                    "avg_audit_time_ms": avg_audit_time,
+                    "p95_audit_time_ms": p95_audit_time,
+                    "audit_stats": audit_stats.get("extreme_performance_metrics", {}),
+                    "improvement_vs_sync": f"~{70 - p95_audit_time:.0f}ms saved per audit event",
+                },
+            )
+        )
 
-        print(f"   Audit buffer P95: {p95_audit_time:.2f}ms (target: {self.targets['audit_event_ms']}ms)")
+        print(
+            f"   Audit buffer P95: {p95_audit_time:.2f}ms (target: {self.targets['audit_event_ms']}ms)"
+        )
 
     async def _validate_authentication_flow(self):
         """Validate complete authentication flow performance"""
@@ -323,20 +336,24 @@ class ExtremePerformanceValidator:
         performance_percentiles = auth_benchmark["performance_analysis"]["performance_percentiles"]
         p95_latency = performance_percentiles["p95_latency_ms"]
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Authentication Flow P95",
-            target_metric="P95 authentication latency (ms)",
-            target_value=self.targets["auth_p95_ms"],
-            actual_value=p95_latency,
-            target_achieved=p95_latency <= self.targets["auth_p95_ms"],
-            details={
-                "benchmark_results": auth_benchmark["benchmark_summary"],
-                "performance_analysis": performance_percentiles,
-                "improvement_vs_baseline": f"Reduced from 87ms to {p95_latency:.1f}ms"
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Authentication Flow P95",
+                target_metric="P95 authentication latency (ms)",
+                target_value=self.targets["auth_p95_ms"],
+                actual_value=p95_latency,
+                target_achieved=p95_latency <= self.targets["auth_p95_ms"],
+                details={
+                    "benchmark_results": auth_benchmark["benchmark_summary"],
+                    "performance_analysis": performance_percentiles,
+                    "improvement_vs_baseline": f"Reduced from 87ms to {p95_latency:.1f}ms",
+                },
+            )
+        )
 
-        print(f"   Authentication P95: {p95_latency:.1f}ms (target: {self.targets['auth_p95_ms']}ms)")
+        print(
+            f"   Authentication P95: {p95_latency:.1f}ms (target: {self.targets['auth_p95_ms']}ms)"
+        )
         print(f"   Throughput: {auth_benchmark['benchmark_summary']['throughput_rps']:.0f} RPS")
 
     async def _validate_identity_connector(self):
@@ -351,18 +368,20 @@ class ExtremePerformanceValidator:
         avg_latency = benchmark_results["avg_latency_ms"]
         throughput = benchmark_results["throughput_rps"]
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Identity Connector",
-            target_metric="Average latency (ms)",
-            target_value=self.targets["auth_p95_ms"],  # Using auth target
-            actual_value=avg_latency,
-            target_achieved=avg_latency <= self.targets["auth_p95_ms"],
-            details={
-                "benchmark_results": benchmark_results,
-                "throughput_rps": throughput,
-                "success_rate": benchmark_results["success_rate_percent"]
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Identity Connector",
+                target_metric="Average latency (ms)",
+                target_value=self.targets["auth_p95_ms"],  # Using auth target
+                actual_value=avg_latency,
+                target_achieved=avg_latency <= self.targets["auth_p95_ms"],
+                details={
+                    "benchmark_results": benchmark_results,
+                    "throughput_rps": throughput,
+                    "success_rate": benchmark_results["success_rate_percent"],
+                },
+            )
+        )
 
         print(f"   Identity connector avg: {avg_latency:.1f}ms")
         print(f"   Throughput: {throughput:.0f} RPS")
@@ -381,7 +400,7 @@ class ExtremePerformanceValidator:
             await self.extreme_optimizer.optimized_auth_flow(
                 agent_id=f"e2e_test_agent_{i}",
                 operation="end_to_end_validation",
-                context={"test_iteration": i}
+                context={"test_iteration": i},
             )
 
             # Simulate additional processing time
@@ -393,18 +412,20 @@ class ExtremePerformanceValidator:
         avg_e2e_time = statistics.mean(e2e_times)
         p95_e2e_time = statistics.quantiles(e2e_times, n=20)[18]  # 95th percentile
 
-        self.results.append(PerformanceValidationResult(
-            test_name="End-to-End Performance",
-            target_metric="P95 end-to-end time (ms)",
-            target_value=50.0,  # 50ms for complete flow
-            actual_value=p95_e2e_time,
-            target_achieved=p95_e2e_time <= 50.0,
-            details={
-                "avg_e2e_time_ms": avg_e2e_time,
-                "p95_e2e_time_ms": p95_e2e_time,
-                "includes": ["authentication", "authorization", "audit_logging", "processing"]
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="End-to-End Performance",
+                target_metric="P95 end-to-end time (ms)",
+                target_value=50.0,  # 50ms for complete flow
+                actual_value=p95_e2e_time,
+                target_achieved=p95_e2e_time <= 50.0,
+                details={
+                    "avg_e2e_time_ms": avg_e2e_time,
+                    "p95_e2e_time_ms": p95_e2e_time,
+                    "includes": ["authentication", "authorization", "audit_logging", "processing"],
+                },
+            )
+        )
 
         print(f"   End-to-end P95: {p95_e2e_time:.1f}ms (target: 50ms)")
 
@@ -423,7 +444,7 @@ class ExtremePerformanceValidator:
                 self.extreme_optimizer.optimized_auth_flow(
                     agent_id=f"throughput_agent_{i % 50}",  # 50 unique agents
                     operation="throughput_test",
-                    context={"batch_test": True}
+                    context={"batch_test": True},
                 )
             )
             tasks.append(task)
@@ -435,20 +456,22 @@ class ExtremePerformanceValidator:
         successful_requests = sum(1 for r in results if isinstance(r, dict) and r.get("success"))
         throughput_rps = concurrent_requests / total_time
 
-        self.results.append(PerformanceValidationResult(
-            test_name="Throughput Capability",
-            target_metric="Throughput (RPS)",
-            target_value=10000,  # 10K RPS for testing (vs 100K theoretical)
-            actual_value=throughput_rps,
-            target_achieved=throughput_rps >= 10000,
-            details={
-                "concurrent_requests": concurrent_requests,
-                "successful_requests": successful_requests,
-                "total_time_seconds": total_time,
-                "throughput_rps": throughput_rps,
-                "success_rate_percent": (successful_requests / concurrent_requests) * 100
-            }
-        ))
+        self.results.append(
+            PerformanceValidationResult(
+                test_name="Throughput Capability",
+                target_metric="Throughput (RPS)",
+                target_value=10000,  # 10K RPS for testing (vs 100K theoretical)
+                actual_value=throughput_rps,
+                target_achieved=throughput_rps >= 10000,
+                details={
+                    "concurrent_requests": concurrent_requests,
+                    "successful_requests": successful_requests,
+                    "total_time_seconds": total_time,
+                    "throughput_rps": throughput_rps,
+                    "success_rate_percent": (successful_requests / concurrent_requests) * 100,
+                },
+            )
+        )
 
         print(f"   Throughput: {throughput_rps:.0f} RPS (target: 10,000 RPS)")
         print(f"   Success rate: {(successful_requests / concurrent_requests) * 100:.1f}%")
@@ -468,8 +491,7 @@ class ExtremePerformanceValidator:
                 start_time = time.perf_counter()
 
                 await self.extreme_optimizer.optimized_auth_flow(
-                    agent_id=f"stats_agent_{i}",
-                    operation="statistical_validation"
+                    agent_id=f"stats_agent_{i}", operation="statistical_validation"
                 )
 
                 auth_time_ms = (time.perf_counter() - start_time) * 1000
@@ -480,21 +502,23 @@ class ExtremePerformanceValidator:
             p95 = statistics.quantiles(auth_times, n=100)[94]  # 95th percentile
             p99 = statistics.quantiles(auth_times, n=100)[98]  # 99th percentile
 
-            self.results.append(PerformanceValidationResult(
-                test_name=f"Statistical Performance (n={sample_size})",
-                target_metric="P95 latency (ms)",
-                target_value=self.targets["auth_p95_ms"],
-                actual_value=p95,
-                target_achieved=p95 <= self.targets["auth_p95_ms"],
-                details={
-                    "sample_size": sample_size,
-                    "p50_ms": p50,
-                    "p95_ms": p95,
-                    "p99_ms": p99,
-                    "mean_ms": statistics.mean(auth_times),
-                    "std_dev_ms": statistics.stdev(auth_times) if len(auth_times) > 1 else 0
-                }
-            ))
+            self.results.append(
+                PerformanceValidationResult(
+                    test_name=f"Statistical Performance (n={sample_size})",
+                    target_metric="P95 latency (ms)",
+                    target_value=self.targets["auth_p95_ms"],
+                    actual_value=p95,
+                    target_achieved=p95 <= self.targets["auth_p95_ms"],
+                    details={
+                        "sample_size": sample_size,
+                        "p50_ms": p50,
+                        "p95_ms": p95,
+                        "p99_ms": p99,
+                        "mean_ms": statistics.mean(auth_times),
+                        "std_dev_ms": statistics.stdev(auth_times) if len(auth_times) > 1 else 0,
+                    },
+                )
+            )
 
     def _generate_validation_report(self) -> dict[str, Any]:
         """Generate comprehensive validation report"""
@@ -505,8 +529,14 @@ class ExtremePerformanceValidator:
         pass_rate = (passed_tests / max(total_tests, 1)) * 100
 
         # Categorize results
-        critical_results = [r for r in self.results if "Authentication" in r.test_name or "End-to-End" in r.test_name]
-        optimization_results = [r for r in self.results if any(x in r.test_name for x in ["Import", "Hash", "Audit"])]
+        critical_results = [
+            r
+            for r in self.results
+            if "Authentication" in r.test_name or "End-to-End" in r.test_name
+        ]
+        optimization_results = [
+            r for r in self.results if any(x in r.test_name for x in ["Import", "Hash", "Audit"])
+        ]
         throughput_results = [r for r in self.results if "Throughput" in r.test_name]
 
         # Overall assessment
@@ -522,7 +552,7 @@ class ExtremePerformanceValidator:
                 "passed_tests": passed_tests,
                 "pass_rate_percent": pass_rate,
                 "validation_time_seconds": time.time() - self.validation_start_time,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             },
             "performance_targets": self.targets,
             "overall_assessment": {
@@ -530,7 +560,11 @@ class ExtremePerformanceValidator:
                 "critical_performance": "PASS" if critical_pass else "FAIL",
                 "optimization_effectiveness": "PASS" if optimization_pass else "FAIL",
                 "throughput_capability": "PASS" if throughput_pass else "FAIL",
-                "performance_level": "extreme" if pass_rate >= 95 else "good" if pass_rate >= 80 else "needs_work"
+                "performance_level": "extreme"
+                if pass_rate >= 95
+                else "good"
+                if pass_rate >= 80
+                else "needs_work",
             },
             "detailed_results": [
                 {
@@ -541,7 +575,7 @@ class ExtremePerformanceValidator:
                     "target_achieved": r.target_achieved,
                     "performance_level": r.performance_level,
                     "improvement_percent": r.improvement_percent,
-                    "details": r.details
+                    "details": r.details,
                 }
                 for r in self.results
             ],
@@ -550,9 +584,9 @@ class ExtremePerformanceValidator:
                 "Import cache optimization: Sub-millisecond component loading",
                 "Audit buffer optimization: <1ms audit event logging",
                 "Async hash calculation: <2ms SHA-256 operations",
-                f"Overall test pass rate: {pass_rate:.1f}%"
+                f"Overall test pass rate: {pass_rate:.1f}%",
             ],
-            "recommendations": self._generate_recommendations()
+            "recommendations": self._generate_recommendations(),
         }
 
         return report
@@ -566,11 +600,15 @@ class ExtremePerformanceValidator:
         if not failed_tests:
             recommendations.append("🚀 EXCELLENT: All performance targets achieved!")
             recommendations.append("🎯 System ready for OpenAI-scale deployment")
-            recommendations.append("💡 Consider implementing additional optimizations for extreme performance")
+            recommendations.append(
+                "💡 Consider implementing additional optimizations for extreme performance"
+            )
         else:
             for test in failed_tests:
                 if "Authentication" in test.test_name:
-                    recommendations.append(f"🔧 Optimize authentication flow: {test.actual_value:.1f}ms > {test.target_value}ms target")
+                    recommendations.append(
+                        f"🔧 Optimize authentication flow: {test.actual_value:.1f}ms > {test.target_value}ms target"
+                    )
                 elif "Import" in test.test_name:
                     recommendations.append("⚡ Improve import caching hit rate")
                 elif "Audit" in test.test_name:
@@ -579,12 +617,14 @@ class ExtremePerformanceValidator:
                     recommendations.append("📈 Scale infrastructure for higher throughput")
 
         # General recommendations
-        recommendations.extend([
-            "🔍 Implement continuous performance monitoring in production",
-            "📊 Set up automated performance regression detection",
-            "🛡️ Validate performance under security load (authentication attacks)",
-            "🎛️ Fine-tune optimization parameters based on production patterns"
-        ])
+        recommendations.extend(
+            [
+                "🔍 Implement continuous performance monitoring in production",
+                "📊 Set up automated performance regression detection",
+                "🛡️ Validate performance under security load (authentication attacks)",
+                "🎛️ Fine-tune optimization parameters based on production patterns",
+            ]
+        )
 
         return recommendations[:10]  # Top 10 recommendations
 
@@ -651,5 +691,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n❌ Validation failed with error: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)

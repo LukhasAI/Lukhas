@@ -11,6 +11,7 @@ Public API (importable for tests):
   - compile_graph(author: dict, inputs: list[tuple[path,str]]) -> tuple[dict, dict]
   - validate_invariants(author: dict) -> list[str]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -88,7 +89,11 @@ def _node_type(author_graph: Mapping[str, object], node_id: str) -> str | None:
 
 def _collect_nodes(author_graph: Mapping[str, object]) -> dict[str, Mapping[str, object]]:
     nodes = author_graph.get("nodes", {})  # type: ignore[assignment]
-    return {k: v for k, v in nodes.items() if isinstance(v, Mapping)} if isinstance(nodes, Mapping) else {}
+    return (
+        {k: v for k, v in nodes.items() if isinstance(v, Mapping)}
+        if isinstance(nodes, Mapping)
+        else {}
+    )
 
 
 def _collect_edges(author_graph: Mapping[str, object]) -> list[Mapping[str, object]]:
@@ -132,9 +137,7 @@ def validate_invariants(author: Mapping[str, object]) -> list[str]:
                         if not isinstance(val, (int, float)):
                             errs.append(f"node '{nid}': state.{k}.value must be numeric")
                         elif not (mn <= val <= mx):
-                            errs.append(
-                                f"node '{nid}': state.{k}.value {val} outside [{mn},{mx}]"
-                            )
+                            errs.append(f"node '{nid}': state.{k}.value {val} outside [{mn},{mx}]")
 
     # Edges must connect existing nodes and be allowed by type-pair rules
     edges = _collect_edges(graph)
@@ -177,7 +180,9 @@ def validate_invariants(author: Mapping[str, object]) -> list[str]:
     return errs
 
 
-def compile_graph(author: MutableMapping[str, object], inputs: Sequence[tuple[str, str]] | None = None) -> tuple[dict[str, object], dict[str, object]]:
+def compile_graph(
+    author: MutableMapping[str, object], inputs: Sequence[tuple[str, str]] | None = None
+) -> tuple[dict[str, object], dict[str, object]]:
     """Compile author graph -> (runtime_plan, validation_report).
 
     - Adds defaults where safe (schema_version, p95 budgets if missing via fallback).
@@ -263,7 +268,9 @@ def compile_graph(author: MutableMapping[str, object], inputs: Sequence[tuple[st
 def _cli(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="MATRIZ Graph Compiler v0.1")
     ap.add_argument("input", help="Author graph JSON path")
-    ap.add_argument("--out-dir", default="reports/matriz", help="Output directory for plan and report")
+    ap.add_argument(
+        "--out-dir", default="reports/matriz", help="Output directory for plan and report"
+    )
     args = ap.parse_args(argv)
 
     in_path = Path(args.input)
@@ -284,4 +291,3 @@ def _cli(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(_cli())
-

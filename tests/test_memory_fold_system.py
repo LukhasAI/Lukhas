@@ -27,6 +27,7 @@ class MockMemoryFold:
     def get_memory_count(self):
         return len(self.memories)
 
+
 class TestMemoryFoldSystem:
     """Test suite for the 1000-fold memory system and cascade prevention."""
 
@@ -58,17 +59,21 @@ protection:
 
         latencies = []
         for i in range(1000):
-            memory_entry = {"entry_id": f"entry_{i}", "content": f"Memory content {i}", "timestamp": time.time()}
+            memory_entry = {
+                "entry_id": f"entry_{i}",
+                "content": f"Memory content {i}",
+                "timestamp": time.time(),
+            }
 
             start_time = time.perf_counter()
             fold_system.add_memory(memory_entry)
             end_time = time.perf_counter()
 
-            latencies.append((end_time - start_time) * 1000) # in ms
+            latencies.append((end_time - start_time) * 1000)  # in ms
 
         assert fold_system.get_memory_count() == 1000, "System should handle 1000 memory folds."
 
-        p95_latency = sorted(latencies)[int(1000 * 0.95) -1]
+        p95_latency = sorted(latencies)[int(1000 * 0.95) - 1]
 
         print(f"P95 latency for 1000 folds: {p95_latency:.2f}ms")
         assert p95_latency < 10.0, f"P95 latency ({p95_latency:.2f}ms) exceeds the 10ms target."
@@ -87,8 +92,8 @@ protection:
                 content = {
                     "entry_id": entry_id,
                     "content": "This is a chaotic and unstable memory with high entropy and violations.",
-                    "entropy": 0.9, # High entropy
-                    "ΛVIOLATION": "ethical_breach"
+                    "entropy": 0.9,  # High entropy
+                    "ΛVIOLATION": "ethical_breach",
                 }
                 is_contaminated = True
             else:
@@ -96,7 +101,7 @@ protection:
                 content = {
                     "entry_id": entry_id,
                     "content": f"Stable memory content {i}",
-                    "entropy": 0.2
+                    "entropy": 0.2,
                 }
                 is_contaminated = False
 
@@ -106,11 +111,15 @@ protection:
             if is_contaminated:
                 assert len(findings) == 1, "Contaminated entry should be flagged."
                 assert findings[0]["entry_id"] == entry_id
-                assert entry_id in sanctum.quarantine_entries, "Contaminated entry should be in quarantine."
+                assert entry_id in sanctum.quarantine_entries, (
+                    "Contaminated entry should be in quarantine."
+                )
                 contaminated_entries += 1
             else:
                 assert len(findings) == 0, "Normal entry should not be flagged."
-                assert entry_id not in sanctum.quarantine_entries, "Normal entry should not be quarantined."
+                assert entry_id not in sanctum.quarantine_entries, (
+                    "Normal entry should not be quarantined."
+                )
 
         # Verify that all contaminated entries were caught
         assert contaminated_entries == total_operations / 10
@@ -121,7 +130,9 @@ protection:
 
         # This is a simplified check. A real scenario is more complex.
         # We check if only the contaminated entries are quarantined.
-        assert quarantined_count == contaminated_entries, "Only contaminated entries should be quarantined."
+        assert quarantined_count == contaminated_entries, (
+            "Only contaminated entries should be quarantined."
+        )
 
         # In this simulation, if we quarantine all bad entries and no good ones, prevention is 100%
         # A more complex test would involve interaction between memories.

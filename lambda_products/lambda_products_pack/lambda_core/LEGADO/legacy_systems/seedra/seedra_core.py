@@ -52,9 +52,7 @@ class SEEDRACore:
         self.consent_registry: dict[str, dict[str, Any]] = {}
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.audit_log: list[dict[str, Any]] = []
-        self.ethical_constraints: dict[str, Any] = (
-            self._initialize_ethical_constraints()
-        )
+        self.ethical_constraints: dict[str, Any] = self._initialize_ethical_constraints()
         self.data_classifications: dict[str, DataSensitivity] = {}
         self._lock = asyncio.Lock()
 
@@ -127,9 +125,7 @@ class SEEDRACore:
                 }
             )
 
-            logger.info(
-                f"Registered consent for user {user_id} at level {consent_level.name}"
-            )
+            logger.info(f"Registered consent for user {user_id} at level {consent_level.name}")
 
             return {
                 "status": "success",
@@ -278,9 +274,7 @@ class SEEDRACore:
         """Log data access within a session"""
         async with self._lock:
             if session_id not in self.active_sessions:
-                logger.warning(
-                    f"Attempted to log access for unknown session: {session_id}"
-                )
+                logger.warning(f"Attempted to log access for unknown session: {session_id}")
                 return
 
             access_record = {
@@ -293,9 +287,7 @@ class SEEDRACore:
             }
 
             self.active_sessions[session_id]["access_log"].append(access_record)
-            self.active_sessions[session_id][
-                "last_activity"
-            ] = datetime.now().isoformat()
+            self.active_sessions[session_id]["last_activity"] = datetime.now().isoformat()
 
             # Also log to audit trail
             await self._log_audit_event(
@@ -317,9 +309,7 @@ class SEEDRACore:
 
             # Count active sessions
             active_session_count = sum(
-                1
-                for session in self.active_sessions.values()
-                if session["user_id"] == user_id
+                1 for session in self.active_sessions.values() if session["user_id"] == user_id
             )
 
             # Get recent access logs
@@ -339,9 +329,7 @@ class SEEDRACore:
                     ),
                     "expiry": consent_record.get("expiry") if consent_record else None,
                     "is_valid": (
-                        self._is_consent_valid(consent_record)
-                        if consent_record
-                        else False
+                        self._is_consent_valid(consent_record) if consent_record else False
                     ),
                 },
                 "active_sessions": active_session_count,
@@ -450,9 +438,7 @@ class SEEDRACore:
             filtered_log = [e for e in filtered_log if e.get("user_id") == user_id]
 
         if event_type:
-            filtered_log = [
-                e for e in filtered_log if e.get("event_type") == event_type
-            ]
+            filtered_log = [e for e in filtered_log if e.get("event_type") == event_type]
 
         return filtered_log[-limit:]
 
@@ -480,4 +466,4 @@ def get_seedra() -> SEEDRACore:
     return _seedra_instance
 
 
-__all__ = ["SEEDRACore", "ConsentLevel", "DataSensitivity", "get_seedra"]
+__all__ = ["ConsentLevel", "DataSensitivity", "SEEDRACore", "get_seedra"]

@@ -41,11 +41,13 @@ def guard_output(output):
 
     return output
 
+
 class GuardianSystem:
     """
     Adapter for the EnhancedGuardianSystem to provide a simplified interface
     compatible with older modules like the CodeQualityHealer.
     """
+
     _instance = None
     _lock = asyncio.Lock()
 
@@ -59,7 +61,9 @@ class GuardianSystem:
         # The __init__ will be called every time, but the instance is the same.
         # We can use a flag to do initialization only once.
         if not hasattr(self, "_initialized"):
-            self._enhanced_system = EnhancedGuardianSystem(config={"drift_threshold": drift_threshold})
+            self._enhanced_system = EnhancedGuardianSystem(
+                config={"drift_threshold": drift_threshold}
+            )
             self.drift_threshold = drift_threshold
             self._initialized = True
 
@@ -82,8 +86,11 @@ class GuardianSystem:
             threat_detection = await self._enhanced_system.detect_threat(
                 threat_type="drift_detection",
                 source=component,
-                threat_data={"drift_score": severity, "details": "Drift check from CodeQualityHealer"},
-                context={"caller": "CodeQualityHealer"}
+                threat_data={
+                    "drift_score": severity,
+                    "details": "Drift check from CodeQualityHealer",
+                },
+                context={"caller": "CodeQualityHealer"},
             )
 
             if threat_detection:

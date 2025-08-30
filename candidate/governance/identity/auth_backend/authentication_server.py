@@ -149,9 +149,7 @@ class AuthenticationServer:
                 client_info = json.loads(client_data)
             except Exception as e:
                 await websocket.send(json.dumps({"error": "Malformed handshake data"}))
-                self.audit_logger.log_event(
-                    f"Malformed handshake: {e}", constitutional_tag=True
-                )
+                self.audit_logger.log_event(f"Malformed handshake: {e}", constitutional_tag=True)
                 return
             user_id = client_info.get("user_id")
             device_public_key = client_info.get("device_public_key")
@@ -172,14 +170,10 @@ class AuthenticationServer:
                     logger.info(f"Device public key stored for user {user_id}")
                 except Exception as e:
                     logger.error(f"Failed to parse device public key: {e}")
-                    await websocket.send(
-                        json.dumps({"error": "Invalid device public key"})
-                    )
+                    await websocket.send(json.dumps({"error": "Invalid device public key"}))
                     return
             else:
-                await websocket.send(
-                    json.dumps({"error": "Device public key required"})
-                )
+                await websocket.send(json.dumps({"error": "Device public key required"}))
                 return
             session_id = self.create_authentication_session(user_id)
             await websocket.send(json.dumps({"session_id": session_id}))
@@ -209,29 +203,21 @@ class AuthenticationServer:
                     message_data = json.loads(message)
                 except Exception as e:
                     await websocket.send(json.dumps({"error": "Malformed message"}))
-                    self.audit_logger.log_event(
-                        f"Malformed message: {e}", constitutional_tag=True
-                    )
+                    self.audit_logger.log_event(f"Malformed message: {e}", constitutional_tag=True)
                     continue
                 if message_data.get("type") == "entropy_update":
                     raw_payload = message_data.get("payload")
                     signature_hex = message_data.get("signed_packet")
                     if not raw_payload or not signature_hex:
-                        await websocket.send(
-                            json.dumps({"error": "Missing payload or signature"})
-                        )
+                        await websocket.send(json.dumps({"error": "Missing payload or signature"}))
                         continue
                     try:
                         parsed_payload = json.loads(raw_payload)
                         device_id = parsed_payload.get("device_id")
                     except Exception:
-                        await websocket.send(
-                            json.dumps({"error": "Invalid payload format"})
-                        )
+                        await websocket.send(json.dumps({"error": "Invalid payload format"}))
                         continue
-                    if not self.verify_entropy_packet(
-                        raw_payload, signature_hex, device_id
-                    ):
+                    if not self.verify_entropy_packet(raw_payload, signature_hex, device_id):
                         await websocket.send(
                             json.dumps({"error": "Invalid entropy packet signature"})
                         )
@@ -242,27 +228,17 @@ class AuthenticationServer:
                         continue
                     entropy_value = parsed_payload.get("entropy_value")
                     nonce = parsed_payload.get("nonce")
-                    if (
-                        not device_id
-                        or not isinstance(device_id, str)
-                        or len(device_id) > 128
-                    ):
+                    if not device_id or not isinstance(device_id, str) or len(device_id) > 128:
                         await websocket.send(json.dumps({"error": "Invalid device ID"}))
-                        logger.warning(
-                            f"Rejected entropy update: invalid device_id {device_id}"
-                        )
+                        logger.warning(f"Rejected entropy update: invalid device_id {device_id}")
                         self.audit_logger.log_event(
                             f"Rejected entropy update: invalid device_id {device_id}",
                             constitutional_tag=True,
                         )
                         continue
                     if not self.replay_protection.add_nonce(nonce, device_id=device_id):
-                        await websocket.send(
-                            json.dumps({"error": "Replay detected for nonce"})
-                        )
-                        logger.warning(
-                            f"Replay detected for nonce {nonce} from device {device_id}"
-                        )
+                        await websocket.send(json.dumps({"error": "Replay detected for nonce"}))
+                        logger.warning(f"Replay detected for nonce {nonce} from device {device_id}")
                         self.audit_logger.log_event(
                             f"Replay detected for nonce {nonce} from device {device_id}",
                             constitutional_tag=True,
@@ -286,9 +262,7 @@ class AuthenticationServer:
                     try:
                         entropy_sync.update_entropy(device_id, entropy_value)
                     except Exception as e:
-                        await websocket.send(
-                            json.dumps({"error": "Entropy update failed"})
-                        )
+                        await websocket.send(json.dumps({"error": "Entropy update failed"}))
                         self.audit_logger.log_event(
                             f"Entropy update failed: {e}", constitutional_tag=True
                         )
@@ -296,9 +270,7 @@ class AuthenticationServer:
                     if not self.constitutional_gatekeeper.validate(
                         entropy_sync.get_entropy_level()
                     ):
-                        await websocket.send(
-                            json.dumps({"error": "Entropy validation failed"})
-                        )
+                        await websocket.send(json.dumps({"error": "Entropy validation failed"}))
                         self.audit_logger.log_event(
                             f"Entropy validation failed for session {session_id}",
                             constitutional_tag=True,
@@ -317,16 +289,10 @@ class AuthenticationServer:
 
                         behavioral_data = {
                             "device_id": device_id,
-                            "device_fingerprint": parsed_payload.get(
-                                "device_fingerprint", ""
-                            ),
-                            "interaction_speed": parsed_payload.get(
-                                "interaction_speed", 1.0
-                            ),
+                            "device_fingerprint": parsed_payload.get("device_fingerprint", ""),
+                            "interaction_speed": parsed_payload.get("interaction_speed", 1.0),
                             "typing_rhythm": parsed_payload.get("typing_rhythm", []),
-                            "mouse_movement_pattern": parsed_payload.get(
-                                "mouse_movement", {}
-                            ),
+                            "mouse_movement_pattern": parsed_payload.get("mouse_movement", {}),
                             "current_session_duration": (
                                 time.time() - entropy_sync.session_start_time
                                 if hasattr(entropy_sync, "session_start_time")
@@ -337,20 +303,14 @@ class AuthenticationServer:
                         device_data = {
                             "age_days": parsed_payload.get("device_age_days", 0),
                             "has_biometric": parsed_payload.get("has_biometric", False),
-                            "has_secure_enclave": parsed_payload.get(
-                                "has_secure_enclave", False
-                            ),
+                            "has_secure_enclave": parsed_payload.get("has_secure_enclave", False),
                             "has_tpm": parsed_payload.get("has_tpm", False),
                             "is_jailbroken": parsed_payload.get("is_jailbroken", False),
                             "is_rooted": parsed_payload.get("is_rooted", False),
                             "os_version": parsed_payload.get("os_version", ""),
                             "patch_level": parsed_payload.get("patch_level", 0),
-                            "network_type": parsed_payload.get(
-                                "network_type", "unknown"
-                            ),
-                            "network_security": parsed_payload.get(
-                                "network_security", "unknown"
-                            ),
+                            "network_type": parsed_payload.get("network_type", "unknown"),
+                            "network_security": parsed_payload.get("network_security", "unknown"),
                             "brand": parsed_payload.get("device_brand", ""),
                             "model": parsed_payload.get("device_model", ""),
                         }
@@ -378,9 +338,7 @@ class AuthenticationServer:
                         entropy_sync.trust_score = trust_result
 
                         # Check trust threshold for continued operation
-                        min_trust_threshold = self.trust_scorer.get_trust_threshold(
-                            "standard"
-                        )
+                        min_trust_threshold = self.trust_scorer.get_trust_threshold("standard")
                         if trust_result["total_score"] < min_trust_threshold:
                             await websocket.send(
                                 json.dumps(
@@ -440,9 +398,7 @@ class AuthenticationServer:
                         constitutional_tag=True,
                     )
         except Exception as e:
-            logger.error(
-                f"Error handling client connection: {e}\n{traceback.format_exc()}"
-            )
+            logger.error(f"Error handling client connection: {e}\n{traceback.format_exc()}")
             self.audit_logger.log_event(
                 f"Exception in client connection: {e}", constitutional_tag=True
             )
@@ -470,14 +426,10 @@ class AuthenticationServer:
         if not self.crypto_engine.verify_signature(pqc_signature):
             logger.warning("PQC signature validation failed")
             return False
-        self.audit_logger.log_event(
-            f"Authentication request validated for session {session_id}"
-        )
+        self.audit_logger.log_event(f"Authentication request validated for session {session_id}")
         return True
 
-    def verify_entropy_packet(
-        self, payload: str, signature_hex: str, device_id: str
-    ) -> bool:
+    def verify_entropy_packet(self, payload: str, signature_hex: str, device_id: str) -> bool:
         try:
             verify_key = None
             for user_id, key in self.device_verify_keys.items():
@@ -515,9 +467,7 @@ class AuthenticationServer:
                 )
             except Exception as e:
                 logger.error(f"Error expiring session {session_id}: {e}")
-                self.audit_logger.log_event(
-                    f"Session expiry error: {e}", constitutional_tag=True
-                )
+                self.audit_logger.log_event(f"Session expiry error: {e}", constitutional_tag=True)
 
     def track_entropy_reliability(self, device_id, entropy_value):
         if device_id not in self.device_reliability:
@@ -564,10 +514,8 @@ class AuthenticationServer:
             concurrent_count = 0
             for session_id, session_data in self.active_sessions.items():
                 if (
-                    hasattr(session_data, "user_id")
-                    and session_data.user_id == user_id
-                    or session_id.startswith(user_id[:8])
-                ):
+                    hasattr(session_data, "user_id") and session_data.user_id == user_id
+                ) or session_id.startswith(user_id[:8]):
                     concurrent_count += 1
 
             return {
@@ -617,9 +565,7 @@ class AuthenticationServer:
 
         return privacy_profile
 
-    async def update_user_consent(
-        self, user_id: str, consent_type: str, granted: bool
-    ) -> bool:
+    async def update_user_consent(self, user_id: str, consent_type: str, granted: bool) -> bool:
         """Update user consent with full audit trail"""
         if user_id not in self.user_privacy_profiles:
             await self.initialize_user_privacy_profile(user_id)
@@ -679,9 +625,7 @@ class AuthenticationServer:
 
             elif request_type == DataSubjectRight.RECTIFICATION:
                 # Article 16 - Right to rectification
-                return await self._handle_rectification_request(
-                    user_id, request_data, request_id
-                )
+                return await self._handle_rectification_request(user_id, request_data, request_id)
 
             elif request_type == DataSubjectRight.ERASURE:
                 # Article 17 - Right to erasure ('right to be forgotten')
@@ -693,15 +637,11 @@ class AuthenticationServer:
 
             elif request_type == DataSubjectRight.OBJECT:
                 # Article 21 - Right to object
-                return await self._handle_objection_request(
-                    user_id, request_data, request_id
-                )
+                return await self._handle_objection_request(user_id, request_data, request_id)
 
             elif request_type == DataSubjectRight.WITHDRAW_CONSENT:
                 # Article 7(3) - Right to withdraw consent
-                return await self._handle_consent_withdrawal(
-                    user_id, request_data, request_id
-                )
+                return await self._handle_consent_withdrawal(user_id, request_data, request_id)
 
             else:
                 return {
@@ -716,9 +656,7 @@ class AuthenticationServer:
             )
             return {"success": False, "error": str(e), "request_id": request_id}
 
-    async def _handle_access_request(
-        self, user_id: str, request_id: str
-    ) -> dict[str, Any]:
+    async def _handle_access_request(self, user_id: str, request_id: str) -> dict[str, Any]:
         """Handle GDPR Article 15 - Right of access"""
         user_data = {
             "personal_data": {},
@@ -733,15 +671,11 @@ class AuthenticationServer:
         if user_id in self.user_privacy_profiles:
             profile = self.user_privacy_profiles[user_id]
             user_data["personal_data"]["privacy_profile"] = {
-                "consent_records": {
-                    k: v.isoformat() for k, v in profile.gdpr_consents.items()
-                },
+                "consent_records": {k: v.isoformat() for k, v in profile.gdpr_consents.items()},
                 "opt_out_preferences": profile.ccpa_opt_outs,
                 "jurisdiction": profile.privacy_jurisdiction,
                 "last_update": (
-                    profile.last_consent_update.isoformat()
-                    if profile.last_consent_update
-                    else None
+                    profile.last_consent_update.isoformat() if profile.last_consent_update else None
                 ),
             }
 
@@ -785,9 +719,7 @@ class AuthenticationServer:
             "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
-    async def _handle_erasure_request(
-        self, user_id: str, request_id: str
-    ) -> dict[str, Any]:
+    async def _handle_erasure_request(self, user_id: str, request_id: str) -> dict[str, Any]:
         """Handle GDPR Article 17 - Right to erasure ('right to be forgotten')"""
         erasure_results = {
             "privacy_profile": False,
@@ -843,9 +775,7 @@ class AuthenticationServer:
             logger.error(f"Error during data erasure for user {user_id}: {e}")
             return {"success": False, "error": str(e), "request_id": request_id}
 
-    async def _handle_portability_request(
-        self, user_id: str, request_id: str
-    ) -> dict[str, Any]:
+    async def _handle_portability_request(self, user_id: str, request_id: str) -> dict[str, Any]:
         """Handle GDPR Article 20 - Right to data portability"""
         # Get user data in structured, machine-readable format
         access_data = await self._handle_access_request(user_id, request_id)
@@ -913,14 +843,10 @@ class AuthenticationServer:
                 }
 
         except Exception as e:
-            logger.error(
-                f"Error handling CCPA request {request_type} for user {user_id}: {e}"
-            )
+            logger.error(f"Error handling CCPA request {request_type} for user {user_id}: {e}")
             return {"success": False, "error": str(e), "request_id": request_id}
 
-    async def _handle_ccpa_opt_out_sale(
-        self, user_id: str, request_id: str
-    ) -> dict[str, Any]:
+    async def _handle_ccpa_opt_out_sale(self, user_id: str, request_id: str) -> dict[str, Any]:
         """Handle CCPA opt-out of sale request"""
         if user_id not in self.user_privacy_profiles:
             await self.initialize_user_privacy_profile(user_id, "US")
@@ -951,9 +877,7 @@ class AuthenticationServer:
                 "consent_status": bool(profile.gdpr_consents),
                 "active_consents": list(profile.gdpr_consents.keys()),
                 "last_consent_update": (
-                    profile.last_consent_update.isoformat()
-                    if profile.last_consent_update
-                    else None
+                    profile.last_consent_update.isoformat() if profile.last_consent_update else None
                 ),
             },
             "ccpa_compliance": {
@@ -990,9 +914,7 @@ class AuthenticationServer:
             # Check if data has exceeded retention period
             for data_type, retention_days in profile.data_retention_preferences.items():
                 if profile.last_consent_update:
-                    retention_end = profile.last_consent_update + timedelta(
-                        days=retention_days
-                    )
+                    retention_end = profile.last_consent_update + timedelta(days=retention_days)
                     if current_time > retention_end:
                         logger.info(
                             f"Auto-deleting expired data for user {user_id}, type {data_type}"
@@ -1005,7 +927,7 @@ class AuthenticationServer:
 
 __all__ = [
     "AuthenticationServer",
-    "UserPrivacyProfile",
-    "DataSubjectRight",
     "DataProcessingBasis",
+    "DataSubjectRight",
+    "UserPrivacyProfile",
 ]

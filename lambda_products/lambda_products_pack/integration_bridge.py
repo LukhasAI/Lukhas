@@ -76,16 +76,12 @@ class IntegrationBridge:
 
             # Enable Guardian policies
             if self.config["components"]["guardian"]["enabled"]:
-                guardian_policies = self.config["components"]["guardian"][
-                    "lambda_products"
-                ]
+                guardian_policies = self.config["components"]["guardian"]["lambda_products"]
                 for product in guardian_policies:
                     if "nias" in product:
                         nias.guardian_enabled = True
                         nias.guardian_policies = product["nias"]["policies"]
-                        print(
-                            f"   ✅ Guardian policies enabled: {product['nias']['policies']}"
-                        )
+                        print(f"   ✅ Guardian policies enabled: {product['nias']['policies']}")
 
             # Enable memory features
             if self.config["components"]["memory"]["enabled"]:
@@ -94,9 +90,7 @@ class IntegrationBridge:
                     if "nias" in product:
                         nias.memory_enabled = True
                         nias.memory_features = product["nias"]["features"]
-                        print(
-                            f"   ✅ Memory features enabled: {product['nias']['features']}"
-                        )
+                        print(f"   ✅ Memory features enabled: {product['nias']['features']}")
 
             # Enable dream integration
             if self.config["components"]["dreams"]["enabled"]:
@@ -105,9 +99,7 @@ class IntegrationBridge:
                     if "nias" in product:
                         nias.dreams_enabled = True
                         nias.dream_features = product["nias"]["features"]
-                        print(
-                            f"   ✅ Dream features enabled: {product['nias']['features']}"
-                        )
+                        print(f"   ✅ Dream features enabled: {product['nias']['features']}")
 
             self.integrations["nias"] = nias
             return True
@@ -131,12 +123,8 @@ class IntegrationBridge:
 
             # Set autonomous parameters
             orchestrator.max_autonomous_days = agent_config.get("autonomous_days", 7)
-            orchestrator.decision_threshold = agent_config.get(
-                "decision_threshold", 0.85
-            )
-            print(
-                f"   ✅ Autonomous operation: {agent_config.get('autonomous_days')} days"
-            )
+            orchestrator.decision_threshold = agent_config.get("decision_threshold", 0.85)
+            print(f"   ✅ Autonomous operation: {agent_config.get('autonomous_days')} days")
 
             # Configure orchestration limits
             orchestration = agent_config.get("orchestration", {})
@@ -151,25 +139,17 @@ class IntegrationBridge:
                 for product in consciousness_features:
                     if "agents" in product:
                         orchestrator.consciousness_enabled = True
-                        orchestrator.consciousness_features = product["agents"][
-                            "features"
-                        ]
-                        print(
-                            f"   ✅ Agent consciousness enabled: {product['agents']['features']}"
-                        )
+                        orchestrator.consciousness_features = product["agents"]["features"]
+                        print(f"   ✅ Agent consciousness enabled: {product['agents']['features']}")
 
             # Enable Guardian oversight
             if self.config["components"]["guardian"]["enabled"]:
-                guardian_policies = self.config["components"]["guardian"][
-                    "lambda_products"
-                ]
+                guardian_policies = self.config["components"]["guardian"]["lambda_products"]
                 for product in guardian_policies:
                     if "agents" in product:
                         orchestrator.guardian_enabled = True
                         orchestrator.guardian_policies = product["agents"]["policies"]
-                        print(
-                            f"   ✅ Guardian oversight enabled: {product['agents']['policies']}"
-                        )
+                        print(f"   ✅ Guardian oversight enabled: {product['agents']['policies']}")
 
             # Enable memory persistence
             if self.config["components"]["memory"]["enabled"]:
@@ -178,9 +158,7 @@ class IntegrationBridge:
                     if "agents" in product:
                         orchestrator.memory_enabled = True
                         orchestrator.memory_features = product["agents"]["features"]
-                        print(
-                            f"   ✅ Agent memory enabled: {product['agents']['features']}"
-                        )
+                        print(f"   ✅ Agent memory enabled: {product['agents']['features']}")
 
             self.integrations["agents"] = orchestrator
             return True
@@ -203,17 +181,13 @@ class IntegrationBridge:
             plugin_config = self.config.get("plugins", {})
 
             # Set performance targets
-            plugin_system.target_throughput = plugin_config.get(
-                "registration_throughput", 50000
-            )
+            plugin_system.target_throughput = plugin_config.get("registration_throughput", 50000)
             print(
                 f"   ✅ Target throughput: {plugin_config.get('registration_throughput')} ops/sec"
             )
 
             # Enable features
-            plugin_system.health_monitoring = plugin_config.get(
-                "health_monitoring", True
-            )
+            plugin_system.health_monitoring = plugin_config.get("health_monitoring", True)
             plugin_system.hot_swap = plugin_config.get("hot_swap", True)
             plugin_system.event_driven = plugin_config.get("event_driven", True)
             print("   ✅ Features: health monitoring, hot-swap, event-driven")
@@ -248,9 +222,7 @@ class IntegrationBridge:
             # Create tier enforcement rules
             tier_rules = {}
             for tier_name, tier_data in tier_mappings.items():
-                tier_level = int(
-                    tier_name.split("_")[0][1]
-                )  # Extract number from T0, T1, etc.
+                tier_level = int(tier_name.split("_")[0][1])  # Extract number from T0, T1, etc.
                 tier_rules[tier_level] = {
                     "name": tier_name,
                     "products": tier_data.get("lambda_products", []),

@@ -138,10 +138,10 @@ class AIAgentActor(Actor):
 
 # Export all public classes and functions
 __all__ = [
+    "AIAgentActor",
+    "Actor",
     "ActorRef",
     "ActorSystem",
-    "Actor",
-    "AIAgentActor",
-    "get_global_actor_system",
     "default_actor_system",
+    "get_global_actor_system",
 ]

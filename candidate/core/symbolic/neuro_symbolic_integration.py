@@ -64,9 +64,7 @@ class NeuroSymbolicIntegration:
 
         # Validate integration method
         if integration_method not in self.integration_methods:
-            logger.warning(
-                f"Unknown integration method: {integration_method}. Using default."
-            )
+            logger.warning(f"Unknown integration method: {integration_method}. Using default.")
             integration_method = self.default_method
 
         # Apply the selected integration method

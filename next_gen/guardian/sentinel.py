@@ -113,9 +113,7 @@ class GuardianSentinel:
             try:
                 # Simulate drift reading (in production, read from TrustHelix)
                 current_drift = self._read_current_drift()
-                self.drift_history.append(
-                    {"value": current_drift, "timestamp": datetime.utcnow()}
-                )
+                self.drift_history.append({"value": current_drift, "timestamp": datetime.utcnow()})
 
                 # Check for spikes
                 if len(self.drift_history) >= 2:
@@ -225,9 +223,7 @@ class GuardianSentinel:
 
                 # Check for instability (too many state changes)
                 if len(self.consciousness_history) >= 10:
-                    recent_states = [
-                        h["state"] for h in list(self.consciousness_history)[-10:]
-                    ]
+                    recent_states = [h["state"] for h in list(self.consciousness_history)[-10:]]
                     unique_states = len(set(recent_states))
                     instability = unique_states / 10.0
 
@@ -382,11 +378,7 @@ class GuardianSentinel:
     def get_threat_report(self) -> dict:
         """Generate threat analysis report"""
         active_count = len(
-            [
-                t
-                for t in self.active_threats
-                if (datetime.utcnow() - t.timestamp).seconds < 300
-            ]
+            [t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300]
         )
 
         severity_dist = {}

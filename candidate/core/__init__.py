@@ -15,6 +15,7 @@ try:
         TRINITY_FRAMEWORK,
         get_trinity_context,
     )
+
     CORE_BRANDING_AVAILABLE = True
 except ImportError:
     CORE_BRANDING_AVAILABLE = False

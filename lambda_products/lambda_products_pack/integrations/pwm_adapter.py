@@ -194,9 +194,7 @@ class LukhasIntegrationAdapter:
                 permissions=set(lambda_plugin.manifest.capabilities),
                 dependencies=lambda_plugin.manifest.dependencies,
                 health_status=(
-                    "healthy"
-                    if lambda_plugin.status == PluginStatus.ACTIVE
-                    else "unknown"
+                    "healthy" if lambda_plugin.status == PluginStatus.ACTIVE else "unknown"
                 ),
             )
 

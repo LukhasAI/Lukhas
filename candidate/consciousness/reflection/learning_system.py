@@ -18,6 +18,7 @@ This module implements advanced learning mechanisms including:
 
 Based on requirements from elite AI expert evaluation.
 """
+
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -118,9 +119,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
     ) -> dict[str, Any]:
         """Adapt model to new task using support examples"""
         try:
-            logger.info(
-                f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}"
-            )
+            logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}")
 
             # Initialize with meta-learned parameters
             adapted_params = self.meta_parameters.copy()
@@ -128,9 +127,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
             # Perform gradient-based adaptation
             for step in range(self.num_adaptation_steps):
                 # Compute gradients on support set
-                gradients = await self._compute_gradients(
-                    support_examples, adapted_params
-                )
+                gradients = await self._compute_gradients(support_examples, adapted_params)
 
                 # Update parameters
                 for param_name, gradient in gradients.items():
@@ -143,9 +140,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
                     logger.debug(f"Adaptation step {step}, loss: {loss:.4f}")
 
             # Evaluate adaptation quality
-            adaptation_quality = await self._evaluate_adaptation(
-                support_examples, adapted_params
-            )
+            adaptation_quality = await self._evaluate_adaptation(support_examples, adapted_params)
 
             result = {
                 "adapted_parameters": adapted_params,
@@ -158,9 +153,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
             # Store adaptation history
             self.adaptation_history.append(result)
 
-            logger.info(
-                f"✅ Task adaptation completed (quality: {adaptation_quality:.3f})"
-            )
+            logger.info(f"✅ Task adaptation completed (quality: {adaptation_quality:.3f})")
             return result
 
         except Exception as e:
@@ -177,9 +170,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
             # Initialize meta-parameters if not exists
             if not self.meta_parameters:
-                self.meta_parameters = await self._initialize_meta_parameters(
-                    episodes[0]
-                )
+                self.meta_parameters = await self._initialize_meta_parameters(episodes[0])
 
             total_meta_loss = 0.0
             successful_adaptations = 0
@@ -222,9 +213,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
                         successful_adaptations += 1
 
                 except Exception as e:
-                    logger.warning(
-                        f"Failed to process episode {episode.episode_id}: {e}"
-                    )
+                    logger.warning(f"Failed to process episode {episode.episode_id}: {e}")
                     continue
 
             # Calculate meta-learning metrics
@@ -262,9 +251,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
             logger.error(f"Meta-training failed: {e}")
             raise
 
-    async def _initialize_meta_parameters(
-        self, sample_episode: LearningEpisode
-    ) -> dict[str, Any]:
+    async def _initialize_meta_parameters(self, sample_episode: LearningEpisode) -> dict[str, Any]:
         """Initialize meta-parameters based on sample episode"""
         # Simple initialization based on sample data structure
         params = {
@@ -406,27 +393,17 @@ class FewShotLearner:
 
             # Learn based on strategy
             if self.strategy == LearningStrategy.MEMORY_AUGMENTED:
-                result = await self._memory_augmented_learning(
-                    task_id, examples, labels, k_shot
-                )
+                result = await self._memory_augmented_learning(task_id, examples, labels, k_shot)
             elif self.strategy == LearningStrategy.NEURAL_PLASTICITY:
-                result = await self._neural_plasticity_learning(
-                    task_id, examples, labels, k_shot
-                )
+                result = await self._neural_plasticity_learning(task_id, examples, labels, k_shot)
             else:
-                result = await self._prototypical_learning(
-                    task_id, examples, labels, k_shot
-                )
+                result = await self._prototypical_learning(task_id, examples, labels, k_shot)
 
             # Evaluate learning quality
-            learning_quality = await self._evaluate_few_shot_learning(
-                task_id, examples, labels
-            )
+            learning_quality = await self._evaluate_few_shot_learning(task_id, examples, labels)
             result["learning_quality"] = learning_quality
 
-            logger.info(
-                f"✅ Few-shot learning completed (quality: {learning_quality:.3f})"
-            )
+            logger.info(f"✅ Few-shot learning completed (quality: {learning_quality:.3f})")
             return result
 
         except Exception as e:
@@ -535,9 +512,7 @@ class FewShotLearner:
             "task_id": task_id,
         }
 
-    async def _compute_prototype(
-        self, examples: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _compute_prototype(self, examples: list[dict[str, Any]]) -> dict[str, Any]:
         """Compute prototype representation from examples"""
         if not examples:
             return {}
@@ -617,9 +592,7 @@ class ContinualLearner:
 
             if prevent_forgetting and len(self.learned_tasks) > 1:
                 # Apply elastic weight consolidation
-                consolidation_result = await self._apply_elastic_weight_consolidation(
-                    task_id
-                )
+                consolidation_result = await self._apply_elastic_weight_consolidation(task_id)
 
                 # Perform memory consolidation
                 memory_result = await self._consolidate_memories(task_id)
@@ -649,9 +622,7 @@ class ContinualLearner:
             logger.error(f"Continual learning failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def _apply_elastic_weight_consolidation(
-        self, new_task_id: str
-    ) -> dict[str, Any]:
+    async def _apply_elastic_weight_consolidation(self, new_task_id: str) -> dict[str, Any]:
         """Apply elastic weight consolidation to prevent forgetting"""
         try:
             # Calculate importance weights for previous tasks
@@ -665,9 +636,7 @@ class ContinualLearner:
                     task_importance = self.learned_tasks[prev_task_id]["importance"]
 
                     # Calculate parameter importance (Fisher information approximation)
-                    importance_weights = await self._calculate_parameter_importance(
-                        prev_task_id
-                    )
+                    importance_weights = await self._calculate_parameter_importance(prev_task_id)
                     self.importance_weights[prev_task_id] = importance_weights
 
                     consolidation_strength += task_importance
@@ -698,9 +667,7 @@ class ContinualLearner:
         # Create importance weights for different parameter types
         param_types = ["weights", "biases", "embeddings", "attention"]
         for param_type in param_types:
-            importance_weights[param_type] = base_importance * np.random.uniform(
-                0.5, 1.0
-            )
+            importance_weights[param_type] = base_importance * np.random.uniform(0.5, 1.0)
 
         return importance_weights
 
@@ -743,17 +710,13 @@ class ContinualLearner:
             return {"stability": 0.0, "plasticity": 0.0, "overall": 0.0}
 
         # Stability: how well previous knowledge is retained
-        total_importance = sum(
-            task["importance"] for task in self.learned_tasks.values()
-        )
+        total_importance = sum(task["importance"] for task in self.learned_tasks.values())
         avg_importance = total_importance / len(self.learned_tasks)
         stability = min(1.0, avg_importance)
 
         # Plasticity: ability to learn new tasks
         recent_tasks = (
-            self.task_sequence[-3:]
-            if len(self.task_sequence) >= 3
-            else self.task_sequence
+            self.task_sequence[-3:] if len(self.task_sequence) >= 3 else self.task_sequence
         )
         plasticity = len(recent_tasks) / 3.0  # Normalize to 3 recent tasks
 
@@ -846,22 +809,18 @@ class AdvancedLearningSystem:
                         examples = episode.support_set
                         labels = [ex.get("label", "unknown") for ex in examples]
 
-                        few_shot_result = (
-                            await self.few_shot_learner.learn_from_examples(
-                                episode.episode_id,
-                                examples,
-                                labels,
-                                k_shot=min(5, len(examples)),
-                            )
+                        few_shot_result = await self.few_shot_learner.learn_from_examples(
+                            episode.episode_id,
+                            examples,
+                            labels,
+                            k_shot=min(5, len(examples)),
                         )
                         results.append(few_shot_result)
 
                 result = {
                     "learning_type": "few_shot",
                     "processed_episodes": len(results),
-                    "successful_learning": sum(
-                        1 for r in results if r.get("status") != "failed"
-                    ),
+                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
                     "results": results,
                 }
                 self.performance_metrics["few_shot_tasks"] += len(results)
@@ -870,25 +829,21 @@ class AdvancedLearningSystem:
                 # Process as continual learning
                 results = []
                 for episode in episodes:
-                    continual_result = (
-                        await self.continual_learner.learn_task_continually(
-                            episode.episode_id,
-                            {
-                                "support_set": episode.support_set,
-                                "query_set": episode.query_set,
-                                "task_type": episode.task_type,
-                                "metadata": episode.metadata,
-                            },
-                        )
+                    continual_result = await self.continual_learner.learn_task_continually(
+                        episode.episode_id,
+                        {
+                            "support_set": episode.support_set,
+                            "query_set": episode.query_set,
+                            "task_type": episode.task_type,
+                            "metadata": episode.metadata,
+                        },
                     )
                     results.append(continual_result)
 
                 result = {
                     "learning_type": "continual",
                     "processed_episodes": len(results),
-                    "successful_learning": sum(
-                        1 for r in results if r.get("status") != "failed"
-                    ),
+                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
                     "results": results,
                 }
                 self.performance_metrics["continual_learning_tasks"] += len(results)
@@ -923,18 +878,14 @@ class AdvancedLearningSystem:
     ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
         try:
-            task_id = task_definition.get(
-                "task_id", f"task_{datetime.now().timestamp()}"
-            )
+            task_id = task_definition.get("task_id", f"task_{datetime.now().timestamp()}")
             logger.info(f"🎯 Adapting to new task: {task_id}")
 
             adaptation_results = {}
 
             # Try meta-learning adaptation
             if len(support_examples) >= 3:
-                meta_result = await self.meta_learner.adapt(
-                    support_examples, task_definition
-                )
+                meta_result = await self.meta_learner.adapt(support_examples, task_definition)
                 adaptation_results["meta_learning"] = meta_result
 
             # Try few-shot learning
@@ -964,8 +915,7 @@ class AdvancedLearningSystem:
                 "adaptation_methods": list(adaptation_results.keys()),
                 "adaptation_results": adaptation_results,
                 "overall_success": all(
-                    result.get("status") != "failed"
-                    for result in adaptation_results.values()
+                    result.get("status") != "failed" for result in adaptation_results.values()
                 ),
                 "timestamp": datetime.now().isoformat(),
             }
@@ -1071,9 +1021,7 @@ class AdvancedLearningSystem:
             few_shot_performance = 0.7  # Mock performance
             continual_performance = 0.75  # Mock performance
 
-            overall = (
-                meta_performance + few_shot_performance + continual_performance
-            ) / 3.0
+            overall = (meta_performance + few_shot_performance + continual_performance) / 3.0
 
             self.performance_metrics["overall_performance"] = overall
             self.performance_metrics["last_update"] = datetime.now().isoformat()
@@ -1095,9 +1043,7 @@ class AdvancedLearningSystem:
             old_tasks = [
                 task_id
                 for task_id, task_data in self.active_learning_tasks.items()
-                if (
-                    current_time - datetime.fromisoformat(task_data["timestamp"])
-                ).total_seconds()
+                if (current_time - datetime.fromisoformat(task_data["timestamp"])).total_seconds()
                 > 3600
             ]
 
@@ -1113,11 +1059,11 @@ class AdvancedLearningSystem:
 # Export main classes
 __all__ = [
     "AdvancedLearningSystem",
-    "ModelAgnosticMetaLearner",
-    "FewShotLearner",
     "ContinualLearner",
+    "FewShotLearner",
     "LearningEpisode",
-    "MetaLearningResult",
-    "LearningType",
     "LearningStrategy",
+    "LearningType",
+    "MetaLearningResult",
+    "ModelAgnosticMetaLearner",
 ]

@@ -302,9 +302,7 @@ class LUKHASMCPServer:
             ]
 
         @self.server.call_tool()
-        async def handle_call_tool(
-            name: str, arguments: dict
-        ) -> list[types.TextContent]:
+        async def handle_call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             """Handle tool calls"""
 
             if name == "lukhas_code_review":
@@ -313,9 +311,7 @@ class LUKHASMCPServer:
                     arguments.get("file_type", "python"),
                     arguments.get("file_path", ""),
                 )
-                return [
-                    types.TextContent(type="text", text=json.dumps(result, indent=2))
-                ]
+                return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
             elif name == "generate_trinity_documentation":
                 result = await self._generate_trinity_docs(
@@ -332,9 +328,7 @@ class LUKHASMCPServer:
                     arguments.get("element_type"),
                     arguments.get("domain", ""),
                 )
-                return [
-                    types.TextContent(type="text", text=json.dumps(result, indent=2))
-                ]
+                return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
             elif name == "explain_lukhas_concept":
                 result = await self._explain_concept(
@@ -346,16 +340,12 @@ class LUKHASMCPServer:
                 result = await self._get_patterns(
                     arguments.get("category"), arguments.get("examples", True)
                 )
-                return [
-                    types.TextContent(type="text", text=json.dumps(result, indent=2))
-                ]
+                return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
             else:
                 raise ValueError(f"Unknown tool: {name}")
 
-    async def _review_code(
-        self, code: str, file_type: str, file_path: str
-    ) -> dict[str, Any]:
+    async def _review_code(self, code: str, file_type: str, file_path: str) -> dict[str, Any]:
         """Review code for LUKHAS compliance"""
         issues = []
         suggestions = []
@@ -373,14 +363,11 @@ class LUKHASMCPServer:
 
         # Check for symbolic usage
         has_symbols = any(
-            symbol in code
-            for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
+            symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
         )
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
-            suggestions.append(
-                "Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)"
-            )
+            suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
             score -= 15
 
         # Check naming conventions
@@ -431,9 +418,7 @@ class LUKHASMCPServer:
 
         return template
 
-    async def _suggest_naming(
-        self, purpose: str, element_type: str, domain: str
-    ) -> dict[str, Any]:
+    async def _suggest_naming(self, purpose: str, element_type: str, domain: str) -> dict[str, Any]:
         """Suggest LUKHAS-compliant naming"""
         base_concepts = {
             "consciousness": [
@@ -449,9 +434,7 @@ class LUKHASMCPServer:
             "dream": ["dream", "vision", "weaver", "resonance", "pattern"],
         }
 
-        domain_concepts = base_concepts.get(
-            domain, ["engine", "processor", "manager", "handler"]
-        )
+        domain_concepts = base_concepts.get(domain, ["engine", "processor", "manager", "handler"])
 
         suggestions = []
         for concept in domain_concepts:
@@ -489,9 +472,7 @@ class LUKHASMCPServer:
 
         return f"🌈 {concept}: {definition}"
 
-    async def _get_patterns(
-        self, category: str, include_examples: bool
-    ) -> dict[str, Any]:
+    async def _get_patterns(self, category: str, include_examples: bool) -> dict[str, Any]:
         """Get LUKHAS patterns for category"""
         patterns = [p for p in self.knowledge_base.patterns if p.category == category]
 

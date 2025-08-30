@@ -15,14 +15,14 @@ from .hormone_system import (
 )
 
 __all__ = [
-    "HormoneType",
-    "HormoneLevel",
-    "HormoneInteraction",
     "EndocrineSystem",
+    "HormoneInteraction",
+    "HormoneLevel",
+    "HormoneType",
     "get_endocrine_system",
-    "trigger_stress",
-    "trigger_reward",
     "get_neuroplasticity",
+    "trigger_reward",
+    "trigger_stress",
 ]
 
 # Initialize the global endocrine system on import

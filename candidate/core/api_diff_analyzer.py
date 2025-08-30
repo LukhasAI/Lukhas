@@ -93,12 +93,9 @@ class TestAPIExtractor(ast.NodeVisitor):
                         "colony",
                     ]
                 ):
-
                     # Get the full line for context
                     line_content = (
-                        self.lines[node.lineno - 1]
-                        if node.lineno <= len(self.lines)
-                        else ""
+                        self.lines[node.lineno - 1] if node.lineno <= len(self.lines) else ""
                     )
 
                     api_call = APICall(
@@ -121,10 +118,8 @@ class TestAPIExtractor(ast.NodeVisitor):
 
             # Look for attribute access patterns in assertions
             if any(
-                pattern in obj_name.lower()
-                for pattern in ["stats", "fabric", "agent", "result"]
+                pattern in obj_name.lower() for pattern in ["stats", "fabric", "agent", "result"]
             ):
-
                 api_call = APICall(
                     file_path=self.file_path,
                     line_number=node.lineno,
@@ -247,9 +242,7 @@ class APIDiffAnalyzer:
         # Step 2: Extract implementation signatures
         self._extract_implementations()
         total_methods = sum(len(methods) for methods in self.implementations.values())
-        print(
-            f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n"
-        )
+        print(f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n")
 
         # Step 3: Find mismatches
         self._find_mismatches()
@@ -337,9 +330,7 @@ class APIDiffAnalyzer:
                     )
                     self.mismatches.append(mismatch)
 
-    def _find_best_match(
-        self, expected: str, actual_methods: set[str]
-    ) -> tuple[str, float]:
+    def _find_best_match(self, expected: str, actual_methods: set[str]) -> tuple[str, float]:
         """Find the best matching method name"""
         if not actual_methods:
             return "NO_METHODS_FOUND", 0.0
@@ -400,9 +391,7 @@ class APIDiffAnalyzer:
             f.write("## Detailed Mismatches\n\n")
 
             for i, mismatch in enumerate(self.mismatches, 1):
-                f.write(
-                    f"### Mismatch #{i}: `{mismatch.expected_method}`\n"
-                )
+                f.write(f"### Mismatch #{i}: `{mismatch.expected_method}`\n")
                 f.write(f"**Test File:** `{mismatch.test_call.file_path}`\n")
                 f.write(f"**Line:** {mismatch.test_call.line_number}\n")
                 f.write(f"**Context:** `{mismatch.test_call.context}`\n")

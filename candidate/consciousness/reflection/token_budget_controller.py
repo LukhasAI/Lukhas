@@ -95,9 +95,7 @@ class TokenBudgetController:
         self.DAILY_BUDGET_LIMIT = 0.10  # $0.10 per day (strict after initial period)
         self.INITIAL_ALLOWANCE = 0.50  # $0.50 for first two days
         self.INITIAL_PERIOD_DAYS = 2  # Initial allowance period
-        self.MAX_ACCUMULATED_CREDITS = (
-            2.00  # $2.00 max accumulated (increased for emergency uses)
-        )
+        self.MAX_ACCUMULATED_CREDITS = 2.00  # $2.00 max accumulated (increased for emergency uses)
         self.CONSERVATIVE_THRESHOLD = 0.05  # $0.05 warning threshold
         self.CRITICAL_THRESHOLD = 0.08  # $0.08 critical threshold
         self.FLEX_BUDGET_MULTIPLIER = 5.0  # 5 days worth of budget for flex override
@@ -156,9 +154,7 @@ class TokenBudgetController:
                 self.conservation_streak = state.get("conservation_streak", 0)
                 self.total_calls = state.get("total_calls", 0)
                 self.total_calls_cost = state.get("total_calls_cost", 0.0)
-                self.money_saved_by_conservation = state.get(
-                    "money_saved_by_conservation", 0.0
-                )
+                self.money_saved_by_conservation = state.get("money_saved_by_conservation", 0.0)
                 self.flex_budget_used = state.get("flex_budget_used", 0.0)
                 self.efficiency_score = state.get("efficiency_score", 100.0)
                 self.peak_usage_days = state.get("peak_usage_days", [])
@@ -172,21 +168,13 @@ class TokenBudgetController:
 
                 # Parse dates
                 if "last_reset_date" in state:
-                    self.last_reset_date = datetime.fromisoformat(
-                        state["last_reset_date"]
-                    )
+                    self.last_reset_date = datetime.fromisoformat(state["last_reset_date"])
                 if "last_daily_reset" in state:
-                    self.last_daily_reset = datetime.fromisoformat(
-                        state["last_daily_reset"]
-                    )
+                    self.last_daily_reset = datetime.fromisoformat(state["last_daily_reset"])
                 if "first_run_date" in state:
-                    self.first_run_date = datetime.fromisoformat(
-                        state["first_run_date"]
-                    )
+                    self.first_run_date = datetime.fromisoformat(state["first_run_date"])
                 else:
-                    self.first_run_date = (
-                        datetime.now()
-                    )  # Default for existing installations
+                    self.first_run_date = datetime.now()  # Default for existing installations
 
                 self.logger.info("Budget state loaded successfully")
             except Exception as e:
@@ -237,10 +225,7 @@ class TokenBudgetController:
             days_since_first_run = (now.date() - self.first_run_date.date()).days
 
             # Determine budget allocation based on initial period
-            if (
-                self.is_initial_period
-                and days_since_first_run < self.INITIAL_PERIOD_DAYS
-            ):
+            if self.is_initial_period and days_since_first_run < self.INITIAL_PERIOD_DAYS:
                 # In initial period: $0.50 total allowance for first 2 days
                 remaining_initial_days = self.INITIAL_PERIOD_DAYS - days_since_first_run
                 daily_budget = self.INITIAL_ALLOWANCE / max(remaining_initial_days, 1)
@@ -252,14 +237,9 @@ class TokenBudgetController:
                 self.logger.info(
                     f"💰 ΛBot Initial Period: Day {days_since_first_run + 1} of {self.INITIAL_PERIOD_DAYS}"
                 )
-                self.logger.info(
-                    f"💰 Initial allowance budget: ${budget_to_add:.4f} added"
-                )
+                self.logger.info(f"💰 Initial allowance budget: ${budget_to_add:.4f} added")
 
-            elif (
-                self.is_initial_period
-                and days_since_first_run >= self.INITIAL_PERIOD_DAYS
-            ):
+            elif self.is_initial_period and days_since_first_run >= self.INITIAL_PERIOD_DAYS:
                 # Transition from initial period to strict daily budget
                 self.is_initial_period = False
                 budget_to_add = self.DAILY_BUDGET_LIMIT * days_passed
@@ -274,9 +254,7 @@ class TokenBudgetController:
             else:
                 # Normal operation: strict $0.10/day, unused accumulates
                 unused_budget = max(0, self.DAILY_BUDGET_LIMIT - self.daily_spend)
-                budget_to_add = unused_budget + (
-                    self.DAILY_BUDGET_LIMIT * (days_passed - 1)
-                )
+                budget_to_add = unused_budget + (self.DAILY_BUDGET_LIMIT * (days_passed - 1))
 
                 self.logger.info(
                     f"💰 ΛBot Daily Budget: ${unused_budget:.4f} unused + ${self.DAILY_BUDGET_LIMIT * (days_passed - 1):.4f} new"
@@ -294,15 +272,11 @@ class TokenBudgetController:
             # Track conservation if no calls were made
             if days_passed > 1:
                 conservation_amount = (
-                    self.DAILY_BUDGET_LIMIT * (days_passed - 1)
-                    if not self.is_initial_period
-                    else 0
+                    self.DAILY_BUDGET_LIMIT * (days_passed - 1) if not self.is_initial_period else 0
                 )
                 self.track_conservation(days_passed - 1, conservation_amount)
 
-            self.logger.info(
-                f"💰 Total accumulated credits: ${self.accumulated_credits:.4f}"
-            )
+            self.logger.info(f"💰 Total accumulated credits: ${self.accumulated_credits:.4f}")
             self.save_state()
 
     def track_conservation(self, days: int, saved_amount: float) -> None:
@@ -320,9 +294,7 @@ class TokenBudgetController:
         total_budget_available = self.accumulated_credits + (
             self.DAILY_BUDGET_LIMIT * 30
         )  # Rough monthly estimate
-        money_saved_ratio = self.money_saved_by_conservation / max(
-            total_budget_available, 1
-        )
+        money_saved_ratio = self.money_saved_by_conservation / max(total_budget_available, 1)
 
         # Efficiency factors from original ABot
         conservation_bonus = min(self.conservation_streak * 2, 20)  # Max 20 points
@@ -337,9 +309,7 @@ class TokenBudgetController:
 
         self.efficiency_score = min(
             100,
-            max(
-                0, base_score + savings_score + conservation_score - flex_budget_penalty
-            ),
+            max(0, base_score + savings_score + conservation_score - flex_budget_penalty),
         )
 
     def can_use_flex_budget(self, cost: float) -> bool:
@@ -429,13 +399,9 @@ class TokenBudgetController:
                 should_call = False
                 priority = BudgetPriority.MEDIUM
                 reason = "Changes detected but budget insufficient"
-                alternative_action = (
-                    "Queue for next budget refresh or accumulate more credits"
-                )
+                alternative_action = "Queue for next budget refresh or accumulate more credits"
                 confidence = 0.8
-                conservation_recommendation = (
-                    "Consider batching requests or using local analysis"
-                )
+                conservation_recommendation = "Consider batching requests or using local analysis"
 
         # No changes - conserve budget intelligently
         else:
@@ -444,9 +410,7 @@ class TokenBudgetController:
             reason = "No significant changes detected - conserving budget"
             alternative_action = "Monitor for changes or wait for user request"
             confidence = 0.9
-            conservation_recommendation = (
-                "Budget conservation extends available credits"
-            )
+            conservation_recommendation = "Budget conservation extends available credits"
 
             # Track conservation
             self.conservation_streak += 1
@@ -589,16 +553,12 @@ class TokenBudgetController:
 
         self.save_state()
 
-    def mark_recommendation_applied(
-        self, recommendation: str, details: str = ""
-    ) -> None:
+    def mark_recommendation_applied(self, recommendation: str, details: str = "") -> None:
         """Mark a recommendation as applied"""
         for i, rec in enumerate(self.recommendations_applied):
             if not rec["applied"] and recommendation in rec["recommendation"]:
                 self.recommendations_applied[i]["applied"] = True
-                self.recommendations_applied[i][
-                    "applied_timestamp"
-                ] = datetime.now().isoformat()
+                self.recommendations_applied[i]["applied_timestamp"] = datetime.now().isoformat()
                 self.recommendations_applied[i]["application_details"] = details
                 self.logger.info(f"✅ Recommendation applied: {recommendation}")
                 break
@@ -640,9 +600,7 @@ class TokenBudgetController:
         # Determine current budget limit (initial period vs strict daily)
         current_daily_limit = self.DAILY_BUDGET_LIMIT
         if self.is_initial_period:
-            days_since_first_run = (
-                datetime.now().date() - self.first_run_date.date()
-            ).days
+            days_since_first_run = (datetime.now().date() - self.first_run_date.date()).days
             if days_since_first_run < self.INITIAL_PERIOD_DAYS:
                 remaining_days = self.INITIAL_PERIOD_DAYS - days_since_first_run
                 current_daily_limit = self.INITIAL_ALLOWANCE / max(remaining_days, 1)
@@ -665,14 +623,10 @@ class TokenBudgetController:
             )
 
         if daily_usage_percentage > 80:
-            warnings.append(
-                "Approaching daily budget limit - consider conservative mode"
-            )
+            warnings.append("Approaching daily budget limit - consider conservative mode")
 
         if self.efficiency_score < 70:
-            recommendations.append(
-                "Efficiency score low - review recent API call patterns"
-            )
+            recommendations.append("Efficiency score low - review recent API call patterns")
 
         # Check rate limiting status
         rate_limit_ok = self.rate_limit_check()
@@ -686,9 +640,7 @@ class TokenBudgetController:
         ]
 
         if len(pending_recommendations) > 5:
-            warnings.append(
-                f"{len(pending_recommendations)} recommendations pending application"
-            )
+            warnings.append(f"{len(pending_recommendations)} recommendations pending application")
 
         if len(recent_findings) > 0:
             recommendations.append(
@@ -708,9 +660,7 @@ class TokenBudgetController:
             "budget_status": {
                 "current_daily_limit": current_daily_limit,
                 "is_initial_period": self.is_initial_period,
-                "days_since_first_run": (
-                    datetime.now().date() - self.first_run_date.date()
-                ).days,
+                "days_since_first_run": (datetime.now().date() - self.first_run_date.date()).days,
                 "used_today": self.daily_spend,
                 "remaining_today": max(0, current_daily_limit - self.daily_spend),
                 "percentage_used": daily_usage_percentage,
@@ -728,10 +678,7 @@ class TokenBudgetController:
                     [
                         f
                         for f in self.findings_log
-                        if (
-                            datetime.now() - datetime.fromisoformat(f["timestamp"])
-                        ).days
-                        < 1
+                        if (datetime.now() - datetime.fromisoformat(f["timestamp"])).days < 1
                     ]
                 ),
                 "pending_recommendations": len(pending_recommendations),

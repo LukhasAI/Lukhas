@@ -41,7 +41,6 @@ def get_resource_efficiency_table() -> list[dict[str, str]]:
 
 
 class Actor:
-
     def __init__(self, behavior, state=None):
         self.state = state or {}
         self.behavior = behavior
@@ -73,21 +72,18 @@ class QuorumOverride:
 
 
 class ReasoningColony(AgentColony):
-
     def __init__(self, colony_id, supervisor_strategy=None):
         super().__init__(colony_id, supervisor_strategy)
         print(f"ReasoningColony {colony_id} created.")
 
 
 class MemoryColony(AgentColony):
-
     def __init__(self, colony_id, supervisor_strategy=None):
         super().__init__(colony_id, supervisor_strategy)
         print(f"MemoryColony {colony_id} created.")
 
 
 class CreativityColony(AgentColony):
-
     def __init__(self, colony_id, supervisor_strategy=None):
         super().__init__(colony_id, supervisor_strategy)
         print(f"CreativityColony {colony_id} created.")

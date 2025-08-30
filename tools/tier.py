@@ -74,12 +74,8 @@ def print_tier(level):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="🎚️ View or simulate LUCAS AGI symbolic tiers"
-    )
-    parser.add_argument(
-        "--simulate", type=int, help="Simulate privileges of a given tier (1–5)"
-    )
+    parser = argparse.ArgumentParser(description="🎚️ View or simulate LUCAS AGI symbolic tiers")
+    parser.add_argument("--simulate", type=int, help="Simulate privileges of a given tier (1–5)")
     args = parser.parse_args()
 
     if args.simulate:

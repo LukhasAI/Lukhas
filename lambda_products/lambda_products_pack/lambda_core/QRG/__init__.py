@@ -22,14 +22,14 @@ __license__ = "Quantum-Conscious MIT"
 
 # Core exports
 __all__ = [
-    "QIResonanceGlyph",
     "CircularQREngine",
-    "TrueQuantumRandomness",
     "ConsciousnessAwareProcessor",
     "HiddenDataEmbedder",
-    "TemporalAuthenticator",
     "HolographicQRProjector",
     "LambdaIdIntegration",
+    "QIResonanceGlyph",
+    "TemporalAuthenticator",
+    "TrueQuantumRandomness",
 ]
 
 # 3-Layer Tone System Integration

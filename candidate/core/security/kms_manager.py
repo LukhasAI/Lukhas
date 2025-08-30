@@ -22,6 +22,7 @@ from typing import Optional
 # For Vault integration
 try:
     import hvac
+
     VAULT_AVAILABLE = True
 except ImportError:
     VAULT_AVAILABLE = False
@@ -30,6 +31,7 @@ except ImportError:
 # For AWS KMS integration
 try:
     import boto3
+
     AWS_KMS_AVAILABLE = True
 except ImportError:
     AWS_KMS_AVAILABLE = False
@@ -41,6 +43,7 @@ logger = logging.getLogger(__name__)
 
 class SecretType(Enum):
     """Types of secrets managed by KMS"""
+
     API_KEY = "api_key"
     OAUTH_TOKEN = "oauth_token"
     DATABASE_CREDENTIAL = "database_credential"
@@ -52,6 +55,7 @@ class SecretType(Enum):
 
 class RotationPolicy(Enum):
     """Secret rotation policies"""
+
     DAILY = 86400
     WEEKLY = 604800
     MONTHLY = 2592000
@@ -62,6 +66,7 @@ class RotationPolicy(Enum):
 @dataclass
 class SecretMetadata:
     """Metadata for managed secrets"""
+
     secret_id: str
     secret_type: SecretType
     created_at: datetime
@@ -83,16 +88,19 @@ class SecretMetadata:
 @dataclass
 class QIInspireModuleStatus:
     """QIM assessment results per Agent 7 requirements"""
+
     module_name: str = "Quantum Inspire Module"
     status: str = "DEPRECATED"
     recommendation: str = "ARCHIVE"
     assessment_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    reasons: list[str] = field(default_factory=lambda: [
-        "Module uses outdated quantum simulation APIs",
-        "Security vulnerabilities in dependency chain",
-        "Replaced by quantum/ directory with modern implementation",
-        "No active maintenance for 12+ months"
-    ])
+    reasons: list[str] = field(
+        default_factory=lambda: [
+            "Module uses outdated quantum simulation APIs",
+            "Security vulnerabilities in dependency chain",
+            "Replaced by quantum/ directory with modern implementation",
+            "No active maintenance for 12+ months",
+        ]
+    )
     migration_path: str = "Move to lukhas-archive repository"
     data_preserved: bool = True
 
@@ -100,18 +108,14 @@ class QIInspireModuleStatus:
 class VaultClient:
     """HashiCorp Vault integration for secret management"""
 
-    def __init__(self, vault_url: str = "http://localhost:8200",
-                 vault_token: Optional[str] = None):
+    def __init__(self, vault_url: str = "http://localhost:8200", vault_token: Optional[str] = None):
         self.vault_url = vault_url
         self.vault_token = vault_token or os.getenv("VAULT_TOKEN")
         self.client = None
 
         if VAULT_AVAILABLE and self.vault_token:
             try:
-                self.client = hvac.Client(
-                    url=self.vault_url,
-                    token=self.vault_token
-                )
+                self.client = hvac.Client(url=self.vault_url, token=self.vault_token)
                 if self.client.is_authenticated():
                     logger.info("✅ Connected to HashiCorp Vault")
                 else:
@@ -127,10 +131,7 @@ class VaultClient:
             return False
 
         try:
-            self.client.secrets.kv.v2.create_or_update_secret(
-                path=path,
-                secret=secret_data
-            )
+            self.client.secrets.kv.v2.create_or_update_secret(path=path, secret=secret_data)
             return True
         except Exception as e:
             logger.error(f"Vault store error: {e}")
@@ -142,9 +143,7 @@ class VaultClient:
             return None
 
         try:
-            response = self.client.secrets.kv.v2.read_secret_version(
-                path=path
-            )
+            response = self.client.secrets.kv.v2.read_secret_version(path=path)
             return response["data"]["data"]
         except Exception as e:
             logger.error(f"Vault retrieve error: {e}")
@@ -156,9 +155,7 @@ class VaultClient:
             return False
 
         try:
-            self.client.secrets.kv.v2.delete_metadata_and_all_versions(
-                path=path
-            )
+            self.client.secrets.kv.v2.delete_metadata_and_all_versions(path=path)
             return True
         except Exception as e:
             logger.error(f"Vault delete error: {e}")
@@ -190,7 +187,7 @@ class AWSKMSClient:
                 Description=description,
                 KeyUsage="ENCRYPT_DECRYPT",
                 Origin="AWS_KMS",
-                Tags=tags or []
+                Tags=tags or [],
             )
             return response["KeyMetadata"]["KeyId"]
         except Exception as e:
@@ -203,10 +200,7 @@ class AWSKMSClient:
             return None
 
         try:
-            response = self.client.encrypt(
-                KeyId=key_id,
-                Plaintext=plaintext
-            )
+            response = self.client.encrypt(KeyId=key_id, Plaintext=plaintext)
             return response["CiphertextBlob"]
         except Exception as e:
             logger.error(f"AWS KMS encrypt error: {e}")
@@ -218,9 +212,7 @@ class AWSKMSClient:
             return None
 
         try:
-            response = self.client.decrypt(
-                CiphertextBlob=ciphertext
-            )
+            response = self.client.decrypt(CiphertextBlob=ciphertext)
             return response["Plaintext"]
         except Exception as e:
             logger.error(f"AWS KMS decrypt error: {e}")
@@ -250,13 +242,21 @@ class SecretScanner:
         "github_token": re.compile(r"ghp_[0-9a-zA-Z]{36}"),
         "slack_token": re.compile(r"xox[baprs]-[0-9a-zA-Z-]+"),
         "private_key": re.compile(r"-----BEGIN (RSA |EC |)PRIVATE KEY-----"),
-        "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
+        "jwt_secret": re.compile(
+            r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'
+        ),
     }
 
     def __init__(self, exclude_dirs: list[str] = None):
         self.exclude_dirs = exclude_dirs or [
-            ".git", "__pycache__", ".venv", "venv",
-            "node_modules", ".pytest_cache", "build", "dist"
+            ".git",
+            "__pycache__",
+            ".venv",
+            "venv",
+            "node_modules",
+            ".pytest_cache",
+            "build",
+            "dist",
         ]
 
     def scan_file(self, file_path: Path) -> list[dict]:
@@ -271,15 +271,19 @@ class SecretScanner:
                     matches = pattern.finditer(content)
                     for match in matches:
                         # Find line number
-                        line_num = content[:match.start()].count("\n") + 1
+                        line_num = content[: match.start()].count("\n") + 1
 
-                        findings.append({
-                            "file": str(file_path),
-                            "line": line_num,
-                            "type": secret_type,
-                            "match": match.group()[:50] + "..." if len(match.group()) > 50 else match.group(),
-                            "severity": "HIGH"
-                        })
+                        findings.append(
+                            {
+                                "file": str(file_path),
+                                "line": line_num,
+                                "type": secret_type,
+                                "match": match.group()[:50] + "..."
+                                if len(match.group()) > 50
+                                else match.group(),
+                                "severity": "HIGH",
+                            }
+                        )
 
         except Exception as e:
             logger.debug(f"Could not scan {file_path}: {e}")
@@ -296,9 +300,24 @@ class SecretScanner:
 
             for file in files:
                 # Only scan text files
-                if file.endswith((".py", ".js", ".ts", ".jsx", ".tsx", ".json",
-                              ".yaml", ".yml", ".env", ".config", ".conf",
-                              ".sh", ".bash", ".zsh")):
+                if file.endswith(
+                    (
+                        ".py",
+                        ".js",
+                        ".ts",
+                        ".jsx",
+                        ".tsx",
+                        ".json",
+                        ".yaml",
+                        ".yml",
+                        ".env",
+                        ".config",
+                        ".conf",
+                        ".sh",
+                        ".bash",
+                        ".zsh",
+                    )
+                ):
                     file_path = Path(root) / file
                     findings = self.scan_file(file_path)
                     all_findings.extend(findings)
@@ -311,7 +330,7 @@ class SecretScanner:
             result = subprocess.run(
                 ["gitleaks", "detect", "--source", repo_path, "--report-format", "json"],
                 capture_output=True,
-                text=True
+                text=True,
             )
 
             if result.stdout:
@@ -338,15 +357,13 @@ class SBOMGenerator:
             "format": "CycloneDX",
             "version": "1.4",
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "components": []
+            "components": [],
         }
 
         try:
             # Get installed packages
             result = subprocess.run(
-                ["pip", "list", "--format", "json"],
-                capture_output=True,
-                text=True
+                ["pip", "list", "--format", "json"], capture_output=True, text=True
             )
 
             if result.returncode == 0:
@@ -357,7 +374,7 @@ class SBOMGenerator:
                         "type": "library",
                         "name": pkg["name"],
                         "version": pkg["version"],
-                        "purl": f"pkg:pypi/{pkg['name']}@{pkg['version']}"
+                        "purl": f"pkg:pypi/{pkg['name']}@{pkg['version']}",
                     }
                     sbom["components"].append(component)
 
@@ -384,13 +401,15 @@ class SBOMGenerator:
 
             if pkg_name in vulnerable_packages:
                 # Simple version check (in production: use proper version parsing)
-                vulnerabilities.append({
-                    "package": pkg_name,
-                    "installed_version": pkg_version,
-                    "vulnerability": f"Known vulnerabilities in {pkg_name}",
-                    "severity": "HIGH",
-                    "recommendation": "Upgrade to latest version"
-                })
+                vulnerabilities.append(
+                    {
+                        "package": pkg_name,
+                        "installed_version": pkg_version,
+                        "vulnerability": f"Known vulnerabilities in {pkg_name}",
+                        "severity": "HIGH",
+                        "recommendation": "Upgrade to latest version",
+                    }
+                )
 
         return vulnerabilities
 
@@ -421,11 +440,15 @@ class LukhasKMSManager:
 
         logger.info("🔐 LUKHAS KMS Manager initialized")
 
-    def store_secret(self, secret_id: str, secret_value: str,
-                    secret_type: SecretType,
-                    rotation_policy: RotationPolicy = RotationPolicy.MONTHLY,
-                    lid: Optional[str] = None,
-                    tags: dict[str, str] = None) -> bool:
+    def store_secret(
+        self,
+        secret_id: str,
+        secret_value: str,
+        secret_type: SecretType,
+        rotation_policy: RotationPolicy = RotationPolicy.MONTHLY,
+        lid: Optional[str] = None,
+        tags: dict[str, str] = None,
+    ) -> bool:
         """
         Store secret with automatic rotation policy
         Integrates with Vault or falls back to encrypted local storage
@@ -439,17 +462,14 @@ class LukhasKMSManager:
             last_rotated=datetime.now(timezone.utc),
             rotation_policy=rotation_policy,
             lid=lid,
-            tags=tags or {}
+            tags=tags or {},
         )
 
         # Try Vault first
         if self.vault_client.client:
             success = self.vault_client.store_secret(
                 path=f"lukhas/{secret_type.value}/{secret_id}",
-                secret_data={
-                    "value": secret_value,
-                    "metadata": metadata.__dict__
-                }
+                secret_data={"value": secret_value, "metadata": metadata.__dict__},
             )
             if success:
                 self.metadata_store[secret_id] = metadata
@@ -460,7 +480,7 @@ class LukhasKMSManager:
         if secret_type == SecretType.ENCRYPTION_KEY and self.aws_kms.client:
             key_id = self.aws_kms.create_key(
                 description=f"LUKHAS-{secret_id}",
-                tags=[{"Key": k, "Value": v} for k, v in (tags or {}).items()]
+                tags=[{"Key": k, "Value": v} for k, v in (tags or {}).items()],
             )
             if key_id:
                 encrypted = self.aws_kms.encrypt(key_id, secret_value.encode())
@@ -525,7 +545,7 @@ class LukhasKMSManager:
             secret_type=metadata.secret_type,
             rotation_policy=metadata.rotation_policy,
             lid=metadata.lid,
-            tags=metadata.tags
+            tags=metadata.tags,
         )
 
         if success:
@@ -570,12 +590,9 @@ class LukhasKMSManager:
         gitleaks_result = self.secret_scanner.run_gitleaks(path)
 
         return {
-            "custom_scanner": {
-                "findings": findings,
-                "count": len(findings)
-            },
+            "custom_scanner": {"findings": findings, "count": len(findings)},
             "gitleaks": gitleaks_result,
-            "scan_time": datetime.now(timezone.utc).isoformat()
+            "scan_time": datetime.now(timezone.utc).isoformat(),
         }
 
     def generate_sbom(self) -> dict:
@@ -589,7 +606,7 @@ class LukhasKMSManager:
             "sbom": sbom,
             "vulnerabilities": vulnerabilities,
             "vulnerability_count": len(vulnerabilities),
-            "generated_at": datetime.now(timezone.utc).isoformat()
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def assess_qim(self) -> dict:
@@ -602,7 +619,7 @@ class LukhasKMSManager:
             "recommendation": self.qim_status.recommendation,
             "reasons": self.qim_status.reasons,
             "migration_path": self.qim_status.migration_path,
-            "assessment_date": self.qim_status.assessment_date.isoformat()
+            "assessment_date": self.qim_status.assessment_date.isoformat(),
         }
 
     def _generate_secret(self, secret_type: SecretType) -> str:
@@ -641,7 +658,7 @@ class LukhasKMSManager:
             "secret_id": secret_id,
             "version": metadata.version,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "lid": metadata.lid
+            "lid": metadata.lid,
         }
         logger.info(f"📝 Audit: {audit_event}")
 
@@ -653,7 +670,7 @@ class LukhasKMSManager:
             "total_secrets": len(self.metadata_store),
             "secrets_by_type": self._count_by_type(),
             "rotation_scheduler": "running" if self.rotation_running else "stopped",
-            "pending_rotations": sum(1 for m in self.metadata_store.values() if m.needs_rotation())
+            "pending_rotations": sum(1 for m in self.metadata_store.values() if m.needs_rotation()),
         }
 
     def _count_by_type(self) -> dict[str, int]:
@@ -683,7 +700,7 @@ if __name__ == "__main__":
             secret_type=SecretType.API_KEY,
             rotation_policy=RotationPolicy.WEEKLY,
             lid="USR-test-123",
-            tags={"environment": "test", "service": "api"}
+            tags={"environment": "test", "service": "api"},
         )
         print(f"   Secret stored: {stored}")
 

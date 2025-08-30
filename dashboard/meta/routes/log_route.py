@@ -99,8 +99,7 @@ def enrich_log_entry(entry: dict[str, Any]) -> dict[str, Any]:
     }
 
     enriched["glyph_meanings"] = {
-        glyph: glyph_meanings.get(glyph, "Unknown Symbol")
-        for glyph in entry.get("glyphs", [])
+        glyph: glyph_meanings.get(glyph, "Unknown Symbol") for glyph in entry.get("glyphs", [])
     }
 
     # Calculate Trinity alignment
@@ -117,17 +116,13 @@ def enrich_log_entry(entry: dict[str, Any]) -> dict[str, Any]:
         risk_level = "medium"
 
     enriched["risk_level"] = risk_level
-    enriched["risk_indicator"] = {"low": "🟢", "medium": "🟡", "high": "🔴"}.get(
-        risk_level, "⚪"
-    )
+    enriched["risk_indicator"] = {"low": "🟢", "medium": "🟡", "high": "🔴"}.get(risk_level, "⚪")
 
     return enriched
 
 
 @log_router.get("/log")
-async def get_meta_logs(
-    limit: int = 50, user: AuthContext = Depends(require_t3_or_above)
-):
+async def get_meta_logs(limit: int = 50, user: AuthContext = Depends(require_t3_or_above)):
     """
     Get system logs with symbolic tracking.
 
@@ -147,14 +142,10 @@ async def get_meta_logs(
 
         # Calculate summary statistics
         total_entries = len(enriched_logs)
-        trinity_aligned = sum(
-            1 for log in enriched_logs if log.get("trinity_alignment", 0) >= 0.7
-        )
+        trinity_aligned = sum(1 for log in enriched_logs if log.get("trinity_alignment", 0) >= 0.7)
         risk_distribution = {
             "low": sum(1 for log in enriched_logs if log.get("risk_level") == "low"),
-            "medium": sum(
-                1 for log in enriched_logs if log.get("risk_level") == "medium"
-            ),
+            "medium": sum(1 for log in enriched_logs if log.get("risk_level") == "medium"),
             "high": sum(1 for log in enriched_logs if log.get("risk_level") == "high"),
         }
 
@@ -190,13 +181,11 @@ async def get_meta_logs(
 
     except Exception as e:
         logger.error(f"Error fetching meta logs: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to fetch logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch logs: {e!s}")
 
 
 @log_router.get("/log/guardian")
-async def get_guardian_logs(
-    limit: int = 20, user: AuthContext = Depends(get_current_user)
-):
+async def get_guardian_logs(limit: int = 20, user: AuthContext = Depends(get_current_user)):
     """
     Get Guardian-specific intervention logs.
 
@@ -242,25 +231,15 @@ async def get_guardian_logs(
             "guardian_summary": {
                 "total_interventions": len(enriched_guardian_logs),
                 "severity_distribution": {
-                    "low": sum(
-                        1
-                        for log in enriched_guardian_logs
-                        if log.get("severity") == "low"
-                    ),
+                    "low": sum(1 for log in enriched_guardian_logs if log.get("severity") == "low"),
                     "medium": sum(
-                        1
-                        for log in enriched_guardian_logs
-                        if log.get("severity") == "medium"
+                        1 for log in enriched_guardian_logs if log.get("severity") == "medium"
                     ),
                     "high": sum(
-                        1
-                        for log in enriched_guardian_logs
-                        if log.get("severity") == "high"
+                        1 for log in enriched_guardian_logs if log.get("severity") == "high"
                     ),
                     "critical": sum(
-                        1
-                        for log in enriched_guardian_logs
-                        if log.get("severity") == "critical"
+                        1 for log in enriched_guardian_logs if log.get("severity") == "critical"
                     ),
                 },
                 "average_drift": (
@@ -275,15 +254,11 @@ async def get_guardian_logs(
 
     except Exception as e:
         logger.error(f"Error fetching guardian logs: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"Failed to fetch guardian logs: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Failed to fetch guardian logs: {e!s}")
 
 
 @log_router.get("/log/export")
-async def export_logs(
-    format: str = "json", user: AuthContext = Depends(require_t3_or_above)
-):
+async def export_logs(format: str = "json", user: AuthContext = Depends(require_t3_or_above)):
     """
     Export logs in various formats.
 
@@ -357,4 +332,4 @@ async def export_logs(
         raise
     except Exception as e:
         logger.error(f"Error exporting logs: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to export logs: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to export logs: {e!s}")

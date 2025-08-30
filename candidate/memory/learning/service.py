@@ -44,15 +44,11 @@ try:
 except ImportError:
     # CAUTION: Fallback IdentityClient provides no real security or consent
     # checking. For development only.
-    logger.warn(
-        "identity_interface_not_found_using_fallback_client", path_searched=sys.path
-    )
+    logger.warn("identity_interface_not_found_using_fallback_client", path_searched=sys.path)
 
     class IdentityClient:
         # # Fallback: Verify user access (mock)
-        def verify_user_access(
-            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
-        ) -> bool:
+        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
             logger.debug(
                 "fallback_identity_verify_user_access",
                 user_id=user_id,
@@ -62,15 +58,11 @@ except ImportError:
 
         # # Fallback: Check consent (mock)
         def check_consent(self, user_id: str, action: str) -> bool:
-            logger.debug(
-                "fallback_identity_check_consent", user_id=user_id, action=action
-            )
+            logger.debug("fallback_identity_check_consent", user_id=user_id, action=action)
             return True
 
         # # Fallback: Log activity (mock)
-        def log_activity(
-            self, activity_type: str, user_id: str, metadata: dict[str, Any]
-        ) -> None:
+        def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
             # TRACE: Fallback activity logging.
             logger.info(
                 "fallback_identity_log_activity",
@@ -129,9 +121,7 @@ class LearningService:
             },
         }
         # TRACE: LearningService initialized
-        logger.info(
-            "learning_service_initialized", num_learning_modes=len(self.learning_modes)
-        )
+        logger.info("learning_service_initialized", num_learning_modes=len(self.learning_modes))
 
     # # Process and learn from new data sources
     # EXPOSE: Public API endpoint for data-driven learning.
@@ -178,9 +168,7 @@ class LearningService:
 
         mode_config = self.learning_modes[learning_mode]
 
-        if not self.identity_client.verify_user_access(
-            user_id, mode_config["min_tier"]
-        ):
+        if not self.identity_client.verify_user_access(user_id, mode_config["min_tier"]):
             logger.warn(
                 "insufficient_tier_for_learning",
                 user_id=user_id,
@@ -212,7 +200,9 @@ class LearningService:
             self._update_knowledge_base(learning_results)
 
             # Added microsecs
-            session_id = f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
+            session_id = (
+                f"learn_{learning_mode}_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
+            )
 
             self.identity_client.log_activity(
                 "learning_session_completed",
@@ -242,7 +232,7 @@ class LearningService:
                 "processed_at": datetime.now().isoformat(),
             }
         except Exception as e:
-            error_msg = f"Learning processing error: {str(e)}"
+            error_msg = f"Learning processing error: {e!s}"
             # TRACE: Learning error occurred.
             logger.error(
                 "learning_processing_error",
@@ -330,9 +320,7 @@ class LearningService:
             }
             self.knowledge_base["adaptation_history"].append(adaptation_record)
 
-            adaptation_id = (
-                f"adapt_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
-            )
+            adaptation_id = f"adapt_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "behavior_adapted",
@@ -360,7 +348,7 @@ class LearningService:
                 "adapted_at": datetime.now().isoformat(),
             }
         except Exception as e:
-            error_msg = f"Behavior adaptation error: {str(e)}"
+            error_msg = f"Behavior adaptation error: {e!s}"
             # TRACE: Behavior adaptation error.
             logger.error(
                 "behavior_adaptation_error",
@@ -439,9 +427,7 @@ class LearningService:
                 synthesis_results
             )  # NOTE: Updates internal knowledge graph.
 
-            synthesis_id = (
-                f"synthesis_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
-            )
+            synthesis_id = f"synthesis_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "knowledge_synthesized",
@@ -450,9 +436,7 @@ class LearningService:
                     "synthesis_id": synthesis_id,
                     "source_count": len(knowledge_sources),
                     "synthesis_method": synthesis_method,
-                    "knowledge_nodes": len(
-                        synthesis_results.get("knowledge_nodes", [])
-                    ),
+                    "knowledge_nodes": len(synthesis_results.get("knowledge_nodes", [])),
                     "synthesis_coherence": synthesis_results.get("coherence", 0.0),
                 },
             )
@@ -471,7 +455,7 @@ class LearningService:
                 "synthesized_at": datetime.now().isoformat(),
             }
         except Exception as e:
-            error_msg = f"Knowledge synthesis error: {str(e)}"
+            error_msg = f"Knowledge synthesis error: {e!s}"
             # TRACE: Knowledge synthesis error.
             logger.error(
                 "knowledge_synthesis_error",
@@ -547,9 +531,7 @@ class LearningService:
                 source_domain, target_domain, knowledge_to_transfer
             )
 
-            transfer_id = (
-                f"transfer_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
-            )
+            transfer_id = f"transfer_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "transfer_learning_completed",
@@ -558,17 +540,13 @@ class LearningService:
                     "transfer_id": transfer_id,
                     "source_domain": source_domain,
                     "target_domain": target_domain,
-                    "knowledge_elements": len(
-                        knowledge_to_transfer.get("elements", [])
-                    ),
+                    "knowledge_elements": len(knowledge_to_transfer.get("elements", [])),
                     "transfer_success": transfer_results.get("success_rate", 0.0),
                     "domain_similarity": transfer_results.get("domain_similarity", 0.0),
                 },
             )
             # TRACE: Transfer learning successful.
-            logger.info(
-                "transfer_learning_successful", transfer_id=transfer_id, user_id=user_id
-            )
+            logger.info("transfer_learning_successful", transfer_id=transfer_id, user_id=user_id)
             return {
                 "success": True,
                 "transfer_id": transfer_id,
@@ -578,7 +556,7 @@ class LearningService:
                 "transferred_at": datetime.now().isoformat(),
             }
         except Exception as e:
-            error_msg = f"Transfer learning error: {str(e)}"
+            error_msg = f"Transfer learning error: {e!s}"
             # TRACE: Transfer learning error.
             logger.error(
                 "transfer_learning_error",
@@ -599,9 +577,7 @@ class LearningService:
 
     # # Get learning performance metrics
     # EXPOSE: Public API to retrieve learning metrics.
-    def get_learning_metrics(
-        self, user_id: str, include_detailed: bool = False
-    ) -> dict[str, Any]:
+    def get_learning_metrics(self, user_id: str, include_detailed: bool = False) -> dict[str, Any]:
         """
         Get learning performance metrics and statistics.
 
@@ -647,9 +623,7 @@ class LearningService:
             metrics_data = self.knowledge_base["learning_metrics"].copy()
 
             if include_detailed:
-                if not self.identity_client.verify_user_access(
-                    user_id, "LAMBDA_TIER_2"
-                ):
+                if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_2"):
                     logger.warn(
                         "insufficient_tier_for_detailed_metrics",
                         user_id=user_id,
@@ -672,9 +646,7 @@ class LearningService:
                 user_id,
                 {
                     "include_detailed": include_detailed,
-                    "total_sessions": metrics_data.get(
-                        "total_sessions", 0
-                    ),  # Use .get for safety
+                    "total_sessions": metrics_data.get("total_sessions", 0),  # Use .get for safety
                     "retention_score": metrics_data.get("knowledge_retention", 0.0),
                 },
             )
@@ -687,17 +659,13 @@ class LearningService:
             return {
                 "success": True,
                 "learning_metrics": metrics_data,
-                "knowledge_base_size": len(
-                    self.knowledge_base.get("learned_patterns", [])
-                ),
+                "knowledge_base_size": len(self.knowledge_base.get("learned_patterns", [])),
                 "accessed_at": datetime.now().isoformat(),
             }
         except Exception as e:
-            error_msg = f"Learning metrics access error: {str(e)}"
+            error_msg = f"Learning metrics access error: {e!s}"
             # TRACE: Metrics access error.
-            logger.error(
-                "metrics_access_error", user_id=user_id, error=error_msg, exc_info=True
-            )
+            logger.error("metrics_access_error", user_id=user_id, error=error_msg, exc_info=True)
             self.identity_client.log_activity(
                 "metrics_access_error",
                 user_id,
@@ -746,9 +714,7 @@ class LearningService:
             "_update_knowledge_base_stub",
             num_patterns_to_add=len(learning_results.get("patterns", [])),
         )
-        self.knowledge_base["learned_patterns"].extend(
-            learning_results.get("patterns", [])
-        )
+        self.knowledge_base["learned_patterns"].extend(learning_results.get("patterns", []))
         self.knowledge_base["learning_metrics"]["total_sessions"] += 1
         self.knowledge_base["learning_metrics"]["knowledge_retention"] = (
             self.knowledge_base["learning_metrics"]["knowledge_retention"] * 0.9
@@ -762,8 +728,7 @@ class LearningService:
         # TRACE: Getting knowledge updates (stub)
         logger.debug("_get_knowledge_updates_stub")
         return {
-            "patterns_added": len(self.knowledge_base["learned_patterns"])
-            % 10,  # Example metric
+            "patterns_added": len(self.knowledge_base["learned_patterns"]) % 10,  # Example metric
             "knowledge_base_size": len(self.knowledge_base["learned_patterns"]),
             "last_update": datetime.now().isoformat(),
         }
@@ -813,8 +778,7 @@ class LearningService:
 
         return {
             "knowledge_nodes": [
-                f"node_{i}"
-                for i in range(total_elements // 2 if total_elements > 1 else 1)
+                f"node_{i}" for i in range(total_elements // 2 if total_elements > 1 else 1)
             ],
             "coherence": random.uniform(0.7, 0.95),
             "synthesis_method": method,
@@ -831,9 +795,7 @@ class LearningService:
             "_update_knowledge_graph_stub",
             num_nodes_to_add=len(synthesis_results.get("knowledge_nodes", [])),
         )
-        for node_name in synthesis_results.get(
-            "knowledge_nodes", []
-        ):  # Renamed node to node_name
+        for node_name in synthesis_results.get("knowledge_nodes", []):  # Renamed node to node_name
             self.knowledge_base["knowledge_graph"][node_name] = {  # Use node_name
                 "connections": random.randint(1, 5),
                 "strength": random.uniform(0.5, 1.0),
@@ -883,9 +845,7 @@ class LearningService:
         logger.debug("_analyze_adaptation_trends_stub")
         return {
             "adaptation_frequency": len(self.knowledge_base["adaptation_history"]),
-            "success_trend": (
-                "improving" if random.random() > 0.3 else "stable"
-            ),  # Example trend
+            "success_trend": ("improving" if random.random() > 0.3 else "stable"),  # Example trend
             "most_adapted_behaviors": random.sample(
                 ["problem_solving", "communication", "planning"], k=2
             ),  # Example
@@ -936,9 +896,7 @@ def adapt_behavior(
 
 # # Simplified API for knowledge synthesis
 # EXPOSE: Convenience function.
-def synthesize_knowledge(
-    user_id: str, knowledge_sources: list[dict[str, Any]]
-) -> dict[str, Any]:
+def synthesize_knowledge(user_id: str, knowledge_sources: list[dict[str, Any]]) -> dict[str, Any]:
     """Simplified API for knowledge synthesis."""
     # NOTE: Convenience function.
     # TRACE: synthesize_knowledge (module function) called

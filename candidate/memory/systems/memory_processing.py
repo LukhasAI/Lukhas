@@ -86,9 +86,7 @@ class MemoryProcessor:
                 self.memories[user_id], key=lambda x: x.importance, reverse=True
             )[: self.max_memories]
 
-        logger.info(
-            f"Stored memory for user {user_id} with importance {memory.importance:.2f}"
-        )
+        logger.info(f"Stored memory for user {user_id} with importance {memory.importance:.2f}")
 
     def get_relevant_memories(
         self, user_id: str, context: dict[str, Any], limit: int = 5
@@ -100,9 +98,7 @@ class MemoryProcessor:
         def calculate_relevance(memory: MemoryNode) -> float:
             # Context matching score (0-1)
             context_score = sum(
-                1
-                for k, v in context.items()
-                if k in memory.context and memory.context[k] == v
+                1 for k, v in context.items() if k in memory.context and memory.context[k] == v
             )
             context_score = context_score / max(len(context), len(memory.context))
 
@@ -160,9 +156,7 @@ class MemoryProcessor:
 
         if timeframe:
             cutoff = datetime.datetime.now() - timeframe
-            relevant_memories = [
-                m for m in self.memories[user_id] if m.timestamp >= cutoff
-            ]
+            relevant_memories = [m for m in self.memories[user_id] if m.timestamp >= cutoff]
         else:
             relevant_memories = self.memories[user_id]
 
@@ -222,7 +216,7 @@ class MemoryProcessor:
                 imported_count += 1
 
             except (KeyError, ValueError) as e:
-                logger.error(f"Error importing memory: {str(e)}")
+                logger.error(f"Error importing memory: {e!s}")
                 continue
 
         return imported_count

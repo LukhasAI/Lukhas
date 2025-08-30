@@ -111,9 +111,7 @@ class TemporalFrame:
     consciousness_signature: Optional[str] = None
     market_correlation: float = 0.0
     sovereign_assertion: bool = False
-    validity_window: timedelta = field(
-        default_factory=lambda: timedelta(milliseconds=100)
-    )
+    validity_window: timedelta = field(default_factory=lambda: timedelta(milliseconds=100))
 
 
 @dataclass
@@ -365,17 +363,11 @@ class TemporalAnimationEngine:
                     base_matrix, frame_idx, frame_count, consciousness_context
                 )
             elif animation_type == AnimationType.FIBONACCI_SPIRAL:
-                frame = self._generate_fibonacci_frame(
-                    base_matrix, frame_idx, frame_count
-                )
+                frame = self._generate_fibonacci_frame(base_matrix, frame_idx, frame_count)
             elif animation_type == AnimationType.NEURAL_FIRE:
-                frame = self._generate_neural_fire_frame(
-                    base_matrix, frame_idx, frame_count
-                )
+                frame = self._generate_neural_fire_frame(base_matrix, frame_idx, frame_count)
             elif animation_type == AnimationType.DIMENSIONAL_SHIFT:
-                frame = self._generate_dimensional_shift_frame(
-                    base_matrix, frame_idx, frame_count
-                )
+                frame = self._generate_dimensional_shift_frame(base_matrix, frame_idx, frame_count)
             elif animation_type == AnimationType.LAMBDA_METAMORPHOSIS:
                 frame = self._generate_lambda_metamorphosis_frame(
                     base_matrix, frame_idx, frame_count
@@ -389,9 +381,7 @@ class TemporalAnimationEngine:
                     base_matrix, frame_idx, frame_count, market_state
                 )
             else:
-                frame = self._generate_default_frame(
-                    base_matrix, frame_idx, frame_count
-                )
+                frame = self._generate_default_frame(base_matrix, frame_idx, frame_count)
 
             # Add quantum signature if enabled
             if self.qi_enhanced:
@@ -433,9 +423,7 @@ class TemporalAnimationEngine:
         # Cache for performance
         self.animation_cache[sequence.sequence_id] = sequence
 
-        logger.info(
-            f"✨ TEMPORAL AUTHENTICATION GENERATED - {len(frames)} FRAMES OF SOVEREIGNTY"
-        )
+        logger.info(f"✨ TEMPORAL AUTHENTICATION GENERATED - {len(frames)} FRAMES OF SOVEREIGNTY")
         return sequence
 
     def _generate_quantum_pulse_frame(
@@ -587,9 +575,7 @@ class TemporalAnimationEngine:
                 if 0 <= x < width and 0 <= y < height:
                     # Rotate colors based on Fibonacci
                     if len(spiral_matrix.shape) == 3:
-                        spiral_matrix[y, x] = np.roll(
-                            spiral_matrix[y, x], fib_value % 3
-                        )
+                        spiral_matrix[y, x] = np.roll(spiral_matrix[y, x], fib_value % 3)
 
         motion_vectors = {
             "fibonacci_value": float(fib_value),
@@ -667,9 +653,7 @@ class TemporalAnimationEngine:
             "symbol_rotation": frame_idx * 1.0,
         }
 
-        temporal_hash = hashlib.sha3_256(
-            f"LAMBDA_{frame_idx}{morph_factor}".encode()
-        ).hexdigest()
+        temporal_hash = hashlib.sha3_256(f"LAMBDA_{frame_idx}{morph_factor}".encode()).hexdigest()
 
         return TemporalFrame(
             frame_id=f"LAM_{frame_idx:06d}",
@@ -710,9 +694,9 @@ class TemporalAnimationEngine:
                 sovereign_matrix[:, :, 1] * (1 + aura_strength * 0.3), 0, 255
             ).astype(np.uint8)
         else:
-            sovereign_matrix = np.clip(
-                sovereign_matrix * (1 + aura_strength), 0, 255
-            ).astype(np.uint8)
+            sovereign_matrix = np.clip(sovereign_matrix * (1 + aura_strength), 0, 255).astype(
+                np.uint8
+            )
 
         motion_vectors = {
             "sovereignty_level": float(sovereignty_level),
@@ -984,9 +968,7 @@ class TemporalAnimationEngine:
         total_tokens = len(self.token_cache)
 
         # Calculate market disruption value
-        total_disruption = sum(
-            seq.disruption_factor for seq in self.animation_cache.values()
-        )
+        total_disruption = sum(seq.disruption_factor for seq in self.animation_cache.values())
 
         market_value = total_disruption * 100_000_000  # $100M per disruption point
 

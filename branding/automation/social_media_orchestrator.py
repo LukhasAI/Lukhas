@@ -89,9 +89,7 @@ class SocialMediaOrchestrator:
             "instagram": PlatformConfig("Instagram", True, 2200, True, False),
             "linkedin": PlatformConfig("LinkedIn", True, 3000, True, False),
             "reddit": PlatformConfig("Reddit", True, 10000, True, False),
-            "youtube": PlatformConfig(
-                "YouTube", False, 5000, True, False
-            ),  # Scripts only
+            "youtube": PlatformConfig("YouTube", False, 5000, True, False),  # Scripts only
         }
 
         self.content_queue = []
@@ -116,9 +114,7 @@ class SocialMediaOrchestrator:
             except Exception as e:
                 self.logger.warning(f"⚠️ Live API integration failed: {e}")
         else:
-            self.logger.info(
-                "ℹ️ Live API integration not available - running in simulation mode"
-            )
+            self.logger.info("ℹ️ Live API integration not available - running in simulation mode")
 
         # Initialize orchestrator
         db.log_system_activity(
@@ -135,16 +131,11 @@ class SocialMediaOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = (
-            self.logs_path
-            / f"social_media_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        )
+        log_file = self.logs_path / f"social_media_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -159,9 +150,7 @@ class SocialMediaOrchestrator:
             try:
                 with open(self.content_queue_path) as f:
                     queue_data = json.load(f)
-                self.content_queue = [
-                    ContentPost(**post) for post in queue_data.get("posts", [])
-                ]
+                self.content_queue = [ContentPost(**post) for post in queue_data.get("posts", [])]
                 self.logger.info(f"Loaded {len(self.content_queue)} posts from queue")
             except Exception as e:
                 self.logger.error(f"Failed to load content queue: {e}")
@@ -177,21 +166,16 @@ class SocialMediaOrchestrator:
                     platform_config.api_configured = (
                         status["credentials_configured"] and status["library_available"]
                     )
-                    platform_config.live_posting = (
-                        platform_config.api_configured
-                        and status.get("client_initialized", False)
+                    platform_config.live_posting = platform_config.api_configured and status.get(
+                        "client_initialized", False
                     )
 
                     if platform_config.live_posting:
                         self.logger.info(f"✅ {platform_name} ready for live posting")
                     elif platform_config.api_configured:
-                        self.logger.info(
-                            f"⚠️ {platform_name} configured but client not initialized"
-                        )
+                        self.logger.info(f"⚠️ {platform_name} configured but client not initialized")
                     else:
-                        self.logger.info(
-                            f"❌ {platform_name} not configured for live posting"
-                        )
+                        self.logger.info(f"❌ {platform_name} not configured for live posting")
 
     def _save_configuration(self):
         """Save content queue configuration"""
@@ -271,11 +255,7 @@ class SocialMediaOrchestrator:
 
         # Extract theme from filename
         image_name = selected_image.stem
-        theme = (
-            image_name.replace("dream_", "")
-            .replace("nias_dream_", "")
-            .replace("_", " ")
-        )
+        theme = image_name.replace("dream_", "").replace("nias_dream_", "").replace("_", " ")
 
         dream_narratives = [
             {
@@ -301,9 +281,7 @@ class SocialMediaOrchestrator:
         full_content = f"{selected_narrative['opening']}\n\n{selected_narrative['story']}\n\n{selected_narrative['reflection']}"
 
         # Enhance with vocabulary transformation
-        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
-            full_content, "dreams"
-        )
+        enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "dreams")
 
         hashtags = [
             "#LUKHASAIDreams",
@@ -451,9 +429,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(philosophy_templates)
 
         # Build substantial LinkedIn post
-        full_content = (
-            f"{selected['opening']}\n\n{selected['body']}\n\n{selected['reflection']}"
-        )
+        full_content = f"{selected['opening']}\n\n{selected['body']}\n\n{selected['reflection']}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(
@@ -604,10 +580,7 @@ class SocialMediaOrchestrator:
                             quality_result = improved_result
 
                         # Approve content based on enhanced quality
-                        if (
-                            quality_result.approved
-                            and quality_result.overall_quality >= 0.80
-                        ):
+                        if quality_result.approved and quality_result.overall_quality >= 0.80:
                             daily_posts.append(post)
                             self.logger.info(
                                 f"✅ Enhanced quality approved: {post.title} (Score: {quality_result.overall_quality * 100:.1f}%, Grade: {quality_result.quality_grade})"
@@ -640,9 +613,7 @@ class SocialMediaOrchestrator:
                                 f"❌ Fallback quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})"
                             )
             except Exception as e:
-                self.logger.error(
-                    f"Failed to generate content with {generator.__name__}: {e}"
-                )
+                self.logger.error(f"Failed to generate content with {generator.__name__}: {e}")
 
         # Add posts to queue for admin approval
         self.content_queue.extend(daily_posts)
@@ -661,11 +632,7 @@ class SocialMediaOrchestrator:
 
     def get_pending_approval_posts(self) -> list[ContentPost]:
         """Get posts pending admin approval"""
-        return [
-            post
-            for post in self.content_queue
-            if not post.approved and not post.published
-        ]
+        return [post for post in self.content_queue if not post.approved and not post.published]
 
     def approve_post(self, post_id: str) -> bool:
         """Approve a post for publishing"""
@@ -685,9 +652,7 @@ class SocialMediaOrchestrator:
 
     def reject_post(self, post_id: str, reason: str = "") -> bool:
         """Reject a post"""
-        self.content_queue = [
-            post for post in self.content_queue if post.post_id != post_id
-        ]
+        self.content_queue = [post for post in self.content_queue if post.post_id != post_id]
         self._save_configuration()
 
         db.log_system_activity(
@@ -705,14 +670,10 @@ class SocialMediaOrchestrator:
         ]
 
         # Determine publishing mode
-        use_live_apis = (
-            live_mode if live_mode is not None else self.live_posting_enabled
-        )
+        use_live_apis = live_mode if live_mode is not None else self.live_posting_enabled
         mode_text = "🚀 LIVE POSTING" if use_live_apis else "🎭 SIMULATION"
 
-        self.logger.info(
-            f"{mode_text} - Publishing {len(approved_posts)} approved posts"
-        )
+        self.logger.info(f"{mode_text} - Publishing {len(approved_posts)} approved posts")
 
         published_count = 0
         failed_count = 0
@@ -729,9 +690,7 @@ class SocialMediaOrchestrator:
                     and platform_config.live_posting
                 ):
                     # Live API posting
-                    self.logger.info(
-                        f"🚀 Live posting to {post.platform}: {post.title}"
-                    )
+                    self.logger.info(f"🚀 Live posting to {post.platform}: {post.title}")
 
                     # Prepare media paths
                     media_paths = (
@@ -746,9 +705,7 @@ class SocialMediaOrchestrator:
                         content=post.content,
                         title=post.title,
                         media_paths=media_paths,
-                        subreddit="ConsciousnessTechnology"
-                        if post.platform == "reddit"
-                        else None,
+                        subreddit="ConsciousnessTechnology" if post.platform == "reddit" else None,
                     )
 
                     if post_result.success:
@@ -798,9 +755,7 @@ class SocialMediaOrchestrator:
 
                 else:
                     # Simulation mode
-                    self.logger.info(
-                        f"🎭 Simulating publish to {post.platform}: {post.title}"
-                    )
+                    self.logger.info(f"🎭 Simulating publish to {post.platform}: {post.title}")
 
                     post.published = True
                     published_count += 1
@@ -839,9 +794,7 @@ class SocialMediaOrchestrator:
             "total_approved": len(approved_posts),
             "live_posting_used": use_live_apis,
             "posting_results": results,
-            "platforms_configured": sum(
-                1 for p in self.platforms.values() if p.live_posting
-            )
+            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting)
             if use_live_apis
             else 0,
         }
@@ -851,9 +804,7 @@ class SocialMediaOrchestrator:
         total_posts = len(self.content_queue)
         approved_posts = len([p for p in self.content_queue if p.approved])
         published_posts = len([p for p in self.content_queue if p.published])
-        pending_posts = len(
-            [p for p in self.content_queue if not p.approved and not p.published]
-        )
+        pending_posts = len([p for p in self.content_queue if not p.approved and not p.published])
 
         # Platform distribution
         platform_counts = {}
@@ -879,20 +830,14 @@ class SocialMediaOrchestrator:
             "approved_content": approved_posts,
             "published_content": published_posts,
             "pending_approval": pending_posts,
-            "approval_rate": (approved_posts / total_posts * 100)
-            if total_posts > 0
-            else 0,
-            "publish_rate": (published_posts / approved_posts * 100)
-            if approved_posts > 0
-            else 0,
+            "approval_rate": (approved_posts / total_posts * 100) if total_posts > 0 else 0,
+            "publish_rate": (published_posts / approved_posts * 100) if approved_posts > 0 else 0,
             "platform_distribution": platform_counts,
             "content_type_distribution": content_type_counts,
             "trinity_integration": "⚛️🧠🛡️ Active",
             "live_posting_enabled": self.live_posting_enabled,
             "platforms_configured_for_live": live_platforms,
-            "api_integration_status": "🚀 LIVE"
-            if self.live_posting_enabled
-            else "🎭 SIMULATION",
+            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",
         }
 
     def get_api_status(self) -> dict[str, Any]:
@@ -926,9 +871,7 @@ class SocialMediaOrchestrator:
             "api_manager_available": True,
             "live_posting_enabled": self.live_posting_enabled,
             "platforms": platform_details,
-            "platforms_ready_for_live": sum(
-                1 for p in self.platforms.values() if p.live_posting
-            ),
+            "platforms_ready_for_live": sum(1 for p in self.platforms.values() if p.live_posting),
             "total_platforms": len(self.platforms),
         }
 

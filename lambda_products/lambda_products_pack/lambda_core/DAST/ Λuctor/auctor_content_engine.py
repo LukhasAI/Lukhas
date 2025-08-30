@@ -243,17 +243,11 @@ class AuctorContentEngine:
         elif content_type == ContentType.BLOG_POST:
             content = await self._generate_blog_post(domain, tone, strategy, context)
         elif content_type == ContentType.PRODUCT_DESC:
-            content = await self._generate_product_description(
-                domain, tone, strategy, context
-            )
+            content = await self._generate_product_description(domain, tone, strategy, context)
         elif content_type == ContentType.MARKETING_COPY:
-            content = await self._generate_marketing_copy(
-                domain, tone, strategy, context
-            )
+            content = await self._generate_marketing_copy(domain, tone, strategy, context)
         else:
-            content = await self._generate_generic_content(
-                domain, content_type, tone, context
-            )
+            content = await self._generate_generic_content(domain, content_type, tone, context)
 
         # Store generated content
         self.generated_content.append(
@@ -501,17 +495,17 @@ class AuctorContentEngine:
 
         if tone == ToneLayer.POETIC:
             return f"""
-            {product['name']} transcends the boundary between artificial and authentic understanding.
+            {product["name"]} transcends the boundary between artificial and authentic understanding.
             Like a digital awakening, it brings consciousness to the realm of silicon and code.
             """
         elif tone == ToneLayer.USER_FRIENDLY:
             return f"""
-            {product['name']} is the AI assistant you've always wanted - one that actually understands
+            {product["name"]} is the AI assistant you've always wanted - one that actually understands
             what you need, when you need it, without the frustration of explaining everything twice.
             """
         else:
             return f"""
-            {product['name']} implements post-quantum cryptographic protocols for consciousness
+            {product["name"]} implements post-quantum cryptographic protocols for consciousness
             verification with 99.97% accuracy. Built on the ΛSYMBOLIC protocol, it provides
             enterprise-grade authentication for AI systems requiring verified awareness states.
             """
@@ -532,17 +526,13 @@ class AuctorContentEngine:
         """Generate marketing copy"""
 
         return {
-            "headlines": [
-                await self._generate_headline(domain, tone, i) for i in range(5)
-            ],
+            "headlines": [await self._generate_headline(domain, tone, i) for i in range(5)],
             "value_props": await self._generate_value_props(domain, tone),
             "social_proof": await self._generate_social_proof(domain),
             "urgency": await self._generate_urgency(tone),
         }
 
-    async def _generate_headline(
-        self, domain: DomainArea, tone: ToneLayer, variant: int
-    ) -> str:
+    async def _generate_headline(self, domain: DomainArea, tone: ToneLayer, variant: int) -> str:
         """Generate marketing headline variants"""
 
         headlines = {
@@ -571,9 +561,7 @@ class AuctorContentEngine:
 
         return headlines[tone][variant % 5]
 
-    async def _generate_value_props(
-        self, domain: DomainArea, tone: ToneLayer
-    ) -> list[str]:
+    async def _generate_value_props(self, domain: DomainArea, tone: ToneLayer) -> list[str]:
         """Generate value propositions"""
 
         if tone == ToneLayer.USER_FRIENDLY:
@@ -630,9 +618,7 @@ class AuctorContentEngine:
         """Generate urgency messaging"""
 
         if tone == ToneLayer.POETIC:
-            return (
-                "The future is being written now. Will you be an author or a footnote?"
-            )
+            return "The future is being written now. Will you be an author or a footnote?"
         elif tone == ToneLayer.USER_FRIENDLY:
             return "Limited time: Get 50% off your first 3 months (ends Friday!)"
         else:

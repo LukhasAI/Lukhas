@@ -118,9 +118,7 @@ class LUKHASAuthIntegrationSystem:
         # Initialize components
         self.guardian = (
             AuthenticationGuardian(
-                drift_threshold=self.config.get("guardian", {}).get(
-                    "drift_threshold", 0.15
-                ),
+                drift_threshold=self.config.get("guardian", {}).get("drift_threshold", 0.15),
                 enable_bias_detection=True,
                 enable_constitutional_ai=True,
             )
@@ -130,9 +128,7 @@ class LUKHASAuthIntegrationSystem:
 
         self.glyph_registry = auth_glyph_registry if enable_glyph_registry else None
         self.policy_engine = auth_governance_policy_engine if enable_policies else None
-        self.cross_module_integrator = (
-            auth_cross_module_integrator if enable_cross_module else None
-        )
+        self.cross_module_integrator = auth_cross_module_integrator if enable_cross_module else None
 
         # Integration state
         self.active_sessions: dict[str, dict[str, Any]] = {}
@@ -171,9 +167,7 @@ class LUKHASAuthIntegrationSystem:
             "policy_violations": 10,
         }
 
-        logger.info(
-            f"LUKHAS Authentication Integration System initialized: {self.system_id}"
-        )
+        logger.info(f"LUKHAS Authentication Integration System initialized: {self.system_id}")
 
     def _get_default_config(self) -> dict[str, Any]:
         """Get default integration configuration"""
@@ -228,19 +222,17 @@ class LUKHASAuthIntegrationSystem:
             asyncio.create_task(self._background_monitoring())
 
             self.health_status.overall_status = "healthy"
-            logger.info(
-                f"Integration system initialized successfully: {self.system_id}"
-            )
+            logger.info(f"Integration system initialized successfully: {self.system_id}")
 
             return True
 
         except Exception as e:
             logger.error(f"Failed to initialize integration system: {e}")
             self.health_status.overall_status = "unhealthy"
-            self.health_status.active_alerts.append(f"Initialization failed: {str(e)}")
+            self.health_status.active_alerts.append(f"Initialization failed: {e!s}")
             return False
 
-    async def process_authentication_event(  # noqa: PLR0912, PLR0915
+    async def process_authentication_event(
         self,
         user_id: str,
         event_type: str,
@@ -282,13 +274,19 @@ class LUKHASAuthIntegrationSystem:
             auth_event = self._convert_to_auth_event_type(event_type)
 
             # Phase 1–4: modular helpers
-            await self._phase_guardian(result, auth_event, user_id, tier_level, outcome, auth_context)
+            await self._phase_guardian(
+                result, auth_event, user_id, tier_level, outcome, auth_context
+            )
             await self._phase_policies(result, tier_level, auth_context)
             self._phase_glyph(result, user_id, tier_level, auth_context, outcome)
-            await self._phase_cross_module(result, user_id, auth_event, auth_context, event_type, outcome, tier_level)
+            await self._phase_cross_module(
+                result, user_id, auth_event, auth_context, event_type, outcome, tier_level
+            )
 
             # Session management + finalize
-            await self._phase_session_and_finalize(result, user_id, tier_level, auth_context, outcome, integration_start)
+            await self._phase_session_and_finalize(
+                result, user_id, tier_level, auth_context, outcome, integration_start
+            )
 
             return result
 
@@ -349,7 +347,8 @@ class LUKHASAuthIntegrationSystem:
 
         # Include Guardian for security events
         if (
-            event_type in [
+            event_type
+            in [
                 "constitutional_violation",
                 "bias_detection",
                 "login_failure",
@@ -377,9 +376,7 @@ class LUKHASAuthIntegrationSystem:
                 self.integration_metrics.policy_violations
                 + self.integration_metrics.constitutional_violations
             )
-            self.integration_metrics.compliance_rate = max(
-                0.0, 1.0 - (violations / total_auth)
-            )
+            self.integration_metrics.compliance_rate = max(0.0, 1.0 - (violations / total_auth))
 
         # Update average drift score
         if "guardian" in result.get("components", {}):
@@ -391,9 +388,7 @@ class LUKHASAuthIntegrationSystem:
 
         # Update uptime
         uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
-        self.integration_metrics.integration_uptime = (
-            uptime_seconds / 3600
-        )  # Convert to hours
+        self.integration_metrics.integration_uptime = uptime_seconds / 3600  # Convert to hours
 
         self.integration_metrics.last_updated = datetime.now()
 
@@ -432,9 +427,7 @@ class LUKHASAuthIntegrationSystem:
             # Check Guardian status
             if self.guardian_enabled and self.guardian:
                 guardian_summary = self.guardian.get_drift_summary()
-                self.health_status.guardian_status = guardian_summary.get(
-                    "status", "unknown"
-                )
+                self.health_status.guardian_status = guardian_summary.get("status", "unknown")
             else:
                 self.health_status.guardian_status = "disabled"
 
@@ -453,27 +446,19 @@ class LUKHASAuthIntegrationSystem:
                 violation_rate = policy_summary["total_violations"] / max(
                     1, self.integration_metrics.total_authentications
                 )
-                self.health_status.policy_status = (
-                    "healthy" if violation_rate < 0.1 else "degraded"
-                )
+                self.health_status.policy_status = "healthy" if violation_rate < 0.1 else "degraded"
             else:
                 self.health_status.policy_status = "disabled"
 
             # Check cross-module integration status
             if self.cross_module_enabled and self.cross_module_integrator:
-                integration_status = (
-                    self.cross_module_integrator.get_integration_status()
-                )
-                self.health_status.cross_module_status = integration_status.get(
-                    "status", "unknown"
-                )
+                integration_status = self.cross_module_integrator.get_integration_status()
+                self.health_status.cross_module_status = integration_status.get("status", "unknown")
             else:
                 self.health_status.cross_module_status = "disabled"
 
             # Calculate compliance score
-            self.health_status.compliance_score = (
-                self.integration_metrics.compliance_rate
-            )
+            self.health_status.compliance_score = self.integration_metrics.compliance_rate
 
             # Determine overall status
             component_statuses = [
@@ -483,9 +468,7 @@ class LUKHASAuthIntegrationSystem:
                 self.health_status.cross_module_status,
             ]
 
-            enabled_statuses = [
-                status for status in component_statuses if status != "disabled"
-            ]
+            enabled_statuses = [status for status in component_statuses if status != "disabled"]
 
             if any(status == "unhealthy" for status in enabled_statuses):
                 self.health_status.overall_status = "unhealthy"
@@ -511,18 +494,12 @@ class LUKHASAuthIntegrationSystem:
             current_alerts = []
 
             # Check thresholds
-            if (
-                self.integration_metrics.drift_score_average
-                >= self.alert_thresholds["drift_score"]
-            ):
+            if self.integration_metrics.drift_score_average >= self.alert_thresholds["drift_score"]:
                 current_alerts.append(
                     f"High average drift score: {self.integration_metrics.drift_score_average:.3f}"
                 )
 
-            if (
-                self.integration_metrics.compliance_rate
-                < self.alert_thresholds["compliance_rate"]
-            ):
+            if self.integration_metrics.compliance_rate < self.alert_thresholds["compliance_rate"]:
                 current_alerts.append(
                     f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}"
                 )
@@ -535,10 +512,7 @@ class LUKHASAuthIntegrationSystem:
                     f"High constitutional violations: {self.integration_metrics.constitutional_violations}"
                 )
 
-            if (
-                self.integration_metrics.bias_detections
-                >= self.alert_thresholds["bias_detections"]
-            ):
+            if self.integration_metrics.bias_detections >= self.alert_thresholds["bias_detections"]:
                 current_alerts.append(
                     f"Multiple bias detections: {self.integration_metrics.bias_detections}"
                 )
@@ -615,14 +589,10 @@ class LUKHASAuthIntegrationSystem:
             report["glyph_registry_stats"] = self.glyph_registry.get_registry_stats()
 
         if self.policy_engine and self.policies_enabled:
-            report["policy_violations_summary"] = (
-                self.policy_engine.get_violation_summary()
-            )
+            report["policy_violations_summary"] = self.policy_engine.get_violation_summary()
 
         if self.cross_module_integrator and self.cross_module_enabled:
-            report["cross_module_status"] = (
-                self.cross_module_integrator.get_integration_status()
-            )
+            report["cross_module_status"] = self.cross_module_integrator.get_integration_status()
 
         return report
 
@@ -648,8 +618,8 @@ lukhas_auth_integration_system = LUKHASAuthIntegrationSystem()
 
 # Export main class and instance
 __all__ = [
-    "LUKHASAuthIntegrationSystem",
-    "IntegrationHealthStatus",
     "AuthIntegrationMetrics",
+    "IntegrationHealthStatus",
+    "LUKHASAuthIntegrationSystem",
     "lukhas_auth_integration_system",
 ]

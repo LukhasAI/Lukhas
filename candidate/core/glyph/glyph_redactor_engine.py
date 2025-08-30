@@ -23,9 +23,7 @@ import structlog
 # TAG:colony
 
 log = structlog.get_logger(__name__)
-log.info(
-    "core.symbolic.security.glyph_redactor_engine module loaded (conceptual pseudocode)"
-)
+log.info("core.symbolic.security.glyph_redactor_engine module loaded (conceptual pseudocode)")
 
 # --- Constants & Placeholders ---
 
@@ -52,7 +50,6 @@ REDACTION_TEXT_SUFFIX = "]"
 
 
 class IGlyphMetadataProvider:  # #AINTERFACE_STUB
-
     def get_glyph_sensitivity(self, glyph_char: str) -> Optional[str]:
         """Returns the sensitivity level string (e.g., 'G2_INTERNAL_DIAGNOSTIC') for a glyph."""
         # In a real system, this would look up from GLYPH_MAP extended with security schema data.
@@ -218,9 +215,7 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             )
             return REDACTION_GLYPH_FULL_MASK * len(glyph_char)
 
-    def redact_stream(
-        self, text_stream_with_glyphs: str, redaction_mode: str = "strict"
-    ) -> str:
+    def redact_stream(self, text_stream_with_glyphs: str, redaction_mode: str = "strict") -> str:
         """
         Processes a stream of text, identifies known glyphs, and redacts them based on
         the engine's access context and the glyph's sensitivity.
@@ -246,9 +241,7 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
                 # Pass a snippet of context for potential future use, not fully
                 # implemented here
                 context_snippet = text_stream_with_glyphs[
-                    max(0, match.start() - 10) : min(
-                        len(text_stream_with_glyphs), match.end() + 10
-                    )
+                    max(0, match.start() - 10) : min(len(text_stream_with_glyphs), match.end() + 10)
                 ]
                 return self.redact_glyph(
                     glyph_char,
@@ -291,9 +284,7 @@ def sample_redaction_scenario():
 
     log_line_1 = "System check ✅, all normal. Process 🧭 flow A->B. Minor drift 🌊 noted. User 'xyz' activity 🪞. Potential data issue ☣️ flagged."
     log.info("Original Log Line 1", line=log_line_1)
-    redacted_line_1_dev = dev_redactor.redact_stream(
-        log_line_1, redaction_mode="text_label"
-    )
+    redacted_line_1_dev = dev_redactor.redact_stream(log_line_1, redaction_mode="text_label")
     log.info("Redacted for Dev (G1)", line=redacted_line_1_dev)
     # Expected for Dev (G1 allows up to G1, redacts G2, G3, G4):
     # System check ✅, all normal. Process 🧭 flow A->B. Minor
@@ -307,9 +298,7 @@ def sample_redaction_scenario():
     }
     public_redactor = GlyphRedactorEngine(public_context, provider)
 
-    redacted_line_1_public = public_redactor.redact_stream(
-        log_line_1, redaction_mode="obfuscate"
-    )
+    redacted_line_1_public = public_redactor.redact_stream(log_line_1, redaction_mode="obfuscate")
     log.info("Redacted for Public (G0)", line=redacted_line_1_public)
     # Expected for Public (G0 allows only G0, obfuscates G1, G2, G3, G4):
     # System check ✅, all normal. Process 🕳️ flow A->B. Minor 🕳️ noted. User
@@ -322,9 +311,7 @@ def sample_redaction_scenario():
     }
     admin_redactor = GlyphRedactorEngine(admin_context, provider)
 
-    redacted_line_1_admin = admin_redactor.redact_stream(
-        log_line_1, redaction_mode="strict"
-    )
+    redacted_line_1_admin = admin_redactor.redact_stream(log_line_1, redaction_mode="strict")
     log.info(
         "Redacted for Admin (G4) - (no redactions expected)",
         line=redacted_line_1_admin,

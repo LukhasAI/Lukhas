@@ -23,13 +23,13 @@ from .openai_integration import ModulatedOpenAIClient, build_function_definition
 from .signals import ModulationParams, Signal, SignalModulator
 
 __all__ = [
-    "Signal",
-    "ModulationParams",
-    "SignalModulator",
-    "ModulatedOpenAIClient",
-    "build_function_definitions",
-    "EndocrineSignalEmitter",
     "EndocrineLLMOrchestrator",
+    "EndocrineSignalEmitter",
+    "ModulatedOpenAIClient",
+    "ModulationParams",
+    "Signal",
+    "SignalModulator",
+    "build_function_definitions",
 ]
 
 # Version and metadata

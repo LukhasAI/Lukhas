@@ -14,24 +14,29 @@ from typing import Any
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class NotionSyncConfig:
     """Configuration for Notion sync"""
+
     database_id: str = ""
     api_key: str = ""
     sync_enabled: bool = False
     auto_sync_time: str = "09:00"
     timezone: str = "UTC"
 
+
 @dataclass
 class DailyReport:
     """Daily LUKHAS AI ΛBot report structure"""
+
     date: str
     financial_data: dict[str, Any]
     ai_routing_data: dict[str, Any]
     system_health: dict[str, Any]
     recommendations: list[str]
     alerts: list[str]
+
 
 class ABotNotionSync:
     """Comprehensive LUKHAS AI ΛBot Notion sync system"""
@@ -75,6 +80,7 @@ class ABotNotionSync:
             from lukhas_ai_lambda_bot.core.abot_financial_intelligence import (
                 ABotFinancialIntelligence,
             )
+
             fi = ABotFinancialIntelligence()
             status = fi.get_financial_report()
 
@@ -92,7 +98,7 @@ class ABotNotionSync:
                 "today_spent": float(spending.get("today_spent", 0)),
                 "month_spent": float(spending.get("month_spent", 0)),
                 "calls_today": int(usage.get("calls_today", 0)),
-                "conservation_streak": int(intelligence.get("conservation_streak", 0))
+                "conservation_streak": int(intelligence.get("conservation_streak", 0)),
             }
         except Exception as e:
             logger.error(f"Error getting financial data: {e}")
@@ -100,13 +106,14 @@ class ABotNotionSync:
                 "error": str(e),
                 "current_balance": 0.10,
                 "daily_budget": 0.10,
-                "status": "error"
+                "status": "error",
             }
 
     def get_ai_routing_data(self) -> dict[str, Any]:
         """Get AI routing system data"""
         try:
             from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
+
             router = ABotIntelligentAIRouter()
 
             services = router.get_available_services()
@@ -119,15 +126,11 @@ class ABotNotionSync:
                 "service_usage": analytics.get("service_usage", {}),
                 "last_used_service": analytics.get("last_used_service", "none"),
                 "success_rate": analytics.get("success_rate", 100.0),
-                "avg_response_time": analytics.get("avg_response_time", 0)
+                "avg_response_time": analytics.get("avg_response_time", 0),
             }
         except Exception as e:
             logger.error(f"Error getting AI routing data: {e}")
-            return {
-                "error": str(e),
-                "available_services": 0,
-                "status": "error"
-            }
+            return {"error": str(e), "available_services": 0, "status": "error"}
 
     def get_system_health(self) -> dict[str, Any]:
         """Get overall system health data"""
@@ -139,7 +142,7 @@ class ABotNotionSync:
             "disk_usage": 68.3,  # Mock data
             "active_processes": 8,  # Mock data
             "last_error": None,
-            "status": "healthy"
+            "status": "healthy",
         }
 
         # Check if core systems are accessible
@@ -163,13 +166,17 @@ class ABotNotionSync:
 
         return health_data
 
-    def generate_recommendations(self, financial_data: dict, ai_data: dict, health_data: dict) -> list[str]:
+    def generate_recommendations(
+        self, financial_data: dict, ai_data: dict, health_data: dict
+    ) -> list[str]:
         """Generate intelligent recommendations based on system data"""
         recommendations = []
 
         # Financial recommendations
         if financial_data.get("efficiency_score", 0) < 80:
-            recommendations.append("🔧 Consider optimizing AI usage to improve financial efficiency")
+            recommendations.append(
+                "🔧 Consider optimizing AI usage to improve financial efficiency"
+            )
 
         if financial_data.get("current_balance", 0) < 0.05:
             recommendations.append("💰 Budget running low - consider increasing daily allocation")
@@ -182,7 +189,9 @@ class ABotNotionSync:
             recommendations.append("🤖 Some AI services may be offline - check API keys")
 
         if ai_data.get("success_rate", 100) < 95:
-            recommendations.append("🔍 AI routing success rate below optimal - investigate failures")
+            recommendations.append(
+                "🔍 AI routing success rate below optimal - investigate failures"
+            )
 
         # System health recommendations
         if health_data.get("status") == "degraded":
@@ -231,7 +240,9 @@ class ABotNotionSync:
         system_health = self.get_system_health()
 
         # Generate insights
-        recommendations = self.generate_recommendations(financial_data, ai_routing_data, system_health)
+        recommendations = self.generate_recommendations(
+            financial_data, ai_routing_data, system_health
+        )
         alerts = self.generate_alerts(financial_data, ai_routing_data, system_health)
 
         # Create report
@@ -241,13 +252,15 @@ class ABotNotionSync:
             ai_routing_data=ai_routing_data,
             system_health=system_health,
             recommendations=recommendations,
-            alerts=alerts
+            alerts=alerts,
         )
 
         # Save report to file
         self._save_report(report)
 
-        logger.info(f"Daily report generated successfully with {len(recommendations)} recommendations and {len(alerts)} alerts")
+        logger.info(
+            f"Daily report generated successfully with {len(recommendations)} recommendations and {len(alerts)} alerts"
+        )
         return report
 
     def _save_report(self, report: DailyReport):
@@ -292,7 +305,7 @@ class ABotNotionSync:
                 "System Health": report.system_health.get("status", "unknown"),
                 "Recommendations": len(report.recommendations),
                 "Alerts": len(report.alerts),
-                "Raw Data": asdict(report)
+                "Raw Data": asdict(report),
             }
 
             notion_file = self.output_path / f"notion_import_{report.date}.json"
@@ -355,11 +368,13 @@ class ABotNotionSync:
 
         return report
 
+
 def main():
     """CLI entry point for testing"""
     sync = ABotNotionSync()
     report = sync.run_daily_sync()
     return report
+
 
 if __name__ == "__main__":
     main()

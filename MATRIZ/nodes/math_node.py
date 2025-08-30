@@ -143,9 +143,7 @@ class MathNode(CognitiveNode):
         try:
             result = self._evaluate_expression(expression)
             complexity_score = self._calculate_complexity(expression)
-            confidence = self._calculate_confidence(
-                expression, result, complexity_score
-            )
+            confidence = self._calculate_confidence(expression, result, complexity_score)
 
             # Create success state
             state = NodeState(
@@ -156,9 +154,7 @@ class MathNode(CognitiveNode):
                 valence=0.8,  # Positive - successful computation
                 utility=0.9,  # High utility for mathematical results
                 novelty=max(0.1, complexity_score),  # Novelty based on complexity
-                arousal=min(
-                    0.7, 0.3 + complexity_score * 0.4
-                ),  # Arousal based on complexity
+                arousal=min(0.7, 0.3 + complexity_score * 0.4),  # Arousal based on complexity
             )
 
             # Create affirmation reflection
@@ -198,7 +194,7 @@ class MathNode(CognitiveNode):
 
         except Exception as e:
             return self._create_error_response(
-                f"Evaluation error: {str(e)}",
+                f"Evaluation error: {e!s}",
                 input_data,
                 trace_id,
                 start_time,
@@ -289,9 +285,8 @@ class MathNode(CognitiveNode):
 
             # Validate provenance
             provenance = matriz_node.get("provenance", {})
-            if (
-                "producer" not in provenance
-                or "mathematical_computation" not in provenance.get("capabilities", [])
+            if "producer" not in provenance or "mathematical_computation" not in provenance.get(
+                "capabilities", []
             ):
                 return False
 
@@ -344,12 +339,12 @@ class MathNode(CognitiveNode):
                 parsed = ast.parse(test_expr, mode="eval")
                 self._validate_ast_node(parsed.body)
             except (SyntaxError, ValueError) as e:
-                return {"valid": False, "error": f"Syntax error: {str(e)}"}
+                return {"valid": False, "error": f"Syntax error: {e!s}"}
 
             return {"valid": True, "error": None}
 
         except Exception as e:
-            return {"valid": False, "error": f"Validation error: {str(e)}"}
+            return {"valid": False, "error": f"Validation error: {e!s}"}
 
     def _validate_ast_node(self, node: ast.AST) -> None:
         """
@@ -397,9 +392,7 @@ class MathNode(CognitiveNode):
             # Replace constants
             expr_with_constants = expression.lower()
             for const_name, const_value in self.MATH_CONSTANTS.items():
-                expr_with_constants = expr_with_constants.replace(
-                    const_name, str(const_value)
-                )
+                expr_with_constants = expr_with_constants.replace(const_name, str(const_value))
 
             # Parse and evaluate
             parsed = ast.parse(expr_with_constants, mode="eval")
@@ -424,7 +417,7 @@ class MathNode(CognitiveNode):
         except ZeroDivisionError:
             raise ZeroDivisionError("Division by zero")
         except Exception as e:
-            raise ValueError(f"Evaluation failed: {str(e)}")
+            raise ValueError(f"Evaluation failed: {e!s}")
 
     def _eval_ast_node(self, node: ast.AST) -> Union[float, int]:
         """
@@ -508,7 +501,7 @@ class MathNode(CognitiveNode):
 
             # Reduce confidence for very large or very small results
             if isinstance(result, (int, float)):
-                if abs(result) > 1e10 or abs(result) < 1e-10 and result != 0:
+                if abs(result) > 1e10 or (abs(result) < 1e-10 and result != 0):
                     complexity_penalty += 0.1
 
             # Reduce confidence for expressions with many operations
@@ -665,9 +658,7 @@ if __name__ == "__main__":
 
         try:
             # Process the expression
-            result = math_node.process(
-                {"expression": expression, "context": {"test_case": i}}
-            )
+            result = math_node.process({"expression": expression, "context": {"test_case": i}})
 
             # Validate output
             is_valid = math_node.validate_output(result)
@@ -682,9 +673,7 @@ if __name__ == "__main__":
             actual_type = "error" if is_error else "success"
             type_matches = actual_type == expected_type
 
-            print(
-                f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}"
-            )
+            print(f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}")
 
             # Show MATRIZ node details
             matriz_node = result["matriz_node"]
@@ -695,9 +684,7 @@ if __name__ == "__main__":
             print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
 
             if "result" in state and state["result"] is not None:
-                print(
-                    f"Result: {state['result']} ({state.get('result_type', 'unknown')})"
-                )
+                print(f"Result: {state['result']} ({state.get('result_type', 'unknown')})")
 
             if "complexity_score" in state:
                 print(f"Complexity: {state['complexity_score']:.3f}")
@@ -716,11 +703,11 @@ if __name__ == "__main__":
                 print("✗ FAIL")
 
         except Exception as e:
-            print(f"✗ EXCEPTION: {str(e)}")
+            print(f"✗ EXCEPTION: {e!s}")
 
     print("\n" + "=" * 50)
     print(
-        f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)"
+        f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)"
     )
     print(f"Processing History: {len(math_node.get_trace())} MATRIZ nodes created")
 

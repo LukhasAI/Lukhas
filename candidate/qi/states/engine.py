@@ -91,9 +91,7 @@ class MemoryNode:
             return ""
 
         # Create hash from content and metadata
-        hash_input = (
-            f"{self.content}:{self.emotional_weight}:{sorted(self.semantic_tags)}"
-        )
+        hash_input = f"{self.content}:{self.emotional_weight}:{sorted(self.semantic_tags)}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict[str, Any]:
@@ -197,9 +195,7 @@ class CollapseEngine:
         if strategy == "auto":
             strategy = self._determine_collapse_strategy(nodes, entropy)
 
-        logger.info(
-            "Collapsing nodes", count=len(nodes), strategy=strategy, entropy=entropy
-        )
+        logger.info("Collapsing nodes", count=len(nodes), strategy=strategy, entropy=entropy)
 
         # Execute collapse based on strategy
         if strategy == "consolidation":
@@ -272,9 +268,7 @@ class CollapseEngine:
 
         return min(1.0, max(0.0, normalized_entropy))
 
-    def _determine_collapse_strategy(
-        self, nodes: list[MemoryNode], entropy: float
-    ) -> str:
+    def _determine_collapse_strategy(self, nodes: list[MemoryNode], entropy: float) -> str:
         """
         Determine optimal collapse strategy based on node characteristics.
 
@@ -345,9 +339,7 @@ class CollapseEngine:
         consolidated.semantic_tags = sorted(all_tags)
 
         # Average emotional weights
-        consolidated.emotional_weight = sum(n.emotional_weight for n in nodes) / len(
-            nodes
-        )
+        consolidated.emotional_weight = sum(n.emotional_weight for n in nodes) / len(nodes)
 
         # Merge parent/child relationships
         all_parents = set()
@@ -402,9 +394,7 @@ class CollapseEngine:
             tag_counter.update(node.semantic_tags)
 
         keep_count = int(len(tag_counter) * 0.75)
-        compressed.semantic_tags = [
-            tag for tag, _ in tag_counter.most_common(keep_count)
-        ]
+        compressed.semantic_tags = [tag for tag, _ in tag_counter.most_common(keep_count)]
 
         # Weighted average of emotional weights
         total_weight = sum(n.emotional_weight for n in nodes)
@@ -425,15 +415,13 @@ class CollapseEngine:
 
         # Keep relationships that appear in >50% of nodes
         threshold = len(nodes) / 2
-        compressed.parent_nodes = [
-            p for p, c in parent_counter.items() if c > threshold
-        ]
-        compressed.child_nodes = [
-            c for c, count in child_counter.items() if count > threshold
-        ]
+        compressed.parent_nodes = [p for p, c in parent_counter.items() if c > threshold]
+        compressed.child_nodes = [c for c, count in child_counter.items() if count > threshold]
 
         # Compress content
-        compressed.content = f"[Compressed from {len(nodes)} nodes with {len(tag_counter)} original tags]"
+        compressed.content = (
+            f"[Compressed from {len(nodes)} nodes with {len(tag_counter)} original tags]"
+        )
 
         # Update metadata
         compressed.collapse_count = max(n.collapse_count for n in nodes) + 1
@@ -588,9 +576,9 @@ class CollapseEngine:
             }
 
         total_source_nodes = sum(len(r.source_nodes) for r in self.collapse_history)
-        avg_entropy_reduction = sum(
-            r.entropy_reduction for r in self.collapse_history
-        ) / len(self.collapse_history)
+        avg_entropy_reduction = sum(r.entropy_reduction for r in self.collapse_history) / len(
+            self.collapse_history
+        )
         avg_semantic_loss = sum(r.semantic_loss for r in self.collapse_history) / len(
             self.collapse_history
         )

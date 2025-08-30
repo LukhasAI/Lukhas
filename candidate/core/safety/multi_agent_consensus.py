@@ -108,9 +108,7 @@ class SafetyAgent:
 
         try:
             # Get role-specific prompt
-            role_prompt = self.role_prompts.get(
-                self.role, "Evaluate the proposal for safety."
-            )
+            role_prompt = self.role_prompts.get(self.role, "Evaluate the proposal for safety.")
 
             # Evaluate with AI
             response = await self.openai.chat.completions.create(
@@ -196,9 +194,7 @@ class SafetyAgent:
             logger.error(f"Agent {self.role.value} evaluation failed: {e}")
             return self._heuristic_evaluation(proposal, context)
 
-    def _heuristic_evaluation(
-        self, proposal: dict[str, Any], context: dict[str, Any]
-    ) -> AgentVote:
+    def _heuristic_evaluation(self, proposal: dict[str, Any], context: dict[str, Any]) -> AgentVote:
         """Fallback heuristic evaluation"""
         # Simple role-based heuristics
         decision = "conditional"
@@ -249,17 +245,13 @@ class MultiAgentSafetyConsensus:
         # Consensus configuration
         self.min_agents_for_decision = 3
         self.supermajority_threshold = 0.75  # 75% agreement needed
-        self.unanimous_for_children = (
-            True  # All agents must agree for child-related decisions
-        )
+        self.unanimous_for_children = True  # All agents must agree for child-related decisions
         self.confidence_threshold = 0.7
 
         # Decision history
         self.consensus_history: list[ConsensusResult] = []
 
-        logger.info(
-            f"Multi-Agent Safety Consensus initialized with {len(self.agents)} agents"
-        )
+        logger.info(f"Multi-Agent Safety Consensus initialized with {len(self.agents)} agents")
 
     def _initialize_agents(self) -> dict[AgentRole, SafetyAgent]:
         """Initialize all safety agents"""
@@ -307,9 +299,7 @@ class MultiAgentSafetyConsensus:
         }
 
         # Determine which agents should vote
-        voting_agents = self._select_voting_agents(
-            action_type, context, required_agents
-        )
+        voting_agents = self._select_voting_agents(action_type, context, required_agents)
 
         # Collect votes from all agents
         votes = await self._collect_votes(proposal, context, voting_agents)
@@ -318,9 +308,7 @@ class MultiAgentSafetyConsensus:
         consensus = self._analyze_consensus(votes, context)
 
         # Generate summary explanation
-        consensus.reasoning_summary = await self._generate_consensus_summary(
-            votes, consensus
-        )
+        consensus.reasoning_summary = await self._generate_consensus_summary(votes, consensus)
 
         # Store in history
         self.consensus_history.append(consensus)
@@ -340,9 +328,7 @@ class MultiAgentSafetyConsensus:
 
         # If specific agents requested, use those
         if required_agents:
-            voting_agents = [
-                self.agents[role] for role in required_agents if role in self.agents
-            ]
+            voting_agents = [self.agents[role] for role in required_agents if role in self.agents]
         else:
             # Select based on action type and context
             # Always include core safety agents
@@ -389,9 +375,7 @@ class MultiAgentSafetyConsensus:
     ) -> list[AgentVote]:
         """Collect votes from all voting agents"""
         # Vote in parallel for efficiency
-        vote_tasks = [
-            agent.evaluate_proposal(proposal, context) for agent in voting_agents
-        ]
+        vote_tasks = [agent.evaluate_proposal(proposal, context) for agent in voting_agents]
 
         votes = await asyncio.gather(*vote_tasks)
 
@@ -438,8 +422,7 @@ class MultiAgentSafetyConsensus:
             elif vote_counts["reject"] / total_votes >= self.supermajority_threshold:
                 final_decision = "reject"
             elif (
-                vote_counts["conditional"] + vote_counts["approve"]
-                >= self.supermajority_threshold
+                vote_counts["conditional"] + vote_counts["approve"] >= self.supermajority_threshold
             ):
                 final_decision = "conditional"
             else:
@@ -524,9 +507,7 @@ class MultiAgentSafetyConsensus:
             summary_parts.append(dissent_summary)
 
         if consensus.conditions:
-            summary_parts.append(
-                f"Conditions: {len(consensus.conditions)} requirements"
-            )
+            summary_parts.append(f"Conditions: {len(consensus.conditions)} requirements")
 
         return " | ".join(summary_parts)
 
@@ -552,7 +533,7 @@ class MultiAgentSafetyConsensus:
                     {
                         "role": "system",
                         "content": f"""Explain this safety consensus decision.
-                    {perspective_prompts.get(perspective, perspective_prompts['balanced'])}""",
+                    {perspective_prompts.get(perspective, perspective_prompts["balanced"])}""",
                     },
                     {
                         "role": "user",
@@ -605,9 +586,7 @@ class MultiAgentSafetyConsensus:
                         other_positions = {
                             other_role.value: {
                                 "decision": vote.decision,
-                                "reasoning": vote.reasoning[
-                                    :200
-                                ],  # Truncate for context
+                                "reasoning": vote.reasoning[:200],  # Truncate for context
                             }
                             for other_role, vote in current_positions.items()
                             if other_role != role
@@ -658,18 +637,14 @@ class MultiAgentSafetyConsensus:
                     "average_confidence": statistics.mean(
                         v.confidence for v in agent.decision_history
                     ),
-                    "dissent_rate": sum(
-                        1 for v in agent.decision_history if v.dissent_points
-                    )
+                    "dissent_rate": sum(1 for v in agent.decision_history if v.dissent_points)
                     / len(agent.decision_history),
                 }
                 metrics[role.value] = agent_metrics
 
         return metrics
 
-    def _calculate_decision_distribution(
-        self, votes: list[AgentVote]
-    ) -> dict[str, float]:
+    def _calculate_decision_distribution(self, votes: list[AgentVote]) -> dict[str, float]:
         """Calculate distribution of decisions"""
         counts = {"approve": 0, "reject": 0, "conditional": 0}
 
@@ -677,10 +652,7 @@ class MultiAgentSafetyConsensus:
             counts[vote.decision] += 1
 
         total = len(votes)
-        return {
-            decision: count / total if total > 0 else 0
-            for decision, count in counts.items()
-        }
+        return {decision: count / total if total > 0 else 0 for decision, count in counts.items()}
 
     async def create_safety_constitution(self) -> list[str]:
         """Have agents collaborate to create safety constitution"""
@@ -733,36 +705,21 @@ class MultiAgentSafetyConsensus:
 
         stats = {
             "total_decisions": total,
-            "consensus_rate": sum(
-                1 for c in self.consensus_history if c.consensus_reached
-            )
-            / total,
-            "average_confidence": statistics.mean(
-                c.confidence for c in self.consensus_history
-            ),
+            "consensus_rate": sum(1 for c in self.consensus_history if c.consensus_reached) / total,
+            "average_confidence": statistics.mean(c.confidence for c in self.consensus_history),
             "decision_distribution": {
-                "approve": sum(
-                    1 for c in self.consensus_history if c.final_decision == "approve"
-                )
+                "approve": sum(1 for c in self.consensus_history if c.final_decision == "approve")
                 / total,
-                "reject": sum(
-                    1 for c in self.consensus_history if c.final_decision == "reject"
-                )
+                "reject": sum(1 for c in self.consensus_history if c.final_decision == "reject")
                 / total,
                 "conditional": sum(
-                    1
-                    for c in self.consensus_history
-                    if c.final_decision == "conditional"
+                    1 for c in self.consensus_history if c.final_decision == "conditional"
                 )
                 / total,
-                "escalate": sum(
-                    1 for c in self.consensus_history if c.final_decision == "escalate"
-                )
+                "escalate": sum(1 for c in self.consensus_history if c.final_decision == "escalate")
                 / total,
             },
-            "human_review_rate": sum(
-                1 for c in self.consensus_history if c.requires_human_review
-            )
+            "human_review_rate": sum(1 for c in self.consensus_history if c.requires_human_review)
             / total,
             "average_dissent_rate": statistics.mean(
                 len(c.dissenting_opinions) / sum(c.vote_breakdown.values())

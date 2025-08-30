@@ -17,12 +17,12 @@ from .intelligence_engines import (
 )
 
 __all__ = [
-    "LukhasMetaCognitiveEngine",
-    "LukhasCausalReasoningEngine",
     "LukhasAutonomousGoalEngine",
+    "LukhasCausalReasoningEngine",
     "LukhasCuriosityEngine",
-    "LukhasTheoryOfMindEngine",
-    "LukhasNarrativeIntelligenceEngine",
     "LukhasDimensionalIntelligenceEngine",
+    "LukhasMetaCognitiveEngine",
+    "LukhasNarrativeIntelligenceEngine",
     "LukhasSubsystemOrchestrator",
+    "LukhasTheoryOfMindEngine",
 ]

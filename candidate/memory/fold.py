@@ -53,9 +53,7 @@ class FoldManager:
             return
 
         # Remove least important folds
-        sorted_folds = sorted(
-            self.folds.values(), key=lambda f: (f.importance, f.accessed_count)
-        )
+        sorted_folds = sorted(self.folds.values(), key=lambda f: (f.importance, f.accessed_count))
 
         # Keep most important 90%
         keep_count = int(self.MAX_FOLDS * 0.9)

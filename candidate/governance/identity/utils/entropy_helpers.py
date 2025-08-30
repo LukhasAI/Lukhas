@@ -47,9 +47,7 @@ class EntropyCalculator:
         if not data or pattern_length <= 0:
             return 0.0
 
-        patterns = [
-            data[i : i + pattern_length] for i in range(len(data) - pattern_length + 1)
-        ]
+        patterns = [data[i : i + pattern_length] for i in range(len(data) - pattern_length + 1)]
         if not patterns:
             return 0.0
 

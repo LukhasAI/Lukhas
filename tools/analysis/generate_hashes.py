@@ -54,9 +54,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
         glyph_summary["unique_glyphs"] = list(set(glyphs))
 
         # Extract symbolic patterns (arrays of symbols)
-        pattern_matches = re.findall(
-            r'\["([^"]*)",\s*"([^"]*)",\s*"([^"]*)"\]', content
-        )
+        pattern_matches = re.findall(r'\["([^"]*)",\s*"([^"]*)",\s*"([^"]*)"\]', content)
         for match in pattern_matches:
             pattern = [symbol.strip() for symbol in match if symbol.strip()]
             if pattern:
@@ -82,9 +80,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
 def generate_qrglyph(manifest_hash: str, timestamp: str) -> list[str]:
     """Generate symbolic QR-like glyph pattern for integrity proof"""
     # Create a symbolic representation based on hash segments
-    hash_segments = [
-        manifest_hash[i : i + 8] for i in range(0, min(64, len(manifest_hash)), 8)
-    ]
+    hash_segments = [manifest_hash[i : i + 8] for i in range(0, min(64, len(manifest_hash)), 8)]
 
     qrglyph_pattern = []
 
@@ -171,8 +167,7 @@ def generate_manifest_hash(manifest_file: str) -> dict[str, any]:
             "sha3_512": sha3_hash,
             "shake256_64": shake_hash,
             "verification_command": f"sha3sum -a 512 {manifest_path.name}",
-            "expected_sha3": sha3_hash[:16]
-            + "...",  # First 16 chars for quick verification
+            "expected_sha3": sha3_hash[:16] + "...",  # First 16 chars for quick verification
         },
         "symbolic_analysis": glyph_summary,
         "qrglyph_proof": {
@@ -249,16 +244,10 @@ def main():
     """Main entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Generate and verify LUKHAS manifest hashes"
-    )
+    parser = argparse.ArgumentParser(description="Generate and verify LUKHAS manifest hashes")
     parser.add_argument("manifest_file", help="Path to manifest file")
-    parser.add_argument(
-        "--output", "-o", help="Output hash file (default: manifest_file.hash)"
-    )
-    parser.add_argument(
-        "--verify", "-v", action="store_true", help="Verify existing hash file"
-    )
+    parser.add_argument("--output", "-o", help="Output hash file (default: manifest_file.hash)")
+    parser.add_argument("--verify", "-v", action="store_true", help="Verify existing hash file")
     parser.add_argument(
         "--hash-file", help="Hash file for verification (default: manifest_file.hash)"
     )
@@ -292,12 +281,8 @@ def main():
             print("\n📊 Hash Manifest Summary:")
             print(f"   File: {hash_manifest['manifest_info']['file_name']}")
             print(f"   Size: {hash_manifest['manifest_info']['file_size_bytes']} bytes")
-            print(
-                f"   SHA3-512: {hash_manifest['integrity_hashes']['sha3_512'][:32]}..."
-            )
-            print(
-                f"   SHAKE256: {hash_manifest['integrity_hashes']['shake256_64'][:32]}..."
-            )
+            print(f"   SHA3-512: {hash_manifest['integrity_hashes']['sha3_512'][:32]}...")
+            print(f"   SHAKE256: {hash_manifest['integrity_hashes']['shake256_64'][:32]}...")
             print(
                 f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs'])} unique"
             )
@@ -306,9 +291,7 @@ def main():
             )
 
             print("\n🔐 Manifest integrity locked with symbolic proof")
-            print(
-                f"   Verification: python3 {sys.argv[0]} {args.manifest_file} --verify"
-            )
+            print(f"   Verification: python3 {sys.argv[0]} {args.manifest_file} --verify")
 
     except Exception as e:
         print(f"❌ Error: {e}")

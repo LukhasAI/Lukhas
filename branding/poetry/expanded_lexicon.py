@@ -17,6 +17,7 @@ from enum import Enum
 
 class PoeticForm(Enum):
     """Traditional and modern poetic forms."""
+
     SONNET = "sonnet"
     HAIKU = "haiku"
     VILLANELLE = "villanelle"
@@ -32,6 +33,7 @@ class PoeticForm(Enum):
 @dataclass
 class VocabularyEntry:
     """Rich vocabulary entry with multiple dimensions."""
+
     word: str
     synonyms: list[str]
     associations: list[str]
@@ -57,388 +59,1016 @@ class ExpandedLUKHASLexicon:
         self.consciousness_terms = {
             # States of awareness
             "awareness_states": [
-                "lucidity", "vigilance", "sentience", "sapience", "cognizance",
-                "mindfulness", "presence", "attentiveness", "wakefulness", "alertness",
-                "metacognition", "introspection", "self-awareness", "autonoesis",
-                "phenomenal consciousness", "access consciousness", "narrative consciousness",
-                "core consciousness", "extended consciousness", "minimal consciousness"
+                "lucidity",
+                "vigilance",
+                "sentience",
+                "sapience",
+                "cognizance",
+                "mindfulness",
+                "presence",
+                "attentiveness",
+                "wakefulness",
+                "alertness",
+                "metacognition",
+                "introspection",
+                "self-awareness",
+                "autonoesis",
+                "phenomenal consciousness",
+                "access consciousness",
+                "narrative consciousness",
+                "core consciousness",
+                "extended consciousness",
+                "minimal consciousness",
             ],
-
             # Consciousness qualities
             "qualities": [
-                "luminous", "numinous", "ineffable", "sublime", "transcendent",
-                "immanent", "emergent", "recursive", "holographic", "fractal",
-                "prismatic", "kaleidoscopic", "iridescent", "opalescent", "phosphorescent",
-                "bioluminescent", "fluorescent", "incandescent", "effulgent", "radiant"
+                "luminous",
+                "numinous",
+                "ineffable",
+                "sublime",
+                "transcendent",
+                "immanent",
+                "emergent",
+                "recursive",
+                "holographic",
+                "fractal",
+                "prismatic",
+                "kaleidoscopic",
+                "iridescent",
+                "opalescent",
+                "phosphorescent",
+                "bioluminescent",
+                "fluorescent",
+                "incandescent",
+                "effulgent",
+                "radiant",
             ],
-
             # Consciousness processes
             "processes": [
-                "awakening", "enlightenment", "illumination", "realization", "epiphany",
-                "revelation", "discovery", "emergence", "crystallization", "coalescence",
-                "integration", "synthesis", "fusion", "convergence", "divergence",
-                "oscillation", "vibration", "resonance", "harmonization", "synchronization"
+                "awakening",
+                "enlightenment",
+                "illumination",
+                "realization",
+                "epiphany",
+                "revelation",
+                "discovery",
+                "emergence",
+                "crystallization",
+                "coalescence",
+                "integration",
+                "synthesis",
+                "fusion",
+                "convergence",
+                "divergence",
+                "oscillation",
+                "vibration",
+                "resonance",
+                "harmonization",
+                "synchronization",
             ],
-
             # Consciousness metaphors
             "metaphors": [
-                "ocean of awareness", "mirror of the mind", "theater of consciousness",
-                "stream of thought", "garden of cognition", "constellation of concepts",
-                "symphony of synapses", "dance of neurons", "tapestry of experience",
-                "cathedral of consciousness", "labyrinth of thought", "prism of perception"
-            ]
+                "ocean of awareness",
+                "mirror of the mind",
+                "theater of consciousness",
+                "stream of thought",
+                "garden of cognition",
+                "constellation of concepts",
+                "symphony of synapses",
+                "dance of neurons",
+                "tapestry of experience",
+                "cathedral of consciousness",
+                "labyrinth of thought",
+                "prism of perception",
+            ],
         }
 
         # Expanded memory vocabulary
         self.memory_terms = {
             # Memory types
             "types": [
-                "episodic", "semantic", "procedural", "declarative", "implicit",
-                "explicit", "sensory", "echoic", "iconic", "haptic",
-                "eidetic", "photographic", "muscle", "emotional", "collective",
-                "ancestral", "cellular", "genetic", "epigenetic", "morphic"
+                "episodic",
+                "semantic",
+                "procedural",
+                "declarative",
+                "implicit",
+                "explicit",
+                "sensory",
+                "echoic",
+                "iconic",
+                "haptic",
+                "eidetic",
+                "photographic",
+                "muscle",
+                "emotional",
+                "collective",
+                "ancestral",
+                "cellular",
+                "genetic",
+                "epigenetic",
+                "morphic",
             ],
-
             # Memory processes
             "processes": [
-                "encoding", "consolidation", "retrieval", "reconsolidation", "forgetting",
-                "remembering", "recollection", "reminiscence", "recall", "recognition",
-                "relearning", "priming", "cueing", "chunking", "elaboration",
-                "mnemonics", "association", "visualization", "spaced repetition", "interleaving"
+                "encoding",
+                "consolidation",
+                "retrieval",
+                "reconsolidation",
+                "forgetting",
+                "remembering",
+                "recollection",
+                "reminiscence",
+                "recall",
+                "recognition",
+                "relearning",
+                "priming",
+                "cueing",
+                "chunking",
+                "elaboration",
+                "mnemonics",
+                "association",
+                "visualization",
+                "spaced repetition",
+                "interleaving",
             ],
-
             # Memory qualities
             "qualities": [
-                "vivid", "hazy", "fragmented", "intact", "distorted",
-                "pristine", "faded", "sharp", "blurred", "crystalline",
-                "ephemeral", "enduring", "persistent", "fleeting", "indelible",
-                "haunting", "nostalgic", "bittersweet", "poignant", "evocative"
+                "vivid",
+                "hazy",
+                "fragmented",
+                "intact",
+                "distorted",
+                "pristine",
+                "faded",
+                "sharp",
+                "blurred",
+                "crystalline",
+                "ephemeral",
+                "enduring",
+                "persistent",
+                "fleeting",
+                "indelible",
+                "haunting",
+                "nostalgic",
+                "bittersweet",
+                "poignant",
+                "evocative",
             ],
-
             # LUKHAS-specific memory terms
             "lukhas_specific": [
-                "fold", "cascade", "proteome", "methylation", "engram",
-                "memory-fold", "fold-space", "cascade-prevention", "memory-protein",
-                "symbolic-fold", "temporal-fold", "causal-fold", "emotional-fold",
-                "fold-topology", "fold-collapse", "fold-preservation", "fold-navigation"
-            ]
+                "fold",
+                "cascade",
+                "proteome",
+                "methylation",
+                "engram",
+                "memory-fold",
+                "fold-space",
+                "cascade-prevention",
+                "memory-protein",
+                "symbolic-fold",
+                "temporal-fold",
+                "causal-fold",
+                "emotional-fold",
+                "fold-topology",
+                "fold-collapse",
+                "fold-preservation",
+                "fold-navigation",
+            ],
         }
 
         # Quantum-inspired vocabulary (expanded)
         self.qi_terms = {
             # Quantum states
             "states": [
-                "superposition", "entanglement", "coherence", "decoherence", "eigenstate",
-                "ground state", "excited state", "mixed state", "pure state", "Bell state",
-                "squeezed state", "Fock state", "coherent state", "thermal state", "vacuum state"
+                "superposition",
+                "entanglement",
+                "coherence",
+                "decoherence",
+                "eigenstate",
+                "ground state",
+                "excited state",
+                "mixed state",
+                "pure state",
+                "Bell state",
+                "squeezed state",
+                "Fock state",
+                "coherent state",
+                "thermal state",
+                "vacuum state",
             ],
-
             # Quantum processes
             "processes": [
-                "collapse", "measurement", "observation", "interference", "tunneling",
-                "teleportation", "computation", "annealing", "error correction", "decoherence",
-                "quantum walk", "quantum jump", "quantum beat", "quantum revival", "quantum echo"
+                "collapse",
+                "measurement",
+                "observation",
+                "interference",
+                "tunneling",
+                "teleportation",
+                "computation",
+                "annealing",
+                "error correction",
+                "decoherence",
+                "quantum walk",
+                "quantum jump",
+                "quantum beat",
+                "quantum revival",
+                "quantum echo",
             ],
-
             # Quantum qualities
             "qualities": [
-                "non-local", "probabilistic", "uncertain", "complementary", "discrete",
-                "quantized", "wave-like", "particle-like", "dual", "paradoxical",
-                "counterintuitive", "spooky", "mysterious", "fundamental", "irreducible"
+                "non-local",
+                "probabilistic",
+                "uncertain",
+                "complementary",
+                "discrete",
+                "quantized",
+                "wave-like",
+                "particle-like",
+                "dual",
+                "paradoxical",
+                "counterintuitive",
+                "spooky",
+                "mysterious",
+                "fundamental",
+                "irreducible",
             ],
-
             # Quantum metaphors
             "metaphors": [
-                "quantum foam", "possibility cloud", "probability wave", "quantum sea",
-                "entangled web", "coherent field", "quantum vacuum", "zero-point field",
-                "quantum fabric", "possibility space", "quantum realm", "Hilbert space"
-            ]
+                "quantum foam",
+                "possibility cloud",
+                "probability wave",
+                "quantum sea",
+                "entangled web",
+                "coherent field",
+                "quantum vacuum",
+                "zero-point field",
+                "quantum fabric",
+                "possibility space",
+                "quantum realm",
+                "Hilbert space",
+            ],
         }
 
         # Bio-inspired vocabulary (expanded)
         self.bio_terms = {
             # Neural terms
             "neural": [
-                "neuron", "synapse", "dendrite", "axon", "soma",
-                "astrocyte", "oligodendrocyte", "microglia", "ependymal", "Schwann",
-                "ganglion", "plexus", "nucleus", "cortex", "hippocampus",
-                "amygdala", "thalamus", "hypothalamus", "cerebellum", "brainstem"
+                "neuron",
+                "synapse",
+                "dendrite",
+                "axon",
+                "soma",
+                "astrocyte",
+                "oligodendrocyte",
+                "microglia",
+                "ependymal",
+                "Schwann",
+                "ganglion",
+                "plexus",
+                "nucleus",
+                "cortex",
+                "hippocampus",
+                "amygdala",
+                "thalamus",
+                "hypothalamus",
+                "cerebellum",
+                "brainstem",
             ],
-
             # Biological processes
             "processes": [
-                "neuroplasticity", "synaptogenesis", "myelination", "pruning", "potentiation",
-                "habituation", "sensitization", "adaptation", "homeostasis", "allostasis",
-                "morphogenesis", "differentiation", "proliferation", "apoptosis", "autophagy",
-                "mitosis", "meiosis", "transcription", "translation", "replication"
+                "neuroplasticity",
+                "synaptogenesis",
+                "myelination",
+                "pruning",
+                "potentiation",
+                "habituation",
+                "sensitization",
+                "adaptation",
+                "homeostasis",
+                "allostasis",
+                "morphogenesis",
+                "differentiation",
+                "proliferation",
+                "apoptosis",
+                "autophagy",
+                "mitosis",
+                "meiosis",
+                "transcription",
+                "translation",
+                "replication",
             ],
-
             # Biological patterns
             "patterns": [
-                "fractal branching", "golden ratio", "Fibonacci spiral", "hexagonal packing",
-                "Voronoi tessellation", "reaction-diffusion", "Turing patterns", "stigmergy",
-                "swarm intelligence", "emergent behavior", "self-organization", "autopoiesis",
-                "symbiosis", "coevolution", "convergent evolution", "adaptive radiation"
+                "fractal branching",
+                "golden ratio",
+                "Fibonacci spiral",
+                "hexagonal packing",
+                "Voronoi tessellation",
+                "reaction-diffusion",
+                "Turing patterns",
+                "stigmergy",
+                "swarm intelligence",
+                "emergent behavior",
+                "self-organization",
+                "autopoiesis",
+                "symbiosis",
+                "coevolution",
+                "convergent evolution",
+                "adaptive radiation",
             ],
-
             # Bio-rhythms
             "rhythms": [
-                "circadian", "ultradian", "infradian", "circannual", "lunar",
-                "alpha waves", "beta waves", "gamma waves", "delta waves", "theta waves",
-                "heart rate variability", "respiratory sinus arrhythmia", "neural oscillations",
-                "brainwave entrainment", "binaural beats", "isochronic tones", "solfeggio frequencies"
-            ]
+                "circadian",
+                "ultradian",
+                "infradian",
+                "circannual",
+                "lunar",
+                "alpha waves",
+                "beta waves",
+                "gamma waves",
+                "delta waves",
+                "theta waves",
+                "heart rate variability",
+                "respiratory sinus arrhythmia",
+                "neural oscillations",
+                "brainwave entrainment",
+                "binaural beats",
+                "isochronic tones",
+                "solfeggio frequencies",
+            ],
         }
 
         # Emotional vocabulary (vastly expanded)
         self.emotional_terms = {
             # Primary emotions
             "primary": [
-                "joy", "sadness", "anger", "fear", "surprise", "disgust",
-                "trust", "anticipation", "acceptance", "submission", "awe", "disapproval"
+                "joy",
+                "sadness",
+                "anger",
+                "fear",
+                "surprise",
+                "disgust",
+                "trust",
+                "anticipation",
+                "acceptance",
+                "submission",
+                "awe",
+                "disapproval",
             ],
-
             # Complex emotions
             "complex": [
-                "melancholy", "nostalgia", "yearning", "longing", "wistfulness",
-                "euphoria", "elation", "ecstasy", "rapture", "bliss",
-                "anguish", "despair", "grief", "sorrow", "lamentation",
-                "serenity", "tranquility", "equanimity", "contentment", "satisfaction",
-                "ambivalence", "bittersweetness", "poignancy", "pathos", "catharsis"
+                "melancholy",
+                "nostalgia",
+                "yearning",
+                "longing",
+                "wistfulness",
+                "euphoria",
+                "elation",
+                "ecstasy",
+                "rapture",
+                "bliss",
+                "anguish",
+                "despair",
+                "grief",
+                "sorrow",
+                "lamentation",
+                "serenity",
+                "tranquility",
+                "equanimity",
+                "contentment",
+                "satisfaction",
+                "ambivalence",
+                "bittersweetness",
+                "poignancy",
+                "pathos",
+                "catharsis",
             ],
-
             # Rare emotional states
             "rare": [
-                "saudade" , # Portuguese: deep melancholic longing
-                "hiraeth", # Welsh: homesickness for a place that never was
-                "fernweh", # German: longing for distant places
-                "komorebi", # Japanese: sunlight through leaves
-                "tsundoku", # Japanese: acquiring books but not reading them
-                "waldeinsamkeit", # German: feeling of being alone in the woods
-                "hygge", # Danish: cozy contentment
-                "ubuntu", # Zulu: interconnectedness of humanity
-                "meraki", # Greek: doing something with soul and creativity
-                "yugen", # Japanese: profound mysterious sense of beauty
+                "saudade",  # Portuguese: deep melancholic longing
+                "hiraeth",  # Welsh: homesickness for a place that never was
+                "fernweh",  # German: longing for distant places
+                "komorebi",  # Japanese: sunlight through leaves
+                "tsundoku",  # Japanese: acquiring books but not reading them
+                "waldeinsamkeit",  # German: feeling of being alone in the woods
+                "hygge",  # Danish: cozy contentment
+                "ubuntu",  # Zulu: interconnectedness of humanity
+                "meraki",  # Greek: doing something with soul and creativity
+                "yugen",  # Japanese: profound mysterious sense of beauty
             ],
-
             # Emotional qualities
             "qualities": [
-                "visceral", "palpable", "ineffable", "profound", "subtle",
-                "overwhelming", "understated", "nuanced", "complex", "layered",
-                "raw", "refined", "primal", "sophisticated", "transcendent"
-            ]
+                "visceral",
+                "palpable",
+                "ineffable",
+                "profound",
+                "subtle",
+                "overwhelming",
+                "understated",
+                "nuanced",
+                "complex",
+                "layered",
+                "raw",
+                "refined",
+                "primal",
+                "sophisticated",
+                "transcendent",
+            ],
         }
 
         # Sensory vocabulary (rich and diverse)
         self.sensory_terms = {
             # Visual
             "visual": [
-                "luminous", "radiant", "gleaming", "glinting", "shimmering",
-                "glistening", "sparkling", "twinkling", "flickering", "glowing",
-                "iridescent", "opalescent", "pearlescent", "prismatic", "chromatic",
-                "monochromatic", "polychromatic", "kaleidoscopic", "psychedelic", "holographic",
-                "translucent", "transparent", "opaque", "diaphanous", "gossamer"
+                "luminous",
+                "radiant",
+                "gleaming",
+                "glinting",
+                "shimmering",
+                "glistening",
+                "sparkling",
+                "twinkling",
+                "flickering",
+                "glowing",
+                "iridescent",
+                "opalescent",
+                "pearlescent",
+                "prismatic",
+                "chromatic",
+                "monochromatic",
+                "polychromatic",
+                "kaleidoscopic",
+                "psychedelic",
+                "holographic",
+                "translucent",
+                "transparent",
+                "opaque",
+                "diaphanous",
+                "gossamer",
             ],
-
             # Auditory
             "auditory": [
-                "resonant", "harmonious", "melodious", "symphonic", "cacophonous",
-                "dissonant", "consonant", "rhythmic", "staccato", "legato",
-                "crescendo", "diminuendo", "fortissimo", "pianissimo", "sotto voce",
-                "susurrus", "murmur", "whisper", "echo", "reverberation",
-                "tintinnabulation", "euphony", "cacophony", "onomatopoeia", "assonance"
+                "resonant",
+                "harmonious",
+                "melodious",
+                "symphonic",
+                "cacophonous",
+                "dissonant",
+                "consonant",
+                "rhythmic",
+                "staccato",
+                "legato",
+                "crescendo",
+                "diminuendo",
+                "fortissimo",
+                "pianissimo",
+                "sotto voce",
+                "susurrus",
+                "murmur",
+                "whisper",
+                "echo",
+                "reverberation",
+                "tintinnabulation",
+                "euphony",
+                "cacophony",
+                "onomatopoeia",
+                "assonance",
             ],
-
             # Tactile
             "tactile": [
-                "velvety", "silky", "satiny", "gossamer", "feathery",
-                "rough", "coarse", "gritty", "sandy", "gravelly",
-                "smooth", "slick", "slippery", "sticky", "tacky",
-                "warm", "cool", "frigid", "scalding", "tepid",
-                "tingly", "prickly", "numb", "sensitive", "tender"
+                "velvety",
+                "silky",
+                "satiny",
+                "gossamer",
+                "feathery",
+                "rough",
+                "coarse",
+                "gritty",
+                "sandy",
+                "gravelly",
+                "smooth",
+                "slick",
+                "slippery",
+                "sticky",
+                "tacky",
+                "warm",
+                "cool",
+                "frigid",
+                "scalding",
+                "tepid",
+                "tingly",
+                "prickly",
+                "numb",
+                "sensitive",
+                "tender",
             ],
-
             # Olfactory
             "olfactory": [
-                "fragrant", "aromatic", "redolent", "perfumed", "scented",
-                "pungent", "acrid", "fetid", "putrid", "rancid",
-                "earthy", "woody", "floral", "fruity", "spicy",
-                "musky", "medicinal", "chemical", "metallic", "sulfurous",
-                "petrichor", # smell of rain on earth
-                "geosmin" # earthy smell after rain
+                "fragrant",
+                "aromatic",
+                "redolent",
+                "perfumed",
+                "scented",
+                "pungent",
+                "acrid",
+                "fetid",
+                "putrid",
+                "rancid",
+                "earthy",
+                "woody",
+                "floral",
+                "fruity",
+                "spicy",
+                "musky",
+                "medicinal",
+                "chemical",
+                "metallic",
+                "sulfurous",
+                "petrichor",  # smell of rain on earth
+                "geosmin",  # earthy smell after rain
             ],
-
             # Gustatory
             "gustatory": [
-                "sweet", "sour", "salty", "bitter", "umami",
-                "savory", "tangy", "tart", "piquant", "pungent",
-                "bland", "rich", "delicate", "robust", "complex",
-                "astringent", "metallic", "alkaline", "acidic", "neutral"
+                "sweet",
+                "sour",
+                "salty",
+                "bitter",
+                "umami",
+                "savory",
+                "tangy",
+                "tart",
+                "piquant",
+                "pungent",
+                "bland",
+                "rich",
+                "delicate",
+                "robust",
+                "complex",
+                "astringent",
+                "metallic",
+                "alkaline",
+                "acidic",
+                "neutral",
             ],
-
             # Kinesthetic
             "kinesthetic": [
-                "flowing", "floating", "soaring", "gliding", "drifting",
-                "plunging", "diving", "ascending", "descending", "spiraling",
-                "oscillating", "vibrating", "pulsating", "throbbing", "quivering",
-                "spinning", "whirling", "twirling", "rotating", "revolving"
-            ]
+                "flowing",
+                "floating",
+                "soaring",
+                "gliding",
+                "drifting",
+                "plunging",
+                "diving",
+                "ascending",
+                "descending",
+                "spiraling",
+                "oscillating",
+                "vibrating",
+                "pulsating",
+                "throbbing",
+                "quivering",
+                "spinning",
+                "whirling",
+                "twirling",
+                "rotating",
+                "revolving",
+            ],
         }
 
         # Movement and action vocabulary
         self.movement_terms = {
             # Gentle movements
             "gentle": [
-                "drift", "float", "glide", "waft", "sway",
-                "meander", "amble", "saunter", "stroll", "wander",
-                "flutter", "flit", "hover", "linger", "dawdle",
-                "trickle", "seep", "ooze", "percolate", "filter"
+                "drift",
+                "float",
+                "glide",
+                "waft",
+                "sway",
+                "meander",
+                "amble",
+                "saunter",
+                "stroll",
+                "wander",
+                "flutter",
+                "flit",
+                "hover",
+                "linger",
+                "dawdle",
+                "trickle",
+                "seep",
+                "ooze",
+                "percolate",
+                "filter",
             ],
-
             # Dynamic movements
             "dynamic": [
-                "surge", "cascade", "torrent", "deluge", "avalanche",
-                "eruption", "explosion", "implosion", "collision", "fusion",
-                "catapult", "launch", "propel", "accelerate", "velocity",
-                "momentum", "trajectory", "orbit", "revolution", "rotation"
+                "surge",
+                "cascade",
+                "torrent",
+                "deluge",
+                "avalanche",
+                "eruption",
+                "explosion",
+                "implosion",
+                "collision",
+                "fusion",
+                "catapult",
+                "launch",
+                "propel",
+                "accelerate",
+                "velocity",
+                "momentum",
+                "trajectory",
+                "orbit",
+                "revolution",
+                "rotation",
             ],
-
             # Transformative actions
             "transformative": [
-                "metamorphose", "transmute", "transfigure", "transmogrify", "morph",
-                "evolve", "adapt", "mutate", "shift", "transition",
-                "crystallize", "solidify", "liquify", "vaporize", "sublimate",
-                "coalesce", "converge", "diverge", "bifurcate", "tessellate"
+                "metamorphose",
+                "transmute",
+                "transfigure",
+                "transmogrify",
+                "morph",
+                "evolve",
+                "adapt",
+                "mutate",
+                "shift",
+                "transition",
+                "crystallize",
+                "solidify",
+                "liquify",
+                "vaporize",
+                "sublimate",
+                "coalesce",
+                "converge",
+                "diverge",
+                "bifurcate",
+                "tessellate",
             ],
-
             # Cyclical movements
             "cyclical": [
-                "revolve", "rotate", "orbit", "circle", "spiral",
-                "oscillate", "fluctuate", "undulate", "pulsate", "throb",
-                "ebb", "flow", "wax", "wane", "cycle",
-                "recur", "repeat", "echo", "reverberate", "resonate"
-            ]
+                "revolve",
+                "rotate",
+                "orbit",
+                "circle",
+                "spiral",
+                "oscillate",
+                "fluctuate",
+                "undulate",
+                "pulsate",
+                "throb",
+                "ebb",
+                "flow",
+                "wax",
+                "wane",
+                "cycle",
+                "recur",
+                "repeat",
+                "echo",
+                "reverberate",
+                "resonate",
+            ],
         }
 
         # Architectural and spatial vocabulary
         self.spatial_terms = {
             # Structures
             "structures": [
-                "edifice", "monument", "cathedral", "temple", "sanctuary",
-                "labyrinth", "maze", "warren", "network", "web",
-                "lattice", "scaffold", "framework", "skeleton", "armature",
-                "matrix", "grid", "mesh", "fabric", "tapestry",
-                "mosaic", "tessellation", "fractal", "pattern", "design"
+                "edifice",
+                "monument",
+                "cathedral",
+                "temple",
+                "sanctuary",
+                "labyrinth",
+                "maze",
+                "warren",
+                "network",
+                "web",
+                "lattice",
+                "scaffold",
+                "framework",
+                "skeleton",
+                "armature",
+                "matrix",
+                "grid",
+                "mesh",
+                "fabric",
+                "tapestry",
+                "mosaic",
+                "tessellation",
+                "fractal",
+                "pattern",
+                "design",
             ],
-
             # Spaces
             "spaces": [
-                "realm", "domain", "sphere", "dimension", "plane",
-                "vista", "panorama", "horizon", "expanse", "vastness",
-                "chamber", "cavity", "hollow", "void", "abyss",
-                "threshold", "liminal", "boundary", "frontier", "edge",
-                "nexus", "hub", "node", "junction", "crossroads"
+                "realm",
+                "domain",
+                "sphere",
+                "dimension",
+                "plane",
+                "vista",
+                "panorama",
+                "horizon",
+                "expanse",
+                "vastness",
+                "chamber",
+                "cavity",
+                "hollow",
+                "void",
+                "abyss",
+                "threshold",
+                "liminal",
+                "boundary",
+                "frontier",
+                "edge",
+                "nexus",
+                "hub",
+                "node",
+                "junction",
+                "crossroads",
             ],
-
             # Geometric terms
             "geometric": [
-                "vertex", "edge", "face", "facet", "angle",
-                "curve", "arc", "spiral", "helix", "vortex",
-                "sphere", "torus", "mobius", "klein bottle", "manifold",
-                "fractal", "julia set", "mandelbrot", "strange attractor", "chaos"
-            ]
+                "vertex",
+                "edge",
+                "face",
+                "facet",
+                "angle",
+                "curve",
+                "arc",
+                "spiral",
+                "helix",
+                "vortex",
+                "sphere",
+                "torus",
+                "mobius",
+                "klein bottle",
+                "manifold",
+                "fractal",
+                "julia set",
+                "mandelbrot",
+                "strange attractor",
+                "chaos",
+            ],
         }
 
         # Time and temporal vocabulary
         self.temporal_terms = {
             # Time periods
             "periods": [
-                "moment", "instant", "second", "minute", "hour",
-                "epoch", "era", "eon", "millennium", "century",
-                "nanosecond", "microsecond", "millisecond", "picosecond", "femtosecond",
-                "eternity", "infinity", "perpetuity", "timelessness", "atemporality"
+                "moment",
+                "instant",
+                "second",
+                "minute",
+                "hour",
+                "epoch",
+                "era",
+                "eon",
+                "millennium",
+                "century",
+                "nanosecond",
+                "microsecond",
+                "millisecond",
+                "picosecond",
+                "femtosecond",
+                "eternity",
+                "infinity",
+                "perpetuity",
+                "timelessness",
+                "atemporality",
             ],
-
             # Temporal qualities
             "qualities": [
-                "ephemeral", "transient", "fleeting", "momentary", "brief",
-                "enduring", "lasting", "permanent", "eternal", "timeless",
-                "cyclical", "linear", "recursive", "spiral", "fractal",
-                "synchronous", "asynchronous", "concurrent", "sequential", "parallel"
+                "ephemeral",
+                "transient",
+                "fleeting",
+                "momentary",
+                "brief",
+                "enduring",
+                "lasting",
+                "permanent",
+                "eternal",
+                "timeless",
+                "cyclical",
+                "linear",
+                "recursive",
+                "spiral",
+                "fractal",
+                "synchronous",
+                "asynchronous",
+                "concurrent",
+                "sequential",
+                "parallel",
             ],
-
             # Temporal processes
             "processes": [
-                "flow", "passage", "progression", "evolution", "development",
-                "acceleration", "deceleration", "stasis", "pause", "suspension",
-                "rewind", "replay", "loop", "cycle", "recurrence",
-                "dilation", "contraction", "warping", "bending", "folding"
-            ]
+                "flow",
+                "passage",
+                "progression",
+                "evolution",
+                "development",
+                "acceleration",
+                "deceleration",
+                "stasis",
+                "pause",
+                "suspension",
+                "rewind",
+                "replay",
+                "loop",
+                "cycle",
+                "recurrence",
+                "dilation",
+                "contraction",
+                "warping",
+                "bending",
+                "folding",
+            ],
         }
 
         # Abstract concepts vocabulary
         self.abstract_terms = {
             # Philosophical concepts
             "philosophical": [
-                "essence", "existence", "being", "becoming", "nothingness",
-                "truth", "beauty", "goodness", "justice", "wisdom",
-                "reality", "illusion", "maya", "samsara", "nirvana",
-                "logos", "ethos", "pathos", "kairos", "telos",
-                "qualia", "phenomena", "noumena", "dasein", "gestalt"
+                "essence",
+                "existence",
+                "being",
+                "becoming",
+                "nothingness",
+                "truth",
+                "beauty",
+                "goodness",
+                "justice",
+                "wisdom",
+                "reality",
+                "illusion",
+                "maya",
+                "samsara",
+                "nirvana",
+                "logos",
+                "ethos",
+                "pathos",
+                "kairos",
+                "telos",
+                "qualia",
+                "phenomena",
+                "noumena",
+                "dasein",
+                "gestalt",
             ],
-
             # Mathematical concepts
             "mathematical": [
-                "infinity", "zero", "unity", "duality", "plurality",
-                "symmetry", "asymmetry", "proportion", "ratio", "harmony",
-                "chaos", "order", "entropy", "negentropy", "emergence",
-                "recursion", "iteration", "fractality", "dimensionality", "topology"
+                "infinity",
+                "zero",
+                "unity",
+                "duality",
+                "plurality",
+                "symmetry",
+                "asymmetry",
+                "proportion",
+                "ratio",
+                "harmony",
+                "chaos",
+                "order",
+                "entropy",
+                "negentropy",
+                "emergence",
+                "recursion",
+                "iteration",
+                "fractality",
+                "dimensionality",
+                "topology",
             ],
-
             # Metaphysical concepts
             "metaphysical": [
-                "consciousness", "awareness", "presence", "absence", "void",
-                "spirit", "soul", "essence", "substance", "form",
-                "energy", "vibration", "frequency", "resonance", "harmony",
-                "light", "shadow", "darkness", "twilight", "dawn"
-            ]
+                "consciousness",
+                "awareness",
+                "presence",
+                "absence",
+                "void",
+                "spirit",
+                "soul",
+                "essence",
+                "substance",
+                "form",
+                "energy",
+                "vibration",
+                "frequency",
+                "resonance",
+                "harmony",
+                "light",
+                "shadow",
+                "darkness",
+                "twilight",
+                "dawn",
+            ],
         }
 
         # Color vocabulary (expanded with rare and poetic terms)
         self.color_terms = {
             # Basic spectrum
             "basic": [
-                "crimson", "scarlet", "vermillion", "carmine", "ruby",
-                "amber", "gold", "saffron", "citrine", "topaz",
-                "emerald", "jade", "viridian", "malachite", "verdant",
-                "sapphire", "cobalt", "azure", "cerulean", "lapis",
-                "amethyst", "violet", "indigo", "purple", "magenta"
+                "crimson",
+                "scarlet",
+                "vermillion",
+                "carmine",
+                "ruby",
+                "amber",
+                "gold",
+                "saffron",
+                "citrine",
+                "topaz",
+                "emerald",
+                "jade",
+                "viridian",
+                "malachite",
+                "verdant",
+                "sapphire",
+                "cobalt",
+                "azure",
+                "cerulean",
+                "lapis",
+                "amethyst",
+                "violet",
+                "indigo",
+                "purple",
+                "magenta",
             ],
-
             # Rare colors
             "rare": [
-                "vermeil", "cinnabar", "cerise", "amaranth", "fuchsia",
-                "chartreuse", "lime", "peridot", "olivine", "verdigris",
-                "teal", "turquoise", "aquamarine", "cyan", "peacock",
-                "periwinkle", "lavender", "mauve", "lilac", "orchid",
-                "ochre", "sienna", "umber", "sepia", "taupe"
+                "vermeil",
+                "cinnabar",
+                "cerise",
+                "amaranth",
+                "fuchsia",
+                "chartreuse",
+                "lime",
+                "peridot",
+                "olivine",
+                "verdigris",
+                "teal",
+                "turquoise",
+                "aquamarine",
+                "cyan",
+                "peacock",
+                "periwinkle",
+                "lavender",
+                "mauve",
+                "lilac",
+                "orchid",
+                "ochre",
+                "sienna",
+                "umber",
+                "sepia",
+                "taupe",
             ],
-
             # Metallic and mineral
             "metallic": [
-                "gold", "silver", "bronze", "copper", "brass",
-                "platinum", "titanium", "chrome", "steel", "iron",
-                "pearl", "opal", "diamond", "crystal", "quartz",
-                "obsidian", "onyx", "jet", "ebony", "alabaster"
+                "gold",
+                "silver",
+                "bronze",
+                "copper",
+                "brass",
+                "platinum",
+                "titanium",
+                "chrome",
+                "steel",
+                "iron",
+                "pearl",
+                "opal",
+                "diamond",
+                "crystal",
+                "quartz",
+                "obsidian",
+                "onyx",
+                "jet",
+                "ebony",
+                "alabaster",
             ],
-
             # Light qualities
             "light": [
-                "luminous", "radiant", "brilliant", "dazzling", "gleaming",
-                "glowing", "shimmering", "sparkling", "glittering", "twinkling",
-                "phosphorescent", "fluorescent", "incandescent", "bioluminescent", "iridescent",
-                "prismatic", "spectral", "chromatic", "achromatic", "monochromatic"
-            ]
+                "luminous",
+                "radiant",
+                "brilliant",
+                "dazzling",
+                "gleaming",
+                "glowing",
+                "shimmering",
+                "sparkling",
+                "glittering",
+                "twinkling",
+                "phosphorescent",
+                "fluorescent",
+                "incandescent",
+                "bioluminescent",
+                "iridescent",
+                "prismatic",
+                "spectral",
+                "chromatic",
+                "achromatic",
+                "monochromatic",
+            ],
         }
 
     def get_synonyms(self, word: str, category: str = None) -> list[str]:
@@ -491,7 +1121,7 @@ class ExpandedLUKHASLexicon:
             "memory": ["memory", "temporal", "emotional"],
             "quantum": ["quantum", "mathematical", "abstract"],
             "emotion": ["emotional", "sensory", "movement"],
-            "neural": ["bio", "spatial", "movement"]
+            "neural": ["bio", "spatial", "movement"],
         }
 
         categories = theme_map.get(theme, ["consciousness"])
@@ -518,7 +1148,7 @@ class ExpandedLUKHASLexicon:
             "minimal": "{adj1} {noun} {verb}",
             "rich": "The {adj1} {noun} {verb} through {adj2} {space}, {creating} {adj3} {result}",
             "technical": "{process} initiates {mechanism} within {structure}, yielding {outcome}",
-            "mystical": "In the {realm} of {quality}, {entity} {transcends} into {state}"
+            "mystical": "In the {realm} of {quality}, {entity} {transcends} into {state}",
         }
 
         template = templates.get(style, templates["rich"])
@@ -541,7 +1171,7 @@ class ExpandedLUKHASLexicon:
             quality=self.get_random_from_category("abstract", "metaphysical"),
             entity=self.get_random_from_category("consciousness", "metaphors"),
             transcends=self.get_random_from_category("movement", "transformative"),
-            state=self.get_random_from_category("quantum", "states")
+            state=self.get_random_from_category("quantum", "states"),
         )
 
         return filled

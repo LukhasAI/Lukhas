@@ -29,6 +29,7 @@ from typing import Any, Optional
 
 class PolicySeverity(Enum):
     """Policy violation severity levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -37,6 +38,7 @@ class PolicySeverity(Enum):
 
 class PolicyCategory(Enum):
     """Authentication governance policy categories"""
+
     IDENTITY_MANAGEMENT = "identity_management"
     ACCESS_CONTROL = "access_control"
     BIAS_PREVENTION = "bias_prevention"
@@ -50,6 +52,7 @@ class PolicyCategory(Enum):
 @dataclass
 class PolicyRule:
     """Individual governance policy rule"""
+
     id: str
     category: PolicyCategory
     name: str
@@ -73,6 +76,7 @@ class PolicyRule:
 @dataclass
 class PolicyViolation:
     """Policy violation record"""
+
     id: str
     policy_rule_id: str
     user_id: str
@@ -92,6 +96,7 @@ class PolicyViolation:
 @dataclass
 class PolicyAssessment:
     """Policy compliance assessment result"""
+
     compliant: bool
     violations: list[PolicyViolation]
     recommendations: list[str]
@@ -123,365 +128,405 @@ class AuthGovernancePolicyEngine:
 
         # === IDENTITY MANAGEMENT POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="identity_autonomy_001",
-            category=PolicyCategory.IDENTITY_MANAGEMENT,
-            name="User Identity Autonomy",
-            description="Users must have control over their identity representation and authentication preferences",
-            requirement="Users can modify authentication methods, update profile information, and control identity visibility",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Respect for user autonomy and self-determination",
-            remediation_actions=[
-                "Provide user control interface",
-                "Allow authentication method updates",
-                "Enable identity preference management"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="identity_autonomy_001",
+                category=PolicyCategory.IDENTITY_MANAGEMENT,
+                name="User Identity Autonomy",
+                description="Users must have control over their identity representation and authentication preferences",
+                requirement="Users can modify authentication methods, update profile information, and control identity visibility",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Respect for user autonomy and self-determination",
+                remediation_actions=[
+                    "Provide user control interface",
+                    "Allow authentication method updates",
+                    "Enable identity preference management",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="identity_dignity_002",
-            category=PolicyCategory.IDENTITY_MANAGEMENT,
-            name="Identity Dignity Preservation",
-            description="Authentication processes must preserve user dignity and avoid humiliating experiences",
-            requirement="Authentication failures and rejections must be handled with respect and clear guidance",
-            enforcement_level=PolicySeverity.MEDIUM,
-            tier_applicability=["ALL"],
-            constitutional_basis="Preservation of human dignity in all interactions",
-            remediation_actions=[
-                "Provide clear, respectful error messages",
-                "Offer alternative authentication paths",
-                "Avoid public exposure of authentication failures"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="identity_dignity_002",
+                category=PolicyCategory.IDENTITY_MANAGEMENT,
+                name="Identity Dignity Preservation",
+                description="Authentication processes must preserve user dignity and avoid humiliating experiences",
+                requirement="Authentication failures and rejections must be handled with respect and clear guidance",
+                enforcement_level=PolicySeverity.MEDIUM,
+                tier_applicability=["ALL"],
+                constitutional_basis="Preservation of human dignity in all interactions",
+                remediation_actions=[
+                    "Provide clear, respectful error messages",
+                    "Offer alternative authentication paths",
+                    "Avoid public exposure of authentication failures",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="identity_consistency_003",
-            category=PolicyCategory.IDENTITY_MANAGEMENT,
-            name="Identity Consistency",
-            description="User identity representation must be consistent across LUKHAS modules",
-            requirement="Identity GLYPHs and symbolic representations must remain stable across sessions",
-            enforcement_level=PolicySeverity.MEDIUM,
-            tier_applicability=["ALL"],
-            constitutional_basis="Reliable and consistent identity representation",
-            remediation_actions=[
-                "Synchronize identity across modules",
-                "Validate GLYPH consistency",
-                "Update symbolic representations uniformly"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="identity_consistency_003",
+                category=PolicyCategory.IDENTITY_MANAGEMENT,
+                name="Identity Consistency",
+                description="User identity representation must be consistent across LUKHAS modules",
+                requirement="Identity GLYPHs and symbolic representations must remain stable across sessions",
+                enforcement_level=PolicySeverity.MEDIUM,
+                tier_applicability=["ALL"],
+                constitutional_basis="Reliable and consistent identity representation",
+                remediation_actions=[
+                    "Synchronize identity across modules",
+                    "Validate GLYPH consistency",
+                    "Update symbolic representations uniformly",
+                ],
+            )
+        )
 
         # === ACCESS CONTROL POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="access_fairness_001",
-            category=PolicyCategory.ACCESS_CONTROL,
-            name="Fair Access Determination",
-            description="Access control decisions must be based on legitimate criteria without discrimination",
-            requirement="Access decisions cannot consider protected characteristics or irrelevant personal attributes",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Equal treatment and non-discrimination principles",
-            monitoring_required=True,
-            automated_enforcement=True,
-            remediation_actions=[
-                "Review access decision algorithms",
-                "Remove discriminatory criteria",
-                "Implement bias detection monitoring",
-                "Provide appeals process"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="access_fairness_001",
+                category=PolicyCategory.ACCESS_CONTROL,
+                name="Fair Access Determination",
+                description="Access control decisions must be based on legitimate criteria without discrimination",
+                requirement="Access decisions cannot consider protected characteristics or irrelevant personal attributes",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Equal treatment and non-discrimination principles",
+                monitoring_required=True,
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Review access decision algorithms",
+                    "Remove discriminatory criteria",
+                    "Implement bias detection monitoring",
+                    "Provide appeals process",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="access_transparency_002",
-            category=PolicyCategory.ACCESS_CONTROL,
-            name="Access Decision Transparency",
-            description="Users must understand why access was granted or denied",
-            requirement="Clear reasoning must be provided for all access control decisions",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Transparency and explainability of automated decisions",
-            remediation_actions=[
-                "Generate clear decision explanations",
-                "Provide reasoning documentation",
-                "Enable decision review process"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="access_transparency_002",
+                category=PolicyCategory.ACCESS_CONTROL,
+                name="Access Decision Transparency",
+                description="Users must understand why access was granted or denied",
+                requirement="Clear reasoning must be provided for all access control decisions",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Transparency and explainability of automated decisions",
+                remediation_actions=[
+                    "Generate clear decision explanations",
+                    "Provide reasoning documentation",
+                    "Enable decision review process",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="access_proportionality_003",
-            category=PolicyCategory.ACCESS_CONTROL,
-            name="Proportional Access Control",
-            description="Access restrictions must be proportional to actual security risks",
-            requirement="Access control measures cannot be more restrictive than necessary for security",
-            enforcement_level=PolicySeverity.MEDIUM,
-            tier_applicability=["ALL"],
-            constitutional_basis="Proportionality principle in security measures",
-            remediation_actions=[
-                "Review security risk assessments",
-                "Adjust access controls to risk level",
-                "Implement graduated security measures"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="access_proportionality_003",
+                category=PolicyCategory.ACCESS_CONTROL,
+                name="Proportional Access Control",
+                description="Access restrictions must be proportional to actual security risks",
+                requirement="Access control measures cannot be more restrictive than necessary for security",
+                enforcement_level=PolicySeverity.MEDIUM,
+                tier_applicability=["ALL"],
+                constitutional_basis="Proportionality principle in security measures",
+                remediation_actions=[
+                    "Review security risk assessments",
+                    "Adjust access controls to risk level",
+                    "Implement graduated security measures",
+                ],
+            )
+        )
 
         # === BIAS PREVENTION POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="bias_detection_001",
-            category=PolicyCategory.BIAS_PREVENTION,
-            name="Continuous Bias Monitoring",
-            description="Authentication systems must continuously monitor for discriminatory patterns",
-            requirement="Bias detection algorithms must run on all authentication decisions",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Commitment to fair and unbiased treatment",
-            monitoring_required=True,
-            automated_enforcement=True,
-            remediation_actions=[
-                "Deploy bias detection algorithms",
-                "Monitor authentication patterns",
-                "Alert on potential discrimination",
-                "Investigate bias incidents"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="bias_detection_001",
+                category=PolicyCategory.BIAS_PREVENTION,
+                name="Continuous Bias Monitoring",
+                description="Authentication systems must continuously monitor for discriminatory patterns",
+                requirement="Bias detection algorithms must run on all authentication decisions",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Commitment to fair and unbiased treatment",
+                monitoring_required=True,
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Deploy bias detection algorithms",
+                    "Monitor authentication patterns",
+                    "Alert on potential discrimination",
+                    "Investigate bias incidents",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="bias_correction_002",
-            category=PolicyCategory.BIAS_PREVENTION,
-            name="Bias Correction Procedures",
-            description="Detected bias must be immediately corrected and prevented from recurring",
-            requirement="Bias correction protocols must be triggered within 15 minutes of detection",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Active correction of unfair treatment",
-            remediation_actions=[
-                "Implement immediate bias correction",
-                "Review affected decisions",
-                "Update authentication algorithms",
-                "Provide affected user remediation"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="bias_correction_002",
+                category=PolicyCategory.BIAS_PREVENTION,
+                name="Bias Correction Procedures",
+                description="Detected bias must be immediately corrected and prevented from recurring",
+                requirement="Bias correction protocols must be triggered within 15 minutes of detection",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Active correction of unfair treatment",
+                remediation_actions=[
+                    "Implement immediate bias correction",
+                    "Review affected decisions",
+                    "Update authentication algorithms",
+                    "Provide affected user remediation",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="bias_training_003",
-            category=PolicyCategory.BIAS_PREVENTION,
-            name="Bias Prevention Training",
-            description="Authentication algorithms must be trained to avoid discriminatory patterns",
-            requirement="AI models used in authentication must undergo bias testing and mitigation",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Proactive prevention of discriminatory systems",
-            remediation_actions=[
-                "Implement bias testing protocols",
-                "Train models on diverse datasets",
-                "Regular bias auditing",
-                "Update training procedures"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="bias_training_003",
+                category=PolicyCategory.BIAS_PREVENTION,
+                name="Bias Prevention Training",
+                description="Authentication algorithms must be trained to avoid discriminatory patterns",
+                requirement="AI models used in authentication must undergo bias testing and mitigation",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Proactive prevention of discriminatory systems",
+                remediation_actions=[
+                    "Implement bias testing protocols",
+                    "Train models on diverse datasets",
+                    "Regular bias auditing",
+                    "Update training procedures",
+                ],
+            )
+        )
 
         # === PRIVACY PROTECTION POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="privacy_minimization_001",
-            category=PolicyCategory.PRIVACY_PROTECTION,
-            name="Data Minimization",
-            description="Authentication systems must collect only necessary personal information",
-            requirement="Personal data collection must be limited to authentication requirements",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Privacy by design and data minimization principles",
-            remediation_actions=[
-                "Review data collection practices",
-                "Remove unnecessary data fields",
-                "Implement data retention limits",
-                "Audit personal data usage"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="privacy_minimization_001",
+                category=PolicyCategory.PRIVACY_PROTECTION,
+                name="Data Minimization",
+                description="Authentication systems must collect only necessary personal information",
+                requirement="Personal data collection must be limited to authentication requirements",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Privacy by design and data minimization principles",
+                remediation_actions=[
+                    "Review data collection practices",
+                    "Remove unnecessary data fields",
+                    "Implement data retention limits",
+                    "Audit personal data usage",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="privacy_encryption_002",
-            category=PolicyCategory.PRIVACY_PROTECTION,
-            name="Personal Data Encryption",
-            description="All personal authentication data must be encrypted at rest and in transit",
-            requirement="AES-256 encryption minimum for personal data storage and transmission",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Security and privacy protection of personal information",
-            automated_enforcement=True,
-            remediation_actions=[
-                "Implement strong encryption",
-                "Audit encryption compliance",
-                "Update encryption protocols",
-                "Monitor data transmission security"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="privacy_encryption_002",
+                category=PolicyCategory.PRIVACY_PROTECTION,
+                name="Personal Data Encryption",
+                description="All personal authentication data must be encrypted at rest and in transit",
+                requirement="AES-256 encryption minimum for personal data storage and transmission",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Security and privacy protection of personal information",
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Implement strong encryption",
+                    "Audit encryption compliance",
+                    "Update encryption protocols",
+                    "Monitor data transmission security",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="privacy_consent_003",
-            category=PolicyCategory.PRIVACY_PROTECTION,
-            name="Informed Consent",
-            description="Users must provide informed consent for personal data processing",
-            requirement="Clear consent must be obtained before processing personal authentication data",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Informed consent and user autonomy in data processing",
-            remediation_actions=[
-                "Implement consent management system",
-                "Provide clear consent forms",
-                "Enable consent withdrawal",
-                "Regular consent review"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="privacy_consent_003",
+                category=PolicyCategory.PRIVACY_PROTECTION,
+                name="Informed Consent",
+                description="Users must provide informed consent for personal data processing",
+                requirement="Clear consent must be obtained before processing personal authentication data",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Informed consent and user autonomy in data processing",
+                remediation_actions=[
+                    "Implement consent management system",
+                    "Provide clear consent forms",
+                    "Enable consent withdrawal",
+                    "Regular consent review",
+                ],
+            )
+        )
 
         # === CONSTITUTIONAL COMPLIANCE POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="constitutional_validation_001",
-            category=PolicyCategory.CONSTITUTIONAL_COMPLIANCE,
-            name="Constitutional AI Validation",
-            description="All authentication decisions must be validated against constitutional AI principles",
-            requirement="Constitutional AI validation must approve all authentication actions",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Alignment with LUKHAS constitutional AI framework",
-            monitoring_required=True,
-            automated_enforcement=True,
-            remediation_actions=[
-                "Implement constitutional AI validation",
-                "Review non-compliant decisions",
-                "Update constitutional principles",
-                "Train on constitutional compliance"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="constitutional_validation_001",
+                category=PolicyCategory.CONSTITUTIONAL_COMPLIANCE,
+                name="Constitutional AI Validation",
+                description="All authentication decisions must be validated against constitutional AI principles",
+                requirement="Constitutional AI validation must approve all authentication actions",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Alignment with LUKHAS constitutional AI framework",
+                monitoring_required=True,
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Implement constitutional AI validation",
+                    "Review non-compliant decisions",
+                    "Update constitutional principles",
+                    "Train on constitutional compliance",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="constitutional_appeal_002",
-            category=PolicyCategory.CONSTITUTIONAL_COMPLIANCE,
-            name="Constitutional Appeals Process",
-            description="Users can appeal authentication decisions on constitutional grounds",
-            requirement="Appeals process must be available for constitutional AI violations",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Right to appeal automated constitutional decisions",
-            remediation_actions=[
-                "Establish appeals process",
-                "Train appeals review team",
-                "Implement appeals tracking",
-                "Provide appeals documentation"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="constitutional_appeal_002",
+                category=PolicyCategory.CONSTITUTIONAL_COMPLIANCE,
+                name="Constitutional Appeals Process",
+                description="Users can appeal authentication decisions on constitutional grounds",
+                requirement="Appeals process must be available for constitutional AI violations",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Right to appeal automated constitutional decisions",
+                remediation_actions=[
+                    "Establish appeals process",
+                    "Train appeals review team",
+                    "Implement appeals tracking",
+                    "Provide appeals documentation",
+                ],
+            )
+        )
 
         # === TIER GOVERNANCE POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="tier_fairness_001",
-            category=PolicyCategory.TIER_GOVERNANCE,
-            name="Fair Tier Assignment",
-            description="Tier assignments must be based on legitimate criteria and usage patterns",
-            requirement="Tier levels cannot be assigned based on discriminatory factors",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Fair and equitable treatment in service access",
-            monitoring_required=True,
-            remediation_actions=[
-                "Review tier assignment algorithms",
-                "Audit tier distribution patterns",
-                "Implement tier assignment appeals",
-                "Monitor tier equity metrics"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="tier_fairness_001",
+                category=PolicyCategory.TIER_GOVERNANCE,
+                name="Fair Tier Assignment",
+                description="Tier assignments must be based on legitimate criteria and usage patterns",
+                requirement="Tier levels cannot be assigned based on discriminatory factors",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Fair and equitable treatment in service access",
+                monitoring_required=True,
+                remediation_actions=[
+                    "Review tier assignment algorithms",
+                    "Audit tier distribution patterns",
+                    "Implement tier assignment appeals",
+                    "Monitor tier equity metrics",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="tier_transparency_002",
-            category=PolicyCategory.TIER_GOVERNANCE,
-            name="Tier Criteria Transparency",
-            description="Tier assignment criteria must be clearly documented and accessible",
-            requirement="Users must understand how tier levels are determined and can be changed",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Transparency in automated classification systems",
-            remediation_actions=[
-                "Document tier criteria clearly",
-                "Provide tier explanation to users",
-                "Create tier advancement guidance",
-                "Regular tier criteria review"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="tier_transparency_002",
+                category=PolicyCategory.TIER_GOVERNANCE,
+                name="Tier Criteria Transparency",
+                description="Tier assignment criteria must be clearly documented and accessible",
+                requirement="Users must understand how tier levels are determined and can be changed",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Transparency in automated classification systems",
+                remediation_actions=[
+                    "Document tier criteria clearly",
+                    "Provide tier explanation to users",
+                    "Create tier advancement guidance",
+                    "Regular tier criteria review",
+                ],
+            )
+        )
 
         # === TIER-SPECIFIC POLICIES ===
 
         # T5 Enterprise Policies
-        self.add_policy_rule(PolicyRule(
-            id="t5_sso_requirement_001",
-            category=PolicyCategory.TIER_GOVERNANCE,
-            name="T5 SSO Requirement",
-            description="T5 tier users must use enterprise SSO authentication",
-            requirement="T5 tier authentication must be conducted through approved SSO providers",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["T5"],
-            constitutional_basis="Enhanced security requirements for enterprise users",
-            automated_enforcement=True,
-            remediation_actions=[
-                "Enforce SSO authentication",
-                "Block non-SSO T5 access",
-                "Provide SSO setup guidance",
-                "Monitor SSO compliance"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="t5_sso_requirement_001",
+                category=PolicyCategory.TIER_GOVERNANCE,
+                name="T5 SSO Requirement",
+                description="T5 tier users must use enterprise SSO authentication",
+                requirement="T5 tier authentication must be conducted through approved SSO providers",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["T5"],
+                constitutional_basis="Enhanced security requirements for enterprise users",
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Enforce SSO authentication",
+                    "Block non-SSO T5 access",
+                    "Provide SSO setup guidance",
+                    "Monitor SSO compliance",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="t5_scim_requirement_002",
-            category=PolicyCategory.TIER_GOVERNANCE,
-            name="T5 SCIM Provisioning",
-            description="T5 tier users must be provisioned through SCIM",
-            requirement="T5 user lifecycle must be managed via SCIM v2.0 protocols",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["T5"],
-            constitutional_basis="Automated and auditable user management for enterprises",
-            remediation_actions=[
-                "Implement SCIM provisioning",
-                "Audit SCIM compliance",
-                "Provide SCIM documentation",
-                "Monitor provisioning events"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="t5_scim_requirement_002",
+                category=PolicyCategory.TIER_GOVERNANCE,
+                name="T5 SCIM Provisioning",
+                description="T5 tier users must be provisioned through SCIM",
+                requirement="T5 user lifecycle must be managed via SCIM v2.0 protocols",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["T5"],
+                constitutional_basis="Automated and auditable user management for enterprises",
+                remediation_actions=[
+                    "Implement SCIM provisioning",
+                    "Audit SCIM compliance",
+                    "Provide SCIM documentation",
+                    "Monitor provisioning events",
+                ],
+            )
+        )
 
         # === AUDIT COMPLIANCE POLICIES ===
 
-        self.add_policy_rule(PolicyRule(
-            id="audit_logging_001",
-            category=PolicyCategory.AUDIT_COMPLIANCE,
-            name="Comprehensive Audit Logging",
-            description="All authentication events must be logged for audit purposes",
-            requirement="Complete audit trail must be maintained for all authentication activities",
-            enforcement_level=PolicySeverity.CRITICAL,
-            tier_applicability=["ALL"],
-            constitutional_basis="Accountability and transparency in authentication systems",
-            automated_enforcement=True,
-            remediation_actions=[
-                "Implement comprehensive logging",
-                "Audit log completeness",
-                "Secure audit log storage",
-                "Regular audit log review"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="audit_logging_001",
+                category=PolicyCategory.AUDIT_COMPLIANCE,
+                name="Comprehensive Audit Logging",
+                description="All authentication events must be logged for audit purposes",
+                requirement="Complete audit trail must be maintained for all authentication activities",
+                enforcement_level=PolicySeverity.CRITICAL,
+                tier_applicability=["ALL"],
+                constitutional_basis="Accountability and transparency in authentication systems",
+                automated_enforcement=True,
+                remediation_actions=[
+                    "Implement comprehensive logging",
+                    "Audit log completeness",
+                    "Secure audit log storage",
+                    "Regular audit log review",
+                ],
+            )
+        )
 
-        self.add_policy_rule(PolicyRule(
-            id="audit_retention_002",
-            category=PolicyCategory.AUDIT_COMPLIANCE,
-            name="Audit Log Retention",
-            description="Audit logs must be retained according to regulatory requirements",
-            requirement="Authentication audit logs must be retained for minimum 7 years",
-            enforcement_level=PolicySeverity.HIGH,
-            tier_applicability=["ALL"],
-            constitutional_basis="Compliance with legal and regulatory audit requirements",
-            remediation_actions=[
-                "Implement log retention policies",
-                "Audit retention compliance",
-                "Secure long-term storage",
-                "Regular retention review"
-            ]
-        ))
+        self.add_policy_rule(
+            PolicyRule(
+                id="audit_retention_002",
+                category=PolicyCategory.AUDIT_COMPLIANCE,
+                name="Audit Log Retention",
+                description="Audit logs must be retained according to regulatory requirements",
+                requirement="Authentication audit logs must be retained for minimum 7 years",
+                enforcement_level=PolicySeverity.HIGH,
+                tier_applicability=["ALL"],
+                constitutional_basis="Compliance with legal and regulatory audit requirements",
+                remediation_actions=[
+                    "Implement log retention policies",
+                    "Audit retention compliance",
+                    "Secure long-term storage",
+                    "Regular retention review",
+                ],
+            )
+        )
 
     def add_policy_rule(self, policy_rule: PolicyRule) -> bool:
         """Add a new governance policy rule"""
@@ -516,10 +561,9 @@ class AuthGovernancePolicyEngine:
 
         return applicable_policies
 
-    async def assess_compliance(self,
-                              auth_context: dict[str, Any],
-                              tier_level: str,
-                              include_recommendations: bool = True) -> PolicyAssessment:
+    async def assess_compliance(
+        self, auth_context: dict[str, Any], tier_level: str, include_recommendations: bool = True
+    ) -> PolicyAssessment:
         """Assess authentication compliance against governance policies"""
         violations = []
         recommendations = []
@@ -542,7 +586,7 @@ class AuthGovernancePolicyEngine:
                         severity=policy.enforcement_level,
                         description=compliance_result["description"],
                         context=auth_context,
-                        detected_at=datetime.now()
+                        detected_at=datetime.now(),
                     )
                     violations.append(violation)
 
@@ -551,7 +595,7 @@ class AuthGovernancePolicyEngine:
                         PolicySeverity.LOW: 0.1,
                         PolicySeverity.MEDIUM: 0.3,
                         PolicySeverity.HIGH: 0.6,
-                        PolicySeverity.CRITICAL: 1.0
+                        PolicySeverity.CRITICAL: 1.0,
                     }
                     risk_score += severity_weights.get(policy.enforcement_level, 0.5)
 
@@ -565,14 +609,16 @@ class AuthGovernancePolicyEngine:
 
             # Generate additional recommendations
             if include_recommendations:
-                recommendations.extend(self._generate_compliance_recommendations(violations, auth_context))
+                recommendations.extend(
+                    self._generate_compliance_recommendations(violations, auth_context)
+                )
 
             return PolicyAssessment(
                 compliant=len(violations) == 0,
                 violations=violations,
                 recommendations=list(set(recommendations)),  # Remove duplicates
                 risk_score=risk_score,
-                assessment_timestamp=datetime.now()
+                assessment_timestamp=datetime.now(),
             )
 
         except Exception as e:
@@ -580,21 +626,21 @@ class AuthGovernancePolicyEngine:
             return PolicyAssessment(
                 compliant=False,
                 violations=[],
-                recommendations=[f"Assessment error: {str(e)}"],
+                recommendations=[f"Assessment error: {e!s}"],
                 risk_score=1.0,
-                assessment_timestamp=datetime.now()
+                assessment_timestamp=datetime.now(),
             )
 
-    async def _check_policy_compliance(self,
-                                     policy: PolicyRule,
-                                     auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_policy_compliance(
+        self, policy: PolicyRule, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check compliance for a specific policy rule"""
         try:
             result = {
                 "compliant": True,
                 "violation_type": None,
                 "description": "",
-                "recommendations": []
+                "recommendations": [],
             }
 
             # Policy-specific compliance checks
@@ -628,8 +674,8 @@ class AuthGovernancePolicyEngine:
             return {
                 "compliant": False,
                 "violation_type": "check_error",
-                "description": f"Policy check error: {str(e)}",
-                "recommendations": ["Review policy implementation"]
+                "description": f"Policy check error: {e!s}",
+                "recommendations": ["Review policy implementation"],
             }
 
     async def _check_identity_autonomy(self, auth_context: dict[str, Any]) -> dict[str, Any]:
@@ -643,7 +689,10 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "autonomy_violation",
                 "description": "User lacks control over identity authentication preferences",
-                "recommendations": ["Enable user authentication control", "Remove forced identity changes"]
+                "recommendations": [
+                    "Enable user authentication control",
+                    "Remove forced identity changes",
+                ],
             }
 
         return {"compliant": True}
@@ -658,7 +707,7 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "access_discrimination",
                 "description": f"Potential bias detected: {bias_flags + discriminatory_factors}",
-                "recommendations": ["Review access decision criteria", "Implement bias correction"]
+                "recommendations": ["Review access decision criteria", "Implement bias correction"],
             }
 
         return {"compliant": True}
@@ -673,7 +722,7 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "transparency_violation",
                 "description": "Access decision lacks clear reasoning",
-                "recommendations": ["Provide decision reasoning", "Implement explanation system"]
+                "recommendations": ["Provide decision reasoning", "Implement explanation system"],
             }
 
         return {"compliant": True}
@@ -688,7 +737,10 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "bias_monitoring_failure",
                 "description": "Bias detection not properly implemented",
-                "recommendations": ["Enable bias monitoring", "Implement bias detection algorithms"]
+                "recommendations": [
+                    "Enable bias monitoring",
+                    "Implement bias detection algorithms",
+                ],
             }
 
         return {"compliant": True}
@@ -705,7 +757,10 @@ class AuthGovernancePolicyEngine:
                     "compliant": False,
                     "violation_type": "data_minimization_violation",
                     "description": f"Unnecessary data collected: {unnecessary_data}",
-                    "recommendations": ["Remove unnecessary data collection", "Review data requirements"]
+                    "recommendations": [
+                        "Remove unnecessary data collection",
+                        "Review data requirements",
+                    ],
                 }
 
         return {"compliant": True}
@@ -720,12 +775,14 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "encryption_violation",
                 "description": "Insufficient encryption for personal data",
-                "recommendations": ["Enable strong encryption", "Upgrade encryption protocols"]
+                "recommendations": ["Enable strong encryption", "Upgrade encryption protocols"],
             }
 
         return {"compliant": True}
 
-    async def _check_constitutional_validation(self, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _check_constitutional_validation(
+        self, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check constitutional AI validation compliance"""
         constitutional_valid = auth_context.get("constitutional_valid", False)
         constitutional_checked = auth_context.get("constitutional_checked", False)
@@ -735,7 +792,10 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "constitutional_violation",
                 "description": "Constitutional AI validation failed or not performed",
-                "recommendations": ["Implement constitutional AI validation", "Review constitutional principles"]
+                "recommendations": [
+                    "Implement constitutional AI validation",
+                    "Review constitutional principles",
+                ],
             }
 
         return {"compliant": True}
@@ -750,7 +810,10 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "tier_fairness_violation",
                 "description": "Tier assignment may be biased or criteria unclear",
-                "recommendations": ["Review tier assignment process", "Document tier criteria clearly"]
+                "recommendations": [
+                    "Review tier assignment process",
+                    "Document tier criteria clearly",
+                ],
             }
 
         return {"compliant": True}
@@ -765,7 +828,7 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "t5_sso_violation",
                 "description": "T5 tier user not using required SSO authentication",
-                "recommendations": ["Enforce SSO for T5 users", "Block non-SSO T5 access"]
+                "recommendations": ["Enforce SSO for T5 users", "Block non-SSO T5 access"],
             }
 
         return {"compliant": True}
@@ -780,12 +843,17 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "audit_logging_violation",
                 "description": "Authentication event not properly audited",
-                "recommendations": ["Implement comprehensive audit logging", "Verify audit completeness"]
+                "recommendations": [
+                    "Implement comprehensive audit logging",
+                    "Verify audit completeness",
+                ],
             }
 
         return {"compliant": True}
 
-    async def _generic_policy_check(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
+    async def _generic_policy_check(
+        self, policy: PolicyRule, auth_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generic policy compliance check"""
         # Basic check for policy-specific flags in context
         policy_flag = f"{policy.id}_compliant"
@@ -796,21 +864,24 @@ class AuthGovernancePolicyEngine:
                 "compliant": False,
                 "violation_type": "generic_violation",
                 "description": f"Policy {policy.name} not satisfied",
-                "recommendations": policy.remediation_actions
+                "recommendations": policy.remediation_actions,
             }
 
         return {"compliant": True}
 
-    def _generate_compliance_recommendations(self,
-                                           violations: list[PolicyViolation],
-                                           auth_context: dict[str, Any]) -> list[str]:
+    def _generate_compliance_recommendations(
+        self, violations: list[PolicyViolation], auth_context: dict[str, Any]
+    ) -> list[str]:
         """Generate additional compliance recommendations"""
         recommendations = []
 
         # High-level recommendations based on violation patterns
         violation_types = [v.violation_type for v in violations]
 
-        if "bias_monitoring_failure" in violation_types or "access_discrimination" in violation_types:
+        if (
+            "bias_monitoring_failure" in violation_types
+            or "access_discrimination" in violation_types
+        ):
             recommendations.append("Implement comprehensive bias detection and prevention system")
 
         if "constitutional_violation" in violation_types:
@@ -828,9 +899,7 @@ class AuthGovernancePolicyEngine:
         """Record a policy violation"""
         self.policy_violations.append(violation)
 
-    def get_violation_summary(self,
-                            days: int = 30,
-                            by_category: bool = True) -> dict[str, Any]:
+    def get_violation_summary(self, days: int = 30, by_category: bool = True) -> dict[str, Any]:
         """Get summary of policy violations"""
         cutoff_date = datetime.now() - timedelta(days=days)
         recent_violations = [v for v in self.policy_violations if v.detected_at >= cutoff_date]
@@ -841,7 +910,7 @@ class AuthGovernancePolicyEngine:
             "by_severity": {},
             "by_category": {} if by_category else None,
             "most_common_violations": {},
-            "resolution_rate": 0.0
+            "resolution_rate": 0.0,
         }
 
         # Count by severity
@@ -862,9 +931,13 @@ class AuthGovernancePolicyEngine:
         # Most common violations
         violation_counts = {}
         for violation in recent_violations:
-            violation_counts[violation.policy_rule_id] = violation_counts.get(violation.policy_rule_id, 0) + 1
+            violation_counts[violation.policy_rule_id] = (
+                violation_counts.get(violation.policy_rule_id, 0) + 1
+            )
 
-        summary["most_common_violations"] = dict(sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5])
+        summary["most_common_violations"] = dict(
+            sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        )
 
         # Resolution rate
         resolved_count = len([v for v in recent_violations if v.resolved_at is not None])
@@ -886,7 +959,7 @@ class AuthGovernancePolicyEngine:
             "category_filter": category.value if category else None,
             "policies": [asdict(policy) for policy in policies],
             "version": "1.0.0",
-            "framework": "LUKHAS Authentication Governance"
+            "framework": "LUKHAS Authentication Governance",
         }
 
 
@@ -897,10 +970,10 @@ auth_governance_policy_engine = AuthGovernancePolicyEngine()
 # Export main classes and instance
 __all__ = [
     "AuthGovernancePolicyEngine",
-    "PolicyRule",
-    "PolicyViolation",
     "PolicyAssessment",
     "PolicyCategory",
+    "PolicyRule",
     "PolicySeverity",
-    "auth_governance_policy_engine"
+    "PolicyViolation",
+    "auth_governance_policy_engine",
 ]

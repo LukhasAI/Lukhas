@@ -22,6 +22,7 @@ logger = logging.getLogger("ΛTRACE.tools.performance")
 @dataclass
 class PerformanceMetric:
     """Single performance metric measurement"""
+
     timestamp: float
     metric_name: str
     value: float
@@ -33,6 +34,7 @@ class PerformanceMetric:
 @dataclass
 class PerformanceAlert:
     """Performance alert definition"""
+
     alert_id: str
     severity: str  # "critical", "warning", "info"
     message: str
@@ -84,9 +86,12 @@ class PerformanceCollector:
         self.collecting = False
         logger.info("Performance collection stopped")
 
-    def get_recent_metrics(self, component: Optional[str] = None,
-                          metric_name: Optional[str] = None,
-                          time_window: int = 300) -> list[PerformanceMetric]:
+    def get_recent_metrics(
+        self,
+        component: Optional[str] = None,
+        metric_name: Optional[str] = None,
+        time_window: int = 300,
+    ) -> list[PerformanceMetric]:
         """Get recent metrics within time window"""
         current_time = time.time()
         cutoff_time = current_time - time_window
@@ -118,74 +123,84 @@ class SystemMetricsCollector:
         try:
             # CPU usage
             cpu_percent = psutil.cpu_percent(interval=0.1)
-            metrics.append(PerformanceMetric(
-                timestamp=timestamp,
-                metric_name="cpu_usage",
-                value=cpu_percent,
-                unit="percent",
-                component="system"
-            ))
+            metrics.append(
+                PerformanceMetric(
+                    timestamp=timestamp,
+                    metric_name="cpu_usage",
+                    value=cpu_percent,
+                    unit="percent",
+                    component="system",
+                )
+            )
 
             # Memory usage
             memory = psutil.virtual_memory()
-            metrics.append(PerformanceMetric(
-                timestamp=timestamp,
-                metric_name="memory_usage",
-                value=memory.percent,
-                unit="percent",
-                component="system",
-                context={"available_mb": memory.available // (1024*1024)}
-            ))
+            metrics.append(
+                PerformanceMetric(
+                    timestamp=timestamp,
+                    metric_name="memory_usage",
+                    value=memory.percent,
+                    unit="percent",
+                    component="system",
+                    context={"available_mb": memory.available // (1024 * 1024)},
+                )
+            )
 
             # Disk I/O
             disk_io = psutil.disk_io_counters()
             if disk_io:
-                metrics.extend([
-                    PerformanceMetric(
-                        timestamp=timestamp,
-                        metric_name="disk_read_mb_per_sec",
-                        value=disk_io.read_bytes / (1024*1024),
-                        unit="mb/s",
-                        component="system"
-                    ),
-                    PerformanceMetric(
-                        timestamp=timestamp,
-                        metric_name="disk_write_mb_per_sec",
-                        value=disk_io.write_bytes / (1024*1024),
-                        unit="mb/s",
-                        component="system"
-                    )
-                ])
+                metrics.extend(
+                    [
+                        PerformanceMetric(
+                            timestamp=timestamp,
+                            metric_name="disk_read_mb_per_sec",
+                            value=disk_io.read_bytes / (1024 * 1024),
+                            unit="mb/s",
+                            component="system",
+                        ),
+                        PerformanceMetric(
+                            timestamp=timestamp,
+                            metric_name="disk_write_mb_per_sec",
+                            value=disk_io.write_bytes / (1024 * 1024),
+                            unit="mb/s",
+                            component="system",
+                        ),
+                    ]
+                )
 
             # Network I/O
             network_io = psutil.net_io_counters()
             if network_io:
-                metrics.extend([
-                    PerformanceMetric(
-                        timestamp=timestamp,
-                        metric_name="network_bytes_sent",
-                        value=network_io.bytes_sent,
-                        unit="bytes",
-                        component="system"
-                    ),
-                    PerformanceMetric(
-                        timestamp=timestamp,
-                        metric_name="network_bytes_recv",
-                        value=network_io.bytes_recv,
-                        unit="bytes",
-                        component="system"
-                    )
-                ])
+                metrics.extend(
+                    [
+                        PerformanceMetric(
+                            timestamp=timestamp,
+                            metric_name="network_bytes_sent",
+                            value=network_io.bytes_sent,
+                            unit="bytes",
+                            component="system",
+                        ),
+                        PerformanceMetric(
+                            timestamp=timestamp,
+                            metric_name="network_bytes_recv",
+                            value=network_io.bytes_recv,
+                            unit="bytes",
+                            component="system",
+                        ),
+                    ]
+                )
 
             # Process count
             process_count = len(psutil.pids())
-            metrics.append(PerformanceMetric(
-                timestamp=timestamp,
-                metric_name="process_count",
-                value=process_count,
-                unit="count",
-                component="system"
-            ))
+            metrics.append(
+                PerformanceMetric(
+                    timestamp=timestamp,
+                    metric_name="process_count",
+                    value=process_count,
+                    unit="count",
+                    component="system",
+                )
+            )
 
         except Exception as e:
             logger.error(f"System metrics collection failed: {e}")
@@ -201,8 +216,13 @@ class ToolExecutionMetricsCollector:
         self.execution_counts = defaultdict(int)
         self.error_counts = defaultdict(int)
 
-    def record_execution(self, tool_name: str, execution_time: float,
-                        success: bool, context: Optional[dict[str, Any]] = None):
+    def record_execution(
+        self,
+        tool_name: str,
+        execution_time: float,
+        success: bool,
+        context: Optional[dict[str, Any]] = None,
+    ):
         """Record tool execution metrics"""
         self.execution_times[tool_name].append(execution_time)
         self.execution_counts[tool_name] += 1
@@ -226,47 +246,51 @@ class ToolExecutionMetricsCollector:
             min(times)
 
             # Add metrics
-            metrics.extend([
-                PerformanceMetric(
-                    timestamp=timestamp,
-                    metric_name="avg_execution_time",
-                    value=avg_time,
-                    unit="seconds",
-                    component=f"tool_{tool_name}",
-                    context={"sample_size": len(times)}
-                ),
-                PerformanceMetric(
-                    timestamp=timestamp,
-                    metric_name="max_execution_time",
-                    value=max_time,
-                    unit="seconds",
-                    component=f"tool_{tool_name}"
-                ),
-                PerformanceMetric(
-                    timestamp=timestamp,
-                    metric_name="execution_count",
-                    value=self.execution_counts[tool_name],
-                    unit="count",
-                    component=f"tool_{tool_name}"
-                ),
-                PerformanceMetric(
-                    timestamp=timestamp,
-                    metric_name="error_count",
-                    value=self.error_counts[tool_name],
-                    unit="count",
-                    component=f"tool_{tool_name}"
-                )
-            ])
+            metrics.extend(
+                [
+                    PerformanceMetric(
+                        timestamp=timestamp,
+                        metric_name="avg_execution_time",
+                        value=avg_time,
+                        unit="seconds",
+                        component=f"tool_{tool_name}",
+                        context={"sample_size": len(times)},
+                    ),
+                    PerformanceMetric(
+                        timestamp=timestamp,
+                        metric_name="max_execution_time",
+                        value=max_time,
+                        unit="seconds",
+                        component=f"tool_{tool_name}",
+                    ),
+                    PerformanceMetric(
+                        timestamp=timestamp,
+                        metric_name="execution_count",
+                        value=self.execution_counts[tool_name],
+                        unit="count",
+                        component=f"tool_{tool_name}",
+                    ),
+                    PerformanceMetric(
+                        timestamp=timestamp,
+                        metric_name="error_count",
+                        value=self.error_counts[tool_name],
+                        unit="count",
+                        component=f"tool_{tool_name}",
+                    ),
+                ]
+            )
 
             # Calculate error rate
             error_rate = self.error_counts[tool_name] / self.execution_counts[tool_name]
-            metrics.append(PerformanceMetric(
-                timestamp=timestamp,
-                metric_name="error_rate",
-                value=error_rate,
-                unit="ratio",
-                component=f"tool_{tool_name}"
-            ))
+            metrics.append(
+                PerformanceMetric(
+                    timestamp=timestamp,
+                    metric_name="error_rate",
+                    value=error_rate,
+                    unit="ratio",
+                    component=f"tool_{tool_name}",
+                )
+            )
 
         return metrics
 
@@ -285,13 +309,13 @@ class PerformanceAnalyzer:
                 "cpu_usage": {"warning": 80.0, "critical": 95.0},
                 "memory_usage": {"warning": 85.0, "critical": 95.0},
                 "disk_read_mb_per_sec": {"warning": 100.0, "critical": 500.0},
-                "disk_write_mb_per_sec": {"warning": 100.0, "critical": 500.0}
+                "disk_write_mb_per_sec": {"warning": 100.0, "critical": 500.0},
             },
             "tool_execution": {
                 "avg_execution_time": {"warning": 5.0, "critical": 10.0},
                 "max_execution_time": {"warning": 30.0, "critical": 60.0},
-                "error_rate": {"warning": 0.1, "critical": 0.25}
-            }
+                "error_rate": {"warning": 0.1, "critical": 0.25},
+            },
         }
 
     def analyze_metrics(self, metrics: list[PerformanceMetric]) -> list[PerformanceAlert]:
@@ -330,7 +354,7 @@ class PerformanceAnalyzer:
                 threshold_value=thresholds["critical"],
                 current_value=metric.value,
                 component=metric.component,
-                timestamp=metric.timestamp
+                timestamp=metric.timestamp,
             )
 
         # Check warning threshold
@@ -343,7 +367,7 @@ class PerformanceAnalyzer:
                 threshold_value=thresholds["warning"],
                 current_value=metric.value,
                 component=metric.component,
-                timestamp=metric.timestamp
+                timestamp=metric.timestamp,
             )
 
         return None
@@ -355,7 +379,7 @@ class PerformanceAnalyzer:
             "metrics_count": len(metrics),
             "components": set(m.component for m in metrics),
             "time_range": {},
-            "component_summaries": {}
+            "component_summaries": {},
         }
 
         if metrics:
@@ -363,7 +387,7 @@ class PerformanceAnalyzer:
             summary["time_range"] = {
                 "start": datetime.fromtimestamp(min(timestamps)).isoformat(),
                 "end": datetime.fromtimestamp(max(timestamps)).isoformat(),
-                "duration_seconds": max(timestamps) - min(timestamps)
+                "duration_seconds": max(timestamps) - min(timestamps),
             }
 
         # Component-specific summaries
@@ -374,7 +398,7 @@ class PerformanceAnalyzer:
         for component, component_metrics in by_component.items():
             component_summary = {
                 "metrics_count": len(component_metrics),
-                "metric_types": list(set(m.metric_name for m in component_metrics))
+                "metric_types": list(set(m.metric_name for m in component_metrics)),
             }
 
             # Calculate averages for numeric metrics
@@ -407,48 +431,45 @@ class PerformanceOptimizer:
             {
                 "name": "high_cpu_usage",
                 "condition": lambda metrics: any(
-                    m.metric_name == "cpu_usage" and m.value > 80
-                    for m in metrics
+                    m.metric_name == "cpu_usage" and m.value > 80 for m in metrics
                 ),
                 "recommendation": "Consider reducing concurrent operations or optimizing CPU-intensive tasks",
-                "priority": "high"
+                "priority": "high",
             },
             {
                 "name": "high_memory_usage",
                 "condition": lambda metrics: any(
-                    m.metric_name == "memory_usage" and m.value > 85
-                    for m in metrics
+                    m.metric_name == "memory_usage" and m.value > 85 for m in metrics
                 ),
                 "recommendation": "Implement memory management strategies, clear caches, or increase available memory",
-                "priority": "high"
+                "priority": "high",
             },
             {
                 "name": "slow_tool_execution",
                 "condition": lambda metrics: any(
-                    m.metric_name == "avg_execution_time" and m.value > 5.0
-                    for m in metrics
+                    m.metric_name == "avg_execution_time" and m.value > 5.0 for m in metrics
                 ),
                 "recommendation": "Optimize slow tool implementations, consider caching, or implement parallel execution",
-                "priority": "medium"
+                "priority": "medium",
             },
             {
                 "name": "high_error_rate",
                 "condition": lambda metrics: any(
-                    m.metric_name == "error_rate" and m.value > 0.15
-                    for m in metrics
+                    m.metric_name == "error_rate" and m.value > 0.15 for m in metrics
                 ),
                 "recommendation": "Investigate error causes, improve error handling, and enhance validation",
-                "priority": "high"
+                "priority": "high",
             },
             {
                 "name": "excessive_disk_io",
                 "condition": lambda metrics: any(
-                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"] and m.value > 100
+                    m.metric_name in ["disk_read_mb_per_sec", "disk_write_mb_per_sec"]
+                    and m.value > 100
                     for m in metrics
                 ),
                 "recommendation": "Optimize file operations, implement caching, or consider using faster storage",
-                "priority": "medium"
-            }
+                "priority": "medium",
+            },
         ]
 
     def generate_recommendations(self, metrics: list[PerformanceMetric]) -> list[dict[str, Any]]:
@@ -458,12 +479,14 @@ class PerformanceOptimizer:
         for rule in self.optimization_rules:
             try:
                 if rule["condition"](metrics):
-                    recommendations.append({
-                        "name": rule["name"],
-                        "recommendation": rule["recommendation"],
-                        "priority": rule["priority"],
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    recommendations.append(
+                        {
+                            "name": rule["name"],
+                            "recommendation": rule["recommendation"],
+                            "priority": rule["priority"],
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
             except Exception as e:
                 logger.error(f"Error evaluating optimization rule {rule['name']}: {e}")
 
@@ -489,9 +512,7 @@ class PerformanceMonitor:
         self.collector = PerformanceCollector(
             collection_interval=self.config.get("collection_interval", 1.0)
         )
-        self.analyzer = PerformanceAnalyzer(
-            alert_thresholds=self.config.get("alert_thresholds")
-        )
+        self.analyzer = PerformanceAnalyzer(alert_thresholds=self.config.get("alert_thresholds"))
         self.optimizer = PerformanceOptimizer()
 
         # State
@@ -559,7 +580,7 @@ class PerformanceMonitor:
                         "alerts": [asdict(alert) for alert in alerts],
                         "summary": summary,
                         "recommendations": recommendations,
-                        "health_score": self._calculate_health_score(metrics, alerts)
+                        "health_score": self._calculate_health_score(metrics, alerts),
                     }
 
                     self.last_analysis = analysis_result
@@ -580,8 +601,9 @@ class PerformanceMonitor:
                 logger.error(f"Performance analysis error: {e}")
                 await asyncio.sleep(10)
 
-    def _calculate_health_score(self, metrics: list[PerformanceMetric],
-                               alerts: list[PerformanceAlert]) -> float:
+    def _calculate_health_score(
+        self, metrics: list[PerformanceMetric], alerts: list[PerformanceAlert]
+    ) -> float:
         """Calculate overall system health score (0.0 to 1.0)"""
         if not metrics:
             return 0.5  # Neutral score with no data
@@ -621,18 +643,15 @@ class PerformanceMonitor:
             "last_analysis": self.last_analysis,
             "metrics_buffer_size": len(self.collector.metrics_buffer),
             "active_alerts": len(self.analyzer.active_alerts),
-            "history_size": len(self.performance_history)
+            "history_size": len(self.performance_history),
         }
 
         if self.last_analysis:
             status["health_score"] = self.last_analysis.get("health_score", 0.5)
-            status["critical_alerts"] = len([
-                a for a in self.last_analysis.get("alerts", [])
-                if a.get("severity") == "critical"
-            ])
-            status["recommendations_count"] = len(
-                self.last_analysis.get("recommendations", [])
+            status["critical_alerts"] = len(
+                [a for a in self.last_analysis.get("alerts", []) if a.get("severity") == "critical"]
             )
+            status["recommendations_count"] = len(self.last_analysis.get("recommendations", []))
 
         return status
 
@@ -655,7 +674,7 @@ class PerformanceMonitor:
                 metrics, self.analyzer.analyze_metrics(metrics)
             ),
             "monitoring_config": self.config,
-            "raw_metrics": [asdict(m) for m in metrics[-1000:]]  # Last 1000 metrics
+            "raw_metrics": [asdict(m) for m in metrics[-1000:]],  # Last 1000 metrics
         }
 
         # Export to file
@@ -682,10 +701,9 @@ def get_performance_monitor(config: Optional[dict[str, Any]] = None) -> Performa
 
 
 # Integration function for tool executors
-def record_tool_execution(tool_name: str, execution_time: float, success: bool,
-                         context: Optional[dict[str, Any]] = None):
+def record_tool_execution(
+    tool_name: str, execution_time: float, success: bool, context: Optional[dict[str, Any]] = None
+):
     """Record tool execution metrics (convenience function)"""
     monitor = get_performance_monitor()
-    monitor.collector.tool_collector.record_execution(
-        tool_name, execution_time, success, context
-    )
+    monitor.collector.tool_collector.record_execution(tool_name, execution_time, success, context)

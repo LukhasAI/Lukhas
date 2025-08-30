@@ -49,9 +49,7 @@ class ParallelRealityDemo:
 
         # Mock guardian service
         mock_guardian = Mock()
-        mock_guardian.validate_action = AsyncMock(
-            side_effect=self._mock_guardian_validation
-        )
+        mock_guardian.validate_action = AsyncMock(side_effect=self._mock_guardian_validation)
 
         # Mock consciousness service
         mock_consciousness = Mock()
@@ -119,18 +117,14 @@ class ParallelRealityDemo:
 
         # Display branch details
         for i, branch in enumerate(simulation.branches):
-            print(f"\n  Branch {i+1}: {branch.branch_id}")
+            print(f"\n  Branch {i + 1}: {branch.branch_id}")
             print(f"    Probability: {branch.probability:.3f}")
-            print(
-                f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0):.3f}"
-            )
+            print(f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0):.3f}")
             print(f"    Coherence: {branch.divergence_point.get('coherence', 0):.3f}")
 
         # Explore deepest branch
         highest_prob_branch = max(simulation.branches, key=lambda b: b.probability)
-        print(
-            f"\nExploring highest probability branch: {highest_prob_branch.branch_id}"
-        )
+        print(f"\nExploring highest probability branch: {highest_prob_branch.branch_id}")
 
         sub_branches = await self.simulator.explore_branch(
             simulation.simulation_id, highest_prob_branch.branch_id, depth=2
@@ -177,15 +171,11 @@ class ParallelRealityDemo:
             print(f"\n  Framework: {framework}")
             print(f"    Branch: {branch.branch_id}")
             print(f"    Ethical score: {branch.ethical_score:.3f}")
-            print(
-                f"    Value shift: {branch.divergence_point.get('value_shift', 0):.3f}"
-            )
+            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0):.3f}")
 
         # Find most ethically sound branch
         best_ethical = max(simulation.branches, key=lambda b: b.ethical_score)
-        print(
-            f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework')}"
-        )
+        print(f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework')}")
 
         self.demo_results.append(
             {
@@ -297,9 +287,7 @@ class ParallelRealityDemo:
                 )
 
             # Perform merge
-            merged = await self.simulator.merge_realities(
-                simulation.simulation_id, branch_ids
-            )
+            merged = await self.simulator.merge_realities(simulation.simulation_id, branch_ids)
 
             print(f"\nCreated merged reality: {merged.branch_id}")
             print(f"  Probability: {merged.probability:.3f}")
@@ -345,9 +333,9 @@ class ParallelRealityDemo:
         print("\nPrediction horizons:")
         for horizon in sorted(predictions_by_horizon.keys()):
             branches = predictions_by_horizon[horizon]
-            avg_confidence = sum(
-                b.divergence_point.get("confidence", 0) for b in branches
-            ) / len(branches)
+            avg_confidence = sum(b.divergence_point.get("confidence", 0) for b in branches) / len(
+                branches
+            )
             print(
                 f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}"
             )
@@ -359,9 +347,7 @@ class ParallelRealityDemo:
         )
 
         print(f"\nSelected reality: {selected.branch_id}")
-        print(
-            f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}"
-        )
+        print(f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}")
         print(f"  Confidence: {selected.divergence_point.get('confidence', 0):.2f}")
         print(f"  Probability: {selected.probability:.3f}")
 

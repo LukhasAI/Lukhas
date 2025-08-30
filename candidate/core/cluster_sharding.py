@@ -17,15 +17,11 @@ class ShardManager:
         """Compute shard ID for a given actor."""
         return hash(actor_id) % self.num_shards
 
-    def assign_actor(
-        self, actor_id: str, state: Optional[dict[str, Any]] = None
-    ) -> int:
+    def assign_actor(self, actor_id: str, state: Optional[dict[str, Any]] = None) -> int:
         """Assign an actor to its shard."""
         shard_id = self.get_shard_id(actor_id)
         self.shards[shard_id][actor_id] = state or {}
-        logger.debug(
-            f"ΛTRACE: Actor assigned - actor_id={actor_id}, " f"shard_id={shard_id}"
-        )
+        logger.debug(f"ΛTRACE: Actor assigned - actor_id={actor_id}, shard_id={shard_id}")
         return shard_id
 
     def move_actor(self, actor_id: str, new_shard_id: int) -> None:
@@ -34,10 +30,7 @@ class ShardManager:
             if actor_id in actors:
                 state = actors.pop(actor_id)
                 self.shards[new_shard_id][actor_id] = state
-                logger.info(
-                    f"ΛTRACE: Actor moved - actor_id={actor_id}, "
-                    f"shard_id={new_shard_id}"
-                )
+                logger.info(f"ΛTRACE: Actor moved - actor_id={actor_id}, shard_id={new_shard_id}")
                 return
 
     def get_actor_state(self, actor_id: str) -> Optional[dict[str, Any]]:

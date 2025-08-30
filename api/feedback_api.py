@@ -207,9 +207,7 @@ async def _setup_mock_services():
 
     # Mock natural language interface
     mock_nl = Mock()
-    mock_nl._analyze_emotion = AsyncMock(
-        return_value={"positive": 0.7, "negative": 0.3}
-    )
+    mock_nl._analyze_emotion = AsyncMock(return_value={"positive": 0.7, "negative": 0.3})
 
     # Mock audit service
     mock_audit = Mock()
@@ -380,11 +378,7 @@ async def edit_feedback(request: FeedbackEditRequest):
         return FeedbackResponse(
             success=success,
             feedback_id=request.feedback_id,
-            message=(
-                "Feedback updated successfully"
-                if success
-                else "Failed to update feedback"
-            ),
+            message=("Feedback updated successfully" if success else "Failed to update feedback"),
         )
 
     except Exception as e:
@@ -392,9 +386,7 @@ async def edit_feedback(request: FeedbackEditRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete(
-    "/feedback/{feedback_id}", response_model=FeedbackResponse, tags=["Feedback"]
-)
+@app.delete("/feedback/{feedback_id}", response_model=FeedbackResponse, tags=["Feedback"])
 async def delete_feedback(
     feedback_id: str, user_id: str = Query(..., description="User ID for verification")
 ):
@@ -403,9 +395,7 @@ async def delete_feedback(
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
 
-        success = await feedback_system.delete_feedback(
-            feedback_id=feedback_id, user_id=user_id
-        )
+        success = await feedback_system.delete_feedback(feedback_id=feedback_id, user_id=user_id)
 
         return FeedbackResponse(
             success=success,
@@ -489,9 +479,7 @@ async def update_consent(request: ConsentRequest):
             feedback_frequency="sometimes",
             total_feedback_given=0,
             consent_given=request.consent_given,
-            consent_timestamp=(
-                datetime.now(timezone.utc) if request.consent_given else None
-            ),
+            consent_timestamp=(datetime.now(timezone.utc) if request.consent_given else None),
             data_retention_days=request.data_retention_days
             or feedback_system.compliance_rules[request.region]["data_retention_days"],
             allow_anonymized_usage=request.allow_anonymized_usage,
@@ -563,11 +551,7 @@ async def get_status():
 async def health_check():
     """Health check endpoint."""
     return {
-        "status": (
-            "healthy"
-            if feedback_system and feedback_system.operational
-            else "unhealthy"
-        ),
+        "status": ("healthy" if feedback_system and feedback_system.operational else "unhealthy"),
         "timestamp": datetime.now(timezone.utc),
     }
 

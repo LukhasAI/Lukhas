@@ -98,9 +98,7 @@ class EnhancedGlyphEngine:
             glyph = self.factory.create_emotion_glyph(
                 emotion_vector or EmotionVector(intensity=0.5)
             )
-        elif any(
-            word in concept.lower() for word in ["think", "consciousness", "aware"]
-        ):
+        elif any(word in concept.lower() for word in ["think", "consciousness", "aware"]):
             glyph = Glyph(
                 glyph_type=GlyphType.CAUSAL,
                 symbol="🧠",
@@ -151,9 +149,7 @@ class EnhancedGlyphEngine:
 
         return symbol
 
-    def translate_for_module(
-        self, symbol: UniversalSymbol, target_module: str
-    ) -> UniversalSymbol:
+    def translate_for_module(self, symbol: UniversalSymbol, target_module: str) -> UniversalSymbol:
         """
         Translate a symbol for optimal use by a specific module.
 
@@ -261,9 +257,7 @@ class EnhancedGlyphEngine:
 
         if not module_symbols:
             # Create empty state symbol
-            return self.encode_concept(
-                f"{module_name}_empty_state", source_module=module_name
-            )
+            return self.encode_concept(f"{module_name}_empty_state", source_module=module_name)
 
         # Compress using universal protocol
         compressed = self.universal_protocol.compress_symbols(module_symbols)
@@ -275,9 +269,7 @@ class EnhancedGlyphEngine:
 
         return compressed
 
-    def expand_module_state(
-        self, compressed_state: UniversalSymbol
-    ) -> list[UniversalSymbol]:
+    def expand_module_state(self, compressed_state: UniversalSymbol) -> list[UniversalSymbol]:
         """
         Expand a compressed module state back to individual symbols.
         """

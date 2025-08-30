@@ -154,9 +154,7 @@ class LRUEmbeddingCache:
             self.stats["batch_loads"] += 1
 
             for memory_id, embedding in embeddings.items():
-                entry = EmbeddingCacheEntry(
-                    embedding=embedding.copy(), memory_id=memory_id
-                )
+                entry = EmbeddingCacheEntry(embedding=embedding.copy(), memory_id=memory_id)
 
                 if memory_id in self._cache:
                     old_entry = self._cache[memory_id]
@@ -186,9 +184,7 @@ class LRUEmbeddingCache:
 
         # Evict based on system memory pressure
         if memory_pressure > self.memory_pressure_threshold:
-            evict_count = max(
-                1, len(self._cache) // 10
-            )  # Evict 10% when under pressure
+            evict_count = max(1, len(self._cache) // 10)  # Evict 10% when under pressure
             for _ in range(evict_count):
                 if self._cache:
                     self._evict_oldest()
@@ -252,9 +248,7 @@ class EmbeddingStorage:
         self.embeddings_dir = self.storage_path / "embeddings"
         self.embeddings_dir.mkdir(exist_ok=True)
 
-        logger.info(
-            "Embedding storage initialized", storage_path=str(self.storage_path)
-        )
+        logger.info("Embedding storage initialized", storage_path=str(self.storage_path))
 
     def _init_database(self) -> None:
         """Initialize SQLite database for embedding metadata"""
@@ -337,9 +331,7 @@ class EmbeddingStorage:
                 return embedding
 
             except Exception as e:
-                logger.error(
-                    "Failed to load embedding", memory_id=memory_id, error=str(e)
-                )
+                logger.error("Failed to load embedding", memory_id=memory_id, error=str(e))
                 return None
 
     def load_embeddings_batch(self, memory_ids: list[str]) -> dict[str, np.ndarray]:
@@ -456,9 +448,7 @@ class LazyEmbeddingLoader:
         prefetch_enabled: bool = True,
     ):
         self.storage = EmbeddingStorage(storage_path)
-        self.cache = LRUEmbeddingCache(
-            max_entries=cache_size, max_memory_mb=cache_memory_mb
-        )
+        self.cache = LRUEmbeddingCache(max_entries=cache_size, max_memory_mb=cache_memory_mb)
         self.batch_size = batch_size
         self.prefetch_enabled = prefetch_enabled
 
@@ -493,9 +483,7 @@ class LazyEmbeddingLoader:
 
         return None
 
-    async def get_embeddings_batch(
-        self, memory_ids: list[str]
-    ) -> dict[str, np.ndarray]:
+    async def get_embeddings_batch(self, memory_ids: list[str]) -> dict[str, np.ndarray]:
         """Get multiple embeddings efficiently with batch loading"""
 
         embeddings = {}
@@ -536,9 +524,7 @@ class LazyEmbeddingLoader:
             return
 
         # Filter out already cached embeddings
-        to_prefetch = [
-            memory_id for memory_id in memory_ids if self.cache.get(memory_id) is None
-        ]
+        to_prefetch = [memory_id for memory_id in memory_ids if self.cache.get(memory_id) is None]
 
         if to_prefetch:
             logger.debug("Prefetching embeddings", count=len(to_prefetch))
@@ -712,9 +698,7 @@ async def example_usage():
     )
 
     # Store some test embeddings
-    test_embeddings = {
-        f"memory_{i}": np.random.randn(1024).astype(np.float32) for i in range(10)
-    }
+    test_embeddings = {f"memory_{i}": np.random.randn(1024).astype(np.float32) for i in range(10)}
 
     print(f"Storing {len(test_embeddings)} test embeddings...")
     for memory_id, embedding in test_embeddings.items():

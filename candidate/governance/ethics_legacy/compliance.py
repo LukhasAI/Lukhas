@@ -130,7 +130,7 @@ class EthicsComplianceEngine:
                         violation_type=EthicsViolationType.UNSAFE_OPERATION,
                         framework=ComplianceFramework.LUKHAS_ETHICS,
                         severity="critical",
-                        description=f"Ethics validation error: {str(e)}",
+                        description=f"Ethics validation error: {e!s}",
                         plugin_id="unknown",
                         timestamp=datetime.now(),
                         risk_score=1.0,
@@ -138,9 +138,7 @@ class EthicsComplianceEngine:
                 ],
             )
 
-    async def validate_plugin_manifest(
-        self, manifest: PluginManifest
-    ) -> EthicsValidationResult:
+    async def validate_plugin_manifest(self, manifest: PluginManifest) -> EthicsValidationResult:
         """Validate a plugin manifest for compliance"""
         result = EthicsValidationResult(passed=True)
 
@@ -152,9 +150,7 @@ class EthicsComplianceEngine:
         if manifest.capabilities and manifest.capabilities.permissions:
             dangerous_perms = {"admin", "root", "system", "unrestricted"}
             for permission in manifest.capabilities.permissions:
-                if any(
-                    dangerous in permission.lower() for dangerous in dangerous_perms
-                ):
+                if any(dangerous in permission.lower() for dangerous in dangerous_perms):
                     violation = ComplianceViolation(
                         violation_type=EthicsViolationType.UNSAFE_OPERATION,
                         framework=ComplianceFramework.LUKHAS_ETHICS,
@@ -174,9 +170,7 @@ class EthicsComplianceEngine:
         """Get the current risk score for a plugin"""
         return self.plugin_risk_scores.get(plugin_id, 0.0)
 
-    def get_violation_history(
-        self, plugin_id: Optional[str] = None
-    ) -> list[ComplianceViolation]:
+    def get_violation_history(self, plugin_id: Optional[str] = None) -> list[ComplianceViolation]:
         """Get violation history with optional filters"""
         violations = self.violation_history
 

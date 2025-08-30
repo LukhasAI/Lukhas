@@ -17,10 +17,10 @@ from .data_protection_validator import (
 )
 
 __all__ = [
-    "GDPRValidator",
+    "DataCategory",
     "DataProcessingActivity",
     "GDPRAssessment",
+    "GDPRValidator",
     "LawfulBasis",
-    "DataCategory",
     "ProcessingPurpose",
 ]

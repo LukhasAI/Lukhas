@@ -222,10 +222,10 @@ def add_module_description(filepath: Path) -> bool:
         description = MODULE_DESCRIPTIONS.get(
             filename,
             f"""
-{filepath.stem.replace('_', ' ').title()}
-{'=' * len(filepath.stem.replace('_', ' ').title())}
+{filepath.stem.replace("_", " ").title()}
+{"=" * len(filepath.stem.replace("_", " ").title())}
 
-Quantum-enhanced module for {filepath.stem.replace('_', ' ')} operations.
+Quantum-enhanced module for {filepath.stem.replace("_", " ")} operations.
 Integrates with LUKHAS AGI architecture for advanced quantum-inspired processing
 capabilities and bio-symbolic reasoning enhancements.
 """,

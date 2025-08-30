@@ -38,13 +38,9 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
-        self.lukhas_signature = (
-            f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
-        )
+        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
 
-    def update_with_gradients(
-        self, gradients: dict, client_id: str, weight: float = 1.0
-    ):
+    def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0):
         """
         Update model parameters with gradients from a client
 
@@ -140,12 +136,8 @@ class LukhasFederatedLearningManager:
     def __init__(self, storage_dir: str = None):
         self.models = {}  # model_id -> LukhasFederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
-        self.aggregation_threshold = (
-            3  # Min clients before aggregation (reduced for LUKHAS)
-        )
-        self.storage_dir = storage_dir or os.path.join(
-            os.getcwd(), "lukhas_federated_models"
-        )
+        self.aggregation_threshold = 3  # Min clients before aggregation (reduced for LUKHAS)
+        self.storage_dir = storage_dir or os.path.join(os.getcwd(), "lukhas_federated_models")
         self.lukhas_metadata = {
             "system": "LUKHAS",
             "transferred_from": "Lucas-Portfolio Pre-Final 2",

@@ -8,7 +8,6 @@ from collections import Counter
 
 
 class DocumentStructureAnalyzer:
-
     def __init__(self):
         self.section_patterns = [
             r"#{1,6}\s+.+",  # Markdown headers
@@ -94,8 +93,7 @@ class DocumentStructureAnalyzer:
                 continue
 
             indent_consistency = (
-                len({len(line) - len(line.lstrip()) for line in lines if line.strip()})
-                <= 2
+                len({len(line) - len(line.lstrip()) for line in lines if line.strip()}) <= 2
             )
 
             has_comments = any(re.search(r"#|//|/\*|\*/", line) for line in lines)
@@ -129,9 +127,7 @@ class DocumentStructureAnalyzer:
             return 0.0
 
         # Calculate average sentence length
-        avg_sentence_length = sum(len(s.split()) for s in sentences if s.strip()) / len(
-            sentences
-        )
+        avg_sentence_length = sum(len(s.split()) for s in sentences if s.strip()) / len(sentences)
 
         # Penalize very short or very long sentences
         length_score = 1.0 - abs(avg_sentence_length - 20) / 30
@@ -149,21 +145,13 @@ class DocumentStructureAnalyzer:
         """Analyze document formatting consistency."""
         # Check consistent spacing
         consistent_spacing = (
-            len(
-                {
-                    len(line) - len(line.lstrip())
-                    for line in content.split("\n")
-                    if line.strip()
-                }
-            )
+            len({len(line) - len(line.lstrip()) for line in content.split("\n") if line.strip()})
             <= 2
         )
 
         # Check list formatting
         list_items = re.findall(r"[-*]\s+\w+", content)
-        consistent_lists = (
-            len({line[0] for line in list_items}) <= 1 if list_items else True
-        )
+        consistent_lists = len({line[0] for line in list_items}) <= 1 if list_items else True
 
         # Check header formatting
         headers = re.findall(r"#{1,6}\s+\w+", content)
@@ -174,6 +162,4 @@ class DocumentStructureAnalyzer:
             else True
         )
 
-        return (
-            0.4 * consistent_spacing + 0.3 * consistent_lists + 0.3 * consistent_headers
-        )
+        return 0.4 * consistent_spacing + 0.3 * consistent_lists + 0.3 * consistent_headers

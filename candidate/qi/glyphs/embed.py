@@ -4,6 +4,7 @@ GLYPH Seal Embedding
 
 Embed and extract GLYPH seals in various media formats.
 """
+
 from __future__ import annotations
 
 import base64
@@ -17,13 +18,15 @@ from typing import Any
 # PNG chunk utilities
 def _crc32(data: bytes) -> int:
     """Calculate CRC32 for PNG chunk."""
-    return zlib.crc32(data) & 0xffffffff
+    return zlib.crc32(data) & 0xFFFFFFFF
+
 
 def _make_png_chunk(chunk_type: bytes, data: bytes) -> bytes:
     """Create a PNG chunk."""
     length = struct.pack(">I", len(data))
     crc = struct.pack(">I", _crc32(chunk_type + data))
     return length + chunk_type + data + crc
+
 
 def _parse_png_chunks(png_bytes: bytes) -> list[tuple[bytes, bytes]]:
     """Parse PNG chunks."""
@@ -36,16 +39,16 @@ def _parse_png_chunks(png_bytes: bytes) -> list[tuple[bytes, bytes]]:
         if pos + 8 > len(png_bytes):
             break
 
-        length = struct.unpack(">I", png_bytes[pos:pos+4])[0]
+        length = struct.unpack(">I", png_bytes[pos : pos + 4])[0]
         pos += 4
 
         if pos + 4 + length + 4 > len(png_bytes):
             break
 
-        chunk_type = png_bytes[pos:pos+4]
+        chunk_type = png_bytes[pos : pos + 4]
         pos += 4
 
-        data = png_bytes[pos:pos+length]
+        data = png_bytes[pos : pos + length]
         pos += length
 
         # Skip CRC
@@ -57,6 +60,7 @@ def _parse_png_chunks(png_bytes: bytes) -> list[tuple[bytes, bytes]]:
             break
 
     return chunks
+
 
 def embed_in_png(png_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) -> bytes:
     """
@@ -87,8 +91,17 @@ def embed_in_png(png_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) ->
     translated_keyword = b""
     text = seal_data.encode("utf-8")
 
-    itxt_data = keyword + b"\x00" + compression_flag + compression_method + \
-                language + b"\x00" + translated_keyword + b"\x00" + text
+    itxt_data = (
+        keyword
+        + b"\x00"
+        + compression_flag
+        + compression_method
+        + language
+        + b"\x00"
+        + translated_keyword
+        + b"\x00"
+        + text
+    )
 
     itxt_chunk = _make_png_chunk(b"iTXt", itxt_data)
 
@@ -104,6 +117,7 @@ def embed_in_png(png_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) ->
         result += _make_png_chunk(chunk_type, data)
 
     return result
+
 
 def extract_from_png(png_bytes: bytes) -> dict[str, Any] | None:
     """
@@ -133,6 +147,7 @@ def extract_from_png(png_bytes: bytes) -> dict[str, Any] | None:
 
     return None
 
+
 def embed_in_text(text_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) -> bytes:
     """
     Embed GLYPH seal in text using front-matter.
@@ -161,6 +176,7 @@ X-Lukhas-Glyph: {seal_b64}
 """
 
     return front_matter.encode("utf-8") + text_bytes
+
 
 def extract_from_text(text_bytes: bytes) -> dict[str, Any] | None:
     """
@@ -196,6 +212,7 @@ def extract_from_text(text_bytes: bytes) -> dict[str, Any] | None:
     except Exception:
         return None
 
+
 def embed_qr_data(seal: dict[str, Any], sig: dict[str, Any]) -> str:
     """
     Create compact QR-friendly representation.
@@ -218,7 +235,7 @@ def embed_qr_data(seal: dict[str, Any], sig: dict[str, Any]) -> str:
         "j": seal["jurisdiction"],
         "p": seal["proof_bundle"],
         "n": seal["nonce"],
-        "s": sig["signature"][-32:]  # Truncated signature for QR
+        "s": sig["signature"][-32:],  # Truncated signature for QR
     }
 
     # Convert to compact JSON
@@ -227,6 +244,7 @@ def embed_qr_data(seal: dict[str, Any], sig: dict[str, Any]) -> str:
     # Base45 encode (more efficient for QR than base64)
     # For now use base64 as base45 requires additional library
     return base64.b64encode(compact.encode("utf-8")).decode("ascii")
+
 
 def parse_qr_data(qr_data: str) -> dict[str, Any] | None:
     """
@@ -252,7 +270,7 @@ def parse_qr_data(qr_data: str) -> dict[str, Any] | None:
             "jurisdiction": minimal["j"],
             "proof_bundle": minimal["p"],
             "nonce": minimal["n"],
-            "signature_suffix": minimal["s"]
+            "signature_suffix": minimal["s"],
         }
     except Exception:
         return None

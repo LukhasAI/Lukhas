@@ -30,9 +30,7 @@ class WalletSymbolicVault:
         self.wallet_memories = {}  # Store wallet-specific memories
         self.transaction_seeds = {}  # Symbolic seeds for transactions
 
-    def register_environmental_trigger(
-        self, trigger_type: str, trigger_data: dict[str, Any]
-    ):
+    def register_environmental_trigger(self, trigger_type: str, trigger_data: dict[str, Any]):
         """Register environmental trigger for symbolic wallet access"""
         trigger_hash = self._hash_trigger_data(trigger_data)
         self.environmental_triggers[trigger_type] = {
@@ -42,9 +40,7 @@ class WalletSymbolicVault:
             "wallet_context": trigger_data.get("wallet_context", {}),
         }
 
-        logger.info(
-            f"Registered environmental trigger for wallet {self.lambda_id}: {trigger_type}"
-        )
+        logger.info(f"Registered environmental trigger for wallet {self.lambda_id}: {trigger_type}")
 
     def verify_access(self, layer: int, verification_data: dict[str, Any]) -> bool:
         """Verify wallet access using multi-factor symbolic verification"""
@@ -90,9 +86,7 @@ class WalletSymbolicVault:
         transaction_context: dict[str, Any],
     ):
         """Store symbolic seed for transaction recovery"""
-        seed_hash = self._hash_trigger_data(
-            {"seed": symbolic_seed, "context": transaction_context}
-        )
+        seed_hash = self._hash_trigger_data({"seed": symbolic_seed, "context": transaction_context})
 
         self.transaction_seeds[transaction_id] = {
             "seed_hash": seed_hash,
@@ -126,31 +120,24 @@ class WalletSymbolicVault:
             "lambda_id": self.lambda_id,
             "access_layers": self.access_layers,
             "environmental_triggers": {
-                k: {**v, "hash": "[REDACTED]"}
-                for k, v in self.environmental_triggers.items()
+                k: {**v, "hash": "[REDACTED]"} for k, v in self.environmental_triggers.items()
             },
             "wallet_memories_count": len(self.wallet_memories),
             "transaction_seeds_count": len(self.transaction_seeds),
             "backup_timestamp": datetime.now().isoformat(),
-            "symbolic_verification": self._create_symbolic_verification(
-                symbolic_phrase
-            ),
+            "symbolic_verification": self._create_symbolic_verification(symbolic_phrase),
         }
 
         return backup_data
 
-    def restore_from_backup(
-        self, backup_data: dict[str, Any], symbolic_phrase: str
-    ) -> bool:
+    def restore_from_backup(self, backup_data: dict[str, Any], symbolic_phrase: str) -> bool:
         """Restore wallet vault from symbolic backup"""
         try:
             # Verify symbolic phrase
             if not self._verify_symbolic_verification(
                 backup_data.get("symbolic_verification"), symbolic_phrase
             ):
-                logger.warning(
-                    f"Invalid symbolic phrase for restoration of {self.lambda_id}"
-                )
+                logger.warning(f"Invalid symbolic phrase for restoration of {self.lambda_id}")
                 return False
 
             # Restore basic structure
@@ -194,10 +181,7 @@ class WalletSymbolicVault:
 
     def _verify_symbolic_2fa(self, verification_data: dict[str, Any]) -> bool:
         """Verify symbolic 2FA for wallet access"""
-        return (
-            "emoji_sequence" in verification_data
-            and "behavior_pattern" in verification_data
-        )
+        return "emoji_sequence" in verification_data and "behavior_pattern" in verification_data
 
     def _verify_full_kyi(self, verification_data: dict[str, Any]) -> bool:
         """Verify full KYI (Know Your Identity) for high-value operations"""
@@ -209,18 +193,13 @@ class WalletSymbolicVault:
 
     def _verify_guardian_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify guardian layer access for vault administration"""
-        return (
-            "guardian_key" in verification_data
-            and "ethics_approval" in verification_data
-        )
+        return "guardian_key" in verification_data and "ethics_approval" in verification_data
 
     def _create_symbolic_verification(self, phrase: str) -> str:
         """Create symbolic verification hash"""
         return hashlib.sha256(f"{self.lambda_id}:{phrase}".encode()).hexdigest()
 
-    def _verify_symbolic_verification(
-        self, stored_hash: Optional[str], phrase: str
-    ) -> bool:
+    def _verify_symbolic_verification(self, stored_hash: Optional[str], phrase: str) -> bool:
         """Verify symbolic phrase against stored hash"""
         if not stored_hash:
             return False

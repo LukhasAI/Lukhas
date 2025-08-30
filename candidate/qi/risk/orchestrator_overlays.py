@@ -26,6 +26,7 @@ class OverlaySchema(BaseModel):
     jurisdictions: dict[str, dict[str, Any]] = {}
     contexts: dict[str, dict[str, Any]] = {}
 
+
 class RiskOverlayManager:
     """
     Loads and merges YAML policy overlays from a root directory.
@@ -54,9 +55,7 @@ class RiskOverlayManager:
             self._load()
 
     def get_policies(
-        self,
-        jurisdiction: Optional[str] = None,
-        context: Optional[str] = None
+        self, jurisdiction: Optional[str] = None, context: Optional[str] = None
     ) -> dict[str, Any]:
         """
         Returns the merged policy dict for the given jurisdiction and context.
@@ -72,14 +71,10 @@ class RiskOverlayManager:
             merged = copy.deepcopy(self._overlays.global_policies)
 
             if jurisdiction and jurisdiction in self._overlays.jurisdictions:
-                merged = self._deep_merge(
-                    merged, self._overlays.jurisdictions[jurisdiction]
-                )
+                merged = self._deep_merge(merged, self._overlays.jurisdictions[jurisdiction])
 
             if context and context in self._overlays.contexts:
-                merged = self._deep_merge(
-                    merged, self._overlays.contexts[context]
-                )
+                merged = self._deep_merge(merged, self._overlays.contexts[context])
 
             return merged
 
@@ -91,10 +86,12 @@ class RiskOverlayManager:
                 base[k] = copy.deepcopy(v)
         return base
 
+
 # CLI for ops teams
 if __name__ == "__main__":
     import argparse
     import json
+
     parser = argparse.ArgumentParser(description="Risk Overlay Manager CLI")
     parser.add_argument("overlay_dir", help="Path to overlays.yaml root dir")
     parser.add_argument("--jurisdiction", help="Jurisdiction code", default=None)

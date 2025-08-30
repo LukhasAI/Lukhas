@@ -41,10 +41,10 @@ from .drift_monitor import (
 )
 
 __all__ = [
-    "UnifiedDriftMonitor",
+    "DriftAlert",
     "DriftType",
     "InterventionType",
+    "UnifiedDriftMonitor",
     "UnifiedDriftScore",
-    "DriftAlert",
     "create_drift_monitor",
 ]

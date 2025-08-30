@@ -22,10 +22,7 @@ def tags_to_tensor(
     tag_data: dict[str, tuple[str, TagScope, TagPermission, float]],
 ) -> torch.Tensor:
     """Convert tag values to a tensor for batched processing."""
-    vectors = [
-        _resolver.resolve_tag(value).vector
-        for value, _scope, _perm, _ in tag_data.values()
-    ]
+    vectors = [_resolver.resolve_tag(value).vector for value, _scope, _perm, _ in tag_data.values()]
     tensor = torch.tensor(vectors, dtype=torch.float32, device=_device)
     return tensor
 
@@ -37,9 +34,7 @@ def batch_propagate(
     """Propagate tags to multiple colonies via tensor broadcast."""
     tag_tensor = tags_to_tensor(tag_data)
     for colony in colonies:
-        for (tag_key, (_, scope, perm, lifespan)), vector in zip(
-            tag_data.items(), tag_tensor
-        ):
+        for (tag_key, (_, scope, perm, lifespan)), vector in zip(tag_data.items(), tag_tensor):
             creation_time = time.time()
             colony.symbolic_carryover[tag_key] = (
                 vector.cpu().tolist(),

@@ -16,7 +16,6 @@ Integration Date: 2025-05-31T07:55:27.705072
 
 
 class LUKHASBrain:
-
     def __init__(self, core_integrator, config=None):
         self.core = core_integrator
 

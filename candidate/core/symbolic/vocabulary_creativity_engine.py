@@ -1127,4 +1127,4 @@ class VocabularyCreativityEngine:
 vision_vocabulary = VisionSymbolicVocabulary()
 
 # Export main classes
-__all__ = ["VisualSymbol", "VisionSymbolicVocabulary", "vision_vocabulary"]
+__all__ = ["VisionSymbolicVocabulary", "VisualSymbol", "vision_vocabulary"]

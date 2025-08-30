@@ -10,6 +10,7 @@ from candidate.core.security.auth import get_auth_system
 # Skip this test if public_api is not available
 try:
     from public_api import app
+
     API_AVAILABLE = True
 except ImportError:
     API_AVAILABLE = False

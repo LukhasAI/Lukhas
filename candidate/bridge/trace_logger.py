@@ -170,7 +170,7 @@ class BridgeTraceLogger:
         logger.info(
             "Bridge event: %(event_id)s [%(category)s/%(level)s] %(component)s: %(message)s",
             event_data,
-            extra={"structured_data": event_data}
+            extra={"structured_data": event_data},
         )
 
         return event_id

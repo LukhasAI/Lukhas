@@ -34,6 +34,7 @@ try:
         normalize_output_text,
         validate_output,
     )
+
     BRANDING_AVAILABLE = True
 except ImportError:
     BRANDING_AVAILABLE = False

@@ -48,6 +48,7 @@ try:
         get_brand_voice,
         get_trinity_context,
     )
+
     CONSCIOUSNESS_BRANDING_AVAILABLE = True
 except ImportError:
     CONSCIOUSNESS_BRANDING_AVAILABLE = False

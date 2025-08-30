@@ -137,9 +137,7 @@ class HomeostasisController:
     Core component of the colony's endocrine system.
     """
 
-    def __init__(
-        self, bus: Optional[SignalBus] = None, config_path: Optional[str] = None
-    ):
+    def __init__(self, bus: Optional[SignalBus] = None, config_path: Optional[str] = None):
         """
         Initialize the homeostasis controller.
 
@@ -219,10 +217,7 @@ class HomeostasisController:
                 )
 
             # Check for urgency markers
-            if any(
-                word in text.lower()
-                for word in ["urgent", "asap", "immediately", "now"]
-            ):
+            if any(word in text.lower() for word in ["urgent", "asap", "immediately", "now"]):
                 signals.append(
                     Signal(
                         name=SignalType.URGENCY,
@@ -312,9 +307,7 @@ class HomeostasisController:
                 damping = self.oscillation_detector.get_damping_factor(signal.name)
                 signal.level *= damping
                 self.metrics["oscillations_prevented"] += 1
-                logger.debug(
-                    f"Damping {signal.name} by {damping:.2f} due to oscillation"
-                )
+                logger.debug(f"Damping {signal.name} by {damping:.2f} due to oscillation")
 
             # Apply rate limiting
             last_emit = self.rate_limiters.get(signal.name, 0)
@@ -331,9 +324,7 @@ class HomeostasisController:
             if signal.name == SignalType.ALIGNMENT_RISK and signal.level > 0.8:
                 self.emergency_mode = True
                 self.metrics["emergency_activations"] += 1
-                logger.warning(
-                    f"Emergency mode activated: {signal.name} = {signal.level:.2f}"
-                )
+                logger.warning(f"Emergency mode activated: {signal.name} = {signal.level:.2f}")
 
             # Update rate limiter
             self.rate_limiters[signal.name] = time.time()
@@ -389,9 +380,7 @@ class HomeostasisController:
             if "stress" in maps:
                 params.temperature = min(
                     params.temperature,
-                    self._eval_expression(
-                        maps["stress"].get("temperature", "0.7"), {"x": stress}
-                    ),
+                    self._eval_expression(maps["stress"].get("temperature", "0.7"), {"x": stress}),
                 )
                 params.max_output_tokens = int(
                     self._eval_expression(
@@ -461,9 +450,7 @@ class HomeostasisController:
                 )
                 params.memory_write_strength = max(
                     params.memory_write_strength,
-                    self._eval_expression(
-                        maps["trust"].get("memory_write", "0.5"), {"x": trust}
-                    ),
+                    self._eval_expression(maps["trust"].get("memory_write", "0.5"), {"x": trust}),
                 )
 
         # Emergency mode overrides
@@ -560,9 +547,7 @@ class HomeostasisController:
             "oscillation_active": self.detect_oscillation(),
         }
 
-    async def process_event(
-        self, event: SystemEvent, context: dict[str, Any]
-    ) -> ModulationParams:
+    async def process_event(self, event: SystemEvent, context: dict[str, Any]) -> ModulationParams:
         """
         Main processing pipeline: event -> signals -> modulation.
 
@@ -591,7 +576,7 @@ class HomeostasisController:
 
         # Create audit trail
         audit = AuditTrail(
-            audit_id=f"audit_{int(time.time()*1000)}",
+            audit_id=f"audit_{int(time.time() * 1000)}",
             timestamp=time.time(),
             signals=active_signals,
             event=event,
@@ -611,9 +596,7 @@ class HomeostasisController:
         parts = [f"Event: {event.value}"]
 
         if signals:
-            signal_desc = ", ".join(
-                [f"{s.name.value}={s.level:.2f}" for s in signals[:3]]
-            )
+            signal_desc = ", ".join([f"{s.name.value}={s.level:.2f}" for s in signals[:3]])
             parts.append(f"Active signals: {signal_desc}")
 
         if self.emergency_mode:

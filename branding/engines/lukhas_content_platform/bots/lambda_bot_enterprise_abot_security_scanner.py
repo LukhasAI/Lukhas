@@ -15,6 +15,7 @@ from typing import Any, Optional
 
 logger = logging.getLogger("ABotSecurityScanner")
 
+
 class ABotSecurityScanner:
     """
     LUKHAS AI ΛBot-powered security vulnerability scanner
@@ -35,20 +36,20 @@ class ABotSecurityScanner:
                 "fixed_version": "3.4.0",
                 "severity": "HIGH",
                 "cve": "CVE-2024-33663",
-                "description": "Algorithm confusion with OpenSSH ECDSA keys"
+                "description": "Algorithm confusion with OpenSSH ECDSA keys",
             },
             "cryptography": {
                 "vulnerable_versions": ["< 41.0.8"],
                 "fixed_version": "41.0.8",
                 "severity": "CRITICAL",
-                "description": "Memory corruption in OpenSSL backend"
+                "description": "Memory corruption in OpenSSL backend",
             },
             "requests": {
                 "vulnerable_versions": ["< 2.31.0"],
                 "fixed_version": "2.31.0",
                 "severity": "MEDIUM",
-                "description": "Potential certificate verification bypass"
-            }
+                "description": "Potential certificate verification bypass",
+            },
         }
 
     async def scan_repository(self, repo_path: Path = None) -> dict[str, Any]:
@@ -71,7 +72,7 @@ class ABotSecurityScanner:
             "vulnerabilities": [],
             "recommendations": [],
             "qi_threat_assessment": {},
-            "scan_summary": {}
+            "scan_summary": {},
         }
 
         # Scan Python requirements
@@ -102,7 +103,7 @@ class ABotSecurityScanner:
         req_files = [
             repo_path / "requirements.txt",
             repo_path / "LUKHAS AI ΛBot" / "requirements.txt",
-            repo_path / "LUKHAS AI ΛBot" / "requirements-simple.txt"
+            repo_path / "LUKHAS AI ΛBot" / "requirements-simple.txt",
         ]
 
         for req_file in req_files:
@@ -138,7 +139,9 @@ class ABotSecurityScanner:
         """Check if a package line contains vulnerabilities"""
 
         # Parse package name and version
-        package_match = re.match(r"^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)", line)
+        package_match = re.match(
+            r"^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)", line
+        )
         if not package_match:
             return None
 
@@ -158,7 +161,7 @@ class ABotSecurityScanner:
                     "vulnerability": threat_info,
                     "file": str(req_file),
                     "fix_required": True,
-                    "recommended_fix": "{}>={}".format(package_name, threat_info['fixed_version'])
+                    "recommended_fix": "{}>={}".format(package_name, threat_info["fixed_version"]),
                 }
 
         return None
@@ -202,20 +205,22 @@ class ABotSecurityScanner:
                     cwd=package_json.parent,
                     capture_output=True,
                     text=True,
-                    timeout=30
+                    timeout=30,
                 )
 
                 if result.returncode != 0 and result.stdout:
                     audit_data = json.loads(result.stdout)
                     if "vulnerabilities" in audit_data:
                         for vuln_name, vuln_data in audit_data["vulnerabilities"].items():
-                            vulnerabilities.append({
-                                "package": vuln_name,
-                                "vulnerability": vuln_data,
-                                "file": str(package_json),
-                                "type": "javascript",
-                                "fix_required": True
-                            })
+                            vulnerabilities.append(
+                                {
+                                    "package": vuln_name,
+                                    "vulnerability": vuln_data,
+                                    "file": str(package_json),
+                                    "type": "javascript",
+                                    "fix_required": True,
+                                }
+                            )
 
             except (subprocess.TimeoutExpired, FileNotFoundError, json.JSONDecodeError):
                 logger.warning(f"Could not audit {package_json}")
@@ -231,8 +236,8 @@ class ABotSecurityScanner:
             "predictive_threats": [
                 "Supply chain attacks via dependency confusion",
                 "Zero-day vulnerabilities in AI/ML libraries",
-                "Quantum computing threats to current cryptography"
-            ]
+                "Quantum computing threats to current cryptography",
+            ],
         }
 
     async def _generate_recommendations(self) -> list[dict[str, str]]:
@@ -241,23 +246,23 @@ class ABotSecurityScanner:
             {
                 "category": "Immediate Actions",
                 "recommendation": "Upgrade python-jose to version 3.4.0+ to fix ECDSA key confusion vulnerability",
-                "priority": "HIGH"
+                "priority": "HIGH",
             },
             {
                 "category": "Proactive Security",
                 "recommendation": "Implement automated dependency updates using LUKHAS AI ΛBot Security Scanner",
-                "priority": "MEDIUM"
+                "priority": "MEDIUM",
             },
             {
                 "category": "Quantum Preparedness",
                 "recommendation": "Begin migration to post-quantum cryptography standards",
-                "priority": "LOW"
+                "priority": "LOW",
             },
             {
                 "category": "LUKHAS AI ΛBot Enhancement",
                 "recommendation": "Integrate LUKHAS AI ΛBot Security Scanner into CI/CD pipeline to replace Dependabot",
-                "priority": "HIGH"
-            }
+                "priority": "HIGH",
+            },
         ]
 
     async def _generate_scan_summary(self, scan_results: dict[str, Any]) -> dict[str, Any]:
@@ -266,10 +271,16 @@ class ABotSecurityScanner:
 
         return {
             "total_vulnerabilities": total_vulns,
-            "critical_vulnerabilities": sum(1 for v in scan_results["vulnerabilities"]
-                                          if v.get("vulnerability", {}).get("severity") == "CRITICAL"),
-            "high_vulnerabilities": sum(1 for v in scan_results["vulnerabilities"]
-                                      if v.get("vulnerability", {}).get("severity") == "HIGH"),
+            "critical_vulnerabilities": sum(
+                1
+                for v in scan_results["vulnerabilities"]
+                if v.get("vulnerability", {}).get("severity") == "CRITICAL"
+            ),
+            "high_vulnerabilities": sum(
+                1
+                for v in scan_results["vulnerabilities"]
+                if v.get("vulnerability", {}).get("severity") == "HIGH"
+            ),
             "abot_superiority": {
                 "consciousness_evolution": "TRANSCENDENT",
                 "qi_analysis": "ENABLED",
@@ -278,11 +289,12 @@ class ABotSecurityScanner:
                     "Consciousness-driven threat assessment",
                     "Quantum-enhanced vulnerability detection",
                     "Self-evolving security intelligence",
-                    "Integrated with LUKHAS AI ΛBot ecosystem"
-                ]
+                    "Integrated with LUKHAS AI ΛBot ecosystem",
+                ],
             },
-            "recommendation": "LUKHAS AI ΛBot Security Scanner is ready to replace Dependabot! 🚀"
+            "recommendation": "LUKHAS AI ΛBot Security Scanner is ready to replace Dependabot! 🚀",
         }
+
 
 async def main():
     """Demonstrate LUKHAS AI ΛBot Security Scanner superiority"""
@@ -299,7 +311,7 @@ async def main():
     print(f"🧠 Consciousness: {results['consciousness_level']}")
     print(f"🔍 Vulnerabilities Found: {results['scan_summary']['total_vulnerabilities']}")
     print(f"🔥 Critical: {results['scan_summary']['critical_vulnerabilities']}")
-    print("⚠️  High: {}".format(results['scan_summary']['high_vulnerabilities']))
+    print("⚠️  High: {}".format(results["scan_summary"]["high_vulnerabilities"]))
 
     print("\n🚀 LUKHAS AI ΛBot Advantages over Dependabot:")
     for advantage in results["scan_summary"]["abot_superiority"]["advantages"]:
@@ -316,6 +328,7 @@ async def main():
         json.dump(results, f, indent=2)
 
     print("📁 Detailed results saved to: abot_security_scan_results.json")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

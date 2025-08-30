@@ -102,9 +102,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         logger.info(f"🎯 AdaptiveThresholdColony '{colony_id}' initialized")
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Calculate dynamic thresholds based on context.
 
@@ -136,14 +134,10 @@ class AdaptiveThresholdColony(BaseColony):
 
             # Learn from feedback if available
             if "feedback" in task_data:
-                await self._update_from_feedback(
-                    task_data["feedback"], adapted_thresholds, context
-                )
+                await self._update_from_feedback(task_data["feedback"], adapted_thresholds, context)
 
             # Calculate confidence in thresholds
-            confidence = self._calculate_threshold_confidence(
-                adapted_thresholds, context
-            )
+            confidence = self._calculate_threshold_confidence(adapted_thresholds, context)
 
             # Apply methylation-based persistence
             adapted_thresholds = self._apply_methylation(adapted_thresholds, confidence)
@@ -163,9 +157,7 @@ class AdaptiveThresholdColony(BaseColony):
 
             return result
 
-    def _get_base_thresholds(
-        self, bio_data: dict[str, Any]
-    ) -> dict[str, dict[str, float]]:
+    def _get_base_thresholds(self, bio_data: dict[str, Any]) -> dict[str, dict[str, float]]:
         """Get base thresholds for given bio data types."""
         base = {}
 
@@ -179,17 +171,11 @@ class AdaptiveThresholdColony(BaseColony):
         # Tier 2: Combined states (if relevant data present)
         tier2 = {}
         if "cortisol" in bio_data or "heart_rate" in bio_data:
-            tier2["stress_state"] = self.thresholds["tier2_combined"][
-                "stress_state"
-            ].copy()
+            tier2["stress_state"] = self.thresholds["tier2_combined"]["stress_state"].copy()
         if "energy_level" in bio_data or "atp_level" in bio_data:
-            tier2["energy_state"] = self.thresholds["tier2_combined"][
-                "energy_state"
-            ].copy()
+            tier2["energy_state"] = self.thresholds["tier2_combined"]["energy_state"].copy()
         if "temperature" in bio_data and "ph" in bio_data:
-            tier2["homeostatic"] = self.thresholds["tier2_combined"][
-                "homeostatic"
-            ].copy()
+            tier2["homeostatic"] = self.thresholds["tier2_combined"]["homeostatic"].copy()
         base["tier2"] = tier2
 
         # Tier 3 & 4: Always include for holistic processing
@@ -233,9 +219,7 @@ class AdaptiveThresholdColony(BaseColony):
                         modified_value = value * (0.5 + 0.5 * composite_modifier)
 
                     # Clamp to valid range
-                    modified[tier_name][threshold_name][level] = np.clip(
-                        modified_value, 0.01, 0.99
-                    )
+                    modified[tier_name][threshold_name][level] = np.clip(modified_value, 0.01, 0.99)
 
         return modified
 
@@ -330,9 +314,7 @@ class AdaptiveThresholdColony(BaseColony):
 
         return 1.0
 
-    def _calculate_user_modifier(
-        self, context: dict[str, Any], bio_data: dict[str, Any]
-    ) -> float:
+    def _calculate_user_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate user-specific calibration modifier."""
         if "user_id" in context and context["user_id"] in self.user_calibration:
             calibration = self.user_calibration[context["user_id"]]
@@ -456,13 +438,9 @@ class AdaptiveThresholdColony(BaseColony):
             for signal_thresholds in tier.values():
                 for level in signal_thresholds:
                     signal_thresholds[level] *= adjustment
-                    signal_thresholds[level] = np.clip(
-                        signal_thresholds[level], 0.01, 0.99
-                    )
+                    signal_thresholds[level] = np.clip(signal_thresholds[level], 0.01, 0.99)
 
-        logger.info(
-            f"PPO update complete. Avg reward: {avg_reward:.3f}, Adjustment: {adjustment}"
-        )
+        logger.info(f"PPO update complete. Avg reward: {avg_reward:.3f}, Adjustment: {adjustment}")
 
     def _apply_ab_tests(
         self, thresholds: dict[str, dict[str, float]]

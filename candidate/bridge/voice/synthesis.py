@@ -72,22 +72,14 @@ class VoiceSynthesis:
 
         # Synthesize speech using the selected provider
         if provider == "elevenlabs":
-            result = self._synthesize_elevenlabs(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            result = self._synthesize_elevenlabs(text, emotion, voice_id, symbolic_resonance)
         elif provider == "coqui":
             result = self._synthesize_coqui(text, emotion, voice_id, symbolic_resonance)
         elif provider == "edge_tts":
-            result = self._synthesize_edge_tts(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            result = self._synthesize_edge_tts(text, emotion, voice_id, symbolic_resonance)
         else:
-            self.logger.warning(
-                f"Unknown TTS provider: {provider}, falling back to edge_tts"
-            )
-            result = self._synthesize_edge_tts(
-                text, emotion, voice_id, symbolic_resonance
-            )
+            self.logger.warning(f"Unknown TTS provider: {provider}, falling back to edge_tts")
+            result = self._synthesize_edge_tts(text, emotion, voice_id, symbolic_resonance)
 
         # Store in history if enabled and successful
         if self.voice_memory_enabled and result.get("success", False):
@@ -139,9 +131,7 @@ class VoiceSynthesis:
         elif provider == "edge_tts":
             return self._synthesize_edge_tts(text, emotion, voice_id)
         else:
-            self.logger.warning(
-                f"Unknown TTS provider: {provider}, falling back to edge_tts"
-            )
+            self.logger.warning(f"Unknown TTS provider: {provider}, falling back to edge_tts")
             return self._synthesize_edge_tts(text, emotion, voice_id)
 
     def _select_provider(self, emotion: Optional[str] = None) -> str:
@@ -239,7 +229,7 @@ class VoiceSynthesis:
                     "calm": "en-US-AriaNeural",
                     "excitement": "en-US-GuyNeural",
                     "sadness": "en-US-JennyNeural",
-                    "professional": "en-US-DavisNeural"
+                    "professional": "en-US-DavisNeural",
                 }
                 voice = emotion_voices.get(emotion.lower(), voice)
 
@@ -286,7 +276,7 @@ class VoiceSynthesis:
                 "audio_data": audio_data,
                 "format": "mp3",
                 "success": True,
-                "source": "edge_tts_library"
+                "source": "edge_tts_library",
             }
 
         except ImportError:
@@ -312,7 +302,7 @@ class VoiceSynthesis:
                 "sadness": "[SAD] ",
                 "excitement": "[EXCITED] ",
                 "calm": "[CALM] ",
-                "professional": "[FORMAL] "
+                "professional": "[FORMAL] ",
             }
             marked_text = emotion_markers.get(emotion.lower(), "") + text
         else:
@@ -328,5 +318,5 @@ class VoiceSynthesis:
             "format": "text",
             "success": True,
             "source": "fallback_simulation",
-            "note": "Install 'edge-tts' package for actual speech synthesis"
+            "note": "Install 'edge-tts' package for actual speech synthesis",
         }

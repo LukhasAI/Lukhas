@@ -16,6 +16,7 @@ STATE_DIR = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state")
 RECEIPTS_DIR = os.path.join(STATE_DIR, "provenance", "receipts")
 OFFSETS_PATH = os.path.join(STATE_DIR, "provenance", "receipts_offsets.json")
 
+
 # ---------- Optional Kafka ----------
 def _maybe_kafka_producer():
     brokers = os.environ.get("RECEIPTS_KAFKA_BROKERS")
@@ -24,7 +25,9 @@ def _maybe_kafka_producer():
     try:
         from kafka import KafkaProducer  # pip install kafka-python
     except Exception as e:
-        raise RuntimeError("Kafka sink requested but kafka-python not installed: pip install kafka-python") from e
+        raise RuntimeError(
+            "Kafka sink requested but kafka-python not installed: pip install kafka-python"
+        ) from e
     return KafkaProducer(
         bootstrap_servers=brokers.split(","),
         acks="all",
@@ -33,6 +36,7 @@ def _maybe_kafka_producer():
         key_serializer=lambda k: k.encode("utf-8") if isinstance(k, str) else k,
         api_version_auto_timeout_ms=5000,
     )
+
 
 # ---------- Optional S3 ----------
 def _maybe_s3_client():
@@ -46,17 +50,20 @@ def _maybe_s3_client():
     client = boto3.client("s3")
     return client
 
+
 @dataclass
 class SinkConfig:
     kafka_topic: str | None
     s3_bucket: str | None
     s3_prefix: str
 
+
 def _load_offsets() -> dict[str, int]:
     try:
         return json.load(open(OFFSETS_PATH, encoding="utf-8"))
     except Exception:
         return {}
+
 
 def _save_offsets(ofs: dict[str, int]):
     os.makedirs(os.path.dirname(OFFSETS_PATH), exist_ok=True)
@@ -65,8 +72,10 @@ def _save_offsets(ofs: dict[str, int]):
         json.dump(ofs, f, indent=2)
     os.replace(tmp, OFFSETS_PATH)
 
+
 def _list_receipt_files() -> list[str]:
     return sorted(glob.glob(os.path.join(RECEIPTS_DIR, "*.jsonl")))
+
 
 def _iter_lines(path: str, start: int) -> Iterable[tuple[int, str]]:
     with open(path, encoding="utf-8") as f:
@@ -75,10 +84,17 @@ def _iter_lines(path: str, start: int) -> Iterable[tuple[int, str]]:
                 continue
             yield idx, line
 
+
 def _rec_key(rec: dict[str, Any]) -> str:
     # Stable id: sha + event + rounded ts
-    h = hashlib.sha256(json.dumps({"sha": rec.get("artifact_sha"), "e": rec.get("event"), "t": int(rec.get("ts", 0))}, sort_keys=True).encode()).hexdigest()
+    h = hashlib.sha256(
+        json.dumps(
+            {"sha": rec.get("artifact_sha"), "e": rec.get("event"), "t": int(rec.get("ts", 0))},
+            sort_keys=True,
+        ).encode()
+    ).hexdigest()
     return h
+
 
 def ship_once(cfg: SinkConfig, once: bool = False, poll_sec: float = 1.0) -> None:
     if not (os.path.isdir(RECEIPTS_DIR)):
@@ -143,8 +159,10 @@ def ship_once(cfg: SinkConfig, once: bool = False, poll_sec: float = 1.0) -> Non
         return
     time.sleep(poll_sec)
 
+
 def main():
     import argparse
+
     ap = argparse.ArgumentParser(description="Lukhas receipts sink → Kafka/S3")
     ap.add_argument("--once", action="store_true", help="Process current backlog once and exit")
     ap.add_argument("--poll-sec", type=float, default=1.0)
@@ -157,7 +175,10 @@ def main():
     s3_prefix = os.environ.get("RECEIPTS_S3_PREFIX", "lukhas/provenance")
 
     if not kafka_topic and not s3_bucket:
-        print("[sink] Nothing to do: set RECEIPTS_KAFKA_TOPIC and/or RECEIPTS_S3_BUCKET", file=sys.stderr)
+        print(
+            "[sink] Nothing to do: set RECEIPTS_KAFKA_TOPIC and/or RECEIPTS_S3_BUCKET",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     cfg = SinkConfig(kafka_topic=kafka_topic, s3_bucket=s3_bucket, s3_prefix=s3_prefix)
@@ -169,6 +190,7 @@ def main():
     print(f"[sink] starting receipts sink (dir={RECEIPTS_DIR})")
     while True:
         ship_once(cfg, once=False, poll_sec=args.poll_sec)
+
 
 if __name__ == "__main__":
     main()

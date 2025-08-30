@@ -33,24 +33,18 @@ class AICodeConsolidator:
         # Process merge candidates
         merge_candidates = self.analysis["consolidation_plan"]["merge_candidates"]
         for merge_candidate in merge_candidates:
-            merged_result = await self._merge_modules_with_ai(
-                codebase_path, merge_candidate
-            )
+            merged_result = await self._merge_modules_with_ai(codebase_path, merge_candidate)
             if merged_result:
                 results["merged_modules"].append(merged_result)
 
         # Standardize interfaces
         interface_plan = self.analysis["interface_standardization"]
-        standardized = await self._standardize_interfaces_with_ai(
-            codebase_path, interface_plan
-        )
+        standardized = await self._standardize_interfaces_with_ai(codebase_path, interface_plan)
         results["standardized_interfaces"] = standardized
 
         # Optimize individual modules
         optimization_plan = self.analysis["optimization_plan"]
-        optimized = await self._optimize_modules_with_ai(
-            codebase_path, optimization_plan
-        )
+        optimized = await self._optimize_modules_with_ai(codebase_path, optimization_plan)
         results["optimized_code"] = optimized
 
         return results
@@ -91,9 +85,7 @@ class AICodeConsolidator:
 
         return None
 
-    def _create_merge_prompt(
-        self, module_contents: dict[str, str], component_type: str
-    ) -> str:
+    def _create_merge_prompt(self, module_contents: dict[str, str], component_type: str) -> str:
         """Create AI prompt for merging modules"""
         prompt = f"""You are an expert AGI architect. I need to merge these {component_type} modules while preserving all functionality and improving the architecture.
 
@@ -145,8 +137,8 @@ MERGED MODULE:
 Create a comprehensive Python interface/protocol for: {interface_name}
 
 SPECIFICATION:
-- Methods: {interface_spec['methods']}
-- Description: {interface_spec['description']}
+- Methods: {interface_spec["methods"]}
+- Description: {interface_spec["description"]}
 
 REQUIREMENTS:
 1. Use Python's typing module for proper type hints
@@ -208,9 +200,7 @@ OUTPUT: Complete Python interface definition with full documentation.
 
         return optimized_results
 
-    async def _optimize_complex_module(
-        self, module_path: str, original_code: str
-    ) -> Optional[str]:
+    async def _optimize_complex_module(self, module_path: str, original_code: str) -> Optional[str]:
         """Use AI to optimize a complex module"""
         prompt = f"""You are an expert AGI architect. Optimize this overly complex AGI module while preserving all functionality.
 
@@ -283,10 +273,10 @@ This report details the AI-powered consolidation of your AGI codebase.
 
         for merged in results["merged_modules"]:
             report += f"""
-### {merged['component_type'].title()} Component Merge
-- **Original Modules**: {', '.join(merged['original_modules'])}
-- **Strategy**: {merged['consolidation_strategy']}
-- **Result**: Successfully merged into unified {merged['component_type']} module
+### {merged["component_type"].title()} Component Merge
+- **Original Modules**: {", ".join(merged["original_modules"])}
+- **Strategy**: {merged["consolidation_strategy"]}
+- **Result**: Successfully merged into unified {merged["component_type"]} module
 
 """
 
@@ -296,9 +286,9 @@ This report details the AI-powered consolidation of your AGI codebase.
 
         for interface in results["standardized_interfaces"]:
             report += f"""
-### {interface['interface_name']}
-- **Purpose**: {interface['specification']['description']}
-- **Methods**: {', '.join(interface['specification']['methods'])}
+### {interface["interface_name"]}
+- **Purpose**: {interface["specification"]["description"]}
+- **Methods**: {", ".join(interface["specification"]["methods"])}
 
 """
 
@@ -308,8 +298,8 @@ This report details the AI-powered consolidation of your AGI codebase.
 
         for optimized in results["optimized_code"]:
             report += f"""
-### {optimized['module_path']}
-- **Optimization Type**: {optimized['optimization_type']}
+### {optimized["module_path"]}
+- **Optimization Type**: {optimized["optimization_type"]}
 - **Improvements**: Reduced complexity while preserving AGI functionality
 
 """
@@ -332,9 +322,7 @@ This report details the AI-powered consolidation of your AGI codebase.
 
         return report
 
-    def save_consolidated_modules(
-        self, results: dict, output_dir: str = "consolidated_agi"
-    ):
+    def save_consolidated_modules(self, results: dict, output_dir: str = "consolidated_agi"):
         """Save all consolidated modules to disk"""
         output_path = Path(output_dir)
         output_path.mkdir(exist_ok=True)

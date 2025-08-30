@@ -230,11 +230,7 @@ class OAuth2OIDCProvider:
             client_id = request_params.get("client_id", "")
             redirect_uri = request_params.get("redirect_uri", "")
             response_type = request_params.get("response_type", "")
-            scope = (
-                request_params.get("scope", "").split()
-                if request_params.get("scope")
-                else []
-            )
+            scope = request_params.get("scope", "").split() if request_params.get("scope") else []
             state = request_params.get("state", "")
             nonce = request_params.get("nonce", "")
 
@@ -244,9 +240,7 @@ class OAuth2OIDCProvider:
 
             # Validate client
             if client_id not in self.clients:
-                return self._error_response(
-                    "invalid_client", "Unknown client identifier"
-                )
+                return self._error_response("invalid_client", "Unknown client identifier")
 
             client = self.clients[client_id]
 
@@ -344,9 +338,7 @@ class OAuth2OIDCProvider:
                 )
 
         except Exception as e:
-            return self._error_response(
-                "server_error", f"Authorization processing failed: {str(e)}"
-            )
+            return self._error_response("server_error", f"Authorization processing failed: {e!s}")
 
     def handle_token_request(
         self,
@@ -368,22 +360,16 @@ class OAuth2OIDCProvider:
 
             # Validate client
             if client_id not in self.clients:
-                return self._error_response(
-                    "invalid_client", "Invalid client credentials"
-                )
+                return self._error_response("invalid_client", "Invalid client credentials")
 
             client = self.clients[client_id]
 
             if not client.trusted and client.client_secret != client_secret:
-                return self._error_response(
-                    "invalid_client", "Invalid client credentials"
-                )
+                return self._error_response("invalid_client", "Invalid client credentials")
 
             # Handle different grant types
             if grant_type == "authorization_code":
-                return self._handle_authorization_code_token_request(
-                    client, request_params
-                )
+                return self._handle_authorization_code_token_request(client, request_params)
             elif grant_type == "refresh_token":
                 return self._handle_refresh_token_request(client, request_params)
             elif grant_type == "client_credentials":
@@ -394,9 +380,7 @@ class OAuth2OIDCProvider:
                 )
 
         except Exception as e:
-            return self._error_response(
-                "server_error", f"Token processing failed: {str(e)}"
-            )
+            return self._error_response("server_error", f"Token processing failed: {e!s}")
 
     def introspect_token(self, token: str, client_id: str) -> dict[str, Any]:
         """🔍 Introspect access token (RFC 7662)"""
@@ -422,9 +406,7 @@ class OAuth2OIDCProvider:
                     "client_id": token_data["client_id"],
                     "sub": token_data["user_id"],
                     "exp": int(expires_at.timestamp()),
-                    "iat": int(
-                        datetime.fromisoformat(token_data["issued_at"]).timestamp()
-                    ),
+                    "iat": int(datetime.fromisoformat(token_data["issued_at"]).timestamp()),
                     "aud": token_data.get("audience", []),
                     "iss": self.issuer,
                     "token_type": "Bearer",
@@ -436,7 +418,7 @@ class OAuth2OIDCProvider:
             return {"active": False}
 
         except Exception as e:
-            return {"active": False, "error": f"Introspection failed: {str(e)}"}
+            return {"active": False, "error": f"Introspection failed: {e!s}"}
 
     def get_userinfo(self, access_token: str) -> dict[str, Any]:
         """👤 Get user info using access token (OIDC UserInfo endpoint)"""
@@ -456,9 +438,7 @@ class OAuth2OIDCProvider:
 
             # Check if openid scope is present
             if "openid" not in token_data["scope"]:
-                return self._error_response(
-                    "insufficient_scope", "OpenID scope required"
-                )
+                return self._error_response("insufficient_scope", "OpenID scope required")
 
             user_id = token_data["user_id"]
             scopes = set(token_data["scope"])
@@ -482,14 +462,10 @@ class OAuth2OIDCProvider:
                 )
 
             if "email" in scopes:
-                userinfo.update(
-                    {"email": f"{user_id}@lukhas.ai", "email_verified": True}
-                )
+                userinfo.update({"email": f"{user_id}@lukhas.ai", "email_verified": True})
 
             if "phone" in scopes:
-                userinfo.update(
-                    {"phone_number": "+1-XXX-XXX-XXXX", "phone_number_verified": False}
-                )
+                userinfo.update({"phone_number": "+1-XXX-XXX-XXXX", "phone_number_verified": False})
 
             if "address" in scopes:
                 userinfo.update(
@@ -517,9 +493,7 @@ class OAuth2OIDCProvider:
             return userinfo
 
         except Exception as e:
-            return self._error_response(
-                "server_error", f"UserInfo retrieval failed: {str(e)}"
-            )
+            return self._error_response("server_error", f"UserInfo retrieval failed: {e!s}")
 
     def get_jwks(self) -> dict[str, Any]:
         """🔑 Get JSON Web Key Set (JWKS)"""
@@ -558,7 +532,8 @@ class OAuth2OIDCProvider:
                         .rstrip("="),
                         "x5c": [],
                         "x5t": hashlib.sha256(  # Changed from SHA1 for security
-                            public_key_pem.encode()).hexdigest(),
+                            public_key_pem.encode()
+                        ).hexdigest(),
                         "x5t#S256": hashlib.sha256(public_key_pem.encode()).hexdigest(),
                     }
                 ]
@@ -573,7 +548,7 @@ class OAuth2OIDCProvider:
         except Exception as e:
             return {
                 "error": "server_error",
-                "error_description": f"JWKS generation failed: {str(e)}",
+                "error_description": f"JWKS generation failed: {e!s}",
             }
 
     def register_client(self, client_registration: dict[str, Any]) -> dict[str, Any]:
@@ -595,14 +570,11 @@ class OAuth2OIDCProvider:
                 "client_name": client_registration.get("client_name", "Unnamed Client"),
                 "redirect_uris": redirect_uris,
                 "allowed_scopes": list(
-                    self.supported_scopes
-                    & set(client_registration.get("scope", "").split())
+                    self.supported_scopes & set(client_registration.get("scope", "").split())
                 ),
                 "grant_types": list(
                     self.supported_grant_types
-                    & set(
-                        client_registration.get("grant_types", ["authorization_code"])
-                    )
+                    & set(client_registration.get("grant_types", ["authorization_code"]))
                 ),
                 "response_types": list(
                     self.supported_response_types
@@ -628,9 +600,7 @@ class OAuth2OIDCProvider:
             }
 
         except Exception as e:
-            return self._error_response(
-                "server_error", f"Client registration failed: {str(e)}"
-            )
+            return self._error_response("server_error", f"Client registration failed: {e!s}")
 
     # Implementation helper methods
 
@@ -655,9 +625,7 @@ class OAuth2OIDCProvider:
             return self.supported_scopes
         return tier_scopes
 
-    def _constitutional_validation(
-        self, user_id: str, operation: str, data: Any
-    ) -> bool:
+    def _constitutional_validation(self, user_id: str, operation: str, data: Any) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
@@ -674,10 +642,7 @@ class OAuth2OIDCProvider:
 
             # Check for suspicious patterns
             data_str = str(data)
-            if any(
-                pattern in data_str.lower()
-                for pattern in ["script", "eval", "javascript:"]
-            ):
+            if any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:"]):
                 return False
 
             return True
@@ -685,9 +650,7 @@ class OAuth2OIDCProvider:
         except Exception:
             return False
 
-    def _error_response(
-        self, error_code: str, error_description: str
-    ) -> dict[str, Any]:
+    def _error_response(self, error_code: str, error_description: str) -> dict[str, Any]:
         """Generate OAuth2 error response"""
         return {"error": error_code, "error_description": error_description}
 
@@ -811,9 +774,7 @@ class OAuth2OIDCProvider:
         # Generate ID token if openid scope present
         id_token_jwt = None
         if "openid" in code_data["scope"]:
-            id_token_jwt = self._generate_id_token(
-                code_data, code_data.get("nonce", "")
-            )
+            id_token_jwt = self._generate_id_token(code_data, code_data.get("nonce", ""))
 
         # Clean up authorization code
         del self.authorization_codes[code]
@@ -835,9 +796,7 @@ class OAuth2OIDCProvider:
         """Validate PKCE code challenge"""
         if method == "S256":
             computed_challenge = (
-                base64.urlsafe_b64encode(
-                    hashlib.sha256(code_verifier.encode()).digest()
-                )
+                base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode()).digest())
                 .decode()
                 .rstrip("=")
             )
@@ -975,17 +934,11 @@ class OAuth2OIDCProvider:
 
     def _handle_client_credentials_flow(self, client, request_params):
         """Handle client credentials flow"""
-        scope = (
-            request_params.get("scope", "").split()
-            if request_params.get("scope")
-            else []
-        )
+        scope = request_params.get("scope", "").split() if request_params.get("scope") else []
 
         # Filter scopes based on client allowed scopes
         final_scopes = (
-            list(client.allowed_scopes & set(scope))
-            if scope
-            else list(client.allowed_scopes)
+            list(client.allowed_scopes & set(scope)) if scope else list(client.allowed_scopes)
         )
 
         # Generate access token

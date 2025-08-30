@@ -64,9 +64,7 @@ class ModuleCommunicationAnalyzer:
         }
 
         # Save report
-        report_path = (
-            self.root_path / "docs" / "reports" / "module_communication_analysis.json"
-        )
+        report_path = self.root_path / "docs" / "reports" / "module_communication_analysis.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -116,9 +114,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(
-            f"   Found {len(self.direct_imports)} modules with cross-module imports"
-        )
+        logger.info(f"   Found {len(self.direct_imports)} modules with cross-module imports")
 
     def _analyze_glyph_communication(self):
         """Analyze GLYPH-based communication patterns"""
@@ -156,9 +152,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(
-            f"   Found {len(self.glyph_usage)} modules using GLYPH communication"
-        )
+        logger.info(f"   Found {len(self.glyph_usage)} modules using GLYPH communication")
 
     def _analyze_event_patterns(self):
         """Analyze event-based communication patterns"""
@@ -197,9 +191,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(
-            f"   Found {len(self.event_patterns)} modules using event-based communication"
-        )
+        logger.info(f"   Found {len(self.event_patterns)} modules using event-based communication")
 
     def _detect_circular_dependencies(self):
         """Detect circular dependencies in module communication"""
@@ -207,12 +199,8 @@ class ModuleCommunicationAnalyzer:
 
         try:
             cycles = list(nx.simple_cycles(self.communication_graph))
-            self.circular_dependencies = [
-                list(cycle) for cycle in cycles if len(cycle) > 1
-            ]
-            logger.info(
-                f"   Found {len(self.circular_dependencies)} circular dependencies"
-            )
+            self.circular_dependencies = [list(cycle) for cycle in cycles if len(cycle) > 1]
+            logger.info(f"   Found {len(self.circular_dependencies)} circular dependencies")
         except Exception:
             logger.warning("   Could not detect cycles in communication graph")
 
@@ -229,19 +217,13 @@ class ModuleCommunicationAnalyzer:
 
                 # Find highly connected nodes
                 avg_degree = (
-                    sum(self.in_degree.values()) / len(self.in_degree)
-                    if self.in_degree
-                    else 0
+                    sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
                 )
                 bottlenecks = [
-                    node
-                    for node, degree in self.in_degree.items()
-                    if degree > avg_degree * 2
+                    node for node, degree in self.in_degree.items() if degree > avg_degree * 2
                 ]
 
-                logger.info(
-                    f"   Identified {len(bottlenecks)} potential bottleneck modules"
-                )
+                logger.info(f"   Identified {len(bottlenecks)} potential bottleneck modules")
             except Exception:
                 pass
 
@@ -270,9 +252,7 @@ class ModuleCommunicationAnalyzer:
         """Summarize import-based communication"""
         return {
             "total_modules": len(self.direct_imports),
-            "total_connections": sum(
-                len(imports) for imports in self.direct_imports.values()
-            ),
+            "total_connections": sum(len(imports) for imports in self.direct_imports.values()),
             "most_imported": self._get_most_imported_modules(),
             "most_importing": self._get_most_importing_modules(),
         }
@@ -321,8 +301,7 @@ class ModuleCommunicationAnalyzer:
     def _get_most_active_glyph_modules(self) -> list[tuple[str, int]]:
         """Get modules with most GLYPH usage"""
         glyph_counts = {
-            module: sum(g["count"] for g in glyphs)
-            for module, glyphs in self.glyph_usage.items()
+            module: sum(g["count"] for g in glyphs) for module, glyphs in self.glyph_usage.items()
         }
         return sorted(glyph_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
@@ -340,9 +319,7 @@ class ModuleCommunicationAnalyzer:
 
         if hasattr(self, "in_degree"):
             avg_in_degree = (
-                sum(self.in_degree.values()) / len(self.in_degree)
-                if self.in_degree
-                else 0
+                sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
             )
 
             for node, degree in self.in_degree.items():
@@ -356,9 +333,7 @@ class ModuleCommunicationAnalyzer:
                         }
                     )
 
-        return sorted(
-            bottlenecks, key=lambda x: x["incoming_connections"], reverse=True
-        )
+        return sorted(bottlenecks, key=lambda x: x["incoming_connections"], reverse=True)
 
     def _identify_inefficiencies(self) -> list[dict[str, str]]:
         """Identify communication inefficiencies"""
@@ -540,8 +515,7 @@ class ModuleCommunicationAnalyzer:
 
             # Draw nodes
             node_sizes = [
-                self.in_degree.get(node, 1) * 100
-                for node in self.communication_graph.nodes()
+                self.in_degree.get(node, 1) * 100 for node in self.communication_graph.nodes()
             ]
             nx.draw_networkx_nodes(
                 self.communication_graph,
@@ -563,9 +537,7 @@ class ModuleCommunicationAnalyzer:
             plt.axis("off")
 
             # Save graph
-            graph_path = (
-                self.root_path / "docs" / "reports" / "module_communication_graph.png"
-            )
+            graph_path = self.root_path / "docs" / "reports" / "module_communication_graph.png"
             plt.savefig(graph_path, dpi=300, bbox_inches="tight")
             plt.close()
 
@@ -587,9 +559,7 @@ class ModuleCommunicationAnalyzer:
         print(f"   Using events: {summary['communication_methods']['event_based']}")
 
         print("\n⚠️  Issues Found:")
-        print(
-            f"   Circular dependencies: {summary['issues_found']['circular_dependencies']}"
-        )
+        print(f"   Circular dependencies: {summary['issues_found']['circular_dependencies']}")
         print(f"   Bottlenecks: {summary['issues_found']['bottlenecks']}")
         print(f"   Inefficiencies: {summary['issues_found']['inefficiencies']}")
 

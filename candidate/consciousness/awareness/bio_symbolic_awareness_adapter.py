@@ -175,9 +175,7 @@ class BioSymbolicAwarenessAdapter:
         # Configure from settings
         self.config = config or {}
 
-    async def enhance_context_vector(
-        self, context_vector: dict[str, float]
-    ) -> dict[str, float]:
+    async def enhance_context_vector(self, context_vector: dict[str, float]) -> dict[str, float]:
         """
         Enhance contextual awareness through quantum-biological processing.
         Follows Jobs' philosophy: "Simplicity is the ultimate sophistication"
@@ -195,9 +193,7 @@ class BioSymbolicAwarenessAdapter:
             logger.error("Error in bio-symbolic enhancement: %s", str(e))
             return await self._activate_safe_fallback(context_vector)
 
-    async def _process_through_pipeline(
-        self, data: dict[str, float]
-    ) -> dict[str, float]:
+    async def _process_through_pipeline(self, data: dict[str, float]) -> dict[str, float]:
         """Single unified processing pipeline following quantum-biological metaphor"""
         # Phase 1: Quantum Focus (Attention)
         focused = await self._apply_with_fallback(
@@ -332,9 +328,7 @@ class BioSymbolicAwarenessAdapter:
 
     def _calculate_efficiency(self) -> float:
         """Calculate system efficiency (Jobs-style focus on essentials)"""
-        fallback_penalty = max(
-            0.0, 1.0 - (len(self.qi_like_state["fallback_states"]) / 5)
-        )
+        fallback_penalty = max(0.0, 1.0 - (len(self.qi_like_state["fallback_states"]) / 5))
         return np.mean(
             [
                 self.bio_metrics["resource_efficiency"],
@@ -405,9 +399,7 @@ class BioSymbolicAwarenessAdapter:
     ) -> None:
         """Update bio-inspired metrics based on processing results"""
         # Update proton gradient (energy level)
-        energy_used = (
-            float(np.mean(list(output_vector.values()))) if output_vector else 0.0
-        )
+        energy_used = float(np.mean(list(output_vector.values()))) if output_vector else 0.0
         self.bio_metrics["proton_gradient"] = float(
             self.bio_metrics["proton_gradient"] * (1.0 - 0.1 * energy_used)
         )
@@ -417,12 +409,8 @@ class BioSymbolicAwarenessAdapter:
 
         # Update attention focus
         if input_vector and output_vector and len(input_vector) == len(output_vector):
-            corr_matrix = np.corrcoef(
-                list(input_vector.values()), list(output_vector.values())
-            )
-            attention_quality = (
-                float(corr_matrix[0][1]) if len(corr_matrix) > 1 else 0.0
-            )
+            corr_matrix = np.corrcoef(list(input_vector.values()), list(output_vector.values()))
+            attention_quality = float(corr_matrix[0][1]) if len(corr_matrix) > 1 else 0.0
         else:
             attention_quality = 0.5  # Default attention quality
 
@@ -436,9 +424,7 @@ class BioSymbolicAwarenessAdapter:
         )
 
         # Decay coherence-inspired processing
-        self.qi_like_state["coherence"] = float(
-            self.qi_like_state["coherence"] * 0.99
-        )
+        self.qi_like_state["coherence"] = float(self.qi_like_state["coherence"] * 0.99)
         if self.qi_like_state["coherence"] < 0.5:
             # Reset synchronously in this context
             self.qi_like_state = {
@@ -463,9 +449,7 @@ class BioSymbolicAwarenessAdapter:
 
         return pattern
 
-    async def _apply_with_fallback(
-        self, func: Any, data: Any, state: dict[str, Any]
-    ) -> Any:
+    async def _apply_with_fallback(self, func: Any, data: Any, state: dict[str, Any]) -> Any:
         """Apply function with multi-tier fallback mechanism"""
         try:
             # Try primary processing
@@ -495,9 +479,7 @@ class BioSymbolicAwarenessAdapter:
             # Final fallback: return input with minimal processing
             return self._minimal_process(data)
 
-    async def _allocate_resources(
-        self, func: Any, data: Any, state: dict[str, Any]
-    ) -> Any:
+    async def _allocate_resources(self, func: Any, data: Any, state: dict[str, Any]) -> Any:
         """Allocate resources adaptively based on demands"""
         # Calculate resource needs
         attention_need = float(np.mean(list(data.values()))) if data else 0.0
@@ -519,9 +501,7 @@ class BioSymbolicAwarenessAdapter:
         # Apply resource-scaled processing
         return await self._try_async(func, data, {**state, "resource_scale": allocated})
 
-    async def _filter_with_learning(
-        self, func: Any, data: Any, metrics: dict[str, Any]
-    ) -> Any:
+    async def _filter_with_learning(self, func: Any, data: Any, metrics: dict[str, Any]) -> Any:
         """Filter with cross-domain pattern learning"""
         # Extract pattern signature
         pattern_sig = self._extract_pattern(data)
@@ -545,9 +525,7 @@ class BioSymbolicAwarenessAdapter:
             self._update_pattern_memory(pattern_sig, result)
         return result
 
-    async def _secure_with_protocols(
-        self, func: Any, data: Any, strength: float
-    ) -> Any:
+    async def _secure_with_protocols(self, func: Any, data: Any, strength: float) -> Any:
         """Apply bio-inspired security protocols"""
         # Check membrane integrity
         if self.security_state["membrane_integrity"] < 0.5:
@@ -577,13 +555,9 @@ class BioSymbolicAwarenessAdapter:
 
         for pool in self.resource_pools:
             # Decay
-            self.resource_pools[pool] = float(
-                self.resource_pools[pool] * (1.0 - decay_rate)
-            )
+            self.resource_pools[pool] = float(self.resource_pools[pool] * (1.0 - decay_rate))
             # Regenerate
-            self.resource_pools[pool] = float(
-                min(1.0, self.resource_pools[pool] + regeneration)
-            )
+            self.resource_pools[pool] = float(min(1.0, self.resource_pools[pool] + regeneration))
 
     def _extract_pattern(self, data: dict[str, float]) -> Optional[str]:
         """Extract pattern signature from data"""
@@ -665,13 +639,8 @@ class BioSymbolicAwarenessAdapter:
         violations = []
 
         # 1. Check adaptation rate
-        if (
-            self.bio_metrics["adaptation_rate"]
-            > self.safety_limits["max_adaptation_rate"]
-        ):
-            self.bio_metrics["adaptation_rate"] = self.safety_limits[
-                "max_adaptation_rate"
-            ]
+        if self.bio_metrics["adaptation_rate"] > self.safety_limits["max_adaptation_rate"]:
+            self.bio_metrics["adaptation_rate"] = self.safety_limits["max_adaptation_rate"]
             violations.append("adaptation_rate_exceeded")
 
         # 2. Check coherence-inspired processing
@@ -704,9 +673,7 @@ class BioSymbolicAwarenessAdapter:
         # Adjust learning based on stability
         self._adjust_learning_rate()
 
-    async def _activate_safe_fallback(
-        self, context_vector: dict[str, float]
-    ) -> dict[str, float]:
+    async def _activate_safe_fallback(self, context_vector: dict[str, float]) -> dict[str, float]:
         """Activate safe fallback processing when main pipeline fails"""
         logger.warning("Activating safe fallback processing")
 
@@ -714,10 +681,7 @@ class BioSymbolicAwarenessAdapter:
         await self._reset_quantum_like_state()
 
         # Minimal processing
-        return {
-            key: min(1.0, max(0.0, value * 0.5))
-            for key, value in context_vector.items()
-        }
+        return {key: min(1.0, max(0.0, value * 0.5)) for key, value in context_vector.items()}
 
     def _promote_stable_patterns(self, pattern: str) -> None:
         """Promote frequently seen patterns to long-term memory"""
@@ -739,11 +703,7 @@ class BioSymbolicAwarenessAdapter:
 
         # Simple pattern application - just return processed data
         return {
-            key: (
-                value * (0.9 + pattern_boost)
-                if value > 0.5
-                else value * (1.1 + pattern_boost)
-            )
+            key: (value * (0.9 + pattern_boost) if value > 0.5 else value * (1.1 + pattern_boost))
             for key, value in data.items()
         }
 
@@ -752,19 +712,13 @@ class BioSymbolicAwarenessAdapter:
     ) -> dict[str, float]:
         """Apply a learned pattern with adaptation"""
         # Use pattern_sig for learning enhancement
-        learning_boost = (
-            0.05 if pattern_sig in self.pattern_memory["cross_domain"] else 0.0
-        )
+        learning_boost = 0.05 if pattern_sig in self.pattern_memory["cross_domain"] else 0.0
 
         # Enhanced pattern application with learning
         adaptation_factor = self.bio_metrics["adaptation_rate"] + learning_boost
-        return {
-            key: value * (0.9 + 0.2 * adaptation_factor) for key, value in data.items()
-        }
+        return {key: value * (0.9 + 0.2 * adaptation_factor) for key, value in data.items()}
 
-    def _update_pattern_memory(
-        self, pattern_sig: str, result: dict[str, float]
-    ) -> None:
+    def _update_pattern_memory(self, pattern_sig: str, result: dict[str, float]) -> None:
         """Update pattern memory with new result"""
         if pattern_sig:
             # Add to short-term memory
@@ -800,9 +754,7 @@ class BioSymbolicAwarenessAdapter:
 
         # Check pattern consistency
         consistent_patterns = sum(
-            1
-            for p in self.pattern_memory["short_term"]
-            if p in self.pattern_memory["long_term"]
+            1 for p in self.pattern_memory["short_term"] if p in self.pattern_memory["long_term"]
         )
 
         return consistent_patterns / len(self.pattern_memory["short_term"])
@@ -816,8 +768,7 @@ class BioSymbolicAwarenessAdapter:
         recent_violations = sum(
             1
             for v in self.safety_state["violations"]
-            if (datetime.utcnow() - datetime.fromisoformat(v["timestamp"])).seconds
-            < 3600
+            if (datetime.utcnow() - datetime.fromisoformat(v["timestamp"])).seconds < 3600
         )
 
         violation_penalty = 0.1 * recent_violations
@@ -827,9 +778,7 @@ class BioSymbolicAwarenessAdapter:
             0.01,  # Minimum learning rate
             min(
                 self.safety_limits["max_adaptation_rate"],
-                self.bio_metrics["adaptation_rate"]
-                * stability_factor
-                * (1.0 - violation_penalty),
+                self.bio_metrics["adaptation_rate"] * stability_factor * (1.0 - violation_penalty),
             ),
         )
 

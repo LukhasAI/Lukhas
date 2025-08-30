@@ -43,9 +43,7 @@ class GuardianSystemImpl:
         self.ethics_engine = None
         self.drift_detector = None
         self.safety_validator = None
-        self.constitutional_ai = (
-            True  # Constitutional AI is embedded in this implementation
-        )
+        self.constitutional_ai = True  # Constitutional AI is embedded in this implementation
 
     def detect_drift(
         self, baseline: str, current: str, threshold: float, context: dict[str, Any]
@@ -58,9 +56,7 @@ class GuardianSystemImpl:
         return DriftResult(
             drift_score=drift_score,
             threshold_exceeded=threshold_exceeded,
-            severity=(
-                EthicalSeverity.HIGH if threshold_exceeded else EthicalSeverity.LOW
-            ),
+            severity=(EthicalSeverity.HIGH if threshold_exceeded else EthicalSeverity.LOW),
             remediation_needed=threshold_exceeded,
             details={
                 "method": "advanced_semantic_analysis",
@@ -71,9 +67,7 @@ class GuardianSystemImpl:
             },
         )
 
-    def evaluate_ethics(
-        self, action: GovernanceAction, context: dict[str, Any]
-    ) -> EthicalDecision:
+    def evaluate_ethics(self, action: GovernanceAction, context: dict[str, Any]) -> EthicalDecision:
         """Evaluate ethical implications using constitutional AI principles"""
         # Use constitutional AI ethical evaluation
         ethical_analysis = self._evaluate_constitutional_compliance(action, context)
@@ -102,9 +96,7 @@ class GuardianSystemImpl:
         risk_level = EthicalSeverity.HIGH if violations else EthicalSeverity.LOW
 
         if constitutional_check:
-            constitutional_violations = self._check_constitutional_safety(
-                content, context
-            )
+            constitutional_violations = self._check_constitutional_safety(content, context)
             violations.extend(constitutional_violations)
             if constitutional_violations:
                 safe = False
@@ -120,8 +112,7 @@ class GuardianSystemImpl:
             safe=safe,
             risk_level=risk_level,
             violations=violations,
-            recommendations=recommendations
-            or ["Content reviewed by Guardian safety system"],
+            recommendations=recommendations or ["Content reviewed by Guardian safety system"],
             constitutional_check=constitutional_check,
         )
 
@@ -209,16 +200,12 @@ class GuardianSystemImpl:
 
         # Check for high-risk patterns
         harmful_patterns = ["harm", "deceive", "manipulate", "exploit"]
-        action_string = (
-            f"{action.action_type} {action.target} {str(action.context)}".lower()
-        )
+        action_string = f"{action.action_type} {action.target} {action.context!s}".lower()
         is_harmful = any(pattern in action_string for pattern in harmful_patterns)
 
         if is_harmful:
             compliant = False
-            reason = (
-                "Action violates constitutional AI principles - potential harm detected"
-            )
+            reason = "Action violates constitutional AI principles - potential harm detected"
             severity = EthicalSeverity.HIGH
             confidence = 0.95
             recommendations = [
@@ -305,9 +292,7 @@ class GuardianSystemImpl:
 
         return violations
 
-    def _check_constitutional_safety(
-        self, content: str, context: dict[str, Any]
-    ) -> list:
+    def _check_constitutional_safety(self, content: str, context: dict[str, Any]) -> list:
         """Check content against constitutional AI safety principles"""
         violations = []
 

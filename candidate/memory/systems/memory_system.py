@@ -33,9 +33,7 @@ class MemorySystem:
         self.drift_threshold = self.config.get("drift_threshold", 0.8)
         logger.info("Memory system initialized")
 
-    def store_trace(
-        self, trace_id: str, data: dict, user_id: Optional[str] = None
-    ) -> bool:
+    def store_trace(self, trace_id: str, data: dict, user_id: Optional[str] = None) -> bool:
         """
         Store a symbolic trace in memory.
 

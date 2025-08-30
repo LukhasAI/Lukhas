@@ -104,9 +104,7 @@ class NaturalBreakpointDetector:
             "success",
         ]
 
-    def track_activity(
-        self, action_type: str, context: Optional[dict[str, Any]] = None
-    ) -> None:
+    def track_activity(self, action_type: str, context: Optional[dict[str, Any]] = None) -> None:
         """Track user activity for pattern detection"""
         activity = UserActivity(
             timestamp=datetime.now(),
@@ -118,9 +116,7 @@ class NaturalBreakpointDetector:
         # Calculate duration if we have previous activity
         if self.activity_history:
             last_activity = self.activity_history[-1]
-            activity.duration = (
-                activity.timestamp - last_activity.timestamp
-            ).total_seconds()
+            activity.duration = (activity.timestamp - last_activity.timestamp).total_seconds()
 
         self.activity_history.append(activity)
 
@@ -340,17 +336,12 @@ class NaturalBreakpointDetector:
                 return True
 
         # Check for form submission patterns
-        return bool(
-            action_type == "submit"
-            and self.current_workflow.state == WorkflowState.TYPING
-        )
+        return bool(action_type == "submit" and self.current_workflow.state == WorkflowState.TYPING)
 
     def _record_task_completion(self):
         """Record task completion for pattern learning"""
         if self.current_workflow.task_type:
-            duration = (
-                datetime.now() - self.current_workflow.start_time
-            ).total_seconds()
+            duration = (datetime.now() - self.current_workflow.start_time).total_seconds()
 
             if self.current_workflow.task_type not in self.task_patterns:
                 self.task_patterns[self.current_workflow.task_type] = []
@@ -381,9 +372,7 @@ class NaturalBreakpointDetector:
             return False, None
 
         # Check if we just transitioned to completion
-        time_since_activity = (
-            datetime.now() - self.current_workflow.last_activity
-        ).total_seconds()
+        time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
         if time_since_activity < 2.0:  # Within 2 seconds of completion
             task_data = {
                 "task_type": self.current_workflow.task_type,
@@ -425,18 +414,14 @@ class NaturalBreakpointDetector:
             return True, "content_end"
 
         # Section boundaries
-        if last_action.action_type == "scroll" and last_action.context.get(
-            "at_section_break"
-        ):
+        if last_action.action_type == "scroll" and last_action.context.get("at_section_break"):
             return True, "section_break"
 
         return False, None
 
     def _check_idle_state(self) -> tuple[bool, float]:
         """Check if user is idle"""
-        time_since_activity = (
-            datetime.now() - self.current_workflow.last_activity
-        ).total_seconds()
+        time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
         is_idle = time_since_activity > self.idle_threshold
         return is_idle, time_since_activity if is_idle else 0.0
 
@@ -447,9 +432,7 @@ class NaturalBreakpointDetector:
             WorkflowState.WAITING,
         ]
 
-    def _generate_permission_message(
-        self, context: str, incentive: Optional[str]
-    ) -> str:
+    def _generate_permission_message(self, context: str, incentive: Optional[str]) -> str:
         """Generate contextual permission message"""
         if incentive:
             return f"We have {incentive} available. Would you like to see it now?"
@@ -563,9 +546,7 @@ class NaturalBreakpointDetector:
     def _analyze_best_times(self) -> list[str]:
         """Analyze best times for ads based on history"""
         successful_displays = [
-            record
-            for record in self.breakpoint_history
-            if record.get("user_response") == "engaged"
+            record for record in self.breakpoint_history if record.get("user_response") == "engaged"
         ]
 
         if not successful_displays:
@@ -610,23 +591,15 @@ class NaturalBreakpointDetector:
             suggestions.append("Consider longer cooldown periods between ads")
 
         if not self.user_permissions.get("auto_display"):
-            suggestions.append(
-                "Request explicit permission for better user satisfaction"
-            )
+            suggestions.append("Request explicit permission for better user satisfaction")
 
         avg_task_duration = self._calculate_avg_task_duration()
         if avg_task_duration < 30:
-            suggestions.append(
-                "Wait for longer tasks to complete before displaying ads"
-            )
+            suggestions.append("Wait for longer tasks to complete before displaying ads")
 
         if len(self.breakpoint_history) > 10:
             success_rate = (
-                sum(
-                    1
-                    for r in self.breakpoint_history[-10:]
-                    if r.get("user_response") == "engaged"
-                )
+                sum(1 for r in self.breakpoint_history[-10:] if r.get("user_response") == "engaged")
                 / 10
             )
             if success_rate < 0.3:

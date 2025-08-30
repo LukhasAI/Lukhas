@@ -129,9 +129,7 @@ class CreativityService:
             },
         )
 
-    async def collaborative_creation(
-        self, agent_ids: list[str], theme: str
-    ) -> dict[str, Any]:
+    async def collaborative_creation(self, agent_ids: list[str], theme: str) -> dict[str, Any]:
         """Enable multiple agents to create collaboratively"""
         self._ensure_services()
 
@@ -154,9 +152,7 @@ class CreativityService:
 
         return merged
 
-    def _synthesize_contributions(
-        self, contributions: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _synthesize_contributions(self, contributions: list[dict[str, Any]]) -> dict[str, Any]:
         """Synthesize multiple creative contributions"""
         return {
             "merged_content": "Synthesized creative output",

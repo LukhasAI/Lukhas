@@ -2,6 +2,7 @@
 Memory Tracker Integration Module
 Provides integration wrapper for connecting the memory tracker to the memory hub
 """
+
 import logging
 import os
 import uuid
@@ -165,9 +166,7 @@ class MemoryTrackerIntegration:
                 }
 
             # Start tracking if memory tracker is available
-            if MEMORY_TRACKER_AVAILABLE and hasattr(
-                self.memory_tracker, "start_monitor"
-            ):
+            if MEMORY_TRACKER_AVAILABLE and hasattr(self.memory_tracker, "start_monitor"):
                 if root_module is not None:
                     self.memory_tracker.start_monitor(root_module)
                     tracking_type = "module_tracking"
@@ -179,9 +178,7 @@ class MemoryTrackerIntegration:
                 self.tracking_sessions[session_id] = {
                     "started_at": datetime.now().isoformat(),
                     "tracking_type": tracking_type,
-                    "root_module": (
-                        str(type(root_module).__name__) if root_module else "system"
-                    ),
+                    "root_module": (str(type(root_module).__name__) if root_module else "system"),
                     "status": "active",
                 }
 
@@ -405,11 +402,7 @@ class MemoryTrackerIntegration:
                 **self.performance_metrics,
                 "monitoring_active": self.monitoring_active,
                 "active_sessions": len(
-                    [
-                        s
-                        for s in self.tracking_sessions.values()
-                        if s["status"] == "active"
-                    ]
+                    [s for s in self.tracking_sessions.values() if s["status"] == "active"]
                 ),
                 "total_sessions": len(self.tracking_sessions),
                 "memory_tracker_available": MEMORY_TRACKER_AVAILABLE,
@@ -418,9 +411,7 @@ class MemoryTrackerIntegration:
                         "enable_operator_level_tracking", True
                     ),
                     "cuda_monitoring": self.config.get("enable_cuda_monitoring", True),
-                    "alert_threshold_mb": self.config.get(
-                        "memory_alert_threshold_mb", 1000.0
-                    ),
+                    "alert_threshold_mb": self.config.get("memory_alert_threshold_mb", 1000.0),
                 },
                 "system_status": "active",
                 "last_updated": datetime.now().isoformat(),
@@ -440,12 +431,8 @@ class MemoryTrackerIntegration:
             summary = {
                 "top_operators": [],
                 "cuda_retries": getattr(self.memory_tracker, "_num_cuda_retries", 0),
-                "total_operators": len(
-                    getattr(self.memory_tracker, "_operator_names", {})
-                ),
-                "peak_memory_mb": self.performance_metrics.get(
-                    "peak_memory_usage_mb", 0.0
-                ),
+                "total_operators": len(getattr(self.memory_tracker, "_operator_names", {})),
+                "peak_memory_mb": self.performance_metrics.get("peak_memory_usage_mb", 0.0),
             }
 
             # Extract operator names and simulate memory usage
@@ -456,9 +443,7 @@ class MemoryTrackerIntegration:
                         {
                             "operator": op_name,
                             "memory_mb": float(i * 10 + 50),  # Mock memory usage
-                            "call_count": self.memory_tracker._operator_names.get(
-                                op_name, 1
-                            ),
+                            "call_count": self.memory_tracker._operator_names.get(op_name, 1),
                         }
                     )
 
@@ -491,9 +476,7 @@ class MemoryTrackerIntegration:
     async def _save_session_stats(self, session_id: str):
         """Save session statistics to file"""
         try:
-            if not MEMORY_TRACKER_AVAILABLE or not hasattr(
-                self.memory_tracker, "save_stats"
-            ):
+            if not MEMORY_TRACKER_AVAILABLE or not hasattr(self.memory_tracker, "save_stats"):
                 return
 
             stats_dir = self.config.get("stats_save_directory", "./memory_stats")
@@ -505,9 +488,7 @@ class MemoryTrackerIntegration:
         except Exception as e:
             logger.warning(f"Failed to save session stats: {e}")
 
-    async def _fallback_start_tracking(
-        self, session_id: str, root_module
-    ) -> dict[str, Any]:
+    async def _fallback_start_tracking(self, session_id: str, root_module) -> dict[str, Any]:
         """Fallback tracking start when main tracker is not available"""
         self.tracking_sessions[session_id] = {
             "started_at": datetime.now().isoformat(),

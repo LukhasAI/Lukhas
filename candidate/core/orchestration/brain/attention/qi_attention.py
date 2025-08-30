@@ -43,9 +43,7 @@ class QIInspiredAttention:
         features = self._extract_features(input_data)
 
         # Calculate attention distribution
-        attention_distribution = self._calculate_attention_distribution(
-            features, context
-        )
+        attention_distribution = self._calculate_attention_distribution(features, context)
 
         # Apply superposition-like state
         qi_attention = self._apply_superposition(attention_distribution)
@@ -61,9 +59,7 @@ class QIInspiredAttention:
     def _extract_features(self, input_data: dict) -> dict:
         """Extract features from input data for attention processing"""
         features = {}
-        features["semantic"] = (
-            input_data.get("text", "")[:100] if "text" in input_data else None
-        )
+        features["semantic"] = input_data.get("text", "")[:100] if "text" in input_data else None
         features["emotional"] = input_data.get(
             "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
         )
@@ -71,9 +67,7 @@ class QIInspiredAttention:
         features["historical"] = input_data.get("history", [])
         return features
 
-    def _calculate_attention_distribution(
-        self, features: dict, context: dict
-    ) -> np.ndarray:
+    def _calculate_attention_distribution(self, features: dict, context: dict) -> np.ndarray:
         """Calculate attention distribution based on features"""
         gate_keys = list(self.attention_gates.keys())
         attention_weights = np.array([self.attention_gates[key] for key in gate_keys])
@@ -92,9 +86,7 @@ class QIInspiredAttention:
         else:
             return attention_distribution
 
-    def _apply_attention_gates(
-        self, input_data: dict, attention_weights: np.ndarray
-    ) -> dict:
+    def _apply_attention_gates(self, input_data: dict, attention_weights: np.ndarray) -> dict:
         """Apply attention gates to input data"""
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())

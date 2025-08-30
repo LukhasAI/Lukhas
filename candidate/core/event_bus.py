@@ -46,7 +46,6 @@ class Event:
 
 
 class EventBus:
-
     def __init__(self):
         self._subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._queue = asyncio.Queue()
@@ -129,9 +128,7 @@ class EventBus:
             self._correlation_tracking[correlation_id].append(event)
 
         # Maintain event history for dream processing
-        if event_type.startswith("dream_") or event_type in [
-            dt.value for dt in DreamEventType
-        ]:
+        if event_type.startswith("dream_") or event_type in [dt.value for dt in DreamEventType]:
             self._dream_event_history.append(event)
             # Keep only recent dream events (last 1000)
             if len(self._dream_event_history) > 1000:
@@ -182,9 +179,7 @@ class EventBus:
             priority=4,
         )
 
-        logger.info(
-            f"Dream coordination started: {dream_id} (correlation: {correlation_id})"
-        )
+        logger.info(f"Dream coordination started: {dream_id} (correlation: {correlation_id})")
         return correlation_id
 
     async def complete_dream_coordination(
@@ -222,9 +217,7 @@ class EventBus:
         ]
 
         session_stats["processing_stages"] = [
-            event.event_type
-            for event in session_events
-            if event.event_type in stage_events
+            event.event_type for event in session_events if event.event_type in stage_events
         ]
 
         # Publish completion event
@@ -337,9 +330,7 @@ class EventBus:
                             callback(event)
 
                     except Exception as e:
-                        logger.error(
-                            f"Error in event handler for {event.event_type}: {e}"
-                        )
+                        logger.error(f"Error in event handler for {event.event_type}: {e}")
                         self._events_failed += 1
 
             self._events_processed += 1
@@ -369,15 +360,12 @@ class EventBus:
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
             "success_rate": (
-                self._events_processed
-                / max(1, self._events_processed + self._events_failed)
+                self._events_processed / max(1, self._events_processed + self._events_failed)
             ),
             "dream_sessions_active": len(self._dream_session_events),
             "correlation_tracking_active": len(self._correlation_tracking),
             "dream_event_history_size": len(self._dream_event_history),
-            "subscriber_count": sum(
-                len(callbacks) for callbacks in self._subscribers.values()
-            ),
+            "subscriber_count": sum(len(callbacks) for callbacks in self._subscribers.values()),
             "unique_event_types": len(self._subscribers),
             "average_events_per_second": self._events_processed / max(1, uptime),
         }

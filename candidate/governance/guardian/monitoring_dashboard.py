@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class MonitoringScope(Enum):
     """Monitoring scope levels"""
+
     SYSTEM_WIDE = "system_wide"
     GUARDIAN_FOCUSED = "guardian_focused"
     DRIFT_SPECIFIC = "drift_specific"
@@ -50,6 +51,7 @@ class MonitoringScope(Enum):
 
 class AlertSeverity(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     LOW = "low"
     MEDIUM = "medium"
@@ -60,6 +62,7 @@ class AlertSeverity(Enum):
 
 class ThreatLevel(Enum):
     """Threat classification levels"""
+
     BENIGN = "benign"
     SUSPICIOUS = "suspicious"
     MODERATE = "moderate"
@@ -93,9 +96,9 @@ class MonitoringMetric:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework tracking
-    identity_impact: Optional[float] = None      # ⚛️
-    consciousness_impact: Optional[float] = None # 🧠
-    guardian_priority: str = "normal"            # 🛡️
+    identity_impact: Optional[float] = None  # ⚛️
+    consciousness_impact: Optional[float] = None  # 🧠
+    guardian_priority: str = "normal"  # 🛡️
 
 
 @dataclass
@@ -258,18 +261,18 @@ class GuardianMonitoringDashboard:
             "compliance_checks": 0,
             "average_response_time": 0.0,
             "uptime_seconds": 0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Threshold configurations
         self.thresholds = {
             "drift_score": 0.15,
             "response_time": 1000.0,  # milliseconds
-            "cpu_usage": 80.0,         # percentage
-            "memory_usage": 85.0,      # percentage
-            "error_rate": 5.0,         # percentage
+            "cpu_usage": 80.0,  # percentage
+            "memory_usage": 85.0,  # percentage
+            "error_rate": 5.0,  # percentage
             "threat_confidence": 0.7,  # 0.0 to 1.0
-            "compliance_score": 0.95   # 0.0 to 1.0
+            "compliance_score": 0.95,  # 0.0 to 1.0
         }
 
         # Initialize dashboard
@@ -314,7 +317,7 @@ class GuardianMonitoringDashboard:
             compliance_score=1.0,
             performance_score=1.0,
             active_alerts=0,
-            unresolved_issues=0
+            unresolved_issues=0,
         )
 
     async def _metrics_collection_loop(self):
@@ -398,7 +401,7 @@ class GuardianMonitoringDashboard:
         category: str = "general",
         scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
         tags: Optional[dict[str, str]] = None,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ) -> MonitoringMetric:
         """Record a monitoring metric"""
 
@@ -417,7 +420,7 @@ class GuardianMonitoringDashboard:
             category=category,
             scope=scope,
             tags=tags,
-            metadata=metadata
+            metadata=metadata,
         )
 
         # Check thresholds
@@ -458,7 +461,7 @@ class GuardianMonitoringDashboard:
         detection_method: str,
         confidence: float,
         indicators: Optional[list[str]] = None,
-        attack_vectors: Optional[list[str]] = None
+        attack_vectors: Optional[list[str]] = None,
     ) -> ThreatDetection:
         """Record a security threat detection"""
 
@@ -481,7 +484,7 @@ class GuardianMonitoringDashboard:
             source_system=source_system,
             detection_method=detection_method,
             indicators=indicators,
-            attack_vectors=attack_vectors
+            attack_vectors=attack_vectors,
         )
 
         # Analyze potential impact
@@ -512,7 +515,7 @@ class GuardianMonitoringDashboard:
         severity: AlertSeverity,
         legal_risk: float,
         business_impact: float,
-        evidence: Optional[list[dict[str, Any]]] = None
+        evidence: Optional[list[dict[str, Any]]] = None,
     ) -> ComplianceViolation:
         """Record a compliance violation"""
 
@@ -529,7 +532,7 @@ class GuardianMonitoringDashboard:
             severity=severity,
             legal_risk=legal_risk,
             business_impact=business_impact,
-            evidence=evidence
+            evidence=evidence,
         )
 
         # Generate audit trail
@@ -539,7 +542,7 @@ class GuardianMonitoringDashboard:
             f"Type: {violation_type}",
             f"Severity: {severity.value}",
             f"Legal risk: {legal_risk:.2f}",
-            f"Business impact: {business_impact:.2f}"
+            f"Business impact: {business_impact:.2f}",
         ]
 
         # Generate remediation actions
@@ -562,9 +565,7 @@ class GuardianMonitoringDashboard:
         return violation
 
     async def get_dashboard_data(
-        self,
-        scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
-        time_range_hours: int = 24
+        self, scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE, time_range_hours: int = 24
     ) -> dict[str, Any]:
         """Get comprehensive dashboard data"""
 
@@ -578,24 +579,24 @@ class GuardianMonitoringDashboard:
 
             # Filter data by time range and scope
             relevant_metrics = [
-                m for m in self.metrics_history
-                if start_time <= m.timestamp <= end_time and
-                   (scope == MonitoringScope.SYSTEM_WIDE or m.scope == scope)
+                m
+                for m in self.metrics_history
+                if start_time <= m.timestamp <= end_time
+                and (scope == MonitoringScope.SYSTEM_WIDE or m.scope == scope)
             ]
 
             relevant_alerts = [
-                alert for alert in self.active_alerts.values()
+                alert
+                for alert in self.active_alerts.values()
                 if start_time <= datetime.fromisoformat(alert["created_at"]) <= end_time
             ]
 
             recent_threats = [
-                t for t in self.threats_detected
-                if start_time <= t.detected_at <= end_time
+                t for t in self.threats_detected if start_time <= t.detected_at <= end_time
             ]
 
             recent_violations = [
-                v for v in self.compliance_violations
-                if start_time <= v.detected_at <= end_time
+                v for v in self.compliance_violations if start_time <= v.detected_at <= end_time
             ]
 
             # Aggregate metrics by category
@@ -612,7 +613,9 @@ class GuardianMonitoringDashboard:
                         "average": sum(values) / len(values),
                         "min": min(values),
                         "max": max(values),
-                        "trend": "increasing" if values[-1] > sum(values[:-1]) / len(values[:-1]) else "decreasing"
+                        "trend": "increasing"
+                        if values[-1] > sum(values[:-1]) / len(values[:-1])
+                        else "decreasing",
                     }
 
             # Dashboard data structure
@@ -620,19 +623,31 @@ class GuardianMonitoringDashboard:
                 "timestamp": datetime.now().isoformat(),
                 "scope": scope.value,
                 "time_range_hours": time_range_hours,
-
                 # System health
                 "system_health": {
-                    "overall_health": self.system_health.overall_health if self.system_health else 0.0,
-                    "guardian_health": self.system_health.guardian_health if self.system_health else 0.0,
-                    "consciousness_health": self.system_health.consciousness_health if self.system_health else 0.0,
-                    "identity_health": self.system_health.identity_health if self.system_health else 0.0,
+                    "overall_health": self.system_health.overall_health
+                    if self.system_health
+                    else 0.0,
+                    "guardian_health": self.system_health.guardian_health
+                    if self.system_health
+                    else 0.0,
+                    "consciousness_health": self.system_health.consciousness_health
+                    if self.system_health
+                    else 0.0,
+                    "identity_health": self.system_health.identity_health
+                    if self.system_health
+                    else 0.0,
                     "drift_score": self.system_health.drift_score if self.system_health else 0.0,
-                    "threat_level": self.system_health.threat_level.value if self.system_health else "benign",
-                    "compliance_score": self.system_health.compliance_score if self.system_health else 1.0,
-                    "emergency_mode": self.system_health.emergency_mode if self.system_health else False
+                    "threat_level": self.system_health.threat_level.value
+                    if self.system_health
+                    else "benign",
+                    "compliance_score": self.system_health.compliance_score
+                    if self.system_health
+                    else 1.0,
+                    "emergency_mode": self.system_health.emergency_mode
+                    if self.system_health
+                    else False,
                 },
-
                 # Current metrics
                 "current_metrics": {
                     name: {
@@ -641,14 +656,12 @@ class GuardianMonitoringDashboard:
                         "timestamp": metric.timestamp.isoformat(),
                         "is_healthy": metric.is_healthy,
                         "threshold_breached": metric.threshold_breached,
-                        "severity": metric.severity.value
+                        "severity": metric.severity.value,
                     }
                     for name, metric in self.current_metrics.items()
                 },
-
                 # Trend analysis
                 "trends": trend_data,
-
                 # Alert summary
                 "alerts": {
                     "active_count": len(self.active_alerts),
@@ -659,57 +672,69 @@ class GuardianMonitoringDashboard:
                             "type": alert["type"],
                             "severity": alert["severity"],
                             "message": alert["message"],
-                            "created_at": alert["created_at"]
+                            "created_at": alert["created_at"],
                         }
                         for alert in list(relevant_alerts)[:10]
-                    ]
+                    ],
                 },
-
                 # Security status
                 "security": {
-                    "threat_level": self.system_health.threat_level.value if self.system_health else "benign",
+                    "threat_level": self.system_health.threat_level.value
+                    if self.system_health
+                    else "benign",
                     "threats_detected": len(recent_threats),
-                    "high_risk_threats": len([t for t in recent_threats if t.threat_level in [ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]]),
+                    "high_risk_threats": len(
+                        [
+                            t
+                            for t in recent_threats
+                            if t.threat_level
+                            in [ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]
+                        ]
+                    ),
                     "recent_threats": [
                         {
                             "id": threat.threat_id,
                             "type": threat.threat_type,
                             "level": threat.threat_level.value,
                             "confidence": threat.confidence,
-                            "detected_at": threat.detected_at.isoformat()
+                            "detected_at": threat.detected_at.isoformat(),
                         }
                         for threat in recent_threats[:5]
-                    ]
+                    ],
                 },
-
                 # Compliance status
                 "compliance": {
                     "score": self.system_health.compliance_score if self.system_health else 1.0,
                     "violations_count": len(recent_violations),
-                    "critical_violations": len([v for v in recent_violations if v.severity == AlertSeverity.CRITICAL]),
+                    "critical_violations": len(
+                        [v for v in recent_violations if v.severity == AlertSeverity.CRITICAL]
+                    ),
                     "recent_violations": [
                         {
                             "id": violation.violation_id,
                             "regulation": violation.regulation,
                             "type": violation.violation_type,
                             "severity": violation.severity.value,
-                            "detected_at": violation.detected_at.isoformat()
+                            "detected_at": violation.detected_at.isoformat(),
                         }
                         for violation in recent_violations[:5]
-                    ]
+                    ],
                 },
-
                 # Performance data
                 "performance": self.performance_metrics.copy(),
-
                 # Guardian-specific data
                 "guardian": {
                     "drift_threshold": self.drift_threshold,
-                    "current_drift_score": self.system_health.drift_score if self.system_health else 0.0,
-                    "threshold_breached": (self.system_health.drift_score if self.system_health else 0.0) > self.drift_threshold,
+                    "current_drift_score": self.system_health.drift_score
+                    if self.system_health
+                    else 0.0,
+                    "threshold_breached": (
+                        self.system_health.drift_score if self.system_health else 0.0
+                    )
+                    > self.drift_threshold,
                     "monitoring_active": self.monitoring_active,
-                    "active_protections": self._get_active_protections()
-                }
+                    "active_protections": self._get_active_protections(),
+                },
             }
 
             return dashboard_data
@@ -718,7 +743,9 @@ class GuardianMonitoringDashboard:
             logger.error(f"❌ Dashboard data generation failed: {e}")
             return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
-    def _determine_alert_severity(self, metric_name: str, value: float, threshold: float) -> AlertSeverity:
+    def _determine_alert_severity(
+        self, metric_name: str, value: float, threshold: float
+    ) -> AlertSeverity:
         """Determine alert severity based on metric value and threshold"""
 
         if value >= threshold * 2.0:
@@ -751,8 +778,14 @@ class GuardianMonitoringDashboard:
         high_risk_types = ["data_breach", "system_compromise", "privilege_escalation"]
         if threat_type.lower() in high_risk_types and base_level != ThreatLevel.CRITICAL:
             # Elevate by one level
-            level_order = [ThreatLevel.BENIGN, ThreatLevel.SUSPICIOUS, ThreatLevel.MODERATE,
-                          ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]
+            level_order = [
+                ThreatLevel.BENIGN,
+                ThreatLevel.SUSPICIOUS,
+                ThreatLevel.MODERATE,
+                ThreatLevel.HIGH,
+                ThreatLevel.SEVERE,
+                ThreatLevel.CRITICAL,
+            ]
             current_index = level_order.index(base_level)
             if current_index < len(level_order) - 1:
                 base_level = level_order[current_index + 1]
@@ -799,14 +832,24 @@ class GuardianMonitoringDashboard:
 
         try:
             # Calculate component health scores
-            guardian_metrics = [m for m in self.current_metrics.values() if m.category == "guardian"]
-            consciousness_metrics = [m for m in self.current_metrics.values() if m.category == "consciousness"]
-            identity_metrics = [m for m in self.current_metrics.values() if m.category == "identity"]
-            performance_metrics = [m for m in self.current_metrics.values() if m.category == "performance"]
+            guardian_metrics = [
+                m for m in self.current_metrics.values() if m.category == "guardian"
+            ]
+            consciousness_metrics = [
+                m for m in self.current_metrics.values() if m.category == "consciousness"
+            ]
+            identity_metrics = [
+                m for m in self.current_metrics.values() if m.category == "identity"
+            ]
+            performance_metrics = [
+                m for m in self.current_metrics.values() if m.category == "performance"
+            ]
 
             # Update component health (simplified calculation)
             self.system_health.guardian_health = self._calculate_component_health(guardian_metrics)
-            self.system_health.consciousness_health = self._calculate_component_health(consciousness_metrics)
+            self.system_health.consciousness_health = self._calculate_component_health(
+                consciousness_metrics
+            )
             self.system_health.identity_health = self._calculate_component_health(identity_metrics)
             self.system_health.api_health = self._calculate_component_health(performance_metrics)
 
@@ -815,7 +858,7 @@ class GuardianMonitoringDashboard:
                 self.system_health.guardian_health,
                 self.system_health.consciousness_health,
                 self.system_health.identity_health,
-                self.system_health.api_health
+                self.system_health.api_health,
             ]
 
             self.system_health.overall_health = sum(component_healths) / len(component_healths)
@@ -871,7 +914,9 @@ class GuardianMonitoringDashboard:
             self.threats_detected.popleft()
 
         # Clean compliance violations
-        while self.compliance_violations and self.compliance_violations[0].detected_at < cutoff_time:
+        while (
+            self.compliance_violations and self.compliance_violations[0].detected_at < cutoff_time
+        ):
             self.compliance_violations.popleft()
 
     async def _generate_alert(self, metric: MonitoringMetric):
@@ -888,7 +933,7 @@ class GuardianMonitoringDashboard:
             "metric_id": metric.metric_id,
             "created_at": datetime.now().isoformat(),
             "acknowledged": False,
-            "resolved": False
+            "resolved": False,
         }
 
         self.active_alerts[alert_id] = alert
@@ -904,7 +949,7 @@ class GuardianMonitoringDashboard:
         severity_mapping = {
             ThreatLevel.HIGH: AlertSeverity.HIGH,
             ThreatLevel.SEVERE: AlertSeverity.CRITICAL,
-            ThreatLevel.CRITICAL: AlertSeverity.EMERGENCY
+            ThreatLevel.CRITICAL: AlertSeverity.EMERGENCY,
         }
 
         severity = severity_mapping.get(threat.threat_level, AlertSeverity.MEDIUM)
@@ -918,7 +963,7 @@ class GuardianMonitoringDashboard:
             "threat_id": threat.threat_id,
             "created_at": datetime.now().isoformat(),
             "acknowledged": False,
-            "resolved": False
+            "resolved": False,
         }
 
         self.active_alerts[alert_id] = alert
@@ -940,7 +985,7 @@ class GuardianMonitoringDashboard:
             "violation_id": violation.violation_id,
             "created_at": datetime.now().isoformat(),
             "acknowledged": False,
-            "resolved": False
+            "resolved": False,
         }
 
         self.active_alerts[alert_id] = alert
@@ -964,7 +1009,7 @@ class GuardianMonitoringDashboard:
             "threat_detection",
             "compliance_checking",
             "constitutional_oversight",
-            "trinity_framework_protection"
+            "trinity_framework_protection",
         ]
 
     async def _analyze_identity_impact(self, metric: MonitoringMetric) -> Optional[float]:
@@ -1007,7 +1052,7 @@ class GuardianMonitoringDashboard:
             "data_confidentiality": 0.7 if "data" in threat.threat_type.lower() else 0.3,
             "system_availability": 0.8 if "dos" in threat.threat_type.lower() else 0.2,
             "service_integrity": 0.6 if "injection" in threat.threat_type.lower() else 0.1,
-            "user_privacy": 0.9 if "privacy" in threat.threat_type.lower() else 0.2
+            "user_privacy": 0.9 if "privacy" in threat.threat_type.lower() else 0.2,
         }
 
     async def _generate_mitigation_actions(self, threat: ThreatDetection) -> list[str]:
@@ -1016,11 +1061,13 @@ class GuardianMonitoringDashboard:
         actions = ["Monitor threat indicators", "Review access logs"]
 
         if threat.threat_level in [ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]:
-            actions.extend([
-                "Activate enhanced monitoring",
-                "Notify security team",
-                "Consider system isolation"
-            ])
+            actions.extend(
+                [
+                    "Activate enhanced monitoring",
+                    "Notify security team",
+                    "Consider system isolation",
+                ]
+            )
 
         return actions
 
@@ -1030,26 +1077,30 @@ class GuardianMonitoringDashboard:
         actions = [
             f"Review {violation.regulation} requirements",
             "Document violation in compliance log",
-            "Assess legal implications"
+            "Assess legal implications",
         ]
 
         if violation.severity in [AlertSeverity.HIGH, AlertSeverity.CRITICAL]:
-            actions.extend([
-                "Immediate remediation required",
-                "Notify compliance officer",
-                "Prepare regulatory response"
-            ])
+            actions.extend(
+                [
+                    "Immediate remediation required",
+                    "Notify compliance officer",
+                    "Prepare regulatory response",
+                ]
+            )
 
         return actions
 
-    def _calculate_compliance_deadline(self, severity: AlertSeverity, regulation: str) -> Optional[datetime]:
+    def _calculate_compliance_deadline(
+        self, severity: AlertSeverity, regulation: str
+    ) -> Optional[datetime]:
         """Calculate compliance remediation deadline"""
 
         deadline_days = {
             AlertSeverity.CRITICAL: 1,
             AlertSeverity.HIGH: 7,
             AlertSeverity.MEDIUM: 30,
-            AlertSeverity.LOW: 90
+            AlertSeverity.LOW: 90,
         }
 
         days = deadline_days.get(severity, 30)
@@ -1058,7 +1109,7 @@ class GuardianMonitoringDashboard:
     async def get_monitoring_report(
         self,
         scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
-        time_period: Optional[tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None,
     ) -> MonitoringReport:
         """Generate comprehensive monitoring report"""
 
@@ -1071,17 +1122,16 @@ class GuardianMonitoringDashboard:
 
         # Filter data for time period
         period_metrics = [
-            m for m in self.metrics_history
-            if time_period[0] <= m.timestamp <= time_period[1]
+            m for m in self.metrics_history if time_period[0] <= m.timestamp <= time_period[1]
         ]
 
         period_threats = [
-            t for t in self.threats_detected
-            if time_period[0] <= t.detected_at <= time_period[1]
+            t for t in self.threats_detected if time_period[0] <= t.detected_at <= time_period[1]
         ]
 
         period_violations = [
-            v for v in self.compliance_violations
+            v
+            for v in self.compliance_violations
             if time_period[0] <= v.detected_at <= time_period[1]
         ]
 
@@ -1094,9 +1144,16 @@ class GuardianMonitoringDashboard:
             total_metrics=len(period_metrics),
             health_status=self.system_health,
             threats_detected=period_threats,
-            security_incidents=len([t for t in period_threats if t.threat_level in [ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]]),
+            security_incidents=len(
+                [
+                    t
+                    for t in period_threats
+                    if t.threat_level
+                    in [ThreatLevel.HIGH, ThreatLevel.SEVERE, ThreatLevel.CRITICAL]
+                ]
+            ),
             compliance_violations=period_violations,
-            compliance_score=1.0 - (len(period_violations) * 0.1)  # Simplified calculation
+            compliance_score=1.0 - (len(period_violations) * 0.1),  # Simplified calculation
         )
 
         # Add recommendations based on findings
@@ -1119,13 +1176,13 @@ class GuardianMonitoringDashboard:
 
 # Export main classes
 __all__ = [
+    "AlertSeverity",
+    "ComplianceViolation",
     "GuardianMonitoringDashboard",
     "MonitoringMetric",
-    "ThreatDetection",
-    "ComplianceViolation",
-    "SystemHealthStatus",
     "MonitoringReport",
     "MonitoringScope",
-    "AlertSeverity",
-    "ThreatLevel"
+    "SystemHealthStatus",
+    "ThreatDetection",
+    "ThreatLevel",
 ]

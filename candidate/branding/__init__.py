@@ -126,17 +126,17 @@ def normalize_chunk(chunk: str) -> str:
 
 # Module initialization
 __all__ = [
+    "APPROVED_TERMS",
+    "COLORS",
+    "CONSCIOUSNESS_SYMBOL",
+    "GUARDIAN_SYMBOL",
+    "IDENTITY_SYMBOL",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
     "TRINITY_FRAMEWORK",
-    "IDENTITY_SYMBOL",
-    "CONSCIOUSNESS_SYMBOL",
-    "GUARDIAN_SYMBOL",
-    "APPROVED_TERMS",
-    "COLORS",
     "get_system_signature",
     "get_trinity_description",
-    "validate_branding_compliance",
-    "normalize_output",
     "normalize_chunk",
+    "normalize_output",
+    "validate_branding_compliance",
 ]

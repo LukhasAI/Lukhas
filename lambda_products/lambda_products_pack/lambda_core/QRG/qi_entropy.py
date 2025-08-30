@@ -76,9 +76,7 @@ class TrueQuantumRandomness:
         self._initialize_entropy_sources()
         self._seed_entropy_pool()
 
-        logger.info(
-            f"⚛️ Quantum entropy generator initialized with {entropy_source.value}"
-        )
+        logger.info(f"⚛️ Quantum entropy generator initialized with {entropy_source.value}")
 
     def _initialize_entropy_sources(self):
         """Initialize available entropy sources"""
@@ -105,9 +103,7 @@ class TrueQuantumRandomness:
         # Atmospheric noise (simulated)
         self.entropy_sources[QuantumEntropySource.ATMOSPHERIC_NOISE] = True
 
-        logger.info(
-            f"🌐 Initialized {sum(self.entropy_sources.values())} entropy sources"
-        )
+        logger.info(f"🌐 Initialized {sum(self.entropy_sources.values())} entropy sources")
 
     def _seed_entropy_pool(self):
         """Seed the initial entropy pool"""
@@ -218,9 +214,7 @@ class TrueQuantumRandomness:
         for i in range(0, len(quantum_measurements), 8):
             byte_bits = quantum_measurements[i : i + 8]
             if len(byte_bits) == 8:
-                byte_value = sum(
-                    bit * (2 ** (7 - idx)) for idx, bit in enumerate(byte_bits)
-                )
+                byte_value = sum(bit * (2 ** (7 - idx)) for idx, bit in enumerate(byte_bits))
                 quantum_bytes.append(byte_value)
 
         return bytes(quantum_bytes[:num_bytes])
@@ -400,13 +394,9 @@ class TrueQuantumRandomness:
         self.entropy_quality.update(quality_metrics)
 
         if quality_metrics["quality_score"] < 0.8:
-            logger.warning(
-                f"⚠️ Low entropy quality: {quality_metrics['quality_score']:.3f}"
-            )
+            logger.warning(f"⚠️ Low entropy quality: {quality_metrics['quality_score']:.3f}")
         else:
-            logger.debug(
-                f"✅ Good entropy quality: {quality_metrics['quality_score']:.3f}"
-            )
+            logger.debug(f"✅ Good entropy quality: {quality_metrics['quality_score']:.3f}")
 
         return quality_metrics
 
@@ -424,9 +414,7 @@ class TrueQuantumRandomness:
         expected = len(data) / 256.0
 
         # Chi-squared statistic
-        chi_squared = sum(
-            (freq - expected) ** 2 / expected for freq in frequencies if expected > 0
-        )
+        chi_squared = sum((freq - expected) ** 2 / expected for freq in frequencies if expected > 0)
 
         # Normalize (rough approximation)
         return min(chi_squared / (255 * expected), 1.0)
@@ -456,8 +444,7 @@ class TrueQuantumRandomness:
         mean_val = sum(data) / len(data)
 
         numerator = sum(
-            (data[i] - mean_val) * (data[i + 1] - mean_val)
-            for i in range(len(data) - 1)
+            (data[i] - mean_val) * (data[i + 1] - mean_val) for i in range(len(data) - 1)
         )
         denominator = sum((x - mean_val) ** 2 for x in data)
 
@@ -532,8 +519,7 @@ class TrueQuantumRandomness:
         return {
             "entropy_source": self.entropy_source.value,
             "available_sources": {
-                source.value: available
-                for source, available in self.entropy_sources.items()
+                source.value: available for source, available in self.entropy_sources.items()
             },
             "pool_size": len(self.entropy_pool),
             "quality_metrics": self.entropy_quality.copy(),

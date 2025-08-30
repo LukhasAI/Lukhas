@@ -141,16 +141,10 @@ class MemoryFoldSystem:
         """
         # Core data structures
         self.items: dict[str, MemoryItem] = {}  # item_id -> MemoryItem
-        self.item_tags: dict[str, set[str]] = defaultdict(
-            set
-        )  # item_id -> set of tag_ids
-        self.tag_items: dict[str, set[str]] = defaultdict(
-            set
-        )  # tag_id -> set of item_ids
+        self.item_tags: dict[str, set[str]] = defaultdict(set)  # item_id -> set of tag_ids
+        self.tag_items: dict[str, set[str]] = defaultdict(set)  # tag_id -> set of item_ids
         self.tag_registry: dict[str, TagInfo] = {}  # tag_id -> TagInfo
-        self.tag_name_index: dict[str, str] = (
-            {}
-        )  # tag_name -> tag_id (for deduplication)
+        self.tag_name_index: dict[str, str] = {}  # tag_name -> tag_id (for deduplication)
 
         # Tag relationships (for semantic network)
         self.tag_relationships: dict[str, dict[str, float]] = defaultdict(
@@ -339,9 +333,7 @@ class MemoryFoldSystem:
 
         # Time-based tags
         now = datetime.now(timezone.utc)
-        auto_tags.extend(
-            [str(now.year), now.strftime("%B").lower(), now.strftime("%A").lower()]
-        )
+        auto_tags.extend([str(now.year), now.strftime("%B").lower(), now.strftime("%A").lower()])
 
         # Content-based tags (simplified - real implementation would use NLP)
         if isinstance(data, str):
@@ -383,12 +375,10 @@ class MemoryFoldSystem:
             if other_tag_id != tag_id:
                 # Increase relationship weight
                 current_weight = self.tag_relationships[tag_id].get(other_tag_id, 0.0)
-                self.tag_relationships[tag_id][other_tag_id] = min(
-                    current_weight + 0.1, 1.0
-                )
-                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[
-                    tag_id
-                ][other_tag_id]
+                self.tag_relationships[tag_id][other_tag_id] = min(current_weight + 0.1, 1.0)
+                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[tag_id][
+                    other_tag_id
+                ]
 
     async def fold_out_by_tag(
         self,
@@ -447,8 +437,7 @@ class MemoryFoldSystem:
                     # Get item and its tags
                     item = self.items[item_id]
                     item_tag_names = {
-                        self.tag_registry[tid].tag_name
-                        for tid in self.item_tags[item_id]
+                        self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
                     }
 
                     # Update access statistics
@@ -522,9 +511,7 @@ class MemoryFoldSystem:
                 "id": item_id,
                 "data": item.data,
                 "timestamp": item.timestamp.isoformat(),
-                "tags": [
-                    self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
-                ],
+                "tags": [self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]],
                 "emotional_weight": item.emotional_weight,
                 "colony_source": item.colony_source,
                 "content_hash": item.content_hash,
@@ -595,12 +582,12 @@ class MemoryFoldSystem:
         stats = self.stats.copy()
 
         # Calculate additional metrics
-        stats["average_tags_per_item"] = sum(
-            len(tags) for tags in self.item_tags.values()
-        ) / max(len(self.items), 1)
-        stats["average_items_per_tag"] = sum(
-            len(items) for items in self.tag_items.values()
-        ) / max(len(self.tag_registry), 1)
+        stats["average_tags_per_item"] = sum(len(tags) for tags in self.item_tags.values()) / max(
+            len(self.items), 1
+        )
+        stats["average_items_per_tag"] = sum(len(items) for items in self.tag_items.values()) / max(
+            len(self.tag_registry), 1
+        )
         stats["tag_categories"] = defaultdict(int)
         for tag_info in self.tag_registry.values():
             stats["tag_categories"][tag_info.semantic_category] += 1

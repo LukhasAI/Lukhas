@@ -19,17 +19,13 @@ class CognitiveVoice:
         self.emotional_state = self._create_emotional_state()
         self.modulation_engine = self._setup_modulation()
 
-    async def process_voice(
-        self, input_data: dict[str, Any], lukhas_id: str
-    ) -> dict[str, Any]:
+    async def process_voice(self, input_data: dict[str, Any], lukhas_id: str) -> dict[str, Any]:
         """Process voice with emotional and cognitive awareness"""
         # Verify Lukhas_ID and get encryption key
         encryption_key = self._get_encryption_key(lukhas_id)
 
         # Process voice with cognitive learning
-        cognitive_result = await self._analyze_cognitive_patterns(
-            input_data, encryption_key
-        )
+        cognitive_result = await self._analyze_cognitive_patterns(input_data, encryption_key)
 
         # Store in DNA memory
         await self.memory.store_decision(

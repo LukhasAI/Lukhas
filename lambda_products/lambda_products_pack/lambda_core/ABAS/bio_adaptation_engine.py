@@ -61,9 +61,7 @@ class BioAdaptationEngine:
             BiometricType.SLEEP_QUALITY: {"min": 0.0, "max": 1.0, "optimal": 0.8},
         }
 
-    async def analyze_biometric_patterns(
-        self, biometric_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_biometric_patterns(self, biometric_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze biometric data patterns"""
         user_id = biometric_data.get("user_id", "unknown")
 
@@ -83,15 +81,13 @@ class BioAdaptationEngine:
         if heart_rate > hr_threshold["optimal"] * 1.3:
             patterns["heart_rate"] = {
                 "status": "elevated",
-                "deviation": (heart_rate - hr_threshold["optimal"])
-                / hr_threshold["optimal"],
+                "deviation": (heart_rate - hr_threshold["optimal"]) / hr_threshold["optimal"],
                 "recommendation": "relaxation_techniques",
             }
         elif heart_rate < hr_threshold["optimal"] * 0.7:
             patterns["heart_rate"] = {
                 "status": "low",
-                "deviation": (hr_threshold["optimal"] - heart_rate)
-                / hr_threshold["optimal"],
+                "deviation": (hr_threshold["optimal"] - heart_rate) / hr_threshold["optimal"],
                 "recommendation": "mild_stimulation",
             }
         else:
@@ -124,25 +120,17 @@ class BioAdaptationEngine:
         # Attention analysis
         patterns["attention"] = {
             "focus_level": attention,
-            "status": (
-                "high" if attention > 0.8 else "medium" if attention > 0.5 else "low"
-            ),
-            "recommendation": (
-                "focus_enhancement" if attention < 0.6 else "maintain_focus"
-            ),
+            "status": ("high" if attention > 0.8 else "medium" if attention > 0.5 else "low"),
+            "recommendation": ("focus_enhancement" if attention < 0.6 else "maintain_focus"),
         }
 
         # Sleep quality analysis
         patterns["sleep"] = {
             "quality_score": sleep_quality,
             "status": (
-                "excellent"
-                if sleep_quality > 0.8
-                else "good" if sleep_quality > 0.6 else "poor"
+                "excellent" if sleep_quality > 0.8 else "good" if sleep_quality > 0.6 else "poor"
             ),
-            "recommendation": (
-                "sleep_optimization" if sleep_quality < 0.7 else "maintain_routine"
-            ),
+            "recommendation": ("sleep_optimization" if sleep_quality < 0.7 else "maintain_routine"),
         }
 
         # Overall assessment
@@ -182,14 +170,10 @@ class BioAdaptationEngine:
         stress_level = patterns["stress"]["level"]
         if stress_level > 0.7:
             # High stress - reduce intensity
-            adapted_params["intensity"] = min(
-                adapted_params.get("intensity", 0.5) * 0.7, 1.0
-            )
+            adapted_params["intensity"] = min(adapted_params.get("intensity", 0.5) * 0.7, 1.0)
         elif stress_level < 0.3:
             # Low stress - can increase intensity
-            adapted_params["intensity"] = min(
-                adapted_params.get("intensity", 0.5) * 1.3, 1.0
-            )
+            adapted_params["intensity"] = min(adapted_params.get("intensity", 0.5) * 1.3, 1.0)
 
         # Adapt duration based on attention and sleep quality
         attention = patterns["attention"]["focus_level"]
@@ -345,9 +329,7 @@ class BioAdaptationEngine:
                 + (1 - alpha) * profile.baseline_heart_rate
             )
 
-            current_stress = biometric_data.get(
-                "stress_level", 1.0 - profile.stress_tolerance
-            )
+            current_stress = biometric_data.get("stress_level", 1.0 - profile.stress_tolerance)
             profile.stress_tolerance = (
                 alpha * (1.0 - current_stress) + (1 - alpha) * profile.stress_tolerance
             )
@@ -367,9 +349,7 @@ class BioAdaptationEngine:
                 + (1 - alpha) * profile.temperature_norm
             )
 
-            current_sleep = biometric_data.get(
-                "sleep_quality", profile.sleep_pattern["quality"]
-            )
+            current_sleep = biometric_data.get("sleep_quality", profile.sleep_pattern["quality"])
             profile.sleep_pattern["quality"] = (
                 alpha * current_sleep + (1 - alpha) * profile.sleep_pattern["quality"]
             )

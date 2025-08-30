@@ -116,14 +116,10 @@ class SymbolicKnowledgeIntegrator:
                             f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}"
                         )
                     except Exception as e:
-                        logger.warning(
-                            f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}"
-                        )
+                        logger.warning(f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}")
 
             if not all_concepts:
-                logger.warning(
-                    "🔍 ΛTRACE: No knowledge sources loaded, using minimal fallback"
-                )
+                logger.warning("🔍 ΛTRACE: No knowledge sources loaded, using minimal fallback")
                 all_concepts = self._create_minimal_fallback_knowledge()
 
             # Distribute to subsystems
@@ -149,9 +145,7 @@ class SymbolicKnowledgeIntegrator:
             logger.error(f"🚨 ΛTRACE: Knowledge integration initialization failed: {e}")
             raise
 
-    async def _distribute_knowledge(
-        self, concepts: dict[str, SymbolicConcept]
-    ) -> dict[str, bool]:
+    async def _distribute_knowledge(self, concepts: dict[str, SymbolicConcept]) -> dict[str, bool]:
         """Distribute knowledge to all integrated systems."""
         results = {}
 
@@ -201,9 +195,7 @@ class SymbolicKnowledgeIntegrator:
     async def _integrate_with_memory_system(self, memory_export: dict[str, Any]):
         """Integrate knowledge with memory system."""
         # Create memory enrichment configuration
-        memory_config_path = (
-            self.config_path.parent / "memory" / "knowledge_enrichment.json"
-        )
+        memory_config_path = self.config_path.parent / "memory" / "knowledge_enrichment.json"
 
         # Ensure directory exists
         memory_config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -212,16 +204,12 @@ class SymbolicKnowledgeIntegrator:
         with open(memory_config_path, "w", encoding="utf-8") as f:
             json.dump(memory_export, f, indent=2)
 
-        logger.info(
-            f"🔍 ΛTRACE: Memory enrichment config written to {memory_config_path}"
-        )
+        logger.info(f"🔍 ΛTRACE: Memory enrichment config written to {memory_config_path}")
 
     async def _integrate_with_narrative_system(self, narrative_export: dict[str, Any]):
         """Integrate knowledge with narrative system."""
         # Create narrative guidance configuration
-        narrative_config_path = (
-            self.config_path.parent / "narrative" / "archetypal_guidance.json"
-        )
+        narrative_config_path = self.config_path.parent / "narrative" / "archetypal_guidance.json"
 
         # Ensure directory exists
         narrative_config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -230,16 +218,12 @@ class SymbolicKnowledgeIntegrator:
         with open(narrative_config_path, "w", encoding="utf-8") as f:
             json.dump(narrative_export, f, indent=2)
 
-        logger.info(
-            f"🔍 ΛTRACE: Narrative guidance config written to {narrative_config_path}"
-        )
+        logger.info(f"🔍 ΛTRACE: Narrative guidance config written to {narrative_config_path}")
 
     async def _integrate_with_ethics_system(self, ethics_export: dict[str, Any]):
         """Integrate knowledge with ethics system."""
         # Create ethics grounding configuration
-        ethics_config_path = (
-            self.config_path.parent / "ethics" / "knowledge_grounding.json"
-        )
+        ethics_config_path = self.config_path.parent / "ethics" / "knowledge_grounding.json"
 
         # Ensure directory exists
         ethics_config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -248,9 +232,7 @@ class SymbolicKnowledgeIntegrator:
         with open(ethics_config_path, "w", encoding="utf-8") as f:
             json.dump(ethics_export, f, indent=2)
 
-        logger.info(
-            f"🔍 ΛTRACE: Ethics grounding config written to {ethics_config_path}"
-        )
+        logger.info(f"🔍 ΛTRACE: Ethics grounding config written to {ethics_config_path}")
 
     def _prepare_reasoning_integration(
         self, concepts: dict[str, SymbolicConcept]
@@ -279,9 +261,7 @@ class SymbolicKnowledgeIntegrator:
     async def _integrate_with_reasoning_system(self, reasoning_export: dict[str, Any]):
         """Integrate knowledge with reasoning system."""
         # Create reasoning knowledge configuration
-        reasoning_config_path = (
-            self.config_path.parent / "reasoning" / "concept_knowledge.json"
-        )
+        reasoning_config_path = self.config_path.parent / "reasoning" / "concept_knowledge.json"
 
         # Ensure directory exists
         reasoning_config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -290,9 +270,7 @@ class SymbolicKnowledgeIntegrator:
         with open(reasoning_config_path, "w", encoding="utf-8") as f:
             json.dump(reasoning_export, f, indent=2)
 
-        logger.info(
-            f"🔍 ΛTRACE: Reasoning knowledge config written to {reasoning_config_path}"
-        )
+        logger.info(f"🔍 ΛTRACE: Reasoning knowledge config written to {reasoning_config_path}")
 
     def _create_minimal_fallback_knowledge(self) -> dict[str, SymbolicConcept]:
         """Create minimal fallback knowledge if no sources available."""
@@ -337,9 +315,7 @@ class SymbolicKnowledgeIntegrator:
         logger.info("🔍 ΛTRACE: Refreshing knowledge integration")
         return await self.initialize_knowledge_integration()
 
-    def query_integrated_knowledge(
-        self, query: str, limit: int = 5
-    ) -> list[dict[str, Any]]:
+    def query_integrated_knowledge(self, query: str, limit: int = 5) -> list[dict[str, Any]]:
         """Query the integrated knowledge base."""
         results = self.loader.search_concepts(query, limit)
 

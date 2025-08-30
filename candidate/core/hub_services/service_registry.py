@@ -131,9 +131,7 @@ class ServiceRegistry:
                 "initialized": self._initialized.get(name, False),
                 "metadata": self._metadata.get(name, {}),
                 "type": (
-                    type(self._services[name]).__name__
-                    if name in self._services
-                    else "factory"
+                    type(self._services[name]).__name__ if name in self._services else "factory"
                 ),
             }
 
@@ -188,9 +186,7 @@ def get_service_registry() -> ServiceRegistry:
 # Convenience functions
 
 
-def register_service(
-    name: str, service: Any, metadata: Optional[dict[str, Any]] = None
-):
+def register_service(name: str, service: Any, metadata: Optional[dict[str, Any]] = None):
     """Register a service with the global registry"""
     _global_registry.register_service(name, service, metadata)
 
@@ -222,7 +218,6 @@ def inject_services(**service_names: str) -> Callable:
     """
 
     def decorator(func: Callable) -> Callable:
-
         def wrapper(*args, **kwargs):
             # Inject services
             for param_name, service_name in service_names.items():
@@ -351,13 +346,13 @@ def register_all_providers():
 
 
 __all__ = [
-    "ServiceRegistry",
+    "QIBioOptimizerProvider",
     "ServiceInterface",
-    "get_service_registry",
-    "register_service",
-    "register_factory",
+    "ServiceRegistry",
     "get_service",
+    "get_service_registry",
     "inject_services",
     "register_all_providers",
-    "QIBioOptimizerProvider",
+    "register_factory",
+    "register_service",
 ]

@@ -150,15 +150,15 @@ def generate_dream(evaluate_action):
 
     # ΛTAG: risk
     dream["risk_tag"] = (
-        "ΛRISK:HIGH"
-        if risk_score > 0.7
-        else "ΛRISK:MEDIUM" if risk_score > 0.4 else "ΛRISK:LOW"
+        "ΛRISK:HIGH" if risk_score > 0.7 else "ΛRISK:MEDIUM" if risk_score > 0.4 else "ΛRISK:LOW"
     )
     # ΛTAG: alignment
     dream["alignment_tag"] = (
         "ΛALIGN:HIGH"
         if alignment_score >= 0.7
-        else "ΛALIGN:MEDIUM" if alignment_score >= 0.4 else "ΛALIGN:LOW"
+        else "ΛALIGN:MEDIUM"
+        if alignment_score >= 0.4
+        else "ΛALIGN:LOW"
     )
 
     ethics_result = _apply_ethical_filter(dream)
@@ -218,9 +218,7 @@ async def generate_dream_with_openai(
         base_dream.update(enhanced_dream)
 
         # Log the enhancement
-        print(
-            f"[DreamGenerator] AI-enhanced dream created: {base_dream.get('dream_id')}"
-        )
+        print(f"[DreamGenerator] AI-enhanced dream created: {base_dream.get('dream_id')}")
 
         if "generated_image" in base_dream:
             print(f"  - Image: {base_dream['generated_image']['path']}")
@@ -253,9 +251,7 @@ def generate_dream_sync(evaluate_action, **kwargs) -> dict[str, Any]:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
-            return loop.run_until_complete(
-                generate_dream_with_openai(evaluate_action, **kwargs)
-            )
+            return loop.run_until_complete(generate_dream_with_openai(evaluate_action, **kwargs))
         finally:
             loop.close()
     else:

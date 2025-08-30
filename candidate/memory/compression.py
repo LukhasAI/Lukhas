@@ -16,5 +16,5 @@ warnings.warn(
     "Import 'memory.compression' is deprecated and will be removed on 2025-11-01. "
     "Please update to 'lukhas.accepted.memory.compression'",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )

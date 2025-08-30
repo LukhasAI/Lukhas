@@ -134,9 +134,7 @@ class DynamicTabSystem:
 
     def __init__(self, dashboard_context: DashboardContext):
         self.dashboard_context = dashboard_context
-        self.logger = logger.bind(
-            system_id=f"tab_system_{int(datetime.now().timestamp())}"
-        )
+        self.logger = logger.bind(system_id=f"tab_system_{int(datetime.now().timestamp())}")
 
         # Tab registry and state
         self.registered_tabs: dict[str, AdaptiveTab] = {}
@@ -196,9 +194,7 @@ class DynamicTabSystem:
             self.logger.error("Tab system initialization failed", error=str(e))
             raise
 
-    async def register_tab(
-        self, tab: AdaptiveTab, behavior_rules: list[TabBehaviorRule] = None
-    ):
+    async def register_tab(self, tab: AdaptiveTab, behavior_rules: list[TabBehaviorRule] = None):
         """Register a new adaptive tab with the system."""
 
         self.registered_tabs[tab.tab_id] = tab
@@ -302,9 +298,7 @@ class DynamicTabSystem:
 
         elif interaction_type == "satisfaction_feedback":
             satisfaction = interaction_data.get("score", 0.5)
-            pattern.satisfaction_score = (
-                pattern.satisfaction_score * 0.8 + satisfaction * 0.2
-            )
+            pattern.satisfaction_score = pattern.satisfaction_score * 0.8 + satisfaction * 0.2
 
         # Update contextual correlations
         current_context = interaction_data.get("context", {})
@@ -340,7 +334,6 @@ class DynamicTabSystem:
 
         # Analyze patterns for each tab
         for tab_id, pattern in self.interaction_patterns.items():
-
             # Time-based prediction
             current_hour = current_time.hour
             time_probability = pattern.time_of_day_pattern.get(current_hour, 0.0)
@@ -359,9 +352,7 @@ class DynamicTabSystem:
 
             # Combined prediction score
             prediction_score = (
-                time_probability * 0.3
-                + context_probability * 0.4
-                + sequence_probability * 0.3
+                time_probability * 0.3 + context_probability * 0.4 + sequence_probability * 0.3
             )
 
             if prediction_score > 0.6:  # Prediction threshold
@@ -399,9 +390,7 @@ class DynamicTabSystem:
 
         # Apply optimizations
         if optimized_order != [tab.tab_id for tab in self.active_tabs]:
-            self.active_tabs = [
-                self.registered_tabs[tab_id] for tab_id in optimized_order
-            ]
+            self.active_tabs = [self.registered_tabs[tab_id] for tab_id in optimized_order]
             optimization_results["reordered_tabs"] = optimized_order
 
         if optimized_groups:
@@ -411,9 +400,7 @@ class DynamicTabSystem:
 
         # Calculate performance improvement
         new_performance = await self._calculate_layout_performance()
-        optimization_results["performance_improvement"] = (
-            new_performance - current_performance
-        )
+        optimization_results["performance_improvement"] = new_performance - current_performance
 
         self.logger.info(
             "Tab layout optimized",
@@ -521,13 +508,9 @@ class DynamicTabSystem:
         for group in functional_groups:
             self.tab_groups[group.group_id] = group
 
-        self.logger.info(
-            "Grouping strategies initialized", groups=len(functional_groups)
-        )
+        self.logger.info("Grouping strategies initialized", groups=len(functional_groups))
 
-    async def _evaluate_tabs_for_context(
-        self, context: DashboardContext
-    ) -> dict[str, Any]:
+    async def _evaluate_tabs_for_context(self, context: DashboardContext) -> dict[str, Any]:
         """Evaluate all tabs against new context and determine changes."""
 
         tab_changes = {
@@ -539,11 +522,9 @@ class DynamicTabSystem:
         }
 
         for tab_id, tab in self.registered_tabs.items():
-
             # Check behavior rules
             for _rule_id, rule in self.behavior_rules.items():
                 if await self._rule_matches_context(rule, context):
-
                     if rule.visibility_action == "show" and not tab.is_visible:
                         tab_changes["show"].append(tab_id)
                         tab.is_visible = True
@@ -573,13 +554,10 @@ class DynamicTabSystem:
 
         return tab_changes
 
-    async def _rule_matches_context(
-        self, rule: TabBehaviorRule, context: DashboardContext
-    ) -> bool:
+    async def _rule_matches_context(self, rule: TabBehaviorRule, context: DashboardContext) -> bool:
         """Check if a behavior rule matches the current context."""
 
         for condition_key, condition_value in rule.trigger_conditions.items():
-
             context_value = getattr(context, condition_key, None)
 
             if isinstance(condition_value, dict):
@@ -588,10 +566,7 @@ class DynamicTabSystem:
                     return False
                 if "max" in condition_value and context_value > condition_value["max"]:
                     return False
-                if (
-                    "equals" in condition_value
-                    and context_value != condition_value["equals"]
-                ):
+                if "equals" in condition_value and context_value != condition_value["equals"]:
                     return False
             else:
                 # Simple equality
@@ -718,9 +693,7 @@ class DynamicTabSystem:
             TabPriority.HIGH,
         ]
 
-    def _calculate_sequence_probability(
-        self, tab_id: str, pattern: TabInteractionPattern
-    ) -> float:
+    def _calculate_sequence_probability(self, tab_id: str, pattern: TabInteractionPattern) -> float:
         """Calculate probability of tab access based on sequence patterns."""
         # Implementation for sequence-based prediction
         return 0.5  # Placeholder

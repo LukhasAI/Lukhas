@@ -21,6 +21,6 @@ def recall(memory_log, target_action):
     key = target_action["action"]
     history = [entry for entry in memory_log if entry["action"] == key]
     for i, event in enumerate(history):
-        print(f"\n[Episode {i+1}]")
+        print(f"\n[Episode {i + 1}]")
         print(json.dumps(event, indent=2))
     return history

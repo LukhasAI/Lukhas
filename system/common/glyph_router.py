@@ -52,12 +52,8 @@ class GLYPHRouter:
             GLYPHRoute("SYSTEM_*", "core.*", "orchestration", priority=10),
             GLYPHRoute("CONFIG_*", "core.*", "governance", priority=5),
             # Consciousness routes
-            GLYPHRoute(
-                "AWARENESS_*", "consciousness.*", "consciousness.unified", priority=10
-            ),
-            GLYPHRoute(
-                "DREAM_*", "consciousness.dream.*", "consciousness.dream", priority=10
-            ),
+            GLYPHRoute("AWARENESS_*", "consciousness.*", "consciousness.unified", priority=10),
+            GLYPHRoute("DREAM_*", "consciousness.dream.*", "consciousness.dream", priority=10),
             # Memory routes
             GLYPHRoute("MEMORY_*", "memory.*", "memory.core", priority=10),
             GLYPHRoute("FOLD_*", "memory.folds.*", "memory.folds", priority=10),
@@ -80,9 +76,7 @@ class GLYPHRouter:
         self._handlers[glyph_pattern].append(handler)
         logger.info(f"Registered handler for pattern: {glyph_pattern}")
 
-    async def route_glyph(
-        self, glyph: GLYPHSymbol, source_module: str
-    ) -> Optional[str]:
+    async def route_glyph(self, glyph: GLYPHSymbol, source_module: str) -> Optional[str]:
         """Route a GLYPH to appropriate handler"""
         glyph_type = glyph.symbol_type
 
@@ -112,9 +106,7 @@ class GLYPHRouter:
             return target_module
         else:
             self._metrics["routing_errors"] += 1
-            logger.warning(
-                f"No route found for GLYPH {glyph_type} from {source_module}"
-            )
+            logger.warning(f"No route found for GLYPH {glyph_type} from {source_module}")
             return None
 
     def _matches_pattern(self, value: str, pattern: str) -> bool:

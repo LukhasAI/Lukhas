@@ -70,9 +70,7 @@ class QIUIOptimizer:
         )
 
         # 2. Run quantum approximate optimization
-        qi_result = await self.qi_backend.run_qaoa(
-            qubo_matrix, num_layers=5, shots=1024
-        )
+        qi_result = await self.qi_backend.run_qaoa(qubo_matrix, num_layers=5, shots=1024)
 
         # 3. Extract classical layout from qi result
         optimal_layout = self._decode_quantum_solution(qi_result, ui_components)

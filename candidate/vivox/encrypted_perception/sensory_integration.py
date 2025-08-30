@@ -157,21 +157,15 @@ class TextureAnalyzer:
         """Extract texture features from encrypted data"""
 
         # Compute spatial frequency analysis
-        fft_2d = np.fft.fft2(
-            encrypted_data.reshape(-1, int(np.sqrt(len(encrypted_data))))
-        )
+        fft_2d = np.fft.fft2(encrypted_data.reshape(-1, int(np.sqrt(len(encrypted_data)))))
         power_spectrum = np.abs(fft_2d) ** 2
 
         # Roughness from high-frequency components
-        high_freq = power_spectrum[
-            len(power_spectrum) // 2 :, len(power_spectrum[0]) // 2 :
-        ]
+        high_freq = power_spectrum[len(power_spectrum) // 2 :, len(power_spectrum[0]) // 2 :]
         roughness = float(np.mean(high_freq) / (np.mean(power_spectrum) + 1e-10))
 
         # Smoothness from low-frequency dominance
-        low_freq = power_spectrum[
-            : len(power_spectrum) // 4, : len(power_spectrum[0]) // 4
-        ]
+        low_freq = power_spectrum[: len(power_spectrum) // 4, : len(power_spectrum[0]) // 4]
         smoothness = float(np.mean(low_freq) / (np.mean(power_spectrum) + 1e-10))
 
         # Regularity from autocorrelation
@@ -185,9 +179,7 @@ class TextureAnalyzer:
         complexity = float(-np.sum(hist * np.log2(hist + 1e-10)) / np.log2(32))
 
         # Contrast from range
-        contrast = float(
-            np.ptp(encrypted_data) / (np.max(np.abs(encrypted_data)) + 1e-10)
-        )
+        contrast = float(np.ptp(encrypted_data) / (np.max(np.abs(encrypted_data)) + 1e-10))
 
         # Homogeneity from variance
         homogeneity = float(1.0 / (1.0 + np.var(encrypted_data)))
@@ -412,12 +404,8 @@ class MotionDetector:
 
         # Direction changes
         if len(velocities) > 1:
-            directions = velocities / (
-                np.linalg.norm(velocities, axis=1, keepdims=True) + 1e-10
-            )
-            direction_changes = np.sum(
-                np.linalg.norm(np.diff(directions, axis=0), axis=1) > 0.5
-            )
+            directions = velocities / (np.linalg.norm(velocities, axis=1, keepdims=True) + 1e-10)
+            direction_changes = np.sum(np.linalg.norm(np.diff(directions, axis=0), axis=1) > 0.5)
         else:
             direction_changes = 0
 
@@ -586,9 +574,7 @@ class MotionDetector:
             physics_confidence *= 0.7
 
         # Feature range confidence
-        range_confidence = np.mean(
-            (normalized_features >= 0) & (normalized_features <= 1)
-        )
+        range_confidence = np.mean((normalized_features >= 0) & (normalized_features <= 1))
 
         return float((physics_confidence + range_confidence) / 2)
 
@@ -667,17 +653,13 @@ class MultimodalFusion:
         self.modality_correlations = correlations
 
         # Apply fusion weights
-        weights = self.fusion_weights.get(
-            fusion_strategy, self.fusion_weights["default"]
-        )
+        weights = self.fusion_weights.get(fusion_strategy, self.fusion_weights["default"])
 
         # Perform weighted fusion
         fused_vector = self._weighted_fusion(modality_groups, weights)
 
         # Detect cross-modal anomalies
-        anomalies = await self._detect_cross_modal_anomalies(
-            modality_groups, correlations
-        )
+        anomalies = await self._detect_cross_modal_anomalies(modality_groups, correlations)
 
         # Create fused perception
         fused_perception = EncryptedPerception(

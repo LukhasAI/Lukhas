@@ -148,13 +148,9 @@ class ColonyMetrics:
         reliability = max(0.0, 1.0 - self.consecutive_failures / 10.0)
 
         # Recency component
-        recency = max(
-            0.0, 1.0 - (time.time() - self.last_heartbeat) / 300.0
-        )  # 5 min decay
+        recency = max(0.0, 1.0 - (time.time() - self.last_heartbeat) / 300.0)  # 5 min decay
 
-        return (
-            success_rate * 0.3 + load_factor * 0.2 + reliability * 0.3 + recency * 0.2
-        )
+        return success_rate * 0.3 + load_factor * 0.2 + reliability * 0.3 + recency * 0.2
 
 
 class BaseMemoryColony(ABC):
@@ -243,13 +239,10 @@ class BaseMemoryColony(ABC):
         logger.info(
             f"Colony {self.colony_id} stopped",
             total_operations=self.metrics.total_operations,
-            success_rate=self.metrics.successful_operations
-            / max(self.metrics.total_operations, 1),
+            success_rate=self.metrics.successful_operations / max(self.metrics.total_operations, 1),
         )
 
-    async def process_memory_operation(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def process_memory_operation(self, operation: MemoryOperation) -> MemoryResponse:
         """Process a memory operation according to colony specialization"""
 
         # Check if colony can handle this operation
@@ -335,9 +328,7 @@ class BaseMemoryColony(ABC):
             self.active_operations.pop(operation.operation_id, None)
             self.metrics.active_operations = len(self.active_operations)
 
-    async def participate_in_consensus(
-        self, consensus_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def participate_in_consensus(self, consensus_request: dict[str, Any]) -> dict[str, Any]:
         """Participate in inter-colony consensus"""
 
         self.metrics.consensus_votes += 1
@@ -376,9 +367,7 @@ class BaseMemoryColony(ABC):
         """Register callback for inter-colony messages"""
         self.message_callbacks.append(callback)
 
-    async def send_message_to_colony(
-        self, target_colony_id: str, message: dict[str, Any]
-    ) -> bool:
+    async def send_message_to_colony(self, target_colony_id: str, message: dict[str, Any]) -> bool:
         """Send message to another colony"""
         if target_colony_id not in self.peer_colonies:
             return False
@@ -413,8 +402,7 @@ class BaseMemoryColony(ABC):
             "metrics": {
                 "total_operations": self.metrics.total_operations,
                 "success_rate": (
-                    self.metrics.successful_operations
-                    / max(self.metrics.total_operations, 1)
+                    self.metrics.successful_operations / max(self.metrics.total_operations, 1)
                 ),
                 "active_operations": self.metrics.active_operations,
                 "current_load": self.metrics.current_load_percentage,
@@ -423,9 +411,7 @@ class BaseMemoryColony(ABC):
             },
             "capabilities": {
                 "max_concurrent": self.capabilities.max_concurrent_operations,
-                "supported_types": [
-                    t.value for t in self.capabilities.supported_memory_types
-                ],
+                "supported_types": [t.value for t in self.capabilities.supported_memory_types],
                 "specialization_confidence": self.capabilities.specialization_confidence,
             },
         }
@@ -441,15 +427,11 @@ class BaseMemoryColony(ABC):
         """Cleanup systems specific to colony type"""
 
     @abstractmethod
-    async def _process_specialized_operation(
-        self, operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def _process_specialized_operation(self, operation: MemoryOperation) -> MemoryResponse:
         """Process operation according to colony specialization"""
 
     @abstractmethod
-    async def _cast_consensus_vote(
-        self, consensus_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _cast_consensus_vote(self, consensus_request: dict[str, Any]) -> dict[str, Any]:
         """Cast vote in inter-colony consensus"""
 
     # Helper methods
@@ -483,9 +465,7 @@ class BaseMemoryColony(ABC):
             self.metrics.average_response_time_ms = response_time_ms
         else:
             # Exponential moving average
-            self.metrics.average_response_time_ms = (
-                current_avg * 0.9 + response_time_ms * 0.1
-            )
+            self.metrics.average_response_time_ms = current_avg * 0.9 + response_time_ms * 0.1
 
     async def _complete_active_operations(self):
         """Complete or cancel active operations during shutdown"""
@@ -526,9 +506,7 @@ class BaseMemoryColony(ABC):
 
             # Update load percentage
             current_load = (
-                len(self.active_operations)
-                / self.capabilities.max_concurrent_operations
-                * 100
+                len(self.active_operations) / self.capabilities.max_concurrent_operations * 100
             )
             self.metrics.current_load_percentage = current_load
 
@@ -547,8 +525,7 @@ class BaseMemoryColony(ABC):
         while self._running:
             if (
                 self.operation_queue
-                and len(self.active_operations)
-                < self.capabilities.max_concurrent_operations
+                and len(self.active_operations) < self.capabilities.max_concurrent_operations
             ):
                 operation = self.operation_queue.popleft()
                 asyncio.create_task(self.process_memory_operation(operation))
@@ -568,8 +545,6 @@ class BaseMemoryColony(ABC):
                 and self.operation_history
                 and self.operation_history[-1].get("success", False)
             ):
-                self.metrics.consecutive_failures = max(
-                    0, self.metrics.consecutive_failures - 1
-                )
+                self.metrics.consecutive_failures = max(0, self.metrics.consecutive_failures - 1)
 
             await asyncio.sleep(60.0)  # Maintenance every minute

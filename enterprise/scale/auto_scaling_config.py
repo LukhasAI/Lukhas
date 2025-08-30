@@ -9,6 +9,7 @@ class T4ScalingConfig:
     min_instances: int
     max_instances: int
 
+
 class T4AutoScalingManager:
     def __init__(self, config: T4ScalingConfig):
         self.config = config

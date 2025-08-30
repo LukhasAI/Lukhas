@@ -251,9 +251,7 @@ class TierManager:
         config["processing_rules"] = {
             "require_feedback": tier == "T3",
             "show_ads": not config["features"].get("ad_free", False),
-            "enable_advanced_features": config["features"].get(
-                "advanced_widgets", False
-            ),
+            "enable_advanced_features": config["features"].get("advanced_widgets", False),
             "api_enabled": config["features"].get("api_access", False),
         }
 
@@ -342,9 +340,7 @@ class TierManager:
 
         return {"allowed": True}
 
-    async def update_usage_stats(
-        self, user_id: str, action: str, metadata: Optional[dict] = None
-    ):
+    async def update_usage_stats(self, user_id: str, action: str, metadata: Optional[dict] = None):
         """Update user's usage statistics"""
         user_data = await self.get_user_tier(user_id)
         if not user_data:
@@ -435,17 +431,11 @@ class TierManager:
         for tier, usage_list in usage_by_tier.items():
             if usage_list:
                 avg_usage[tier] = {
-                    "avg_messages": sum(
-                        u.get("messages_received", 0) for u in usage_list
-                    )
+                    "avg_messages": sum(u.get("messages_received", 0) for u in usage_list)
                     / len(usage_list),
-                    "avg_interactions": sum(
-                        u.get("widgets_interacted", 0) for u in usage_list
-                    )
+                    "avg_interactions": sum(u.get("widgets_interacted", 0) for u in usage_list)
                     / len(usage_list),
-                    "avg_feedback": sum(
-                        u.get("feedback_provided", 0) for u in usage_list
-                    )
+                    "avg_feedback": sum(u.get("feedback_provided", 0) for u in usage_list)
                     / len(usage_list),
                 }
             else:
@@ -479,14 +469,11 @@ class TierManager:
         return {
             "upgrade_candidates": upgrade_candidates,
             "potential_monthly_revenue": (
-                upgrade_candidates["T3_to_T2"] * 9.99
-                + upgrade_candidates["T2_to_T1"] * 20.00
+                upgrade_candidates["T3_to_T2"] * 9.99 + upgrade_candidates["T2_to_T1"] * 20.00
             ),
         }
 
-    async def _update_subscription_analytics(
-        self, old_tier: str, new_tier: str, reason: str
-    ):
+    async def _update_subscription_analytics(self, old_tier: str, new_tier: str, reason: str):
         """Update subscription change analytics"""
         if "tier_changes" not in self.subscription_analytics:
             self.subscription_analytics["tier_changes"] = []
@@ -497,9 +484,7 @@ class TierManager:
                 "old_tier": old_tier,
                 "new_tier": new_tier,
                 "reason": reason,
-                "direction": (
-                    "upgrade" if new_tier < old_tier else "downgrade"
-                ),  # T1 < T2 < T3
+                "direction": ("upgrade" if new_tier < old_tier else "downgrade"),  # T1 < T2 < T3
             }
         )
 
@@ -529,8 +514,7 @@ class TierManager:
             "total_users": len(self.user_tiers),
             "tiers_configured": len(self.tier_configs),
             "storage_path": str(self.storage_path),
-            "storage_accessible": self.storage_path.exists()
-            and self.storage_path.is_dir(),
+            "storage_accessible": self.storage_path.exists() and self.storage_path.is_dir(),
         }
 
 

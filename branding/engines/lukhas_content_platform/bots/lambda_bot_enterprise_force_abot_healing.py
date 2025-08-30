@@ -8,6 +8,7 @@ import sys
 
 sys.path.append("/Users/A_G_I/Λ")
 
+
 def force_abot_to_heal():
     """Force LUKHAS AI ΛBot to actually perfrom healing by using user_request=True"""
     print("🔥 FORCING LUKHAS AI ΛBot OUT OF ULTRA-CONSERVATIVE MODE")
@@ -19,7 +20,7 @@ def force_abot_to_heal():
         "What improvements can you make to your own CLI interface?",
         "How can you optimize your financial intelligence to be more efficient?",
         "What security vulnerabilities do you see in your current system?",
-        "Design 3 new features you think would make you more valuable"
+        "Design 3 new features you think would make you more valuable",
     ]
 
     for i, task in enumerate(healing_tasks, 1):
@@ -27,8 +28,11 @@ def force_abot_to_heal():
         print(f"📝 {task}")
 
         try:
-            result = subprocess.run([
-                "python3", "-c", f"""
+            result = subprocess.run(
+                [
+                    "python3",
+                    "-c",
+                    f"""
 import sys
 sys.path.append("/Users/A_G_I/Λ")
 from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
@@ -51,8 +55,13 @@ if result.get("response"):
     print(f"🧠 Decision: {{result.get('financial_decision', 'Unknown')}}")
 else:
     print("❌ Forced healing failed:", result.get("error", "Unknown error"))
-"""
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=120)
+""",
+                ],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=120,
+            )
 
             if result.stdout:
                 print(result.stdout)
@@ -63,6 +72,7 @@ else:
             print(f"❌ Forced task failed: {e}")
 
         print("-" * 40)
+
 
 if __name__ == "__main__":
     print("💪 Forcing LUKHAS AI ΛBot out of ultra-conservative mode...")

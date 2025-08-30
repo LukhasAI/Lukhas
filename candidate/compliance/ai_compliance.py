@@ -54,7 +54,9 @@ class AIComplianceManager:
             "data_processing_purposes": self._get_processing_purposes(),
         }
 
-    def _check_eu_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    def _check_eu_compliance(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check EU AI Act and GDPR compliance"""
         result = {"compliant": True, "violations": [], "required_actions": []}
 
@@ -76,7 +78,9 @@ class AIComplianceManager:
 
         return result
 
-    def _check_us_compliance(self, action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    def _check_us_compliance(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check US AI Bill of Rights and state law compliance"""
         result = {"compliant": True, "violations": [], "required_actions": []}
 

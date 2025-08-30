@@ -140,19 +140,13 @@ class GLYPHToken:
         """Convert to dictionary for serialization"""
         return {
             "glyph_id": self.glyph_id,
-            "symbol": (
-                self.symbol.value
-                if isinstance(self.symbol, GLYPHSymbol)
-                else self.symbol
-            ),
+            "symbol": (self.symbol.value if isinstance(self.symbol, GLYPHSymbol) else self.symbol),
             "source": self.source,
             "target": self.target,
             "payload": self.payload,
             "context": self.context.to_dict(),
             "priority": (
-                self.priority.value
-                if isinstance(self.priority, GLYPHPriority)
-                else self.priority
+                self.priority.value if isinstance(self.priority, GLYPHPriority) else self.priority
             ),
             "metadata": self.metadata,
         }
@@ -259,7 +253,7 @@ def parse_glyph(data: Union[str, dict[str, Any]]) -> GLYPHToken:
             raise ValueError(f"Invalid data type: {type(data)}")
     except Exception as e:
         raise GLYPHError(
-            message=f"Failed to parse GLYPH token: {str(e)}",
+            message=f"Failed to parse GLYPH token: {e!s}",
             details={"data_type": type(data).__name__},
         )
 

@@ -37,9 +37,7 @@ class BioUtilities:
         return base_cost * complexity_factor * duration
 
     @staticmethod
-    def apply_homeostasis(
-        current_value: float, target_value: float, rate: float = 0.1
-    ) -> float:
+    def apply_homeostasis(current_value: float, target_value: float, rate: float = 0.1) -> float:
         """
         Apply homeostatic regulation to gradually move towards target value.
 
@@ -56,9 +54,7 @@ class BioUtilities:
         return current_value + adjustment
 
     @staticmethod
-    def calculate_adaptation_rate(
-        stress_level: float, resilience: float = 0.5
-    ) -> float:
+    def calculate_adaptation_rate(stress_level: float, resilience: float = 0.5) -> float:
         """
         Calculate adaptation rate based on stress and resilience.
 
@@ -113,9 +109,7 @@ class BioUtilities:
         return value
 
     @staticmethod
-    def calculate_fitness(
-        performance: float, efficiency: float, adaptability: float
-    ) -> float:
+    def calculate_fitness(performance: float, efficiency: float, adaptability: float) -> float:
         """
         Calculate overall fitness score for evolutionary selection.
 
@@ -258,9 +252,7 @@ def apply_evolution(
     fitness_scores = [fitness_func(individual) for individual in population]
 
     # Select top performers (natural selection)
-    sorted_pop = sorted(
-        zip(fitness_scores, population), key=lambda x: x[0], reverse=True
-    )
+    sorted_pop = sorted(zip(fitness_scores, population), key=lambda x: x[0], reverse=True)
     survivors = [ind for _, ind in sorted_pop[: len(population) // 2]]
 
     # Create next generation
@@ -275,4 +267,4 @@ def apply_evolution(
 
 
 # Export public interface
-__all__ = ["BioUtilities", "calculate_bio_energy", "apply_evolution"]
+__all__ = ["BioUtilities", "apply_evolution", "calculate_bio_energy"]

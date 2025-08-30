@@ -10,6 +10,7 @@ from typing import Any
 # Check for PQC library availability
 try:
     import dilithium
+
     HAS_DILITHIUM = True
 except ImportError:
     HAS_DILITHIUM = False
@@ -18,6 +19,7 @@ except ImportError:
 try:
     from cryptography.hazmat.primitives import serialization
     from cryptography.hazmat.primitives.asymmetric import ed25519
+
     HAS_ED25519 = True
 except ImportError:
     HAS_ED25519 = False
@@ -26,6 +28,7 @@ except ImportError:
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 KEYS_DIR = os.path.join(STATE, "crypto", "keys")
 os.makedirs(KEYS_DIR, exist_ok=True)
+
 
 class PQCSigner:
     """Post-quantum cryptographic signer with Ed25519 fallback."""
@@ -55,9 +58,13 @@ class PQCSigner:
             # Generate Dilithium3 keys (placeholder - real implementation would use actual lib)
             return {
                 "algorithm": "dilithium3",
-                "public_key": base64.b64encode(os.urandom(1952)).decode(),  # Dilithium3 public key size
-                "private_key": base64.b64encode(os.urandom(4000)).decode(),  # Dilithium3 private key size
-                "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16]
+                "public_key": base64.b64encode(
+                    os.urandom(1952)
+                ).decode(),  # Dilithium3 public key size
+                "private_key": base64.b64encode(
+                    os.urandom(4000)
+                ).decode(),  # Dilithium3 private key size
+                "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16],
             }
         elif HAS_ED25519:
             # Generate Ed25519 keys
@@ -67,19 +74,19 @@ class PQCSigner:
             private_bytes = private_key.private_bytes(
                 encoding=serialization.Encoding.PEM,
                 format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
+                encryption_algorithm=serialization.NoEncryption(),
             )
 
             public_bytes = public_key.public_bytes(
                 encoding=serialization.Encoding.PEM,
-                format=serialization.PublicFormat.SubjectPublicKeyInfo
+                format=serialization.PublicFormat.SubjectPublicKeyInfo,
             )
 
             return {
                 "algorithm": "ed25519",
                 "public_key": base64.b64encode(public_bytes).decode(),
                 "private_key": base64.b64encode(private_bytes).decode(),
-                "key_id": hashlib.sha256(public_bytes).hexdigest()[:16]
+                "key_id": hashlib.sha256(public_bytes).hexdigest()[:16],
             }
         else:
             # Fallback to mock keys for development
@@ -87,7 +94,7 @@ class PQCSigner:
                 "algorithm": "mock_ed25519",
                 "public_key": base64.b64encode(os.urandom(32)).decode(),
                 "private_key": base64.b64encode(os.urandom(64)).decode(),
-                "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16]
+                "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16],
             }
 
     def sign(self, data: bytes) -> dict[str, str]:
@@ -114,7 +121,7 @@ class PQCSigner:
             "alg": alg,
             "sig": signature,
             "content_hash": content_hash,
-            "pubkey_id": self.key_data["key_id"]
+            "pubkey_id": self.key_data["key_id"],
         }
 
     def verify(self, data: bytes, signature_info: dict[str, str]) -> bool:
@@ -150,12 +157,14 @@ class PQCSigner:
 
         return False
 
+
 # Helper functions for convenience
 def sign_dilithium(data: bytes) -> dict[str, str]:
     """Sign data with Dilithium3 (production) or Ed25519 (dev)."""
     profile = "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
     signer = PQCSigner(profile)
     return signer.sign(data)
+
 
 def verify_signature(data: bytes, signature_info: dict[str, str]) -> bool:
     """Verify signature."""

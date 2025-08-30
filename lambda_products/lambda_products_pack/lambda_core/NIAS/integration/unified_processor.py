@@ -107,9 +107,7 @@ class UnifiedMessageProcessor:
 
         self._initialize_integrations()
 
-        logger.info(
-            "Unified Message Processor initialized for NIΛS-ΛBAS-DΛST orchestration"
-        )
+        logger.info("Unified Message Processor initialized for NIΛS-ΛBAS-DΛST orchestration")
 
     def _initialize_integrations(self):
         """Initialize all three system integrations"""
@@ -119,9 +117,7 @@ class UnifiedMessageProcessor:
                 try:
                     self.abas_adapter = get_abas_adapter()
                     self.system_health["abas"] = self.abas_adapter.is_abas_available()
-                    logger.info(
-                        f"ΛBAS adapter initialized: {self.system_health['abas']}"
-                    )
+                    logger.info(f"ΛBAS adapter initialized: {self.system_health['abas']}")
                 except Exception as e:
                     logger.warning(f"ΛBAS adapter initialization failed: {e}")
 
@@ -129,9 +125,7 @@ class UnifiedMessageProcessor:
                 try:
                     self.dast_adapter = get_dast_adapter()
                     self.system_health["dast"] = self.dast_adapter.is_dast_available()
-                    logger.info(
-                        f"DΛST adapter initialized: {self.system_health['dast']}"
-                    )
+                    logger.info(f"DΛST adapter initialized: {self.system_health['dast']}")
                 except Exception as e:
                     logger.warning(f"DΛST adapter initialization failed: {e}")
 
@@ -235,9 +229,7 @@ class UnifiedMessageProcessor:
 
             return self._handle_processing_error(context, e)
 
-    async def _phase_dast_analysis(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    async def _phase_dast_analysis(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Phase 1: DΛST Symbolic Context Analysis"""
         logger.debug(f"DΛST analysis for {context.user_id}")
 
@@ -268,9 +260,7 @@ class UnifiedMessageProcessor:
             logger.warning(f"DΛST analysis failed for {context.user_id}: {e}")
             return self._fallback_symbolic_context(context)
 
-    async def _phase_abas_decision(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    async def _phase_abas_decision(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Phase 2: ΛBAS Attention Decision Enhanced with DΛST Context"""
         logger.debug(f"ΛBAS decision for {context.user_id}")
 
@@ -299,9 +289,7 @@ class UnifiedMessageProcessor:
             )
 
             attention_result["abas_phase_success"] = True
-            attention_result["symbolic_enhancement"] = (
-                context.symbolic_context is not None
-            )
+            attention_result["symbolic_enhancement"] = context.symbolic_context is not None
 
             logger.debug(
                 f"ΛBAS decision for {context.user_id}: {attention_result.get('approved')} ({attention_result.get('emotional_state')})"
@@ -312,9 +300,7 @@ class UnifiedMessageProcessor:
             logger.warning(f"ΛBAS decision failed for {context.user_id}: {e}")
             return self._fallback_attention_decision(context)
 
-    async def _phase_nias_processing(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    async def _phase_nias_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Phase 3: NIΛS Message Processing with Full Integration Context"""
         logger.debug(f"NIΛS processing for {context.user_id}")
 
@@ -332,9 +318,7 @@ class UnifiedMessageProcessor:
                 full_context["attention_decision"] = context.attention_decision
 
             # Process through NIΛS engine
-            nias_result = await self.nias_engine.process_message(
-                context.message, full_context
-            )
+            nias_result = await self.nias_engine.process_message(context.message, full_context)
 
             nias_result["nias_phase_success"] = True
             nias_result["unified_processing"] = True
@@ -361,15 +345,11 @@ class UnifiedMessageProcessor:
         logger.debug(f"Updating DΛST context for {context.user_id}")
 
         try:
-            if (
-                context.delivery_result
-                and context.delivery_result.get("status") == "delivered"
-            ):
+            if context.delivery_result and context.delivery_result.get("status") == "delivered":
                 interaction_result = {
                     "status": "delivered",
                     "successful": True,
-                    "widget_generated": context.delivery_result.get("widget_config")
-                    is not None,
+                    "widget_generated": context.delivery_result.get("widget_config") is not None,
                     "processing_time_ms": context.total_processing_time_ms,
                     "unified_processing": True,
                 }
@@ -385,9 +365,7 @@ class UnifiedMessageProcessor:
         except Exception as e:
             logger.warning(f"Failed to update DΛST context for {context.user_id}: {e}")
 
-    def _handle_non_approved_message(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    def _handle_non_approved_message(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Handle messages that were not approved by ΛBAS"""
         decision = context.attention_decision
 
@@ -407,8 +385,7 @@ class UnifiedMessageProcessor:
             "confidence": decision.get("confidence"),
             "lambda_trace": context.lambda_trace,
             "unified_processing": True,
-            "processing_time_ms": (datetime.now() - context.start_time).total_seconds()
-            * 1000,
+            "processing_time_ms": (datetime.now() - context.start_time).total_seconds() * 1000,
         }
 
     def _finalize_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
@@ -426,11 +403,7 @@ class UnifiedMessageProcessor:
         ) / total_requests
 
         # Build comprehensive result
-        result = (
-            context.delivery_result.copy()
-            if context.delivery_result
-            else {"status": "error"}
-        )
+        result = context.delivery_result.copy() if context.delivery_result else {"status": "error"}
 
         # Add unified processing metadata
         result.update(
@@ -478,9 +451,7 @@ class UnifiedMessageProcessor:
             },
         }
 
-    def _fallback_symbolic_context(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    def _fallback_symbolic_context(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Fallback symbolic context when DΛST is unavailable"""
         current_hour = datetime.now().hour
 
@@ -501,9 +472,7 @@ class UnifiedMessageProcessor:
             "lambda_fingerprint": f"FALLBACK-DAST-{context.session_id}",
         }
 
-    def _fallback_attention_decision(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    def _fallback_attention_decision(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Fallback attention decision when ΛBAS is unavailable"""
         current_hour = datetime.now().hour
         message_priority = context.message.get("priority", 1)
@@ -527,9 +496,7 @@ class UnifiedMessageProcessor:
             "lambda_trace": f"FALLBACK-ABAS-{context.session_id}",
         }
 
-    def _fallback_nias_processing(
-        self, context: UnifiedProcessingContext
-    ) -> dict[str, Any]:
+    def _fallback_nias_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Fallback NIAS processing when NIAS engine is unavailable"""
         return {
             "status": "delivered",
@@ -578,9 +545,7 @@ class UnifiedMessageProcessor:
             "system": "Unified NIΛS-ΛBAS-DΛST Processor",
             "version": "1.0.0-unified",
             "lambda_brand": "Λ",
-            "integrations_active": sum(
-                1 for status in self.system_health.values() if status
-            ),
+            "integrations_active": sum(1 for status in self.system_health.values() if status),
             "total_integrations": len(self.system_health),
             "processing_stats": self.processing_stats,
             "system_health": self.system_health,

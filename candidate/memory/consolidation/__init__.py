@@ -16,13 +16,13 @@ from .sleep_cycle_manager import (
 )
 
 __all__ = [
-    "ConsolidationOrchestrator",
-    "SleepStage",
-    "ConsolidationMode",
-    "SleepCycleManager",
     "CircadianPhase",
-    "SleepPressure",
+    "ConsolidationMode",
+    "ConsolidationOrchestrator",
+    "ReplayDirection",
     "RippleGenerator",
     "RippleType",
-    "ReplayDirection",
+    "SleepCycleManager",
+    "SleepPressure",
+    "SleepStage",
 ]

@@ -24,30 +24,49 @@ from typing import Any, Optional
 try:
     from .affect_stagnation_detector import AffectStagnationDetector
 except ImportError:
+
     class AffectStagnationDetector:
-        def __init__(self, *args, **kwargs): pass
-        def detect_stagnation(self, *args, **kwargs): return False
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def detect_stagnation(self, *args, **kwargs):
+            return False
+
 
 try:
     from .dreamseed_upgrade import DreamSeedEmotionEngine
 except ImportError:
+
     class DreamSeedEmotionEngine:
-        def __init__(self, *args, **kwargs): pass
-        async def process(self, *args, **kwargs): return {"emotion": "neutral"}
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def process(self, *args, **kwargs):
+            return {"emotion": "neutral"}
+
 
 try:
     from .mood_regulator import MoodRegulator
 except ImportError:
+
     class MoodRegulator:
-        def __init__(self, *args, **kwargs): pass
-        def regulate(self, *args, **kwargs): return {"mood": "balanced"}
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def regulate(self, *args, **kwargs):
+            return {"mood": "balanced"}
+
 
 try:
     from .recurring_emotion_tracker import RecurringEmotionTracker
 except ImportError:
+
     class RecurringEmotionTracker:
-        def __init__(self, *args, **kwargs): pass
-        def track(self, *args, **kwargs): return []
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def track(self, *args, **kwargs):
+            return []
 
 
 class EmotionHub:
@@ -164,9 +183,7 @@ class EmotionHub:
         except Exception as e:
             logger.debug("emotion_integration_connection_failed", error=str(e))
 
-    async def process_emotional_input(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_emotional_input(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process emotional input and update emotional state"""
         try:
             results = {}
@@ -198,9 +215,7 @@ class EmotionHub:
             logger.error("emotional_processing_failed", error=str(e))
             return {"error": str(e)}
 
-    async def _analyze_affect_stagnation(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _analyze_affect_stagnation(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze input for affect stagnation patterns"""
         try:
             detector = self.services["affect_detection"]
@@ -240,9 +255,7 @@ class EmotionHub:
             if "emotion_tracking" in analysis_results:
                 tracking = analysis_results["emotion_tracking"]
                 if "primary_emotion" in tracking:
-                    self.emotional_state["primary_emotion"] = tracking[
-                        "primary_emotion"
-                    ]
+                    self.emotional_state["primary_emotion"] = tracking["primary_emotion"]
 
             if "mood_regulation" in analysis_results:
                 regulation = analysis_results["mood_regulation"]

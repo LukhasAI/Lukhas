@@ -111,7 +111,9 @@ class DynamicTierSystem:
         self.access_log_path = (
             "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_access.jsonl"
         )
-        self.elevation_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
+        self.elevation_log_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_elevations.jsonl"
+        )
         self.audit_log_path = (
             "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/tier_audit.jsonl"
         )
@@ -281,9 +283,7 @@ class DynamicTierSystem:
         return permissions
 
     # LUKHAS_TAG: access_control_core
-    def check_access(
-        self, context: AccessContext, required_tier: TierLevel
-    ) -> AccessDecision:
+    def check_access(self, context: AccessContext, required_tier: TierLevel) -> AccessDecision:
         """
         Perform comprehensive access control check with context awareness.
 
@@ -306,9 +306,7 @@ class DynamicTierSystem:
                 reasoning=f"Insufficient tier level: {current_tier.name} < {required_tier.name}",
                 restrictions=["tier_elevation_required"],
                 requires_elevation=True,
-                audit_entry=self._create_audit_entry(
-                    context, False, "insufficient_tier"
-                ),
+                audit_entry=self._create_audit_entry(context, False, "insufficient_tier"),
             )
 
         # Get applicable permissions for current tier
@@ -338,9 +336,7 @@ class DynamicTierSystem:
                 reasoning=f"Operation {context.operation_type.value} not allowed for tier {current_tier.name}",
                 restrictions=["operation_denied"],
                 requires_elevation=True,
-                audit_entry=self._create_audit_entry(
-                    context, False, "operation_denied"
-                ),
+                audit_entry=self._create_audit_entry(context, False, "operation_denied"),
             )
 
         # Check restrictions
@@ -354,9 +350,7 @@ class DynamicTierSystem:
                 reasoning=f"Restriction violations: {', '.join(restriction_violations)}",
                 restrictions=restriction_violations,
                 requires_elevation=False,
-                audit_entry=self._create_audit_entry(
-                    context, False, "restrictions_violated"
-                ),
+                audit_entry=self._create_audit_entry(context, False, "restrictions_violated"),
             )
 
         # Check if approval is required
@@ -368,9 +362,7 @@ class DynamicTierSystem:
                 reasoning="Administrative approval required for this operation",
                 restrictions=["approval_required"],
                 requires_elevation=False,
-                audit_entry=self._create_audit_entry(
-                    context, False, "approval_required"
-                ),
+                audit_entry=self._create_audit_entry(context, False, "approval_required"),
             )
 
         # Access granted
@@ -389,9 +381,7 @@ class DynamicTierSystem:
 
         return decision
 
-    def _get_current_tier(
-        self, user_id: Optional[str], session_id: Optional[str]
-    ) -> TierLevel:
+    def _get_current_tier(self, user_id: Optional[str], session_id: Optional[str]) -> TierLevel:
         """Determine current tier level for user/session."""
         # Check session-specific tier
         if session_id and session_id in self.active_sessions:
@@ -420,9 +410,7 @@ class DynamicTierSystem:
 
         except ImportError:
             # Fallback to old logic if mapping service not available
-            logger.warning(
-                "User tier mapping service not available, using prefix-based fallback"
-            )
+            logger.warning("User tier mapping service not available, using prefix-based fallback")
             if user_id:
                 if user_id.startswith("system_"):
                     return TierLevel.SYSTEM
@@ -440,13 +428,9 @@ class DynamicTierSystem:
         if tier_level not in self.tier_permissions:
             return []
 
-        return [
-            perm for perm in self.tier_permissions[tier_level] if perm.scope == scope
-        ]
+        return [perm for perm in self.tier_permissions[tier_level] if perm.scope == scope]
 
-    def _check_restrictions(
-        self, permission: TierPermission, context: AccessContext
-    ) -> list[str]:
+    def _check_restrictions(self, permission: TierPermission, context: AccessContext) -> list[str]:
         """Check if any restrictions are violated."""
         violations = []
 
@@ -454,16 +438,12 @@ class DynamicTierSystem:
         if "exclude_memory_types" in permission.restrictions:
             excluded_types = permission.restrictions["exclude_memory_types"]
             if context.metadata.get("memory_type") in excluded_types:
-                violations.append(
-                    f"memory_type_{context.metadata.get('memory_type')}_restricted"
-                )
+                violations.append(f"memory_type_{context.metadata.get('memory_type')}_restricted")
 
         if "memory_types" in permission.restrictions:
             allowed_types = permission.restrictions["memory_types"]
             if context.metadata.get("memory_type") not in allowed_types:
-                violations.append(
-                    f"memory_type_{context.metadata.get('memory_type')}_not_allowed"
-                )
+                violations.append(f"memory_type_{context.metadata.get('memory_type')}_not_allowed")
 
         # Check rate limits (simplified)
         if "rate_limit" in permission.restrictions:
@@ -641,8 +621,7 @@ def lukhas_tier_required(
                 )
 
                 raise PermissionError(
-                    f"Access denied: {decision.reasoning} "
-                    f"(Decision ID: {decision.decision_id})"
+                    f"Access denied: {decision.reasoning} (Decision ID: {decision.decision_id})"
                 )
 
             # Access granted - proceed with function execution

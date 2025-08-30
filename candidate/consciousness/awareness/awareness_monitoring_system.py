@@ -40,17 +40,19 @@ logger = logging.getLogger(__name__)
 
 class AwarenessLevel(Enum):
     """Consciousness awareness levels"""
-    DORMANT = "dormant"           # 0.0-0.2
-    MINIMAL = "minimal"           # 0.2-0.4
-    BASIC = "basic"               # 0.4-0.6
-    STANDARD = "standard"         # 0.6-0.8
-    ELEVATED = "elevated"         # 0.8-0.9
-    HEIGHTENED = "heightened"     # 0.9-0.95
-    TRANSCENDENT = "transcendent" # 0.95-1.0
+
+    DORMANT = "dormant"  # 0.0-0.2
+    MINIMAL = "minimal"  # 0.2-0.4
+    BASIC = "basic"  # 0.4-0.6
+    STANDARD = "standard"  # 0.6-0.8
+    ELEVATED = "elevated"  # 0.8-0.9
+    HEIGHTENED = "heightened"  # 0.9-0.95
+    TRANSCENDENT = "transcendent"  # 0.95-1.0
 
 
 class AttentionMode(Enum):
     """Attention focus modes"""
+
     DIFFUSE = "diffuse"
     FOCUSED = "focused"
     SELECTIVE = "selective"
@@ -61,6 +63,7 @@ class AttentionMode(Enum):
 
 class ConsciousnessState(Enum):
     """Overall consciousness states"""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     PROCESSING = "processing"
@@ -73,12 +76,13 @@ class ConsciousnessState(Enum):
 
 class CognitiveLoadLevel(Enum):
     """Cognitive load assessment levels"""
-    MINIMAL = "minimal"           # 0.0-0.3
-    LOW = "low"                   # 0.3-0.5
-    MODERATE = "moderate"         # 0.5-0.7
-    HIGH = "high"                 # 0.7-0.85
-    CRITICAL = "critical"         # 0.85-0.95
-    OVERLOAD = "overload"         # 0.95-1.0
+
+    MINIMAL = "minimal"  # 0.0-0.3
+    LOW = "low"  # 0.3-0.5
+    MODERATE = "moderate"  # 0.5-0.7
+    HIGH = "high"  # 0.7-0.85
+    CRITICAL = "critical"  # 0.85-0.95
+    OVERLOAD = "overload"  # 0.95-1.0
 
 
 @dataclass
@@ -116,9 +120,9 @@ class AwarenessSnapshot:
     performance_metrics: dict[str, float] = field(default_factory=dict)
 
     # Trinity Framework analysis
-    identity_coherence: Optional[float] = None      # ⚛️
-    consciousness_depth: Optional[float] = None     # 🧠
-    guardian_oversight: str = "active"              # 🛡️
+    identity_coherence: Optional[float] = None  # ⚛️
+    consciousness_depth: Optional[float] = None  # 🧠
+    guardian_oversight: str = "active"  # 🛡️
 
 
 @dataclass
@@ -178,9 +182,9 @@ class ConsciousnessInsight:
     risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework implications
-    identity_implications: list[str] = field(default_factory=list)      # ⚛️
-    consciousness_implications: list[str] = field(default_factory=list) # 🧠
-    guardian_implications: list[str] = field(default_factory=list)      # 🛡️
+    identity_implications: list[str] = field(default_factory=list)  # ⚛️
+    consciousness_implications: list[str] = field(default_factory=list)  # 🧠
+    guardian_implications: list[str] = field(default_factory=list)  # 🛡️
 
 
 @dataclass
@@ -245,7 +249,7 @@ class AwarenessMonitoringSystem:
             "optimal_range": (0.6, 0.9),
             "overload_warning": 0.95,
             "emergency_threshold": 0.3,
-            "cognitive_load_limit": 0.85
+            "cognitive_load_limit": 0.85,
         }
 
         # Data storage
@@ -267,7 +271,7 @@ class AwarenessMonitoringSystem:
             "average_awareness": 0.0,
             "current_cognitive_load": 0.0,
             "monitoring_uptime": 0.0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Analysis engines
@@ -315,8 +319,8 @@ class AwarenessMonitoringSystem:
                 "focus_drift",
                 "load_oscillation",
                 "efficiency_patterns",
-                "state_transitions"
-            ]
+                "state_transitions",
+            ],
         }
 
         logger.info("🔍 Pattern analyzer initialized")
@@ -332,10 +336,10 @@ class AwarenessMonitoringSystem:
                 "attention_improvement",
                 "load_management",
                 "state_optimization",
-                "pattern_correlation"
+                "pattern_correlation",
             ],
             "confidence_threshold": 0.6,
-            "novelty_threshold": 0.5
+            "novelty_threshold": 0.5,
         }
 
         logger.info("💡 Insight generator initialized")
@@ -351,8 +355,8 @@ class AwarenessMonitoringSystem:
             "performance_targets": {
                 "awareness_stability": 0.9,
                 "cognitive_efficiency": 0.85,
-                "response_time": 200.0  # milliseconds
-            }
+                "response_time": 200.0,  # milliseconds
+            },
         }
 
         logger.info("⚙️ Calibration engine initialized")
@@ -448,7 +452,7 @@ class AwarenessMonitoringSystem:
                 cognitive_load_score=cognitive_load_score,
                 processing_capacity=await self._measure_processing_capacity(),
                 attention_span=await self._measure_attention_span(),
-                source_system="awareness_monitor"
+                source_system="awareness_monitor",
             )
 
             # Add context information
@@ -476,9 +480,13 @@ class AwarenessMonitoringSystem:
 
             # Calculate running average awareness
             recent_scores = [s.awareness_score for s in list(self.awareness_snapshots)[-100:]]
-            self.system_metrics["average_awareness"] = statistics.mean(recent_scores) if recent_scores else 0.0
+            self.system_metrics["average_awareness"] = (
+                statistics.mean(recent_scores) if recent_scores else 0.0
+            )
 
-            logger.debug(f"📸 Awareness snapshot: level={awareness_level.value}, score={awareness_score:.3f}")
+            logger.debug(
+                f"📸 Awareness snapshot: level={awareness_level.value}, score={awareness_score:.3f}"
+            )
 
         except Exception as e:
             logger.error(f"❌ Awareness snapshot capture failed: {e}")
@@ -493,6 +501,7 @@ class AwarenessMonitoringSystem:
 
         # Add some variation based on system state
         import random
+
         awareness_noise = random.uniform(-0.1, 0.1)
 
         return max(0.0, min(1.0, base_awareness + awareness_noise))
@@ -507,6 +516,7 @@ class AwarenessMonitoringSystem:
 
         # Add variation based on processing activity
         import random
+
         load_variation = random.uniform(-0.2, 0.3)
 
         return max(0.0, min(1.0, base_load + load_variation))
@@ -580,7 +590,7 @@ class AwarenessMonitoringSystem:
             "primary_task": 0.6,
             "background_monitoring": 0.2,
             "memory_processing": 0.15,
-            "environmental_awareness": 0.05
+            "environmental_awareness": 0.05,
         }
 
     async def _identify_attention_targets(self) -> list[str]:
@@ -590,7 +600,7 @@ class AwarenessMonitoringSystem:
             "user_interaction",
             "system_monitoring",
             "decision_processing",
-            "memory_consolidation"
+            "memory_consolidation",
         ]
 
     async def _get_processing_queue_size(self) -> int:
@@ -641,7 +651,10 @@ class AwarenessMonitoringSystem:
             "efficiency_score": snapshot.awareness_score * snapshot.processing_capacity,
             "stability_score": 1.0 - (snapshot.cognitive_load_score * 0.5),
             "responsiveness": snapshot.attention_span * 0.8,
-            "overall_performance": (snapshot.awareness_score + snapshot.processing_capacity + snapshot.attention_span) / 3.0
+            "overall_performance": (
+                snapshot.awareness_score + snapshot.processing_capacity + snapshot.attention_span
+            )
+            / 3.0,
         }
 
     async def _analyze_identity_coherence(self) -> Optional[float]:
@@ -695,7 +708,7 @@ class AwarenessMonitoringSystem:
         # Look for repetitive cycling
         cycles = 0
         for i in range(1, len(attention_modes)):
-            if attention_modes[i] != attention_modes[i-1]:
+            if attention_modes[i] != attention_modes[i - 1]:
                 cycles += 1
 
         if cycles > len(attention_modes) * 0.5:  # High switching rate
@@ -707,7 +720,7 @@ class AwarenessMonitoringSystem:
                 duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                 frequency=cycles / len(snapshots),
                 stability=1.0 - (cycles / len(snapshots)),
-                intensity=0.7
+                intensity=0.7,
             )
 
             self.attention_patterns.append(pattern)
@@ -733,7 +746,7 @@ class AwarenessMonitoringSystem:
                     duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                     frequency=1.0,
                     stability=recent_avg / earlier_avg,
-                    intensity=1.0 - (recent_avg / earlier_avg)
+                    intensity=1.0 - (recent_avg / earlier_avg),
                 )
 
                 self.attention_patterns.append(pattern)
@@ -757,7 +770,7 @@ class AwarenessMonitoringSystem:
                     duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                     frequency=load_variance,
                     stability=1.0 - load_variance,
-                    intensity=load_variance
+                    intensity=load_variance,
                 )
 
                 self.attention_patterns.append(pattern)
@@ -791,7 +804,9 @@ class AwarenessMonitoringSystem:
         except Exception as e:
             logger.error(f"❌ Insight generation failed: {e}")
 
-    async def _generate_performance_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
+    async def _generate_performance_insights(
+        self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]
+    ):
         """Generate performance optimization insights"""
 
         # Analyze performance trends
@@ -814,19 +829,21 @@ class AwarenessMonitoringSystem:
                     importance_score=0.8,
                     confidence=0.85,
                     novelty=0.6,
-                    actionability=0.9
+                    actionability=0.9,
                 )
 
                 insight.optimization_suggestions = [
                     "Consider reducing cognitive load",
                     "Implement attention stabilization",
-                    "Review processing efficiency"
+                    "Review processing efficiency",
                 ]
 
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_attention_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
+    async def _generate_attention_insights(
+        self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]
+    ):
         """Generate attention improvement insights"""
 
         # Look for attention instability
@@ -846,19 +863,21 @@ class AwarenessMonitoringSystem:
                     importance_score=0.7,
                     confidence=0.8,
                     novelty=0.5,
-                    actionability=0.8
+                    actionability=0.8,
                 )
 
                 insight.optimization_suggestions = [
                     "Implement attention stabilization protocols",
                     "Review distraction sources",
-                    "Consider meditation/focusing techniques"
+                    "Consider meditation/focusing techniques",
                 ]
 
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_load_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
+    async def _generate_load_insights(
+        self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]
+    ):
         """Generate cognitive load management insights"""
 
         # Analyze cognitive load patterns
@@ -878,19 +897,19 @@ class AwarenessMonitoringSystem:
                     importance_score=0.9,
                     confidence=0.9,
                     novelty=0.4,
-                    actionability=0.95
+                    actionability=0.95,
                 )
 
                 insight.optimization_suggestions = [
                     "Implement load balancing strategies",
                     "Consider task prioritization",
-                    "Review processing efficiency"
+                    "Review processing efficiency",
                 ]
 
                 insight.risk_factors = [
                     "Potential system overload",
                     "Reduced response quality",
-                    "Increased error rates"
+                    "Increased error rates",
                 ]
 
                 self.consciousness_insights.append(insight)
@@ -912,10 +931,13 @@ class AwarenessMonitoringSystem:
             # Calculate calibration metrics
             avg_awareness = statistics.mean([s.awareness_score for s in recent_snapshots])
             statistics.mean([s.cognitive_load_score for s in recent_snapshots])
-            avg_performance = statistics.mean([
-                s.performance_metrics.get("overall_performance", 0.0)
-                for s in recent_snapshots if s.performance_metrics
-            ])
+            avg_performance = statistics.mean(
+                [
+                    s.performance_metrics.get("overall_performance", 0.0)
+                    for s in recent_snapshots
+                    if s.performance_metrics
+                ]
+            )
 
             # Determine if calibration is needed
             targets = self.calibration_engine["performance_targets"]
@@ -924,11 +946,15 @@ class AwarenessMonitoringSystem:
 
             if avg_awareness < targets["awareness_stability"]:
                 calibration_needed = True
-                adjustments["awareness_boost"] = (targets["awareness_stability"] - avg_awareness) * 0.1
+                adjustments["awareness_boost"] = (
+                    targets["awareness_stability"] - avg_awareness
+                ) * 0.1
 
             if avg_performance < targets["cognitive_efficiency"]:
                 calibration_needed = True
-                adjustments["efficiency_optimization"] = (targets["cognitive_efficiency"] - avg_performance) * 0.1
+                adjustments["efficiency_optimization"] = (
+                    targets["cognitive_efficiency"] - avg_performance
+                ) * 0.1
 
             if calibration_needed:
                 await self._apply_calibration_adjustments(adjustments)
@@ -963,7 +989,10 @@ class AwarenessMonitoringSystem:
 
         # Clean insights (keep longer)
         insight_cutoff = datetime.now() - timedelta(hours=self.snapshot_retention_hours * 2)
-        while self.consciousness_insights and self.consciousness_insights[0].generated_at < insight_cutoff:
+        while (
+            self.consciousness_insights
+            and self.consciousness_insights[0].generated_at < insight_cutoff
+        ):
             self.consciousness_insights.popleft()
 
     async def get_current_awareness_status(self) -> dict[str, Any]:
@@ -986,13 +1015,12 @@ class AwarenessMonitoringSystem:
             "trinity_analysis": {
                 "identity_coherence": self.current_awareness.identity_coherence,
                 "consciousness_depth": self.current_awareness.consciousness_depth,
-                "guardian_oversight": self.current_awareness.guardian_oversight
-            }
+                "guardian_oversight": self.current_awareness.guardian_oversight,
+            },
         }
 
     async def get_awareness_report(
-        self,
-        time_period: Optional[tuple[datetime, datetime]] = None
+        self, time_period: Optional[tuple[datetime, datetime]] = None
     ) -> AwarenessReport:
         """Generate comprehensive awareness report"""
 
@@ -1003,17 +1031,16 @@ class AwarenessMonitoringSystem:
 
         # Filter data for time period
         period_snapshots = [
-            s for s in self.awareness_snapshots
-            if time_period[0] <= s.timestamp <= time_period[1]
+            s for s in self.awareness_snapshots if time_period[0] <= s.timestamp <= time_period[1]
         ]
 
         period_patterns = [
-            p for p in self.attention_patterns
-            if time_period[0] <= p.detected_at <= time_period[1]
+            p for p in self.attention_patterns if time_period[0] <= p.detected_at <= time_period[1]
         ]
 
         period_insights = [
-            i for i in self.consciousness_insights
+            i
+            for i in self.consciousness_insights
             if time_period[0] <= i.generated_at <= time_period[1]
         ]
 
@@ -1024,7 +1051,7 @@ class AwarenessMonitoringSystem:
                 time_period=time_period,
                 total_snapshots=0,
                 average_awareness_score=0.0,
-                peak_awareness_score=0.0
+                peak_awareness_score=0.0,
             )
 
         # Calculate statistics
@@ -1049,7 +1076,9 @@ class AwarenessMonitoringSystem:
 
         average_cognitive_load = statistics.mean(load_scores)
         processing_efficiency = statistics.mean(processing_capacities)
-        attention_stability = 1.0 - (statistics.variance(attention_spans) if len(attention_spans) > 1 else 0)
+        attention_stability = 1.0 - (
+            statistics.variance(attention_spans) if len(attention_spans) > 1 else 0
+        )
 
         # Health assessment
         healthy_count = sum(1 for s in period_snapshots if s.is_healthy)
@@ -1086,7 +1115,7 @@ class AwarenessMonitoringSystem:
             attention_stability=attention_stability,
             overall_consciousness_health=overall_consciousness_health,
             optimization_recommendations=optimization_recommendations,
-            calibration_suggestions=calibration_suggestions
+            calibration_suggestions=calibration_suggestions,
         )
 
         return report
@@ -1095,7 +1124,10 @@ class AwarenessMonitoringSystem:
         """Get awareness monitoring system metrics"""
 
         self.system_metrics["last_updated"] = datetime.now().isoformat()
-        self.system_metrics["monitoring_uptime"] = (datetime.now() - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])).total_seconds()
+        self.system_metrics["monitoring_uptime"] = (
+            datetime.now()
+            - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
+        ).total_seconds()
 
         return self.system_metrics.copy()
 
@@ -1108,13 +1140,13 @@ class AwarenessMonitoringSystem:
 
 # Export main classes
 __all__ = [
-    "AwarenessMonitoringSystem",
-    "AwarenessSnapshot",
-    "AttentionPattern",
-    "ConsciousnessInsight",
-    "AwarenessReport",
-    "AwarenessLevel",
     "AttentionMode",
+    "AttentionPattern",
+    "AwarenessLevel",
+    "AwarenessMonitoringSystem",
+    "AwarenessReport",
+    "AwarenessSnapshot",
+    "CognitiveLoadLevel",
+    "ConsciousnessInsight",
     "ConsciousnessState",
-    "CognitiveLoadLevel"
 ]

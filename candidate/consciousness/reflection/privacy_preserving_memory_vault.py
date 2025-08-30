@@ -274,15 +274,11 @@ class EncryptionProvider(ABC):
     """Abstract base class for encryption providers"""
 
     @abstractmethod
-    async def encrypt(
-        self, data: bytes, key_id: str = None
-    ) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data and return ciphertext with metadata"""
 
     @abstractmethod
-    async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
-    ) -> bytes:
+    async def decrypt(self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]) -> bytes:
         """Decrypt ciphertext using key and metadata"""
 
     @abstractmethod
@@ -302,9 +298,7 @@ class AESGCMProvider(EncryptionProvider):
         self.key_storage_path.mkdir(parents=True, exist_ok=True)
         self.keys: dict[str, bytes] = {}
 
-    async def encrypt(
-        self, data: bytes, key_id: str = None
-    ) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using AES-256-GCM"""
 
         if not key_id:
@@ -335,9 +329,7 @@ class AESGCMProvider(EncryptionProvider):
 
         return ciphertext, metadata
 
-    async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
-    ) -> bytes:
+    async def decrypt(self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]) -> bytes:
         """Decrypt ciphertext using AES-256-GCM"""
 
         if key_id not in self.keys:
@@ -408,8 +400,12 @@ class AESGCMProvider(EncryptionProvider):
         # 3. Securely delete old key
         await self._delete_key(old_key_id)
 
-        logger.info("ΛPPMV: AES key rotated with re-encryption complete",
-                   old_key=old_key_id, new_key=new_key_id, memories_reencrypted=len(old_memories))
+        logger.info(
+            "ΛPPMV: AES key rotated with re-encryption complete",
+            old_key=old_key_id,
+            new_key=new_key_id,
+            memories_reencrypted=len(old_memories),
+        )
 
         return new_key_id
 
@@ -441,9 +437,7 @@ class FernetProvider(EncryptionProvider):
     def __init__(self):
         self.keys: dict[str, Fernet] = {}
 
-    async def encrypt(
-        self, data: bytes, key_id: str = None
-    ) -> tuple[bytes, dict[str, Any]]:
+    async def encrypt(self, data: bytes, key_id: str = None) -> tuple[bytes, dict[str, Any]]:
         """Encrypt data using Fernet"""
 
         if not key_id:
@@ -463,9 +457,7 @@ class FernetProvider(EncryptionProvider):
 
         return ciphertext, metadata
 
-    async def decrypt(
-        self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]
-    ) -> bytes:
+    async def decrypt(self, ciphertext: bytes, key_id: str, metadata: dict[str, Any]) -> bytes:
         """Decrypt ciphertext using Fernet"""
 
         if key_id not in self.keys:
@@ -504,8 +496,9 @@ class FernetProvider(EncryptionProvider):
             # 4. Delete old key after all data migrated
 
             # For now, immediate rotation (should be extended for production)
-            logger.info("ΛPPMV: Fernet key rotation initiated",
-                       old_key=old_key_id, new_key=new_key_id)
+            logger.info(
+                "ΛPPMV: Fernet key rotation initiated", old_key=old_key_id, new_key=new_key_id
+            )
 
             # In production: schedule background task to migrate data
             # await self._schedule_key_migration(old_key_id, new_key_id)
@@ -579,9 +572,7 @@ class PrivacyPreservingMemoryVault:
 
         # Encryption providers
         self.encryption_providers: dict[EncryptionScheme, EncryptionProvider] = {
-            EncryptionScheme.AES_256_GCM: AESGCMProvider(
-                self.vault_dir / "keys" / "aes"
-            ),
+            EncryptionScheme.AES_256_GCM: AESGCMProvider(self.vault_dir / "keys" / "aes"),
             EncryptionScheme.FERNET: FernetProvider(),
         }
 
@@ -715,7 +706,6 @@ class PrivacyPreservingMemoryVault:
         """Store a memory with privacy protection"""
 
         async with self._lock:
-
             # Get privacy policy
             if privacy_policy_id not in self.privacy_policies:
                 privacy_policy_id = "personal"  # Fallback to default
@@ -793,9 +783,7 @@ class PrivacyPreservingMemoryVault:
             if metadata:
                 for key, value in metadata.items():
                     metadata_bytes = json.dumps(value, default=str).encode("utf-8")
-                    encrypted_metadata_value, _ = await encryption_provider.encrypt(
-                        metadata_bytes
-                    )
+                    encrypted_metadata_value, _ = await encryption_provider.encrypt(metadata_bytes)
                     memory.encrypted_metadata[key] = encrypted_metadata_value
 
             # Store the encrypted memory
@@ -837,7 +825,6 @@ class PrivacyPreservingMemoryVault:
         """Retrieve and decrypt a memory"""
 
         async with self._lock:
-
             if memory_id not in self.encrypted_memories:
                 logger.warning("ΛPPMV: Memory not found", memory_id=memory_id)
                 return None
@@ -874,9 +861,7 @@ class PrivacyPreservingMemoryVault:
             if decrypt:
                 try:
                     # Decrypt main content
-                    encryption_provider = self.encryption_providers[
-                        memory.encryption_scheme
-                    ]
+                    encryption_provider = self.encryption_providers[memory.encryption_scheme]
                     decrypted_content = await encryption_provider.decrypt(
                         memory.encrypted_content,
                         memory.key_id,
@@ -915,16 +900,15 @@ class PrivacyPreservingMemoryVault:
                                     decrypted_value.decode("utf-8")
                                 )
                             except json.JSONDecodeError:
-                                decrypted_metadata[key] = decrypted_value.decode(
-                                    "utf-8"
-                                )
+                                decrypted_metadata[key] = decrypted_value.decode("utf-8")
 
                         result["metadata"] = decrypted_metadata
 
                     # Apply differential privacy if requested
-                    if use_differential_privacy and policy.privacy_techniques and (
-                        PrivacyTechnique.DIFFERENTIAL_PRIVACY
-                        in policy.privacy_techniques
+                    if (
+                        use_differential_privacy
+                        and policy.privacy_techniques
+                        and (PrivacyTechnique.DIFFERENTIAL_PRIVACY in policy.privacy_techniques)
                     ):
                         result = self._apply_differential_privacy(result, policy)
 
@@ -938,9 +922,7 @@ class PrivacyPreservingMemoryVault:
 
             else:
                 # Return encrypted data
-                result["encrypted_content"] = base64.b64encode(
-                    memory.encrypted_content
-                ).decode()
+                result["encrypted_content"] = base64.b64encode(memory.encrypted_content).decode()
                 result["encryption_metadata"] = memory.encryption_metadata
 
             # Update metrics
@@ -977,16 +959,13 @@ class PrivacyPreservingMemoryVault:
         matching_memory_ids = set()
 
         async with self._lock:
-
             # Keyword-based search using encrypted index
             if keywords:
                 for keyword in keywords:
                     keyword_hash = hashlib.sha256(keyword.encode("utf-8")).hexdigest()
                     if keyword_hash in self.encrypted_index:
                         if not matching_memory_ids:
-                            matching_memory_ids = self.encrypted_index[
-                                keyword_hash
-                            ].copy()
+                            matching_memory_ids = self.encrypted_index[keyword_hash].copy()
                         else:
                             matching_memory_ids &= self.encrypted_index[keyword_hash]
             else:
@@ -1061,11 +1040,8 @@ class PrivacyPreservingMemoryVault:
         """Delete a memory (GDPR Article 17 - Right to erasure)"""
 
         async with self._lock:
-
             if memory_id not in self.encrypted_memories:
-                logger.warning(
-                    "ΛPPMV: Memory not found for deletion", memory_id=memory_id
-                )
+                logger.warning("ΛPPMV: Memory not found for deletion", memory_id=memory_id)
                 return False
 
             memory = self.encrypted_memories[memory_id]
@@ -1145,9 +1121,7 @@ class PrivacyPreservingMemoryVault:
                 for emotion, value in emotion_vector["values"].items():
                     if isinstance(value, (int, float)):
                         noisy_value = self.dp_provider.add_noise(value, sensitivity=0.1)
-                        emotion_vector["values"][emotion] = max(
-                            0.0, min(1.0, noisy_value)
-                        )
+                        emotion_vector["values"][emotion] = max(0.0, min(1.0, noisy_value))
 
         # Add noise to numerical metadata
         if "metadata" in result:
@@ -1157,9 +1131,7 @@ class PrivacyPreservingMemoryVault:
 
         # Add noise to access count
         if "access_count" in result:
-            result["access_count"] = max(
-                0, int(self.dp_provider.add_noise(result["access_count"]))
-            )
+            result["access_count"] = max(0, int(self.dp_provider.add_noise(result["access_count"])))
 
         return result
 
@@ -1177,10 +1149,11 @@ class PrivacyPreservingMemoryVault:
             memory.encrypted_data = "\x00" * data_length
 
             # Pass 2: Overwrite with 0xFF
-            memory.encrypted_data = "\xFF" * data_length
+            memory.encrypted_data = "\xff" * data_length
 
             # Pass 3: Overwrite with random data
             import secrets
+
             random_bytes = secrets.token_bytes(data_length)
             memory.encrypted_data = random_bytes.hex()
 
@@ -1195,8 +1168,11 @@ class PrivacyPreservingMemoryVault:
         memory.deletion_requested = True
         memory.last_access_time = datetime.now(timezone.utc)
 
-        logger.info("ΛPPMV: Secure deletion completed with 4-pass overwrite",
-                   memory_id=memory.memory_id, passes=4)
+        logger.info(
+            "ΛPPMV: Secure deletion completed with 4-pass overwrite",
+            memory_id=memory.memory_id,
+            passes=4,
+        )
 
     async def _save_memory_to_disk(self, memory: EncryptedMemory):
         """Save encrypted memory to persistent storage"""
@@ -1215,16 +1191,13 @@ class PrivacyPreservingMemoryVault:
             "key_id": memory.key_id,
             "created_at": memory.created_at.isoformat(),
             "retention_expires": (
-                memory.retention_expires.isoformat()
-                if memory.retention_expires
-                else None
+                memory.retention_expires.isoformat() if memory.retention_expires else None
             ),
             "encrypted_keywords": [
                 base64.b64encode(kw).decode() for kw in memory.encrypted_keywords
             ],
             "encrypted_metadata": {
-                k: base64.b64encode(v).decode()
-                for k, v in memory.encrypted_metadata.items()
+                k: base64.b64encode(v).decode() for k, v in memory.encrypted_metadata.items()
             },
         }
 
@@ -1252,6 +1225,7 @@ class PrivacyPreservingMemoryVault:
 
         # Get actual user context from request/session if available
         import contextvars
+
         user_context = getattr(contextvars, "user_context", None)
         request_context = getattr(contextvars, "request_context", None)
 
@@ -1360,23 +1334,25 @@ class PrivacyPreservingMemoryVault:
             if len(self.audit_log) > 0:
                 requirements_met.append("access_logging")
 
-            if any(
-                memory.deletion_requested for memory in self.encrypted_memories.values()
-            ):
+            if any(memory.deletion_requested for memory in self.encrypted_memories.values()):
                 requirements_met.append("right_to_erasure")
 
             # Article 5 - Principles relating to processing
             if all(policy.retention_period for policy in self.privacy_policies.values()):
                 requirements_met.append("storage_limitation")
 
-            if any("data_minimization" in policy.description.lower()
-                  for policy in self.privacy_policies.values()):
+            if any(
+                "data_minimization" in policy.description.lower()
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("data_minimization")
 
             # Article 6 - Lawfulness of processing
-            if any("consent" in policy.description.lower() or
-                  "legitimate_interest" in policy.description.lower()
-                  for policy in self.privacy_policies.values()):
+            if any(
+                "consent" in policy.description.lower()
+                or "legitimate_interest" in policy.description.lower()
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("lawful_basis")
 
             # Article 12 - Transparent information
@@ -1388,8 +1364,11 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("right_of_access")
 
             # Article 16 - Right to rectification
-            if any("update" in op for policy in self.privacy_policies.values()
-                  for op in policy.allowed_operations):
+            if any(
+                "update" in op
+                for policy in self.privacy_policies.values()
+                for op in policy.allowed_operations
+            ):
                 requirements_met.append("right_to_rectification")
 
             # Article 18 - Right to restriction
@@ -1401,8 +1380,10 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("data_portability")
 
             # Article 25 - Data protection by design
-            if any(policy.privacy_level.value in ["sensitive", "confidential", "secret"]
-                  for policy in self.privacy_policies.values()):
+            if any(
+                policy.privacy_level.value in ["sensitive", "confidential", "secret"]
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("privacy_by_design")
 
             # Article 30 - Records of processing activities
@@ -1410,8 +1391,10 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("records_of_processing")
 
             # Article 32 - Security of processing
-            if any(policy.encryption_scheme != EncryptionScheme.FERNET
-                  for policy in self.privacy_policies.values()):
+            if any(
+                policy.encryption_scheme != EncryptionScheme.FERNET
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("technical_security_measures")
 
             if any(policy.monitoring_enabled for policy in self.privacy_policies.values()):
@@ -1422,8 +1405,10 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("breach_notification")
 
             # Article 35 - Data protection impact assessment
-            if any(policy.privacy_level.value in ["confidential", "secret", "top_secret"]
-                  for policy in self.privacy_policies.values()):
+            if any(
+                policy.privacy_level.value in ["confidential", "secret", "top_secret"]
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("dpia_capability")
 
         elif standard == ComplianceStandard.HIPAA:
@@ -1437,8 +1422,10 @@ class PrivacyPreservingMemoryVault:
             if any(policy.audit_required for policy in self.privacy_policies.values()):
                 requirements_met.append("administrative_safeguards")
 
-            if any("authorized_users" in str(policy.__dict__)
-                  for policy in self.privacy_policies.values()):
+            if any(
+                "authorized_users" in str(policy.__dict__)
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("access_management")
 
             if len(self.audit_log) > 0:
@@ -1455,14 +1442,15 @@ class PrivacyPreservingMemoryVault:
             if len(self.audit_log) > 0:
                 requirements_met.append("audit_controls")
 
-            if any(policy.encryption_scheme in [EncryptionScheme.AES_256_GCM,
-                                               EncryptionScheme.RSA_4096]
-                  for policy in self.privacy_policies.values()):
+            if any(
+                policy.encryption_scheme
+                in [EncryptionScheme.AES_256_GCM, EncryptionScheme.RSA_4096]
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("transmission_security")
 
             # 164.314 - Organizational Requirements
-            if any(policy.compliance_standards
-                  for policy in self.privacy_policies.values()):
+            if any(policy.compliance_standards for policy in self.privacy_policies.values()):
                 requirements_met.append("business_associate_agreements")
 
             # 164.316 - Policies and Procedures
@@ -1470,9 +1458,11 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("documented_policies")
 
             # Minimum Necessary Standard
-            if any("minimum" in policy.description.lower() or
-                  policy.privacy_level.value in ["sensitive", "confidential"]
-                  for policy in self.privacy_policies.values()):
+            if any(
+                "minimum" in policy.description.lower()
+                or policy.privacy_level.value in ["sensitive", "confidential"]
+                for policy in self.privacy_policies.values()
+            ):
                 requirements_met.append("minimum_necessary")
 
             # Breach Notification Rule
@@ -1520,8 +1510,7 @@ class PrivacyPreservingMemoryVault:
                         if memory.memory_type == memory_type
                     )
                     for memory_type in {
-                        memory.memory_type
-                        for memory in self.encrypted_memories.values()
+                        memory.memory_type for memory in self.encrypted_memories.values()
                     }
                 },
             },

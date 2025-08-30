@@ -40,13 +40,15 @@ logger = logging.getLogger(__name__)
 
 class TrinityComponent(Enum):
     """Trinity Framework components"""
-    IDENTITY = "identity"          # ⚛️
-    CONSCIOUSNESS = "consciousness" # 🧠
-    GUARDIAN = "guardian"          # 🛡️
+
+    IDENTITY = "identity"  # ⚛️
+    CONSCIOUSNESS = "consciousness"  # 🧠
+    GUARDIAN = "guardian"  # 🛡️
 
 
 class InteractionType(Enum):
     """Types of component interactions"""
+
     AUTHENTICATION = "authentication"
     AUTHORIZATION = "authorization"
     DECISION_REQUEST = "decision_request"
@@ -60,6 +62,7 @@ class InteractionType(Enum):
 
 class PerformanceMetric(Enum):
     """Performance metric types"""
+
     RESPONSE_TIME = "response_time"
     THROUGHPUT = "throughput"
     ERROR_RATE = "error_rate"
@@ -150,8 +153,8 @@ class APIPerformanceMetric:
 
     # Performance metrics
     response_time: float  # milliseconds
-    throughput: float     # requests per second
-    error_rate: float     # percentage
+    throughput: float  # requests per second
+    error_rate: float  # percentage
     status_code: int = 200
 
     # Resource usage
@@ -182,18 +185,18 @@ class TrinityHealthStatus:
     timestamp: datetime
 
     # Component health scores (0.0 to 1.0)
-    identity_health: float = 1.0        # ⚛️
-    consciousness_health: float = 1.0   # 🧠
-    guardian_health: float = 1.0        # 🛡️
+    identity_health: float = 1.0  # ⚛️
+    consciousness_health: float = 1.0  # 🧠
+    guardian_health: float = 1.0  # 🛡️
 
     # Overall Trinity health
     overall_health: float = 1.0
     framework_coherence: float = 1.0
 
     # Inter-component metrics
-    identity_consciousness_sync: float = 1.0   # ⚛️🧠
-    consciousness_guardian_sync: float = 1.0   # 🧠🛡️
-    guardian_identity_sync: float = 1.0        # 🛡️⚛️
+    identity_consciousness_sync: float = 1.0  # ⚛️🧠
+    consciousness_guardian_sync: float = 1.0  # 🧠🛡️
+    guardian_identity_sync: float = 1.0  # 🛡️⚛️
 
     # Performance indicators
     average_response_time: float = 0.0
@@ -280,7 +283,7 @@ class TrinityFrameworkMonitor:
             "error_rate_critical": 5.0,  # %
             "throughput_min": 10.0,  # requests/second
             "health_score_warning": 0.8,
-            "health_score_critical": 0.6
+            "health_score_critical": 0.6,
         }
 
         # Data storage
@@ -305,7 +308,7 @@ class TrinityFrameworkMonitor:
             "average_framework_health": 1.0,
             "total_api_requests": 0,
             "monitoring_uptime": 0.0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize monitoring
@@ -344,7 +347,7 @@ class TrinityFrameworkMonitor:
                 "error_rate": 0.0,
                 "throughput": 0.0,
                 "active_connections": 0,
-                "recent_interactions": 0
+                "recent_interactions": 0,
             }
 
     async def _trinity_health_loop(self):
@@ -429,7 +432,7 @@ class TrinityFrameworkMonitor:
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         error_message: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ) -> TrinityInteraction:
         """Record a Trinity Framework component interaction"""
 
@@ -447,7 +450,7 @@ class TrinityFrameworkMonitor:
             user_id=user_id,
             session_id=session_id,
             error_message=error_message,
-            metadata=metadata
+            metadata=metadata,
         )
 
         # Store interaction
@@ -460,7 +463,9 @@ class TrinityFrameworkMonitor:
         # Update metrics
         self.framework_metrics["interactions_processed"] += 1
 
-        logger.debug(f"🔺 Trinity interaction: {source_component.value} -> {target_component.value} ({response_time:.1f}ms)")
+        logger.debug(
+            f"🔺 Trinity interaction: {source_component.value} -> {target_component.value} ({response_time:.1f}ms)"
+        )
 
         return interaction
 
@@ -475,7 +480,7 @@ class TrinityFrameworkMonitor:
         processing_time: float = 0.0,
         failure_reason: Optional[str] = None,
         risk_score: float = 0.0,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ) -> AuthenticationEvent:
         """Record an authentication event"""
 
@@ -497,7 +502,7 @@ class TrinityFrameworkMonitor:
             failure_reason=failure_reason,
             risk_score=risk_score,
             anomaly_detected=anomaly_detected,
-            processing_time=processing_time
+            processing_time=processing_time,
         )
 
         # Store event
@@ -509,7 +514,9 @@ class TrinityFrameworkMonitor:
         if anomaly_detected or not success:
             self.framework_metrics["security_incidents_detected"] += 1
 
-        logger.debug(f"🔐 Auth event: {event_type} ({'success' if success else 'failure'}) - {processing_time:.1f}ms")
+        logger.debug(
+            f"🔐 Auth event: {event_type} ({'success' if success else 'failure'}) - {processing_time:.1f}ms"
+        )
 
         return auth_event
 
@@ -525,7 +532,7 @@ class TrinityFrameworkMonitor:
         response_size: int = 0,
         requires_authentication: bool = False,
         error_message: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ) -> APIPerformanceMetric:
         """Record API performance metrics"""
 
@@ -548,7 +555,7 @@ class TrinityFrameworkMonitor:
             requires_authentication=requires_authentication,
             request_size=request_size,
             response_size=response_size,
-            error_message=error_message
+            error_message=error_message,
         )
 
         # Store metric
@@ -571,7 +578,9 @@ class TrinityFrameworkMonitor:
 
             # Calculate component health scores
             identity_health = await self._calculate_component_health(TrinityComponent.IDENTITY)
-            consciousness_health = await self._calculate_component_health(TrinityComponent.CONSCIOUSNESS)
+            consciousness_health = await self._calculate_component_health(
+                TrinityComponent.CONSCIOUSNESS
+            )
             guardian_health = await self._calculate_component_health(TrinityComponent.GUARDIAN)
 
             # Calculate overall health
@@ -621,7 +630,7 @@ class TrinityFrameworkMonitor:
                 compliance_score=await self._calculate_compliance_score(),
                 active_alerts=0,  # Would integrate with alerting system
                 critical_issues=0,
-                warnings=0
+                warnings=0,
             )
 
             # Store snapshot
@@ -632,7 +641,9 @@ class TrinityFrameworkMonitor:
             self.framework_metrics["health_checks_performed"] += 1
             self.framework_metrics["average_framework_health"] = overall_health
 
-            logger.debug(f"🔺 Trinity health: {overall_health:.3f} (I:{identity_health:.2f} C:{consciousness_health:.2f} G:{guardian_health:.2f})")
+            logger.debug(
+                f"🔺 Trinity health: {overall_health:.3f} (I:{identity_health:.2f} C:{consciousness_health:.2f} G:{guardian_health:.2f})"
+            )
 
         except Exception as e:
             logger.error(f"❌ Trinity health snapshot failed: {e}")
@@ -655,7 +666,9 @@ class TrinityFrameworkMonitor:
         # Calculate penalties
         response_penalty = 0.0
         if response_time > self.performance_thresholds["response_time_warning"]:
-            response_penalty = min(0.3, (response_time - self.performance_thresholds["response_time_warning"]) / 5000.0)
+            response_penalty = min(
+                0.3, (response_time - self.performance_thresholds["response_time_warning"]) / 5000.0
+            )
 
         error_penalty = min(0.4, error_rate / 10.0)  # Max 0.4 penalty for 10% error rate
 
@@ -672,7 +685,8 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent interactions
         recent_interactions = [
-            i for i in self.trinity_interactions
+            i
+            for i in self.trinity_interactions
             if (datetime.now() - i.timestamp).total_seconds() < 3600  # Last hour
         ]
 
@@ -686,10 +700,15 @@ class TrinityFrameworkMonitor:
         # Calculate response time consistency
         response_times = [i.response_time for i in recent_interactions]
         avg_response_time = statistics.mean(response_times)
-        response_time_variance = statistics.variance(response_times) if len(response_times) > 1 else 0
+        response_time_variance = (
+            statistics.variance(response_times) if len(response_times) > 1 else 0
+        )
 
         # Normalize variance (lower variance = better coherence)
-        coherence_from_consistency = max(0.0, 1.0 - (response_time_variance / (avg_response_time ** 2) if avg_response_time > 0 else 0))
+        coherence_from_consistency = max(
+            0.0,
+            1.0 - (response_time_variance / (avg_response_time**2) if avg_response_time > 0 else 0),
+        )
 
         # Combine metrics
         overall_coherence = (success_rate * 0.7) + (coherence_from_consistency * 0.3)
@@ -697,18 +716,19 @@ class TrinityFrameworkMonitor:
         return min(1.0, max(0.0, overall_coherence))
 
     async def _calculate_sync_score(
-        self,
-        component1: TrinityComponent,
-        component2: TrinityComponent
+        self, component1: TrinityComponent, component2: TrinityComponent
     ) -> float:
         """Calculate synchronization score between two components"""
 
         # Find interactions between these components
         recent_interactions = [
-            i for i in self.trinity_interactions
-            if (datetime.now() - i.timestamp).total_seconds() < 1800 and  # Last 30 minutes
-               ((i.source_component == component1 and i.target_component == component2) or
-                (i.source_component == component2 and i.target_component == component1))
+            i
+            for i in self.trinity_interactions
+            if (datetime.now() - i.timestamp).total_seconds() < 1800  # Last 30 minutes
+            and (
+                (i.source_component == component1 and i.target_component == component2)
+                or (i.source_component == component2 and i.target_component == component1)
+            )
         ]
 
         if not recent_interactions:
@@ -735,16 +755,13 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent authentication events
         recent_events = [
-            e for e in self.authentication_events
+            e
+            for e in self.authentication_events
             if (datetime.now() - e.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_events:
-            return {
-                "success_rate": 100.0,
-                "response_time": 0.0,
-                "incidents": 0
-            }
+            return {"success_rate": 100.0, "response_time": 0.0, "incidents": 0}
 
         # Calculate success rate
         successful_events = len([e for e in recent_events if e.success])
@@ -760,7 +777,7 @@ class TrinityFrameworkMonitor:
         return {
             "success_rate": success_rate,
             "response_time": avg_response_time,
-            "incidents": incidents
+            "incidents": incidents,
         }
 
     async def _calculate_api_metrics(self) -> dict[str, Any]:
@@ -768,7 +785,8 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent API metrics
         recent_metrics = [
-            m for m in self.api_metrics
+            m
+            for m in self.api_metrics
             if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
         ]
 
@@ -778,7 +796,7 @@ class TrinityFrameworkMonitor:
                 "total_throughput": 0.0,
                 "error_rate": 0.0,
                 "availability": 100.0,
-                "performance_score": 1.0
+                "performance_score": 1.0,
             }
 
         # Calculate metrics
@@ -805,7 +823,7 @@ class TrinityFrameworkMonitor:
             "total_throughput": total_throughput,
             "error_rate": error_rate,
             "availability": availability,
-            "performance_score": performance_score
+            "performance_score": performance_score,
         }
 
     async def _calculate_compliance_score(self) -> float:
@@ -815,26 +833,35 @@ class TrinityFrameworkMonitor:
         base_score = 1.0
 
         # Penalize for security incidents
-        recent_incidents = len([
-            e for e in self.authentication_events
-            if (datetime.now() - e.timestamp).total_seconds() < 86400 and  # Last 24 hours
-               (e.anomaly_detected or not e.success)
-        ])
+        recent_incidents = len(
+            [
+                e
+                for e in self.authentication_events
+                if (datetime.now() - e.timestamp).total_seconds() < 86400  # Last 24 hours
+                and (e.anomaly_detected or not e.success)
+            ]
+        )
 
         incident_penalty = min(0.3, recent_incidents * 0.05)  # Max 30% penalty
 
         # Penalize for high error rates
-        recent_api_errors = len([
-            m for m in self.api_metrics
-            if (datetime.now() - m.timestamp).total_seconds() < 3600 and  # Last hour
-               m.error_rate > 0
-        ])
+        recent_api_errors = len(
+            [
+                m
+                for m in self.api_metrics
+                if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
+                and m.error_rate > 0
+            ]
+        )
 
         if recent_api_errors > 0:
-            total_recent_api = len([
-                m for m in self.api_metrics
-                if (datetime.now() - m.timestamp).total_seconds() < 3600
-            ])
+            total_recent_api = len(
+                [
+                    m
+                    for m in self.api_metrics
+                    if (datetime.now() - m.timestamp).total_seconds() < 3600
+                ]
+            )
 
             api_error_rate = recent_api_errors / max(1, total_recent_api)
             error_penalty = min(0.2, api_error_rate * 0.5)  # Max 20% penalty
@@ -845,7 +872,9 @@ class TrinityFrameworkMonitor:
 
         return compliance_score
 
-    async def _update_component_state(self, component: TrinityComponent, interaction: TrinityInteraction):
+    async def _update_component_state(
+        self, component: TrinityComponent, interaction: TrinityInteraction
+    ):
         """Update component state based on interaction"""
 
         if component not in self.component_states:
@@ -875,7 +904,8 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent interaction patterns
         recent_interactions = [
-            i for i in self.trinity_interactions
+            i
+            for i in self.trinity_interactions
             if (datetime.now() - i.timestamp).total_seconds() < 1800  # Last 30 minutes
         ]
 
@@ -894,10 +924,14 @@ class TrinityFrameworkMonitor:
 
             # Log patterns that need attention
             if avg_response_time > self.performance_thresholds["response_time_warning"]:
-                logger.warning(f"🔺 Slow {interaction_type.value} interactions: {avg_response_time:.1f}ms avg")
+                logger.warning(
+                    f"🔺 Slow {interaction_type.value} interactions: {avg_response_time:.1f}ms avg"
+                )
 
             if success_rate < 0.95:
-                logger.warning(f"🔺 Low success rate for {interaction_type.value}: {success_rate:.1%}")
+                logger.warning(
+                    f"🔺 Low success rate for {interaction_type.value}: {success_rate:.1%}"
+                )
 
     async def _monitor_authentication_activity(self):
         """Monitor authentication system activity"""
@@ -907,7 +941,8 @@ class TrinityFrameworkMonitor:
 
         # Check for authentication anomalies in recent events
         recent_events = [
-            e for e in self.authentication_events
+            e
+            for e in self.authentication_events
             if (datetime.now() - e.timestamp).total_seconds() < 300  # Last 5 minutes
         ]
 
@@ -919,7 +954,9 @@ class TrinityFrameworkMonitor:
         high_risk_events = len([e for e in recent_events if e.risk_score > 0.7])
 
         if failed_attempts > 5:
-            logger.warning(f"🔐 High authentication failure rate: {failed_attempts} failures in 5 minutes")
+            logger.warning(
+                f"🔐 High authentication failure rate: {failed_attempts} failures in 5 minutes"
+            )
 
         if high_risk_events > 0:
             logger.warning(f"🔐 High-risk authentication events detected: {high_risk_events}")
@@ -956,10 +993,17 @@ class TrinityFrameworkMonitor:
                 logger.warning("🔺 System-wide Trinity Framework health decline detected")
 
             # Check for sync issues
-            avg_sync = statistics.mean([
-                s.identity_consciousness_sync + s.consciousness_guardian_sync + s.guardian_identity_sync
-                for s in recent_snapshots
-            ]) / 3.0
+            avg_sync = (
+                statistics.mean(
+                    [
+                        s.identity_consciousness_sync
+                        + s.consciousness_guardian_sync
+                        + s.guardian_identity_sync
+                        for s in recent_snapshots
+                    ]
+                )
+                / 3.0
+            )
 
             if avg_sync < 0.8:
                 logger.warning(f"🔺 Trinity component synchronization issues: {avg_sync:.2f}")
@@ -970,19 +1014,16 @@ class TrinityFrameworkMonitor:
         cutoff_time = datetime.now() - timedelta(hours=self.interaction_retention_hours)
 
         # Clean interactions
-        while (self.trinity_interactions and
-               self.trinity_interactions[0].timestamp < cutoff_time):
+        while self.trinity_interactions and self.trinity_interactions[0].timestamp < cutoff_time:
             self.trinity_interactions.popleft()
 
         # Clean authentication events
         auth_cutoff = datetime.now() - timedelta(hours=self.performance_retention_hours)
-        while (self.authentication_events and
-               self.authentication_events[0].timestamp < auth_cutoff):
+        while self.authentication_events and self.authentication_events[0].timestamp < auth_cutoff:
             self.authentication_events.popleft()
 
         # Clean API metrics
-        while (self.api_metrics and
-               self.api_metrics[0].timestamp < cutoff_time):
+        while self.api_metrics and self.api_metrics[0].timestamp < cutoff_time:
             self.api_metrics.popleft()
 
     async def get_trinity_health_status(self) -> dict[str, Any]:
@@ -997,68 +1038,72 @@ class TrinityFrameworkMonitor:
             "timestamp": health.timestamp.isoformat(),
             "overall_health": health.overall_health,
             "framework_coherence": health.framework_coherence,
-
             # Component health (Trinity Framework)
             "trinity_components": {
                 "identity": {  # ⚛️
                     "health": health.identity_health,
-                    "status": "excellent" if health.identity_health > 0.9 else "good" if health.identity_health > 0.7 else "degraded"
+                    "status": "excellent"
+                    if health.identity_health > 0.9
+                    else "good"
+                    if health.identity_health > 0.7
+                    else "degraded",
                 },
                 "consciousness": {  # 🧠
                     "health": health.consciousness_health,
-                    "status": "excellent" if health.consciousness_health > 0.9 else "good" if health.consciousness_health > 0.7 else "degraded"
+                    "status": "excellent"
+                    if health.consciousness_health > 0.9
+                    else "good"
+                    if health.consciousness_health > 0.7
+                    else "degraded",
                 },
                 "guardian": {  # 🛡️
                     "health": health.guardian_health,
-                    "status": "excellent" if health.guardian_health > 0.9 else "good" if health.guardian_health > 0.7 else "degraded"
-                }
+                    "status": "excellent"
+                    if health.guardian_health > 0.9
+                    else "good"
+                    if health.guardian_health > 0.7
+                    else "degraded",
+                },
             },
-
             # Inter-component synchronization
             "component_synchronization": {
                 "identity_consciousness": health.identity_consciousness_sync,
                 "consciousness_guardian": health.consciousness_guardian_sync,
-                "guardian_identity": health.guardian_identity_sync
+                "guardian_identity": health.guardian_identity_sync,
             },
-
             # Performance metrics
             "performance": {
                 "average_response_time": health.average_response_time,
                 "total_throughput": health.total_throughput,
-                "system_error_rate": health.system_error_rate
+                "system_error_rate": health.system_error_rate,
             },
-
             # Authentication health
             "authentication": {
                 "success_rate": health.authentication_success_rate,
                 "response_time": health.authentication_response_time,
-                "security_incidents": health.security_incidents
+                "security_incidents": health.security_incidents,
             },
-
             # API health
             "api": {
                 "availability": health.api_availability,
                 "performance_score": health.api_performance_score,
-                "error_rate": health.api_error_rate
+                "error_rate": health.api_error_rate,
             },
-
             # Compliance
             "compliance": {
                 "score": health.compliance_score,
-                "active_violations": health.active_violations
+                "active_violations": health.active_violations,
             },
-
             # Alerts and issues
             "alerts": {
                 "active": health.active_alerts,
                 "critical": health.critical_issues,
-                "warnings": health.warnings
-            }
+                "warnings": health.warnings,
+            },
         }
 
     async def get_trinity_report(
-        self,
-        time_period: Optional[tuple[datetime, datetime]] = None
+        self, time_period: Optional[tuple[datetime, datetime]] = None
     ) -> TrinityReport:
         """Generate comprehensive Trinity Framework report"""
 
@@ -1069,23 +1114,19 @@ class TrinityFrameworkMonitor:
 
         # Filter data for time period
         period_interactions = [
-            i for i in self.trinity_interactions
-            if time_period[0] <= i.timestamp <= time_period[1]
+            i for i in self.trinity_interactions if time_period[0] <= i.timestamp <= time_period[1]
         ]
 
         period_auth_events = [
-            e for e in self.authentication_events
-            if time_period[0] <= e.timestamp <= time_period[1]
+            e for e in self.authentication_events if time_period[0] <= e.timestamp <= time_period[1]
         ]
 
         period_api_metrics = [
-            m for m in self.api_metrics
-            if time_period[0] <= m.timestamp <= time_period[1]
+            m for m in self.api_metrics if time_period[0] <= m.timestamp <= time_period[1]
         ]
 
         period_health_snapshots = [
-            h for h in self.health_snapshots
-            if time_period[0] <= h.timestamp <= time_period[1]
+            h for h in self.health_snapshots if time_period[0] <= h.timestamp <= time_period[1]
         ]
 
         # Calculate overall framework health
@@ -1115,29 +1156,36 @@ class TrinityFrameworkMonitor:
             generated_at=datetime.now(),
             time_period=time_period,
             overall_framework_health=overall_framework_health,
-            health_trend=health_trend
+            health_trend=health_trend,
         )
 
         # Component performance analysis
         for component in TrinityComponent:
             component_interactions = [
-                i for i in period_interactions
+                i
+                for i in period_interactions
                 if i.source_component == component or i.target_component == component
             ]
 
             if component_interactions:
-                avg_response_time = statistics.mean([i.response_time for i in component_interactions])
-                success_rate = len([i for i in component_interactions if i.success]) / len(component_interactions)
+                avg_response_time = statistics.mean(
+                    [i.response_time for i in component_interactions]
+                )
+                success_rate = len([i for i in component_interactions if i.success]) / len(
+                    component_interactions
+                )
 
                 report.component_performance[component] = {
                     "average_response_time": avg_response_time,
                     "success_rate": success_rate,
-                    "total_interactions": len(component_interactions)
+                    "total_interactions": len(component_interactions),
                 }
 
         # Authentication analysis
         if period_auth_events:
-            auth_success_rate = len([e for e in period_auth_events if e.success]) / len(period_auth_events)
+            auth_success_rate = len([e for e in period_auth_events if e.success]) / len(
+                period_auth_events
+            )
             auth_avg_time = statistics.mean([e.processing_time for e in period_auth_events])
             security_incidents = len([e for e in period_auth_events if e.anomaly_detected])
 
@@ -1145,13 +1193,15 @@ class TrinityFrameworkMonitor:
                 "success_rate": auth_success_rate,
                 "average_response_time": auth_avg_time,
                 "total_events": len(period_auth_events),
-                "security_incidents": security_incidents
+                "security_incidents": security_incidents,
             }
 
         # API performance analysis
         if period_api_metrics:
             api_avg_response = statistics.mean([m.response_time for m in period_api_metrics])
-            api_error_rate = len([m for m in period_api_metrics if m.error_rate > 0]) / len(period_api_metrics)
+            api_error_rate = len([m for m in period_api_metrics if m.error_rate > 0]) / len(
+                period_api_metrics
+            )
 
             # Find slowest endpoints
             endpoint_performance = defaultdict(list)
@@ -1168,20 +1218,29 @@ class TrinityFrameworkMonitor:
             report.api_performance_summary = {
                 "average_response_time": api_avg_response,
                 "error_rate": api_error_rate,
-                "total_requests": len(period_api_metrics)
+                "total_requests": len(period_api_metrics),
             }
 
             report.slowest_endpoints = slowest_endpoints[:10]  # Top 10 slowest
 
         # Generate recommendations
         if overall_framework_health < 0.8:
-            report.performance_recommendations.append("Investigate Trinity Framework component health issues")
+            report.performance_recommendations.append(
+                "Investigate Trinity Framework component health issues"
+            )
 
         if period_auth_events and len([e for e in period_auth_events if not e.success]) > 10:
-            report.security_recommendations.append("Review authentication failures and implement additional security measures")
+            report.security_recommendations.append(
+                "Review authentication failures and implement additional security measures"
+            )
 
-        if period_api_metrics and statistics.mean([m.response_time for m in period_api_metrics]) > 1000:
-            report.optimization_opportunities.append("API response times are elevated - consider performance optimization")
+        if (
+            period_api_metrics
+            and statistics.mean([m.response_time for m in period_api_metrics]) > 1000
+        ):
+            report.optimization_opportunities.append(
+                "API response times are elevated - consider performance optimization"
+            )
 
         return report
 
@@ -1190,8 +1249,15 @@ class TrinityFrameworkMonitor:
 
         self.framework_metrics["last_updated"] = datetime.now().isoformat()
         self.framework_metrics["monitoring_uptime"] = (
-            datetime.now() - datetime.fromisoformat(self.framework_metrics["last_updated"].replace("T", " ").replace("Z", ""))
-        ).total_seconds() if "last_updated" in self.framework_metrics else 0.0
+            (
+                datetime.now()
+                - datetime.fromisoformat(
+                    self.framework_metrics["last_updated"].replace("T", " ").replace("Z", "")
+                )
+            ).total_seconds()
+            if "last_updated" in self.framework_metrics
+            else 0.0
+        )
 
         return self.framework_metrics.copy()
 
@@ -1204,13 +1270,13 @@ class TrinityFrameworkMonitor:
 
 # Export main classes
 __all__ = [
-    "TrinityFrameworkMonitor",
-    "TrinityInteraction",
-    "AuthenticationEvent",
     "APIPerformanceMetric",
-    "TrinityHealthStatus",
-    "TrinityReport",
-    "TrinityComponent",
+    "AuthenticationEvent",
     "InteractionType",
-    "PerformanceMetric"
+    "PerformanceMetric",
+    "TrinityComponent",
+    "TrinityFrameworkMonitor",
+    "TrinityHealthStatus",
+    "TrinityInteraction",
+    "TrinityReport",
 ]

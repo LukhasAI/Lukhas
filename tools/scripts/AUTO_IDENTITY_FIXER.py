@@ -48,8 +48,7 @@ class AutoIdentityFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
         self.backup_dir = (
-            self.root_path
-            / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            self.root_path / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         self.fixes_applied = []
         self.errors = []
@@ -97,9 +96,7 @@ class AutoIdentityFixer:
                 original_content = content
 
                 # Check if already has identity imports
-                has_identity_imports = (
-                    "from identity" in content or "import identity" in content
-                )
+                has_identity_imports = "from identity" in content or "import identity" in content
 
                 # Find API endpoints
                 endpoints_found = []
@@ -202,9 +199,7 @@ except ImportError as e:
 
                 if not dry_run:
                     init_file.write_text(content)
-                self.fixes_applied.append(
-                    f"Added {required_tier} protection to {module_name}"
-                )
+                self.fixes_applied.append(f"Added {required_tier} protection to {module_name}")
 
             except Exception as e:
                 self.errors.append(f"Error protecting {module_name}: {e}")
@@ -225,9 +220,7 @@ except ImportError as e:
             files_modified = 0
 
             for py_file in py_files[:5]:  # Limit to first 5 files per module for safety
-                if any(
-                    skip in str(py_file) for skip in ["__pycache__", "test", "backup"]
-                ):
+                if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup"]):
                     continue
 
                 try:
@@ -247,9 +240,7 @@ except ImportError as e:
                         content = self._add_user_context_to_functions(content)
 
                         if not dry_run:
-                            backup_file = (
-                                self.backup_dir / f"{py_file.name}_{files_modified}"
-                            )
+                            backup_file = self.backup_dir / f"{py_file.name}_{files_modified}"
                             shutil.copy2(py_file, backup_file)
                             py_file.write_text(content)
 
@@ -271,10 +262,7 @@ except ImportError as e:
 
         # Find files that use auth but missing imports
         for py_file in self.root_path.rglob("*.py"):
-            if any(
-                skip in str(py_file)
-                for skip in ["__pycache__", "test", "backup", "archive"]
-            ):
+            if any(skip in str(py_file) for skip in ["__pycache__", "test", "backup", "archive"]):
                 continue
 
             try:
@@ -290,9 +278,7 @@ except ImportError as e:
                         "user.user_id",
                     ]
                 )
-                has_identity_import = (
-                    "from identity" in content or "import identity" in content
-                )
+                has_identity_import = "from identity" in content or "import identity" in content
 
                 if has_auth_usage and not has_identity_import:
                     print(f"  📦 {py_file.relative_to(self.root_path)}")
@@ -396,22 +382,18 @@ except ImportError:
                     # Add user parameter if not present
                     if "AuthContext" not in func_line and "user:" not in func_line:
                         # Insert user parameter
-                        func_match = re.match(
-                            r"(\s*async def\s+\w+\s*\([^)]*)", func_line
-                        )
+                        func_match = re.match(r"(\s*async def\s+\w+\s*\([^)]*)", func_line)
                         if func_match:
                             func_match.group(1)
                             if func_line.endswith("):"):
                                 # Add parameter before closing paren
                                 new_func_line = (
-                                    func_line[:-2]
-                                    + f", user: AuthContext = Depends({auth_dep})):"
+                                    func_line[:-2] + f", user: AuthContext = Depends({auth_dep})):"
                                 )
                             else:
                                 # Function continues on next line
                                 new_func_line = (
-                                    func_line
-                                    + f", user: AuthContext = Depends({auth_dep})"
+                                    func_line + f", user: AuthContext = Depends({auth_dep})"
                                 )
                             modified_lines.append(new_func_line)
                         else:
@@ -482,9 +464,7 @@ except ImportError:
         print("\n🚀 Next Steps:")
         print("  1. Review changes in backup directory")
         print("  2. Test API endpoints with authentication")
-        print(
-            "  3. Run identity audit again: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py"
-        )
+        print("  3. Run identity audit again: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py")
         print("  4. Fix any remaining manual issues")
 
 

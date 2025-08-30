@@ -46,9 +46,7 @@ def lint_debt():
         allowed = set(tomllib.loads(pol.read_text()).get("rules", {}).get("allow", []))
         if not allowed:
             # Fallback to auto_fix rules
-            allowed = set(
-                tomllib.loads(pol.read_text()).get("rules", {}).get("auto_fix", [])
-            )
+            allowed = set(tomllib.loads(pol.read_text()).get("rules", {}).get("auto_fix", []))
         if not allowed:
             # Use DEFAULT_ALLOW
             allowed = {"UP006", "UP035", "SIM102", "SIM103", "F841", "B007", "C401"}

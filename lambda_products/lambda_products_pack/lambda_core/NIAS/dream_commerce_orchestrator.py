@@ -198,9 +198,7 @@ class DreamCommerceOrchestrator:
             user_profile = await self.user_data_integrator.get_user_profile(user_id)
 
             # Check emotional state
-            emotional_check = await self._check_emotional_readiness(
-                user_id, user_profile
-            )
+            emotional_check = await self._check_emotional_readiness(user_id, user_profile)
             if not emotional_check["ready"]:
                 self.metrics["ethical_blocks"] += 1
                 return {
@@ -282,9 +280,7 @@ class DreamCommerceOrchestrator:
             # Validate ethics
             if dream.ethical_score < self.config.get("min_ethical_score", 0.8):
                 self.metrics["ethical_blocks"] += 1
-                logger.warning(
-                    f"Dream blocked due to low ethical score: {dream.ethical_score}"
-                )
+                logger.warning(f"Dream blocked due to low ethical score: {dream.ethical_score}")
                 return {"status": "blocked", "reason": "ethical_validation_failed"}
 
             # Deliver dream
@@ -352,9 +348,7 @@ class DreamCommerceOrchestrator:
                 product_id = action_data.get("product_id")
 
                 if vendor_id and product_id:
-                    user_profile = await self.user_data_integrator.get_user_profile(
-                        user_id
-                    )
+                    user_profile = await self.user_data_integrator.get_user_profile(user_id)
                     affiliate_link = await self.vendor_portal.generate_affiliate_link(
                         vendor_id, product_id, user_profile.__dict__
                     )
@@ -480,12 +474,8 @@ class DreamCommerceOrchestrator:
         # Extract personal data (privacy-filtered)
         personal_data = {
             "interests": user_profile.interests[:5],
-            "recent_searches": user_profile.activity_patterns.get(
-                "recent_searches", []
-            )[:3],
-            "upcoming_events": user_profile.contextual_triggers.get(
-                "upcoming_events", []
-            )[:2],
+            "recent_searches": user_profile.activity_patterns.get("recent_searches", [])[:3],
+            "upcoming_events": user_profile.contextual_triggers.get("upcoming_events", [])[:2],
         }
 
         # Get recent events
@@ -605,9 +595,7 @@ class DreamCommerceOrchestrator:
             logger.error(f"Error delivering dream: {e}")
             return {"delivered": False, "error": str(e)}
 
-    async def _queue_dream_generation(
-        self, user_id: str, user_profile: UserDataProfile
-    ):
+    async def _queue_dream_generation(self, user_id: str, user_profile: UserDataProfile):
         """Queue dream generation for user"""
         # Find relevant vendor seeds
         relevant_seeds = await self._find_relevant_seeds(user_profile)
@@ -623,9 +611,7 @@ class DreamCommerceOrchestrator:
             )
             self.delivery_queue.append(request)
 
-    async def _find_relevant_seeds(
-        self, user_profile: UserDataProfile
-    ) -> list[DreamSeed]:
+    async def _find_relevant_seeds(self, user_profile: UserDataProfile) -> list[DreamSeed]:
         """Find relevant vendor seeds for user"""
         relevant_seeds = []
 
@@ -644,9 +630,7 @@ class DreamCommerceOrchestrator:
 
         return [seed for seed, _ in relevant_seeds[:10]]
 
-    def _calculate_relevance(
-        self, seed: DreamSeed, user_profile: UserDataProfile
-    ) -> float:
+    def _calculate_relevance(self, seed: DreamSeed, user_profile: UserDataProfile) -> float:
         """Calculate relevance score for seed and user"""
         score = 0.5  # Base score
 
@@ -681,9 +665,7 @@ class DreamCommerceOrchestrator:
 
         return min(1.0, score)
 
-    def _calculate_priority(
-        self, seed: DreamSeed, user_profile: UserDataProfile
-    ) -> int:
+    def _calculate_priority(self, seed: DreamSeed, user_profile: UserDataProfile) -> int:
         """Calculate delivery priority"""
         priority = 5  # Default
 
@@ -762,9 +744,7 @@ class DreamCommerceOrchestrator:
         while True:
             try:
                 current_time = datetime.now()
-                timeout_duration = timedelta(
-                    minutes=self.config["session_timeout_minutes"]
-                )
+                timeout_duration = timedelta(minutes=self.config["session_timeout_minutes"])
 
                 for user_id, session in list(self.active_sessions.items()):
                     if current_time - session.started_at > timeout_duration:
@@ -801,9 +781,7 @@ class DreamCommerceOrchestrator:
             "cached_dreams": len(self.dream_cache),
             "metrics": self.metrics,
             "vendor_count": len(self.vendor_portal.vendors),
-            "total_seeds": sum(
-                len(seeds) for seeds in self.vendor_portal.dream_seeds.values()
-            ),
+            "total_seeds": sum(len(seeds) for seeds in self.vendor_portal.dream_seeds.values()),
             "bio_rhythm": self._get_current_bio_rhythm().value,
             "system_status": "operational",
         }

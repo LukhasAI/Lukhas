@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class CausalityChain:
     """Represents a causal chain in economic systems"""
+
     trigger: str
     effects: list[str]
     probability: float
@@ -51,9 +52,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
         logger.info("Economic Causality Analyzer initialized")
 
     async def analyze_causality_chains(
-        self,
-        market_structure: dict[str, Any],
-        disruption_potential: float
+        self, market_structure: dict[str, Any], disruption_potential: float
     ) -> dict[str, Any]:
         """
         Analyze causality chains in a market structure
@@ -69,7 +68,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "foundation_paths": [],
             "entry_paths": [],
             "expansion_paths": [],
-            "dominance_paths": []
+            "dominance_paths": [],
         }
 
         # Analyze foundation causality
@@ -95,8 +94,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
         return chains
 
     async def analyze_market_dynamics(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Analyze current market dynamics
@@ -112,7 +110,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "competitive_forces": {},
             "market_trends": [],
             "inflection_points": [],
-            "feedback_loops": []
+            "feedback_loops": [],
         }
 
         # Analyze competitive forces
@@ -121,31 +119,21 @@ class EconomicCausalityAnalyzer(CoreInterface):
         )
 
         # Identify market trends
-        dynamics["market_trends"] = await self._identify_market_trends(
-            market_implementation
-        )
+        dynamics["market_trends"] = await self._identify_market_trends(market_implementation)
 
         # Detect inflection points
-        dynamics["inflection_points"] = await self._detect_inflection_points(
-            market_implementation
-        )
+        dynamics["inflection_points"] = await self._detect_inflection_points(market_implementation)
 
         # Identify feedback loops
-        dynamics["feedback_loops"] = await self._identify_feedback_loops(
-            market_implementation
-        )
+        dynamics["feedback_loops"] = await self._identify_feedback_loops(market_implementation)
 
         # Determine equilibrium state
-        dynamics["equilibrium_state"] = await self._determine_equilibrium(
-            dynamics
-        )
+        dynamics["equilibrium_state"] = await self._determine_equilibrium(dynamics)
 
         return dynamics
 
     async def estimate_strategy_impact(
-        self,
-        strategy: dict[str, Any],
-        market_factors: dict[str, Any]
+        self, strategy: dict[str, Any], market_factors: dict[str, Any]
     ) -> float:
         """
         Estimate the impact of a strategy on the market
@@ -166,7 +154,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "preemptive": 2.5,
             "complementary": 1.8,
             "defensive": 1.2,
-            "standard": 1.0
+            "standard": 1.0,
         }
         base_impact = type_multipliers.get(strategy_type, 1.0)
 
@@ -200,15 +188,15 @@ class EconomicCausalityAnalyzer(CoreInterface):
                 effects=["early_adopter_acquisition", "media_attention", "competitor_response"],
                 probability=0.9,
                 time_delay_days=30,
-                impact_magnitude=2.0
+                impact_magnitude=2.0,
             ),
             CausalityChain(
                 trigger="price_reduction",
                 effects=["market_expansion", "volume_increase", "margin_compression"],
                 probability=0.95,
                 time_delay_days=60,
-                impact_magnitude=1.5
-            )
+                impact_magnitude=1.5,
+            ),
         ]
 
         # Market disruption causes
@@ -218,15 +206,15 @@ class EconomicCausalityAnalyzer(CoreInterface):
                 effects=["incumbent_displacement", "value_chain_restructure", "new_entrants"],
                 probability=0.7,
                 time_delay_days=180,
-                impact_magnitude=5.0
+                impact_magnitude=5.0,
             ),
             CausalityChain(
                 trigger="regulatory_change",
                 effects=["compliance_costs", "market_restructure", "barrier_shifts"],
                 probability=0.8,
                 time_delay_days=90,
-                impact_magnitude=3.0
-            )
+                impact_magnitude=3.0,
+            ),
         ]
 
         # Network effects
@@ -236,7 +224,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
                 effects=["value_increase", "competitor_barriers", "ecosystem_expansion"],
                 probability=0.85,
                 time_delay_days=45,
-                impact_magnitude=4.0
+                impact_magnitude=4.0,
             )
         ]
 
@@ -247,171 +235,189 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "winner_take_all": {
                 "concentration_threshold": 0.7,
                 "network_effect_strength": 0.9,
-                "switching_cost": "high"
+                "switching_cost": "high",
             },
             "fragmented": {
                 "concentration_threshold": 0.3,
                 "network_effect_strength": 0.2,
-                "switching_cost": "low"
+                "switching_cost": "low",
             },
             "duopoly": {
                 "concentration_threshold": 0.5,
                 "network_effect_strength": 0.6,
-                "switching_cost": "medium"
-            }
+                "switching_cost": "medium",
+            },
         }
 
     async def _analyze_foundation_causality(
-        self,
-        market_structure: dict[str, Any],
-        disruption_potential: float
+        self, market_structure: dict[str, Any], disruption_potential: float
     ) -> list[dict[str, Any]]:
         """Analyze foundation phase causality"""
 
         paths = []
 
         # Infrastructure investment path
-        paths.append({
-            "name": "infrastructure_investment",
-            "steps": [
-                "capital_deployment",
-                "infrastructure_build",
-                "capability_development",
-                "operational_readiness"
-            ],
-            "critical_factors": ["funding_availability", "talent_acquisition", "technology_maturity"],
-            "success_probability": 0.8 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "infrastructure_investment",
+                "steps": [
+                    "capital_deployment",
+                    "infrastructure_build",
+                    "capability_development",
+                    "operational_readiness",
+                ],
+                "critical_factors": [
+                    "funding_availability",
+                    "talent_acquisition",
+                    "technology_maturity",
+                ],
+                "success_probability": 0.8 * disruption_potential,
+            }
+        )
 
         # Partnership establishment path
-        paths.append({
-            "name": "partnership_network",
-            "steps": [
-                "partner_identification",
-                "negotiation",
-                "agreement_execution",
-                "integration"
-            ],
-            "critical_factors": ["partner_alignment", "value_proposition", "integration_capability"],
-            "success_probability": 0.7 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "partnership_network",
+                "steps": [
+                    "partner_identification",
+                    "negotiation",
+                    "agreement_execution",
+                    "integration",
+                ],
+                "critical_factors": [
+                    "partner_alignment",
+                    "value_proposition",
+                    "integration_capability",
+                ],
+                "success_probability": 0.7 * disruption_potential,
+            }
+        )
 
         return paths
 
     async def _analyze_entry_causality(
-        self,
-        market_structure: dict[str, Any],
-        disruption_potential: float
+        self, market_structure: dict[str, Any], disruption_potential: float
     ) -> list[dict[str, Any]]:
         """Analyze market entry phase causality"""
 
         paths = []
 
         # Customer acquisition path
-        paths.append({
-            "name": "customer_acquisition",
-            "steps": [
-                "market_awareness",
-                "value_demonstration",
-                "trial_conversion",
-                "retention"
-            ],
-            "critical_factors": ["product_market_fit", "pricing_strategy", "customer_support"],
-            "success_probability": 0.75 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "customer_acquisition",
+                "steps": [
+                    "market_awareness",
+                    "value_demonstration",
+                    "trial_conversion",
+                    "retention",
+                ],
+                "critical_factors": ["product_market_fit", "pricing_strategy", "customer_support"],
+                "success_probability": 0.75 * disruption_potential,
+            }
+        )
 
         # Competitive positioning path
-        paths.append({
-            "name": "competitive_positioning",
-            "steps": [
-                "differentiation",
-                "brand_building",
-                "market_share_capture",
-                "defensive_moat"
-            ],
-            "critical_factors": ["unique_value_prop", "execution_speed", "resource_allocation"],
-            "success_probability": 0.65 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "competitive_positioning",
+                "steps": [
+                    "differentiation",
+                    "brand_building",
+                    "market_share_capture",
+                    "defensive_moat",
+                ],
+                "critical_factors": ["unique_value_prop", "execution_speed", "resource_allocation"],
+                "success_probability": 0.65 * disruption_potential,
+            }
+        )
 
         return paths
 
     async def _analyze_expansion_causality(
-        self,
-        market_structure: dict[str, Any],
-        disruption_potential: float
+        self, market_structure: dict[str, Any], disruption_potential: float
     ) -> list[dict[str, Any]]:
         """Analyze expansion phase causality"""
 
         paths = []
 
         # Scale economics path
-        paths.append({
-            "name": "scale_economics",
-            "steps": [
-                "volume_growth",
-                "cost_reduction",
-                "margin_expansion",
-                "reinvestment"
-            ],
-            "critical_factors": ["operational_efficiency", "demand_elasticity", "capital_efficiency"],
-            "success_probability": 0.8 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "scale_economics",
+                "steps": ["volume_growth", "cost_reduction", "margin_expansion", "reinvestment"],
+                "critical_factors": [
+                    "operational_efficiency",
+                    "demand_elasticity",
+                    "capital_efficiency",
+                ],
+                "success_probability": 0.8 * disruption_potential,
+            }
+        )
 
         # Market dominance path
-        paths.append({
-            "name": "market_dominance",
-            "steps": [
-                "category_leadership",
-                "ecosystem_control",
-                "standard_setting",
-                "barrier_creation"
-            ],
-            "critical_factors": ["market_share", "innovation_pace", "regulatory_compliance"],
-            "success_probability": 0.6 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "market_dominance",
+                "steps": [
+                    "category_leadership",
+                    "ecosystem_control",
+                    "standard_setting",
+                    "barrier_creation",
+                ],
+                "critical_factors": ["market_share", "innovation_pace", "regulatory_compliance"],
+                "success_probability": 0.6 * disruption_potential,
+            }
+        )
 
         return paths
 
     async def _analyze_dominance_causality(
-        self,
-        market_structure: dict[str, Any],
-        disruption_potential: float
+        self, market_structure: dict[str, Any], disruption_potential: float
     ) -> list[dict[str, Any]]:
         """Analyze dominance phase causality"""
 
         paths = []
 
         # Value extraction path
-        paths.append({
-            "name": "value_extraction",
-            "steps": [
-                "pricing_power",
-                "margin_maximization",
-                "cash_generation",
-                "shareholder_returns"
-            ],
-            "critical_factors": ["market_position", "customer_lock_in", "competitive_barriers"],
-            "success_probability": 0.85 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "value_extraction",
+                "steps": [
+                    "pricing_power",
+                    "margin_maximization",
+                    "cash_generation",
+                    "shareholder_returns",
+                ],
+                "critical_factors": ["market_position", "customer_lock_in", "competitive_barriers"],
+                "success_probability": 0.85 * disruption_potential,
+            }
+        )
 
         # Innovation leadership path
-        paths.append({
-            "name": "innovation_leadership",
-            "steps": [
-                "rd_investment",
-                "breakthrough_innovation",
-                "market_creation",
-                "cycle_repetition"
-            ],
-            "critical_factors": ["innovation_capability", "resource_availability", "risk_tolerance"],
-            "success_probability": 0.7 * disruption_potential
-        })
+        paths.append(
+            {
+                "name": "innovation_leadership",
+                "steps": [
+                    "rd_investment",
+                    "breakthrough_innovation",
+                    "market_creation",
+                    "cycle_repetition",
+                ],
+                "critical_factors": [
+                    "innovation_capability",
+                    "resource_availability",
+                    "risk_tolerance",
+                ],
+                "success_probability": 0.7 * disruption_potential,
+            }
+        )
 
         return paths
 
     async def _analyze_competitive_forces(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> dict[str, float]:
         """Analyze Porter's Five Forces"""
 
@@ -420,12 +426,11 @@ class EconomicCausalityAnalyzer(CoreInterface):
             "buyer_power": 0.4,
             "competitive_rivalry": 0.7,
             "threat_of_substitution": 0.5,
-            "threat_of_new_entry": 0.6
+            "threat_of_new_entry": 0.6,
         }
 
     async def _identify_market_trends(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify current market trends"""
 
@@ -433,85 +438,99 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
         # Growth trend
         if market_implementation.get("market_penetration", 0) > 0.1:
-            trends.append({
-                "type": "growth",
-                "direction": "accelerating",
-                "strength": 0.8,
-                "duration_months": 24
-            })
+            trends.append(
+                {
+                    "type": "growth",
+                    "direction": "accelerating",
+                    "strength": 0.8,
+                    "duration_months": 24,
+                }
+            )
 
         # Consolidation trend
         if market_implementation.get("phases_completed", []):
-            trends.append({
-                "type": "consolidation",
-                "direction": "increasing",
-                "strength": 0.6,
-                "duration_months": 18
-            })
+            trends.append(
+                {
+                    "type": "consolidation",
+                    "direction": "increasing",
+                    "strength": 0.6,
+                    "duration_months": 18,
+                }
+            )
 
         return trends
 
     async def _detect_inflection_points(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Detect market inflection points"""
 
         inflection_points = []
 
         # Technology maturity inflection
-        inflection_points.append({
-            "type": "technology_maturity",
-            "probability": 0.7,
-            "time_to_inflection_months": 12,
-            "impact": "market_acceleration"
-        })
+        inflection_points.append(
+            {
+                "type": "technology_maturity",
+                "probability": 0.7,
+                "time_to_inflection_months": 12,
+                "impact": "market_acceleration",
+            }
+        )
 
         # Regulatory inflection
-        inflection_points.append({
-            "type": "regulatory_shift",
-            "probability": 0.4,
-            "time_to_inflection_months": 18,
-            "impact": "market_restructure"
-        })
+        inflection_points.append(
+            {
+                "type": "regulatory_shift",
+                "probability": 0.4,
+                "time_to_inflection_months": 18,
+                "impact": "market_restructure",
+            }
+        )
 
         return inflection_points
 
     async def _identify_feedback_loops(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify market feedback loops"""
 
         loops = []
 
         # Network effect loop
-        loops.append({
-            "type": "network_effect",
-            "direction": "positive",
-            "strength": 0.8,
-            "components": ["users", "value", "adoption", "users"]
-        })
+        loops.append(
+            {
+                "type": "network_effect",
+                "direction": "positive",
+                "strength": 0.8,
+                "components": ["users", "value", "adoption", "users"],
+            }
+        )
 
         # Innovation loop
-        loops.append({
-            "type": "innovation_reinvestment",
-            "direction": "positive",
-            "strength": 0.7,
-            "components": ["revenue", "rd_investment", "innovation", "competitive_advantage", "revenue"]
-        })
+        loops.append(
+            {
+                "type": "innovation_reinvestment",
+                "direction": "positive",
+                "strength": 0.7,
+                "components": [
+                    "revenue",
+                    "rd_investment",
+                    "innovation",
+                    "competitive_advantage",
+                    "revenue",
+                ],
+            }
+        )
 
         return loops
 
-    async def _determine_equilibrium(
-        self,
-        dynamics: dict[str, Any]
-    ) -> str:
+    async def _determine_equilibrium(self, dynamics: dict[str, Any]) -> str:
         """Determine market equilibrium state"""
 
         # Check for strong positive feedback loops
         positive_loops = [
-            loop for loop in dynamics.get("feedback_loops", [])
+            loop
+            for loop in dynamics.get("feedback_loops", [])
             if loop["direction"] == "positive" and loop["strength"] > 0.7
         ]
 
@@ -522,10 +541,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
         else:
             return "stable"
 
-    async def _calculate_causality_multiplier(
-        self,
-        strategy: dict[str, Any]
-    ) -> float:
+    async def _calculate_causality_multiplier(self, strategy: dict[str, Any]) -> float:
         """Calculate causality multiplier for strategy impact"""
 
         multiplier = 1.0

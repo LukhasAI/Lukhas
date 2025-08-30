@@ -42,17 +42,19 @@ class LukhasClient:
             total=max_retries,
             backoff_factor=1,
             status_forcelist=[429, 500, 502, 503, 504],
-            method_whitelist=["HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS", "TRACE"]
+            method_whitelist=["HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS", "TRACE"],
         )
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
         # Set default headers
-        self.session.headers.update({
-            "Content-Type": "application/json",
-            "User-Agent": "LUKHAS-Python-SDK/1.0.0",
-        })
+        self.session.headers.update(
+            {
+                "Content-Type": "application/json",
+                "User-Agent": "LUKHAS-Python-SDK/1.0.0",
+            }
+        )
 
         if api_key:
             self.session.headers["x-api-key"] = api_key
@@ -380,16 +382,14 @@ if __name__ == "__main__":
     response = client.complete(
         message="Help me write a Python function",
         signals={"novelty": 0.7, "stress": 0.2},
-        safety_mode="balanced"
+        safety_mode="balanced",
     )
     print(f"Response: {response}")
 
     # Example 3: Give feedback
     if response.get("audit_id"):
         lut = client.give_feedback(
-            target_action_id=response["audit_id"],
-            rating=4,
-            note="Good but could be more detailed"
+            target_action_id=response["audit_id"], rating=4, note="Good but could be more detailed"
         )
         print(f"Updated LUT: {lut}")
 

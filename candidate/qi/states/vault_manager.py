@@ -52,9 +52,7 @@ from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("QIVault")
 
 
@@ -110,9 +108,7 @@ class QISeedPhrase:
 class QIVaultManager:
     """LUKHAS Quantum Security Vault Manager"""
 
-    def __init__(
-        self, vault_path: str = "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/vault"
-    ):
+    def __init__(self, vault_path: str = "/Users/A_G_I/Lukhas/ΛWebEcosystem/quantum-secure/vault"):
         self.vault_path = Path(vault_path)
         self.vault_path.mkdir(exist_ok=True, parents=True)
 
@@ -140,9 +136,7 @@ class QIVaultManager:
             os.chmod(key_file, 0o600)  # Secure permissions
             return key
 
-    def create_lambda_id_hash(
-        self, user_id: str, qi_salt: Optional[str] = None
-    ) -> str:
+    def create_lambda_id_hash(self, user_id: str, qi_salt: Optional[str] = None) -> str:
         """Create non-reversible ΛiD hash for authentication (not tracking)"""
         if not qi_salt:
             qi_salt = secrets.token_hex(32)
@@ -153,9 +147,7 @@ class QIVaultManager:
 
         return qi_hash[:32]  # Truncated for storage efficiency
 
-    def generate_verifold_qr(
-        self, user_id: str, payload_data: dict[str, Any]
-    ) -> VeriFoldQR:
+    def generate_verifold_qr(self, user_id: str, payload_data: dict[str, Any]) -> VeriFoldQR:
         """Generate VeriFold QR glyph with hidden authentication"""
         # Create artistic visual glyph (SVG or similar)
         visual_glyph = self._generate_artistic_glyph()
@@ -206,9 +198,7 @@ class QIVaultManager:
         blake2_hash = hashlib.blake2b(data.encode(), digest_size=32).hexdigest()
 
         # Create composite quantum signature
-        qi_sig = hashlib.sha3_256(
-            f"{sha3_hash}_{blake2_hash}".encode()
-        ).hexdigest()
+        qi_sig = hashlib.sha3_256(f"{sha3_hash}_{blake2_hash}".encode()).hexdigest()
         return qi_sig[:64]
 
     def store_encrypted_api_key(
@@ -282,9 +272,7 @@ class QIVaultManager:
                 return None
 
             # Decrypt API key
-            decrypted_data = self.fernet.decrypt(
-                encrypted_api_key.encrypted_key.encode()
-            ).decode()
+            decrypted_data = self.fernet.decrypt(encrypted_api_key.encrypted_key.encode()).decode()
             api_key = decrypted_data.split("_")[0]  # Extract original key
 
             # Update last used timestamp
@@ -386,9 +374,7 @@ class QIVaultManager:
             shards.append(shard_hash)
         return shards
 
-    def _verify_qr_authentication(
-        self, qr_data: str, verification_qr: VeriFoldQR
-    ) -> bool:
+    def _verify_qr_authentication(self, qr_data: str, verification_qr: VeriFoldQR) -> bool:
         """Verify VeriFold QR authentication"""
         try:
             # Decrypt and verify QR payload
@@ -398,9 +384,7 @@ class QIVaultManager:
             json.loads(decrypted_payload.decode())
 
             # Verify quantum signature
-            expected_signature = self._generate_quantum_signature(
-                verification_qr.hidden_qr_data
-            )
+            expected_signature = self._generate_quantum_signature(verification_qr.hidden_qr_data)
             if expected_signature != verification_qr.qi_signature:
                 return False
 
@@ -465,8 +449,7 @@ class QIVaultManager:
 
         # Save report
         report_file = (
-            self.vault_path
-            / f"vault_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            self.vault_path / f"vault_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         )
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
@@ -486,12 +469,8 @@ def main():
 
     # 1. Store encrypted API keys
     print("\n1. Storing encrypted API keys...")
-    vault.store_encrypted_api_key(
-        user_id, "OpenAI", "sk-fake-openai-key", access_tier=4
-    )
-    vault.store_encrypted_api_key(
-        user_id, "Anthropic", "sk-fake-anthropic-key", access_tier=5
-    )
+    vault.store_encrypted_api_key(user_id, "OpenAI", "sk-fake-openai-key", access_tier=4)
+    vault.store_encrypted_api_key(user_id, "Anthropic", "sk-fake-anthropic-key", access_tier=5)
 
     # 2. Create anonymous crypto session
     print("\n2. Creating anonymous crypto session...")

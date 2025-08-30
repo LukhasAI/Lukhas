@@ -8,7 +8,4 @@ systems for the LUKHAS AI platform.
 from .case_manager import CaseManager
 from .decision_support import ClinicalDecisionSupport
 
-__all__ = [
-    "CaseManager",
-    "ClinicalDecisionSupport"
-]
+__all__ = ["CaseManager", "ClinicalDecisionSupport"]

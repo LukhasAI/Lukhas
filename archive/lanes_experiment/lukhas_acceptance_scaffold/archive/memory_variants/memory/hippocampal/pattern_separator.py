@@ -43,9 +43,9 @@ class PatternSeparator:
         self.use_competitive_learning = use_competitive_learning
 
         # Initialize random projection matrix (input -> expanded representation)
-        self.projection_matrix = np.random.randn(
-            input_dimension, output_dimension
-        ) * np.sqrt(2.0 / input_dimension)
+        self.projection_matrix = np.random.randn(input_dimension, output_dimension) * np.sqrt(
+            2.0 / input_dimension
+        )
 
         # Competitive learning weights
         if use_competitive_learning:
@@ -209,9 +209,7 @@ class PatternSeparator:
             "target_sparsity": self.sparsity,
             "expansion_factor": self.output_dimension / self.input_dimension,
             "competitive_weight_variance": (
-                np.var(self.competitive_weights)
-                if self.use_competitive_learning
-                else 0.0
+                np.var(self.competitive_weights) if self.use_competitive_learning else 0.0
             ),
         }
 
@@ -219,9 +217,7 @@ class PatternSeparator:
 # Example usage
 if __name__ == "__main__":
     # Create pattern separator
-    separator = PatternSeparator(
-        input_dimension=256, output_dimension=1024, sparsity=0.05
-    )
+    separator = PatternSeparator(input_dimension=256, output_dimension=1024, sparsity=0.05)
 
     # Test with similar inputs
     content1 = {"type": "learning", "subject": "math", "topic": "calculus"}

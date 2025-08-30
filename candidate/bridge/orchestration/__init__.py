@@ -14,14 +14,15 @@ try:
 except Exception:
     # Backward/forward compatibility: PR #76 exports ModelOrchestrator
     from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+
     ModelOrchestrator = MultiAIOrchestrator  # re-export
 from .consensus_engine import ConsensusEngine
 from .context_manager import ContextManager
 from .performance_monitor import PerformanceMonitor
 
 __all__ = [
-    "MultiAIOrchestrator",
     "ConsensusEngine",
     "ContextManager",
+    "MultiAIOrchestrator",
     "PerformanceMonitor",
 ]

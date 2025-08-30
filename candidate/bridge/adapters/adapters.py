@@ -244,11 +244,7 @@ class DASTAdapter:
             return []
 
         async with aiohttp.ClientSession() as session:
-            headers = (
-                {"Authorization": f"Bearer {config.auth_token}"}
-                if config.auth_token
-                else {}
-            )
+            headers = {"Authorization": f"Bearer {config.auth_token}"} if config.auth_token else {}
 
             async with session.get(
                 config.endpoint, headers=headers, timeout=config.timeout
@@ -305,9 +301,7 @@ class DASTAdapter:
             ) as response:
                 return response.status in [200, 201]
 
-    async def _push_to_legacy_dast(
-        self, config: AdapterConfig, task_data: dict
-    ) -> bool:
+    async def _push_to_legacy_dast(self, config: AdapterConfig, task_data: dict) -> bool:
         """Push task to legacy DAST system"""
         try:
             # Convert to legacy format and store
@@ -317,19 +311,13 @@ class DASTAdapter:
         except Exception:
             return False
 
-    async def _push_to_generic_api(
-        self, config: AdapterConfig, task_data: dict
-    ) -> bool:
+    async def _push_to_generic_api(self, config: AdapterConfig, task_data: dict) -> bool:
         """Generic API push"""
         if not config.endpoint:
             return False
 
         async with aiohttp.ClientSession() as session:
-            headers = (
-                {"Authorization": f"Bearer {config.auth_token}"}
-                if config.auth_token
-                else {}
-            )
+            headers = {"Authorization": f"Bearer {config.auth_token}"} if config.auth_token else {}
 
             async with session.post(
                 config.endpoint,
@@ -447,9 +435,7 @@ class DASTAdapter:
                 "description": dast_task.get("description", ""),
                 "issuetype": {"name": "Task"},
                 "priority": {
-                    "name": self._map_dast_to_jira_priority(
-                        dast_task.get("priority", "medium")
-                    )
+                    "name": self._map_dast_to_jira_priority(dast_task.get("priority", "medium"))
                 },
             }
         }

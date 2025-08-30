@@ -17,14 +17,14 @@ from qi.ops.provenance import attest, merkle_chain  # requires pynacl
 def write_receipt(
     *,
     artifact_sha: str,
-    event: str,                     # "link_issued" | "download_redirect" | "view_ack"
+    event: str,  # "link_issued" | "download_redirect" | "view_ack"
     user_id: str | None,
     url: str | None,
     client_ip: str | None,
     user_agent: str | None,
     purpose: str | None = None,
     extras: dict[str, Any] | None = None,
-    tag: str = "receipt"
+    tag: str = "receipt",
 ) -> dict[str, Any]:
     """
     Creates a signed, append-only receipt and returns:
@@ -32,7 +32,13 @@ def write_receipt(
     """
     ts = time.time()
     steps = [
-        {"phase": "request", "ts": ts, "artifact_sha": artifact_sha, "user_id": user_id, "purpose": purpose},
+        {
+            "phase": "request",
+            "ts": ts,
+            "artifact_sha": artifact_sha,
+            "user_id": user_id,
+            "purpose": purpose,
+        },
         {"phase": "link", "url": url, "client_ip": client_ip, "user_agent": user_agent},
         {"phase": "outcome", "event": event, "extras": extras or {}},
     ]
@@ -47,8 +53,8 @@ def write_receipt(
             "chain_path": att.chain_path,
             "signature_b64": att.signature_b64,
             "public_key_b64": att.public_key_b64,
-            "root_hash": att.root_hash
-        }
+            "root_hash": att.root_hash,
+        },
     }
     # Also append a flat JSONL record for quick scans
     log_path = os.path.join(RECEIPTS_DIR, f"{artifact_sha[:2]}_{int(ts)}.jsonl")

@@ -65,15 +65,15 @@ except ImportError:
 
 
 __all__ = [
+    "GUARDIAN_ACTIVE",
+    "DriftResult",
+    "EthicalDecision",
     "EthicalSeverity",
     "GovernanceAction",
-    "EthicalDecision",
-    "DriftResult",
+    "GuardianSystem",  # Legacy compatibility
     "SafetyResult",
+    "check_safety",
     "detect_drift",
     "evaluate_ethics",
-    "check_safety",
     "get_guardian_status",
-    "GuardianSystem",  # Legacy compatibility
-    "GUARDIAN_ACTIVE",
 ]

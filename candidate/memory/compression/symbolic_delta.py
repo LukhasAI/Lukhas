@@ -34,6 +34,7 @@
 ║ Symbolic Tags: {ΛCOMPRESS}, {ΛDELTA}, {ΛLOOP}, {ΛENTROPY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 # Module imports
 import hashlib
 import json
@@ -93,7 +94,9 @@ class AdvancedSymbolicDeltaCompressor:
         self.compression_threshold = compression_threshold
         self.motif_min_frequency = motif_min_frequency
         self.emotion_weight_factor = emotion_weight_factor
-        self.compressed_memory_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl"
+        self.compressed_memory_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/advanced_compressed_memory.jsonl"
+        )
         self.motif_database_path = (
             "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/motif_database.jsonl"
         )
@@ -119,9 +122,7 @@ class AdvancedSymbolicDeltaCompressor:
         }
 
     # LUKHAS_TAG: motif_extraction_engine
-    def extract_advanced_motifs(
-        self, content: str, fold_key: str
-    ) -> list[SymbolicMotif]:
+    def extract_advanced_motifs(self, content: str, fold_key: str) -> list[SymbolicMotif]:
         """
         Extracts symbolic motifs using advanced pattern recognition.
         Combines linguistic patterns, emotional resonance, and importance scoring.
@@ -134,9 +135,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         # 2. N-gram analysis for phrase patterns
         bigrams = [(words[i], words[i + 1]) for i in range(len(words) - 1)]
-        trigrams = [
-            (words[i], words[i + 1], words[i + 2]) for i in range(len(words) - 2)
-        ]
+        trigrams = [(words[i], words[i + 1], words[i + 2]) for i in range(len(words) - 2)]
 
         bigram_counts = Counter([" ".join(bg) for bg in bigrams])
         trigram_counts = Counter([" ".join(tg) for tg in trigrams])
@@ -146,9 +145,7 @@ class AdvancedSymbolicDeltaCompressor:
             if freq >= self.motif_min_frequency and len(word) > 3:
                 emotional_weight = self._calculate_emotional_weight(word)
                 importance_score = self._calculate_importance_score(word, content)
-                entropy_contrib = self._calculate_entropy_contribution(
-                    word, freq, len(words)
-                )
+                entropy_contrib = self._calculate_entropy_contribution(word, freq, len(words))
 
                 motifs.append(
                     SymbolicMotif(
@@ -183,9 +180,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         # 5. Sort by combined significance score
         motifs.sort(
-            key=lambda m: m.importance_score
-            * m.emotional_weight
-            * m.entropy_contribution,
+            key=lambda m: m.importance_score * m.emotional_weight * m.entropy_contribution,
             reverse=True,
         )
 
@@ -249,9 +244,7 @@ class AdvancedSymbolicDeltaCompressor:
         return entropy * (1.0 + complexity_factor)
 
     # LUKHAS_TAG: importance_based_pruning
-    def importance_based_pruning(
-        self, content: str, target_compression_ratio: float
-    ) -> str:
+    def importance_based_pruning(self, content: str, target_compression_ratio: float) -> str:
         """
         Prunes content based on importance scoring while preserving critical information.
         """
@@ -280,10 +273,7 @@ class AdvancedSymbolicDeltaCompressor:
         current_length = 0
 
         for sentence, _score in sentence_scores:
-            if (
-                current_length + len(sentence) <= target_length
-                or len(selected_sentences) == 0
-            ):
+            if current_length + len(sentence) <= target_length or len(selected_sentences) == 0:
                 selected_sentences.append(sentence)
                 current_length += len(sentence)
             else:
@@ -295,11 +285,7 @@ class AdvancedSymbolicDeltaCompressor:
             if sentence.strip() in selected_sentences:
                 original_order_sentences.append(sentence.strip())
 
-        return (
-            ". ".join(original_order_sentences) + "."
-            if original_order_sentences
-            else content
-        )
+        return ". ".join(original_order_sentences) + "." if original_order_sentences else content
 
     # LUKHAS_TAG: delta_compression_core
     def compress_memory_delta(
@@ -327,18 +313,14 @@ class AdvancedSymbolicDeltaCompressor:
 
         # Importance-based pruning
         target_compression = max(self.compression_threshold, 1.0 - importance_score)
-        compressed_content = self.importance_based_pruning(
-            content_str, target_compression
-        )
+        compressed_content = self.importance_based_pruning(content_str, target_compression)
 
         # Generate compression metrics
         metrics = CompressionMetrics(
             original_size=len(content_str),
             compressed_size=len(compressed_content),
             compression_ratio=(
-                1.0 - (len(compressed_content) / len(content_str))
-                if len(content_str) > 0
-                else 0.0
+                1.0 - (len(compressed_content) / len(content_str)) if len(content_str) > 0 else 0.0
             ),
             entropy_preserved=sum(m.entropy_contribution for m in motifs),
             motifs_extracted=len(motifs),
@@ -348,18 +330,14 @@ class AdvancedSymbolicDeltaCompressor:
         )
 
         # Detect compression loops before finalizing result
-        loop_detection_result = self._detect_compression_loops(
-            motifs, fold_key, content_str
-        )
+        loop_detection_result = self._detect_compression_loops(motifs, fold_key, content_str)
 
         # Prepare compression result
         compression_result = {
             "fold_key": fold_key,
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "compression_method": "advanced_symbolic_delta_v2",
-            "original_content_hash": hashlib.sha256(content_str.encode()).hexdigest()[
-                :16
-            ],
+            "original_content_hash": hashlib.sha256(content_str.encode()).hexdigest()[:16],
             "compressed_content": compressed_content,
             "extracted_motifs": [
                 {
@@ -458,9 +436,7 @@ class AdvancedSymbolicDeltaCompressor:
             logger.error("MotifDatabase_update_failed", error=str(e), fold_key=fold_key)
 
     # LUKHAS_TAG: compression_analytics
-    def analyze_compression_patterns(
-        self, time_window_hours: int = 24
-    ) -> dict[str, Any]:
+    def analyze_compression_patterns(self, time_window_hours: int = 24) -> dict[str, Any]:
         """Analyze compression patterns and effectiveness over a time window."""
         cutoff_time = datetime.now(timezone.utc).replace(microsecond=0) - timedelta(
             hours=time_window_hours
@@ -499,12 +475,12 @@ class AdvancedSymbolicDeltaCompressor:
                         # Analyze motif patterns
                         for compression in compressions:
                             for motif in compression.get("extracted_motifs", []):
-                                analysis["motif_frequency_distribution"][
-                                    motif["pattern"]
-                                ] += motif["frequency"]
-                                analysis["emotional_pattern_trends"][
-                                    motif["pattern"]
-                                ] += motif["emotional_weight"]
+                                analysis["motif_frequency_distribution"][motif["pattern"]] += motif[
+                                    "frequency"
+                                ]
+                                analysis["emotional_pattern_trends"][motif["pattern"]] += motif[
+                                    "emotional_weight"
+                                ]
 
                         # Track efficiency trend
                         analysis["compression_efficiency_trend"] = [
@@ -654,16 +630,12 @@ class AdvancedSymbolicDeltaCompressor:
 
         pattern_counts = Counter(patterns)
         max_repetition = max(pattern_counts.values()) if pattern_counts else 0
-        most_repeated = (
-            max(pattern_counts, key=pattern_counts.get) if pattern_counts else None
-        )
+        most_repeated = max(pattern_counts, key=pattern_counts.get) if pattern_counts else None
 
         # Calculate entropy reduction from repetition
         total_patterns = len(patterns)
         unique_patterns = len(set(patterns))
-        entropy_reduction = (
-            1.0 - (unique_patterns / total_patterns) if total_patterns > 0 else 0
-        )
+        entropy_reduction = 1.0 - (unique_patterns / total_patterns) if total_patterns > 0 else 0
 
         return {
             "max_repetition": max_repetition,
@@ -719,9 +691,7 @@ class AdvancedSymbolicDeltaCompressor:
             )
 
             # Keep only recent history
-            self._compression_history[fold_key] = self._compression_history[fold_key][
-                -50:
-            ]
+            self._compression_history[fold_key] = self._compression_history[fold_key][-50:]
 
             # Calculate loop risk score
             compression_frequency = len(recent_compressions)
@@ -731,9 +701,7 @@ class AdvancedSymbolicDeltaCompressor:
                 else 0
             )
 
-            loop_risk_score = min(
-                1.0, (compression_frequency / 10.0) + (avg_stack_depth / 30.0)
-            )
+            loop_risk_score = min(1.0, (compression_frequency / 10.0) + (avg_stack_depth / 30.0))
 
             return {
                 "recent_compressions": compression_frequency,
@@ -743,7 +711,7 @@ class AdvancedSymbolicDeltaCompressor:
             }
 
         except Exception as e:
-            logger.error(f"Historical pattern check failed: {str(e)}")
+            logger.error(f"Historical pattern check failed: {e!s}")
             return {
                 "recent_compressions": 0,
                 "avg_stack_depth": 0,

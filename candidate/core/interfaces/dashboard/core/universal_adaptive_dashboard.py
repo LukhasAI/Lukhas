@@ -346,17 +346,11 @@ class UniversalAdaptiveDashboard:
         """Setup event handlers for adaptive behavior."""
 
         # Oracle Nervous System events
-        self.kernel_bus.subscribe(
-            "oracle_prediction_ready", self._handle_oracle_prediction
-        )
-        self.kernel_bus.subscribe(
-            "oracle_nervous_system_status", self._handle_oracle_status
-        )
+        self.kernel_bus.subscribe("oracle_prediction_ready", self._handle_oracle_prediction)
+        self.kernel_bus.subscribe("oracle_nervous_system_status", self._handle_oracle_status)
 
         # Ethics Swarm events
-        self.kernel_bus.subscribe(
-            "ethics_decision_complex", self._handle_ethics_complexity
-        )
+        self.kernel_bus.subscribe("ethics_decision_complex", self._handle_ethics_complexity)
         self.kernel_bus.subscribe("ethics_drift_detected", self._handle_ethics_drift)
 
         # System health events
@@ -366,9 +360,7 @@ class UniversalAdaptiveDashboard:
 
         # User interaction events
         self.kernel_bus.subscribe("user_emotional_state", self._handle_emotional_state)
-        self.kernel_bus.subscribe(
-            "user_interaction_pattern", self._handle_interaction_pattern
-        )
+        self.kernel_bus.subscribe("user_interaction_pattern", self._handle_interaction_pattern)
 
         self.logger.info("Event handlers configured for adaptive behavior")
 
@@ -513,21 +505,19 @@ class UniversalAdaptiveDashboard:
                         "oracle_requests_processed": oracle_status.get(
                             "performance_metrics", {}
                         ).get("requests_processed", 0),
-                        "oracle_success_rate": oracle_status.get(
-                            "performance_metrics", {}
-                        ).get("success_rate", 0.0),
-                        "oracle_response_time": oracle_status.get(
-                            "performance_metrics", {}
-                        ).get("average_response_time", 0.0),
+                        "oracle_success_rate": oracle_status.get("performance_metrics", {}).get(
+                            "success_rate", 0.0
+                        ),
+                        "oracle_response_time": oracle_status.get("performance_metrics", {}).get(
+                            "average_response_time", 0.0
+                        ),
                     }
                 )
 
             # Ethics Swarm status
             if self.ethics_swarm:
                 ethics_status = await self.ethics_swarm.get_system_status()
-                self.current_context.ethics_complexity = ethics_status.get(
-                    "complexity_level", 0.0
-                )
+                self.current_context.ethics_complexity = ethics_status.get("complexity_level", 0.0)
 
             # Drift monitoring
             drift_status = await self.drift_monitor.get_current_drift_status()
@@ -564,16 +554,12 @@ class UniversalAdaptiveDashboard:
             return DashboardMorphState.ETHICS_COMPLEX
 
         # High performance requirements
-        performance_load = self.current_context.performance_metrics.get(
-            "system_load", 0.0
-        )
+        performance_load = self.current_context.performance_metrics.get("system_load", 0.0)
         if performance_load > 0.8:
             return DashboardMorphState.HIGH_PERFORMANCE
 
         # Research/experimentation mode
-        active_experiments = self.current_context.system_health.get(
-            "active_experiments", 0
-        )
+        active_experiments = self.current_context.system_health.get("active_experiments", 0)
         if active_experiments > 0:
             return DashboardMorphState.RESEARCH_MODE
 
@@ -643,9 +629,7 @@ class UniversalAdaptiveDashboard:
                     tab.priority = tab_morph_rules["priority"]
 
         # Update active tabs list
-        self.active_tabs = [
-            tab for tab in self.registered_tabs.values() if tab.is_visible
-        ]
+        self.active_tabs = [tab for tab in self.registered_tabs.values() if tab.is_visible]
         self.active_tabs.sort(key=lambda t: t.priority.value)
 
         self.logger.info(
@@ -698,9 +682,7 @@ class UniversalAdaptiveDashboard:
                     await self._apply_predictive_adaptations(predictions)
 
                 # Threshold-based adaptations
-                threshold_adjustments = (
-                    await self.threshold_colony.get_recommended_adjustments()
-                )
+                threshold_adjustments = await self.threshold_colony.get_recommended_adjustments()
                 await self._apply_threshold_adaptations(threshold_adjustments)
 
                 await asyncio.sleep(10)  # Morphing engine frequency
@@ -800,9 +782,7 @@ class UniversalAdaptiveDashboard:
 
     async def _trigger_component_healing(self, component: str, health: float):
         """Trigger healing for a specific component."""
-        self.logger.info(
-            "Triggering component healing", component=component, health=health
-        )
+        self.logger.info("Triggering component healing", component=component, health=health)
         # Implementation details...
 
     async def _emergency_fallback(self):
@@ -811,6 +791,4 @@ class UniversalAdaptiveDashboard:
         self.logger.critical("Dashboard in emergency fallback mode")
 
 
-logger.info(
-    "ΛDASHBOARD: Universal Adaptive Dashboard core loaded. Morphing intelligence ready."
-)
+logger.info("ΛDASHBOARD: Universal Adaptive Dashboard core loaded. Morphing intelligence ready.")

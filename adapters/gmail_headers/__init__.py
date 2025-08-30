@@ -29,6 +29,7 @@ from .. import (
 
 class EmailHeaderMetadata(ResourceMetadata):
     """Extended metadata for email headers"""
+
     from_address: str
     to_addresses: list[str]
     cc_addresses: Optional[list[str]] = None
@@ -76,10 +77,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         await self._log_operation("initialize", success=True)
 
     async def verify_capability_token(
-        self,
-        token: str,
-        required_scopes: list[str],
-        resource_id: Optional[str] = None
+        self, token: str, required_scopes: list[str], resource_id: Optional[str] = None
     ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
@@ -93,7 +91,7 @@ class GmailHeadersAdapter(ServiceAdapter):
                     "lid": "gonzo",
                     "service": "gmail",
                     "scopes": required_scopes,
-                    "valid": True
+                    "valid": True,
                 }
             else:
                 raise ValueError("Invalid capability token")
@@ -103,7 +101,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         capability_token: str,
         parent_id: Optional[str] = None,  # Label/folder ID
         resource_type: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> list[EmailHeaderMetadata]:
         """
         List email headers (metadata only).
@@ -126,7 +124,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             await self._log_operation(
                 "list_resources",
                 success=True,
-                metadata={"count": len(emails), "parent_id": parent_id}
+                metadata={"count": len(emails), "parent_id": parent_id},
             )
 
             return emails
@@ -136,9 +134,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             raise
 
     async def get_resource_metadata(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> EmailHeaderMetadata:
         """
         Get detailed email headers for specific message.
@@ -156,26 +152,19 @@ class GmailHeadersAdapter(ServiceAdapter):
                 email_metadata = await self._fetch_gmail_message_headers(resource_id)
 
             await self._log_operation(
-                "get_resource_metadata",
-                resource_id=resource_id,
-                success=True
+                "get_resource_metadata", resource_id=resource_id, success=True
             )
 
             return email_metadata
 
         except Exception as e:
             await self._log_operation(
-                "get_resource_metadata",
-                resource_id=resource_id,
-                success=False,
-                error=str(e)
+                "get_resource_metadata", resource_id=resource_id, success=False, error=str(e)
             )
             raise
 
     async def get_resource_content(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> ResourceContent:
         """
         Get full email content including body and attachments.
@@ -196,24 +185,19 @@ class GmailHeadersAdapter(ServiceAdapter):
                 "get_resource_content",
                 resource_id=resource_id,
                 success=True,
-                metadata={"content_size": len(content.content)}
+                metadata={"content_size": len(content.content)},
             )
 
             return content
 
         except Exception as e:
             await self._log_operation(
-                "get_resource_content",
-                resource_id=resource_id,
-                success=False,
-                error=str(e)
+                "get_resource_content", resource_id=resource_id, success=False, error=str(e)
             )
             raise
 
     async def search_resources(
-        self,
-        capability_token: str,
-        query: SearchQuery
+        self, capability_token: str, query: SearchQuery
     ) -> list[EmailHeaderMetadata]:
         """
         Search emails by headers (sender, subject, date).
@@ -233,7 +217,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             await self._log_operation(
                 "search_resources",
                 success=True,
-                metadata={"query": query.query, "results": len(results)}
+                metadata={"query": query.query, "results": len(results)},
             )
 
             return results
@@ -250,7 +234,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         parent_id: Optional[str],
         name: str,
         content: bytes,
-        content_type: str
+        content_type: str,
     ) -> OperationResult:
         """Gmail is read-only through this adapter"""
         raise NotImplementedError("Gmail adapter is read-only")
@@ -260,7 +244,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         capability_token: str,
         resource_id: str,
         new_parent_id: str,
-        new_name: Optional[str] = None
+        new_name: Optional[str] = None,
     ) -> OperationResult:
         """Gmail messages can be labeled but not moved like files"""
         required_scopes = ["email.modify.labels"]
@@ -270,14 +254,10 @@ class GmailHeadersAdapter(ServiceAdapter):
         return OperationResult(
             success=True,
             resource_id=resource_id,
-            message=f"Labels updated for message {resource_id}"
+            message=f"Labels updated for message {resource_id}",
         )
 
-    async def watch_resources(
-        self,
-        capability_token: str,
-        watch_request
-    ) -> str:
+    async def watch_resources(self, capability_token: str, watch_request) -> str:
         """Set up Gmail push notifications"""
         required_scopes = ["email.watch"]
         await self.verify_capability_token(capability_token, required_scopes)
@@ -288,28 +268,23 @@ class GmailHeadersAdapter(ServiceAdapter):
         await self._log_operation(
             "watch_resources",
             success=True,
-            metadata={"watch_id": watch_id, "webhook": watch_request.webhook_url}
+            metadata={"watch_id": watch_id, "webhook": watch_request.webhook_url},
         )
 
         return watch_id
 
-    async def unwatch_resources(
-        self,
-        capability_token: str,
-        watch_id: str
-    ) -> OperationResult:
+    async def unwatch_resources(self, capability_token: str, watch_id: str) -> OperationResult:
         """Remove Gmail watch"""
         required_scopes = ["email.watch"]
         await self.verify_capability_token(capability_token, required_scopes)
 
-        return OperationResult(
-            success=True,
-            message=f"Watch {watch_id} removed"
-        )
+        return OperationResult(success=True, message=f"Watch {watch_id} removed")
 
     # Private helper methods
 
-    def _generate_mock_email_headers(self, limit: int, folder: Optional[str]) -> list[EmailHeaderMetadata]:
+    def _generate_mock_email_headers(
+        self, limit: int, folder: Optional[str]
+    ) -> list[EmailHeaderMetadata]:
         """Generate mock email headers for development"""
         mock_emails = []
 
@@ -318,7 +293,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             ("bob@company.com", "Bob Johnson"),
             ("noreply@service.com", "Service Notifications"),
             ("team@startup.io", "Startup Team"),
-            ("newsletter@blog.com", "Tech Blog")
+            ("newsletter@blog.com", "Tech Blog"),
         ]
 
         subjects = [
@@ -326,31 +301,33 @@ class GmailHeadersAdapter(ServiceAdapter):
             "Budget approval needed",
             "Your order has shipped",
             "Security alert: new login detected",
-            "Proposal review requested"
+            "Proposal review requested",
         ]
 
         for i in range(min(limit, 20)):
             sender_email, sender_name = senders[i % len(senders)]
             subject = subjects[i % len(subjects)]
 
-            mock_emails.append(EmailHeaderMetadata(
-                id=f"msg_{i+1:03d}",
-                name=subject,
-                type="email",
-                created_at=datetime.now(timezone.utc),
-                modified_at=datetime.now(timezone.utc),
-                from_address=f"{sender_name} <{sender_email}>",
-                to_addresses=["gonzo@lukhas.com"],
-                subject=subject,
-                date_sent=datetime.now(timezone.utc),
-                labels=["INBOX"] if not folder else [folder, "INBOX"],
-                thread_id=f"thread_{i+1:03d}",
-                message_id=f"<{i+1}@example.com>",
-                snippet=f"{subject[:50]}...",
-                has_attachments=i % 3 == 0,
-                is_unread=i % 4 == 0,
-                size=1024 + i * 512
-            ))
+            mock_emails.append(
+                EmailHeaderMetadata(
+                    id=f"msg_{i + 1:03d}",
+                    name=subject,
+                    type="email",
+                    created_at=datetime.now(timezone.utc),
+                    modified_at=datetime.now(timezone.utc),
+                    from_address=f"{sender_name} <{sender_email}>",
+                    to_addresses=["gonzo@lukhas.com"],
+                    subject=subject,
+                    date_sent=datetime.now(timezone.utc),
+                    labels=["INBOX"] if not folder else [folder, "INBOX"],
+                    thread_id=f"thread_{i + 1:03d}",
+                    message_id=f"<{i + 1}@example.com>",
+                    snippet=f"{subject[:50]}...",
+                    has_attachments=i % 3 == 0,
+                    is_unread=i % 4 == 0,
+                    size=1024 + i * 512,
+                )
+            )
 
         return mock_emails
 
@@ -374,7 +351,7 @@ class GmailHeadersAdapter(ServiceAdapter):
             has_attachments=True,
             is_unread=False,
             importance="high",
-            size=2048
+            size=2048,
         )
 
     def _generate_mock_email_content(self, message_id: str) -> ResourceContent:
@@ -403,7 +380,7 @@ This is a mock email generated for development purposes.
             metadata=metadata,
             content=email_body.encode("utf-8"),
             encoding="utf-8",
-            content_type="text/plain"
+            content_type="text/plain",
         )
 
     def _mock_search_emails(self, query: SearchQuery) -> list[EmailHeaderMetadata]:
@@ -415,17 +392,21 @@ This is a mock email generated for development purposes.
             filtered = []
             search_term = query.query.lower()
             for email in all_emails:
-                if (search_term in email.subject.lower() or
-                    search_term in email.from_address.lower() or
-                    search_term in (email.snippet or "").lower()):
+                if (
+                    search_term in email.subject.lower()
+                    or search_term in email.from_address.lower()
+                    or search_term in (email.snippet or "").lower()
+                ):
                     filtered.append(email)
-            return filtered[:query.limit]
+            return filtered[: query.limit]
 
-        return all_emails[:query.limit]
+        return all_emails[: query.limit]
 
 
 # Factory function for easy initialization
-async def create_gmail_adapter(consent_service: ConsentService = None, config: dict[str, Any] = None) -> GmailHeadersAdapter:
+async def create_gmail_adapter(
+    consent_service: ConsentService = None, config: dict[str, Any] = None
+) -> GmailHeadersAdapter:
     """Create and initialize Gmail headers adapter"""
     adapter = GmailHeadersAdapter(consent_service)
     await adapter.initialize(config or {"mock_mode": True})

@@ -6,9 +6,7 @@ from lukhas.observability.matriz_decorators import instrument
 
 
 @instrument("CONTEXT", label="orchestration:entry", capability="orchestrator:context")
-def build_context(
-    ctx_in: dict[str, Any], *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def build_context(ctx_in: dict[str, Any], *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     if mode != "dry_run":
         pass
     base = {

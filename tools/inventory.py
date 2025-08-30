@@ -40,9 +40,7 @@ def accepted_illegal_imports(files):
             continue
         for i, line in enumerate(lines, 1):
             if pat.search(line):
-                bad.append(
-                    {"file": str(f.relative_to(ROOT)), "line": i, "text": line.strip()}
-                )
+                bad.append({"file": str(f.relative_to(ROOT)), "line": i, "text": line.strip()})
     return bad
 
 

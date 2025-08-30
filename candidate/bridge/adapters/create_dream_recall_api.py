@@ -75,7 +75,7 @@ class LUKHASDreamEngine:
 
         for i in range(scenario.parallel_universes):
             # Simulate quantum branching
-            universe_id = f"u{i+1}_q{self.qi_state.randint(1000)}"
+            universe_id = f"u{i + 1}_q{self.qi_state.randint(1000)}"
 
             # Generate unique outcome based on quantum fluctuations
             outcome = await self._generate_outcome(
@@ -127,10 +127,7 @@ class LUKHASDreamEngine:
         trajectory = self._generate_emotional_trajectory(emotions, path)
 
         # Key decision points
-        decisions = [
-            {"point": step, "alternatives": self._get_alternatives(step)}
-            for step in path
-        ]
+        decisions = [{"point": step, "alternatives": self._get_alternatives(step)} for step in path]
 
         return {
             "description": f"In universe {universe_id}: {' → '.join(path)}",
@@ -235,9 +232,7 @@ async def dream_recall(scenario: DreamScenario):
         )
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Dream exploration failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Dream exploration failed: {e!s}")
 
 
 def calculate_quantum_coherence(outcomes: list[DreamOutcome]) -> float:
@@ -259,9 +254,7 @@ def calculate_quantum_coherence(outcomes: list[DreamOutcome]) -> float:
     return (coherence + emergence_alignment) / 2
 
 
-def extract_insights(
-    outcomes: list[DreamOutcome], scenario: DreamScenario
-) -> list[str]:
+def extract_insights(outcomes: list[DreamOutcome], scenario: DreamScenario) -> list[str]:
     """Extract key insights from dream exploration"""
     insights = []
 

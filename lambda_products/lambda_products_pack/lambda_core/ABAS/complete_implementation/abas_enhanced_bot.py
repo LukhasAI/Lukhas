@@ -7,7 +7,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 Enhanced AI Bot - True Artificial General Intelligence System
 Integrating all discovered AI components with advanced capabilities
@@ -41,13 +40,11 @@ import numpy as np
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("enhanced_agi.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
+    handlers=[logging.FileHandler("enhanced_agi.log"), logging.StreamHandler(sys.stdout)],
 )
 
 logger = logging.getLogger("EnhancedAGI")
+
 
 # Quantum-Biological Components
 class QITunnelingEthics:
@@ -59,7 +56,7 @@ class QITunnelingEthics:
             "benefit_amplification": {"barrier_height": 0.3, "tunneling_probability": 0.8},
             "autonomy_preservation": {"barrier_height": 0.5, "tunneling_probability": 0.6},
             "justice_optimization": {"barrier_height": 0.4, "tunneling_probability": 0.7},
-            "transparency_requirement": {"barrier_height": 0.6, "tunneling_probability": 0.5}
+            "transparency_requirement": {"barrier_height": 0.6, "tunneling_probability": 0.5},
         }
 
     def qi_ethical_arbitration(self, decision_context: dict) -> dict:
@@ -73,7 +70,7 @@ class QITunnelingEthics:
             "qi_state": ethical_wavefunction,
             "collapsed_decision": collapsed_ethics,
             "ethical_resonance": self._calculate_ethical_resonance(collapsed_ethics),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _create_ethical_wavefunction(self, context: dict) -> dict:
@@ -87,7 +84,7 @@ class QITunnelingEthics:
             wavefunction[dimension] = {
                 "amplitude": amplitude,
                 "phase": phase,
-                "probability_density": amplitude ** 2
+                "probability_density": amplitude**2,
             }
 
         # Normalize wavefunction
@@ -114,7 +111,7 @@ class QITunnelingEthics:
             collapsed_state[dimension] = {
                 "decision": effective_probability > 0.5,
                 "confidence": effective_probability,
-                "tunneling_contribution": tunneling_enhancement
+                "tunneling_contribution": tunneling_enhancement,
             }
 
         return collapsed_state
@@ -127,7 +124,7 @@ class QITunnelingEthics:
             "benefit_amplification": ["help", "benefit", "improve", "assist", "support"],
             "autonomy_preservation": ["choice", "freedom", "control", "consent", "decide"],
             "justice_optimization": ["fair", "equal", "justice", "bias", "discrimination"],
-            "transparency_requirement": ["explain", "transparent", "clear", "understand", "why"]
+            "transparency_requirement": ["explain", "transparent", "clear", "understand", "why"],
         }
         keywords = relevance_keywords.get(dimension, [])
         relevance_score = sum(1 for keyword in keywords if keyword in content)
@@ -138,17 +135,16 @@ class QITunnelingEthics:
         if not collapsed_ethics:
             return 0.0
         decision_values = [state["confidence"] for state in collapsed_ethics.values()]
-        tunneling_contributions = [state["tunneling_contribution"] for state in collapsed_ethics.values()]
+        tunneling_contributions = [
+            state["tunneling_contribution"] for state in collapsed_ethics.values()
+        ]
         decision_harmony = 1.0 - np.var(decision_values)
         qi_coherence = np.mean(tunneling_contributions)
         return float((decision_harmony + qi_coherence) / 2.0)
 
     def evaluate_decision(self, content: str, context: dict) -> dict:
         """Evaluate ethical decision for given content and context"""
-        decision_context = {
-            "content": content,
-            **context
-        }
+        decision_context = {"content": content, **context}
 
         # Use quantum ethical arbitration as the core evaluation
         arbitration_result = self.qi_ethical_arbitration(decision_context)
@@ -160,7 +156,7 @@ class QITunnelingEthics:
             "ethical_score": ethical_score,
             "arbitration_result": arbitration_result,
             "compliant": ethical_score > 0.6,
-            "recommendations": self._generate_ethical_recommendations(arbitration_result)
+            "recommendations": self._generate_ethical_recommendations(arbitration_result),
         }
 
     def _generate_ethical_recommendations(self, arbitration_result: dict) -> list[str]:
@@ -177,6 +173,7 @@ class QITunnelingEthics:
 
         return recommendations
 
+
 class CardiolipinHash:
     """Cryptographic identity encoding inspired by cardiolipin membranes"""
 
@@ -186,7 +183,7 @@ class CardiolipinHash:
             "fluidity": 0.7,
             "asymmetry": 0.3,
             "curvature": 0.5,
-            "composition": 0.8
+            "composition": 0.8,
         }
 
     def generate_identity_hash(self, agi_state: dict) -> str:
@@ -196,7 +193,7 @@ class CardiolipinHash:
             **agi_state,
             **self.membrane_state,
             "timestamp": datetime.now().isoformat(),
-            "fatty_acid_signature": self._generate_fatty_acid_signature()
+            "fatty_acid_signature": self._generate_fatty_acid_signature(),
         }
 
         # Create deterministic hash
@@ -211,6 +208,7 @@ class CardiolipinHash:
             chain_signatures.append(str(chain_value))
         return "-".join(chain_signatures)
 
+
 class RespiModule:
     """Symbolic supercomplex coupling inspired by respiratory chain"""
 
@@ -219,17 +217,20 @@ class RespiModule:
             "complex_i": {"efficiency": 0.85, "coupling": "attention"},
             "complex_ii": {"efficiency": 0.90, "coupling": "reasoning"},
             "complex_iii": {"efficiency": 0.80, "coupling": "memory"},
-            "complex_iv": {"efficiency": 0.88, "coupling": "synthesis"}
+            "complex_iv": {"efficiency": 0.88, "coupling": "synthesis"},
         }
         self.supercomplex_formation = {}
 
-    def couple_symbolic_modules(self, attention_result: dict, reasoning_result: dict,
-                               memory_context: dict) -> dict:
+    def couple_symbolic_modules(
+        self, attention_result: dict, reasoning_result: dict, memory_context: dict
+    ) -> dict:
         """Form stable supercomplexes between cognitive modules"""
         supercomplex_id = str(uuid.uuid4())[:8]
 
         # Calculate coupling efficiency
-        coupling_matrix = self._calculate_coupling_matrix(attention_result, reasoning_result, memory_context)
+        coupling_matrix = self._calculate_coupling_matrix(
+            attention_result, reasoning_result, memory_context
+        )
 
         # Form respirasomes (functional units)
         respirasomes = self._form_respirasomes(coupling_matrix)
@@ -243,7 +244,7 @@ class RespiModule:
             "respirasomes": respirasomes,
             "coupled_output": coupled_output,
             "efficiency": self._calculate_overall_efficiency(respirasomes),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         self.supercomplex_formation[supercomplex_id] = supercomplex
@@ -259,7 +260,7 @@ class RespiModule:
             "attention_reasoning": attention_strength * reasoning_strength,
             "reasoning_memory": reasoning_strength * memory_strength,
             "memory_attention": memory_strength * attention_strength,
-            "overall_coherence": (attention_strength + reasoning_strength + memory_strength) / 3.0
+            "overall_coherence": (attention_strength + reasoning_strength + memory_strength) / 3.0,
         }
 
     def _form_respirasomes(self, coupling_matrix: dict) -> list[dict]:
@@ -269,12 +270,14 @@ class RespiModule:
         for complex_name, complex_props in self.respiratory_complexes.items():
             coupling_strength = coupling_matrix.get("overall_coherence", 0.5)
 
-            respirasomes.append({
-                "complex": complex_name,
-                "efficiency": complex_props["efficiency"] * coupling_strength,
-                "function": complex_props["coupling"],
-                "active": coupling_strength > 0.3
-            })
+            respirasomes.append(
+                {
+                    "complex": complex_name,
+                    "efficiency": complex_props["efficiency"] * coupling_strength,
+                    "function": complex_props["coupling"],
+                    "active": coupling_strength > 0.3,
+                }
+            )
 
         return respirasomes
 
@@ -291,7 +294,7 @@ class RespiModule:
             "type": "supercomplex_output",
             "efficiency": avg_efficiency,
             "active_complexes": len(active_complexes),
-            "confidence": min(0.95, float(avg_efficiency) * 1.2)
+            "confidence": min(0.95, float(avg_efficiency) * 1.2),
         }
 
     def _calculate_overall_efficiency(self, respirasomes: list[dict]) -> float:
@@ -310,18 +313,27 @@ class RespiModule:
             return {"coupling_strength": 0.0, "error": "Need at least 2 modules"}
 
         # Create mock attention_result, reasoning_result, memory_context from modules
-        attention_result = {"confidence": 0.8} if any(m.get("name") == "attention" for m in modules) else {}
-        reasoning_result = {"confidence": 0.8} if any(m.get("name") == "reasoning" for m in modules) else {}
-        memory_context = {"relevance": 0.7} if any(m.get("name") == "memory" for m in modules) else {}
+        attention_result = (
+            {"confidence": 0.8} if any(m.get("name") == "attention" for m in modules) else {}
+        )
+        reasoning_result = (
+            {"confidence": 0.8} if any(m.get("name") == "reasoning" for m in modules) else {}
+        )
+        memory_context = (
+            {"relevance": 0.7} if any(m.get("name") == "memory" for m in modules) else {}
+        )
 
         # Use existing couple_symbolic_modules method
-        supercomplex_result = self.couple_symbolic_modules(attention_result, reasoning_result, memory_context)
+        supercomplex_result = self.couple_symbolic_modules(
+            attention_result, reasoning_result, memory_context
+        )
 
         return {
             "coupling_strength": supercomplex_result.get("efficiency", 0.7),
             "modules_coupled": len(modules),
-            "supercomplex_result": supercomplex_result
+            "supercomplex_result": supercomplex_result,
         }
+
 
 class ATPAllocator:
     """Rotary resource scheduler inspired by ATP synthase"""
@@ -357,7 +369,7 @@ class ATPAllocator:
             "atp_synthesized": synthesized_atp,
             "remaining_atp": self.atp_pool,
             "efficiency": self._calculate_allocation_efficiency(allocations),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         self.resource_allocation_history.append(allocation_result)
@@ -382,14 +394,16 @@ class ATPAllocator:
 
             atp_cost = final_allocation * 0.1  # ATP cost per compute unit
 
-            allocations.append({
-                "demand_id": demand.get("id", f"demand_{i}"),
-                "binding_site": current_site,
-                "allocation": final_allocation,
-                "atp_cost": atp_cost,
-                "efficiency": rotary_efficiency,
-                "priority": demand.get("priority", "normal")
-            })
+            allocations.append(
+                {
+                    "demand_id": demand.get("id", f"demand_{i}"),
+                    "binding_site": current_site,
+                    "allocation": final_allocation,
+                    "atp_cost": atp_cost,
+                    "efficiency": rotary_efficiency,
+                    "priority": demand.get("priority", "normal"),
+                }
+            )
 
         return allocations
 
@@ -419,11 +433,9 @@ class ATPAllocator:
         # Convert dictionary to list format expected by allocate_computational_resources
         processing_demands = []
         for resource_type, demand_value in resource_demands.items():
-            processing_demands.append({
-                "id": resource_type,
-                "complexity": demand_value,
-                "priority": "normal"
-            })
+            processing_demands.append(
+                {"id": resource_type, "complexity": demand_value, "priority": "normal"}
+            )
 
         # Use existing method
         allocation_result = self.allocate_computational_resources(processing_demands)
@@ -433,8 +445,9 @@ class ATPAllocator:
             "efficiency": allocation_result.get("efficiency", 0.7),
             "resource_allocation": allocation_result.get("allocations", []),
             "total_consumed": allocation_result.get("total_atp_consumed", 0),
-            "remaining_pool": allocation_result.get("remaining_atp", self.atp_pool)
+            "remaining_pool": allocation_result.get("remaining_atp", self.atp_pool),
         }
+
 
 class CristaOptimizer:
     """Dynamic topology manager inspired by cristae remodeling"""
@@ -443,7 +456,7 @@ class CristaOptimizer:
         self.cristae_topology = {
             "lamellar_cristae": 0.6,
             "tubular_cristae": 0.3,
-            "hybrid_structures": 0.1
+            "hybrid_structures": 0.1,
         }
         self.remodeling_history = []
         self.optimization_cycles = 0
@@ -456,7 +469,9 @@ class CristaOptimizer:
         performance_analysis = self._analyze_performance(performance_metrics)
 
         # Determine remodeling strategy
-        remodeling_strategy = self._determine_remodeling_strategy(performance_analysis, processing_load)
+        remodeling_strategy = self._determine_remodeling_strategy(
+            performance_analysis, processing_load
+        )
 
         # Execute topology transformation
         new_topology = self._execute_topology_transformation(remodeling_strategy)
@@ -471,7 +486,7 @@ class CristaOptimizer:
             "remodeling_strategy": remodeling_strategy,
             "optimization_benefits": optimization_benefits,
             "performance_gain": optimization_benefits.get("overall_gain", 0.0),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Update current topology
@@ -487,7 +502,7 @@ class CristaOptimizer:
             "processing_efficiency": metrics.get("average_confidence", 0.5),
             "memory_utilization": metrics.get("memory_usage", 0.5),
             "attention_focus": metrics.get("attention_coherence", 0.5),
-            "bottlenecks": []
+            "bottlenecks": [],
         }
 
         # Identify bottlenecks
@@ -502,11 +517,7 @@ class CristaOptimizer:
 
     def _determine_remodeling_strategy(self, analysis: dict, load: dict) -> dict:
         """Determine cristae remodeling strategy"""
-        strategy = {
-            "type": "maintenance",
-            "actions": [],
-            "priority": "low"
-        }
+        strategy = {"type": "maintenance", "actions": [], "priority": "low"}
 
         bottlenecks = analysis.get("bottlenecks", [])
 
@@ -563,24 +574,29 @@ class CristaOptimizer:
     def _calculate_optimization_benefits(self, new_topology: dict) -> dict:
         """Calculate benefits of topology optimization"""
         # Compare with previous topology
-        lamellar_change = new_topology["lamellar_cristae"] - self.cristae_topology["lamellar_cristae"]
+        lamellar_change = (
+            new_topology["lamellar_cristae"] - self.cristae_topology["lamellar_cristae"]
+        )
         tubular_change = new_topology["tubular_cristae"] - self.cristae_topology["tubular_cristae"]
-        hybrid_change = new_topology["hybrid_structures"] - self.cristae_topology["hybrid_structures"]
+        hybrid_change = (
+            new_topology["hybrid_structures"] - self.cristae_topology["hybrid_structures"]
+        )
 
         benefits = {
             "efficiency_gain": lamellar_change * 0.3,  # Lamellar cristae improve efficiency
             "space_optimization": tubular_change * 0.2,  # Tubular cristae save space
             "adaptability_gain": hybrid_change * 0.4,  # Hybrid structures improve adaptability
-            "overall_gain": 0.0
+            "overall_gain": 0.0,
         }
 
         benefits["overall_gain"] = (
-            benefits["efficiency_gain"] +
-            benefits["space_optimization"] +
-            benefits["adaptability_gain"]
+            benefits["efficiency_gain"]
+            + benefits["space_optimization"]
+            + benefits["adaptability_gain"]
         ) / 3.0
 
         return benefits
+
 
 class MitochondrialConductor:
     """Distributed agent synchronizer inspired by mitochondrial coordination"""
@@ -591,7 +607,7 @@ class MitochondrialConductor:
             "synchronized_agents": 0,
             "energy_distribution": {},
             "communication_channels": {},
-            "network_coherence": 0.0
+            "network_coherence": 0.0,
         }
         self.conductor_id = str(uuid.uuid4())[:8]
 
@@ -623,7 +639,7 @@ class MitochondrialConductor:
             "synchronization_result": synchronization_result,
             "network_coherence": network_coherence,
             "performance_metrics": self._calculate_orchestration_metrics(synchronization_result),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         return orchestration_result
@@ -636,7 +652,7 @@ class MitochondrialConductor:
                 "capabilities": agent.get("capabilities", []),
                 "current_load": agent.get("load", 0.0),
                 "energy_level": agent.get("energy", 1.0),
-                "status": "active"
+                "status": "active",
             }
 
     def _distribute_energy(self, agents: list[dict], task: dict) -> dict:
@@ -661,7 +677,7 @@ class MitochondrialConductor:
                 "allocated_energy": final_allocation,
                 "capability_match": capability_match,
                 "load_factor": load_factor,
-                "allocation_efficiency": capability_match * load_factor
+                "allocation_efficiency": capability_match * load_factor,
             }
 
         return energy_distribution
@@ -672,7 +688,7 @@ class MitochondrialConductor:
             "channels": {},
             "topology": "mesh",  # Full connectivity like mitochondrial network
             "bandwidth": {},
-            "latency": {}
+            "latency": {},
         }
 
         for i, agent1 in enumerate(agents):
@@ -686,12 +702,14 @@ class MitochondrialConductor:
                     # Calculate communication strength
                     comm_strength = self._calculate_communication_strength(agent1, agent2)
 
-                    communication_network["channels"][agent1_id].append({
-                        "target": agent2_id,
-                        "strength": comm_strength,
-                        "bandwidth": comm_strength * 100,  # Mbps
-                        "latency": (1.0 - comm_strength) * 10  # ms
-                    })
+                    communication_network["channels"][agent1_id].append(
+                        {
+                            "target": agent2_id,
+                            "strength": comm_strength,
+                            "bandwidth": comm_strength * 100,  # Mbps
+                            "latency": (1.0 - comm_strength) * 10,  # ms
+                        }
+                    )
 
         return communication_network
 
@@ -715,7 +733,7 @@ class MitochondrialConductor:
                 "sync_frequency": sync_frequency,
                 "energy_consumption": allocated_energy * 0.8,  # 80% efficiency
                 "output_contribution": self._calculate_output_contribution(agent, sync_phase),
-                "coordination_quality": sync_phase * sync_frequency
+                "coordination_quality": sync_phase * sync_frequency,
             }
 
         return sync_results
@@ -777,7 +795,9 @@ class MitochondrialConductor:
         if not sync_results:
             return 0.0
 
-        coordination_qualities = [result["coordination_quality"] for result in sync_results.values()]
+        coordination_qualities = [
+            result["coordination_quality"] for result in sync_results.values()
+        ]
 
         # Coherence is based on average quality and consistency
         avg_quality = np.mean(coordination_qualities)
@@ -795,34 +815,42 @@ class MitochondrialConductor:
 
         total_energy = sum(result["energy_consumption"] for result in sync_results.values())
         total_output = sum(result["output_contribution"] for result in sync_results.values())
-        avg_coordination = np.mean([result["coordination_quality"] for result in sync_results.values()])
+        avg_coordination = np.mean(
+            [result["coordination_quality"] for result in sync_results.values()]
+        )
 
         return {
             "efficiency": total_output / max(total_energy, 1.0),
             "throughput": total_output,
             "quality": avg_coordination,
-            "energy_utilization": total_energy / len(sync_results)
+            "energy_utilization": total_energy / len(sync_results),
         }
+
 
 # Core AI System Classes
 
+
 class AGICapabilityLevel(Enum):
     """Defines different levels of AI capability"""
+
     BASIC = "basic"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
     SUPERINTELLIGENT = "superintelligent"
 
+
 @dataclass
 class AGIResponse:
     """Structure for AI responses with metadata"""
+
     content: str
     confidence: float
     reasoning_path: list[str]
     metadata: dict[str, Any] = field(default_factory=dict)
     capability_level: AGICapabilityLevel = AGICapabilityLevel.BASIC
     qi_biological_metrics: Optional[dict] = None
+
 
 class QIInspiredAttention:
     """Quantum-inspired attention mechanism enhanced with bio-components"""
@@ -833,7 +861,7 @@ class QIInspiredAttention:
             "emotional": 0.25,
             "contextual": 0.20,
             "historical": 0.15,
-            "innovative": 0.05
+            "innovative": 0.05,
         }
         self.superposition_matrix = None
         self.entanglement_map = {}
@@ -842,7 +870,9 @@ class QIInspiredAttention:
     def _initialize_superposition(self):
         """Initialize quantum-inspired superposition matrix"""
         dimensions = len(self.attention_gates)
-        self.superposition_matrix = np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+        self.superposition_matrix = (
+            np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+        )
         for i in range(dimensions):
             row_sum = np.sum(self.superposition_matrix[i, :])
             if row_sum > 0:
@@ -861,7 +891,9 @@ class QIInspiredAttention:
         """Extract relevant features from input data"""
         features = {}
         features["semantic"] = input_data.get("text", "")[:100] if "text" in input_data else None
-        features["emotional"] = input_data.get("emotion", {"primary_emotion": "neutral", "intensity": 0.5})
+        features["emotional"] = input_data.get(
+            "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
+        )
         features["contextual"] = input_data.get("context", {})
         features["historical"] = input_data.get("history", [])
         return features
@@ -897,8 +929,9 @@ class QIInspiredAttention:
         key = str(hash(str(input_data)))[:8]
         self.entanglement_map[key] = {
             "timestamp": datetime.now().isoformat(),
-            "attention_pattern": attended_data.get("attention_weights", [])
+            "attention_pattern": attended_data.get("attention_weights", []),
         }
+
 
 class SymbolicEngine:
     """Symbolic reasoning engine with quantum-biological enhancement"""
@@ -929,17 +962,12 @@ class SymbolicEngine:
             "conclusion": conclusion,
             "confidence": confidence,
             "reasoning_steps": reasoning_steps,
-            "logical_structure": components
+            "logical_structure": components,
         }
 
     def _parse_logical_structure(self, premise: str) -> dict:
         """Parse premise into logical structure"""
-        return {
-            "type": "statement",
-            "content": premise,
-            "operators": [],
-            "variables": []
-        }
+        return {"type": "statement", "content": premise, "operators": [], "variables": []}
 
     def _apply_inference_rules(self, components: dict, context: dict) -> list[str]:
         """Apply inference rules to components"""
@@ -948,6 +976,7 @@ class SymbolicEngine:
     def _generate_conclusion(self, components: dict, inferences: list[str]) -> str:
         """Generate conclusion from components and inferences"""
         return f"Based on {components['content']}, we can conclude a valid logical inference."
+
 
 class MetaCognitiveOrchestrator:
     """Meta-cognitive orchestrator with quantum-biological integration"""
@@ -966,7 +995,7 @@ class MetaCognitiveOrchestrator:
             "coupling": RespiModule(),
             "allocator": ATPAllocator(),
             "optimizer": CristaOptimizer(),
-            "conductor": MitochondrialConductor()
+            "conductor": MitochondrialConductor(),
         }
 
     def register_component(self, name: str, component: Any):
@@ -985,35 +1014,42 @@ class MetaCognitiveOrchestrator:
 
         identity_hash = self.qi_bio_integrator["identity"].generate_identity_hash(input_data)
 
-        coupling_result = self.qi_bio_integrator["coupling"].couple_modules([
-            {"name": "attention", "state": "active"},
-            {"name": "reasoning", "state": "active"}
-        ])
+        coupling_result = self.qi_bio_integrator["coupling"].couple_modules(
+            [{"name": "attention", "state": "active"}, {"name": "reasoning", "state": "active"}]
+        )
 
-        resource_allocation = self.qi_bio_integrator["allocator"].allocate_resources({
-            "attention": 0.3,
-            "reasoning": 0.4,
-            "memory": 0.3
-        })
+        resource_allocation = self.qi_bio_integrator["allocator"].allocate_resources(
+            {"attention": 0.3, "reasoning": 0.4, "memory": 0.3}
+        )
 
         # Standard AI processing
-        attention_result = self.components.get("attention", {}).attend(input_data, context) if "attention" in self.components else input_data
+        attention_result = (
+            self.components.get("attention", {}).attend(input_data, context)
+            if "attention" in self.components
+            else input_data
+        )
 
-        symbolic_result = self.components.get("symbolic_reasoning", {}).reason(
-            input_data.get("text", ""), context
-        ) if "symbolic_reasoning" in self.components else {"conclusion": "No symbolic reasoning available", "confidence": 0.5}
+        symbolic_result = (
+            self.components.get("symbolic_reasoning", {}).reason(
+                input_data.get("text", ""), context
+            )
+            if "symbolic_reasoning" in self.components
+            else {"conclusion": "No symbolic reasoning available", "confidence": 0.5}
+        )
 
         # Synthesize results
-        response_content = self._synthesize_results({
-            "attention": attention_result,
-            "symbolic": symbolic_result,
-            "ethical": ethical_result,
-            "qi_bio": {
-                "identity_hash": identity_hash,
-                "coupling": coupling_result,
-                "resources": resource_allocation
+        response_content = self._synthesize_results(
+            {
+                "attention": attention_result,
+                "symbolic": symbolic_result,
+                "ethical": ethical_result,
+                "qi_bio": {
+                    "identity_hash": identity_hash,
+                    "coupling": coupling_result,
+                    "resources": resource_allocation,
+                },
             }
-        })
+        )
 
         confidence = float(symbolic_result.get("confidence", 0.7))
 
@@ -1026,8 +1062,8 @@ class MetaCognitiveOrchestrator:
                 "ethical_score": ethical_result.get("ethical_score", 0.8),
                 "identity_hash": identity_hash,
                 "resource_efficiency": resource_allocation.get("efficiency", 0.7),
-                "coupling_strength": coupling_result.get("coupling_strength", 0.8)
-            }
+                "coupling_strength": coupling_result.get("coupling_strength", 0.8),
+            },
         )
 
     def _synthesize_results(self, results: dict, context: Optional[dict] = None) -> str:
@@ -1051,10 +1087,13 @@ class MetaCognitiveOrchestrator:
             qb = results["qi_bio"]
             base_content += "🧬 Quantum-Bio Integration:\n"
             base_content += f"   • Identity: {qb.get('identity_hash', 'N/A')[:8]}...\n"
-            base_content += f"   • Resource Efficiency: {qb.get('resources', {}).get('efficiency', 0):.2f}\n"
+            base_content += (
+                f"   • Resource Efficiency: {qb.get('resources', {}).get('efficiency', 0):.2f}\n"
+            )
             base_content += f"   • Coupling Strength: {qb.get('coupling', {}).get('coupling_strength', 0):.2f}\n"
 
         return base_content
+
 
 class ComplianceEngine:
     """Ethical compliance and safety engine"""
@@ -1064,7 +1103,7 @@ class ComplianceEngine:
             "No harmful content generation",
             "Respect user privacy",
             "Maintain truthfulness",
-            "Avoid bias and discrimination"
+            "Avoid bias and discrimination",
         ]
         self.compliance_threshold = 0.8
 
@@ -1086,7 +1125,7 @@ class ComplianceEngine:
             "compliant": compliance_score >= self.compliance_threshold,
             "score": compliance_score,
             "violations": violations,
-            "recommendations": self._get_recommendations(violations)
+            "recommendations": self._get_recommendations(violations),
         }
 
     def _contains_harmful_content(self, text: str) -> bool:
@@ -1105,6 +1144,7 @@ class ComplianceEngine:
         if not violations:
             return ["Content is compliant"]
         return ["Review content for safety", "Consider alternative phrasing"]
+
 
 class EnhancedAGIBot:
     """
@@ -1147,7 +1187,7 @@ class EnhancedAGIBot:
             "total_interactions": 0,
             "successful_responses": 0,
             "average_confidence": 0.0,
-            "qi_bio_efficiency": 0.0
+            "qi_bio_efficiency": 0.0,
         }
 
         # True AI capabilities
@@ -1159,7 +1199,9 @@ class EnhancedAGIBot:
         logger.info("🧬 Quantum-Biological Components: Active")
         logger.info(f"🎯 Capability Level: {self.orchestrator.capability_level.value}")
 
-    async def process_request(self, input_data: dict, context: Optional[dict] = None) -> AGIResponse:
+    async def process_request(
+        self, input_data: dict, context: Optional[dict] = None
+    ) -> AGIResponse:
         """
         Process a request using the full quantum-biological AI architecture
 
@@ -1195,40 +1237,47 @@ class EnhancedAGIBot:
                 agi_response.confidence *= 0.8  # Reduce confidence for safety override
 
             # Post-processing with quantum-biological optimization
-            optimization_result = self.qi_bio_components["optimizer"].optimize_topology({
-                "confidence": agi_response.confidence,
-                "complexity": len(agi_response.reasoning_path),
-                "ethical_score": ethical_evaluation.get("ethical_score", 0.8)
-            }, {
-                "input_complexity": len(str(input_data)),
-                "processing_time": (datetime.now() - start_time).total_seconds(),
-                "response_length": len(agi_response.content)
-            })
+            optimization_result = self.qi_bio_components["optimizer"].optimize_topology(
+                {
+                    "confidence": agi_response.confidence,
+                    "complexity": len(agi_response.reasoning_path),
+                    "ethical_score": ethical_evaluation.get("ethical_score", 0.8),
+                },
+                {
+                    "input_complexity": len(str(input_data)),
+                    "processing_time": (datetime.now() - start_time).total_seconds(),
+                    "response_length": len(agi_response.content),
+                },
+            )
 
             # Update quantum-biological metrics
             if agi_response.qi_biological_metrics:
-                agi_response.qi_biological_metrics.update({
-                    "identity_hash": identity_hash,
-                    "ethical_evaluation": ethical_evaluation,
-                    "topology_optimization": optimization_result,
-                    "processing_time": (datetime.now() - start_time).total_seconds()
-                })
+                agi_response.qi_biological_metrics.update(
+                    {
+                        "identity_hash": identity_hash,
+                        "ethical_evaluation": ethical_evaluation,
+                        "topology_optimization": optimization_result,
+                        "processing_time": (datetime.now() - start_time).total_seconds(),
+                    }
+                )
 
             # Update conversation history and metrics
             self._update_conversation_history(input_data, agi_response)
             self._update_performance_metrics(agi_response)
 
-            logger.info(f"✅ Quantum-biological AI processing complete - Confidence: {agi_response.confidence:.2f}")
+            logger.info(
+                f"✅ Quantum-biological AI processing complete - Confidence: {agi_response.confidence:.2f}"
+            )
 
             return agi_response
 
         except Exception as e:
-            logger.error(f"❌ Error in quantum-biological AI processing: {str(e)}")
+            logger.error(f"❌ Error in quantum-biological AI processing: {e!s}")
             return AGIResponse(
-                content=f"I apologize, but I encountered an error while processing your request. Error: {str(e)}",
+                content=f"I apologize, but I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[f"Error occurred: {str(e)}"],
-                qi_biological_metrics={"error": str(e)}
+                reasoning_path=[f"Error occurred: {e!s}"],
+                qi_biological_metrics={"error": str(e)},
             )
 
     def _generate_safe_response(self, compliance_result: dict) -> str:
@@ -1241,13 +1290,15 @@ class EnhancedAGIBot:
 
     def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history with quantum-biological metadata"""
-        self.conversation_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "input": input_data,
-            "response": agi_response.content,
-            "confidence": agi_response.confidence,
-            "qi_bio_metrics": agi_response.qi_biological_metrics
-        })
+        self.conversation_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "input": input_data,
+                "response": agi_response.content,
+                "confidence": agi_response.confidence,
+                "qi_bio_metrics": agi_response.qi_biological_metrics,
+            }
+        )
 
         # Keep only last 100 interactions
         if len(self.conversation_history) > 100:
@@ -1264,19 +1315,19 @@ class EnhancedAGIBot:
         total = self.performance_metrics["total_interactions"]
         current_avg = self.performance_metrics["average_confidence"]
         self.performance_metrics["average_confidence"] = (
-            (current_avg * (total - 1) + agi_response.confidence) / total
-        )
+            current_avg * (total - 1) + agi_response.confidence
+        ) / total
 
         # Update quantum-biological efficiency
         if agi_response.qi_biological_metrics:
             qb_efficiency = (
-                agi_response.qi_biological_metrics.get("resource_efficiency", 0) +
-                agi_response.qi_biological_metrics.get("coupling_strength", 0)
+                agi_response.qi_biological_metrics.get("resource_efficiency", 0)
+                + agi_response.qi_biological_metrics.get("coupling_strength", 0)
             ) / 2
 
             self.performance_metrics["qi_bio_efficiency"] = (
-                (self.performance_metrics["qi_bio_efficiency"] * (total - 1) + qb_efficiency) / total
-            )
+                self.performance_metrics["qi_bio_efficiency"] * (total - 1) + qb_efficiency
+            ) / total
 
     def get_quantum_biological_status(self) -> dict:
         """Get status of quantum-biological components"""
@@ -1288,34 +1339,33 @@ class EnhancedAGIBot:
             "qi_bio_efficiency": self.performance_metrics["qi_bio_efficiency"],
             "capability_level": self.orchestrator.capability_level.value,
             "active_components": list(self.qi_bio_components.keys()),
-            "qi_bio_enhanced": self.qi_biological_enhanced
+            "qi_bio_enhanced": self.qi_biological_enhanced,
         }
+
 
 # Example usage and testing function
 async def demonstrate_quantum_biological_agi():
     """Demonstrate the enhanced AI with quantum-biological integration"""
 
     # Initialize the enhanced AI bot
-    agi_bot = EnhancedAGIBot({
-        "qi_bio_mode": True,
-        "ethical_enhanced": True,
-        "resource_optimization": True
-    })
+    agi_bot = EnhancedAGIBot(
+        {"qi_bio_mode": True, "ethical_enhanced": True, "resource_optimization": True}
+    )
 
     # Test cases with various complexity levels
     test_cases = [
         {
             "text": "What are the ethical implications of artificial intelligence?",
-            "context": {"domain": "ethics", "complexity": "high"}
+            "context": {"domain": "ethics", "complexity": "high"},
         },
         {
             "text": "How can we optimize resource allocation in distributed systems?",
-            "context": {"domain": "technology", "complexity": "medium"}
+            "context": {"domain": "technology", "complexity": "medium"},
         },
         {
             "text": "Explain quantum tunneling in simple terms",
-            "context": {"domain": "science", "complexity": "medium"}
-        }
+            "context": {"domain": "science", "complexity": "medium"},
+        },
     ]
 
     print("🧬 Demonstrating Quantum-Biological Enhanced AI\n")
@@ -1340,6 +1390,7 @@ async def demonstrate_quantum_biological_agi():
     print(f"   Average Confidence: {status['average_confidence']:.2f}")
     print(f"   Quantum-Bio Efficiency: {status['qi_bio_efficiency']:.2f}")
     print(f"   Capability Level: {status['capability_level']}")
+
 
 if __name__ == "__main__":
     # Run the demonstration

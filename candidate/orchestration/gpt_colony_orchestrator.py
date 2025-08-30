@@ -113,9 +113,7 @@ class GPTColonyOrchestrator:
 
         # Register some default agents
         for i in range(5):
-            self.colony_consensus[colony_id].register_agent(
-                f"{colony_id}_agent_{i}", weight=1.0
-            )
+            self.colony_consensus[colony_id].register_agent(f"{colony_id}_agent_{i}", weight=1.0)
 
         logger.info(f"Registered colony {colony_id} for orchestration")
 
@@ -163,9 +161,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _parallel_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _parallel_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """GPT and Colony process in parallel, results combined"""
 
         # Create parallel tasks
@@ -222,9 +218,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _sequential_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _sequential_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """Process with GPT first, then refine with Colony"""
 
         # First, process with GPT
@@ -260,15 +254,11 @@ class GPTColonyOrchestrator:
             result.confidence = colony_response.confidence
         elif gpt_response:
             result.final_decision = gpt_response.get("response")
-            result.confidence = (
-                gpt_response.get("confidence", 0.5) * 0.8
-            )  # Reduce confidence
+            result.confidence = gpt_response.get("confidence", 0.5) * 0.8  # Reduce confidence
 
         return result
 
-    async def _competitive_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _competitive_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """GPT and Colony compete, best solution wins"""
 
         # Process in parallel
@@ -309,15 +299,11 @@ class GPTColonyOrchestrator:
 
         # Winner takes all
         if gpt_score > colony_score:
-            result.final_decision = (
-                gpt_response.get("response") if gpt_response else None
-            )
+            result.final_decision = gpt_response.get("response") if gpt_response else None
             result.confidence = gpt_score
             result.metadata["winner"] = "gpt"
         else:
-            result.final_decision = (
-                colony_response.decision if colony_response else None
-            )
+            result.final_decision = colony_response.decision if colony_response else None
             result.confidence = colony_score
             result.metadata["winner"] = "colony"
 
@@ -328,9 +314,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _collaborative_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _collaborative_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """Iterative refinement between GPT and Colony"""
 
         max_iterations = 3
@@ -375,9 +359,7 @@ class GPTColonyOrchestrator:
             current_context["iteration"] = iteration + 1
 
             # Check convergence
-            new_confidence = (
-                gpt_response.get("confidence", 0.5) + colony_response.confidence
-            ) / 2
+            new_confidence = (gpt_response.get("confidence", 0.5) + colony_response.confidence) / 2
 
             if new_confidence > convergence_threshold:
                 # Converged
@@ -392,9 +374,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _hierarchical_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _hierarchical_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """GPT supervises and directs colony operations"""
 
         # GPT creates sub-tasks for colonies
@@ -441,8 +421,7 @@ class GPTColonyOrchestrator:
         aggregation_context = {
             **task.context,
             "colony_results": [
-                {"decision": str(r.decision), "confidence": r.confidence}
-                for r in colony_results
+                {"decision": str(r.decision), "confidence": r.confidence} for r in colony_results
             ],
         }
 
@@ -469,9 +448,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _federated_orchestration(
-        self, task: OrchestrationTask
-    ) -> OrchestrationResult:
+    async def _federated_orchestration(self, task: OrchestrationTask) -> OrchestrationResult:
         """Multiple colonies federate, GPT aggregates consensus"""
 
         # Process with all available colonies
@@ -483,9 +460,7 @@ class GPTColonyOrchestrator:
 
         # Filter successful responses
         valid_responses = [
-            r
-            for r in colony_responses
-            if not isinstance(r, Exception) and r is not None
+            r for r in colony_responses if not isinstance(r, Exception) and r is not None
         ]
 
         if not valid_responses:
@@ -508,9 +483,7 @@ class GPTColonyOrchestrator:
             total_confidence += response.confidence
 
         # Find majority decision
-        best_decision = max(decisions.items(), key=lambda x: x[1]["total_confidence"])[
-            0
-        ]
+        best_decision = max(decisions.items(), key=lambda x: x[1]["total_confidence"])[0]
 
         # GPT synthesizes the federated results
         synthesis_context = {
@@ -548,9 +521,7 @@ class GPTColonyOrchestrator:
 
         return result
 
-    async def _process_with_gpt(
-        self, task: OrchestrationTask
-    ) -> Optional[dict[str, Any]]:
+    async def _process_with_gpt(self, task: OrchestrationTask) -> Optional[dict[str, Any]]:
         """Process task with GPT model"""
         try:
             response = await self.openai_service.process_modulated_request(
@@ -572,9 +543,7 @@ class GPTColonyOrchestrator:
 
         return None
 
-    async def _process_with_colony(
-        self, task: OrchestrationTask
-    ) -> Optional[ConsensusResult]:
+    async def _process_with_colony(self, task: OrchestrationTask) -> Optional[ConsensusResult]:
         """Process task with first available colony"""
         if not self.colonies:
             return None
@@ -592,9 +561,7 @@ class GPTColonyOrchestrator:
             if not colony:
                 return None
 
-            result = await colony.process_query(
-                query=task.content, context=task.context
-            )
+            result = await colony.process_query(query=task.content, context=task.context)
 
             return result
 
@@ -643,8 +610,7 @@ class GPTColonyOrchestrator:
             )
 
         self.performance_metrics["avg_processing_time"] = (
-            self.performance_metrics["avg_processing_time"] * 0.9
-            + result.processing_time * 0.1
+            self.performance_metrics["avg_processing_time"] * 0.9 + result.processing_time * 0.1
         )
 
     async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):

@@ -127,10 +127,10 @@ class OpenAIModulatedService:
 
         except Exception as e:
             self._metrics["errors"] += 1
-            logger.error(f"Generation failed: {str(e)}")
+            logger.error(f"Generation failed: {e!s}")
 
             return {
-                "content": f"Error: {str(e)}",
+                "content": f"Error: {e!s}",
                 "error": True,
                 "error_type": type(e).__name__,
                 "request_id": str(uuid.uuid4()),
@@ -212,7 +212,7 @@ class OpenAIModulatedService:
             }
 
         except Exception as e:
-            logger.error(f"Embedding failed: {str(e)}")
+            logger.error(f"Embedding failed: {e!s}")
             raise
 
     def create_conversation(

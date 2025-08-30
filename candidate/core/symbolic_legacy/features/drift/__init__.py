@@ -13,9 +13,7 @@ import logging
 
 # Initialize logger
 log = logging.getLogger(__name__)
-log.info(
-    "core.symbolic.drift module initialized - consciousness stability monitoring active"
-)
+log.info("core.symbolic.drift module initialized - consciousness stability monitoring active")
 
 # Import drift detection components
 try:
@@ -32,12 +30,12 @@ except ImportError as e:
 
 # CLAUDE_EDIT_v0.1: Export list for drift submodule
 __all__ = [
-    "SymbolicDriftTracker",
     "DriftScore",
     "DriftScoreCalculator",
+    "SymbolicDriftTracker",
     "TraceDriftMonitor",
-    "get_drift_status",
     "calculate_drift_score",
+    "get_drift_status",
 ]
 
 # Drift detection thresholds

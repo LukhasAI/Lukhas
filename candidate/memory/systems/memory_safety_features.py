@@ -58,9 +58,7 @@ class DriftMetrics:
     current_centroid: Optional[np.ndarray] = None
     historical_centroids: list[np.ndarray] = field(default_factory=list)
     drift_scores: list[float] = field(default_factory=list)
-    last_calibration: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    last_calibration: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     total_uses: int = 0
     recent_uses: deque = field(default_factory=lambda: deque(maxlen=100))
 
@@ -147,9 +145,7 @@ class MemorySafetySystem:
         """Normalize memory data for consistent hashing"""
         # Remove timestamps and volatile fields
         stable_data = {
-            k: v
-            for k, v in data.items()
-            if k not in ["timestamp", "access_count", "last_accessed"]
+            k: v for k, v in data.items() if k not in ["timestamp", "access_count", "last_accessed"]
         }
 
         # Sort and stringify
@@ -172,9 +168,7 @@ class MemorySafetySystem:
         # Check against expected
         if current_hash != expected_hash:
             error = f"Hash mismatch: expected {expected_hash}, got {current_hash}"
-            logger.warning(
-                "Memory integrity check failed", memory_id=memory_id, error=error
-            )
+            logger.warning("Memory integrity check failed", memory_id=memory_id, error=error)
 
             # Record in verifold
             if memory_id in self.verifold_registry:
@@ -194,9 +188,7 @@ class MemorySafetySystem:
 
         return True, None
 
-    def track_drift(
-        self, tag: str, embedding: np.ndarray, usage_context: dict[str, Any]
-    ) -> float:
+    def track_drift(self, tag: str, embedding: np.ndarray, usage_context: dict[str, Any]) -> float:
         """
         Track semantic drift of tags over time.
 
@@ -223,9 +215,7 @@ class MemorySafetySystem:
         else:
             # Exponential moving average
             alpha = 0.1
-            metrics.current_centroid = (
-                alpha * embedding + (1 - alpha) * metrics.current_centroid
-            )
+            metrics.current_centroid = alpha * embedding + (1 - alpha) * metrics.current_centroid
 
         # Calculate drift
         drift_score = metrics.calculate_drift()
@@ -255,9 +245,7 @@ class MemorySafetySystem:
         for anchor_key, anchor_truth in self.reality_anchors.items():
             if anchor_key in content:
                 # Verify consistency
-                if not self._is_consistent_with_anchor(
-                    content, anchor_key, anchor_truth
-                ):
+                if not self._is_consistent_with_anchor(content, anchor_key, anchor_truth):
                     contradiction = {
                         "timestamp": datetime.now(timezone.utc),
                         "content": content,
@@ -283,9 +271,7 @@ class MemorySafetySystem:
 
         return True, None
 
-    def _is_consistent_with_anchor(
-        self, content: str, anchor_key: str, anchor_truth: str
-    ) -> bool:
+    def _is_consistent_with_anchor(self, content: str, anchor_key: str, anchor_truth: str) -> bool:
         """Check if content is consistent with known truth"""
         # Simple implementation - could use NLI model in production
         content_lower = content.lower()
@@ -304,14 +290,10 @@ class MemorySafetySystem:
         emotion = memory_data.get("emotion")
         content = memory_data.get("content", "").lower()
 
-        if emotion == "joy" and any(
-            word in content for word in ["sad", "tragic", "horrible"]
-        ):
+        if emotion == "joy" and any(word in content for word in ["sad", "tragic", "horrible"]):
             return False
 
-        if emotion == "fear" and any(
-            word in content for word in ["happy", "joyful", "wonderful"]
-        ):
+        if emotion == "fear" and any(word in content for word in ["happy", "joyful", "wonderful"]):
             return False
 
         # Check severity consistency
@@ -336,9 +318,7 @@ class MemorySafetySystem:
         agreements = 0
         total_weight = 0
 
-        for sim_id, sim_data, similarity in similar_memories[
-            : self.consensus_threshold * 2
-        ]:
+        for sim_id, sim_data, similarity in similar_memories[: self.consensus_threshold * 2]:
             if sim_id == memory_id:
                 continue
 
@@ -397,9 +377,7 @@ class MemorySafetySystem:
             "reviews": [],
         }
 
-        logger.warning(
-            "Memory quarantined", memory_id=memory_id, reason=reason, severity=severity
-        )
+        logger.warning("Memory quarantined", memory_id=memory_id, reason=reason, severity=severity)
 
     async def review_quarantine(self) -> list[tuple[str, bool, str]]:
         """
@@ -425,9 +403,7 @@ class MemorySafetySystem:
                 del self.quarantine[mem_id]
             elif quarantine_data["severity"] > 0.8:
                 # High severity - permanent quarantine
-                decisions.append(
-                    (mem_id, False, "High severity - permanent quarantine")
-                )
+                decisions.append((mem_id, False, "High severity - permanent quarantine"))
             else:
                 # Medium severity - needs manual review
                 quarantine_data["reviews"].append(
@@ -455,9 +431,7 @@ class MemorySafetySystem:
 
                     # Keep only recent history
                     if len(metrics.historical_centroids) > 10:
-                        metrics.historical_centroids = metrics.historical_centroids[
-                            -10:
-                        ]
+                        metrics.historical_centroids = metrics.historical_centroids[-10:]
 
                 # Reset drift scores
                 metrics.drift_scores = []
@@ -481,30 +455,23 @@ class MemorySafetySystem:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "drift_analysis": {
                 "monitored_tags": len(self.drift_metrics),
-                "average_drift": (
-                    np.mean(total_drift_scores) if total_drift_scores else 0
-                ),
+                "average_drift": (np.mean(total_drift_scores) if total_drift_scores else 0),
                 "max_drift": max(total_drift_scores) if total_drift_scores else 0,
                 "tags_above_threshold": sum(
                     1
                     for m in self.drift_metrics.values()
-                    if m.drift_scores
-                    and np.mean(m.drift_scores[-5:]) > self.max_drift_threshold
+                    if m.drift_scores and np.mean(m.drift_scores[-5:]) > self.max_drift_threshold
                 ),
             },
             "verifold_status": {
                 "total_verified": len(self.verifold_registry),
                 "average_integrity": (
-                    np.mean(
-                        [v.integrity_score for v in self.verifold_registry.values()]
-                    )
+                    np.mean([v.integrity_score for v in self.verifold_registry.values()])
                     if self.verifold_registry
                     else 1.0
                 ),
                 "suspicious_memories": sum(
-                    1
-                    for v in self.verifold_registry.values()
-                    if v.suspicious_modifications
+                    1 for v in self.verifold_registry.values() if v.suspicious_modifications
                 ),
             },
             "quarantine_status": {
@@ -512,10 +479,7 @@ class MemorySafetySystem:
                 "pending_review": sum(
                     1
                     for q in self.quarantine.values()
-                    if any(
-                        r["status"] == "pending_manual_review"
-                        for r in q.get("reviews", [])
-                    )
+                    if any(r["status"] == "pending_manual_review" for r in q.get("reviews", []))
                 ),
             },
             "hallucination_prevention": {
@@ -540,9 +504,7 @@ class SafeMemoryFold:
         self.base = base_memory_fold
         self.safety = safety_system
 
-    async def safe_fold_in(
-        self, data: dict[str, Any], tags: list[str], **kwargs
-    ) -> Optional[str]:
+    async def safe_fold_in(self, data: dict[str, Any], tags: list[str], **kwargs) -> Optional[str]:
         """Safely store memory with verification"""
         # 1. Check for hallucinations
         is_valid, error = await self.safety.prevent_hallucination(data, kwargs)
@@ -699,9 +661,7 @@ async def demonstrate_safety_features():
     print(f"  Monitored tags: {report['drift_analysis']['monitored_tags']}")
     print(f"  Average drift: {report['drift_analysis']['average_drift']:.3f}")
     print(f"  Verified memories: {report['verifold_status']['total_verified']}")
-    print(
-        f"  Contradictions caught: {report['hallucination_prevention']['contradictions_caught']}"
-    )
+    print(f"  Contradictions caught: {report['hallucination_prevention']['contradictions_caught']}")
 
 
 if __name__ == "__main__":

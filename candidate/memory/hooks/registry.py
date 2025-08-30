@@ -59,9 +59,7 @@ class HookRegistry:
     safe execution with error handling, timeouts, and circuit breakers.
     """
 
-    def __init__(
-        self, max_hooks_per_priority: int = 10, global_timeout_seconds: float = 30.0
-    ):
+    def __init__(self, max_hooks_per_priority: int = 10, global_timeout_seconds: float = 30.0):
         """Initialize hook registry
 
         Args:
@@ -162,9 +160,7 @@ class HookRegistry:
 
         return False
 
-    def execute_before_store(
-        self, item: MemoryItem, tags: Optional[set[str]] = None
-    ) -> MemoryItem:
+    def execute_before_store(self, item: MemoryItem, tags: Optional[set[str]] = None) -> MemoryItem:
         """Execute all before_store hooks in priority order
 
         Args:
@@ -179,9 +175,7 @@ class HookRegistry:
         """
         return self._execute_hooks("before_store", item, tags)
 
-    def execute_after_recall(
-        self, item: MemoryItem, tags: Optional[set[str]] = None
-    ) -> MemoryItem:
+    def execute_after_recall(self, item: MemoryItem, tags: Optional[set[str]] = None) -> MemoryItem:
         """Execute all after_recall hooks in priority order
 
         Args:
@@ -223,9 +217,7 @@ class HookRegistry:
             for registered in hooks_to_execute:
                 # Check global timeout
                 if time.time() - start_time > self._global_timeout:
-                    logger.warning(
-                        f"Global timeout reached after {executed_count} hooks"
-                    )
+                    logger.warning(f"Global timeout reached after {executed_count} hooks")
                     self._execution_metrics["timeout_count"] += 1
                     break
 
@@ -341,7 +333,7 @@ class HookRegistry:
                     elapsed = time.time() - start_time
                     hook._update_metrics(operation, elapsed, error=True)
                     self._record_failure(hook_name)
-                    raise HookExecutionError(f"Hook {hook_name} failed: {str(e)}")
+                    raise HookExecutionError(f"Hook {hook_name} failed: {e!s}")
 
                 # Wait before retry
                 time.sleep(0.1 * (attempt + 1))
@@ -423,10 +415,7 @@ class HookRegistry:
         """
         total_hooks = sum(len(hooks) for hooks in self._hooks.values())
         enabled_hooks = sum(
-            1
-            for hooks in self._hooks.values()
-            for reg in hooks
-            if reg.hook.is_enabled()
+            1 for hooks in self._hooks.values() for reg in hooks if reg.hook.is_enabled()
         )
 
         return {

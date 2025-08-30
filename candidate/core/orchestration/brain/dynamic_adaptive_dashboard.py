@@ -137,9 +137,7 @@ class AdaptiveDashboard:
 
         # Combine with any existing context for this user
         if user_profile.id in self.active_dashboards:
-            existing_context = self.active_dashboards[user_profile.id].get(
-                "context", {}
-            )
+            existing_context = self.active_dashboards[user_profile.id].get("context", {})
             context = {**existing_context, **context}
 
         # Determine which widgets to show based on user tier
@@ -158,9 +156,7 @@ class AdaptiveDashboard:
                     # Filter out potentially stressful widgets during emotional
                     # instability
                     available_widgets = [
-                        w
-                        for w in available_widgets
-                        if not w.get("high_emotional_impact", False)
+                        w for w in available_widgets if not w.get("high_emotional_impact", False)
                     ]
                     self.logger.info(
                         f"Filtered widgets due to emotional state for user {user_profile.id}"
@@ -246,9 +242,7 @@ class AdaptiveDashboard:
         available_widgets = []
 
         # Go through widget registry and filter by tier
-        for widget_type, widget_info in self.widget_registry.get(
-            "widget_types", {}
-        ).items():
+        for widget_type, widget_info in self.widget_registry.get("widget_types", {}).items():
             required_tier = widget_info.get("required_tier", 1)
 
             if user_tier >= required_tier and widget_info.get("status", "") == "live":
@@ -305,9 +299,7 @@ class AdaptiveDashboard:
 
         # Position important widgets at the top
         # Sort widgets by token cost (higher cost = more important)
-        sorted_widgets = sorted(
-            widgets, key=lambda w: w.get("token_cost", 0), reverse=True
-        )
+        sorted_widgets = sorted(widgets, key=lambda w: w.get("token_cost", 0), reverse=True)
 
         # Create widget positions
         for i, widget in enumerate(sorted_widgets):
@@ -576,7 +568,7 @@ class AdaptiveDashboard:
                 self.logger.error(f"Error processing widget action: {e}")
                 result = {
                     "status": "error",
-                    "message": f"Widget processing error: {str(e)}",
+                    "message": f"Widget processing error: {e!s}",
                 }
 
         return result
@@ -610,9 +602,7 @@ async def main():
     )
 
     # Generate dashboard
-    result = await dashboard.generate_dashboard(
-        user, {"time_context": {"is_night": True}}
-    )
+    result = await dashboard.generate_dashboard(user, {"time_context": {"is_night": True}})
 
     print(f"Generated dashboard with {len(result['widgets'])} widgets")
     print(f"Layout type: {result['layout']['type']}")

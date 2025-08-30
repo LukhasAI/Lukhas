@@ -278,8 +278,7 @@ class ColonyMemoryValidator:
             return await self._execute_validation(
                 operation=operation,
                 validation_mode=validation_mode or self.default_validation_mode,
-                target_colonies=target_colonies
-                or list(self.registered_colonies.keys()),
+                target_colonies=target_colonies or list(self.registered_colonies.keys()),
                 timeout_seconds=timeout_seconds or self.default_timeout,
             )
 
@@ -439,7 +438,7 @@ class ColonyMemoryValidator:
             success = True
             validation_result = ValidationResult.VALID
             content_hash = (
-                hashlib.sha256(  )  #  Changed from MD5 for securitystr(request.operation.content.encode()).hexdigest()
+                hashlib.sha256()  #  Changed from MD5 for securitystr(request.operation.content.encode()).hexdigest()
                 if request.operation.content
                 else None
             )
@@ -605,9 +604,7 @@ class ColonyMemoryValidator:
                 if len(history) > 100:  # Keep last 100 measurements
                     history.pop(0)
 
-    async def _notify_callbacks(
-        self, request: ValidationRequest, outcome: ConsensusOutcome
-    ):
+    async def _notify_callbacks(self, request: ValidationRequest, outcome: ConsensusOutcome):
         """Notify registered callbacks"""
         for callback in self.consensus_callbacks:
             try:
@@ -642,9 +639,7 @@ class ColonyMemoryValidator:
                     unresponsive_colonies.append(colony_id)
 
             if unresponsive_colonies:
-                logger.warning(
-                    "Low trust colonies detected", colonies=unresponsive_colonies
-                )
+                logger.warning("Low trust colonies detected", colonies=unresponsive_colonies)
 
             await asyncio.sleep(60)  # Monitor every minute
 
@@ -663,8 +658,7 @@ class ColonyMemoryValidator:
             ),
             "colony_trust_scores": dict(self.colony_trust_scores),
             "colony_performance": {
-                cid: self._get_average_response_time(cid)
-                for cid in self.registered_colonies
+                cid: self._get_average_response_time(cid) for cid in self.registered_colonies
             },
         }
 

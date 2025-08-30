@@ -61,9 +61,7 @@ class VoiceCulturalIntegrator:
 
         # Settings
         self.reminiscence_chance = self.config.get("reminiscence_chance", 0.2)
-        self.cultural_learning_enabled = self.config.get(
-            "cultural_learning_enabled", True
-        )
+        self.cultural_learning_enabled = self.config.get("cultural_learning_enabled", True)
 
         logger.info("Voice Cultural Integrator initialized")
 
@@ -118,9 +116,7 @@ class VoiceCulturalIntegrator:
         user_history = await self._get_user_history(user_id)
 
         # Detect cultural context
-        cultural_context = self.accent_adapter.detect_cultural_context(
-            user_text, user_history
-        )
+        cultural_context = self.accent_adapter.detect_cultural_context(user_text, user_history)
         context["cultural_context"] = cultural_context
 
         # Get appropriate voice mode
@@ -140,9 +136,7 @@ class VoiceCulturalIntegrator:
                     words_learned = await self.memory_helix.detect_new_words(user_text)
 
             accent_detected = (
-                context.get("accent_info", {}).get("name")
-                if context.get("accent_info")
-                else None
+                context.get("accent_info", {}).get("name") if context.get("accent_info") else None
             )
 
             self.accent_adapter.remember_location(
@@ -154,9 +148,7 @@ class VoiceCulturalIntegrator:
 
         return context
 
-    async def _extract_location(
-        self, text: str, context: dict[str, Any]
-    ) -> Optional[str]:
+    async def _extract_location(self, text: str, context: dict[str, Any]) -> Optional[str]:
         """Extract location mentions from text."""
         # Simple extraction - in production, would use NER
         location_indicators = ["in ", "at ", "from ", "visiting ", "to "]
@@ -230,9 +222,7 @@ class VoiceCulturalIntegrator:
 
         # Extract unusual words (longer words are more likely to be interesting)
         words = [
-            w
-            for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", ""))
-            if len(w) > 5
+            w for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", "")) if len(w) > 5
         ]
 
         for word in words:

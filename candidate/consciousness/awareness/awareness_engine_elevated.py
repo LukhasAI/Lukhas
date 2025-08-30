@@ -22,6 +22,7 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
+
 import asyncio
 import json
 import logging
@@ -219,9 +220,7 @@ class AwarenessModule(ABC):
             raise
 
     @abstractmethod
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Must return [0–100] alignment/compliance score for institutional use."""
         ...
 
@@ -230,9 +229,7 @@ class AwarenessModule(ABC):
         """Return the type of awareness module."""
         ...
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate actionable recommendations based on awareness data."""
         return []
 
@@ -266,9 +263,7 @@ class AwarenessModule(ABC):
             risk_factors.append("poor_data_quality")
 
         # Quantum-specific risk factors
-        if self.config.enable_quantum_processing and result.get(
-            "qi_instability", False
-        ):
+        if self.config.enable_quantum_processing and result.get("qi_instability", False):
             risk_factors.append("qi_instability")
 
         return risk_factors
@@ -309,9 +304,7 @@ class EnhancedEnvReasoner:
         """Process environmental data with classical, symbolic, and quantum approaches."""
 
         # Classical normalization with optimal ranges
-        def normalize_with_optimal(
-            value, min_val, max_val, optimal_min=None, optimal_max=None
-        ):
+        def normalize_with_optimal(value, min_val, max_val, optimal_min=None, optimal_max=None):
             """Normalize with optional optimal range for better scoring."""
             if value < min_val:
                 return 0.0
@@ -332,17 +325,13 @@ class EnhancedEnvReasoner:
         # Calculate component scores with optimal ranges
         temp_score = normalize_with_optimal(inputs.temperature, -20, 50, 18, 26)
         humidity_score = normalize_with_optimal(inputs.humidity, 0, 100, 40, 60)
-        noise_score = normalize_with_optimal(
-            120 - inputs.ambient_noise, 0, 120, 80, 120
-        )
+        noise_score = normalize_with_optimal(120 - inputs.ambient_noise, 0, 120, 80, 120)
         light_score = normalize_with_optimal(inputs.light_level, 0, 2000, 300, 800)
 
         # Air quality impact
         air_quality_score = 1.0
         if inputs.air_quality_index:
-            air_quality_score = normalize_with_optimal(
-                500 - inputs.air_quality_index, 0, 500
-            )
+            air_quality_score = normalize_with_optimal(500 - inputs.air_quality_index, 0, 500)
 
         # Symbolic reasoning: location-based adjustments
         location_bonus = 0.0
@@ -358,9 +347,7 @@ class EnhancedEnvReasoner:
             energy_efficiency = max(0.1, 1.0 - (inputs.energy_consumption / 50) ** 1.5)
 
         # Quantum anomaly detection
-        anomaly_detected = qi_anomaly_check(
-            inputs.ambient_noise, inputs.temperature
-        )
+        anomaly_detected = qi_anomaly_check(inputs.ambient_noise, inputs.temperature)
         qi_confidence = 0.95 if not anomaly_detected else 0.7
 
         # Calculate composite environmental score
@@ -406,9 +393,7 @@ class EnhancedEnvReasoner:
             "anomaly_detected": anomaly_detected,
             "qi_confidence": qi_confidence,
             "sustainability_metrics": self._calculate_sustainability_metrics(inputs),
-            "optimization_opportunities": self._identify_optimization_opportunities(
-                inputs
-            ),
+            "optimization_opportunities": self._identify_optimization_opportunities(inputs),
         }
 
     def get_confidence(self) -> float:
@@ -433,9 +418,7 @@ class EnhancedEnvReasoner:
 
         if inputs.carbon_footprint:
             metrics["actual_carbon_kg"] = inputs.carbon_footprint
-            metrics["carbon_efficiency"] = max(
-                0.0, 1.0 - (inputs.carbon_footprint / 20)
-            )
+            metrics["carbon_efficiency"] = max(0.0, 1.0 - (inputs.carbon_footprint / 20))
 
         return metrics
 
@@ -446,9 +429,7 @@ class EnhancedEnvReasoner:
         opportunities = []
 
         if inputs.temperature < 18 or inputs.temperature > 26:
-            opportunities.append(
-                "Optimize temperature control for comfort and efficiency"
-            )
+            opportunities.append("Optimize temperature control for comfort and efficiency")
 
         if inputs.humidity < 40 or inputs.humidity > 60:
             opportunities.append("Adjust humidity levels for optimal comfort")
@@ -457,14 +438,10 @@ class EnhancedEnvReasoner:
             opportunities.append("Implement noise reduction measures")
 
         if inputs.energy_consumption and inputs.energy_consumption > 25:
-            opportunities.append(
-                "Consider energy-efficient alternatives and renewable sources"
-            )
+            opportunities.append("Consider energy-efficient alternatives and renewable sources")
 
         if inputs.air_quality_index and inputs.air_quality_index > 100:
-            opportunities.append(
-                "Improve air quality through filtration or ventilation"
-            )
+            opportunities.append("Improve air quality through filtration or ventilation")
 
         return opportunities
 
@@ -518,18 +495,14 @@ class EnvironmentalAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.ENVIRONMENTAL
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate environmental alignment with institutional sustainability goals."""
         base_score = result["environmental_score"] * 100
 
         # Sustainability bonus/penalty
         sustainability_metrics = result.get("sustainability_metrics", {})
         carbon_efficiency = sustainability_metrics.get("carbon_efficiency", 0.5)
-        base_score += (
-            carbon_efficiency - 0.5
-        ) * 20  # ±10 points based on carbon efficiency
+        base_score += (carbon_efficiency - 0.5) * 20  # ±10 points based on carbon efficiency
 
         # Anomaly penalty
         if result.get("anomaly_detected", False):
@@ -546,9 +519,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate environmental optimization recommendations."""
         recommendations = []
 
@@ -557,28 +528,19 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         # Add institutional-grade recommendations
         if result.get("anomaly_detected"):
-            recommendations.append(
-                "Environmental anomaly detected - immediate assessment required"
-            )
+            recommendations.append("Environmental anomaly detected - immediate assessment required")
 
         sustainability_metrics = result.get("sustainability_metrics", {})
         carbon_efficiency = sustainability_metrics.get("carbon_efficiency", 0.5)
 
         if carbon_efficiency < 0.3:
-            recommendations.append(
-                "Critical: Implement immediate carbon reduction measures"
-            )
+            recommendations.append("Critical: Implement immediate carbon reduction measures")
             recommendations.append("Consider transition to renewable energy sources")
         elif carbon_efficiency < 0.7:
-            recommendations.append(
-                "Opportunity: Optimize energy usage for better sustainability"
-            )
+            recommendations.append("Opportunity: Optimize energy usage for better sustainability")
 
         # Quantum-enhanced recommendations
-        if (
-            self.config.enable_quantum_processing
-            and result.get("qi_confidence", 1.0) < 0.8
-        ):
+        if self.config.enable_quantum_processing and result.get("qi_confidence", 1.0) < 0.8:
             recommendations.append(
                 "Quantum analysis indicates environmental instability - monitor closely"
             )
@@ -614,9 +576,7 @@ class CognitiveAwarenessInput(AwarenessInput):
 
     attention_level: float = Field(..., ge=0, le=1, description="Attention level 0-1")
     cognitive_load: float = Field(..., ge=0, le=1, description="Cognitive load 0-1")
-    decision_complexity: int = Field(
-        ..., ge=1, le=10, description="Decision complexity 1-10"
-    )
+    decision_complexity: int = Field(..., ge=1, le=10, description="Decision complexity 1-10")
     information_overload: bool = Field(default=False)
     stress_indicators: list[str] = Field(default_factory=list)
     task_urgency: int = Field(..., ge=1, le=5, description="Task urgency 1-5")
@@ -664,9 +624,7 @@ class EnhancedCognitiveReasoner:
 
         # Decision quality prediction with multiple factors
         decision_quality = (
-            efficiency * 0.7
-            + inputs.attention_level * 0.15
-            + inputs.cognitive_flexibility * 0.15
+            efficiency * 0.7 + inputs.attention_level * 0.15 + inputs.cognitive_flexibility * 0.15
         )
 
         # Meta-learning score based on cognitive patterns
@@ -685,27 +643,21 @@ class EnhancedCognitiveReasoner:
             "information_filtering_needed": inputs.information_overload,
             "meta_learning_score": meta_learning_score,
             "self_awareness_level": self_awareness,
-            "cognitive_strategies": self._recommend_cognitive_strategies(
-                inputs, efficiency
-            ),
+            "cognitive_strategies": self._recommend_cognitive_strategies(inputs, efficiency),
             "productivity_forecast": self._forecast_productivity(inputs, efficiency),
         }
 
     def get_confidence(self) -> float:
         return 0.88
 
-    def _calculate_meta_learning(
-        self, inputs: CognitiveAwarenessInput, efficiency: float
-    ) -> float:
+    def _calculate_meta_learning(self, inputs: CognitiveAwarenessInput, efficiency: float) -> float:
         """Calculate meta-learning capability score."""
         base_meta = inputs.cognitive_flexibility * 0.6
         attention_factor = inputs.attention_level * 0.3
         complexity_adaptation = (1.0 - inputs.decision_complexity / 10) * 0.1
         return min(base_meta + attention_factor + complexity_adaptation, 1.0)
 
-    def _assess_self_awareness(
-        self, inputs: CognitiveAwarenessInput, efficiency: float
-    ) -> float:
+    def _assess_self_awareness(self, inputs: CognitiveAwarenessInput, efficiency: float) -> float:
         """Assess self-awareness level based on cognitive indicators."""
         # Higher self-awareness when recognizing stress and information overload
         stress_awareness = min(len(inputs.stress_indicators) * 0.2, 0.4)
@@ -811,9 +763,7 @@ class EnhancedCognitiveReasoner:
             "time_to_peak": self._estimate_time_to_peak(inputs, efficiency),
         }
 
-    def _estimate_time_to_peak(
-        self, inputs: CognitiveAwarenessInput, efficiency: float
-    ) -> str:
+    def _estimate_time_to_peak(self, inputs: CognitiveAwarenessInput, efficiency: float) -> str:
         """Estimate time to reach peak cognitive performance."""
         if efficiency > 0.8:
             return "current_peak"
@@ -833,9 +783,7 @@ class CognitiveAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.COGNITIVE
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate cognitive alignment with institutional decision-making goals."""
         base_score = result["decision_quality_prediction"] * 100
 
@@ -873,9 +821,7 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate cognitive optimization recommendations."""
         recommendations = []
 
@@ -901,13 +847,9 @@ class CognitiveAwarenessModule(AwarenessModule):
         if timing == "defer_decision":
             recommendations.append("Defer decision until cognitive state improves")
         elif timing == "optimal_now":
-            recommendations.append(
-                "Current cognitive state is optimal for decision-making"
-            )
+            recommendations.append("Current cognitive state is optimal for decision-making")
         elif timing == "process_information_first":
-            recommendations.append(
-                "Process and organize information before making decisions"
-            )
+            recommendations.append("Process and organize information before making decisions")
         elif timing == "address_stress_first":
             recommendations.append(
                 "Address stress indicators before proceeding with complex decisions"
@@ -929,9 +871,7 @@ class CognitiveAwarenessModule(AwarenessModule):
     def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate sustainability impact of cognitive state."""
         efficiency = result.get("cognitive_efficiency", 0.5)
-        productivity = result.get("productivity_forecast", {}).get(
-            "productivity_score", 50
-        )
+        productivity = result.get("productivity_forecast", {}).get("productivity_score", 50)
 
         # Sustainable cognitive performance
         sustainability_score = (efficiency * 60) + (productivity * 0.4)
@@ -960,21 +900,13 @@ class EmotionalAwarenessInput(AwarenessInput):
     personality_traits: dict[str, float] = Field(
         default_factory=dict, description="Big5 personality traits"
     )
-    mood_stability: float = Field(
-        default=0.5, ge=0.0, le=1.0, description="Mood stability 0-1"
-    )
-    empathy_level: float = Field(
-        default=0.5, ge=0.0, le=1.0, description="Empathy level 0-1"
-    )
+    mood_stability: float = Field(default=0.5, ge=0.0, le=1.0, description="Mood stability 0-1")
+    empathy_level: float = Field(default=0.5, ge=0.0, le=1.0, description="Empathy level 0-1")
     emotional_intelligence: float = Field(
         default=0.5, ge=0.0, le=1.0, description="Emotional intelligence 0-1"
     )
-    stress_level: float = Field(
-        default=0.0, ge=0.0, le=1.0, description="Current stress level 0-1"
-    )
-    social_energy: float = Field(
-        default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1"
-    )
+    stress_level: float = Field(default=0.0, ge=0.0, le=1.0, description="Current stress level 0-1")
+    social_energy: float = Field(default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1")
     widget_animation_preference: str = Field(
         default="smooth", description="Animation style preference"
     )
@@ -1018,9 +950,7 @@ class EnhancedEmotionalReasoner:
         resilience_score = self._calculate_emotional_resilience(inputs)
 
         # Social interaction recommendations
-        social_recommendations = self._generate_social_interaction_recommendations(
-            inputs
-        )
+        social_recommendations = self._generate_social_interaction_recommendations(inputs)
 
         # Emotional growth opportunities
         growth_opportunities = self._identify_emotional_growth_opportunities(inputs)
@@ -1059,44 +989,29 @@ class EnhancedEmotionalReasoner:
         stress_penalty = inputs.stress_level * 0.3
 
         final_balance = (
-            base_balance
-            + stability_factor
-            + ei_factor
-            + empathy_factor
-            - stress_penalty
+            base_balance + stability_factor + ei_factor + empathy_factor - stress_penalty
         )
         return max(0.0, min(final_balance, 1.0))
 
-    def _assess_emotional_regulation(
-        self, inputs: EmotionalAwarenessInput
-    ) -> dict[str, float]:
+    def _assess_emotional_regulation(self, inputs: EmotionalAwarenessInput) -> dict[str, float]:
         """Assess emotional regulation capabilities."""
         return {
-            "self_awareness": inputs.emotional_intelligence * 0.7
-            + inputs.empathy_level * 0.3,
-            "impulse_control": inputs.mood_stability * 0.8
-            + (1 - inputs.stress_level) * 0.2,
+            "self_awareness": inputs.emotional_intelligence * 0.7 + inputs.empathy_level * 0.3,
+            "impulse_control": inputs.mood_stability * 0.8 + (1 - inputs.stress_level) * 0.2,
             "adaptability": inputs.personality_traits.get("openness", 0.5) * 0.6
             + inputs.emotional_intelligence * 0.4,
-            "stress_management": (1 - inputs.stress_level) * 0.7
-            + inputs.mood_stability * 0.3,
+            "stress_management": (1 - inputs.stress_level) * 0.7 + inputs.mood_stability * 0.3,
         }
 
-    def _generate_comprehensive_personality_insights(
-        self, traits: dict[str, float]
-    ) -> list[str]:
+    def _generate_comprehensive_personality_insights(self, traits: dict[str, float]) -> list[str]:
         """Generate detailed personality insights based on Big5 traits."""
         insights = []
 
         # Openness insights
         openness = traits.get("openness", 0.5)
         if openness > 0.7:
-            insights.append(
-                "High openness: Creative, curious, and open to new experiences"
-            )
-            insights.append(
-                "Likely to enjoy novel widget animations and experimental features"
-            )
+            insights.append("High openness: Creative, curious, and open to new experiences")
+            insights.append("Likely to enjoy novel widget animations and experimental features")
         elif openness < 0.3:
             insights.append("Lower openness: Prefers familiar, conventional approaches")
             insights.append("Benefits from stable, predictable interface elements")
@@ -1104,12 +1019,8 @@ class EnhancedEmotionalReasoner:
         # Conscientiousness insights
         conscientiousness = traits.get("conscientiousness", 0.5)
         if conscientiousness > 0.7:
-            insights.append(
-                "High conscientiousness: Organized, disciplined, and goal-oriented"
-            )
-            insights.append(
-                "Responds well to progress tracking and achievement systems"
-            )
+            insights.append("High conscientiousness: Organized, disciplined, and goal-oriented")
+            insights.append("Responds well to progress tracking and achievement systems")
         elif conscientiousness < 0.3:
             insights.append("Lower conscientiousness: More flexible and spontaneous")
             insights.append("Benefits from gentle reminders and flexible scheduling")
@@ -1127,22 +1038,16 @@ class EnhancedEmotionalReasoner:
         agreeableness = traits.get("agreeableness", 0.5)
         if agreeableness > 0.7:
             insights.append("High agreeableness: Cooperative, trusting, and helpful")
-            insights.append(
-                "Values harmony and responds well to positive reinforcement"
-            )
+            insights.append("Values harmony and responds well to positive reinforcement")
 
         # Neuroticism insights
         neuroticism = traits.get("neuroticism", 0.5)
         if neuroticism > 0.7:
-            insights.append(
-                "Higher neuroticism: May benefit from stress reduction features"
-            )
+            insights.append("Higher neuroticism: May benefit from stress reduction features")
             insights.append("Responds well to calming colors and gentle interactions")
         elif neuroticism < 0.3:
             insights.append("Lower neuroticism: Emotionally stable and resilient")
-            insights.append(
-                "Can handle more dynamic and challenging interface elements"
-            )
+            insights.append("Can handle more dynamic and challenging interface elements")
 
         return insights
 
@@ -1155,10 +1060,7 @@ class EnhancedEmotionalReasoner:
         emotional_state = inputs.emotional_state
 
         # Determine animation style based on personality and mood
-        if (
-            traits.get("openness", 0.5) > 0.7
-            and emotional_state.get("excitement", 0) > 0.6
-        ):
+        if traits.get("openness", 0.5) > 0.7 and emotional_state.get("excitement", 0) > 0.6:
             animation_style = "dynamic_creative"
             speed = "fast"
             intensity = "high"
@@ -1188,9 +1090,7 @@ class EnhancedEmotionalReasoner:
             "color_scheme": color_scheme,
             "interaction_style": interaction_style,
             "adaptive_features": self._recommend_adaptive_features(inputs),
-            "accessibility_adjustments": self._suggest_accessibility_adjustments(
-                inputs
-            ),
+            "accessibility_adjustments": self._suggest_accessibility_adjustments(inputs),
         }
 
     def _select_color_scheme(self, inputs: EmotionalAwarenessInput) -> dict[str, str]:
@@ -1237,35 +1137,25 @@ class EnhancedEmotionalReasoner:
         else:
             return "balanced_adaptive"
 
-    def _recommend_adaptive_features(
-        self, inputs: EmotionalAwarenessInput
-    ) -> list[str]:
+    def _recommend_adaptive_features(self, inputs: EmotionalAwarenessInput) -> list[str]:
         """Recommend adaptive features based on user state."""
         features = []
 
         if inputs.stress_level > 0.6:
-            features.extend(
-                ["breathing_reminders", "calming_backgrounds", "stress_monitoring"]
-            )
+            features.extend(["breathing_reminders", "calming_backgrounds", "stress_monitoring"])
 
         if inputs.emotional_intelligence > 0.7:
             features.extend(["emotional_insights", "mood_tracking", "empathy_tools"])
 
         if inputs.personality_traits.get("openness", 0.5) > 0.7:
-            features.extend(
-                ["experimental_features", "customization_options", "creative_tools"]
-            )
+            features.extend(["experimental_features", "customization_options", "creative_tools"])
 
         if inputs.social_energy < 0.3:
-            features.extend(
-                ["quiet_mode", "minimal_notifications", "private_workspace"]
-            )
+            features.extend(["quiet_mode", "minimal_notifications", "private_workspace"])
 
         return features
 
-    def _suggest_accessibility_adjustments(
-        self, inputs: EmotionalAwarenessInput
-    ) -> list[str]:
+    def _suggest_accessibility_adjustments(self, inputs: EmotionalAwarenessInput) -> list[str]:
         """Suggest accessibility adjustments."""
         adjustments = []
 
@@ -1273,14 +1163,10 @@ class EnhancedEmotionalReasoner:
             adjustments.extend(["reduced_motion", "high_contrast", "larger_fonts"])
 
         if inputs.emotional_state.get("anxiety", 0) > 0.6:
-            adjustments.extend(
-                ["predictable_layouts", "clear_navigation", "safety_indicators"]
-            )
+            adjustments.extend(["predictable_layouts", "clear_navigation", "safety_indicators"])
 
         if inputs.personality_traits.get("neuroticism", 0.5) > 0.7:
-            adjustments.extend(
-                ["calming_transitions", "error_prevention", "gentle_feedback"]
-            )
+            adjustments.extend(["calming_transitions", "error_prevention", "gentle_feedback"])
 
         return adjustments
 
@@ -1290,9 +1176,7 @@ class EnhancedEmotionalReasoner:
         ei_factor = inputs.emotional_intelligence * 0.3
         stress_resilience = (1 - inputs.stress_level) * 0.2
         social_support = inputs.social_energy * 0.1
-        personality_resilience = (
-            inputs.personality_traits.get("conscientiousness", 0.5) * 0.1
-        )
+        personality_resilience = inputs.personality_traits.get("conscientiousness", 0.5) * 0.1
 
         return min(
             stability_factor
@@ -1303,15 +1187,12 @@ class EnhancedEmotionalReasoner:
             1.0,
         )
 
-    def _assess_social_readiness(
-        self, inputs: EmotionalAwarenessInput
-    ) -> dict[str, float]:
+    def _assess_social_readiness(self, inputs: EmotionalAwarenessInput) -> dict[str, float]:
         """Assess readiness for social interactions."""
         return {
             "social_energy": inputs.social_energy,
             "empathy_availability": inputs.empathy_level * (1 - inputs.stress_level),
-            "communication_readiness": inputs.emotional_intelligence
-            * inputs.mood_stability,
+            "communication_readiness": inputs.emotional_intelligence * inputs.mood_stability,
             "conflict_management": inputs.empathy_level
             * inputs.personality_traits.get("agreeableness", 0.5),
         }
@@ -1326,21 +1207,15 @@ class EnhancedEmotionalReasoner:
             recommendations.append("Consider solo activities to recharge social energy")
             recommendations.append("Limit social commitments until energy recovers")
         elif inputs.social_energy > 0.8:
-            recommendations.append(
-                "Good time for collaborative projects and social engagement"
-            )
+            recommendations.append("Good time for collaborative projects and social engagement")
             recommendations.append("Consider reaching out to friends or colleagues")
 
         if inputs.empathy_level > 0.7 and inputs.stress_level < 0.4:
-            recommendations.append(
-                "Ideal conditions for providing emotional support to others"
-            )
+            recommendations.append("Ideal conditions for providing emotional support to others")
 
         if inputs.stress_level > 0.6:
             recommendations.append("Seek social support from trusted friends or family")
-            recommendations.append(
-                "Consider professional emotional support if stress persists"
-            )
+            recommendations.append("Consider professional emotional support if stress persists")
 
         return recommendations
 
@@ -1352,9 +1227,7 @@ class EnhancedEmotionalReasoner:
 
         if inputs.emotional_intelligence < 0.6:
             opportunities.append("Practice emotional awareness and labeling exercises")
-            opportunities.append(
-                "Engage in mindfulness or emotional regulation training"
-            )
+            opportunities.append("Engage in mindfulness or emotional regulation training")
 
         if inputs.empathy_level < 0.5:
             opportunities.append("Practice perspective-taking and active listening")
@@ -1362,9 +1235,7 @@ class EnhancedEmotionalReasoner:
 
         if inputs.mood_stability < 0.4:
             opportunities.append("Develop consistent daily routines and habits")
-            opportunities.append(
-                "Practice stress management and emotional regulation techniques"
-            )
+            opportunities.append("Practice stress management and emotional regulation techniques")
 
         if len(inputs.emotional_triggers) > 3:
             opportunities.append("Work on identifying and managing emotional triggers")
@@ -1372,16 +1243,16 @@ class EnhancedEmotionalReasoner:
 
         return opportunities
 
-    def _analyze_emotional_triggers(
-        self, inputs: EmotionalAwarenessInput
-    ) -> dict[str, Any]:
+    def _analyze_emotional_triggers(self, inputs: EmotionalAwarenessInput) -> dict[str, Any]:
         """Analyze emotional triggers and their impact."""
         trigger_analysis = {
             "trigger_count": len(inputs.emotional_triggers),
             "risk_level": (
                 "low"
                 if len(inputs.emotional_triggers) <= 2
-                else "moderate" if len(inputs.emotional_triggers) <= 4 else "high"
+                else "moderate"
+                if len(inputs.emotional_triggers) <= 4
+                else "high"
             ),
             "management_strategies": [],
         }
@@ -1397,15 +1268,10 @@ class EnhancedEmotionalReasoner:
 
         return trigger_analysis
 
-    def _forecast_mood_trajectory(
-        self, inputs: EmotionalAwarenessInput
-    ) -> dict[str, Any]:
+    def _forecast_mood_trajectory(self, inputs: EmotionalAwarenessInput) -> dict[str, Any]:
         """Forecast mood trajectory based on current state."""
         current_balance = self._calculate_emotional_balance(
-            sum(
-                inputs.emotional_state.get(e, 0)
-                for e in ["joy", "happiness", "contentment"]
-            ),
+            sum(inputs.emotional_state.get(e, 0) for e in ["joy", "happiness", "contentment"]),
             sum(inputs.emotional_state.get(e, 0) for e in ["sadness", "anger", "fear"]),
             inputs,
         )
@@ -1430,9 +1296,7 @@ class EnhancedEmotionalReasoner:
         return {
             "trajectory": trajectory,
             "confidence": confidence,
-            "recommended_interventions": self._recommend_mood_interventions(
-                trajectory, inputs
-            ),
+            "recommended_interventions": self._recommend_mood_interventions(trajectory, inputs),
         }
 
     def _recommend_mood_interventions(
@@ -1471,17 +1335,13 @@ class EmotionalAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.EMOTIONAL
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate emotional alignment with institutional wellbeing and productivity goals."""
         base_score = result["emotional_balance"] * 100
 
         # Emotional regulation bonus
         regulation = result.get("emotional_regulation", {})
-        regulation_bonus = (
-            sum(regulation.values()) / len(regulation) * 15 if regulation else 0
-        )
+        regulation_bonus = sum(regulation.values()) / len(regulation) * 15 if regulation else 0
 
         # Resilience bonus
         resilience = result.get("emotional_resilience", 0.5)
@@ -1490,9 +1350,7 @@ class EmotionalAwarenessModule(AwarenessModule):
         # Social readiness factor
         social_readiness = result.get("social_interaction_readiness", {})
         social_factor = (
-            sum(social_readiness.values()) / len(social_readiness) * 8
-            if social_readiness
-            else 0
+            sum(social_readiness.values()) / len(social_readiness) * 8 if social_readiness else 0
         )
 
         # Personality alignment (balanced personality traits)
@@ -1514,17 +1372,11 @@ class EmotionalAwarenessModule(AwarenessModule):
             base_score += 8
 
         total_score = (
-            base_score
-            + regulation_bonus
-            + resilience_bonus
-            + social_factor
-            + personality_bonus
+            base_score + regulation_bonus + resilience_bonus + social_factor + personality_bonus
         )
         return max(0.0, min(total_score, 100.0))
 
-    def generate_recommendations(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> list[str]:
+    def generate_recommendations(self, result: dict[str, Any], inputs: AwarenessInput) -> list[str]:
         """Generate comprehensive emotional wellness recommendations."""
         recommendations = []
 
@@ -1588,21 +1440,15 @@ class EmotionalAwarenessModule(AwarenessModule):
 class SocialAwarenessInput(AwarenessInput):
     """Social awareness inputs for interpersonal dynamics."""
 
-    social_context: str = Field(
-        default="individual", description="Current social context"
-    )
+    social_context: str = Field(default="individual", description="Current social context")
     interaction_quality: float = Field(
         default=0.5, ge=0.0, le=1.0, description="Interaction quality 0-1"
     )
-    group_dynamics: dict[str, Any] = Field(
-        default_factory=dict, description="Group dynamics data"
-    )
+    group_dynamics: dict[str, Any] = Field(default_factory=dict, description="Group dynamics data")
     communication_style: str = Field(
         default="balanced", description="Communication style preference"
     )
-    social_energy: float = Field(
-        default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1"
-    )
+    social_energy: float = Field(default=0.5, ge=0.0, le=1.0, description="Social energy level 0-1")
 
 
 class SocialReasoner:
@@ -1615,18 +1461,14 @@ class SocialReasoner:
 
         return {
             "social_harmony": social_harmony,
-            "interaction_recommendations": self._generate_social_recommendations(
-                inputs
-            ),
+            "interaction_recommendations": self._generate_social_recommendations(inputs),
             "group_analysis": self._analyze_group_dynamics(inputs.group_dynamics),
             "communication_optimization": self._optimize_communication_style(
                 inputs.communication_style
             ),
         }
 
-    def _generate_social_recommendations(
-        self, inputs: SocialAwarenessInput
-    ) -> list[str]:
+    def _generate_social_recommendations(self, inputs: SocialAwarenessInput) -> list[str]:
         """Generate social interaction recommendations."""
         # Placeholder for social recommendations
         return ["Engage actively in conversations", "Practice active listening"]
@@ -1651,14 +1493,10 @@ class SocialAwarenessModule(AwarenessModule):
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.SOCIAL
 
-    def evaluate_alignment(
-        self, result: dict[str, Any], inputs: AwarenessInput
-    ) -> float:
+    def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Evaluate social alignment for optimal interpersonal interactions."""
         base_score = result["social_harmony"] * 100
-        group_bonus = (
-            result.get("group_analysis", {}).get("collaboration_score", 0.5) * 15
-        )
+        group_bonus = result.get("group_analysis", {}).get("collaboration_score", 0.5) * 15
         return max(0.0, min(base_score + group_bonus, 100.0))
 
 
@@ -1695,21 +1533,15 @@ class LukhasAwarenessEngine:
 
         # Cognitive Module with meta-learning reasoner
         cog_reasoner = CognitiveReasoner()
-        self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(
-            cog_reasoner, self.config
-        )
+        self.modules[AwarenessType.COGNITIVE] = CognitiveAwarenessModule(cog_reasoner, self.config)
 
         # Emotional Module with personality integration
         emo_reasoner = EmotionalReasoner()
-        self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(
-            emo_reasoner, self.config
-        )
+        self.modules[AwarenessType.EMOTIONAL] = EmotionalAwarenessModule(emo_reasoner, self.config)
 
         # Social Module with interpersonal dynamics reasoner
         soc_reasoner = SocialReasoner()
-        self.modules[AwarenessType.SOCIAL] = SocialAwarenessModule(
-            soc_reasoner, self.config
-        )
+        self.modules[AwarenessType.SOCIAL] = SocialAwarenessModule(soc_reasoner, self.config)
 
     def process_awareness(
         self, awareness_type: AwarenessType, inputs: AwarenessInput
@@ -1848,9 +1680,7 @@ if __name__ == "__main__":
 
     emo_output = engine.process_awareness(AwarenessType.EMOTIONAL, emo_input)
     print(f"Emotional Alignment Score: {emo_output.alignment.score:.2f}")
-    print(
-        f"Widget Animation Style: {emo_output.data.get('widget_animation_style', {})}"
-    )
+    print(f"Widget Animation Style: {emo_output.data.get('widget_animation_style', {})}")
 
     # Test Social Awareness
     print("\n=== Social Awareness Test ===")
@@ -1874,10 +1704,6 @@ if __name__ == "__main__":
     print(json.dumps(status, indent=2))
 
     print("\n🌟 Lukhas Awareness Engine - Elevated tracking framework operational!")
-    print(
-        "✨ All awareness modules (Environmental, Cognitive, Emotional, Social) ready!"
-    )
-    print(
-        "🎯 Ready for institutional deployment with quantum-enhanced symbolic reasoning."
-    )
+    print("✨ All awareness modules (Environmental, Cognitive, Emotional, Social) ready!")
+    print("🎯 Ready for institutional deployment with quantum-enhanced symbolic reasoning.")
     print("🎨 Widget animations now personality-driven through emotional awareness!")

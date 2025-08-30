@@ -216,9 +216,7 @@ class ConsentFilter:
                     "revocable": template["revocable"],
                     "data_processing": template["data_processing"],
                     "required": True,  # All NIAS consents are currently required
-                    "current_status": await self._get_current_consent_status(
-                        user_id, consent_type
-                    ),
+                    "current_status": await self._get_current_consent_status(user_id, consent_type),
                 }
 
                 consent_request["consent_items"].append(consent_item)
@@ -266,9 +264,7 @@ class ConsentFilter:
 
                 if granted:
                     # Grant consent
-                    expiry_date = datetime.now() + timedelta(
-                        days=template["duration_days"]
-                    )
+                    expiry_date = datetime.now() + timedelta(days=template["duration_days"])
 
                     user_consent_data["consents"][consent_type] = {
                         "status": ConsentStatus.GRANTED.value,
@@ -432,9 +428,7 @@ class ConsentFilter:
             logger.error(f"Failed to check consent for {user_id}: {e}")
             return {"approved": False, "error": str(e)}
 
-    def _determine_required_consents(
-        self, message: dict[str, Any]
-    ) -> list[ConsentType]:
+    def _determine_required_consents(self, message: dict[str, Any]) -> list[ConsentType]:
         """Determine which consents are required for a message"""
         required = [ConsentType.MESSAGE_DELIVERY]
 
@@ -456,9 +450,7 @@ class ConsentFilter:
 
         return required
 
-    async def _get_current_consent_status(
-        self, user_id: str, consent_type: ConsentType
-    ) -> str:
+    async def _get_current_consent_status(self, user_id: str, consent_type: ConsentType) -> str:
         """Get current consent status for a user and consent type"""
         if user_id not in self.user_consents:
             await self._load_user_consent_data(user_id)
@@ -489,9 +481,7 @@ class ConsentFilter:
             "user_rights": self.privacy_policies["user_rights"],
         }
 
-    async def withdraw_consent(
-        self, user_id: str, consent_type: ConsentType
-    ) -> dict[str, Any]:
+    async def withdraw_consent(self, user_id: str, consent_type: ConsentType) -> dict[str, Any]:
         """Allow user to withdraw consent"""
         try:
             if user_id not in self.user_consents:
@@ -607,8 +597,7 @@ class ConsentFilter:
             "total_users": len(self.user_consents),
             "consent_types_available": len(self.consent_templates),
             "storage_path": str(self.storage_path),
-            "storage_accessible": self.storage_path.exists()
-            and self.storage_path.is_dir(),
+            "storage_accessible": self.storage_path.exists() and self.storage_path.is_dir(),
         }
 
 

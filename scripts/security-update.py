@@ -26,12 +26,7 @@ class SecurityUpdater:
     def run_command(self, cmd: list[str]) -> tuple[int, str, str]:
         """Run a shell command and return the result"""
         try:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                cwd=self.project_root
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root)
             return result.returncode, result.stdout, result.stderr
         except Exception as e:
             return 1, "", str(e)
@@ -50,22 +45,22 @@ class SecurityUpdater:
             try:
                 audit_results = json.loads(stdout)
                 for vuln in audit_results.get("vulnerabilities", []):
-                    vulnerabilities.append({
-                        "package": vuln.get("name"),
-                        "current_version": vuln.get("version"),
-                        "vulnerability": vuln.get("id"),
-                        "description": vuln.get("description"),
-                        "fix_version": vuln.get("fix_versions", ["latest"])[0],
-                        "severity": "high"  # pip-audit doesn't provide severity
-                    })
+                    vulnerabilities.append(
+                        {
+                            "package": vuln.get("name"),
+                            "current_version": vuln.get("version"),
+                            "vulnerability": vuln.get("id"),
+                            "description": vuln.get("description"),
+                            "fix_version": vuln.get("fix_versions", ["latest"])[0],
+                            "severity": "high",  # pip-audit doesn't provide severity
+                        }
+                    )
             except json.JSONDecodeError:
                 pass
 
         # Check with safety
         print("  Running safety check...")
-        code, stdout, stderr = self.run_command(
-            ["python3", "-m", "safety", "check", "--json"]
-        )
+        code, stdout, stderr = self.run_command(["python3", "-m", "safety", "check", "--json"])
         if stdout:
             try:
                 safety_results = json.loads(stdout)
@@ -73,14 +68,16 @@ class SecurityUpdater:
                     package_name = vuln.get("package_name", "").lower()
                     # Avoid duplicates
                     if not any(v["package"] == package_name for v in vulnerabilities):
-                        vulnerabilities.append({
-                            "package": package_name,
-                            "current_version": vuln.get("analyzed_version"),
-                            "vulnerability": vuln.get("vulnerability_id"),
-                            "description": vuln.get("advisory"),
-                            "fix_version": vuln.get("safe_version", "latest"),
-                            "severity": vuln.get("severity", "medium").lower()
-                        })
+                        vulnerabilities.append(
+                            {
+                                "package": package_name,
+                                "current_version": vuln.get("analyzed_version"),
+                                "vulnerability": vuln.get("vulnerability_id"),
+                                "description": vuln.get("advisory"),
+                                "fix_version": vuln.get("safe_version", "latest"),
+                                "severity": vuln.get("severity", "medium").lower(),
+                            }
+                        )
             except json.JSONDecodeError:
                 pass
 
@@ -91,8 +88,7 @@ class SecurityUpdater:
         """Prioritize vulnerabilities by severity"""
         severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
         return sorted(
-            vulnerabilities,
-            key=lambda x: severity_order.get(x.get("severity", "unknown"), 4)
+            vulnerabilities, key=lambda x: severity_order.get(x.get("severity", "unknown"), 4)
         )
 
     def update_package(self, package: str, version: str = None) -> bool:
@@ -178,9 +174,7 @@ class SecurityUpdater:
             return True
 
         # Run pytest
-        code, stdout, stderr = self.run_command(
-            ["pytest", "tests/", "-v", "--tb=short", "-q"]
-        )
+        code, stdout, stderr = self.run_command(["pytest", "tests/", "-v", "--tb=short", "-q"])
 
         if code == 0:
             print("  ✅ All tests passed")
@@ -216,7 +210,7 @@ class SecurityUpdater:
         commit_message = f"""fix(security): Update vulnerable dependencies
 
 Updated the following packages to fix security vulnerabilities:
-{chr(10).join(f'- {pkg}' for pkg in self.updates_applied)}
+{chr(10).join(f"- {pkg}" for pkg in self.updates_applied)}
 
 Vulnerabilities fixed: {len(self.vulnerabilities)}
 Automated security update by security-update.py
@@ -295,10 +289,7 @@ Automated security update by security-update.py
         print("\n🔧 Applying security updates...")
         for vuln in prioritized:
             if vuln.get("severity") in ["critical", "high"] or auto_update:
-                self.update_package(
-                    vuln["package"],
-                    vuln.get("fix_version")
-                )
+                self.update_package(vuln["package"], vuln.get("fix_version"))
 
         if self.updates_applied:
             # Update requirements.txt
@@ -337,20 +328,12 @@ Automated security update by security-update.py
 def main():
     parser = argparse.ArgumentParser(description="LUKHAS Security Update Tool")
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be updated without making changes"
+        "--dry-run", action="store_true", help="Show what would be updated without making changes"
     )
     parser.add_argument(
-        "--auto",
-        action="store_true",
-        help="Automatically update without prompting"
+        "--auto", action="store_true", help="Automatically update without prompting"
     )
-    parser.add_argument(
-        "--no-test",
-        action="store_true",
-        help="Skip running tests after updates"
-    )
+    parser.add_argument("--no-test", action="store_true", help="Skip running tests after updates")
 
     args = parser.parse_args()
 
@@ -360,9 +343,7 @@ def main():
 
     for module_name, package_name in required_tools:
         result = subprocess.run(
-            ["python3", "-c", f"import {module_name}"],
-            capture_output=True,
-            text=True
+            ["python3", "-c", f"import {module_name}"], capture_output=True, text=True
         )
         if result.returncode != 0:
             missing_tools.append(package_name)

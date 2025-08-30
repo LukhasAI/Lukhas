@@ -33,9 +33,7 @@ __version__ = "2.0.0"
 
 # Module metadata
 __author__ = "LUKHAS AGI Framework"
-__description__ = (
-    "DNA-inspired immutable memory architecture with MATADA cognitive framework"
-)
+__description__ = "DNA-inspired immutable memory architecture with MATADA cognitive framework"
 
 __all__ = [
     # Original DNA helix classes

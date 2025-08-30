@@ -34,16 +34,20 @@ from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
 
+
 class FunctionCallMode(Enum):
     """Function calling modes"""
-    NONE = "none"           # No function calling
-    AUTO = "auto"           # Automatic function selection
-    REQUIRED = "required"   # Force function calling
-    SPECIFIC = "specific"   # Specific function required
+
+    NONE = "none"  # No function calling
+    AUTO = "auto"  # Automatic function selection
+    REQUIRED = "required"  # Force function calling
+    SPECIFIC = "specific"  # Specific function required
+
 
 @dataclass
 class FunctionDefinition:
     """Function definition for OpenAI API"""
+
     name: str
     description: str
     parameters: dict[str, Any]
@@ -62,13 +66,15 @@ class FunctionDefinition:
             "function": {
                 "name": self.name,
                 "description": self.description,
-                "parameters": self.parameters
-            }
+                "parameters": self.parameters,
+            },
         }
+
 
 @dataclass
 class FunctionCall:
     """Represents a function call request"""
+
     id: str
     name: str
     arguments: dict[str, Any]
@@ -80,9 +86,11 @@ class FunctionCall:
     error: Optional[str] = None
     execution_time_ms: float = 0.0
 
+
 @dataclass
 class OpenAIResponse:
     """Structured response from OpenAI API"""
+
     content: str
     function_calls: list[FunctionCall] = field(default_factory=list)
     model: str = ""
@@ -93,6 +101,7 @@ class OpenAIResponse:
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     finish_reason: str = ""
+
 
 class OpenAIFunctionBridge:
     """
@@ -106,8 +115,7 @@ class OpenAIFunctionBridge:
     - Multi-model support (GPT-4, GPT-3.5-turbo)
     """
 
-    def __init__(self, api_key: Optional[str] = None,
-                 default_model: str = "gpt-4-1106-preview"):
+    def __init__(self, api_key: Optional[str] = None, default_model: str = "gpt-4-1106-preview"):
         """Initialize OpenAI function bridge"""
 
         self.api_key = api_key or self._get_api_key()
@@ -124,7 +132,7 @@ class OpenAIFunctionBridge:
             "average_latency_ms": 0.0,
             "token_usage": {"input": 0, "output": 0, "total": 0},
             "errors": 0,
-            "streaming_sessions": 0
+            "streaming_sessions": 0,
         }
 
         # Rate limiting
@@ -138,6 +146,7 @@ class OpenAIFunctionBridge:
     def _get_api_key(self) -> Optional[str]:
         """Get OpenAI API key from environment"""
         import os
+
         return os.getenv("OPENAI_API_KEY")
 
     def register_function(self, func_def: FunctionDefinition):
@@ -156,7 +165,7 @@ class OpenAIFunctionBridge:
                 parameters=definition["parameters"],
                 handler=definition.get("handler"),
                 requires_confirmation=definition.get("requires_confirmation", False),
-                security_level=definition.get("security_level", "standard")
+                security_level=definition.get("security_level", "standard"),
             )
             self.register_function(func_def)
 
@@ -166,14 +175,16 @@ class OpenAIFunctionBridge:
         """Get all available functions in OpenAI format"""
         return [func.to_openai_format() for func in self.functions.values()]
 
-    async def complete_with_functions(self,
-                                    messages: list[dict[str, str]],
-                                    model: Optional[str] = None,
-                                    function_mode: FunctionCallMode = FunctionCallMode.AUTO,
-                                    specific_function: Optional[str] = None,
-                                    max_tokens: Optional[int] = None,
-                                    temperature: float = 0.7,
-                                    execute_functions: bool = True) -> OpenAIResponse:
+    async def complete_with_functions(
+        self,
+        messages: list[dict[str, str]],
+        model: Optional[str] = None,
+        function_mode: FunctionCallMode = FunctionCallMode.AUTO,
+        specific_function: Optional[str] = None,
+        max_tokens: Optional[int] = None,
+        temperature: float = 0.7,
+        execute_functions: bool = True,
+    ) -> OpenAIResponse:
         """
         Complete chat with function calling support.
 
@@ -201,7 +212,7 @@ class OpenAIFunctionBridge:
                 "model": model,
                 "messages": messages,
                 "max_tokens": max_tokens,
-                "temperature": temperature
+                "temperature": temperature,
             }
 
             # Add function calling if functions available and mode allows
@@ -213,7 +224,7 @@ class OpenAIFunctionBridge:
                 elif function_mode == FunctionCallMode.SPECIFIC and specific_function:
                     api_params["tool_choice"] = {
                         "type": "function",
-                        "function": {"name": specific_function}
+                        "function": {"name": specific_function},
                     }
                 # AUTO mode uses default behavior
 
@@ -239,9 +250,7 @@ class OpenAIFunctionBridge:
                             arguments = {}
 
                         func_call = FunctionCall(
-                            id=tool_call.id,
-                            name=tool_call.function.name,
-                            arguments=arguments
+                            id=tool_call.id, name=tool_call.function.name, arguments=arguments
                         )
                         function_calls.append(func_call)
 
@@ -257,7 +266,7 @@ class OpenAIFunctionBridge:
                 model=model,
                 usage=response.usage.model_dump() if response.usage else {},
                 latency_ms=latency_ms,
-                finish_reason=response.choices[0].finish_reason or ""
+                finish_reason=response.choices[0].finish_reason or "",
             )
 
             # Update metrics
@@ -271,19 +280,20 @@ class OpenAIFunctionBridge:
 
         except Exception as e:
             self.metrics["errors"] += 1
-            logger.error(f"❌ OpenAI API error: {str(e)}")
+            logger.error(f"❌ OpenAI API error: {e!s}")
 
             # Return error response
             return OpenAIResponse(
-                content=f"Error: {str(e)}",
-                latency_ms=(time.perf_counter() - request_start) * 1000
+                content=f"Error: {e!s}", latency_ms=(time.perf_counter() - request_start) * 1000
             )
 
-    async def stream_with_functions(self,
-                                  messages: list[dict[str, str]],
-                                  model: Optional[str] = None,
-                                  function_mode: FunctionCallMode = FunctionCallMode.AUTO,
-                                  **kwargs) -> AsyncGenerator[dict[str, Any], None]:
+    async def stream_with_functions(
+        self,
+        messages: list[dict[str, str]],
+        model: Optional[str] = None,
+        function_mode: FunctionCallMode = FunctionCallMode.AUTO,
+        **kwargs,
+    ) -> AsyncGenerator[dict[str, Any], None]:
         """
         Stream chat completion with function calling support.
 
@@ -301,12 +311,7 @@ class OpenAIFunctionBridge:
 
         try:
             # Prepare streaming parameters
-            api_params = {
-                "model": model,
-                "messages": messages,
-                "stream": True,
-                **kwargs
-            }
+            api_params = {"model": model, "messages": messages, "stream": True, **kwargs}
 
             # Add function calling if available
             if self.functions and function_mode != FunctionCallMode.NONE:
@@ -327,7 +332,7 @@ class OpenAIFunctionBridge:
                         yield {
                             "type": "content",
                             "content": choice.delta.content,
-                            "finish_reason": choice.finish_reason
+                            "finish_reason": choice.finish_reason,
                         }
 
                     # Yield function call data
@@ -335,16 +340,17 @@ class OpenAIFunctionBridge:
                         for tool_call in choice.delta.tool_calls:
                             yield {
                                 "type": "function_call",
-                                "function_name": tool_call.function.name if tool_call.function else None,
-                                "arguments": tool_call.function.arguments if tool_call.function else None
+                                "function_name": tool_call.function.name
+                                if tool_call.function
+                                else None,
+                                "arguments": tool_call.function.arguments
+                                if tool_call.function
+                                else None,
                             }
 
         except Exception as e:
-            logger.error(f"❌ Streaming error: {str(e)}")
-            yield {
-                "type": "error",
-                "error": str(e)
-            }
+            logger.error(f"❌ Streaming error: {e!s}")
+            yield {"type": "error", "error": str(e)}
 
     async def _execute_function_call(self, func_call: FunctionCall):
         """Execute a function call with validation and error handling"""
@@ -383,14 +389,15 @@ class OpenAIFunctionBridge:
 
         except Exception as e:
             func_call.error = str(e)
-            logger.error(f"❌ Function execution error: {str(e)}")
+            logger.error(f"❌ Function execution error: {e!s}")
 
         finally:
             func_call.execution_time_ms = (time.perf_counter() - execution_start) * 1000
             self.metrics["function_calls"] += 1
 
-    async def _validate_critical_function_call(self, func_call: FunctionCall,
-                                              func_def: FunctionDefinition) -> bool:
+    async def _validate_critical_function_call(
+        self, func_call: FunctionCall, func_def: FunctionDefinition
+    ) -> bool:
         """Validate critical function calls with additional security"""
         try:
             # Check if confirmation is required
@@ -409,7 +416,7 @@ class OpenAIFunctionBridge:
             return True
 
         except Exception as e:
-            logger.error(f"❌ Critical function validation error: {str(e)}")
+            logger.error(f"❌ Critical function validation error: {e!s}")
             return False
 
     async def _check_rate_limit(self):
@@ -418,8 +425,7 @@ class OpenAIFunctionBridge:
 
         # Clean old requests (older than 1 minute)
         self.request_times = [
-            req_time for req_time in self.request_times
-            if current_time - req_time < 60
+            req_time for req_time in self.request_times if current_time - req_time < 60
         ]
 
         # Check if we're hitting rate limit
@@ -453,7 +459,7 @@ class OpenAIFunctionBridge:
             "registered_functions": len(self.functions),
             "functions_available": list(self.functions.keys()),
             "average_cost_per_request": self._estimate_cost_per_request(),
-            "performance_score": self._calculate_performance_score()
+            "performance_score": self._calculate_performance_score(),
         }
 
     def _estimate_cost_per_request(self) -> float:
@@ -478,7 +484,8 @@ class OpenAIFunctionBridge:
         success_score = 1 - error_rate
 
         # Weighted average
-        return (latency_score * 0.4 + success_score * 0.6)
+        return latency_score * 0.4 + success_score * 0.6
+
 
 # Predefined function definitions for common LUKHAS operations
 LUKHAS_FUNCTION_DEFINITIONS = {
@@ -487,12 +494,18 @@ LUKHAS_FUNCTION_DEFINITIONS = {
         "parameters": {
             "type": "object",
             "properties": {
-                "fold_id": {"type": "string", "description": "Unique identifier for the memory fold"},
-                "include_context": {"type": "boolean", "description": "Whether to include contextual information"}
+                "fold_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the memory fold",
+                },
+                "include_context": {
+                    "type": "boolean",
+                    "description": "Whether to include contextual information",
+                },
             },
-            "required": ["fold_id"]
+            "required": ["fold_id"],
         },
-        "security_level": "standard"
+        "security_level": "standard",
     },
     "consciousness_query": {
         "description": "Query LUKHAS consciousness system for insights or decisions",
@@ -500,23 +513,33 @@ LUKHAS_FUNCTION_DEFINITIONS = {
             "type": "object",
             "properties": {
                 "query": {"type": "string", "description": "The consciousness query to process"},
-                "priority": {"type": "string", "enum": ["low", "medium", "high"], "description": "Query priority level"}
+                "priority": {
+                    "type": "string",
+                    "enum": ["low", "medium", "high"],
+                    "description": "Query priority level",
+                },
             },
-            "required": ["query"]
+            "required": ["query"],
         },
-        "security_level": "high"
+        "security_level": "high",
     },
     "emotional_assessment": {
         "description": "Assess emotional context and provide VAD (Valence, Arousal, Dominance) analysis",
         "parameters": {
             "type": "object",
             "properties": {
-                "text_input": {"type": "string", "description": "Text to analyze for emotional content"},
-                "context_weight": {"type": "number", "description": "Weight of contextual factors (0-1)"}
+                "text_input": {
+                    "type": "string",
+                    "description": "Text to analyze for emotional content",
+                },
+                "context_weight": {
+                    "type": "number",
+                    "description": "Weight of contextual factors (0-1)",
+                },
             },
-            "required": ["text_input"]
+            "required": ["text_input"],
         },
-        "security_level": "standard"
+        "security_level": "standard",
     },
     "guardian_validate": {
         "description": "Validate content through LUKHAS Guardian ethical oversight system",
@@ -524,21 +547,25 @@ LUKHAS_FUNCTION_DEFINITIONS = {
             "type": "object",
             "properties": {
                 "content": {"type": "string", "description": "Content to validate"},
-                "validation_level": {"type": "string", "enum": ["basic", "standard", "strict"], "description": "Level of validation required"}
+                "validation_level": {
+                    "type": "string",
+                    "enum": ["basic", "standard", "strict"],
+                    "description": "Level of validation required",
+                },
             },
-            "required": ["content"]
+            "required": ["content"],
         },
         "security_level": "critical",
-        "requires_confirmation": True
-    }
+        "requires_confirmation": True,
+    },
 }
 
 # Export main components
 __all__ = [
-    "OpenAIFunctionBridge",
-    "FunctionDefinition",
+    "LUKHAS_FUNCTION_DEFINITIONS",
     "FunctionCall",
     "FunctionCallMode",
+    "FunctionDefinition",
+    "OpenAIFunctionBridge",
     "OpenAIResponse",
-    "LUKHAS_FUNCTION_DEFINITIONS"
 ]

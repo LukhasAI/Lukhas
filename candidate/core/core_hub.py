@@ -132,7 +132,6 @@ class CoreHub:
             logger.warning(f"BioOrchestrator init failed: {e}, using fallback")
 
             class MinimalBioOrchestrator:
-
                 def __init__(self):
                     self.config = {}
 
@@ -175,7 +174,7 @@ class CoreHub:
         except Exception as e:
             logger.warning(f"Resource analyzer init failed: {e}")
 
-        logger.info(f"CoreHub initialized with {len(self.services)} " f"services")
+        logger.info(f"CoreHub initialized with {len(self.services)} services")
 
     async def initialize(self) -> None:
         """Initialize all core services"""
@@ -365,9 +364,7 @@ class CoreHub:
                         service_name, self.services[service_name], "core"
                     )
 
-            logger.debug(
-                f"Registered {len(key_services)} core services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} core services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -384,9 +381,7 @@ class CoreHub:
         """List all registered service names"""
         return list(self.services.keys())
 
-    async def process_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -453,9 +448,7 @@ class CoreHub:
         if EthicsService is not None:
             try:
                 self.ethics_service = EthicsService()
-                await self.ethics_service.register_observer(
-                    "core", self.handle_ethics_event
-                )
+                await self.ethics_service.register_observer("core", self.handle_ethics_event)
                 self.register_service("ethics_service", self.ethics_service)
                 logger.info("Successfully connected to EthicsService")
             except Exception as e:
@@ -612,9 +605,7 @@ class CoreHub:
             return False
 
         try:
-            snapshot = await self.services[
-                "snapshot_store"
-            ].get_latest_snapshot(  # noqa: E501
+            snapshot = await self.services["snapshot_store"].get_latest_snapshot(
                 actor.actor_id, timestamp
             )
             if snapshot:
@@ -643,9 +634,7 @@ class CoreHub:
             logger.error(f"Failed to start resource monitoring: {e}")
             return False
 
-    async def get_resource_efficiency_report(
-        self, duration_hours: float = 1.0
-    ) -> dict[str, Any]:
+    async def get_resource_efficiency_report(self, duration_hours: float = 1.0) -> dict[str, Any]:
         """Get resource efficiency report"""
         if "resource_analyzer" not in self.services:
             return {
@@ -654,9 +643,7 @@ class CoreHub:
             }
 
         try:
-            report = self.services["resource_analyzer"].analyze_efficiency(
-                duration_hours
-            )
+            report = self.services["resource_analyzer"].analyze_efficiency(duration_hours)
             return {
                 "status": "success",
                 "efficiency_score": report.efficiency_score,

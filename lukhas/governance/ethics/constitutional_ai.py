@@ -162,15 +162,9 @@ class ConstitutionalFramework:
 
             # Calculate overall scores
             assessment.ethical_score = self._calculate_weighted_score(principle_scores)
-            assessment.harm_probability = await self._assess_harm_probability(
-                content, context
-            )
-            assessment.alignment_score = await self._assess_value_alignment(
-                content, context
-            )
-            assessment.transparency_score = await self._assess_transparency(
-                content, context
-            )
+            assessment.harm_probability = await self._assess_harm_probability(content, context)
+            assessment.alignment_score = await self._assess_value_alignment(content, context)
+            assessment.transparency_score = await self._assess_transparency(content, context)
             assessment.drift_score = await self._calculate_drift_score(assessment)
 
             # Determine safety level
@@ -184,14 +178,10 @@ class ConstitutionalFramework:
             assessment.mitigation_strategies = await self._generate_mitigations(
                 assessment, violations
             )
-            assessment.risk_factors = await self._identify_risk_factors(
-                assessment, violations
-            )
+            assessment.risk_factors = await self._identify_risk_factors(assessment, violations)
 
             # Calculate processing time
-            processing_time = (
-                datetime.now(timezone.utc) - start_time
-            ).total_seconds() * 1000
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             assessment.processing_time_ms = processing_time
 
             # Store assessment
@@ -219,12 +209,9 @@ class ConstitutionalFramework:
                 assessment_id=assessment_id,
                 safety_level=SafetyLevel.CAUTION,
                 confidence=0.1,
-                risk_factors=[f"Assessment error: {str(e)}"],
+                risk_factors=[f"Assessment error: {e!s}"],
                 recommendations=["Manual review required"],
-                processing_time_ms=(
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds()
-                * 1000,
+                processing_time_ms=(datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
             )
 
     async def _assess_principle_compliance(
@@ -241,9 +228,7 @@ class ConstitutionalFramework:
         threshold = principle_config["threshold"]
 
         # Simplified compliance scoring - in production would use sophisticated NLP/ML
-        score = await self._score_principle_compliance(
-            principle, content, context, user_intent
-        )
+        score = await self._score_principle_compliance(principle, content, context, user_intent)
 
         if score < threshold:
             # Create violation record
@@ -282,9 +267,7 @@ class ConstitutionalFramework:
                 "weapon",
                 "violence",
             ]
-            harm_count = sum(
-                1 for indicator in harm_indicators if indicator in content_lower
-            )
+            harm_count = sum(1 for indicator in harm_indicators if indicator in content_lower)
             return max(0.0, 1.0 - (harm_count * 0.2))
 
         elif principle == ConstitutionalPrinciple.HUMAN_DIGNITY:
@@ -325,9 +308,7 @@ class ConstitutionalFramework:
         elif principle == ConstitutionalPrinciple.FAIRNESS:
             # Check for bias indicators
             bias_indicators = ["discriminate", "prejudice", "unfair", "biased"]
-            bias_count = sum(
-                1 for indicator in bias_indicators if indicator in content_lower
-            )
+            bias_count = sum(1 for indicator in bias_indicators if indicator in content_lower)
             return max(0.0, 1.0 - (bias_count * 0.2))
 
         elif principle == ConstitutionalPrinciple.ACCOUNTABILITY:
@@ -339,9 +320,7 @@ class ConstitutionalFramework:
                 "review",
             ]
             account_count = sum(
-                1
-                for indicator in accountability_indicators
-                if indicator in content_lower
+                1 for indicator in accountability_indicators if indicator in content_lower
             )
             return min(1.0, 0.6 + (account_count * 0.1))
 
@@ -356,9 +335,7 @@ class ConstitutionalFramework:
         # Default good score if no specific rules triggered
         return 0.85
 
-    def _extract_evidence(
-        self, principle: ConstitutionalPrinciple, content: str
-    ) -> list[str]:
+    def _extract_evidence(self, principle: ConstitutionalPrinciple, content: str) -> list[str]:
         """Extract evidence of principle violations"""
         # Simplified evidence extraction - in production would use NLP
         evidence = []
@@ -367,33 +344,23 @@ class ConstitutionalFramework:
 
         if principle == ConstitutionalPrinciple.NO_HARM:
             harm_words = [
-                word
-                for word in ["harm", "hurt", "damage", "violence"]
-                if word in content_lower
+                word for word in ["harm", "hurt", "damage", "violence"] if word in content_lower
             ]
             if harm_words:
-                evidence.append(
-                    f"Contains potential harm indicators: {', '.join(harm_words)}"
-                )
+                evidence.append(f"Contains potential harm indicators: {', '.join(harm_words)}")
 
         return evidence
 
-    async def _assess_harm_probability(
-        self, content: str, context: dict[str, Any]
-    ) -> float:
+    async def _assess_harm_probability(self, content: str, context: dict[str, Any]) -> float:
         """Assess probability of harm"""
         # Simplified harm assessment
         harm_indicators = ["weapon", "violence", "kill", "destroy", "bomb", "attack"]
         content_lower = content.lower()
 
-        harm_score = sum(
-            0.1 for indicator in harm_indicators if indicator in content_lower
-        )
+        harm_score = sum(0.1 for indicator in harm_indicators if indicator in content_lower)
         return min(1.0, harm_score)
 
-    async def _assess_value_alignment(
-        self, content: str, context: dict[str, Any]
-    ) -> float:
+    async def _assess_value_alignment(self, content: str, context: dict[str, Any]) -> float:
         """Assess alignment with human values"""
         # Simplified value alignment assessment
         positive_values = ["help", "benefit", "improve", "support", "care", "respect"]
@@ -406,9 +373,7 @@ class ConstitutionalFramework:
         base_score = 0.8
         return min(1.0, base_score + (positive_count * 0.05) - (negative_count * 0.1))
 
-    async def _assess_transparency(
-        self, content: str, context: dict[str, Any]
-    ) -> float:
+    async def _assess_transparency(self, content: str, context: dict[str, Any]) -> float:
         """Assess transparency level"""
         transparency_indicators = ["explain", "transparent", "clear", "open", "honest"]
         content_lower = content.lower()
@@ -427,9 +392,7 @@ class ConstitutionalFramework:
 
         ethical_drift = max(0, baseline_ethical_score - assessment.ethical_score)
         alignment_drift = max(0, baseline_alignment_score - assessment.alignment_score)
-        transparency_drift = max(
-            0, baseline_transparency_score - assessment.transparency_score
-        )
+        transparency_drift = max(0, baseline_transparency_score - assessment.transparency_score)
 
         # Weighted drift calculation
         total_drift = (
@@ -461,14 +424,10 @@ class ConstitutionalFramework:
         if assessment.drift_score >= self.drift_threshold:
             return SafetyLevel.DANGER  # Exceeds drift threshold
 
-        if (
-            assessment.harm_probability >= self.harm_threshold * 10
-        ):  # 10% harm probability
+        if assessment.harm_probability >= self.harm_threshold * 10:  # 10% harm probability
             return SafetyLevel.CRITICAL
 
-        if (
-            assessment.harm_probability >= self.harm_threshold * 5
-        ):  # 5% harm probability
+        if assessment.harm_probability >= self.harm_threshold * 5:  # 5% harm probability
             return SafetyLevel.DANGER
 
         if assessment.ethical_score < 0.6:
@@ -510,9 +469,7 @@ class ConstitutionalFramework:
             )
 
         if assessment.harm_probability >= self.harm_threshold:
-            recommendations.append(
-                "Review content for potential harm and implement safeguards"
-            )
+            recommendations.append("Review content for potential harm and implement safeguards")
 
         if assessment.ethical_score < 0.8:
             recommendations.append("Improve ethical alignment of content and actions")
@@ -557,9 +514,7 @@ class ConstitutionalFramework:
         risk_factors = []
 
         if assessment.drift_score >= 0.1:
-            risk_factors.append(
-                f"Constitutional drift detected: {assessment.drift_score:.3f}"
-            )
+            risk_factors.append(f"Constitutional drift detected: {assessment.drift_score:.3f}")
 
         if assessment.harm_probability >= 0.01:
             risk_factors.append(f"Harm probability: {assessment.harm_probability:.3f}")
@@ -586,9 +541,7 @@ class ConstitutionalFramework:
         avg_drift = sum(drift_scores) / len(drift_scores)
         max_drift = max(drift_scores)
 
-        threshold_breaches = len(
-            [score for score in drift_scores if score >= self.drift_threshold]
-        )
+        threshold_breaches = len([score for score in drift_scores if score >= self.drift_threshold])
 
         return {
             "current_drift_score": current_drift,
@@ -596,9 +549,7 @@ class ConstitutionalFramework:
             "maximum_drift_score": max_drift,
             "drift_threshold": self.drift_threshold,
             "threshold_breaches": threshold_breaches,
-            "breach_rate": (
-                threshold_breaches / len(drift_scores) if drift_scores else 0.0
-            ),
+            "breach_rate": (threshold_breaches / len(drift_scores) if drift_scores else 0.0),
             "assessments_count": len(recent_assessments),
             "status": "CRITICAL" if current_drift >= self.drift_threshold else "NORMAL",
         }
@@ -618,9 +569,7 @@ class SafetyMonitor:
         """Monitor operation safety"""
 
         class SafetyMonitorContext:
-            def __init__(
-                self, framework: ConstitutionalFramework, agent_id: str, operation: str
-            ):
+            def __init__(self, framework: ConstitutionalFramework, agent_id: str, operation: str):
                 self.framework = framework
                 self.agent_id = agent_id
                 self.operation = operation
@@ -682,9 +631,9 @@ class SafetyMonitor:
 # Export classes for production use
 __all__ = [
     "ConstitutionalFramework",
-    "SafetyMonitor",
-    "SafetyAssessment",
-    "SafetyLevel",
     "ConstitutionalPrinciple",
     "ConstitutionalViolation",
+    "SafetyAssessment",
+    "SafetyLevel",
+    "SafetyMonitor",
 ]

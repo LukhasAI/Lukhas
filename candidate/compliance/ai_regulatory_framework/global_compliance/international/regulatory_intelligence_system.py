@@ -40,7 +40,7 @@ class RegulatoryIntelligenceSystem(CoreInterface):
             "mandatory": ["safety", "transparency", "accountability"],
             "recommended": ["explainability", "fairness"],
             "jurisdiction": "international",
-            "enforcement": "moderate"
+            "enforcement": "moderate",
         }
 
     async def _build_framework_database(self) -> None:
@@ -49,27 +49,29 @@ class RegulatoryIntelligenceSystem(CoreInterface):
         self.framework_database = {
             "EU_AI_ACT": {
                 "mandatory": [
-                    "risk_assessment", "data_quality", "transparency",
-                    "human_oversight", "accuracy", "robustness"
+                    "risk_assessment",
+                    "data_quality",
+                    "transparency",
+                    "human_oversight",
+                    "accuracy",
+                    "robustness",
                 ],
                 "recommended": ["environmental_sustainability", "accessibility"],
                 "jurisdiction": "European Union",
-                "enforcement": "strict"
+                "enforcement": "strict",
             },
             "US_NIST_FRAMEWORK": {
                 "mandatory": [],  # Voluntary framework
-                "recommended": [
-                    "trustworthy_ai", "risk_management", "governance"
-                ],
+                "recommended": ["trustworthy_ai", "risk_management", "governance"],
                 "jurisdiction": "United States",
-                "enforcement": "voluntary"
+                "enforcement": "voluntary",
             },
             "UN_AI_COMPACT": {
                 "mandatory": ["human_rights", "safety", "transparency"],
                 "recommended": ["sustainability", "inclusivity"],
                 "jurisdiction": "global",
-                "enforcement": "aspirational"
-            }
+                "enforcement": "aspirational",
+            },
         }
 
     async def shutdown(self) -> None:

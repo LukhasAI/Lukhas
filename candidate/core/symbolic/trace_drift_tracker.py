@@ -72,9 +72,7 @@ class SymbolicDriftTracker:
             context (str): Additional context about the drift event.
         """
         # ΛTRACE: Delegate to core implementation
-        self._core_tracker.record_drift(
-            symbol_id, current_state, reference_state, context
-        )
+        self._core_tracker.record_drift(symbol_id, current_state, reference_state, context)
 
         # Maintain compatibility record
         drift_event = {
@@ -148,9 +146,7 @@ class SymbolicDriftTracker:
             phase_b (str): Description of the second phase.
             mismatch_details (dict): Details about the mismatch.
         """
-        self._core_tracker.log_phase_mismatch(
-            symbol_id, phase_a, phase_b, mismatch_details
-        )
+        self._core_tracker.log_phase_mismatch(symbol_id, phase_a, phase_b, mismatch_details)
 
     def summarize_drift(self, time_window: str = "all") -> dict:
         """
@@ -170,13 +166,9 @@ class SymbolicDriftTracker:
         self, current_symbols: list, prior_symbols: list, context: dict
     ) -> float:
         """Delegate to core enterprise drift calculation."""
-        return self._core_tracker.calculate_symbolic_drift(
-            current_symbols, prior_symbols, context
-        )
+        return self._core_tracker.calculate_symbolic_drift(current_symbols, prior_symbols, context)
 
-    def register_symbolic_state(
-        self, session_id: str, symbols: list, metadata: dict
-    ) -> None:
+    def register_symbolic_state(self, session_id: str, symbols: list, metadata: dict) -> None:
         """Delegate to core enterprise state registration."""
         return self._core_tracker.register_symbolic_state(session_id, symbols, metadata)
 
@@ -217,9 +209,7 @@ if __name__ == "__main__":
 
     # ΛTRACE: Simulating a call to record_drift from a hypothetical AGI component.
     logger.info("Simulating drift recording via test entry point", tag="ΛTRACE")
-    drift_tracker.record_drift(
-        symbol_id_test, drifted_state, initial_state, event_context
-    )
+    drift_tracker.record_drift(symbol_id_test, drifted_state, initial_state, event_context)
 
     # Simulate calculating entropy
     entropy = drift_tracker.calculate_entropy(symbol_id_test)

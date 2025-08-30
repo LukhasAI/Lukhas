@@ -11,4 +11,4 @@ from .src.core.nias_plugin import NIASPlugin
 __version__ = "1.0.0"
 __author__ = "Lucas AGI Systems"
 
-__all__ = ["NIASPlugin", "NIASConfig"]
+__all__ = ["NIASConfig", "NIASPlugin"]

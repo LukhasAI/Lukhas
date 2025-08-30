@@ -134,9 +134,7 @@ class Experience:
         self.surprise = surprise
 
         # Combine TD error and surprise
-        self.priority = (
-            self.td_error + 0.1 * self.surprise + 1e-6
-        )  # Small constant for stability
+        self.priority = self.td_error + 0.1 * self.surprise + 1e-6  # Small constant for stability
 
         # Boost recent experiences
         age = time.time() - self.timestamp
@@ -295,9 +293,7 @@ class ReplayBuffer:
 
         # Update priority tracking
         if self.enable_prioritized:
-            heapq.heappush(
-                self.priority_tree, (-experience.priority, experience.experience_id)
-            )
+            heapq.heappush(self.priority_tree, (-experience.priority, experience.experience_id))
             self.max_priority = max(self.max_priority, experience.priority)
 
         logger.debug(
@@ -354,9 +350,7 @@ class ReplayBuffer:
 
         # Calculate importance weights if prioritized
         if mode == ReplayMode.PRIORITIZED and self.enable_prioritized:
-            batch.importance_weights = self._calculate_importance_weights(
-                sampled_experiences
-            )
+            batch.importance_weights = self._calculate_importance_weights(sampled_experiences)
 
         batch.calculate_metrics()
 
@@ -488,9 +482,7 @@ class ReplayBuffer:
 
         # Sample based on weights
         sample_size = min(batch_size, len(experiences))
-        indices = np.random.choice(
-            len(experiences), size=sample_size, replace=False, p=weights
-        )
+        indices = np.random.choice(len(experiences), size=sample_size, replace=False, p=weights)
 
         sampled = [experiences[i] for i in indices]
 
@@ -533,9 +525,7 @@ class ReplayBuffer:
         for cluster_id in clusters:
             cluster_exp_ids = self.experience_clusters[cluster_id]
             cluster_experiences = [
-                self.experiences[exp_id]
-                for exp_id in cluster_exp_ids
-                if exp_id in self.experiences
+                self.experiences[exp_id] for exp_id in cluster_exp_ids if exp_id in self.experiences
             ]
 
             if cluster_experiences:
@@ -557,9 +547,7 @@ class ReplayBuffer:
 
         return sampled[:batch_size]
 
-    def _calculate_importance_weights(
-        self, experiences: list[Experience]
-    ) -> np.ndarray:
+    def _calculate_importance_weights(self, experiences: list[Experience]) -> np.ndarray:
         """Calculate importance sampling weights"""
 
         if not self.enable_prioritized:
@@ -571,8 +559,7 @@ class ReplayBuffer:
 
         for exp in experiences:
             prob = exp.calculate_sampling_weight(self.alpha) / sum(
-                e.calculate_sampling_weight(self.alpha)
-                for e in self.experiences.values()
+                e.calculate_sampling_weight(self.alpha) for e in self.experiences.values()
             )
             weight = (1.0 / (N * prob)) ** self.beta
             weights.append(weight)
@@ -602,9 +589,7 @@ class ReplayBuffer:
 
         return np.array(features, dtype=float)
 
-    def _calculate_similarity(
-        self, features1: np.ndarray, features2: np.ndarray
-    ) -> float:
+    def _calculate_similarity(self, features1: np.ndarray, features2: np.ndarray) -> float:
         """Calculate cosine similarity between feature vectors"""
 
         dot_product = np.dot(features1, features2)
@@ -705,9 +690,7 @@ class ReplayBuffer:
         # Clustering metrics
         if self.experience_clusters:
             metrics["num_clusters"] = len(self.experience_clusters)
-            cluster_sizes = [
-                len(cluster) for cluster in self.experience_clusters.values()
-            ]
+            cluster_sizes = [len(cluster) for cluster in self.experience_clusters.values()]
             metrics["avg_cluster_size"] = np.mean(cluster_sizes)
 
         return metrics
@@ -717,9 +700,7 @@ class ReplayBuffer:
 async def demonstrate_replay_buffer():
     """Demonstrate replay buffer functionality"""
 
-    buffer = ReplayBuffer(
-        capacity=1000, enable_prioritized=True, enable_clustering=True
-    )
+    buffer = ReplayBuffer(capacity=1000, enable_prioritized=True, enable_clustering=True)
 
     await buffer.start()
 

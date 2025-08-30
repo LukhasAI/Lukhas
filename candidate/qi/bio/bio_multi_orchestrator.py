@@ -112,9 +112,9 @@ class MultiAGIOrchestratorMetrics:
         self.total_inter_bot_communications = 0
         self.current_collective_intelligence_score_estimate = 0.0  # Conceptual metric
         self.redundancy_activation_count = 0
-        self.performance_log: list[dict[str, Any]] = (
-            []
-        )  # Log of performance over time or per task type
+        self.performance_log: list[
+            dict[str, Any]
+        ] = []  # Log of performance over time or per task type
 
 
 @dataclass
@@ -132,9 +132,7 @@ class MultiAGITask:
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
     deadline_utc_iso: Optional[str] = None
-    processing_metadata: dict[str, Any] = field(
-        default_factory=dict
-    )  # For orchestrator use
+    processing_metadata: dict[str, Any] = field(default_factory=dict)  # For orchestrator use
 
 
 @dataclass
@@ -145,12 +143,8 @@ class MultiAGIResponse:
     final_primary_response: Any  # The synthesized or chosen primary response
     overall_confidence_score: float
     contributing_bot_ids: list[str]
-    reasoning_synthesis_details: list[
-        dict[str, Any]
-    ]  # e.g., individual bot contributions
-    collective_intelligence_metrics_snapshot: dict[
-        str, Any
-    ]  # Metrics about the collaboration
+    reasoning_synthesis_details: list[dict[str, Any]]  # e.g., individual bot contributions
+    collective_intelligence_metrics_snapshot: dict[str, Any]  # Metrics about the collaboration
     total_processing_time_ms: float
     collaboration_quality_score: float  # Metric for how well collaboration worked
     redundancy_verification_details: Optional[dict[str, Any]] = None
@@ -199,9 +193,7 @@ class MultiAGIOrchestrator:
     collective intelligence aggregation, performance monitoring, and fault tolerance.
     """
 
-    def __init__(
-        self, config: Optional[dict[str, Any]] = None, console: Optional[Console] = None
-    ):
+    def __init__(self, config: Optional[dict[str, Any]] = None, console: Optional[Console] = None):
         """Initializes the Multi-AI Orchestration System."""
         self.orchestrator_id = f"MAGIO_{uuid.uuid4().hex[:8]}"
         self.log = log.bind(orchestrator_id=self.orchestrator_id)
@@ -251,9 +243,7 @@ class MultiAGIOrchestrator:
                       made configurable (e.g., via environment variables, config file, or service discovery).
         """
         self.log.info("Discovering and registering AGI bots...")
-        base_bot_path_str = os.getenv(
-            "LUKHAS_BOTS_BASE_PATH", "/Users/A_G_I/CodexGPT_Lukhas"
-        )
+        base_bot_path_str = os.getenv("LUKHAS_BOTS_BASE_PATH", "/Users/A_G_I/CodexGPT_Lukhas")
 
         agi_bot_definitions_config: list[dict[str, Any]] = [
             {
@@ -368,9 +358,7 @@ class MultiAGIOrchestrator:
             ).total_seconds() * 1000
             response_data.total_processing_time_ms = total_processing_time_ms
 
-            self._update_orchestration_and_bot_metrics(
-                task, response_data, selected_bot_ids
-            )
+            self._update_orchestration_and_bot_metrics(task, response_data, selected_bot_ids)
             self.completed_task_map[task.task_id] = response_data
             self.log.info(
                 "✅ Multi-AI Task completed successfully.",
@@ -390,12 +378,10 @@ class MultiAGIOrchestrator:
             ).total_seconds() * 1000
             return MultiAGIResponse(
                 task_id=task.task_id,
-                final_primary_response=f"Error processing task: {str(e)}",
+                final_primary_response=f"Error processing task: {e!s}",
                 overall_confidence_score=0.05,
                 contributing_bot_ids=[],
-                reasoning_synthesis_details=[
-                    {"error": str(e), "type": type(e).__name__}
-                ],
+                reasoning_synthesis_details=[{"error": str(e), "type": type(e).__name__}],
                 collective_intelligence_metrics_snapshot={"error_occurred": True},
                 total_processing_time_ms=processing_time_ms_on_error,
                 collaboration_quality_score=0.0,
@@ -410,20 +396,12 @@ class MultiAGIOrchestrator:
         )
         bot_scores: dict[str, float] = {}
         for bot_id, bot_instance_info in self.registered_bots.items():
-            if (
-                bot_id not in self.active_bot_ids
-                or bot_instance_info.current_status != "available"
-            ):
+            if bot_id not in self.active_bot_ids or bot_instance_info.current_status != "available":
                 continue
-            score = (
-                self._calculate_bot_specialization_match_score(task, bot_instance_info)
-                * 50.0
-            )
+            score = self._calculate_bot_specialization_match_score(task, bot_instance_info) * 50.0
             score += (1.0 - bot_instance_info.current_load_factor) * 30.0
             score += (
-                bot_instance_info.performance_metrics_summary.get(
-                    "success_rate_percent", 50.0
-                )
+                bot_instance_info.performance_metrics_summary.get("success_rate_percent", 50.0)
                 / 100.0
                 * 0.2
             )
@@ -434,9 +412,7 @@ class MultiAGIOrchestrator:
                 score += 20.0
             bot_scores[bot_id] = score
 
-        sorted_bots_by_score = sorted(
-            bot_scores.items(), key=lambda item: item[1], reverse=True
-        )
+        sorted_bots_by_score = sorted(bot_scores.items(), key=lambda item: item[1], reverse=True)
 
         if not sorted_bots_by_score:
             self.log.warning(
@@ -447,10 +423,7 @@ class MultiAGIOrchestrator:
 
         if task.requires_collaboration_flag and len(sorted_bots_by_score) >= 2:
             return [
-                bot_id
-                for bot_id, _ in sorted_bots_by_score[
-                    : min(3, len(sorted_bots_by_score))
-                ]
+                bot_id for bot_id, _ in sorted_bots_by_score[: min(3, len(sorted_bots_by_score))]
             ]
         else:
             return [sorted_bots_by_score[0][0]]
@@ -503,12 +476,10 @@ class MultiAGIOrchestrator:
                             self.registered_bots[bot_id].lukhas_session_id = getattr(
                                 bot_runtime, "session_id", None
                             )
-                            self.registered_bots[bot_id].last_activity_utc_iso = (
-                                datetime.now(timezone.utc).isoformat()
-                            )
-                            self.log.info(
-                                f"✅ AI Bot runtime instance loaded: {bot_id}"
-                            )
+                            self.registered_bots[bot_id].last_activity_utc_iso = datetime.now(
+                                timezone.utc
+                            ).isoformat()
+                            self.log.info(f"✅ AI Bot runtime instance loaded: {bot_id}")
                         else:
                             self.log.error(
                                 f"Class '{bot_class_name}' not found in module for bot {bot_id}.",
@@ -533,17 +504,13 @@ class MultiAGIOrchestrator:
                     )
                     if bot_id in self.active_bot_ids:
                         self.active_bot_ids.remove(bot_id)
-                    self.registered_bots[bot_id].current_status = (
-                        "load_failed_exception"
-                    )
+                    self.registered_bots[bot_id].current_status = "load_failed_exception"
 
     async def _process_single_bot_task_execution(
         self, task: MultiAGITask, bot_id: str
     ) -> MultiAGIResponse:
         """Executes a task with a single designated AI bot."""
-        self.log.debug(
-            "Processing task with single bot.", task_id=task.task_id, bot_id=bot_id
-        )
+        self.log.debug("Processing task with single bot.", task_id=task.task_id, bot_id=bot_id)
         bot_runtime_instance = self.bot_runtime_instances[bot_id]
         bot_info = self.registered_bots[bot_id]
         bot_info.current_load_factor = min(1.0, bot_info.current_load_factor + 0.3)
@@ -561,13 +528,9 @@ class MultiAGIOrchestrator:
                     task.context_data,
                 )
             else:
-                bot_response_data = await bot_runtime_instance.process_input(
-                    task.content_payload
-                )
+                bot_response_data = await bot_runtime_instance.process_input(task.content_payload)
 
-            primary_resp_content = bot_response_data.get(
-                "content", "No content returned by bot."
-            )
+            primary_resp_content = bot_response_data.get("content", "No content returned by bot.")
             confidence_val = bot_response_data.get("confidence", 0.5)
             reasoning_path_data = bot_response_data.get(
                 "reasoning_path", [{"step": "Bot processing complete."}]
@@ -639,13 +602,9 @@ class MultiAGIOrchestrator:
                         )
                     )
                 else:
-                    response_futures.append(
-                        bot_runtime.process_input(task.content_payload)
-                    )
+                    response_futures.append(bot_runtime.process_input(task.content_payload))
 
-            raw_responses = await asyncio.gather(
-                *response_futures, return_exceptions=True
-            )
+            raw_responses = await asyncio.gather(*response_futures, return_exceptions=True)
 
             for i, raw_resp in enumerate(raw_responses):
                 current_bot_id = bot_ids[i]
@@ -667,20 +626,14 @@ class MultiAGIOrchestrator:
                     )
 
             if not individual_bot_responses:
-                self.log.error(
-                    "All bots failed in collaborative task.", task_id=task.task_id
-                )
+                self.log.error("All bots failed in collaborative task.", task_id=task.task_id)
                 raise ValueError("All collaborating bots failed to produce a response.")
 
-            return self._synthesize_collaborative_response(
-                task, individual_bot_responses
-            )
+            return self._synthesize_collaborative_response(task, individual_bot_responses)
         finally:
             for bot_id in bot_ids:
                 bot_info = self.registered_bots[bot_id]
-                bot_info.current_load_factor = max(
-                    0.0, bot_info.current_load_factor - 0.2
-                )
+                bot_info.current_load_factor = max(0.0, bot_info.current_load_factor - 0.2)
                 bot_info.current_status = "available"
                 bot_info.last_activity_utc_iso = datetime.now(timezone.utc).isoformat()
 
@@ -698,17 +651,12 @@ class MultiAGIOrchestrator:
                 "Cannot synthesize: No individual responses provided.",
                 task_id=task.task_id,
             )
-            raise ValueError(
-                "No valid individual responses to synthesize for collaborative task."
-            )
+            raise ValueError("No valid individual responses to synthesize for collaborative task.")
 
-        total_weight = sum(
-            resp_item["response_weight"] for resp_item in individual_bot_responses
-        )
+        total_weight = sum(resp_item["response_weight"] for resp_item in individual_bot_responses)
         weighted_avg_confidence = (
             sum(
-                resp_item["response_data"].get("confidence", 0.0)
-                * resp_item["response_weight"]
+                resp_item["response_data"].get("confidence", 0.0) * resp_item["response_weight"]
                 for resp_item in individual_bot_responses
             )
             / total_weight
@@ -764,9 +712,7 @@ class MultiAGIOrchestrator:
             },
             total_processing_time_ms=0.0,
             collaboration_quality_score=collaboration_quality_val,
-            qi_biological_insights_summary=(
-                qbio_insights_all if qbio_insights_all else None
-            ),
+            qi_biological_insights_summary=(qbio_insights_all if qbio_insights_all else None),
         )
 
     def _create_synthesized_content_from_responses(
@@ -792,7 +738,7 @@ class MultiAGIOrchestrator:
         if len(sorted_responses) > 1:
             synthesis_text += "**Supporting Insights:**\n"
             for _i, resp_item in enumerate(sorted_responses[1:3], 1):
-                synthesis_text += f"- *From {resp_item['bot_id']} (Weight: {resp_item['response_weight']:.2f}, Confidence: {resp_item['response_data'].get('confidence',0):.2f})*:\n  {str(resp_item['response_data'].get('content', 'N/A'))[:250]}...\n"
+                synthesis_text += f"- *From {resp_item['bot_id']} (Weight: {resp_item['response_weight']:.2f}, Confidence: {resp_item['response_data'].get('confidence', 0):.2f})*:\n  {str(resp_item['response_data'].get('content', 'N/A'))[:250]}...\n"
         return synthesis_text
 
     def _calculate_bot_response_weight(self, bot_id: str, task: MultiAGITask) -> float:
@@ -802,9 +748,7 @@ class MultiAGIOrchestrator:
         if task.task_type in bot_instance_info.specialized_tasks:
             weight += 0.3
         weight += (
-            bot_instance_info.performance_metrics_summary.get(
-                "success_rate_percent", 50.0
-            )
+            bot_instance_info.performance_metrics_summary.get("success_rate_percent", 50.0)
             / 100.0
             * 0.2
         )
@@ -825,17 +769,12 @@ class MultiAGIOrchestrator:
         diversity = self._calculate_response_diversity_score(individual_responses)
         avg_conf = (
             np.mean(
-                [
-                    r["response_data"].get("confidence", 0.0)
-                    for r in individual_responses
-                ]
+                [r["response_data"].get("confidence", 0.0) for r in individual_responses]
             ).item()
             if individual_responses
             else 0.0
         )  # type: ignore
-        return np.clip(
-            (consensus * 0.4 + diversity * 0.25 + avg_conf * 0.35), 0.0, 1.0
-        ).item()  # type: ignore
+        return np.clip((consensus * 0.4 + diversity * 0.25 + avg_conf * 0.35), 0.0, 1.0).item()  # type: ignore
 
     def _calculate_response_consensus_level(
         self, individual_responses: list[dict[str, Any]]
@@ -843,12 +782,8 @@ class MultiAGIOrchestrator:
         """Estimates consensus level based on confidence variance or content similarity (conceptual)."""
         if len(individual_responses) <= 1:
             return 1.0
-        confidences = [
-            r["response_data"].get("confidence", 0.0) for r in individual_responses
-        ]
-        return (
-            1.0 / (1.0 + np.var(confidences).item() * 10.0) if confidences else 0.0
-        )  # type: ignore
+        confidences = [r["response_data"].get("confidence", 0.0) for r in individual_responses]
+        return 1.0 / (1.0 + np.var(confidences).item() * 10.0) if confidences else 0.0  # type: ignore
 
     def _calculate_response_diversity_score(
         self, individual_responses: list[dict[str, Any]]
@@ -857,8 +792,7 @@ class MultiAGIOrchestrator:
         if len(individual_responses) <= 1:
             return 0.0
         contributing_bot_types = {
-            self.registered_bots[resp["bot_id"]].bot_type
-            for resp in individual_responses
+            self.registered_bots[resp["bot_id"]].bot_type for resp in individual_responses
         }
         return len(contributing_bot_types) / len(AGIBotType)
 
@@ -971,9 +905,7 @@ class MultiAGIOrchestrator:
                 "load": f"{bot.current_load_factor:.2f}",
                 "capabilities_count": len(bot.capabilities),
                 "specialized_tasks_count": len(bot.specialized_tasks),
-                "perf_summary": {
-                    k: f"{v:.2f}" for k, v in bot.performance_metrics_summary.items()
-                },
+                "perf_summary": {k: f"{v:.2f}" for k, v in bot.performance_metrics_summary.items()},
             }
             for bot_id, bot in self.registered_bots.items()
         }
@@ -994,9 +926,7 @@ class MultiAGIOrchestrator:
     async def demonstrate_multi_agi_capabilities(self):
         """Runs a demonstration showcasing the multi-AI orchestration capabilities."""
         self.log.info("🚀 Starting Multi-AI Orchestration System Demonstration...")
-        self.console.print(
-            "\n🚀 Multi-AI Orchestration System Demonstration", style="bold magenta"
-        )
+        self.console.print("\n🚀 Multi-AI Orchestration System Demonstration", style="bold magenta")
         self.console.print("=" * 60, style="magenta")
 
         test_scenarios_config = [
@@ -1071,9 +1001,7 @@ class MultiAGIOrchestrator:
         )
         self.log.info(
             "🏁 Multi-AI Orchestration System Demonstration Finished.",
-            final_status_metrics=final_status_report[
-                "overall_system_performance_metrics"
-            ],
+            final_status_metrics=final_status_report["overall_system_performance_metrics"],
         )
 
 

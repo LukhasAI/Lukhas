@@ -11,4 +11,4 @@ from .predictive_resource_manager import (
     ResourceType,
 )
 
-__all__ = ["PredictiveResourceManager", "ResourceType", "PredictionModel"]
+__all__ = ["PredictionModel", "PredictiveResourceManager", "ResourceType"]

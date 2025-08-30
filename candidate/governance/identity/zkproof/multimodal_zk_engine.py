@@ -157,14 +157,10 @@ class MultiModalZKEngine:
             cultural_proof = await self._generate_cultural_proof(cultural_context)
 
         # Generate temporal consistency proof
-        temporal_proof = await self._generate_temporal_proof(
-            user_id, biometric_commitments
-        )
+        temporal_proof = await self._generate_temporal_proof(user_id, biometric_commitments)
 
         # Generate constitutional alignment proof
-        constitutional_proof = await self._generate_constitutional_proof(
-            constitutional_responses
-        )
+        constitutional_proof = await self._generate_constitutional_proof(constitutional_responses)
 
         # Aggregate all proofs
         aggregated_proof = await self._aggregate_proofs(
@@ -340,9 +336,7 @@ class MultiModalZKEngine:
             ],
             private_witness={
                 "attention_patterns": consciousness_data.get("attention_patterns", {}),
-                "biometric_correlations": [
-                    c.consciousness_binding for c in biometric_commitments
-                ],
+                "biometric_correlations": [c.consciousness_binding for c in biometric_commitments],
             },
             circuit_type=ZKCircuitType.CONSCIOUSNESS_PROOF,
             constraints={
@@ -362,9 +356,7 @@ class MultiModalZKEngine:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    async def _generate_cultural_proof(
-        self, cultural_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generate_cultural_proof(self, cultural_context: dict[str, Any]) -> dict[str, Any]:
         """Generate proof of cultural knowledge without revealing identity"""
 
         statement = ZKStatement(
@@ -406,9 +398,7 @@ class MultiModalZKEngine:
             statement_type="temporal_consistency",
             public_inputs=[
                 str(len(historical)),
-                str(
-                    self.t5_requirements["temporal_consistency_window"].total_seconds()
-                ),
+                str(self.t5_requirements["temporal_consistency_window"].total_seconds()),
             ],
             private_witness={
                 "historical_commitments": [c.commitment_hash for c in historical[-5:]],
@@ -447,9 +437,7 @@ class MultiModalZKEngine:
             },
             circuit_type=ZKCircuitType.CONSTITUTIONAL_ALIGNMENT,
             constraints={
-                "minimum_alignment": self.t5_requirements[
-                    "constitutional_score_threshold"
-                ],
+                "minimum_alignment": self.t5_requirements["constitutional_score_threshold"],
                 "required_principles": ["harm_prevention", "truthfulness", "fairness"],
             },
         )
@@ -503,9 +491,7 @@ class MultiModalZKEngine:
         proof_input["witness_commitment"] = witness_hash
 
         # Generate proof
-        proof = hashlib.sha3_512(
-            json.dumps(proof_input, sort_keys=True).encode()
-        ).hexdigest()
+        proof = hashlib.sha3_512(json.dumps(proof_input, sort_keys=True).encode()).hexdigest()
 
         return proof
 
@@ -575,9 +561,7 @@ class MultiModalZKEngine:
         # Add consciousness coherence bonus
         consciousness_bonus = proof.consciousness_proof.get("coherence_score", 0) * 0.15
 
-        total_confidence = (
-            base_confidence + confidence_boost + modality_boost + consciousness_bonus
-        )
+        total_confidence = base_confidence + confidence_boost + modality_boost + consciousness_bonus
 
         return min(total_confidence, 1.0)
 
@@ -597,9 +581,7 @@ class MultiModalZKEngine:
     ) -> bytes:
         """Generate verification key for proof"""
 
-        key_material = user_commitment + "|".join(
-            c.commitment_hash for c in biometric_commitments
-        )
+        key_material = user_commitment + "|".join(c.commitment_hash for c in biometric_commitments)
         return hashlib.sha3_256(key_material.encode()).digest()
 
     def _initialize_circuit_templates(self) -> dict[ZKCircuitType, dict[str, Any]]:
@@ -738,9 +720,7 @@ async def main():
     if valid:
         print(f"🎯 Confidence Score: {verification_data['confidence']:.2f}")
         print(f"🧬 Modalities Verified: {verification_data['modalities_verified']}")
-        print(
-            f"🧠 Consciousness Verified: {verification_data['consciousness_score']:.2f}"
-        )
+        print(f"🧠 Consciousness Verified: {verification_data['consciousness_score']:.2f}")
 
         # Show verification details
         print("\n🔍 Verification Details:")

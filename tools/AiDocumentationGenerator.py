@@ -95,9 +95,7 @@ class DocumentationSection:
 class AIDocumentationGenerator:
     """AI-powered documentation generator with LUKHlukhasS consciousness"""
 
-    def __init__(
-        self, custom_api_key: Optional[str] = None, model: str = "gpt-4-turbo-preview"
-    ):
+    def __init__(self, custom_api_key: Optional[str] = None, model: str = "gpt-4-turbo-preview"):
         self.api_key = custom_api_key or os.getenv("OPENAI_API_KEY")
         self.model = model
         self.logger = logging.getLogger("LukhasDocGen")
@@ -117,9 +115,7 @@ class AIDocumentationGenerator:
         self.templates = self._load_templates()
 
         if not HAS_OPENAI:
-            self.logger.error(
-                "❌ OpenAI package not installed. Install with: pip install openai"
-            )
+            self.logger.error("❌ OpenAI package not installed. Install with: pip install openai")
             return
 
         if not self.api_key:
@@ -134,7 +130,7 @@ class AIDocumentationGenerator:
             self.client.models.list()
             self.logger.info("✅ AI Documentation Generator initialized with OpenAI")
         except Exception as e:
-            self.logger.error(f"❌ Failed to initialize OpenAI client: {str(e)}")
+            self.logger.error(f"❌ Failed to initialize OpenAI client: {e!s}")
             self.client = None
 
     def log_symbolic_memory(self, filename, summary, tags):
@@ -169,11 +165,7 @@ class AIDocumentationGenerator:
                 )
                 # Compose a summary for symbolic memory
                 doc_summary = next(
-                    (
-                        section
-                        for section in doc_sections
-                        if section.title == "Overview"
-                    ),
+                    (section for section in doc_sections if section.title == "Overview"),
                     None,
                 )
                 summary_text = doc_summary.content[:512] if doc_summary else ""
@@ -231,9 +223,7 @@ class AIDocumentationGenerator:
                             "name": node.name,
                             "docstring": ast.get_docstring(node),
                             "methods": [
-                                m.name
-                                for m in node.body
-                                if isinstance(m, ast.FunctionDef)
+                                m.name for m in node.body if isinstance(m, ast.FunctionDef)
                             ],
                         }
                     )
@@ -283,7 +273,7 @@ class AIDocumentationGenerator:
             )
 
         except Exception as e:
-            self.logger.error(f"Failed to analyze {file_path}: {str(e)}")
+            self.logger.error(f"Failed to analyze {file_path}: {e!s}")
             raise
 
     async def generate_documentation_sections(
@@ -301,7 +291,7 @@ class AIDocumentationGenerator:
 
             Module information:
             - Paradigm: {analysis.paradigm}
-            - LUKHlukhasS Components: {', '.join(analysis.lukhας_components)}
+            - LUKHlukhasS Components: {", ".join(analysis.lukhας_components)}
             - Classes: {len(analysis.classes)}
             - Functions: {len(analysis.functions)}
 
@@ -334,10 +324,7 @@ class AIDocumentationGenerator:
                     DocumentationSection(
                         title="API Documentation",
                         content=api_response,
-                        metadata={
-                            "components": len(analysis.classes)
-                            + len(analysis.functions)
-                        },
+                        metadata={"components": len(analysis.classes) + len(analysis.functions)},
                     )
                 )
 
@@ -350,7 +337,7 @@ class AIDocumentationGenerator:
             - Integration with other LUKHlukhasS components
             - Common patterns and best practices
 
-            Consider the {analysis.paradigm} paradigm and these LUKHlukhasS components: {', '.join(analysis.lukhας_components)}"""
+            Consider the {analysis.paradigm} paradigm and these LUKHlukhasS components: {", ".join(analysis.lukhας_components)}"""
 
             usage_response = await self._generate_with_openai(usage_prompt)
             sections.append(
@@ -362,7 +349,7 @@ class AIDocumentationGenerator:
             )
 
         except Exception as e:
-            self.logger.error(f"Failed to generate documentation: {str(e)}")
+            self.logger.error(f"Failed to generate documentation: {e!s}")
 
         return sections
 
@@ -388,8 +375,8 @@ class AIDocumentationGenerator:
                 return response.choices[0].message.content or ""
             return "Error: No response from OpenAI API"
         except Exception as e:
-            self.logger.error(f"OpenAI API error: {str(e)}")
-            return f"Error generating content: {str(e)}"
+            self.logger.error(f"OpenAI API error: {e!s}")
+            return f"Error generating content: {e!s}"
 
     async def generate_comprehensive_docs(
         self, source_path: Path, output_dir: Path
@@ -437,7 +424,7 @@ class AIDocumentationGenerator:
                 results["sections_generated"] += len(sections)
 
             except Exception as e:
-                self.logger.error(f"❌ Failed to document {file_path}: {str(e)}")
+                self.logger.error(f"❌ Failed to document {file_path}: {e!s}")
                 results["failed_files"] += 1
 
         self.logger.info("✅ Documentation generation complete!")
@@ -449,21 +436,11 @@ class AIDocumentationGenerator:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="🧠 LUKHlukhasS AI Documentation Generator"
-    )
-    parser.add_argument(
-        "--source", required=True, help="Source directory or file to analyze"
-    )
-    parser.add_argument(
-        "--output", required=True, help="Output directory for documentation"
-    )
-    parser.add_argument(
-        "--api-key", help="OpenAI API key (or set OPENAI_API_KEY env var)"
-    )
-    parser.add_argument(
-        "--model", default="gpt-4-turbo-preview", help="OpenAI model to use"
-    )
+    parser = argparse.ArgumentParser(description="🧠 LUKHlukhasS AI Documentation Generator")
+    parser.add_argument("--source", required=True, help="Source directory or file to analyze")
+    parser.add_argument("--output", required=True, help="Output directory for documentation")
+    parser.add_argument("--api-key", help="OpenAI API key (or set OPENAI_API_KEY env var)")
+    parser.add_argument("--model", default="gpt-4-turbo-preview", help="OpenAI model to use")
     parser.add_argument(
         "--style",
         choices=["standard", "symbolic", "corporate", "debug"],
@@ -480,15 +457,11 @@ if __name__ == "__main__":
 
     # Setup logging
     level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(
-        level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     async def main():
         # Initialize generator
-        generator = AIDocumentationGenerator(
-            custom_api_key=args.api_key, model=args.model
-        )
+        generator = AIDocumentationGenerator(custom_api_key=args.api_key, model=args.model)
 
         source_dir = Path(args.source)
         output_dir = Path(args.output)

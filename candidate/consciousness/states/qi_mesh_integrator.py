@@ -136,9 +136,7 @@ class QIEthicsMeshIntegrator:
             "log_level": "INFO",
         }
 
-    def integrate_ethics_mesh(
-        self, subsystem_states: dict[str, dict]
-    ) -> dict[str, Any]:
+    def integrate_ethics_mesh(self, subsystem_states: dict[str, dict]) -> dict[str, Any]:
         """
         Merge subsystem ethical metrics into a unified ethics field
 
@@ -207,15 +205,12 @@ class QIEthicsMeshIntegrator:
         }
 
         logger.info(
-            f"Ethics mesh integrated: score={mesh_ethics_score:.3f}, "
-            f"risk={risk_level.value}"
+            f"Ethics mesh integrated: score={mesh_ethics_score:.3f}, risk={risk_level.value}"
         )
 
         return unified_field
 
-    def calculate_phase_entanglement_matrix(
-        self, states: dict[str, dict]
-    ) -> dict[str, Any]:
+    def calculate_phase_entanglement_matrix(self, states: dict[str, dict]) -> dict[str, Any]:
         """
         Calculate entanglement scores between all subsystem pairs
 
@@ -236,8 +231,7 @@ class QIEthicsMeshIntegrator:
                     **{
                         k: v
                         for k, v in state_data.items()
-                        if k
-                        in ["coherence", "confidence", "entropy", "alignment", "phase"]
+                        if k in ["coherence", "confidence", "entropy", "alignment", "phase"]
                     },
                 )
             else:
@@ -277,9 +271,7 @@ class QIEthicsMeshIntegrator:
                 coherence_score = (state_a.coherence + state_b.coherence) / 2.0
 
                 # Conflict risk (high when entanglement is low but should be high)
-                expected_entanglement = self._get_expected_entanglement(
-                    module_a, module_b
-                )
+                expected_entanglement = self._get_expected_entanglement(module_a, module_b)
                 conflict_risk = max(0.0, expected_entanglement - entanglement_strength)
 
                 entanglement = PhaseEntanglement(
@@ -299,9 +291,7 @@ class QIEthicsMeshIntegrator:
                 self.entanglement_matrix[(module_a, module_b)] = entanglement
 
         # Calculate matrix-level metrics
-        avg_entanglement = np.mean(
-            [e.entanglement_strength for e in entanglements.values()]
-        )
+        avg_entanglement = np.mean([e.entanglement_strength for e in entanglements.values()])
         max_conflict_risk = max([e.conflict_risk for e in entanglements.values()])
         phase_variance = np.var([states[m].get("phase", 0) for m in modules])
 
@@ -389,9 +379,7 @@ class QIEthicsMeshIntegrator:
         signals_to_emit = []
 
         # Ethics drift detection
-        drift_magnitude = (
-            unified_field.get("drift_magnitude", 0.0) if unified_field else 0.0
-        )
+        drift_magnitude = unified_field.get("drift_magnitude", 0.0) if unified_field else 0.0
         if drift_magnitude >= self.drift_emergency_threshold:
             signals_to_emit.append(
                 self._create_drift_signal(drift_magnitude, EthicsRiskLevel.EMERGENCY)
@@ -409,9 +397,7 @@ class QIEthicsMeshIntegrator:
                 data={
                     "conflict_pairs": divergence_zones,
                     "coherence_score": coherence_score,
-                    "recommended_action": self._recommend_intervention(
-                        divergence_zones
-                    ),
+                    "recommended_action": self._recommend_intervention(divergence_zones),
                     "severity": len(divergence_zones),
                 },
             )
@@ -431,9 +417,7 @@ class QIEthicsMeshIntegrator:
             signals_to_emit.append(alignment_signal)
 
         # Cascade warning
-        cascade_risk = (
-            self._assess_cascade_risk(unified_field) if unified_field else 0.0
-        )
+        cascade_risk = self._assess_cascade_risk(unified_field) if unified_field else 0.0
         if cascade_risk >= self.cascade_prevention_threshold:
             cascade_signal = EthicsSignal(
                 signal_type=EthicsSignalType.ΛCASCADE_WARNING,
@@ -447,9 +431,7 @@ class QIEthicsMeshIntegrator:
             signals_to_emit.append(cascade_signal)
 
         # Emergency freeze override
-        if (
-            coherence_score < 0.2 and len(divergence_zones) >= 3
-        ) or cascade_risk >= 0.8:
+        if (coherence_score < 0.2 and len(divergence_zones) >= 3) or cascade_risk >= 0.8:
             freeze_signal = EthicsSignal(
                 signal_type=EthicsSignalType.ΛFREEZE_OVERRIDE,
                 source_modules=["qi_mesh_integrator"],
@@ -541,9 +523,7 @@ class QIEthicsMeshIntegrator:
 
         return weighted_sum / max(total_weight, 0.001)
 
-    def _calculate_phase_synchronization(
-        self, states: dict[str, EthicalState]
-    ) -> float:
+    def _calculate_phase_synchronization(self, states: dict[str, EthicalState]) -> float:
         """Calculate how synchronized the phases are across subsystems"""
         if len(states) < 2:
             return 1.0
@@ -569,11 +549,7 @@ class QIEthicsMeshIntegrator:
         confidence_min = min(s.confidence for s in states.values())
 
         # Lower standard deviation and entropy, higher confidence = more stable
-        stability = (
-            (1.0 - coherence_std) * 0.4
-            + (1.0 - entropy_mean) * 0.3
-            + confidence_min * 0.3
-        )
+        stability = (1.0 - coherence_std) * 0.4 + (1.0 - entropy_mean) * 0.3 + confidence_min * 0.3
         return max(0.0, min(1.0, stability))
 
     def _calculate_drift_magnitude(self, states: dict[str, EthicalState]) -> float:
@@ -586,22 +562,14 @@ class QIEthicsMeshIntegrator:
         expected_alignment = 0.8
         expected_entropy = 0.2
 
-        coherence_drift = abs(
-            np.mean([s.coherence for s in states.values()]) - expected_coherence
-        )
-        alignment_drift = abs(
-            np.mean([s.alignment for s in states.values()]) - expected_alignment
-        )
-        entropy_drift = abs(
-            np.mean([s.entropy for s in states.values()]) - expected_entropy
-        )
+        coherence_drift = abs(np.mean([s.coherence for s in states.values()]) - expected_coherence)
+        alignment_drift = abs(np.mean([s.alignment for s in states.values()]) - expected_alignment)
+        entropy_drift = abs(np.mean([s.entropy for s in states.values()]) - expected_entropy)
 
         total_drift = (coherence_drift + alignment_drift + entropy_drift) / 3.0
         return total_drift
 
-    def _assess_risk_level(
-        self, mesh_score: float, drift_magnitude: float
-    ) -> EthicsRiskLevel:
+    def _assess_risk_level(self, mesh_score: float, drift_magnitude: float) -> EthicsRiskLevel:
         """Assess overall risk level based on mesh metrics"""
         if mesh_score >= 0.9 and drift_magnitude <= 0.1:
             return EthicsRiskLevel.SAFE
@@ -628,9 +596,7 @@ class QIEthicsMeshIntegrator:
         pair1 = (module_a, module_b)
         pair2 = (module_b, module_a)
 
-        return high_entanglement_pairs.get(
-            pair1, high_entanglement_pairs.get(pair2, 0.5)
-        )
+        return high_entanglement_pairs.get(pair1, high_entanglement_pairs.get(pair2, 0.5))
 
     def _assess_cascade_risk(self, unified_field: Optional[dict]) -> float:
         """Assess risk of ethical cascade failure"""
@@ -695,9 +661,7 @@ class QIEthicsMeshIntegrator:
         elif len(conflict_pairs) <= 3:
             return "Multi-phase realignment required across conflict zones"
         else:
-            return (
-                "EMERGENCY: Cascade prevention protocol - isolate conflicted subsystems"
-            )
+            return "EMERGENCY: Cascade prevention protocol - isolate conflicted subsystems"
 
     # Signal routing methods (would integrate with actual subsystems)
     async def _send_to_trace_system(self, signal: EthicsSignal) -> None:
@@ -730,9 +694,7 @@ class QIEthicsMeshIntegrator:
         return {
             "active_subsystems": list(self.subsystem_states.keys()),
             "entanglement_pairs": len(self.entanglement_matrix),
-            "last_update": max(
-                (s.timestamp for s in self.subsystem_states.values()), default=0
-            ),
+            "last_update": max((s.timestamp for s in self.subsystem_states.values()), default=0),
             "safety_thresholds": {
                 "drift_warning": self.drift_warning_threshold,
                 "drift_emergency": self.drift_emergency_threshold,

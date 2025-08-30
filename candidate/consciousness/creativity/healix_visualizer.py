@@ -209,9 +209,7 @@ class HealixVisualizer:
         )
 
         # 1. Memory Distribution (Pie Chart)
-        strand_counts = {
-            strand.value: len(self.healix.strands[strand]) for strand in MemoryStrand
-        }
+        strand_counts = {strand.value: len(self.healix.strands[strand]) for strand in MemoryStrand}
         non_zero_strands = {k: v for k, v in strand_counts.items() if v > 0}
 
         if non_zero_strands:
@@ -236,8 +234,7 @@ class HealixVisualizer:
                         "resonance": memory["resonance"],
                         "strand": strand_type.value,
                         "age_hours": (
-                            datetime.utcnow()
-                            - datetime.fromisoformat(memory["created"])
+                            datetime.utcnow() - datetime.fromisoformat(memory["created"])
                         ).total_seconds()
                         / 3600,
                         "mutations": len(memory.get("mutations", [])),
@@ -277,8 +274,7 @@ class HealixVisualizer:
                     x=list(mutation_counts.keys()),
                     y=list(mutation_counts.values()),
                     marker_color=[
-                        self.mutation_colors.get(mut, "#95A5A6")
-                        for mut in mutation_counts
+                        self.mutation_colors.get(mut, "#95A5A6") for mut in mutation_counts
                     ],
                     showlegend=False,
                 ),
@@ -313,12 +309,10 @@ class HealixVisualizer:
         for strand_type in MemoryStrand:
             memories = self.healix.strands[strand_type]
             if memories:
-                avg_resonance = sum(mem["resonance"] for mem in memories) / len(
+                avg_resonance = sum(mem["resonance"] for mem in memories) / len(memories)
+                mutation_rate = sum(len(mem.get("mutations", [])) for mem in memories) / len(
                     memories
                 )
-                mutation_rate = sum(
-                    len(mem.get("mutations", [])) for mem in memories
-                ) / len(memories)
                 health_score = min(1.0, avg_resonance * (1 + mutation_rate / 10))
                 strand_health[strand_type.value] = health_score
             else:
@@ -338,9 +332,7 @@ class HealixVisualizer:
         )
 
         # 6. System Overview (Indicator)
-        total_memories = sum(
-            len(self.healix.strands[strand]) for strand in MemoryStrand
-        )
+        total_memories = sum(len(self.healix.strands[strand]) for strand in MemoryStrand)
         avg_system_resonance = (
             (
                 sum(
@@ -415,9 +407,7 @@ class HealixVisualizer:
                 y = radius * np.sin(angle)
 
                 positions.append([x, y])
-                all_memories.append(
-                    {"memory": memory, "strand": strand_type, "x": x, "y": y}
-                )
+                all_memories.append({"memory": memory, "strand": strand_type, "x": x, "y": y})
 
         # Add memory nodes
         for mem_info in all_memories:
@@ -434,12 +424,12 @@ class HealixVisualizer:
             }
 
             hover_text = f"""
-            {emoji_map.get(strand.value, '💭')} <b>{strand.value.title()} Memory</b><br>
-            📝 {memory['data'].get('content', '')[:100]}...<br>
-            ⚡ Resonance: {memory['resonance']:.3f}<br>
-            🔬 Mutations: {len(memory.get('mutations', []))}<br>
-            📅 Created: {memory['created'][:19]}<br>
-            🆔 ID: {memory['id'][:25]}...
+            {emoji_map.get(strand.value, "💭")} <b>{strand.value.title()} Memory</b><br>
+            📝 {memory["data"].get("content", "")[:100]}...<br>
+            ⚡ Resonance: {memory["resonance"]:.3f}<br>
+            🔬 Mutations: {len(memory.get("mutations", []))}<br>
+            📅 Created: {memory["created"][:19]}<br>
+            🆔 ID: {memory["id"][:25]}...
             """
 
             fig.add_trace(
@@ -481,9 +471,7 @@ class HealixVisualizer:
 
         return fig
 
-    async def animate_memory_formation(
-        self, memory_id: str, save_path: Optional[str] = None
-    ):
+    async def animate_memory_formation(self, memory_id: str, save_path: Optional[str] = None):
         """Create an animated visualization of memory formation and evolution"""
 
         memory = await self.healix.retrieve_memory(memory_id)
@@ -528,16 +516,12 @@ class HealixVisualizer:
                 mut_x = center_x + 0.5 * np.cos(angle)
                 mut_y = center_y + 0.5 * np.sin(angle)
 
-                ax.plot(
-                    [center_x, mut_x], [center_y, mut_y], "g-", linewidth=2, alpha=0.6
-                )
+                ax.plot([center_x, mut_x], [center_y, mut_y], "g-", linewidth=2, alpha=0.6)
                 ax.scatter(
                     mut_x,
                     mut_y,
                     s=100,
-                    c=self.mutation_colors.get(
-                        mutation.get("type", "").upper(), "#95A5A6"
-                    ),
+                    c=self.mutation_colors.get(mutation.get("type", "").upper(), "#95A5A6"),
                     alpha=0.8,
                 )
 
@@ -545,7 +529,7 @@ class HealixVisualizer:
             ax.set_ylim(-2, 2)
             ax.set_aspect("equal")
             ax.set_title(
-                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations)+1}",
+                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations) + 1}",
                 fontsize=14,
                 fontweight="bold",
             )
@@ -553,9 +537,7 @@ class HealixVisualizer:
 
         # Create animation
         total_frames = len(memory["mutations"]) + 1
-        anim = FuncAnimation(
-            fig, animate_frame, frames=total_frames, interval=1000, repeat=True
-        )
+        anim = FuncAnimation(fig, animate_frame, frames=total_frames, interval=1000, repeat=True)
 
         if save_path:
             anim.save(save_path, writer="pillow", fps=1)
@@ -720,27 +702,19 @@ async def launch_healix_ui():
     # Create all visualizations
     print("🧬 Generating 3D DNA Helix...")
     dna_fig = await visualizer.create_dna_helix_visualization()
-    dna_fig.write_html(
-        "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dna_helix.html"
-    )
+    dna_fig.write_html("/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dna_helix.html")
 
     print("📊 Creating Memory Dashboard...")
     dashboard_fig = await visualizer.create_memory_dashboard()
-    dashboard_fig.write_html(
-        "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dashboard.html"
-    )
+    dashboard_fig.write_html("/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_dashboard.html")
 
     print("🔍 Building Interactive Explorer...")
     explorer_fig = await visualizer.create_interactive_memory_explorer()
-    explorer_fig.write_html(
-        "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_explorer.html"
-    )
+    explorer_fig.write_html("/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_explorer.html")
 
     print("🔀 Generating Mutation Flow...")
     flow_fig = await visualizer.create_mutation_flow_diagram()
-    flow_fig.write_html(
-        "/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_mutations.html"
-    )
+    flow_fig.write_html("/Users/A_G_I/CodexGPT_Lukhas/golden_transfers/healix_mutations.html")
 
     print("\n✨ HealixMapper Visual Experience Ready!")
     print("📁 Files created:")

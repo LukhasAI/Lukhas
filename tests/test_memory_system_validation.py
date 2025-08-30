@@ -2,6 +2,7 @@
 Comprehensive Memory System Validation Tests
 Tests the newly implemented memory systems for performance, cascade prevention, and Trinity Framework integration
 """
+
 import os
 import sys
 import time
@@ -10,6 +11,7 @@ import pytest
 
 # Add candidate modules to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "candidate"))
+
 
 class TestMemorySystemValidation:
     """Test suite for comprehensive memory system validation"""
@@ -29,7 +31,7 @@ class TestMemorySystemValidation:
                 "experience": "test_memory_experience",
                 "emotion": {"valence": 0.5, "arousal": 0.3, "dominance": 0.7},
                 "causality": {"chain_id": "test_chain", "strength": 0.8},
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Process multiple memories to test cascade prevention
@@ -52,7 +54,9 @@ class TestMemorySystemValidation:
             prevention_rate = (1 - cascade_count / total_operations) * 100
 
             print(f"Cascade prevention rate: {prevention_rate}%")
-            assert prevention_rate >= 99.7, f"Cascade prevention rate {prevention_rate}% below target 99.7%"
+            assert prevention_rate >= 99.7, (
+                f"Cascade prevention rate {prevention_rate}% below target 99.7%"
+            )
 
         except ImportError as e:
             pytest.skip(f"Unified memory core not available: {e}")
@@ -71,7 +75,7 @@ class TestMemorySystemValidation:
                 "experience": "performance_test_memory",
                 "emotion": {"valence": 0.6, "arousal": 0.4, "dominance": 0.5},
                 "causality": {"chain_id": "perf_chain", "strength": 0.9},
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Test operation timing
@@ -114,7 +118,7 @@ class TestMemorySystemValidation:
                 {"type": "semantic", "content": "factual knowledge", "strength": 0.9},
                 {"type": "procedural", "content": "skill memory", "strength": 0.7},
                 {"type": "emotional", "content": "emotional memory", "strength": 0.6},
-                {"type": "working", "content": "temporary memory", "strength": 0.5}
+                {"type": "working", "content": "temporary memory", "strength": 0.5},
             ]
 
             results = []
@@ -147,13 +151,13 @@ class TestMemorySystemValidation:
                 {
                     "dream_id": "dream_1",
                     "quantum_signature": {"coherence": 0.8, "entanglement": 0.6, "phase": 0.4},
-                    "memory_stream": "stream_a"
+                    "memory_stream": "stream_a",
                 },
                 {
                     "dream_id": "dream_2",
                     "quantum_signature": {"coherence": 0.7, "entanglement": 0.8, "phase": 0.5},
-                    "memory_stream": "stream_b"
-                }
+                    "memory_stream": "stream_b",
+                },
             ]
 
             # Test quantum resonance detection
@@ -161,7 +165,10 @@ class TestMemorySystemValidation:
                 resonance_result = await linker.detect_quantum_dream_resonance(test_traces)
 
                 assert resonance_result is not None, "Quantum resonance detection failed"
-                assert "resonance_patterns" in resonance_result or "quantum_correlations" in resonance_result
+                assert (
+                    "resonance_patterns" in resonance_result
+                    or "quantum_correlations" in resonance_result
+                )
 
                 print(f"Quantum resonance detection successful: {type(resonance_result)}")
             else:
@@ -211,7 +218,7 @@ class TestMemorySystemValidation:
                 "content": "trinity_test_memory",
                 "identity_marker": "⚛️",
                 "consciousness_level": 0.8,
-                "guardian_approved": True
+                "guardian_approved": True,
             }
 
             result = await visualizer.process_memory(test_memory)
@@ -219,12 +226,11 @@ class TestMemorySystemValidation:
             # Validate Trinity Framework integration
             if result:
                 trinity_markers = ["⚛️", "🧠", "🛡️"]
-                trinity_integration = any(
-                    marker in str(result) for marker in trinity_markers
-                )
+                trinity_integration = any(marker in str(result) for marker in trinity_markers)
 
-                assert trinity_integration or "trinity" in str(result).lower(), \
+                assert trinity_integration or "trinity" in str(result).lower(), (
                     "Trinity Framework integration not detected"
+                )
 
                 print("Trinity Framework integration validated")
 
@@ -246,7 +252,7 @@ class TestMemorySystemValidation:
                 {"timestamp": time.time() - 3600, "memory_id": "mem_1", "access_type": "read"},
                 {"timestamp": time.time() - 1800, "memory_id": "mem_1", "access_type": "write"},
                 {"timestamp": time.time() - 900, "memory_id": "mem_2", "access_type": "read"},
-                {"timestamp": time.time() - 300, "memory_id": "mem_1", "access_type": "read"}
+                {"timestamp": time.time() - 300, "memory_id": "mem_1", "access_type": "read"},
             ]
 
             # Test if predictive scheduling is available
@@ -276,7 +282,7 @@ class TestMemorySystemValidation:
             "candidate.memory.consolidation.memory_visualization",
             "candidate.memory.systems.dream_trace_linker",
             "candidate.memory.causal.memory_cleaner",
-            "candidate.memory.systems.symbolic_delta_compression"
+            "candidate.memory.systems.symbolic_delta_compression",
         ]
 
         import_results = {}

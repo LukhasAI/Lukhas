@@ -3,6 +3,7 @@
 ConsentGuard: GDPR-compliant consent management with TEQ integration
 Designed by: Gonzalo Dominguez - Lukhas AI
 """
+
 from __future__ import annotations
 
 import argparse
@@ -32,6 +33,7 @@ class Consent:
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
+
 class ConsentGuard:
     def __init__(self, storage_path: str = "~/.lukhas/consent/ledger.jsonl"):
         self.storage_path = os.path.expanduser(storage_path)
@@ -59,8 +61,13 @@ class ConsentGuard:
                 except:
                     continue
 
-    def grant(self, user_id: str, purpose: str, ttl_seconds: int = 86400 * 30,
-              metadata: dict[str, Any] | None = None) -> Consent:
+    def grant(
+        self,
+        user_id: str,
+        purpose: str,
+        ttl_seconds: int = 86400 * 30,
+        metadata: dict[str, Any] | None = None,
+    ) -> Consent:
         """Grant consent for a specific purpose"""
         consent = Consent(
             user_id=user_id,
@@ -68,7 +75,7 @@ class ConsentGuard:
             granted=True,
             timestamp=time.time(),
             ttl_seconds=ttl_seconds,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # Persist to ledger
@@ -84,11 +91,7 @@ class ConsentGuard:
     def revoke(self, user_id: str, purpose: str) -> Consent:
         """Revoke consent for a specific purpose"""
         consent = Consent(
-            user_id=user_id,
-            purpose=purpose,
-            granted=False,
-            timestamp=time.time(),
-            ttl_seconds=0
+            user_id=user_id, purpose=purpose, granted=False, timestamp=time.time(), ttl_seconds=0
         )
 
         # Persist revocation
@@ -193,6 +196,7 @@ class ConsentGuard:
 
         return len(expired_keys)
 
+
 # TEQ Integration Hook
 def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bool, str]:
     """
@@ -207,12 +211,18 @@ def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bo
         return True, f"Consent valid for {days_left} more days"
     else:
         if consent and not consent.granted:
-            return False, f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp)}"
+            return (
+                False,
+                f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp)}",
+            )
         else:
             return False, f"No consent on record for purpose: {purpose}"
 
+
 def main():
-    ap = argparse.ArgumentParser(description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI")
+    ap = argparse.ArgumentParser(
+        description="ConsentGuard CLI - Designed by: Gonzalo Dominguez - Lukhas AI"
+    )
     ap.add_argument("--storage", default="~/.lukhas/consent/ledger.jsonl")
 
     sub = ap.add_subparsers(dest="cmd", help="Commands")
@@ -257,12 +267,11 @@ def main():
     if args.cmd == "grant":
         metadata = json.loads(args.metadata) if args.metadata else {}
         consent = guard.grant(
-            args.user,
-            args.purpose,
-            ttl_seconds=args.ttl_days * 86400,
-            metadata=metadata
+            args.user, args.purpose, ttl_seconds=args.ttl_days * 86400, metadata=metadata
         )
-        print(f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)")
+        print(
+            f"✅ Granted: {consent.user_id} -> {consent.purpose} (expires in {args.ttl_days} days)"
+        )
 
     elif args.cmd == "revoke":
         consent = guard.revoke(args.user, args.purpose)
@@ -338,6 +347,7 @@ def main():
         print(f"✓ TEQ hook denies: {reason}")
 
         print("\n✅ All ConsentGuard tests passed!")
+
 
 if __name__ == "__main__":
     main()

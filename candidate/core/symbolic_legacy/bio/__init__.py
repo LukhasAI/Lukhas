@@ -11,7 +11,7 @@ from .qi_attention import QIAttentionSystem
 
 __all__ = [
     "BioSymbolic",
-    "bio_symbolic",
     "BioSymbolicOrchestrator",
     "QIAttentionSystem",
+    "bio_symbolic",
 ]

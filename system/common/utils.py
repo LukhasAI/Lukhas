@@ -17,18 +17,14 @@ def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(name)
     if not logger.handlers:
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
     return logger
 
 
-def load_config(
-    config_path: Path, defaults: Optional[dict[str, Any]] = None
-) -> dict[str, Any]:
+def load_config(config_path: Path, defaults: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Load JSON configuration with defaults"""
     config = defaults or {}
 

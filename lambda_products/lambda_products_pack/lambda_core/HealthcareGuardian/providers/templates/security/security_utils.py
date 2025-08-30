@@ -44,11 +44,9 @@ class AuditLogger:
         self.config = config
         self.log_path = config.get("audit_log_path")
 
-    def log_access(self,
-                   user_id: str,
-                   action: str,
-                   resource_id: str,
-                   details: Optional[dict[str, Any]] = None) -> None:
+    def log_access(
+        self, user_id: str, action: str, resource_id: str, details: Optional[dict[str, Any]] = None
+    ) -> None:
         """Log access to protected health information"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
@@ -56,23 +54,20 @@ class AuditLogger:
             "user_id": user_id,
             "action": action,
             "resource_id": resource_id,
-            "details": details or {}
+            "details": details or {},
         }
 
         # Implement secure logging mechanism
         logger.info(f"Audit log entry: {json.dumps(log_entry)}")
 
-    def log_security_event(self,
-                          event_type: str,
-                          severity: str,
-                          details: dict[str, Any]) -> None:
+    def log_security_event(self, event_type: str, severity: str, details: dict[str, Any]) -> None:
         """Log security-related events"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
             "timestamp": timestamp,
             "event_type": event_type,
             "severity": severity,
-            "details": details
+            "details": details,
         }
 
         # Implement secure logging mechanism
@@ -86,10 +81,7 @@ class AccessControl:
         self.config = config
         self.roles = config.get("roles", {})
 
-    def verify_access(self,
-                     user_id: str,
-                     action: str,
-                     resource: str) -> bool:
+    def verify_access(self, user_id: str, action: str, resource: str) -> bool:
         """Verify if user has permission for action on resource"""
         # Implement your access control logic
         return False  # Placeholder - implement proper verification

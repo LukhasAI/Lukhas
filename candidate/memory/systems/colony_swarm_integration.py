@@ -101,10 +101,8 @@ class ColonyMemoryValidator:
             return result
 
         except Exception as e:
-            logger.error(
-                "Colony validation failed", colony_id=self.colony_id, error=str(e)
-            )
-            return False, 0.0, f"Validation error: {str(e)}"
+            logger.error("Colony validation failed", colony_id=self.colony_id, error=str(e))
+            return False, 0.0, f"Validation error: {e!s}"
 
     async def _validate_general(
         self, memory_data: dict[str, Any]
@@ -260,9 +258,7 @@ class SwarmConsensusManager:
         self.colony_validators[colony_id] = validator
 
         # Register with consensus adapter
-        self.integration.consensus.register_colony_validator(
-            colony_id, validator.validate_memory
-        )
+        self.integration.consensus.register_colony_validator(colony_id, validator.validate_memory)
 
         logger.info(
             "Colony registered",
@@ -506,9 +502,7 @@ class SwarmConsensusManager:
             role_distribution[role] = role_distribution.get(role, 0) + 1
 
         # Calculate swarm health
-        total_validations = sum(
-            p["total_votes"] for p in self.colony_performance.values()
-        )
+        total_validations = sum(p["total_votes"] for p in self.colony_performance.values())
 
         avg_accuracy = 0.0
         if self.colony_performance:
@@ -532,9 +526,7 @@ class SwarmConsensusManager:
             "average_accuracy": avg_accuracy,
             "consensus_threshold": self.consensus_threshold,
             "recent_consensus_rate": (
-                sum(recent_consensus) / len(recent_consensus)
-                if recent_consensus
-                else 0.0
+                sum(recent_consensus) / len(recent_consensus) if recent_consensus else 0.0
             ),
             "top_performers": sorted(
                 [
@@ -569,12 +561,8 @@ async def demonstrate_colony_swarm():
     swarm.register_colony("colony_alpha", ColonyRole.VALIDATOR)
     swarm.register_colony("colony_beta", ColonyRole.WITNESS)
     swarm.register_colony("colony_gamma", ColonyRole.ARBITER)
-    swarm.register_colony(
-        "colony_delta", ColonyRole.SPECIALIST, ["technical", "science"]
-    )
-    swarm.register_colony(
-        "colony_epsilon", ColonyRole.SPECIALIST, ["creative", "emotional"]
-    )
+    swarm.register_colony("colony_delta", ColonyRole.SPECIALIST, ["technical", "science"])
+    swarm.register_colony("colony_epsilon", ColonyRole.SPECIALIST, ["creative", "emotional"])
 
     print("🐝 COLONY/SWARM CONSENSUS DEMONSTRATION")
     print("=" * 60)

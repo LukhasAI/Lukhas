@@ -64,12 +64,8 @@ class QIVoiceEnhancer:
         )
 
         # Register oscillators with orchestrator
-        self.orchestrator.register_oscillator(
-            self.emotion_oscillator, "voice_emotion_processor"
-        )
-        self.orchestrator.register_oscillator(
-            self.voice_oscillator, "voice_sync_processor"
-        )
+        self.orchestrator.register_oscillator(self.emotion_oscillator, "voice_emotion_processor")
+        self.orchestrator.register_oscillator(self.voice_oscillator, "voice_sync_processor")
 
         # Enhance voice integrator methods
         self._enhance_voice_methods()
@@ -147,9 +143,7 @@ class QIVoiceEnhancer:
                 return base_result
 
             # Enhance emotion detection with quantum-inspired processing
-            qi_emotion = await self._enhance_emotion_detection(
-                base_result.get("emotion"), context
-            )
+            qi_emotion = await self._enhance_emotion_detection(base_result.get("emotion"), context)
 
             if qi_emotion:
                 base_result["emotion"] = qi_emotion

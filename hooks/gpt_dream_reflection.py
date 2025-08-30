@@ -206,9 +206,7 @@ class GPTSymbolicBridge:
         Returns:
             Tuple of (GPTInteractionStyle, style_info_dict)
         """
-        style = GPTSymbolicBridge.GLYPH_TO_STYLE.get(
-            glyph, GPTInteractionStyle.ANALYTICAL
-        )
+        style = GPTSymbolicBridge.GLYPH_TO_STYLE.get(glyph, GPTInteractionStyle.ANALYTICAL)
         style_info = GPTSymbolicBridge.STYLE_DESCRIPTIONS[style]
 
         return style, style_info
@@ -268,9 +266,7 @@ class GPTSymbolicBridge:
             "max_tokens": 500 if style == GPTInteractionStyle.CREATIVE else 300,
             "top_p": 0.9 if style_info["temperature"] > 0.5 else 0.95,
             "frequency_penalty": 0.3 if style == GPTInteractionStyle.CREATIVE else 0.1,
-            "presence_penalty": (
-                0.3 if style == GPTInteractionStyle.EXPLORATORY else 0.1
-            ),
+            "presence_penalty": (0.3 if style == GPTInteractionStyle.EXPLORATORY else 0.1),
             "style_hints": style_info["traits"],
             "system_prompt_suffix": style_info["prompt_style"],
         }
@@ -339,9 +335,7 @@ def create_gpt_context(
     collapsed_glyphs: list[str], entropy: float = 0.5, coherence: float = 0.8
 ) -> str:
     """Create GPT context from qi state"""
-    return GPTSymbolicBridge.create_gpt_prompt_context(
-        collapsed_glyphs, entropy, coherence
-    )
+    return GPTSymbolicBridge.create_gpt_prompt_context(collapsed_glyphs, entropy, coherence)
 
 
 # Example usage for testing

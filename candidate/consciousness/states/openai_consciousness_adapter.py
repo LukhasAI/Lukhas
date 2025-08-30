@@ -17,6 +17,7 @@
 ║ Authors: LUKHAS AI Consciousness Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from datetime import datetime
@@ -43,9 +44,7 @@ class ConsciousnessOpenAIAdapter:
         self.module_name = "consciousness"
         logger.info("Consciousness OpenAI Adapter initialized")
 
-    async def analyze_awareness_state(
-        self, current_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_awareness_state(self, current_state: dict[str, Any]) -> dict[str, Any]:
         """
         Use GPT-4 to analyze current consciousness state.
 
@@ -57,12 +56,12 @@ class ConsciousnessOpenAIAdapter:
         """
         prompt = f"""Analyze this consciousness state from a meta-cognitive perspective:
 
-Awareness Level: {current_state.get('awareness_level', 0.5)}
-Attention Focus: {current_state.get('attention_focus', [])}
-Active Processes: {current_state.get('active_processes', [])}
-Reflection Depth: {current_state.get('reflection_depth', 0.3)}
-Emotional State: {current_state.get('emotional_state', 'neutral')}
-Cognitive Load: {current_state.get('cognitive_load', 0.5)}
+Awareness Level: {current_state.get("awareness_level", 0.5)}
+Attention Focus: {current_state.get("attention_focus", [])}
+Active Processes: {current_state.get("active_processes", [])}
+Reflection Depth: {current_state.get("reflection_depth", 0.3)}
+Emotional State: {current_state.get("emotional_state", "neutral")}
+Cognitive Load: {current_state.get("cognitive_load", 0.5)}
 
 Provide analysis of:
 1. Current meta-cognitive state
@@ -93,9 +92,7 @@ Format as JSON with detailed insights."""
             logger.error(f"Awareness analysis failed: {response.error}")
             return {"error": "Analysis failed"}
 
-    async def generate_introspection_narrative(
-        self, reflection_data: dict[str, Any]
-    ) -> str:
+    async def generate_introspection_narrative(self, reflection_data: dict[str, Any]) -> str:
         """
         Generate introspective narrative about current state.
 
@@ -107,11 +104,11 @@ Format as JSON with detailed insights."""
         """
         prompt = f"""Generate a first-person introspective narrative based on this reflection data:
 
-Thoughts: {reflection_data.get('current_thoughts', [])}
-Insights: {reflection_data.get('recent_insights', [])}
-Questions: {reflection_data.get('open_questions', [])}
-Emotional Tone: {reflection_data.get('emotional_tone', 'neutral')}
-Focus Areas: {reflection_data.get('focus_areas', [])}
+Thoughts: {reflection_data.get("current_thoughts", [])}
+Insights: {reflection_data.get("recent_insights", [])}
+Questions: {reflection_data.get("open_questions", [])}
+Emotional Tone: {reflection_data.get("emotional_tone", "neutral")}
+Focus Areas: {reflection_data.get("focus_areas", [])}
 
 Write as if you are reflecting on your own consciousness. The narrative should be:
 1. Genuinely introspective
@@ -241,10 +238,10 @@ Provide recommendations for improved attention management."""
         prompt = f"""Generate awareness exercises based on this consciousness state:
 
 Current State:
-- Awareness Level: {current_state.get('awareness_level', 0.5)}
-- Reflection Depth: {current_state.get('reflection_depth', 0.3)}
-- Cognitive Load: {current_state.get('cognitive_load', 0.5)}
-- Attention Stability: {current_state.get('attention_stability', 'moderate')}
+- Awareness Level: {current_state.get("awareness_level", 0.5)}
+- Reflection Depth: {current_state.get("reflection_depth", 0.3)}
+- Cognitive Load: {current_state.get("cognitive_load", 0.5)}
+- Attention Stability: {current_state.get("attention_stability", "moderate")}
 
 Goal: {goal}
 
@@ -281,9 +278,7 @@ Format as JSON array with: name, description, duration, instructions, expected_o
         else:
             return []
 
-    async def map_consciousness_landscape(
-        self, multi_state_data: list[dict[str, Any]]
-    ) -> str:
+    async def map_consciousness_landscape(self, multi_state_data: list[dict[str, Any]]) -> str:
         """
         Create a descriptive map of consciousness landscape.
 
@@ -354,7 +349,7 @@ Write in a vivid, metaphorical style. Make it beautiful and insightful."""
         prompt = f"""{depth_prompts.get(depth_level, depth_prompts[1])}
 
 Thought stream:
-{chr(10).join(f'- {thought}' for thought in thought_stream[:10])}
+{chr(10).join(f"- {thought}" for thought in thought_stream[:10])}
 
 Provide meta-cognitive insights about:
 1. The patterns in thinking

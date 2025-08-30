@@ -28,9 +28,7 @@ class FeedbackRequest(BaseModel):
     action_id: str = Field(..., description="ID of the action being rated")
     rating: int = Field(..., ge=1, le=5, description="Rating from 1-5")
     note: Optional[str] = Field(None, description="Optional text feedback")
-    symbols: Optional[list[str]] = Field(
-        default_factory=list, description="User-selected symbols"
-    )
+    symbols: Optional[list[str]] = Field(default_factory=list, description="User-selected symbols")
     context: Optional[dict[str, Any]] = Field(
         default_factory=dict, description="Additional context"
     )
@@ -90,9 +88,7 @@ async def capture_feedback(request: FeedbackRequest):
             user_id=request.user_id,
         )
 
-        logger.info(
-            f"Captured feedback card {card.card_id} with rating {request.rating}"
-        )
+        logger.info(f"Captured feedback card {card.card_id} with rating {request.rating}")
 
         return FeedbackResponse(
             card_id=card.card_id,
@@ -134,9 +130,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
             )
 
         except Exception as e:
-            logger.error(
-                f"Error capturing feedback for action {request.action_id}: {e}"
-            )
+            logger.error(f"Error capturing feedback for action {request.action_id}: {e}")
             # Continue processing other feedback
 
     logger.info(f"Captured {len(responses)} feedback cards in batch")
@@ -254,13 +248,9 @@ async def run_learning_cycle(cards):
             if update:
                 # Validate the update
                 if feedback_system.validate_update(update):
-                    logger.info(
-                        f"Policy update {update.update_id} validated and ready to apply"
-                    )
+                    logger.info(f"Policy update {update.update_id} validated and ready to apply")
                 else:
-                    logger.warning(
-                        f"Policy update {update.update_id} failed validation"
-                    )
+                    logger.warning(f"Policy update {update.update_id} failed validation")
 
     except Exception as e:
         logger.error(f"Error in learning cycle: {e}")

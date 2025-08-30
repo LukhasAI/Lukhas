@@ -42,19 +42,21 @@ except ImportError:
 
 class AuthGlyphCategory(Enum):
     """Categories of authentication GLYPHs"""
-    IDENTITY = "identity"           # User identity and persona
-    ACCESS = "access"              # Access control and permissions
-    SESSION = "session"            # Session management
-    SECURITY = "security"          # Security events and threats
-    TIER = "tier"                  # Tier system and privileges
-    AUDIT = "audit"                # Audit trail and compliance
-    GUARDIAN = "guardian"          # Guardian system integration
+
+    IDENTITY = "identity"  # User identity and persona
+    ACCESS = "access"  # Access control and permissions
+    SESSION = "session"  # Session management
+    SECURITY = "security"  # Security events and threats
+    TIER = "tier"  # Tier system and privileges
+    AUDIT = "audit"  # Audit trail and compliance
+    GUARDIAN = "guardian"  # Guardian system integration
     CONSTITUTIONAL = "constitutional"  # Constitutional AI principles
 
 
 @dataclass
 class AuthGlyph:
     """Authentication GLYPH definition"""
+
     id: str
     category: AuthGlyphCategory
     symbol: str
@@ -75,6 +77,7 @@ class AuthGlyph:
 @dataclass
 class SymbolicIdentity:
     """Symbolic representation of user identity"""
+
     user_id: str
     tier_glyph: str
     access_glyph: str
@@ -113,182 +116,222 @@ class AuthGlyphRegistry:
     def _initialize_core_glyphs(self) -> None:
         """Initialize core authentication GLYPHs"""
         # Identity GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="lambda_id_core",
-            category=AuthGlyphCategory.IDENTITY,
-            symbol="Λ",
-            concept="lambda_identity",
-            description="Core ΛiD identity representation",
-            metadata={"trinity_aspect": "identity", "core": True}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="lambda_id_core",
+                category=AuthGlyphCategory.IDENTITY,
+                symbol="Λ",
+                concept="lambda_identity",
+                description="Core ΛiD identity representation",
+                metadata={"trinity_aspect": "identity", "core": True},
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="user_persona",
-            category=AuthGlyphCategory.IDENTITY,
-            symbol="👤",
-            concept="user_persona",
-            description="User persona and profile",
-            metadata={"trinity_aspect": "identity"}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="user_persona",
+                category=AuthGlyphCategory.IDENTITY,
+                symbol="👤",
+                concept="user_persona",
+                description="User persona and profile",
+                metadata={"trinity_aspect": "identity"},
+            )
+        )
 
         # Access Control GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="access_granted",
-            category=AuthGlyphCategory.ACCESS,
-            symbol="🟢",
-            concept="access_granted",
-            description="Access permission granted"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="access_granted",
+                category=AuthGlyphCategory.ACCESS,
+                symbol="🟢",
+                concept="access_granted",
+                description="Access permission granted",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="access_denied",
-            category=AuthGlyphCategory.ACCESS,
-            symbol="🔴",
-            concept="access_denied",
-            description="Access permission denied"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="access_denied",
+                category=AuthGlyphCategory.ACCESS,
+                symbol="🔴",
+                concept="access_denied",
+                description="Access permission denied",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="scope_check",
-            category=AuthGlyphCategory.ACCESS,
-            symbol="🔍",
-            concept="scope_validation",
-            description="Scope permission validation"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="scope_check",
+                category=AuthGlyphCategory.ACCESS,
+                symbol="🔍",
+                concept="scope_validation",
+                description="Scope permission validation",
+            )
+        )
 
         # Session GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="session_active",
-            category=AuthGlyphCategory.SESSION,
-            symbol="🔓",
-            concept="active_session",
-            description="Active authentication session"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="session_active",
+                category=AuthGlyphCategory.SESSION,
+                symbol="🔓",
+                concept="active_session",
+                description="Active authentication session",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="session_expired",
-            category=AuthGlyphCategory.SESSION,
-            symbol="⏰",
-            concept="session_expiry",
-            description="Session expiration event"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="session_expired",
+                category=AuthGlyphCategory.SESSION,
+                symbol="⏰",
+                concept="session_expiry",
+                description="Session expiration event",
+            )
+        )
 
         # Security GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="security_alert",
-            category=AuthGlyphCategory.SECURITY,
-            symbol="🚨",
-            concept="security_threat",
-            description="Security threat detected",
-            security_level="high"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="security_alert",
+                category=AuthGlyphCategory.SECURITY,
+                symbol="🚨",
+                concept="security_threat",
+                description="Security threat detected",
+                security_level="high",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="auth_success",
-            category=AuthGlyphCategory.SECURITY,
-            symbol="✅",
-            concept="authentication_success",
-            description="Successful authentication"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="auth_success",
+                category=AuthGlyphCategory.SECURITY,
+                symbol="✅",
+                concept="authentication_success",
+                description="Successful authentication",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="auth_failure",
-            category=AuthGlyphCategory.SECURITY,
-            symbol="❌",
-            concept="authentication_failure",
-            description="Failed authentication attempt"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="auth_failure",
+                category=AuthGlyphCategory.SECURITY,
+                symbol="❌",
+                concept="authentication_failure",
+                description="Failed authentication attempt",
+            )
+        )
 
         # Tier GLYPHs
         for tier in ["T1", "T2", "T3", "T4", "T5"]:
-            self.register_glyph(AuthGlyph(
-                id=f"tier_{tier.lower()}",
-                category=AuthGlyphCategory.TIER,
-                symbol=f"🏆{tier[-1]}",
-                concept=f"tier_{tier.lower()}_access",
-                description=f"Tier {tier} access level",
-                tier_level=tier
-            ))
+            self.register_glyph(
+                AuthGlyph(
+                    id=f"tier_{tier.lower()}",
+                    category=AuthGlyphCategory.TIER,
+                    symbol=f"🏆{tier[-1]}",
+                    concept=f"tier_{tier.lower()}_access",
+                    description=f"Tier {tier} access level",
+                    tier_level=tier,
+                )
+            )
 
         # Guardian GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="guardian_monitoring",
-            category=AuthGlyphCategory.GUARDIAN,
-            symbol="🛡️",
-            concept="guardian_oversight",
-            description="Guardian system monitoring",
-            metadata={"trinity_aspect": "guardian"}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="guardian_monitoring",
+                category=AuthGlyphCategory.GUARDIAN,
+                symbol="🛡️",
+                concept="guardian_oversight",
+                description="Guardian system monitoring",
+                metadata={"trinity_aspect": "guardian"},
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="drift_detected",
-            category=AuthGlyphCategory.GUARDIAN,
-            symbol="⚡",
-            concept="ethical_drift",
-            description="Ethical drift detection"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="drift_detected",
+                category=AuthGlyphCategory.GUARDIAN,
+                symbol="⚡",
+                concept="ethical_drift",
+                description="Ethical drift detection",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="bias_alert",
-            category=AuthGlyphCategory.GUARDIAN,
-            symbol="⚖️",
-            concept="bias_detection",
-            description="Bias pattern detected"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="bias_alert",
+                category=AuthGlyphCategory.GUARDIAN,
+                symbol="⚖️",
+                concept="bias_detection",
+                description="Bias pattern detected",
+            )
+        )
 
         # Constitutional AI GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="constitutional_valid",
-            category=AuthGlyphCategory.CONSTITUTIONAL,
-            symbol="📜✅",
-            concept="constitutional_compliance",
-            description="Constitutional AI validation passed"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="constitutional_valid",
+                category=AuthGlyphCategory.CONSTITUTIONAL,
+                symbol="📜✅",
+                concept="constitutional_compliance",
+                description="Constitutional AI validation passed",
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="constitutional_violation",
-            category=AuthGlyphCategory.CONSTITUTIONAL,
-            symbol="📜❌",
-            concept="constitutional_violation",
-            description="Constitutional AI principle violated"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="constitutional_violation",
+                category=AuthGlyphCategory.CONSTITUTIONAL,
+                symbol="📜❌",
+                concept="constitutional_violation",
+                description="Constitutional AI principle violated",
+            )
+        )
 
         # Audit GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="audit_entry",
-            category=AuthGlyphCategory.AUDIT,
-            symbol="📋",
-            concept="audit_logging",
-            description="Audit trail entry created"
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="audit_entry",
+                category=AuthGlyphCategory.AUDIT,
+                symbol="📋",
+                concept="audit_logging",
+                description="Audit trail entry created",
+            )
+        )
 
         # Trinity Framework GLYPHs
-        self.register_glyph(AuthGlyph(
-            id="trinity_identity",
-            category=AuthGlyphCategory.IDENTITY,
-            symbol="⚛️",
-            concept="trinity_identity",
-            description="Trinity Framework - Identity aspect",
-            metadata={"trinity_core": True, "aspect": "identity"}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="trinity_identity",
+                category=AuthGlyphCategory.IDENTITY,
+                symbol="⚛️",
+                concept="trinity_identity",
+                description="Trinity Framework - Identity aspect",
+                metadata={"trinity_core": True, "aspect": "identity"},
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="trinity_consciousness",
-            category=AuthGlyphCategory.IDENTITY,
-            symbol="🧠",
-            concept="trinity_consciousness",
-            description="Trinity Framework - Consciousness aspect",
-            metadata={"trinity_core": True, "aspect": "consciousness"}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="trinity_consciousness",
+                category=AuthGlyphCategory.IDENTITY,
+                symbol="🧠",
+                concept="trinity_consciousness",
+                description="Trinity Framework - Consciousness aspect",
+                metadata={"trinity_core": True, "aspect": "consciousness"},
+            )
+        )
 
-        self.register_glyph(AuthGlyph(
-            id="trinity_guardian",
-            category=AuthGlyphCategory.GUARDIAN,
-            symbol="🛡️",
-            concept="trinity_guardian",
-            description="Trinity Framework - Guardian aspect",
-            metadata={"trinity_core": True, "aspect": "guardian"}
-        ))
+        self.register_glyph(
+            AuthGlyph(
+                id="trinity_guardian",
+                category=AuthGlyphCategory.GUARDIAN,
+                symbol="🛡️",
+                concept="trinity_guardian",
+                description="Trinity Framework - Guardian aspect",
+                metadata={"trinity_core": True, "aspect": "guardian"},
+            )
+        )
 
     def register_glyph(self, glyph: AuthGlyph) -> bool:
         """Register a new authentication GLYPH"""
@@ -321,11 +364,13 @@ class AuthGlyphRegistry:
         glyph_id = f"tier_{tier_level.lower()}"
         return self.get_glyph(glyph_id)
 
-    def create_symbolic_identity(self,
-                               user_id: str,
-                               tier_level: str,
-                               access_context: dict[str, Any],
-                               session_context: dict[str, Any]) -> SymbolicIdentity:
+    def create_symbolic_identity(
+        self,
+        user_id: str,
+        tier_level: str,
+        access_context: dict[str, Any],
+        session_context: dict[str, Any],
+    ) -> SymbolicIdentity:
         """Create symbolic identity representation for user"""
         try:
             # Get tier GLYPH
@@ -371,9 +416,9 @@ class AuthGlyphRegistry:
                     "tier_level": tier_level,
                     "access_context": access_context,
                     "session_context": session_context,
-                    "glyph_version": "1.0.0"
+                    "glyph_version": "1.0.0",
                 },
-                created_at=datetime.now()
+                created_at=datetime.now(),
             )
 
             # Store symbolic identity
@@ -393,10 +438,12 @@ class AuthGlyphRegistry:
                 trinity_glyph="⚛️🧠🛡️",
                 composite_glyph="GLYPH[🏆🔍🔓📜:ERROR]",
                 metadata={"error": str(e)},
-                created_at=datetime.now()
+                created_at=datetime.now(),
             )
 
-    def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
+    def _create_trinity_glyph(
+        self, access_context: dict[str, Any], session_context: dict[str, Any]
+    ) -> str:
         """Create Trinity Framework GLYPH"""
         # Get Trinity symbols
         identity_symbol = self.get_glyph("trinity_identity").symbol
@@ -426,12 +473,14 @@ class AuthGlyphRegistry:
         except Exception as e:
             return f"GLYPH[ERROR:{str(e)[:8]}]"
 
-    def encode_jwt_glyph_claims(self,
-                              user_id: str,
-                              tier_level: str,
-                              scopes: list[str],
-                              session_id: str,
-                              metadata: dict[str, Any]) -> dict[str, Any]:
+    def encode_jwt_glyph_claims(
+        self,
+        user_id: str,
+        tier_level: str,
+        scopes: list[str],
+        session_id: str,
+        metadata: dict[str, Any],
+    ) -> dict[str, Any]:
         """Encode GLYPH claims for JWT token"""
         try:
             # Get or create symbolic identity
@@ -441,14 +490,14 @@ class AuthGlyphRegistry:
                 access_context = {
                     "granted": True,
                     "scopes": scopes,
-                    "constitutional_valid": metadata.get("constitutional_valid", True)
+                    "constitutional_valid": metadata.get("constitutional_valid", True),
                 }
 
                 # Create session context
                 session_context = {
                     "active": True,
                     "session_id": session_id,
-                    "consciousness_integration": metadata.get("consciousness_integration", False)
+                    "consciousness_integration": metadata.get("consciousness_integration", False),
                 }
 
                 symbolic_identity = self.create_symbolic_identity(
@@ -465,7 +514,7 @@ class AuthGlyphRegistry:
                 "glyph_trinity": symbolic_identity.trinity_glyph,
                 "glyph_version": "1.0.0",
                 "glyph_created": symbolic_identity.created_at.isoformat(),
-                "glyph_registry": "lukhas_auth_v1"
+                "glyph_registry": "lukhas_auth_v1",
             }
 
             # Add scope GLYPHs
@@ -496,7 +545,7 @@ class AuthGlyphRegistry:
             return {
                 "glyph_error": str(e),
                 "glyph_version": "1.0.0",
-                "glyph_registry": "lukhas_auth_v1"
+                "glyph_registry": "lukhas_auth_v1",
             }
 
     def _create_scope_glyph(self, scope: str) -> str:
@@ -512,7 +561,7 @@ class AuthGlyphRegistry:
             "memory:read": "🧠📚",
             "memory:write": "🧠✏️",
             "guardian:monitor": "🛡️👁",
-            "admin:full": "👑"
+            "admin:full": "👑",
         }
 
         return scope_symbols.get(scope, "🔹")
@@ -533,7 +582,7 @@ class AuthGlyphRegistry:
                 "bias_glyph": glyph_claims.get("glyph_bias"),
                 "version": glyph_claims.get("glyph_version"),
                 "created": glyph_claims.get("glyph_created"),
-                "registry": glyph_claims.get("glyph_registry")
+                "registry": glyph_claims.get("glyph_registry"),
             }
 
             # Analyze GLYPHs for security insights
@@ -546,11 +595,7 @@ class AuthGlyphRegistry:
 
     def _analyze_glyph_security(self, glyph_claims: dict[str, Any]) -> dict[str, Any]:
         """Analyze GLYPH claims for security insights"""
-        analysis = {
-            "risk_level": "low",
-            "alerts": [],
-            "recommendations": []
-        }
+        analysis = {"risk_level": "low", "alerts": [], "recommendations": []}
 
         # Check for Guardian alerts
         if glyph_claims.get("glyph_drift"):
@@ -577,10 +622,9 @@ class AuthGlyphRegistry:
 
         return analysis
 
-    def get_cross_module_glyph_message(self,
-                                     target_module: str,
-                                     message_type: str,
-                                     auth_context: dict[str, Any]) -> str:
+    def get_cross_module_glyph_message(
+        self, target_module: str, message_type: str, auth_context: dict[str, Any]
+    ) -> str:
         """Create GLYPH message for cross-module communication"""
         try:
             # Get user symbolic identity
@@ -607,7 +651,7 @@ class AuthGlyphRegistry:
                 "session_end": "🛑",
                 "tier_change": "🔄",
                 "access_request": "🔍",
-                "guardian_alert": "🚨"
+                "guardian_alert": "🚨",
             }
 
             message_symbol = type_symbols.get(message_type, "💬")
@@ -632,7 +676,7 @@ class AuthGlyphRegistry:
             "symbolic_identities": len(self.symbolic_identities),
             "trinity_glyphs": 0,
             "security_glyphs": 0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Count by category
@@ -655,9 +699,9 @@ auth_glyph_registry = AuthGlyphRegistry()
 
 # Export main classes and instance
 __all__ = [
-    "AuthGlyphRegistry",
     "AuthGlyph",
-    "SymbolicIdentity",
     "AuthGlyphCategory",
-    "auth_glyph_registry"
+    "AuthGlyphRegistry",
+    "SymbolicIdentity",
+    "auth_glyph_registry",
 ]

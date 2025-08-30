@@ -1,5 +1,4 @@
 class ContractNetInitiator:
-
     def __init__(self, task, timeout=5):
         self.task = task
         self.timeout = timeout
@@ -26,15 +25,12 @@ class ContractNetInitiator:
 
 
 class ContractNetParticipant:
-
     def __init__(self, participant_id, capabilities):
         self.participant_id = participant_id
         self.capabilities = capabilities
 
     def handle_call_for_proposals(self, task):
-        print(
-            f"Participant {self.participant_id}: Received call for proposals for task: {task}"
-        )
+        print(f"Participant {self.participant_id}: Received call for proposals for task: {task}")
         if self.can_perform_task(task):
             bid = self.calculate_bid(task)
             return {"participant_id": self.participant_id, "bid": bid}

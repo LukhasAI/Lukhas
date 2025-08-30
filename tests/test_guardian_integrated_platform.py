@@ -36,14 +36,11 @@ def mock_consciousness_cache():
 def mock_revenue_tracker():
     """Mock revenue tracker for testing."""
     mock = AsyncMock()
-    mock.record_conversion.return_value = {
-        "user_earnings": 10.0,
-        "platform_earnings": 15.0
-    }
+    mock.record_conversion.return_value = {"user_earnings": 10.0, "platform_earnings": 15.0}
     mock.get_aggregate_metrics.return_value = {
         "total_revenue": 1000.0,
         "user_earnings": 400.0,
-        "roi_percentage": 3537.0
+        "roi_percentage": 3537.0,
     }
     return mock
 
@@ -58,9 +55,7 @@ def guardian_adapter():
 def integrated_platform(mock_budget_manager, mock_consciousness_cache, mock_revenue_tracker):
     """Guardian integrated platform instance."""
     return GuardianIntegratedPlatform(
-        mock_budget_manager,
-        mock_consciousness_cache,
-        mock_revenue_tracker
+        mock_budget_manager, mock_consciousness_cache, mock_revenue_tracker
     )
 
 
@@ -72,12 +67,9 @@ class TestGuardianSystemAdapter:
         """Test that clean content gets approved."""
         clean_content = {
             "message": "Discover a new book that might interest you.",
-            "categories": ["books"]
+            "categories": ["books"],
         }
-        user_context = {
-            "user_id": "test_user",
-            "consent_preferences": {"opted_out_categories": []}
-        }
+        user_context = {"user_id": "test_user", "consent_preferences": {"opted_out_categories": []}}
 
         result = await guardian_adapter.check_content_ethics(clean_content, user_context)
 
@@ -90,7 +82,7 @@ class TestGuardianSystemAdapter:
         """Test detection of manipulative language."""
         manipulative_content = {
             "message": "You MUST act now! Limited time offer - don't miss out!",
-            "categories": ["general"]
+            "categories": ["general"],
         }
         user_context = {"user_id": "test_user"}
 
@@ -106,11 +98,11 @@ class TestGuardianSystemAdapter:
         """Test detection of vulnerability exploitation."""
         exploitative_content = {
             "message": "Solve all your debt problems with this miracle solution!",
-            "categories": ["financial"]
+            "categories": ["financial"],
         }
         user_context = {
             "user_id": "vulnerable_user",
-            "financial_stress": 0.8  # High financial stress
+            "financial_stress": 0.8,  # High financial stress
         }
 
         result = await guardian_adapter.check_content_ethics(exploitative_content, user_context)
@@ -124,15 +116,10 @@ class TestGuardianSystemAdapter:
     @pytest.mark.asyncio
     async def test_consent_violation_detection(self, guardian_adapter):
         """Test detection of consent violations."""
-        content = {
-            "message": "Check out this amazing gambling app!",
-            "categories": ["gambling"]
-        }
+        content = {"message": "Check out this amazing gambling app!", "categories": ["gambling"]}
         user_context = {
             "user_id": "opted_out_user",
-            "consent_preferences": {
-                "opted_out_categories": ["gambling", "alcohol"]
-            }
+            "consent_preferences": {"opted_out_categories": ["gambling", "alcohol"]},
         }
 
         result = await guardian_adapter.check_content_ethics(content, user_context)
@@ -146,7 +133,7 @@ class TestGuardianSystemAdapter:
         # Simulate multiple violations to increase drift
         violation_content = {
             "message": "You must buy this miracle cure now - guaranteed results!",
-            "categories": ["health"]
+            "categories": ["health"],
         }
         user_context = {"user_id": "test_user"}
 
@@ -184,17 +171,12 @@ class TestGuardianIntegratedPlatform:
         consciousness_profile = {
             "user_id": "test_user",
             "values": ["sustainability", "creativity"],
-            "consent_preferences": {"opted_out_categories": []}
+            "consent_preferences": {"opted_out_categories": []},
         }
-        product_context = {
-            "categories": ["books"],
-            "alignment_score": 0.9
-        }
+        product_context = {"categories": ["books"], "alignment_score": 0.9}
 
         result = await integrated_platform.process_advertising_request(
-            "test_user",
-            consciousness_profile,
-            product_context
+            "test_user", consciousness_profile, product_context
         )
 
         assert result["approved"] is True
@@ -209,13 +191,11 @@ class TestGuardianIntegratedPlatform:
         # Mock budget exceeded
         mock_budget_manager.check_budget.return_value = {
             "within_budget": False,
-            "remaining_budget": 0.0
+            "remaining_budget": 0.0,
         }
 
         result = await integrated_platform.process_advertising_request(
-            "test_user",
-            {"user_id": "test_user"},
-            {"categories": ["general"]}
+            "test_user", {"user_id": "test_user"}, {"categories": ["general"]}
         )
 
         assert result["approved"] is False
@@ -229,9 +209,7 @@ class TestGuardianIntegratedPlatform:
         integrated_platform._get_daily_ad_count = AsyncMock(return_value=5)
 
         result = await integrated_platform.process_advertising_request(
-            "test_user",
-            {"user_id": "test_user"},
-            {"categories": ["general"]}
+            "test_user", {"user_id": "test_user"}, {"categories": ["general"]}
         )
 
         assert result["approved"] is False
@@ -244,18 +222,16 @@ class TestGuardianIntegratedPlatform:
         consciousness_profile = {
             "user_id": "vulnerable_user",
             "financial_stress": 0.9,
-            "consent_preferences": {"opted_out_categories": []}
+            "consent_preferences": {"opted_out_categories": []},
         }
         # This will trigger vulnerability exploitation detection
         product_context = {
             "categories": ["financial"],
-            "message_override": "Solve all your debt problems now!"
+            "message_override": "Solve all your debt problems now!",
         }
 
         result = await integrated_platform.process_advertising_request(
-            "vulnerable_user",
-            consciousness_profile,
-            product_context
+            "vulnerable_user", consciousness_profile, product_context
         )
 
         assert result["approved"] is False
@@ -268,9 +244,7 @@ class TestGuardianIntegratedPlatform:
         integrated_platform.guardian.current_drift = 0.13  # Above 0.12 threshold
 
         result = await integrated_platform.process_advertising_request(
-            "test_user",
-            {"user_id": "test_user"},
-            {"categories": ["general"]}
+            "test_user", {"user_id": "test_user"}, {"categories": ["general"]}
         )
 
         assert result["approved"] is False
@@ -284,7 +258,7 @@ class TestGuardianIntegratedPlatform:
             user_id="test_user",
             ad_id="ad_123",
             conversion_value=25.00,
-            product_metadata={"category": "books", "legitimate": True}
+            product_metadata={"category": "books", "legitimate": True},
         )
 
         assert conversion_result["conversion_recorded"] is True
@@ -314,14 +288,14 @@ class TestGuardianIntegratedPlatform:
         assert metrics["ethical_compliance"]["profit_sharing_active"] is True
 
     @pytest.mark.asyncio
-    async def test_consciousness_cache_integration(self, integrated_platform, mock_consciousness_cache):
+    async def test_consciousness_cache_integration(
+        self, integrated_platform, mock_consciousness_cache
+    ):
         """Test that consciousness profiles are properly cached."""
         consciousness_profile = {"user_id": "test_user", "values": ["test"]}
 
         await integrated_platform.process_advertising_request(
-            "test_user",
-            consciousness_profile,
-            {"categories": ["general"]}
+            "test_user", consciousness_profile, {"categories": ["general"]}
         )
 
         # Verify cache was called to store consciousness state

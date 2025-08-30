@@ -14,6 +14,7 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from datetime import datetime
@@ -61,9 +62,7 @@ except ImportError:
     SymbolicTraceLogger = Any  # Fallback to Any if not found
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger(
-    "ΛTRACE.core.advanced.brain.awareness.lukhas_awareness_protocol"
-)
+logger = logging.getLogger("ΛTRACE.core.advanced.brain.awareness.lukhas_awareness_protocol")
 logger.info("ΛTRACE: Initializing lukhas_awareness_protocol module.")
 
 
@@ -76,9 +75,7 @@ def lukhas_tier_required(level: int):
         async def wrapper_async(*args, **kwargs):  # Handle async functions
             # In a real scenario, user_id might be extracted from args[0] (self) or
             # request context
-            user_id_for_check = getattr(
-                args[0], "user_id", "unknown_user_for_tier_check"
-            )
+            user_id_for_check = getattr(args[0], "user_id", "unknown_user_for_tier_check")
             logger.debug(
                 f"ΛTRACE: (Placeholder) Tier check for user '{user_id_for_check}': Function '{func.__name__}' requires Tier {level}."
             )
@@ -86,9 +83,7 @@ def lukhas_tier_required(level: int):
             return await func(*args, **kwargs)
 
         def wrapper_sync(*args, **kwargs):  # Handle sync functions
-            user_id_for_check = getattr(
-                args[0], "user_id", "unknown_user_for_tier_check"
-            )
+            user_id_for_check = getattr(args[0], "user_id", "unknown_user_for_tier_check")
             logger.debug(
                 f"ΛTRACE: (Placeholder) Tier check for user '{user_id_for_check}': Function '{func.__name__}' requires Tier {level}."
             )
@@ -164,9 +159,7 @@ class LUKHASAwarenessProtocol:
         )
 
     # Human-readable comment: Assesses the current awareness state.
-    @lukhas_tier_required(
-        level=4
-    )  # Example: Full awareness assessment might be Guardian tier
+    @lukhas_tier_required(level=4)  # Example: Full awareness assessment might be Guardian tier
     async def assess_awareness(self) -> str:
         """
         Assess awareness state using quantum-biological features.
@@ -174,13 +167,9 @@ class LUKHASAwarenessProtocol:
         Returns:
             str: Assigned access tier (e.g., "basic", "standard").
         """
-        self.instance_logger.info(
-            f"ΛTRACE: Assessing awareness for user '{self.user_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Assessing awareness for user '{self.user_id}'.")
 
-        self.instance_logger.debug(
-            f"ΛTRACE: Generating base context vector for '{self.user_id}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Generating base context vector for '{self.user_id}'.")
         context_vector = await self._generate_context_vector()  # Logs internally
         self.context_vector = context_vector  # Store for state
 
@@ -192,9 +181,7 @@ class LUKHASAwarenessProtocol:
             context_vector, user_id=self.user_id
         )
 
-        self.instance_logger.debug(
-            f"ΛTRACE: Computing bio-confidence for '{self.user_id}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Computing bio-confidence for '{self.user_id}'.")
         self.confidence_score = await self.bio_adapter.compute_bio_confidence(
             enhanced_vector, user_id=self.user_id
         )
@@ -204,9 +191,7 @@ class LUKHASAwarenessProtocol:
         )
         self.access_tier = self._determine_tier()  # Logs internally
 
-        self.instance_logger.debug(
-            f"ΛTRACE: Generating recovery signature for '{self.user_id}'."
-        )
+        self.instance_logger.debug(f"ΛTRACE: Generating recovery signature for '{self.user_id}'.")
         recovery_sig = await self.bio_adapter.get_recovery_signature(
             self.user_id
         )  # user_id passed to method
@@ -222,9 +207,7 @@ class LUKHASAwarenessProtocol:
                 k: (f"{str(v)[:30]}..." if isinstance(v, (dict, list, str)) else v)
                 for k, v in recovery_sig.items()
             },  # Summarize complex parts
-            "timestamp": self.session_data.get(
-                "timestamp", datetime.utcnow().isoformat()
-            ),
+            "timestamp": self.session_data.get("timestamp", datetime.utcnow().isoformat()),
         }
         self.instance_logger.debug(
             f"ΛTRACE: Logging awareness trace for '{self.user_id}'. Data: {trace_log_data}"
@@ -272,9 +255,7 @@ class LUKHASAwarenessProtocol:
             context_vector.update(
                 {
                     "session_age": session_age_seconds,
-                    "session_activity": float(
-                        self.session_data.get("activity_level", 0.5)
-                    ),
+                    "session_activity": float(self.session_data.get("activity_level", 0.5)),
                     "session_coherence": float(self.session_data.get("coherence", 1.0)),
                 }
             )
@@ -290,12 +271,8 @@ class LUKHASAwarenessProtocol:
             try:
                 context_vector.update(
                     {
-                        "memory_strength": float(
-                            self.memory_context.get("strength", 0.0)
-                        ),
-                        "memory_relevance": float(
-                            self.memory_context.get("relevance", 0.0)
-                        ),
+                        "memory_strength": float(self.memory_context.get("strength", 0.0)),
+                        "memory_relevance": float(self.memory_context.get("relevance", 0.0)),
                     }
                 )
             except Exception as e_mem:
@@ -318,7 +295,7 @@ class LUKHASAwarenessProtocol:
               needs to be reconciled/mapped with the global LUKHAS Tier system (0-5, Guest-Transcendent).
         """
         self.instance_logger.debug(
-            f"ΛTRACE: Internal: _determine_tier for '{self.user_id}'. Confidence: {self.confidence_score:.4f}, MinConfidence: {self.min_confidence}, MaxTierIndex: {self.max_tier_level-1}"
+            f"ΛTRACE: Internal: _determine_tier for '{self.user_id}'. Confidence: {self.confidence_score:.4f}, MinConfidence: {self.min_confidence}, MaxTierIndex: {self.max_tier_level - 1}"
         )
         if self.confidence_score < self.min_confidence:
             self.instance_logger.info(
@@ -357,9 +334,7 @@ class LUKHASAwarenessProtocol:
         return determined_tier
 
     # Human-readable comment: Updates internal bio-metrics via the bio-adapter.
-    @lukhas_tier_required(
-        level=3
-    )  # Example: Updating bio-metrics could be a privileged operation
+    @lukhas_tier_required(level=3)  # Example: Updating bio-metrics could be a privileged operation
     def update_bio_metrics(self, new_data: dict[str, Any]) -> None:
         """
         Update internal bio metrics of the BioSymbolicAwarenessAdapter.
@@ -374,9 +349,7 @@ class LUKHASAwarenessProtocol:
             for key, value in new_data.items():
                 if key in self.bio_adapter.bio_metrics:
                     try:
-                        self.bio_adapter.bio_metrics[key] = float(
-                            value
-                        )  # Attempt to cast to float
+                        self.bio_adapter.bio_metrics[key] = float(value)  # Attempt to cast to float
                     except (ValueError, TypeError):
                         self.instance_logger.warning(
                             f"ΛTRACE: Could not convert value for bio_metric '{key}' to float. Value: {value}. Skipping update for this key."

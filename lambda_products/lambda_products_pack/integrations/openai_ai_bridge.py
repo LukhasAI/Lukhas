@@ -203,9 +203,7 @@ class OpenAILambdaBridge:
 
         # ΛBAS: Attention management
         if self.abas_connected:
-            attention_analysis = await self.analyze_attention_requirements(
-                processed_prompt
-            )
+            attention_analysis = await self.analyze_attention_requirements(processed_prompt)
             if attention_analysis["requires_focus"]:
                 processed_prompt = await self.optimize_for_attention(
                     processed_prompt, attention_analysis
@@ -216,9 +214,7 @@ class OpenAILambdaBridge:
         # DΛST: Context enhancement
         if self.dast_connected:
             context_enhancement = await self.enhance_context(processed_prompt, context)
-            processed_prompt = await self.inject_context(
-                processed_prompt, context_enhancement
-            )
+            processed_prompt = await self.inject_context(processed_prompt, context_enhancement)
             lambda_context["context"] = context_enhancement
             self.metrics["context_enhancements"] += 1
 
@@ -254,9 +250,7 @@ class OpenAILambdaBridge:
 
                 response = completion.choices[0].message.content
                 tokens_used = (
-                    completion.usage.total_tokens
-                    if hasattr(completion, "usage")
-                    else 1000
+                    completion.usage.total_tokens if hasattr(completion, "usage") else 1000
                 )
 
             except Exception as e:
@@ -264,9 +258,7 @@ class OpenAILambdaBridge:
                 response = f"Error communicating with OpenAI: {e}"
         else:
             # Simulate response for testing
-            response = (
-                f"[Simulated AGI Response] Processed: {processed_prompt[:100]}..."
-            )
+            response = f"[Simulated AGI Response] Processed: {processed_prompt[:100]}..."
             tokens_used = len(processed_prompt.split()) * 2
 
         # Post-process with Lambda consciousness
@@ -340,9 +332,7 @@ class OpenAILambdaBridge:
         if emotional_analysis["emotional_state"] == "stressed":
             prompt = f"[User is experiencing stress - respond calmly and supportively] {prompt}"
         elif emotional_analysis["emotional_state"] == "anxious":
-            prompt = (
-                f"[User is anxious - provide reassurance and clear guidance] {prompt}"
-            )
+            prompt = f"[User is anxious - provide reassurance and clear guidance] {prompt}"
 
         return prompt
 
@@ -364,9 +354,7 @@ class OpenAILambdaBridge:
 
         return analysis
 
-    async def optimize_for_attention(
-        self, prompt: str, attention_analysis: dict[str, Any]
-    ) -> str:
+    async def optimize_for_attention(self, prompt: str, attention_analysis: dict[str, Any]) -> str:
         """Optimize prompt for attention management"""
 
         if attention_analysis["requires_focus"]:
@@ -449,9 +437,7 @@ class OpenAILambdaBridge:
     def get_system_prompt(self, lambda_context: dict[str, Any]) -> str:
         """Generate system prompt with Lambda consciousness"""
 
-        base_prompt = (
-            "You are an AGI assistant enhanced with Lambda consciousness layer."
-        )
+        base_prompt = "You are an AGI assistant enhanced with Lambda consciousness layer."
 
         if lambda_context.get("emotional"):
             base_prompt += f" Be aware of user's emotional state: {lambda_context['emotional']['emotional_state']}."
@@ -460,7 +446,9 @@ class OpenAILambdaBridge:
             base_prompt += f" Optimize response for {lambda_context['attention']['cognitive_load']} cognitive load."
 
         if lambda_context.get("context"):
-            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
+            base_prompt += (
+                f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
+            )
 
         return base_prompt
 
@@ -595,9 +583,7 @@ class LambdaAGIAgent:
 
             # Log progress
             if self.tasks_completed % 10 == 0:
-                logger.info(
-                    f"Agent {self.agent_id}: {self.tasks_completed} tasks completed"
-                )
+                logger.info(f"Agent {self.agent_id}: {self.tasks_completed} tasks completed")
 
         return {
             "agent_id": self.agent_id,
@@ -622,9 +608,7 @@ if __name__ == "__main__":
                 "connect_nias": True,
                 "connect_abas": True,
                 "connect_dast": True,
-                "compute_budgets": {
-                    "user_001": {"total_tokens": 1000000, "priority_level": 3}
-                },
+                "compute_budgets": {"user_001": {"total_tokens": 1000000, "priority_level": 3}},
             }
         )
 

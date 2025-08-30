@@ -11,9 +11,9 @@ from .moral_superposition import (
 )
 
 __all__ = [
-    "MoralSuperposition",
-    "EthicalQIState",
     "EthicalDimension",
+    "EthicalQIState",
+    "MoralSuperposition",
     "SuperpositionPath",
     "SuperpositionResolver",
 ]

@@ -17,6 +17,7 @@ from ..common import GlyphIntegrationMixin
 try:
     from ..identity.core.unified_auth_manager import UnifiedAuthManager
     from ..identity.lambda_id_auth import AuthTier
+
     AUTH_AVAILABLE = True
 except ImportError:
     # Fallback for development/testing
@@ -48,7 +49,7 @@ class CaseManager(GlyphIntegrationMixin):
         self.data_protection_service = DataProtectionService()
         asyncio.run(self.consent_service.initialize())
         asyncio.run(self.data_protection_service.initialize())
-        self.cases = {} # This will be replaced by a proper database
+        self.cases = {}  # This will be replaced by a proper database
         logger.info("🏥 Healthcare CaseManager initialized")
 
     def _init_authentication(self):
@@ -68,7 +69,7 @@ class CaseManager(GlyphIntegrationMixin):
         symptoms: list[str],
         ai_assessment: dict[str, Any],
         priority: str = "normal",
-        consent_token: Optional[str] = None
+        consent_token: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Create a new clinical case with governance validation
@@ -85,14 +86,14 @@ class CaseManager(GlyphIntegrationMixin):
         """
         try:
             # Validate consent
-            consent_valid = await self.consent_service.verify_capability_token(consent_token, ["healthcare.case.create"])
+            consent_valid = await self.consent_service.verify_capability_token(
+                consent_token, ["healthcare.case.create"]
+            )
             if not consent_valid["valid"]:
                 raise ValueError("Patient consent is not valid for case creation")
 
             # Perform ethical validation
-            ethical_result = await self._validate_case_ethics(
-                user_id, symptoms, ai_assessment
-            )
+            ethical_result = await self._validate_case_ethics(user_id, symptoms, ai_assessment)
             if not ethical_result["approved"]:
                 raise ValueError(f"Ethical validation failed: {ethical_result['reason']}")
 
@@ -125,32 +126,29 @@ class CaseManager(GlyphIntegrationMixin):
                             "action": "case_created",
                             "timestamp": timestamp,
                             "user": "system",
-                            "details": {"priority": priority}
+                            "details": {"priority": priority},
                         }
-                    ]
+                    ],
                 },
-                "symbolic_pattern": ["🏥", "📋", "✅"]
+                "symbolic_pattern": ["🏥", "📋", "✅"],
             }
 
             self.cases[case_id] = case
 
             # Log case creation in governance audit trail
             await self._log_governance_action(
-                case_id, "case_created",
-                {"user_id": user_id, "priority": priority}
+                case_id, "case_created", {"user_id": user_id, "priority": priority}
             )
 
             logger.info(f"🏥 Case created: {case_id} for user {user_id}")
             return case
 
         except Exception as e:
-            logger.error(f"Error creating case: {str(e)}")
+            logger.error(f"Error creating case: {e!s}")
             raise
 
     async def get_provider_cases(
-        self,
-        provider_id: str,
-        filters: Optional[dict[str, Any]] = None
+        self, provider_id: str, filters: Optional[dict[str, Any]] = None
     ) -> list[dict[str, Any]]:
         """
         Get cases for a specific provider with governance filtering
@@ -173,7 +171,9 @@ class CaseManager(GlyphIntegrationMixin):
             for case in self.cases.values():
                 if self._case_matches_filters(case, provider_id, filters):
                     # Decrypt case data
-                    decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
+                    decrypted_data = await self.data_protection_service.unprotect_data(
+                        case["encrypted_data"]
+                    )
                     case_copy = case.copy()
                     case_copy.update(decrypted_data)
                     del case_copy["encrypted_data"]
@@ -184,35 +184,30 @@ class CaseManager(GlyphIntegrationMixin):
 
             # Sort by priority and creation time
             cases.sort(
-                key=lambda x: (
-                    x["priority"] == "urgent",
-                    x["priority"] == "high",
-                    x["created_at"]
-                ),
-                reverse=True
+                key=lambda x: (x["priority"] == "urgent", x["priority"] == "high", x["created_at"]),
+                reverse=True,
             )
 
             await self._log_governance_action(
-                f"provider_{provider_id}", "cases_accessed",
-                {"case_count": len(cases), "filters": filters}
+                f"provider_{provider_id}",
+                "cases_accessed",
+                {"case_count": len(cases), "filters": filters},
             )
 
             return cases
 
         except Exception as e:
-            logger.error(f"Error retrieving provider cases: {str(e)}")
+            logger.error(f"Error retrieving provider cases: {e!s}")
             raise
 
     def _case_matches_filters(
-        self,
-        case: dict[str, Any],
-        provider_id: str,
-        filters: dict[str, Any]
+        self, case: dict[str, Any], provider_id: str, filters: dict[str, Any]
     ) -> bool:
         """Check if a case matches the given filters with governance rules"""
         # Check provider assignment or general access
-        if not (case.get("assigned_provider") == provider_id or
-                self._has_general_access(provider_id)):
+        if not (
+            case.get("assigned_provider") == provider_id or self._has_general_access(provider_id)
+        ):
             return False
 
         # Check status filter
@@ -241,10 +236,7 @@ class CaseManager(GlyphIntegrationMixin):
         return True
 
     async def update_case(
-        self,
-        case_id: str,
-        update_data: dict[str, Any],
-        provider_id: str
+        self, case_id: str, update_data: dict[str, Any], provider_id: str
     ) -> dict[str, Any]:
         """
         Update a case with provider review and governance validation
@@ -268,7 +260,9 @@ class CaseManager(GlyphIntegrationMixin):
             case = self.cases[case_id]
 
             # Decrypt case data
-            decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
+            decrypted_data = await self.data_protection_service.unprotect_data(
+                case["encrypted_data"]
+            )
             case.update(decrypted_data)
 
             timestamp = datetime.utcnow().isoformat()
@@ -279,10 +273,7 @@ class CaseManager(GlyphIntegrationMixin):
                 "provider_id": provider_id,
                 "timestamp": timestamp,
                 "data": update_data,
-                "governance": {
-                    "validated": True,
-                    "audit_logged": True
-                }
+                "governance": {"validated": True, "audit_logged": True},
             }
 
             # Add to case updates
@@ -294,23 +285,27 @@ class CaseManager(GlyphIntegrationMixin):
             if "status" in update_data:
                 old_status = case["status"]
                 case["status"] = update_data["status"]
-                case["governance"]["audit_trail"].append({
-                    "action": "status_changed",
-                    "timestamp": timestamp,
-                    "user": provider_id,
-                    "details": {"from": old_status, "to": update_data["status"]}
-                })
+                case["governance"]["audit_trail"].append(
+                    {
+                        "action": "status_changed",
+                        "timestamp": timestamp,
+                        "user": provider_id,
+                        "details": {"from": old_status, "to": update_data["status"]},
+                    }
+                )
 
             # Update priority if provided
             if "priority" in update_data:
                 old_priority = case["priority"]
                 case["priority"] = update_data["priority"]
-                case["governance"]["audit_trail"].append({
-                    "action": "priority_changed",
-                    "timestamp": timestamp,
-                    "user": provider_id,
-                    "details": {"from": old_priority, "to": update_data["priority"]}
-                })
+                case["governance"]["audit_trail"].append(
+                    {
+                        "action": "priority_changed",
+                        "timestamp": timestamp,
+                        "user": provider_id,
+                        "details": {"from": old_priority, "to": update_data["priority"]},
+                    }
+                )
 
             # Update symbolic pattern based on case status
             case["symbolic_pattern"] = self._get_case_symbolic_pattern(case)
@@ -328,15 +323,16 @@ class CaseManager(GlyphIntegrationMixin):
             del case["ai_assessment"]
 
             await self._log_governance_action(
-                case_id, "case_updated",
-                {"provider_id": provider_id, "update_fields": list(update_data.keys())}
+                case_id,
+                "case_updated",
+                {"provider_id": provider_id, "update_fields": list(update_data.keys())},
             )
 
             logger.info(f"🏥 Case updated: {case_id} by {provider_id}")
             return case
 
         except Exception as e:
-            logger.error(f"Error updating case: {str(e)}")
+            logger.error(f"Error updating case: {e!s}")
             raise
 
     async def create_consultation(
@@ -344,7 +340,7 @@ class CaseManager(GlyphIntegrationMixin):
         provider_id: str,
         user_id: str,
         consultation_type: str,
-        consent_token: Optional[str] = None
+        consent_token: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Create a new consultation session with governance oversight
@@ -386,23 +382,24 @@ class CaseManager(GlyphIntegrationMixin):
                             "action": "consultation_started",
                             "timestamp": timestamp,
                             "user": provider_id,
-                            "details": {"type": consultation_type}
+                            "details": {"type": consultation_type},
                         }
-                    ]
+                    ],
                 },
-                "symbolic_pattern": ["👨‍⚕️", "💬", "🏥"]
+                "symbolic_pattern": ["👨‍⚕️", "💬", "🏥"],
             }
 
             await self._log_governance_action(
-                session_id, "consultation_created",
-                {"provider_id": provider_id, "user_id": user_id, "type": consultation_type}
+                session_id,
+                "consultation_created",
+                {"provider_id": provider_id, "user_id": user_id, "type": consultation_type},
             )
 
             logger.info(f"🏥 Consultation created: {session_id}")
             return session
 
         except Exception as e:
-            logger.error(f"Error creating consultation: {str(e)}")
+            logger.error(f"Error creating consultation: {e!s}")
             raise
 
     async def get_case(self, case_id: str, requestor_id: str) -> dict[str, Any]:
@@ -427,45 +424,40 @@ class CaseManager(GlyphIntegrationMixin):
             case = self.cases[case_id].copy()
 
             # Decrypt case data
-            decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
+            decrypted_data = await self.data_protection_service.unprotect_data(
+                case["encrypted_data"]
+            )
             case.update(decrypted_data)
             del case["encrypted_data"]
 
-
             # Add access log to governance trail
-            case["governance"]["audit_trail"].append({
-                "action": "case_accessed",
-                "timestamp": datetime.utcnow().isoformat(),
-                "user": requestor_id,
-                "details": {"access_type": "read"}
-            })
+            case["governance"]["audit_trail"].append(
+                {
+                    "action": "case_accessed",
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "user": requestor_id,
+                    "details": {"access_type": "read"},
+                }
+            )
 
             await self._log_governance_action(
-                case_id, "case_accessed",
-                {"requestor_id": requestor_id}
+                case_id, "case_accessed", {"requestor_id": requestor_id}
             )
 
             return case
 
         except Exception as e:
-            logger.error(f"Error retrieving case: {str(e)}")
+            logger.error(f"Error retrieving case: {e!s}")
             raise
 
     # Governance and validation methods
 
     async def _validate_case_ethics(
-        self,
-        user_id: str,
-        symptoms: list[str],
-        ai_assessment: dict[str, Any]
+        self, user_id: str, symptoms: list[str], ai_assessment: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate case creation against ethical guidelines"""
         # TODO: Integrate with LUKHAS ethical engine
-        return {
-            "approved": True,
-            "reason": "Ethical validation passed",
-            "confidence": 0.95
-        }
+        return {"approved": True, "reason": "Ethical validation passed", "confidence": 0.95}
 
     async def _validate_provider_access(self, provider_id: str) -> bool:
         """Validate provider access permissions"""
@@ -480,11 +472,15 @@ class CaseManager(GlyphIntegrationMixin):
             # Check minimum tier requirement for healthcare providers
             required_tier = AuthTier.TIER_2  # Healthcare providers need at least Tier 2
             if auth_result.tier.value < required_tier.value:
-                logger.warning(f"Provider {provider_id} insufficient tier: {auth_result.tier} < {required_tier}")
+                logger.warning(
+                    f"Provider {provider_id} insufficient tier: {auth_result.tier} < {required_tier}"
+                )
                 return False
 
             # Check healthcare-specific permissions
-            has_healthcare_scope = await self.auth_manager.check_scope(provider_id, "healthcare.provider.access")
+            has_healthcare_scope = await self.auth_manager.check_scope(
+                provider_id, "healthcare.provider.access"
+            )
             if not has_healthcare_scope:
                 logger.warning(f"Provider {provider_id} missing healthcare.provider.access scope")
                 return False
@@ -521,14 +517,18 @@ class CaseManager(GlyphIntegrationMixin):
 
             # Check if provider has supervisor role and sufficient tier
             auth_result = await self.auth_manager.validate_provider_credentials(provider_id)
-            has_supervisor_scope = await self.auth_manager.check_scope(provider_id, "healthcare.case.supervise")
+            has_supervisor_scope = await self.auth_manager.check_scope(
+                provider_id, "healthcare.case.supervise"
+            )
 
             if has_supervisor_scope and auth_result.tier.value >= AuthTier.TIER_3.value:
                 logger.info(f"✅ Provider {provider_id} has supervisor access to case {case_id}")
                 return True
 
             # Check emergency access permissions
-            has_emergency_scope = await self.auth_manager.check_scope(provider_id, "healthcare.emergency.access")
+            has_emergency_scope = await self.auth_manager.check_scope(
+                provider_id, "healthcare.emergency.access"
+            )
             if has_emergency_scope and case.get("priority") == "emergency":
                 logger.info(f"✅ Provider {provider_id} has emergency access to case {case_id}")
                 return True
@@ -537,7 +537,9 @@ class CaseManager(GlyphIntegrationMixin):
             return False
 
         except Exception as e:
-            logger.error(f"❌ Case update permission validation failed for {case_id}/{provider_id}: {e}")
+            logger.error(
+                f"❌ Case update permission validation failed for {case_id}/{provider_id}: {e}"
+            )
             return False
 
     async def _validate_case_access(self, case_id: str, requestor_id: str) -> bool:
@@ -573,7 +575,9 @@ class CaseManager(GlyphIntegrationMixin):
             auth_result = await self.auth_manager.validate_provider_credentials(requestor_id)
 
             # Tier 3+ providers with supervisor scope can access any case
-            has_supervisor_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.case.supervise")
+            has_supervisor_scope = await self.auth_manager.check_scope(
+                requestor_id, "healthcare.case.supervise"
+            )
             if has_supervisor_scope and auth_result.tier.value >= AuthTier.TIER_3.value:
                 logger.info(f"✅ Supervisor {requestor_id} accessing case {case_id}")
                 return True
@@ -581,7 +585,9 @@ class CaseManager(GlyphIntegrationMixin):
             # Emergency access for urgent/emergency cases
             case_priority = case.get("priority", "normal")
             if case_priority in ["urgent", "emergency"]:
-                has_emergency_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.emergency.access")
+                has_emergency_scope = await self.auth_manager.check_scope(
+                    requestor_id, "healthcare.emergency.access"
+                )
                 if has_emergency_scope and auth_result.tier.value >= AuthTier.TIER_2.value:
                     logger.info(f"✅ Emergency access granted to {requestor_id} for case {case_id}")
                     return True
@@ -593,21 +599,31 @@ class CaseManager(GlyphIntegrationMixin):
                     requestor_id, case.get("user_id"), consent_token
                 )
                 if has_consent_access:
-                    logger.info(f"✅ Consent-based access granted to {requestor_id} for case {case_id}")
+                    logger.info(
+                        f"✅ Consent-based access granted to {requestor_id} for case {case_id}"
+                    )
                     return True
 
             # Check general healthcare read permissions for Tier 2+ providers
-            has_read_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.case.read")
+            has_read_scope = await self.auth_manager.check_scope(
+                requestor_id, "healthcare.case.read"
+            )
             if has_read_scope and auth_result.tier.value >= AuthTier.TIER_2.value:
                 # Additional check: ensure case is not marked as restricted
                 if not case.get("governance", {}).get("restricted_access", False):
-                    logger.info(f"✅ General read access granted to {requestor_id} for case {case_id}")
+                    logger.info(
+                        f"✅ General read access granted to {requestor_id} for case {case_id}"
+                    )
                     return True
                 else:
-                    logger.warning(f"❌ Case {case_id} has restricted access, denied to {requestor_id}")
+                    logger.warning(
+                        f"❌ Case {case_id} has restricted access, denied to {requestor_id}"
+                    )
                     return False
 
-            logger.warning(f"❌ Access denied to {requestor_id} for case {case_id} - insufficient permissions")
+            logger.warning(
+                f"❌ Access denied to {requestor_id} for case {case_id} - insufficient permissions"
+            )
             return False
 
         except Exception as e:
@@ -631,17 +647,12 @@ class CaseManager(GlyphIntegrationMixin):
             "completed": ["✅", "📝", "🏥"],
             "urgent": ["🚨", "🏥", "⚡"],
             "high": ["⚠️", "🏥", "📈"],
-            "normal": ["🏥", "📋", "✅"]
+            "normal": ["🏥", "📋", "✅"],
         }
 
         return patterns.get(status, patterns.get(priority, ["🏥", "❓", "📋"]))
 
-    async def _log_governance_action(
-        self,
-        entity_id: str,
-        action: str,
-        metadata: dict[str, Any]
-    ):
+    async def _log_governance_action(self, entity_id: str, action: str, metadata: dict[str, Any]):
         """Log action in governance audit trail"""
         if not hasattr(self, "case_audit_trail"):
             self.case_audit_trail = {}
@@ -649,12 +660,14 @@ class CaseManager(GlyphIntegrationMixin):
         if entity_id not in self.case_audit_trail:
             self.case_audit_trail[entity_id] = []
 
-        self.case_audit_trail[entity_id].append({
-            "timestamp": datetime.utcnow().isoformat(),
-            "action": action,
-            "metadata": metadata,
-            "source": "case_manager"
-        })
+        self.case_audit_trail[entity_id].append(
+            {
+                "timestamp": datetime.utcnow().isoformat(),
+                "action": action,
+                "metadata": metadata,
+                "source": "case_manager",
+            }
+        )
 
         # TODO: Forward to main governance audit system
         logger.debug(f"🔍 Governance action logged: {action} for {entity_id}")
@@ -664,10 +677,13 @@ class CaseManager(GlyphIntegrationMixin):
     def get_governance_summary(self) -> dict[str, Any]:
         """Get governance and compliance summary"""
         total_cases = len(self.cases)
-        compliant_cases = len([
-            case for case in self.cases.values()
-            if case.get("governance", {}).get("compliance_status") == "validated"
-        ])
+        compliant_cases = len(
+            [
+                case
+                for case in self.cases.values()
+                if case.get("governance", {}).get("compliance_status") == "validated"
+            ]
+        )
 
         return {
             "total_cases": total_cases,
@@ -675,7 +691,7 @@ class CaseManager(GlyphIntegrationMixin):
             "compliance_rate": compliant_cases / total_cases if total_cases > 0 else 1.0,
             "consent_enforcement": self.consent_required,
             "ethical_validation": self.ethical_checks_enabled,
-            "audit_trail_entries": sum(len(trail) for trail in self.case_audit_trail.values())
+            "audit_trail_entries": sum(len(trail) for trail in self.case_audit_trail.values()),
         }
 
     def get_case_statistics(self) -> dict[str, Any]:
@@ -699,7 +715,8 @@ class CaseManager(GlyphIntegrationMixin):
             "priority_distribution": priority_counts,
             "average_updates_per_case": sum(
                 len(case.get("updates", [])) for case in self.cases.values()
-            ) / len(self.cases)
+            )
+            / len(self.cases),
         }
 
     async def enforce_healthcare_data_retention(self):
@@ -708,7 +725,9 @@ class CaseManager(GlyphIntegrationMixin):
         await self.data_protection_service.enforce_retention_policy(retention_period_days)
         logger.info(f"Enforced healthcare data retention policy ({retention_period_days} days).")
 
-    async def share_case_with_third_party(self, case_id: str, third_party_name: str, requestor_id: str):
+    async def share_case_with_third_party(
+        self, case_id: str, third_party_name: str, requestor_id: str
+    ):
         """Share a case with a third party after verifying BAA."""
         # First, check if the requestor has access to the case
         await self.get_case(case_id, requestor_id)

@@ -74,9 +74,7 @@ def setup_api_keys():
     keys["ANTHROPIC_API_KEY"] = input("   Enter key: ").strip()
 
     print("\n🎭 Claude API Key (if different from Anthropic):")
-    keys["CLAUDE_API_KEY"] = input(
-        "   Enter key (or press Enter to use Anthropic key): "
-    ).strip()
+    keys["CLAUDE_API_KEY"] = input("   Enter key (or press Enter to use Anthropic key): ").strip()
 
     if not keys["CLAUDE_API_KEY"] and keys["ANTHROPIC_API_KEY"]:
         keys["CLAUDE_API_KEY"] = keys["ANTHROPIC_API_KEY"]
@@ -94,16 +92,16 @@ def setup_api_keys():
 # SECURITY: Never commit this file to version control!
 
 # OpenAI API Key
-OPENAI_API_KEY={keys['OPENAI_API_KEY']}
+OPENAI_API_KEY={keys["OPENAI_API_KEY"]}
 
 # Anthropic API Key
-ANTHROPIC_API_KEY={keys['ANTHROPIC_API_KEY']}
+ANTHROPIC_API_KEY={keys["ANTHROPIC_API_KEY"]}
 
 # Claude API Key
-CLAUDE_API_KEY={keys['CLAUDE_API_KEY']}
+CLAUDE_API_KEY={keys["CLAUDE_API_KEY"]}
 
 # IBM Quantum API Key
-IBM_QUANTUM_API_KEY={keys['IBM_QUANTUM_API_KEY']}
+IBM_QUANTUM_API_KEY={keys["IBM_QUANTUM_API_KEY"]}
 
 # =============================================================================
 # CONFIGURATION

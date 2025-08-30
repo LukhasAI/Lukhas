@@ -96,9 +96,7 @@ class CognitiveNode(ABC):
     The MATRIZ format ensures complete auditability and governance.
     """
 
-    def __init__(
-        self, node_name: str, capabilities: list[str], tenant: str = "default"
-    ):
+    def __init__(self, node_name: str, capabilities: list[str], tenant: str = "default"):
         """
         Initialize the cognitive node.
 
@@ -217,9 +215,7 @@ class CognitiveNode(ABC):
             "VALIDATION",  # Add VALIDATION as valid type for validation nodes
         ]
         if node_type not in allowed_types:
-            raise ValueError(
-                f"Invalid node type '{node_type}'. Must be one of: {allowed_types}"
-            )
+            raise ValueError(f"Invalid node type '{node_type}'. Must be one of: {allowed_types}")
 
         # Convert state to dict if NodeState object
         if isinstance(state, NodeState):
@@ -272,8 +268,7 @@ class CognitiveNode(ABC):
                 "consent_scopes": provenance.consent_scopes,
             },
             "links": [
-                link.__dict__ if isinstance(link, NodeLink) else link
-                for link in (links or [])
+                link.__dict__ if isinstance(link, NodeLink) else link for link in (links or [])
             ],
             "evolves_to": evolves_to or [],
             "triggers": [
@@ -368,9 +363,7 @@ class CognitiveNode(ABC):
             "self_question",
         ]
         if reflection_type not in allowed_types:
-            raise ValueError(
-                f"Invalid reflection type. Must be one of: {allowed_types}"
-            )
+            raise ValueError(f"Invalid reflection type. Must be one of: {allowed_types}")
 
         return NodeReflection(
             reflection_type=reflection_type,
@@ -451,4 +444,6 @@ class CognitiveNode(ABC):
 
     def __repr__(self) -> str:
         """String representation of the node"""
-        return f"{self.__class__.__name__}(name='{self.node_name}', capabilities={self.capabilities})"
+        return (
+            f"{self.__class__.__name__}(name='{self.node_name}', capabilities={self.capabilities})"
+        )

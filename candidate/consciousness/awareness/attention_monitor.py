@@ -258,7 +258,9 @@ class AttentionMonitor:
         recent_data = self.eye_data_buffer[-20:]  # Last 20 data points
 
         # Calculate fixation stability
-        fixation_variance = statistics.variance([d.x for d in recent_data]) + statistics.variance([d.y for d in recent_data])
+        fixation_variance = statistics.variance([d.x for d in recent_data]) + statistics.variance(
+            [d.y for d in recent_data]
+        )
 
         # Calculate average pupil diameter (attention indicator)
         avg_pupil_diameter = statistics.mean([d.pupil_diameter for d in recent_data])
@@ -267,13 +269,10 @@ class AttentionMonitor:
         avg_blink_rate = statistics.mean([d.blink_rate for d in recent_data])
 
         # Calculate saccade frequency (scanning vs focused attention)
-        high_velocity_saccades = len(
-            [d for d in recent_data if d.saccade_velocity > 300]
-        )
+        high_velocity_saccades = len([d for d in recent_data if d.saccade_velocity > 300])
 
         return {
-            "fixation_stability": 1.0
-            / (1.0 + fixation_variance),  # Higher = more stable
+            "fixation_stability": 1.0 / (1.0 + fixation_variance),  # Higher = more stable
             "pupil_diameter": avg_pupil_diameter,
             "blink_rate": avg_blink_rate,
             "saccade_frequency": high_velocity_saccades / len(recent_data),
@@ -284,9 +283,7 @@ class AttentionMonitor:
             },
         }
 
-    def _calculate_attention_from_eye_data(
-        self, eye_analysis: dict[str, Any]
-    ) -> AttentionMetrics:
+    def _calculate_attention_from_eye_data(self, eye_analysis: dict[str, Any]) -> AttentionMetrics:
         """
         Calculate attention metrics from eye movement analysis.
 
@@ -307,9 +304,7 @@ class AttentionMonitor:
         )
 
         # Detect distraction events
-        distraction_events = (
-            1 if eye_analysis["attention_indicators"]["distracted"] else 0
-        )
+        distraction_events = 1 if eye_analysis["attention_indicators"]["distracted"] else 0
 
         # Estimate cognitive load
         cognitive_load = (
@@ -483,9 +478,7 @@ class AttentionMonitor:
                 state = AttentionState.OVERLOADED
         elif latest_metrics.focus_score < self.thresholds["low_focus"]:
             state = AttentionState.DISTRACTED
-        elif (
-            latest_metrics.distraction_events > self.thresholds["distraction_threshold"]
-        ):
+        elif latest_metrics.distraction_events > self.thresholds["distraction_threshold"]:
             state = AttentionState.SWITCHING
         else:
             state = AttentionState.UNKNOWN
@@ -577,9 +570,7 @@ class AttentionMonitor:
         if input_metrics:
             # Adjust focus score based on input consistency
             input_indicators = input_metrics.get("attention_indicators", {})
-            if input_indicators.get("consistent_timing") and input_indicators.get(
-                "steady_input"
-            ):
+            if input_indicators.get("consistent_timing") and input_indicators.get("steady_input"):
                 combined.focus_score = min(1.0, combined.focus_score + 0.1)
             elif input_indicators.get("erratic_pattern"):
                 combined.focus_score = max(0.0, combined.focus_score - 0.2)
@@ -617,9 +608,9 @@ class AttentionMonitor:
 
 # Export the main classes
 __all__ = [
+    "AttentionMetrics",
     "AttentionMonitor",
     "AttentionState",
-    "AttentionMetrics",
     "EyeTrackingData",
     "InputEvent",
     "InputModality",

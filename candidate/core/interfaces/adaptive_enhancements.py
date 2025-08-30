@@ -111,9 +111,7 @@ class ComplianceValidator:
             },
         }
 
-    def validate_output(
-        self, content: dict[str, Any], tier: AccessTier
-    ) -> dict[str, Any]:
+    def validate_output(self, content: dict[str, Any], tier: AccessTier) -> dict[str, Any]:
         """Validate LUKHΛS output for compliance based on access tier"""
         violations = []
         recommendations = []
@@ -266,9 +264,7 @@ class AdaptiveExporter:
         if "active_glyphs" in data:
             html += '<div class="glyphs">'
             for glyph in data["active_glyphs"]:
-                html += (
-                    f'<span class="glyph" role="img" aria-label="Symbol">{glyph}</span>'
-                )
+                html += f'<span class="glyph" role="img" aria-label="Symbol">{glyph}</span>'
             html += "</div>"
 
         html += "<pre>" + json.dumps(data, indent=2) + "</pre>"
@@ -417,9 +413,7 @@ class AdaptiveInterfaceEnhancer:
 
         # Export if requested
         if export_format:
-            enhanced["export"] = await self.exporter.export(
-                enhanced, export_format, tier
-            )
+            enhanced["export"] = await self.exporter.export(enhanced, export_format, tier)
 
         return enhanced
 
@@ -433,8 +427,7 @@ class AdaptiveInterfaceEnhancer:
         return {
             "processed_input": text,
             "intent": intent,
-            "requires_consciousness": intent["symbolic_action"]
-            in ["REFLECTION", "AWARENESS"],
+            "requires_consciousness": intent["symbolic_action"] in ["REFLECTION", "AWARENESS"],
             "requires_memory": "remember" in text.lower() or "recall" in text.lower(),
             "requires_dream": "dream" in text.lower() or "imagine" in text.lower(),
         }
@@ -450,9 +443,7 @@ async def integrate_adaptive_enhancements():
     # Register with kernel bus
     await kernel_bus.subscribe(
         "system.response.ready",
-        lambda event: enhancer.enhance_response(
-            event["data"], event.get("user_context", {})
-        ),
+        lambda event: enhancer.enhance_response(event["data"], event.get("user_context", {})),
     )
 
     logger.info("Adaptive interface enhancements integrated with LUKHΛS")

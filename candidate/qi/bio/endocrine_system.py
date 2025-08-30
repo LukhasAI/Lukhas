@@ -129,9 +129,7 @@ class HormonalSystem:
             if h1 == hormone_name and h2 in self.hormones:
                 target = self.hormones[h2]
                 influence = hormone.current_level * correlation * 0.1
-                target.current_level = max(
-                    0, min(1.0, target.current_level + influence)
-                )
+                target.current_level = max(0, min(1.0, target.current_level + influence))
 
     async def regulate(self):
         """Main regulation loop"""

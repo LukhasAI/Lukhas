@@ -77,9 +77,7 @@ def main():
         "MEMORY",
         confidence=0.85,
         salience=0.7,
-        additional_state={
-            "retrieved_facts": ["cats are mammals", "cats have whiskers"]
-        },
+        additional_state={"retrieved_facts": ["cats are mammals", "cats have whiskers"]},
         links=[
             {
                 "target_node_id": "sensory_001",
@@ -228,9 +226,7 @@ def main():
         except Exception as e:
             print(f"   ✗ Failed {layout} layout: {e}")
 
-    print(
-        "\nExample completed! Check the generated HTML files to view the visualizations."
-    )
+    print("\nExample completed! Check the generated HTML files to view the visualizations.")
     print("Open the HTML files in a web browser to explore the interactive features.")
 
 

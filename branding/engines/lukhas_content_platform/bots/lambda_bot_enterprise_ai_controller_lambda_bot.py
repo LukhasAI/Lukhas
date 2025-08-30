@@ -148,9 +148,7 @@ class AGIControllerΛBot:
                 logger.info("🧠 Consciousness level set to AWARE")
                 return True
             else:
-                logger.error(
-                    f"❌ Failed to set consciousness level: {consciousness_result.error}"
-                )
+                logger.error(f"❌ Failed to set consciousness level: {consciousness_result.error}")
                 return False
 
         except Exception as e:
@@ -195,9 +193,7 @@ class AGIControllerΛBot:
         logger.info("✅ Consciousness modularization session active")
         return session
 
-    async def consciousness_guided_analysis(
-        self, analysis_target: str
-    ) -> dict[str, Any]:
+    async def consciousness_guided_analysis(self, analysis_target: str) -> dict[str, Any]:
         """
         Perfrom consciousness-guided analysis of modularization targets
         """
@@ -220,15 +216,11 @@ class AGIControllerΛBot:
 
         try:
             # Consciousness-level analysis
-            consciousness_insights = await self._perform_consciousness_analysis(
-                analysis_target
-            )
+            consciousness_insights = await self._perform_consciousness_analysis(analysis_target)
             analysis_results["consciousness_insights"] = consciousness_insights
 
             # Compliance validation
-            compliance_validation = await self._perform_compliance_validation(
-                analysis_target
-            )
+            compliance_validation = await self._perform_compliance_validation(analysis_target)
             analysis_results["compliance_validation"] = compliance_validation
 
             # Ethical assessment
@@ -449,9 +441,7 @@ class AGIControllerΛBot:
 
         session_status = {
             "session_id": self.current_session.session_id,
-            "runtime": (
-                datetime.now() - self.current_session.start_time
-            ).total_seconds(),
+            "runtime": (datetime.now() - self.current_session.start_time).total_seconds(),
             "consciousness_level": self.current_session.consciousness_level.value,
             "compliance_status": self.current_session.compliance_status,
             "ethical_checkpoints": len(self.current_session.ethical_checkpoints),
@@ -483,9 +473,7 @@ class AGIControllerΛBot:
 
 async def main():
     """Main function for testing AGI Controller LUKHAS AI ΛBot"""
-    print(
-        "🎯 AGI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control"
-    )
+    print("🎯 AGI Controller LUKHAS AI ΛBot - Consciousness-Level Modularization Control")
     print("=" * 70)
 
     # Initialize AGI Controller LUKHAS AI ΛBot
@@ -504,15 +492,11 @@ async def main():
 
     # Perfrom consciousness-guided analysis
     print("\n🧠 Starting Consciousness-Guided Analysis...")
-    analysis = await agi_bot.consciousness_guided_analysis(
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas/core"
-    )
+    analysis = await agi_bot.consciousness_guided_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
 
     print("\n✅ Consciousness Analysis Complete!")
     print(f"   Consciousness Level: {analysis['consciousness_level']}")
-    print(
-        f"   Compliance Score: {analysis['compliance_validation']['compliance_score']}"
-    )
+    print(f"   Compliance Score: {analysis['compliance_validation']['compliance_score']}")
     print(f"   Ethical Score: {analysis['ethical_assessment']['ethical_score']}")
 
     # Monitor session

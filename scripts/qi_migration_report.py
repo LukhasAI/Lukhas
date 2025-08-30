@@ -23,9 +23,7 @@ def generate_qi_migration_report():
         print(f"✅ Main QI directory: {qi_path}")
 
         # List subdirectories
-        subdirs = [
-            d for d in qi_path.iterdir() if d.is_dir() and d.name != "__pycache__"
-        ]
+        subdirs = [d for d in qi_path.iterdir() if d.is_dir() and d.name != "__pycache__"]
         print(f"   📂 Subdirectories: {len(subdirs)}")
         for subdir in sorted(subdirs):
             init_file = subdir / "__init__.py"
@@ -54,9 +52,7 @@ def generate_qi_migration_report():
     # Files with quantum in name
     qi_files = list(base_path.rglob("*quantum*"))
     config_quantum_files = [
-        f
-        for f in qi_files
-        if "config" in str(f) or "json" in str(f) or "yaml" in str(f)
+        f for f in qi_files if "config" in str(f) or "json" in str(f) or "yaml" in str(f)
     ]
 
     print(f"📄 Files with 'quantum' in name: {len(qi_files)}")

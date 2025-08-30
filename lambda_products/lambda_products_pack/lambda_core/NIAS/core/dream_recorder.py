@@ -51,9 +51,7 @@ class DreamRecorder:
         if not logger.handlers:
             log_file = self.storage_path / "dream_recorder.log"
             handler = logging.FileHandler(log_file)
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
 
@@ -114,7 +112,7 @@ class DreamRecorder:
             }
 
         except Exception as e:
-            self.logger.error(f"Failed to record dream seed: {str(e)}")
+            self.logger.error(f"Failed to record dream seed: {e!s}")
             return {"success": False, "error": str(e), "seed_id": None}
 
     async def record_dream_interaction(
@@ -166,9 +164,7 @@ class DreamRecorder:
             # Save updated seed
             await self._save_dream_seed(self.dream_seeds[seed_id])
 
-            self.logger.info(
-                f"Dream interaction recorded: {interaction_type} on {seed_id}"
-            )
+            self.logger.info(f"Dream interaction recorded: {interaction_type} on {seed_id}")
 
             return {
                 "success": True,
@@ -177,7 +173,7 @@ class DreamRecorder:
             }
 
         except Exception as e:
-            self.logger.error(f"Failed to record dream interaction: {str(e)}")
+            self.logger.error(f"Failed to record dream interaction: {e!s}")
             return {"success": False, "error": str(e)}
 
     async def record_dream_narrative(
@@ -223,9 +219,7 @@ class DreamRecorder:
                 if seed_id in self.dream_seeds:
                     if "narratives_generated" not in self.dream_seeds[seed_id]:
                         self.dream_seeds[seed_id]["narratives_generated"] = []
-                    self.dream_seeds[seed_id]["narratives_generated"].append(
-                        narrative_id
-                    )
+                    self.dream_seeds[seed_id]["narratives_generated"].append(narrative_id)
 
             self.logger.info(f"Dream narrative recorded: {narrative_id}")
 
@@ -237,7 +231,7 @@ class DreamRecorder:
             }
 
         except Exception as e:
-            self.logger.error(f"Failed to record dream narrative: {str(e)}")
+            self.logger.error(f"Failed to record dream narrative: {e!s}")
             return {"success": False, "error": str(e)}
 
     def _extract_symbolic_elements(self, dream_narrative: dict[str, Any]) -> list[str]:
@@ -279,12 +273,8 @@ class DreamRecorder:
         total_interactions = len(interactions)
 
         if total_interactions > 0:
-            resonance_score = (
-                positive_interactions - negative_interactions
-            ) / total_interactions
-            seed["symbolic_resonance"] = max(
-                -1.0, min(1.0, resonance_score)
-            )  # Clamp to [-1, 1]
+            resonance_score = (positive_interactions - negative_interactions) / total_interactions
+            seed["symbolic_resonance"] = max(-1.0, min(1.0, resonance_score))  # Clamp to [-1, 1]
 
     async def _save_dream_seed(self, seed_record: dict[str, Any]):
         """Save dream seed to persistent storage"""
@@ -329,9 +319,7 @@ class DreamRecorder:
 
     async def get_brand_performance(self, brand_id: str) -> dict[str, Any]:
         """Get performance analytics for a brand's dream seeds"""
-        brand_seeds = [
-            seed for seed in self.dream_seeds.values() if seed["brand_id"] == brand_id
-        ]
+        brand_seeds = [seed for seed in self.dream_seeds.values() if seed["brand_id"] == brand_id]
 
         if not brand_seeds:
             return {"error": "No seeds found for brand"}
@@ -354,10 +342,7 @@ class DreamRecorder:
             "engagement_rate": engaged_seeds / total_seeds if total_seeds > 0 else 0,
             "dismissal_rate": dismissed_seeds / total_seeds if total_seeds > 0 else 0,
             "average_symbolic_resonance": avg_resonance,
-            "performance_score": (
-                avg_resonance + (converted_seeds / max(1, total_seeds))
-            )
-            / 2,
+            "performance_score": (avg_resonance + (converted_seeds / max(1, total_seeds))) / 2,
         }
 
     async def get_dream_analytics(
@@ -369,9 +354,7 @@ class DreamRecorder:
         # Filter seeds by date and user if specified
         recent_seeds = []
         for seed in self.dream_seeds.values():
-            seed_date = datetime.fromisoformat(
-                seed["planted_at"].replace("Z", "+00:00")
-            )
+            seed_date = datetime.fromisoformat(seed["planted_at"].replace("Z", "+00:00"))
             if seed_date >= cutoff_date:
                 if user_id is None or seed["user_id"] == user_id:
                     recent_seeds.append(seed)
@@ -438,8 +421,7 @@ class DreamRecorder:
             "storage_path": str(self.storage_path),
             "seeds_recorded": len(self.dream_seeds),
             "narratives_recorded": len(self.recorded_dreams),
-            "storage_readable": self.storage_path.exists()
-            and self.storage_path.is_dir(),
+            "storage_readable": self.storage_path.exists() and self.storage_path.is_dir(),
             "last_activity": datetime.now().isoformat(),
         }
 
@@ -464,9 +446,7 @@ async def record_dream_seed(
 ) -> dict[str, Any]:
     """Convenience function to record a dream seed"""
     recorder = get_dream_recorder()
-    return await recorder.record_dream_seed(
-        brand_id, dream_seed, user_id, consent_context
-    )
+    return await recorder.record_dream_seed(brand_id, dream_seed, user_id, consent_context)
 
 
 async def record_dream_interaction(

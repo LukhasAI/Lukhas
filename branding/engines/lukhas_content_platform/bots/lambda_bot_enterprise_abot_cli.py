@@ -22,6 +22,7 @@ try:
 except Exception:
     pass
 
+
 def _append_if_exists(p: str) -> None:
     """Append a filesystem path to sys.path only if it exists."""
     try:
@@ -32,6 +33,7 @@ def _append_if_exists(p: str) -> None:
     except Exception:
         # Safe no-op on failure
         return
+
 
 @click.group()
 @click.version_option("1.0.0")
@@ -44,45 +46,55 @@ def abot_cli():
     """
     pass
 
+
 @abot_cli.group()
 def pr():
     """PR review and management commands"""
     pass
+
 
 @abot_cli.group()
 def docs():
     """Documentation generation and management"""
     pass
 
+
 @abot_cli.group()
 def web():
     """Web interface management"""
     pass
+
 
 @abot_cli.group()
 def compliance():
     """EU compliance and legal checking"""
     pass
 
+
 @abot_cli.group()
 def content():
     """Content creation and Notion sync"""
     pass
+
 
 @abot_cli.group()
 def openai():
     """OpenAI integration management with strict cost controls"""
     pass
 
+
 @abot_cli.group()
 def ai():
     """🧠 Multi-AI routing and intelligence management"""
     pass
 
+
 # PR Commands
 @pr.command()
 @click.argument("pr_number", type=int)
-@click.option("--auto-merge/--no-auto-merge", default=True, help="Enable auto-merge for qualifying PRs")
+@click.option(
+    "--auto-merge/--no-auto-merge", default=True, help="Enable auto-merge for qualifying PRs"
+)
 @click.option("--consciousness-level", type=click.Choice(["FOCUSED", "QUANTUM"]), default="FOCUSED")
 def review(pr_number: int, auto_merge: bool, consciousness_level: str):
     """Review a specific PR with LUKHAS AI ΛBot intelligence"""
@@ -94,7 +106,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
         "title": f"Sample PR #{pr_number}",
         "description": "Enhanced AI capabilities",
         "author": "developer",
-        "files": ["brain/test.py", "LUKHAS AI ΛBot/core_abot.py"]
+        "files": ["brain/test.py", "LUKHAS AI ΛBot/core_abot.py"],
     }
 
     async def run_review():
@@ -116,7 +128,9 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
                 click.echo(f"📝 Documentation: {len(result['documentation'])} types generated")
 
             if result.get("compliance"):
-                compliance_status = "✅ Compliant" if result["compliance"]["compliant"] else "❌ Requires Review"
+                compliance_status = (
+                    "✅ Compliant" if result["compliance"]["compliant"] else "❌ Requires Review"
+                )
                 click.echo(f"⚖️ EU Compliance: {compliance_status}")
 
         except ImportError as e:
@@ -124,6 +138,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
             click.echo("Make sure LUKHAS AI ΛBot is properly installed and configured")
 
     asyncio.run(run_review())
+
 
 @pr.command()
 @click.option("--port", default=5000, help="Webhook server port")
@@ -135,14 +150,21 @@ def webhook(port: int, debug: bool):
     try:
         # Import and run webhook server
         import subprocess
+
         cmd = f"cd /Users/A_G_I/Λ && WEBHOOK_PORT={port} WEBHOOK_DEBUG={debug} python LUKHAS AI ΛBot/specialists/github_webhook.py"
         subprocess.run(cmd, shell=True)
     except KeyboardInterrupt:
         click.echo("\n🛑 Webhook server stopped")
 
+
 # Documentation Commands
 @docs.command()
-@click.option("--type", "doc_type", type=click.Choice(["user_guide", "dev_manual", "api_docs", "all"]), default="all")
+@click.option(
+    "--type",
+    "doc_type",
+    type=click.Choice(["user_guide", "dev_manual", "api_docs", "all"]),
+    default="all",
+)
 @click.option("--pr", "pr_number", type=int, help="Generate docs for specific PR")
 @click.option("--output", type=click.Path(), help="Output directory")
 def generate(doc_type: str, pr_number: int, output: str):
@@ -150,7 +172,7 @@ def generate(doc_type: str, pr_number: int, output: str):
     click.echo(f"📝 Generating {doc_type} documentation...")
 
     if pr_number:
-        click.echo(f"📋 For PR ")
+        click.echo("📋 For PR ")
 
     # Simulate documentation generation
     docs_generated = []
@@ -167,8 +189,11 @@ def generate(doc_type: str, pr_number: int, output: str):
     if output:
         click.echo(f"📁 Saved to: {output}")
 
+
 @docs.command()
-@click.option("--format", "doc_format", type=click.Choice(["markdown", "html", "pdf"]), default="markdown")
+@click.option(
+    "--format", "doc_format", type=click.Choice(["markdown", "html", "pdf"]), default="markdown"
+)
 def daily_digest(doc_format: str):
     """Generate daily development digest"""
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
@@ -178,6 +203,7 @@ def daily_digest(doc_format: str):
 
     click.echo(f"✅ Daily digest created: {digest_file}")
     click.echo("📊 Includes: PR reviews, AI enhancements, compliance status")
+
 
 # Web Management Commands
 @web.command()
@@ -197,6 +223,7 @@ def update(interface: str):
     for iface in interfaces:
         click.echo(f"✅ Updated: {iface}")
 
+
 @web.command()
 @click.option("--port", default=8080, help="Server port")
 def serve(port: int):
@@ -207,6 +234,7 @@ def serve(port: int):
     # In real implementation, start the appropriate web server
     click.echo("🚀 Documentation server ready!")
 
+
 # Compliance Commands
 @compliance.command()
 @click.option("--pr", "pr_number", type=int, help="Check compliance for specific PR")
@@ -216,14 +244,14 @@ def check(pr_number: int, full: bool):
     click.echo("⚖️ Running EU compliance checks...")
 
     if pr_number:
-        click.echo(f"📋 Checking PR ")
+        click.echo("📋 Checking PR ")
 
     # Simulate compliance checking
     checks = [
         ("GDPR Data Protection", "✅ Compliant"),
         ("EU AI Act Requirements", "✅ Compliant"),
         ("Transparency Obligations", "⚠️ Review Required"),
-        ("Risk Assessment", "✅ Compliant")
+        ("Risk Assessment", "✅ Compliant"),
     ]
 
     for check_name, status in checks:
@@ -231,6 +259,7 @@ def check(pr_number: int, full: bool):
 
     if full:
         click.echo("📊 Full audit report generated")
+
 
 @compliance.command()
 def auto_heal():
@@ -241,7 +270,7 @@ def auto_heal():
         "Updated privacy policy compliance",
         "Enhanced data protection measures",
         "Improved code documentation",
-        "Optimized algorithm transparency"
+        "Optimized algorithm transparency",
     ]
 
     for improvement in improvements:
@@ -249,10 +278,12 @@ def auto_heal():
 
     click.echo("🚀 Self-healing completed - system improved!")
 
+
 # Content Creation Commands
 @content.command()
 @click.option("--title", prompt="Content title", help="Title for the content")
-@click.option("--type", "content_type", type=click.Choice(["guide", "manual", "update"]), default="guide"
+@click.option(
+    "--type", "content_type", type=click.Choice(["guide", "manual", "update"]), default="guide"
 )
 @click.option("--sync-notion/--no-sync", default=True, help="Sync to Notion")
 def create(title: str, content_type: str, sync_notion: bool):
@@ -266,6 +297,7 @@ def create(title: str, content_type: str, sync_notion: bool):
     if sync_notion:
         click.echo("🔄 Syncing to Notion...")
         click.echo("✅ Notion sync completed")
+
 
 @content.command()
 @click.option("--workspace", help="Notion workspace ID")
@@ -281,13 +313,14 @@ def notion_sync(workspace: str):
         "Developer manuals",
         "API documentation",
         "Daily digests",
-        "Compliance reports"
+        "Compliance reports",
     ]
 
     for item in sync_items:
         click.echo(f"✅ Synced: {item}")
 
     click.echo("🚀 Notion sync completed!")
+
 
 # Management Commands
 @abot_cli.command()
@@ -302,11 +335,12 @@ def status():
         ("Web Interfaces", "✅ Available"),
         ("EU Compliance", "✅ Monitoring"),
         ("Notion Sync", "✅ Connected"),
-        ("Webhook Server", "⚠️ Not Running")
+        ("Webhook Server", "⚠️ Not Running"),
     ]
 
     for system, status in systems:
         click.echo(f"{status} {system}")
+
 
 @abot_cli.command()
 def deploy():
@@ -319,7 +353,7 @@ def deploy():
         "Setting up documentation generators",
         "Initializing web interfaces",
         "Configuring compliance monitoring",
-        "Setting up Notion integration"
+        "Setting up Notion integration",
     ]
 
     for step in steps:
@@ -329,9 +363,13 @@ def deploy():
     click.echo("\n🎉 LUKHAS AI ΛBot system deployment completed!")
     click.echo("📖 Run 'LUKHAS AI ΛBot-cli status' to check system health")
 
+
 @abot_cli.command()
-@click.option("--component", type=click.Choice(["pr", "docs", "web", "compliance", "content"]),
-              help="Test specific component")
+@click.option(
+    "--component",
+    type=click.Choice(["pr", "docs", "web", "compliance", "content"]),
+    help="Test specific component",
+)
 def test(component: str):
     """Run comprehensive system tests"""
     if component:
@@ -345,7 +383,7 @@ def test(component: str):
         ("Web Interface Updates", "✅ Pass"),
         ("EU Compliance Checks", "✅ Pass"),
         ("Notion Sync", "✅ Pass"),
-        ("Self-Healing", "✅ Pass")
+        ("Self-Healing", "✅ Pass"),
     ]
 
     for test_name, result in tests:
@@ -354,11 +392,13 @@ def test(component: str):
 
     click.echo("🎉 All tests passed!")
 
+
 # ΛiD Security Commands
 @abot_cli.group()
 def lambda_id():
     """ΛiD encrypted tiered security management"""
     pass
+
 
 @lambda_id.command()
 @click.option("--tier", type=click.IntRange(1, 5), default=5, help="Security tier (1-5)")
@@ -368,11 +408,12 @@ def generate_secrets(tier: int):
 
     try:
         import subprocess
+
         result = subprocess.run(
             ["python3", "LUKHAS AI ΛBot/scripts/generate_lambda_id_secrets.py"],
             cwd="/Users/A_G_I/Λ",
             capture_output=True,
-            text=True
+            text=True,
         )
 
         if result.returncode == 0:
@@ -385,6 +426,7 @@ def generate_secrets(tier: int):
     except Exception as e:
         click.echo(f"❌ Error: {e}")
 
+
 @lambda_id.command()
 def setup_env():
     """Setup ΛiD enhanced environment configuration"""
@@ -392,6 +434,7 @@ def setup_env():
 
     # Copy ΛiD configuration template
     import shutil
+
     try:
         src = "/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/.env.lambda_id"
         dst = "/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/.env"
@@ -404,6 +447,7 @@ def setup_env():
     except Exception as e:
         click.echo(f"❌ Error setting up environment: {e}")
 
+
 @lambda_id.command()
 def security_status():
     """Check ΛiD security system status"""
@@ -413,14 +457,17 @@ def security_status():
     # Check if ΛiD modules are available
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from ΛiD.identity_manager import Identitymanager
+
         click.echo("✅ ΛiD Identity Manager: Available")
     except ImportError:
         click.echo("⚠️ ΛiD Identity Manager: Not Available")
 
     try:
         from ΛiD.trauma_lock import TraumaLockSystem
+
         click.echo("✅ ΛiD Trauma Lock: Available")
     except ImportError:
         click.echo("⚠️ ΛiD Trauma Lock: Not Available")
@@ -429,7 +476,7 @@ def security_status():
     config_files = [
         "/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/.env.lambda_id",
         "/Users/A_G_I/Λ/LUKHAS AI ΛBot/config/lambda_id_secrets.json",
-        "/Users/A_G_I/Λ/identity/consent_tiers.json"
+        "/Users/A_G_I/Λ/identity/consent_tiers.json",
     ]
 
     for config_file in config_files:
@@ -438,6 +485,7 @@ def security_status():
         else:
             click.echo(f"❌ {os.path.basename(config_file)}: Missing")
 
+
 @lambda_id.command()
 @click.option("--pr", "pr_number", type=int, help="Test with specific PR number")
 def test_security(pr_number: int):
@@ -445,12 +493,13 @@ def test_security(pr_number: int):
     click.echo("🧪 Testing ΛiD enhanced security...")
 
     if pr_number:
-        click.echo(f"📋 Testing with PR ")
+        click.echo("📋 Testing with PR ")
 
     try:
         # Test ΛiD security integration
         import asyncio
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
 
         from lukhas_ai_lambda_bot.specialists.ABotΛiDSecurity import ABotΛiDIntegration
@@ -462,7 +511,7 @@ def test_security(pr_number: int):
                 "number": pr_number or 999,
                 "title": "Test ΛiD security integration",
                 "description": "Testing quantum-enhanced security",
-                "files": ["LUKHAS AI ΛBot/test.py", "ΛiD/test.py"]
+                "files": ["LUKHAS AI ΛBot/test.py", "ΛiD/test.py"],
             }
 
             result = await abot_lid.enhanced_pr_review_with_security(test_pr, "test_user")
@@ -484,16 +533,22 @@ def test_security(pr_number: int):
     except Exception as e:
         click.echo(f"❌ Error testing security: {e}")
 
+
 # Autonomous Security Commands
 @abot_cli.group()
 def security():
     """🔒 Autonomous security management and vulnerability healing"""
     pass
 
+
 @security.command()
 @click.option("--auto-fix", is_flag=True, default=True, help="Enable autonomous fixing")
-@click.option("--safety-threshold", type=float, default=0.8, help="Confidence threshold for auto-fixes")
-@click.option("--scope", type=click.Choice(["all", "python", "javascript", "system"]), default="all")
+@click.option(
+    "--safety-threshold", type=float, default=0.8, help="Confidence threshold for auto-fixes"
+)
+@click.option(
+    "--scope", type=click.Choice(["all", "python", "javascript", "system"]), default="all"
+)
 def heal(auto_fix: bool, safety_threshold: float, scope: str):
     """🤖 Autonomous security vulnerability healing"""
     click.echo("🤖 LUKHAS AI ΛBot Autonomous Security Healer starting...")
@@ -520,7 +575,9 @@ def heal(auto_fix: bool, safety_threshold: float, scope: str):
             click.echo(f"📅 Next Scan: {result['next_scan_recommended']}")
 
             if result["fixes_successful"] > 0:
-                click.echo(f"\n🎉 LUKHAS AI ΛBot autonomously fixed {result['fixes_successful']} security vulnerabilities!")
+                click.echo(
+                    f"\n🎉 LUKHAS AI ΛBot autonomously fixed {result['fixes_successful']} security vulnerabilities!"
+                )
                 click.echo("🔒 Your system is now more secure thanks to AI-powered healing!")
 
         except ImportError:
@@ -529,6 +586,7 @@ def heal(auto_fix: bool, safety_threshold: float, scope: str):
             click.echo(f"❌ Healing failed: {e}")
 
     asyncio.run(run_healing())
+
 
 @security.command()
 @click.option("--format", type=click.Choice(["json", "table", "brief"]), default="table")
@@ -551,22 +609,26 @@ def scan(format: str):
             if format == "json":
                 vuln_data = []
                 for vuln in vulnerabilities:
-                    vuln_data.append({
-                        "package": vuln.package,
-                        "current_version": vuln.current_version,
-                        "fixed_version": vuln.fixed_version,
-                        "severity": vuln.severity,
-                        "cve_id": vuln.cve_id,
-                        "auto_fixable": vuln.auto_fixable
-                    })
+                    vuln_data.append(
+                        {
+                            "package": vuln.package,
+                            "current_version": vuln.current_version,
+                            "fixed_version": vuln.fixed_version,
+                            "severity": vuln.severity,
+                            "cve_id": vuln.cve_id,
+                            "auto_fixable": vuln.auto_fixable,
+                        }
+                    )
                 click.echo(json.dumps(vuln_data, indent=2))
 
             elif format == "table":
                 if vulnerabilities:
                     click.echo("\n📊 Security Vulnerabilities Found:")
-                    click.echo("="*80)
+                    click.echo("=" * 80)
                     for vuln in vulnerabilities:
-                        click.echo(f"📦 {vuln.package}: {vuln.current_version} → {vuln.fixed_version}")
+                        click.echo(
+                            f"📦 {vuln.package}: {vuln.current_version} → {vuln.fixed_version}"
+                        )
                         click.echo(f"   🔴 Severity: {vuln.severity}")
                         click.echo(f"   🔧 Auto-fixable: {'✅' if vuln.auto_fixable else '❌'}")
                         if vuln.cve_id:
@@ -579,7 +641,9 @@ def scan(format: str):
             else:  # brief
                 if vulnerabilities:
                     auto_fixable = sum(1 for v in vulnerabilities if v.auto_fixable)
-                    click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
+                    click.echo(
+                        f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)"
+                    )
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
                         click.echo(f"   {status} {vuln.package}: {vuln.severity}")
@@ -590,6 +654,7 @@ def scan(format: str):
             click.echo(f"❌ Scan failed: {e}")
 
     asyncio.run(run_scan())
+
 
 @security.command()
 def status():
@@ -620,8 +685,11 @@ def status():
     except Exception as e:
         click.echo(f"❌ Status check failed: {e}")
 
+
 @security.command()
-@click.confirmation_option(prompt="Are you sure you want to replace Dependabot with LUKHAS AI ΛBot?")
+@click.confirmation_option(
+    prompt="Are you sure you want to replace Dependabot with LUKHAS AI ΛBot?"
+)
 def replace_dependabot():
     """🔄 Replace Dependabot with LUKHAS AI ΛBot Autonomous Security Healer"""
     click.echo("🔄 Replacing Dependabot with LUKHAS AI ΛBot...")
@@ -681,6 +749,7 @@ jobs:
     click.echo("🎯 LUKHAS AI ΛBot will now autonomously heal vulnerabilities daily!")
     click.echo("🔥 Dependabot? We don't need no stinking Dependabot!")
 
+
 # AI Router Commands
 @ai.command()
 def status():
@@ -719,6 +788,7 @@ def status():
     except Exception as e:
         click.echo(f"❌ AI Router Status: ERROR - {e}")
 
+
 @ai.command()
 @click.argument("task_type")
 @click.argument("prompt")
@@ -747,7 +817,7 @@ def route(task_type: str, prompt: str, priority: str):
             "debugging": TaskType.DEBUGGING,
             "planning": TaskType.PLANNING,
             "security_audit": TaskType.SECURITY_AUDIT,
-            "enterprise_analysis": TaskType.ENTERPRISE_ANALYSIS
+            "enterprise_analysis": TaskType.ENTERPRISE_ANALYSIS,
         }
 
         if task_type not in task_types:
@@ -773,6 +843,7 @@ def route(task_type: str, prompt: str, priority: str):
     except Exception as e:
         click.echo(f"❌ AI Routing failed: {e}")
 
+
 @ai.command()
 def services():
     """List all available AI services and their capabilities"""
@@ -797,7 +868,9 @@ def services():
             click.echo(f"   Creative: {service.creative_quality}")
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
-            click.echo(f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower() for s in service.strengths])}")
+            click.echo(
+                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower() for s in service.strengths])}"
+            )
 
             # Check if service is available
             if router._get_keychain_value(service.keychain_service):
@@ -807,6 +880,7 @@ def services():
 
     except Exception as e:
         click.echo(f"❌ Failed to list services: {e}")
+
 
 @ai.command()
 def analytics():
@@ -824,7 +898,11 @@ def analytics():
         click.echo("Service Usage:")
 
         for service, count in analytics["service_usage"].items():
-            percentage = (count / analytics["total_requests"] * 100) if analytics["total_requests"] > 0 else 0
+            percentage = (
+                (count / analytics["total_requests"] * 100)
+                if analytics["total_requests"] > 0
+                else 0
+            )
             click.echo(f"   {service}: {count} requests ({percentage:.1f}%)")
 
         if analytics["total_requests"] == 0:
@@ -832,6 +910,7 @@ def analytics():
 
     except Exception as e:
         click.echo(f"❌ Analytics failed: {e}")
+
 
 # OpenAI Commands
 @openai.command()
@@ -890,6 +969,7 @@ def setup(api_key: str, budget: float):
     click.echo(f"🔒 API key stored securely in: {env_file}")
     click.echo(f"⚠️  Remember: Usage is strictly limited to ${budget:.2f} total cost")
 
+
 @openai.command()
 def budget():
     """Check LUKHAS AI ΛBot's intelligent financial status"""
@@ -897,6 +977,7 @@ def budget():
         from lukhas_ai_lambda_bot.core.openai_intelligent_controller import (
             get_abot_financial_status,
         )
+
         status = get_abot_financial_status()
 
         if "budget_status" in status:
@@ -904,17 +985,27 @@ def budget():
             click.echo(f"   Current Balance: ${status['budget_status']['current_balance']:.4f}")
             click.echo(f"   Daily Budget: ${status['budget_status']['daily_budget']:.2f}")
             click.echo(f"   Total Accumulated: ${status['budget_status']['total_accumulated']:.4f}")
-            click.echo(f"   Days Remaining: {status['budget_status']['days_of_budget_remaining']:.1f}")
+            click.echo(
+                f"   Days Remaining: {status['budget_status']['days_of_budget_remaining']:.1f}"
+            )
             click.echo("")
             click.echo("🧠 Intelligence Metrics:")
-            click.echo(f"   Efficiency Score: {status['intelligence_metrics']['efficiency_score']:.1f}%")
-            click.echo(f"   Money Saved: ${status['intelligence_metrics']['money_saved_by_conservation']:.4f}")
-            click.echo(f"   Conservation Streak: {status['intelligence_metrics']['conservation_streak']}")
+            click.echo(
+                f"   Efficiency Score: {status['intelligence_metrics']['efficiency_score']:.1f}%"
+            )
+            click.echo(
+                f"   Money Saved: ${status['intelligence_metrics']['money_saved_by_conservation']:.4f}"
+            )
+            click.echo(
+                f"   Conservation Streak: {status['intelligence_metrics']['conservation_streak']}"
+            )
             click.echo("")
             click.echo("📊 Usage Analysis:")
             click.echo(f"   Today Spent: ${status['spending_analysis']['today_spent']:.4f}")
             click.echo(f"   Month Spent: ${status['spending_analysis']['month_spent']:.4f}")
-            click.echo(f"   Monthly Projection: ${status['spending_analysis']['monthly_projection']:.4f}")
+            click.echo(
+                f"   Monthly Projection: ${status['spending_analysis']['monthly_projection']:.4f}"
+            )
             click.echo(f"   Calls Today: {status['usage_patterns']['calls_today']}")
 
             # Show recommendations
@@ -932,10 +1023,18 @@ def budget():
     except Exception as e:
         click.echo(f"❌ Error checking budget: {e}")
 
+
 @openai.command()
 @click.option("--prompt", prompt=True, help="Test prompt for OpenAI")
-@click.option("--urgency", default="MEDIUM", type=click.Choice(["LOW", "MEDIUM", "HIGH", "CRITICAL"]), help="Urgency level")
-@click.option("--force", is_flag=True, help="Force the call even if LUKHAS AI ΛBot recommends conservation")
+@click.option(
+    "--urgency",
+    default="MEDIUM",
+    type=click.Choice(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
+    help="Urgency level",
+)
+@click.option(
+    "--force", is_flag=True, help="Force the call even if LUKHAS AI ΛBot recommends conservation"
+)
 def test(prompt: str, urgency: str, force: bool):
     """Test OpenAI with LUKHAS AI ΛBot's intelligent financial controls"""
     try:
@@ -957,11 +1056,7 @@ def test(prompt: str, urgency: str, force: bool):
         }
 
         response = make_smart_openai_request(
-            prompt,
-            model="gpt-3.5-turbo",
-            max_tokens=50,
-            purpose="cli_test",
-            **context
+            prompt, model="gpt-3.5-turbo", max_tokens=50, purpose="cli_test", **context
         )
 
         click.echo(f"🤖 LUKHAS AI ΛBot Response: {response}")
@@ -970,6 +1065,7 @@ def test(prompt: str, urgency: str, force: bool):
         from lukhas_ai_lambda_bot.core.openai_intelligent_controller import (
             get_abot_financial_status,
         )
+
         status = get_abot_financial_status()
 
         if "budget_status" in status:
@@ -978,12 +1074,15 @@ def test(prompt: str, urgency: str, force: bool):
             click.echo(f"   Balance: ${status['budget_status']['current_balance']:.4f}")
             click.echo(f"   Efficiency: {status['intelligence_metrics']['efficiency_score']:.1f}%")
             if status["intelligence_metrics"]["conservation_streak"] > 0:
-                click.echo(f"   Conservation: {status['intelligence_metrics']['conservation_streak']} decisions")
+                click.echo(
+                    f"   Conservation: {status['intelligence_metrics']['conservation_streak']} decisions"
+                )
 
     except ImportError:
         click.echo("❌ LUKHAS AI ΛBot Intelligent Controller not available")
     except Exception as e:
         click.echo(f"❌ Test failed: {e}")
+
 
 @openai.command()
 @click.confirmation_option(prompt="Are you sure you want to reset the budget tracker?")
@@ -991,6 +1090,7 @@ def reset():
     """Reset budget tracker (use carefully!)"""
     try:
         from lukhas_ai_lambda_bot.core.openai_controller import openai_controller
+
         openai_controller.reset_budget()
         click.echo("✅ Budget tracker reset successfully")
         click.echo("⚠️  All previous cost tracking has been cleared")
@@ -998,6 +1098,7 @@ def reset():
         click.echo("❌ OpenAI cost controller not available")
     except Exception as e:
         click.echo(f"❌ Reset failed: {e}")
+
 
 @openai.command()
 def notion_sync():
@@ -1024,7 +1125,7 @@ def notion_sync():
             "spending_analysis": report["spending_analysis"],
             "intelligence_metrics": report["intelligence_metrics"],
             "usage_patterns": report["usage_patterns"],
-            "recommendations": report["recommendations"]
+            "recommendations": report["recommendations"],
         }
 
         # Save to file for Notion sync
@@ -1039,7 +1140,9 @@ def notion_sync():
         click.echo("📋 Report Summary:")
         click.echo(f"   Balance: ${report['budget_status']['current_balance']:.4f}")
         click.echo(f"   Efficiency: {report['intelligence_metrics']['efficiency_score']:.1f}%")
-        click.echo(f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}")
+        click.echo(
+            f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}"
+        )
         click.echo(f"   Recommendations: {len(report['recommendations'])} insights")
         click.echo("")
         click.echo("🔄 Next steps:")
@@ -1051,6 +1154,7 @@ def notion_sync():
         click.echo("❌ LUKHAS AI ΛBot Financial Intelligence not available")
     except Exception as e:
         click.echo(f"❌ Notion sync failed: {e}")
+
 
 @openai.command()
 def efficiency():
@@ -1071,7 +1175,7 @@ def efficiency():
         spending = status["spending_analysis"]
 
         click.echo("📊 LUKHAS AI ΛBot Financial Efficiency Analysis")
-        click.echo(f"{'='*50}")
+        click.echo(f"{'=' * 50}")
         click.echo("")
         click.echo(f"🎯 Overall Efficiency Score: {metrics['efficiency_score']:.1f}%")
         click.echo("")
@@ -1109,17 +1213,23 @@ def efficiency():
     except Exception as e:
         click.echo(f"❌ Efficiency analysis failed: {e}")
 
+
 # ΛID Management Commands
 @lambda_id.command()
 @click.argument("lambda_id_hash")
-@click.option("--consent", type=click.Choice(["NONE", "BASIC", "STANDARD", "EXTENDED", "FULL"]), default="BASIC")
+@click.option(
+    "--consent",
+    type=click.Choice(["NONE", "BASIC", "STANDARD", "EXTENDED", "FULL"]),
+    default="BASIC",
+)
 @click.option("--tier", type=click.IntRange(1, 5), default=1)
 def create_user(lambda_id_hash: str, consent: str, tier: int):
     """Create new ΛID# with ΛSIGN and ΛTRACE (format: {country}-{identifier})"""
-    click.echo(f"🔒 Creating ΛID")
+    click.echo("🔒 Creating ΛID")
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import create_λid, validate_λid
         from ΛiD.ΛiD import ConsentLevel
@@ -1150,6 +1260,7 @@ def create_user(lambda_id_hash: str, consent: str, tier: int):
     except Exception as e:
         click.echo(f"❌ Error creating ΛID: {e}")
 
+
 @lambda_id.command()
 @click.argument("lambda_id_hash")
 def get_info(lambda_id_hash: str):
@@ -1158,6 +1269,7 @@ def get_info(lambda_id_hash: str):
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import get_λid_info
 
@@ -1181,15 +1293,21 @@ def get_info(lambda_id_hash: str):
     except Exception as e:
         click.echo(f"❌ Error getting ΛID info: {e}")
 
+
 @lambda_id.command()
 @click.argument("lambda_id_hash")
-@click.option("--required-consent", type=click.Choice(["NONE", "BASIC", "STANDARD", "EXTENDED", "FULL"]), default="BASIC")
+@click.option(
+    "--required-consent",
+    type=click.Choice(["NONE", "BASIC", "STANDARD", "EXTENDED", "FULL"]),
+    default="BASIC",
+)
 def verify_consent(lambda_id_hash: str, required_consent: str):
     """Verify ΛSIGN (consent) for ΛID#"""
     click.echo(f"🔍 Verifying ΛSIGN for: {lambda_id_hash}")
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import verify_λsign
         from ΛiD.ΛiD import ConsentLevel
@@ -1212,6 +1330,7 @@ def verify_consent(lambda_id_hash: str, required_consent: str):
     except Exception as e:
         click.echo(f"❌ Error verifying ΛSIGN: {e}")
 
+
 @lambda_id.command()
 def validate_format():
     """Interactive ΛID# format validator and helper"""
@@ -1220,6 +1339,7 @@ def validate_format():
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import (
             organization_codes,
@@ -1232,14 +1352,14 @@ def validate_format():
         click.echo(f"🌍 Supported Countries ({len(countries)}):")
         country_list = list(countries.keys())
         for i in range(0, len(country_list), 10):
-            click.echo(f"   {', '.join(country_list[i:i+10])}")
+            click.echo(f"   {', '.join(country_list[i : i + 10])}")
 
         # Show organization codes
         org_codes = organization_codes()
         click.echo("\n🏢 Organization Codes:")
         org_list = list(org_codes.keys())
         for i in range(0, len(org_list), 8):
-            click.echo(f"   {', '.join(org_list[i:i+8])}")
+            click.echo(f"   {', '.join(org_list[i : i + 8])}")
 
         # Interactive validation
         click.echo("\n💡 ΛID# Format: {country_code}-{identifier}")
@@ -1267,6 +1387,7 @@ def validate_format():
     except Exception as e:
         click.echo(f"❌ Error: {e}")
 
+
 @lambda_id.command()
 @click.argument("action")
 @click.option("--user-ref", help="User reference for the trace")
@@ -1278,6 +1399,7 @@ def create_trace(action: str, user_ref: str, metadata: str):
     try:
         import json
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import create_λtrace
 
@@ -1292,6 +1414,7 @@ def create_trace(action: str, user_ref: str, metadata: str):
     except Exception as e:
         click.echo(f"❌ Error creating ΛTRACE: {e}")
 
+
 @lambda_id.command()
 @click.option("--user-ref", help="Filter traces by user")
 @click.option("--action", help="Filter traces by action")
@@ -1303,6 +1426,7 @@ def list_traces(user_ref: str, action: str, limit: int):
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import get_λtraces
 
@@ -1327,6 +1451,7 @@ def list_traces(user_ref: str, action: str, limit: int):
     except Exception as e:
         click.echo(f"❌ Error listing ΛTRACE: {e}")
 
+
 @lambda_id.command()
 def system_status():
     """Get ΛID system status with ΛTRACE, ΛSIGN, ΛID# metrics"""
@@ -1335,6 +1460,7 @@ def system_status():
 
     try:
         import sys
+
         sys.path.append("/Users/A_G_I/Λ")
         from lukhas_ai_lambda_bot.core.lambda_id_manager import lambda_id_manager
 
@@ -1367,6 +1493,7 @@ def system_status():
 
     except Exception as e:
         click.echo(f"❌ Error getting ΛID system status: {e}")
+
 
 if __name__ == "__main__":
     abot_cli()

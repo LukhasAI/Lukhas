@@ -50,8 +50,7 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor, nn
 
-from .decoding import decode as decode_function
-from .decoding import detect_language as detect_language_function
+from .decoding import decode as decode_function, detect_language as detect_language_function
 from .transcribe import transcribe as transcribe_function
 
 try:
@@ -78,13 +77,11 @@ class ModelDimensions:
 
 
 class LayerNorm(nn.LayerNorm):
-
     def forward(self, x: Tensor) -> Tensor:
         return super().forward(x.float()).type(x.dtype)
 
 
 class Linear(nn.Linear):
-
     def forward(self, x: Tensor) -> Tensor:
         return F.linear(
             x,
@@ -94,10 +91,7 @@ class Linear(nn.Linear):
 
 
 class Conv1d(nn.Conv1d):
-
-    def _conv_forward(
-        self, x: Tensor, weight: Tensor, bias: Optional[Tensor]
-    ) -> Tensor:
+    def _conv_forward(self, x: Tensor, weight: Tensor, bias: Optional[Tensor]) -> Tensor:
         return super()._conv_forward(
             x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
         )
@@ -167,9 +161,7 @@ class MultiHeadAttention(nn.Module):
         v = v.view(*v.shape[:2], self.n_head, -1).permute(0, 2, 1, 3)
 
         if SDPA_AVAILABLE and MultiHeadAttention.use_sdpa:
-            a = scaled_dot_product_attention(
-                q, k, v, is_causal=mask is not None and n_ctx > 1
-            )
+            a = scaled_dot_product_attention(q, k, v, is_causal=mask is not None and n_ctx > 1)
             out = a.permute(0, 2, 1, 3).flatten(start_dim=2)
             qk = None
         else:
@@ -186,22 +178,17 @@ class MultiHeadAttention(nn.Module):
 
 
 class ResidualAttentionBlock(nn.Module):
-
     def __init__(self, n_state: int, n_head: int, cross_attention: bool = False):
         super().__init__()
 
         self.attn = MultiHeadAttention(n_state, n_head)
         self.attn_ln = LayerNorm(n_state)
 
-        self.cross_attn = (
-            MultiHeadAttention(n_state, n_head) if cross_attention else None
-        )
+        self.cross_attn = MultiHeadAttention(n_state, n_head) if cross_attention else None
         self.cross_attn_ln = LayerNorm(n_state) if cross_attention else None
 
         n_mlp = n_state * 4
-        self.mlp = nn.Sequential(
-            Linear(n_state, n_mlp), nn.GELU(), Linear(n_mlp, n_state)
-        )
+        self.mlp = nn.Sequential(Linear(n_state, n_mlp), nn.GELU(), Linear(n_mlp, n_state))
         self.mlp_ln = LayerNorm(n_state)
 
     def forward(
@@ -219,10 +206,7 @@ class ResidualAttentionBlock(nn.Module):
 
 
 class AudioEncoder(nn.Module):
-
-    def __init__(
-        self, n_mels: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
-    ):
+    def __init__(self, n_mels: int, n_ctx: int, n_state: int, n_head: int, n_layer: int):
         super().__init__()
         self.conv1 = Conv1d(n_mels, n_state, kernel_size=3, padding=1)
         self.conv2 = Conv1d(n_state, n_state, kernel_size=3, stride=2, padding=1)
@@ -253,20 +237,14 @@ class AudioEncoder(nn.Module):
 
 
 class TextDecoder(nn.Module):
-
-    def __init__(
-        self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
-    ):
+    def __init__(self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int):
         super().__init__()
 
         self.token_embedding = nn.Embedding(n_vocab, n_state)
         self.positional_embedding = nn.Parameter(torch.empty(n_ctx, n_state))
 
         self.blocks: Iterable[ResidualAttentionBlock] = nn.ModuleList(
-            [
-                ResidualAttentionBlock(n_state, n_head, cross_attention=True)
-                for _ in range(n_layer)
-            ]
+            [ResidualAttentionBlock(n_state, n_head, cross_attention=True) for _ in range(n_layer)]
         )
         self.ln = LayerNorm(n_state)
 
@@ -281,25 +259,19 @@ class TextDecoder(nn.Module):
             the encoded audio features to be attended on
         """
         offset = next(iter(kv_cache.values())).shape[1] if kv_cache else 0
-        x = (
-            self.token_embedding(x)
-            + self.positional_embedding[offset : offset + x.shape[-1]]
-        )
+        x = self.token_embedding(x) + self.positional_embedding[offset : offset + x.shape[-1]]
         x = x.to(xa.dtype)
 
         for block in self.blocks:
             x = block(x, xa, mask=self.mask, kv_cache=kv_cache)
 
         x = self.ln(x)
-        logits = (
-            x @ torch.transpose(self.token_embedding.weight.to(x.dtype), 0, 1)
-        ).float()
+        logits = (x @ torch.transpose(self.token_embedding.weight.to(x.dtype), 0, 1)).float()
 
         return logits
 
 
 class ModelCommunicationEngine(nn.Module):
-
     def __init__(self, dims: ModelDimensions):
         super().__init__()
         self.dims = dims
@@ -319,19 +291,13 @@ class ModelCommunicationEngine(nn.Module):
         )
         # use the last half among the decoder layers for time alignment by default;
         # to use a specific set of heads, see `set_alignment_heads()` below.
-        all_heads = torch.zeros(
-            self.dims.n_text_layer, self.dims.n_text_head, dtype=torch.bool
-        )
+        all_heads = torch.zeros(self.dims.n_text_layer, self.dims.n_text_head, dtype=torch.bool)
         all_heads[self.dims.n_text_layer // 2 :] = True
         self.register_buffer("alignment_heads", all_heads.to_sparse(), persistent=False)
 
     def set_alignment_heads(self, dump: bytes):
-        array = np.frombuffer(
-            gzip.decompress(base64.b85decode(dump)), dtype=bool
-        ).copy()
-        mask = torch.from_numpy(array).reshape(
-            self.dims.n_text_layer, self.dims.n_text_head
-        )
+        array = np.frombuffer(gzip.decompress(base64.b85decode(dump)), dtype=bool).copy()
+        mask = torch.from_numpy(array).reshape(self.dims.n_text_layer, self.dims.n_text_head)
         self.register_buffer("alignment_heads", mask.to_sparse(), persistent=False)
 
     def embed_audio(self, mel: torch.Tensor):
@@ -340,9 +306,7 @@ class ModelCommunicationEngine(nn.Module):
     def logits(self, tokens: torch.Tensor, audio_features: torch.Tensor):
         return self.decoder(tokens, audio_features)
 
-    def forward(
-        self, mel: torch.Tensor, tokens: torch.Tensor
-    ) -> dict[str, torch.Tensor]:
+    def forward(self, mel: torch.Tensor, tokens: torch.Tensor) -> dict[str, torch.Tensor]:
         return self.decoder(tokens, self.encoder(mel))
 
     @property

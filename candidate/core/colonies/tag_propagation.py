@@ -16,9 +16,7 @@ class SymbolicReasoningColony(BaseColony):
         self.belief_network = nx.DiGraph()
         self.propagation_history: list[dict[str, Any]] = []
 
-    async def propagate_belief(
-        self, initial_belief: dict[str, Any]
-    ) -> dict[str, float]:
+    async def propagate_belief(self, initial_belief: dict[str, Any]) -> dict[str, float]:
         belief_states = dict.fromkeys(self.agents, 0.0)
         if self.agents:
             seed_agent = list(self.agents.keys())[0]
@@ -41,9 +39,7 @@ class SymbolicReasoningColony(BaseColony):
                     distance = self._get_agent_distance(agent_id, n)
                     total_influence += belief_states.get(n, 0) / (1 + distance)
                 decay = 0.9
-                new_belief = (
-                    decay * belief_states[agent_id] + (1 - decay) * total_influence
-                )
+                new_belief = decay * belief_states[agent_id] + (1 - decay) * total_influence
                 new_states[agent_id] = min(1.0, new_belief)
                 if belief_tag and new_belief > 0.1:
                     pass  # placeholder for adoption

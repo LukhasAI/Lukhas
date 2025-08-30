@@ -19,9 +19,7 @@ from typing import Any
 def run_command(cmd: str) -> dict[str, Any]:
     """Run a command and return result"""
     try:
-        result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, timeout=30
-        )
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
         return {
             "success": result.returncode == 0,
             "stdout": result.stdout.strip(),
@@ -83,9 +81,7 @@ def get_git_status() -> dict[str, Any]:
     # Git status
     result = run_command("git status --porcelain")
     status["dirty"] = bool(result["stdout"]) if result["success"] else None
-    status["modified_files"] = (
-        len(result["stdout"].split("\n")) if result["stdout"] else 0
-    )
+    status["modified_files"] = len(result["stdout"].split("\n")) if result["stdout"] else 0
 
     # Last commit
     result = run_command("git log -1 --oneline")
@@ -200,9 +196,7 @@ def generate_system_report() -> dict[str, Any]:
         result = test_import(module)
         report["core_modules"][module] = result
         if not result["importable"]:
-            report["issues"].append(
-                f"❌ Module {module} failed to import: {result['error']}"
-            )
+            report["issues"].append(f"❌ Module {module} failed to import: {result['error']}")
 
     # API services
     print("🌐 Testing API services...")
@@ -258,9 +252,7 @@ def generate_system_report() -> dict[str, Any]:
     report["tests"] = analyze_pytest_results()
 
     if report["tests"]["status"] == "error":
-        report["issues"].append(
-            f"❌ Test collection failed: {report['tests']['collection_error']}"
-        )
+        report["issues"].append(f"❌ Test collection failed: {report['tests']['collection_error']}")
     elif report["tests"]["total_tests"] == 0:
         report["issues"].append("⚠️ No tests found")
 
@@ -272,18 +264,14 @@ def generate_system_report() -> dict[str, Any]:
         name for name, data in report["core_modules"].items() if not data["importable"]
     ]
     if failed_imports:
-        report["recommendations"].append(
-            f"Fix import issues: {', '.join(failed_imports)}"
-        )
+        report["recommendations"].append(f"Fix import issues: {', '.join(failed_imports)}")
 
     # Check API services
     non_responding_apis = [
         name for name, data in report["api_services"].items() if not data["responding"]
     ]
     if non_responding_apis:
-        report["recommendations"].append(
-            f"Start API services: {', '.join(non_responding_apis)}"
-        )
+        report["recommendations"].append(f"Start API services: {', '.join(non_responding_apis)}")
 
     # Check missing files
     missing_files = [
@@ -292,30 +280,18 @@ def generate_system_report() -> dict[str, Any]:
         if isinstance(data, dict) and not data.get("exists", True)
     ]
     if missing_files:
-        report["recommendations"].append(
-            f"Restore missing files: {', '.join(missing_files)}"
-        )
+        report["recommendations"].append(f"Restore missing files: {', '.join(missing_files)}")
 
     # Environment variables
-    missing_env = [
-        var for var, data in report["environment"].items() if not data["present"]
-    ]
+    missing_env = [var for var, data in report["environment"].items() if not data["present"]]
     if missing_env:
-        report["recommendations"].append(
-            f"Set environment variables: {', '.join(missing_env)}"
-        )
+        report["recommendations"].append(f"Set environment variables: {', '.join(missing_env)}")
 
     # Calculate overall health score
     total_checks = (
         len(report["core_modules"])
         + len(report["api_services"])
-        + len(
-            [
-                f
-                for f in report["file_system"]
-                if isinstance(report["file_system"][f], dict)
-            ]
-        )
+        + len([f for f in report["file_system"] if isinstance(report["file_system"][f], dict)])
         + len(report["environment"])
     )
 
@@ -342,9 +318,7 @@ def generate_system_report() -> dict[str, Any]:
             [m for m in report["core_modules"].values() if m["importable"]]
         ),
         "total_core_modules": len(report["core_modules"]),
-        "apis_responding": len(
-            [a for a in report["api_services"].values() if a["responding"]]
-        ),
+        "apis_responding": len([a for a in report["api_services"].values() if a["responding"]]),
         "total_apis_tested": len(report["api_services"]),
         "test_count": report["tests"]["total_tests"],
     }

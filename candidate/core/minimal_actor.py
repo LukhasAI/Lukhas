@@ -8,7 +8,6 @@ import threading
 
 
 class Actor:
-
     def __init__(self, behavior, state=None):
         self.state = state or {}
         self.behavior = behavior

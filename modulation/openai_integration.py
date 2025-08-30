@@ -40,9 +40,7 @@ class ModulatedOpenAIClient:
     def __init__(self, modulator: SignalModulator, api_key: Optional[str] = None):
         """Initialize with signal modulator and optional API key"""
         if not OPENAI_AVAILABLE:
-            raise ImportError(
-                "OpenAI package not available. Install with: pip install openai"
-            )
+            raise ImportError("OpenAI package not available. Install with: pip install openai")
 
         self.modulator = modulator
         self.client = OpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"))
@@ -75,9 +73,7 @@ class ModulatedOpenAIClient:
 
         # Add function calling if tools are allowed
         if functions and self._tool_allowed("code_exec", params.tool_allowlist):
-            api_params["tools"] = [
-                {"type": "function", "function": f} for f in functions
-            ]
+            api_params["tools"] = [{"type": "function", "function": f} for f in functions]
             api_params["tool_choice"] = "auto"
 
         # Make API call with error handling

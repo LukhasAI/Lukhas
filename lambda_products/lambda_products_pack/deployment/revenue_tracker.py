@@ -166,7 +166,7 @@ Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
 | **MRR** | ${mrr:,.2f} | $50,000 | {"🟢" if mrr >= 50000 else "🟡" if mrr >= 10000 else "🔴"} |
-| **ARR** | ${mrr*12:,.2f} | $600,000 | {"🟢" if mrr*12 >= 600000 else "🟡"} |
+| **ARR** | ${mrr * 12:,.2f} | $600,000 | {"🟢" if mrr * 12 >= 600000 else "🟡"} |
 | **Customers** | {self.get_total_customers()} | 1,000 | {"🟢" if self.get_total_customers() >= 1000 else "🟡"} |
 
 ## 🌐 Revenue by Domain
@@ -178,21 +178,23 @@ Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
         for domain, data in self.domains.items():
             domain_mrr = self.calculate_domain_mrr(domain)
             customers = self.get_domain_customers(domain)
-            dashboard += f"| **{domain}** | {data['name']} | ${domain_mrr:,.2f} | {customers} | +0% |\n"
+            dashboard += (
+                f"| **{domain}** | {data['name']} | ${domain_mrr:,.2f} | {customers} | +0% |\n"
+            )
 
         dashboard += f"""
 
 ## 📈 Growth Trajectory
 
 ### Current Run Rate
-- Daily: ${mrr/30:,.2f}
-- Weekly: ${mrr/4:,.2f}
+- Daily: ${mrr / 30:,.2f}
+- Weekly: ${mrr / 4:,.2f}
 - Monthly: ${mrr:,.2f}
-- Annual: ${mrr*12:,.2f}
+- Annual: ${mrr * 12:,.2f}
 
 ### Path to $1M ARR
-- Current ARR: ${mrr*12:,.2f}
-- Needed: ${1000000 - mrr*12:,.2f}
+- Current ARR: ${mrr * 12:,.2f}
+- Needed: ${1000000 - mrr * 12:,.2f}
 - Required MRR: $83,333
 - Gap: ${83333 - mrr:,.2f}/month
 
@@ -204,18 +206,18 @@ Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
 ## 🎯 Revenue Breakdown
 
 ### Subscription Revenue (70%)
-- Pro Tier: ${self.get_subscription_revenue('pro'):,.2f}
-- Enterprise: ${self.get_subscription_revenue('enterprise'):,.2f}
-- Teams: ${self.get_subscription_revenue('team'):,.2f}
+- Pro Tier: ${self.get_subscription_revenue("pro"):,.2f}
+- Enterprise: ${self.get_subscription_revenue("enterprise"):,.2f}
+- Teams: ${self.get_subscription_revenue("team"):,.2f}
 
 ### Usage Revenue (20%)
-- API Calls: ${self.domains['lukhas.ai']['api_revenue']:,.2f}
-- Verifications: ${self.domains['lukhas.id']['verifications'] * 0.5:,.2f}
+- API Calls: ${self.domains["lukhas.ai"]["api_revenue"]:,.2f}
+- Verifications: ${self.domains["lukhas.id"]["verifications"] * 0.5:,.2f}
 - Cloud Usage: $0.00
 
 ### Marketplace Revenue (10%)
-- Total Sales: ${self.domains['lukhas.store']['total_sales']:,.2f}
-- Commission (30%): ${self.domains['lukhas.store']['commission_earned']:,.2f}
+- Total Sales: ${self.domains["lukhas.store"]["total_sales"]:,.2f}
+- Commission (30%): ${self.domains["lukhas.store"]["commission_earned"]:,.2f}
 - Active Vendors: 0
 
 ## 🚀 Quick Wins to Increase Revenue
@@ -302,9 +304,7 @@ Week 4:
         elif domain == "lukhas.team":
             d = self.domains[domain]
             return (
-                d["teams"]["small"] * 299
-                + d["teams"]["medium"] * 999
-                + d["teams"]["large"] * 2999
+                d["teams"]["small"] * 299 + d["teams"]["medium"] * 999 + d["teams"]["large"] * 2999
             )
         return 0
 
@@ -359,7 +359,7 @@ Week 4:
             self.add_verification(1000 * month)
 
             mrr = self.calculate_mrr()
-            print(f"Month {month:2d}: ${mrr:>10,.2f} MRR | ${mrr*12:>12,.2f} ARR")
+            print(f"Month {month:2d}: ${mrr:>10,.2f} MRR | ${mrr * 12:>12,.2f} ARR")
 
             if mrr >= 83333:
                 print(f"\n🎉 Reached $1M ARR in month {month}!")

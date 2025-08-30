@@ -44,16 +44,19 @@ class IntegratedLukhasDemo:
 
     async def chat_interaction(self, message: str) -> dict[str, Any]:
         """Send chat message and get response"""
-        async with aiohttp.ClientSession() as session, session.post(
-            f"{self.api_url}/chat",
-            json={
-                "message": message,
-                "session_id": self.session_id,
-                "user_id": self.user_id,
-                "enable_feedback": True,
-                "region": "global",
-            },
-        ) as response:
+        async with (
+            aiohttp.ClientSession() as session,
+            session.post(
+                f"{self.api_url}/chat",
+                json={
+                    "message": message,
+                    "session_id": self.session_id,
+                    "user_id": self.user_id,
+                    "enable_feedback": True,
+                    "region": "global",
+                },
+            ) as response,
+        ):
             data = await response.json()
             self.session_id = data["session_id"]
             self.action_history.append(data["action_id"])
@@ -63,15 +66,18 @@ class IntegratedLukhasDemo:
         self, action_id: str, feedback_type: str, content: dict[str, Any]
     ) -> dict[str, Any]:
         """Submit feedback for an action"""
-        async with aiohttp.ClientSession() as session, session.post(
-            f"{self.api_url}/feedback",
-            json={
-                "action_id": action_id,
-                "user_id": self.user_id,
-                "feedback_type": feedback_type,
-                "content": content,
-            },
-        ) as response:
+        async with (
+            aiohttp.ClientSession() as session,
+            session.post(
+                f"{self.api_url}/feedback",
+                json={
+                    "action_id": action_id,
+                    "user_id": self.user_id,
+                    "feedback_type": feedback_type,
+                    "content": content,
+                },
+            ) as response,
+        ):
             data = await response.json()
             self.feedback_history.append(
                 {
@@ -85,23 +91,27 @@ class IntegratedLukhasDemo:
 
     async def get_dashboard_data(self) -> dict[str, Any]:
         """Get dashboard data"""
-        async with aiohttp.ClientSession() as session, session.post(
-            f"{self.api_url}/dashboard",
-            json={
-                "user_id": self.user_id,
-                "session_id": self.session_id,
-                "time_range": "1h",
-                "include_feedback": True,
-                "include_decisions": True,
-            },
-        ) as response:
+        async with (
+            aiohttp.ClientSession() as session,
+            session.post(
+                f"{self.api_url}/dashboard",
+                json={
+                    "user_id": self.user_id,
+                    "session_id": self.session_id,
+                    "time_range": "1h",
+                    "include_feedback": True,
+                    "include_decisions": True,
+                },
+            ) as response,
+        ):
             return await response.json()
 
     async def get_feedback_influence(self) -> dict[str, Any]:
         """See how feedback has influenced decisions"""
-        async with aiohttp.ClientSession() as session, session.get(
-            f"{self.api_url}/feedback/influence/{self.user_id}"
-        ) as response:
+        async with (
+            aiohttp.ClientSession() as session,
+            session.get(f"{self.api_url}/feedback/influence/{self.user_id}") as response,
+        ):
             return await response.json()
 
     def display_response(self, response_data: dict[str, Any]):
@@ -210,9 +220,7 @@ class IntegratedLukhasDemo:
 
         # System health
         health = dashboard["system_health"]
-        print(
-            f"\n🏥 System Status: {health['operational'] and 'Operational' or 'Degraded'}"
-        )
+        print(f"\n🏥 System Status: {(health['operational'] and 'Operational') or 'Degraded'}")
 
         # Feedback summary
         if dashboard.get("feedback_summary"):
@@ -229,9 +237,7 @@ class IntegratedLukhasDemo:
         if dashboard.get("insights"):
             insights = dashboard["insights"]
             print("\n🎯 Decision Insights:")
-            print(
-                f"   Feedback-driven decisions: {insights['feedback_driven_decisions']}"
-            )
+            print(f"   Feedback-driven decisions: {insights['feedback_driven_decisions']}")
             print(f"   Average confidence: {insights['average_confidence']:.1%}")
 
             if insights.get("top_decision_types"):
@@ -293,9 +299,9 @@ class IntegratedLukhasDemo:
         print("\n🎬 Running through demo scenarios...\n")
 
         for i, scenario in enumerate(scenarios, 1):
-            print(f"\n{'='*50}")
+            print(f"\n{'=' * 50}")
             print(f"Scenario {i}: {scenario['name']}")
-            print(f"{'='*50}")
+            print(f"{'=' * 50}")
 
             # Send message
             print(f"\n💭 You: {scenario['message']}")
@@ -310,9 +316,7 @@ class IntegratedLukhasDemo:
 
                 # Show immediate impact
                 if gave_feedback and i > 2:  # After a few interactions
-                    print(
-                        "\n💡 Your feedback is being integrated into LUKHAS's understanding..."
-                    )
+                    print("\n💡 Your feedback is being integrated into LUKHAS's understanding...")
 
             # Small delay between scenarios
             await asyncio.sleep(1)
@@ -330,9 +334,7 @@ class IntegratedLukhasDemo:
             user_input = input("\n💭 You: ").strip()
 
             if user_input.lower() in ["quit", "exit", "bye"]:
-                print(
-                    "\n👋 Thank you for exploring LUKHAS! Your feedback helps me grow."
-                )
+                print("\n👋 Thank you for exploring LUKHAS! Your feedback helps me grow.")
                 await self.show_dashboard_summary()
                 await self.show_feedback_influence()
                 break
@@ -356,9 +358,10 @@ class IntegratedLukhasDemo:
 
             elif user_input.lower() == "export":
                 # Export session data
-                async with aiohttp.ClientSession() as session, session.get(
-                    f"{self.api_url}/sessions/{self.session_id}/export"
-                ) as response:
+                async with (
+                    aiohttp.ClientSession() as session,
+                    session.get(f"{self.api_url}/sessions/{self.session_id}/export") as response,
+                ):
                     export_data = await response.json()
 
                     filename = f"lukhas_session_{self.session_id}.json"
@@ -379,9 +382,7 @@ class IntegratedLukhasDemo:
 
                 # Offer feedback collection
                 if response.get("feedback_enabled"):
-                    collect = input(
-                        "\n💬 Would you like to provide feedback? (y/n): "
-                    ).strip()
+                    collect = input("\n💬 Would you like to provide feedback? (y/n): ").strip()
                     if collect.lower() in ["y", "yes"]:
                         await self.collect_user_feedback(response["action_id"])
 
@@ -399,9 +400,7 @@ class IntegratedLukhasDemo:
                 async with session.get(f"{self.api_url}/health") as response:
                     health = await response.json()
                     if health["status"] != "healthy":
-                        print(
-                            "⚠️  API health check failed. Some features may be unavailable."
-                        )
+                        print("⚠️  API health check failed. Some features may be unavailable.")
         except BaseException:
             print("❌ Cannot connect to API. Please ensure it's running on port 8080.")
             return

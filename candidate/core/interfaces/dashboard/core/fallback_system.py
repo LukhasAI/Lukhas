@@ -452,9 +452,7 @@ class DashboardFallbackSystem:
         """Activate fallback to specified level."""
 
         if target_level == self.current_state.current_level:
-            self.logger.info(
-                "Already at target fallback level", level=target_level.name
-            )
+            self.logger.info("Already at target fallback level", level=target_level.name)
             return True
 
         self.logger.warning(
@@ -608,34 +606,28 @@ class DashboardFallbackSystem:
                 # Update state
                 previous_level = self.current_state.current_level
                 self.current_state.current_level = target_level
-                self.current_state.available_features = self.level_configurations[
-                    target_level
-                ]["features"]
+                self.current_state.available_features = self.level_configurations[target_level][
+                    "features"
+                ]
                 self.current_state.recovery_attempts += 1
 
                 # Update metrics
                 if target_level == DashboardFallbackLevel.OPTIMAL:
                     self.metrics["successful_recoveries"] += 1
-                    duration = (
-                        datetime.now() - self.current_state.active_since
-                    ).total_seconds()
+                    duration = (datetime.now() - self.current_state.active_since).total_seconds()
                     self._update_average_fallback_duration(duration)
 
                 # Record successful event
                 event.to_level = target_level
                 event.success = True
-                event.duration_seconds = (
-                    datetime.now() - event.timestamp
-                ).total_seconds()
+                event.duration_seconds = (datetime.now() - event.timestamp).total_seconds()
 
                 # Notify handlers
                 for handler in self.recovery_success_handlers:
                     try:
                         await handler(previous_level, target_level, event)
                     except Exception as e:
-                        self.logger.error(
-                            "Recovery success handler error", error=str(e)
-                        )
+                        self.logger.error("Recovery success handler error", error=str(e))
 
                 self.logger.info(
                     "Fallback recovery successful",
@@ -728,10 +720,7 @@ class DashboardFallbackSystem:
                 # Evaluate fallback need
                 recommended_level = await self.evaluate_fallback_need(context)
 
-                if (
-                    recommended_level
-                    and recommended_level != self.current_state.current_level
-                ):
+                if recommended_level and recommended_level != self.current_state.current_level:
                     # Activate fallback
                     await self.activate_fallback(
                         recommended_level,
@@ -755,7 +744,6 @@ class DashboardFallbackSystem:
                     and self.current_state.next_recovery_attempt
                     and datetime.now() >= self.current_state.next_recovery_attempt
                 ):
-
                     await self.attempt_recovery()
 
                 await asyncio.sleep(30)  # Check every 30 seconds
@@ -830,9 +818,7 @@ class DashboardFallbackSystem:
             1 for event in self.fallback_history if event.event_type == "recovery"
         )
         successful_recoveries = sum(
-            1
-            for event in self.fallback_history
-            if event.event_type == "recovery" and event.success
+            1 for event in self.fallback_history if event.event_type == "recovery" and event.success
         )
 
         self.metrics["recovery_success_rate"] = (
@@ -902,9 +888,7 @@ class DashboardFallbackSystem:
     async def _schedule_recovery_attempt(self):
         """Schedule next recovery attempt."""
         # Implementation would schedule recovery based on current conditions
-        self.current_state.next_recovery_attempt = datetime.now() + timedelta(
-            seconds=60
-        )
+        self.current_state.next_recovery_attempt = datetime.now() + timedelta(seconds=60)
 
     async def _analyze_fallback_patterns(self):
         """Analyze fallback patterns for optimization."""

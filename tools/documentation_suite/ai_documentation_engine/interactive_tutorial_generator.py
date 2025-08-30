@@ -250,9 +250,7 @@ class TutorialGenerator:
             steps=steps,
             prerequisites=await self._generate_prerequisites(topic, difficulty_level),
             learning_objectives=learning_objectives,
-            assessment_criteria=await self._generate_assessment_criteria(
-                learning_objectives
-            ),
+            assessment_criteria=await self._generate_assessment_criteria(learning_objectives),
             metadata={
                 "created_at": datetime.now().isoformat(),
                 "topic": topic,
@@ -284,9 +282,7 @@ class TutorialGenerator:
         if learning_style == LearningStyle.HANDS_ON:
             # More interactive exercises and code examples
             step_structure = [
-                s
-                for s in step_structure
-                if s in ["code_example", "interactive_exercise"]
+                s for s in step_structure if s in ["code_example", "interactive_exercise"]
             ] * 2 + step_structure
         elif learning_style == LearningStyle.THEORETICAL:
             # More explanations and quizzes
@@ -323,9 +319,7 @@ class TutorialGenerator:
         learning_style = context.get("learning_style", LearningStyle.HANDS_ON)
 
         if topic.lower().startswith("compliance"):
-            content = await self._generate_compliance_explanation(
-                topic, difficulty_level
-            )
+            content = await self._generate_compliance_explanation(topic, difficulty_level)
         elif topic.lower().startswith("security"):
             content = await self._generate_security_explanation(topic, difficulty_level)
         elif topic.lower().startswith("api"):
@@ -357,17 +351,15 @@ class TutorialGenerator:
         """Generate code example step"""
 
         if topic.lower().startswith("compliance"):
-            code_example, expected_output = (
-                await self._generate_compliance_code_example(difficulty_level)
+            code_example, expected_output = await self._generate_compliance_code_example(
+                difficulty_level
             )
         elif topic.lower().startswith("security"):
             code_example, expected_output = await self._generate_security_code_example(
                 difficulty_level
             )
         elif topic.lower().startswith("api"):
-            code_example, expected_output = await self._generate_api_code_example(
-                difficulty_level
-            )
+            code_example, expected_output = await self._generate_api_code_example(difficulty_level)
         else:
             code_example, expected_output = await self._generate_general_code_example(
                 topic, difficulty_level
@@ -448,9 +440,7 @@ class TutorialGenerator:
         """Generate checkpoint step"""
 
         previous_steps = context.get("previous_steps", [])
-        checkpoint_content = await self._generate_checkpoint_content(
-            topic, previous_steps
-        )
+        checkpoint_content = await self._generate_checkpoint_content(topic, previous_steps)
 
         step = TutorialStep(
             step_id=f"step_{step_number}_checkpoint",
@@ -565,9 +555,7 @@ Modern AI systems can have significant impact on people's lives, so ensuring the
 - Integration with existing cybersecurity frameworks
 """
 
-    async def _generate_api_explanation(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_api_explanation(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate API-specific explanation"""
 
         return f"""
@@ -773,10 +761,10 @@ Compliance Score: 87
 
         code = f"""
 # Basic {topic} example
-from system ort {topic.title().replace(' ', '')}
+from system ort {topic.title().replace(" ", "")}
 
 # Initialize component
-component = {topic.title().replace(' ', '')}()
+component = {topic.title().replace(" ", "")}()
 
 # Basic usage
 result = component.process()
@@ -1030,9 +1018,7 @@ assert isinstance(tester, PromptInjectionTester)
             ],
         }
 
-    async def _generate_api_exercise(
-        self, difficulty_level: DifficultyLevel
-    ) -> dict[str, Any]:
+    async def _generate_api_exercise(self, difficulty_level: DifficultyLevel) -> dict[str, Any]:
         """Generate API exercise"""
 
         return {
@@ -1110,7 +1096,7 @@ print(f"Result: {result}")
             "expected_output": f"{topic} processing completed successfully",
             "validation_code": "assert result is not None",
             "hints": [
-                f"Import the {topic} module from system" f"Initialize {topic}() class",
+                f"Import the {topic} module from systemInitialize {topic}() class",
                 "Add basic configuration options",
                 "Call the process() method",
             ],
@@ -1155,9 +1141,7 @@ print(f"Result: {result}")
 
         return objectives
 
-    async def _generate_tutorial_description(
-        self, topic: str, tutorial_type: TutorialType
-    ) -> str:
+    async def _generate_tutorial_description(self, topic: str, tutorial_type: TutorialType) -> str:
         """Generate tutorial description"""
 
         base_description = f"This interactive tutorial will guide you through {topic} concepts and practical implementation."
@@ -1181,9 +1165,7 @@ print(f"Result: {result}")
         prerequisites = ["Basic understanding of Python programming"]
 
         if difficulty_level in [DifficultyLevel.INTERMEDIATE, DifficultyLevel.ADVANCED]:
-            prerequisites.extend(
-                ["Familiarity with AI/ML concepts", "Experience with REST APIs"]
-            )
+            prerequisites.extend(["Familiarity with AI/ML concepts", "Experience with REST APIs"])
 
         if difficulty_level == DifficultyLevel.ADVANCED:
             prerequisites.extend(
@@ -1195,9 +1177,7 @@ print(f"Result: {result}")
 
         return prerequisites
 
-    async def _generate_assessment_criteria(
-        self, learning_objectives: list[str]
-    ) -> dict[str, Any]:
+    async def _generate_assessment_criteria(self, learning_objectives: list[str]) -> dict[str, Any]:
         """Generate assessment criteria"""
 
         return {
@@ -1209,9 +1189,7 @@ print(f"Result: {result}")
             },
         }
 
-    async def _generate_quiz_content(
-        self, topic: str, difficulty_level: DifficultyLevel
-    ) -> str:
+    async def _generate_quiz_content(self, topic: str, difficulty_level: DifficultyLevel) -> str:
         """Generate quiz content"""
 
         return f"""
@@ -1310,11 +1288,11 @@ Here are some common issues you might encounter and how to resolve them:
 
 # Export main tutorial components
 __all__ = [
-    "TutorialGenerator",
-    "InteractiveTutorial",
-    "TutorialStep",
-    "TutorialProgress",
-    "TutorialType",
-    "LearningStyle",
     "DifficultyLevel",
+    "InteractiveTutorial",
+    "LearningStyle",
+    "TutorialGenerator",
+    "TutorialProgress",
+    "TutorialStep",
+    "TutorialType",
 ]

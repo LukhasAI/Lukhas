@@ -131,16 +131,12 @@ class APIHandler:
             raise ValueError(f"User {user_id} not found")
 
         # Calculate metrics
-        user_sessions = [
-            s for s in self.active_sessions.values() if s["user_id"] == user_id
-        ]
+        user_sessions = [s for s in self.active_sessions.values() if s["user_id"] == user_id]
 
         return {
             "user_id": user_id,
             "total_sessions": len(user_sessions),
-            "active_sessions": len(
-                [s for s in user_sessions if s["status"] == "initiated"]
-            ),
+            "active_sessions": len([s for s in user_sessions if s["status"] == "initiated"]),
             "dream_preferences": self.registered_users[user_id]["preferences"],
             "last_activity": datetime.now().isoformat(),
             "performance_metrics": {
@@ -160,9 +156,7 @@ class APIHandler:
             "performance": {
                 "total_requests": self.system_metrics["total_requests"],
                 "active_sessions": self.system_metrics["active_sessions"],
-                "uptime_seconds": (
-                    datetime.now() - self.system_metrics["uptime"]
-                ).total_seconds(),
+                "uptime_seconds": (datetime.now() - self.system_metrics["uptime"]).total_seconds(),
                 "memory_usage": "78%",
                 "cpu_usage": "45%",
             },
@@ -185,9 +179,7 @@ class APIHandler:
         session = self.active_sessions[session_id]
 
         # Simulate progress
-        elapsed = (
-            datetime.now() - datetime.fromisoformat(session["started_at"])
-        ).total_seconds()
+        elapsed = (datetime.now() - datetime.fromisoformat(session["started_at"])).total_seconds()
         progress = min(elapsed / (session["duration"] * 60), 1.0)
         session["progress"] = progress
 

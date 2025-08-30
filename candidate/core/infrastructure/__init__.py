@@ -42,8 +42,8 @@ except ImportError as e:
 __all__ = [
     "BaseNode",
     "NodeCollection",
-    "NodeRegistry",
     "NodeManager",
+    "NodeRegistry",
 ]
 
 # Filter out None values from __all__ if imports failed

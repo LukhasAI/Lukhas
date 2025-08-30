@@ -80,9 +80,7 @@ class NeuroSymbolicEngine:
         self.neural_weights = {}
         self.context_memory = []
 
-    async def process_intent(
-        self, input_data: str, context: UserContext
-    ) -> dict[str, Any]:
+    async def process_intent(self, input_data: str, context: UserContext) -> dict[str, Any]:
         """Process user intent with neural-symbolic reasoning"""
         # Extract symbolic representation
         symbols = self._extract_symbols(input_data)
@@ -111,9 +109,7 @@ class NeuroSymbolicEngine:
                 symbols.append(f"ACTION_{keyword.upper()}")
         return symbols
 
-    async def _neural_process(
-        self, symbols: list[str], context: UserContext
-    ) -> dict[str, Any]:
+    async def _neural_process(self, symbols: list[str], context: UserContext) -> dict[str, Any]:
         """Neural processing of symbolic input"""
         await asyncio.sleep(0.01)  # Simulate processing
 
@@ -172,9 +168,7 @@ class CognitiveDNA:
 
     def _estimate_fatigue(self, context: UserContext) -> float:
         """Estimate user fatigue"""
-        session_duration = (
-            datetime.now(timezone.utc) - context.session_start
-        ).seconds / 3600
+        session_duration = (datetime.now(timezone.utc) - context.session_start).seconds / 3600
         fatigue = min(1.0, session_duration / 4.0)  # Max fatigue after 4 hours
         return fatigue
 
@@ -329,9 +323,7 @@ class AdaptiveUXEngine:
             },
             "visual_adjustments": {
                 "contrast": ("high" if cognitive_state["fatigue"] > 0.5 else "normal"),
-                "font_size": (
-                    "large" if cognitive_state["fatigue"] > 0.6 else "medium"
-                ),
+                "font_size": ("large" if cognitive_state["fatigue"] > 0.6 else "medium"),
                 "spacing": ("relaxed" if cognitive_state["load"] > 0.6 else "normal"),
             },
         }
@@ -386,9 +378,7 @@ class AdaptiveUXEngine:
 
         return json.dumps(content, indent=2)
 
-    async def export_interface(
-        self, response: AdaptiveResponse, format: ExportFormat
-    ) -> str:
+    async def export_interface(self, response: AdaptiveResponse, format: ExportFormat) -> str:
         """Export interface in specified format"""
 
         if format == ExportFormat.JSON:
@@ -414,8 +404,8 @@ class AdaptiveUXEngine:
 ```
 
 ## Layout
-- Components: {response.layout.get('components')}
-- Complexity: {response.layout.get('complexity')}
+- Components: {response.layout.get("components")}
+- Complexity: {response.layout.get("complexity")}
 
 ## Suggestions
 {chr(10).join(f"- {s}" for s in response.suggestions)}
@@ -446,7 +436,7 @@ async def demo():
     ]
 
     for user_id, input_text, _expected_mode in scenarios:
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"User: {user_id}")
         print(f"Input: {input_text}")
 

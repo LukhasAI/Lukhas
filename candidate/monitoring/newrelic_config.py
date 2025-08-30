@@ -16,7 +16,6 @@ NEWRELIC_CONFIG = {
     "app_name": "LUKHAS AI Production",
     "license_key": os.getenv("NEWRELIC_LICENSE_KEY", ""),
     "environment": "production",
-
     # Application Configuration
     "application_logging": {
         "enabled": True,
@@ -29,9 +28,8 @@ NEWRELIC_CONFIG = {
         },
         "local_decorating": {
             "enabled": True,
-        }
+        },
     },
-
     # Transaction Configuration
     "transaction_tracer": {
         "enabled": True,
@@ -41,35 +39,26 @@ NEWRELIC_CONFIG = {
         "explain_enabled": True,
         "explain_threshold": 0.5,
     },
-
     # Error Collector
     "error_collector": {
         "enabled": True,
         "capture_source": True,
         "ignore_errors": ["404", "401"],
     },
-
     # Browser Monitoring (for future web interface)
     "browser_monitoring": {
         "auto_instrument": True,
     },
-
     # Distributed Tracing
     "distributed_tracing": {
         "enabled": True,
     },
-
     # Custom Attributes for LUKHAS AI
     "attributes": {
-        "include": [
-            "request.*",
-            "response.*",
-            "lukhas.*",
-            "consciousness.*",
-            "trinity.*"
-        ]
-    }
+        "include": ["request.*", "response.*", "lukhas.*", "consciousness.*", "trinity.*"]
+    },
 }
+
 
 class LUKHASNewRelicMonitoring:
     """
@@ -115,8 +104,14 @@ class LUKHASNewRelicMonitoring:
             self.logger.error(f"❌ NewRelic initialization failed: {e}")
             self.enabled = False
 
-    def track_consciousness_interaction(self, session_id: str, message: str, response: str,
-                                      consciousness_level: float, model_used: str):
+    def track_consciousness_interaction(
+        self,
+        session_id: str,
+        message: str,
+        response: str,
+        consciousness_level: float,
+        model_used: str,
+    ):
         """Track consciousness interface interactions"""
         if not self.enabled:
             return
@@ -125,14 +120,17 @@ class LUKHASNewRelicMonitoring:
             import newrelic.agent
 
             # Record custom event
-            newrelic.agent.record_custom_event("LUKHASConsciousnessInteraction", {
-                "session_id": session_id,
-                "message_length": len(message),
-                "response_length": len(response),
-                "consciousness_level": consciousness_level,
-                "model_used": model_used,
-                "timestamp": int(time.time())
-            })
+            newrelic.agent.record_custom_event(
+                "LUKHASConsciousnessInteraction",
+                {
+                    "session_id": session_id,
+                    "message_length": len(message),
+                    "response_length": len(response),
+                    "consciousness_level": consciousness_level,
+                    "model_used": model_used,
+                    "timestamp": int(time.time()),
+                },
+            )
 
             # Add transaction attributes
             newrelic.agent.add_custom_attribute("consciousness.level", consciousness_level)
@@ -142,8 +140,14 @@ class LUKHASNewRelicMonitoring:
         except Exception as e:
             self.logger.error(f"Failed to track consciousness interaction: {e}")
 
-    def track_dream_generation(self, prompt: str, style: str, dream_length: int,
-                             consciousness_score: float, generation_time_ms: int):
+    def track_dream_generation(
+        self,
+        prompt: str,
+        style: str,
+        dream_length: int,
+        consciousness_score: float,
+        generation_time_ms: int,
+    ):
         """Track dream generation metrics"""
         if not self.enabled:
             return
@@ -152,24 +156,32 @@ class LUKHASNewRelicMonitoring:
             import newrelic.agent
 
             # Record custom event
-            newrelic.agent.record_custom_event("LUKHASDreamGeneration", {
-                "prompt_length": len(prompt),
-                "style": style,
-                "dream_length": dream_length,
-                "consciousness_score": consciousness_score,
-                "generation_time_ms": generation_time_ms,
-                "timestamp": int(time.time())
-            })
+            newrelic.agent.record_custom_event(
+                "LUKHASDreamGeneration",
+                {
+                    "prompt_length": len(prompt),
+                    "style": style,
+                    "dream_length": dream_length,
+                    "consciousness_score": consciousness_score,
+                    "generation_time_ms": generation_time_ms,
+                    "timestamp": int(time.time()),
+                },
+            )
 
             # Add custom metrics
-            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms)
-            newrelic.agent.record_custom_metric("Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score)
+            newrelic.agent.record_custom_metric(
+                "Custom/LUKHAS/Dreams/GenerationTime", generation_time_ms
+            )
+            newrelic.agent.record_custom_metric(
+                "Custom/LUKHAS/Dreams/ConsciousnessScore", consciousness_score
+            )
 
         except Exception as e:
             self.logger.error(f"Failed to track dream generation: {e}")
 
-    def track_trinity_framework_health(self, identity_health: float, consciousness_health: float,
-                                     guardian_health: float):
+    def track_trinity_framework_health(
+        self, identity_health: float, consciousness_health: float, guardian_health: float
+    ):
         """Track Trinity Framework component health"""
         if not self.enabled:
             return
@@ -179,26 +191,37 @@ class LUKHASNewRelicMonitoring:
 
             # Record Trinity Framework metrics
             newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Identity", identity_health)
-            newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Consciousness", consciousness_health)
+            newrelic.agent.record_custom_metric(
+                "Custom/LUKHAS/Trinity/Consciousness", consciousness_health
+            )
             newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Guardian", guardian_health)
 
             overall_health = (identity_health + consciousness_health + guardian_health) / 3
             newrelic.agent.record_custom_metric("Custom/LUKHAS/Trinity/Overall", overall_health)
 
             # Record health event
-            newrelic.agent.record_custom_event("LUKHASTrinityHealth", {
-                "identity_health": identity_health,
-                "consciousness_health": consciousness_health,
-                "guardian_health": guardian_health,
-                "overall_health": overall_health,
-                "timestamp": int(time.time())
-            })
+            newrelic.agent.record_custom_event(
+                "LUKHASTrinityHealth",
+                {
+                    "identity_health": identity_health,
+                    "consciousness_health": consciousness_health,
+                    "guardian_health": guardian_health,
+                    "overall_health": overall_health,
+                    "timestamp": int(time.time()),
+                },
+            )
 
         except Exception as e:
             self.logger.error(f"Failed to track Trinity Framework health: {e}")
 
-    def track_api_performance(self, endpoint: str, method: str, status_code: int,
-                            response_time_ms: int, user_agent: str = ""):
+    def track_api_performance(
+        self,
+        endpoint: str,
+        method: str,
+        status_code: int,
+        response_time_ms: int,
+        user_agent: str = "",
+    ):
         """Track API endpoint performance"""
         if not self.enabled:
             return
@@ -218,8 +241,10 @@ class LUKHASNewRelicMonitoring:
         except Exception as e:
             self.logger.error(f"Failed to track API performance: {e}")
 
+
 # Global monitoring instance
 newrelic_monitor: Optional[LUKHASNewRelicMonitoring] = None
+
 
 def initialize_monitoring(license_key: Optional[str] = None) -> LUKHASNewRelicMonitoring:
     """Initialize global NewRelic monitoring"""
@@ -227,39 +252,53 @@ def initialize_monitoring(license_key: Optional[str] = None) -> LUKHASNewRelicMo
     newrelic_monitor = LUKHASNewRelicMonitoring(license_key)
     return newrelic_monitor
 
+
 def get_monitor() -> Optional[LUKHASNewRelicMonitoring]:
     """Get the global monitoring instance"""
     return newrelic_monitor
 
+
 # Custom decorators for easy monitoring
 def monitor_consciousness_endpoint(func):
     """Decorator for consciousness endpoints"""
+
     def wrapper(*args, **kwargs):
         if newrelic_monitor and newrelic_monitor.enabled:
             import newrelic.agent
+
             with newrelic.agent.FunctionTrace(name=f"consciousness.{func.__name__}"):
                 return func(*args, **kwargs)
         return func(*args, **kwargs)
+
     return wrapper
+
 
 def monitor_dream_endpoint(func):
     """Decorator for dream generation endpoints"""
+
     def wrapper(*args, **kwargs):
         if newrelic_monitor and newrelic_monitor.enabled:
             import newrelic.agent
+
             with newrelic.agent.FunctionTrace(name=f"dreams.{func.__name__}"):
                 return func(*args, **kwargs)
         return func(*args, **kwargs)
+
     return wrapper
+
 
 def monitor_trinity_component(component_name: str):
     """Decorator for Trinity Framework components"""
+
     def decorator(func):
         def wrapper(*args, **kwargs):
             if newrelic_monitor and newrelic_monitor.enabled:
                 import newrelic.agent
+
                 with newrelic.agent.FunctionTrace(name=f"trinity.{component_name}.{func.__name__}"):
                     return func(*args, **kwargs)
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator

@@ -52,12 +52,14 @@ class ReceptivityWindowCalculator:
             start_time = now + datetime.timedelta(minutes=i * 15)
             end_time = start_time + datetime.timedelta(minutes=15)
 
-            receptivity_type = random.choice([
-                "creatively_open",
-                "decision_ready",
-                "socially_influenced",
-                "vulnerability_protected", # An ethical boundary, not an opportunity
-            ])
+            receptivity_type = random.choice(
+                [
+                    "creatively_open",
+                    "decision_ready",
+                    "socially_influenced",
+                    "vulnerability_protected",  # An ethical boundary, not an opportunity
+                ]
+            )
 
             # Ensure vulnerability_protected windows are not marked as opportunities
             if receptivity_type == "vulnerability_protected":

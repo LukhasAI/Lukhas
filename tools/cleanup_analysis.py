@@ -49,22 +49,15 @@ def analyze_cleanup_candidates():
             categories["examples"].append(file)
         elif file.startswith("api/") and "_api.py" in file:
             categories["duplicate_apis"].append(file)
-        elif "bio/" in file and (
-            "variant" in file or "legacy" in file or "old" in file
-        ):
+        elif "bio/" in file and ("variant" in file or "legacy" in file or "old" in file):
             categories["bio_variants"].append(file)
-        elif "memory/" in file and (
-            "variant" in file or "legacy" in file or "old" in file
-        ):
+        elif "memory/" in file and ("variant" in file or "legacy" in file or "old" in file):
             categories["memory_variants"].append(file)
         elif "bridge/" in file and ("legacy" in file or "api_legacy" in file):
             categories["bridge_legacy"].append(file)
         elif "consciousness/" in file and ("old" in file or "legacy" in file):
             categories["consciousness_old"].append(file)
-        elif any(
-            keep in file
-            for keep in ["README", "INFO", "MANIFEST", "LICENSE", "__pycache__"]
-        ):
+        elif any(keep in file for keep in ["README", "INFO", "MANIFEST", "LICENSE", "__pycache__"]):
             continue  # Skip these
         elif file.endswith("__init__.py"):
             continue  # Keep __init__ files
@@ -109,9 +102,7 @@ echo "📦 Archiving agent workspaces..."
 mkdir -p "$ARCHIVE_DIR/agent_workspaces"
 """
         for file in categories["agent_workspaces"][:20]:  # First 20
-            script += (
-                f'mv "{file}" "$ARCHIVE_DIR/agent_workspaces/" 2>/dev/null || true\n'
-            )
+            script += f'mv "{file}" "$ARCHIVE_DIR/agent_workspaces/" 2>/dev/null || true\n'
 
     # Archive NIAS theory files
     if categories["nias_theory"]:
@@ -131,9 +122,7 @@ echo "🔄 Archiving duplicate APIs..."
 mkdir -p "$ARCHIVE_DIR/duplicate_apis"
 """
         for file in categories["duplicate_apis"][:10]:
-            script += (
-                f'mv "{file}" "$ARCHIVE_DIR/duplicate_apis/" 2>/dev/null || true\n'
-            )
+            script += f'mv "{file}" "$ARCHIVE_DIR/duplicate_apis/" 2>/dev/null || true\n'
 
     # Archive old variants
     if categories["archive_candidates"]:
@@ -143,9 +132,7 @@ echo "📚 Archiving old implementations..."
 mkdir -p "$ARCHIVE_DIR/old_implementations"
 """
         for file in categories["archive_candidates"][:30]:
-            script += (
-                f'mv "{file}" "$ARCHIVE_DIR/old_implementations/" 2>/dev/null || true\n'
-            )
+            script += f'mv "{file}" "$ARCHIVE_DIR/old_implementations/" 2>/dev/null || true\n'
 
     script += """
 echo "✅ Cleanup complete!"

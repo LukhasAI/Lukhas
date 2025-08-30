@@ -274,9 +274,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             await self._stream_to_consumers(task["tracking_id"], features, sentiment)
 
             # Track latency
-            latency_ms = (
-                datetime.now(timezone.utc) - start_time
-            ).total_seconds() * 1000
+            latency_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             self.metrics.processing_latency_ms = latency_ms
 
         except Exception as e:
@@ -373,9 +371,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
 
         return features
 
-    async def _fast_sentiment_analysis(
-        self, feedback: FeedbackItem
-    ) -> dict[str, float]:
+    async def _fast_sentiment_analysis(self, feedback: FeedbackItem) -> dict[str, float]:
         """Fast sentiment analysis for real-time processing"""
         # In production, use optimized ML model
         if feedback.feedback_type == FeedbackType.RATING:
@@ -427,9 +423,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
 
         # Calculate feedback per second
         if len(self.metrics_window) > 1:
-            time_span = (
-                self.metrics_window[-1] - self.metrics_window[0]
-            ).total_seconds()
+            time_span = (self.metrics_window[-1] - self.metrics_window[0]).total_seconds()
             if time_span > 0:
                 self.metrics.feedback_per_second = len(self.metrics_window) / time_span
 
@@ -505,9 +499,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "detected_issues": [],
         }
 
-    async def _process_biometric_feedback(
-        self, feedback: FeedbackItem
-    ) -> dict[str, Any]:
+    async def _process_biometric_feedback(self, feedback: FeedbackItem) -> dict[str, Any]:
         """Process biometric feedback (with consent)"""
         # Only with explicit consent
         return {
@@ -516,9 +508,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "metrics": {"engagement_level": "high", "stress_indicators": "low"},
         }
 
-    async def _process_behavioral_feedback(
-        self, feedback: FeedbackItem
-    ) -> dict[str, Any]:
+    async def _process_behavioral_feedback(self, feedback: FeedbackItem) -> dict[str, Any]:
         """Process behavioral feedback (usage patterns)"""
         return {
             "type": "behavioral",
@@ -547,9 +537,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
         """Process generic feedback"""
         return {"type": feedback.feedback_type.value, "content": feedback.content}
 
-    async def _store_batch_results(
-        self, batch_id: str, results: list[dict[str, Any]]
-    ) -> None:
+    async def _store_batch_results(self, batch_id: str, results: list[dict[str, Any]]) -> None:
         """Store batch processing results"""
         # In production, store in distributed storage
         if not hasattr(self, "_batch_results"):
@@ -601,9 +589,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
 
     # Commercial Features
 
-    async def create_enterprise_config(
-        self, enterprise_id: str, config: dict[str, Any]
-    ) -> None:
+    async def create_enterprise_config(self, enterprise_id: str, config: dict[str, Any]) -> None:
         """Create custom configuration for enterprise customers"""
         self.enterprise_configs[enterprise_id] = {
             "created_at": datetime.now(timezone.utc),

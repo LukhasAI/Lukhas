@@ -86,9 +86,7 @@ class ΛBotAutonomousWorkflowFixer:
             "pre_commit_failure": self._fix_workflow_failure,
         }
 
-    def analyze_notification_patterns(
-        self, notifications_text: str
-    ) -> list[dict[str, Any]]:
+    def analyze_notification_patterns(self, notifications_text: str) -> list[dict[str, Any]]:
         """Analyze GitHub notifications to identify fixable issues"""
 
         issues = []
@@ -147,9 +145,7 @@ class ΛBotAutonomousWorkflowFixer:
         # Sort by priority
         issues.sort(key=lambda x: x.get("priority", 0), reverse=True)
 
-        self.logger.info(
-            f"🔍 Analyzed notifications: found {len(issues)} fixable issues"
-        )
+        self.logger.info(f"🔍 Analyzed notifications: found {len(issues)} fixable issues")
         for issue in issues[:5]:  # Log top 5
             self.logger.info(
                 f"   • {issue['repository']} - {issue['workflow_name']} (priority: {issue['priority']})"
@@ -181,9 +177,7 @@ class ΛBotAutonomousWorkflowFixer:
             }
 
         # Filter high-priority issues
-        high_priority_issues = [i for i in issues if i.get("priority", 0) >= 85][
-            :max_fixes
-        ]
+        high_priority_issues = [i for i in issues if i.get("priority", 0) >= 85][:max_fixes]
 
         self.logger.info(
             f"🎯 Targeting {len(high_priority_issues)} high-priority issues for autonomous fixes"
@@ -367,9 +361,7 @@ class ΛBotAutonomousWorkflowFixer:
                     repository,
                     branch_name,
                     f"🤖 Fix {workflow_name} workflow failures",
-                    self._generate_workflow_fix_description(
-                        workflow_name, fixes_applied
-                    ),
+                    self._generate_workflow_fix_description(workflow_name, fixes_applied),
                     fixes_applied,
                 )
 
@@ -484,9 +476,7 @@ class ΛBotAutonomousWorkflowFixer:
 
         return fixes
 
-    def _fix_dependency_vulnerability(
-        self, issue: dict[str, Any]
-    ) -> AutonomousFixResult:
+    def _fix_dependency_vulnerability(self, issue: dict[str, Any]) -> AutonomousFixResult:
         """Fix dependency vulnerabilities"""
         # This would be similar to the vulnerability fixing logic
         # but focused on the specific dependencies mentioned in notifications
@@ -495,9 +485,7 @@ class ΛBotAutonomousWorkflowFixer:
 
     def _fix_generic_issue(self, issue: dict[str, Any]) -> AutonomousFixResult:
         """Generic fix for unknown issue types"""
-        self.logger.info(
-            f"🔧 Applying generic fix for {issue.get('type', 'unknown')} issue"
-        )
+        self.logger.info(f"🔧 Applying generic fix for {issue.get('type', 'unknown')} issue")
 
         # Apply basic fixes
         return self._fix_workflow_failure(issue)
@@ -542,7 +530,7 @@ class ΛBotAutonomousWorkflowFixer:
 - **Fix Method**: Autonomous Analysis & Repair
 
 ### Fixes Applied
-{''.join(f'- {fix}' + chr(10) for fix in fixes_applied)}
+{"".join(f"- {fix}" + chr(10) for fix in fixes_applied)}
 
 ### Validation
 - ✅ Common workflow patterns analyzed
@@ -608,9 +596,7 @@ def main():
         fixer = ΛBotAutonomousWorkflowFixer()
 
         # Execute autonomous fixes
-        results = fixer.autonomous_fix_github_notifications(
-            sample_notifications, max_fixes=10
-        )
+        results = fixer.autonomous_fix_github_notifications(sample_notifications, max_fixes=10)
 
         # Display results
         print("🎉 AUTONOMOUS FIXING COMPLETE!")

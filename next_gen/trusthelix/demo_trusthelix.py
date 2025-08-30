@@ -10,9 +10,7 @@ from core.consent_path import ConsentPathLogger
 from core.drift_tracker import DriftTracker
 from core.mutation_tree import SymbolicMutationTree
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(message)s", datefmt="%H:%M:%S"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s", datefmt="%H:%M:%S")
 
 
 async def demo_trusthelix():
@@ -48,7 +46,7 @@ async def demo_trusthelix():
     current_glyphs = initial_glyphs.copy()
 
     for i, (action, outcome, description) in enumerate(actions):
-        print(f"\n🎬 Action {i+1}: {action}")
+        print(f"\n🎬 Action {i + 1}: {action}")
         print(f"   Description: {description}")
         print(f"   Current glyphs: {' '.join(current_glyphs)}")
 

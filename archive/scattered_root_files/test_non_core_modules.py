@@ -119,9 +119,7 @@ class NonCoreModuleTester:
                     "status": "import_error",
                     "error": str(e),
                 }
-                self.log_warning(
-                    f"Consciousness module not available: {module_name} ({e})"
-                )
+                self.log_warning(f"Consciousness module not available: {module_name} ({e})")
             except Exception as e:
                 self.results["consciousness"][module_name] = {
                     "status": "error",
@@ -193,9 +191,7 @@ class NonCoreModuleTester:
                     "status": "import_error",
                     "error": str(e),
                 }
-                self.log_warning(
-                    f"Bio-symbolic module not available: {module_name} ({e})"
-                )
+                self.log_warning(f"Bio-symbolic module not available: {module_name} ({e})")
             except Exception as e:
                 self.results["bio_symbolic"][module_name] = {
                     "status": "error",
@@ -273,9 +269,7 @@ class NonCoreModuleTester:
                     "status": "import_error",
                     "error": str(e),
                 }
-                self.log_warning(
-                    f"Candidate core module not available: {module_name} ({e})"
-                )
+                self.log_warning(f"Candidate core module not available: {module_name} ({e})")
             except Exception as e:
                 self.results["candidate_modules"][module_name] = {
                     "status": "error",
@@ -301,9 +295,7 @@ class NonCoreModuleTester:
             full_path = self.base_path / dir_path
             if full_path.exists():
                 file_count = len(list(full_path.rglob("*.py")))
-                self.log_success(
-                    f"Directory exists: {dir_path} ({file_count} Python files)"
-                )
+                self.log_success(f"Directory exists: {dir_path} ({file_count} Python files)")
             else:
                 self.log_warning(f"Directory not found: {dir_path}")
 
@@ -353,9 +345,7 @@ class NonCoreModuleTester:
                 continue
 
             category_total = len(modules)
-            category_success = len(
-                [m for m in modules.values() if m.get("status") == "success"]
-            )
+            category_success = len([m for m in modules.values() if m.get("status") == "success"])
             total_modules += category_total
             successful_modules += category_success
 
@@ -369,9 +359,7 @@ class NonCoreModuleTester:
         overall_success_rate = (
             (successful_modules / total_modules * 100) if total_modules > 0 else 0
         )
-        print(
-            f"🎯 Overall: {successful_modules}/{total_modules} ({overall_success_rate:.1f}%)"
-        )
+        print(f"🎯 Overall: {successful_modules}/{total_modules} ({overall_success_rate:.1f}%)")
         print(f"⚠️  Warnings: {len(self.results['warnings'])}")
         print(f"❌ Errors: {len(self.results['errors'])}")
         print(f"⏱️  Duration: {duration:.2f}s")

@@ -175,9 +175,7 @@ class SecurityScanner:
         """Compile regex patterns for secret detection"""
         patterns = {
             SecretType.API_KEY: [
-                re.compile(
-                    r'["\']?api[_-]?key["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I
-                ),
+                re.compile(r'["\']?api[_-]?key["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I),
                 re.compile(r'["\']?apikey["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I),
                 re.compile(r"sk-[a-zA-Z0-9]{48}"),  # OpenAI
                 re.compile(r"AIza[0-9A-Za-z\\-_]{35}"),  # Google
@@ -189,17 +187,13 @@ class SecurityScanner:
             ],
             SecretType.TOKEN: [
                 re.compile(r'["\']?token["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I),
-                re.compile(
-                    r'["\']?auth[_-]?token["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I
-                ),
+                re.compile(r'["\']?auth[_-]?token["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I),
                 re.compile(r"ghp_[a-zA-Z0-9]{36}"),  # GitHub personal token
                 re.compile(r"gho_[a-zA-Z0-9]{36}"),  # GitHub OAuth token
             ],
             SecretType.PRIVATE_KEY: [
                 re.compile(r"-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"),
-                re.compile(
-                    r'["\']?private[_-]?key["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I
-                ),
+                re.compile(r'["\']?private[_-]?key["\']?\s*[:=]\s*["\']([^"\']+)["\']', re.I),
             ],
             SecretType.CONNECTION_STRING: [
                 re.compile(r"mongodb(\+srv)?://[^\s]+"),
@@ -210,9 +204,7 @@ class SecurityScanner:
         }
 
         # Add custom patterns from config
-        custom_patterns = self.config.get("secret_scanning", {}).get(
-            "custom_patterns", []
-        )
+        custom_patterns = self.config.get("secret_scanning", {}).get("custom_patterns", [])
         for pattern_config in custom_patterns:
             pattern_type = SecretType(pattern_config["type"])
             pattern = re.compile(
@@ -320,9 +312,7 @@ class SecurityScanner:
             # Deduplicate findings
             unique_vulns = self._deduplicate_vulnerabilities(vulnerabilities)
 
-            logger.info(
-                "python_scan_completed", vulnerabilities_found=len(unique_vulns)
-            )
+            logger.info("python_scan_completed", vulnerabilities_found=len(unique_vulns))
 
             return unique_vulns
 
@@ -341,10 +331,7 @@ class SecurityScanner:
 
             for file_path in path.rglob("*"):
                 # Skip excluded paths
-                if any(
-                    exclude in str(file_path)
-                    for exclude in self.config["exclude_paths"]
-                ):
+                if any(exclude in str(file_path) for exclude in self.config["exclude_paths"]):
                     continue
 
                 # Skip binary files
@@ -393,9 +380,7 @@ class SecurityScanner:
 
         return secrets
 
-    def _calculate_secret_confidence(
-        self, match: str, line: str, file_path: Path
-    ) -> float:
+    def _calculate_secret_confidence(self, match: str, line: str, file_path: Path) -> float:
         """Calculate confidence that a match is actually a secret"""
         confidence = 0.8  # Base confidence
 
@@ -474,24 +459,16 @@ class SecurityScanner:
         js_packages = await self._collect_javascript_packages()
         sbom["components"].extend(js_packages)
 
-        logger.info(
-            "sbom_generated", components=len(sbom["components"]), format=sbom["format"]
-        )
+        logger.info("sbom_generated", components=len(sbom["components"]), format=sbom["format"])
 
         return {"sbom": sbom}
 
-    def _generate_summary(
-        self, results: dict[str, Any], duration: float
-    ) -> dict[str, Any]:
+    def _generate_summary(self, results: dict[str, Any], duration: float) -> dict[str, Any]:
         """Generate scan summary with risk assessment"""
         critical_vulns = [
-            v
-            for v in results["vulnerabilities"]
-            if v.severity == SeverityLevel.CRITICAL
+            v for v in results["vulnerabilities"] if v.severity == SeverityLevel.CRITICAL
         ]
-        high_vulns = [
-            v for v in results["vulnerabilities"] if v.severity == SeverityLevel.HIGH
-        ]
+        high_vulns = [v for v in results["vulnerabilities"] if v.severity == SeverityLevel.HIGH]
 
         total_risk_score = sum(v.risk_score() for v in results["vulnerabilities"])
 
@@ -500,20 +477,15 @@ class SecurityScanner:
             "critical_vulnerabilities": len(critical_vulns),
             "high_vulnerabilities": len(high_vulns),
             "secrets_found": len(results["secrets"]),
-            "unique_licenses": len(
-                {lic["name"] for lic in results.get("licenses", [])}
-            ),
+            "unique_licenses": len({lic["name"] for lic in results.get("licenses", [])}),
             "total_risk_score": round(total_risk_score, 2),
-            "requires_immediate_action": len(critical_vulns) > 0
-            or len(results["secrets"]) > 0,
+            "requires_immediate_action": len(critical_vulns) > 0 or len(results["secrets"]) > 0,
             "scan_duration_seconds": round(duration, 2),
         }
 
     def _generate_scan_id(self) -> str:
         """Generate unique scan ID"""
-        return (
-            f"scan_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
-        )
+        return f"scan_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
 
     def _save_results(self, results: dict[str, Any]):
         """Save scan results to file"""
@@ -569,10 +541,7 @@ class SecurityScanner:
         unique_vulns = {}
         for vuln in vulns:
             key = f"{vuln.package}_{vuln.cve_id or vuln.description[:50]}"
-            if (
-                key not in unique_vulns
-                or vuln.risk_score() > unique_vulns[key].risk_score()
-            ):
+            if key not in unique_vulns or vuln.risk_score() > unique_vulns[key].risk_score():
                 unique_vulns[key] = vuln
         return list(unique_vulns.values())
 

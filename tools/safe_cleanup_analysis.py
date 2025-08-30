@@ -20,9 +20,7 @@ def load_reports():
     return usage_report, audit_report
 
 
-def categorize_safe_cleanup(
-    usage_report: dict, audit_report: dict
-) -> dict[str, list[str]]:
+def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str, list[str]]:
     """Categorize files for safe cleanup based on both usage and AI value"""
 
     # Build a value score index from audit report
@@ -88,9 +86,7 @@ def categorize_safe_cleanup(
             categories["needs_manual_review"].append(file)
         elif "CLAUDE_ARMY/workspaces" in file and "/test" in file:
             categories["test_workspace_files"].append(file)
-        elif any(
-            x in file for x in ["_old", "_backup", "_copy", "deprecated", "legacy"]
-        ):
+        elif any(x in file for x in ["_old", "_backup", "_copy", "deprecated", "legacy"]):
             categories["duplicate_implementations"].append(file)
         elif any(x in file for x in ["example", "demo", "sample", "tutorial"]):
             categories["documentation_examples"].append(file)
@@ -131,9 +127,7 @@ echo "📦 Archiving workspace test files..."
 mkdir -p "$ARCHIVE_DIR/workspace_tests"
 """
         for file in categories["test_workspace_files"][:10]:
-            script += (
-                f'mv "{file}" "$ARCHIVE_DIR/workspace_tests/" 2>/dev/null || true\n'
-            )
+            script += f'mv "{file}" "$ARCHIVE_DIR/workspace_tests/" 2>/dev/null || true\n'
 
     if categories["documentation_examples"]:
         script += """
@@ -163,7 +157,9 @@ echo "⚠️  PRESERVED FILES:"
 
     # List preserved high-value files
     if categories["high_value_keep"]:
-        script += f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
+        script += (
+            f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
+        )
 
     if categories["needs_manual_review"]:
         script += f'echo "  - {len(categories["needs_manual_review"])} files need manual review"\n'
@@ -202,9 +198,7 @@ def main():
     print("\n✅ SAFE TO ARCHIVE:")
     print(f"  - Test workspace files: {len(categories['test_workspace_files'])}")
     print(f"  - Documentation examples: {len(categories['documentation_examples'])}")
-    print(
-        f"  - Duplicate implementations: {len(categories['duplicate_implementations'])}"
-    )
+    print(f"  - Duplicate implementations: {len(categories['duplicate_implementations'])}")
     print(f"  - Low value files: {len(categories['truly_safe_to_archive'])}")
 
     # Generate safe cleanup script

@@ -213,21 +213,15 @@ class SharedEthicsEngine:
             # Check consent first if applicable
             user_id = context.get("user_id")
             if user_id and self._requires_consent(action):
-                consent_check = await self._check_consent_requirements(
-                    user_id, action, context
-                )
+                consent_check = await self._check_consent_requirements(user_id, action, context)
                 if not consent_check["allowed"]:
                     return EthicalDecision(
                         decision_type=DecisionType.REQUIRE_CONSENT,
                         confidence=1.0,
                         principles_considered=[EthicalPrinciple.RESPECT_AUTONOMY],
-                        violations=[
-                            (EthicalPrinciple.RESPECT_AUTONOMY, EthicalSeverity.HIGH)
-                        ],
+                        violations=[(EthicalPrinciple.RESPECT_AUTONOMY, EthicalSeverity.HIGH)],
                         reasoning=f"Consent required: {consent_check['reason']}",
-                        recommendations=[
-                            "Obtain explicit user consent before proceeding"
-                        ],
+                        recommendations=["Obtain explicit user consent before proceeding"],
                     )
 
             # Evaluate against each applicable constraint
@@ -243,9 +237,7 @@ class SharedEthicsEngine:
 
                 principles_considered.add(constraint.principle)
 
-                violation = self._check_constraint_violation(
-                    constraint, action, context
-                )
+                violation = self._check_constraint_violation(constraint, action, context)
 
                 if violation:
                     violations.append((constraint.principle, constraint.severity))
@@ -281,9 +273,7 @@ class SharedEthicsEngine:
             )
 
             # Log decision
-            await self._log_decision(
-                ethical_decision, action, context, requesting_system
-            )
+            await self._log_decision(ethical_decision, action, context, requesting_system)
 
             return ethical_decision
 
@@ -377,29 +367,19 @@ class SharedEthicsEngine:
 
         for principle, _severity in violations:
             if principle == EthicalPrinciple.PRESERVE_PRIVACY:
-                recommendations.append(
-                    "Consider anonymizing or aggregating data before processing"
-                )
-                recommendations.append(
-                    "Ensure data is processed on-device when possible"
-                )
+                recommendations.append("Consider anonymizing or aggregating data before processing")
+                recommendations.append("Ensure data is processed on-device when possible")
 
             elif principle == EthicalPrinciple.DO_NO_HARM:
                 recommendations.append("Add content warnings or safety filters")
-                recommendations.append(
-                    "Provide alternative options that minimize potential harm"
-                )
+                recommendations.append("Provide alternative options that minimize potential harm")
 
             elif principle == EthicalPrinciple.RESPECT_AUTONOMY:
-                recommendations.append(
-                    "Request explicit user consent before proceeding"
-                )
+                recommendations.append("Request explicit user consent before proceeding")
                 recommendations.append("Provide clear opt-out mechanisms")
 
             elif principle == EthicalPrinciple.ENSURE_TRANSPARENCY:
-                recommendations.append(
-                    "Provide clear explanation of the action and its effects"
-                )
+                recommendations.append("Provide clear explanation of the action and its effects")
                 recommendations.append("Make decision reasoning available to user")
 
         # System-specific recommendations
@@ -410,9 +390,7 @@ class SharedEthicsEngine:
         elif requesting_system == "DAST":
             recommendations.append("Verify task compatibility before execution")
         elif requesting_system == "ABAS":
-            recommendations.append(
-                "Document conflict resolution reasoning for audit trail"
-            )
+            recommendations.append("Document conflict resolution reasoning for audit trail")
 
         return list(set(recommendations))  # Remove duplicates
 
@@ -439,8 +417,7 @@ class SharedEthicsEngine:
             "decision_type": decision.decision_type.value,
             "confidence": decision.confidence,
             "violations": [
-                {"principle": p.name, "severity": s.name}
-                for p, s in decision.violations
+                {"principle": p.name, "severity": s.name} for p, s in decision.violations
             ],
             "action_summary": {
                 "type": action.get("type", "unknown"),
@@ -471,15 +448,11 @@ class SharedEthicsEngine:
             "severity",
             max(v[1].value for v in decision.violations) if decision.violations else 0,
         )
-        symbol.add_attribute(
-            "principles", [p.name for p in decision.principles_considered]
-        )
+        symbol.add_attribute("principles", [p.name for p in decision.principles_considered])
 
         return symbol
 
-    async def learn_from_outcome(
-        self, decision_id: str, outcome: dict[str, Any]
-    ) -> None:
+    async def learn_from_outcome(self, decision_id: str, outcome: dict[str, Any]) -> None:
         """Learn from the outcome of an ethical decision"""
         # Find the decision in history
         for entry in reversed(self.decision_history):
@@ -539,9 +512,7 @@ class SharedEthicsEngine:
         """Check health of the ethics engine"""
         return {
             "status": "healthy",
-            "active_constraints": len(
-                [c for c in self.constraints.values() if c.active]
-            ),
+            "active_constraints": len([c for c in self.constraints.values() if c.active]),
             "total_constraints": len(self.constraints),
             "decision_history_size": len(self.decision_history),
             "seedra_connected": self.seedra is not None,
@@ -562,11 +533,11 @@ def get_shared_ethics_engine() -> SharedEthicsEngine:
 
 
 __all__ = [
-    "SharedEthicsEngine",
-    "EthicalPrinciple",
-    "EthicalSeverity",
     "DecisionType",
     "EthicalConstraint",
     "EthicalDecision",
+    "EthicalPrinciple",
+    "EthicalSeverity",
+    "SharedEthicsEngine",
     "get_shared_ethics_engine",
 ]

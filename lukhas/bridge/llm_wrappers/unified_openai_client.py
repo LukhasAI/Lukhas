@@ -285,13 +285,9 @@ class UnifiedOpenAIClient:
                                 response.usage.prompt_tokens if response.usage else 0
                             ),
                             "completion_tokens": (
-                                response.usage.completion_tokens
-                                if response.usage
-                                else 0
+                                response.usage.completion_tokens if response.usage else 0
                             ),
-                            "total_tokens": (
-                                response.usage.total_tokens if response.usage else 0
-                            ),
+                            "total_tokens": (response.usage.total_tokens if response.usage else 0),
                         }
                         if response.usage
                         else None
@@ -299,7 +295,7 @@ class UnifiedOpenAIClient:
                 }
 
         except Exception as e:
-            logger.error(f"Chat completion failed: {str(e)}")
+            logger.error(f"Chat completion failed: {e!s}")
             raise
 
     async def _stream_chat_completion(
@@ -311,9 +307,7 @@ class UnifiedOpenAIClient:
         assistant_content_parts = []
 
         try:
-            async for chunk in await self.async_client.chat.completions.create(
-                **api_params
-            ):
+            async for chunk in await self.async_client.chat.completions.create(**api_params):
                 chunk_dict = {
                     "id": chunk.id,
                     "object": chunk.object,
@@ -349,7 +343,7 @@ class UnifiedOpenAIClient:
                     conversation.add_message("assistant", full_content)
 
         except Exception as e:
-            logger.error(f"Streaming chat completion failed: {str(e)}")
+            logger.error(f"Streaming chat completion failed: {e!s}")
             raise
 
     async def embeddings(
@@ -398,7 +392,7 @@ class UnifiedOpenAIClient:
             }
 
         except Exception as e:
-            logger.error(f"Embeddings failed: {str(e)}")
+            logger.error(f"Embeddings failed: {e!s}")
             raise
 
     def clear_conversation(self, conversation_id: str) -> bool:
@@ -408,9 +402,7 @@ class UnifiedOpenAIClient:
             return True
         return False
 
-    def get_conversation_history(
-        self, conversation_id: str
-    ) -> Optional[list[dict[str, Any]]]:
+    def get_conversation_history(self, conversation_id: str) -> Optional[list[dict[str, Any]]]:
         """Get conversation history in OpenAI format"""
         conversation = self.conversations.get(conversation_id)
         if conversation:

@@ -23,6 +23,7 @@
 ║ Advanced Cognitive Architecture for Artificial General Intelligence
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import sys
 from pathlib import Path
@@ -148,9 +149,7 @@ def test_error_conditions(orchestrator):
                 }
             )
         except Exception as e:
-            test_results.append(
-                {"test": "get_statistics", "status": "fail", "error": str(e)}
-            )
+            test_results.append({"test": "get_statistics", "status": "fail", "error": str(e)})
 
         # Test 2: Check if orchestrator is properly initialized
         try:
@@ -164,9 +163,7 @@ def test_error_conditions(orchestrator):
                 }
             )
         except Exception as e:
-            test_results.append(
-                {"test": "initialization_check", "status": "fail", "error": str(e)}
-            )
+            test_results.append({"test": "initialization_check", "status": "fail", "error": str(e)})
 
         # Test 3: Check memory type handling
         try:

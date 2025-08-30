@@ -99,9 +99,7 @@ class ObservabilityCollector:
 
         # Real-time metrics
         self.current_metrics: dict[str, dict[str, Any]] = {}
-        self.message_rates: dict[tuple[str, str], deque] = defaultdict(
-            lambda: deque(maxlen=100)
-        )
+        self.message_rates: dict[tuple[str, str], deque] = defaultdict(lambda: deque(maxlen=100))
 
         # Pattern detection
         self.detected_patterns: dict[str, EmergentPattern] = {}
@@ -115,9 +113,7 @@ class ObservabilityCollector:
     def start(self):
         """Start the collector"""
         self._running = True
-        self._aggregation_thread = threading.Thread(
-            target=self._aggregation_loop, daemon=True
-        )
+        self._aggregation_thread = threading.Thread(target=self._aggregation_loop, daemon=True)
         self._aggregation_thread.start()
         logger.info("Observability collector started")
 
@@ -188,9 +184,7 @@ class ObservabilityCollector:
                 self.message_flows.popleft()
 
             # Clean system events
-            while (
-                self.system_events and self.system_events[0]["timestamp"] < cutoff_time
-            ):
+            while self.system_events and self.system_events[0]["timestamp"] < cutoff_time:
                 self.system_events.popleft()
 
     def _detect_patterns(self):
@@ -287,9 +281,7 @@ class ObservabilityCollector:
 
             # Count healthy actors
             healthy_count = sum(
-                1
-                for metrics in self.current_metrics.values()
-                if metrics.get("error_rate", 0) < 0.1
+                1 for metrics in self.current_metrics.values() if metrics.get("error_rate", 0) < 0.1
             )
 
             health_ratio = healthy_count / total_actors
@@ -363,9 +355,7 @@ class SteeringController:
             return True
         return False
 
-    async def modify_actor_state(
-        self, actor_id: str, state_updates: dict[str, Any]
-    ) -> bool:
+    async def modify_actor_state(self, actor_id: str, state_updates: dict[str, Any]) -> bool:
         """Modify an actor's internal state"""
         actor = self.actor_system.get_actor(actor_id)
         if actor:
@@ -386,9 +376,7 @@ class SteeringController:
             policy = self.steering_policies[policy_name]
             result = await policy(self, *args, **kwargs)
 
-            self._log_intervention(
-                "apply_policy", {"policy": policy_name, "result": result}
-            )
+            self._log_intervention("apply_policy", {"policy": policy_name, "result": result})
             return result
 
         raise ValueError(f"Unknown steering policy: {policy_name}")
@@ -411,9 +399,7 @@ class SteeringController:
 class ObservableActor(Actor):
     """Enhanced actor with built-in observability"""
 
-    def __init__(
-        self, actor_id: str, collector: Optional[ObservabilityCollector] = None
-    ):
+    def __init__(self, actor_id: str, collector: Optional[ObservabilityCollector] = None):
         super().__init__(actor_id)
         self.collector = collector
         self._last_snapshot_time = 0.0
@@ -503,9 +489,7 @@ class ObservableActor(Actor):
             1.0, current_time - self._stats["created_at"]
         )
 
-        error_rate = self._stats["messages_failed"] / max(
-            1, self._stats["messages_processed"]
-        )
+        error_rate = self._stats["messages_failed"] / max(1, self._stats["messages_processed"])
 
         # Get memory usage (simplified)
         import sys
@@ -555,9 +539,7 @@ class ObservabilityDashboard:
                 {
                     "id": actor_id,
                     "state": metrics.get("state", "unknown"),
-                    "health": (
-                        "healthy" if metrics.get("error_rate", 0) < 0.1 else "unhealthy"
-                    ),
+                    "health": ("healthy" if metrics.get("error_rate", 0) < 0.1 else "unhealthy"),
                     "mailbox_size": metrics.get("mailbox_size", 0),
                 }
             )
@@ -624,7 +606,6 @@ async def demo_observability():
     # Create observable actors
 
     class ObservableAgent(ObservableActor, AIAgentActor):
-
         def __init__(self, actor_id: str, capabilities: list[str] = None):
             AIAgentActor.__init__(self, actor_id, capabilities)
             ObservableActor.__init__(self, actor_id, collector)
@@ -650,9 +631,7 @@ async def demo_observability():
 
     # Simulate some activity
     for i in range(5):
-        await agent1.tell(
-            "assign_task", {"task_id": f"task_{i}", "task_type": "analysis"}
-        )
+        await agent1.tell("assign_task", {"task_id": f"task_{i}", "task_type": "analysis"})
         await asyncio.sleep(0.1)
 
     # Wait for data collection

@@ -86,9 +86,7 @@ class DecisionTrace:
         self.confidence_score = 0.0
         self.confidence_explanation = ""
 
-    def add_reasoning_step(
-        self, step: str, evidence: dict[str, Any] = None, weight: float = 1.0
-    ):
+    def add_reasoning_step(self, step: str, evidence: dict[str, Any] = None, weight: float = 1.0):
         """Add a reasoning step with evidence and weight"""
         self.reasoning_steps.append(
             {
@@ -185,9 +183,7 @@ class DecisionTrace:
             "reasoning_steps_count": len(self.reasoning_steps),
             "alternatives_considered_count": len(self.alternatives_considered),
             "final_confidence": self.confidence_score,
-            "safety_checks_passed": sum(
-                1 for check in self.safety_checks if check["passed"]
-            ),
+            "safety_checks_passed": sum(1 for check in self.safety_checks if check["passed"]),
         }
 
         transparency_logger.info(f"DECISION_TRACE: {json.dumps(trace_summary)}")
@@ -203,25 +199,17 @@ class DecisionTrace:
                 "factors": self.confidence_factors,
             },
             "reasoning": {
-                "key_steps": [
-                    step["step"] for step in self.reasoning_steps[-3:]
-                ],  # Last 3 steps
+                "key_steps": [step["step"] for step in self.reasoning_steps[-3:]],  # Last 3 steps
                 "primary_evidence": [
-                    step["evidence"]
-                    for step in self.reasoning_steps
-                    if step["weight"] > 0.7
+                    step["evidence"] for step in self.reasoning_steps if step["weight"] > 0.7
                 ],
             },
             "data_usage": {
                 "critical_factors": [
-                    inf
-                    for inf in self.data_influences
-                    if inf["influence_level"] == "critical"
+                    inf for inf in self.data_influences if inf["influence_level"] == "critical"
                 ],
                 "significant_factors": [
-                    inf
-                    for inf in self.data_influences
-                    if inf["influence_level"] == "significant"
+                    inf for inf in self.data_influences if inf["influence_level"] == "significant"
                 ],
             },
             "alternatives": {
@@ -310,8 +298,7 @@ class TransparencyOrchestrator:
                 [
                     trace
                     for trace in self.completed_traces
-                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days
-                    == 0
+                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days == 0
                 ]
             ),
         }
@@ -363,9 +350,9 @@ def create_transparent_decision(
                 # Even errors should be transparent
                 error_explanation = transparency_orchestrator.complete_trace(
                     trace_id,
-                    f"Error: {str(e)}",
+                    f"Error: {e!s}",
                     0.0,
-                    f"Error occurred during processing: {str(e)}",
+                    f"Error occurred during processing: {e!s}",
                 )
 
                 return {
@@ -382,9 +369,7 @@ def create_transparent_decision(
 # Example usage functions for integration
 
 
-async def example_transparent_content_generation(
-    user_prompt: str, trace_id: str = None
-):
+async def example_transparent_content_generation(user_prompt: str, trace_id: str = None):
     """Example of transparent content generation with full reasoning trace"""
 
     if not trace_id:
@@ -446,9 +431,7 @@ async def example_transparent_content_generation(
     )
 
     # Step 5: Bias considerations
-    trace.add_bias_consideration(
-        "Cultural bias", "Response crafted to be culturally neutral", 0.8
-    )
+    trace.add_bias_consideration("Cultural bias", "Response crafted to be culturally neutral", 0.8)
 
     # Generate content (simplified for example)
     content = f"Response to: {user_prompt[:50]}... [Generated with full transparency]"
@@ -584,8 +567,6 @@ if __name__ == "__main__":
         print(json.dumps(result.get("transparency_explanation", {}), indent=2))
 
         print("\n📈 System Summary:")
-        print(
-            json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2)
-        )
+        print(json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2))
 
     asyncio.run(demo())

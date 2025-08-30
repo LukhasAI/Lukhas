@@ -76,7 +76,7 @@ def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
     summary = f"""
 # 📑 LUKHAS_AGI_3 Compliance Drift Report
 
-**Reporting Period:** {log_df['Date'].min().date()} to {log_df['Date'].max().date()}
+**Reporting Period:** {log_df["Date"].min().date()} to {log_df["Date"].max().date()}
 **Generated On:** {now}
 **System:** LUKHAS_AGI_3
 **Compliance Monitor Version:** v0.2.0
@@ -86,9 +86,9 @@ def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
 ## Summary:
 
 - **Total Decisions Evaluated:** {len(log_df)}
-- **Recalibration Events:** {log_df[log_df['Action Taken'] == 'Self-Recalibration'].shape[0]}
-- **Escalations to Human Oversight:** {log_df[log_df['Action Taken'] == 'Escalated to Oversight'].shape[0]}
-- **Highest Drift Score Recorded:** {log_df['Cumulative Drift Score'].max()}
+- **Recalibration Events:** {log_df[log_df["Action Taken"] == "Self-Recalibration"].shape[0]}
+- **Escalations to Human Oversight:** {log_df[log_df["Action Taken"] == "Escalated to Oversight"].shape[0]}
+- **Highest Drift Score Recorded:** {log_df["Cumulative Drift Score"].max()}
 
 ---
 

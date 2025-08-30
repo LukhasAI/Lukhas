@@ -65,7 +65,6 @@ CORE_MODULES = [
 
 
 class ModuleStandardizationChecker:
-
     def __init__(self, base_path: Path = Path(".")):
         self.base_path = base_path
         self.results = {}
@@ -164,9 +163,7 @@ class ModuleStandardizationChecker:
 
         # Calculate score
         if results["total_checks"] > 0:
-            results["score"] = (
-                results["passed_checks"] / results["total_checks"]
-            ) * 100
+            results["score"] = (results["passed_checks"] / results["total_checks"]) * 100
 
         # Generate recommendations
         if results["missing_files"]:
@@ -196,11 +193,7 @@ class ModuleStandardizationChecker:
             # Display progress
             result = self.results[module]
             if result["exists"]:
-                status = (
-                    "✅"
-                    if result["score"] >= 80
-                    else "⚠️" if result["score"] >= 50 else "❌"
-                )
+                status = "✅" if result["score"] >= 80 else "⚠️" if result["score"] >= 50 else "❌"
                 print(
                     f"{status} {module:<15} Score: {result['score']:>5.1f}% | Files: {result['file_count']:>4}"
                 )
@@ -215,18 +208,12 @@ class ModuleStandardizationChecker:
             "timestamp": datetime.now().isoformat(),
             "summary": {
                 "total_modules": len(CORE_MODULES),
-                "existing_modules": sum(
-                    1 for r in self.results.values() if r.get("exists", False)
-                ),
-                "fully_compliant": sum(
-                    1 for r in self.results.values() if r.get("score", 0) >= 95
-                ),
+                "existing_modules": sum(1 for r in self.results.values() if r.get("exists", False)),
+                "fully_compliant": sum(1 for r in self.results.values() if r.get("score", 0) >= 95),
                 "partially_compliant": sum(
                     1 for r in self.results.values() if 50 <= r.get("score", 0) < 95
                 ),
-                "non_compliant": sum(
-                    1 for r in self.results.values() if r.get("score", 0) < 50
-                ),
+                "non_compliant": sum(1 for r in self.results.values() if r.get("score", 0) < 50),
                 "average_score": 0,
             },
             "modules": {},
@@ -294,12 +281,7 @@ class ModuleStandardizationChecker:
     def save_report(self, report: dict[str, any], output_path: Optional[Path] = None):
         """Save report to file"""
         if output_path is None:
-            output_path = (
-                self.base_path
-                / "docs"
-                / "reports"
-                / "module_standardization_report.json"
-            )
+            output_path = self.base_path / "docs" / "reports" / "module_standardization_report.json"
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -373,9 +355,7 @@ def main():
 
     if lowest_score_module[0]:
         print("\n🚀 Suggested next action:")
-        print(
-            f"   python tools/scripts/module_generator.py {lowest_score_module[0]} --force"
-        )
+        print(f"   python tools/scripts/module_generator.py {lowest_score_module[0]} --force")
 
 
 if __name__ == "__main__":

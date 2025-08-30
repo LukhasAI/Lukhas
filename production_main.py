@@ -34,6 +34,7 @@ from lukhas.branding_bridge import (
 # Initialize NewRelic monitoring (GitHub Student Pack)
 try:
     from monitoring.newrelic_config import initialize_monitoring
+
     newrelic_license_key = os.getenv("NEWRELIC_LICENSE_KEY")
     if newrelic_license_key:
         newrelic_monitor = initialize_monitoring(newrelic_license_key)
@@ -49,12 +50,10 @@ except ImportError:
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[
-        logging.FileHandler("lukhas_production.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
+    handlers=[logging.FileHandler("lukhas_production.log"), logging.StreamHandler(sys.stdout)],
 )
 logger = logging.getLogger("LUKHAS_Production")
+
 
 class LUKHASProduction:
     """
@@ -78,19 +77,20 @@ class LUKHASProduction:
             "status": "initializing",
             "components": {},
             "errors": [],
-            "last_health_check": None
+            "last_health_check": None,
         }
 
         # System configuration
         self.config = {
             "api_host": os.getenv("LUKHAS_API_HOST", "0.0.0.0"),
             "api_port": int(os.getenv("LUKHAS_API_PORT", "8080")),
-            "enable_consciousness": os.getenv("LUKHAS_ENABLE_CONSCIOUSNESS", "true").lower() == "true",
+            "enable_consciousness": os.getenv("LUKHAS_ENABLE_CONSCIOUSNESS", "true").lower()
+            == "true",
             "enable_memory": os.getenv("LUKHAS_ENABLE_MEMORY", "true").lower() == "true",
             "enable_dreams": os.getenv("LUKHAS_ENABLE_DREAMS", "true").lower() == "true",
             "enable_governance": os.getenv("LUKHAS_ENABLE_GOVERNANCE", "true").lower() == "true",
             "log_level": os.getenv("LUKHAS_LOG_LEVEL", "INFO"),
-            "production_mode": os.getenv("LUKHAS_PRODUCTION", "false").lower() == "true"
+            "production_mode": os.getenv("LUKHAS_PRODUCTION", "false").lower() == "true",
         }
 
         # Set log level
@@ -144,17 +144,14 @@ class LUKHASProduction:
                 self.components["branding"] = {
                     "status": "operational",
                     "signature": signature,
-                    "trinity_framework": trinity
+                    "trinity_framework": trinity,
                 }
             else:
                 raise Exception("Branding initialization failed")
 
         except Exception as e:
             logger.warning(f"⚠️ Branding system using fallbacks: {e}")
-            self.components["branding"] = {
-                "status": "fallback",
-                "error": str(e)
-            }
+            self.components["branding"] = {"status": "fallback", "error": str(e)}
 
     async def _initialize_consciousness(self):
         """Initialize consciousness interface"""
@@ -171,16 +168,13 @@ class LUKHASProduction:
                 "status": "operational",
                 "interface_active": True,
                 "session_count": 0,
-                "last_interaction": None
+                "last_interaction": None,
             }
             logger.info("✅ Consciousness interface ready")
 
         except Exception as e:
             logger.error(f"❌ Consciousness initialization failed: {e}")
-            self.components["consciousness"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["consciousness"] = {"status": "failed", "error": str(e)}
 
     async def _initialize_memory(self):
         """Initialize memory systems"""
@@ -197,16 +191,13 @@ class LUKHASProduction:
                 "fold_count": 0,
                 "max_folds": 1000,
                 "cascade_prevention": 0.997,  # 99.7% success rate
-                "last_fold_time": None
+                "last_fold_time": None,
             }
             logger.info("✅ Memory systems ready")
 
         except Exception as e:
             logger.error(f"❌ Memory initialization failed: {e}")
-            self.components["memory"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["memory"] = {"status": "failed", "error": str(e)}
 
     async def _initialize_identity(self):
         """Initialize identity and authentication systems"""
@@ -217,6 +208,7 @@ class LUKHASProduction:
             identity_available = False
             try:
                 from CLAUDE_ARMY.mvp_demo import LukhasMinimalMVP
+
                 LukhasMinimalMVP()
                 identity_available = True
                 logger.info("✅ MVP identity service integrated")
@@ -227,16 +219,13 @@ class LUKHASProduction:
                 "status": "operational",
                 "mvp_integrated": identity_available,
                 "auth_latency_target": "< 100ms",
-                "active_sessions": 0
+                "active_sessions": 0,
             }
             logger.info("✅ Identity systems ready")
 
         except Exception as e:
             logger.error(f"❌ Identity initialization failed: {e}")
-            self.components["identity"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["identity"] = {"status": "failed", "error": str(e)}
 
     async def _initialize_governance(self):
         """Initialize governance and ethics systems"""
@@ -253,16 +242,13 @@ class LUKHASProduction:
                 "drift_threshold": 0.15,
                 "constitutional_ai": True,
                 "compliance_checks": 0,
-                "ethical_violations": 0
+                "ethical_violations": 0,
             }
             logger.info("✅ Guardian System active")
 
         except Exception as e:
             logger.error(f"❌ Governance initialization failed: {e}")
-            self.components["governance"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["governance"] = {"status": "failed", "error": str(e)}
 
     async def _initialize_creativity(self):
         """Initialize creativity and dream systems"""
@@ -278,6 +264,7 @@ class LUKHASProduction:
                 from branding.automation.social_media_orchestrator import (
                     SocialMediaOrchestrator,
                 )
+
                 SocialMediaOrchestrator()
                 dreams_available = True
                 logger.info("✅ Social media orchestrator integrated")
@@ -289,16 +276,13 @@ class LUKHASProduction:
                 "status": "operational",
                 "social_orchestrator": dreams_available,
                 "dream_generation": True,
-                "content_quality": True
+                "content_quality": True,
             }
             logger.info("✅ Creativity systems ready")
 
         except Exception as e:
             logger.error(f"❌ Creativity initialization failed: {e}")
-            self.components["creativity"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["creativity"] = {"status": "failed", "error": str(e)}
 
     async def _initialize_api_gateway(self):
         """Initialize public API gateway"""
@@ -315,17 +299,16 @@ class LUKHASProduction:
                     "chat": "/v1/chat",
                     "dreams": "/v1/dreams",
                     "status": "/status",
-                    "health": "/health"
-                }
+                    "health": "/health",
+                },
             }
-            logger.info(f"✅ API gateway configured on {self.config['api_host']}:{self.config['api_port']}")
+            logger.info(
+                f"✅ API gateway configured on {self.config['api_host']}:{self.config['api_port']}"
+            )
 
         except Exception as e:
             logger.error(f"❌ API gateway setup failed: {e}")
-            self.components["api_gateway"] = {
-                "status": "failed",
-                "error": str(e)
-            }
+            self.components["api_gateway"] = {"status": "failed", "error": str(e)}
 
     async def _perform_health_check(self):
         """Perform comprehensive health check"""
@@ -349,17 +332,23 @@ class LUKHASProduction:
                 logger.warning(f"  ❌ {component_name}: {status}")
 
         # Calculate overall health score
-        health_score = (operational_components / total_components) * 100 if total_components > 0 else 0
+        health_score = (
+            (operational_components / total_components) * 100 if total_components > 0 else 0
+        )
 
-        self.system_health.update({
-            "components": health_results,
-            "health_score": health_score,
-            "operational_components": operational_components,
-            "total_components": total_components,
-            "last_health_check": datetime.now().isoformat()
-        })
+        self.system_health.update(
+            {
+                "components": health_results,
+                "health_score": health_score,
+                "operational_components": operational_components,
+                "total_components": total_components,
+                "last_health_check": datetime.now().isoformat(),
+            }
+        )
 
-        logger.info(f"📊 System health: {health_score:.1f}% ({operational_components}/{total_components} components operational)")
+        logger.info(
+            f"📊 System health: {health_score:.1f}% ({operational_components}/{total_components} components operational)"
+        )
 
     async def start_api_server(self):
         """Start the public API server"""
@@ -378,7 +367,7 @@ class LUKHASProduction:
                 port=self.config["api_port"],
                 log_level=self.config["log_level"].lower(),
                 access_log=True,
-                reload=not self.config["production_mode"]
+                reload=not self.config["production_mode"],
             )
 
             server = uvicorn.Server(config)
@@ -387,7 +376,9 @@ class LUKHASProduction:
             self.components["api_gateway"]["status"] = "running"
             self.is_running = True
 
-            logger.info(f"🌐 API server running on http://{self.config['api_host']}:{self.config['api_port']}")
+            logger.info(
+                f"🌐 API server running on http://{self.config['api_host']}:{self.config['api_port']}"
+            )
             logger.info("📚 Documentation available at: /docs")
 
             # Run the server
@@ -427,21 +418,22 @@ class LUKHASProduction:
             "trinity_framework": get_trinity_context()["framework"],
             "status": self.system_health["status"],
             "uptime_seconds": uptime,
-            "uptime_formatted": f"{uptime/3600:.1f} hours",
+            "uptime_formatted": f"{uptime / 3600:.1f} hours",
             "health_score": self.system_health.get("health_score", 0),
             "components": self.components,
             "configuration": {
                 "production_mode": self.config["production_mode"],
                 "api_endpoint": f"http://{self.config['api_host']}:{self.config['api_port']}",
-                "log_level": self.config["log_level"]
+                "log_level": self.config["log_level"],
             },
             "last_health_check": self.system_health.get("last_health_check"),
-            "errors": self.system_health.get("errors", [])
+            "errors": self.system_health.get("errors", []),
         }
 
 
 # Global system instance
 lukhas_system: Optional[LUKHASProduction] = None
+
 
 def signal_handler(signum, frame):
     """Handle shutdown signals"""
@@ -450,6 +442,7 @@ def signal_handler(signum, frame):
 
     if lukhas_system and lukhas_system.is_running:
         asyncio.create_task(lukhas_system.stop_systems())
+
 
 async def main():
     """Main entry point for production LUKHAS AI"""
@@ -495,6 +488,7 @@ async def main():
     finally:
         if lukhas_system:
             await lukhas_system.stop_systems()
+
 
 if __name__ == "__main__":
     # Check Python version

@@ -68,13 +68,15 @@ class EnhancedSystemAwareness(BioAwareness):
                     self.state.focus = stimulus.type
 
                 # Log state change
-                self.history.append({
-                    "timestamp": datetime.now(),
-                    "event": "state_update",
-                    "stimulus": str(stimulus),
-                    "level": self.state.level,
-                    "focus": self.state.focus
-                })
+                self.history.append(
+                    {
+                        "timestamp": datetime.now(),
+                        "event": "state_update",
+                        "stimulus": str(stimulus),
+                        "level": self.state.level,
+                        "focus": self.state.focus,
+                    }
+                )
 
             return True
         except Exception as e:
@@ -88,7 +90,9 @@ class EnhancedSystemAwareness(BioAwareness):
                 "system_active": self.state.active,
                 "history_length": len(self.history),
                 "last_update": self.history[-1]["timestamp"] if self.history else None,
-                "status": "healthy" if self.state.active and 0.1 <= self.state.level <= 1.0 else "degraded"
+                "status": "healthy"
+                if self.state.active and 0.1 <= self.state.level <= 1.0
+                else "degraded",
             }
 
             # Check for stagnation (no recent updates)
@@ -111,7 +115,7 @@ class EnhancedSystemAwareness(BioAwareness):
                     "average_level": 0.5,
                     "peak_level": 0.0,
                     "focus_changes": 0,
-                    "errors": 0
+                    "errors": 0,
                 }
 
             if metric_name and value is not None:
@@ -120,12 +124,11 @@ class EnhancedSystemAwareness(BioAwareness):
             # Update standard metrics
             self._metrics["total_updates"] += 1
             self._metrics["average_level"] = sum(
-                h.get("level", 0.5) for h in self.history[-100:]  # Last 100 entries
+                h.get("level", 0.5)
+                for h in self.history[-100:]  # Last 100 entries
             ) / min(len(self.history), 100)
 
-            self._metrics["peak_level"] = max(
-                self._metrics["peak_level"], self.state.level
-            )
+            self._metrics["peak_level"] = max(self._metrics["peak_level"], self.state.level)
 
             return self._metrics
         except Exception as e:
@@ -139,7 +142,7 @@ class EnhancedSystemAwareness(BioAwareness):
                 "event": "error",
                 "function": function_name,
                 "error": str(error),
-                "error_type": type(error).__name__
+                "error_type": type(error).__name__,
             }
 
             self.history.append(error_entry)

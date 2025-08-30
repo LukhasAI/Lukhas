@@ -40,7 +40,6 @@ class Actor:
 
 
 class PingActor(Actor):
-
     def receive(self, message):
         if message == "ping":
             print("PingActor: Received ping.")
@@ -50,7 +49,6 @@ class PingActor(Actor):
 
 
 class PongActor(Actor):
-
     def receive(self, message):
         if message == "pong":
             print("PongActor: Received pong.")

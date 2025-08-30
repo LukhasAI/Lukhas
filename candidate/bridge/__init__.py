@@ -14,6 +14,7 @@ try:
         normalize_output_text,
         validate_output,
     )
+
     BRIDGE_BRANDING_AVAILABLE = True
 except ImportError:
     BRIDGE_BRANDING_AVAILABLE = False

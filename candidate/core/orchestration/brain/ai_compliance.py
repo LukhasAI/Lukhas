@@ -11,7 +11,6 @@ from typing import Any
 
 
 class AIComplianceManager:
-
     def __init__(self):
         self.logger = logging.getLogger("ai_compliance")
         self.compliance_rules = {

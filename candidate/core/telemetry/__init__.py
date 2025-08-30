@@ -17,12 +17,12 @@ from .monitoring import (
 
 __all__ = [
     "AGITelemetrySystem",
-    "MetricType",
-    "AlertSeverity",
-    "Metric",
     "Alert",
-    "TraceContext",
+    "AlertSeverity",
     "ConsciousnessMetrics",
-    "LearningMetrics",
     "EmergenceDetector",
+    "LearningMetrics",
+    "Metric",
+    "MetricType",
+    "TraceContext",
 ]

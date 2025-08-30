@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MarketData:
     """Market data structure"""
+
     domain: str
     size: float
     growth_rate: float
@@ -56,7 +57,7 @@ class MarketIntelligenceEngine(CoreInterface):
         domains: list[str],
         min_market_size: float = 1e12,
         time_horizon_years: int = 10,
-        disruption_potential_threshold: float = 0.9
+        disruption_potential_threshold: float = 0.9,
     ) -> list[Any]:
         """
         Scan global markets for opportunities meeting criteria
@@ -82,9 +83,10 @@ class MarketIntelligenceEngine(CoreInterface):
             )
 
             # Check if meets criteria
-            if (market_data.size >= min_market_size and
-                opportunity_score >= disruption_potential_threshold):
-
+            if (
+                market_data.size >= min_market_size
+                and opportunity_score >= disruption_potential_threshold
+            ):
                 from .economic_reality_manipulator import MarketOpportunity
 
                 opportunity = MarketOpportunity(
@@ -95,7 +97,7 @@ class MarketIntelligenceEngine(CoreInterface):
                     confidence_score=await self._calculate_confidence_score(market_data),
                     strategic_advantages=await self._identify_strategic_advantages(domain),
                     implementation_requirements=await self._analyze_requirements(domain),
-                    risk_factors=await self._identify_risk_factors(domain)
+                    risk_factors=await self._identify_risk_factors(domain),
                 )
                 opportunities.append(opportunity)
 
@@ -105,10 +107,7 @@ class MarketIntelligenceEngine(CoreInterface):
         return opportunities
 
     async def analyze_competitor_patterns(
-        self,
-        competitor: str,
-        analysis_depth: str = "comprehensive",
-        time_window_years: int = 5
+        self, competitor: str, analysis_depth: str = "comprehensive", time_window_years: int = 5
     ) -> dict[str, Any]:
         """
         Analyze competitor innovation patterns
@@ -128,7 +127,7 @@ class MarketIntelligenceEngine(CoreInterface):
             "investment_patterns": {},
             "partnership_strategies": [],
             "market_entry_patterns": [],
-            "weakness_indicators": []
+            "weakness_indicators": [],
         }
 
         # Analyze innovation cycles
@@ -137,9 +136,7 @@ class MarketIntelligenceEngine(CoreInterface):
         )
 
         # Identify technology focus areas
-        patterns["technology_focus_areas"] = await self._identify_tech_focus(
-            competitor
-        )
+        patterns["technology_focus_areas"] = await self._identify_tech_focus(competitor)
 
         # Analyze investment patterns
         patterns["investment_patterns"] = await self._analyze_investments(
@@ -148,20 +145,14 @@ class MarketIntelligenceEngine(CoreInterface):
 
         if analysis_depth in ["detailed", "comprehensive"]:
             # Analyze partnership strategies
-            patterns["partnership_strategies"] = await self._analyze_partnerships(
-                competitor
-            )
+            patterns["partnership_strategies"] = await self._analyze_partnerships(competitor)
 
             # Identify market entry patterns
-            patterns["market_entry_patterns"] = await self._analyze_market_entries(
-                competitor
-            )
+            patterns["market_entry_patterns"] = await self._analyze_market_entries(competitor)
 
         if analysis_depth == "comprehensive":
             # Identify weaknesses and vulnerabilities
-            patterns["weakness_indicators"] = await self._identify_weaknesses(
-                competitor, patterns
-            )
+            patterns["weakness_indicators"] = await self._identify_weaknesses(competitor, patterns)
 
         return patterns
 
@@ -176,15 +167,15 @@ class MarketIntelligenceEngine(CoreInterface):
                 "clean_energy": 0.91,
                 "space_economy": 0.87,
                 "metaverse": 0.85,
-                "neuromorphic": 0.89
+                "neuromorphic": 0.89,
             },
             "growth_patterns": {
                 "exponential": 2.5,
                 "s_curve": 1.8,
                 "linear": 1.2,
                 "network_effect": 3.0,
-                "viral": 4.0
-            }
+                "viral": 4.0,
+            },
         }
 
     async def _initialize_market_database(self) -> None:
@@ -197,7 +188,7 @@ class MarketIntelligenceEngine(CoreInterface):
                 competitive_intensity=0.8,
                 regulatory_complexity=0.7,
                 technology_readiness=0.9,
-                customer_readiness=0.8
+                customer_readiness=0.8,
             ),
             "qi_computing": MarketData(
                 domain="qi_computing",
@@ -206,7 +197,7 @@ class MarketIntelligenceEngine(CoreInterface):
                 competitive_intensity=0.6,
                 regulatory_complexity=0.5,
                 technology_readiness=0.6,
-                customer_readiness=0.5
+                customer_readiness=0.5,
             ),
             "biotechnology": MarketData(
                 domain="biotechnology",
@@ -215,7 +206,7 @@ class MarketIntelligenceEngine(CoreInterface):
                 competitive_intensity=0.7,
                 regulatory_complexity=0.9,
                 technology_readiness=0.8,
-                customer_readiness=0.7
+                customer_readiness=0.7,
             ),
             "clean_energy": MarketData(
                 domain="clean_energy",
@@ -224,8 +215,8 @@ class MarketIntelligenceEngine(CoreInterface):
                 competitive_intensity=0.75,
                 regulatory_complexity=0.8,
                 technology_readiness=0.85,
-                customer_readiness=0.9
-            )
+                customer_readiness=0.9,
+            ),
         }
 
     async def _analyze_domain_market(self, domain: str) -> MarketData:
@@ -243,31 +234,27 @@ class MarketIntelligenceEngine(CoreInterface):
             competitive_intensity=0.7,
             regulatory_complexity=0.6,
             technology_readiness=0.7,
-            customer_readiness=0.6
+            customer_readiness=0.6,
         )
 
     async def _calculate_opportunity_score(
-        self,
-        market_data: MarketData,
-        time_horizon: int
+        self, market_data: MarketData, time_horizon: int
     ) -> float:
         """Calculate opportunity score for a market"""
 
         # Base score from market fundamentals
         base_score = (
-            market_data.growth_rate * 0.3 +
-            (1 - market_data.competitive_intensity) * 0.2 +
-            market_data.technology_readiness * 0.25 +
-            market_data.customer_readiness * 0.25
+            market_data.growth_rate * 0.3
+            + (1 - market_data.competitive_intensity) * 0.2
+            + market_data.technology_readiness * 0.25
+            + market_data.customer_readiness * 0.25
         )
 
         # Apply time horizon factor
         time_factor = min(1.0, time_horizon / 10.0)
 
         # Apply disruption pattern bonus
-        domain_pattern = self.pattern_library["disruption_patterns"].get(
-            market_data.domain, 0.8
-        )
+        domain_pattern = self.pattern_library["disruption_patterns"].get(market_data.domain, 0.8)
 
         # Calculate final score
         opportunity_score = base_score * time_factor * domain_pattern
@@ -278,9 +265,9 @@ class MarketIntelligenceEngine(CoreInterface):
         """Calculate confidence in market opportunity"""
 
         confidence = (
-            market_data.technology_readiness * 0.4 +
-            market_data.customer_readiness * 0.3 +
-            (1 - market_data.regulatory_complexity) * 0.3
+            market_data.technology_readiness * 0.4
+            + market_data.customer_readiness * 0.3
+            + (1 - market_data.regulatory_complexity) * 0.3
         )
 
         return min(1.0, confidence)
@@ -301,11 +288,9 @@ class MarketIntelligenceEngine(CoreInterface):
             advantages.append("sustainability_mandate")
 
         # Universal advantages
-        advantages.extend([
-            "first_mover_advantage",
-            "network_effects_potential",
-            "data_accumulation_advantage"
-        ])
+        advantages.extend(
+            ["first_mover_advantage", "network_effects_potential", "data_accumulation_advantage"]
+        )
 
         return advantages
 
@@ -314,25 +299,31 @@ class MarketIntelligenceEngine(CoreInterface):
 
         requirements = {
             "capital_requirements": 1e9,  # $1B default
-            "talent_requirements": 100,   # 100 specialists
+            "talent_requirements": 100,  # 100 specialists
             "technology_requirements": [],
             "regulatory_requirements": [],
-            "partnership_requirements": []
+            "partnership_requirements": [],
         }
 
         # Domain-specific requirements
         if domain == "qi_computing":
             requirements["capital_requirements"] = 5e9
             requirements["technology_requirements"] = [
-                "qi_processors", "cryogenic_systems", "error_correction"
+                "qi_processors",
+                "cryogenic_systems",
+                "error_correction",
             ]
         elif domain == "biotechnology":
             requirements["regulatory_requirements"] = [
-                "fda_approval", "clinical_trials", "biosafety_compliance"
+                "fda_approval",
+                "clinical_trials",
+                "biosafety_compliance",
             ]
         elif domain == "ai_services":
             requirements["technology_requirements"] = [
-                "gpu_clusters", "model_training_infrastructure", "data_pipelines"
+                "gpu_clusters",
+                "model_training_infrastructure",
+                "data_pipelines",
             ]
 
         return requirements
@@ -354,9 +345,7 @@ class MarketIntelligenceEngine(CoreInterface):
         return risks
 
     async def _analyze_innovation_cycles(
-        self,
-        competitor: str,
-        time_window: int
+        self, competitor: str, time_window: int
     ) -> list[dict[str, Any]]:
         """Analyze competitor innovation cycles"""
 
@@ -368,7 +357,7 @@ class MarketIntelligenceEngine(CoreInterface):
                 "year": datetime.now().year - year,
                 "major_innovations": 2 + (year % 3),
                 "cycle_duration_months": 12 + (year * 2),
-                "innovation_types": ["product", "process", "business_model"][year % 3]
+                "innovation_types": ["product", "process", "business_model"][year % 3],
             }
             cycles.append(cycle)
 
@@ -389,11 +378,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return focus_areas
 
-    async def _analyze_investments(
-        self,
-        competitor: str,
-        time_window: int
-    ) -> dict[str, Any]:
+    async def _analyze_investments(self, competitor: str, time_window: int) -> dict[str, Any]:
         """Analyze competitor investment patterns"""
 
         return {
@@ -401,7 +386,7 @@ class MarketIntelligenceEngine(CoreInterface):
             "rd_percentage": 0.15,
             "acquisition_spend": 2e9 * time_window,
             "focus_areas": await self._identify_tech_focus(competitor),
-            "investment_velocity": "accelerating"
+            "investment_velocity": "accelerating",
         }
 
     async def _analyze_partnerships(self, competitor: str) -> list[dict[str, str]]:
@@ -410,7 +395,7 @@ class MarketIntelligenceEngine(CoreInterface):
         return [
             {"type": "technology", "focus": "ai_infrastructure"},
             {"type": "market_access", "focus": "emerging_markets"},
-            {"type": "research", "focus": "qi_computing"}
+            {"type": "research", "focus": "qi_computing"},
         ]
 
     async def _analyze_market_entries(self, competitor: str) -> list[dict[str, Any]]:
@@ -421,21 +406,17 @@ class MarketIntelligenceEngine(CoreInterface):
                 "market": "ai_services",
                 "entry_strategy": "acquisition",
                 "timing": "early",
-                "success_rate": 0.8
+                "success_rate": 0.8,
             },
             {
                 "market": "cloud_computing",
                 "entry_strategy": "organic_growth",
                 "timing": "mature",
-                "success_rate": 0.6
-            }
+                "success_rate": 0.6,
+            },
         ]
 
-    async def _identify_weaknesses(
-        self,
-        competitor: str,
-        patterns: dict[str, Any]
-    ) -> list[str]:
+    async def _identify_weaknesses(self, competitor: str, patterns: dict[str, Any]) -> list[str]:
         """Identify competitor weaknesses"""
 
         weaknesses = []
@@ -448,11 +429,9 @@ class MarketIntelligenceEngine(CoreInterface):
             weaknesses.append("underinvestment_in_rd")
 
         # Generic weaknesses
-        weaknesses.extend([
-            "legacy_system_debt",
-            "organizational_inertia",
-            "talent_retention_challenges"
-        ])
+        weaknesses.extend(
+            ["legacy_system_debt", "organizational_inertia", "talent_retention_challenges"]
+        )
 
         return weaknesses
 

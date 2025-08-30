@@ -97,9 +97,7 @@ class QIEnvironment:
     temperature: float = 0.02  # Operating temperature (relative to critical)
     gate_fidelity: float = 0.99  # Single-qubit gate fidelity
     measurement_fidelity: float = 0.97  # Measurement accuracy
-    connectivity: dict[int, list[int]] = field(
-        default_factory=dict
-    )  # Qubit connectivity
+    connectivity: dict[int, list[int]] = field(default_factory=dict)  # Qubit connectivity
     noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)
 
     def __post_init__(self):
@@ -123,7 +121,6 @@ class QISubstrate:
         interfaces: Optional[dict[str, Any]] = None,
         config: Optional[dict[str, Any]] = None,
     ):
-
         self.interfaces = interfaces or {}
         self.config = config or self._default_config()
 
@@ -203,9 +200,7 @@ class QISubstrate:
 
         return state
 
-    def apply_quantum_noise(
-        self, state: QIState, time_evolution: float = 0.1
-    ) -> QIState:
+    def apply_quantum_noise(self, state: QIState, time_evolution: float = 0.1) -> QIState:
         """
         Apply quantum noise to a state
 
@@ -225,15 +220,12 @@ class QISubstrate:
                 decay = np.exp(-time_evolution / self.environment.coherence_time)
                 noisy_state *= decay
                 # Add ground state population
-                noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(
-                    state.state_vector
-                )
+                noisy_state[0] += np.sqrt(1 - decay**2) * np.linalg.norm(state.state_vector)
 
             elif noise_type == QuantumNoiseType.DEPHASING:
                 # Random phase errors
                 phases = np.exp(
-                    1j
-                    * np.random.normal(0, strength * time_evolution, len(noisy_state))
+                    1j * np.random.normal(0, strength * time_evolution, len(noisy_state))
                 )
                 noisy_state *= phases
 
@@ -262,9 +254,7 @@ class QISubstrate:
             },
         )
 
-    def stabilize_quantum_state(
-        self, state: QIState, target_fidelity: float = 0.95
-    ) -> QIState:
+    def stabilize_quantum_state(self, state: QIState, target_fidelity: float = 0.95) -> QIState:
         """
         Stabilize a quantum state using error correction
 
@@ -328,9 +318,7 @@ class QISubstrate:
         # Here we track them as entangled states with correlation
         state1 = QIState(
             state_id=state1_id,
-            state_vector=np.array(
-                [1 / np.sqrt(2), 0, 0, 1 / np.sqrt(2)], dtype=complex
-            ),
+            state_vector=np.array([1 / np.sqrt(2), 0, 0, 1 / np.sqrt(2)], dtype=complex),
             state_type=QIStateType.ENTANGLED,
             fidelity=1.0,
             entanglement_map={state2_id: 1.0},
@@ -338,9 +326,7 @@ class QISubstrate:
 
         state2 = QIState(
             state_id=state2_id,
-            state_vector=np.array(
-                [1 / np.sqrt(2), 0, 0, 1 / np.sqrt(2)], dtype=complex
-            ),
+            state_vector=np.array([1 / np.sqrt(2), 0, 0, 1 / np.sqrt(2)], dtype=complex),
             state_type=QIStateType.ENTANGLED,
             fidelity=1.0,
             entanglement_map={state1_id: 1.0},
@@ -437,9 +423,7 @@ class QISubstrate:
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get current quantum substrate metrics"""
         active_states = [s for s in self.quantum_states.values() if s.fidelity > 0.5]
-        entangled_states = [
-            s for s in active_states if s.state_type == QIStateType.ENTANGLED
-        ]
+        entangled_states = [s for s in active_states if s.state_type == QIStateType.ENTANGLED]
 
         return {
             "total_states": len(self.quantum_states),
@@ -452,9 +436,7 @@ class QISubstrate:
                 "coherence_time": self.environment.coherence_time,
                 "temperature": self.environment.temperature,
                 "gate_fidelity": self.environment.gate_fidelity,
-                "noise_levels": {
-                    k.value: v for k, v in self.environment.noise_model.items()
-                },
+                "noise_levels": {k.value: v for k, v in self.environment.noise_model.items()},
             },
             "error_correction": self.error_correction_enabled,
             "state_history_size": len(self.state_history),
@@ -471,11 +453,7 @@ class QISubstrate:
             "state_representation": True,  # Quantum states properly represented
             "noise_handling": self.error_correction_enabled,
             "entanglement_support": len(
-                [
-                    s
-                    for s in self.quantum_states.values()
-                    if s.state_type == QIStateType.ENTANGLED
-                ]
+                [s for s in self.quantum_states.values() if s.state_type == QIStateType.ENTANGLED]
             )
             > 0,
             "resonance_coupling": self.resonance_coupling > 0,
@@ -489,27 +467,19 @@ class QISubstrate:
         return {
             "readiness_score": readiness_score,
             "checks_passed": readiness_checks,
-            "recommendations": self._generate_transition_recommendations(
-                readiness_checks
-            ),
+            "recommendations": self._generate_transition_recommendations(readiness_checks),
             "quantum_metrics": self.get_quantum_metrics(),
         }
 
-    def _generate_transition_recommendations(
-        self, checks: dict[str, bool]
-    ) -> list[str]:
+    def _generate_transition_recommendations(self, checks: dict[str, bool]) -> list[str]:
         """Generate recommendations for quantum transition"""
         recommendations = []
 
         if not checks.get("noise_handling"):
-            recommendations.append(
-                "Enable error correction for quantum noise mitigation"
-            )
+            recommendations.append("Enable error correction for quantum noise mitigation")
 
         if not checks.get("entanglement_support"):
-            recommendations.append(
-                "Test entanglement operations before hardware transition"
-            )
+            recommendations.append("Test entanglement operations before hardware transition")
 
         if not checks.get("resonance_coupling"):
             recommendations.append("Configure resonance coupling parameters")

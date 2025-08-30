@@ -28,19 +28,24 @@ except ImportError:
     # SafetyChecker doesn't exist, use stub
     from .stubs import SafetyChecker
 
+
 # Create namespaces for compatibility with imports like:
 # from ethics.meg_bridge import MEGPolicyBridge
 # from ethics.policy_engines.base import Decision, RiskLevel
 class MegBridge:
     """Namespace for MEG bridge components"""
+
     MEGPolicyBridge = MEGPolicyBridge
     create_meg_bridge = create_meg_bridge
 
+
 class PolicyEngines:
     """Namespace for policy engine components"""
+
     class Base:
         Decision = Decision
         RiskLevel = RiskLevel
+
 
 # Create module-style attributes for imports like:
 # from ethics.ethics_engine import EthicsEngine
@@ -66,5 +71,5 @@ __all__ = [
     "meg_bridge",  # Backward compatibility
     "policy_engines",  # Backward compatibility
     "ethics_engine",
-    "safety_checks"
+    "safety_checks",
 ]

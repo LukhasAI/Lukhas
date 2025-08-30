@@ -70,9 +70,7 @@ class TPMFallback:
 
         logger.info("🔐 TPM Fallback initialized")
         logger.info(f"   Keystore: {self.keystore_path}")
-        logger.info(
-            f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms'])} algorithms"
-        )
+        logger.info(f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms'])} algorithms")
 
     def _initialize_tpm(self):
         """Initialize the simulated TPM"""
@@ -471,9 +469,7 @@ if __name__ == "__main__":
         # Decrypt
         decrypted = tpm.decrypt_data("test_aes", encrypted)
         if decrypted:
-            print(
-                f"   Decryption: {'✅ PASS' if decrypted == test_data else '❌ FAIL'}"
-            )
+            print(f"   Decryption: {'✅ PASS' if decrypted == test_data else '❌ FAIL'}")
 
     # Platform attestation
     print("\n🛡️ Testing platform attestation...")

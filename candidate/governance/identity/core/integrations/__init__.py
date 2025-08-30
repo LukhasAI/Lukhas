@@ -14,11 +14,11 @@ from .inference_adapter import (
 from .memory_connector import MemoryConnector, MemoryIntegrationResult
 
 __all__ = [
-    "MemoryConnector",
-    "MemoryIntegrationResult",
     "ConsciousnessBridge",
     "ConsciousnessSync",
     "InferenceAdapter",
     "InferenceRequest",
     "InferenceResult",
+    "MemoryConnector",
+    "MemoryIntegrationResult",
 ]

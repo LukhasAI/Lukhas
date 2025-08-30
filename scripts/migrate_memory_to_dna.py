@@ -3,6 +3,7 @@
 Backfill legacy memory into DNA Helix with checkpoints.
 Idempotent by version; safe to resume.
 """
+
 import argparse
 import json
 import time
@@ -35,9 +36,7 @@ def save_ckpt(data):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "--legacy", default=".lukhas_legacy/memory.jsonl", help="Path to legacy JSONL"
-    )
+    ap.add_argument("--legacy", default=".lukhas_legacy/memory.jsonl", help="Path to legacy JSONL")
     ap.add_argument("--limit", type=int, default=0, help="Max records (0=all)")
     args = ap.parse_args()
 

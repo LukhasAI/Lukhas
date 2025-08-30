@@ -25,6 +25,7 @@ except ImportError as e:
 
 class VisualizationMode(Enum):
     """Visualization modes for different consciousness aspects"""
+
     AWARENESS = "awareness"
     MEMORY = "memory"
     EMOTION = "emotion"
@@ -36,6 +37,7 @@ class VisualizationMode(Enum):
 @dataclass
 class ConsciousnessVisualizationState:
     """Complete visualization state for consciousness"""
+
     # Core consciousness metrics
     awareness: float = 0.5
     coherence: float = 0.5
@@ -129,42 +131,44 @@ class ConsciousnessVisualizationBridge:
                 "density": lambda s: s.awareness * 20000,
                 "speed": lambda s: 0.01 + s.awareness * 0.05,
                 "cohesion": lambda s: s.coherence,
-                "turbulence": lambda s: 1 - s.coherence
+                "turbulence": lambda s: 1 - s.coherence,
             },
             VisualizationMode.MEMORY: {
                 "distribution": "helix",
                 "density": lambda s: s.memory_density * 20000,
                 "speed": lambda s: 0.02,
                 "cohesion": lambda s: s.memory_coherence,
-                "layers": lambda s: s.active_folds
+                "layers": lambda s: s.active_folds,
             },
             VisualizationMode.EMOTION: {
                 "distribution": "heart" if self.state.valence > 0.6 else "sphere",
                 "density": lambda s: 10000 + s.arousal * 10000,
                 "speed": lambda s: 0.01 + s.arousal * 0.1,
                 "pulse": lambda s: s.arousal,
-                "spread": lambda s: s.dominance
+                "spread": lambda s: s.dominance,
             },
             VisualizationMode.GLYPHS: {
                 "distribution": "text",
                 "text": lambda s: " ".join(s.active_glyphs[:5]),
                 "resonance": lambda s: s.glyph_resonance,
-                "rotation": lambda s: s.glyph_resonance * 0.02
+                "rotation": lambda s: s.glyph_resonance * 0.02,
             },
             VisualizationMode.QUANTUM: {
                 "distribution": "galaxy",
                 "density": lambda s: 15000,
                 "entanglement": lambda s: s.entanglement,
                 "coherence": lambda s: s.qi_coherence,
-                "spin": lambda s: 0.001 + s.qi_coherence * 0.01
+                "spin": lambda s: 0.001 + s.qi_coherence * 0.01,
             },
             VisualizationMode.TRINITY: {
                 "distribution": "trinity",
                 "identity_particles": lambda s: int(s.identity_strength * 10000),
                 "consciousness_particles": lambda s: int(s.consciousness_strength * 10000),
                 "guardian_particles": lambda s: int(s.guardian_strength * 10000),
-                "balance": lambda s: min(s.identity_strength, s.consciousness_strength, s.guardian_strength)
-            }
+                "balance": lambda s: min(
+                    s.identity_strength, s.consciousness_strength, s.guardian_strength
+                ),
+            },
         }
 
     def _init_color_mappings(self) -> dict:
@@ -172,29 +176,31 @@ class ConsciousnessVisualizationBridge:
         return {
             VisualizationMode.AWARENESS: {
                 "primary": lambda s: self._hsv_to_rgb(0.5 + s.awareness * 0.2, 0.8, 0.7),
-                "secondary": lambda s: self._hsv_to_rgb(0.6, s.coherence, 0.5)
+                "secondary": lambda s: self._hsv_to_rgb(0.6, s.coherence, 0.5),
             },
             VisualizationMode.MEMORY: {
                 "primary": lambda s: self._hsv_to_rgb(0.7, s.memory_coherence, 0.6),
-                "secondary": lambda s: self._hsv_to_rgb(0.75, 0.5, s.memory_density)
+                "secondary": lambda s: self._hsv_to_rgb(0.75, 0.5, s.memory_density),
             },
             VisualizationMode.EMOTION: {
                 "primary": lambda s: self._emotion_to_color(s.valence, s.arousal, s.dominance),
-                "secondary": lambda s: self._hsv_to_rgb(s.valence, s.arousal, 0.5)
+                "secondary": lambda s: self._hsv_to_rgb(s.valence, s.arousal, 0.5),
             },
             VisualizationMode.GLYPHS: {
                 "primary": lambda s: self._hsv_to_rgb(0.3, s.glyph_resonance, 0.8),
-                "secondary": lambda s: self._hsv_to_rgb(0.25, 0.7, s.glyph_resonance)
+                "secondary": lambda s: self._hsv_to_rgb(0.25, 0.7, s.glyph_resonance),
             },
             VisualizationMode.QUANTUM: {
-                "primary": lambda s: self._hsv_to_rgb(0.8 + s.entanglement * 0.2, s.qi_coherence, 0.7),
-                "secondary": lambda s: self._hsv_to_rgb(0.85, 0.9, s.qi_coherence)
+                "primary": lambda s: self._hsv_to_rgb(
+                    0.8 + s.entanglement * 0.2, s.qi_coherence, 0.7
+                ),
+                "secondary": lambda s: self._hsv_to_rgb(0.85, 0.9, s.qi_coherence),
             },
             VisualizationMode.TRINITY: {
                 "identity": "#FF6B9D",  # Pink
                 "consciousness": "#00D4FF",  # Cyan
-                "guardian": "#7C3AED"  # Purple
-            }
+                "guardian": "#7C3AED",  # Purple
+            },
         }
 
     def _init_shape_mappings(self) -> dict:
@@ -208,7 +214,7 @@ class ConsciousnessVisualizationBridge:
             "negative_emotion": "sphere",
             "active_memory": "helix",
             "qi_state": "dna",
-            "balanced_trinity": "triangle"
+            "balanced_trinity": "triangle",
         }
 
     async def update_consciousness_state(self):
@@ -270,7 +276,7 @@ class ConsciousnessVisualizationBridge:
             "state": self.state.to_dict(),
             "particles": {},
             "colors": {},
-            "shape": self._determine_shape()
+            "shape": self._determine_shape(),
         }
 
         # Apply behavior functions to state
@@ -307,6 +313,7 @@ class ConsciousnessVisualizationBridge:
     def _hsv_to_rgb(self, h: float, s: float, v: float) -> str:
         """Convert HSV to RGB hex color"""
         import colorsys
+
         r, g, b = colorsys.hsv_to_rgb(h, s, v)
         return ""
 
@@ -363,7 +370,7 @@ class ConsciousnessVisualizationBridge:
                 "sad": (0.2, 0.3, 0.4),
                 "angry": (0.3, 0.9, 0.8),
                 "calm": (0.5, 0.2, 0.5),
-                "excited": (0.9, 0.9, 0.7)
+                "excited": (0.9, 0.9, 0.7),
             }
             if voice_data["emotion"] in emotion_map:
                 v, a, d = emotion_map[voice_data["emotion"]]
@@ -378,11 +385,7 @@ class ConsciousnessVisualizationBridge:
         Process text input for visualization.
         Can trigger GLYPH processing or text morphing.
         """
-        visualization_params = {
-            "type": "text",
-            "content": text,
-            "glyphs": []
-        }
+        visualization_params = {"type": "text", "content": text, "glyphs": []}
 
         # Process through GLYPH engine if available
         if self.glyph_engine:
@@ -400,7 +403,7 @@ class ConsciousnessVisualizationBridge:
             "dream": lambda: setattr(self.state, "coherence", max(0.0, self.state.coherence - 0.1)),
             "clear": lambda: setattr(self.state, "coherence", min(1.0, self.state.coherence + 0.1)),
             "happy": lambda: setattr(self.state, "valence", min(1.0, self.state.valence + 0.2)),
-            "sad": lambda: setattr(self.state, "valence", max(0.0, self.state.valence - 0.2))
+            "sad": lambda: setattr(self.state, "valence", max(0.0, self.state.valence - 0.2)),
         }
 
         text_lower = text.lower()
@@ -434,9 +437,11 @@ class ConsciousnessVisualizationBridge:
             summary.append("Chaotic")
 
         # Trinity balance
-        trinity_balance = abs(self.state.identity_strength - 0.33) + \
-                         abs(self.state.consciousness_strength - 0.33) + \
-                         abs(self.state.guardian_strength - 0.33)
+        trinity_balance = (
+            abs(self.state.identity_strength - 0.33)
+            + abs(self.state.consciousness_strength - 0.33)
+            + abs(self.state.guardian_strength - 0.33)
+        )
         if trinity_balance < 0.1:
             summary.append("Trinity in balance")
 
@@ -447,45 +452,28 @@ class ConsciousnessVisualizationBridge:
 VISUALIZATION_PRESETS = {
     "meditation": {
         "mode": VisualizationMode.AWARENESS,
-        "state": {
-            "awareness": 0.9,
-            "coherence": 0.8,
-            "arousal": 0.2,
-            "valence": 0.6
-        }
+        "state": {"awareness": 0.9, "coherence": 0.8, "arousal": 0.2, "valence": 0.6},
     },
     "creative": {
         "mode": VisualizationMode.QUANTUM,
-        "state": {
-            "qi_coherence": 0.7,
-            "entanglement": 0.5,
-            "coherence": 0.6
-        }
+        "state": {"qi_coherence": 0.7, "entanglement": 0.5, "coherence": 0.6},
     },
     "emotional": {
         "mode": VisualizationMode.EMOTION,
-        "state": {
-            "valence": 0.8,
-            "arousal": 0.7,
-            "dominance": 0.6
-        }
+        "state": {"valence": 0.8, "arousal": 0.7, "dominance": 0.6},
     },
     "memory": {
         "mode": VisualizationMode.MEMORY,
-        "state": {
-            "memory_density": 0.7,
-            "memory_coherence": 0.8,
-            "active_folds": 5
-        }
+        "state": {"memory_density": 0.7, "memory_coherence": 0.8, "active_folds": 5},
     },
     "balanced": {
         "mode": VisualizationMode.TRINITY,
         "state": {
             "identity_strength": 0.33,
             "consciousness_strength": 0.34,
-            "guardian_strength": 0.33
-        }
-    }
+            "guardian_strength": 0.33,
+        },
+    },
 }
 
 

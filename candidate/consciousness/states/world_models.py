@@ -20,6 +20,7 @@ Features:
 - Temporal dynamics modeling
 - Predictive modeling frameworks
 """
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -109,13 +110,8 @@ class PhysicsEngine:
                     vel = np.array(entity["velocity"])
 
                     # Apply gravity if applicable
-                    if (
-                        entity.get("mass", 0) > 0
-                        and self.physical_laws["gravity"]["enabled"]
-                    ):
-                        gravity_accel = np.array(
-                            [0, 0, -self.physical_laws["gravity"]["strength"]]
-                        )
+                    if entity.get("mass", 0) > 0 and self.physical_laws["gravity"]["enabled"]:
+                        gravity_accel = np.array([0, 0, -self.physical_laws["gravity"]["strength"]])
                         vel += gravity_accel * duration
 
                     # Update position
@@ -168,9 +164,7 @@ class TemporalDynamicsModel:
             logger.error(f"Temporal dynamics modeling failed: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def _extract_temporal_patterns(
-        self, history: list[WorldState]
-    ) -> dict[str, Any]:
+    async def _extract_temporal_patterns(self, history: list[WorldState]) -> dict[str, Any]:
         """Extract patterns from temporal sequence"""
         patterns = {"periodicity": {}, "trends": {}, "anomalies": []}
 
@@ -196,9 +190,7 @@ class TemporalDynamicsModel:
 
         return patterns
 
-    def _calculate_entity_changes(
-        self, prev_entity: dict, curr_entity: dict
-    ) -> dict[str, float]:
+    def _calculate_entity_changes(self, prev_entity: dict, curr_entity: dict) -> dict[str, float]:
         """Calculate changes between entity states"""
         changes = {}
 
@@ -210,9 +202,7 @@ class TemporalDynamicsModel:
 
         return changes
 
-    async def _build_causality_graph(
-        self, history: list[WorldState]
-    ) -> dict[str, list[str]]:
+    async def _build_causality_graph(self, history: list[WorldState]) -> dict[str, list[str]]:
         """Build causality relationships between entities"""
         causality = {}
 
@@ -255,7 +245,6 @@ class TemporalDynamicsModel:
                 and entity_b in curr_state.entities
                 and entity_b in next_state.entities
             ):
-
                 # Check if change in entity_a correlates with change in entity_b
                 changes_a = self._calculate_entity_changes(
                     prev_state.entities[entity_a], curr_state.entities[entity_a]
@@ -267,12 +256,8 @@ class TemporalDynamicsModel:
                 if changes_a and changes_b:
                     # Simple correlation: if both have significant changes, consider
                     # correlated
-                    significant_changes_a = sum(
-                        1 for v in changes_a.values() if abs(v) > 0.1
-                    )
-                    significant_changes_b = sum(
-                        1 for v in changes_b.values() if abs(v) > 0.1
-                    )
+                    significant_changes_a = sum(1 for v in changes_a.values() if abs(v) > 0.1)
+                    significant_changes_b = sum(1 for v in changes_b.values() if abs(v) > 0.1)
 
                     if significant_changes_a > 0 and significant_changes_b > 0:
                         return 0.8  # Strong correlation
@@ -309,8 +294,7 @@ class TemporalDynamicsModel:
         try:
             entity_data = [state.entities[entity_id] for state in states]
             time_points = [
-                (state.timestamp - states[0].timestamp).total_seconds()
-                for state in states
+                (state.timestamp - states[0].timestamp).total_seconds() for state in states
             ]
 
             trends = {}
@@ -322,9 +306,7 @@ class TemporalDynamicsModel:
 
                     # Simple linear regression
                     if len(set(values)) > 1:  # Not all same values
-                        slope = (values[-1] - values[0]) / (
-                            time_points[-1] - time_points[0]
-                        )
+                        slope = (values[-1] - values[0]) / (time_points[-1] - time_points[0])
                         trends[key] = {
                             "slope": slope,
                             "direction": "increasing" if slope > 0 else "decreasing",
@@ -454,9 +436,7 @@ class WorldModels:
 
             # Maintain history limit
             if len(self.world_states) > self.config["max_states_history"]:
-                self.world_states = self.world_states[
-                    -self.config["max_states_history"] :
-                ]
+                self.world_states = self.world_states[-self.config["max_states_history"] :]
 
             logger.info(f"🌍 Created world state: {state.state_id}")
             return state
@@ -490,7 +470,8 @@ class WorldModels:
             # Apply temporal dynamics
             if self.config["temporal_modeling_enabled"] and len(self.world_states) > 1:
                 temporal_analysis = await self.temporal_model.model_temporal_dynamics(
-                    self.world_states[-10:], duration  # Use recent history
+                    self.world_states[-10:],
+                    duration,  # Use recent history
                 )
 
                 # Apply temporal predictions to simulated state
@@ -512,9 +493,7 @@ class WorldModels:
             # Cache result
             self.prediction_cache[simulation_id] = result
 
-            logger.info(
-                f"✅ Simulation completed: {simulation_id} (confidence: {confidence:.2f})"
-            )
+            logger.info(f"✅ Simulation completed: {simulation_id} (confidence: {confidence:.2f})")
             return result
 
         except Exception as e:
@@ -548,12 +527,9 @@ class WorldModels:
                             and isinstance(trend_data, dict)
                             and "slope" in trend_data
                         ):
-
                             current_value = entity[property_name]
                             if isinstance(current_value, (int, float)):
-                                predicted_change = (
-                                    trend_data["slope"] * duration_seconds
-                                )
+                                predicted_change = trend_data["slope"] * duration_seconds
                                 entity[property_name] = current_value + predicted_change
 
             return new_state
@@ -573,9 +549,7 @@ class WorldModels:
         time_penalty = min(0.3, hours * 0.05)  # 5% penalty per hour, max 30%
 
         # Consider available historical data
-        data_bonus = min(
-            0.1, len(self.world_states) * 0.01
-        )  # 1% bonus per state, max 10%
+        data_bonus = min(0.1, len(self.world_states) * 0.01)  # 1% bonus per state, max 10%
 
         final_confidence = max(0.1, base_confidence - time_penalty + data_bonus)
         return min(0.95, final_confidence)
@@ -592,9 +566,7 @@ class WorldModels:
             current_state = self.world_states[-1]
 
             # Check cache first
-            cache_key = (
-                f"pred_{current_state.state_id}_{prediction_horizon.total_seconds()}"
-            )
+            cache_key = f"pred_{current_state.state_id}_{prediction_horizon.total_seconds()}"
             if cache_key in self.prediction_cache:
                 logger.info(f"🎯 Using cached prediction: {cache_key}")
                 return self.prediction_cache[cache_key]
@@ -727,9 +699,9 @@ class WorldModels:
 
 # Export main class
 __all__ = [
+    "PredictionResult",
+    "SimulationAccuracy",
+    "WorldModelType",
     "WorldModels",
     "WorldState",
-    "PredictionResult",
-    "WorldModelType",
-    "SimulationAccuracy",
 ]

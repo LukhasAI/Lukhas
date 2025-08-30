@@ -15,18 +15,29 @@ from qi.safety.constants import MAX_THRESHOLD_SHIFT
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 COUPLER_STATE = os.path.join(STATE, "teq_coupler.json")
 
+
 def _write_json(p: str, obj: Any):
-    tmp=p+".tmp"
-    with _ORIG_OPEN(tmp,"w",encoding="utf-8") as f: json.dump(obj, f, indent=2)
-    os.replace(tmp,p)
+    tmp = p + ".tmp"
+    with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=2)
+    os.replace(tmp, p)
+
 
 def _pick_temperature(task: str | None, params) -> float:
-    if not params: return 1.0
+    if not params:
+        return 1.0
     if task and params.per_task_temperature and task in params.per_task_temperature:
         return float(params.per_task_temperature[task])
     return float(params.temperature or 1.0)
 
-def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: float = MAX_THRESHOLD_SHIFT, task: str | None = None) -> dict[str, Any]:
+
+def calibrated_gate(
+    confidence: float,
+    *,
+    base_threshold: float,
+    max_shift: float = MAX_THRESHOLD_SHIFT,
+    task: str | None = None,
+) -> dict[str, Any]:
     """
     Uses per-task temperature if available; falls back to global.
     Respects feedback-driven threshold adjustments (bounded to ±0.05).
@@ -54,10 +65,10 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
 
     # Combine temperature-based and feedback-based shifts (bounded)
     temp_shift = 0.0
-    if T > 1.0:   # under-confident → lower threshold slightly
-        temp_shift = -min(max_shift/2, (T-1.0)*0.025)
-    elif T < 1.0: # over-confident → raise slightly
-        temp_shift =  min(max_shift/2, (1.0-T)*0.025)
+    if T > 1.0:  # under-confident → lower threshold slightly
+        temp_shift = -min(max_shift / 2, (T - 1.0) * 0.025)
+    elif T < 1.0:  # over-confident → raise slightly
+        temp_shift = min(max_shift / 2, (1.0 - T) * 0.025)
 
     # Total shift bounded to max_shift (0.05)
     total_shift = max(-max_shift, min(max_shift, temp_shift + feedback_shift))
@@ -82,8 +93,9 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
         "task": task or None,
         "source": (params.source if params else None),
         "calibration_source": calibration_source,
-        "feedback_shift": float(feedback_shift) if feedback_shift else None
+        "feedback_shift": float(feedback_shift) if feedback_shift else None,
     }
+
 
 def emit_calibrated_receipt(**kwargs):
     """
@@ -112,14 +124,16 @@ def emit_calibrated_receipt(**kwargs):
     # Build metrics dict from calibration data
     metrics = kwargs.get("metrics", {})
     if cal_result:
-        metrics.update({
-            "confidence": cal_result.get("raw_conf"),
-            "calibrated_confidence": cal_result.get("calibrated_conf"),
-            "temperature": cal_result.get("temperature"),
-            "decision": cal_result.get("decision"),
-            "threshold_eff": cal_result.get("threshold_eff"),
-            "calibration_source": cal_result.get("source")
-        })
+        metrics.update(
+            {
+                "confidence": cal_result.get("raw_conf"),
+                "calibrated_confidence": cal_result.get("calibrated_conf"),
+                "temperature": cal_result.get("temperature"),
+                "decision": cal_result.get("decision"),
+                "threshold_eff": cal_result.get("threshold_eff"),
+                "calibration_source": cal_result.get("source"),
+            }
+        )
         kwargs["metrics"] = metrics
 
         # Add to risk flags if blocked
@@ -131,23 +145,29 @@ def emit_calibrated_receipt(**kwargs):
     # Import and use receipts hub
     try:
         from qi.provenance.receipts_hub import emit_receipt
+
         return emit_receipt(**kwargs)
     except ImportError:
         # Fallback - just return the kwargs for testing
         return {"error": "receipts_hub not available", "kwargs": kwargs}
 
+
 # ------------- CLI -------------
 def main():
     import argparse
     import json as _json
+
     ap = argparse.ArgumentParser(description="TEQ Coupler preview")
     ap.add_argument("--conf", type=float, required=True, help="raw confidence [0,1]")
     ap.add_argument("--base-threshold", type=float, required=True)
     ap.add_argument("--max-shift", type=float, default=0.1)
     ap.add_argument("--task", type=str, help="task name for per-task calibration")
     args = ap.parse_args()
-    result = calibrated_gate(args.conf, base_threshold=args.base_threshold, max_shift=args.max_shift, task=args.task)
+    result = calibrated_gate(
+        args.conf, base_threshold=args.base_threshold, max_shift=args.max_shift, task=args.task
+    )
     print(_json.dumps(result, indent=2))
+
 
 if __name__ == "__main__":
     main()

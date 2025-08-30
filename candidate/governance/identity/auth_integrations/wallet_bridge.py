@@ -20,9 +20,11 @@ from typing import Any, Optional
 # from lambda_products_pack.lambda_core.WALLET.wallet_core import WalletCore
 # from lambda_products_pack.lambda_core.WALLET.qi_identity_core import QIIdentityCore
 
+
 @dataclass
 class WalletAuthIntegration:
     """Configuration for WALLET authentication integration"""
+
     wallet_enabled: bool = True
     symbolic_vault_enabled: bool = True
     qi_identity_enabled: bool = True
@@ -63,53 +65,40 @@ class AuthWalletBridge:
                     "identity_manager",
                     "symbolic_vault",
                     "wallet_core",
-                    "qi_identity_core"
-                ]
+                    "qi_identity_core",
+                ],
             }
         except Exception as e:
             return {
                 "status": "integration_pending",
                 "error": str(e),
-                "note": "WALLET components not yet wired"
+                "note": "WALLET components not yet wired",
             }
 
     async def authenticate_with_wallet(
-        self,
-        user_id: str,
-        symbolic_credentials: dict[str, Any]
+        self, user_id: str, symbolic_credentials: dict[str, Any]
     ) -> dict[str, Any]:
         """Authenticate using WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
             "authenticated": False,
             "method": "wallet_symbolic",
-            "status": "pending_wallet_integration"
+            "status": "pending_wallet_integration",
         }
 
-    async def store_auth_symbols(
-        self,
-        user_id: str,
-        auth_symbols: list[str]
-    ) -> dict[str, Any]:
+    async def store_auth_symbols(self, user_id: str, auth_symbols: list[str]) -> dict[str, Any]:
         """Store authentication symbols in WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
             "stored": False,
             "vault_location": "pending",
-            "status": "pending_wallet_integration"
+            "status": "pending_wallet_integration",
         }
 
-    async def verify_qi_identity(
-        self,
-        identity_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def verify_qi_identity(self, identity_data: dict[str, Any]) -> dict[str, Any]:
         """Verify identity using QI-enhanced algorithms"""
         # TODO: Implement when WALLET QI core is integrated
-        return {
-            "verified": False,
-            "qi_score": 0.0,
-            "status": "pending_qi_integration"
-        }
+        return {"verified": False, "qi_score": 0.0, "status": "pending_qi_integration"}
 
 
 # Integration factory
@@ -122,8 +111,4 @@ def create_wallet_bridge(config: Optional[WalletAuthIntegration] = None) -> Auth
 
 
 # Export for authentication system
-__all__ = [
-    "AuthWalletBridge",
-    "WalletAuthIntegration",
-    "create_wallet_bridge"
-]
+__all__ = ["AuthWalletBridge", "WalletAuthIntegration", "create_wallet_bridge"]

@@ -194,9 +194,7 @@ class NIASRewardEngine:
             multiplier *= 1.5
 
         # Duration bonus (longer engagement = more rewards)
-        duration_bonus = min(
-            engagement_duration / 30.0, 2.0
-        )  # Cap at 2x for 30+ seconds
+        duration_bonus = min(engagement_duration / 30.0, 2.0)  # Cap at 2x for 30+ seconds
 
         # Calculate final rewards
         credits_earned = base_credits * multiplier * duration_bonus
@@ -357,9 +355,7 @@ class NIASRewardEngine:
         unlockable_content = []
         for content_id, content in self.exclusive_content.items():
             if content_id not in profile.unlocked_content:
-                can_unlock = self._check_requirements(
-                    profile, content.unlock_requirements
-                )
+                can_unlock = self._check_requirements(profile, content.unlock_requirements)
                 unlockable_content.append(
                     {
                         "content_id": content_id,
@@ -407,18 +403,13 @@ class NIASRewardEngine:
         """Calculate user level based on points"""
         return max(1, total_points // 100 + 1)
 
-    def _check_requirements(
-        self, profile: UserRewardProfile, requirements: dict[str, Any]
-    ) -> bool:
+    def _check_requirements(self, profile: UserRewardProfile, requirements: dict[str, Any]) -> bool:
         """Check if user meets requirements"""
         for req_type, req_value in requirements.items():
             if (
-                req_type == "credits"
-                and profile.total_credits < req_value
-                or req_type == "points"
-                and profile.total_points < req_value
-                or req_type == "level"
-                and profile.experience_level < req_value
+                (req_type == "credits" and profile.total_credits < req_value)
+                or (req_type == "points" and profile.total_points < req_value)
+                or (req_type == "level" and profile.experience_level < req_value)
             ):
                 return False
             elif req_type == "achievements":
@@ -460,10 +451,7 @@ class NIASRewardEngine:
 
         for milestone in milestones:
             achievement_name = f"engagement_{milestone}"
-            if (
-                total_engagements >= milestone
-                and achievement_name not in profile.achievements
-            ):
+            if total_engagements >= milestone and achievement_name not in profile.achievements:
                 profile.achievements.append(achievement_name)
                 new_achievements.append(f"Milestone: {milestone} engagements!")
 
@@ -474,9 +462,7 @@ class NIASRewardEngine:
 
         return new_achievements
 
-    def _activate_premium_feature(
-        self, profile: UserRewardProfile, feature_config: dict[str, Any]
-    ):
+    def _activate_premium_feature(self, profile: UserRewardProfile, feature_config: dict[str, Any]):
         """Activate premium feature for user"""
         duration = feature_config.get("duration", "7_days")
         days = int(duration.split("_")[0])

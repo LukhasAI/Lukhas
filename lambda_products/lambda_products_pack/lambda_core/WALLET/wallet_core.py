@@ -353,9 +353,7 @@ class Ledger:
         tx_id = str(uuid.uuid4())
 
         # Create signature (simplified)
-        signature = hashlib.sha256(
-            f"{tx_id}{from_did}{to_did}{amount}".encode()
-        ).hexdigest()
+        signature = hashlib.sha256(f"{tx_id}{from_did}{to_did}{amount}".encode()).hexdigest()
 
         # Create transaction
         tx = Transaction(
@@ -379,11 +377,7 @@ class Ledger:
 
     async def get_transactions(self, did: str, limit: int = 10) -> list[Transaction]:
         """Get transactions for a DID"""
-        user_txs = [
-            tx
-            for tx in self.wallet.transactions
-            if tx.from_did == did or tx.to_did == did
-        ]
+        user_txs = [tx for tx in self.wallet.transactions if tx.from_did == did or tx.to_did == did]
 
         # Sort by timestamp descending
         user_txs.sort(key=lambda tx: tx.timestamp, reverse=True)

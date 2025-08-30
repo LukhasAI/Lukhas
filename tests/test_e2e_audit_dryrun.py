@@ -6,6 +6,7 @@ Implements comprehensive E2E validation without execution of real processes.
 Purpose: Provide single provable test path for pre/post-MATRIZ audit validation.
 All tests run in dry-run mode with no external dependencies or side effects.
 """
+
 import json
 import os
 from datetime import datetime
@@ -18,6 +19,7 @@ import pytest
 # AUDIT SAFETY VERIFICATION
 # ============================================================================
 
+
 class AuditSafetyChecker:
     """Verify audit safety conditions before running tests."""
 
@@ -27,7 +29,7 @@ class AuditSafetyChecker:
         required_env = {
             "LUKHAS_DRY_RUN_MODE": "true",
             "LUKHAS_OFFLINE": "true",
-            "LUKHAS_AUDIT_MODE": "true"
+            "LUKHAS_AUDIT_MODE": "true",
         }
 
         for var, expected in required_env.items():
@@ -41,7 +43,7 @@ class AuditSafetyChecker:
         dangerous_features = [
             "FEATURE_REAL_API_CALLS",
             "FEATURE_MEMORY_PERSISTENCE",
-            "FEATURE_EXTERNAL_CONNECTIONS"
+            "FEATURE_EXTERNAL_CONNECTIONS",
         ]
 
         for feature in dangerous_features:
@@ -51,21 +53,21 @@ class AuditSafetyChecker:
     @staticmethod
     def verify_no_api_keys_required():
         """Verify no real API keys are required."""
-        api_keys = [
-            "OPENAI_API_KEY",
-            "ANTHROPIC_API_KEY",
-            "GOOGLE_API_KEY"
-        ]
+        api_keys = ["OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GOOGLE_API_KEY"]
 
         # API keys should either be empty or clearly marked as audit/test keys
         for key in api_keys:
             value = os.getenv(key, "")
-            if value and not any(marker in value.lower() for marker in ["audit", "test", "local", "dry"]):
+            if value and not any(
+                marker in value.lower() for marker in ["audit", "test", "local", "dry"]
+            ):
                 pytest.fail(f"Real API key detected: {key}")
+
 
 # ============================================================================
 # MOCK IMPLEMENTATIONS FOR AUDIT TESTING
 # ============================================================================
+
 
 class AuditMockRegistry:
     """Registry of audit-safe mock implementations."""
@@ -82,11 +84,13 @@ class AuditMockRegistry:
             "session_id": f"audit_session_{user_id}",
             "authentication_method": "audit_mock",
             "dry_run": True,
-            "audit_safe": True
+            "audit_safe": True,
         }
 
     @staticmethod
-    def mock_governance_record_consent(consent_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
+    def mock_governance_record_consent(
+        consent_data: dict[str, Any], mode: str = "dry_run"
+    ) -> dict[str, Any]:
         """Mock consent recording for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -97,11 +101,13 @@ class AuditMockRegistry:
             "recorded_at": datetime.utcnow().isoformat(),
             "dry_run": True,
             "audit_safe": True,
-            "scopes": consent_data.get("scopes", [])
+            "scopes": consent_data.get("scopes", []),
         }
 
     @staticmethod
-    def mock_orchestration_build_context(context_data: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
+    def mock_orchestration_build_context(
+        context_data: dict[str, Any], mode: str = "dry_run"
+    ) -> dict[str, Any]:
         """Mock context building for audit."""
         if mode != "dry_run":
             raise RuntimeError("Non-dry-run mode not allowed in audit")
@@ -112,7 +118,7 @@ class AuditMockRegistry:
             "tenant": context_data.get("tenant", "audit_tenant"),
             "built_at": datetime.utcnow().isoformat(),
             "dry_run": True,
-            "audit_safe": True
+            "audit_safe": True,
         }
 
     @staticmethod
@@ -128,12 +134,14 @@ class AuditMockRegistry:
             "policy_version": "audit_mock_v1.0",
             "dry_run": True,
             "audit_safe": True,
-            "risk_score": 0.05
+            "risk_score": 0.05,
         }
+
 
 # ============================================================================
 # E2E AUDIT TESTS
 # ============================================================================
+
 
 class TestE2EAuditDryRun:
     """End-to-end audit dry-run test suite."""
@@ -171,7 +179,7 @@ class TestE2EAuditDryRun:
         consent_data = {
             "subject": "audit_test_user_001",
             "scopes": ["data_processing", "analytics"],
-            "purpose": "audit_testing"
+            "purpose": "audit_testing",
         }
 
         # Act
@@ -193,7 +201,7 @@ class TestE2EAuditDryRun:
         context_data = {
             "session_id": "audit_session_001",
             "tenant": "audit_tenant",
-            "user_context": {"role": "test_user"}
+            "user_context": {"role": "test_user"},
         }
 
         # Act
@@ -212,11 +220,7 @@ class TestE2EAuditDryRun:
     def test_policy_decision_dry_run(self):
         """Test policy decision in audit dry-run mode."""
         # Arrange
-        policy_input = {
-            "action": "read",
-            "resource": "test_resource",
-            "context": {"audit": True}
-        }
+        policy_input = {"action": "read", "resource": "test_resource", "context": {"audit": True}}
 
         # Act
         result = AuditMockRegistry.mock_policy_decide(policy_input, mode="dry_run")
@@ -244,27 +248,25 @@ class TestE2EAuditDryRun:
         assert auth_result["audit_safe"] is True
 
         # Step 2: Consent Recording
-        consent_data = {
-            "subject": user_id,
-            "scopes": ["e2e_testing", "audit_validation"]
-        }
-        consent_result = AuditMockRegistry.mock_governance_record_consent(consent_data, mode="dry_run")
+        consent_data = {"subject": user_id, "scopes": ["e2e_testing", "audit_validation"]}
+        consent_result = AuditMockRegistry.mock_governance_record_consent(
+            consent_data, mode="dry_run"
+        )
         assert consent_result["ok"] is True
         assert consent_result["audit_safe"] is True
 
         # Step 3: Context Building
-        context_data = {
-            "session_id": auth_result["session_id"],
-            "tenant": "audit_e2e_tenant"
-        }
-        context_result = AuditMockRegistry.mock_orchestration_build_context(context_data, mode="dry_run")
+        context_data = {"session_id": auth_result["session_id"], "tenant": "audit_e2e_tenant"}
+        context_result = AuditMockRegistry.mock_orchestration_build_context(
+            context_data, mode="dry_run"
+        )
         assert context_result["audit_safe"] is True
 
         # Step 4: Policy Decision
         policy_input = {
             "action": "e2e_test",
             "user_id": user_id,
-            "context_id": context_result["context_id"]
+            "context_id": context_result["context_id"],
         }
         decision_result = AuditMockRegistry.mock_policy_decide(policy_input, mode="dry_run")
         assert decision_result["audit_safe"] is True
@@ -274,7 +276,7 @@ class TestE2EAuditDryRun:
             "authentication": auth_result,
             "consent": consent_result,
             "context": context_result,
-            "decision": decision_result
+            "decision": decision_result,
         }
 
         # All steps must be audit safe
@@ -303,12 +305,7 @@ class TestE2EAuditDryRun:
         # This test would verify the acceptance gate from tools/acceptance_gate_ast.py
         # In a real implementation, this would run the gate and verify results
 
-        gate_result = {
-            "violations": 0,
-            "facades": 0,
-            "compliance": True,
-            "audit_ready": True
-        }
+        gate_result = {"violations": 0, "facades": 0, "compliance": True, "audit_ready": True}
 
         assert gate_result["violations"] == 0, "Acceptance gate found violations"
         assert gate_result["compliance"] is True, "System not compliant"
@@ -323,14 +320,16 @@ class TestE2EAuditDryRun:
             os.getenv("LUKHAS_OFFLINE") == "true",
             os.getenv("LUKHAS_AUDIT_MODE") == "true",
             os.getenv("FEATURE_REAL_API_CALLS", "false") == "false",
-            os.getenv("MAX_API_CALLS_PER_TEST", "1") == "0"
+            os.getenv("MAX_API_CALLS_PER_TEST", "1") == "0",
         ]
 
         assert all(safety_checks), "Not all safety defaults are active"
 
+
 # ============================================================================
 # AUDIT REPORTING
 # ============================================================================
+
 
 def generate_e2e_audit_report() -> dict[str, Any]:
     """Generate comprehensive E2E audit report."""
@@ -339,14 +338,14 @@ def generate_e2e_audit_report() -> dict[str, Any]:
             "test_suite": "e2e_audit_dry_run",
             "version": "1.0.0-audit-prep",
             "purpose": "pre_post_matriz_validation",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         },
         "safety_verification": {
             "audit_mode_active": os.getenv("LUKHAS_AUDIT_MODE") == "true",
             "dry_run_mode_active": os.getenv("LUKHAS_DRY_RUN_MODE") == "true",
             "offline_mode_active": os.getenv("LUKHAS_OFFLINE") == "true",
             "external_calls_blocked": True,
-            "api_keys_not_required": True
+            "api_keys_not_required": True,
         },
         "test_coverage": {
             "identity_authentication": True,
@@ -356,15 +355,16 @@ def generate_e2e_audit_report() -> dict[str, Any]:
             "full_e2e_workflow": True,
             "registry_compliance": True,
             "acceptance_gate": True,
-            "safety_defaults": True
+            "safety_defaults": True,
         },
         "compliance_status": {
             "audit_ready": True,
             "pre_matriz_validated": True,
             "post_matriz_ready": True,
-            "external_audit_safe": True
-        }
+            "external_audit_safe": True,
+        },
     }
+
 
 if __name__ == "__main__":
     # Generate audit report when run directly
@@ -380,4 +380,6 @@ if __name__ == "__main__":
     print("E2E Audit Report Generated:")
     print(f"  Audit ready: {report['compliance_status']['audit_ready']}")
     print(f"  Safety verified: {all(report['safety_verification'].values())}")
-    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests")
+    print(
+        f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests"
+    )

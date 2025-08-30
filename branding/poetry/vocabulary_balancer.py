@@ -48,7 +48,7 @@ class VocabularyBalancer:
             "ocean": ["waves", "depths", "tides", "vast expanse"],
             "garden": ["cultivating", "growing", "blooming", "nurturing"],
             "constellation": ["stars", "patterns", "celestial", "alignment"],
-            "landscape": ["terrain", "vista", "horizon", "topography"]
+            "landscape": ["terrain", "vista", "horizon", "topography"],
         }
 
         # LUKHAS-specific vocabulary - Our unique contributions
@@ -56,27 +56,22 @@ class VocabularyBalancer:
             # Memory and folding
             "fold-space": ["fold topology", "memory fold", "protein fold", "fold cascade"],
             "cascade": ["resonance cascade", "cascade prevention", "emotional cascade"],
-
             # Lambda system
             "Lambda": ["ΛMIRROR", "ΛECHO", "ΛTRACE", "ΛVAULT", "ΛFOLD", "ΛDRIFT", "ΛGUARD"],
-
             # Consciousness states
             "eigenstate": ["eigenstate collapse", "quantum eigenstate", "stable eigenstate"],
             "consciousness": ["nascent awareness", "liminal consciousness", "ephemeral traces"],
-
             # Bio-inspired
             "synaptic": ["synaptic plasticity", "neural bridges", "dendritic branching"],
             "neuroplastic": ["neuroplastic adaptation", "neural evolution", "adaptive reshaping"],
-
             # Quantum-inspired
             "superposition": ["possibility space", "quantum foam", "entangled states"],
             "coherence": ["quantum coherence", "decoherence protection", "phase coherence"],
-
             # Unique descriptors
             "tessellation": ["tessellating patterns", "infinite tiling", "recursive tessellation"],
             "crystallization": ["idea crystallization", "thought crystallizing", "crystal lattice"],
             "iridescent": ["iridescent memories", "shimmering awareness", "prismatic"],
-            "gossamer": ["gossamer threads", "delicate connections", "ethereal links"]
+            "gossamer": ["gossamer threads", "delicate connections", "ethereal links"],
         }
 
         # Context-appropriate usage guide
@@ -87,7 +82,7 @@ class VocabularyBalancer:
             "flow": ["river", "cascade", "stream", "current", "drift"],
             "growth": ["garden", "cultivation", "blooming", "neuroplastic", "emergence"],
             "space": ["landscape", "topology", "dimension", "fold-space", "eigenspace"],
-            "patterns": ["constellation", "tessellation", "fractals", "eigenstate cluster"]
+            "patterns": ["constellation", "tessellation", "fractals", "eigenstate cluster"],
         }
 
     def track_usage(self, text: str) -> None:
@@ -139,7 +134,7 @@ class VocabularyBalancer:
             "ocean": ["possibility space", "quantum foam", "infinite expanse", "consciousness sea"],
             "garden": ["neural ecology", "synaptic cultivation", "consciousness biome"],
             "constellation": ["eigenstate cluster", "quantum pattern", "neural constellation"],
-            "landscape": ["fold topology", "consciousness terrain", "neural geography"]
+            "landscape": ["fold topology", "consciousness terrain", "neural geography"],
         }
 
         if overused_word in alternatives:
@@ -205,7 +200,7 @@ class VocabularyBalancer:
                 "tessellating structures",
                 "labyrinthine pathways",
                 "rich tapestry",  # Yes, tapestry is fine when not overused!
-                "neural symphony"  # Symphony too!
+                "neural symphony",  # Symphony too!
             ],
             "connection": [
                 "synaptic bridges",
@@ -213,7 +208,7 @@ class VocabularyBalancer:
                 "neural threads",
                 "resonance bonds",
                 "gossamer links",
-                "consciousness coupling"
+                "consciousness coupling",
             ],
             "transformation": [
                 "phase transition",
@@ -221,7 +216,7 @@ class VocabularyBalancer:
                 "metamorphosis",
                 "crystallization",
                 "neuroplastic adaptation",
-                "consciousness evolution"
+                "consciousness evolution",
             ],
             "beauty": [
                 "iridescent patterns",
@@ -229,8 +224,8 @@ class VocabularyBalancer:
                 "gossamer beauty",
                 "transcendent grace",
                 "luminous presence",
-                "ethereal radiance"
-            ]
+                "ethereal radiance",
+            ],
         }
 
         return variety_map.get(concept, [concept])
@@ -250,7 +245,7 @@ if __name__ == "__main__":
         "The consciousness is a tapestry of thoughts.",
         "The memory system is another tapestry of experiences.",
         "The dream engine creates a tapestry of possibilities.",
-        "The neural network forms a tapestry of connections."
+        "The neural network forms a tapestry of connections.",
     ]
 
     print("▸ TRACKING REPETITION:\n")

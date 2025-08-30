@@ -198,9 +198,7 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         return response.result
 
-    def _map_to_intelligence_request_type(
-        self, request: dict[str, Any]
-    ) -> IntelligenceRequestType:
+    def _map_to_intelligence_request_type(self, request: dict[str, Any]) -> IntelligenceRequestType:
         """Map generic request to specific intelligence request type"""
         request_content = str(request).lower()
 
@@ -244,10 +242,10 @@ class LukhasIntelligenceOrchestrationAdapter:
             integrated_response["brain_context"] = brain_context
 
         # Add symbolic processing recommendations
-        integrated_response["symbolic_recommendations"] = (
-            await self._generate_symbolic_recommendations(
-                intelligence_response, orchestration_context
-            )
+        integrated_response[
+            "symbolic_recommendations"
+        ] = await self._generate_symbolic_recommendations(
+            intelligence_response, orchestration_context
         )
 
         return integrated_response
@@ -431,9 +429,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             if hasattr(self.brain_orchestrator, "process_intelligence_event"):
                 await self.brain_orchestrator.process_intelligence_event(brain_message)
             else:
-                logger.warning(
-                    "Brain orchestrator does not support intelligence events"
-                )
+                logger.warning("Brain orchestrator does not support intelligence events")
 
         except Exception as e:
             logger.error(f"Error routing to brain orchestrator: {e}")

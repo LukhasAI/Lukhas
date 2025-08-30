@@ -138,9 +138,7 @@ def fix_efficient_communication():
 
     # Update send_message to increment the counter
     if "_message_count += 1" not in content:
-        send_msg_pattern = (
-            r"(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)"
-        )
+        send_msg_pattern = r"(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)"
 
         def add_counter_increment(match):
             method_body = match.group(1)
@@ -148,16 +146,10 @@ def fix_efficient_communication():
 
             # Add counter increment before return
             if "self._message_count += 1" not in method_body:
-                return (
-                    method_body
-                    + "\n        self._message_count += 1\n        "
-                    + return_stmt
-                )
+                return method_body + "\n        self._message_count += 1\n        " + return_stmt
             return match.group(0)
 
-        content = re.sub(
-            send_msg_pattern, add_counter_increment, content, flags=re.DOTALL
-        )
+        content = re.sub(send_msg_pattern, add_counter_increment, content, flags=re.DOTALL)
 
     # Write the updated content
     backup_path = fabric_path.with_suffix(".final.bak")

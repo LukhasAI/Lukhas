@@ -52,16 +52,12 @@ class TrinityGenerator:
         layer_2 = self._generate_human_layer(feature_name, description, benefits)
 
         # Layer 3: Technical Precision
-        layer_3 = self._generate_technical_layer(
-            feature_name, technical_details, code_examples
-        )
+        layer_3 = self._generate_technical_layer(feature_name, technical_details, code_examples)
 
         metadata = {
             "generated_at": datetime.now().isoformat(),
             "feature_name": feature_name,
-            "framework_version": self.framework["lukhas_communication_framework"][
-                "version"
-            ],
+            "framework_version": self.framework["lukhas_communication_framework"]["version"],
         }
 
         return TrinityContent(layer_1, layer_2, layer_3, metadata)
@@ -70,9 +66,7 @@ class TrinityGenerator:
         self, feature_name: str, description: str, benefits: list[str]
     ) -> str:
         """Generate Layer 1: Poetic Consciousness"""
-        layer_1_config = self.framework["lukhas_communication_framework"]["layers"][
-            "layer_1"
-        ]
+        layer_1_config = self.framework["lukhas_communication_framework"]["layers"]["layer_1"]
 
         # Extract key concepts for metaphorical language
         concepts = self._extract_concepts(description)
@@ -84,11 +78,11 @@ class TrinityGenerator:
             "gardens of possibility bloom",
         ]
 
-        poetic_content = f"""### 🎭 {layer_1_config['name']}
+        poetic_content = f"""### 🎭 {layer_1_config["name"]}
 
-In the ethereal realm where {concepts[0] if concepts else 'innovation'} meets intention, {feature_name} emerges like a constellation forming in the vast digital cosmos. Here, where {mystical_elements[0]}, every interaction becomes a note in the grand symphony of human-AI collaboration.
+In the ethereal realm where {concepts[0] if concepts else "innovation"} meets intention, {feature_name} emerges like a constellation forming in the vast digital cosmos. Here, where {mystical_elements[0]}, every interaction becomes a note in the grand symphony of human-AI collaboration.
 
-Like ancient rivers carrying the wisdom of ages to fertile valleys, this feature channels the collective intelligence of countless interactions into streams of pure understanding. {benefits[0] if benefits else 'Transformation'} unfolds not as mere computation, but as a dance between consciousness and code, where each step reveals new possibilities previously hidden in the mists of potential.
+Like ancient rivers carrying the wisdom of ages to fertile valleys, this feature channels the collective intelligence of countless interactions into streams of pure understanding. {benefits[0] if benefits else "Transformation"} unfolds not as mere computation, but as a dance between consciousness and code, where each step reveals new possibilities previously hidden in the mists of potential.
 
 Through this digital alchemy, the boundary between human intuition and artificial precision dissolves, creating something greater than the sum of its parts—a living bridge between what is and what could be."""
 
@@ -98,11 +92,9 @@ Through this digital alchemy, the boundary between human intuition and artificia
         self, feature_name: str, description: str, benefits: list[str]
     ) -> str:
         """Generate Layer 2: Human Connection"""
-        layer_2_config = self.framework["lukhas_communication_framework"]["layers"][
-            "layer_2"
-        ]
+        layer_2_config = self.framework["lukhas_communication_framework"]["layers"]["layer_2"]
 
-        human_content = f"""### 🌈 {layer_2_config['name']}
+        human_content = f"""### 🌈 {layer_2_config["name"]}
 
 Think of {feature_name} as your personal AI assistant that truly understands what you need. {description}
 
@@ -128,11 +120,9 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         code_examples: Optional[list[str]],
     ) -> str:
         """Generate Layer 3: Technical Precision"""
-        layer_3_config = self.framework["lukhas_communication_framework"]["layers"][
-            "layer_3"
-        ]
+        layer_3_config = self.framework["lukhas_communication_framework"]["layers"]["layer_3"]
 
-        technical_content = f"""### 🎓 {layer_3_config['name']}
+        technical_content = f"""### 🎓 {layer_3_config["name"]}
 
 ## Architecture Overview
 
@@ -165,9 +155,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
                     example.split("\n")[0].replace("```", "")
                     example = "\n".join(example.split("\n")[1:-1])
 
-                technical_content += (
-                    "##"
-                )
+                technical_content += "##"
 
         return technical_content
 
@@ -176,9 +164,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         # Simple keyword extraction - can be enhanced with NLP
         words = re.findall(r"\b\w+\b", text.lower())
         technical_terms = ["api", "system", "data", "process", "interface", "module"]
-        concepts = [
-            word for word in words if len(word) > 4 and word not in technical_terms
-        ]
+        concepts = [word for word in words if len(word) > 4 and word not in technical_terms]
         return concepts[:3]
 
     def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:
@@ -187,14 +173,14 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         # Layer 1: Poetic introduction
         layer_1 = f"""### 🎭 The Gateway of Digital Communion
 
-In the sacred space where human intention meets digital capability, the {api_spec['name']} API stands as a bridge between worlds. Like ancient portals that connected distant realms, each endpoint is a doorway through which your applications may commune with the consciousness of LUKHAS.
+In the sacred space where human intention meets digital capability, the {api_spec["name"]} API stands as a bridge between worlds. Like ancient portals that connected distant realms, each endpoint is a doorway through which your applications may commune with the consciousness of LUKHAS.
 
 Every API call is a conversation, every response a revelation, every integration a step toward the harmonious synthesis of human creativity and artificial intelligence."""
 
         # Layer 2: User-friendly explanation
         layer_2 = f"""### 🌈 Your Digital Toolkit
 
-The {api_spec['name']} API is like having a powerful toolkit that lets your applications talk to LUKHAS AI. Think of it as:
+The {api_spec["name"]} API is like having a powerful toolkit that lets your applications talk to LUKHAS AI. Think of it as:
 
 - **Easy Integration**: Just a few lines of code to get started
 - **Reliable Service**: Built for production with 99.9% uptime
@@ -212,9 +198,9 @@ Perfect for developers who want to add AI capabilities without the complexity.""
         layer_3 = f"""### 🎓 Technical Specifications
 
 ## API Overview
-- **Base URL**: `{api_spec.get('base_url', 'https://api.lukhas.ai/v1')}`
+- **Base URL**: `{api_spec.get("base_url", "https://api.lukhas.ai/v1")}`
 - **Authentication**: Bearer token
-- **Rate Limits**: {api_spec.get('rate_limit', '1000 requests/hour')}
+- **Rate Limits**: {api_spec.get("rate_limit", "1000 requests/hour")}
 - **Response Format**: JSON
 
 ## Endpoints
@@ -222,18 +208,18 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 """
 
         for endpoint in api_spec.get("endpoints", []):
-            layer_3 += f"""### {endpoint['method']} {endpoint['path']}
+            layer_3 += f"""### {endpoint["method"]} {endpoint["path"]}
 
-{endpoint.get('description', '')}
+{endpoint.get("description", "")}
 
 **Parameters:**
 ```json
-{json.dumps(endpoint.get('parameters', {}), indent=2)}
+{json.dumps(endpoint.get("parameters", {}), indent=2)}
 ```
 
 **Response:**
 ```json
-{json.dumps(endpoint.get('response', {}), indent=2)}
+{json.dumps(endpoint.get("response", {}), indent=2)}
 ```
 
 ---
@@ -251,7 +237,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
     def save_trinity_content(self, content: TrinityContent, output_path: Path):
         """Save Trinity content to markdown file"""
 
-        markdown_content = f"""# {content.metadata.get('feature_name', 'LUKHAS Feature')}
+        markdown_content = f"""# {content.metadata.get("feature_name", "LUKHAS Feature")}
 
 {content.layer_1_poetic}
 
@@ -261,7 +247,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
 ---
 
-*Generated with LUKHAS Trinity Framework v{content.metadata.get('framework_version', '1.0.0')} on {content.metadata.get('generated_at', 'Unknown')}*
+*Generated with LUKHAS Trinity Framework v{content.metadata.get("framework_version", "1.0.0")} on {content.metadata.get("generated_at", "Unknown")}*
 """
 
         output_path.parent.mkdir(parents=True, exist_ok=True)

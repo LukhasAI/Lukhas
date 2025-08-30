@@ -128,7 +128,7 @@ class MathReasoningNode(CognitiveNode):
             # Create reflection on failure
             reflection = self.create_reflection(
                 reflection_type="regret",
-                cause=f"Failed to evaluate expression: {str(e)}",
+                cause=f"Failed to evaluate expression: {e!s}",
                 old_state={"expression": expression},
                 new_state={"error": str(e)},
             )
@@ -146,7 +146,7 @@ class MathReasoningNode(CognitiveNode):
                 },
             )
 
-            answer = f"I couldn't evaluate the expression '{expression}': {str(e)}"
+            answer = f"I couldn't evaluate the expression '{expression}': {e!s}"
 
         processing_time = time.time() - start_time
 
@@ -213,10 +213,7 @@ class MathReasoningNode(CognitiveNode):
         # Look for patterns like "what is 2+2" or "calculate 3*4"
         query_lower = query.lower()
 
-        if any(
-            word in query_lower
-            for word in ["calculate", "what is", "solve", "evaluate"]
-        ):
+        if any(word in query_lower for word in ["calculate", "what is", "solve", "evaluate"]):
             # Find the mathematical part
             matches = re.findall(math_pattern, query)
             if matches:
@@ -266,7 +263,7 @@ class MathReasoningNode(CognitiveNode):
         except ZeroDivisionError:
             raise ValueError("Division by zero")
         except Exception as e:
-            raise ValueError(f"Invalid expression: {str(e)}")
+            raise ValueError(f"Invalid expression: {e!s}")
 
 
 # Example usage and testing
@@ -307,8 +304,6 @@ if __name__ == "__main__":
 
         if matriz_node["reflections"]:
             reflection = matriz_node["reflections"][0]
-            print(
-                f"Reflection: {reflection['reflection_type']} - {reflection['cause']}"
-            )
+            print(f"Reflection: {reflection['reflection_type']} - {reflection['cause']}")
 
     print(f"\nProcessing History: {len(math_node.get_trace())} nodes created")

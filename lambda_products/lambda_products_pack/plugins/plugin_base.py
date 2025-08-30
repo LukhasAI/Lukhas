@@ -428,10 +428,10 @@ class PluginSystem:
 
 # Export main classes
 __all__ = [
-    "LukhasPlugin",
-    "PluginSystem",
-    "PluginManifest",
-    "PluginStatus",
-    "PluginPriority",
     "HealthStatus",
+    "LukhasPlugin",
+    "PluginManifest",
+    "PluginPriority",
+    "PluginStatus",
+    "PluginSystem",
 ]

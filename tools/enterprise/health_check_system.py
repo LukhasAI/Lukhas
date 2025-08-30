@@ -203,7 +203,7 @@ class HealthCheckSystem:
                     component_type=self.check_metadata[name]["type"],
                     status=HealthStatus.UNHEALTHY,
                     latency_ms=0,
-                    message=f"Check failed: {str(result)}",
+                    message=f"Check failed: {result!s}",
                 )
 
             results.append(result)
@@ -215,10 +215,7 @@ class HealthCheckSystem:
             # Update overall status
             if result.status == HealthStatus.UNHEALTHY:
                 overall_status = HealthStatus.UNHEALTHY
-            elif (
-                result.status == HealthStatus.DEGRADED
-                and overall_status == HealthStatus.HEALTHY
-            ):
+            elif result.status == HealthStatus.DEGRADED and overall_status == HealthStatus.HEALTHY:
                 overall_status = HealthStatus.DEGRADED
 
             # Group by component type
@@ -236,15 +233,9 @@ class HealthCheckSystem:
             "timestamp": datetime.utcnow().isoformat(),
             "duration_ms": (datetime.utcnow() - start_time).total_seconds() * 1000,
             "checks_total": len(results),
-            "checks_healthy": sum(
-                1 for r in results if r.status == HealthStatus.HEALTHY
-            ),
-            "checks_degraded": sum(
-                1 for r in results if r.status == HealthStatus.DEGRADED
-            ),
-            "checks_unhealthy": sum(
-                1 for r in results if r.status == HealthStatus.UNHEALTHY
-            ),
+            "checks_healthy": sum(1 for r in results if r.status == HealthStatus.HEALTHY),
+            "checks_degraded": sum(1 for r in results if r.status == HealthStatus.DEGRADED),
+            "checks_unhealthy": sum(1 for r in results if r.status == HealthStatus.UNHEALTHY),
             "components": component_statuses,
             "system_info": await self._get_system_info(),
         }
@@ -273,9 +264,7 @@ class HealthCheckSystem:
             else:
                 # Update latency if not set
                 if result.latency_ms == 0:
-                    result.latency_ms = (
-                        datetime.utcnow() - start
-                    ).total_seconds() * 1000
+                    result.latency_ms = (datetime.utcnow() - start).total_seconds() * 1000
 
             return result
 
@@ -286,7 +275,7 @@ class HealthCheckSystem:
                 component_type=self.check_metadata[name]["type"],
                 status=HealthStatus.UNHEALTHY,
                 latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
-                message=f"Exception: {str(e)}",
+                message=f"Exception: {e!s}",
             )
 
     def _update_metrics(self, result: HealthCheckResult):
@@ -442,17 +431,13 @@ class HealthCheckSystem:
 
         filtered_history = []
         for entry in self.check_history:
-            entry_time = datetime.fromisoformat(
-                entry["timestamp"].replace("Z", "+00:00")
-            )
+            entry_time = datetime.fromisoformat(entry["timestamp"].replace("Z", "+00:00"))
             if entry_time >= cutoff:
                 if component:
                     # Filter by component
                     component_data = {}
                     for comp_type, checks in entry["components"].items():
-                        filtered_checks = [
-                            c for c in checks if c["component"] == component
-                        ]
+                        filtered_checks = [c for c in checks if c["component"] == component]
                         if filtered_checks:
                             component_data[comp_type] = filtered_checks
 
@@ -513,7 +498,7 @@ class DatabaseHealthCheck:
                 component_type=ComponentType.DATABASE,
                 status=HealthStatus.UNHEALTHY,
                 latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
-                message=f"Connection failed: {str(e)}",
+                message=f"Connection failed: {e!s}",
             )
 
 
@@ -560,7 +545,7 @@ class RedisHealthCheck:
                 component_type=ComponentType.CACHE,
                 status=HealthStatus.UNHEALTHY,
                 latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
-                message=f"Connection failed: {str(e)}",
+                message=f"Connection failed: {e!s}",
             )
 
 
@@ -618,7 +603,7 @@ class HTTPHealthCheck:
                 component_type=ComponentType.API,
                 status=HealthStatus.UNHEALTHY,
                 latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
-                message=f"Request failed: {str(e)}",
+                message=f"Request failed: {e!s}",
             )
 
 
@@ -663,7 +648,7 @@ class LukhasMemoryHealthCheck:
                 component_type=ComponentType.LUKHAS_MODULE,
                 status=HealthStatus.UNHEALTHY,
                 latency_ms=0,
-                message=f"Check failed: {str(e)}",
+                message=f"Check failed: {e!s}",
             )
 
 

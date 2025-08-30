@@ -107,11 +107,7 @@ class LukhasFlagshipSecurityEngine:
                 logger.warning(f"⚠️ NIAS initialization failed: {e}")
 
         # Initialize lukhas_assist (if available)
-        if (
-            self.config.get("modules", {})
-            .get("lukhas_assist", {})
-            .get("enabled", False)
-        ):
+        if self.config.get("modules", {}).get("lukhas_assist", {}).get("enabled", False):
             try:
                 # lukhas_assist implementation would go here
                 logger.info("✅ Lukhas Assist ready for implementation")
@@ -154,7 +150,7 @@ class LukhasFlagshipSecurityEngine:
                 else:
                     health_status[system_name] = "unknown"
             except Exception as e:
-                health_status[system_name] = f"error: {str(e)}"
+                health_status[system_name] = f"error: {e!s}"
 
         for module_name, module in self.modules.items():
             try:
@@ -164,7 +160,7 @@ class LukhasFlagshipSecurityEngine:
                 else:
                     health_status[module_name] = "unknown"
             except Exception as e:
-                health_status[module_name] = f"error: {str(e)}"
+                health_status[module_name] = f"error: {e!s}"
 
         return health_status
 

@@ -2,6 +2,7 @@
 Trauma Repair Wrapper
 Integration wrapper for advanced trauma repair system
 """
+
 import logging
 from datetime import datetime
 from typing import Any, Optional
@@ -25,8 +26,6 @@ except ImportError as e:
             TraumaRepairSystem,
             TraumaSignature,
             TraumaType,
-        )
-        from .trauma_repair_mock import (
             get_memory_trauma_repair as get_mock_trauma_repair,
         )
 
@@ -104,27 +103,19 @@ class MemoryTraumaRepair:
 
         try:
             # Detect trauma
-            trauma = await self.repair_system.detect_trauma(
-                memory_id, memory_content, context
-            )
+            trauma = await self.repair_system.detect_trauma(memory_id, memory_content, context)
 
             if trauma:
                 self.repair_stats["traumas_detected"] += 1
                 result["trauma_detected"] = True
                 result["trauma_type"] = (
-                    trauma.trauma_type.value
-                    if hasattr(trauma, "trauma_type")
-                    else "unknown"
+                    trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"
                 )
-                result["severity"] = (
-                    trauma.severity if hasattr(trauma, "severity") else 0.0
-                )
+                result["severity"] = trauma.severity if hasattr(trauma, "severity") else 0.0
 
                 # Initiate repair if severity exceeds threshold
                 if result["severity"] >= self.repair_system.self_repair_threshold:
-                    repair_success = await self.repair_system.initiate_repair(
-                        memory_id, trauma
-                    )
+                    repair_success = await self.repair_system.initiate_repair(memory_id, trauma)
                     result["repair_initiated"] = True
                     result["repair_status"] = "success" if repair_success else "failed"
 
@@ -134,9 +125,7 @@ class MemoryTraumaRepair:
                     else:
                         self.repair_stats["repairs_failed"] += 1
 
-            logger.debug(
-                f"Memory scan complete: {memory_id}, trauma: {result['trauma_detected']}"
-            )
+            logger.debug(f"Memory scan complete: {memory_id}, trauma: {result['trauma_detected']}")
 
         except Exception as e:
             logger.error(f"Error scanning memory {memory_id}: {e}")
@@ -152,19 +141,13 @@ class MemoryTraumaRepair:
             active_traumas.append(
                 {
                     "trauma_id": trauma_id,
-                    "memory_id": (
-                        trauma.memory_id if hasattr(trauma, "memory_id") else None
-                    ),
+                    "memory_id": (trauma.memory_id if hasattr(trauma, "memory_id") else None),
                     "trauma_type": (
-                        trauma.trauma_type.value
-                        if hasattr(trauma, "trauma_type")
-                        else "unknown"
+                        trauma.trauma_type.value if hasattr(trauma, "trauma_type") else "unknown"
                     ),
                     "severity": trauma.severity if hasattr(trauma, "severity") else 0.0,
                     "detected_at": (
-                        trauma.detected_at.isoformat()
-                        if hasattr(trauma, "detected_at")
-                        else None
+                        trauma.detected_at.isoformat() if hasattr(trauma, "detected_at") else None
                     ),
                 }
             )
@@ -197,9 +180,7 @@ class MemoryTraumaRepair:
             result["repair_initiated"] = True
             result["repair_status"] = "success" if repair_success else "failed"
 
-            logger.info(
-                f"Forced repair on memory {memory_id}: {result['repair_status']}"
-            )
+            logger.info(f"Forced repair on memory {memory_id}: {result['repair_status']}")
 
         except Exception as e:
             logger.error(f"Error forcing repair on {memory_id}: {e}")
@@ -213,16 +194,12 @@ class MemoryTraumaRepair:
 
         # Add calculated metrics
         if stats["repairs_attempted"] > 0:
-            stats["repair_success_rate"] = (
-                stats["repairs_successful"] / stats["repairs_attempted"]
-            )
+            stats["repair_success_rate"] = stats["repairs_successful"] / stats["repairs_attempted"]
         else:
             stats["repair_success_rate"] = 0.0
 
         if stats["total_scans"] > 0:
-            stats["trauma_detection_rate"] = (
-                stats["traumas_detected"] / stats["total_scans"]
-            )
+            stats["trauma_detection_rate"] = stats["traumas_detected"] / stats["total_scans"]
         else:
             stats["trauma_detection_rate"] = 0.0
 

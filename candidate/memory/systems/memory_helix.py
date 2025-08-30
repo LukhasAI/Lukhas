@@ -135,9 +135,7 @@ class VoiceMemoryHelix:
         self.curiosity_threshold = self.config.get("curiosity_threshold", 0.65)
         self.learning_rate = self.config.get("learning_rate", 0.2)
         self.practice_interval = self.config.get("practice_interval", 5)  # sessions
-        self.retention_factor = self.config.get(
-            "retention_factor", 0.95
-        )  # memory decay rate
+        self.retention_factor = self.config.get("retention_factor", 0.95)  # memory decay rate
         self.cultural_sensitivity = self.config.get(
             "cultural_sensitivity", 0.8
         )  # How sensitive to cultural context
@@ -166,9 +164,7 @@ class VoiceMemoryHelix:
                     memory_data = json.load(file)
 
                     self.accent_memory = memory_data.get("accent_memory", {})
-                    self.pronunciation_memory = memory_data.get(
-                        "pronunciation_memory", {}
-                    )
+                    self.pronunciation_memory = memory_data.get("pronunciation_memory", {})
                     self.curiosity_list = set(memory_data.get("curiosity_list", []))
                     self.location_memories = memory_data.get("location_memories", {})
                     self.stats = memory_data.get("stats", self.stats)
@@ -235,9 +231,7 @@ class VoiceMemoryHelix:
                         self.curiosity_list.add(word)
 
         if new_words:
-            logger.debug(
-                f"Detected {len(new_words)} potentially new words: {new_words}"
-            )
+            logger.debug(f"Detected {len(new_words)} potentially new words: {new_words}")
 
         return new_words
 
@@ -327,9 +321,7 @@ class VoiceMemoryHelix:
         else:
             # Update existing pronunciation
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word][
-                "last_practiced"
-            ] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
 
         # If we have accent information, update accent memory
         if accent_info:
@@ -382,9 +374,7 @@ class VoiceMemoryHelix:
 
         return None
 
-    async def practice_pronunciation(
-        self, word: str, feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def practice_pronunciation(self, word: str, feedback: dict[str, Any]) -> dict[str, Any]:
         """
         Practice pronunciation of a word and incorporate feedback.
 
@@ -415,9 +405,7 @@ class VoiceMemoryHelix:
         # Update pronunciation memory
         if word in self.pronunciation_memory:
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word][
-                "last_practiced"
-            ] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
 
             if success:
                 # If successful, strengthen this pronunciation
@@ -428,9 +416,7 @@ class VoiceMemoryHelix:
                     # Blend the existing and new pronunciation
                     old_pron = self.pronunciation_memory[word]["variants"][accent]
                     self.pronunciation_memory[word]["variants"][accent] = (
-                        self._blend_pronunciations(
-                            old_pron, correction, self.learning_rate
-                        )
+                        self._blend_pronunciations(old_pron, correction, self.learning_rate)
                     )
                 else:
                     # Add new variant
@@ -438,9 +424,7 @@ class VoiceMemoryHelix:
         else:
             # New word, add it
             self.pronunciation_memory[word] = {
-                "canonical": (
-                    correction if correction else word
-                ),  # Fallback to word itself
+                "canonical": (correction if correction else word),  # Fallback to word itself
                 "variants": {accent: correction} if correction else {},
                 "practice_count": 1,
                 "last_practiced": datetime.now().isoformat(),
@@ -454,14 +438,10 @@ class VoiceMemoryHelix:
             "word": word,
             "success": success,
             "needs_more_practice": not success,
-            "practice_count": self.pronunciation_memory.get(word, {}).get(
-                "practice_count", 1
-            ),
+            "practice_count": self.pronunciation_memory.get(word, {}).get("practice_count", 1),
         }
 
-    def _blend_pronunciations(
-        self, old_pron: str, new_pron: str, learning_rate: float
-    ) -> str:
+    def _blend_pronunciations(self, old_pron: str, new_pron: str, learning_rate: float) -> str:
         """
         Blend old and new pronunciations according to learning rate.
 
@@ -528,9 +508,7 @@ class VoiceMemoryHelix:
 
                 # Calculate priority score
                 priority = days_since * 10
-                priority -= (
-                    data.get("practice_count", 0) * 2
-                )  # Lower priority if practiced a lot
+                priority -= data.get("practice_count", 0) * 2  # Lower priority if practiced a lot
 
                 if word in self.curiosity_list:
                     priority += 50  # Boost curiosity words
@@ -543,9 +521,7 @@ class VoiceMemoryHelix:
         word_priorities.sort(key=lambda x: x[1], reverse=True)
         return [word for word, _ in word_priorities[:limit]]
 
-    def get_pronunciation_for_word(
-        self, word: str, accent: str = "neutral"
-    ) -> Optional[str]:
+    def get_pronunciation_for_word(self, word: str, accent: str = "neutral") -> Optional[str]:
         """
         Get the pronunciation for a word in a specific accent.
 

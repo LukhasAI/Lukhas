@@ -10,6 +10,7 @@ from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrat
 
 orchestrator: Optional[ModelOrchestrator] = None
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global orchestrator
@@ -19,6 +20,7 @@ async def lifespan(app: FastAPI):
     yield
     print("Enterprise API Gateway shutting down...")
 
+
 # Initialize the FastAPI app
 app = FastAPI(
     title="LUKHAS Enterprise API Gateway",
@@ -26,6 +28,7 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
 
 @app.middleware("http")
 async def add_process_time_header(request, call_next):
@@ -53,6 +56,7 @@ class ChatResponse(BaseModel):
 from fastapi import APIRouter
 
 router_v1 = APIRouter(prefix="/v1")
+
 
 @router_v1.post("/chat/completions", response_model=ChatResponse)
 async def chat_completions(request: ChatRequest):
@@ -83,6 +87,7 @@ async def chat_completions(request: ChatRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 app.include_router(router_v1)
 

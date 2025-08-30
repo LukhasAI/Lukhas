@@ -13,7 +13,6 @@ from pathlib import Path
 
 
 class WorkspaceAnalyzer:
-
     def __init__(self, root_path="."):
         self.root_path = Path(root_path)
         self.modules = {}
@@ -134,9 +133,7 @@ class WorkspaceAnalyzer:
         print("⚙️ Identifying working vs broken systems...")
 
         root_dirs = [
-            d
-            for d in self.root_path.iterdir()
-            if d.is_dir() and not d.name.startswith(".")
+            d for d in self.root_path.iterdir() if d.is_dir() and not d.name.startswith(".")
         ]
 
         for root_dir in root_dirs:
@@ -208,18 +205,12 @@ class WorkspaceAnalyzer:
             },
             "working_systems": self.working_systems,
             "broken_systems": self.broken_systems,
-            "isolated_files": sorted(
-                self.isolated_files, key=lambda x: x["size"], reverse=True
-            ),
+            "isolated_files": sorted(self.isolated_files, key=lambda x: x["size"], reverse=True),
             "connectivity_stats": {
                 "files_with_imports": len([f for f in self.modules if self.imports[f]]),
                 "files_with_exports": len([f for f in self.modules if self.exports[f]]),
                 "highly_connected": len(
-                    [
-                        f
-                        for f in self.modules
-                        if len(self.imports[f]) + len(self.exports[f]) > 5
-                    ]
+                    [f for f in self.modules if len(self.imports[f]) + len(self.exports[f]) > 5]
                 ),
             },
         }
@@ -267,18 +258,13 @@ class WorkspaceAnalyzer:
         print("\n🔍 TOP ISOLATED FILES (Size-based):")
         for file_info in self.isolated_files[:15]:  # Top 15
             size_kb = file_info["size"] / 1024
-            print(
-                f"   • {file_info['path']} ({size_kb:.1f}KB, {file_info['lines']} lines)"
-            )
+            print(f"   • {file_info['path']} ({size_kb:.1f}KB, {file_info['lines']} lines)")
 
         print("\n🎯 CRITICAL FILES TO KEEP (Based on size & functionality):")
         critical_files = [
             f
             for f in self.isolated_files
-            if f["size"] > 1000
-            or f["is_executable"]
-            or f["functions"] > 3
-            or f["classes"] > 1
+            if f["size"] > 1000 or f["is_executable"] or f["functions"] > 3 or f["classes"] > 1
         ]
         for file_info in critical_files[:20]:  # Top 20
             features = []

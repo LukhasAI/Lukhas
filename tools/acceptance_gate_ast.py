@@ -11,6 +11,7 @@ This gate is designed for pre/post-MATRIZ workspace auditing:
 
 Exit code: 0 = pass, 2 = violations (ready for audit integration)
 """
+
 from __future__ import annotations
 
 import ast
@@ -40,9 +41,7 @@ class AuditTrail:
             "scan_mode": "pre_matriz_audit",
         }
 
-    def add_violation(
-        self, file_path: str, violation_type: str, details: str, line_no: int = None
-    ):
+    def add_violation(self, file_path: str, violation_type: str, details: str, line_no: int = None):
         """Add import violation to audit trail."""
         self.violations.append(
             {
@@ -50,17 +49,13 @@ class AuditTrail:
                 "type": violation_type,
                 "details": details,
                 "line": line_no,
-                "severity": (
-                    "critical" if "import" in violation_type.lower() else "warning"
-                ),
+                "severity": ("critical" if "import" in violation_type.lower() else "warning"),
             }
         )
         if "import" in violation_type.lower():
             self.stats["banned_imports"] += 1
 
-    def add_facade(
-        self, file_path: str, facade_score: float, import_count: int, total_lines: int
-    ):
+    def add_facade(self, file_path: str, facade_score: float, import_count: int, total_lines: int):
         """Add facade file detection to audit trail."""
         self.facades.append(
             {
@@ -87,12 +82,8 @@ class AuditTrail:
             "facade_detections": self.facades,
             "compliance_status": {
                 "accepts_ready": len(self.violations) == 0 and len(self.facades) == 0,
-                "critical_issues": len(
-                    [v for v in self.violations if v["severity"] == "critical"]
-                ),
-                "warnings": len(
-                    [v for v in self.violations if v["severity"] == "warning"]
-                ),
+                "critical_issues": len([v for v in self.violations if v["severity"] == "critical"]),
+                "warnings": len([v for v in self.violations if v["severity"] == "warning"]),
             },
         }
 
@@ -125,15 +116,11 @@ class ImportScannerAST(ast.NodeVisitor):
         """Scan regular import statements."""
         for alias in node.names:
             module_name = alias.name or ""
-            self.imports.append(
-                {"module": module_name, "line": node.lineno, "type": "import"}
-            )
+            self.imports.append({"module": module_name, "line": node.lineno, "type": "import"})
 
             # Check for banned modules
             root_module = module_name.split(".")[0]
-            if root_module in BANNED or any(
-                module_name.startswith(b + ".") for b in BANNED
-            ):
+            if root_module in BANNED or any(module_name.startswith(b + ".") for b in BANNED):
                 self.violations.append(
                     {
                         "type": "illegal_import",
@@ -243,9 +230,7 @@ def analyze_facade_pattern(
             function_count += 1
         elif isinstance(node, ast.ClassDef):
             class_count += 1
-        elif isinstance(
-            node, (ast.Expr, ast.If, ast.For, ast.While, ast.With, ast.Try)
-        ):
+        elif isinstance(node, (ast.Expr, ast.If, ast.For, ast.While, ast.With, ast.Try)):
             other_count += 1
 
     # Calculate facade score based on multiple factors
@@ -257,9 +242,7 @@ def analyze_facade_pattern(
     is_import_heavy = import_ratio > 0.6
     is_low_complexity = code_complexity <= 2
     has_banned_imports = any(
-        node
-        for node in ast.walk(tree)
-        if isinstance(node, (ast.Import, ast.ImportFrom))
+        node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))
     )
 
     # Calculate composite facade score
@@ -289,9 +272,7 @@ def analyze_facade_pattern(
     return is_facade, facade_score, analysis
 
 
-def scan_file_comprehensive(
-    file_path: pathlib.Path, audit: AuditTrail
-) -> dict[str, Any]:
+def scan_file_comprehensive(file_path: pathlib.Path, audit: AuditTrail) -> dict[str, Any]:
     """Comprehensive file analysis for audit preparation."""
     rel_path = file_path.relative_to(REPO).as_posix()
 
@@ -313,14 +294,10 @@ def scan_file_comprehensive(
 
     # Record violations
     for violation in scanner.violations:
-        audit.add_violation(
-            rel_path, violation["type"], violation["statement"], violation["line"]
-        )
+        audit.add_violation(rel_path, violation["type"], violation["statement"], violation["line"])
 
     # Run facade analysis
-    is_facade, facade_score, facade_details = analyze_facade_pattern(
-        file_path, tree, source
-    )
+    is_facade, facade_score, facade_details = analyze_facade_pattern(file_path, tree, source)
 
     if is_facade:
         audit.add_facade(
@@ -375,9 +352,7 @@ def main():
     if audit.violations:
         print(f"\n❌ {len(audit.violations)} violations found:")
         for violation in audit.violations:
-            print(
-                f"  {violation['file']}:{violation.get('line', '?')} - {violation['details']}"
-            )
+            print(f"  {violation['file']}:{violation.get('line', '?')} - {violation['details']}")
     else:
         print("\n✅ No import violations detected")
 

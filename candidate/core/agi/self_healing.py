@@ -86,9 +86,7 @@ class ComponentHealth:
 
     def update_metrics(self, metrics: dict[str, float]):
         """Update component metrics"""
-        self.metrics_history.append(
-            {"timestamp": datetime.utcnow(), "metrics": metrics}
-        )
+        self.metrics_history.append({"timestamp": datetime.utcnow(), "metrics": metrics})
 
 
 class SelfHealingSystem:
@@ -240,9 +238,7 @@ class SelfHealingSystem:
                 "health_score": health.health_score,
                 "failure_count": health.failure_count,
                 "recovery_count": health.recovery_count,
-                "last_failure": (
-                    health.last_failure.isoformat() if health.last_failure else None
-                ),
+                "last_failure": (health.last_failure.isoformat() if health.last_failure else None),
             }
 
             if health.health_score < 0.7:
@@ -260,18 +256,12 @@ class SelfHealingSystem:
     async def _heal_failure(self, failure: SystemFailure) -> bool:
         """Attempt to heal a failure"""
         # Get healing strategies for this failure type
-        strategies = self.healing_strategies.get(
-            failure.type, [HealingStrategy.RESTART]
-        )
+        strategies = self.healing_strategies.get(failure.type, [HealingStrategy.RESTART])
 
         # Let learner suggest best strategy
-        suggested_strategy = await self.healing_learner.suggest_strategy(
-            failure, strategies
-        )
+        suggested_strategy = await self.healing_learner.suggest_strategy(failure, strategies)
         if suggested_strategy:
-            strategies = [suggested_strategy] + [
-                s for s in strategies if s != suggested_strategy
-            ]
+            strategies = [suggested_strategy] + [s for s in strategies if s != suggested_strategy]
 
         # Try strategies in order
         for strategy in strategies:
@@ -498,9 +488,7 @@ class SelfHealingSystem:
 
         return 0.7 * avg_health + 0.3 * min_health
 
-    def _get_health_recommendation(
-        self, component: str, health: ComponentHealth
-    ) -> str:
+    def _get_health_recommendation(self, component: str, health: ComponentHealth) -> str:
         """Get health improvement recommendation"""
         if health.failure_count > 10:
             return "Consider replacing or major refactoring"
@@ -511,9 +499,7 @@ class SelfHealingSystem:
         else:
             return "Monitor closely"
 
-    def _detect_failure_patterns(
-        self, failures: list[SystemFailure]
-    ) -> list[dict[str, Any]]:
+    def _detect_failure_patterns(self, failures: list[SystemFailure]) -> list[dict[str, Any]]:
         """Detect patterns in failures"""
         patterns = []
 
@@ -608,9 +594,9 @@ class HealingLearner:
     """Learn from healing successes and failures"""
 
     def __init__(self):
-        self.strategy_success_rates: dict[
-            tuple[FailureType, HealingStrategy], float
-        ] = defaultdict(lambda: 0.5)
+        self.strategy_success_rates: dict[tuple[FailureType, HealingStrategy], float] = defaultdict(
+            lambda: 0.5
+        )
         self.healing_patterns: list[dict[str, Any]] = []
 
     async def learn(self, failure: SystemFailure, success: bool):
@@ -623,9 +609,7 @@ class HealingLearner:
 
         current_rate = self.strategy_success_rates[key]
         # Exponential moving average
-        self.strategy_success_rates[key] = 0.9 * current_rate + 0.1 * (
-            1.0 if success else 0.0
-        )
+        self.strategy_success_rates[key] = 0.9 * current_rate + 0.1 * (1.0 if success else 0.0)
 
         # Record pattern
         self.healing_patterns.append(

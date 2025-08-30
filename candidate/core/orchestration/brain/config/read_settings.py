@@ -35,9 +35,7 @@ for k, v in SETTINGS.get("privacy", {}).items():
 
 print("\n🎛️ Current Behavior Settings:")
 print(f"  - Voice Enabled: {get_setting('interface.voice_enabled')}")
-print(
-    f"  - Autosave Interval: {get_setting('system_behavior.autosave_interval_sec')} sec"
-)
+print(f"  - Autosave Interval: {get_setting('system_behavior.autosave_interval_sec')} sec")
 
 print("\n📜 Symbolic Keys Available:")
 for key in list_all_keys():
@@ -56,7 +54,7 @@ print(f"  - Output Log Path: {get_setting('message_output_log')}")
 print("\n🎭 Lukhas Persona Snapshot:")
 print(f"  - Mood Palette: {get_setting('persona.mood_palette')}")
 print(f"  - Visual Theme: {get_setting('persona.visual_theme')}")
-print(f"  - Signature Phrase: \"{get_setting('persona.signature_phrase')}\"")
+print(f'  - Signature Phrase: "{get_setting("persona.signature_phrase")}"')
 
 print("\n🧠 Context Management:")
 print(f"  - Memory Context Enabled: {get_setting('context.enable_memory_context')}")

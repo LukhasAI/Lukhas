@@ -6,9 +6,7 @@ from typing import Any
 from lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for gradual rollout
-CONSENT_LEDGER_ACTIVE = (
-    os.environ.get("CONSENT_LEDGER_ACTIVE", "false").lower() == "true"
-)
+CONSENT_LEDGER_ACTIVE = os.environ.get("CONSENT_LEDGER_ACTIVE", "false").lower() == "true"
 
 # Conditional import of real implementation
 _ledger_instance = None
@@ -22,9 +20,7 @@ if CONSENT_LEDGER_ACTIVE:
 
 
 @instrument("AWARENESS", label="governance:consent", capability="consent:record")
-def record_consent(
-    event: dict[str, Any], *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def record_consent(event: dict[str, Any], *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """Record consent with optional real implementation"""
     if "subject" not in event or "scopes" not in event:
         return {"ok": False, "reason": "invalid_event"}
@@ -48,9 +44,7 @@ def record_consent(
 
 
 @instrument("AWARENESS", label="governance:verify", capability="consent:verify")
-def verify_consent(
-    subject: str, scope: str, *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def verify_consent(subject: str, scope: str, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """Verify consent status"""
     if mode != "dry_run" and CONSENT_LEDGER_ACTIVE and _ledger_instance:
         try:
@@ -68,9 +62,7 @@ def verify_consent(
 
 
 @instrument("DECISION", label="governance:withdraw", capability="consent:withdraw")
-def withdraw_consent(
-    consent_id: str, *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def withdraw_consent(consent_id: str, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """Withdraw consent (GDPR Article 7.3)"""
     if mode != "dry_run" and CONSENT_LEDGER_ACTIVE and _ledger_instance:
         try:

@@ -22,9 +22,7 @@ class StreamlineImplementation:
     def __init__(self):
         self.root_path = Path("/Users/agi_dev/Lukhas")
         self.backup_dir = (
-            self.root_path
-            / ".streamline_backup"
-            / datetime.now().strftime("%Y%m%d_%H%M%S")
+            self.root_path / ".streamline_backup" / datetime.now().strftime("%Y%m%d_%H%M%S")
         )
         self.changes_made = []
 
@@ -50,9 +48,7 @@ class StreamlineImplementation:
 
         # Process each module
         for module, duplicates in duplicates_by_module.items():
-            logger.info(
-                f"\n📦 Processing {module} module ({len(duplicates)} duplicate groups)..."
-            )
+            logger.info(f"\n📦 Processing {module} module ({len(duplicates)} duplicate groups)...")
 
             # Create consolidated file for common functions
             common_file_path = self.root_path / module / "common" / "utils.py"
@@ -383,9 +379,7 @@ class ModuleInfo:
 
     def create_migration_script(self):
         """Create a script to help migrate to new structure"""
-        migration_script_path = (
-            self.root_path / "tools" / "scripts" / "migrate_to_common_utils.py"
-        )
+        migration_script_path = self.root_path / "tools" / "scripts" / "migrate_to_common_utils.py"
 
         migration_content = '''#!/usr/bin/env python3
 """
@@ -475,9 +469,7 @@ if __name__ == "__main__":
         self.create_migration_script()
 
         # Save changes log
-        changes_log_path = (
-            self.root_path / "docs" / "reports" / "streamline_changes.json"
-        )
+        changes_log_path = self.root_path / "docs" / "reports" / "streamline_changes.json"
         with open(changes_log_path, "w") as f:
             json.dump(
                 {"timestamp": datetime.now().isoformat(), "changes": self.changes_made},

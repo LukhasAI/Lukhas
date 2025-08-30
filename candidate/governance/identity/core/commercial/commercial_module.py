@@ -64,9 +64,7 @@ class BrandPrefix:
 
     def is_valid(self) -> bool:
         """Check if brand prefix is currently valid."""
-        return (
-            self.status == BrandStatus.APPROVED and self.expiry_date > datetime.utcnow()
-        )
+        return self.status == BrandStatus.APPROVED and self.expiry_date > datetime.utcnow()
 
 
 @dataclass
@@ -281,9 +279,7 @@ class CommercialModule:
         """
         # Validate brand prefix
         if brand_code not in self.registered_brands:
-            return CommercialLambdaIDResult(
-                success=False, error="Brand prefix not registered"
-            )
+            return CommercialLambdaIDResult(success=False, error="Brand prefix not registered")
 
         brand_prefix = self.registered_brands[brand_code]
         if not brand_prefix.is_valid():
@@ -296,17 +292,13 @@ class CommercialModule:
 
         try:
             if commercial_tier == CommercialTier.BUSINESS:
-                lambda_id = self._generate_business_format(
-                    brand_code, tier, user_context, options
-                )
+                lambda_id = self._generate_business_format(brand_code, tier, user_context, options)
             elif commercial_tier == CommercialTier.ENTERPRISE:
                 lambda_id = self._generate_enterprise_format(
                     brand_code, tier, user_context, options
                 )
             elif commercial_tier == CommercialTier.CORPORATE:
-                lambda_id = self._generate_corporate_format(
-                    brand_code, tier, user_context, options
-                )
+                lambda_id = self._generate_corporate_format(brand_code, tier, user_context, options)
             elif commercial_tier == CommercialTier.WHITE_LABEL:
                 lambda_id = self._generate_white_label_format(
                     brand_code, tier, user_context, options
@@ -354,9 +346,7 @@ class CommercialModule:
             )
 
         except Exception as e:
-            return CommercialLambdaIDResult(
-                success=False, error=f"Generation failed: {str(e)}"
-            )
+            return CommercialLambdaIDResult(success=False, error=f"Generation failed: {e!s}")
 
     def _generate_business_format(
         self,
@@ -385,7 +375,9 @@ class CommercialModule:
         entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:4].upper()
 
-        return f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
+        return (
+            f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
+        )
 
     def _generate_enterprise_format(
         self,
@@ -414,9 +406,7 @@ class CommercialModule:
             symbolic_char = symbols[hash(timestamp) % len(symbols)]
 
         # Generate entropy component
-        entropy_seed = (
-            f"{brand_code}{division}{enhanced_tier}{timestamp_hash}{symbolic_char}"
-        )
+        entropy_seed = f"{brand_code}{division}{enhanced_tier}{timestamp_hash}{symbolic_char}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:3].upper()
 
         return f"LUKHAS⬟{brand_code}-{division}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
@@ -448,7 +438,9 @@ class CommercialModule:
         entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}{user_context.get('user_id', '')}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:5].upper()
 
-        return f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
+        return (
+            f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
+        )
 
     def _generate_white_label_format(
         self,
@@ -499,9 +491,7 @@ class CommercialModule:
         self, brand_prefix: BrandPrefix, user_context: dict[str, Any]
     ) -> dict[str, Any]:
         """Calculate billing information for commercial ΛiD generation."""
-        tier_config = self.config["commercial_tiers"][
-            brand_prefix.commercial_tier.value
-        ]
+        tier_config = self.config["commercial_tiers"][brand_prefix.commercial_tier.value]
 
         return {
             "commercial_tier": brand_prefix.commercial_tier.value,
@@ -592,13 +582,13 @@ class CommercialModule:
     def _parse_commercial_format(self, lambda_id: str) -> dict[str, Any]:
         """Parse commercial ΛiD format and extract components."""
         # Business format: LUKHAS©{BRAND}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
-        business_pattern = (
-            r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
-        )
+        business_pattern = r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
 
         # Enterprise format:
         # LUKHAS⬟{BRAND}-{DIVISION}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
-        enterprise_pattern = r"^LUKHAS⬟([A-Z0-9]{2,8})-([A-Z]{2,3})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
+        enterprise_pattern = (
+            r"^LUKHAS⬟([A-Z0-9]{2,8})-([A-Z]{2,3})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
+        )
 
         # Check business format
         business_match = re.match(business_pattern, lambda_id)
@@ -647,15 +637,11 @@ class CommercialModule:
         if commercial_info["symbolic_char"] in expected_symbols:
             checks["symbolic_char_authorized"] = True
         else:
-            checks["errors"].append(
-                "Symbolic character not authorized for commercial tier"
-            )
+            checks["errors"].append("Symbolic character not authorized for commercial tier")
             checks["valid"] = False
 
         # Check usage limits
-        tier_config = self.config["commercial_tiers"][
-            brand_prefix.commercial_tier.value
-        ]
+        tier_config = self.config["commercial_tiers"][brand_prefix.commercial_tier.value]
         current_usage = brand_prefix.usage_stats["lambda_ids_generated"]
         if current_usage < tier_config["max_lambda_ids"]:
             checks["usage_within_limits"] = True
@@ -666,7 +652,8 @@ class CommercialModule:
         if (
             commercial_info["format"] == "business"
             and brand_prefix.commercial_tier == CommercialTier.BUSINESS
-            or commercial_info["format"] == "enterprise"
+        ) or (
+            commercial_info["format"] == "enterprise"
             and brand_prefix.commercial_tier == CommercialTier.ENTERPRISE
         ):
             checks["commercial_tier_match"] = True
@@ -703,9 +690,7 @@ class CommercialModule:
             },
             "tier_limits": self.config["commercial_tiers"][brand.commercial_tier.value],
             "remaining_quota": (
-                self.config["commercial_tiers"][brand.commercial_tier.value][
-                    "max_lambda_ids"
-                ]
+                self.config["commercial_tiers"][brand.commercial_tier.value]["max_lambda_ids"]
                 - brand.usage_stats["lambda_ids_generated"]
             ),
         }

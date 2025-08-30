@@ -111,9 +111,7 @@ class SymbolicLoopHarmonizer:
         if self.mode in [HarmonizerMode.ACTIVE, HarmonizerMode.ADAPTIVE]:
             for patch in patches:
                 try:
-                    harmonized_trace = await self._apply_symbolic_patch(
-                        harmonized_trace, patch
-                    )
+                    harmonized_trace = await self._apply_symbolic_patch(harmonized_trace, patch)
                     patch.applied = True
                     applied_patches.append(patch)
 
@@ -127,9 +125,7 @@ class SymbolicLoopHarmonizer:
 
         # Dream integration if enabled
         if self.mode == HarmonizerMode.DREAM and self.dream_state:
-            dream_adjustments = await self._integrate_dream_state(
-                harmonized_trace, applied_patches
-            )
+            dream_adjustments = await self._integrate_dream_state(harmonized_trace, applied_patches)
             harmonized_trace.update(dream_adjustments)
 
         # Calculate harmony score
@@ -155,9 +151,7 @@ class SymbolicLoopHarmonizer:
 
         return result
 
-    async def _analyze_symbolic_stability(
-        self, trace: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _analyze_symbolic_stability(self, trace: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze symbolic stability of a reasoning trace
         """
@@ -369,9 +363,7 @@ class SymbolicLoopHarmonizer:
             if "metadata" not in patched_trace:
                 patched_trace["metadata"] = {}
             patched_trace["metadata"]["polarity_inverted"] = True
-            patched_trace["metadata"]["inversion_strength"] = patch.correction[
-                "strength"
-            ]
+            patched_trace["metadata"]["inversion_strength"] = patch.correction["strength"]
 
         elif patch.patch_type == "memory_anchor":
             # Add memory anchors

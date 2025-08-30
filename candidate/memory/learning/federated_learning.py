@@ -15,9 +15,7 @@ class FederatedLearningManager:
         self.models = {}  # In-memory model cache
         self._ensure_storage_exists()
 
-    def register_model(
-        self, model_id: str, model_type: str, initial_weights: dict
-    ) -> None:
+    def register_model(self, model_id: str, model_type: str, initial_weights: dict) -> None:
         """Register a new model for federated learning"""
         model_data = {
             "model_id": model_id,
@@ -79,10 +77,7 @@ class FederatedLearningManager:
     def _weighted_update(self, current_value, gradient, learning_rate: float = 0.1):
         """Apply a weighted update to a value"""
         if isinstance(current_value, dict):
-            return {
-                k: self._weighted_update(v, gradient[k])
-                for k, v in current_value.items()
-            }
+            return {k: self._weighted_update(v, gradient[k]) for k, v in current_value.items()}
         elif isinstance(current_value, (int, float)):
             return current_value + learning_rate * gradient
         return current_value

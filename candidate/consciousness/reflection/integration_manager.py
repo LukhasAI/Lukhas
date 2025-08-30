@@ -283,9 +283,9 @@ class LukhasAGIIntegrationManager:
             # Stage 1: AGI Orchestrator processing
             agi_result = None
             if "agi_orchestrator" in self.components:
-                agi_result = await self.components[
-                    "agi_orchestrator"
-                ].process_agi_request(user_input, context)
+                agi_result = await self.components["agi_orchestrator"].process_agi_request(
+                    user_input, context
+                )
                 logger.info(" AGI orchestrator processing complete")
 
             # Stage 2: Cognitive enhancement processing
@@ -305,9 +305,9 @@ class LukhasAGIIntegrationManager:
                     "agi_insights": agi_result,
                     "cognitive_insights": cognitive_result,
                 }
-                brain_result = await self.components[
-                    "brain_orchestrator"
-                ].orchestrate_processing(brain_input)
+                brain_result = await self.components["brain_orchestrator"].orchestrate_processing(
+                    brain_input
+                )
                 logger.info(" Brain orchestration processing complete")
 
             # Stage 4: GitHub App AGI processing
@@ -365,21 +365,15 @@ class LukhasAGIIntegrationManager:
 
         # Process through GitHub AGI engines
         meta_cognitive_result = (
-            await github_agi.meta_cognitive_engine.process_meta_cognitive_awareness(
-                combined_input
-            )
+            await github_agi.meta_cognitive_engine.process_meta_cognitive_awareness(combined_input)
         )
 
-        causal_result = (
-            await github_agi.causal_reasoning_engine.analyze_causal_relationships(
-                combined_input
-            )
+        causal_result = await github_agi.causal_reasoning_engine.analyze_causal_relationships(
+            combined_input
         )
 
-        theory_of_mind_result = (
-            await github_agi.theory_of_mind_engine.analyze_user_mental_state(
-                combined_input
-            )
+        theory_of_mind_result = await github_agi.theory_of_mind_engine.analyze_user_mental_state(
+            combined_input
         )
 
         return {
@@ -497,9 +491,7 @@ class LukhasAGIIntegrationManager:
     async def _calculate_system_coherence(self):
         """Calculate system coherence score"""
 
-        active_components = len(
-            [k for k, v in self.integration_status.items() if v == "active"]
-        )
+        active_components = len([k for k, v in self.integration_status.items() if v == "active"])
         total_components = len(self.integration_status)
 
         if total_components == 0:
@@ -544,10 +536,7 @@ class LukhasAGIIntegrationManager:
         ) / total_integrations
 
         # Update consciousness evolution events
-        if (
-            result.get("integration_insights", {}).get("unified_consciousness_level")
-            != "unknown"
-        ):
+        if result.get("integration_insights", {}).get("unified_consciousness_level") != "unknown":
             self.performance_metrics["consciousness_evolution_events"] += 1
 
     # Background monitoring loops
@@ -582,9 +571,7 @@ class LukhasAGIIntegrationManager:
                     )
 
                     if success_rate < 0.9:
-                        logger.warning(
-                            f"Integration success rate low: {success_rate:.2%}"
-                        )
+                        logger.warning(f"Integration success rate low: {success_rate:.2%}")
                         # Implement optimization strategies here
 
                 await asyncio.sleep(3600)  # Optimize every hour
@@ -718,9 +705,7 @@ async def main():
             return 1
 
         print(" AGI integration initialized successfully")
-        print(
-            f"Integration Status: {lukhas_agi_integration_manager.get_integration_status()}"
-        )
+        print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status()}")
 
         # Test unified processing
         print("\n Testing unified AGI processing...")

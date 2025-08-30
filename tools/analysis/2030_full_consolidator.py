@@ -232,9 +232,7 @@ class LUKHAS2030Consolidator:
 
         for root, _dirs, files in os.walk("."):
             # Skip archives
-            if any(
-                skip in root for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            ):
+            if any(skip in root for skip in ["._cleanup_archive", "__pycache__", ".git"]):
                 continue
 
             for target in targets:
@@ -309,15 +307,10 @@ class LUKHAS2030Consolidator:
 
     def _generate_comprehensive_report(self) -> dict[str, Any]:
         """Generate the full consolidation report"""
-        total_current_files = sum(
-            r["current_files"] for r in self.analysis_results.values()
-        )
-        total_current_lines = sum(
-            r["total_lines"] for r in self.analysis_results.values()
-        )
+        total_current_files = sum(r["current_files"] for r in self.analysis_results.values())
+        total_current_lines = sum(r["total_lines"] for r in self.analysis_results.values())
         total_lines_saved = sum(
-            r["potential_savings"]["lines_saved"]
-            for r in self.analysis_results.values()
+            r["potential_savings"]["lines_saved"] for r in self.analysis_results.values()
         )
 
         report = {
@@ -415,8 +408,8 @@ class LUKHAS2030Consolidator:
         for system_name, config in self.consolidation_map.items():
             script_content = f'''#!/usr/bin/env python3
 """
-LUKHAS 2030 {system_name.replace('_', ' ').title()} Consolidation
-{config['description']}
+LUKHAS 2030 {system_name.replace("_", " ").title()} Consolidation
+{config["description"]}
 """
 
 import os
@@ -427,14 +420,14 @@ def consolidate_{system_name}():
     """Consolidate {system_name} into unified system"""
 
     print("🔧 Consolidating {system_name}...")
-    print("   Vision: {config['vision']}")
+    print("   Vision: {config["vision"]}")
 
     # Target directory
-    target_dir = Path("{system_name.replace('_', '/')}")
+    target_dir = Path("{system_name.replace("_", "/")}")
     target_dir.mkdir(parents=True, exist_ok=True)
 
     # Features to implement
-    features = {config['features']}
+    features = {config["features"]}
 
     print("   Features to preserve:")
     for feature in features:
@@ -477,16 +470,16 @@ def create_master_plan(report: dict[str, Any]):
     """Create master consolidation plan document"""
     plan_content = f"""# LUKHAS 2030 Master Consolidation Plan
 
-**Generated**: {report['timestamp']}
+**Generated**: {report["timestamp"]}
 
 ## Vision
-{report['vision']}
+{report["vision"]}
 
 ## Executive Summary
 
-The LUKHAS 2030 consolidation will transform our codebase from {report['summary']['current_files']} files
-with {report['summary']['current_lines']:,} lines into a lean, powerful SGI system with approximately:
-{report['summary']['overall_reduction']} reduction in complexity while enhancing capabilities.
+The LUKHAS 2030 consolidation will transform our codebase from {report["summary"]["current_files"]} files
+with {report["summary"]["current_lines"]:,} lines into a lean, powerful SGI system with approximately:
+{report["summary"]["overall_reduction"]} reduction in complexity while enhancing capabilities.
 
 ## System Consolidations
 
@@ -494,19 +487,19 @@ with {report['summary']['current_lines']:,} lines into a lean, powerful SGI syst
 
     for system, results in report["systems"].items():
         plan_content += f"""
-### {system.replace('_', ' ').title()}
+### {system.replace("_", " ").title()}
 
-**Vision**: {results['vision']}
+**Vision**: {results["vision"]}
 
 **Current State**:
-- Files: {results['current_files']}
-- Lines: {results['total_lines']:,}
-- Duplication: {results['duplication_score']:.1f}%
+- Files: {results["current_files"]}
+- Lines: {results["total_lines"]:,}
+- Duplication: {results["duplication_score"]:.1f}%
 
 **Target State**:
-- Files: ~{results['potential_savings']['files_after_estimate']}
-- Lines: ~{results['potential_savings']['estimated_lines']:,}
-- Reduction: {results['potential_savings']['percentage_saved']}
+- Files: ~{results["potential_savings"]["files_after_estimate"]}
+- Lines: ~{results["potential_savings"]["estimated_lines"]:,}
+- Reduction: {results["potential_savings"]["percentage_saved"]}
 
 **Core Features**:
 """
@@ -520,10 +513,10 @@ with {report['summary']['current_lines']:,} lines into a lean, powerful SGI syst
 
     for phase in report["implementation_plan"]:
         plan_content += f"""
-### Phase {phase['phase']}: {phase['name']}
-- **Duration**: {phase['duration']}
-- **Systems**: {', '.join(phase['systems'])}
-- **Description**: {phase['description']}
+### Phase {phase["phase"]}: {phase["name"]}
+- **Duration**: {phase["duration"]}
+- **Systems**: {", ".join(phase["systems"])}
+- **Description**: {phase["description"]}
 """
 
     plan_content += """

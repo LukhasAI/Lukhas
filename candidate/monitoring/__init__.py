@@ -72,9 +72,7 @@ from .plasticity_trigger_manager import (
 # Version information
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
-__description__ = (
-    "Enhanced monitoring and observability with endocrine-triggered plasticity"
-)
+__description__ = "Enhanced monitoring and observability with endocrine-triggered plasticity"
 
 # Main entry points
 __all__ = [
@@ -130,8 +128,7 @@ def create_monitoring_system_from_config(
         >>>
         >>> signal_bus = SignalBus()
         >>> monitoring = create_monitoring_system_from_config(
-        ...     config_path="config/monitoring.yaml",
-        ...     profile=MonitoringProfile.PRODUCTION
+        ...     config_path="config/monitoring.yaml", profile=MonitoringProfile.PRODUCTION
         ... )
         >>> await monitoring.initialize()
         >>> await monitoring.start_monitoring()

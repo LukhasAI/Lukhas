@@ -255,9 +255,7 @@ class QICreativeEngine:
             emotional_spectrum=state.emotional_spectrum,
         )
 
-    async def _secure_creative_output(
-        self, expression: CreativeExpression
-    ) -> CreativeExpression:
+    async def _secure_creative_output(self, expression: CreativeExpression) -> CreativeExpression:
         """Apply security measures to creative output"""
         # Mock security application
         expression.metadata["security_applied"] = True
@@ -296,12 +294,10 @@ class QICreativeEngine:
             qc = await generator.apply_creative_gates(qc, qi_context)
 
         # Create initial quantum-like state
-        amplitude_vector = np.random.random(
+        amplitude_vector = np.random.random(2 ** min(num_qubits, 8)) + 1j * np.random.random(
             2 ** min(num_qubits, 8)
-        ) + 1j * np.random.random(2 ** min(num_qubits, 8))
-        amplitude_vector = amplitude_vector / np.sqrt(
-            np.sum(np.abs(amplitude_vector) ** 2)
         )
+        amplitude_vector = amplitude_vector / np.sqrt(np.sum(np.abs(amplitude_vector) ** 2))
 
         creative_state = CreativeQuantumLikeState(
             amplitude_vector=amplitude_vector,
@@ -447,9 +443,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         """Generate visual representation of haiku"""
         return f"Visual imagery for: {haiku.lines[0]} - quantum ripples in consciousness space"
 
-    async def _create_word_superposition(
-        self, semantic_field: SemanticField
-    ) -> QIWordState:
+    async def _create_word_superposition(self, semantic_field: SemanticField) -> QIWordState:
         """
         Create superposition-like state of words from semantic field
         """
@@ -473,8 +467,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
 
         # Add emotion coloring
         emotion_weights = [
-            semantic_field.emotional_weights.get(word, 0.5)
-            for word in semantic_field.words[:4]
+            semantic_field.emotional_weights.get(word, 0.5) for word in semantic_field.words[:4]
         ]
         for i, weight in enumerate(emotion_weights):
             angle = weight * np.pi / 2
@@ -504,12 +497,10 @@ class QIMusicComposer(CreativeExpressionProtocol):
         Compose music using quantum harmonic principles
         """
         # 1. Create quantum chord progression
-        chord_superposition = (
-            await self.harmonic_quantum_inspired_processor.generate_progression(
-                key=context.get("key", "C"),
-                mode=context.get("mode", "mixolydian"),
-                emotion_target=context.get("emotion", "hopeful"),
-            )
+        chord_superposition = await self.harmonic_quantum_inspired_processor.generate_progression(
+            key=context.get("key", "C"),
+            mode=context.get("mode", "mixolydian"),
+            emotion_target=context.get("emotion", "hopeful"),
         )
 
         # 2. Generate rhythm in superposition-like state
@@ -527,9 +518,7 @@ class QIMusicComposer(CreativeExpressionProtocol):
         )
 
         # 4. Collapse and synthesize
-        return await self._synthesize_quantum_music(
-            melody_state, chord_superposition, rhythm_state
-        )
+        return await self._synthesize_quantum_music(melody_state, chord_superposition, rhythm_state)
 
     async def _synthesize_quantum_music(
         self, melody_state, chord_superposition, rhythm_state
@@ -586,10 +575,8 @@ class BioCognitiveCreativityLayer:
             oscillation_enhanced = await modulator.modulate(oscillation_enhanced, level)
 
         # 3. Enhance with synaptic plasticity
-        plastic_enhanced = (
-            await self.synaptic_plasticity_engine.strengthen_creative_pathways(
-                oscillation_enhanced, learning_rate=cognitive_state.plasticity_rate
-            )
+        plastic_enhanced = await self.synaptic_plasticity_engine.strengthen_creative_pathways(
+            oscillation_enhanced, learning_rate=cognitive_state.plasticity_rate
         )
 
         # 4. Integrate dream-like associations
@@ -686,9 +673,7 @@ class CollaborativeCreativityOrchestrator:
         await self.creativity_mesh.initialize(participants)
 
         # 2. Create shared quantum creative space
-        shared_space = await self._create_shared_creative_space(
-            participants, creative_goal
-        )
+        shared_space = await self._create_shared_creative_space(participants, creative_goal)
 
         # 3. Stream collaborative process
         while not await self._is_goal_achieved(shared_space, creative_goal):
@@ -740,16 +725,12 @@ class CollaborativeCreativityOrchestrator:
             "shared_ideas": [],
         }
 
-    async def _is_goal_achieved(
-        self, shared_space, creative_goal: CreativeGoal
-    ) -> bool:
+    async def _is_goal_achieved(self, shared_space, creative_goal: CreativeGoal) -> bool:
         """Check if creative goal has been achieved"""
         # Mock goal achievement check
         return len(shared_space.get("shared_ideas", [])) >= 5
 
-    async def _gather_contributions(
-        self, participants: list[CreativeParticipant], shared_space
-    ):
+    async def _gather_contributions(self, participants: list[CreativeParticipant], shared_space):
         """Gather contributions from all participants"""
         contributions = []
         for participant in participants:
@@ -768,9 +749,7 @@ class CollaborativeCreativityOrchestrator:
         total = len(contributions)
         return {f"participant_{i}": 1.0 / total for i in range(total)}
 
-    async def _broadcast_update(
-        self, participants: list[CreativeParticipant], shared_space
-    ):
+    async def _broadcast_update(self, participants: list[CreativeParticipant], shared_space):
         """Broadcast updates to all participants"""
         # Mock broadcast - in reality would send updates to participants
 
@@ -790,8 +769,7 @@ class CollaborativeCreativityOrchestrator:
         return CollaborativeCreation(
             content=final_content,
             contributors={
-                f"participant_{i}": 1.0 / len(participants)
-                for i in range(len(participants))
+                f"participant_{i}": 1.0 / len(participants) for i in range(len(participants))
             },
             emergence_score=0.8,
             harmony_index=0.9,
@@ -851,9 +829,7 @@ class AdaptiveCreativePersonalization:
             personalization_vector=self._compute_personalization_vector(
                 aesthetic_params, user_profile
             ),
-            predicted_resonance=self._predict_user_resonance(
-                style_applied, user_profile
-            ),
+            predicted_resonance=self._predict_user_resonance(style_applied, user_profile),
             adaptation_notes=["Cultural tuning applied", "Emotional adjustment made"],
             learning_updates={"style_evolution": 0.1},
         )
@@ -946,9 +922,7 @@ class LukhasCreativeExpressionEngine:
         """
         Start collaborative creative session
         """
-        async for (
-            creation
-        ) in self.collaborative_orchestrator.orchestrate_collaborative_session(
+        async for creation in self.collaborative_orchestrator.orchestrate_collaborative_session(
             participants=session_request.participants,
             creative_goal=session_request.goal,
             session_config=session_request.session_config,
@@ -968,9 +942,7 @@ class LukhasCreativeExpressionEngine:
             metrics = await self.creativity_monitor.analyze_recent_creations()
 
             # Identify areas for improvement
-            improvement_targets = await self.evolution_engine.identify_improvements(
-                metrics
-            )
+            improvement_targets = await self.evolution_engine.identify_improvements(metrics)
 
             # Apply evolutionary updates
             for target in improvement_targets:
@@ -1007,9 +979,7 @@ class EnhancedNeuroHaikuGenerator:
             await self.protection_engine._initialize_components()
             self._initialized = True
 
-    async def generate_quantum_haiku(
-        self, context: dict[str, Any]
-    ) -> ProtectedCreativeWork:
+    async def generate_quantum_haiku(self, context: dict[str, Any]) -> ProtectedCreativeWork:
         """
         Generate quantum-enhanced haiku with full protection
         """
@@ -1029,9 +999,7 @@ class EnhancedNeuroHaikuGenerator:
         )
 
         # Convert to protected work
-        protected = await self.protection_engine.protect_creative_work(
-            qi_haiku, creator_identity
-        )
+        protected = await self.protection_engine.protect_creative_work(qi_haiku, creator_identity)
 
         return protected
 

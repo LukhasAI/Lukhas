@@ -30,9 +30,7 @@ def monitor_agi_system():
         try:
             # Check for recent status files
             status_files = [
-                f
-                for f in os.listdir(".")
-                if f.startswith("autonomous_") and f.endswith(".json")
+                f for f in os.listdir(".") if f.startswith("autonomous_") and f.endswith(".json")
             ]
 
             if status_files:
@@ -42,9 +40,7 @@ def monitor_agi_system():
                     with open(latest_file) as f:
                         status = json.load(f)
 
-                    print(
-                        f"\n🕐 {datetime.now().strftime('%H:%M:%S')} - Latest Status:"
-                    )
+                    print(f"\n🕐 {datetime.now().strftime('%H:%M:%S')} - Latest Status:")
                     print(
                         f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed"
                     )

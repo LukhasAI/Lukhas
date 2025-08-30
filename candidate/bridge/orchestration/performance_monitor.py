@@ -59,6 +59,7 @@ MODULE_NAME = "performance_monitor"
 
 class ProviderStatus(Enum):
     """Provider health status"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CIRCUIT_OPEN = "circuit_open"
@@ -68,6 +69,7 @@ class ProviderStatus(Enum):
 @dataclass
 class PerformanceMetric:
     """Individual performance measurement"""
+
     timestamp: datetime
     provider: str
     task_type: str
@@ -81,6 +83,7 @@ class PerformanceMetric:
 @dataclass
 class ProviderStats:
     """Aggregated statistics for a provider"""
+
     provider: str
     status: ProviderStatus = ProviderStatus.HEALTHY
     total_requests: int = 0
@@ -99,6 +102,7 @@ class ProviderStats:
 @dataclass
 class SystemPerformanceSnapshot:
     """System-wide performance snapshot"""
+
     timestamp: datetime
     total_requests: int
     avg_orchestration_latency_ms: float
@@ -142,8 +146,11 @@ class PerformanceMonitor:
         self._monitoring_task = None
         self._start_background_monitoring()
 
-        logger.info("Performance Monitor initialized with %dh retention, %d-min window",
-                   self.metrics_retention_hours, self.performance_window_minutes)
+        logger.info(
+            "Performance Monitor initialized with %dh retention, %d-min window",
+            self.metrics_retention_hours,
+            self.performance_window_minutes,
+        )
 
     def _start_background_monitoring(self):
         """Start background monitoring tasks"""
@@ -158,7 +165,7 @@ class PerformanceMonitor:
         success: bool,
         confidence: float = 0.0,
         token_count: Optional[int] = None,
-        error_type: Optional[str] = None
+        error_type: Optional[str] = None,
     ) -> None:
         """
         Record a performance metric with minimal overhead
@@ -184,7 +191,7 @@ class PerformanceMonitor:
                 success=success,
                 confidence=confidence,
                 token_count=token_count,
-                error_type=error_type
+                error_type=error_type,
             )
 
             # Add to buffer (thread-safe deque)
@@ -205,11 +212,7 @@ class PerformanceMonitor:
             logger.error("Failed to record performance metric: %s", str(e))
 
     async def record_orchestration(
-        self,
-        task_type: str,
-        providers: list[str],
-        total_latency_ms: float,
-        confidence_score: float
+        self, task_type: str, providers: list[str], total_latency_ms: float, confidence_score: float
     ) -> None:
         """
         Record orchestration-level performance metrics
@@ -225,17 +228,22 @@ class PerformanceMonitor:
             self.orchestration_latencies.append(total_latency_ms)
 
             # Record consensus result
-            self.consensus_results.append({
-                "timestamp": datetime.utcnow(),
-                "task_type": task_type,
-                "providers": providers,
-                "latency_ms": total_latency_ms,
-                "confidence": confidence_score,
-                "sla_met": total_latency_ms <= self.latency_sla_ms
-            })
+            self.consensus_results.append(
+                {
+                    "timestamp": datetime.utcnow(),
+                    "task_type": task_type,
+                    "providers": providers,
+                    "latency_ms": total_latency_ms,
+                    "confidence": confidence_score,
+                    "sla_met": total_latency_ms <= self.latency_sla_ms,
+                }
+            )
 
-            logger.debug("Recorded orchestration: %.2fms, confidence: %.3f",
-                        total_latency_ms, confidence_score)
+            logger.debug(
+                "Recorded orchestration: %.2fms, confidence: %.3f",
+                total_latency_ms,
+                confidence_score,
+            )
 
         except Exception as e:
             logger.error("Failed to record orchestration metric: %s", str(e))
@@ -267,7 +275,9 @@ class PerformanceMonitor:
                 stats.p99_latency_ms = statistics.quantiles(latencies, n=100)[98]  # 99th percentile
 
         # Update other metrics
-        stats.error_rate = stats.failed_requests / stats.total_requests if stats.total_requests > 0 else 0
+        stats.error_rate = (
+            stats.failed_requests / stats.total_requests if stats.total_requests > 0 else 0
+        )
         stats.last_updated = datetime.utcnow()
 
         # Update health status
@@ -278,19 +288,14 @@ class PerformanceMonitor:
         else:
             stats.status = ProviderStatus.HEALTHY
 
-    async def _check_circuit_breaker(
-        self,
-        provider: str,
-        success: bool,
-        latency_ms: float
-    ) -> None:
+    async def _check_circuit_breaker(self, provider: str, success: bool, latency_ms: float) -> None:
         """Check and update circuit breaker state"""
         if provider not in self.circuit_breakers:
             self.circuit_breakers[provider] = {
                 "state": "closed",  # closed, open, half_open
                 "failure_count": 0,
                 "last_failure": None,
-                "success_count": 0
+                "success_count": 0,
             }
 
         breaker = self.circuit_breakers[provider]
@@ -310,7 +315,9 @@ class PerformanceMonitor:
 
         elif breaker["state"] == "open":
             # Check if timeout period has passed
-            if (current_time - breaker["last_failure"]).total_seconds() > self.circuit_breaker_timeout:
+            if (
+                current_time - breaker["last_failure"]
+            ).total_seconds() > self.circuit_breaker_timeout:
                 breaker["state"] = "half_open"
                 breaker["success_count"] = 0
                 logger.info("Circuit breaker half-opened for provider: %s", provider)
@@ -355,8 +362,9 @@ class PerformanceMonitor:
                 return 0.3  # Limited confidence during half-open
 
         # Base score from success rate
-        success_rate = (stats.successful_requests / stats.total_requests
-                       if stats.total_requests > 0 else 0.5)
+        success_rate = (
+            stats.successful_requests / stats.total_requests if stats.total_requests > 0 else 0.5
+        )
 
         # Latency penalty
         latency_score = 1.0
@@ -385,15 +393,13 @@ class PerformanceMonitor:
 
             # Orchestration metrics
             avg_orchestration_latency = (
-                statistics.mean(self.orchestration_latencies)
-                if self.orchestration_latencies else 0
+                statistics.mean(self.orchestration_latencies) if self.orchestration_latencies else 0
             )
 
             # SLA metrics
             sla_compliant = sum(1 for r in self.consensus_results if r["sla_met"])
             sla_compliance_rate = (
-                sla_compliant / len(self.consensus_results)
-                if self.consensus_results else 0
+                sla_compliant / len(self.consensus_results) if self.consensus_results else 0
             )
 
             # Provider metrics
@@ -402,32 +408,39 @@ class PerformanceMonitor:
                 provider_metrics[provider] = {
                     "status": stats.status.value,
                     "total_requests": stats.total_requests,
-                    "success_rate": (stats.successful_requests / stats.total_requests
-                                   if stats.total_requests > 0 else 0),
+                    "success_rate": (
+                        stats.successful_requests / stats.total_requests
+                        if stats.total_requests > 0
+                        else 0
+                    ),
                     "avg_latency_ms": stats.avg_latency_ms,
                     "p95_latency_ms": stats.p95_latency_ms,
                     "error_rate": stats.error_rate,
-                    "performance_score": self.get_provider_score(provider, "general")
+                    "performance_score": self.get_provider_score(provider, "general"),
                 }
 
             # Circuit breaker status
-            active_circuits = sum(1 for cb in self.circuit_breakers.values()
-                                if cb["state"] != "closed")
+            active_circuits = sum(
+                1 for cb in self.circuit_breakers.values() if cb["state"] != "closed"
+            )
 
             return {
                 "timestamp": current_time.isoformat(),
                 "system": {
                     "total_requests": total_requests,
-                    "success_rate": successful_requests / total_requests if total_requests > 0 else 0,
+                    "success_rate": successful_requests / total_requests
+                    if total_requests > 0
+                    else 0,
                     "avg_orchestration_latency_ms": avg_orchestration_latency,
                     "sla_compliance_rate": sla_compliance_rate,
-                    "active_circuit_breakers": active_circuits
+                    "active_circuit_breakers": active_circuits,
                 },
                 "providers": provider_metrics,
                 "circuit_breakers": {
-                    provider: breaker for provider, breaker in self.circuit_breakers.items()
+                    provider: breaker
+                    for provider, breaker in self.circuit_breakers.items()
                     if breaker["state"] != "closed"
-                }
+                },
             }
 
         except Exception as e:
@@ -477,8 +490,9 @@ class PerformanceMonitor:
                     )
 
             # Circuit breaker recommendations
-            active_circuits = sum(1 for cb in self.circuit_breakers.values()
-                                if cb["state"] != "closed")
+            active_circuits = sum(
+                1 for cb in self.circuit_breakers.values() if cb["state"] != "closed"
+            )
             if active_circuits > 0:
                 recommendations.append(
                     f"{active_circuits} circuit breaker(s) active - "
@@ -487,7 +501,7 @@ class PerformanceMonitor:
 
         except Exception as e:
             logger.error("Failed to generate recommendations: %s", str(e))
-            recommendations.append(f"Error generating recommendations: {str(e)}")
+            recommendations.append(f"Error generating recommendations: {e!s}")
 
         return recommendations
 
@@ -503,8 +517,7 @@ class PerformanceMonitor:
                 # Clean metrics buffer
                 original_size = len(self.metrics_buffer)
                 self.metrics_buffer = deque(
-                    (m for m in self.metrics_buffer if m.timestamp > cutoff_time),
-                    maxlen=10000
+                    (m for m in self.metrics_buffer if m.timestamp > cutoff_time), maxlen=10000
                 )
 
                 if len(self.metrics_buffer) < original_size:
@@ -515,8 +528,11 @@ class PerformanceMonitor:
                 self.system_snapshots.append(snapshot)
 
                 # Log system health
-                logger.info("System health score: %.3f, active circuits: %d",
-                          snapshot.system_health_score, snapshot.active_circuits)
+                logger.info(
+                    "System health score: %.3f, active circuits: %d",
+                    snapshot.system_health_score,
+                    snapshot.active_circuits,
+                )
 
             except Exception as e:
                 logger.error("Background monitoring error: %s", str(e))
@@ -529,17 +545,17 @@ class PerformanceMonitor:
         total_requests = sum(stats.total_requests for stats in self.provider_stats.values())
 
         avg_orchestration_latency = (
-            statistics.mean(self.orchestration_latencies)
-            if self.orchestration_latencies else 0
+            statistics.mean(self.orchestration_latencies) if self.orchestration_latencies else 0
         )
 
         consensus_success_rate = (
-            len([r for r in self.consensus_results if r["confidence"] > 0.7]) /
-            len(self.consensus_results) if self.consensus_results else 0
+            len([r for r in self.consensus_results if r["confidence"] > 0.7])
+            / len(self.consensus_results)
+            if self.consensus_results
+            else 0
         )
 
-        active_circuits = sum(1 for cb in self.circuit_breakers.values()
-                            if cb["state"] != "closed")
+        active_circuits = sum(1 for cb in self.circuit_breakers.values() if cb["state"] != "closed")
 
         # Calculate system health score
         provider_scores = [self.get_provider_score(p, "general") for p in self.provider_stats]
@@ -549,7 +565,9 @@ class PerformanceMonitor:
         if avg_orchestration_latency > 0:
             latency_score = min(1.0, self.latency_sla_ms / avg_orchestration_latency)
 
-        system_health_score = (avg_provider_score * 0.6) + (latency_score * 0.2) + (consensus_success_rate * 0.2)
+        system_health_score = (
+            (avg_provider_score * 0.6) + (latency_score * 0.2) + (consensus_success_rate * 0.2)
+        )
 
         # Generate recommendations
         recommendations = await self.get_performance_recommendations()
@@ -562,7 +580,7 @@ class PerformanceMonitor:
             provider_stats=self.provider_stats.copy(),
             active_circuits=active_circuits,
             system_health_score=system_health_score,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     async def health_check(self) -> dict[str, Any]:
@@ -590,15 +608,12 @@ class PerformanceMonitor:
                 "provider_count": len(self.provider_stats),
                 "circuit_breaker_count": len(self.circuit_breakers),
                 "system_health_score": getattr(self.system_snapshots[-1], "system_health_score", 0)
-                                     if self.system_snapshots else 0
+                if self.system_snapshots
+                else 0,
             }
 
         except Exception as e:
-            return {
-                "status": "error",
-                "error": str(e),
-                "version": MODULE_VERSION
-            }
+            return {"status": "error", "error": str(e), "version": MODULE_VERSION}
 
 
 """

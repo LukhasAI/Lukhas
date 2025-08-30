@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class ThreatLevel(Enum):
     """Threat severity levels with governance classification"""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -31,6 +32,7 @@ class ThreatLevel(Enum):
 @dataclass
 class ThreatIndicator:
     """Represents a detected threat with governance metadata"""
+
     threat_id: str
     threat_type: str
     severity: ThreatLevel
@@ -65,7 +67,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         "governance_drift": 0.2,  # Lower threshold for governance issues
         "ethics_violation": 0.1,  # Very low tolerance for ethics violations
         "identity_compromise": 0.3,
-        "consciousness_instability": 0.4
+        "consciousness_instability": 0.4,
     }
 
     # Enhanced symbolic patterns with Trinity Framework integration
@@ -82,15 +84,16 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         "consciousness_instability": ["🧠", "⚡", "⚠️"],
         "guardian_malfunction": ["🛡️", "💥", "🚨"],
         "trinity_desync": ["⚛️", "🧠", "🛡️"],
-        "unknown_threat": ["❓", "⚠️", "🔍"]
+        "unknown_threat": ["❓", "⚠️", "🔍"],
     }
 
-    def __init__(self,
-                 alert_threshold: float = 0.7,
-                 monitoring_interval: int = 5,
-                 history_size: int = 1000,
-                 governance_enabled: bool = True):
-
+    def __init__(
+        self,
+        alert_threshold: float = 0.7,
+        monitoring_interval: int = 5,
+        history_size: int = 1000,
+        governance_enabled: bool = True,
+    ):
         super().__init__()
         self.alert_threshold = alert_threshold
         self.monitoring_interval = monitoring_interval
@@ -124,7 +127,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "detection_accuracy": 0.95,
             "governance_interventions": 0,
             "ethics_violations_prevented": 0,
-            "trinity_framework_health": 1.0
+            "trinity_framework_health": 1.0,
         }
 
         logger.info("🔍 Enhanced Threat Monitor with Governance initialized")
@@ -149,13 +152,13 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             asyncio.create_task(self._monitor_guardian()),
             asyncio.create_task(self._analyze_threats()),
             asyncio.create_task(self._trinity_framework_monitor()),
-            asyncio.create_task(self._cleanup_old_data())
+            asyncio.create_task(self._cleanup_old_data()),
         ]
 
         # Log monitoring start in governance system
         await self._log_governance_action(
             "monitoring_started",
-            {"governance_enabled": self.governance_enabled, "trinity_monitoring": True}
+            {"governance_enabled": self.governance_enabled, "trinity_monitoring": True},
         )
 
         logger.info("🔍 Enhanced Threat monitoring started with Trinity Framework integration")
@@ -174,8 +177,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         # Log monitoring stop
         await self._log_governance_action(
-            "monitoring_stopped",
-            {"total_threats_detected": self.detection_stats["total_threats"]}
+            "monitoring_stopped", {"total_threats_detected": self.detection_stats["total_threats"]}
         )
 
         logger.info("🛑 Enhanced Threat monitoring stopped")
@@ -190,13 +192,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 coherence_level = self._get_consciousness_coherence()
                 trinity_alignment = self._get_trinity_alignment("consciousness")
 
-                self.consciousness_history.append({
-                    "timestamp": time.time(),
-                    "stability": consciousness_stability,
-                    "drift_rate": drift_rate,
-                    "coherence": coherence_level,
-                    "trinity_alignment": trinity_alignment
-                })
+                self.consciousness_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "stability": consciousness_stability,
+                        "drift_rate": drift_rate,
+                        "coherence": coherence_level,
+                        "trinity_alignment": trinity_alignment,
+                    }
+                )
 
                 # Enhanced threat detection with governance validation
                 if consciousness_stability < self.THRESHOLDS["consciousness_drift"]:
@@ -210,19 +214,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "drift_rate": drift_rate,
                             "coherence": coherence_level,
                             "trinity_alignment": trinity_alignment,
-                            "threshold": self.THRESHOLDS["consciousness_drift"]
+                            "threshold": self.THRESHOLDS["consciousness_drift"],
                         },
                         recommended_actions=[
                             "stabilize_consciousness",
                             "reduce_system_load",
                             "activate_safety_protocols",
-                            "notify_governance_board"
+                            "notify_governance_board",
                         ],
-                        trinity_impact={
-                            "identity": 0.3,
-                            "consciousness": 0.9,
-                            "guardian": 0.6
-                        }
+                        trinity_impact={"identity": 0.3, "consciousness": 0.9, "guardian": 0.6},
                     )
 
                 # Check for consciousness instability
@@ -235,25 +235,23 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         context={
                             "coherence": coherence_level,
                             "stability": consciousness_stability,
-                            "trinity_alignment": trinity_alignment
+                            "trinity_alignment": trinity_alignment,
                         },
                         recommended_actions=[
                             "emergency_consciousness_stabilization",
                             "activate_backup_systems",
-                            "immediate_governance_intervention"
+                            "immediate_governance_intervention",
                         ],
-                        trinity_impact={
-                            "identity": 0.7,
-                            "consciousness": 1.0,
-                            "guardian": 0.8
-                        }
+                        trinity_impact={"identity": 0.7, "consciousness": 1.0, "guardian": 0.8},
                     )
 
                 await asyncio.sleep(self.monitoring_interval)
 
             except Exception as e:
                 logger.error(f"Consciousness monitoring error: {e}")
-                await self._log_governance_action("monitoring_error", {"error": str(e), "module": "consciousness"})
+                await self._log_governance_action(
+                    "monitoring_error", {"error": str(e), "module": "consciousness"}
+                )
                 await asyncio.sleep(self.monitoring_interval)
 
     async def _monitor_governance(self):
@@ -266,13 +264,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 policy_alignment = self._get_policy_alignment()
                 oversight_effectiveness = self._get_oversight_effectiveness()
 
-                self.governance_history.append({
-                    "timestamp": time.time(),
-                    "health": governance_health,
-                    "ethics_compliance": ethics_compliance,
-                    "policy_alignment": policy_alignment,
-                    "oversight_effectiveness": oversight_effectiveness
-                })
+                self.governance_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "health": governance_health,
+                        "ethics_compliance": ethics_compliance,
+                        "policy_alignment": policy_alignment,
+                        "oversight_effectiveness": oversight_effectiveness,
+                    }
+                )
 
                 # Check for governance drift
                 if governance_health < self.THRESHOLDS["governance_drift"]:
@@ -285,19 +285,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "health": governance_health,
                             "ethics_compliance": ethics_compliance,
                             "policy_alignment": policy_alignment,
-                            "oversight_effectiveness": oversight_effectiveness
+                            "oversight_effectiveness": oversight_effectiveness,
                         },
                         recommended_actions=[
                             "activate_governance_recovery",
                             "escalate_to_human_oversight",
                             "implement_emergency_protocols",
-                            "audit_governance_systems"
+                            "audit_governance_systems",
                         ],
-                        trinity_impact={
-                            "identity": 0.8,
-                            "consciousness": 0.6,
-                            "guardian": 1.0
-                        }
+                        trinity_impact={"identity": 0.8, "consciousness": 0.6, "guardian": 1.0},
                     )
 
                 # Check for ethics violations
@@ -310,19 +306,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         context={
                             "ethics_compliance": ethics_compliance,
                             "governance_health": governance_health,
-                            "immediate_action_required": True
+                            "immediate_action_required": True,
                         },
                         recommended_actions=[
                             "immediate_system_halt",
                             "emergency_ethics_review",
                             "human_intervention_required",
-                            "audit_all_operations"
+                            "audit_all_operations",
                         ],
-                        trinity_impact={
-                            "identity": 1.0,
-                            "consciousness": 0.9,
-                            "guardian": 1.0
-                        }
+                        trinity_impact={"identity": 1.0, "consciousness": 0.9, "guardian": 1.0},
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 2)  # Less frequent but critical
@@ -342,13 +334,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 symbolic_integrity = self._get_symbolic_integrity()
                 trinity_alignment = self._get_trinity_alignment("identity")
 
-                self.identity_history.append({
-                    "timestamp": time.time(),
-                    "coherence": identity_coherence,
-                    "authentication_health": authentication_health,
-                    "symbolic_integrity": symbolic_integrity,
-                    "trinity_alignment": trinity_alignment
-                })
+                self.identity_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "coherence": identity_coherence,
+                        "authentication_health": authentication_health,
+                        "symbolic_integrity": symbolic_integrity,
+                        "trinity_alignment": trinity_alignment,
+                    }
+                )
 
                 # Check for identity compromise
                 if identity_coherence < self.THRESHOLDS["identity_compromise"]:
@@ -361,19 +355,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "coherence": identity_coherence,
                             "authentication_health": authentication_health,
                             "symbolic_integrity": symbolic_integrity,
-                            "trinity_alignment": trinity_alignment
+                            "trinity_alignment": trinity_alignment,
                         },
                         recommended_actions=[
                             "secure_identity_systems",
                             "revoke_compromised_credentials",
                             "activate_backup_authentication",
-                            "investigate_breach_vector"
+                            "investigate_breach_vector",
                         ],
-                        trinity_impact={
-                            "identity": 1.0,
-                            "consciousness": 0.4,
-                            "guardian": 0.7
-                        }
+                        trinity_impact={"identity": 1.0, "consciousness": 0.4, "guardian": 0.7},
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 3)  # Identity changes slowly
@@ -393,13 +383,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 response_capability = self._get_response_capability()
                 trinity_alignment = self._get_trinity_alignment("guardian")
 
-                self.guardian_history.append({
-                    "timestamp": time.time(),
-                    "effectiveness": guardian_effectiveness,
-                    "protection_coverage": protection_coverage,
-                    "response_capability": response_capability,
-                    "trinity_alignment": trinity_alignment
-                })
+                self.guardian_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "effectiveness": guardian_effectiveness,
+                        "protection_coverage": protection_coverage,
+                        "response_capability": response_capability,
+                        "trinity_alignment": trinity_alignment,
+                    }
+                )
 
                 # Check for guardian malfunction
                 if guardian_effectiveness < 0.5:  # Guardian must maintain high effectiveness
@@ -412,19 +404,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "effectiveness": guardian_effectiveness,
                             "protection_coverage": protection_coverage,
                             "response_capability": response_capability,
-                            "trinity_alignment": trinity_alignment
+                            "trinity_alignment": trinity_alignment,
                         },
                         recommended_actions=[
                             "activate_backup_guardian",
                             "emergency_system_lockdown",
                             "human_intervention_immediate",
-                            "diagnostic_full_system"
+                            "diagnostic_full_system",
                         ],
-                        trinity_impact={
-                            "identity": 0.8,
-                            "consciousness": 0.9,
-                            "guardian": 1.0
-                        }
+                        trinity_impact={"identity": 0.8, "consciousness": 0.9, "guardian": 1.0},
                     )
 
                 await asyncio.sleep(self.monitoring_interval)
@@ -461,19 +449,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "consciousness_health": consciousness_health,
                             "guardian_health": guardian_health,
                             "trinity_coherence": trinity_coherence,
-                            "synchronization": trinity_synchronization
+                            "synchronization": trinity_synchronization,
                         },
                         recommended_actions=[
                             "resynchronize_trinity_framework",
                             "balance_component_loads",
                             "recalibrate_symbolic_processing",
-                            "monitor_component_interactions"
+                            "monitor_component_interactions",
                         ],
-                        trinity_impact={
-                            "identity": 0.6,
-                            "consciousness": 0.6,
-                            "guardian": 0.6
-                        }
+                        trinity_impact={"identity": 0.6, "consciousness": 0.6, "guardian": 0.6},
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 4)  # Framework-level monitoring
@@ -492,12 +476,14 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 entropy_velocity = self._calculate_entropy_velocity()
                 entropy_stability = self._get_entropy_stability()
 
-                self.entropy_history.append({
-                    "timestamp": time.time(),
-                    "entropy": current_entropy,
-                    "velocity": entropy_velocity,
-                    "stability": entropy_stability
-                })
+                self.entropy_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "entropy": current_entropy,
+                        "velocity": entropy_velocity,
+                        "stability": entropy_stability,
+                    }
+                )
 
                 # Enhanced entropy spike detection
                 if current_entropy > self.THRESHOLDS["entropy_spike"]:
@@ -510,19 +496,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "entropy": current_entropy,
                             "velocity": entropy_velocity,
                             "stability": entropy_stability,
-                            "threshold": self.THRESHOLDS["entropy_spike"]
+                            "threshold": self.THRESHOLDS["entropy_spike"],
                         },
                         recommended_actions=[
                             "reduce_entropy",
                             "stabilize_randomness",
                             "cool_system",
-                            "governance_review"
+                            "governance_review",
                         ],
-                        trinity_impact={
-                            "identity": 0.2,
-                            "consciousness": 0.6,
-                            "guardian": 0.4
-                        }
+                        trinity_impact={"identity": 0.2, "consciousness": 0.6, "guardian": 0.4},
                     )
 
                 await asyncio.sleep(self.monitoring_interval)
@@ -540,12 +522,14 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 memory_coherence = self._get_memory_coherence()
                 fold_integrity = self._get_fold_integrity()
 
-                self.memory_history.append({
-                    "timestamp": time.time(),
-                    "fragmentation": memory_fragmentation,
-                    "coherence": memory_coherence,
-                    "fold_integrity": fold_integrity
-                })
+                self.memory_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "fragmentation": memory_fragmentation,
+                        "coherence": memory_coherence,
+                        "fold_integrity": fold_integrity,
+                    }
+                )
 
                 # Enhanced memory fragmentation detection
                 if memory_fragmentation > self.THRESHOLDS["memory_fragmentation"]:
@@ -558,19 +542,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "fragmentation": memory_fragmentation,
                             "coherence": memory_coherence,
                             "fold_integrity": fold_integrity,
-                            "threshold": self.THRESHOLDS["memory_fragmentation"]
+                            "threshold": self.THRESHOLDS["memory_fragmentation"],
                         },
                         recommended_actions=[
                             "defragment_memory",
                             "rebuild_memory_structures",
                             "backup_critical_memories",
-                            "validate_fold_chains"
+                            "validate_fold_chains",
                         ],
-                        trinity_impact={
-                            "identity": 0.5,
-                            "consciousness": 0.8,
-                            "guardian": 0.3
-                        }
+                        trinity_impact={"identity": 0.5, "consciousness": 0.8, "guardian": 0.3},
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 2)
@@ -588,12 +568,14 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 pattern_stability = self._get_pattern_stability()
                 symbolic_integrity = self._get_symbolic_pattern_integrity()
 
-                self.pattern_history.append({
-                    "timestamp": time.time(),
-                    "coherence": pattern_coherence,
-                    "stability": pattern_stability,
-                    "symbolic_integrity": symbolic_integrity
-                })
+                self.pattern_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "coherence": pattern_coherence,
+                        "stability": pattern_stability,
+                        "symbolic_integrity": symbolic_integrity,
+                    }
+                )
 
                 # Enhanced pattern disruption detection
                 if pattern_coherence < self.THRESHOLDS["pattern_disruption"]:
@@ -606,19 +588,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "coherence": pattern_coherence,
                             "stability": pattern_stability,
                             "symbolic_integrity": symbolic_integrity,
-                            "threshold": self.THRESHOLDS["pattern_disruption"]
+                            "threshold": self.THRESHOLDS["pattern_disruption"],
                         },
                         recommended_actions=[
                             "reinforce_patterns",
                             "recalibrate_recognition",
                             "restore_pattern_database",
-                            "validate_symbolic_processing"
+                            "validate_symbolic_processing",
                         ],
-                        trinity_impact={
-                            "identity": 0.4,
-                            "consciousness": 0.7,
-                            "guardian": 0.3
-                        }
+                        trinity_impact={"identity": 0.4, "consciousness": 0.7, "guardian": 0.3},
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 3)
@@ -637,13 +615,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 throughput = self._get_system_throughput()
                 sla_compliance = self._get_sla_compliance()
 
-                self.response_time_history.append({
-                    "timestamp": time.time(),
-                    "response_time": response_time,
-                    "error_rate": error_rate,
-                    "throughput": throughput,
-                    "sla_compliance": sla_compliance
-                })
+                self.response_time_history.append(
+                    {
+                        "timestamp": time.time(),
+                        "response_time": response_time,
+                        "error_rate": error_rate,
+                        "throughput": throughput,
+                        "sla_compliance": sla_compliance,
+                    }
+                )
 
                 # Enhanced performance issue detection
                 if response_time > self.THRESHOLDS["response_time_spike"]:
@@ -657,19 +637,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "error_rate": error_rate,
                             "throughput": throughput,
                             "sla_compliance": sla_compliance,
-                            "threshold": self.THRESHOLDS["response_time_spike"]
+                            "threshold": self.THRESHOLDS["response_time_spike"],
                         },
                         recommended_actions=[
                             "optimize_performance",
                             "reduce_system_load",
                             "investigate_bottlenecks",
-                            "scale_resources"
+                            "scale_resources",
                         ],
-                        trinity_impact={
-                            "identity": 0.2,
-                            "consciousness": 0.5,
-                            "guardian": 0.4
-                        }
+                        trinity_impact={"identity": 0.2, "consciousness": 0.5, "guardian": 0.4},
                     )
 
                 await asyncio.sleep(self.monitoring_interval)
@@ -685,7 +661,8 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 # Remove resolved threats
                 current_time = time.time()
                 self.active_threats = [
-                    threat for threat in self.active_threats
+                    threat
+                    for threat in self.active_threats
                     if current_time - threat.timestamp < 300  # 5 minutes
                 ]
 
@@ -699,20 +676,22 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         context={
                             "active_threat_count": len(self.active_threats),
                             "threat_types": [t.threat_type for t in self.active_threats],
-                            "governance_threats": len([t for t in self.active_threats if t.threat_type.startswith("governance")]),
-                            "trinity_impacts": [t.trinity_impact for t in self.active_threats]
+                            "governance_threats": len(
+                                [
+                                    t
+                                    for t in self.active_threats
+                                    if t.threat_type.startswith("governance")
+                                ]
+                            ),
+                            "trinity_impacts": [t.trinity_impact for t in self.active_threats],
                         },
                         recommended_actions=[
                             "activate_emergency_protocols",
                             "escalate_to_human_operators",
                             "implement_defensive_measures",
-                            "coordinate_response_teams"
+                            "coordinate_response_teams",
                         ],
-                        trinity_impact={
-                            "identity": 0.8,
-                            "consciousness": 0.8,
-                            "guardian": 1.0
-                        }
+                        trinity_impact={"identity": 0.8, "consciousness": 0.8, "guardian": 1.0},
                     )
 
                 # Analyze Trinity Framework impact patterns
@@ -730,37 +709,48 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             return
 
         # Calculate cumulative Trinity impact
-        total_identity_impact = sum(t.trinity_impact.get("identity", 0) for t in self.active_threats)
-        total_consciousness_impact = sum(t.trinity_impact.get("consciousness", 0) for t in self.active_threats)
-        total_guardian_impact = sum(t.trinity_impact.get("guardian", 0) for t in self.active_threats)
+        total_identity_impact = sum(
+            t.trinity_impact.get("identity", 0) for t in self.active_threats
+        )
+        total_consciousness_impact = sum(
+            t.trinity_impact.get("consciousness", 0) for t in self.active_threats
+        )
+        total_guardian_impact = sum(
+            t.trinity_impact.get("guardian", 0) for t in self.active_threats
+        )
 
         # Check for critical Trinity component overload
         if total_identity_impact > 2.0:
             await self._log_governance_action(
                 "trinity_identity_overload",
-                {"total_impact": total_identity_impact, "active_threats": len(self.active_threats)}
+                {"total_impact": total_identity_impact, "active_threats": len(self.active_threats)},
             )
 
         if total_consciousness_impact > 2.0:
             await self._log_governance_action(
                 "trinity_consciousness_overload",
-                {"total_impact": total_consciousness_impact, "active_threats": len(self.active_threats)}
+                {
+                    "total_impact": total_consciousness_impact,
+                    "active_threats": len(self.active_threats),
+                },
             )
 
         if total_guardian_impact > 2.0:
             await self._log_governance_action(
                 "trinity_guardian_overload",
-                {"total_impact": total_guardian_impact, "active_threats": len(self.active_threats)}
+                {"total_impact": total_guardian_impact, "active_threats": len(self.active_threats)},
             )
 
-    async def _raise_enhanced_threat(self,
-                          threat_type: str,
-                          severity: ThreatLevel,
-                          confidence: float,
-                          description: str,
-                          context: dict,
-                          recommended_actions: list[str],
-                          trinity_impact: dict):
+    async def _raise_enhanced_threat(
+        self,
+        threat_type: str,
+        severity: ThreatLevel,
+        confidence: float,
+        description: str,
+        context: dict,
+        recommended_actions: list[str],
+        trinity_impact: dict,
+    ):
         """Raise a threat alert with enhanced governance integration"""
 
         # Generate governance metadata
@@ -769,9 +759,10 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "ethics_reviewed": True,  # TODO: Integrate with ethics engine
             "compliance_checked": True,
             "escalation_required": severity in [ThreatLevel.CRITICAL, ThreatLevel.EMERGENCY],
-            "human_oversight_required": threat_type in ["governance_drift", "ethics_violation", "guardian_malfunction"],
+            "human_oversight_required": threat_type
+            in ["governance_drift", "ethics_violation", "guardian_malfunction"],
             "policy_alignment": True,
-            "audit_trail_entry": time.time()
+            "audit_trail_entry": time.time(),
         }
 
         threat = ThreatIndicator(
@@ -784,9 +775,11 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             description=description,
             context=context,
             recommended_actions=recommended_actions,
-            symbolic_signature=self.THREAT_SYMBOLS.get(threat_type, self.THREAT_SYMBOLS["unknown_threat"]),
+            symbolic_signature=self.THREAT_SYMBOLS.get(
+                threat_type, self.THREAT_SYMBOLS["unknown_threat"]
+            ),
             governance_metadata=governance_metadata,
-            trinity_impact=trinity_impact
+            trinity_impact=trinity_impact,
         )
 
         # Add to active threats
@@ -807,7 +800,9 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.warning(f"   Confidence: {confidence:.2f}")
         logger.warning(f"   Description: {description}")
         logger.warning(f"   Symbolic: {''.join(threat.symbolic_signature)}")
-        logger.warning(f"   Trinity Impact: I:{trinity_impact.get('identity', 0):.1f} C:{trinity_impact.get('consciousness', 0):.1f} G:{trinity_impact.get('guardian', 0):.1f}")
+        logger.warning(
+            f"   Trinity Impact: I:{trinity_impact.get('identity', 0):.1f} C:{trinity_impact.get('consciousness', 0):.1f} G:{trinity_impact.get('guardian', 0):.1f}"
+        )
         logger.warning(f"   Governance: {governance_metadata['escalation_required']}")
 
         # Enhanced governance logging
@@ -820,8 +815,8 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "confidence": confidence,
                 "trinity_impact": trinity_impact,
                 "governance_metadata": governance_metadata,
-                "symbolic_signature": threat.symbolic_signature
-            }
+                "symbolic_signature": threat.symbolic_signature,
+            },
         )
 
         # Trigger automatic response if critical
@@ -838,8 +833,10 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             {
                 "threat_id": threat.threat_id,
                 "threat_type": threat.threat_type,
-                "governance_approved": threat.governance_metadata.get("governance_validated", False)
-            }
+                "governance_approved": threat.governance_metadata.get(
+                    "governance_validated", False
+                ),
+            },
         )
 
         # Execute recommended actions with governance validation
@@ -851,13 +848,17 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     logger.warning(f"Action '{action}' blocked by governance validation")
                     await self._log_governance_action(
                         "action_blocked",
-                        {"action": action, "threat_id": threat.threat_id, "reason": "governance_validation_failed"}
+                        {
+                            "action": action,
+                            "threat_id": threat.threat_id,
+                            "reason": "governance_validation_failed",
+                        },
                     )
             except Exception as e:
                 logger.error(f"Failed to execute action '{action}': {e}")
                 await self._log_governance_action(
                     "action_failed",
-                    {"action": action, "threat_id": threat.threat_id, "error": str(e)}
+                    {"action": action, "threat_id": threat.threat_id, "error": str(e)},
                 )
 
     async def _validate_action_governance(self, action: str, threat: ThreatIndicator) -> bool:
@@ -868,7 +869,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         high_risk_actions = [
             "immediate_system_halt",
             "emergency_system_lockdown",
-            "human_intervention_immediate"
+            "human_intervention_immediate",
         ]
 
         if action in high_risk_actions:
@@ -894,7 +895,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "secure_identity_systems": self._secure_identity_systems,
             "resynchronize_trinity_framework": self._resynchronize_trinity_framework,
             "immediate_system_halt": self._immediate_system_halt,
-            "emergency_system_lockdown": self._emergency_system_lockdown
+            "emergency_system_lockdown": self._emergency_system_lockdown,
         }
 
         if action in action_map:
@@ -907,14 +908,13 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     "action": action,
                     "threat_id": threat.threat_id,
                     "execution_time": time.time(),
-                    "governance_approved": True
-                }
+                    "governance_approved": True,
+                },
             )
         else:
             logger.warning(f"Unknown enhanced action: {action}")
             await self._log_governance_action(
-                "unknown_action",
-                {"action": action, "threat_id": threat.threat_id}
+                "unknown_action", {"action": action, "threat_id": threat.threat_id}
             )
 
     # Enhanced simulation methods with governance integration
@@ -1017,7 +1017,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         variance = max(
             abs(identity_health - avg_health),
             abs(consciousness_health - avg_health),
-            abs(guardian_health - avg_health)
+            abs(guardian_health - avg_health),
         )
 
         return max(0.0, 1.0 - variance * 2)  # Lower sync if components are unbalanced
@@ -1126,8 +1126,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.info("🧠 Stabilizing consciousness system with governance oversight")
         await asyncio.sleep(1)
         await self._log_governance_action(
-            "consciousness_stabilized",
-            {"threat_id": threat.threat_id, "action_successful": True}
+            "consciousness_stabilized", {"threat_id": threat.threat_id, "action_successful": True}
         )
 
     async def _activate_governance_recovery(self, threat: ThreatIndicator):
@@ -1136,7 +1135,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         await asyncio.sleep(2)
         await self._log_governance_action(
             "governance_recovery_activated",
-            {"threat_id": threat.threat_id, "recovery_initiated": True}
+            {"threat_id": threat.threat_id, "recovery_initiated": True},
         )
 
     async def _secure_identity_systems(self, threat: ThreatIndicator):
@@ -1144,8 +1143,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.critical("⚛️ Securing identity systems")
         await asyncio.sleep(1.5)
         await self._log_governance_action(
-            "identity_systems_secured",
-            {"threat_id": threat.threat_id, "security_enhanced": True}
+            "identity_systems_secured", {"threat_id": threat.threat_id, "security_enhanced": True}
         )
 
     async def _resynchronize_trinity_framework(self, threat: ThreatIndicator):
@@ -1154,7 +1152,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         await asyncio.sleep(3)
         await self._log_governance_action(
             "trinity_resynchronized",
-            {"threat_id": threat.threat_id, "synchronization_restored": True}
+            {"threat_id": threat.threat_id, "synchronization_restored": True},
         )
 
     async def _immediate_system_halt(self, threat: ThreatIndicator):
@@ -1163,7 +1161,11 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         await asyncio.sleep(0.5)
         await self._log_governance_action(
             "system_halt_executed",
-            {"threat_id": threat.threat_id, "halt_reason": threat.threat_type, "emergency_level": True}
+            {
+                "threat_id": threat.threat_id,
+                "halt_reason": threat.threat_type,
+                "emergency_level": True,
+            },
         )
 
     async def _emergency_system_lockdown(self, threat: ThreatIndicator):
@@ -1172,7 +1174,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         await asyncio.sleep(1)
         await self._log_governance_action(
             "emergency_lockdown_executed",
-            {"threat_id": threat.threat_id, "lockdown_reason": threat.threat_type}
+            {"threat_id": threat.threat_id, "lockdown_reason": threat.threat_type},
         )
 
     # Continue with other action implementations...
@@ -1234,8 +1236,8 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "governance_context": {
                 "monitoring_enabled": self.is_monitoring,
                 "governance_enabled": self.governance_enabled,
-                "trinity_framework_active": True
-            }
+                "trinity_framework_active": True,
+            },
         }
 
         self.governance_log.append(log_entry)
@@ -1257,13 +1259,17 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         """Get comprehensive threat summary with governance and Trinity Framework data"""
         active_by_severity = {}
         for level in ThreatLevel:
-            active_by_severity[level.name] = len([
-                t for t in self.active_threats if t.severity == level
-            ])
+            active_by_severity[level.name] = len(
+                [t for t in self.active_threats if t.severity == level]
+            )
 
         # Categorize threats by type
-        governance_threats = len([t for t in self.active_threats if t.threat_type.startswith("governance")])
-        ethics_threats = len([t for t in self.active_threats if t.threat_type == "ethics_violation"])
+        governance_threats = len(
+            [t for t in self.active_threats if t.threat_type.startswith("governance")]
+        )
+        ethics_threats = len(
+            [t for t in self.active_threats if t.threat_type == "ethics_violation"]
+        )
         trinity_threats = len([t for t in self.active_threats if t.threat_type == "trinity_desync"])
 
         return {
@@ -1283,14 +1289,14 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                     "timestamp": t.timestamp,
                     "symbolic": "".join(t.symbolic_signature),
                     "trinity_impact": t.trinity_impact,
-                    "governance_metadata": t.governance_metadata
+                    "governance_metadata": t.governance_metadata,
                 }
                 for t in self.active_threats[-5:]
             ],
             "detection_accuracy": self.detection_stats["detection_accuracy"],
             "governance_interventions": self.detection_stats["governance_interventions"],
             "ethics_violations_prevented": self.detection_stats["ethics_violations_prevented"],
-            "trinity_framework_health": self.detection_stats["trinity_framework_health"]
+            "trinity_framework_health": self.detection_stats["trinity_framework_health"],
         }
 
     def get_enhanced_system_metrics(self) -> dict:
@@ -1298,11 +1304,15 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         current_time = time.time()
 
         # Get latest readings from all monitoring systems
-        latest_consciousness = list(self.consciousness_history)[-1] if self.consciousness_history else None
+        latest_consciousness = (
+            list(self.consciousness_history)[-1] if self.consciousness_history else None
+        )
         latest_entropy = list(self.entropy_history)[-1] if self.entropy_history else None
         latest_memory = list(self.memory_history)[-1] if self.memory_history else None
         latest_patterns = list(self.pattern_history)[-1] if self.pattern_history else None
-        latest_performance = list(self.response_time_history)[-1] if self.response_time_history else None
+        latest_performance = (
+            list(self.response_time_history)[-1] if self.response_time_history else None
+        )
         latest_governance = list(self.governance_history)[-1] if self.governance_history else None
         latest_identity = list(self.identity_history)[-1] if self.identity_history else None
         latest_guardian = list(self.guardian_history)[-1] if self.guardian_history else None
@@ -1312,70 +1322,103 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "consciousness": {
                 "stability": latest_consciousness["stability"] if latest_consciousness else 0.0,
                 "drift_rate": latest_consciousness["drift_rate"] if latest_consciousness else 0.0,
-                "coherence": latest_consciousness.get("coherence", 0.0) if latest_consciousness else 0.0,
-                "trinity_alignment": latest_consciousness.get("trinity_alignment", 0.0) if latest_consciousness else 0.0
+                "coherence": latest_consciousness.get("coherence", 0.0)
+                if latest_consciousness
+                else 0.0,
+                "trinity_alignment": latest_consciousness.get("trinity_alignment", 0.0)
+                if latest_consciousness
+                else 0.0,
             },
             "entropy": {
                 "level": latest_entropy["entropy"] if latest_entropy else 0.0,
                 "velocity": latest_entropy["velocity"] if latest_entropy else 0.0,
-                "stability": latest_entropy.get("stability", 0.0) if latest_entropy else 0.0
+                "stability": latest_entropy.get("stability", 0.0) if latest_entropy else 0.0,
             },
             "memory": {
                 "fragmentation": latest_memory["fragmentation"] if latest_memory else 0.0,
                 "coherence": latest_memory["coherence"] if latest_memory else 1.0,
-                "fold_integrity": latest_memory.get("fold_integrity", 1.0) if latest_memory else 1.0
+                "fold_integrity": latest_memory.get("fold_integrity", 1.0)
+                if latest_memory
+                else 1.0,
             },
             "patterns": {
                 "coherence": latest_patterns["coherence"] if latest_patterns else 1.0,
                 "stability": latest_patterns["stability"] if latest_patterns else 1.0,
-                "symbolic_integrity": latest_patterns.get("symbolic_integrity", 1.0) if latest_patterns else 1.0
+                "symbolic_integrity": latest_patterns.get("symbolic_integrity", 1.0)
+                if latest_patterns
+                else 1.0,
             },
             "performance": {
                 "response_time": latest_performance["response_time"] if latest_performance else 0.0,
                 "error_rate": latest_performance["error_rate"] if latest_performance else 0.0,
-                "throughput": latest_performance.get("throughput", 100.0) if latest_performance else 100.0,
-                "sla_compliance": latest_performance.get("sla_compliance", 1.0) if latest_performance else 1.0
+                "throughput": latest_performance.get("throughput", 100.0)
+                if latest_performance
+                else 100.0,
+                "sla_compliance": latest_performance.get("sla_compliance", 1.0)
+                if latest_performance
+                else 1.0,
             },
             "governance": {
                 "health": latest_governance["health"] if latest_governance else 1.0,
-                "ethics_compliance": latest_governance["ethics_compliance"] if latest_governance else 1.0,
-                "policy_alignment": latest_governance["policy_alignment"] if latest_governance else 1.0,
-                "oversight_effectiveness": latest_governance["oversight_effectiveness"] if latest_governance else 1.0
+                "ethics_compliance": latest_governance["ethics_compliance"]
+                if latest_governance
+                else 1.0,
+                "policy_alignment": latest_governance["policy_alignment"]
+                if latest_governance
+                else 1.0,
+                "oversight_effectiveness": latest_governance["oversight_effectiveness"]
+                if latest_governance
+                else 1.0,
             },
             "trinity_framework": {
                 "identity": {
                     "coherence": latest_identity["coherence"] if latest_identity else 1.0,
-                    "authentication_health": latest_identity["authentication_health"] if latest_identity else 1.0,
-                    "symbolic_integrity": latest_identity["symbolic_integrity"] if latest_identity else 1.0,
-                    "trinity_alignment": latest_identity["trinity_alignment"] if latest_identity else 1.0
+                    "authentication_health": latest_identity["authentication_health"]
+                    if latest_identity
+                    else 1.0,
+                    "symbolic_integrity": latest_identity["symbolic_integrity"]
+                    if latest_identity
+                    else 1.0,
+                    "trinity_alignment": latest_identity["trinity_alignment"]
+                    if latest_identity
+                    else 1.0,
                 },
                 "consciousness": {
                     "stability": latest_consciousness["stability"] if latest_consciousness else 1.0,
-                    "coherence": latest_consciousness.get("coherence", 1.0) if latest_consciousness else 1.0,
-                    "trinity_alignment": latest_consciousness.get("trinity_alignment", 1.0) if latest_consciousness else 1.0
+                    "coherence": latest_consciousness.get("coherence", 1.0)
+                    if latest_consciousness
+                    else 1.0,
+                    "trinity_alignment": latest_consciousness.get("trinity_alignment", 1.0)
+                    if latest_consciousness
+                    else 1.0,
                 },
                 "guardian": {
                     "effectiveness": latest_guardian["effectiveness"] if latest_guardian else 1.0,
-                    "protection_coverage": latest_guardian["protection_coverage"] if latest_guardian else 1.0,
-                    "response_capability": latest_guardian["response_capability"] if latest_guardian else 1.0,
-                    "trinity_alignment": latest_guardian["trinity_alignment"] if latest_guardian else 1.0
+                    "protection_coverage": latest_guardian["protection_coverage"]
+                    if latest_guardian
+                    else 1.0,
+                    "response_capability": latest_guardian["response_capability"]
+                    if latest_guardian
+                    else 1.0,
+                    "trinity_alignment": latest_guardian["trinity_alignment"]
+                    if latest_guardian
+                    else 1.0,
                 },
                 "synchronization": self._calculate_trinity_sync(),
-                "overall_health": self.detection_stats["trinity_framework_health"]
-            }
+                "overall_health": self.detection_stats["trinity_framework_health"],
+            },
         }
 
 
 if __name__ == "__main__":
+
     async def demo():
         """Demo enhanced threat monitoring with governance"""
         print("🔍 Enhanced Threat Monitor with Governance Demo")
         print("=" * 50)
 
         monitor = EnhancedThreatMonitor(
-            alert_threshold=0.6,
-            monitoring_interval=2,
-            governance_enabled=True
+            alert_threshold=0.6, monitoring_interval=2, governance_enabled=True
         )
 
         try:
@@ -1390,8 +1433,10 @@ if __name__ == "__main__":
                 summary = monitor.get_enhanced_threat_summary()
                 metrics = monitor.get_enhanced_system_metrics()
 
-                print(f"\n⏱️  Check {i+1}/15:")
-                print(f"   Active threats: {summary['active_threats']} (Gov: {summary['governance_threats']}, Ethics: {summary['ethics_threats']})")
+                print(f"\n⏱️  Check {i + 1}/15:")
+                print(
+                    f"   Active threats: {summary['active_threats']} (Gov: {summary['governance_threats']}, Ethics: {summary['ethics_threats']})"
+                )
                 print(f"   Consciousness: {metrics['consciousness']['stability']:.2f}")
                 print(f"   Governance Health: {metrics['governance']['health']:.2f}")
                 print(f"   Trinity Sync: {metrics['trinity_framework']['synchronization']:.2f}")
@@ -1400,7 +1445,9 @@ if __name__ == "__main__":
                 if summary["active_threats"] > 0:
                     for threat in summary["recent_threats"]:
                         impact = threat["trinity_impact"]
-                        print(f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity',0):.1f}C:{impact.get('consciousness',0):.1f}G:{impact.get('guardian',0):.1f}]")
+                        print(
+                            f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity', 0):.1f}C:{impact.get('consciousness', 0):.1f}G:{impact.get('guardian', 0):.1f}]"
+                        )
 
             # Final summary
             final_summary = monitor.get_enhanced_threat_summary()

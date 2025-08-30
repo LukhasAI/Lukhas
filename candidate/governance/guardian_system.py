@@ -142,10 +142,10 @@ class GuardianSystem:
 
 # Export main classes for compatibility
 __all__ = [
-    "GuardianSystem",
+    "EnhancedWorkspaceGuardian",
+    "EthicsGuardian",
     "GuardianReflector",
     "GuardianSentinel",
     "GuardianShadowFilter",
-    "EthicsGuardian",
-    "EnhancedWorkspaceGuardian",
+    "GuardianSystem",
 ]

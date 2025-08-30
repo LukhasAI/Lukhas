@@ -27,9 +27,7 @@ def analyze_config_files():
     config_files = []
 
     for root, _dirs, files in os.walk("."):
-        if any(
-            skip in root for skip in ["._cleanup_archive", ".cleanup_archive", ".git"]
-        ):
+        if any(skip in root for skip in ["._cleanup_archive", ".cleanup_archive", ".git"]):
             continue
 
         for file in files:
@@ -82,6 +80,4 @@ if __name__ == "__main__":
     print(f"1. Merge {len(categories['core_configs'])} core config.py files")
     print(f"2. Standardize {len(categories['managers'])} config managers")
     print(f"3. Review {len(categories['api_configs'])} API configs for overlap")
-    print(
-        f"4. Consider consolidating {len(categories['module_configs'])} module configs"
-    )
+    print(f"4. Consider consolidating {len(categories['module_configs'])} module configs")

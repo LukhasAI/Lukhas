@@ -30,16 +30,14 @@ class ResourceAllocationOptimizer(CoreInterface):
             "compute": 1000,  # Compute units
             "memory": 1000,  # Memory units
             "researchers": 100,  # Human resources
-            "budget": 100e6  # $100M budget
+            "budget": 100e6,  # $100M budget
         }
 
         self._initialized = True
         logger.info("Resource Allocation Optimizer initialized")
 
     async def optimize_resource_allocation(
-        self,
-        engines: dict[str, Any],
-        opportunities: list[dict[str, Any]]
+        self, engines: dict[str, Any], opportunities: list[dict[str, Any]]
     ) -> dict[str, Any]:
         """
         Optimize resource allocation across engines and opportunities
@@ -51,11 +49,7 @@ class ResourceAllocationOptimizer(CoreInterface):
         Returns:
             Optimized resource allocation plan
         """
-        allocation_plan = {
-            "allocations": [],
-            "total_resources_used": {},
-            "efficiency_score": 0.0
-        }
+        allocation_plan = {"allocations": [], "total_resources_used": {}, "efficiency_score": 0.0}
 
         # Score each engine-opportunity pair
         scored_pairs = []
@@ -64,14 +58,10 @@ class ResourceAllocationOptimizer(CoreInterface):
                 continue
 
             for opportunity in opportunities:
-                score = await self._score_engine_opportunity_fit(
-                    engine_name, opportunity
+                score = await self._score_engine_opportunity_fit(engine_name, opportunity)
+                scored_pairs.append(
+                    {"engine": engine_name, "opportunity": opportunity, "score": score}
                 )
-                scored_pairs.append({
-                    "engine": engine_name,
-                    "opportunity": opportunity,
-                    "score": score
-                })
 
         # Sort by score (highest first)
         scored_pairs.sort(key=lambda x: x["score"], reverse=True)
@@ -96,7 +86,7 @@ class ResourceAllocationOptimizer(CoreInterface):
                     "engine": pair["engine"],
                     "opportunity": pair["opportunity"],
                     "resources": required,
-                    "expected_roi": pair["score"]
+                    "expected_roi": pair["score"],
                 }
                 allocation_plan["allocations"].append(allocation)
 
@@ -120,9 +110,7 @@ class ResourceAllocationOptimizer(CoreInterface):
         return allocation_plan
 
     async def _score_engine_opportunity_fit(
-        self,
-        engine_name: str,
-        opportunity: dict[str, Any]
+        self, engine_name: str, opportunity: dict[str, Any]
     ) -> float:
         """Score how well an engine fits an opportunity"""
 
@@ -131,7 +119,9 @@ class ResourceAllocationOptimizer(CoreInterface):
         # Domain matching
         domain = opportunity.get("domain", "")
 
-        if "consciousness" in engine_name and "consciousness" in domain or "economic" in engine_name and "economic" in domain:
+        if ("consciousness" in engine_name and "consciousness" in domain) or (
+            "economic" in engine_name and "economic" in domain
+        ):
             score += 0.3
         elif "breakthrough" in engine_name:
             score += 0.2  # Breakthrough detector is generally useful
@@ -140,7 +130,7 @@ class ResourceAllocationOptimizer(CoreInterface):
 
         # Impact score modifier
         impact = opportunity.get("impact_score", 0.5)
-        score *= (1 + impact)
+        score *= 1 + impact
 
         # Feasibility modifier
         feasibility = opportunity.get("feasibility", 0.5)

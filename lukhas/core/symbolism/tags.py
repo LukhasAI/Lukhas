@@ -75,9 +75,7 @@ class SymbolicTag:
 
         logger.debug(f"Created symbolic tag {tag_id} with scope {scope.value}")
 
-    def is_accessible(
-        self, requester_id: str, requester_privileges: list[str] = None
-    ) -> bool:
+    def is_accessible(self, requester_id: str, requester_privileges: list[str] = None) -> bool:
         """
         Check if the tag is accessible to the requester.
 
@@ -218,9 +216,7 @@ class TagManager:
 
         # Check access permissions
         if requester_id and not tag.is_accessible(requester_id, requester_privileges):
-            logger.warning(
-                f"Access denied to tag {tag_id} for requester {requester_id}"
-            )
+            logger.warning(f"Access denied to tag {tag_id} for requester {requester_id}")
             return None
 
         tag.increment_access()
@@ -308,11 +304,11 @@ _tag_manager = None
 
 def get_tag_manager() -> TagManager:
     """Get or create the global tag manager."""
-    global _tag_manager  # noqa: PLW0603
+    global _tag_manager
     if _tag_manager is None:
         _tag_manager = TagManager()
     return _tag_manager
 
 
 # Export public interface
-__all__ = ["TagScope", "TagPermission", "SymbolicTag", "TagManager", "get_tag_manager"]
+__all__ = ["SymbolicTag", "TagManager", "TagPermission", "TagScope", "get_tag_manager"]

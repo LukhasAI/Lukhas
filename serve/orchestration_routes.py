@@ -23,6 +23,7 @@ try:
         OrchestrationRequest,
         TaskType,
     )
+
     ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
     logging.warning("Orchestration components not available: %s", e)
@@ -39,7 +40,7 @@ except ImportError as e:
                 "confidence": 0.5,
                 "providers": [],
                 "latency_ms": 0,
-                "consensus_method": "unavailable"
+                "consensus_method": "unavailable",
             }
 
     # Minimal fallbacks for type-like usage
@@ -64,12 +65,14 @@ except ImportError as e:
         def __init__(self, **kwargs):
             self.__dict__.update(kwargs)
 
+
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/orchestration", tags=["Multi-AI Orchestration"])
 
 
 class MultiAIRequest(BaseModel):
     """Multi-AI orchestration request model"""
+
     message: str
     task_type: str = "conversation"
     providers: Optional[list[str]] = None
@@ -81,6 +84,7 @@ class MultiAIRequest(BaseModel):
 
 class MultiAIResponse(BaseModel):
     """Multi-AI orchestration response model"""
+
     response: str
     confidence: float
     latency_ms: float
@@ -93,6 +97,7 @@ class MultiAIResponse(BaseModel):
 
 class ProviderResponse(BaseModel):
     """Individual provider response model"""
+
     provider: str
     content: str
     confidence: float
@@ -101,6 +106,7 @@ class ProviderResponse(BaseModel):
 
 class OrchestrationStatus(BaseModel):
     """Orchestration system status model"""
+
     status: str
     available_providers: list[str]
     performance_metrics: dict[str, Any]
@@ -117,8 +123,7 @@ def get_orchestrator() -> MultiAIOrchestrator:
 
     if not ORCHESTRATION_AVAILABLE:
         raise HTTPException(
-            status_code=503,
-            detail="Multi-AI orchestration not available - missing dependencies"
+            status_code=503, detail="Multi-AI orchestration not available - missing dependencies"
         )
 
     if _orchestrator is None:
@@ -127,10 +132,7 @@ def get_orchestrator() -> MultiAIOrchestrator:
             logger.info("Multi-AI Orchestrator initialized")
         except Exception as e:
             logger.error("Failed to initialize orchestrator: %s", str(e))
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to initialize orchestrator: {str(e)}"
-            )
+            raise HTTPException(status_code=500, detail=f"Failed to initialize orchestrator: {e!s}")
 
     return _orchestrator
 
@@ -169,7 +171,7 @@ async def multi_ai_chat(request: MultiAIRequest):
             consensus_required=request.consensus_required,
             max_latency_ms=request.max_latency_ms,
             context_id=request.context_id,
-            metadata=request.metadata or {}
+            metadata=request.metadata or {},
         )
 
         # Execute orchestration
@@ -187,13 +189,13 @@ async def multi_ai_chat(request: MultiAIRequest):
             consensus_method=consensus_result.consensus_method,
             participating_models=consensus_result.participating_models,
             context_id=request.context_id,
-            performance_metrics=performance_metrics
+            performance_metrics=performance_metrics,
         )
 
         logger.info(
             "Multi-AI chat completed: %.2fms, confidence: %.3f",
             consensus_result.processing_time_ms,
-            consensus_result.confidence_score
+            consensus_result.confidence_score,
         )
 
         return response
@@ -202,7 +204,7 @@ async def multi_ai_chat(request: MultiAIRequest):
         raise
     except Exception as e:
         logger.error("Multi-AI chat failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Orchestration failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Orchestration failed: {e!s}")
 
 
 @router.post("/compare", response_model=dict[str, Any])
@@ -226,7 +228,12 @@ async def compare_providers(request: MultiAIRequest):
                     pass
         else:
             # Use all available providers for comparison
-            providers = [AIProvider.OPENAI, AIProvider.ANTHROPIC, AIProvider.GEMINI, AIProvider.PERPLEXITY]
+            providers = [
+                AIProvider.OPENAI,
+                AIProvider.ANTHROPIC,
+                AIProvider.GEMINI,
+                AIProvider.PERPLEXITY,
+            ]
 
         try:
             task_type = TaskType(request.task_type.lower())
@@ -242,7 +249,7 @@ async def compare_providers(request: MultiAIRequest):
             max_latency_ms=request.max_latency_ms,
             parallel_execution=True,  # Force parallel for fair comparison
             context_id=request.context_id,
-            metadata=request.metadata or {}
+            metadata=request.metadata or {},
         )
 
         # Execute orchestration
@@ -251,28 +258,30 @@ async def compare_providers(request: MultiAIRequest):
         # Build individual responses
         individual_responses = []
         for response in consensus_result.individual_responses:
-            individual_responses.append(ProviderResponse(
-                provider=response.provider.value,
-                content=response.content,
-                confidence=response.confidence,
-                latency_ms=response.latency_ms
-            ))
+            individual_responses.append(
+                ProviderResponse(
+                    provider=response.provider.value,
+                    content=response.content,
+                    confidence=response.confidence,
+                    latency_ms=response.latency_ms,
+                )
+            )
 
         return {
             "consensus": {
                 "response": consensus_result.final_response,
                 "confidence": consensus_result.confidence_score,
                 "method": consensus_result.consensus_method,
-                "processing_time_ms": consensus_result.processing_time_ms
+                "processing_time_ms": consensus_result.processing_time_ms,
             },
             "individual_responses": [r.dict() for r in individual_responses],
             "quality_metrics": consensus_result.quality_metrics,
-            "similarity_analysis": consensus_result.similarity_matrix
+            "similarity_analysis": consensus_result.similarity_matrix,
         }
 
     except Exception as e:
         logger.error("Provider comparison failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Comparison failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Comparison failed: {e!s}")
 
 
 @router.get("/status", response_model=OrchestrationStatus)
@@ -289,7 +298,7 @@ async def orchestration_status():
                 status="unavailable",
                 available_providers=[],
                 performance_metrics={},
-                context_manager_health={"status": "unavailable"}
+                context_manager_health={"status": "unavailable"},
             )
 
         orchestrator = get_orchestrator()
@@ -307,7 +316,7 @@ async def orchestration_status():
             status=system_status.get("status", "unknown"),
             available_providers=system_status.get("available_providers", []),
             performance_metrics=performance_metrics,
-            context_manager_health=context_health
+            context_manager_health=context_health,
         )
 
     except Exception as e:
@@ -316,7 +325,7 @@ async def orchestration_status():
             status="error",
             available_providers=[],
             performance_metrics={"error": str(e)},
-            context_manager_health={"status": "error", "error": str(e)}
+            context_manager_health={"status": "error", "error": str(e)},
         )
 
 
@@ -336,8 +345,8 @@ async def health_check():
                     "orchestrator": {"status": "unavailable"},
                     "consensus_engine": {"status": "unavailable"},
                     "context_manager": {"status": "unavailable"},
-                    "performance_monitor": {"status": "unavailable"}
-                }
+                    "performance_monitor": {"status": "unavailable"},
+                },
             }
 
         orchestrator = get_orchestrator()
@@ -348,16 +357,12 @@ async def health_check():
         return {
             "status": "healthy" if health_status.get("orchestrator") == "healthy" else "degraded",
             "timestamp": health_status.get("timestamp"),
-            "components": health_status
+            "components": health_status,
         }
 
     except Exception as e:
         logger.error("Health check failed: %s", str(e))
-        return {
-            "status": "unhealthy",
-            "error": str(e),
-            "components": {}
-        }
+        return {"status": "unhealthy", "error": str(e), "components": {}}
 
 
 @router.post("/providers/{provider}/direct")
@@ -380,12 +385,14 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
         # Create single-provider request
         orchestration_request = OrchestrationRequest(
             prompt=request.message,
-            task_type=TaskType(request.task_type.lower()) if request.task_type else TaskType.CONVERSATION,
+            task_type=TaskType(request.task_type.lower())
+            if request.task_type
+            else TaskType.CONVERSATION,
             providers=[ai_provider],
             consensus_required=False,
             max_latency_ms=request.max_latency_ms,
             context_id=request.context_id,
-            metadata=request.metadata or {}
+            metadata=request.metadata or {},
         )
 
         # Execute single provider
@@ -398,15 +405,17 @@ async def direct_provider_chat(provider: str, request: MultiAIRequest):
             "latency_ms": result.processing_time_ms,
             "metadata": {
                 "consensus_method": result.consensus_method,
-                "processing_details": result.individual_responses[0].__dict__ if result.individual_responses else {}
-            }
+                "processing_details": result.individual_responses[0].__dict__
+                if result.individual_responses
+                else {},
+            },
         }
 
     except HTTPException:
         raise
     except Exception as e:
         logger.error("Direct provider chat failed: %s", str(e))
-        raise HTTPException(status_code=500, detail=f"Provider {provider} failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Provider {provider} failed: {e!s}")
 
 
 @router.get("/metrics")
@@ -435,8 +444,8 @@ async def get_metrics():
             "system_info": {
                 "orchestration_available": True,
                 "active_contexts": await orchestrator.context_manager.get_active_context_count(),
-                "uptime": "runtime_dependent"
-            }
+                "uptime": "runtime_dependent",
+            },
         }
 
     except Exception as e:

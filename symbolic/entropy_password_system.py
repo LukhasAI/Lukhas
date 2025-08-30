@@ -196,9 +196,7 @@ class MaximumEntropyPasswordGenerator:
             use_colony_validation: Whether to use colony consensus for validation
         """
 
-        logger.info(
-            f"Generating maximum entropy password (target: {min_entropy_bits} bits)"
-        )
+        logger.info(f"Generating maximum entropy password (target: {min_entropy_bits} bits)")
 
         # Select optimal combination of modalities
         selected_modalities = self._select_optimal_modalities(
@@ -217,13 +215,9 @@ class MaximumEntropyPasswordGenerator:
 
         # Emoji component (semantic clusters)
         if "emoji" in selected_modalities:
-            emojis = self._generate_semantic_emoji_sequence(
-                selected_modalities["emoji"]
-            )
+            emojis = self._generate_semantic_emoji_sequence(selected_modalities["emoji"])
             components["emojis"] = emojis
-            total_entropy += self.entropy_sources["emoji"].calculate_entropy(
-                len(emojis)
-            )
+            total_entropy += self.entropy_sources["emoji"].calculate_entropy(len(emojis))
 
         # Visual component (generated image hash)
         if "image" in selected_modalities:
@@ -239,37 +233,27 @@ class MaximumEntropyPasswordGenerator:
 
         # Gesture component (muscle memory)
         if "gesture" in selected_modalities:
-            gestures = self._generate_gesture_choreography(
-                selected_modalities["gesture"]
-            )
+            gestures = self._generate_gesture_choreography(selected_modalities["gesture"])
             components["gestures"] = gestures
-            total_entropy += self.entropy_sources["gesture"].calculate_entropy(
-                len(gestures)
-            )
+            total_entropy += self.entropy_sources["gesture"].calculate_entropy(len(gestures))
 
         # Color component (visual pattern)
         if "color" in selected_modalities:
             colors = self._generate_color_symphony(selected_modalities["color"])
             components["colors"] = colors
-            total_entropy += self.entropy_sources["color"].calculate_entropy(
-                len(colors)
-            )
+            total_entropy += self.entropy_sources["color"].calculate_entropy(len(colors))
 
         # Pattern component (2D grid)
         if "pattern" in selected_modalities:
             pattern = self._generate_pattern_matrix(selected_modalities["pattern"])
             components["pattern"] = pattern
-            total_entropy += self.entropy_sources["pattern"].calculate_entropy(
-                len(pattern)
-            )
+            total_entropy += self.entropy_sources["pattern"].calculate_entropy(len(pattern))
 
         # Rhythm component (temporal pattern)
         if "rhythm" in selected_modalities:
             rhythm = self._generate_rhythm_sequence(selected_modalities["rhythm"])
             components["rhythm"] = rhythm
-            total_entropy += self.entropy_sources["rhythm"].calculate_entropy(
-                len(rhythm)
-            )
+            total_entropy += self.entropy_sources["rhythm"].calculate_entropy(len(rhythm))
 
         # Apply quantum resistance multiplier
         qi_entropy = total_entropy * self.qi_security_margin
@@ -287,9 +271,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Create password object
         password = QIResistantPassword(
-            password_id=hashlib.sha256(
-                f"{self.user_id}_{time.time()}".encode()
-            ).hexdigest()[:16],
+            password_id=hashlib.sha256(f"{self.user_id}_{time.time()}".encode()).hexdigest()[:16],
             text_component=components.get("text", ""),
             emoji_component=components.get("emojis", []),
             visual_component=components.get("visual", ""),
@@ -400,9 +382,7 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         # Select story elements
-        selected_stories = random.sample(
-            story_elements, min(count, len(story_elements))
-        )
+        selected_stories = random.sample(story_elements, min(count, len(story_elements)))
         emojis = []
 
         for story in selected_stories:
@@ -464,9 +444,7 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         # Select gestures that form a narrative
-        selected = random.sample(
-            gesture_vocabulary, min(count, len(gesture_vocabulary))
-        )
+        selected = random.sample(gesture_vocabulary, min(count, len(gesture_vocabulary)))
 
         # Add pressure variation for extra entropy
         for gesture in selected:
@@ -658,7 +636,7 @@ async def demo_maximum_entropy_password():
     if password.gesture_component:
         print(f"Gestures: {len(password.gesture_component)} movements")
         for i, gesture in enumerate(password.gesture_component[:3]):
-            print(f"  {i+1}. {gesture['type']} ({gesture.get('meaning', 'action')})")
+            print(f"  {i + 1}. {gesture['type']} ({gesture.get('meaning', 'action')})")
 
     if password.color_component:
         print(f"Colors: {len(password.color_component)} color harmony")

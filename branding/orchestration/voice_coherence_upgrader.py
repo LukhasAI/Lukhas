@@ -24,20 +24,24 @@ from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 @dataclass
 class UpgradeRule:
     """Voice coherence upgrade rule"""
+
     pattern: str
     replacement: str
     category: str  # brand_terminology, trinity_framework, consciousness_tech, founder_positioning
     description: str
 
+
 @dataclass
 class UpgradeResult:
     """Result of voice coherence upgrade"""
+
     file_path: str
     original_coherence: float
     upgraded_coherence: float
     changes_made: int
     upgrade_categories: list[str]
     success: bool
+
 
 class EliteVoiceCoherenceUpgrader:
     """
@@ -74,9 +78,7 @@ class EliteVoiceCoherenceUpgrader:
         console_handler.setLevel(logging.INFO)
 
         # Formatter
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -93,115 +95,113 @@ class EliteVoiceCoherenceUpgrader:
                 pattern=r"\bLucas(?!\s+(?:Film|Star Wars|George))\b",
                 replacement="LUKHAS AI",
                 category="brand_terminology",
-                description="Replace Lucas with LUKHAS AI"
+                description="Replace Lucas with LUKHAS AI",
             ),
             UpgradeRule(
                 pattern=r"\bLambda AI\b",
                 replacement="LUKHAS AI",
                 category="brand_terminology",
-                description="Replace Lambda AI with LUKHAS AI"
+                description="Replace Lambda AI with LUKHAS AI",
             ),
             UpgradeRule(
                 pattern=r"\bΛBot\b",
                 replacement="LUKHAS AI ΛBot",
                 category="brand_terminology",
-                description="Enhance ΛBot with LUKHAS AI branding"
+                description="Enhance ΛBot with LUKHAS AI branding",
             ),
-
             # Trinity Framework Integration
             UpgradeRule(
                 pattern=r"\b(?:framework|architecture|system)\b(?!\s+(?:Trinity|⚛️|🧠|🛡️))",
                 replacement=r"\g<0> powered by Trinity Framework (⚛️🧠🛡️)",
                 category="trinity_framework",
-                description="Add Trinity Framework reference to system descriptions"
+                description="Add Trinity Framework reference to system descriptions",
             ),
             UpgradeRule(
                 pattern=r"\bidentity(?!\s+(?:Trinity|⚛️))",
                 replacement="identity (⚛️ Trinity Framework)",
                 category="trinity_framework",
-                description="Connect identity concepts to Trinity Framework"
+                description="Connect identity concepts to Trinity Framework",
             ),
             UpgradeRule(
                 pattern=r"\bconsciousness(?!\s+(?:technology|Trinity|🧠))",
                 replacement="consciousness technology (🧠 Trinity Framework)",
                 category="trinity_framework",
-                description="Connect consciousness to Trinity Framework"
+                description="Connect consciousness to Trinity Framework",
             ),
             UpgradeRule(
                 pattern=r"\bsecurity(?!\s+(?:Trinity|🛡️))",
                 replacement="security (🛡️ Trinity Framework)",
                 category="trinity_framework",
-                description="Connect security to Trinity Framework"
+                description="Connect security to Trinity Framework",
             ),
-
             # Consciousness Technology Focus
             UpgradeRule(
                 pattern=r"\bAI(?!\s+(?:consciousness|technology))",
                 replacement="consciousness technology",
                 category="consciousness_tech",
-                description="Replace generic AI with consciousness technology"
+                description="Replace generic AI with consciousness technology",
             ),
             UpgradeRule(
                 pattern=r"\bartificial intelligence\b",
                 replacement="consciousness technology",
                 category="consciousness_tech",
-                description="Replace artificial intelligence with consciousness technology"
+                description="Replace artificial intelligence with consciousness technology",
             ),
             UpgradeRule(
                 pattern=r"\bmachine learning\b",
                 replacement="quantum-inspired consciousness learning",
                 category="consciousness_tech",
-                description="Enhance machine learning with consciousness focus"
+                description="Enhance machine learning with consciousness focus",
             ),
             UpgradeRule(
                 pattern=r"\bneural network\b",
                 replacement="bio-inspired consciousness network",
                 category="consciousness_tech",
-                description="Enhance neural networks with consciousness focus"
+                description="Enhance neural networks with consciousness focus",
             ),
-
             # Founder Positioning Enhancement
             UpgradeRule(
                 pattern=r"\bdeveloped by\b",
                 replacement="pioneered by consciousness technology leader",
                 category="founder_positioning",
-                description="Enhance founder positioning language"
+                description="Enhance founder positioning language",
             ),
             UpgradeRule(
                 pattern=r"\bcreated by\b",
                 replacement="founded by consciousness technology pioneer",
                 category="founder_positioning",
-                description="Enhance founder positioning language"
+                description="Enhance founder positioning language",
             ),
             UpgradeRule(
                 pattern=r"\binnovation\b",
                 replacement="consciousness technology innovation",
                 category="founder_positioning",
-                description="Connect innovation to consciousness technology"
+                description="Connect innovation to consciousness technology",
             ),
-
             # Premium Quality Indicators
             UpgradeRule(
                 pattern=r"\bsolution\b",
                 replacement="elite consciousness technology solution",
                 category="premium_positioning",
-                description="Add elite positioning to solutions"
+                description="Add elite positioning to solutions",
             ),
             UpgradeRule(
                 pattern=r"\bplatform\b",
                 replacement="premium consciousness technology platform",
                 category="premium_positioning",
-                description="Add premium positioning to platforms"
+                description="Add premium positioning to platforms",
             ),
             UpgradeRule(
                 pattern=r"\bsystem\b",
                 replacement="elite consciousness technology system",
                 category="premium_positioning",
-                description="Add elite positioning to systems"
+                description="Add elite positioning to systems",
             ),
         ]
 
-    async def upgrade_system_voice_coherence(self, system_path: str, system_name: str) -> list[UpgradeResult]:
+    async def upgrade_system_voice_coherence(
+        self, system_path: str, system_name: str
+    ) -> list[UpgradeResult]:
         """Upgrade voice coherence for an entire content system"""
         self.logger.info(f"🚀 Upgrading voice coherence for {system_name}...")
 
@@ -214,11 +214,21 @@ class EliteVoiceCoherenceUpgrader:
 
         # Filter out binary, cache, and dependency files
         content_files = [
-            f for f in content_files
-            if not any(exclude in str(f) for exclude in [
-                "__pycache__", ".git", "node_modules", ".venv",
-                "dist", "build", ".pytest_cache", ".mypy_cache"
-            ])
+            f
+            for f in content_files
+            if not any(
+                exclude in str(f)
+                for exclude in [
+                    "__pycache__",
+                    ".git",
+                    "node_modules",
+                    ".venv",
+                    "dist",
+                    "build",
+                    ".pytest_cache",
+                    ".mypy_cache",
+                ]
+            )
         ]
 
         self.logger.info(f"📄 Found {len(content_files)} files to upgrade")
@@ -246,8 +256,9 @@ class EliteVoiceCoherenceUpgrader:
 
             # Calculate original voice coherence
             original_analysis = self.voice_analyzer.analyze_content(
-                str(file_path), original_content,
-                self.voice_analyzer._determine_content_type(str(file_path))
+                str(file_path),
+                original_content,
+                self.voice_analyzer._determine_content_type(str(file_path)),
             )
             original_coherence = original_analysis.coherence_metrics.overall_coherence
 
@@ -284,13 +295,14 @@ class EliteVoiceCoherenceUpgrader:
                     upgraded_coherence=original_coherence,
                     changes_made=0,
                     upgrade_categories=[],
-                    success=True
+                    success=True,
                 )
 
             # Calculate upgraded voice coherence
             upgraded_analysis = self.voice_analyzer.analyze_content(
-                str(file_path), upgraded_content,
-                self.voice_analyzer._determine_content_type(str(file_path))
+                str(file_path),
+                upgraded_content,
+                self.voice_analyzer._determine_content_type(str(file_path)),
             )
             upgraded_coherence = upgraded_analysis.coherence_metrics.overall_coherence
 
@@ -298,7 +310,9 @@ class EliteVoiceCoherenceUpgrader:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(upgraded_content)
 
-            self.logger.info(f"✅ Upgraded {file_path.name}: {original_coherence:.1f}% → {upgraded_coherence:.1f}% ({changes_made} changes)")
+            self.logger.info(
+                f"✅ Upgraded {file_path.name}: {original_coherence:.1f}% → {upgraded_coherence:.1f}% ({changes_made} changes)"
+            )
 
             return UpgradeResult(
                 file_path=str(file_path),
@@ -306,7 +320,7 @@ class EliteVoiceCoherenceUpgrader:
                 upgraded_coherence=upgraded_coherence,
                 changes_made=changes_made,
                 upgrade_categories=list(upgrade_categories),
-                success=True
+                success=True,
             )
 
         except Exception as e:
@@ -317,7 +331,7 @@ class EliteVoiceCoherenceUpgrader:
                 upgraded_coherence=0.0,
                 changes_made=0,
                 upgrade_categories=[],
-                success=False
+                success=False,
             )
 
     async def upgrade_all_systems(self) -> dict[str, Any]:
@@ -346,21 +360,29 @@ class EliteVoiceCoherenceUpgrader:
                 "files_upgraded": len([r for r in results if r.changes_made > 0]),
                 "total_changes": sum(r.changes_made for r in results),
                 "average_improvement": 0.0,
-                "results": results
+                "results": results,
             }
 
             if results:
-                improvements = [r.upgraded_coherence - r.original_coherence for r in results if r.success]
-                system_results["average_improvement"] = sum(improvements) / len(improvements) if improvements else 0.0
+                improvements = [
+                    r.upgraded_coherence - r.original_coherence for r in results if r.success
+                ]
+                system_results["average_improvement"] = (
+                    sum(improvements) / len(improvements) if improvements else 0.0
+                )
 
             upgrade_results[system_name] = system_results
             total_files_upgraded += system_results["files_upgraded"]
             total_changes_made += system_results["total_changes"]
 
-            self.logger.info(f"📊 {system_name}: {system_results['files_upgraded']}/{system_results['files_processed']} files upgraded, {system_results['total_changes']} changes")
+            self.logger.info(
+                f"📊 {system_name}: {system_results['files_upgraded']}/{system_results['files_processed']} files upgraded, {system_results['total_changes']} changes"
+            )
 
         # Generate upgrade report
-        await self._generate_upgrade_report(upgrade_results, total_files_upgraded, total_changes_made)
+        await self._generate_upgrade_report(
+            upgrade_results, total_files_upgraded, total_changes_made
+        )
 
         self.logger.info("✅ Elite voice coherence upgrade complete!")
         self.logger.info(f"📈 Total files upgraded: {total_files_upgraded}")
@@ -368,13 +390,15 @@ class EliteVoiceCoherenceUpgrader:
 
         return upgrade_results
 
-    async def _generate_upgrade_report(self, upgrade_results: dict[str, Any], total_files: int, total_changes: int):
+    async def _generate_upgrade_report(
+        self, upgrade_results: dict[str, Any], total_files: int, total_changes: int
+    ):
         """Generate comprehensive upgrade report"""
         report_path = self.base_path / "VOICE_COHERENCE_UPGRADE_REPORT.md"
 
         report_content = f"""# 🎯 LUKHAS AI Elite Voice Coherence Upgrade Report
 
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 
@@ -390,10 +414,10 @@ class EliteVoiceCoherenceUpgrader:
         for system_name, results in upgrade_results.items():
             report_content += f"""### {system_name}
 
-- **Files Processed**: {results['files_processed']}
-- **Files Upgraded**: {results['files_upgraded']}
-- **Changes Applied**: {results['total_changes']}
-- **Average Improvement**: {results['average_improvement']:.1f}%
+- **Files Processed**: {results["files_processed"]}
+- **Files Upgraded**: {results["files_upgraded"]}
+- **Changes Applied**: {results["total_changes"]}
+- **Average Improvement**: {results["average_improvement"]:.1f}%
 
 """
 
@@ -436,6 +460,7 @@ class EliteVoiceCoherenceUpgrader:
 
         self.logger.info(f"📊 Generated upgrade report: {report_path}")
 
+
 async def main():
     """Main upgrade execution"""
     upgrader = EliteVoiceCoherenceUpgrader()
@@ -450,6 +475,7 @@ async def main():
     print(f"📊 Systems upgraded: {len(results)}")
 
     print("\n🚀 Ready for Trinity Framework deployment!")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

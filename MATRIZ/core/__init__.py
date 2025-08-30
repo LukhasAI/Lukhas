@@ -27,13 +27,13 @@ from .orchestrator import CognitiveOrchestrator, ExecutionTrace
 
 __all__ = [
     "CognitiveNode",
-    "NodeState",
-    "NodeLink",
-    "NodeTrigger",
-    "NodeReflection",
-    "NodeProvenance",
     "CognitiveOrchestrator",
     "ExecutionTrace",
+    "NodeLink",
+    "NodeProvenance",
+    "NodeReflection",
+    "NodeState",
+    "NodeTrigger",
 ]
 
 __version__ = "1.0.0"

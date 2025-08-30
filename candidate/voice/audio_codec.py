@@ -21,8 +21,10 @@ from candidate.governance.guardian import GuardianValidator
 
 logger = get_logger(__name__)
 
+
 class AudioCodec(Enum):
     """Supported audio codecs"""
+
     PCM_WAV = "pcm_wav"
     MP3 = "mp3"
     FLAC = "flac"
@@ -30,16 +32,20 @@ class AudioCodec(Enum):
     AAC = "aac"
     OPUS = "opus"
 
+
 class CodecQuality(Enum):
     """Codec quality levels"""
-    LOW = "low"        # Highly compressed
+
+    LOW = "low"  # Highly compressed
     MEDIUM = "medium"  # Balanced
-    HIGH = "high"      # High quality
+    HIGH = "high"  # High quality
     LOSSLESS = "lossless"  # No compression
+
 
 @dataclass
 class CodecParameters:
     """Codec encoding parameters"""
+
     quality: CodecQuality = CodecQuality.MEDIUM
     bitrate: Optional[int] = None  # kbps
     sample_rate: int = 44100
@@ -50,6 +56,7 @@ class CodecParameters:
     compression_level: int = 5  # 0-9 for FLAC, etc.
     variable_bitrate: bool = True
     metadata: dict[str, str] = None
+
 
 class AudioEncoder(ABC):
     """Abstract base class for audio encoders"""
@@ -64,6 +71,7 @@ class AudioEncoder(ABC):
         """Get codec type"""
         pass
 
+
 class AudioDecoder(ABC):
     """Abstract base class for audio decoders"""
 
@@ -71,6 +79,7 @@ class AudioDecoder(ABC):
     async def decode(self, encoded_data: bytes) -> tuple[np.ndarray, dict[str, Any]]:
         """Decode audio data"""
         pass
+
 
 class WAVEncoder(AudioEncoder):
     """WAV encoder implementation"""
@@ -101,6 +110,7 @@ class WAVEncoder(AudioEncoder):
     def get_codec_type(self) -> AudioCodec:
         return AudioCodec.PCM_WAV
 
+
 class WAVDecoder(AudioDecoder):
     """WAV decoder implementation"""
 
@@ -119,14 +129,16 @@ class WAVDecoder(AudioDecoder):
 
             # Convert to numpy array
             if sample_width == 1:
-                audio_data = np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0 - 1.0
+                audio_data = (
+                    np.frombuffer(raw_data, dtype=np.uint8).astype(np.float32) / 128.0 - 1.0
+                )
             elif sample_width == 2:
                 audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
             elif sample_width == 3:
                 # 24-bit is tricky, convert to 32-bit first
                 padded = np.zeros(len(raw_data) // 3 * 4, dtype=np.uint8)
                 for i in range(len(raw_data) // 3):
-                    padded[i*4:i*4+3] = raw_data[i*3:i*3+3]
+                    padded[i * 4 : i * 4 + 3] = raw_data[i * 3 : i * 3 + 3]
                 audio_data = np.frombuffer(padded, dtype=np.int32).astype(np.float32) / (2**23)
             elif sample_width == 4:
                 audio_data = np.frombuffer(raw_data, dtype=np.int32).astype(np.float32) / (2**31)
@@ -138,10 +150,11 @@ class WAVDecoder(AudioDecoder):
             "sample_rate": sample_rate,
             "sample_width": sample_width,
             "frames": frames,
-            "duration": frames / sample_rate
+            "duration": frames / sample_rate,
         }
 
         return audio_data, metadata
+
 
 class MP3Encoder(AudioEncoder):
     """MP3 encoder implementation (requires pydub and ffmpeg)"""
@@ -162,7 +175,7 @@ class MP3Encoder(AudioEncoder):
                 pcm_data.tobytes(),
                 frame_rate=params.sample_rate,
                 sample_width=2,  # 16-bit
-                channels=params.channels
+                channels=params.channels,
             )
 
             # Determine bitrate
@@ -173,7 +186,7 @@ class MP3Encoder(AudioEncoder):
                     CodecQuality.LOW: "64k",
                     CodecQuality.MEDIUM: "128k",
                     CodecQuality.HIGH: "320k",
-                    CodecQuality.LOSSLESS: "320k"  # MP3 can't be lossless
+                    CodecQuality.LOSSLESS: "320k",  # MP3 can't be lossless
                 }
                 bitrate = quality_bitrates[params.quality]
 
@@ -195,6 +208,7 @@ class MP3Encoder(AudioEncoder):
 
     def get_codec_type(self) -> AudioCodec:
         return AudioCodec.MP3
+
 
 class FLACEncoder(AudioEncoder):
     """FLAC encoder implementation (lossless)"""
@@ -220,7 +234,7 @@ class FLACEncoder(AudioEncoder):
                 pcm_data.tobytes(),
                 frame_rate=params.sample_rate,
                 sample_width=sample_width,
-                channels=params.channels
+                channels=params.channels,
             )
 
             # Export to FLAC
@@ -228,7 +242,7 @@ class FLACEncoder(AudioEncoder):
                 audio_segment.export(
                     temp_file.name,
                     format="flac",
-                    parameters=["-compression_level", str(params.compression_level)]
+                    parameters=["-compression_level", str(params.compression_level)],
                 )
 
                 # Read encoded data
@@ -246,6 +260,7 @@ class FLACEncoder(AudioEncoder):
     def get_codec_type(self) -> AudioCodec:
         return AudioCodec.FLAC
 
+
 class LUKHASAudioCodecManager:
     """LUKHAS audio codec manager"""
 
@@ -257,19 +272,17 @@ class LUKHASAudioCodecManager:
         self.encoders = {
             AudioCodec.PCM_WAV: WAVEncoder(),
             AudioCodec.MP3: MP3Encoder(),
-            AudioCodec.FLAC: FLACEncoder()
+            AudioCodec.FLAC: FLACEncoder(),
         }
 
-        self.decoders = {
-            AudioCodec.PCM_WAV: WAVDecoder()
-        }
+        self.decoders = {AudioCodec.PCM_WAV: WAVDecoder()}
 
         # Statistics
         self.stats = {
             "encodings_performed": 0,
             "decodings_performed": 0,
             "codecs_used": {},
-            "total_data_processed": 0
+            "total_data_processed": 0,
         }
 
     async def encode_audio(
@@ -277,7 +290,7 @@ class LUKHASAudioCodecManager:
         audio_data: np.ndarray,
         codec: AudioCodec,
         params: CodecParameters,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> bytes:
         """
         Encode audio data using specified codec
@@ -293,12 +306,14 @@ class LUKHASAudioCodecManager:
         """
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "audio_encoding",
-                "codec": codec.value,
-                "audio_length": len(audio_data),
-                "context": context or {}
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "audio_encoding",
+                    "codec": codec.value,
+                    "audio_length": len(audio_data),
+                    "context": context or {},
+                }
+            )
 
             if not validation_result.get("approved", False):
                 raise ValueError(f"Guardian rejected encoding: {validation_result.get('reason')}")
@@ -311,33 +326,34 @@ class LUKHASAudioCodecManager:
 
             # Update statistics
             self.stats["encodings_performed"] += 1
-            self.stats["codecs_used"][codec.value] = self.stats["codecs_used"].get(codec.value, 0) + 1
+            self.stats["codecs_used"][codec.value] = (
+                self.stats["codecs_used"].get(codec.value, 0) + 1
+            )
             self.stats["total_data_processed"] += len(audio_data)
 
             # Emit GLYPH event
-            await GLYPH.emit("audio.encoding.completed", {
-                "codec": codec.value,
-                "quality": params.quality.value,
-                "input_size": len(audio_data),
-                "output_size": len(encoded_data),
-                "compression_ratio": len(audio_data) / len(encoded_data) if len(encoded_data) > 0 else 0
-            })
+            await GLYPH.emit(
+                "audio.encoding.completed",
+                {
+                    "codec": codec.value,
+                    "quality": params.quality.value,
+                    "input_size": len(audio_data),
+                    "output_size": len(encoded_data),
+                    "compression_ratio": len(audio_data) / len(encoded_data)
+                    if len(encoded_data) > 0
+                    else 0,
+                },
+            )
 
             return encoded_data
 
         except Exception as e:
-            self.logger.error(f"Audio encoding failed: {str(e)}")
-            await GLYPH.emit("audio.encoding.error", {
-                "codec": codec.value,
-                "error": str(e)
-            })
+            self.logger.error(f"Audio encoding failed: {e!s}")
+            await GLYPH.emit("audio.encoding.error", {"codec": codec.value, "error": str(e)})
             raise
 
     async def decode_audio(
-        self,
-        encoded_data: bytes,
-        codec: AudioCodec,
-        context: Optional[dict[str, Any]] = None
+        self, encoded_data: bytes, codec: AudioCodec, context: Optional[dict[str, Any]] = None
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Decode audio data from specified codec
@@ -352,12 +368,14 @@ class LUKHASAudioCodecManager:
         """
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "audio_decoding",
-                "codec": codec.value,
-                "data_length": len(encoded_data),
-                "context": context or {}
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "audio_decoding",
+                    "codec": codec.value,
+                    "data_length": len(encoded_data),
+                    "context": context or {},
+                }
+            )
 
             if not validation_result.get("approved", False):
                 raise ValueError(f"Guardian rejected decoding: {validation_result.get('reason')}")
@@ -373,29 +391,26 @@ class LUKHASAudioCodecManager:
             self.stats["total_data_processed"] += len(audio_data)
 
             # Emit GLYPH event
-            await GLYPH.emit("audio.decoding.completed", {
-                "codec": codec.value,
-                "input_size": len(encoded_data),
-                "output_size": len(audio_data),
-                "metadata": metadata
-            })
+            await GLYPH.emit(
+                "audio.decoding.completed",
+                {
+                    "codec": codec.value,
+                    "input_size": len(encoded_data),
+                    "output_size": len(audio_data),
+                    "metadata": metadata,
+                },
+            )
 
             return audio_data, metadata
 
         except Exception as e:
-            self.logger.error(f"Audio decoding failed: {str(e)}")
-            await GLYPH.emit("audio.decoding.error", {
-                "codec": codec.value,
-                "error": str(e)
-            })
+            self.logger.error(f"Audio decoding failed: {e!s}")
+            await GLYPH.emit("audio.decoding.error", {"codec": codec.value, "error": str(e)})
             raise
 
     def get_supported_codecs(self) -> dict[str, list[AudioCodec]]:
         """Get supported codecs for encoding and decoding"""
-        return {
-            "encoders": list(self.encoders.keys()),
-            "decoders": list(self.decoders.keys())
-        }
+        return {"encoders": list(self.encoders.keys()), "decoders": list(self.decoders.keys())}
 
     def get_codec_info(self, codec: AudioCodec) -> dict[str, Any]:
         """Get information about a specific codec"""
@@ -405,22 +420,22 @@ class LUKHASAudioCodecManager:
                 "description": "Uncompressed PCM audio",
                 "lossless": True,
                 "typical_bitrate": "1411 kbps (44.1kHz 16-bit stereo)",
-                "file_extension": ".wav"
+                "file_extension": ".wav",
             },
             AudioCodec.MP3: {
                 "name": "MP3",
                 "description": "MPEG Audio Layer III",
                 "lossless": False,
                 "typical_bitrate": "128-320 kbps",
-                "file_extension": ".mp3"
+                "file_extension": ".mp3",
             },
             AudioCodec.FLAC: {
                 "name": "FLAC",
                 "description": "Free Lossless Audio Codec",
                 "lossless": True,
                 "typical_bitrate": "700-1000 kbps",
-                "file_extension": ".flac"
-            }
+                "file_extension": ".flac",
+            },
         }
 
         return codec_info.get(codec, {"name": codec.value, "description": "Unknown codec"})
@@ -429,12 +444,10 @@ class LUKHASAudioCodecManager:
         """Get codec usage statistics"""
         return self.stats.copy()
 
+
 # Convenience functions
 async def encode_to_wav(
-    audio_data: np.ndarray,
-    sample_rate: int = 44100,
-    bit_depth: int = 16,
-    channels: int = 1
+    audio_data: np.ndarray, sample_rate: int = 44100, bit_depth: int = 16, channels: int = 1
 ) -> bytes:
     """Simple WAV encoding"""
     codec_manager = LUKHASAudioCodecManager()
@@ -442,27 +455,29 @@ async def encode_to_wav(
         quality=CodecQuality.LOSSLESS,
         sample_rate=sample_rate,
         bit_depth=bit_depth,
-        channels=channels
+        channels=channels,
     )
     return await codec_manager.encode_audio(audio_data, AudioCodec.PCM_WAV, params)
+
 
 async def decode_from_wav(encoded_data: bytes) -> tuple[np.ndarray, dict[str, Any]]:
     """Simple WAV decoding"""
     codec_manager = LUKHASAudioCodecManager()
     return await codec_manager.decode_audio(encoded_data, AudioCodec.PCM_WAV)
 
+
 # Export main classes
 __all__ = [
-    "LUKHASAudioCodecManager",
     "AudioCodec",
-    "CodecQuality",
-    "CodecParameters",
-    "AudioEncoder",
     "AudioDecoder",
-    "WAVEncoder",
-    "WAVDecoder",
-    "MP3Encoder",
+    "AudioEncoder",
+    "CodecParameters",
+    "CodecQuality",
     "FLACEncoder",
+    "LUKHASAudioCodecManager",
+    "MP3Encoder",
+    "WAVDecoder",
+    "WAVEncoder",
+    "decode_from_wav",
     "encode_to_wav",
-    "decode_from_wav"
 ]

@@ -99,9 +99,7 @@ class MemoryNode:
     collapse_score_history: list[tuple[datetime, float]] = field(
         default_factory=list
     )  # History of collapse scores
-    collapse_alert_level: Optional[str] = (
-        None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
-    )
+    collapse_alert_level: Optional[str] = None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
     collapse_metadata: dict[str, Any] = field(
         default_factory=dict
     )  # Additional collapse-related data
@@ -283,9 +281,7 @@ class HierarchicalDataStore:
                 break
 
         # Sort by relevance (importance * recency)
-        results.sort(
-            key=lambda n: n.importance_score * self._recency_factor(n), reverse=True
-        )
+        results.sort(key=lambda n: n.importance_score * self._recency_factor(n), reverse=True)
 
         return results[: context.max_results]
 
@@ -326,9 +322,7 @@ class HierarchicalDataStore:
                 "id": node_id,
                 "tier": node.tier.value,
                 "importance": node.importance_score,
-                "children": [
-                    build_tree(child_id, depth + 1) for child_id in node.children_ids
-                ],
+                "children": [build_tree(child_id, depth + 1) for child_id in node.children_ids],
             }
 
         return build_tree(root_id, 0)
@@ -411,8 +405,7 @@ class HierarchicalDataStore:
         compressed_size = len(compressed)
         ratio = compressed_size / original_size if original_size > 0 else 1.0
         self.metrics["compression_ratio"] = (
-            self.metrics["compression_ratio"] * (self.metrics["compressed_nodes"] - 1)
-            + ratio
+            self.metrics["compression_ratio"] * (self.metrics["compressed_nodes"] - 1) + ratio
         ) / self.metrics["compressed_nodes"]
 
         logger.debug(
@@ -471,9 +464,7 @@ class HierarchicalDataStore:
         }
         return json.dumps(symbol).encode()
 
-    async def _reconstruct_from_compressed(
-        self, data: bytes, level: CompressionLevel
-    ) -> Any:
+    async def _reconstruct_from_compressed(self, data: bytes, level: CompressionLevel) -> Any:
         """Reconstruct content from compressed form"""
         # Placeholder for reconstruction
         # In production, would use appropriate models/algorithms
@@ -529,9 +520,7 @@ class HierarchicalDataStore:
                 if ref_id in self.nodes and ref_id not in visited:
                     ref_node = await self._get_node(ref_id)
                     if ref_node:
-                        await self._dfs_collect(
-                            ref_node, context, results, visited, depth + 1
-                        )
+                        await self._dfs_collect(ref_node, context, results, visited, depth + 1)
 
     def _recency_factor(self, node: MemoryNode) -> float:
         """Calculate recency factor for ranking"""
@@ -667,8 +656,7 @@ class HierarchicalDataStore:
                     for node_id, node in self.nodes.items()
                 },
                 "compression_cache": {
-                    node_id: data.hex()
-                    for node_id, data in self.compression_cache.items()
+                    node_id: data.hex() for node_id, data in self.compression_cache.items()
                 },
                 "metrics": self.metrics,
             }
@@ -724,8 +712,7 @@ class HierarchicalDataStore:
 
             # Restore compression cache
             self.compression_cache = {
-                node_id: bytes.fromhex(data)
-                for node_id, data in state["compression_cache"].items()
+                node_id: bytes.fromhex(data) for node_id, data in state["compression_cache"].items()
             }
 
             # Restore metrics
@@ -786,9 +773,7 @@ class HierarchicalDataStore:
             alert_level=alert_level,
         )
 
-    async def get_collapse_affected_nodes(
-        self, collapse_trace_id: str
-    ) -> list[MemoryNode]:
+    async def get_collapse_affected_nodes(self, collapse_trace_id: str) -> list[MemoryNode]:
         """
         Get all nodes affected by a specific collapse event
 
@@ -806,9 +791,7 @@ class HierarchicalDataStore:
 
         return affected_nodes
 
-    async def get_high_risk_nodes(
-        self, alert_threshold: str = "ORANGE"
-    ) -> list[MemoryNode]:
+    async def get_high_risk_nodes(self, alert_threshold: str = "ORANGE") -> list[MemoryNode]:
         """
         Get nodes with high collapse risk
 
@@ -837,11 +820,7 @@ class HierarchicalDataStore:
     def get_status(self) -> dict[str, Any]:
         """Get comprehensive HDS status"""
         memory_usage_mb = (
-            sum(
-                len(str(node.content).encode())
-                for node in self.nodes.values()
-                if node.content
-            )
+            sum(len(str(node.content).encode()) for node in self.nodes.values() if node.content)
             + sum(len(data) for data in self.compression_cache.values())
         ) / (1024 * 1024)
 
@@ -850,11 +829,7 @@ class HierarchicalDataStore:
             1 for node in self.nodes.values() if node.collapse_trace_id is not None
         )
         high_risk_count = len(
-            [
-                n
-                for n in self.nodes.values()
-                if n.collapse_alert_level in ["ORANGE", "RED"]
-            ]
+            [n for n in self.nodes.values() if n.collapse_alert_level in ["ORANGE", "RED"]]
         )
 
         return {

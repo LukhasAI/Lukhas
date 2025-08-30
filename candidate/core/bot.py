@@ -12,9 +12,7 @@ from typing import Any
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -118,9 +116,7 @@ class UnifiedBot:
         else:
             return self._process_enterprise(prompt, task_type, **kwargs)
 
-    def _process_classic(
-        self, prompt: str, task_type: TaskType, **kwargs
-    ) -> dict[str, Any]:
+    def _process_classic(self, prompt: str, task_type: TaskType, **kwargs) -> dict[str, Any]:
         """Classic processing without AI"""
         return {
             "response": f"Processing {task_type.value} task classically",
@@ -153,9 +149,7 @@ class UnifiedBot:
             logger.error(f"AI processing failed: {e}")
             return self._process_classic(prompt, task_type, **kwargs)
 
-    def _process_enterprise(
-        self, prompt: str, task_type: TaskType, **kwargs
-    ) -> dict[str, Any]:
+    def _process_enterprise(self, prompt: str, task_type: TaskType, **kwargs) -> dict[str, Any]:
         """Enterprise processing with full features"""
         # Combine AI with additional enterprise features
         result = self._process_ai(prompt, task_type, **kwargs)
@@ -265,13 +259,13 @@ def create_agent(mode: BotMode = BotMode.HYBRID) -> UnifiedBot:
 
 # Export main components
 __all__ = [
-    "UnifiedBot",
     "BotMode",
-    "TaskType",
     "ComponentType",
-    "create_bot",
+    "TaskType",
+    "UnifiedBot",
+    "create_agent",
     "create_auditor",
+    "create_bot",
     "create_doc_generator",
     "create_web_manager",
-    "create_agent",
 ]

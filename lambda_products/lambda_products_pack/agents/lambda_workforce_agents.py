@@ -156,9 +156,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
             "estimated_value_saved": len(at_risk_employees) * 10000,
         }
 
-    async def optimize_communication_timing(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def optimize_communication_timing(self, params: dict[str, Any]) -> dict[str, Any]:
         """Optimize when messages are delivered based on emotional state"""
 
         messages_optimized = random.randint(100, 500)
@@ -176,9 +174,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
 
         return optimization_results
 
-    async def create_wellness_intervention(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_wellness_intervention(self, params: dict[str, Any]) -> dict[str, Any]:
         """Create personalized wellness interventions"""
 
         intervention_type = params.get("type", "general")
@@ -223,9 +219,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
             "recommendations_implemented": random.randint(15, 30),
         }
 
-        self.metrics["value_generated"] += (
-            teams_analyzed * 15000
-        )  # $15K value per optimized team
+        self.metrics["value_generated"] += teams_analyzed * 15000  # $15K value per optimized team
 
         return dynamics_report
 
@@ -279,9 +273,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
 
         # Calculate value generated
         hourly_rate = 150  # Average enterprise employee hourly rate
-        self.metrics["value_generated"] += (
-            optimization["time_saved_hours"] * hourly_rate
-        )
+        self.metrics["value_generated"] += optimization["time_saved_hours"] * hourly_rate
 
         logger.info(
             f"ΛBAS Agent optimized {meetings_analyzed} meetings, saved {optimization['time_saved_hours']} hours"
@@ -302,9 +294,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
             "error_reduction": random.uniform(0.20, 0.40),
         }
 
-        self.metrics["value_generated"] += (
-            protection_results["deep_work_hours_gained"] * 200
-        )
+        self.metrics["value_generated"] += protection_results["deep_work_hours_gained"] * 200
 
         return protection_results
 
@@ -328,9 +318,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
             "employee_satisfaction": random.uniform(0.80, 0.95),
         }
 
-        self.metrics["value_generated"] += (
-            elimination_report["distractions_eliminated"] * 25000
-        )
+        self.metrics["value_generated"] += elimination_report["distractions_eliminated"] * 25000
 
         return elimination_report
 
@@ -346,9 +334,7 @@ class ABASProductivityOptimizerAgent(AutonomousAgent):
             "tool_optimizations": random.randint(30, 60),
         }
 
-        self.metrics["value_generated"] += (
-            workspace_optimization["implementations"] * 500
-        )
+        self.metrics["value_generated"] += workspace_optimization["implementations"] * 500
 
         return workspace_optimization
 
@@ -416,9 +402,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         self.metrics["value_generated"] += graph_stats["insights_generated"] * 5000
 
-        logger.info(
-            f"DΛST Agent created knowledge graph with {graph_stats['nodes_created']} nodes"
-        )
+        logger.info(f"DΛST Agent created knowledge graph with {graph_stats['nodes_created']} nodes")
 
         return graph_stats
 
@@ -452,9 +436,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
             "collaboration_improvement": random.uniform(0.35, 0.55),
         }
 
-        self.metrics["value_generated"] += (
-            flow_optimization["bottlenecks_resolved"] * 20000
-        )
+        self.metrics["value_generated"] += flow_optimization["bottlenecks_resolved"] * 20000
 
         return flow_optimization
 
@@ -477,9 +459,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
 
         return gap_analysis
 
-    async def create_context_intelligence(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_context_intelligence(self, params: dict[str, Any]) -> dict[str, Any]:
         """Create real-time context intelligence for decision making"""
 
         context_intelligence = {
@@ -491,9 +471,7 @@ class DASTContextOrchestratorAgent(AutonomousAgent):
             "decision_quality_improvement": random.uniform(0.30, 0.50),
         }
 
-        self.metrics["value_generated"] += (
-            context_intelligence["decisions_supported"] * 10000
-        )
+        self.metrics["value_generated"] += context_intelligence["decisions_supported"] * 10000
 
         return context_intelligence
 
@@ -517,17 +495,13 @@ class LambdaWorkforceOrchestrator:
     async def deploy_lambda_workforce(self, company_size: int = 1000):
         """Deploy complete Lambda AI workforce for a company"""
 
-        logger.info(
-            f"Deploying Lambda AI Workforce for {company_size} employee company"
-        )
+        logger.info(f"Deploying Lambda AI Workforce for {company_size} employee company")
 
         # Deploy NIΛS agents (1 per 100 employees)
         nias_count = max(1, company_size // 100)
         for i in range(nias_count):
             agent = NIASEmotionalIntelligenceAgent(f"nias_{i:03d}")
-            await agent.initialize(
-                {"max_autonomous_days": 7, "company_size": company_size}
-            )
+            await agent.initialize({"max_autonomous_days": 7, "company_size": company_size})
             self.agents[agent.agent_id] = agent
 
             # Set goal
@@ -549,9 +523,7 @@ class LambdaWorkforceOrchestrator:
         abas_count = max(1, company_size // 200)
         for i in range(abas_count):
             agent = ABASProductivityOptimizerAgent(f"abas_{i:03d}")
-            await agent.initialize(
-                {"max_autonomous_days": 7, "company_size": company_size}
-            )
+            await agent.initialize({"max_autonomous_days": 7, "company_size": company_size})
             self.agents[agent.agent_id] = agent
 
             # Set goal
@@ -572,9 +544,7 @@ class LambdaWorkforceOrchestrator:
         dast_count = max(1, company_size // 500)
         for i in range(dast_count):
             agent = DASTContextOrchestratorAgent(f"dast_{i:03d}")
-            await agent.initialize(
-                {"max_autonomous_days": 14, "company_size": company_size}
-            )
+            await agent.initialize({"max_autonomous_days": 14, "company_size": company_size})
             self.agents[agent.agent_id] = agent
 
             # Set goal
@@ -591,16 +561,12 @@ class LambdaWorkforceOrchestrator:
 
             asyncio.create_task(agent.run())
 
-        logger.info(
-            f"Deployed {len(self.agents)} Lambda agents for workforce automation"
-        )
+        logger.info(f"Deployed {len(self.agents)} Lambda agents for workforce automation")
 
     def calculate_roi(self) -> dict[str, Any]:
         """Calculate ROI of Lambda AI Workforce"""
 
-        total_value = sum(
-            agent.metrics["value_generated"] for agent in self.agents.values()
-        )
+        total_value = sum(agent.metrics["value_generated"] for agent in self.agents.values())
 
         # Cost of agents (subscription model)
         agent_costs = {
@@ -610,8 +576,7 @@ class LambdaWorkforceOrchestrator:
         }
 
         monthly_cost = sum(
-            agent_costs.get(agent.agent_type.split("_")[0], 5000)
-            for agent in self.agents.values()
+            agent_costs.get(agent.agent_type.split("_")[0], 5000) for agent in self.agents.values()
         )
 
         roi = {
@@ -619,9 +584,7 @@ class LambdaWorkforceOrchestrator:
             "monthly_cost": monthly_cost,
             "net_value": total_value - monthly_cost,
             "roi_percentage": (
-                ((total_value - monthly_cost) / monthly_cost * 100)
-                if monthly_cost > 0
-                else 0
+                ((total_value - monthly_cost) / monthly_cost * 100) if monthly_cost > 0 else 0
             ),
             "payback_period_days": (
                 (monthly_cost / (total_value / 30)) if total_value > 0 else float("inf")
@@ -652,9 +615,7 @@ class LambdaWorkforceOrchestrator:
                 ),
                 "roi": self.calculate_roi()["roi_percentage"],
                 "recommendation": (
-                    "SCALE UP"
-                    if self.calculate_roi()["roi_percentage"] > 200
-                    else "MAINTAIN"
+                    "SCALE UP" if self.calculate_roi()["roi_percentage"] > 200 else "MAINTAIN"
                 ),
             },
             "agent_performance": {},

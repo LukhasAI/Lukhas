@@ -173,9 +173,7 @@ class PluginRegistry:
         self.plugins: dict[str, PluginInterface] = {}
         self.plugin_classes: dict[str, type[PluginInterface]] = {}
         self.dependency_graph: dict[str, set[str]] = {}
-        self._signal_handlers: dict[str, list[str]] = (
-            {}
-        )  # signal_type -> [plugin_names]
+        self._signal_handlers: dict[str, list[str]] = {}  # signal_type -> [plugin_names]
         self._logger = logger
 
     def discover_plugins(self) -> dict[str, PluginMetadata]:
@@ -204,13 +202,9 @@ class PluginRegistry:
                     metadata = self._extract_plugin_metadata(file_path)
                     if metadata:
                         discovered[metadata.name] = metadata
-                        self._logger.info(
-                            f"Discovered plugin: {metadata.name} v{metadata.version}"
-                        )
+                        self._logger.info(f"Discovered plugin: {metadata.name} v{metadata.version}")
                 except Exception as e:
-                    self._logger.error(
-                        f"Error discovering plugin from {file_path}: {e}"
-                    )
+                    self._logger.error(f"Error discovering plugin from {file_path}: {e}")
 
         return discovered
 
@@ -265,9 +259,7 @@ class PluginRegistry:
 
         return None
 
-    async def load_plugin(
-        self, plugin_name: str, config: Optional[dict[str, Any]] = None
-    ) -> bool:
+    async def load_plugin(self, plugin_name: str, config: Optional[dict[str, Any]] = None) -> bool:
         """
         Load and initialize a plugin.
 
@@ -327,9 +319,7 @@ class PluginRegistry:
             else:
                 # Handle function-based plugins
                 metadata = PluginMetadata(name=plugin_name)
-                plugin_instance = self._create_function_plugin_wrapper(
-                    plugin_class, metadata
-                )
+                plugin_instance = self._create_function_plugin_wrapper(plugin_class, metadata)
 
             # Check dependencies using the instantiated metadata
             if not await self._check_dependencies(metadata):
@@ -357,9 +347,7 @@ class PluginRegistry:
                 return False
 
         except Exception as e:
-            self._logger.error(
-                f"Error loading plugin {plugin_name}: {e}", exc_info=True
-            )
+            self._logger.error(f"Error loading plugin {plugin_name}: {e}", exc_info=True)
             return False
 
     def _find_plugin_file(self, plugin_name: str) -> Optional[Path]:
@@ -386,7 +374,6 @@ class PluginRegistry:
         """Create a PluginInterface wrapper for function-based plugins"""
 
         class FunctionPlugin(PluginInterface):
-
             def __init__(self, metadata: PluginMetadata):
                 super().__init__(metadata)
                 self.func = func
@@ -428,9 +415,7 @@ class PluginRegistry:
             # Check if other plugins depend on this one
             dependents = self._get_dependent_plugins(plugin_name)
             if dependents:
-                self._logger.error(
-                    f"Cannot unload {plugin_name}, required by: {dependents}"
-                )
+                self._logger.error(f"Cannot unload {plugin_name}, required by: {dependents}")
                 return False
 
             # Shutdown plugin
@@ -498,9 +483,7 @@ class PluginRegistry:
             self._signal_handlers[signal_type] = []
         if plugin_name not in self._signal_handlers[signal_type]:
             self._signal_handlers[signal_type].append(plugin_name)
-            self._logger.debug(
-                f"Registered {plugin_name} for signal type: {signal_type}"
-            )
+            self._logger.debug(f"Registered {plugin_name} for signal type: {signal_type}")
 
     async def broadcast_signal(self, signal: dict[str, Any]) -> dict[str, Any]:
         """
@@ -525,9 +508,7 @@ class PluginRegistry:
         # If no specific handlers, broadcast to all active plugins
         if not handlers:
             handlers = [
-                name
-                for name, plugin in self.plugins.items()
-                if plugin.status == PluginStatus.READY
+                name for name, plugin in self.plugins.items() if plugin.status == PluginStatus.READY
             ]
 
         # Process signal with each handler
@@ -545,9 +526,7 @@ class PluginRegistry:
                 responses[plugin_name] = response
                 plugin.status = PluginStatus.READY
             except Exception as e:
-                self._logger.error(
-                    f"Error in plugin {plugin_name} processing signal: {e}"
-                )
+                self._logger.error(f"Error in plugin {plugin_name} processing signal: {e}")
                 plugin.status = PluginStatus.ERROR
                 responses[plugin_name] = {"error": str(e)}
 
@@ -557,9 +536,7 @@ class PluginRegistry:
         """Get a loaded plugin by name"""
         return self.plugins.get(plugin_name)
 
-    def list_plugins(
-        self, status: Optional[PluginStatus] = None
-    ) -> list[dict[str, Any]]:
+    def list_plugins(self, status: Optional[PluginStatus] = None) -> list[dict[str, Any]]:
         """
         List all loaded plugins.
 

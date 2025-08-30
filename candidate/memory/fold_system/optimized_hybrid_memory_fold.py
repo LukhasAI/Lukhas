@@ -100,9 +100,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
     def get_memory_usage_stats(self) -> dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
-        avg_size_per_vector = (
-            self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
-        )
+        avg_size_per_vector = self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
 
         return {
             "total_vectors": num_vectors,
@@ -111,9 +109,7 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             "avg_bytes_per_vector": avg_size_per_vector,
             "quantization_enabled": self.enable_quantization,
             "compression_ratio": (
-                (self.dimension * 4) / avg_size_per_vector
-                if avg_size_per_vector > 0
-                else 1.0
+                (self.dimension * 4) / avg_size_per_vector if avg_size_per_vector > 0 else 1.0
             ),
         }
 
@@ -173,9 +169,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 cache_memory_mb=lazy_loading_cache_memory_mb,
             )
         elif enable_lazy_loading:
-            logger.warning(
-                "Lazy loading requested but not available (missing dependencies)"
-            )
+            logger.warning("Lazy loading requested but not available (missing dependencies)")
             self.enable_lazy_loading = False
 
         # Memory usage tracking
@@ -474,9 +468,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             stats["overall_compression_ratio"] = (
                 stats["total_size_before"] / stats["total_size_after"]
             )
-            stats["memory_efficiency_improvement"] = (
-                f"{stats['overall_compression_ratio']:.1f}x"
-            )
+            stats["memory_efficiency_improvement"] = f"{stats['overall_compression_ratio']:.1f}x"
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
 
         return stats
@@ -538,9 +530,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             # Realistic content
             content_length = random.randint(50, 500)
             content = "Memory content: " + "".join(
-                random.choices(
-                    string.ascii_letters + string.digits + " ", k=content_length
-                )
+                random.choices(string.ascii_letters + string.digits + " ", k=content_length)
             )
 
             # Random tags
@@ -873,15 +863,11 @@ async def migrate_to_optimized(
                 migration_stats["migrated_memories"] += 1
 
             except Exception as e:
-                logger.error(
-                    "Failed to migrate memory", memory_id=memory_id, error=str(e)
-                )
+                logger.error("Failed to migrate memory", memory_id=memory_id, error=str(e))
                 migration_stats["failed_migrations"] += 1
 
         # Log progress
-        logger.info(
-            f"Migration progress: {min(i + batch_size, len(memory_ids))}/{len(memory_ids)}"
-        )
+        logger.info(f"Migration progress: {min(i + batch_size, len(memory_ids))}/{len(memory_ids)}")
 
     migration_stats["migration_time_seconds"] = time.time() - start_time
 

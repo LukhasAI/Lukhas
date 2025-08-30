@@ -53,9 +53,7 @@ try:
     )
 
     LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG = True
-    log.debug(
-        "LUKHAS symbolic_ai components for Replayer imported (if paths were valid)."
-    )
+    log.debug("LUKHAS symbolic_ai components for Replayer imported (if paths were valid).")
 except ImportError as e_sym_replay_imp:
     log.warning(
         "Failed to import LUKHAS symbolic_ai components for Replayer. Using placeholders.",
@@ -171,16 +169,12 @@ def replay_dreams_with_current_state() -> None:
             traits_preview=str(current_lukhas_traits)[:100],
         )
     except Exception as e:
-        log.error(
-            "Failed to load LUKHAS traits for replay. Using default.", error=str(e)
-        )
+        log.error("Failed to load LUKHAS traits for replay. Using default.", error=str(e))
         current_lukhas_traits = {"default_trait_active_ph": True}
     try:
         display_visual_traits()
     except Exception as e:
-        log.warning(
-            "Failed to call display_visual_traits (placeholder or error).", error=str(e)
-        )
+        log.warning("Failed to call display_visual_traits (placeholder or error).", error=str(e))
 
     log.info(f"Beginning replay of {len(recent_dream_logs)} dream(s)...")
     for i, dream_log_item in enumerate(recent_dream_logs, 1):
@@ -188,7 +182,9 @@ def replay_dreams_with_current_state() -> None:
         original_emo = dream_log_item.get("additional_metadata", {}).get(
             "emotional_tone", {"primary": "neutral_replay_tone"}
         )
-        replay_intro = f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
+        replay_intro = (
+            f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
+        )
         log.info(replay_intro, dream_preview=narrative[:80] + "...")
         try:
             speak(
@@ -235,9 +231,7 @@ if __name__ == "__main__":
         )
     log.info("--- Running LUKHAS Dream Replayer Script (Manual Execution) ---")
     if not LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG:  # If using placeholders
-        log.warning(
-            "Replayer example running with placeholders for symbolic_ai components."
-        )
+        log.warning("Replayer example running with placeholders for symbolic_ai components.")
         dummy_log_file_path = (
             DREAM_LOGS_REPLAYER_DIR
             / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
@@ -250,14 +244,10 @@ if __name__ == "__main__":
                         "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                         "dream_narrative_text": "A placeholder dream about replayed echoes.",
                         "extracted_visual_prompts": [],
-                        "additional_metadata": {
-                            "emotional_tone": {"primary": "nostalgic_ph"}
-                        },
+                        "additional_metadata": {"emotional_tone": {"primary": "nostalgic_ph"}},
                     }
                     f.write(json.dumps(dummy_dream_entry) + "\n")
-                log.info(
-                    f"Created dummy dream log for replayer example: {dummy_log_file_path}"
-                )
+                log.info(f"Created dummy dream log for replayer example: {dummy_log_file_path}")
             except Exception as e_dummy:
                 log.error(f"Could not create dummy dream log for replayer: {e_dummy}")
     replay_dreams_with_current_state()

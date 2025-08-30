@@ -53,9 +53,7 @@ class ContextAwareRecommendation:
         self.symbolic: SymbolicVocabulary = get_symbolic_vocabulary()
         self.seedra = get_seedra()
 
-    async def generate_recommendations(
-        self, user_context: dict[str, Any]
-    ) -> list[Symbol]:
+    async def generate_recommendations(self, user_context: dict[str, Any]) -> list[Symbol]:
         if not self.orchestrator:
             return []
 

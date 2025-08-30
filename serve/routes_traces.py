@@ -48,8 +48,8 @@ def validate_trace_id(trace_id: str) -> None:
                 "error": "validation_error",
                 "message": f"Invalid trace ID format: {trace_id}",
                 "field": "trace_id",
-                "value": trace_id
-            }
+                "value": trace_id,
+            },
         )
 
 
@@ -60,19 +60,18 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> str:
     """
     try:
         from config.env import get as env_get
+
         expected_key = env_get("LUKHAS_API_KEY", "")
     except ImportError:
         import os
+
         expected_key = os.getenv("LUKHAS_API_KEY", "")
 
     if expected_key and x_api_key != expected_key:
         logger.warning(f"Unauthorized trace access attempt from API key: {x_api_key}")
         raise HTTPException(
             status_code=401,
-            detail={
-                "error": "unauthorized",
-                "message": "Invalid or missing API key"
-            }
+            detail={"error": "unauthorized", "message": "Invalid or missing API key"},
         )
     return x_api_key or "no-key-required"
 
@@ -81,28 +80,17 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> str:
 @r.get(
     "/v1/matriz/trace/health",
     summary="Trace system health check",
-    description="Check if the trace storage provider is functioning properly"
+    description="Check if the trace storage provider is functioning properly",
 )
-async def trace_health(
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider)
-):
+async def trace_health(storage: TraceStorageProvider = Depends(get_trace_storage_provider)):
     """Health check endpoint for the trace subsystem."""
     try:
         health_data = await storage.health_check()
         status_code = 200 if health_data.get("status") == "healthy" else 503
-        return JSONResponse(
-            status_code=status_code,
-            content=health_data
-        )
+        return JSONResponse(status_code=status_code, content=health_data)
     except Exception as e:
         logger.error(f"Trace health check failed: {e}")
-        return JSONResponse(
-            status_code=503,
-            content={
-                "status": "unhealthy",
-                "error": str(e)
-            }
-        )
+        return JSONResponse(status_code=503, content={"status": "unhealthy", "error": str(e)})
 
 
 # Recent traces endpoint
@@ -110,14 +98,14 @@ async def trace_health(
     "/v1/matriz/trace/recent",
     response_model=list[ExecutionTraceResponse],
     summary="Get recent traces",
-    description="Retrieve recent traces with optional filtering by level or tag"
+    description="Retrieve recent traces with optional filtering by level or tag",
 )
 async def get_recent_traces(
     limit: int = 10,
     level: Optional[int] = None,
     tag: Optional[str] = None,
     api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider)
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
 ) -> list[ExecutionTraceResponse]:
     """
     Retrieve recent traces with optional filtering.
@@ -144,8 +132,8 @@ async def get_recent_traces(
                     "error": "validation_error",
                     "message": "Level must be between 0 and 7",
                     "field": "level",
-                    "value": level
-                }
+                    "value": level,
+                },
             )
 
         logger.info(f"Recent traces request: limit={limit}, level={level}, tag={tag}")
@@ -160,7 +148,9 @@ async def get_recent_traces(
                 response = ExecutionTraceResponse(**trace_data)
                 responses.append(response)
             except Exception as e:
-                logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
+                logger.warning(
+                    f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}"
+                )
                 continue
 
         logger.info(f"Returning {len(responses)} recent traces")
@@ -172,14 +162,14 @@ async def get_recent_traces(
 
     except Exception as e:
         # Handle unexpected errors
-        logger.error(f"Error retrieving recent traces: {str(e)}", exc_info=True)
+        logger.error(f"Error retrieving recent traces: {e!s}", exc_info=True)
         raise HTTPException(
             status_code=500,
             detail={
                 "error": "internal_error",
                 "message": "An internal error occurred while retrieving recent traces",
-                "error_type": type(e).__name__
-            }
+                "error_type": type(e).__name__,
+            },
         )
 
 
@@ -187,19 +177,22 @@ async def get_recent_traces(
     "/v1/matriz/trace/{trace_id}",
     response_model=ExecutionTraceResponse,
     responses={
-        200: {"description": "Trace found and returned successfully", "model": ExecutionTraceResponse},
+        200: {
+            "description": "Trace found and returned successfully",
+            "model": ExecutionTraceResponse,
+        },
         400: {"description": "Invalid trace ID format", "model": TraceValidationErrorResponse},
         401: {"description": "Unauthorized - invalid API key", "model": TraceErrorResponse},
         404: {"description": "Trace not found", "model": TraceNotFoundResponse},
         500: {"description": "Internal server error", "model": TraceErrorResponse},
     },
     summary="Get trace by ID",
-    description="Retrieve a specific trace by its unique identifier. Requires valid API key if configured."
+    description="Retrieve a specific trace by its unique identifier. Requires valid API key if configured.",
 )
 async def get_trace(
     trace_id: str,
     api_key: str = Depends(require_api_key),
-    storage: TraceStorageProvider = Depends(get_trace_storage_provider)
+    storage: TraceStorageProvider = Depends(get_trace_storage_provider),
 ) -> Union[ExecutionTraceResponse, JSONResponse]:
     """
     Retrieve a trace by its unique identifier.
@@ -232,13 +225,9 @@ async def get_trace(
             # Trace not found
             logger.info(f"Trace not found: {trace_id}")
             error_response = TraceNotFoundResponse(
-                message=f"No trace found with ID: {trace_id}",
-                trace_id=trace_id
+                message=f"No trace found with ID: {trace_id}", trace_id=trace_id
             )
-            return JSONResponse(
-                status_code=404,
-                content=error_response.model_dump()
-            )
+            return JSONResponse(status_code=404, content=error_response.model_dump())
 
         # Convert to enhanced response model
         # Use ExecutionTraceResponse for better compatibility with enhanced fields
@@ -246,8 +235,7 @@ async def get_trace(
             response = ExecutionTraceResponse(**trace_data)
         except Exception:
             # Fallback to basic TraceResponse if extra fields cause issues
-            basic_fields = {k: v for k, v in trace_data.items()
-                          if k in TraceResponse.__fields__}
+            basic_fields = {k: v for k, v in trace_data.items() if k in TraceResponse.__fields__}
             response = ExecutionTraceResponse(**basic_fields)
 
         logger.info(f"Trace retrieved successfully: {trace_id}")
@@ -259,20 +247,14 @@ async def get_trace(
 
     except Exception as e:
         # Handle unexpected errors
-        logger.error(f"Error retrieving trace {trace_id}: {str(e)}", exc_info=True)
+        logger.error(f"Error retrieving trace {trace_id}: {e!s}", exc_info=True)
 
         error_response = TraceErrorResponse(
             error="internal_error",
             message="An internal error occurred while retrieving the trace",
-            details={
-                "trace_id": trace_id,
-                "error_type": type(e).__name__
-            }
+            details={"trace_id": trace_id, "error_type": type(e).__name__},
         )
-        return JSONResponse(
-            status_code=500,
-            content=error_response.model_dump()
-        )
+        return JSONResponse(status_code=500, content=error_response.model_dump())
 
 
 # include_router(r) in main app

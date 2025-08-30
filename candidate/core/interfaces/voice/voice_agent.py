@@ -15,10 +15,9 @@
 import logging
 from datetime import datetime
 
-from utils.logging import log_event
-
 from lukhas.core.emotional_state import get_tone
 from lukhas.core.event_bus import subscribe
+from utils.logging import log_event
 
 # Initialize logger
 logger = logging.getLogger(__name__)

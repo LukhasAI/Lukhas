@@ -48,60 +48,64 @@ logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0
 
 class CoherenceState(Enum):
     """Bio-symbolic coherence states"""
-    HIGHLY_COHERENT = "highly_coherent"       # All systems synchronized
-    COHERENT = "coherent"                     # Good synchronization
-    PARTIALLY_COHERENT = "partially_coherent" # Some systems out of sync
-    INCOHERENT = "incoherent"                # Poor synchronization
-    DESTABILIZING = "destabilizing"          # Coherence breaking down
-    CRITICAL = "critical"                     # System integrity at risk
+
+    HIGHLY_COHERENT = "highly_coherent"  # All systems synchronized
+    COHERENT = "coherent"  # Good synchronization
+    PARTIALLY_COHERENT = "partially_coherent"  # Some systems out of sync
+    INCOHERENT = "incoherent"  # Poor synchronization
+    DESTABILIZING = "destabilizing"  # Coherence breaking down
+    CRITICAL = "critical"  # System integrity at risk
 
 
 class OscillatorType(Enum):
     """Types of bio-inspired oscillators"""
-    GAMMA = "gamma"           # 40Hz consciousness binding
-    BETA = "beta"            # 13-30Hz active thinking
-    ALPHA = "alpha"          # 8-13Hz relaxed awareness
-    THETA = "theta"          # 4-8Hz creative/dream states
-    DELTA = "delta"          # 0.5-4Hz deep sleep/unconscious
+
+    GAMMA = "gamma"  # 40Hz consciousness binding
+    BETA = "beta"  # 13-30Hz active thinking
+    ALPHA = "alpha"  # 8-13Hz relaxed awareness
+    THETA = "theta"  # 4-8Hz creative/dream states
+    DELTA = "delta"  # 0.5-4Hz deep sleep/unconscious
     CIRCADIAN = "circadian"  # 24-hour biological rhythm
     ULTRADIAN = "ultradian"  # 90-120 minute cycles
 
 
 class BiologicalProcess(Enum):
     """Biological processes affecting coherence"""
-    NEUROPLASTICITY = "neuroplasticity"     # Learning and adaptation
-    HOMEOSTASIS = "homeostasis"             # Maintaining balance
-    METABOLISM = "metabolism"               # Energy management
-    SYNCHRONIZATION = "synchronization"    # Neural network sync
-    ENTRAINMENT = "entrainment"            # Rhythm alignment
-    ADAPTATION = "adaptation"              # Environmental response
-    RECOVERY = "recovery"                  # Rest and restoration
+
+    NEUROPLASTICITY = "neuroplasticity"  # Learning and adaptation
+    HOMEOSTASIS = "homeostasis"  # Maintaining balance
+    METABOLISM = "metabolism"  # Energy management
+    SYNCHRONIZATION = "synchronization"  # Neural network sync
+    ENTRAINMENT = "entrainment"  # Rhythm alignment
+    ADAPTATION = "adaptation"  # Environmental response
+    RECOVERY = "recovery"  # Rest and restoration
 
 
 @dataclass
 class BioRhythm:
     """Bio-rhythmic pattern for coherence validation"""
+
     rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4().hex[:8]}")
     oscillator_type: OscillatorType = OscillatorType.GAMMA
     frequency_hz: float = 40.0  # Base frequency
-    amplitude: float = 1.0      # Signal strength
-    phase: float = 0.0          # Current phase (radians)
+    amplitude: float = 1.0  # Signal strength
+    phase: float = 0.0  # Current phase (radians)
 
     # Biological properties
-    entrainment_strength: float = 0.8    # How easily it syncs with others
-    plasticity_factor: float = 0.5       # Adaptability to changes
-    metabolic_cost: float = 0.1          # Energy consumption
-    homeostatic_pressure: float = 0.0    # Drive to return to baseline
+    entrainment_strength: float = 0.8  # How easily it syncs with others
+    plasticity_factor: float = 0.5  # Adaptability to changes
+    metabolic_cost: float = 0.1  # Energy consumption
+    homeostatic_pressure: float = 0.0  # Drive to return to baseline
 
     # Coherence tracking
-    coherence_score: float = 1.0         # Current coherence level
+    coherence_score: float = 1.0  # Current coherence level
     sync_partners: set[str] = field(default_factory=set)  # Synchronized rhythms
     phase_history: deque = field(default_factory=lambda: deque(maxlen=100))
 
     # Trinity Framework
-    identity_impact: float = 0.5         # Impact on identity coherence
+    identity_impact: float = 0.5  # Impact on identity coherence
     consciousness_contribution: float = 0.5  # Contribution to awareness
-    guardian_monitored: bool = True      # Under ethical monitoring
+    guardian_monitored: bool = True  # Under ethical monitoring
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.utcnow)
@@ -116,7 +120,7 @@ class BioRhythm:
 
         # Apply homeostatic pressure
         if self.homeostatic_pressure > 0:
-            self.amplitude *= (1 - self.homeostatic_pressure * 0.01)
+            self.amplitude *= 1 - self.homeostatic_pressure * 0.01
 
         # Update metadata
         self.last_updated = datetime.utcnow()
@@ -131,7 +135,7 @@ class BioRhythm:
         """Synchronize with another bio-rhythm"""
         # Calculate phase difference
         phase_diff = abs(self.phase - other_rhythm.phase)
-        phase_diff = min(phase_diff, 2*math.pi - phase_diff)
+        phase_diff = min(phase_diff, 2 * math.pi - phase_diff)
 
         # Calculate synchronization strength
         sync_strength = min(self.entrainment_strength, other_rhythm.entrainment_strength)
@@ -153,10 +157,11 @@ class BioRhythm:
 @dataclass
 class CoherenceValidationConfig:
     """Configuration for bio-symbolic coherence validation"""
+
     # Oscillator settings
-    gamma_frequency: float = 40.0           # Primary consciousness frequency
-    sync_threshold: float = 0.8             # Minimum sync for coherence
-    max_phase_deviation: float = math.pi/4  # Max allowed phase deviation
+    gamma_frequency: float = 40.0  # Primary consciousness frequency
+    sync_threshold: float = 0.8  # Minimum sync for coherence
+    max_phase_deviation: float = math.pi / 4  # Max allowed phase deviation
 
     # Biological parameters
     metabolic_efficiency_threshold: float = 0.7
@@ -171,9 +176,9 @@ class CoherenceValidationConfig:
     critical_threshold: float = 0.2
 
     # Monitoring settings
-    validation_interval_ms: int = 50        # 50ms validation cycles
-    history_length: int = 1000              # Number of historical samples
-    trend_analysis_window: int = 100        # Samples for trend analysis
+    validation_interval_ms: int = 50  # 50ms validation cycles
+    history_length: int = 1000  # Number of historical samples
+    trend_analysis_window: int = 100  # Samples for trend analysis
 
     # Trinity Framework settings
     identity_coherence_weight: float = 0.4
@@ -184,6 +189,7 @@ class CoherenceValidationConfig:
 @dataclass
 class CoherenceReport:
     """Comprehensive coherence validation report"""
+
     validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4().hex[:8]}")
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
@@ -289,18 +295,18 @@ class BioSymbolicCoherenceValidator:
                 frequency_hz=self.config.gamma_frequency,
                 amplitude=1.0,
                 entrainment_strength=0.9,
-                consciousness_contribution=1.0
+                consciousness_contribution=1.0,
             )
             self.bio_rhythms[gamma_rhythm.rhythm_id] = gamma_rhythm
 
             # Create supporting oscillators
             oscillator_configs = [
-                (OscillatorType.BETA, 20.0, 0.8, 0.7),    # Active thinking
-                (OscillatorType.ALPHA, 10.0, 0.7, 0.6),   # Relaxed awareness
-                (OscillatorType.THETA, 6.0, 0.6, 0.8),    # Creative states
-                (OscillatorType.DELTA, 2.0, 0.3, 0.4),    # Deep processing
-                (OscillatorType.CIRCADIAN, 1/86400, 0.5, 0.3),  # Daily rhythm
-                (OscillatorType.ULTRADIAN, 1/5400, 0.4, 0.2)     # 90-min cycles
+                (OscillatorType.BETA, 20.0, 0.8, 0.7),  # Active thinking
+                (OscillatorType.ALPHA, 10.0, 0.7, 0.6),  # Relaxed awareness
+                (OscillatorType.THETA, 6.0, 0.6, 0.8),  # Creative states
+                (OscillatorType.DELTA, 2.0, 0.3, 0.4),  # Deep processing
+                (OscillatorType.CIRCADIAN, 1 / 86400, 0.5, 0.3),  # Daily rhythm
+                (OscillatorType.ULTRADIAN, 1 / 5400, 0.4, 0.2),  # 90-min cycles
             ]
 
             for osc_type, freq, amp, consciousness_contrib in oscillator_configs:
@@ -308,7 +314,7 @@ class BioSymbolicCoherenceValidator:
                     oscillator_type=osc_type,
                     frequency_hz=freq,
                     amplitude=amp,
-                    consciousness_contribution=consciousness_contrib
+                    consciousness_contribution=consciousness_contrib,
                 )
                 self.bio_rhythms[rhythm.rhythm_id] = rhythm
 
@@ -471,7 +477,7 @@ class BioSymbolicCoherenceValidator:
         cross_freq_coherence = await self._validate_cross_frequency_coupling()
 
         # Combined neural oscillator coherence
-        neural_coherence = (coherence * 0.7 + cross_freq_coherence * 0.3)
+        neural_coherence = coherence * 0.7 + cross_freq_coherence * 0.3
 
         return min(1.0, max(0.0, neural_coherence))
 
@@ -486,7 +492,7 @@ class BioSymbolicCoherenceValidator:
 
         rhythm_ids = list(self.bio_rhythms.keys())
         for i, rhythm1_id in enumerate(rhythm_ids):
-            for rhythm2_id in rhythm_ids[i+1:]:
+            for rhythm2_id in rhythm_ids[i + 1 :]:
                 rhythm1 = self.bio_rhythms[rhythm1_id]
                 rhythm2 = self.bio_rhythms[rhythm2_id]
 
@@ -541,14 +547,16 @@ class BioSymbolicCoherenceValidator:
                     expected_freq = self._get_expected_frequency(osc_type)
 
                     # Check if frequencies are within expected range
-                    freq_deviation = abs(statistics.mean(frequencies) - expected_freq) / expected_freq
+                    freq_deviation = (
+                        abs(statistics.mean(frequencies) - expected_freq) / expected_freq
+                    )
                     if freq_deviation > 0.2:  # 20% deviation threshold
                         disruption_indicators.append(freq_deviation)
 
         # Apply pattern disruption penalty
         if disruption_indicators:
             avg_disruption = statistics.mean(disruption_indicators)
-            symbolic_coherence *= (1 - avg_disruption)
+            symbolic_coherence *= 1 - avg_disruption
 
         # Check for symbolic representation consistency
         # This would integrate with actual symbolic systems
@@ -630,7 +638,7 @@ class BioSymbolicCoherenceValidator:
         return {
             "identity": min(1.0, max(0.0, identity_score)),
             "consciousness": min(1.0, max(0.0, consciousness_score)),
-            "guardian": min(1.0, max(0.0, guardian_score))
+            "guardian": min(1.0, max(0.0, guardian_score)),
         }
 
     def _calculate_overall_coherence(self, report: CoherenceReport) -> float:
@@ -643,18 +651,18 @@ class BioSymbolicCoherenceValidator:
             "metabolic": 0.10,
             "identity": self.config.identity_coherence_weight * 0.5,
             "consciousness": self.config.consciousness_coherence_weight * 0.5,
-            "guardian": self.config.guardian_safety_weight * 0.5
+            "guardian": self.config.guardian_safety_weight * 0.5,
         }
 
         # Calculate weighted sum
         overall_score = (
-            report.neural_oscillator_coherence * weights["neural"] +
-            report.biological_rhythm_coherence * weights["biological"] +
-            report.symbolic_pattern_coherence * weights["symbolic"] +
-            report.metabolic_efficiency_score * weights["metabolic"] +
-            report.identity_coherence_score * weights["identity"] +
-            report.consciousness_depth_score * weights["consciousness"] +
-            report.guardian_safety_score * weights["guardian"]
+            report.neural_oscillator_coherence * weights["neural"]
+            + report.biological_rhythm_coherence * weights["biological"]
+            + report.symbolic_pattern_coherence * weights["symbolic"]
+            + report.metabolic_efficiency_score * weights["metabolic"]
+            + report.identity_coherence_score * weights["identity"]
+            + report.consciousness_depth_score * weights["consciousness"]
+            + report.guardian_safety_score * weights["guardian"]
         )
 
         return min(1.0, max(0.0, overall_score))
@@ -720,11 +728,13 @@ class BioSymbolicCoherenceValidator:
 
         return statistics.mean(coupling_scores) if coupling_scores else 0.5
 
-    def _calculate_phase_amplitude_coupling(self, low_freq: BioRhythm, high_freq: BioRhythm) -> float:
+    def _calculate_phase_amplitude_coupling(
+        self, low_freq: BioRhythm, high_freq: BioRhythm
+    ) -> float:
         """Calculate phase-amplitude coupling between two rhythms"""
         # Simplified phase-amplitude coupling calculation
         phase_diff = abs(low_freq.phase - high_freq.phase)
-        phase_diff = min(phase_diff, 2*math.pi - phase_diff)
+        phase_diff = min(phase_diff, 2 * math.pi - phase_diff)
 
         # Strong coupling when phase difference is small
         coupling_strength = 1 - (phase_diff / math.pi)
@@ -744,7 +754,7 @@ class BioSymbolicCoherenceValidator:
 
         rhythm_ids = list(self.bio_rhythms.keys())
         for i, rhythm1_id in enumerate(rhythm_ids):
-            for rhythm2_id in rhythm_ids[i+1:]:
+            for rhythm2_id in rhythm_ids[i + 1 :]:
                 total_pairs += 1
 
                 sync_key = (rhythm1_id, rhythm2_id)
@@ -766,7 +776,7 @@ class BioSymbolicCoherenceValidator:
             "synchronized": synchronized_pairs,
             "total": total_pairs,
             "avg_quality": avg_quality,
-            "phase_variance": phase_variance
+            "phase_variance": phase_variance,
         }
 
     def _calculate_biological_metrics(self) -> dict[str, float]:
@@ -792,8 +802,10 @@ class BioSymbolicCoherenceValidator:
         return {
             "metabolic_load": statistics.mean(metabolic_loads) if metabolic_loads else 0.0,
             "neuroplasticity": statistics.mean(plasticity_values) if plasticity_values else 0.0,
-            "homeostatic_balance": 1.0 - statistics.mean(homeostatic_values) if homeostatic_values else 1.0,
-            "adaptation_capacity": statistics.mean(adaptation_values) if adaptation_values else 0.0
+            "homeostatic_balance": 1.0 - statistics.mean(homeostatic_values)
+            if homeostatic_values
+            else 1.0,
+            "adaptation_capacity": statistics.mean(adaptation_values) if adaptation_values else 0.0,
         }
 
     def _analyze_coherence_trends(self) -> dict[str, Any]:
@@ -801,7 +813,7 @@ class BioSymbolicCoherenceValidator:
         if len(self.coherence_history) < self.config.trend_analysis_window:
             return {"trend": "stable", "strength": 0.0}
 
-        recent_values = list(self.coherence_history)[-self.config.trend_analysis_window:]
+        recent_values = list(self.coherence_history)[-self.config.trend_analysis_window :]
 
         # Calculate linear trend
         x = list(range(len(recent_values)))
@@ -948,7 +960,7 @@ class BioSymbolicCoherenceValidator:
             "alert_type": "critical_coherence_loss",
             "coherence_score": report.overall_coherence,
             "critical_alerts": report.critical_alerts,
-            "timestamp": report.timestamp.isoformat()
+            "timestamp": report.timestamp.isoformat(),
         }
 
         # This would integrate with actual guardian systems
@@ -962,8 +974,8 @@ class BioSymbolicCoherenceValidator:
             OscillatorType.ALPHA: 10.0,
             OscillatorType.THETA: 6.0,
             OscillatorType.DELTA: 2.0,
-            OscillatorType.CIRCADIAN: 1/86400,
-            OscillatorType.ULTRADIAN: 1/5400
+            OscillatorType.CIRCADIAN: 1 / 86400,
+            OscillatorType.ULTRADIAN: 1 / 5400,
         }
         return frequency_map.get(osc_type, 1.0)
 
@@ -980,22 +992,24 @@ class BioSymbolicCoherenceValidator:
             "synchronization_events": self.synchronization_events,
             "coherence_violations": self.coherence_violations,
             "critical_interventions": self.critical_interventions,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         if current_report:
-            status.update({
-                "overall_coherence": current_report.overall_coherence,
-                "neural_coherence": current_report.neural_oscillator_coherence,
-                "biological_coherence": current_report.biological_rhythm_coherence,
-                "symbolic_coherence": current_report.symbolic_pattern_coherence,
-                "metabolic_efficiency": current_report.metabolic_efficiency_score,
-                "trinity_scores": {
-                    "identity": current_report.identity_coherence_score,
-                    "consciousness": current_report.consciousness_depth_score,
-                    "guardian": current_report.guardian_safety_score
+            status.update(
+                {
+                    "overall_coherence": current_report.overall_coherence,
+                    "neural_coherence": current_report.neural_oscillator_coherence,
+                    "biological_coherence": current_report.biological_rhythm_coherence,
+                    "symbolic_coherence": current_report.symbolic_pattern_coherence,
+                    "metabolic_efficiency": current_report.metabolic_efficiency_score,
+                    "trinity_scores": {
+                        "identity": current_report.identity_coherence_score,
+                        "consciousness": current_report.consciousness_depth_score,
+                        "guardian": current_report.guardian_safety_score,
+                    },
                 }
-            })
+            )
 
         return status
 
@@ -1003,17 +1017,23 @@ class BioSymbolicCoherenceValidator:
 # Stub classes for Trinity Framework integration
 class IdentityCoherenceTracker:
     """Trinity Framework identity coherence tracking"""
-    def initialize(self): pass
+
+    def initialize(self):
+        pass
 
 
 class ConsciousnessCoherenceMonitor:
     """Trinity Framework consciousness coherence monitoring"""
-    def initialize(self): pass
+
+    def initialize(self):
+        pass
 
 
 class GuardianSafetyValidator:
     """Trinity Framework guardian safety validation"""
-    def initialize(self): pass
+
+    def initialize(self):
+        pass
 
 
 # Example usage

@@ -122,9 +122,7 @@ class EmailIntegrator:
         )
         return patterns
 
-    def extract_preferences_from_newsletters(
-        self, email_content: list[str]
-    ) -> list[str]:
+    def extract_preferences_from_newsletters(self, email_content: list[str]) -> list[str]:
         """Extract user interests from newsletter subscriptions"""
         interests = set()
 
@@ -196,9 +194,7 @@ class ShoppingIntegrator:
         logger.info(f"Retrieved {history['total_orders']} orders from {platform}")
         return history
 
-    async def get_browsing_patterns(
-        self, platform: str, session_token: str
-    ) -> dict[str, Any]:
+    async def get_browsing_patterns(self, platform: str, session_token: str) -> dict[str, Any]:
         """Get browsing patterns without purchase"""
         patterns = {
             "viewed_categories": [],
@@ -254,9 +250,7 @@ class UserDataIntegrator:
 
         logger.info("NIΛS User Data Integrator initialized")
 
-    async def setup_user_preferences(
-        self, user_id: str, preferences: dict[str, Any]
-    ) -> bool:
+    async def setup_user_preferences(self, user_id: str, preferences: dict[str, Any]) -> bool:
         """
         Setup user data sharing preferences
 
@@ -271,9 +265,7 @@ class UserDataIntegrator:
             # Create preference object
             user_prefs = UserDataPreferences(
                 user_id=user_id,
-                data_sources=self._parse_data_sources(
-                    preferences.get("data_sources", {})
-                ),
+                data_sources=self._parse_data_sources(preferences.get("data_sources", {})),
                 privacy_settings=preferences.get("privacy_settings", {}),
                 vendor_sharing=preferences.get("vendor_sharing", "aggregated_only"),
                 retention_days=preferences.get("retention_days", 90),
@@ -316,9 +308,7 @@ class UserDataIntegrator:
 
         return parsed
 
-    async def sync_user_data(
-        self, user_id: str, force_refresh: bool = False
-    ) -> UserDataProfile:
+    async def sync_user_data(self, user_id: str, force_refresh: bool = False) -> UserDataProfile:
         """
         Sync all permitted user data sources
 
@@ -363,9 +353,7 @@ class UserDataIntegrator:
             if email_config["enabled"]:
                 for provider in email_config.get("providers", []):
                     # Would get actual tokens from secure storage
-                    email_data = await self.email_integrator.scan_receipts(
-                        "dummy_token", provider
-                    )
+                    email_data = await self.email_integrator.scan_receipts("dummy_token", provider)
                     profile.shopping_patterns.update(email_data)
                     data_points += 1
 
@@ -379,12 +367,8 @@ class UserDataIntegrator:
                     )
 
                     # Update profile with shopping data
-                    profile.spending_categories = list(
-                        shopping_data.get("categories", {}).keys()
-                    )
-                    profile.brand_affinities.update(
-                        shopping_data.get("brand_loyalty", {})
-                    )
+                    profile.spending_categories = list(shopping_data.get("categories", {}).keys())
+                    profile.brand_affinities.update(shopping_data.get("brand_loyalty", {}))
 
                     # Generate dream symbols from wishlist
                     for item in shopping_data.get("wishlist_items", []):
@@ -396,9 +380,7 @@ class UserDataIntegrator:
         if DataSource.CALENDAR in prefs.data_sources:
             calendar_config = prefs.data_sources[DataSource.CALENDAR]
             if calendar_config["enabled"]:
-                schedule_data = await self.calendar_integrator.get_schedule_patterns(
-                    "dummy_token"
-                )
+                schedule_data = await self.calendar_integrator.get_schedule_patterns("dummy_token")
                 profile.schedule_patterns = schedule_data
                 data_points += 1
 
@@ -464,9 +446,7 @@ class UserDataIntegrator:
         }
         return brand_categories.get(brand, "General")
 
-    async def get_vendor_safe_profile(
-        self, user_id: str, vendor_id: str
-    ) -> dict[str, Any]:
+    async def get_vendor_safe_profile(self, user_id: str, vendor_id: str) -> dict[str, Any]:
         """
         Get user profile safe for vendor consumption
 
@@ -491,9 +471,7 @@ class UserDataIntegrator:
             return {}
 
         vendor_profile = {
-            "profile_id": hashlib.sha256(f"{user_id}{vendor_id}".encode()).hexdigest()[
-                :16
-            ],
+            "profile_id": hashlib.sha256(f"{user_id}{vendor_id}".encode()).hexdigest()[:16],
             "data_completeness": profile.data_completeness,
         }
 
@@ -503,9 +481,7 @@ class UserDataIntegrator:
                 {
                     "interests": profile.interests[:5],  # Top 5 only
                     "spending_categories": profile.spending_categories[:3],  # Top 3
-                    "schedule_availability": self._generalize_schedule(
-                        profile.schedule_patterns
-                    ),
+                    "schedule_availability": self._generalize_schedule(profile.schedule_patterns),
                     "engagement_score": min(0.8, profile.data_completeness + 0.3),
                 }
             )
@@ -515,8 +491,7 @@ class UserDataIntegrator:
             vendor_profile.update(
                 {
                     "brand_affinities": {
-                        k: round(v, 1)
-                        for k, v in list(profile.brand_affinities.items())[:5]
+                        k: round(v, 1) for k, v in list(profile.brand_affinities.items())[:5]
                     },
                     "dream_symbols": profile.dream_symbols[:3],
                 }
@@ -532,9 +507,7 @@ class UserDataIntegrator:
 
         return {
             "best_times": schedule.get("optimal_engagement_times", []),
-            "availability": (
-                "flexible" if len(schedule.get("free_slots", [])) > 3 else "busy"
-            ),
+            "availability": ("flexible" if len(schedule.get("free_slots", [])) > 3 else "busy"),
         }
 
     async def cleanup_old_data(self, retention_days: Optional[int] = None):

@@ -239,9 +239,7 @@ class BaseColony(ABC):
     ) -> ColonyAgent:
         """Add new agent to colony"""
         if len(self.agents) >= self.max_agents:
-            raise ValueError(
-                f"Colony {self.name} at maximum capacity ({self.max_agents})"
-            )
+            raise ValueError(f"Colony {self.name} at maximum capacity ({self.max_agents})")
 
         agent = ColonyAgent(
             role=role,
@@ -258,9 +256,7 @@ class BaseColony(ABC):
             agent = self.agents[agent_id]
             if agent.role == ColonyRole.COORDINATOR:
                 # Don't remove coordinator unless replacing
-                coordinators = [
-                    a for a in self.agents.values() if a.role == ColonyRole.COORDINATOR
-                ]
+                coordinators = [a for a in self.agents.values() if a.role == ColonyRole.COORDINATOR]
                 if len(coordinators) <= 1:
                     return False
 
@@ -285,9 +281,7 @@ class ColonyRegistry:
         if colony_name in self.colonies:
             del self.colonies[colony_name]
             # Remove task routes
-            self.task_routes = {
-                k: v for k, v in self.task_routes.items() if v != colony_name
-            }
+            self.task_routes = {k: v for k, v in self.task_routes.items() if v != colony_name}
             return True
         return False
 
@@ -296,9 +290,7 @@ class ColonyRegistry:
         if colony_name in self.colonies:
             self.task_routes[task_type] = colony_name
 
-    def submit_task(
-        self, task_type: str, payload: Any, priority: int = 5
-    ) -> Optional[ColonyTask]:
+    def submit_task(self, task_type: str, payload: Any, priority: int = 5) -> Optional[ColonyTask]:
         """Submit task to appropriate colony"""
         colony_name = self.task_routes.get(task_type)
 

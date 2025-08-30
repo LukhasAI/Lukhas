@@ -123,9 +123,7 @@ class ContextualAnalysis:
     time_window: timedelta
     metric_statistics: dict[str, dict[str, float]] = field(default_factory=dict)
     correlations: dict[str, float] = field(default_factory=dict)
-    trends: dict[str, str] = field(
-        default_factory=dict
-    )  # "improving", "declining", "stable"
+    trends: dict[str, str] = field(default_factory=dict)  # "improving", "declining", "stable"
     anomalies: list[dict[str, Any]] = field(default_factory=list)
     predictions: dict[str, float] = field(default_factory=dict)
 
@@ -341,9 +339,7 @@ class AdaptiveMetricsCollector:
 
         # Start collection tasks for each metric
         for metric_name, metric_def in self.metric_definitions.items():
-            task = asyncio.create_task(
-                self._collect_metric_loop(metric_name, metric_def)
-            )
+            task = asyncio.create_task(self._collect_metric_loop(metric_name, metric_def))
             self.collection_tasks[metric_name] = task
 
         # Start context monitoring and analysis
@@ -362,24 +358,18 @@ class AdaptiveMetricsCollector:
 
         # Wait for tasks to complete
         if self.collection_tasks:
-            await asyncio.gather(
-                *self.collection_tasks.values(), return_exceptions=True
-            )
+            await asyncio.gather(*self.collection_tasks.values(), return_exceptions=True)
 
         self.collection_tasks.clear()
 
-    async def _collect_metric_loop(
-        self, metric_name: str, metric_def: MetricDefinition
-    ):
+    async def _collect_metric_loop(self, metric_name: str, metric_def: MetricDefinition):
         """Main collection loop for a specific metric"""
         collector_func = self._get_metric_collector(metric_name)
 
         while self.is_collecting:
             try:
                 # Get adaptive interval (may change based on context)
-                interval = self.adaptive_intervals.get(
-                    metric_name, metric_def.collection_interval
-                )
+                interval = self.adaptive_intervals.get(metric_name, metric_def.collection_interval)
 
                 # Collect the metric value
                 value = await collector_func()
@@ -388,18 +378,16 @@ class AdaptiveMetricsCollector:
                 data_point = MetricDataPoint(
                     value=value,
                     context=self.current_context,
-                    biological_correlation=await self._correlate_with_biology(
-                        metric_name, value
-                    ),
+                    biological_correlation=await self._correlate_with_biology(metric_name, value),
                     quality_score=await self._assess_data_quality(metric_name, value),
                     metadata=await self._gather_metric_metadata(metric_name),
                 )
 
                 # Anomaly detection
                 if metric_def.anomaly_detection:
-                    data_point.anomaly_score = self.anomaly_detectors[
-                        metric_name
-                    ].detect(data_point)
+                    data_point.anomaly_score = self.anomaly_detectors[metric_name].detect(
+                        data_point
+                    )
 
                 # Store data point
                 self.metric_data[metric_name].append(data_point)
@@ -473,9 +461,7 @@ class AdaptiveMetricsCollector:
         # Simulate based on biological state
         if self.current_endocrine_state:
             dopamine = self.current_endocrine_state.hormone_levels.get("dopamine", 0.5)
-            serotonin = self.current_endocrine_state.hormone_levels.get(
-                "serotonin", 0.5
-            )
+            serotonin = self.current_endocrine_state.hormone_levels.get("serotonin", 0.5)
             confidence = dopamine * 0.6 + serotonin * 0.4
             return max(0.1, min(1.0, confidence))
         return 0.6
@@ -499,9 +485,7 @@ class AdaptiveMetricsCollector:
 
         # Adjust based on adrenaline levels
         if self.current_endocrine_state:
-            adrenaline = self.current_endocrine_state.hormone_levels.get(
-                "adrenaline", 0.5
-            )
+            adrenaline = self.current_endocrine_state.hormone_levels.get("adrenaline", 0.5)
             focus = base_focus + (adrenaline - 0.5) * 0.2
         else:
             focus = base_focus
@@ -530,9 +514,7 @@ class AdaptiveMetricsCollector:
         """Collect stress indicator metric"""
         if self.current_endocrine_state:
             cortisol = self.current_endocrine_state.hormone_levels.get("cortisol", 0.5)
-            adrenaline = self.current_endocrine_state.hormone_levels.get(
-                "adrenaline", 0.5
-            )
+            adrenaline = self.current_endocrine_state.hormone_levels.get("adrenaline", 0.5)
             stress = cortisol * 0.6 + adrenaline * 0.4
         else:
             # Mock stress based on system load
@@ -544,9 +526,7 @@ class AdaptiveMetricsCollector:
     async def _collect_emotional_coherence(self) -> float:
         """Collect emotional coherence metric"""
         if self.current_endocrine_state:
-            serotonin = self.current_endocrine_state.hormone_levels.get(
-                "serotonin", 0.5
-            )
+            serotonin = self.current_endocrine_state.hormone_levels.get("serotonin", 0.5)
             oxytocin = self.current_endocrine_state.hormone_levels.get("oxytocin", 0.5)
             dopamine = self.current_endocrine_state.hormone_levels.get("dopamine", 0.5)
 
@@ -571,9 +551,7 @@ class AdaptiveMetricsCollector:
         """Collect empathy engagement metric"""
         if self.current_endocrine_state:
             oxytocin = self.current_endocrine_state.hormone_levels.get("oxytocin", 0.5)
-            serotonin = self.current_endocrine_state.hormone_levels.get(
-                "serotonin", 0.5
-            )
+            serotonin = self.current_endocrine_state.hormone_levels.get("serotonin", 0.5)
             empathy = oxytocin * 0.7 + serotonin * 0.3
         else:
             empathy = 0.6
@@ -588,9 +566,7 @@ class AdaptiveMetricsCollector:
         """Default metric collector for undefined metrics"""
         return 0.5 + 0.1 * math.sin(time.time() / 20)
 
-    async def _correlate_with_biology(
-        self, metric_name: str, value: float
-    ) -> dict[str, float]:
+    async def _correlate_with_biology(self, metric_name: str, value: float) -> dict[str, float]:
         """Correlate metric with current biological state"""
         correlations = {}
 
@@ -634,9 +610,7 @@ class AdaptiveMetricsCollector:
             return 0.5
 
         recent_contexts = list(self.context_history)[-10:]
-        current_context_count = sum(
-            1 for ctx in recent_contexts if ctx == self.current_context
-        )
+        current_context_count = sum(1 for ctx in recent_contexts if ctx == self.current_context)
 
         return current_context_count / len(recent_contexts)
 
@@ -719,9 +693,7 @@ class AdaptiveMetricsCollector:
         elif attention_focus > 0.9 and cpu_load > 0.8:
             return MetricContext.PROBLEM_SOLVING
         elif self.current_endocrine_state:
-            melatonin = self.current_endocrine_state.hormone_levels.get(
-                "melatonin", 0.5
-            )
+            melatonin = self.current_endocrine_state.hormone_levels.get("melatonin", 0.5)
             if melatonin > 0.7:
                 return MetricContext.RECOVERY_PHASE
 
@@ -759,9 +731,7 @@ class AdaptiveMetricsCollector:
         for metric_name, interval_multiplier in adjustments.items():
             if metric_name in self.metric_definitions:
                 base_interval = self.metric_definitions[metric_name].collection_interval
-                self.adaptive_intervals[metric_name] = (
-                    base_interval * interval_multiplier
-                )
+                self.adaptive_intervals[metric_name] = base_interval * interval_multiplier
 
     # Public API methods
     def update_endocrine_state(self, endocrine_state: EndocrineSnapshot):
@@ -778,18 +748,14 @@ class AdaptiveMetricsCollector:
 
         return current_metrics
 
-    def get_metric_trend(
-        self, metric_name: str, lookback_minutes: int = 30
-    ) -> list[float]:
+    def get_metric_trend(self, metric_name: str, lookback_minutes: int = 30) -> list[float]:
         """Get trend data for a specific metric"""
         if metric_name not in self.metric_data:
             return []
 
         cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=lookback_minutes)
         recent_data = [
-            point.value
-            for point in self.metric_data[metric_name]
-            if point.timestamp > cutoff_time
+            point.value for point in self.metric_data[metric_name] if point.timestamp > cutoff_time
         ]
 
         return recent_data
@@ -800,9 +766,7 @@ class AdaptiveMetricsCollector:
         """Get analysis of metrics within a specific context"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
 
-        analysis = ContextualAnalysis(
-            context=context, time_window=timedelta(hours=lookback_hours)
-        )
+        analysis = ContextualAnalysis(context=context, time_window=timedelta(hours=lookback_hours))
 
         # Analyze each metric within this context
         for metric_name, data_points in self.metric_data.items():
@@ -862,9 +826,7 @@ class AdaptiveMetricsCollector:
         Returns a small, consistent set of synthesized metrics so tests have
         values regardless of environment.
         """
-        bio = current_data.get("biological", {}) or current_data.get(
-            "hormone_levels", {}
-        )
+        bio = current_data.get("biological", {}) or current_data.get("hormone_levels", {})
         if "hormone_levels" in bio:
             bio = bio.get("hormone_levels", {})
         sysd = current_data.get("system", {})
@@ -912,9 +874,7 @@ class AdaptiveMetricsCollector:
             "awareness": max(0.0, min(1.0, awareness)),
         }
 
-    async def analyze_biological_correlations(
-        self, data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def analyze_biological_correlations(self, data: dict[str, Any]) -> list[dict[str, Any]]:
         """Return simple pairwise correlation-like strengths between inputs.
 
         The output is a list of dicts: { metric_pair: str, strength: float }.
@@ -952,14 +912,10 @@ class AdaptiveMetricsCollector:
 
         # Ensure we return at least one correlation if inputs provided
         if not results and hormone_levels and perf:
-            results.append(
-                {"metric_pair": "hormone_generic~perf_generic", "strength": 0.5}
-            )
+            results.append({"metric_pair": "hormone_generic~perf_generic", "strength": 0.5})
         return results
 
-    async def detect_anomalies(
-        self, metric_name: str, values: list[float]
-    ) -> list[int]:
+    async def detect_anomalies(self, metric_name: str, values: list[float]) -> list[int]:
         """Detect indices of anomalous values using a simple z-score rule."""
         if not values:
             return []
@@ -1006,9 +962,7 @@ class AnomalyDetector:
 
             if z_score > self.sensitivity:
                 # Normalize to 0-1 scale
-                anomaly_score = min(
-                    1.0, (z_score - self.sensitivity) / self.sensitivity
-                )
+                anomaly_score = min(1.0, (z_score - self.sensitivity) / self.sensitivity)
                 return anomaly_score
 
             return 0.0
@@ -1100,14 +1054,10 @@ class BiologicalCorrelator:
                 # (This would be more sophisticated in practice)
                 if hormone in ["cortisol", "adrenaline"]:
                     # Stress hormones - often positive correlation with stress metrics
-                    correlation = self._calculate_simple_correlation(
-                        metric_value, hormone_level
-                    )
+                    correlation = self._calculate_simple_correlation(metric_value, hormone_level)
                 else:
                     # Positive hormones - often positive correlation with performance metrics
-                    correlation = self._calculate_simple_correlation(
-                        metric_value, hormone_level
-                    )
+                    correlation = self._calculate_simple_correlation(metric_value, hormone_level)
 
                 correlations[f"hormone_{hormone}"] = correlation
 

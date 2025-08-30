@@ -5,6 +5,7 @@ LUKHAS AI GLYPH Signer Service
 Production-ready FastAPI microservice for creating cryptographic seals.
 Designed for deployment behind KMS/HSM for key management.
 """
+
 from __future__ import annotations
 
 import os
@@ -22,53 +23,66 @@ from .seal import GlyphSigner, HSMSigner, policy_fingerprint_from_files
 # Request/Response Models
 class SealRequest(BaseModel):
     """Request to create a GLYPH seal"""
+
     content_hash: str = Field(..., description="SHA3-512 hash of content (hex)")
     media_type: str = Field(..., description="MIME type of content")
     issuer: str = Field(..., description="Issuer ID (lukhas://org/<tenant>)")
     model_id: str = Field(..., description="Model identifier")
-    policy_fingerprint: str | None = Field(None, description="Policy fingerprint (auto-computed if not provided)")
+    policy_fingerprint: str | None = Field(
+        None, description="Policy fingerprint (auto-computed if not provided)"
+    )
     jurisdiction: str = Field("global", description="Jurisdiction")
     proof_bundle: str = Field(..., description="URL to proof bundle")
     ttl_days: int = Field(365, description="Seal validity in days", ge=1, le=3650)
     calib_ref: dict[str, float] | None = Field(None, description="Calibration reference")
     prev: str | None = Field(None, description="Previous seal ID for chaining")
 
+
 class SealResponse(BaseModel):
     """Response containing created seal"""
+
     seal: dict[str, Any]
     signature: dict[str, Any]
     compact: str = Field(..., description="Base64 compact representation for QR codes")
     qr_data: str = Field(..., description="QR-ready data")
     public_key: str = Field(..., description="Base64 public key for verification")
 
+
 class HealthResponse(BaseModel):
     """Health check response"""
+
     status: str
     version: str
     timestamp: float
     key_id: str
     capabilities: list[str]
 
+
 class JWKSResponse(BaseModel):
     """JWKS endpoint response"""
+
     keys: list[dict[str, Any]]
+
 
 # Configuration
 SIGNER_CONFIG = {
-    "issuer_whitelist": os.environ.get("GLYPH_ISSUER_WHITELIST", "lukhas://org/lukhas-ai").split(","),
+    "issuer_whitelist": os.environ.get("GLYPH_ISSUER_WHITELIST", "lukhas://org/lukhas-ai").split(
+        ","
+    ),
     "require_auth": os.environ.get("GLYPH_REQUIRE_AUTH", "false").lower() == "true",
     "auth_token": os.environ.get("GLYPH_AUTH_TOKEN"),
     "hsm_config": {
         "enabled": os.environ.get("GLYPH_HSM_ENABLED", "false").lower() == "true",
         "key_id": os.environ.get("GLYPH_HSM_KEY_ID", "prod-hsm-001"),
-        "provider": os.environ.get("GLYPH_HSM_PROVIDER", "aws-kms")
+        "provider": os.environ.get("GLYPH_HSM_PROVIDER", "aws-kms"),
     },
     "policy_root": os.environ.get("GLYPH_POLICY_ROOT", "qi/safety/policy_packs/global"),
-    "policy_overlays": os.environ.get("GLYPH_POLICY_OVERLAYS", "qi/risk")
+    "policy_overlays": os.environ.get("GLYPH_POLICY_OVERLAYS", "qi/risk"),
 }
 
 # Global signer instance
 _signer: GlyphSigner | None = None
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -85,16 +99,18 @@ async def lifespan(app: FastAPI):
     # Cleanup if needed
     _signer = None
 
+
 # FastAPI app
 app = FastAPI(
     title="LUKHAS AI GLYPH Signer Service",
     description="Cryptographic seal creation for AI artifacts",
     version="0.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # Security
 security = HTTPBearer(auto_error=False)
+
 
 async def verify_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     """Verify authentication token if required"""
@@ -110,10 +126,12 @@ async def verify_auth(credentials: HTTPAuthorizationCredentials = Security(secur
 
     return True
 
+
 def validate_issuer(issuer: str) -> bool:
     """Validate issuer against whitelist"""
     whitelist = SIGNER_CONFIG["issuer_whitelist"]
     return any(issuer.startswith(allowed) for allowed in whitelist)
+
 
 # Endpoints
 @app.get("/health", response_model=HealthResponse)
@@ -130,8 +148,9 @@ async def health_check():
         version="0.1.0",
         timestamp=time.time(),
         key_id=_signer.key_id if _signer else "none",
-        capabilities=capabilities
+        capabilities=capabilities,
     )
+
 
 @app.get("/.well-known/jwks.json", response_model=JWKSResponse)
 async def get_jwks():
@@ -150,16 +169,14 @@ async def get_jwks():
         "use": "sig",
         "kid": _signer.key_id,
         "x": public_key_b64,
-        "alg": "EdDSA"
+        "alg": "EdDSA",
     }
 
     return JWKSResponse(keys=[jwk])
 
+
 @app.post("/seal", response_model=SealResponse)
-async def create_seal(
-    request: SealRequest,
-    _: bool = Depends(verify_auth)
-):
+async def create_seal(request: SealRequest, _: bool = Depends(verify_auth)):
     """
     Create a cryptographic GLYPH seal.
 
@@ -174,16 +191,12 @@ async def create_seal(
 
     # Validate issuer
     if not validate_issuer(request.issuer):
-        raise HTTPException(
-            status_code=403,
-            detail=f"Issuer not authorized: {request.issuer}"
-        )
+        raise HTTPException(status_code=403, detail=f"Issuer not authorized: {request.issuer}")
 
     # Validate content hash format
     if not request.content_hash.startswith("sha3-512:"):
         raise HTTPException(
-            status_code=400,
-            detail="content_hash must be SHA3-512 in format 'sha3-512:<hex>'"
+            status_code=400, detail="content_hash must be SHA3-512 in format 'sha3-512:<hex>'"
         )
 
     try:
@@ -191,8 +204,7 @@ async def create_seal(
         policy_fp = request.policy_fingerprint
         if not policy_fp:
             policy_fp = policy_fingerprint_from_files(
-                SIGNER_CONFIG["policy_root"],
-                SIGNER_CONFIG["policy_overlays"]
+                SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"]
             )
 
         # Create mock content bytes from hash for signing
@@ -211,7 +223,7 @@ async def create_seal(
             proof_bundle=request.proof_bundle,
             ttl_days=request.ttl_days,
             calib_ref=request.calib_ref,
-            prev=request.prev
+            prev=request.prev,
         )
 
         # Override the content_hash in the seal with the provided one
@@ -223,17 +235,15 @@ async def create_seal(
             signature=result["signature"],
             compact=result["compact"],
             qr_data=result["compact"],  # Same as compact for now
-            public_key=_signer.get_public_key()
+            public_key=_signer.get_public_key(),
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Seal creation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Seal creation failed: {e!s}")
+
 
 @app.post("/seal/batch")
-async def create_seal_batch(
-    requests: list[SealRequest],
-    _: bool = Depends(verify_auth)
-):
+async def create_seal_batch(requests: list[SealRequest], _: bool = Depends(verify_auth)):
     """Create multiple seals in a batch operation"""
     if len(requests) > 100:
         raise HTTPException(status_code=400, detail="Batch size limited to 100 seals")
@@ -250,29 +260,25 @@ async def create_seal_batch(
         except Exception as e:
             errors.append({"index": i, "error": str(e), "status": 500})
 
-    return {
-        "successful": len(results),
-        "failed": len(errors),
-        "results": results,
-        "errors": errors
-    }
+    return {"successful": len(results), "failed": len(errors), "results": results, "errors": errors}
+
 
 @app.get("/policy/fingerprint")
 async def get_policy_fingerprint():
     """Get current policy fingerprint"""
     try:
         fingerprint = policy_fingerprint_from_files(
-            SIGNER_CONFIG["policy_root"],
-            SIGNER_CONFIG["policy_overlays"]
+            SIGNER_CONFIG["policy_root"], SIGNER_CONFIG["policy_overlays"]
         )
         return {
             "policy_fingerprint": fingerprint,
             "policy_root": SIGNER_CONFIG["policy_root"],
             "policy_overlays": SIGNER_CONFIG["policy_overlays"],
-            "computed_at": time.time()
+            "computed_at": time.time(),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Policy fingerprint computation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Policy fingerprint computation failed: {e!s}")
+
 
 @app.get("/")
 async def root():
@@ -285,10 +291,11 @@ async def root():
             "jwks": "/.well-known/jwks.json",
             "seal": "/seal",
             "batch": "/seal/batch",
-            "policy": "/policy/fingerprint"
+            "policy": "/policy/fingerprint",
         },
-        "documentation": "/docs"
+        "documentation": "/docs",
     }
+
 
 # For development/testing
 if __name__ == "__main__":
@@ -301,5 +308,5 @@ if __name__ == "__main__":
         "qi.glyphs.signer_service:app",
         host=host,
         port=port,
-        reload=bool(os.environ.get("GLYPH_DEBUG"))
+        reload=bool(os.environ.get("GLYPH_DEBUG")),
     )

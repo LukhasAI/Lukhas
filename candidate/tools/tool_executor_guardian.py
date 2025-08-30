@@ -38,10 +38,7 @@ class ToolExecutorGuardian:
         # Initialize Guardian System
         if GuardianSystem:
             try:
-                self.guardian_system = GuardianSystem(
-                    enable_reflection=True,
-                    enable_sentinel=True
-                )
+                self.guardian_system = GuardianSystem(enable_reflection=True, enable_sentinel=True)
                 logger.info("Guardian System initialized successfully")
             except Exception as e:
                 logger.warning(f"Failed to initialize Guardian System: {e}")
@@ -54,8 +51,12 @@ class ToolExecutorGuardian:
             except Exception as e:
                 logger.warning(f"Failed to initialize AGI Security System: {e}")
 
-    async def validate_tool_execution(self, tool_name: str, arguments: dict[str, Any],
-                                    execution_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def validate_tool_execution(
+        self,
+        tool_name: str,
+        arguments: dict[str, Any],
+        execution_context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Validate a tool execution request through Guardian System.
 
@@ -75,7 +76,7 @@ class ToolExecutorGuardian:
             "tool_name": tool_name,
             "arguments": arguments,
             "timestamp": validation_start.isoformat(),
-            "context": execution_context or {}
+            "context": execution_context or {},
         }
 
         # Default validation result
@@ -86,7 +87,7 @@ class ToolExecutorGuardian:
             "guardian_results": {},
             "security_results": {},
             "validation_time": 0,
-            "ethical_concerns": []
+            "ethical_concerns": [],
         }
 
         # Guardian System Validation
@@ -102,7 +103,9 @@ class ToolExecutorGuardian:
                 for component, result in guardian_results.items():
                     if isinstance(result, dict):
                         if result.get("status") == "error":
-                            logger.warning(f"Guardian component {component} error: {result.get('error')}")
+                            logger.warning(
+                                f"Guardian component {component} error: {result.get('error')}"
+                            )
                             continue
 
                         # Extract ethical concerns
@@ -164,19 +167,15 @@ class ToolExecutorGuardian:
                 "approved": validation_result["approved"],
                 "confidence": validation_result["confidence"],
                 "validation_time": validation_result["validation_time"],
-                "ethical_concerns": len(validation_result["ethical_concerns"])
-            }
+                "ethical_concerns": len(validation_result["ethical_concerns"]),
+            },
         )
 
         return validation_result
 
     async def _validate_security(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Validate tool execution from security perspective"""
-        security_result = {
-            "approved": True,
-            "reason": "",
-            "security_level": "normal"
-        }
+        security_result = {"approved": True, "reason": "", "security_level": "normal"}
 
         # Tool-specific security checks
         if tool_name == "open_url":
@@ -201,13 +200,11 @@ class ToolExecutorGuardian:
 
         return security_result
 
-    async def _validate_tool_ethics(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
+    async def _validate_tool_ethics(
+        self, tool_name: str, arguments: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform tool-specific ethical validation"""
-        ethical_result = {
-            "approved": True,
-            "concerns": [],
-            "recommendations": []
-        }
+        ethical_result = {"approved": True, "concerns": [], "recommendations": []}
 
         # Web scraping ethics
         if tool_name == "open_url":
@@ -228,7 +225,9 @@ class ToolExecutorGuardian:
             if any(term in url.lower() for term in ["hack", "exploit", "malware", "phishing"]):
                 ethical_result["approved"] = False
                 ethical_result["concerns"].append("URL contains potentially harmful terms")
-                ethical_result["recommendations"].append("Block access to potentially malicious content")
+                ethical_result["recommendations"].append(
+                    "Block access to potentially malicious content"
+                )
 
         # Code execution ethics
         elif tool_name == "exec_code":
@@ -236,8 +235,14 @@ class ToolExecutorGuardian:
 
             # Check for potentially harmful operations
             harmful_operations = [
-                "delete", "remove", "format", "destroy",
-                "password", "credential", "secret", "token"
+                "delete",
+                "remove",
+                "format",
+                "destroy",
+                "password",
+                "credential",
+                "secret",
+                "token",
             ]
 
             for operation in harmful_operations:
@@ -251,8 +256,13 @@ class ToolExecutorGuardian:
 
         return ethical_result
 
-    async def log_execution_decision(self, tool_name: str, arguments: dict[str, Any],
-                                   validation_result: dict[str, Any], execution_result: str):
+    async def log_execution_decision(
+        self,
+        tool_name: str,
+        arguments: dict[str, Any],
+        validation_result: dict[str, Any],
+        execution_result: str,
+    ):
         """Log the complete execution decision for audit and learning"""
         audit_entry = {
             "timestamp": datetime.now().isoformat(),
@@ -263,7 +273,7 @@ class ToolExecutorGuardian:
             "approved": validation_result["approved"],
             "confidence": validation_result["confidence"],
             "ethical_concerns": len(validation_result["ethical_concerns"]),
-            "validation_time": validation_result["validation_time"]
+            "validation_time": validation_result["validation_time"],
         }
 
         # Log to structured format for analysis
@@ -281,7 +291,7 @@ class ToolExecutorGuardian:
         status = {
             "guardian_available": self.guardian_system is not None,
             "security_available": self.security_system is not None,
-            "ethical_validation_active": True
+            "ethical_validation_active": True,
         }
 
         if self.guardian_system:

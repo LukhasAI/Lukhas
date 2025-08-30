@@ -116,9 +116,7 @@ class DreamHub:
 
         return {"error": "Dream recorder not available"}
 
-    async def process_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -126,9 +124,7 @@ class DreamHub:
         for handler in handlers:
             try:
                 result = (
-                    await handler(data)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(data)
+                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 )
                 results.append(result)
             except Exception as e:

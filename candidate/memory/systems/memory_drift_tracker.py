@@ -31,12 +31,8 @@ class MemoryDriftTracker:
             A dictionary containing the drift vector.
         """
         if entropy_delta is None:
-            entropy_delta = self._calculate_entropy_delta(
-                current_snapshot, prior_snapshot
-            )
-        emotional_delta = self._calculate_emotional_delta(
-            current_snapshot, prior_snapshot
-        )
+            entropy_delta = self._calculate_entropy_delta(current_snapshot, prior_snapshot)
+        emotional_delta = self._calculate_emotional_delta(current_snapshot, prior_snapshot)
         symbolic_vector_shift = self._calculate_symbolic_vector_shift(
             current_snapshot, prior_snapshot
         )

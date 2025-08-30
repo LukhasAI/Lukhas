@@ -129,9 +129,7 @@ class LukhasPathManager:
             return base_path / filename
         return base_path
 
-    def get_test_result_path(
-        self, test_type: str, filename: Optional[str] = None
-    ) -> Path:
+    def get_test_result_path(self, test_type: str, filename: Optional[str] = None) -> Path:
         """Get path for test results based on type"""
         test_paths = {
             "api": self.reports_api,

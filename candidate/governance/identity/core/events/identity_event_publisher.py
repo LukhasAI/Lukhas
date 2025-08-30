@@ -146,10 +146,7 @@ class IdentityEventPublisher:
             }
 
             # Set healing requirements if verification failed
-            if (
-                not verification_result.verified
-                and verification_result.confidence_score < 0.3
-            ):
+            if not verification_result.verified and verification_result.confidence_score < 0.3:
                 event.requires_healing = True
                 event.healing_priority = "HIGH"
 
@@ -178,9 +175,7 @@ class IdentityEventPublisher:
         event = IdentityEvent(
             event_type=event_type,
             lambda_id=lambda_id,
-            tier_level=(
-                tier_context.new_tier if approved else tier_context.previous_tier
-            ),
+            tier_level=(tier_context.new_tier if approved else tier_context.previous_tier),
             priority=IdentityEventPriority.HIGH,
             source_component="identity_tier_system",
             session_id=session_id,
@@ -328,8 +323,7 @@ class IdentityEventPublisher:
             },
             requires_healing=True,
             healing_priority="HIGH",
-            healing_strategy=healing_strategy
-            or self._determine_healing_strategy(tier_level),
+            healing_strategy=healing_strategy or self._determine_healing_strategy(tier_level),
         )
 
         await self._publish_event(event)
@@ -449,9 +443,7 @@ class IdentityEventPublisher:
 
         # Subscribe to all identity events for statistics
         for event_type in IdentityEventType:
-            await self.event_bus.subscribe(
-                event_type.value, self._track_event_statistics
-            )
+            await self.event_bus.subscribe(event_type.value, self._track_event_statistics)
 
     async def _track_event_statistics(self, event_data: dict[str, Any]):
         """Track event statistics for monitoring."""

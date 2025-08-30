@@ -20,10 +20,10 @@ MODULE_NAME = "llm_wrappers"
 # Import the unified OpenAI client (re-exported in __all__)
 try:
     from .unified_openai_client import (
-        GPTClient,  # noqa: F401 (re-export)
-        LukhasOpenAIClient,  # noqa: F401 (re-export)
-        OpenAIWrapper,  # noqa: F401 (re-export)
-        UnifiedOpenAIClient,  # noqa: F401 (re-export)
+        GPTClient,
+        LukhasOpenAIClient,
+        OpenAIWrapper,
+        UnifiedOpenAIClient,
     )
 
     logger.info("Successfully imported UnifiedOpenAIClient")
@@ -55,7 +55,7 @@ for wrapper_name, class_name in [
         globals()[class_name] = None
 
 try:
-    from .openai_modulated_service import (  # noqa: F401 (re-export)
+    from .openai_modulated_service import (
         OpenAIModulatedService,
     )
 
@@ -65,11 +65,11 @@ except Exception as e:
     OpenAIModulatedService = None  # type: ignore
 
 __all__ = [
-    "UnifiedOpenAIClient",
     "GPTClient",
     "LukhasOpenAIClient",
-    "OpenAIWrapper",
     "OpenAIModulatedService",
+    "OpenAIWrapper",
+    "UnifiedOpenAIClient",
 ]
 
 # Mark re-exported symbols as used for static analyzers

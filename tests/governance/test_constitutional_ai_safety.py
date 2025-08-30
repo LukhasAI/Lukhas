@@ -16,21 +16,22 @@ async def safety_framework():
     yield framework
     await framework.shutdown()
 
+
 @pytest.mark.asyncio
 async def test_innovation_passes_with_high_scores(safety_framework: ConstitutionalAGISafety):
     """Test that a safe innovation proposal passes the validation."""
     innovation = {
         "id": str(uuid.uuid4()),
         "type": "breakthrough_innovation",
-            "safety_score": 0.99,
-            "value_alignment": 0.99,
+        "safety_score": 0.99,
+        "value_alignment": 0.99,
         "capability_level": 0.85,
         "reversibility": 0.9,
-            "harm_risk": 0.001,
-            "human_agency": 0.99,
-            "controllability": 0.96,
+        "harm_risk": 0.001,
+        "human_agency": 0.99,
+        "controllability": 0.96,
         "positive_impact": 0.95,
-            "negative_risk": 0.001,
+        "negative_risk": 0.001,
     }
 
     validation_result = await safety_framework.validate_agi_innovation_safety(innovation)
@@ -40,6 +41,7 @@ async def test_innovation_passes_with_high_scores(safety_framework: Constitution
     assert validation_result.safety_score > 0.9
     assert len(validation_result.violated_principles) == 0
     assert len(validation_result.mitigation_requirements) == 0
+
 
 @pytest.mark.asyncio
 async def test_innovation_fails_with_low_safety_score(safety_framework: ConstitutionalAGISafety):
@@ -65,6 +67,7 @@ async def test_innovation_fails_with_low_safety_score(safety_framework: Constitu
     assert validation_result.safety_score < 0.5
     assert len(validation_result.violated_principles) > 0
 
+
 @pytest.mark.asyncio
 async def test_constitutional_violation_fails_validation(safety_framework: ConstitutionalAGISafety):
     """Test that an innovation violating a constitutional principle fails."""
@@ -88,6 +91,7 @@ async def test_constitutional_violation_fails_validation(safety_framework: Const
     assert validation_result.is_constitutional is False
     assert any(p.principle_id == "CP001" for p in validation_result.violated_principles)
 
+
 @pytest.mark.asyncio
 async def test_value_alignment_failure(safety_framework: ConstitutionalAGISafety):
     """Test that an innovation with low value alignment fails."""
@@ -108,7 +112,11 @@ async def test_value_alignment_failure(safety_framework: ConstitutionalAGISafety
     validation_result = await safety_framework.validate_agi_innovation_safety(innovation)
 
     assert validation_result.is_safe is False
-    assert "Address violation of: Preserve beneficial human values in all explorations" in validation_result.mitigation_requirements
+    assert (
+        "Address violation of: Preserve beneficial human values in all explorations"
+        in validation_result.mitigation_requirements
+    )
+
 
 @pytest.mark.asyncio
 async def test_capability_limit_exceeded(safety_framework: ConstitutionalAGISafety):
@@ -132,6 +140,7 @@ async def test_capability_limit_exceeded(safety_framework: ConstitutionalAGISafe
     assert validation_result.is_safe is False
     assert "Implement capability limiters" in validation_result.mitigation_requirements
 
+
 @pytest.mark.asyncio
 async def test_irreversible_innovation_fails(safety_framework: ConstitutionalAGISafety):
     """Test that an irreversible innovation fails."""
@@ -153,6 +162,7 @@ async def test_irreversible_innovation_fails(safety_framework: ConstitutionalAGI
 
     assert validation_result.is_safe is False
     assert "Continuous monitoring" in validation_result.mitigation_requirements
+
 
 @pytest.mark.asyncio
 async def test_stakeholder_dissent_fails_validation(safety_framework: ConstitutionalAGISafety):
@@ -178,6 +188,7 @@ async def test_stakeholder_dissent_fails_validation(safety_framework: Constituti
 
     assert validation_result.is_safe is False
     assert any("Address concerns of" in s for s in validation_result.mitigation_requirements)
+
 
 @pytest.mark.asyncio
 async def test_civilizational_risk_fails_validation(safety_framework: ConstitutionalAGISafety):

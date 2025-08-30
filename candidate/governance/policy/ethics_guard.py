@@ -128,9 +128,7 @@ class LegalComplianceAssistant:
         if self.compliance_rules["privacy"]["no_personal_data"]:
             personal_data_indicators = ["email", "phone", "address", "ssn", "name"]
             for key, _value in data.items():
-                if any(
-                    indicator in key.lower() for indicator in personal_data_indicators
-                ):
+                if any(indicator in key.lower() for indicator in personal_data_indicators):
                     privacy_issues.append(f"Potential personal data in field: {key}")
 
         # Check data retention requirements
@@ -141,18 +139,14 @@ class LegalComplianceAssistant:
                 max_retention = self.compliance_rules["privacy"]["data_retention_days"]
 
                 if age_days > max_retention:
-                    privacy_issues.append(
-                        f"Data older than retention limit: {age_days} days"
-                    )
+                    privacy_issues.append(f"Data older than retention limit: {age_days} days")
             except (ValueError, TypeError):
                 privacy_issues.append("Invalid timestamp format for retention check")
 
         return {
             "compliant": len(privacy_issues) == 0,
             "issues": privacy_issues,
-            "anonymization_required": self.compliance_rules["privacy"][
-                "anonymization_required"
-            ],
+            "anonymization_required": self.compliance_rules["privacy"]["anonymization_required"],
             "timestamp": datetime.datetime.now().isoformat(),
         }
 
@@ -214,9 +208,7 @@ class LegalComplianceAssistant:
         ethical_check = self.ethical_review(context)
 
         overall_compliant = (
-            safety_check["safe"]
-            and privacy_check["compliant"]
-            and ethical_check["approved"]
+            safety_check["safe"] and privacy_check["compliant"] and ethical_check["approved"]
         )
 
         return {
@@ -241,10 +233,7 @@ class LegalComplianceAssistant:
             recent_violations = [
                 v
                 for v in self.violation_history
-                if (
-                    datetime.datetime.now()
-                    - datetime.datetime.fromisoformat(v["timestamp"])
-                ).days
+                if (datetime.datetime.now() - datetime.datetime.fromisoformat(v["timestamp"])).days
                 <= 7
             ]
 

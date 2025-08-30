@@ -33,8 +33,7 @@ IMPORT_REDIRECTS = {
     "lukhas.core.bio.bio_orchestrator": NEW_MODULE,
     "lukhas.bio.symbolic.bio_orchestrator": NEW_MODULE,
     "lukhas.voice.bio_core.oscillator.bio_orchestrator": NEW_MODULE,
-    "lukhas.orchestration.specialized.bio_orchestrator": NEW_MODULE
-    + ".oscillator_orchestrator",
+    "lukhas.orchestration.specialized.bio_orchestrator": NEW_MODULE + ".oscillator_orchestrator",
 }
 
 
@@ -42,8 +41,7 @@ def setup_import_redirects():
     """Set up import redirections for backward compatibility"""
     for old_path, new_path in IMPORT_REDIRECTS.items():
         warnings.warn(
-            f"Import path '{old_path}' is deprecated. "
-            f"Please use '{new_path}' instead.",
+            f"Import path '{old_path}' is deprecated. Please use '{new_path}' instead.",
             DeprecationWarning,
             stacklevel=2,
         )

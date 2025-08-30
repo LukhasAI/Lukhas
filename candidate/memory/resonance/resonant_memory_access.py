@@ -227,9 +227,7 @@ class ResonantMemoryAccess:
         """Register a memory with its resonance signature"""
 
         # Calculate fundamental frequency from content
-        fundamental_freq = frequency_hint or self._extract_fundamental_frequency(
-            content
-        )
+        fundamental_freq = frequency_hint or self._extract_fundamental_frequency(content)
 
         # Generate harmonics if not provided
         if not harmonics:
@@ -330,10 +328,7 @@ class ResonantMemoryAccess:
                         resonance_score,
                         {
                             "resonance_type": "direct",
-                            "fundamental_match": abs(
-                                query_freq - signature.fundamental_freq
-                            )
-                            < 2.0,
+                            "fundamental_match": abs(query_freq - signature.fundamental_freq) < 2.0,
                             "harmonic_matches": self._count_harmonic_matches(
                                 query_harmonics, signature.harmonics
                             ),
@@ -373,9 +368,7 @@ class ResonantMemoryAccess:
 
         return filtered_resonances[:return_limit]
 
-    def _count_harmonic_matches(
-        self, harmonics1: list[float], harmonics2: list[float]
-    ) -> int:
+    def _count_harmonic_matches(self, harmonics1: list[float], harmonics2: list[float]) -> int:
         """Count close harmonic frequency matches"""
         matches = 0
         for h1 in harmonics1:
@@ -417,9 +410,7 @@ class ResonantMemoryAccess:
                     continue
 
                 # Calculate cascaded resonance
-                cascade_score = memory_signature.calculate_resonance_with(
-                    other_signature
-                )
+                cascade_score = memory_signature.calculate_resonance_with(other_signature)
 
                 if cascade_score >= self.resonance_threshold:
                     # Dampen cascaded score
@@ -470,9 +461,7 @@ class ResonantMemoryAccess:
             coherent = []
             for memory_id, score, metadata in resonances:
                 if self._is_in_coherent_cluster(memory_id):
-                    coherent.append(
-                        (memory_id, score * 1.2, metadata)
-                    )  # Boost coherent memories
+                    coherent.append((memory_id, score * 1.2, metadata))  # Boost coherent memories
             return coherent
 
         elif mode == ResonanceMode.EMERGENT:

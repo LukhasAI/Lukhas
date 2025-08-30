@@ -6,6 +6,7 @@
 import time
 
 import nacl.signing
+
 from utils.replay_protection import ReplayProtection
 
 
@@ -33,9 +34,7 @@ class CrossDeviceHandshake:
         self, device_id, entropy_consistency, sync_integrity, session_stability
     ):
         """Calculate a dynamic trust score for a device."""
-        score = (
-            entropy_consistency * 0.4 + sync_integrity * 0.4 + session_stability * 0.2
-        )
+        score = entropy_consistency * 0.4 + sync_integrity * 0.4 + session_stability * 0.2
         self.device_trust_scores[device_id] = score
         return score
 
@@ -57,9 +56,7 @@ class CrossDeviceHandshake:
             "secondary": secondary_device,
         }
         self.session_timestamps[session_token] = time.time()
-        self.audit_logger.log_event(
-            f"Session linked: {session_token}", constitutional_tag=True
-        )
+        self.audit_logger.log_event(f"Session linked: {session_token}", constitutional_tag=True)
         return session_token
 
     def expire_stale_sessions(self):
@@ -72,9 +69,7 @@ class CrossDeviceHandshake:
         for token in expired:
             self.sessions.pop(token, None)
             self.session_timestamps.pop(token, None)
-            self.audit_logger.log_event(
-                f"Session expired: {token}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Session expired: {token}", constitutional_tag=True)
 
     def refresh_session(self, session_token):
         """Update last active timestamp for a session."""
@@ -103,8 +98,7 @@ class CrossDeviceHandshake:
             )
             raise ValueError("Invalid conflict device list.")
         trust_scores = {
-            device: self.device_trust_scores.get(device, 0)
-            for device in conflicting_devices
+            device: self.device_trust_scores.get(device, 0) for device in conflicting_devices
         }
         winner = max(trust_scores, key=trust_scores.get)
         if trust_scores[winner] < 0.5:
@@ -157,9 +151,7 @@ class CrossDeviceHandshake:
                 constitutional_tag=True,
             )
         except Exception as e:
-            self.audit_logger.log_event(
-                f"Public key exchange failed: {e}", constitutional_tag=True
-            )
+            self.audit_logger.log_event(f"Public key exchange failed: {e}", constitutional_tag=True)
             raise
 
     def validate_nonce(self, nonce):
@@ -189,17 +181,13 @@ class CrossDeviceHandshake:
         token1 = self.link_session(device_a, device_b)
         token2 = self.link_session(device_a, device_b)
         if token1 == token2:
-            logger.warning(
-                f"Session token collision detected for devices: {device_a}, {device_b}"
-            )
+            logger.warning(f"Session token collision detected for devices: {device_a}, {device_b}")
             self.audit_logger.log_event(
                 f"Session token collision detected for devices: {device_a}, {device_b}",
                 constitutional_tag=True,
             )
         else:
-            logger.info(
-                f"No session token collision for devices: {device_a}, {device_b}"
-            )
+            logger.info(f"No session token collision for devices: {device_a}, {device_b}")
 
 
 # ---

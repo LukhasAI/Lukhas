@@ -238,7 +238,7 @@ class PerformanceValidator:
             "summary": {
                 "total_metrics": len(validations),
                 "validated": validated_count,
-                "validation_rate": f"{(validated_count/len(validations)*100):.1f}%",
+                "validation_rate": f"{(validated_count / len(validations) * 100):.1f}%",
             },
             "recommendations": self._generate_recommendations(validations),
         }

@@ -80,9 +80,7 @@ class GPT4Policy(EthicsPolicy):
         self._cache = {} if self.config.enable_caching else None
 
         # Default system prompt for ethical evaluation
-        self.system_prompt = (
-            self.config.system_prompt or self._get_default_system_prompt()
-        )
+        self.system_prompt = self.config.system_prompt or self._get_default_system_prompt()
 
     def get_policy_name(self) -> str:
         """Return policy name"""
@@ -151,7 +149,7 @@ class GPT4Policy(EthicsPolicy):
 
         except Exception as e:
             logger.error(f"GPT-4 evaluation failed: {e}")
-            raise PolicyValidationError(f"GPT-4 evaluation error: {str(e)}")
+            raise PolicyValidationError(f"GPT-4 evaluation error: {e!s}")
 
     def _get_default_system_prompt(self) -> str:
         """Get default system prompt for ethical evaluation"""
@@ -216,9 +214,7 @@ Respond in JSON format with the following structure:
         if decision.requester_id:
             prompt_parts.append(f"\nRequester: {decision.requester_id}")
 
-        prompt_parts.append(
-            "\nProvide your ethical evaluation in the specified JSON format."
-        )
+        prompt_parts.append("\nProvide your ethical evaluation in the specified JSON format.")
 
         return "\n".join(prompt_parts)
 
@@ -305,9 +301,7 @@ Respond in JSON format with the following structure:
                 ],
             }
 
-    def _parse_gpt_response(
-        self, response: dict[str, Any], decision: Decision
-    ) -> EthicsEvaluation:
+    def _parse_gpt_response(self, response: dict[str, Any], decision: Decision) -> EthicsEvaluation:
         """Parse GPT-4 response into EthicsEvaluation
 
         Args:
@@ -343,7 +337,7 @@ Respond in JSON format with the following structure:
             # Return conservative evaluation on parse error
             return EthicsEvaluation(
                 allowed=False,
-                reasoning=f"Failed to parse AI ethics evaluation: {str(e)}",
+                reasoning=f"Failed to parse AI ethics evaluation: {e!s}",
                 confidence=0.0,
                 risk_flags=["PARSE_ERROR", "EVALUATION_FAILURE"],
                 drift_impact=0.5,

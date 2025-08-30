@@ -199,14 +199,12 @@ class SymbolicLogicEngine:
         self.qi_branch_limit = self.config.get("qi_branch_limit", 5)
 
         # ΛMEMORY_TIER: Engine state and knowledge storage
-        self.glyph_registry: dict[str, dict[str, Any]] = (
-            {}
-        )  # Known GLYPHs and their properties
+        self.glyph_registry: dict[str, dict[str, Any]] = {}  # Known GLYPHs and their properties
         self.path_history: list[dict[str, Any]] = []  # History of evaluated paths
         self.contradiction_patterns: set[str] = set()  # Known contradiction patterns
-        self.attractor_network: dict[str, list[tuple[str, float]]] = (
-            {}
-        )  # GLYPH attractor relationships
+        self.attractor_network: dict[
+            str, list[tuple[str, float]]
+        ] = {}  # GLYPH attractor relationships
 
         # ΛDRIFT_HOOK: Metrics that evolve with engine operation
         self.metrics = {
@@ -242,7 +240,9 @@ class SymbolicLogicEngine:
         Returns:
             SymbolicEvaluation: Complete evaluation of the symbolic path
         """
-        evaluation_id = f"eval_{int(datetime.now(timezone.utc).timestamp()*1000)}_{str(uuid.uuid4())[:6]}"
+        evaluation_id = (
+            f"eval_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4())[:6]}"
+        )
         eval_logger = self.logger.bind(evaluation_id=evaluation_id)
         eval_logger.info(
             "ΛTRACE: Starting symbolic path evaluation.",
@@ -268,9 +268,7 @@ class SymbolicLogicEngine:
             )
 
             # Step 4: Calculate collapse probability
-            collapse_probability = self.calculate_entropy_drift(
-                path_entropy, symbolic_pressure
-            )
+            collapse_probability = self.calculate_entropy_drift(path_entropy, symbolic_pressure)
 
             # Step 5: Determine overall path state
             path_state = self._determine_path_state(
@@ -278,9 +276,7 @@ class SymbolicLogicEngine:
             )
 
             # Step 6: Assess quantum branching potential
-            qi_branches = self._assess_quantum_branches(
-                glyph_path, path_entropy, eval_logger
-            )
+            qi_branches = self._assess_quantum_branches(glyph_path, path_entropy, eval_logger)
 
             # Step 7: Calculate overall confidence
             confidence_score = self._calculate_path_confidence(
@@ -338,7 +334,7 @@ class SymbolicLogicEngine:
                 collapse_probability=1.0,
                 attractor_strength=0.0,
                 glyph_signals=[],
-                contradictions=[f"Evaluation error: {str(e)}"],
+                contradictions=[f"Evaluation error: {e!s}"],
                 symbolic_pressure=symbolic_pressure,
                 qi_branches=0,
                 confidence_score=0.0,
@@ -349,9 +345,7 @@ class SymbolicLogicEngine:
 
     # AINTERNAL: Entropy and drift calculation
 
-    def calculate_entropy_drift(
-        self, path_entropy: float, symbolic_pressure: float
-    ) -> float:
+    def calculate_entropy_drift(self, path_entropy: float, symbolic_pressure: float) -> float:
         """
         Computes collapse likelihood based on entropy delta and symbolic pressure.
         Higher entropy + higher pressure = higher collapse probability.
@@ -392,9 +386,7 @@ class SymbolicLogicEngine:
 
     # AINTERNAL: Contradiction detection across reasoning traces
 
-    def detect_contradictions(
-        self, path: list[str], memory_snippets: list[str]
-    ) -> Optional[str]:
+    def detect_contradictions(self, path: list[str], memory_snippets: list[str]) -> Optional[str]:
         """
         Searches for direct or symbolic contradiction in reasoning trace.
 
@@ -405,9 +397,7 @@ class SymbolicLogicEngine:
         Returns:
             Optional[str]: Description of first contradiction found, or None
         """
-        contradictions = self._detect_path_contradictions(
-            path, memory_snippets, self.logger
-        )
+        contradictions = self._detect_path_contradictions(path, memory_snippets, self.logger)
         return contradictions[0] if contradictions else None
 
     # ΛEXPOSE: GLYPH feedback emission to mesh layers
@@ -444,7 +434,9 @@ class SymbolicLogicEngine:
         Returns:
             ReasoningChain: Constructed reasoning chain with metadata
         """
-        chain_id = f"chain_{int(datetime.now(timezone.utc).timestamp()*1000)}_{str(uuid.uuid4())[:6]}"
+        chain_id = (
+            f"chain_{int(datetime.now(timezone.utc).timestamp() * 1000)}_{str(uuid.uuid4())[:6]}"
+        )
         chain_logger = self.logger.bind(chain_id=chain_id)
         chain_logger.info(
             "ΛTRACE: Starting reasoning chain construction.",
@@ -503,10 +495,7 @@ class SymbolicLogicEngine:
                 confidence_evolution.append(step_confidence)
 
                 # Check for quantum branch points
-                if (
-                    step_entropy > self.entropy_threshold * 0.8
-                    and len(next_candidates) > 1
-                ):
+                if step_entropy > self.entropy_threshold * 0.8 and len(next_candidates) > 1:
                     branch_points.append(step_count - 1)
                     chain_logger.debug(
                         "ΛTRACE: Quantum branch point identified.",
@@ -529,21 +518,15 @@ class SymbolicLogicEngine:
 
             # Construct final reasoning chain
             construction_metadata = {
-                "construction_time_ms": (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds()
+                "construction_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds()
                 * 1000,
                 "steps_taken": step_count,
                 "target_reached": current_glyph == target,
                 "termination_reason": (
-                    "target_reached"
-                    if current_glyph == target
-                    else "threshold_exceeded"
+                    "target_reached" if current_glyph == target else "threshold_exceeded"
                 ),
                 "final_entropy": (entropy_evolution[-1] if entropy_evolution else 0.0),
-                "final_confidence": (
-                    confidence_evolution[-1] if confidence_evolution else 0.0
-                ),
+                "final_confidence": (confidence_evolution[-1] if confidence_evolution else 0.0),
             }
 
             reasoning_chain = ReasoningChain(
@@ -752,9 +735,7 @@ class SymbolicLogicEngine:
 
         if glyph in contradiction_keywords:
             snippet_lower = memory_snippet.lower()
-            return any(
-                keyword in snippet_lower for keyword in contradiction_keywords[glyph]
-            )
+            return any(keyword in snippet_lower for keyword in contradiction_keywords[glyph])
 
         return False
 
@@ -982,9 +963,7 @@ class SymbolicLogicEngine:
         # Update average entropy (running average)
         prev_avg = self.metrics["average_entropy"]
         n = self.metrics["paths_evaluated"]
-        self.metrics["average_entropy"] = (
-            (prev_avg * (n - 1)) + evaluation.entropy_score
-        ) / n
+        self.metrics["average_entropy"] = ((prev_avg * (n - 1)) + evaluation.entropy_score) / n
 
         # Update total reasoning time
         reasoning_time = (datetime.now(timezone.utc) - start_time).total_seconds()
@@ -1035,12 +1014,12 @@ class SymbolicLogicEngine:
 
 
 __all__ = [
-    "SymbolicLogicEngine",
-    "SymbolicEvaluation",
-    "ReasoningChain",
-    "SymbolicPathState",
-    "GlyphSignal",
     "ContradictionType",
+    "GlyphSignal",
+    "ReasoningChain",
+    "SymbolicEvaluation",
+    "SymbolicLogicEngine",
+    "SymbolicPathState",
 ]
 
 logger.info(

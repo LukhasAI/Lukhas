@@ -17,6 +17,7 @@ from pathlib import Path
 @dataclass
 class ConsolidationResult:
     """Result of system consolidation operation"""
+
     source_systems: list[str]
     target_system: str
     files_merged: int
@@ -24,6 +25,7 @@ class ConsolidationResult:
     features_integrated: int
     success: bool
     message: str
+
 
 class SystemConsolidator:
     """
@@ -68,9 +70,7 @@ class SystemConsolidator:
         console_handler.setLevel(logging.INFO)
 
         # Formatter
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -88,7 +88,11 @@ class SystemConsolidator:
         source_systems = []
 
         # Search for databases in all systems
-        for system_path in [self.content_engines_path, self.enterprise_systems_path, self.mobile_apps_path]:
+        for system_path in [
+            self.content_engines_path,
+            self.enterprise_systems_path,
+            self.mobile_apps_path,
+        ]:
             if system_path.exists():
                 for db_file in system_path.rglob("*.db"):
                     database_files.append(db_file)
@@ -182,19 +186,22 @@ class SystemConsolidator:
 
                                 # Basic content migration
                                 for row in rows:
-                                    unified_cursor.execute("""
+                                    unified_cursor.execute(
+                                        """
                                         INSERT INTO lukhas_content
                                         (source_system, content_type, title, content, trinity_identity, trinity_consciousness, trinity_guardian)
                                         VALUES (?, ?, ?, ?, ?, ?, ?)
-                                    """, (
-                                        str(db_file.parent.name),
-                                        table_name,
-                                        str(row[0])[:100] if row else "Migrated Content",
-                                        str(row),
-                                        "⚛️ Trinity Identity",
-                                        "🧠 Trinity Consciousness",
-                                        "🛡️ Trinity Guardian"
-                                    ))
+                                    """,
+                                        (
+                                            str(db_file.parent.name),
+                                            table_name,
+                                            str(row[0])[:100] if row else "Migrated Content",
+                                            str(row),
+                                            "⚛️ Trinity Identity",
+                                            "🧠 Trinity Consciousness",
+                                            "🛡️ Trinity Guardian",
+                                        ),
+                                    )
                             except Exception as e:
                                 self.logger.warning(f"Could not migrate table {table_name}: {e}")
 
@@ -207,7 +214,9 @@ class SystemConsolidator:
             unified_conn.commit()
             unified_conn.close()
 
-            self.logger.info(f"✅ Database consolidation complete: {files_processed} databases merged")
+            self.logger.info(
+                f"✅ Database consolidation complete: {files_processed} databases merged"
+            )
 
             return ConsolidationResult(
                 source_systems=list(set(source_systems)),
@@ -216,7 +225,7 @@ class SystemConsolidator:
                 databases_consolidated=len(database_files),
                 features_integrated=4,  # 4 unified tables
                 success=True,
-                message=f"Consolidated {len(database_files)} databases into unified system"
+                message=f"Consolidated {len(database_files)} databases into unified system",
             )
 
         except Exception as e:
@@ -228,7 +237,7 @@ class SystemConsolidator:
                 databases_consolidated=0,
                 features_integrated=0,
                 success=False,
-                message=f"Database consolidation failed: {str(e)}"
+                message=f"Database consolidation failed: {e!s}",
             )
 
     async def consolidate_document_generation(self) -> ConsolidationResult:
@@ -240,7 +249,7 @@ class SystemConsolidator:
             "auctor_commercial": self.content_engines_path / "auctor_commercial",
             "document_generation": self.content_engines_path / "document_generation",
             "lambda_bot_enterprise": self.content_engines_path / "lambda_bot_enterprise",
-            "lambda_web_manager": self.content_engines_path / "lambda_web_manager"
+            "lambda_web_manager": self.content_engines_path / "lambda_web_manager",
         }
 
         # Create consolidated document engine
@@ -264,7 +273,9 @@ class SystemConsolidator:
 
                     # Copy document templates
                     for template_file in system_path.rglob("*.jinja2"):
-                        target_template = target_path / "templates" / f"{system_name}_{template_file.name}"
+                        target_template = (
+                            target_path / "templates" / f"{system_name}_{template_file.name}"
+                        )
                         shutil.copy2(template_file, target_template)
                         files_merged += 1
 
@@ -357,7 +368,9 @@ if __name__ == "__main__":
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 ''')
 
-            self.logger.info(f"✅ Document generation consolidation complete: {files_merged} files merged")
+            self.logger.info(
+                f"✅ Document generation consolidation complete: {files_merged} files merged"
+            )
 
             return ConsolidationResult(
                 source_systems=list(doc_systems.keys()),
@@ -366,7 +379,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(doc_systems)} document systems"
+                message=f"Consolidated {len(doc_systems)} document systems",
             )
 
         except Exception as e:
@@ -378,7 +391,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=0,
                 success=False,
-                message=f"Document consolidation failed: {str(e)}"
+                message=f"Document consolidation failed: {e!s}",
             )
 
     async def consolidate_content_platform(self) -> ConsolidationResult:
@@ -389,7 +402,7 @@ if __name__ == "__main__":
         content_systems = {
             "lambda_bot_enterprise": self.content_engines_path / "lambda_bot_enterprise",
             "lambda_web_manager": self.content_engines_path / "lambda_web_manager",
-            "auctor_commercial": self.content_engines_path / "auctor_commercial"
+            "auctor_commercial": self.content_engines_path / "auctor_commercial",
         }
 
         # Create consolidated content platform
@@ -420,13 +433,17 @@ if __name__ == "__main__":
 
                     # Copy web interfaces
                     for web_file in system_path.rglob("*.html"):
-                        target_web = target_path / "web_interface" / f"{system_name}_{web_file.name}"
+                        target_web = (
+                            target_path / "web_interface" / f"{system_name}_{web_file.name}"
+                        )
                         shutil.copy2(web_file, target_web)
                         files_merged += 1
 
                     # Copy commercial features
                     for commercial_file in system_path.rglob("*commercial*.py"):
-                        target_commercial = target_path / "commercial" / f"{system_name}_{commercial_file.name}"
+                        target_commercial = (
+                            target_path / "commercial" / f"{system_name}_{commercial_file.name}"
+                        )
                         shutil.copy2(commercial_file, target_commercial)
                         files_merged += 1
 
@@ -497,7 +514,9 @@ if __name__ == "__main__":
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 ''')
 
-            self.logger.info(f"✅ Content platform consolidation complete: {files_merged} files merged")
+            self.logger.info(
+                f"✅ Content platform consolidation complete: {files_merged} files merged"
+            )
 
             return ConsolidationResult(
                 source_systems=list(content_systems.keys()),
@@ -506,7 +525,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(content_systems)} content platforms"
+                message=f"Consolidated {len(content_systems)} content platforms",
             )
 
         except Exception as e:
@@ -518,7 +537,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=0,
                 success=False,
-                message=f"Content platform consolidation failed: {str(e)}"
+                message=f"Content platform consolidation failed: {e!s}",
             )
 
     async def consolidate_all_systems(self) -> dict[str, ConsolidationResult]:
@@ -552,7 +571,7 @@ if __name__ == "__main__":
 
         report_content = f"""# 🎯 LUKHAS AI System Consolidation Report
 
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 
@@ -568,7 +587,7 @@ if __name__ == "__main__":
             status = "✅ SUCCESS" if result.success else "❌ FAILED"
             report_content += f"""### {consolidation_type.title()} Consolidation {status}
 
-- **Source Systems**: {', '.join(result.source_systems)}
+- **Source Systems**: {", ".join(result.source_systems)}
 - **Target System**: {result.target_system}
 - **Files Merged**: {result.files_merged}
 - **Features Integrated**: {result.features_integrated}
@@ -607,6 +626,7 @@ if __name__ == "__main__":
 
         self.logger.info(f"📊 Generated consolidation report: {report_path}")
 
+
 async def main():
     """Main consolidation execution"""
     consolidator = SystemConsolidator()
@@ -624,6 +644,7 @@ async def main():
     print(f"📊 Success rate: {successful}/{total}")
 
     print("\n🚀 Streamlined LUKHAS AI platform ready!")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

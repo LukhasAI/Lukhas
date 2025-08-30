@@ -52,9 +52,7 @@ class AuthenticationIntegration:
             # Initialize integration bridges
             await self._initialize_bridges()
 
-            self.logger.info(
-                "LUKHAS Authentication Integration initialized successfully"
-            )
+            self.logger.info("LUKHAS Authentication Integration initialized successfully")
 
         except Exception as e:
             self.logger.error("Integration initialization failed: %s", e)
@@ -144,17 +142,13 @@ class AuthenticationIntegration:
         try:
             # Initialize WALLET bridge if available
             if "wallet" in self._components:
-                wallet_bridge_path = (
-                    CANDIDATE_AUTH_PATH / "auth_integrations" / "wallet_bridge.py"
-                )
+                wallet_bridge_path = CANDIDATE_AUTH_PATH / "auth_integrations" / "wallet_bridge.py"
                 if wallet_bridge_path.exists():
                     self._bridges["wallet"] = str(wallet_bridge_path)
 
             # Initialize QRG bridge if available
             if "qrg" in self._components:
-                qrg_bridge_path = (
-                    CANDIDATE_AUTH_PATH / "auth_integrations" / "qrg_bridge.py"
-                )
+                qrg_bridge_path = CANDIDATE_AUTH_PATH / "auth_integrations" / "qrg_bridge.py"
                 if qrg_bridge_path.exists():
                     self._bridges["qrg"] = str(qrg_bridge_path)
 
@@ -202,9 +196,9 @@ async def get_integration() -> AuthenticationIntegration:
 
 # Export key components
 __all__ = [
-    "AuthenticationIntegration",
-    "get_integration",
-    "LUKHAS_ROOT",
     "CANDIDATE_AUTH_PATH",
     "LAMBDA_CORE_PATH",
+    "LUKHAS_ROOT",
+    "AuthenticationIntegration",
+    "get_integration",
 ]

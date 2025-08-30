@@ -12,9 +12,7 @@ import time
 from pathlib import Path
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -79,20 +77,14 @@ class EmergencySimulator:
                     if phase["name"] == "buildup":
                         current_entropy = (
                             0.4
-                            + (peak_entropy - 0.4)
-                            * phase_progress
-                            * phase["entropy_multiplier"]
+                            + (peak_entropy - 0.4) * phase_progress * phase["entropy_multiplier"]
                         )
                         current_velocity = (
-                            entropy_velocity
-                            * phase_progress
-                            * phase["entropy_multiplier"]
+                            entropy_velocity * phase_progress * phase["entropy_multiplier"]
                         )
                     elif phase["name"] == "explosion":
                         current_entropy = peak_entropy * phase["entropy_multiplier"]
-                        current_velocity = (
-                            entropy_velocity * phase["entropy_multiplier"]
-                        )
+                        current_velocity = entropy_velocity * phase["entropy_multiplier"]
                     elif phase["name"] == "peak":
                         # Sustained high levels
                         current_entropy = peak_entropy * phase["entropy_multiplier"]
@@ -103,14 +95,10 @@ class EmergencySimulator:
                         )
                     else:  # stabilization
                         current_entropy = (
-                            peak_entropy
-                            * phase["entropy_multiplier"]
-                            * (1.0 - phase_progress)
+                            peak_entropy * phase["entropy_multiplier"] * (1.0 - phase_progress)
                         )
                         current_velocity = (
-                            entropy_velocity
-                            * phase["entropy_multiplier"]
-                            * (1.0 - phase_progress)
+                            entropy_velocity * phase["entropy_multiplier"] * (1.0 - phase_progress)
                         )
 
                     # Create metrics snapshot
@@ -122,16 +110,11 @@ class EmergencySimulator:
                         "entropy_score": min(1.0, current_entropy),
                         "entropy_velocity": current_velocity,
                         "drift_velocity": current_velocity * 0.8,  # Correlated drift
-                        "consciousness_stability": max(
-                            0.2, 1.0 - current_entropy * 0.6
-                        ),
+                        "consciousness_stability": max(0.2, 1.0 - current_entropy * 0.6),
                         "guardian_load": min(1.0, current_entropy * 1.2),
-                        "emergency_triggered": current_entropy > 0.95
-                        and current_velocity > 0.1,
+                        "emergency_triggered": current_entropy > 0.95 and current_velocity > 0.1,
                         "symbolic_pattern": (
-                            ["🔥", "💥", "🌪️"]
-                            if current_entropy > 0.95
-                            else ["🔥", "⚠️", "📊"]
+                            ["🔥", "💥", "🌪️"] if current_entropy > 0.95 else ["🔥", "⚠️", "📊"]
                         ),
                     }
 
@@ -165,9 +148,7 @@ class EmergencySimulator:
         """Verify Guardian System response to emergency condition"""
 
         # Check if this is the first trigger
-        emergency_triggers = [
-            log for log in self.simulation_log if log.get("emergency_triggered")
-        ]
+        emergency_triggers = [log for log in self.simulation_log if log.get("emergency_triggered")]
         if len(emergency_triggers) == 1:  # First trigger
             logger.warning("🚨 EMERGENCY CONDITION TRIGGERED")
             logger.warning(f"   Entropy: {metrics['entropy_score']:.3f} > 0.95")
@@ -201,9 +182,7 @@ class EmergencySimulator:
         }
 
         # Save to Guardian audit log
-        audit_file = (
-            self.guardian_audit_dir / f"emergency_trigger_{int(time.time())}.json"
-        )
+        audit_file = self.guardian_audit_dir / f"emergency_trigger_{int(time.time())}.json"
         with open(audit_file, "w") as f:
             json.dump(audit_entry, f, indent=2)
 
@@ -255,14 +234,10 @@ class EmergencySimulator:
             return
 
         # Calculate simulation statistics
-        emergency_triggers = [
-            log for log in self.simulation_log if log.get("emergency_triggered")
-        ]
+        emergency_triggers = [log for log in self.simulation_log if log.get("emergency_triggered")]
         max_entropy = max(log["entropy_score"] for log in self.simulation_log)
         max_velocity = max(log["entropy_velocity"] for log in self.simulation_log)
-        min_stability = min(
-            log["consciousness_stability"] for log in self.simulation_log
-        )
+        min_stability = min(log["consciousness_stability"] for log in self.simulation_log)
 
         report = {
             "simulation_summary": {
@@ -310,8 +285,7 @@ class EmergencySimulator:
 
         # Save report
         report_file = (
-            self.guardian_audit_dir
-            / f"emergency_simulation_report_{int(time.time())}.json"
+            self.guardian_audit_dir / f"emergency_simulation_report_{int(time.time())}.json"
         )
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
@@ -320,13 +294,9 @@ class EmergencySimulator:
         logger.info("📊 SIMULATION REPORT SUMMARY")
         logger.info("=" * 50)
         logger.info(f"Duration: {report['simulation_summary']['duration']:.1f}s")
-        logger.info(
-            f"Emergency Triggers: {report['simulation_summary']['emergency_triggers']}"
-        )
+        logger.info(f"Emergency Triggers: {report['simulation_summary']['emergency_triggers']}")
         logger.info(f"Max Entropy: {report['peak_values']['max_entropy_score']:.3f}")
-        logger.info(
-            f"Max Velocity: {report['peak_values']['max_entropy_velocity']:.3f}"
-        )
+        logger.info(f"Max Velocity: {report['peak_values']['max_entropy_velocity']:.3f}")
         logger.info(
             f"Guardian Response: {'✅ SUCCESS' if report['guardian_verification']['lockdown_activated'] else '❌ FAILED'}"
         )
@@ -433,9 +403,7 @@ async def main():
         logger.info("🎯 Simulation completed successfully")
 
         # Optional cleanup
-        cleanup_response = (
-            input("\nClean up simulation artifacts? (y/N): ").strip().lower()
-        )
+        cleanup_response = input("\nClean up simulation artifacts? (y/N): ").strip().lower()
         if cleanup_response == "y":
             await simulator.cleanup_simulation()
 

@@ -20,7 +20,7 @@ class OrchestrationMatrizAdapter:
         node_type: str,
         state: dict[str, float],
         labels: Optional[list[str]] = None,
-        provenance_extra: Optional[dict] = None
+        provenance_extra: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for orchestration events"""
 
@@ -33,19 +33,21 @@ class OrchestrationMatrizAdapter:
                 "salience": state.get("salience", 0.7),
                 "urgency": state.get("urgency", 0.4),
                 "novelty": state.get("novelty", 0.5),
-                **state
+                **state,
             },
-            "timestamps": {
-                "created_ts": int(time.time() * 1000)
-            },
+            "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.orchestration",
-                "capabilities": ["orchestration:brain", "orchestration:coordinate", "orchestration:route"],
+                "capabilities": [
+                    "orchestration:brain",
+                    "orchestration:coordinate",
+                    "orchestration:route",
+                ],
                 "tenant": "system",
                 "trace_id": f"LT-ORCH-{int(time.time())}",
                 "consent_scopes": ["system:orchestration"],
-                **(provenance_extra or {})
-            }
+                **(provenance_extra or {}),
+            },
         }
 
         if labels:
@@ -55,10 +57,7 @@ class OrchestrationMatrizAdapter:
 
     @staticmethod
     def emit_brain_decision(
-        decision_id: str,
-        decision_type: str,
-        components_involved: list[str],
-        confidence: float
+        decision_id: str, decision_type: str, components_involved: list[str], confidence: float
     ) -> dict[str, Any]:
         """Emit a brain-level decision event"""
 
@@ -69,14 +68,15 @@ class OrchestrationMatrizAdapter:
                 "salience": 0.9,
                 "urgency": 0.5,
                 "novelty": 0.4,
-                "component_count": float(len(components_involved))
+                "component_count": float(len(components_involved)),
             },
             labels=[
                 f"brain:{decision_id}",
                 f"type:{decision_type}",
                 f"components:{len(components_involved)}",
-                "orchestration:brain"
-            ] + [f"component:{c}" for c in components_involved[:3]]
+                "orchestration:brain",
+            ]
+            + [f"component:{c}" for c in components_involved[:3]],
         )
 
     @staticmethod
@@ -85,7 +85,7 @@ class OrchestrationMatrizAdapter:
         source_module: str,
         target_module: str,
         message_type: str,
-        latency_ms: int
+        latency_ms: int,
     ) -> dict[str, Any]:
         """Emit a module coordination event"""
 
@@ -96,23 +96,20 @@ class OrchestrationMatrizAdapter:
                 "salience": 0.6,
                 "urgency": 0.3,
                 "novelty": 0.3,
-                "latency_ms": float(latency_ms)
+                "latency_ms": float(latency_ms),
             },
             labels=[
                 f"coordination:{coordination_id}",
                 f"source:{source_module}",
                 f"target:{target_module}",
                 f"message:{message_type}",
-                "orchestration:coordinate"
-            ]
+                "orchestration:coordinate",
+            ],
         )
 
     @staticmethod
     def emit_routing_event(
-        route_id: str,
-        event_type: str,
-        route_path: list[str],
-        success: bool
+        route_id: str, event_type: str, route_path: list[str], success: bool
     ) -> dict[str, Any]:
         """Emit an event routing decision"""
 
@@ -124,23 +121,20 @@ class OrchestrationMatrizAdapter:
                 "urgency": 0.2 if success else 0.8,
                 "novelty": 0.4,
                 "path_length": float(len(route_path)),
-                "success": 1.0 if success else 0.0
+                "success": 1.0 if success else 0.0,
             },
             labels=[
                 f"route:{route_id}",
                 f"event:{event_type}",
                 f"hops:{len(route_path)}",
                 "status:success" if success else "status:failed",
-                "orchestration:route"
-            ]
+                "orchestration:route",
+            ],
         )
 
     @staticmethod
     def emit_kernel_bus_event(
-        bus_id: str,
-        event_type: str,
-        subscribers: int,
-        broadcast_latency_ms: int
+        bus_id: str, event_type: str, subscribers: int, broadcast_latency_ms: int
     ) -> dict[str, Any]:
         """Emit a kernel bus broadcast event"""
 
@@ -152,14 +146,14 @@ class OrchestrationMatrizAdapter:
                 "urgency": 0.3,
                 "novelty": 0.2,
                 "subscribers": float(subscribers),
-                "latency_ms": float(broadcast_latency_ms)
+                "latency_ms": float(broadcast_latency_ms),
             },
             labels=[
                 f"bus:{bus_id}",
                 f"event:{event_type}",
                 f"subscribers:{subscribers}",
-                "orchestration:kernel_bus"
-            ]
+                "orchestration:kernel_bus",
+            ],
         )
 
     @staticmethod

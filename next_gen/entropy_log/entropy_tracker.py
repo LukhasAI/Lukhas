@@ -81,9 +81,7 @@ class EntropyTracker:
         "unstable": (0.7, 1.0),
     }
 
-    def __init__(
-        self, journal_path: str = "entropy_journal.json", window_size: int = 100
-    ):
+    def __init__(self, journal_path: str = "entropy_journal.json", window_size: int = 100):
         self.journal_path = Path(journal_path)
         self.window_size = window_size
         self.transition_history = deque(maxlen=window_size)
@@ -121,9 +119,7 @@ class EntropyTracker:
                     self.journal_entries.append(entry)
 
                     # Update history windows
-                    self.transition_history.append(
-                        (entry.previous_state, entry.current_state)
-                    )
+                    self.transition_history.append((entry.previous_state, entry.current_state))
                     self.entropy_history.append(entry.entropy_score)
 
                 # Set current state
@@ -170,9 +166,7 @@ class EntropyTracker:
 
         # Normalize to 0-1 range
         # Maximum entropy is log2(n) where n is number of unique transitions
-        max_entropy = (
-            math.log2(len(transition_counts)) if len(transition_counts) > 1 else 1
-        )
+        max_entropy = math.log2(len(transition_counts)) if len(transition_counts) > 1 else 1
         normalized_entropy = entropy / max_entropy if max_entropy > 0 else 0
 
         return min(1.0, normalized_entropy)
@@ -184,9 +178,7 @@ class EntropyTracker:
                 return drift_class
         return "unstable"
 
-    def generate_symbolic_path(
-        self, transition_type: str, entropy_score: float
-    ) -> list[str]:
+    def generate_symbolic_path(self, transition_type: str, entropy_score: float) -> list[str]:
         """Generate symbolic representation of the drift path"""
         path = []
 

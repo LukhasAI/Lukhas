@@ -4,6 +4,7 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
+
 import logging
 import time
 from collections import deque
@@ -92,10 +93,7 @@ class MemoryNode:
             importance += 0.3
 
         # If it's a successful interaction, slightly increase importance
-        if (
-            "result" in memory_data
-            and memory_data.get("result", {}).get("status") == "success"
-        ):
+        if "result" in memory_data and memory_data.get("result", {}).get("status") == "success":
             importance += 0.1
 
         return min(1.0, importance)

@@ -4,6 +4,7 @@ LUKHAS GLYPH Seal Creation
 
 Cryptographically sealed provenance with canonical JSON and COSE signatures.
 """
+
 from __future__ import annotations
 
 import base64
@@ -18,6 +19,7 @@ from typing import Any
 @dataclass
 class GlyphSeal:
     """GLYPH seal data structure."""
+
     v: str
     content_hash: str
     media_type: str
@@ -32,13 +34,16 @@ class GlyphSeal:
     prev: str | None = None
     calib_ref: dict[str, float] | None = None
 
+
 def sha3_512(data: bytes) -> str:
     """Compute SHA3-512 hash."""
     return hashlib.sha3_512(data).hexdigest()
 
+
 def sha3_256(data: bytes) -> str:
     """Compute SHA3-256 hash."""
     return hashlib.sha3_256(data).hexdigest()
+
 
 def canonicalize(obj: dict[str, Any]) -> bytes:
     """Canonical JSON serialization (deterministic)."""
@@ -47,9 +52,11 @@ def canonicalize(obj: dict[str, Any]) -> bytes:
     # Deterministic JSON with sorted keys
     return json.dumps(cleaned, separators=(",", ":"), sort_keys=True).encode("utf-8")
 
+
 def generate_nonce() -> str:
     """Generate cryptographic nonce."""
     return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode("ascii").rstrip("=")
+
 
 def make_seal(
     *,
@@ -62,7 +69,7 @@ def make_seal(
     proof_bundle: str,
     ttl_days: int = 365,
     calib_ref: dict[str, float] | None = None,
-    prev: str | None = None
+    prev: str | None = None,
 ) -> dict[str, Any]:
     """
     Create a GLYPH seal for content.
@@ -98,7 +105,7 @@ def make_seal(
         expiry=exp,
         nonce=generate_nonce(),
         prev=prev,
-        calib_ref=calib_ref
+        calib_ref=calib_ref,
     )
 
     # Canonical payload for signing
@@ -107,21 +114,23 @@ def make_seal(
 
     # Sign with PQC
     from qi.crypto.pqc_signer import sign_dilithium
+
     sig_info = sign_dilithium(payload)
 
     # Convert signature to COSE format
     cose_sig = {
-        "protected": base64.urlsafe_b64encode(json.dumps({
-            "alg": sig_info["alg"],
-            "kid": sig_info.get("pubkey_id", "default")
-        }).encode()).decode().rstrip("="),
-        "signature": sig_info["sig"]
+        "protected": base64.urlsafe_b64encode(
+            json.dumps(
+                {"alg": sig_info["alg"], "kid": sig_info.get("pubkey_id", "default")}
+            ).encode()
+        )
+        .decode()
+        .rstrip("="),
+        "signature": sig_info["sig"],
     }
 
-    return {
-        "seal": json.loads(payload.decode()),
-        "sig": cose_sig
-    }
+    return {"seal": json.loads(payload.decode()), "sig": cose_sig}
+
 
 def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | None = None) -> bool:
     """
@@ -148,15 +157,15 @@ def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | N
         from qi.crypto.pqc_signer import verify_signature
 
         # Decode COSE protected header
-        protected = json.loads(base64.urlsafe_b64decode(
-            sig["protected"] + "=" * (4 - len(sig["protected"]) % 4)
-        ))
+        protected = json.loads(
+            base64.urlsafe_b64decode(sig["protected"] + "=" * (4 - len(sig["protected"]) % 4))
+        )
 
         sig_info = {
             "alg": protected["alg"],
             "sig": sig["signature"],
             "content_hash": sha3_512(seal_bytes),
-            "pubkey_id": protected.get("kid")
+            "pubkey_id": protected.get("kid"),
         }
 
         return verify_signature(seal_bytes, sig_info)

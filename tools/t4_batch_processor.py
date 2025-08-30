@@ -60,9 +60,7 @@ class T4BatchProcessor:
                 cwd=self.base_path,
             )
             lines = result.stdout.strip().split("\n")
-            total_line = [
-                line for line in lines if "Found" in line and "errors" in line
-            ]
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -71,9 +69,7 @@ class T4BatchProcessor:
             print(f"Error getting Ruff stats: {e}")
             return None, []
 
-    def categorize_issues(
-        self, issues: list[dict[str, Any]]
-    ) -> dict[str, list[dict[str, Any]]]:
+    def categorize_issues(self, issues: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         """EXPERIENCE DISCIPLINE: Categorize issues by T4 priority"""
         categories = {
             "CRITICAL_BLOCKERS": [],  # Syntax errors - highest priority
@@ -118,9 +114,7 @@ class T4BatchProcessor:
             },
         }
 
-        artifact_file = (
-            self.verification_path / f"{sha}_batch_{self.batch_number:03d}.json"
-        )
+        artifact_file = self.verification_path / f"{sha}_batch_{self.batch_number:03d}.json"
         with open(artifact_file, "w") as f:
             json.dump(artifact, f, indent=2)
 
@@ -176,9 +170,7 @@ class T4BatchProcessor:
 
         return validation
 
-    def process_batch(
-        self, issues: list[dict[str, Any]], category: str
-    ) -> dict[str, Any]:
+    def process_batch(self, issues: list[dict[str, Any]], category: str) -> dict[str, Any]:
         """Process a batch of issues with T4 validation"""
 
         print(f"\n🔄 T4 BATCH {self.batch_number:03d}: Processing {category}")
@@ -197,9 +189,7 @@ class T4BatchProcessor:
         elif category == "FUNCTIONALITY_ISSUES":
             print("🤖 SCALE & AUTOMATION: Applying safe automated fixes")
             # Apply safe fixes only
-            subprocess.run(
-                ["ruff", "check", ".", "--fix"], capture_output=True, cwd=self.base_path
-            )
+            subprocess.run(["ruff", "check", ".", "--fix"], capture_output=True, cwd=self.base_path)
             after_count, _ = self.get_ruff_stats()
 
         elif category == "QUALITY_POLISH":
@@ -228,8 +218,7 @@ class T4BatchProcessor:
             "before_count": before_count,
             "after_count": after_count,
             "improvement": before_count - after_count,
-            "automation_applied": category
-            in ["FUNCTIONALITY_ISSUES", "QUALITY_POLISH"],
+            "automation_applied": category in ["FUNCTIONALITY_ISSUES", "QUALITY_POLISH"],
             "safety_validated": True,
             "prioritized_correctly": True,
             "validation": validation,
@@ -252,15 +241,11 @@ class T4BatchProcessor:
         print("\n🎯 T4 LENS VALIDATION:")
 
         scale = validation["scale_automation"]
-        print(
-            f"   ⚡ SCALE & AUTOMATION: {'✅' if scale['scalable_approach'] else '❌'}"
-        )
+        print(f"   ⚡ SCALE & AUTOMATION: {'✅' if scale['scalable_approach'] else '❌'}")
         print(f"      Automation Rate: {scale['automation_rate']:.1%}")
 
         safety = validation["constitutional_safety"]
-        print(
-            f"   🛡️ CONSTITUTIONAL SAFETY: {'✅' if safety['fail_safe_applied'] else '❌'}"
-        )
+        print(f"   🛡️ CONSTITUTIONAL SAFETY: {'✅' if safety['fail_safe_applied'] else '❌'}")
         print(f"      Risk Level: {safety['risk_assessment'].upper()}")
 
         rigor = validation["scientific_rigor"]
@@ -268,9 +253,7 @@ class T4BatchProcessor:
         print(f"      SHA: {rigor['sha_bound']}")
 
         experience = validation["experience_discipline"]
-        print(
-            f"   ✨ EXPERIENCE DISCIPLINE: {'✅' if experience['simple_process'] else '❌'}"
-        )
+        print(f"   ✨ EXPERIENCE DISCIPLINE: {'✅' if experience['simple_process'] else '❌'}")
         print(f"      User Focused: {'✅' if experience['user_focused'] else '❌'}")
 
     def run_batch_processing(self):

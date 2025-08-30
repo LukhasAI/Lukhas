@@ -33,9 +33,7 @@ from qrg_integration import LukhusQRGIntegrator, QRGType
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
-def create_ascii_qr_pattern(
-    size: int = 25, density: float = 0.5, style: str = "standard"
-) -> str:
+def create_ascii_qr_pattern(size: int = 25, density: float = 0.5, style: str = "standard") -> str:
     """Create a simple ASCII QR pattern for visualization"""
     pattern = "┌" + "─" * (size + 2) + "┐\n"
 
@@ -240,9 +238,7 @@ class QRGShowcase:
 
         return demo_result
 
-    def _create_user_specific_ascii_pattern(
-        self, user_profile: dict[str, Any], result: Any
-    ) -> str:
+    def _create_user_specific_ascii_pattern(self, user_profile: dict[str, Any], result: Any) -> str:
         """Create user-specific ASCII QR pattern"""
         # Determine pattern characteristics based on user and QRG type
         if result.qr_type == QRGType.CONSCIOUSNESS_ADAPTIVE:
@@ -273,9 +269,7 @@ class QRGShowcase:
 
         return pattern
 
-    def _analyze_qrg_adaptation(
-        self, user_profile: dict[str, Any], result: Any
-    ) -> dict[str, str]:
+    def _analyze_qrg_adaptation(self, user_profile: dict[str, Any], result: Any) -> dict[str, str]:
         """Analyze how the QRG adapted to the user"""
         analysis = {}
 
@@ -309,9 +303,7 @@ class QRGShowcase:
                 f"{security_level.title()} clearance → Quantum-enhanced encryption"
             )
         else:
-            analysis["Security"] = (
-                f"{security_level.title()} level → Standard security protocols"
-            )
+            analysis["Security"] = f"{security_level.title()} level → Standard security protocols"
 
         # QRG type selection
         qrg_type = result.qr_type.value.replace("_", " ").title()
@@ -367,20 +359,14 @@ class QRGShowcase:
             user = next(u for u in self.demo_users if u["consciousness_level"] > 0.8)
         elif qrg_type == QRGType.CULTURAL_SYMBOLIC:
             user = next(
-                u
-                for u in self.demo_users
-                if u["cultural_profile"]["region"] != "universal"
+                u for u in self.demo_users if u["cultural_profile"]["region"] != "universal"
             )
         elif qrg_type == QRGType.QUANTUM_ENCRYPTED:
-            user = next(
-                u for u in self.demo_users if u["security_clearance"] == "cosmic"
-            )
+            user = next(u for u in self.demo_users if u["security_clearance"] == "cosmic")
         elif qrg_type == QRGType.DREAM_STATE:
             user = next(u for u in self.demo_users if "dreams" in u["attention_focus"])
         elif qrg_type == QRGType.EMERGENCY_OVERRIDE:
-            user = next(
-                u for u in self.demo_users if "emergency" in u["attention_focus"]
-            )
+            user = next(u for u in self.demo_users if "emergency" in u["attention_focus"])
         else:
             user = self.demo_users[0]  # Default
 
@@ -464,15 +450,11 @@ class QRGShowcase:
                 "iterations": len(times),
             }
 
-            print(
-                f"   ⚡ Avg: {avg_time:.3f}s, Min: {min_time:.3f}s, Max: {max_time:.3f}s"
-            )
+            print(f"   ⚡ Avg: {avg_time:.3f}s, Min: {min_time:.3f}s, Max: {max_time:.3f}s")
 
         return benchmark_results
 
-    def _generate_showcase_summary(
-        self, showcase_results: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _generate_showcase_summary(self, showcase_results: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate comprehensive showcase summary"""
         print("\n📊 LUKHAS QRG Showcase Summary")
         print("=" * 50)
@@ -492,36 +474,22 @@ class QRGShowcase:
             type_counts[qrg_type] = type_counts.get(qrg_type, 0) + 1
 
         # Score analysis
-        compliance_scores = [
-            r["qrg_result"]["compliance_score"] for r in showcase_results
-        ]
-        cultural_scores = [
-            r["qrg_result"]["cultural_safety_score"] for r in showcase_results
-        ]
+        compliance_scores = [r["qrg_result"]["compliance_score"] for r in showcase_results]
+        cultural_scores = [r["qrg_result"]["cultural_safety_score"] for r in showcase_results]
         consciousness_scores = [
             r["qrg_result"]["consciousness_resonance"] for r in showcase_results
         ]
 
-        avg_compliance = (
-            sum(compliance_scores) / len(compliance_scores) if compliance_scores else 0
-        )
-        avg_cultural = (
-            sum(cultural_scores) / len(cultural_scores) if cultural_scores else 0
-        )
+        avg_compliance = sum(compliance_scores) / len(compliance_scores) if compliance_scores else 0
+        avg_cultural = sum(cultural_scores) / len(cultural_scores) if cultural_scores else 0
         avg_consciousness = (
-            sum(consciousness_scores) / len(consciousness_scores)
-            if consciousness_scores
-            else 0
+            sum(consciousness_scores) / len(consciousness_scores) if consciousness_scores else 0
         )
 
         print("🎪 Showcase Statistics:")
-        print(
-            f"   👥 User profiles tested: {self.showcase_stats['user_profiles_tested']}"
-        )
+        print(f"   👥 User profiles tested: {self.showcase_stats['user_profiles_tested']}")
         print(f"   🔗 QRGs generated: {self.showcase_stats['total_demonstrations']}")
-        print(
-            f"   🎯 QRG types demonstrated: {len(self.showcase_stats['types_demonstrated'])}"
-        )
+        print(f"   🎯 QRG types demonstrated: {len(self.showcase_stats['types_demonstrated'])}")
         print(f"   ⚡ Average generation time: {avg_time:.3f}s")
         print(f"   📊 Average compliance score: {avg_compliance:.3f}")
         print(f"   🌍 Average cultural safety: {avg_cultural:.3f}")
@@ -529,12 +497,8 @@ class QRGShowcase:
 
         print("\n🔗 QRG Type Distribution:")
         for qrg_type, count in type_counts.items():
-            percentage = (
-                (count / len(showcase_results)) * 100 if showcase_results else 0
-            )
-            print(
-                f"   • {qrg_type.replace('_', ' ').title()}: {count} ({percentage:.1f}%)"
-            )
+            percentage = (count / len(showcase_results)) * 100 if showcase_results else 0
+            print(f"   • {qrg_type.replace('_', ' ').title()}: {count} ({percentage:.1f}%)")
 
         print("\n🏆 Showcase Highlights:")
 
@@ -542,9 +506,7 @@ class QRGShowcase:
         best_consciousness = max(
             showcase_results, key=lambda x: x["qrg_result"]["consciousness_resonance"]
         )
-        fastest_generation = min(
-            showcase_results, key=lambda x: x["qrg_result"]["generation_time"]
-        )
+        fastest_generation = min(showcase_results, key=lambda x: x["qrg_result"]["generation_time"])
         highest_compliance = max(
             showcase_results, key=lambda x: x["qrg_result"]["compliance_score"]
         )

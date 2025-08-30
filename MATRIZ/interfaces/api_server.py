@@ -56,19 +56,13 @@ websocket_connections: list[WebSocket] = []
 class QueryRequest(BaseModel):
     """Request model for cognitive query processing"""
 
-    query: str = Field(
-        ..., min_length=1, max_length=10000, description="Query to process"
-    )
+    query: str = Field(..., min_length=1, max_length=10000, description="Query to process")
     trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
     context: Optional[dict[str, Any]] = Field(
         default_factory=dict, description="Additional context"
     )
-    include_trace: bool = Field(
-        default=True, description="Include detailed execution trace"
-    )
-    include_nodes: bool = Field(
-        default=True, description="Include MATRIZ nodes in response"
-    )
+    include_trace: bool = Field(default=True, description="Include detailed execution trace")
+    include_nodes: bool = Field(default=True, description="Include MATRIZ nodes in response")
 
     @validator("query")
     def validate_query(cls, v):
@@ -88,20 +82,12 @@ class QueryResponse(BaseModel):
 
     answer: str = Field(..., description="Processing result")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence in result")
-    processing_time: float = Field(
-        ..., ge=0.0, description="Processing time in seconds"
-    )
+    processing_time: float = Field(..., ge=0.0, description="Processing time in seconds")
     trace_id: str = Field(..., description="Execution trace identifier")
     timestamp: str = Field(..., description="ISO timestamp of processing")
-    matriz_nodes: Optional[list[dict[str, Any]]] = Field(
-        None, description="Generated MATRIZ nodes"
-    )
-    trace: Optional[dict[str, Any]] = Field(
-        None, description="Detailed execution trace"
-    )
-    reasoning_chain: Optional[list[str]] = Field(
-        None, description="Human-readable reasoning steps"
-    )
+    matriz_nodes: Optional[list[dict[str, Any]]] = Field(None, description="Generated MATRIZ nodes")
+    trace: Optional[dict[str, Any]] = Field(None, description="Detailed execution trace")
+    reasoning_chain: Optional[list[str]] = Field(None, description="Human-readable reasoning steps")
 
 
 class HealthResponse(BaseModel):
@@ -111,13 +97,9 @@ class HealthResponse(BaseModel):
     timestamp: str = Field(..., description="ISO timestamp")
     version: str = Field(..., description="API version")
     uptime_seconds: float = Field(..., description="Service uptime in seconds")
-    registered_nodes: int = Field(
-        ..., description="Number of registered cognitive nodes"
-    )
+    registered_nodes: int = Field(..., description="Number of registered cognitive nodes")
     total_queries: int = Field(..., description="Total queries processed")
-    active_websockets: int = Field(
-        ..., description="Number of active WebSocket connections"
-    )
+    active_websockets: int = Field(..., description="Number of active WebSocket connections")
 
 
 class NodeInfo(BaseModel):
@@ -141,9 +123,7 @@ class SystemInfo(BaseModel):
 class WebSocketMessage(BaseModel):
     """WebSocket message format"""
 
-    type: str = Field(
-        ..., description="Message type: query, response, error, ping, pong"
-    )
+    type: str = Field(..., description="Message type: query, response, error, ping, pong")
     data: Optional[dict[str, Any]] = Field(None, description="Message data")
     trace_id: Optional[str] = Field(None, description="Trace identifier")
     timestamp: str = Field(..., description="ISO timestamp")
@@ -184,7 +164,7 @@ async def initialize_orchestrator():
         logger.info(f"✓ Registered {len(orchestrator.available_nodes)} cognitive nodes")
 
     except Exception as e:
-        logger.error(f"Failed to initialize orchestrator: {str(e)}")
+        logger.error(f"Failed to initialize orchestrator: {e!s}")
         raise
 
 
@@ -253,7 +233,7 @@ app.add_middleware(
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
     """Global exception handler"""
-    logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
+    logger.error(f"Unhandled exception: {exc!s}", exc_info=True)
     return JSONResponse(
         status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         content={
@@ -372,7 +352,7 @@ async def process_query(
         return QueryResponse(**response_data)
 
     except Exception as e:
-        logger.error(f"Query processing failed (trace: {trace_id}): {str(e)}")
+        logger.error(f"Query processing failed (trace: {trace_id}): {e!s}")
         raise HTTPException(
             status_code=500,
             detail={
@@ -424,9 +404,7 @@ async def list_nodes(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
 
 
 @app.get("/system/nodes/{node_name}", tags=["System"])
-async def get_node_details(
-    node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
-):
+async def get_node_details(node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
     """Get detailed information about a specific cognitive node"""
     if node_name not in orch.available_nodes:
         raise HTTPException(status_code=404, detail=f"Node '{node_name}' not found")
@@ -479,9 +457,7 @@ async def get_execution_trace(
 
 
 @app.get("/system/causal/{node_id}", tags=["System"])
-async def get_causal_chain(
-    node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
-):
+async def get_causal_chain(node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)):
     """Get the causal chain for a specific MATRIZ node"""
     chain = orch.get_causal_chain(node_id)
     return {"node_id": node_id, "chain_length": len(chain), "causal_chain": chain}
@@ -586,9 +562,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         for name, node in orchestrator.available_nodes.items():
                             nodes[name] = {
                                 "capabilities": node.capabilities,
-                                "processing_history_count": len(
-                                    node.processing_history
-                                ),
+                                "processing_history_count": len(node.processing_history),
                             }
 
                     await websocket.send_json(
@@ -597,14 +571,10 @@ async def websocket_endpoint(websocket: WebSocket):
                             "data": {
                                 "nodes": nodes,
                                 "matriz_graph_size": (
-                                    len(orchestrator.matriz_graph)
-                                    if orchestrator
-                                    else 0
+                                    len(orchestrator.matriz_graph) if orchestrator else 0
                                 ),
                                 "execution_trace_count": (
-                                    len(orchestrator.execution_trace)
-                                    if orchestrator
-                                    else 0
+                                    len(orchestrator.execution_trace) if orchestrator else 0
                                 ),
                                 "total_queries": total_queries,
                                 "uptime_seconds": time.time() - start_time,
@@ -618,15 +588,13 @@ async def websocket_endpoint(websocket: WebSocket):
                     await websocket.send_json(
                         {
                             "type": "error",
-                            "data": {
-                                "error": f"Unknown message type: {ws_message.type}"
-                            },
+                            "data": {"error": f"Unknown message type: {ws_message.type}"},
                             "timestamp": datetime.now().isoformat(),
                         }
                     )
 
             except Exception as e:
-                logger.error(f"WebSocket message processing error: {str(e)}")
+                logger.error(f"WebSocket message processing error: {e!s}")
                 await websocket.send_json(
                     {
                         "type": "error",
@@ -638,7 +606,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         logger.info(f"WebSocket client disconnected: {client_id}")
     except Exception as e:
-        logger.error(f"WebSocket error: {str(e)}")
+        logger.error(f"WebSocket error: {e!s}")
     finally:
         if websocket in websocket_connections:
             websocket_connections.remove(websocket)
@@ -704,6 +672,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    run_server(
-        host=args.host, port=args.port, reload=args.reload, log_level=args.log_level
-    )
+    run_server(host=args.host, port=args.port, reload=args.reload, log_level=args.log_level)

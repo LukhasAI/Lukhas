@@ -7,9 +7,9 @@ Built on the established system/common/utils pattern for consistency.
 
 import json
 import logging
+import platform
 import subprocess
 import sys
-import platform
 from functools import wraps
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -20,9 +20,7 @@ def get_logger(name: str) -> logging.Logger:
     logger = logging.getLogger(f"tools.{name}")
     if not logger.handlers:
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(logging.INFO)
@@ -99,9 +97,7 @@ def find_files(
 ) -> list[Path]:
     """Find files matching pattern, excluding specified patterns"""
     exclude_patterns = exclude_patterns or []
-    exclude_patterns.extend(
-        ["__pycache__", ".git", ".venv", "node_modules", ".pytest_cache"]
-    )
+    exclude_patterns.extend(["__pycache__", ".git", ".venv", "node_modules", ".pytest_cache"])
 
     files = []
     for file_path in directory.rglob(pattern):
@@ -240,9 +236,7 @@ def retry_on_failure(max_attempts: int = 3, delay: float = 1.0):
 
                         time.sleep(delay)
                     else:
-                        logger.error(
-                            f"All {max_attempts} attempts failed. Last error: {e}"
-                        )
+                        logger.error(f"All {max_attempts} attempts failed. Last error: {e}")
                         raise
 
         return wrapper
@@ -254,9 +248,7 @@ def retry_on_failure(max_attempts: int = 3, delay: float = 1.0):
 def check_dependency(package_name: str) -> bool:
     """Check if a Python package is installed"""
     try:
-        result = run_command(
-            [sys.executable, "-c", f"import {package_name}"], timeout=10
-        )
+        result = run_command([sys.executable, "-c", f"import {package_name}"], timeout=10)
         return result.returncode == 0
     except Exception:
         return False

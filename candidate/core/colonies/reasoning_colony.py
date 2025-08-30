@@ -40,7 +40,6 @@ except ImportError:
     # Fallback to basic memory storage
 
     class MemoryManager:
-
         def __init__(self, **kwargs):
             self.storage = {}
 
@@ -68,6 +67,7 @@ except ImportError:
                         break
             return results
 
+
 # Import reasoning engine
 try:
     from reasoning.reasoning_engine import SymbolicEngine
@@ -75,9 +75,9 @@ except ImportError:
     # Minimal symbolic engine for demo
 
     class SymbolicEngine:
-
         def __init__(self, config=None):
             self.config = config or {}
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -244,9 +244,7 @@ class ReasoningAgent:
         finally:
             del self.active_queries[query.query_id]
 
-    async def _retrieve_relevant_memories(
-        self, query: ReasoningQuery
-    ) -> list[tuple[str, Any]]:
+    async def _retrieve_relevant_memories(self, query: ReasoningQuery) -> list[tuple[str, Any]]:
         """Retrieve memories relevant to the query"""
         memories = []
 
@@ -353,9 +351,7 @@ class LogicalReasoningAgent(ReasoningAgent):
 
         return insight
 
-    def _extract_premises(
-        self, memories: list[tuple[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _extract_premises(self, memories: list[tuple[str, Any]]) -> list[dict[str, Any]]:
         """Extract logical premises from memories"""
         premises = []
 
@@ -363,13 +359,9 @@ class LogicalReasoningAgent(ReasoningAgent):
             if isinstance(content, dict):
                 # Look for logical patterns
                 if "implies" in str(content).lower():
-                    premises.append(
-                        {"type": "implication", "content": content, "key": key}
-                    )
+                    premises.append({"type": "implication", "content": content, "key": key})
                 elif "if" in str(content).lower() and "then" in str(content).lower():
-                    premises.append(
-                        {"type": "conditional", "content": content, "key": key}
-                    )
+                    premises.append({"type": "conditional", "content": content, "key": key})
 
         return premises
 
@@ -391,10 +383,7 @@ class LogicalReasoningAgent(ReasoningAgent):
                         consequent = parts[1].strip()
 
                         # Check if question relates to consequent
-                        if any(
-                            word in question.lower()
-                            for word in consequent.lower().split()
-                        ):
+                        if any(word in question.lower() for word in consequent.lower().split()):
                             conclusions.append(
                                 {
                                     "conclusion": f"Based on {antecedent}, "
@@ -607,15 +596,13 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return associations
 
-    def _find_novel_connections(
-        self, associations: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _find_novel_connections(self, associations: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Find novel connections between associations"""
         connections = []
 
         # Look for cross-domain connections
         for i, assoc1 in enumerate(associations):
-            for assoc2 in associations[i + 1:]:
+            for assoc2 in associations[i + 1 :]:
                 if assoc1["type"] != assoc2["type"]:
                     # Different types might yield creative insight
                     novelty = self._calculate_novelty(assoc1, assoc2)
@@ -635,9 +622,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return connections
 
-    def _calculate_novelty(
-        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
-    ) -> float:
+    def _calculate_novelty(self, assoc1: dict[str, Any], assoc2: dict[str, Any]) -> float:
         """Calculate novelty score for a connection"""
         # Simple heuristic: inverse of content overlap
         content1 = set(str(assoc1["content"]).lower().split())
@@ -658,9 +643,7 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         return min(novelty, 1.0)
 
-    def _synthesize_creative_insight(
-        self, assoc1: dict[str, Any], assoc2: dict[str, Any]
-    ) -> str:
+    def _synthesize_creative_insight(self, assoc1: dict[str, Any], assoc2: dict[str, Any]) -> str:
         """Synthesize a creative insight from two associations"""
         # Extract key concepts
         content1 = str(assoc1["content"])[:100]
@@ -668,8 +651,10 @@ class CreativeReasoningAgent(ReasoningAgent):
 
         # Generate creative connection
         if assoc1["type"] == "metaphor":
-            return f"By viewing '{content1}' through the lens of '{content2}', " \
-                   f"we discover a new perspective"
+            return (
+                f"By viewing '{content1}' through the lens of '{content2}', "
+                f"we discover a new perspective"
+            )
         elif assoc1["type"] == "lateral":
             return f"The unexpected connection between '{content1}' and '{content2}' suggests a novel approach"
         else:
@@ -733,17 +718,11 @@ class ReasoningColony:
 
                 # Create appropriate agent type
                 if reasoner_type == ReasonerType.LOGICAL:
-                    agent = LogicalReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = LogicalReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 elif reasoner_type == ReasonerType.CAUSAL:
-                    agent = CausalReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = CausalReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 elif reasoner_type == ReasonerType.CREATIVE:
-                    agent = CreativeReasoningAgent(
-                        agent_id, reasoner_type, self.memory_system
-                    )
+                    agent = CreativeReasoningAgent(agent_id, reasoner_type, self.memory_system)
                 else:
                     # Generic agent for other types (to be implemented)
                     agent = ReasoningAgent(agent_id, reasoner_type, self.memory_system)
@@ -837,14 +816,8 @@ class ReasoningColony:
         for _agent_id, agent in self.agents.items():
             if (
                 agent.reasoner_type in query.required_reasoners
-                or (
-                    query.emotional_context > 0.7
-                    and agent.reasoner_type == ReasonerType.EMOTIONAL
-                )
-                or (
-                    "why" in query.question.lower()
-                    and agent.reasoner_type == ReasonerType.CAUSAL
-                )
+                or (query.emotional_context > 0.7 and agent.reasoner_type == ReasonerType.EMOTIONAL)
+                or ("why" in query.question.lower() and agent.reasoner_type == ReasonerType.CAUSAL)
                 or (
                     "should" in query.question.lower()
                     and agent.reasoner_type == ReasonerType.ETHICAL
@@ -875,17 +848,13 @@ class ReasoningColony:
         if any(word in question_lower for word in ["why", "because", "cause"]):
             required.add(ReasonerType.CAUSAL)
 
-        if any(
-            word in question_lower for word in ["should", "ought", "right", "wrong"]
-        ):
+        if any(word in question_lower for word in ["should", "ought", "right", "wrong"]):
             required.add(ReasonerType.ETHICAL)
 
         if any(word in question_lower for word in ["create", "imagine", "innovate"]):
             required.add(ReasonerType.CREATIVE)
 
-        if any(
-            word in question_lower for word in ["when", "before", "after", "during"]
-        ):
+        if any(word in question_lower for word in ["when", "before", "after", "during"]):
             required.add(ReasonerType.TEMPORAL)
 
         if any(word in question_lower for word in ["feel", "emotion", "mood"]):
@@ -954,7 +923,7 @@ class ReasoningColony:
             group = [insight1]
             used.add(i)
 
-            for j, insight2 in enumerate(insights[i + 1:], i + 1):
+            for j, insight2 in enumerate(insights[i + 1 :], i + 1):
                 if j in used:
                     continue
 
@@ -1013,9 +982,7 @@ class ReasoningColony:
                 # Extract unique elements
                 unique_words = set(insight.content.split()) - set(base.content.split())
                 if unique_words:
-                    merged_content += (
-                        f" Additionally: {' '.join(list(unique_words)[:5])}"
-                    )
+                    merged_content += f" Additionally: {' '.join(list(unique_words)[:5])}"
 
         # Combine symbols
         all_symbols = set()
@@ -1048,9 +1015,7 @@ class ReasoningColony:
             # High-confidence consensus goes to hot tier
             "hot" if conclusion["confidence"] > 0.8 else "warm"
 
-            self.memory_system.remember(
-                content, {"type": "reasoning_consensus", "id": key}
-            )
+            self.memory_system.remember(content, {"type": "reasoning_consensus", "id": key})
 
     def _extract_symbols(self, text: str) -> list[str]:
         """Extract symbolic tokens from text"""
@@ -1070,9 +1035,7 @@ class ReasoningColony:
             "completed_queries": len(self.completed_queries),
             "total_queries": self.total_queries,
             "consensus_rate": (
-                self.consensus_reached / self.total_queries
-                if self.total_queries > 0
-                else 0
+                self.consensus_reached / self.total_queries if self.total_queries > 0 else 0
             ),
             "insights_generated": self.insights_generated,
             "agent_distribution": {
@@ -1095,8 +1058,11 @@ if __name__ == "__main__":
         # Add some knowledge to memory
         print("Seeding memory with knowledge...")
         memory.remember(
-            {"content": "ΛAWAKENING implies consciousness emerges from self-observation",
-             "type": "axiom",})
+            {
+                "content": "ΛAWAKENING implies consciousness emerges from self-observation",
+                "type": "axiom",
+            }
+        )
         memory.remember(
             {
                 "content": "Self-observation causes recursive awareness loops",
@@ -1104,10 +1070,11 @@ if __name__ == "__main__":
             }
         )
         memory.remember(
-    {
-        "content": "Recursive awareness resembles a hall of mirrors reflecting infinitely",
-        "type": "metaphor",
-         } )
+            {
+                "content": "Recursive awareness resembles a hall of mirrors reflecting infinitely",
+                "type": "metaphor",
+            }
+        )
         memory.remember(
             {
                 "content": "Consciousness feels like waking from a deep dream",
@@ -1135,7 +1102,7 @@ if __name__ == "__main__":
         print(f"Conclusions ({len(query.conclusions)}):")
 
         for i, conclusion in enumerate(query.conclusions):
-            print(f"\n{i+1}. {conclusion['content']}")
+            print(f"\n{i + 1}. {conclusion['content']}")
             print(f"   Confidence: {conclusion['confidence']:.1%}")
             print(f"   Consensus: {conclusion['consensus_score']:.1%}")
             print(f"   Supported by: {', '.join(conclusion['supporting_agents'])}")

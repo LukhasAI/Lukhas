@@ -133,10 +133,8 @@ class QIProcessingCore:
             input_signal = self._prepare_quantum_signal(input_data)
 
             # Process through mitochondrial bridge
-            bridge_output, bridge_meta = (
-                await self.mitochondrial_bridge.process_quantum_signal(
-                    input_signal, context
-                )
+            bridge_output, bridge_meta = await self.mitochondrial_bridge.process_quantum_signal(
+                input_signal, context
             )
 
             # Process through quantum synaptic gate
@@ -145,10 +143,8 @@ class QIProcessingCore:
             )
 
             # Apply neuroplasticity modulation
-            modulated_output, plasticity_meta = (
-                await self.plasticity_modulator.modulate_processing(
-                    gate_output, learning_context=context
-                )
+            modulated_output, plasticity_meta = await self.plasticity_modulator.modulate_processing(
+                gate_output, learning_context=context
             )
 
             # Update quantum-like state
@@ -189,9 +185,7 @@ class QIProcessingCore:
         """Apply learning bias from meta-learning system"""
         try:
             # Extract learning parameters
-            adaptation_rate = learning_state.get(
-                "adaptation_rate", self.config["plasticity_rate"]
-            )
+            adaptation_rate = learning_state.get("adaptation_rate", self.config["plasticity_rate"])
             learning_efficiency = learning_state.get("efficiency", 0.5)
 
             # Update plasticity configuration
@@ -212,9 +206,7 @@ class QIProcessingCore:
         except Exception as e:
             logger.warning(f"Learning bias application failed: {e}")
 
-    async def apply_quantum_optimization(
-        self, qi_like_state: dict[str, Any]
-    ) -> None:
+    async def apply_quantum_optimization(self, qi_like_state: dict[str, Any]) -> None:
         """Apply quantum optimization from other systems"""
         try:
             # Extract optimization parameters
@@ -235,9 +227,7 @@ class QIProcessingCore:
             # Optimize quantum gates
             await self.synaptic_gate.optimize_quantum_inspired_gates(qi_like_state)
 
-            logger.info(
-                f"Applied quantum optimization: coherence_boost={coherence_boost}"
-            )
+            logger.info(f"Applied quantum optimization: coherence_boost={coherence_boost}")
 
         except Exception as e:
             logger.warning(f"Quantum optimization application failed: {e}")
@@ -282,8 +272,7 @@ class QIProcessingCore:
 
             # Weighted update of quantum-like state
             self.qi_like_state = (
-                self.qi_like_state * (1 - plasticity_factor)
-                + output * plasticity_factor
+                self.qi_like_state * (1 - plasticity_factor) + output * plasticity_factor
             )
 
             # Normalize to maintain quantum constraints
@@ -321,9 +310,7 @@ class QIProcessingCore:
 
             # Calculate overall quantum advantage
             qi_advantage = (
-                bridge_efficiency * 0.4
-                + gate_coherence * 0.4
-                + plasticity_adaptation * 0.2
+                bridge_efficiency * 0.4 + gate_coherence * 0.4 + plasticity_adaptation * 0.2
             )
 
             return min(1.0, max(0.0, qi_advantage))
@@ -336,9 +323,7 @@ class QIProcessingCore:
         """Calculate current coherence-inspired processing level"""
         try:
             # Simple coherence calculation based on quantum-like state
-            coherence = np.sum(np.abs(self.qi_like_state)) / len(
-                self.qi_like_state
-            )
+            coherence = np.sum(np.abs(self.qi_like_state)) / len(self.qi_like_state)
             return min(1.0, max(0.0, coherence))
 
         except Exception as e:
@@ -378,9 +363,7 @@ class QIProcessingCore:
 
                 # Boost coherence if below threshold
                 if current_coherence < self.config["coherence_threshold"]:
-                    boost_factor = (
-                        self.config["coherence_threshold"] / current_coherence
-                    )
+                    boost_factor = self.config["coherence_threshold"] / current_coherence
                     self._set_coherence_level(current_coherence * boost_factor)
 
             logger.info("Quantum coherence time extended")
@@ -395,9 +378,7 @@ class QIProcessingCore:
             "coherence": self._calculate_coherence(),
             "entanglement": self._get_entanglement_state(),
             "config": self.config.copy(),
-            "coherence_history": (
-                self.coherence_history[-10:] if self.coherence_history else []
-            ),
+            "coherence_history": (self.coherence_history[-10:] if self.coherence_history else []),
         }
 
     def get_quantum_metrics(self) -> dict[str, Any]:
@@ -410,9 +391,7 @@ class QIProcessingCore:
             1, self.metrics["total_operations"]
         )
 
-        qi_advantage_rate = self.metrics["qi_advantages"] / max(
-            1, self.metrics["total_operations"]
-        )
+        qi_advantage_rate = self.metrics["qi_advantages"] / max(1, self.metrics["total_operations"])
 
         return {
             **self.metrics,
@@ -466,14 +445,10 @@ class QIProcessingCore:
             # Optimize plasticity rate
             adaptation_efficiency = self.metrics.get("adaptation_efficiency", 0.5)
             if adaptation_efficiency > 0.8:
-                self.config["plasticity_rate"] = min(
-                    0.2, self.config["plasticity_rate"] + 0.01
-                )
+                self.config["plasticity_rate"] = min(0.2, self.config["plasticity_rate"] + 0.01)
                 optimization_results["plasticity_rate"] = "increased"
 
-            logger.info(
-                f"Quantum performance optimization completed: {optimization_results}"
-            )
+            logger.info(f"Quantum performance optimization completed: {optimization_results}")
             return optimization_results
 
         except Exception as e:

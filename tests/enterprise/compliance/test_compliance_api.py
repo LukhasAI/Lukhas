@@ -6,8 +6,11 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from consent.api import ConsentService, get_consent_service
-from enterprise.compliance.api import get_data_protection_service, user_router
-from enterprise.compliance.api import router as protection_router
+from enterprise.compliance.api import (
+    get_data_protection_service,
+    router as protection_router,
+    user_router,
+)
 from enterprise.compliance.data_protection_service import DataProtectionService
 
 
@@ -17,6 +20,7 @@ async def lifespan(app: FastAPI):
     # We don't need to do anything here for the tests, as the services are mocked.
     yield
 
+
 @pytest.fixture
 def mock_dp_service():
     """Mock data protection service"""
@@ -24,13 +28,27 @@ def mock_dp_service():
     from datetime import datetime
 
     from enterprise.compliance.data_protection_service import ProtectionPolicy
+
     mock_policy = ProtectionPolicy(
-        policy_id="pii_protection", name="PII Protection", description="Test policy",
-        data_types=["email"], protection_level="HIGH", encryption_required=True,
-        encryption_type="SYMMETRIC", key_rotation_days=90, anonymization_methods=[],
-        retain_utility=True, authorized_roles=[], audit_required=True,
-        gdpr_article_25=True, gdpr_article_32=True, cache_encrypted=False,
-        background_processing=True, created_at=datetime.now(), updated_at=datetime.now(), version="1.0"
+        policy_id="pii_protection",
+        name="PII Protection",
+        description="Test policy",
+        data_types=["email"],
+        protection_level="HIGH",
+        encryption_required=True,
+        encryption_type="SYMMETRIC",
+        key_rotation_days=90,
+        anonymization_methods=[],
+        retain_utility=True,
+        authorized_roles=[],
+        audit_required=True,
+        gdpr_article_25=True,
+        gdpr_article_32=True,
+        cache_encrypted=False,
+        background_processing=True,
+        created_at=datetime.now(),
+        updated_at=datetime.now(),
+        version="1.0",
     )
     service.protection_policies = {"pii_protection": mock_policy}
     service.protect_data = AsyncMock(return_value=({"encrypted": True}, {}))
@@ -38,17 +56,26 @@ def mock_dp_service():
     from datetime import timedelta
 
     from enterprise.compliance.data_protection_service import GDPRAssessment
+
     mock_assessment = GDPRAssessment(
-        activity_id="test", compliance_status="Fully Compliant", assessment_date=datetime.now(),
-        lawfulness_score=1.0, privacy_rights_score=1.0, security_score=1.0,
-        transparency_score=1.0, overall_score=1.0, violations=[], recommendations=[],
-        next_review_date=datetime.now() + timedelta(days=180)
+        activity_id="test",
+        compliance_status="Fully Compliant",
+        assessment_date=datetime.now(),
+        lawfulness_score=1.0,
+        privacy_rights_score=1.0,
+        security_score=1.0,
+        transparency_score=1.0,
+        overall_score=1.0,
+        violations=[],
+        recommendations=[],
+        next_review_date=datetime.now() + timedelta(days=180),
     )
     service.assess_processing_activity = AsyncMock(return_value=mock_assessment)
     service.get_user_data = AsyncMock(return_value=[])
     service.delete_user_data = AsyncMock(return_value=1)
     service.update_protected_data = AsyncMock(return_value={"status": "success"})
     return service
+
 
 @pytest.fixture
 def mock_consent_service():
@@ -58,6 +85,7 @@ def mock_consent_service():
     service.delete_user_consent_grants = AsyncMock(return_value=1)
     service.update_consent_grant = AsyncMock(return_value={"status": "success"})
     return service
+
 
 @pytest.fixture
 def client(mock_dp_service, mock_consent_service):
@@ -77,12 +105,16 @@ def test_list_policies(client):
     assert len(data) > 0
     assert data[0]["name"] == "PII Protection"
 
+
 def test_protect_data(client, mock_dp_service):
     """Test the /protection/protect endpoint."""
-    response = client.post("/protection/protect", json={"data": "test", "policy_id": "pii_protection"})
+    response = client.post(
+        "/protection/protect", json={"data": "test", "policy_id": "pii_protection"}
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["protected_data"]["encrypted"] is True
+
 
 def test_unprotect_data(client, mock_dp_service):
     """Test the /protection/unprotect endpoint."""
@@ -90,6 +122,7 @@ def test_unprotect_data(client, mock_dp_service):
     assert response.status_code == 200
     data = response.json()
     assert data["unprotected_data"] == "test"
+
 
 def test_assessment(client, mock_dp_service):
     """Test the /assessment endpoint."""
@@ -120,6 +153,7 @@ def test_assessment(client, mock_dp_service):
     data = response.json()
     assert data["compliance_status"] == "Fully Compliant"
 
+
 def test_export_user_data(client, mock_consent_service, mock_dp_service):
     """Test the /users/{user_lid}/export endpoint."""
     response = client.get("/users/gonzo/export")
@@ -127,12 +161,14 @@ def test_export_user_data(client, mock_consent_service, mock_dp_service):
     data = response.json()
     assert data["user_lid"] == "gonzo"
 
+
 def test_delete_user_data(client, mock_consent_service, mock_dp_service):
     """Test the DELETE /users/{user_lid} endpoint."""
     response = client.delete("/users/gonzo")
     assert response.status_code == 200
     data = response.json()
     assert data["deleted_consent_grants"] == 1
+
 
 def test_update_user_data(client, mock_consent_service, mock_dp_service):
     """Test the PUT /users/{user_lid} endpoint."""

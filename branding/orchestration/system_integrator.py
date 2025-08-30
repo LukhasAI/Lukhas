@@ -15,11 +15,13 @@ from pathlib import Path
 @dataclass
 class SystemIntegration:
     """System integration configuration"""
+
     system_name: str
     database_tables: list[str]
     api_endpoints: list[str]
     data_flows: list[str]
     update_frequency: str
+
 
 class SystemIntegrator:
     """
@@ -248,7 +250,9 @@ db = LukhasDatabaseIntegration()
         """Upgrade content platform to use database actively"""
         self.logger.info("🎯 Upgrading content platform with database integration...")
 
-        content_platform_path = self.engines_path / "lukhas_content_platform" / "lukhas_unified_content_platform.py"
+        content_platform_path = (
+            self.engines_path / "lukhas_content_platform" / "lukhas_unified_content_platform.py"
+        )
 
         # Read existing content
         with open(content_platform_path) as f:
@@ -794,14 +798,14 @@ if __name__ == "__main__":
 
         report_content = f"""# 🔗 LUKHAS AI System Integration Report
 
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Integration Results
 
-**Database Integration**: {'✅ ACTIVE' if results['database_integration'] else '❌ FAILED'}
-**Content Platform**: {'✅ INTEGRATED' if results['content_platform_integrated'] else '❌ FAILED'}
-**Document Engine**: {'✅ INTEGRATED' if results['document_engine_integrated'] else '❌ FAILED'}
-**Unified Orchestrator**: {'✅ CREATED' if results['orchestrator_created'] else '❌ FAILED'}
+**Database Integration**: {"✅ ACTIVE" if results["database_integration"] else "❌ FAILED"}
+**Content Platform**: {"✅ INTEGRATED" if results["content_platform_integrated"] else "❌ FAILED"}
+**Document Engine**: {"✅ INTEGRATED" if results["document_engine_integrated"] else "❌ FAILED"}
+**Unified Orchestrator**: {"✅ CREATED" if results["orchestrator_created"] else "❌ FAILED"}
 
 ## 🎯 Integration Architecture
 
@@ -873,6 +877,7 @@ Run `python engines/lukhas_unified_orchestrator.py` to see:
 
         self.logger.info(f"📊 Generated integration report: {report_path}")
 
+
 async def main():
     """Main integration execution"""
     integrator = UnifiedSystemIntegrator()
@@ -890,6 +895,7 @@ async def main():
 
     print("\n🚀 Run the orchestrator to test integration:")
     print("python engines/lukhas_unified_orchestrator.py")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

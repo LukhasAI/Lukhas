@@ -4,6 +4,7 @@ System Integration Hub with Oscillator Pattern
 Central connection point for all major LUKHAS subsystems.
 Enhanced with quantum oscillator synchronization and mito-inspired health monitoring.
 """
+
 import asyncio
 import logging
 import time
@@ -181,20 +182,12 @@ class SystemIntegrationHub:
     def _connect_golden_trio(self):
         """Connect DAST, ABAS, NIAS through TrioOrchestrator"""
         # Register each hub with trio orchestrator
-        asyncio.create_task(
-            self.trio_orchestrator.register_component("dast", self.dast_hub)
-        )
-        asyncio.create_task(
-            self.trio_orchestrator.register_component("abas", self.abas_hub)
-        )
-        asyncio.create_task(
-            self.trio_orchestrator.register_component("nias", self.nias_hub)
-        )
+        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))
 
         # Connect to ethics for oversight
-        self.dast_hub.register_component(
-            "ethics_service", "ethics/service.py", self.ethics_service
-        )
+        self.dast_hub.register_component("ethics_service", "ethics/service.py", self.ethics_service)
 
         self._update_phase("golden_trio", time.time())
 
@@ -220,9 +213,7 @@ class SystemIntegrationHub:
     def _connect_learning_systems(self):
         """Connect learning engine to all systems"""
         # Learning needs access to all systems for meta-learning
-        self.learning_engine.register_data_source(
-            "consciousness", self.consciousness_hub
-        )
+        self.learning_engine.register_data_source("consciousness", self.consciousness_hub)
         self.learning_engine.register_data_source("memory", self.memory_hub)
         self.learning_engine.register_data_source("ethics", self.ethics_service)
 
@@ -246,9 +237,7 @@ class SystemIntegrationHub:
 
         # Enhanced consciousness
         self.consciousness_hub.register_unified_engine = lambda ue: None  # Placeholder
-        self.core_hub.register_service(
-            "unified_consciousness", self.unified_consciousness
-        )
+        self.core_hub.register_service("unified_consciousness", self.unified_consciousness)
 
     def _update_phase(self, system_id: str, current_time: float):
         """Update phase for mito-inspired synchronization"""
@@ -274,9 +263,7 @@ class SystemIntegrationHub:
                     "learning_systems",
                 ]:
                     # Check if system is responding (simplified health check)
-                    time_since_sync = current_time - self.last_sync_time.get(
-                        system_id, 0
-                    )
+                    time_since_sync = current_time - self.last_sync_time.get(system_id, 0)
 
                     if time_since_sync < 10:  # Active within 10 seconds
                         self.system_health[system_id] = SystemHealthState.OPTIMAL
@@ -296,9 +283,7 @@ class SystemIntegrationHub:
                 is_synchronized = self.mito_sync.is_synchronized(alignment_scores)
 
                 if not is_synchronized:
-                    logger.warning(
-                        f"System desynchronization detected: {alignment_scores}"
-                    )
+                    logger.warning(f"System desynchronization detected: {alignment_scores}")
                     await self._resynchronize_systems()
 
             except Exception as e:
@@ -327,10 +312,7 @@ class SystemIntegrationHub:
         start_time = time.time()
 
         # Check system health first
-        if any(
-            health == SystemHealthState.CRITICAL
-            for health in self.system_health.values()
-        ):
+        if any(health == SystemHealthState.CRITICAL for health in self.system_health.values()):
             logger.warning("Processing request with systems in critical state")
 
         # Verify identity
@@ -374,9 +356,7 @@ class SystemIntegrationHub:
             # Process through bio engine
             stimulus_type = request_type.replace("bio_", "")
             intensity = data.get("intensity", 0.5)
-            result = await self.bio_engine.process_stimulus(
-                stimulus_type, intensity, data
-            )
+            result = await self.bio_engine.process_stimulus(stimulus_type, intensity, data)
 
         else:
             # Default to core hub

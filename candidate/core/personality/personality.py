@@ -96,9 +96,7 @@ class ShynessModule:
 
     def __init__(self, federated_model=None):
         """Initialize shyness module with optional federated learning"""
-        self.interaction_history: dict[str, InteractionMetrics] = defaultdict(
-            InteractionMetrics
-        )
+        self.interaction_history: dict[str, InteractionMetrics] = defaultdict(InteractionMetrics)
         self.shyness_level = 0.7  # Initial shyness (0-1 scale)
         self.federated_model = federated_model
         self.adaptation_rate = 0.1  # How quickly to adapt
@@ -174,9 +172,7 @@ class ShynessModule:
             "response_latency": max(0.5, 2.0 * self.shyness_level - familiarity_boost),
             "self_disclosure": max(0.1, (base_confidence + familiarity_boost) * 0.8),
             "topic_initiative": max(0.1, base_confidence + familiarity_boost * 0.5),
-            "emotional_expressiveness": max(
-                0.3, base_confidence + familiarity_boost * 0.6
-            ),
+            "emotional_expressiveness": max(0.3, base_confidence + familiarity_boost * 0.6),
         }
 
         return interaction_style
@@ -243,9 +239,7 @@ class EtiquetteEngine:
     ) -> dict[str, float]:
         """Get etiquette adjustments for current context"""
 
-        base_rules = self.context_rules.get(
-            context, self.context_rules[InteractionContext.CASUAL]
-        )
+        base_rules = self.context_rules.get(context, self.context_rules[InteractionContext.CASUAL])
         adjustments = base_rules.copy()
 
         # Apply cultural modifications if known
@@ -311,9 +305,7 @@ class PersonalityManager:
         interaction_style = self.shyness_module.get_interaction_style(user_id)
 
         # Get etiquette adjustments for context
-        etiquette_adjustments = self.etiquette_engine.get_etiquette_adjustments(
-            context, user_id
-        )
+        etiquette_adjustments = self.etiquette_engine.get_etiquette_adjustments(context, user_id)
 
         # Apply mood and energy modulations
         mood_factor = 0.8 + (self.current_mood * 0.4)  # 0.8-1.2 multiplier
@@ -371,9 +363,7 @@ class PersonalityManager:
 
         # Adjust social confidence
         confidence_change = (interaction_quality - 0.5) * 0.05
-        self.social_confidence = max(
-            0.1, min(1.0, self.social_confidence + confidence_change)
-        )
+        self.social_confidence = max(0.1, min(1.0, self.social_confidence + confidence_change))
 
         self.interaction_count += 1
 

@@ -5,6 +5,7 @@ GLYPH Seal Verifier CLI
 
 Offline-first verification of GLYPH seals.
 """
+
 import argparse
 import json
 import sys
@@ -20,14 +21,11 @@ def fetch_cached_jwks(issuer: str) -> Optional[dict[str, Any]]:
     """
     # For now, return a mock JWKS
     return {
-        "keys": [{
-            "kty": "OKP",
-            "use": "sig",
-            "kid": "default",
-            "alg": "Ed25519",
-            "x": "mock_public_key"
-        }]
+        "keys": [
+            {"kty": "OKP", "use": "sig", "kid": "default", "alg": "Ed25519", "x": "mock_public_key"}
+        ]
     }
+
 
 def verify_content_hash(content_bytes: bytes, seal: dict[str, Any]) -> bool:
     """Verify content hash matches seal."""
@@ -47,6 +45,7 @@ def verify_content_hash(content_bytes: bytes, seal: dict[str, Any]) -> bool:
 
     return True
 
+
 def verify_signature(seal: dict[str, Any], sig: dict[str, Any], jwks: dict[str, Any]) -> bool:
     """Verify seal signature."""
     from qi.glyphs.seal import canonicalize, verify_seal
@@ -56,6 +55,7 @@ def verify_signature(seal: dict[str, Any], sig: dict[str, Any], jwks: dict[str, 
 
     # Verify using seal module
     return verify_seal(seal_bytes, sig)
+
 
 def check_expiry(seal: dict[str, Any]) -> bool:
     """Check if seal has expired."""
@@ -74,6 +74,7 @@ def check_expiry(seal: dict[str, Any]) -> bool:
         print(f"Error checking expiry: {e}")
         return False
 
+
 def check_revocation(seal: dict[str, Any], online: bool = False) -> bool:
     """
     Check if seal has been revoked.
@@ -87,6 +88,7 @@ def check_revocation(seal: dict[str, Any], online: bool = False) -> bool:
     # Would check CRL endpoint here
     return True
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Verify GLYPH seals in files",
@@ -97,31 +99,18 @@ Examples:
   %(prog)s report.txt            # Verify text with front-matter seal
   %(prog)s --online doc.png      # Online verification with revocation check
   %(prog)s --verbose report.txt  # Verbose output
-"""
+""",
     )
 
-    parser.add_argument(
-        "path",
-        help="Path to file containing GLYPH seal"
-    )
+    parser.add_argument("path", help="Path to file containing GLYPH seal")
 
     parser.add_argument(
-        "--online",
-        action="store_true",
-        help="Enable online checks (revocation, fresh JWKS)"
+        "--online", action="store_true", help="Enable online checks (revocation, fresh JWKS)"
     )
 
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Verbose output"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
 
-    parser.add_argument(
-        "--json",
-        action="store_true",
-        help="Output result as JSON"
-    )
+    parser.add_argument("--json", action="store_true", help="Output result as JSON")
 
     args = parser.parse_args()
 
@@ -164,12 +153,7 @@ Examples:
         print()
 
     # Perform verification checks
-    checks = {
-        "content_hash": False,
-        "signature": False,
-        "expiry": False,
-        "revocation": False
-    }
+    checks = {"content_hash": False, "signature": False, "expiry": False, "revocation": False}
 
     # 1. Content hash
     if args.verbose and not args.json:
@@ -209,7 +193,7 @@ Examples:
             "issuer": seal["issuer"],
             "model_id": seal["model_id"],
             "jurisdiction": seal["jurisdiction"],
-            "checks": checks
+            "checks": checks,
         }
         print(json.dumps(result, indent=2))
     else:
@@ -226,6 +210,7 @@ Examples:
                 print(f"  {status} {check}")
 
     sys.exit(0 if ok else 1)
+
 
 if __name__ == "__main__":
     main()

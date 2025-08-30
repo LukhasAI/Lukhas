@@ -35,6 +35,7 @@ from candidate.core.reality_synthesis.reality_synthesis_qi_engine import (
 # The user's final integration class in the brief had some inconsistencies in class names.
 # I will use the class names I have created.
 
+
 class NIASTranscendenceQiPlatform:
     """
     The complete T4 CEO vision - consciousness evolution through ethical advertising.
@@ -56,29 +57,36 @@ class NIASTranscendenceQiPlatform:
         self.reality_synthesis = RealitySynthesisQiEngine()
         self.ascension_catalyst = ConsciousnessAscensionCatalystEngine()
 
-    async def deliver_consciousness_evolution_experience(
-        self, user_id: str
-    ) -> dict[str, Any]:
+    async def deliver_consciousness_evolution_experience(self, user_id: str) -> dict[str, Any]:
         """
         The complete consciousness evolution advertising experience.
         """
         # Placeholder data for dependencies
         user_consciousness_profile = {"financial_stress": 0.3, "abundance_consciousness": 0.9}
         base_product = {"name": "A transformative product", "essence": "Growth"}
-        user_reality_presence = {"physical_location": "home", "digital_devices": ["phone"], "immersive_devices": ["vr_headset"]}
+        user_reality_presence = {
+            "physical_location": "home",
+            "digital_devices": ["phone"],
+            "immersive_devices": ["vr_headset"],
+        }
 
         # 1. Get qi biological readiness
         bio_state = await self.qi_biometrics.get_qi_biostate(user_id)
 
         # 2. Get consciousness profile from your oracle
-        consciousness_profile = await self.consciousness_oracle.get_full_consciousness_profile(user_id)
+        consciousness_profile = await self.consciousness_oracle.get_full_consciousness_profile(
+            user_id
+        )
 
         # 3. Get collective wisdom from your collective mind
-        collective_recommendations = await self.collective_ad_mind.get_collective_recommendations(user_id)
+        collective_recommendations = await self.collective_ad_mind.get_collective_recommendations(
+            user_id
+        )
 
         # 4. Check planetary consciousness alignment
         planetary_alignment = await self.planetary_network.coordinate_with_planetary_field(
-            consciousness_profile, collective_recommendations[0] if collective_recommendations else {}
+            consciousness_profile,
+            collective_recommendations[0] if collective_recommendations else {},
         )
 
         if planetary_alignment["recommendation"] == "defer":
@@ -95,8 +103,10 @@ class NIASTranscendenceQiPlatform:
         )
 
         # 7. Design consciousness catalyst experience
-        catalyst_experience = await self.ascension_catalyst.design_consciousness_catalyst_experience(
-            consciousness_profile, base_product
+        catalyst_experience = (
+            await self.ascension_catalyst.design_consciousness_catalyst_experience(
+                consciousness_profile, base_product
+            )
         )
 
         # 8. Create omni-reality narrative
@@ -121,6 +131,6 @@ class NIASTranscendenceQiPlatform:
                 "consciousness_exchange": consciousness_exchange,
                 "transcendence_probability": 0.95,
                 "planetary_service": True,
-                "collective_evolution_contribution": True
+                "collective_evolution_contribution": True,
             }
         }

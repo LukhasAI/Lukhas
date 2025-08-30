@@ -109,9 +109,7 @@ class LambdaIDQRGGenerator:
 
         # Add consciousness/cultural adaptations if specified
         if config.consciousness_level > 0.3:
-            styled_qr = self._apply_consciousness_adaptation(
-                styled_qr, config.consciousness_level
-            )
+            styled_qr = self._apply_consciousness_adaptation(styled_qr, config.consciousness_level)
 
         if config.cultural_context:
             styled_qr = self._apply_cultural_styling(styled_qr, config.cultural_context)
@@ -143,9 +141,7 @@ class LambdaIDQRGGenerator:
         # Generate entropy signature if enabled
         entropy_sig = None
         if config.include_entropy_signature and self.entropy_engine:
-            entropy_sig = self.entropy_engine.generate_entropy_signature(
-                config.lambda_id
-            )
+            entropy_sig = self.entropy_engine.generate_entropy_signature(config.lambda_id)
 
         package = {
             "lambda_id": config.lambda_id,
@@ -168,23 +164,17 @@ class LambdaIDQRGGenerator:
             package["biometric_hint"] = self._generate_biometric_hint(config.lambda_id)
 
         if config.tier_level >= 4:
-            package["vault_access_key"] = self._generate_vault_access_key(
-                config.lambda_id
-            )
+            package["vault_access_key"] = self._generate_vault_access_key(config.lambda_id)
 
         return package
 
-    def _generate_qr_image(
-        self, package: dict[str, Any], config: LambdaIDQRGConfig
-    ) -> Image.Image:
+    def _generate_qr_image(self, package: dict[str, Any], config: LambdaIDQRGConfig) -> Image.Image:
         """Generate base QR image with tier-appropriate complexity."""
         # Determine QR complexity based on tier and security level
         version = self._calculate_qr_version(config.tier_level, config.security_level)
         error_correction = self._get_error_correction_level(config.tier_level)
 
-        qr = qrcode.QRCode(
-            version=version, error_correction=error_correction, box_size=6, border=3
-        )
+        qr = qrcode.QRCode(version=version, error_correction=error_correction, box_size=6, border=3)
 
         # Encode package data
         encoded_data = json.dumps(package, separators=(",", ":"))
@@ -250,15 +240,11 @@ class LambdaIDQRGGenerator:
 
                 if 0 <= x < img.width and 0 <= y < img.height:
                     alpha = int(consciousness_level * 100)
-                    draw.ellipse(
-                        [x - 1, y - 1, x + 1, y + 1], fill=(255, 215, 0, alpha)
-                    )
+                    draw.ellipse([x - 1, y - 1, x + 1, y + 1], fill=(255, 215, 0, alpha))
 
         return Image.alpha_composite(img, overlay)
 
-    def _apply_cultural_styling(
-        self, img: Image.Image, cultural_context: str
-    ) -> Image.Image:
+    def _apply_cultural_styling(self, img: Image.Image, cultural_context: str) -> Image.Image:
         """Apply cultural styling based on context."""
         cultural_colors = {
             "universal": (128, 128, 128),
@@ -272,9 +258,7 @@ class LambdaIDQRGGenerator:
         color = cultural_colors.get(cultural_context, (128, 128, 128))
         return self._add_color_accent(img, (*color, 40))
 
-    def _add_color_accent(
-        self, img: Image.Image, color: tuple[int, int, int, int]
-    ) -> Image.Image:
+    def _add_color_accent(self, img: Image.Image, color: tuple[int, int, int, int]) -> Image.Image:
         """Add subtle color accent to QRG."""
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)
@@ -314,9 +298,7 @@ class LambdaIDQRGGenerator:
             # Star shape
             x, y = img.width - corner_size - 3, 3
             # Simplified star drawing
-            draw.ellipse(
-                [x, y, x + corner_size, y + corner_size], fill=(255, 215, 0, 150)
-            )
+            draw.ellipse([x, y, x + corner_size, y + corner_size], fill=(255, 215, 0, 150))
 
         elif emblem_type == "transcendent":
             # Sacred geometry
@@ -380,9 +362,7 @@ class LambdaIDQRGGenerator:
             y = random.randint(0, img.height)
             radius = random.randint(2, 6)
 
-            draw.ellipse(
-                [x - radius, y - radius, x + radius, y + radius], fill=(0, 100, 255, 80)
-            )
+            draw.ellipse([x - radius, y - radius, x + radius, y + radius], fill=(0, 100, 255, 80))
 
         return Image.alpha_composite(img, overlay)
 
@@ -478,9 +458,7 @@ class LambdaIDQRGGenerator:
             seed_data = f"{config.lambda_id}{time.time()}{config.tier_level}"
             return self.hash_utils.secure_hash(seed_data)[:16]
         else:
-            return hashlib.sha256(
-                f"{config.lambda_id}{time.time()}".encode()
-            ).hexdigest()[:16]
+            return hashlib.sha256(f"{config.lambda_id}{time.time()}".encode()).hexdigest()[:16]
 
     def _generate_biometric_hint(self, lambda_id: str) -> str:
         """Generate biometric hint for Tier 3+ authentication."""
@@ -494,9 +472,7 @@ class LambdaIDQRGGenerator:
         if self.hash_utils:
             return self.hash_utils.secure_hash(f"vault_{lambda_id}_{time.time()}")[:24]
         else:
-            return hashlib.sha256(
-                f"vault_{lambda_id}_{time.time()}".encode()
-            ).hexdigest()[:24]
+            return hashlib.sha256(f"vault_{lambda_id}_{time.time()}".encode()).hexdigest()[:24]
 
     def _create_qrg_metadata(
         self, config: LambdaIDQRGConfig, package: dict[str, Any]
@@ -529,9 +505,7 @@ class LambdaIDQRGGenerator:
         if self.hash_utils:
             qrg_hash = self.hash_utils.secure_hash(f"{lambda_id}_{timestamp}")[:12]
         else:
-            qrg_hash = hashlib.sha256(f"{lambda_id}_{timestamp}".encode()).hexdigest()[
-                :12
-            ]
+            qrg_hash = hashlib.sha256(f"{lambda_id}_{timestamp}".encode()).hexdigest()[:12]
 
         return f"QRG-{qrg_hash.upper()}"
 

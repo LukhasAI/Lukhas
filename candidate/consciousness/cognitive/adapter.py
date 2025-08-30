@@ -14,6 +14,7 @@
 ║ Complete cognitive adapter implementation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import json
 import logging
@@ -68,9 +69,7 @@ class CognitiveAdapterConfig:
         """Initialize configuration from file or defaults."""
         self.config_path = (
             config_path
-            or Path(__file__).parent.parent.parent
-            / "config"
-            / "cognitive_adapter_config.json"
+            or Path(__file__).parent.parent.parent / "config" / "cognitive_adapter_config.json"
         )
         self.config = self._load_config()
 
@@ -208,9 +207,7 @@ class CoreComponent(ABC):
 class SecurityContext:
     """Security context for user authentication and authorization."""
 
-    def __init__(
-        self, user_id: str, user_tier: int = 1, permissions: Optional[set[str]] = None
-    ):
+    def __init__(self, user_id: str, user_tier: int = 1, permissions: Optional[set[str]] = None):
         self.user_id = user_id
         self.user_tier = user_tier
         self.permissions = permissions or set()
@@ -291,9 +288,7 @@ class MetaLearningSystem:
 
         return predictions
 
-    def _matches_pattern(
-        self, features: dict[str, Any], pattern_features: dict[str, Any]
-    ) -> bool:
+    def _matches_pattern(self, features: dict[str, Any], pattern_features: dict[str, Any]) -> bool:
         """Check if features match a pattern."""
         for key, value in pattern_features.items():
             if key not in features or features[key] != value:
@@ -385,9 +380,7 @@ class HelixMapper:
 
         return results[: query.get("limit", 10)]
 
-    def _calculate_relevance(
-        self, query: dict[str, Any], memory: dict[str, Any]
-    ) -> float:
+    def _calculate_relevance(self, query: dict[str, Any], memory: dict[str, Any]) -> float:
         """Calculate relevance score between query and memory."""
         score = 0.0
 
@@ -425,9 +418,7 @@ class HelixMapper:
         self.logger.debug(f"Mapping memory of type {strand_type}")
 
         # Generate unique strand ID
-        strand_id = (
-            f"{strand_type}_{datetime.utcnow().timestamp()}_{np.random.randint(1000)}"
-        )
+        strand_id = f"{strand_type}_{datetime.utcnow().timestamp()}_{np.random.randint(1000)}"
 
         # Create memory strand
         self.memory_strands[strand_id] = {
@@ -539,22 +530,16 @@ class CognitiveAdapter(CoreComponent):
         )
         self.memory_mapper = HelixMapper(
             memory_path=(
-                config.get("memory_path", "./helix_memory")
-                if config
-                else "./helix_memory"
+                config.get("memory_path", "./helix_memory") if config else "./helix_memory"
             )
         )
 
         # State history for analysis
-        self.state_history = deque(
-            maxlen=self.adapter_config.get("state_history_size", 1000)
-        )
+        self.state_history = deque(maxlen=self.adapter_config.get("state_history_size", 1000))
 
         # Pattern detection
         self.detected_patterns = {}
-        self.pattern_window = deque(
-            maxlen=self.adapter_config.get("pattern_window_size", 100)
-        )
+        self.pattern_window = deque(maxlen=self.adapter_config.get("pattern_window_size", 100))
 
         # Background monitoring
         self._monitoring = True
@@ -610,9 +595,7 @@ class CognitiveAdapter(CoreComponent):
         decay_factor = self.adapter_config.get("state_decay_factor", 0.95)
 
         # Attention tends toward baseline
-        self.state.attention = self.state.attention * decay_factor + 0.5 * (
-            1 - decay_factor
-        )
+        self.state.attention = self.state.attention * decay_factor + 0.5 * (1 - decay_factor)
 
         # Arousal decreases
         self.state.arousal *= decay_factor
@@ -690,12 +673,8 @@ class CognitiveAdapter(CoreComponent):
         }
 
         content_lower = content.lower()
-        positive_count = sum(
-            1 for word in emotional_keywords["positive"] if word in content_lower
-        )
-        negative_count = sum(
-            1 for word in emotional_keywords["negative"] if word in content_lower
-        )
+        positive_count = sum(1 for word in emotional_keywords["positive"] if word in content_lower)
+        negative_count = sum(1 for word in emotional_keywords["negative"] if word in content_lower)
 
         # Update valence
         if positive_count > negative_count:
@@ -704,9 +683,7 @@ class CognitiveAdapter(CoreComponent):
             self.state.valence = max(self.state.valence - 0.1, -1.0)
 
         # Update arousal based on intensity
-        intensity_score = (positive_count + negative_count) / max(
-            len(content.split()), 1
-        )
+        intensity_score = (positive_count + negative_count) / max(len(content.split()), 1)
         self.state.arousal = min(self.state.arousal + intensity_score * 0.5, 1.0)
 
         # Update coherence based on structure
@@ -742,9 +719,7 @@ class CognitiveAdapter(CoreComponent):
         search_query = {
             "content": data.get("content", ""),
             "type": data.get("type", "general"),
-            "limit": self.adapter_config.get(
-                "memory_integration.memory_search_limit", 100
-            ),
+            "limit": self.adapter_config.get("memory_integration.memory_search_limit", 100),
         }
 
         # Use actual user context for memory search
@@ -753,9 +728,7 @@ class CognitiveAdapter(CoreComponent):
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-        relevant_memories = await self.memory_mapper.search_memories(
-            search_query, memory_context
-        )
+        relevant_memories = await self.memory_mapper.search_memories(search_query, memory_context)
 
         # Store new memory if significant
         if self.state.attention > 0.7 or abs(self.state.valence) > 0.5:
@@ -789,18 +762,11 @@ class CognitiveAdapter(CoreComponent):
         content = str(data.get("content", "")).lower()
 
         # Simple heuristics
-        if any(
-            word in content
-            for word in ["remember", "happened", "yesterday", "experience"]
-        ):
+        if any(word in content for word in ["remember", "happened", "yesterday", "experience"]):
             return MemoryType.EPISODIC
-        elif any(
-            word in content for word in ["fact", "definition", "concept", "means"]
-        ):
+        elif any(word in content for word in ["fact", "definition", "concept", "means"]):
             return MemoryType.SEMANTIC
-        elif any(
-            word in content for word in ["how to", "procedure", "steps", "method"]
-        ):
+        elif any(word in content for word in ["how to", "procedure", "steps", "method"]):
             return MemoryType.PROCEDURAL
         else:
             return MemoryType.WORKING
@@ -828,9 +794,7 @@ class CognitiveAdapter(CoreComponent):
         # Adapt cognitive baseline
         if success_rate < 0.4:
             # Increase baseline attention if performance is poor
-            base_attention = self.adapter_config.get(
-                "cognitive_state.base_attention", 0.5
-            )
+            base_attention = self.adapter_config.get("cognitive_state.base_attention", 0.5)
             self.adapter_config.config["cognitive_state"]["base_attention"] = min(
                 base_attention + 0.05, 0.8
             )
@@ -870,20 +834,14 @@ class CognitiveAdapter(CoreComponent):
 
         return patterns
 
-    def _extract_attention_pattern(
-        self, states: list[CognitiveState]
-    ) -> dict[str, Any]:
+    def _extract_attention_pattern(self, states: list[CognitiveState]) -> dict[str, Any]:
         """Extract attention patterns."""
         attention_values = [s.attention for s in states]
 
         return {
             "mean": np.mean(attention_values),
             "std": np.std(attention_values),
-            "trend": (
-                "increasing"
-                if attention_values[-1] > attention_values[0]
-                else "decreasing"
-            ),
+            "trend": ("increasing" if attention_values[-1] > attention_values[0] else "decreasing"),
             "volatility": np.std(
                 [
                     attention_values[i] - attention_values[i - 1]
@@ -892,9 +850,7 @@ class CognitiveAdapter(CoreComponent):
             ),
         }
 
-    def _extract_emotional_pattern(
-        self, states: list[CognitiveState]
-    ) -> dict[str, Any]:
+    def _extract_emotional_pattern(self, states: list[CognitiveState]) -> dict[str, Any]:
         """Extract emotional patterns."""
         valence_values = [s.valence for s in states]
         arousal_values = [s.arousal for s in states]
@@ -912,9 +868,7 @@ class CognitiveAdapter(CoreComponent):
             },
         }
 
-    def _extract_coherence_pattern(
-        self, states: list[CognitiveState]
-    ) -> dict[str, Any]:
+    def _extract_coherence_pattern(self, states: list[CognitiveState]) -> dict[str, Any]:
         """Extract coherence patterns."""
         coherence_values = [s.coherence for s in states]
 
@@ -955,9 +909,7 @@ class CognitiveAdapter(CoreComponent):
 
         return cycles
 
-    def _calculate_stability_metrics(
-        self, states: list[CognitiveState]
-    ) -> dict[str, float]:
+    def _calculate_stability_metrics(self, states: list[CognitiveState]) -> dict[str, float]:
         """Calculate overall stability metrics."""
         # Calculate state-to-state changes
         changes = []
@@ -1038,7 +990,8 @@ async def test_cognitive_adapter():
 
     # Initialize adapter
     adapter = CognitiveAdapter(
-        user_id_context="test_user", config={"user_tier": 5}  # Max tier for testing
+        user_id_context="test_user",
+        config={"user_tier": 5},  # Max tier for testing
     )
 
     # Test 1: Basic processing

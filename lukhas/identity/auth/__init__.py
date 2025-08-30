@@ -142,12 +142,10 @@ class LUKHASAuthenticationSystem:
                 AuthenticationLevel.CONSCIOUSNESS,
                 AuthenticationLevel.GUARDIAN,
             ]:
-                consciousness_result = await self._authenticate_consciousness(
-                    credentials
-                )
+                consciousness_result = await self._authenticate_consciousness(credentials)
                 result.consciousness_score = consciousness_result.get("score", 0.0)
-                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = (
-                    consciousness_result.get("valid", False)
+                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = consciousness_result.get(
+                    "valid", False
                 )
 
                 if not result.trinity_validation[CONSCIOUSNESS_SYMBOL]:
@@ -157,12 +155,8 @@ class LUKHASAuthenticationSystem:
             if auth_level == AuthenticationLevel.GUARDIAN:
                 guardian_result = await self._validate_guardian(credentials)
                 result.cultural_safety_score = guardian_result.get("safety_score", 0.0)
-                result.ethical_compliance = guardian_result.get(
-                    "ethical_compliance", False
-                )
-                result.trinity_validation[GUARDIAN_SYMBOL] = guardian_result.get(
-                    "valid", False
-                )
+                result.ethical_compliance = guardian_result.get("ethical_compliance", False)
+                result.trinity_validation[GUARDIAN_SYMBOL] = guardian_result.get("valid", False)
 
                 if not result.trinity_validation[GUARDIAN_SYMBOL]:
                     return result
@@ -213,9 +207,7 @@ class LUKHASAuthenticationSystem:
         """⚛️ Identity validation with authentic consciousness characteristics"""
         return True  # Placeholder
 
-    async def _authenticate_consciousness(
-        self, credentials: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _authenticate_consciousness(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🧠 Consciousness-aware authentication with QI visualization"""
         return {"valid": True, "score": 0.95}  # Placeholder
 
@@ -270,12 +262,12 @@ async def authenticate(
 
 # Export key components
 __all__ = [
-    "LUKHASAuthenticationSystem",
-    "AuthenticationResult",
-    "AuthenticationLevel",
-    "get_auth_system",
-    "authenticate",
-    "IDENTITY_SYMBOL",
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",
+    "IDENTITY_SYMBOL",
+    "AuthenticationLevel",
+    "AuthenticationResult",
+    "LUKHASAuthenticationSystem",
+    "authenticate",
+    "get_auth_system",
 ]

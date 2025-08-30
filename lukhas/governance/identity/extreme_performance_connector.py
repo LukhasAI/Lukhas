@@ -53,9 +53,7 @@ class ExtremePerformanceIdentityConnector:
     def __init__(self):
         """Initialize extreme performance identity connector"""
         self.extreme_optimizer = None
-        self.performance_mode = (
-            "extreme" if EXTREME_OPTIMIZATIONS_AVAILABLE else "standard"
-        )
+        self.performance_mode = "extreme" if EXTREME_OPTIMIZATIONS_AVAILABLE else "standard"
 
         # Performance tracking
         self.authentication_count = 0
@@ -72,9 +70,7 @@ class ExtremePerformanceIdentityConnector:
         self.fast_path_threshold_ms = 10.0
         self.ultra_fast_threshold_ms = 5.0
 
-        print(
-            f"🚀 ExtremePerformanceIdentityConnector initialized in {self.performance_mode} mode"
-        )
+        print(f"🚀 ExtremePerformanceIdentityConnector initialized in {self.performance_mode} mode")
         if self.performance_mode == "extreme":
             print(f"   Target P95 latency: {self.target_p95_ms}ms")
             print("   Extreme optimizations: Import cache, async audit, async hashing")
@@ -336,9 +332,7 @@ class ExtremePerformanceIdentityConnector:
         # Create optimized security wrappers
         if self.extreme_optimizer:
             # Use extreme performance optimizations
-            async def optimized_check_access(
-                session_id: str, resource: str, access_type
-            ):
+            async def optimized_check_access(session_id: str, resource: str, access_type):
                 if not isinstance(session_id, str) or not isinstance(resource, str):
                     raise ValueError("session_id and resource must be strings")
 
@@ -458,7 +452,9 @@ class ExtremePerformanceIdentityConnector:
                     "performance_level": (
                         "extreme"
                         if module_time_ms < 1.0
-                        else "fast" if module_time_ms < 5.0 else "standard"
+                        else "fast"
+                        if module_time_ms < 5.0
+                        else "standard"
                     ),
                 }
             )
@@ -529,13 +525,9 @@ class ExtremePerformanceIdentityConnector:
 
         return dashboard
 
-    async def run_authentication_benchmark(
-        self, num_operations: int = 1000
-    ) -> dict[str, Any]:
+    async def run_authentication_benchmark(self, num_operations: int = 1000) -> dict[str, Any]:
         """Run authentication performance benchmark"""
-        print(
-            f"🧪 Running authentication benchmark with {num_operations} operations..."
-        )
+        print(f"🧪 Running authentication benchmark with {num_operations} operations...")
 
         if not self.extreme_optimizer:
             await self.initialize()
@@ -587,7 +579,7 @@ _extreme_connector: Optional[ExtremePerformanceIdentityConnector] = None
 
 async def get_extreme_identity_connector() -> ExtremePerformanceIdentityConnector:
     """Get global extreme performance identity connector"""
-    global _extreme_connector  # noqa: PLW0603
+    global _extreme_connector
     if _extreme_connector is None:
         _extreme_connector = ExtremePerformanceIdentityConnector()
         await _extreme_connector.initialize()
@@ -601,9 +593,7 @@ async def require_tier_extreme(min_tier: int):
     return connector.require_tier_extreme_performance(min_tier)
 
 
-async def connect_module_extreme(
-    module_name: str, module_instance: Any
-) -> dict[str, Any]:
+async def connect_module_extreme(module_name: str, module_instance: Any) -> dict[str, Any]:
     """Extreme performance version of module connection"""
     connector = await get_extreme_identity_connector()
     return await connector.connect_to_module_optimized(module_name, module_instance)
@@ -619,8 +609,8 @@ async def run_auth_benchmark(num_operations: int = 1000) -> dict[str, Any]:
 __all__ = [
     "ExtremePerformanceIdentityConnector",
     "SecurityError",
+    "connect_module_extreme",
     "get_extreme_identity_connector",
     "require_tier_extreme",
-    "connect_module_extreme",
     "run_auth_benchmark",
 ]

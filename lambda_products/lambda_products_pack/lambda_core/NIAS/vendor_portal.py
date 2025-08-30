@@ -107,9 +107,7 @@ class VendorPortal:
     - Revenue sharing management
     """
 
-    def __init__(
-        self, config: Optional[dict] = None, consent_manager: Optional[Any] = None
-    ):
+    def __init__(self, config: Optional[dict] = None, consent_manager: Optional[Any] = None):
         self.config = config or self._default_config()
         self.vendors: dict[str, VendorProfile] = {}
         self.dream_seeds: dict[str, list[DreamSeed]] = {}
@@ -204,9 +202,7 @@ class VendorPortal:
             logger.error(f"Error onboarding vendor: {e}")
             return {"error": str(e)}
 
-    async def create_dream_seed(
-        self, vendor_id: str, seed_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_dream_seed(self, vendor_id: str, seed_data: dict[str, Any]) -> dict[str, Any]:
         """
         Create a new dream seed for vendor's products/offers
 
@@ -248,8 +244,7 @@ class VendorPortal:
                 targeting_criteria=seed_data.get("targeting_criteria", {}),
                 affiliate_link=seed_data.get("affiliate_link", ""),
                 one_click_data=seed_data.get("one_click_data", {}),
-                expiry=datetime.now()
-                + timedelta(days=seed_data.get("validity_days", 30)),
+                expiry=datetime.now() + timedelta(days=seed_data.get("validity_days", 30)),
             )
 
             # Validate dream seed ethically
@@ -265,9 +260,7 @@ class VendorPortal:
                 self.pending_seeds.append(seed)
                 status = "pending_review"
 
-            logger.info(
-                f"Dream seed created: {seed_id} for vendor {vendor_id} - Status: {status}"
-            )
+            logger.info(f"Dream seed created: {seed_id} for vendor {vendor_id} - Status: {status}")
 
             return {
                 "seed_id": seed_id,
@@ -333,9 +326,7 @@ class VendorPortal:
 
         return validation_results
 
-    async def _estimate_reach(
-        self, targeting_criteria: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _estimate_reach(self, targeting_criteria: dict[str, Any]) -> dict[str, Any]:
         """Estimate potential reach for targeting criteria"""
         # Simplified estimation - would use real user data in production
         base_reach = 100000
@@ -401,9 +392,7 @@ class VendorPortal:
             else:
                 base_url = "https://checkout.nias.ai"
 
-            affiliate_link = (
-                f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
-            )
+            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
 
             # Store tracking data
             self.performance_tracker[tracking_id] = {
@@ -434,25 +423,17 @@ class VendorPortal:
         active_seeds = len([s for s in seeds if s.is_valid()])
 
         # Aggregate performance metrics
-        total_impressions = sum(
-            s.performance_metrics.get("impressions", 0) for s in seeds
-        )
+        total_impressions = sum(s.performance_metrics.get("impressions", 0) for s in seeds)
         total_clicks = sum(s.performance_metrics.get("clicks", 0) for s in seeds)
-        total_conversions = sum(
-            s.performance_metrics.get("conversions", 0) for s in seeds
-        )
+        total_conversions = sum(s.performance_metrics.get("conversions", 0) for s in seeds)
 
         # Calculate rates
         ctr = (total_clicks / total_impressions * 100) if total_impressions > 0 else 0
-        conversion_rate = (
-            (total_conversions / total_clicks * 100) if total_clicks > 0 else 0
-        )
+        conversion_rate = (total_conversions / total_clicks * 100) if total_clicks > 0 else 0
 
         # Revenue calculation
         total_revenue = sum(s.performance_metrics.get("revenue", 0) for s in seeds)
-        nias_commission = total_revenue * (
-            self.config["revenue_share_percentage"] / 100
-        )
+        nias_commission = total_revenue * (self.config["revenue_share_percentage"] / 100)
         vendor_revenue = total_revenue - nias_commission
 
         return {
@@ -463,9 +444,7 @@ class VendorPortal:
             "seeds": {
                 "total": total_seeds,
                 "active": active_seeds,
-                "pending": len(
-                    [s for s in self.pending_seeds if s.vendor_id == vendor_id]
-                ),
+                "pending": len([s for s in self.pending_seeds if s.vendor_id == vendor_id]),
             },
             "performance": {
                 "impressions": total_impressions,
@@ -483,9 +462,7 @@ class VendorPortal:
             "top_performing_seeds": self._get_top_seeds(seeds, 5),
         }
 
-    def _get_top_seeds(
-        self, seeds: list[DreamSeed], limit: int = 5
-    ) -> list[dict[str, Any]]:
+    def _get_top_seeds(self, seeds: list[DreamSeed], limit: int = 5) -> list[dict[str, Any]]:
         """Get top performing dream seeds"""
         # Sort by conversion rate
         sorted_seeds = sorted(
@@ -530,9 +507,7 @@ class VendorPortal:
                     seed.performance_metrics.get("impressions", 0) + 1
                 )
             elif event_type == "click":
-                seed.performance_metrics["clicks"] = (
-                    seed.performance_metrics.get("clicks", 0) + 1
-                )
+                seed.performance_metrics["clicks"] = seed.performance_metrics.get("clicks", 0) + 1
             elif event_type == "conversion":
                 seed.performance_metrics["conversions"] = (
                     seed.performance_metrics.get("conversions", 0) + 1
@@ -547,9 +522,7 @@ class VendorPortal:
                 if vendor:
                     feedback_score = event_data.get("score", 0)
                     # Weighted average with existing score
-                    vendor.ethical_score = (vendor.ethical_score * 0.9) + (
-                        feedback_score * 0.1
-                    )
+                    vendor.ethical_score = (vendor.ethical_score * 0.9) + (feedback_score * 0.1)
 
             return True
 
@@ -557,9 +530,7 @@ class VendorPortal:
             logger.error(f"Error updating seed performance: {e}")
             return False
 
-    async def get_vendor_sdk_code(
-        self, vendor_id: str, language: str = "python"
-    ) -> str:
+    async def get_vendor_sdk_code(self, vendor_id: str, language: str = "python") -> str:
         """Generate SDK code for vendor integration"""
         if vendor_id not in self.vendors:
             return ""

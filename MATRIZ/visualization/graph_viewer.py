@@ -397,8 +397,7 @@ class MATRIZGraphViewer:
             # Links filter
             if has_links is not None:
                 has_any_links = (
-                    self.graph.in_degree(node_id) > 0
-                    or self.graph.out_degree(node_id) > 0
+                    self.graph.in_degree(node_id) > 0 or self.graph.out_degree(node_id) > 0
                 )
                 if has_links != has_any_links:
                     continue
@@ -440,9 +439,7 @@ class MATRIZGraphViewer:
             fig = go.Figure()
 
             # Add edges first (so they appear behind nodes)
-            self._add_edges_to_plot(
-                fig, pos, show_link_weights, highlight_critical_path
-            )
+            self._add_edges_to_plot(fig, pos, show_link_weights, highlight_critical_path)
 
             # Add nodes
             self._add_nodes_to_plot(fig, pos, show_node_info)
@@ -482,9 +479,7 @@ class MATRIZGraphViewer:
             # Add legend for node types
             self._add_node_type_legend(fig)
 
-            logger.info(
-                f"Created interactive plot with {self.graph.number_of_nodes()} nodes"
-            )
+            logger.info(f"Created interactive plot with {self.graph.number_of_nodes()} nodes")
             return fig
 
         except Exception as e:
@@ -529,9 +524,7 @@ class MATRIZGraphViewer:
                 subgraph = self.graph.subgraph(active_nodes)
 
                 # Filter positions for active nodes
-                frame_pos = {
-                    node: base_pos[node] for node in active_nodes if node in base_pos
-                }
+                frame_pos = {node: base_pos[node] for node in active_nodes if node in base_pos}
 
                 # Create frame
                 frame_data = []
@@ -542,9 +535,7 @@ class MATRIZGraphViewer:
                     frame_data.append(edge_trace)
 
                 # Add nodes for this frame
-                node_trace = self._create_node_trace(
-                    subgraph, frame_pos, show_info=True
-                )
+                node_trace = self._create_node_trace(subgraph, frame_pos, show_info=True)
                 if node_trace:
                     frame_data.append(node_trace)
 
@@ -553,7 +544,7 @@ class MATRIZGraphViewer:
                         data=frame_data,
                         name=str(timestamp),
                         layout={
-                            "title": f"{title} - {datetime.fromtimestamp(timestamp/1000).strftime('%H:%M:%S')}"
+                            "title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')}"
                         },
                     )
                 )
@@ -616,9 +607,9 @@ class MATRIZGraphViewer:
                                         "transition": {"duration": 300},
                                     },
                                 ],
-                                "label": datetime.fromtimestamp(
-                                    int(frame.name) / 1000
-                                ).strftime("%H:%M:%S"),
+                                "label": datetime.fromtimestamp(int(frame.name) / 1000).strftime(
+                                    "%H:%M:%S"
+                                ),
                                 "method": "animate",
                             }
                             for frame in frames
@@ -688,25 +679,17 @@ class MATRIZGraphViewer:
             )
 
             # Confidence distribution (histogram)
-            confidences = [
-                data.get("confidence", 0) for _, data in self.graph.nodes(data=True)
-            ]
+            confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
             fig.add_trace(
-                go.Histogram(
-                    x=confidences, nbinsx=20, name="Confidence", marker_color="#3498DB"
-                ),
+                go.Histogram(x=confidences, nbinsx=20, name="Confidence", marker_color="#3498DB"),
                 row=1,
                 col=2,
             )
 
             # Salience distribution (histogram)
-            saliences = [
-                data.get("salience", 0) for _, data in self.graph.nodes(data=True)
-            ]
+            saliences = [data.get("salience", 0) for _, data in self.graph.nodes(data=True)]
             fig.add_trace(
-                go.Histogram(
-                    x=saliences, nbinsx=20, name="Salience", marker_color="#E74C3C"
-                ),
+                go.Histogram(x=saliences, nbinsx=20, name="Salience", marker_color="#E74C3C"),
                 row=1,
                 col=3,
             )
@@ -722,9 +705,7 @@ class MATRIZGraphViewer:
                     go.Pie(
                         labels=list(link_counts.keys()),
                         values=list(link_counts.values()),
-                        marker_colors=[
-                            LinkTypeConfig.get_color(t) for t in link_counts
-                        ],
+                        marker_colors=[LinkTypeConfig.get_color(t) for t in link_counts],
                         name="Link Types",
                     ),
                     row=2,
@@ -734,9 +715,7 @@ class MATRIZGraphViewer:
             # Temporal activity (scatter plot)
             if self.temporal_snapshots:
                 timestamps = list(self.temporal_snapshots.keys())
-                activity_counts = [
-                    len(nodes) for nodes in self.temporal_snapshots.values()
-                ]
+                activity_counts = [len(nodes) for nodes in self.temporal_snapshots.values()]
 
                 fig.add_trace(
                     go.Scatter(
@@ -812,8 +791,7 @@ class MATRIZGraphViewer:
 
         # Check cache
         if (
-            cache_key in self._analysis_cache
-            and current_time - self._cache_timestamp < 300
+            cache_key in self._analysis_cache and current_time - self._cache_timestamp < 300
         ):  # 5 minute cache
             return self._analysis_cache[cache_key]
 
@@ -831,9 +809,7 @@ class MATRIZGraphViewer:
             # Connectivity
             if nx.is_connected(undirected_graph):
                 metrics["Connected Components"] = 1
-                metrics["Average Path Length"] = nx.average_shortest_path_length(
-                    undirected_graph
-                )
+                metrics["Average Path Length"] = nx.average_shortest_path_length(undirected_graph)
                 metrics["Diameter"] = nx.diameter(undirected_graph)
             else:
                 components = list(nx.connected_components(undirected_graph))
@@ -867,12 +843,8 @@ class MATRIZGraphViewer:
                 )
 
             # Confidence and salience statistics
-            confidences = [
-                data.get("confidence", 0) for _, data in self.graph.nodes(data=True)
-            ]
-            saliences = [
-                data.get("salience", 0) for _, data in self.graph.nodes(data=True)
-            ]
+            confidences = [data.get("confidence", 0) for _, data in self.graph.nodes(data=True)]
+            saliences = [data.get("salience", 0) for _, data in self.graph.nodes(data=True)]
 
             if confidences:
                 metrics["Avg Confidence"] = np.mean(confidences)
@@ -1002,9 +974,7 @@ class MATRIZGraphViewer:
                 self.graph = nx.read_graphml(filepath)
 
             elif format.lower() == "edgelist":
-                self.graph = nx.read_edgelist(
-                    filepath, create_using=nx.DiGraph(), data=True
-                )
+                self.graph = nx.read_edgelist(filepath, create_using=nx.DiGraph(), data=True)
 
             else:
                 raise ValueError(f"Unsupported format: {format}")
@@ -1095,8 +1065,7 @@ class MATRIZGraphViewer:
         # Link type distribution
         if self.graph.edges():
             link_types = [
-                data.get("link_type", "unknown")
-                for _, _, data in self.graph.edges(data=True)
+                data.get("link_type", "unknown") for _, _, data in self.graph.edges(data=True)
             ]
             summary["link_types"] = dict(Counter(link_types))
 
@@ -1167,9 +1136,7 @@ class MATRIZGraphViewer:
 
         return base_size * (0.5 + importance) * type_multiplier
 
-    def _update_temporal_snapshots(
-        self, node_id: str, timestamp: Optional[int]
-    ) -> None:
+    def _update_temporal_snapshots(self, node_id: str, timestamp: Optional[int]) -> None:
         """Update temporal snapshots with new node."""
         if timestamp:
             if timestamp not in self.temporal_snapshots:
@@ -1472,7 +1439,6 @@ class MATRIZGraphViewer:
 
 # Example usage and testing
 if __name__ == "__main__":
-
     # Example MATRIZ nodes for testing
     example_nodes = [
         {

@@ -10,12 +10,12 @@ from .base import HookExecutionError, MemoryHook, MemoryItem
 from .registry import HookPriority, HookRegistrationError, HookRegistry
 
 __all__ = [
-    "MemoryItem",
-    "MemoryHook",
     "HookExecutionError",
-    "HookRegistry",
     "HookPriority",
     "HookRegistrationError",
+    "HookRegistry",
+    "MemoryHook",
+    "MemoryItem",
 ]
 
 # Module metadata

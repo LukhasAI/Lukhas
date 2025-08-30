@@ -43,11 +43,11 @@ from .symbolic_scopes import SymbolicScopesManager
 ConsentManager = LambdaConsentManager
 
 __all__ = [
-    "LambdaConsentManager",
-    "ConsentManager",
-    "SymbolicScopesManager",
-    "ConsentHistoryManager",
     "ComprehensiveEthicsPolicyEngine",
+    "ConsentHistoryManager",
+    "ConsentManager",
+    "LambdaConsentManager",
+    "SymbolicScopesManager",
 ]
 
 # Symbolic consent system version

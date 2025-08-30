@@ -242,9 +242,7 @@ class BrainIdentityIntegration:
         self.audit_config = {
             "log_all_access": self.config.get("enable_access_logging", True),
             "log_denied_access": True,
-            "log_sensitive_operations": self.config.get(
-                "audit_sensitive_operations", True
-            ),
+            "log_sensitive_operations": self.config.get("audit_sensitive_operations", True),
             "max_log_entries": self.config.get("max_log_entries", 1000),
         }
 
@@ -255,9 +253,7 @@ class BrainIdentityIntegration:
         logger.info("Setting up security wrappers...")
 
         # Apply security wrappers if available
-        if BRAIN_IDENTITY_AVAILABLE and hasattr(
-            self.memory_integration, "apply_secure_wrappers"
-        ):
+        if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, "apply_secure_wrappers"):
             try:
                 self.memory_integration.apply_secure_wrappers()
                 logger.info("Security wrappers applied successfully")
@@ -305,9 +301,7 @@ class BrainIdentityIntegration:
                 policy_enum = self._get_access_policy_enum(access_policy)
 
             # Authorize through connector if available
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(
-                self.connector, "authorize_memory_operation"
-            ):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, "authorize_memory_operation"):
                 authorized = self.connector.authorize_memory_operation(
                     user_identity=user_identity,
                     operation=operation_enum,
@@ -549,9 +543,7 @@ class BrainIdentityIntegration:
             await self.initialize()
 
         try:
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(
-                self.memory_integration, "get_access_metrics"
-            ):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, "get_access_metrics"):
                 metrics = self.memory_integration.get_access_metrics()
             else:
                 # Fallback metrics
@@ -617,9 +609,7 @@ class BrainIdentityIntegration:
             logger.error(f"Error encrypting memory content: {e}")
             return content  # Return original content on error
 
-    def _fallback_encrypt(
-        self, memory_key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _fallback_encrypt(self, memory_key: str, content: dict[str, Any]) -> dict[str, Any]:
         """Fallback encryption (mock implementation)"""
         content_copy = content.copy()
         content_copy["_encrypted"] = True
@@ -661,9 +651,7 @@ class BrainIdentityIntegration:
             logger.error(f"Error decrypting memory content: {e}")
             return content  # Return original content on error
 
-    def _fallback_decrypt(
-        self, memory_key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _fallback_decrypt(self, memory_key: str, content: dict[str, Any]) -> dict[str, Any]:
         """Fallback decryption (mock implementation)"""
         content_copy = content.copy()
         if "_encrypted" in content_copy:

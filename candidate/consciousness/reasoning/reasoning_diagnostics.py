@@ -113,9 +113,7 @@ class ReasoningDiagnostics:
             "duration": (datetime.now() - start_time).total_seconds(),
             "total_checks": len(results),
             "results_by_level": self._summarize_by_level(results),
-            "critical_issues": [
-                r for r in results if r.level == DiagnosticLevel.CRITICAL
-            ],
+            "critical_issues": [r for r in results if r.level == DiagnosticLevel.CRITICAL],
             "recommendations": self._generate_recommendations(results),
         }
 
@@ -138,9 +136,7 @@ class ReasoningDiagnostics:
             test_context = ReasoningContext("test query", "general")
 
             # Quick test
-            result = await asyncio.wait_for(
-                loop.start_reasoning(test_context), timeout=5.0
-            )
+            result = await asyncio.wait_for(loop.start_reasoning(test_context), timeout=5.0)
 
             if result.get("status") in ["completed", "max_iterations_reached"]:
                 results.append(
@@ -175,7 +171,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "adaptive_reasoning_loop",
                     DiagnosticLevel.ERROR,
-                    f"Adaptive reasoning loop error: {str(e)}",
+                    f"Adaptive reasoning loop error: {e!s}",
                     {"error": str(e), "traceback": traceback.format_exc()},
                 )
             )
@@ -204,7 +200,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "symbolic_engine",
                     DiagnosticLevel.ERROR,
-                    f"Symbolic engine error: {str(e)}",
+                    f"Symbolic engine error: {e!s}",
                     {"error": str(e), "traceback": traceback.format_exc()},
                 )
             )
@@ -238,7 +234,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "trace_summary_builder",
                     DiagnosticLevel.ERROR,
-                    f"Trace summary builder error: {str(e)}",
+                    f"Trace summary builder error: {e!s}",
                     {"error": str(e), "traceback": traceback.format_exc()},
                 )
             )
@@ -301,10 +297,7 @@ class ReasoningDiagnostics:
         # Check for metric degradation
         if "overall_score" in trends and len(trends["overall_score"]) >= 5:
             recent_scores = trends["overall_score"][-5:]
-            if all(
-                recent_scores[i] < recent_scores[i - 1]
-                for i in range(1, len(recent_scores))
-            ):
+            if all(recent_scores[i] < recent_scores[i - 1] for i in range(1, len(recent_scores))):
                 results.append(
                     DiagnosticResult(
                         "metric_degradation",
@@ -348,7 +341,7 @@ class ReasoningDiagnostics:
                         DiagnosticResult(
                             f"logic_consistency_test_{i}",
                             DiagnosticLevel.WARNING,
-                            f"Logic test {i} failed: {str(e)}",
+                            f"Logic test {i} failed: {e!s}",
                             {"test_case": test_case},
                         )
                     )
@@ -358,7 +351,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "logic_consistency",
                     DiagnosticLevel.ERROR,
-                    f"Logic consistency check failed: {str(e)}",
+                    f"Logic consistency check failed: {e!s}",
                 )
             )
 
@@ -406,7 +399,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "inference_stability",
                     DiagnosticLevel.ERROR,
-                    f"Inference stability check failed: {str(e)}",
+                    f"Inference stability check failed: {e!s}",
                 )
             )
 
@@ -426,9 +419,7 @@ class ReasoningDiagnostics:
             calculator = get_metrics_calculator()
 
             # Test perfect recall
-            efficiency = calculator._calculate_recall_efficiency(
-                test_memories, test_memories
-            )
+            efficiency = calculator._calculate_recall_efficiency(test_memories, test_memories)
 
             if efficiency >= 0.9:
                 results.append(
@@ -442,9 +433,7 @@ class ReasoningDiagnostics:
 
             # Test partial recall
             partial_recall = [test_memories[0]]
-            efficiency = calculator._calculate_recall_efficiency(
-                partial_recall, test_memories
-            )
+            efficiency = calculator._calculate_recall_efficiency(partial_recall, test_memories)
 
             if 0.4 <= efficiency <= 0.6:
                 results.append(
@@ -469,7 +458,7 @@ class ReasoningDiagnostics:
                 DiagnosticResult(
                     "memory_integration",
                     DiagnosticLevel.ERROR,
-                    f"Memory integration check failed: {str(e)}",
+                    f"Memory integration check failed: {e!s}",
                 )
             )
 
@@ -596,10 +585,7 @@ class ReasoningDiagnostics:
 
     async def quick_health_check(self) -> dict[str, Any]:
         """Perform a quick health check"""
-        if (
-            self.last_check_time
-            and datetime.now() - self.last_check_time < self.check_interval
-        ):
+        if self.last_check_time and datetime.now() - self.last_check_time < self.check_interval:
             # Return cached status
             return {
                 "status": self.health_status,
@@ -616,15 +602,11 @@ class ReasoningDiagnostics:
             status = loop.get_status()
             if status:
                 results.append(
-                    DiagnosticResult(
-                        "quick_check", DiagnosticLevel.INFO, "Components responsive"
-                    )
+                    DiagnosticResult("quick_check", DiagnosticLevel.INFO, "Components responsive")
                 )
         except Exception as e:
             results.append(
-                DiagnosticResult(
-                    "quick_check", DiagnosticLevel.ERROR, f"Component error: {str(e)}"
-                )
+                DiagnosticResult("quick_check", DiagnosticLevel.ERROR, f"Component error: {e!s}")
             )
 
         self._update_health_status(results)

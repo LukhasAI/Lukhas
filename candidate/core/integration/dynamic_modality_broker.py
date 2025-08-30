@@ -522,9 +522,7 @@ class DynamicModalityBroker:
                     modality_id=modality.modality_id,
                     error=str(e),
                 )
-                await self._trigger_event(
-                    "error_occurred", {"error": str(e), "modality": modality}
-                )
+                await self._trigger_event("error_occurred", {"error": str(e), "modality": modality})
                 return False
 
     async def unregister_modality(self, modality_id: str) -> bool:
@@ -575,9 +573,7 @@ class DynamicModalityBroker:
         """Send data to a specific modality"""
 
         if target_modality not in self.registered_modalities:
-            logger.warning(
-                "ΛDMB: Target modality not found", modality_id=target_modality
-            )
+            logger.warning("ΛDMB: Target modality not found", modality_id=target_modality)
             return False
 
         modality = self.registered_modalities[target_modality]
@@ -601,9 +597,7 @@ class DynamicModalityBroker:
                 error=str(e),
             )
             self.broker_metrics["errors"] += 1
-            await self._trigger_event(
-                "error_occurred", {"error": str(e), "modality": modality}
-            )
+            await self._trigger_event("error_occurred", {"error": str(e), "modality": modality})
             return False
 
     async def broadcast_data(
@@ -744,8 +738,7 @@ class DynamicModalityBroker:
         return {
             "running": self._running,
             "registered_modalities": {
-                mid: modality.to_dict()
-                for mid, modality in self.registered_modalities.items()
+                mid: modality.to_dict() for mid, modality in self.registered_modalities.items()
             },
             "data_routes": self.data_routes,
             "metrics": self.broker_metrics.copy(),

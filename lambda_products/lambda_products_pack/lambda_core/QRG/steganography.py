@@ -190,9 +190,7 @@ class QISteganographyEngine:
         self.embedding_cache: dict[str, Any] = {}
         self.extraction_cache: dict[str, Any] = {}
 
-        logger.info(
-            f"🔮 Quantum Steganography Engine initialized in {default_mode.value} mode"
-        )
+        logger.info(f"🔮 Quantum Steganography Engine initialized in {default_mode.value} mode")
 
     def _initialize_quantum_systems(self):
         """
@@ -292,37 +290,25 @@ class QISteganographyEngine:
             embedded_matrix = self._embed_lsb_quantum(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.FREQUENCY_DOMAIN:
-            embedded_matrix = self._embed_frequency_domain(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_frequency_domain(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.SPREAD_SPECTRUM:
-            embedded_matrix = self._embed_spread_spectrum(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_spread_spectrum(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.CONSCIOUSNESS_ALIGNED:
-            embedded_matrix = self._embed_consciousness_aligned(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_consciousness_aligned(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.HOLOGRAPHIC:
             embedded_matrix = self._embed_holographic(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.TEMPORAL_PHASED:
-            embedded_matrix = self._embed_temporal_phased(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_temporal_phased(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.SYMBOLIC_RESONANCE:
-            embedded_matrix = self._embed_symbolic_resonance(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_symbolic_resonance(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.QUANTUM_ENTANGLED:
-            embedded_matrix = self._embed_quantum_entangled(
-                visual_matrix, prepared_payload
-            )
+            embedded_matrix = self._embed_quantum_entangled(visual_matrix, prepared_payload)
 
         elif embedding_mode == SteganographyMode.PLAUSIBLE_DENIABILITY:
             embedded_matrix = self._embed_with_plausible_deniability(
@@ -373,16 +359,12 @@ class QISteganographyEngine:
         # Generate quantum signature
         qi_signature = None
         if qi_entangle and hasattr(self, "entanglement_engine"):
-            qi_signature = self.entanglement_engine.generate_signature(
-                encrypted_data
-            )
+            qi_signature = self.entanglement_engine.generate_signature(encrypted_data)
 
         # Create plausible alternatives for deniability
         plausible_alternatives = []
         if self.plausible_deniability:
-            plausible_alternatives = self._generate_plausible_alternatives(
-                len(encrypted_data)
-            )
+            plausible_alternatives = self._generate_plausible_alternatives(len(encrypted_data))
 
         return SteganographicPayload(
             payload_id=self._generate_payload_id(),
@@ -401,9 +383,7 @@ class QISteganographyEngine:
             },
         )
 
-    def _embed_lsb_quantum(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_lsb_quantum(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         Quantum-enhanced LSB embedding
 
@@ -425,15 +405,11 @@ class QISteganographyEngine:
 
         # Generate quantum-random embedding positions
         if self.qi_encryption:
-            positions = self.qrng.generate_embedding_positions(
-                len(total_bits), height * width * 3
-            )
+            positions = self.qrng.generate_embedding_positions(len(total_bits), height * width * 3)
         else:
             # Pseudo-random positions
             np.random.seed(hash(payload.payload_id) % 2**32)
-            positions = np.random.choice(
-                height * width * 3, size=len(total_bits), replace=False
-            )
+            positions = np.random.choice(height * width * 3, size=len(total_bits), replace=False)
 
         # Embed bits at quantum-selected positions
         flat_matrix = embedded.flatten()
@@ -472,9 +448,7 @@ class QISteganographyEngine:
         if len(matrix.shape) == 3:
             dct_coeffs = np.zeros_like(embedded)
             for channel in range(matrix.shape[2]):
-                dct_coeffs[:, :, channel] = dct(
-                    dct(embedded[:, :, channel], axis=0), axis=1
-                )
+                dct_coeffs[:, :, channel] = dct(dct(embedded[:, :, channel], axis=0), axis=1)
         else:
             dct_coeffs = dct(dct(embedded, axis=0), axis=1)
 
@@ -529,9 +503,7 @@ class QISteganographyEngine:
         # Convert back to spatial domain
         if len(matrix.shape) == 3:
             for channel in range(matrix.shape[2]):
-                embedded[:, :, channel] = idct(
-                    idct(dct_coeffs[:, :, channel], axis=0), axis=1
-                )
+                embedded[:, :, channel] = idct(idct(dct_coeffs[:, :, channel], axis=0), axis=1)
         else:
             embedded = idct(idct(dct_coeffs, axis=0), axis=1)
 
@@ -569,13 +541,9 @@ class QISteganographyEngine:
             for pos in positions:
                 if len(matrix.shape) == 3:
                     for c in range(matrix.shape[2]):
-                        embedded[pos[0], pos[1], c] += (
-                            spreading_key[bit_idx] * (2 * bit - 1) * 0.5
-                        )
+                        embedded[pos[0], pos[1], c] += spreading_key[bit_idx] * (2 * bit - 1) * 0.5
                 else:
-                    embedded[pos[0], pos[1]] += (
-                        spreading_key[bit_idx] * (2 * bit - 1) * 0.5
-                    )
+                    embedded[pos[0], pos[1]] += spreading_key[bit_idx] * (2 * bit - 1) * 0.5
 
         # Ensure valid pixel range
         embedded = np.clip(embedded, 0, 255).astype(np.uint8)
@@ -606,9 +574,7 @@ class QISteganographyEngine:
         payload_bits = "".join(format(byte, "08b") for byte in payload_bytes)
 
         # Find optimal embedding positions based on consciousness
-        positions = self._find_consciousness_positions(
-            consciousness_map, len(payload_bits)
-        )
+        positions = self._find_consciousness_positions(consciousness_map, len(payload_bits))
 
         # Embed bits
         bit_idx = 0
@@ -630,9 +596,7 @@ class QISteganographyEngine:
 
         return embedded
 
-    def _embed_holographic(
-        self, matrix: np.ndarray, payload: SteganographicPayload
-    ) -> np.ndarray:
+    def _embed_holographic(self, matrix: np.ndarray, payload: SteganographicPayload) -> np.ndarray:
         """
         3D holographic embedding using phase modulation
 
@@ -663,9 +627,7 @@ class QISteganographyEngine:
 
         # Encode payload in interference pattern
         payload_bytes = self._serialize_payload(payload)
-        payload_pattern = self._bytes_to_holographic_pattern(
-            payload_bytes, matrix.shape[:2]
-        )
+        payload_pattern = self._bytes_to_holographic_pattern(payload_bytes, matrix.shape[:2])
 
         # Create hologram through interference
         hologram = complex_matrix + reference * payload_pattern * 0.1
@@ -706,9 +668,7 @@ class QISteganographyEngine:
                 # Embed with temporal scrambling
                 scramble_key = self._generate_temporal_scramble(time_delta)
                 payload_bytes = self._serialize_payload(payload)
-                scrambled_bytes = bytes(
-                    b ^ k for b, k in zip(payload_bytes, scramble_key)
-                )
+                scrambled_bytes = bytes(b ^ k for b, k in zip(payload_bytes, scramble_key))
 
                 # Create temporary payload with scrambled data
                 temp_payload = SteganographicPayload(
@@ -759,13 +719,9 @@ class QISteganographyEngine:
                 if 0 <= y < matrix.shape[0] and 0 <= x < matrix.shape[1]:
                     if len(matrix.shape) == 3:
                         # Embed in blue channel (Lambda brand color)
-                        embedded[y, x, 2] = (embedded[y, x, 2] & 0xFE) | int(
-                            payload_bits[bit_idx]
-                        )
+                        embedded[y, x, 2] = (embedded[y, x, 2] & 0xFE) | int(payload_bits[bit_idx])
                     else:
-                        embedded[y, x] = (embedded[y, x] & 0xFE) | int(
-                            payload_bits[bit_idx]
-                        )
+                        embedded[y, x] = (embedded[y, x] & 0xFE) | int(payload_bits[bit_idx])
                     bit_idx += 1
 
         return embedded
@@ -910,9 +866,7 @@ class QISteganographyEngine:
                 )
 
                 if result.success:
-                    logger.info(
-                        f"✅ Successfully extracted with {extraction_mode.value}"
-                    )
+                    logger.info(f"✅ Successfully extracted with {extraction_mode.value}")
                     return result
 
             except Exception as e:
@@ -940,9 +894,7 @@ class QISteganographyEngine:
         elif mode == SteganographyMode.SPREAD_SPECTRUM:
             extracted_bytes = self._extract_spread_spectrum(matrix)
         elif mode == SteganographyMode.CONSCIOUSNESS_ALIGNED:
-            extracted_bytes = self._extract_consciousness_aligned(
-                matrix, consciousness_context
-            )
+            extracted_bytes = self._extract_consciousness_aligned(matrix, consciousness_context)
         elif mode == SteganographyMode.SYMBOLIC_RESONANCE:
             extracted_bytes = self._extract_symbolic_resonance(matrix)
         else:
@@ -993,9 +945,7 @@ class QISteganographyEngine:
 
         except Exception as e:
             logger.debug(f"Deserialization failed: {e}")
-            return ExtractionResult(
-                success=False, extraction_method=mode, error_message=str(e)
-            )
+            return ExtractionResult(success=False, extraction_method=mode, error_message=str(e))
 
     # ... (Additional helper methods would continue here) ...
 
@@ -1019,9 +969,7 @@ class QISteganographyEngine:
         # Serialize complete payload
         serialized = {
             "header": header,
-            "data": (
-                payload.data.hex() if isinstance(payload.data, bytes) else payload.data
-            ),
+            "data": (payload.data.hex() if isinstance(payload.data, bytes) else payload.data),
             "metadata": payload.metadata,
         }
 
@@ -1040,9 +988,7 @@ class QISteganographyEngine:
         """Encrypt payload data"""
         # Use AES-256-GCM for authenticated encryption
         nonce = secrets.token_bytes(12)
-        cipher = Cipher(
-            algorithms.AES(key), modes.GCM(nonce), backend=default_backend()
-        )
+        cipher = Cipher(algorithms.AES(key), modes.GCM(nonce), backend=default_backend())
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(data) + encryptor.finalize()
 
@@ -1068,9 +1014,7 @@ class QIRandomGenerator:
         """Generate quantum-random encryption key"""
         return secrets.token_bytes(length)
 
-    def generate_embedding_positions(
-        self, num_positions: int, max_position: int
-    ) -> list[int]:
+    def generate_embedding_positions(self, num_positions: int, max_position: int) -> list[int]:
         """Generate quantum-random embedding positions"""
         return list(np.random.choice(max_position, size=num_positions, replace=False))
 

@@ -83,9 +83,7 @@ try:
     )
 
     LUKHAS_CORE_AVAILABLE = True
-    logger.info(
-        "ΛTRACE: LUKHAS core managers (QRS, Tier, Biometric, QRG) imported successfully."
-    )
+    logger.info("ΛTRACE: LUKHAS core managers (QRS, Tier, Biometric, QRG) imported successfully.")
 except ImportError as e_core:
     logger.error(
         f"ΛTRACE: CRITICAL - Failed to import lukhas_core components: {e_core}. Unified API functionality will be severely limited.",
@@ -95,7 +93,6 @@ except ImportError as e_core:
     # Define fallback classes for core managers if they are missing
 
     class QRSManager:  # type: ignore:
-
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK QRSManager.")
 
@@ -112,7 +109,6 @@ except ImportError as e_core:
             return {"success": False, "error": "QRSManager not loaded"}
 
     class LambdaTierManager:  # type: ignore:
-
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK LambdaTierManager.")
 
@@ -129,7 +125,6 @@ except ImportError as e_core:
             return "unknown"
 
     class BiometricIntegrationManager:  # type: ignore:
-
         def __init__(self, *args, **kwargs):
             logger.error("ΛTRACE: Using FALLBACK BiometricIntegrationManager.")
 
@@ -144,9 +139,7 @@ except ImportError as e_core:
                     "success": False,
                     "biometric_type": type("FallbackBioType", (), {"value": "unknown"}),
                     "confidence_score": 0.0,
-                    "match_quality": type(
-                        "FallbackMatchQuality", (), {"value": "unknown"}
-                    ),
+                    "match_quality": type("FallbackMatchQuality", (), {"value": "unknown"}),
                     "tier_requirement_met": False,
                     "cultural_context_verified": False,
                     "consciousness_validated": False,
@@ -162,6 +155,7 @@ except ImportError as e_core:
 
         def __init__(self, value):
             self._value_ = value  # Ensure enum members have a value
+
 
 # Security dependency for FastAPI (if available)
 security_scheme = None
@@ -253,6 +247,7 @@ class UserProfileRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
     )
     logger.debug("ΛTRACE: UserProfileRequest Pydantic model defined.")
 
+
 # Human-readable comment: Pydantic model for symbolic authentication requests.
 
 
@@ -287,6 +282,7 @@ class SymbolicAuthRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: 
         else 0
     )
     logger.debug("ΛTRACE: SymbolicAuthRequest Pydantic model defined.")
+
 
 # Human-readable comment: Pydantic model for QRG generation requests.
 
@@ -338,6 +334,7 @@ class QRGGenerationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
     )
     logger.debug("ΛTRACE: QRGGenerationRequest Pydantic model defined.")
 
+
 # Human-readable comment: Pydantic model for QRG validation requests.
 
 
@@ -361,6 +358,7 @@ class QRGValidationRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type:
         else {}
     )
     logger.debug("ΛTRACE: QRGValidationRequest Pydantic model defined.")
+
 
 # Human-readable comment: Pydantic model for updating a user's symbolic vault.
 
@@ -386,6 +384,7 @@ class VaultUpdateRequest(BaseModel if FASTAPI_AVAILABLE else object):  # type: i
         else []
     )
     logger.debug("ΛTRACE: VaultUpdateRequest Pydantic model defined.")
+
 
 # Human-readable comment: Pydantic model for biometric enrollment requests.
 
@@ -419,6 +418,7 @@ class BiometricEnrollRequest(BaseModel if FASTAPI_AVAILABLE else object):  # typ
     )
     logger.debug("ΛTRACE: BiometricEnrollRequest Pydantic model defined.")
 
+
 # Human-readable comment: Pydantic model for biometric verification requests.
 
 
@@ -434,9 +434,7 @@ class BiometricVerifyRequest(BaseModel if FASTAPI_AVAILABLE else object):  # typ
         else ""
     )
     biometric_type: str = (
-        Field(..., description="Type of biometric being verified.")
-        if FASTAPI_AVAILABLE
-        else ""
+        Field(..., description="Type of biometric being verified.") if FASTAPI_AVAILABLE else ""
     )
     verification_data: dict[str, Any] = (
         Field(..., description="The biometric data payload for verification.")
@@ -449,9 +447,7 @@ class BiometricVerifyRequest(BaseModel if FASTAPI_AVAILABLE else object):  # typ
 if (
     FASTAPI_AVAILABLE and BaseModel.__subclasses__()
 ):  # Check if any Pydantic models were actually defined
-    logger.info(
-        f"ΛTRACE: Defined {len(BaseModel.__subclasses__())} Pydantic models for API."
-    )
+    logger.info(f"ΛTRACE: Defined {len(BaseModel.__subclasses__())} Pydantic models for API.")
 elif FASTAPI_AVAILABLE:
     logger.warning(
         "ΛTRACE: Pydantic BaseModel is available, but no subclasses (models) were defined in this scope."
@@ -478,9 +474,7 @@ class LukhasUnifiedAPI:
 
     def __init__(self):
         """Initializes the LukhasUnifiedAPI, setting up core managers and FastAPI app (if available)."""
-        self.logger = logger.getChild(
-            "LukhasUnifiedAPIInstance"
-        )  # Instance-specific logger
+        self.logger = logger.getChild("LukhasUnifiedAPIInstance")  # Instance-specific logger
         self.logger.info("ΛTRACE: Initializing LukhasUnifiedAPI instance.")
 
         # Initialize core managers. These are critical dependencies.
@@ -512,9 +506,7 @@ class LukhasUnifiedAPI:
 
         # Initialize FastAPI app instance if FastAPI is available
         self.app: Optional[FastAPI] = None
-        if (
-            FASTAPI_AVAILABLE and FastAPI is not None
-        ):  # Ensure FastAPI itself is not None
+        if FASTAPI_AVAILABLE and FastAPI is not None:  # Ensure FastAPI itself is not None
             self.app = FastAPI(
                 title="LUKHAS ΛiD Unified API",
                 description="Consolidated API for the LUKHAS ΛiD, QRS, Tier, and Biometric ecosystem.",
@@ -553,9 +545,7 @@ class LukhasUnifiedAPI:
 
     def _setup_fastapi_middleware(self) -> None:
         """Sets up middleware for the FastAPI application (e.g., CORS)."""
-        if (
-            not self.app or not FASTAPI_AVAILABLE or not CORSMiddleware
-        ):  # Check all dependencies
+        if not self.app or not FASTAPI_AVAILABLE or not CORSMiddleware:  # Check all dependencies
             self.logger.debug(
                 "ΛTRACE: Skipping FastAPI middleware setup (FastAPI/CORSMiddleware not available or app not initialized)."
             )
@@ -637,9 +627,7 @@ class LukhasUnifiedAPI:
             tags=["ΛiD Management"],
         )
         async def get_lambda_id_profile_route(lambda_id: str):
-            self.logger.info(
-                f"ΛTRACE: Endpoint GET {api_v2_prefix}/profile/{lambda_id} invoked."
-            )
+            self.logger.info(f"ΛTRACE: Endpoint GET {api_v2_prefix}/profile/{lambda_id} invoked.")
             # return await self._get_profile_endpoint_impl(lambda_id) # Placeholder
             # for actual implementation
             return {"message": f"Profile for {lambda_id} (Not Implemented Yet)"}
@@ -672,7 +660,7 @@ class LukhasUnifiedAPI:
         self, request_data: UserProfileRequest
     ) -> dict[str, Any]:
         """Core logic for creating a new LUKHAS ΛiD, including QRG integration if enabled."""
-        request_id = f"create_lid_{int(time.time()*1000)}"  # Simple request ID
+        request_id = f"create_lid_{int(time.time() * 1000)}"  # Simple request ID
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing ΛiD creation request. Input emoji: {request_data.favorite_emoji}"
         )
@@ -733,11 +721,11 @@ class LukhasUnifiedAPI:
             if FASTAPI_AVAILABLE and HTTPException and status:
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=f"Internal server error during ΛiD creation: {str(e)}",
+                    detail=f"Internal server error during ΛiD creation: {e!s}",
                 )
             return {
                 "success": False,
-                "error": f"Internal server error: {str(e)}",
+                "error": f"Internal server error: {e!s}",
             }
 
     # Human-readable comment: Implementation logic for symbolic authentication endpoint.
@@ -745,7 +733,7 @@ class LukhasUnifiedAPI:
         self, request_data: SymbolicAuthRequest
     ) -> dict[str, Any]:
         """Core logic for symbolic authentication of a LUKHAS ΛiD."""
-        request_id = f"auth_sym_{int(time.time()*1000)}"
+        request_id = f"auth_sym_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing symbolic authentication for ΛiD '{request_data.lambda_id[:10]}...'. Requested Tier: {request_data.requested_tier}"
         )
@@ -774,15 +762,11 @@ class LukhasUnifiedAPI:
                 if FASTAPI_AVAILABLE and HTTPException and status:
                     raise HTTPException(
                         status_code=status.HTTP_401_UNAUTHORIZED,
-                        detail=auth_result.get(
-                            "error", "Symbolic authentication failed."
-                        ),
+                        detail=auth_result.get("error", "Symbolic authentication failed."),
                     )
                 return {
                     "success": False,
-                    "error": auth_result.get(
-                        "error", "Symbolic authentication failed."
-                    ),
+                    "error": auth_result.get("error", "Symbolic authentication failed."),
                 }
 
         except HTTPException:
@@ -796,11 +780,11 @@ class LukhasUnifiedAPI:
             if FASTAPI_AVAILABLE and HTTPException and status:
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=f"Internal server error during symbolic authentication: {str(e)}",
+                    detail=f"Internal server error during symbolic authentication: {e!s}",
                 )
             return {
                 "success": False,
-                "error": f"Internal server error: {str(e)}",
+                "error": f"Internal server error: {e!s}",
             }
 
     # ... (Implementations for other _endpoint_impl methods would follow a similar pattern) ...
@@ -833,46 +817,38 @@ class LukhasUnifiedAPI:
                         "symbolic_status": symbolic_status,
                         "profile_created": profile_data.get("created_at"),
                         "last_updated": profile_data.get("updated_at"),
-                        "account_status": profile_data.get("status", "active")
-                    }
+                        "account_status": profile_data.get("status", "active"),
+                    },
                 }
             else:
                 return {
                     "success": False,
                     "error": profile_result.get("error", "Profile not found"),
-                    "lambda_id": lambda_id
+                    "lambda_id": lambda_id,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error fetching profile for {lambda_id}: {str(e)}")
-            return {
-                "success": False,
-                "error": f"Internal error: {str(e)}",
-                "lambda_id": lambda_id
-            }
+            self.logger.error(f"Error fetching profile for {lambda_id}: {e!s}")
+            return {"success": False, "error": f"Internal error: {e!s}", "lambda_id": lambda_id}
 
-    async def _update_vault_endpoint_impl(
-        self, request_data: VaultUpdateRequest
-    ) -> dict[str, Any]:
+    async def _update_vault_endpoint_impl(self, request_data: VaultUpdateRequest) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Updating vault for {request_data.lambda_id[:10]}...")
         try:
             # Validate input
             if not request_data.new_entries:
-                return {
-                    "success": False,
-                    "error": "No vault entries provided for update"
-                }
+                return {"success": False, "error": "No vault entries provided for update"}
 
             # Process vault update through QRS manager
             vault_result = await self.qrs_manager.update_symbolic_vault(
-                lambda_id=request_data.lambda_id,
-                new_entries=request_data.new_entries
+                lambda_id=request_data.lambda_id, new_entries=request_data.new_entries
             )
 
             if vault_result.get("success"):
                 # Log successful vault update
                 entries_count = len(request_data.new_entries)
-                self.logger.info(f"Vault updated successfully for {request_data.lambda_id[:10]} with {entries_count} entries")
+                self.logger.info(
+                    f"Vault updated successfully for {request_data.lambda_id[:10]} with {entries_count} entries"
+                )
 
                 return {
                     "success": True,
@@ -880,21 +856,21 @@ class LukhasUnifiedAPI:
                     "lambda_id": request_data.lambda_id,
                     "entries_added": entries_count,
                     "vault_stats": vault_result.get("vault_stats", {}),
-                    "update_timestamp": vault_result.get("timestamp")
+                    "update_timestamp": vault_result.get("timestamp"),
                 }
             else:
                 return {
                     "success": False,
                     "error": vault_result.get("error", "Failed to update vault"),
-                    "lambda_id": request_data.lambda_id
+                    "lambda_id": request_data.lambda_id,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error updating vault for {request_data.lambda_id}: {str(e)}")
+            self.logger.error(f"Error updating vault for {request_data.lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error during vault update: {str(e)}",
-                "lambda_id": request_data.lambda_id
+                "error": f"Internal error during vault update: {e!s}",
+                "lambda_id": request_data.lambda_id,
             }
 
     async def _generate_qrg_endpoint_impl(
@@ -910,7 +886,7 @@ class LukhasUnifiedAPI:
                 qrg_type=request_data.qrg_type,
                 security_level=request_data.security_level,
                 expiry_minutes=request_data.expiry_minutes,
-                challenge_elements=request_data.challenge_elements
+                challenge_elements=request_data.challenge_elements,
             )
 
             if qrg_result.get("success"):
@@ -929,23 +905,23 @@ class LukhasUnifiedAPI:
                         "expires_at": qrg_data.get("expires_at"),
                         "challenge_data": qrg_data.get("challenge_data", {}),
                         "verification_hint": qrg_data.get("hint"),
-                        "qrg_signature": qrg_data.get("signature")
+                        "qrg_signature": qrg_data.get("signature"),
                     },
-                    "usage_instructions": qrg_result.get("instructions", [])
+                    "usage_instructions": qrg_result.get("instructions", []),
                 }
             else:
                 return {
                     "success": False,
                     "error": qrg_result.get("error", "Failed to generate QRG"),
-                    "lambda_id": request_data.lambda_id
+                    "lambda_id": request_data.lambda_id,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error generating QRG for {request_data.lambda_id}: {str(e)}")
+            self.logger.error(f"Error generating QRG for {request_data.lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error during QRG generation: {str(e)}",
-                "lambda_id": request_data.lambda_id
+                "error": f"Internal error during QRG generation: {e!s}",
+                "lambda_id": request_data.lambda_id,
             }
 
     async def _validate_qrg_endpoint_impl(
@@ -955,14 +931,15 @@ class LukhasUnifiedAPI:
         try:
             # Validate QRG using QRS manager
             validation_result = await self.qrs_manager.validate_qrg_authentication(
-                qrg_data=request_data.qrg_data,
-                auth_response=request_data.auth_response
+                qrg_data=request_data.qrg_data, auth_response=request_data.auth_response
             )
 
             if validation_result.get("success"):
                 validation_data = validation_result.get("validation", {})
 
-                self.logger.info(f"QRG validation successful. Score: {validation_data.get('confidence_score', 0)}")
+                self.logger.info(
+                    f"QRG validation successful. Score: {validation_data.get('confidence_score', 0)}"
+                )
 
                 return {
                     "success": True,
@@ -974,25 +951,25 @@ class LukhasUnifiedAPI:
                         "validation_timestamp": validation_data.get("timestamp"),
                         "challenge_passed": validation_data.get("challenge_passed", False),
                         "signature_valid": validation_data.get("signature_valid", False),
-                        "expiry_status": validation_data.get("expiry_status", "unknown")
+                        "expiry_status": validation_data.get("expiry_status", "unknown"),
                     },
                     "access_granted": validation_data.get("access_granted", False),
-                    "session_data": validation_data.get("session_data", {})
+                    "session_data": validation_data.get("session_data", {}),
                 }
             else:
                 return {
                     "success": False,
                     "validation_status": "invalid",
                     "error": validation_result.get("error", "QRG validation failed"),
-                    "error_details": validation_result.get("error_details", {})
+                    "error_details": validation_result.get("error_details", {}),
                 }
 
         except Exception as e:
-            self.logger.error(f"Error validating QRG: {str(e)}")
+            self.logger.error(f"Error validating QRG: {e!s}")
             return {
                 "success": False,
                 "validation_status": "error",
-                "error": f"Internal error during QRG validation: {str(e)}"
+                "error": f"Internal error during QRG validation: {e!s}",
             }
 
     async def _get_tier_info_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
@@ -1014,31 +991,27 @@ class LukhasUnifiedAPI:
                     "next_tier": current_tier + 1 if current_tier < 5 else None,
                     "upgrade_requirements": tier_upgrade_info.get("requirements", []),
                     "estimated_cost": tier_upgrade_info.get("cost"),
-                    "upgrade_available": current_tier < 5
+                    "upgrade_available": current_tier < 5,
                 },
                 "symbolic_status": symbolic_status,
                 "tier_features": {
                     "api_rate_limit": tier_benefits.get("api_calls_per_hour", 100),
                     "storage_quota": tier_benefits.get("storage_gb", 1),
                     "advanced_features": tier_benefits.get("advanced_features", []),
-                    "support_level": tier_benefits.get("support_level", "basic")
-                }
+                    "support_level": tier_benefits.get("support_level", "basic"),
+                },
             }
 
         except Exception as e:
-            self.logger.error(f"Error getting tier info for {lambda_id}: {str(e)}")
+            self.logger.error(f"Error getting tier info for {lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Unable to retrieve tier information: {str(e)}",
-                "lambda_id": lambda_id
+                "error": f"Unable to retrieve tier information: {e!s}",
+                "lambda_id": lambda_id,
             }
 
-    async def _upgrade_tier_endpoint_impl(
-        self, lambda_id: str, target_tier: int
-    ) -> dict[str, Any]:
-        self.logger.info(
-            f"ΛTRACE: Upgrading tier for {lambda_id[:10]} to {target_tier}..."
-        )
+    async def _upgrade_tier_endpoint_impl(self, lambda_id: str, target_tier: int) -> dict[str, Any]:
+        self.logger.info(f"ΛTRACE: Upgrading tier for {lambda_id[:10]} to {target_tier}...")
         try:
             # Validate tier upgrade request
             current_tier = await self.tier_manager.get_user_tier(lambda_id)
@@ -1047,14 +1020,14 @@ class LukhasUnifiedAPI:
                 return {
                     "success": False,
                     "error": f"Target tier {target_tier} must be higher than current tier {current_tier}",
-                    "current_tier": current_tier
+                    "current_tier": current_tier,
                 }
 
             if target_tier > 5:
                 return {
                     "success": False,
                     "error": "Maximum tier level is 5",
-                    "current_tier": current_tier
+                    "current_tier": current_tier,
                 }
 
             # Check upgrade eligibility and requirements
@@ -1068,19 +1041,19 @@ class LukhasUnifiedAPI:
                     "success": False,
                     "error": "Tier upgrade requirements not met",
                     "requirements_missing": upgrade_eligible.get("missing_requirements", []),
-                    "current_tier": current_tier
+                    "current_tier": current_tier,
                 }
 
             # Process tier upgrade
-            upgrade_result = await self.tier_manager.upgrade_user_tier(
-                lambda_id, target_tier
-            )
+            upgrade_result = await self.tier_manager.upgrade_user_tier(lambda_id, target_tier)
 
             if upgrade_result.get("success"):
                 # Get new tier benefits
                 new_benefits = await self.tier_manager.get_tier_benefits(target_tier)
 
-                self.logger.info(f"Tier upgrade successful for {lambda_id[:10]}: {current_tier} -> {target_tier}")
+                self.logger.info(
+                    f"Tier upgrade successful for {lambda_id[:10]}: {current_tier} -> {target_tier}"
+                )
 
                 return {
                     "success": True,
@@ -1090,21 +1063,21 @@ class LukhasUnifiedAPI:
                     "upgrade_timestamp": upgrade_result.get("timestamp"),
                     "new_benefits": new_benefits,
                     "message": f"Successfully upgraded to LAMBDA_TIER_{target_tier}",
-                    "effective_immediately": True
+                    "effective_immediately": True,
                 }
             else:
                 return {
                     "success": False,
                     "error": upgrade_result.get("error", "Tier upgrade failed"),
-                    "current_tier": current_tier
+                    "current_tier": current_tier,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error upgrading tier for {lambda_id}: {str(e)}")
+            self.logger.error(f"Error upgrading tier for {lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error during tier upgrade: {str(e)}",
-                "lambda_id": lambda_id
+                "error": f"Internal error during tier upgrade: {e!s}",
+                "lambda_id": lambda_id,
             }
 
     async def _enroll_biometric_endpoint_impl(
@@ -1120,20 +1093,22 @@ class LukhasUnifiedAPI:
                 return {
                     "success": False,
                     "error": f"Unsupported biometric type: {request_data.biometric_type}",
-                    "supported_types": supported_types
+                    "supported_types": supported_types,
                 }
 
             # Process biometric enrollment
             enrollment_result = await self.biometric_manager.enroll_biometric(
                 lambda_id=request_data.lambda_id,
                 biometric_type=request_data.biometric_type,
-                biometric_data=request_data.biometric_data
+                biometric_data=request_data.biometric_data,
             )
 
             if enrollment_result.get("success"):
                 enrollment_data = enrollment_result.get("enrollment", {})
 
-                self.logger.info(f"Biometric enrollment successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}")
+                self.logger.info(
+                    f"Biometric enrollment successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}"
+                )
 
                 return {
                     "success": True,
@@ -1145,10 +1120,10 @@ class LukhasUnifiedAPI:
                         "quality_score": enrollment_data.get("quality_score", 0.0),
                         "enrollment_timestamp": enrollment_data.get("timestamp"),
                         "template_generated": enrollment_data.get("template_created", False),
-                        "backup_created": enrollment_data.get("backup_template", False)
+                        "backup_created": enrollment_data.get("backup_template", False),
                     },
                     "verification_ready": enrollment_data.get("ready_for_verification", False),
-                    "message": f"{request_data.biometric_type.title()} biometric enrolled successfully"
+                    "message": f"{request_data.biometric_type.title()} biometric enrolled successfully",
                 }
             else:
                 return {
@@ -1156,16 +1131,16 @@ class LukhasUnifiedAPI:
                     "error": enrollment_result.get("error", "Biometric enrollment failed"),
                     "error_details": enrollment_result.get("error_details", {}),
                     "lambda_id": request_data.lambda_id,
-                    "biometric_type": request_data.biometric_type
+                    "biometric_type": request_data.biometric_type,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error enrolling biometric for {request_data.lambda_id}: {str(e)}")
+            self.logger.error(f"Error enrolling biometric for {request_data.lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error during biometric enrollment: {str(e)}",
+                "error": f"Internal error during biometric enrollment: {e!s}",
                 "lambda_id": request_data.lambda_id,
-                "biometric_type": request_data.biometric_type
+                "biometric_type": request_data.biometric_type,
             }
 
     async def _verify_biometric_endpoint_impl(
@@ -1179,13 +1154,15 @@ class LukhasUnifiedAPI:
             verification_result = await self.biometric_manager.verify_biometric(
                 lambda_id=request_data.lambda_id,
                 biometric_type=request_data.biometric_type,
-                verification_data=request_data.verification_data
+                verification_data=request_data.verification_data,
             )
 
             # Process verification result
             if verification_result and hasattr(verification_result, "success"):
                 if verification_result.success:
-                    self.logger.info(f"Biometric verification successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}")
+                    self.logger.info(
+                        f"Biometric verification successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}"
+                    )
 
                     return {
                         "success": True,
@@ -1194,14 +1171,18 @@ class LukhasUnifiedAPI:
                         "verification_status": "verified",
                         "verification_details": {
                             "confidence_score": verification_result.confidence_score,
-                            "match_quality": verification_result.match_quality.value if hasattr(verification_result.match_quality, "value") else str(verification_result.match_quality),
+                            "match_quality": verification_result.match_quality.value
+                            if hasattr(verification_result.match_quality, "value")
+                            else str(verification_result.match_quality),
                             "tier_requirement_met": verification_result.tier_requirement_met,
                             "cultural_context_verified": verification_result.cultural_context_verified,
                             "consciousness_validated": verification_result.consciousness_validated,
-                            "verification_timestamp": verification_result.verification_timestamp
+                            "verification_timestamp": verification_result.verification_timestamp,
                         },
                         "access_granted": verification_result.confidence_score > 0.8,
-                        "session_token": f"bio_session_{int(verification_result.verification_timestamp)}" if verification_result.confidence_score > 0.8 else None
+                        "session_token": f"bio_session_{int(verification_result.verification_timestamp)}"
+                        if verification_result.confidence_score > 0.8
+                        else None,
                     }
                 else:
                     return {
@@ -1212,29 +1193,27 @@ class LukhasUnifiedAPI:
                         "error": verification_result.error_message,
                         "verification_details": {
                             "confidence_score": verification_result.confidence_score,
-                            "verification_timestamp": verification_result.verification_timestamp
-                        }
+                            "verification_timestamp": verification_result.verification_timestamp,
+                        },
                     }
             else:
                 return {
                     "success": False,
                     "error": "Invalid verification result format",
                     "lambda_id": request_data.lambda_id,
-                    "biometric_type": request_data.biometric_type
+                    "biometric_type": request_data.biometric_type,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error verifying biometric for {request_data.lambda_id}: {str(e)}")
+            self.logger.error(f"Error verifying biometric for {request_data.lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error during biometric verification: {str(e)}",
+                "error": f"Internal error during biometric verification: {e!s}",
                 "lambda_id": request_data.lambda_id,
-                "biometric_type": request_data.biometric_type
+                "biometric_type": request_data.biometric_type,
             }
 
-    async def _get_enrolled_biometrics_endpoint_impl(
-        self, lambda_id: str
-    ) -> dict[str, Any]:
+    async def _get_enrolled_biometrics_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Getting enrolled biometrics for {lambda_id[:10]}...")
         try:
             # Get enrolled biometrics from biometric manager
@@ -1255,7 +1234,7 @@ class LukhasUnifiedAPI:
                         "last_verified": biometric.get("last_verified"),
                         "quality_score": biometric.get("quality_score", 0.0),
                         "verification_count": biometric.get("verification_count", 0),
-                        "status": biometric.get("status", "active")
+                        "status": biometric.get("status", "active"),
                     }
 
                 return {
@@ -1265,21 +1244,21 @@ class LukhasUnifiedAPI:
                     "enrollment_count": len(enrolled_types),
                     "enrollment_details": enrollment_details,
                     "available_types": ["face", "voice", "fingerprint", "behavioral", "gait"],
-                    "enrollment_status": "active" if enrolled_types else "none"
+                    "enrollment_status": "active" if enrolled_types else "none",
                 }
             else:
                 return {
                     "success": False,
                     "error": enrolled_result.get("error", "Unable to retrieve enrolled biometrics"),
-                    "lambda_id": lambda_id
+                    "lambda_id": lambda_id,
                 }
 
         except Exception as e:
-            self.logger.error(f"Error getting enrolled biometrics for {lambda_id}: {str(e)}")
+            self.logger.error(f"Error getting enrolled biometrics for {lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error retrieving enrolled biometrics: {str(e)}",
-                "lambda_id": lambda_id
+                "error": f"Internal error retrieving enrolled biometrics: {e!s}",
+                "lambda_id": lambda_id,
             }
 
     async def _get_analytics_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
@@ -1304,18 +1283,18 @@ class LukhasUnifiedAPI:
                     "api_calls_30d": 0,
                     "qrg_generations": 0,
                     "biometric_verifications": 0,
-                    "vault_updates": 0
+                    "vault_updates": 0,
                 },
                 "performance_metrics": {
                     "average_response_time": 0.0,
                     "success_rate": 0.0,
-                    "error_rate": 0.0
+                    "error_rate": 0.0,
                 },
                 "security_metrics": {
                     "failed_authentications": 0,
                     "suspicious_activities": 0,
-                    "tier_violations": 0
-                }
+                    "tier_violations": 0,
+                },
             }
 
             # Try to get real analytics from qrs_manager
@@ -1333,8 +1312,12 @@ class LukhasUnifiedAPI:
                 bio_analytics = await self.biometric_manager.get_user_analytics(lambda_id)
                 if bio_analytics.get("success"):
                     bio_data = bio_analytics.get("analytics", {})
-                    analytics_data["usage_stats"]["biometric_verifications"] = bio_data.get("verification_count", 0)
-                    analytics_data["security_metrics"]["failed_authentications"] = bio_data.get("failed_attempts", 0)
+                    analytics_data["usage_stats"]["biometric_verifications"] = bio_data.get(
+                        "verification_count", 0
+                    )
+                    analytics_data["security_metrics"]["failed_authentications"] = bio_data.get(
+                        "failed_attempts", 0
+                    )
             except Exception as e:
                 self.logger.debug(f"Biometric analytics not available: {e}")
 
@@ -1346,37 +1329,40 @@ class LukhasUnifiedAPI:
                     analytics_data["tier_info"] = {
                         "current_tier": tier_data.get("current_tier", 1),
                         "tier_upgrades": tier_data.get("upgrade_history", []),
-                        "tier_benefits_used": tier_data.get("benefits_usage", {})
+                        "tier_benefits_used": tier_data.get("benefits_usage", {}),
                     }
             except Exception as e:
                 self.logger.debug(f"Tier analytics not available: {e}")
 
             # Calculate derived metrics
-            total_activities = sum([
-                analytics_data["usage_stats"]["api_calls_30d"],
-                analytics_data["usage_stats"]["qrg_generations"],
-                analytics_data["usage_stats"]["biometric_verifications"],
-                analytics_data["usage_stats"]["vault_updates"]
-            ])
+            total_activities = sum(
+                [
+                    analytics_data["usage_stats"]["api_calls_30d"],
+                    analytics_data["usage_stats"]["qrg_generations"],
+                    analytics_data["usage_stats"]["biometric_verifications"],
+                    analytics_data["usage_stats"]["vault_updates"],
+                ]
+            )
 
             analytics_data["summary"] = {
                 "total_activities": total_activities,
-                "most_active_period": "recent" if analytics_data["usage_stats"]["api_calls_7d"] > 0 else "inactive",
+                "most_active_period": "recent"
+                if analytics_data["usage_stats"]["api_calls_7d"] > 0
+                else "inactive",
                 "engagement_score": min(100, total_activities * 2),  # Simple engagement metric
-                "account_health": "good" if analytics_data["security_metrics"]["failed_authentications"] < 5 else "needs_attention"
+                "account_health": "good"
+                if analytics_data["security_metrics"]["failed_authentications"] < 5
+                else "needs_attention",
             }
 
-            return {
-                "success": True,
-                **analytics_data
-            }
+            return {"success": True, **analytics_data}
 
         except Exception as e:
-            self.logger.error(f"Error getting analytics for {lambda_id}: {str(e)}")
+            self.logger.error(f"Error getting analytics for {lambda_id}: {e!s}")
             return {
                 "success": False,
-                "error": f"Internal error retrieving analytics: {str(e)}",
-                "lambda_id": lambda_id
+                "error": f"Internal error retrieving analytics: {e!s}",
+                "lambda_id": lambda_id,
             }
 
     async def _get_system_stats_endpoint_impl(self) -> dict[str, Any]:
@@ -1441,17 +1427,11 @@ def get_lukhas_unified_api_app() -> Optional[FastAPI]:  # Renamed for clarity:
     logger.info("ΛTRACE: get_lukhas_unified_api_app factory function called.")
 
     if _lukhas_unified_api_instance is None:
-        logger.debug(
-            "ΛTRACE: No existing LukhasUnifiedAPI instance, creating a new one."
-        )
+        logger.debug("ΛTRACE: No existing LukhasUnifiedAPI instance, creating a new one.")
         try:
             _lukhas_unified_api_instance = LukhasUnifiedAPI()
-            logger.info(
-                "ΛTRACE: New LukhasUnifiedAPI instance created and assigned globally."
-            )
-        except (
-            Exception
-        ) as e_create:  # Catch errors during LukhasUnifiedAPI instantiation
+            logger.info("ΛTRACE: New LukhasUnifiedAPI instance created and assigned globally.")
+        except Exception as e_create:  # Catch errors during LukhasUnifiedAPI instantiation
             logger.critical(
                 f"ΛTRACE: Failed to create LukhasUnifiedAPI instance in factory: {e_create}",
                 exc_info=True,

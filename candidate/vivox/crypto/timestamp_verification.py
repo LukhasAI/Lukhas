@@ -146,16 +146,12 @@ class VIVOXCryptoSystem:
     def _initialize_keys(self):
         """Initialize RSA key pair for signatures"""
         try:
-            self.private_key = rsa.generate_private_key(
-                public_exponent=65537, key_size=2048
-            )
+            self.private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
             self.public_key = self.private_key.public_key()
         except Exception as e:
             print(f"Warning: Could not initialize cryptographic keys: {e}")
 
-    def generate_crypto_timestamp(
-        self, precision_required: bool = True
-    ) -> CryptoTimestamp:
+    def generate_crypto_timestamp(self, precision_required: bool = True) -> CryptoTimestamp:
         """
         Generate cryptographically secure timestamp
 
@@ -173,9 +169,7 @@ class VIVOXCryptoSystem:
         nonce = secrets.token_hex(16)
 
         # Calculate precision (simulated - in real implementation would use NTP)
-        precision_ms = (
-            1.0 if self.timestamp_source == TimestampSource.SYSTEM_TIME else 0.1
-        )
+        precision_ms = 1.0 if self.timestamp_source == TimestampSource.SYSTEM_TIME else 0.1
 
         # Create verification data
         verification_data = {
@@ -348,14 +342,10 @@ class VIVOXCryptoSystem:
         try:
             # Recreate hash input
             salt = bytes.fromhex(hash_record.salt)
-            hash_input = self._prepare_hash_input(
-                original_data, timestamp, context, salt
-            )
+            hash_input = self._prepare_hash_input(original_data, timestamp, context, salt)
 
             # Verify primary hash
-            expected_primary = self._compute_hash(
-                hash_input, hash_record.algorithm, salt
-            )
+            expected_primary = self._compute_hash(hash_input, hash_record.algorithm, salt)
 
             if expected_primary != hash_record.primary_hash:
                 return False

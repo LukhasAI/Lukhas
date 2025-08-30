@@ -13,6 +13,7 @@ from datetime import datetime
 
 sys.path.append("/Users/A_G_I/Λ")
 
+
 class ABotAutonomousHealer:
     def __init__(self):
         self.session_start = time.time()
@@ -21,13 +22,15 @@ class ABotAutonomousHealer:
 
     def log_healing_action(self, action, result, cost=0):
         """Log all healing actions"""
-        self.healing_log.append({
-            "timestamp": datetime.now().isoformat(),
-            "action": action,
-            "result": result,
-            "cost": cost,
-            "elapsed": time.time() - self.session_start
-        })
+        self.healing_log.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "action": action,
+                "result": result,
+                "cost": cost,
+                "elapsed": time.time() - self.session_start,
+            }
+        )
 
     def get_system_diagnostics(self):
         """Run comprehensive system diagnostics"""
@@ -38,9 +41,13 @@ class ABotAutonomousHealer:
 
         # Check CLI functionality
         try:
-            result = subprocess.run([
-                "python3", "LUKHAS AI ΛBot/abot_cli.py", "status"
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            result = subprocess.run(
+                ["python3", "LUKHAS AI ΛBot/abot_cli.py", "status"],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=30,
+            )
             diagnostics["cli_status"] = result.stdout
             print("✅ CLI Status Check Complete")
         except Exception as e:
@@ -49,9 +56,13 @@ class ABotAutonomousHealer:
 
         # Check financial system
         try:
-            result = subprocess.run([
-                "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            result = subprocess.run(
+                ["python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=30,
+            )
             diagnostics["financial_status"] = result.stdout
             print("✅ Financial System Check Complete")
         except Exception as e:
@@ -60,9 +71,13 @@ class ABotAutonomousHealer:
 
         # Check AI router
         try:
-            result = subprocess.run([
-                "python3", "LUKHAS AI ΛBot/abot_cli.py", "ai", "status"
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            result = subprocess.run(
+                ["python3", "LUKHAS AI ΛBot/abot_cli.py", "ai", "status"],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=30,
+            )
             diagnostics["ai_router_status"] = result.stdout
             print("✅ AI Router Check Complete")
         except Exception as e:
@@ -88,8 +103,11 @@ class ABotAutonomousHealer:
         """
 
         try:
-            result = subprocess.run([
-                "python3", "-c", f'''
+            result = subprocess.run(
+                [
+                    "python3",
+                    "-c",
+                    f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
 from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
@@ -111,8 +129,13 @@ if result.get("response"):
     print(f"\\n💰 Analysis Cost: ${{result.get('cost', 0):.6f}}")
 else:
     print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
-'''
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=120)
+''',
+                ],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=120,
+            )
 
             if result.stdout:
                 print(result.stdout)
@@ -140,7 +163,7 @@ else:
             ("Enhance security measures", "security_audit"),
             ("Optimize API key management", "analysis"),
             ("Improve system monitoring", "planning"),
-            ("Create self-diagnostic improvements", "reasoning")
+            ("Create self-diagnostic improvements", "reasoning"),
         ]
 
         for task_desc, task_type in healing_tasks:
@@ -159,8 +182,11 @@ else:
                 Be technical and specific about the implementation.
                 """
 
-                result = subprocess.run([
-                    "python3", "-c", f'''
+                result = subprocess.run(
+                    [
+                        "python3",
+                        "-c",
+                        f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
 from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
@@ -182,8 +208,13 @@ if result.get("response"):
     print(f"\\n💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
     print("❌ Healing failed:", result.get("error", "Unknown error"))
-'''
-                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=90)
+''',
+                    ],
+                    capture_output=True,
+                    text=True,
+                    cwd="/Users/A_G_I/Λ",
+                    timeout=90,
+                )
 
                 if result.stdout:
                     print(result.stdout)
@@ -220,8 +251,11 @@ else:
             """
 
             try:
-                result = subprocess.run([
-                    "python3", "-c", f'''
+                result = subprocess.run(
+                    [
+                        "python3",
+                        "-c",
+                        f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
 from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
@@ -243,8 +277,13 @@ if result.get("response"):
     print(f"\\n💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
     print("❌ Self-improvement failed:", result.get("error", "Unknown error"))
-'''
-                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=90)
+''',
+                    ],
+                    capture_output=True,
+                    text=True,
+                    cwd="/Users/A_G_I/Λ",
+                    timeout=90,
+                )
 
                 if result.stdout:
                     print(result.stdout)
@@ -264,11 +303,15 @@ else:
         os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
         with open(log_file, "w") as f:
-            json.dump({
-                "session_start": datetime.fromtimestamp(self.session_start).isoformat(),
-                "session_duration": time.time() - self.session_start,
-                "healing_log": self.healing_log
-            }, f, indent=2)
+            json.dump(
+                {
+                    "session_start": datetime.fromtimestamp(self.session_start).isoformat(),
+                    "session_duration": time.time() - self.session_start,
+                    "healing_log": self.healing_log,
+                },
+                f,
+                indent=2,
+            )
 
         print(f"\n📁 Healing log saved: {log_file}")
 
@@ -302,12 +345,17 @@ else:
 
             # Final budget check
             try:
-                result = subprocess.run([
-                    "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
-                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ")
+                result = subprocess.run(
+                    ["python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"],
+                    capture_output=True,
+                    text=True,
+                    cwd="/Users/A_G_I/Λ",
+                )
 
                 if "Balance:" in result.stdout:
-                    balance_line = [line for line in result.stdout.split("\n") if "Balance:" in line][0]
+                    balance_line = [
+                        line for line in result.stdout.split("\n") if "Balance:" in line
+                    ][0]
                     print(f"💰 Final {balance_line.strip()}")
             except:
                 pass
@@ -318,6 +366,7 @@ else:
             print(f"\n❌ Healing session error: {e}")
         finally:
             self.save_healing_log()
+
 
 if __name__ == "__main__":
     print("🚨 This will activate LUKHAS AI ΛBot's autonomous self-healing mode!")

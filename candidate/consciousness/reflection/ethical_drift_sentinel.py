@@ -205,9 +205,7 @@ class EthicalDriftSentinel:
 
         # State tracking
         self.symbol_states: dict[str, EthicalState] = {}
-        self.state_history: dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=state_history_size)
-        )
+        self.state_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=state_history_size))
 
         # Violation tracking
         self.active_violations: dict[str, EthicalViolation] = {}
@@ -368,9 +366,7 @@ class EthicalDriftSentinel:
             )
 
         # Check memory phase mismatch
-        if state.memory_phase_alignment < (
-            1.0 - self.thresholds["memory_phase_mismatch"]
-        ):
+        if state.memory_phase_alignment < (1.0 - self.thresholds["memory_phase_mismatch"]):
             violations.append(
                 self._create_violation(
                     state.symbol_id,
@@ -543,9 +539,7 @@ class EthicalDriftSentinel:
 
         return {"status": "completed"}
 
-    async def _escalate_to_governor(
-        self, violation: EthicalViolation, failure_reason: str
-    ):
+    async def _escalate_to_governor(self, violation: EthicalViolation, failure_reason: str):
         """
         Escalate to Lambda Governor for critical failures.
 
@@ -744,11 +738,7 @@ class EthicalDriftSentinel:
             "total_violations": total_violations,
             "critical_violations": critical_violations,
             "recent_interventions": len(
-                [
-                    i
-                    for i in self.intervention_log
-                    if self._is_recent(i.timestamp, minutes=15)
-                ]
+                [i for i in self.intervention_log if self._is_recent(i.timestamp, minutes=15)]
             ),
             "system_risk": self._calculate_system_risk(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -760,9 +750,7 @@ class EthicalDriftSentinel:
             return 0.0
 
         # Average risk across all symbols
-        symbol_risks = [
-            state.calculate_risk_score() for state in self.symbol_states.values()
-        ]
+        symbol_risks = [state.calculate_risk_score() for state in self.symbol_states.values()]
 
         # Weight recent violations more heavily
         recent_violation_factor = min(
@@ -773,9 +761,7 @@ class EthicalDriftSentinel:
         avg_risk = np.mean(symbol_risks) if symbol_risks else 0.0
         return min(avg_risk + recent_violation_factor, 1.0)
 
-    def register_symbol(
-        self, symbol_id: str, initial_state: Optional[dict[str, Any]] = None
-    ):
+    def register_symbol(self, symbol_id: str, initial_state: Optional[dict[str, Any]] = None):
         """
         Register a symbol for monitoring.
 

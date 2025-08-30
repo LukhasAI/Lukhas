@@ -44,9 +44,7 @@ class Lukhas:
             self.s.headers.update({"x-api-key": api_key})
         self.s.headers.update({"content-type": "application/json"})
 
-    def _request(
-        self, method: str, path: str, *, params=None, json_body=None
-    ) -> dict[str, Any]:
+    def _request(self, method: str, path: str, *, params=None, json_body=None) -> dict[str, Any]:
         url = f"{self.base}{path}"
         attempt = 0
         last_err = None
@@ -59,10 +57,7 @@ class Lukhas:
                     if "application/json" in resp.headers.get("content-type", ""):
                         return resp.json()
                     return {"ok": True, "text": resp.text}
-                if (
-                    resp.status_code in (429, 500, 502, 503, 504)
-                    and attempt < self.retries
-                ):
+                if resp.status_code in (429, 500, 502, 503, 504) and attempt < self.retries:
                     time.sleep(min(2**attempt * 0.2, 1.5))
                     attempt += 1
                     continue
@@ -131,4 +126,4 @@ class Lukhas:
         return f"{self.base}/audit/view/{audit_id}"
 
 
-__all__ = ["Lukhas", "LukhasError", "FeedbackCard"]
+__all__ = ["FeedbackCard", "Lukhas", "LukhasError"]

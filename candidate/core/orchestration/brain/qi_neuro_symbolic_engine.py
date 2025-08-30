@@ -60,8 +60,7 @@ class QIInspiredAttention:
         dimensions = len(self.attention_gates)
         # Create a normalized matrix for quantum-inspired superposition
         self.superposition_matrix = (
-            np.eye(dimensions) * 0.5
-            + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+            np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
         )
         # Ensure it's properly normalized
         for i in range(dimensions):
@@ -85,12 +84,8 @@ class QIInspiredAttention:
             Dict containing attended data with attention weights
         """
         # Verify user access
-        if not await self._verify_access(
-            user_id, session_token, AccessTier.TIER_2_ENHANCED
-        ):
-            raise PermissionError(
-                "Insufficient access tier for quantum attention processing"
-            )
+        if not await self._verify_access(user_id, session_token, AccessTier.TIER_2_ENHANCED):
+            raise PermissionError("Insufficient access tier for quantum attention processing")
 
         # Create audit log entry
         await self._create_audit_log(
@@ -104,9 +99,7 @@ class QIInspiredAttention:
         features = self._extract_features(input_data)
 
         # Apply context-aware attention distribution
-        attention_distribution = self._calculate_attention_distribution(
-            features, context
-        )
+        attention_distribution = self._calculate_attention_distribution(features, context)
 
         # Apply quantum-inspired superposition
         superposed_attention = self._apply_superposition(attention_distribution)
@@ -125,9 +118,7 @@ class QIInspiredAttention:
 
         # Extract semantic content
         if "text" in input_data:
-            features["semantic"] = input_data["text"][
-                :100
-            ]  # Simplified semantic extraction
+            features["semantic"] = input_data["text"][:100]  # Simplified semantic extraction
         else:
             features["semantic"] = None
 
@@ -148,9 +139,7 @@ class QIInspiredAttention:
 
         return features
 
-    def _calculate_attention_distribution(
-        self, features: dict, context: dict
-    ) -> np.ndarray:
+    def _calculate_attention_distribution(self, features: dict, context: dict) -> np.ndarray:
         """Calculate the initial attention distribution based on features and context"""
         attention_weights = np.zeros(len(self.attention_gates))
 
@@ -194,15 +183,11 @@ class QIInspiredAttention:
 
         return superposed
 
-    def _apply_attention_gates(
-        self, input_data: dict, attention_weights: np.ndarray
-    ) -> dict:
+    def _apply_attention_gates(self, input_data: dict, attention_weights: np.ndarray) -> dict:
         """Apply the calculated attention weights to the input data"""
         attended_data = {
             "original": input_data,
-            "attention_weights": dict(
-                zip(self.attention_gates.keys(), attention_weights)
-            ),
+            "attention_weights": dict(zip(self.attention_gates.keys(), attention_weights)),
             "attended_content": {},
             "timestamp": datetime.now().isoformat(),
             "processing_id": str(uuid.uuid4()),
@@ -213,9 +198,7 @@ class QIInspiredAttention:
             attended_data["attended_content"]["semantic"] = {
                 "content": input_data["text"],
                 "weight": float(
-                    attention_weights[
-                        list(self.attention_gates.keys()).index("semantic")
-                    ]
+                    attention_weights[list(self.attention_gates.keys()).index("semantic")]
                 ),
             }
 
@@ -224,9 +207,7 @@ class QIInspiredAttention:
             attended_data["attended_content"]["emotional"] = {
                 "content": input_data["emotion"],
                 "weight": float(
-                    attention_weights[
-                        list(self.attention_gates.keys()).index("emotional")
-                    ]
+                    attention_weights[list(self.attention_gates.keys()).index("emotional")]
                 ),
             }
 
@@ -241,9 +222,7 @@ class QIInspiredAttention:
 
         return attended_data
 
-    def _update_entanglement_map(
-        self, input_data: dict, attended_data: dict, user_id: str
-    ) -> None:
+    def _update_entanglement_map(self, input_data: dict, attended_data: dict, user_id: str) -> None:
         """Update the entanglement map to track relationships between inputs and attended outputs"""
         # Create a simple hash of the input
         input_hash = hashlib.sha256(str(input_data).encode()).hexdigest()[:10]
@@ -285,9 +264,7 @@ class QIInspiredAttention:
                 return True
         return False
 
-    async def _create_audit_log(
-        self, user_id: str, action: str, input_hash: str, tier: AccessTier
-    ):
+    async def _create_audit_log(self, user_id: str, action: str, input_hash: str, tier: AccessTier):
         """Create audit log entry for quantum attention processing"""
         await self.lukhas_id_manager._create_audit_log(
             user_id=user_id,
@@ -314,9 +291,7 @@ class CausalReasoningModule:
         self.max_causal_depth = 5
         self.causal_history = []
 
-    async def reason(
-        self, attended_data: dict, user_id: str, session_token: str
-    ) -> dict:
+    async def reason(self, attended_data: dict, user_id: str, session_token: str) -> dict:
         """
         Apply causal reasoning to attended data
 
@@ -329,9 +304,7 @@ class CausalReasoningModule:
             Dict containing reasoning results and causal chains
         """
         # Verify user access for causal reasoning
-        if not await self._verify_access(
-            user_id, session_token, AccessTier.TIER_3_PROFESSIONAL
-        ):
+        if not await self._verify_access(user_id, session_token, AccessTier.TIER_3_PROFESSIONAL):
             raise PermissionError("Insufficient access tier for causal reasoning")
 
         # Create audit log entry
@@ -346,14 +319,10 @@ class CausalReasoningModule:
             attended_data.get("attended_content", {}).get("semantic", {}).get("content")
         )
         emotional_content = (
-            attended_data.get("attended_content", {})
-            .get("emotional", {})
-            .get("content")
+            attended_data.get("attended_content", {}).get("emotional", {}).get("content")
         )
         contextual_content = (
-            attended_data.get("attended_content", {})
-            .get("contextual", {})
-            .get("content")
+            attended_data.get("attended_content", {}).get("contextual", {}).get("content")
         )
 
         # Identify potential causes and effects
@@ -369,9 +338,7 @@ class CausalReasoningModule:
 
         # Filter by confidence threshold
         valid_causes = {
-            k: v
-            for k, v in weighted_causes.items()
-            if v["confidence"] >= self.confidence_threshold
+            k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold
         }
 
         # Update internal causal graph
@@ -380,13 +347,9 @@ class CausalReasoningModule:
         # Prepare reasoning results
         reasoning_results = {
             "causal_chains": valid_causes,
-            "primary_cause": (
-                self._identify_primary_cause(valid_causes) if valid_causes else None
-            ),
+            "primary_cause": (self._identify_primary_cause(valid_causes) if valid_causes else None),
             "confidence": (
-                max([v["confidence"] for v in valid_causes.values()])
-                if valid_causes
-                else 0.0
+                max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0
             ),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
@@ -400,9 +363,7 @@ class CausalReasoningModule:
 
         return reasoning_results
 
-    def _extract_causal_elements(
-        self, semantic_content, emotional_content, contextual_content
-    ):
+    def _extract_causal_elements(self, semantic_content, emotional_content, contextual_content):
         """Extract potential causes and effects from different content types"""
         causes_effects = []
 
@@ -543,13 +504,11 @@ class CausalReasoningModule:
                 }
             else:
                 self.causal_graph[graph_key]["frequency"] += 1
-                self.causal_graph[graph_key]["confidence_history"].append(
-                    chain_data["confidence"]
-                )
+                self.causal_graph[graph_key]["confidence_history"].append(chain_data["confidence"])
                 # Keep last 10 confidence values
-                self.causal_graph[graph_key]["confidence_history"] = self.causal_graph[
-                    graph_key
-                ]["confidence_history"][-10:]
+                self.causal_graph[graph_key]["confidence_history"] = self.causal_graph[graph_key][
+                    "confidence_history"
+                ][-10:]
 
     def _identify_primary_cause(self, valid_causes):
         """Identify the most likely primary cause from valid causes"""
@@ -557,9 +516,7 @@ class CausalReasoningModule:
             return None
 
         # Select the cause with highest confidence
-        primary_cause_id = max(
-            valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"]
-        )
+        primary_cause_id = max(valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"])
         return {
             "id": primary_cause_id,
             "summary": valid_causes[primary_cause_id]["summary"],
@@ -813,9 +770,7 @@ class QINeuroSymbolicEngine:
         # Generate appropriate response based on input and reasoning
         if confidence >= 0.8:
             # High confidence response
-            response_text = self._create_high_confidence_response(
-                primary_cause, input_data
-            )
+            response_text = self._create_high_confidence_response(primary_cause, input_data)
             response["response_type"] = "high_confidence"
         elif confidence >= 0.5:
             # Medium confidence response
@@ -825,23 +780,17 @@ class QINeuroSymbolicEngine:
             response["response_type"] = "medium_confidence"
         else:
             # Low confidence response
-            response_text = self._create_low_confidence_response(
-                reasoning_results, input_data
-            )
+            response_text = self._create_low_confidence_response(reasoning_results, input_data)
             response["response_type"] = "low_confidence"
 
         response["response"] = response_text
 
         # Determine if we should generate an image
-        should_generate_image = self._should_generate_image(
-            input_data, reasoning_results
-        )
+        should_generate_image = self._should_generate_image(input_data, reasoning_results)
         response["generate_image"] = should_generate_image
 
         if should_generate_image:
-            response["image_prompt"] = self._generate_image_prompt(
-                input_data, reasoning_results
-            )
+            response["image_prompt"] = self._generate_image_prompt(input_data, reasoning_results)
 
         # Add suggested actions
         response["suggested_actions"] = self._generate_suggested_actions(
@@ -871,18 +820,12 @@ class QINeuroSymbolicEngine:
         if "question" in input_data.get("text", "").lower():
             return f"Based on my analysis, {cause_summary}. Does that answer your question?"
         else:
-            return (
-                f"I see that {cause_summary}. How would you like me to help with this?"
-            )
+            return f"I see that {cause_summary}. How would you like me to help with this?"
 
-    def _create_medium_confidence_response(
-        self, primary_cause, reasoning_results, input_data
-    ):
+    def _create_medium_confidence_response(self, primary_cause, reasoning_results, input_data):
         """Create a response when reasoning has medium confidence"""
         if not primary_cause:
-            return (
-                "I think I understand what you're asking. Can you provide more details?"
-            )
+            return "I think I understand what you're asking. Can you provide more details?"
 
         # Include some uncertainty but still provide value
         cause_summary = primary_cause.get("summary", "")
@@ -1020,29 +963,16 @@ class QINeuroSymbolicEngine:
 
         return {
             "total_processed": len(user_history),
-            "avg_confidence": sum(h["confidence"] for h in user_history)
-            / len(user_history),
+            "avg_confidence": sum(h["confidence"] for h in user_history) / len(user_history),
             "response_types": {
                 "high_confidence": len(
-                    [
-                        h
-                        for h in user_history
-                        if h.get("response_type") == "high_confidence"
-                    ]
+                    [h for h in user_history if h.get("response_type") == "high_confidence"]
                 ),
                 "medium_confidence": len(
-                    [
-                        h
-                        for h in user_history
-                        if h.get("response_type") == "medium_confidence"
-                    ]
+                    [h for h in user_history if h.get("response_type") == "medium_confidence"]
                 ),
                 "low_confidence": len(
-                    [
-                        h
-                        for h in user_history
-                        if h.get("response_type") == "low_confidence"
-                    ]
+                    [h for h in user_history if h.get("response_type") == "low_confidence"]
                 ),
             },
             "last_processed": self.last_processed,
@@ -1076,9 +1006,7 @@ if __name__ == "__main__":
             },
         }
 
-        user_id = await lukhas_id.register_user(
-            user_data, AccessTier.TIER_3_PROFESSIONAL
-        )
+        user_id = await lukhas_id.register_user(user_data, AccessTier.TIER_3_PROFESSIONAL)
         print(f"Registered test user: {user_id}")
 
         # Authenticate user
@@ -1115,9 +1043,7 @@ if __name__ == "__main__":
                     print(f"Response Type: {response['response_type']}")
                     print(f"Confidence: {response['confidence']:.2f}")
                     print(f"Response: {response['response']}")
-                    print(
-                        f"Suggested Actions: {len(response['suggested_actions'])} actions"
-                    )
+                    print(f"Suggested Actions: {len(response['suggested_actions'])} actions")
 
                 except Exception as e:
                     print(f"Error processing input: {e}")

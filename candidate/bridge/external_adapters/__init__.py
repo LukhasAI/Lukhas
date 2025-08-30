@@ -13,9 +13,4 @@ from .external_service_router import ExternalServiceRouter
 from .gmail_adapter import GmailAdapter
 from .oauth_manager import OAuthManager
 
-__all__ = [
-    "GmailAdapter",
-    "DropboxAdapter",
-    "OAuthManager",
-    "ExternalServiceRouter"
-]
+__all__ = ["DropboxAdapter", "ExternalServiceRouter", "GmailAdapter", "OAuthManager"]

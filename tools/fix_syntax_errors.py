@@ -102,9 +102,7 @@ class PythonSyntaxFixer:
                 fixes.extend(import_fixes)
 
             # 3. Fix misplaced comments in code
-            content, comment_fixes = self.fix_misplaced_comments(
-                content, str(file_path)
-            )
+            content, comment_fixes = self.fix_misplaced_comments(content, str(file_path))
             if comment_fixes:
                 modified = True
                 fixes.extend(comment_fixes)
@@ -120,9 +118,7 @@ class PythonSyntaxFixer:
                 ast.parse(content)
             except SyntaxError as e:
                 # Try additional fixes for remaining syntax errors
-                content, syntax_fixes = self.fix_remaining_syntax_errors(
-                    content, e, str(file_path)
-                )
+                content, syntax_fixes = self.fix_remaining_syntax_errors(content, e, str(file_path))
                 if syntax_fixes:
                     modified = True
                     fixes.extend(syntax_fixes)
@@ -179,9 +175,7 @@ class PythonSyntaxFixer:
                     if "LUKHAS AI" in module_name:
                         valid_name = "lukhas_ai_lambda_bot"
                     elif "Λ" in module_name or "λ" in module_name:
-                        valid_name = valid_name.replace("λ", "lambda").replace(
-                            "Λ", "lambda"
-                        )
+                        valid_name = valid_name.replace("λ", "lambda").replace("Λ", "lambda")
 
                     new_line = line.replace(module_name, valid_name)
                     lines[i] = new_line
@@ -199,9 +193,7 @@ class PythonSyntaxFixer:
 
         return "\n".join(lines), fixes
 
-    def fix_misplaced_comments(
-        self, content: str, file_path: str
-    ) -> tuple[str, list[SyntaxFix]]:
+    def fix_misplaced_comments(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
         """Fix comments that break syntax (e.g., inside function calls)"""
         fixes = []
         lines = content.splitlines()
@@ -233,9 +225,7 @@ class PythonSyntaxFixer:
 
         return "\n".join(lines), fixes
 
-    def fix_docstrings(
-        self, content: str, file_path: str
-    ) -> tuple[str, list[SyntaxFix]]:
+    def fix_docstrings(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
         """Fix malformed docstrings"""
         fixes = []
         lines = content.splitlines()
@@ -340,10 +330,7 @@ class PythonSyntaxFixer:
 
         for file_path in python_files:
             # Skip certain directories
-            if any(
-                skip in str(file_path)
-                for skip in ["__pycache__", ".git", "venv", ".venv"]
-            ):
+            if any(skip in str(file_path) for skip in ["__pycache__", ".git", "venv", ".venv"]):
                 continue
 
             if self.verbose:

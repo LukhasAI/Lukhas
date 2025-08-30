@@ -14,39 +14,53 @@ class HumeAI:
     async def analyze(self, data: Any) -> dict[str, float]:
         return {"joy": random.uniform(0, 1), "sadness": random.uniform(0, 1)}
 
+
 class AffectivaAPI:
     async def analyze(self, data: Any) -> dict[str, float]:
         return {"engagement": random.uniform(0, 1), "valence": random.uniform(-1, 1)}
+
 
 class PicovoiceAPI:
     async def analyze(self, data: Any) -> dict[str, float]:
         return {"intonation_calmness": random.uniform(0, 1)}
 
+
 class MirrorNeuronSimulator:
     async def simulate_resonance(self, data: dict[str, Any]) -> Any:
-        return type("Resonance", (), {
-            "frequency": random.uniform(10, 100),
-            "depth": random.uniform(0, 1),
-            "empathy_score": random.uniform(0, 1),
-            "growth_potential": random.uniform(0, 1)
-        })()
+        return type(
+            "Resonance",
+            (),
+            {
+                "frequency": random.uniform(10, 100),
+                "depth": random.uniform(0, 1),
+                "empathy_score": random.uniform(0, 1),
+                "growth_potential": random.uniform(0, 1),
+            },
+        )()
 
     async def generate_resonant_content(self, data: dict[str, Any]) -> Any:
-        return type("ResonantContent", (), {
-            "message": "A message designed to resonate with your current state.",
-            "resonance_score": random.uniform(0.8, 0.99),
-            "connection_pathway": "empathic_mirroring",
-            "therapeutic_value": random.uniform(0, 1)
-        })()
+        return type(
+            "ResonantContent",
+            (),
+            {
+                "message": "A message designed to resonate with your current state.",
+                "resonance_score": random.uniform(0.8, 0.99),
+                "connection_pathway": "empathic_mirroring",
+                "therapeutic_value": random.uniform(0, 1),
+            },
+        )()
+
 
 # Using the same MockOpenAI from the previous step for simplicity
 class MockChoice:
     def __init__(self, content: str):
         self.message = type("Message", (), {"content": content})()
 
+
 class MockCompletions:
     async def create(self, messages: list[dict[str, str]]) -> Any:
         return type("Completion", (), {"choices": [MockChoice("Deep feeling of peace.")]})()
+
 
 class MockOpenAI:
     def __init__(self):
@@ -81,14 +95,12 @@ class QuantumEmpathyEngine:
                 "consciousness_frequency": consciousness_signature.frequency,
                 "resonance_depth": consciousness_signature.depth,
                 "empathy_match": consciousness_signature.empathy_score,
-                "transcendence_potential": consciousness_signature.growth_potential
+                "transcendence_potential": consciousness_signature.growth_potential,
             }
         return resonance_map
 
     async def generate_empathic_response(
-        self,
-        user_consciousness_state: dict[str, Any],
-        resonance_history: dict[str, Any]
+        self, user_consciousness_state: dict[str, Any], resonance_history: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Generate response that creates genuine human connection.
@@ -98,5 +110,5 @@ class QuantumEmpathyEngine:
             "empathic_message": empathic_creative.message,
             "resonance_probability": empathic_creative.resonance_score,
             "consciousness_bridge": empathic_creative.connection_pathway,
-            "healing_potential": empathic_creative.therapeutic_value
+            "healing_potential": empathic_creative.therapeutic_value,
         }

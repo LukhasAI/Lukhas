@@ -20,7 +20,7 @@ class BioMatrizAdapter:
         node_type: str,
         state: dict[str, float],
         labels: Optional[list[str]] = None,
-        provenance_extra: Optional[dict] = None
+        provenance_extra: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for bio events"""
 
@@ -33,19 +33,17 @@ class BioMatrizAdapter:
                 "salience": state.get("salience", 0.5),
                 "urgency": state.get("urgency", 0.3),
                 "novelty": state.get("novelty", 0.6),
-                **state
+                **state,
             },
-            "timestamps": {
-                "created_ts": int(time.time() * 1000)
-            },
+            "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.bio",
                 "capabilities": ["bio:oscillate", "bio:quantum", "bio:adapt"],
                 "tenant": "system",
                 "trace_id": f"LT-BIO-{int(time.time())}",
                 "consent_scopes": ["system:bio"],
-                **(provenance_extra or {})
-            }
+                **(provenance_extra or {}),
+            },
         }
 
         if labels:
@@ -55,10 +53,7 @@ class BioMatrizAdapter:
 
     @staticmethod
     def emit_oscillator_state(
-        frequency: float,
-        amplitude: float,
-        phase: float,
-        oscillator_type: str = "neural"
+        frequency: float, amplitude: float, phase: float, oscillator_type: str = "neural"
     ) -> dict[str, Any]:
         """Emit an oscillator state node"""
 
@@ -71,19 +66,14 @@ class BioMatrizAdapter:
                 "novelty": 0.4,
                 "frequency": frequency,
                 "amplitude": amplitude,
-                "phase": phase
+                "phase": phase,
             },
-            labels=[
-                f"bio:oscillator:{oscillator_type}",
-                f"frequency:{frequency:.2f}Hz"
-            ]
+            labels=[f"bio:oscillator:{oscillator_type}", f"frequency:{frequency:.2f}Hz"],
         )
 
     @staticmethod
     def emit_quantum_coherence(
-        coherence_score: float,
-        entanglement_level: float,
-        system: str = "default"
+        coherence_score: float, entanglement_level: float, system: str = "default"
     ) -> dict[str, Any]:
         """Emit a quantum-inspired coherence node"""
 
@@ -95,13 +85,9 @@ class BioMatrizAdapter:
                 "urgency": max(0, 1.0 - coherence_score),
                 "novelty": 0.7,
                 "coherence": coherence_score,
-                "entanglement": entanglement_level
+                "entanglement": entanglement_level,
             },
-            labels=[
-                "bio:quantum",
-                f"coherence:{coherence_score:.2f}",
-                f"system:{system}"
-            ]
+            labels=["bio:quantum", f"coherence:{coherence_score:.2f}", f"system:{system}"],
         )
 
     @staticmethod
@@ -109,7 +95,7 @@ class BioMatrizAdapter:
         adaptation_type: str,
         fitness_before: float,
         fitness_after: float,
-        mutation_rate: float = 0.01
+        mutation_rate: float = 0.01,
     ) -> dict[str, Any]:
         """Emit a bio-inspired adaptation event node"""
 
@@ -125,18 +111,17 @@ class BioMatrizAdapter:
                 "fitness_before": fitness_before,
                 "fitness_after": fitness_after,
                 "improvement": improvement,
-                "mutation_rate": mutation_rate
+                "mutation_rate": mutation_rate,
             },
             labels=[
                 f"bio:adaptation:{adaptation_type}",
-                "improvement:positive" if improvement > 0 else "improvement:negative"
-            ]
+                "improvement:positive" if improvement > 0 else "improvement:negative",
+            ],
         )
 
     @staticmethod
     def emit_awareness_pulse(
-        awareness_level: float,
-        sensory_inputs: dict[str, float]
+        awareness_level: float, sensory_inputs: dict[str, float]
     ) -> dict[str, Any]:
         """Emit a bio-awareness pulse node"""
 
@@ -151,12 +136,9 @@ class BioMatrizAdapter:
                 "novelty": 0.5,
                 "awareness": awareness_level,
                 "sensory_avg": avg_sensory,
-                **sensory_inputs
+                **sensory_inputs,
             },
-            labels=[
-                "bio:awareness",
-                f"level:{awareness_level:.2f}"
-            ]
+            labels=["bio:awareness", f"level:{awareness_level:.2f}"],
         )
 
     @staticmethod

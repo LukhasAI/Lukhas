@@ -227,9 +227,7 @@ class AuditLogger:
                 ComplianceFramework.GDPR,
             ],
             data_classification="constitutional",
-            retention_period_days=self.config.get(
-                "constitutional_retention_days", 2555
-            ),  # 7 years
+            retention_period_days=self.config.get("constitutional_retention_days", 2555),  # 7 years
             requires_review=True,
         )
 
@@ -403,9 +401,7 @@ class AuditLogger:
         await self._log_event_immediate(event)
 
         self.enforcement_statistics["overrides_applied"] += 1
-        logger.warning(
-            f"System override logged: {override_type} by {override_authority}"
-        )
+        logger.warning(f"System override logged: {override_type} by {override_authority}")
 
         return event.event_id
 
@@ -481,9 +477,7 @@ class AuditLogger:
         try:
             await self._write_events_to_file([event])
             self._update_integrity_hash(event)
-            logger.info(
-                f"Immediate audit log: {event.event_type.value} - {event.action}"
-            )
+            logger.info(f"Immediate audit log: {event.event_type.value} - {event.action}")
             return event.event_id
         except Exception as e:
             logger.error(f"Immediate audit log failed: {e}")
@@ -746,9 +740,7 @@ class AuditLogger:
         events = await self.query_audit_logs(query)
 
         # Analyze constitutional events
-        enforcement_events = [
-            e for e in events if e["event_type"] == "constitutional_enforcement"
-        ]
+        enforcement_events = [e for e in events if e["event_type"] == "constitutional_enforcement"]
         override_events = [e for e in events if e["event_type"] == "system_override"]
 
         # Generate report
@@ -760,9 +752,7 @@ class AuditLogger:
             },
             "constitutional_enforcement": {
                 "total_enforcements": len(enforcement_events),
-                "enforcement_types": self._analyze_enforcement_types(
-                    enforcement_events
-                ),
+                "enforcement_types": self._analyze_enforcement_types(enforcement_events),
                 "enforcement_frequency": len(enforcement_events)
                 / max(1, (end_time - start_time).days),
             },
@@ -773,28 +763,20 @@ class AuditLogger:
                     [
                         e
                         for e in override_events
-                        if e.get("constitutional_context", {}).get(
-                            "constitutional_impact"
-                        )
+                        if e.get("constitutional_context", {}).get("constitutional_impact")
                         == "high"
                     ]
                 ),
             },
             "transparency_metrics": {
-                "events_requiring_review": len(
-                    [e for e in events if e.get("requires_review")]
-                ),
+                "events_requiring_review": len([e for e in events if e.get("requires_review")]),
                 "automatic_enforcements": len(
                     [e for e in enforcement_events if not e.get("requires_review")]
                 ),
-                "manual_interventions": len(
-                    [e for e in events if e.get("requires_review")]
-                ),
+                "manual_interventions": len([e for e in events if e.get("requires_review")]),
             },
             "compliance_status": {
-                "constitutional_compliance_rate": self._calculate_compliance_rate(
-                    events
-                ),
+                "constitutional_compliance_rate": self._calculate_compliance_rate(events),
                 "transparency_level": "full",
                 "audit_completeness": 100.0,  # All events logged
             },
@@ -811,15 +793,11 @@ class AuditLogger:
         for event in enforcement_events:
             context = event.get("constitutional_context", {})
             enforcement_type = context.get("enforcement_type", "unknown")
-            enforcement_types[enforcement_type] = (
-                enforcement_types.get(enforcement_type, 0) + 1
-            )
+            enforcement_types[enforcement_type] = enforcement_types.get(enforcement_type, 0) + 1
 
         return enforcement_types
 
-    def _analyze_override_types(
-        self, override_events: list[dict[str, Any]]
-    ) -> dict[str, int]:
+    def _analyze_override_types(self, override_events: list[dict[str, Any]]) -> dict[str, int]:
         """Analyze types of system overrides."""
         override_types = {}
 
@@ -973,11 +951,7 @@ class AuditLogger:
         return self.log_event(
             f"Security event: {event_type}",
             event_type=AuditEventType.SECURITY_EVENT,
-            severity=(
-                AuditSeverity.WARNING
-                if "low_trust" in event_type
-                else AuditSeverity.INFO
-            ),
+            severity=(AuditSeverity.WARNING if "low_trust" in event_type else AuditSeverity.INFO),
             details=details,
             user_id=details.get("user_id"),
             constitutional_tag="suspended" in event_type,

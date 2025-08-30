@@ -198,15 +198,9 @@ class UnifiedCognitiveOrchestrator:
         if state_fold:
             stored_state = state_fold.content
             if isinstance(stored_state, dict):
-                self.cognitive_state.awareness_level = stored_state.get(
-                    "awareness_level", 0.5
-                )
-                self.cognitive_state.emotional_valence = stored_state.get(
-                    "emotional_valence", 0.0
-                )
-                self.cognitive_state.qi_coherence = stored_state.get(
-                    "qi_coherence", 1.0
-                )
+                self.cognitive_state.awareness_level = stored_state.get("awareness_level", 0.5)
+                self.cognitive_state.emotional_valence = stored_state.get("emotional_valence", 0.0)
+                self.cognitive_state.qi_coherence = stored_state.get("qi_coherence", 1.0)
                 logger.info("📂 Restored cognitive state from memory")
 
     async def _cognitive_loop(self):
@@ -273,9 +267,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Update module activity
         if source_module in self.registered_modules:
-            self.registered_modules[source_module]["last_activity"] = datetime.now(
-                timezone.utc
-            )
+            self.registered_modules[source_module]["last_activity"] = datetime.now(timezone.utc)
 
         # Find related symbols across modules
         if symbol_id in self.glyph_engine.universal_protocol.symbol_registry:
@@ -291,9 +283,7 @@ class UnifiedCognitiveOrchestrator:
 
     async def _make_decisions(self):
         """Make decisions using advanced consensus"""
-        for decision_id in self.cognitive_state.pending_decisions[
-            :5
-        ]:  # Process up to 5
+        for decision_id in self.cognitive_state.pending_decisions[:5]:  # Process up to 5
             # Create consensus proposal
             proposal_id = await self.consensus_system.propose(
                 content=decision_id,
@@ -331,9 +321,7 @@ class UnifiedCognitiveOrchestrator:
             self.metrics["decisions_made"] += 1
             self.metrics["consensus_rounds"] += 1
 
-    def _calculate_vote_amplitudes(
-        self, module: str, decision: str
-    ) -> dict[VoteType, complex]:
+    def _calculate_vote_amplitudes(self, module: str, decision: str) -> dict[VoteType, complex]:
         """Calculate quantum vote amplitudes for a module"""
         # Module-specific voting patterns
         if module == "governance":
@@ -468,9 +456,7 @@ class UnifiedCognitiveOrchestrator:
                 # Simple oracle: prefer even indices (simplified)
                 return index % 2 == 0
 
-            optimal_index = self.qi_processor.grover_search(
-                oracle, num_iterations=2
-            )
+            optimal_index = self.qi_processor.grover_search(oracle, num_iterations=2)
 
             # Create quantum state for decision
             self.qi_processor.create_bell_pair()
@@ -517,9 +503,7 @@ class UnifiedCognitiveOrchestrator:
                 tags=["checkpoint", "cognitive_state"],
             )
 
-    async def process_thought(
-        self, thought: str, context: Optional[dict[str, Any]] = None
-    ):
+    async def process_thought(self, thought: str, context: Optional[dict[str, Any]] = None):
         """
         Process a thought through the unified cognitive system.
         This is the main interface for external input.
@@ -553,9 +537,7 @@ class UnifiedCognitiveOrchestrator:
         results["memory"] = memory_fold.key
 
         # Emotional analysis
-        emotion_result = self.glyph_engine.translate_for_module(
-            thought_symbol, "emotion"
-        )
+        emotion_result = self.glyph_engine.translate_for_module(thought_symbol, "emotion")
         results["emotion"] = emotion_result
 
         # If decision needed, add to pending

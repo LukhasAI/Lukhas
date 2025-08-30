@@ -169,18 +169,11 @@ class CodeIndexer:
         # Determine lane assignment
         if any(test in path_str for test in ["test", "tests", "testing"]):
             return "tests"  # Special category for tests
-        elif any(
-            core in path_str
-            for core in ["core", "identity", "governance", "orchestration"]
-        ):
+        elif any(core in path_str for core in ["core", "identity", "governance", "orchestration"]):
             return "accepted"
-        elif any(
-            exp in path_str for exp in ["quantum", "qim", "vivox", "universal_language"]
-        ):
+        elif any(exp in path_str for exp in ["quantum", "qim", "vivox", "universal_language"]):
             return "candidate"
-        elif any(
-            legacy in path_str for legacy in ["legacy", "old", "deprecated", "_old"]
-        ):
+        elif any(legacy in path_str for legacy in ["legacy", "old", "deprecated", "_old"]):
             return "quarantine"
         elif "archive" in path_str:
             return "archive"
@@ -197,9 +190,7 @@ class CodeIndexer:
             has_docstrings = '"""' in content or "'''" in content
             has_types = ": " in content and "->" in content  # Basic type hint check
             has_tests = "test_" in str(path) or "import pytest" in content
-            has_trinity = any(
-                marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"]
-            )
+            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
 
             # Score the module
             score = sum([has_docstrings, has_types, has_tests, has_trinity])
@@ -253,9 +244,7 @@ class CodeIndexer:
                         self.reverse_imports[full_import].add(str(path))
 
         except SyntaxError as e:
-            self.module_stats["import_errors"].append(
-                {"file": str(path), "error": str(e)}
-            )
+            self.module_stats["import_errors"].append({"file": str(path), "error": str(e)})
         except Exception:
             pass  # Ignore other parsing errors
 
@@ -270,17 +259,13 @@ class CodeIndexer:
             # Extract metadata
             has_tests = "test_" in str(path) or "import pytest" in content
             has_types = bool(re.search(r":\s*\w+\s*[=,)]|->\s*\w+", content))
-            has_trinity = any(
-                marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"]
-            )
+            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
 
             # Classify module
             lane = self.classify_module(path)
 
             # Convert to module path
-            module_path = (
-                str(path.relative_to(self.root)).replace("/", ".").replace(".py", "")
-            )
+            module_path = str(path.relative_to(self.root)).replace("/", ".").replace(".py", "")
 
             # Store in database
             cursor = self.conn.cursor()
@@ -515,9 +500,7 @@ Generated: {}
         )
 
         for row in cursor.fetchall():
-            map_content += (
-                f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
-            )
+            map_content += f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
 
         map_content += "\n### Memory Variants\n"
         cursor.execute(
@@ -530,9 +513,7 @@ Generated: {}
         )
 
         for row in cursor.fetchall():
-            map_content += (
-                f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
-            )
+            map_content += f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
 
         # Add import graph analysis
         map_content += "\n## Import Complexity\n"
@@ -540,9 +521,9 @@ Generated: {}
         map_content += "- Modules with Most Dependencies: \n"
 
         # Find modules with most imports
-        sorted_imports = sorted(
-            self.import_graph.items(), key=lambda x: len(x[1]), reverse=True
-        )[:10]
+        sorted_imports = sorted(self.import_graph.items(), key=lambda x: len(x[1]), reverse=True)[
+            :10
+        ]
         for module, imports in sorted_imports:
             module_name = Path(module).stem
             map_content += f"  - {module_name}: {len(imports)} imports\n"

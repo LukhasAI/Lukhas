@@ -142,9 +142,7 @@ class ActorStateSnapshot:
         for key, value in state_dict.items():
             setattr(actor, key, value)
 
-        logger.info(
-            f"Restored actor {actor.actor_id} to snapshot from {self.timestamp}"
-        )
+        logger.info(f"Restored actor {actor.actor_id} to snapshot from {self.timestamp}")
 
 
 class EventStore:
@@ -222,9 +220,7 @@ class EventStore:
 
         # Load from disk if needed
         if len(events) < 100:  # Arbitrary threshold
-            disk_events = await self._load_events_from_disk(
-                actor_id, start_time, end_time
-            )
+            disk_events = await self._load_events_from_disk(actor_id, start_time, end_time)
             events.extend(disk_events)
 
         return sorted(events, key=lambda e: e.timestamp)
@@ -379,9 +375,7 @@ class EventStore:
 
         return events
 
-    async def _load_correlation_events_from_disk(
-        self, correlation_id: str
-    ) -> list[Event]:
+    async def _load_correlation_events_from_disk(self, correlation_id: str) -> list[Event]:
         """Load events by correlation ID from disk"""
         events = []
 
@@ -424,9 +418,7 @@ class SnapshotStore:
 
         # Update index
         with self._lock:
-            self.snapshot_index[snapshot.actor_id].append(
-                (snapshot.timestamp, str(filename))
-            )
+            self.snapshot_index[snapshot.actor_id].append((snapshot.timestamp, str(filename)))
 
         logger.info(f"Saved snapshot for {snapshot.actor_id} at {snapshot.timestamp}")
 
@@ -498,9 +490,7 @@ class SnapshotStore:
                 timestamp = float(parts[1])
 
                 with self._lock:
-                    self.snapshot_index[actor_id].append(
-                        (timestamp, str(snapshot_file))
-                    )
+                    self.snapshot_index[actor_id].append((timestamp, str(snapshot_file)))
 
 
 class EventSourcedActor(Actor):
@@ -714,9 +704,7 @@ class ReplayController:
                 await actor.restore_from_snapshot(start_time)
 
         # Replay events
-        replayed = await self.event_store.replay_events(
-            events, speed, self._replay_event_callback
-        )
+        replayed = await self.event_store.replay_events(events, speed, self._replay_event_callback)
 
         return {
             "status": "success",
@@ -846,9 +834,7 @@ async def demo_event_replay():
     replay_controller = ReplayController(system, event_store, snapshot_store)
 
     # Create checkpoint
-    checkpoint_id = await replay_controller.create_debugging_checkpoint(
-        "Before replay test"
-    )
+    checkpoint_id = await replay_controller.create_debugging_checkpoint("Before replay test")
 
     print(f"Created checkpoint: {checkpoint_id}")
 

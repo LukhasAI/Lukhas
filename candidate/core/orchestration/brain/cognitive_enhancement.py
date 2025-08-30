@@ -41,9 +41,7 @@ class CognitiveAGIEnhancement:
         except ImportError:
             logger.warning("AGI orchestrator not available for cognitive enhancement")
 
-    async def enhance_cognitive_processing(
-        self, user_input: str, context: Optional[dict] = None
-    ):
+    async def enhance_cognitive_processing(self, user_input: str, context: Optional[dict] = None):
         """
         Enhance cognitive processing with AGI capabilities
         """
@@ -54,9 +52,7 @@ class CognitiveAGIEnhancement:
             return None
 
         # Process through AGI orchestrator for enhanced capabilities
-        agi_result = await self.agi_orchestrator.process_agi_request(
-            user_input, context
-        )
+        agi_result = await self.agi_orchestrator.process_agi_request(user_input, context)
 
         # Handle cases where AGI result might be incomplete
         if not agi_result or not isinstance(agi_result, dict):
@@ -68,9 +64,7 @@ class CognitiveAGIEnhancement:
 
         # Extract enhanced cognitive insights with safe access
         processing_results = agi_result.get("processing_results", {})
-        agi_capabilities = (
-            processing_results.get("agi_capabilities", {}) or {}
-        )  # Handle None case
+        agi_capabilities = processing_results.get("agi_capabilities", {}) or {}  # Handle None case
         enhanced_insights = agi_result.get("enhanced_insights", {})
         system_state = agi_result.get("system_state", {})
         performance = agi_result.get("performance", {})
@@ -81,9 +75,7 @@ class CognitiveAGIEnhancement:
                 "meta_cognitive_insights": agi_capabilities.get("meta_cognitive", {}),
                 "causal_reasoning": agi_capabilities.get("causal_reasoning", {}),
                 "theory_of_mind": agi_capabilities.get("theory_of_mind", {}),
-                "consciousness_level": system_state.get(
-                    "consciousness_level", "unknown"
-                ),
+                "consciousness_level": system_state.get("consciousness_level", "unknown"),
             },
             "cross_domain_insights": enhanced_insights.get("cross_domain_insights", []),
             "autonomous_goals": enhanced_insights.get("autonomous_goals", []),
@@ -103,9 +95,7 @@ class CognitiveAGIEnhancement:
 
         # Extract actionable insights for cognitive learning
         learning_insights = {
-            "meta_cognitive_patterns": agi_result.get("meta_cognitive", {}).get(
-                "patterns", []
-            ),
+            "meta_cognitive_patterns": agi_result.get("meta_cognitive", {}).get("patterns", []),
             "successful_reasoning_chains": agi_result.get("causal_reasoning", {}).get(
                 "successful_chains", []
             ),
@@ -160,9 +150,7 @@ def enhance_cognitive_core():
             if not hasattr(self, "_agi_enhancement"):
                 self._initialize_agi_enhancement()
 
-            return await self._agi_enhancement.enhance_cognitive_processing(
-                user_input, context
-            )
+            return await self._agi_enhancement.enhance_cognitive_processing(user_input, context)
 
         async def _incorporate_agi_insights(self, agi_result: dict[str, Any]):
             """Incorporate AGI insights for learning"""

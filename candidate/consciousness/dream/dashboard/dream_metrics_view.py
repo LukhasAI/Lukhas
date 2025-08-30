@@ -24,9 +24,7 @@ class DreamMetricsView:
     def __init__(self) -> None:
         self.totals = DreamMetrics(timestamp=datetime.utcnow().isoformat())
 
-    def update_dream_metrics(
-        self, drift_delta: float, entropy: float, energy: float
-    ) -> None:
+    def update_dream_metrics(self, drift_delta: float, entropy: float, energy: float) -> None:
         self.totals.drift_score_delta += drift_delta
         self.totals.symbolic_entropy += entropy
         self.totals.energy_consumption += energy

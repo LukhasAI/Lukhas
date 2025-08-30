@@ -172,9 +172,7 @@ class BioSymbolicMemory:
             working_item, importance_score, decay_rate=decay_rate
         )
 
-        consolidation_threshold = self.consolidation_engine.config.get(
-            "importance_threshold", 0.7
-        )
+        consolidation_threshold = self.consolidation_engine.config.get("importance_threshold", 0.7)
 
         if importance_score > consolidation_threshold:
             # ΛTRACE: High importance interaction, proceeding with semantic
@@ -238,9 +236,7 @@ class BioSymbolicMemory:
         self,
         interaction: UserInteraction,
         context: InteractionContext,
-        working_memory_items: list[
-            Any
-        ],  # ΛNOTE: working_memory_items currently unused in stub.
+        working_memory_items: list[Any],  # ΛNOTE: working_memory_items currently unused in stub.
     ) -> float:
         """Computes the importance score of an interaction. (Stub)"""
         interaction_content_preview = str(interaction.get("content", ""))[:50]

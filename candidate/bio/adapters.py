@@ -8,6 +8,5 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 # Note: Optimizer will be resolved during migration
 # from lukhas.accepted.bio.optimizer import *
 
-
 __module__ = "bio.adapters"
 __trinity__ = "⚛️🧠🛡️"

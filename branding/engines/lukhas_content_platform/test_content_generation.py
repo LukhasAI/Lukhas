@@ -17,29 +17,37 @@ class MockDatabase:
         self.content = []
         self.content_id_counter = 1
 
-    def log_system_activity(self, system_name: str, activity_type: str, description: str, value: float):
+    def log_system_activity(
+        self, system_name: str, activity_type: str, description: str, value: float
+    ):
         """Mock log system activity"""
-        self.activities.append({
-            "system": system_name,
-            "type": activity_type,
-            "description": description,
-            "value": value
-        })
+        self.activities.append(
+            {
+                "system": system_name,
+                "type": activity_type,
+                "description": description,
+                "value": value,
+            }
+        )
         print(f"📊 Logged: {system_name} - {activity_type} - {description}")
 
-    def save_generated_content(self, system_name: str, content_type: str, title: str, content: str, voice_coherence: float) -> int:
+    def save_generated_content(
+        self, system_name: str, content_type: str, title: str, content: str, voice_coherence: float
+    ) -> int:
         """Mock save generated content"""
         content_id = self.content_id_counter
         self.content_id_counter += 1
 
-        self.content.append({
-            "id": content_id,
-            "system": system_name,
-            "type": content_type,
-            "title": title,
-            "content": content,
-            "coherence": voice_coherence
-        })
+        self.content.append(
+            {
+                "id": content_id,
+                "system": system_name,
+                "type": content_type,
+                "title": title,
+                "content": content,
+                "coherence": voice_coherence,
+            }
+        )
 
         print(f"💾 Saved content: {title} (ID: {content_id})")
         return content_id
@@ -56,6 +64,7 @@ class MockDatabase:
     def get_system_analytics(self, system_name: str) -> list:
         """Mock get system analytics"""
         return [a for a in self.activities if a["system"] == system_name]
+
 
 # Replace the database import with our mock
 sys.modules["database_integration"] = type("MockModule", (), {"db": MockDatabase()})
@@ -85,6 +94,7 @@ def test_single_domain_content():
 
     return result
 
+
 def test_multiple_domains():
     """Test content generation for multiple domains"""
     print("\n🧪 Testing multiple domain content generation...")
@@ -106,6 +116,7 @@ def test_multiple_domains():
 
     return results
 
+
 def test_style_guide_integration():
     """Test style guide and tone layer integration"""
     print("\n🧪 Testing style guide integration...")
@@ -123,6 +134,7 @@ def test_style_guide_integration():
         print(f"   - Primary Star: {style_guide['primary_star']}")
         print(f"   - Philosophy: {style_guide['philosophy'][:100]}...")
 
+
 def test_constellation_navigation():
     """Test constellation navigation generation"""
     print("\n🧪 Testing constellation navigation...")
@@ -136,6 +148,7 @@ def test_constellation_navigation():
         print(f"   - Stars: {generator.platform.domain_mapping[domain]}")
         print(f"   - Related domains: {related[:3]}")
 
+
 def save_test_results(results):
     """Save test results to files"""
     print("\n💾 Saving test results...")
@@ -148,6 +161,7 @@ def save_test_results(results):
             file_path = output_dir / f"{domain.replace('.', '_')}_homepage.md"
             file_path.write_text(result["content"], encoding="utf-8")
             print(f"   📄 Saved {domain} content to {file_path}")
+
 
 if __name__ == "__main__":
     print("🚀 LUKHAS AI Content Generation Test Suite")
@@ -171,5 +185,7 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("✨ All tests completed successfully!")
     print(f"📊 Total domains tested: {len(multiple_results)}")
-    print(f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}")
+    print(
+        f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}"
+    )
     print("📄 Content files generated in test_output/")

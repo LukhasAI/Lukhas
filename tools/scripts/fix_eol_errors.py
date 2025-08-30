@@ -35,9 +35,7 @@ def fix_eol_in_file(file_path):
 
             # Pattern 1: Fix ",", at end of string
             if '",",\n' in problem_line or "',',\n" in problem_line:
-                lines[line_no - 1] = problem_line.replace('",",', '",').replace(
-                    "',',", "',"
-                )
+                lines[line_no - 1] = problem_line.replace('",",', '",').replace("',',", "',")
             # Pattern 2: String not closed, check for multiline intention
             elif problem_line.count('"') % 2 != 0:
                 # Look for unclosed quotes

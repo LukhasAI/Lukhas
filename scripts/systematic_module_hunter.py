@@ -74,9 +74,7 @@ class SystematicModuleHunter:
                             relative_path = py_file.relative_to(self.base_path)
                             if str(relative_path) not in found_locations:
                                 found_locations.append(f"{relative_path} (import)")
-                                self.log_search(
-                                    f"  📦 Found import reference: {relative_path}"
-                                )
+                                self.log_search(f"  📦 Found import reference: {relative_path}")
 
             except Exception:
                 # Skip files that can't be read
@@ -85,9 +83,7 @@ class SystematicModuleHunter:
         self.search_cache[class_name] = found_locations
 
         if found_locations:
-            self.log_success(
-                f"Found {len(found_locations)} references to '{class_name}'"
-            )
+            self.log_success(f"Found {len(found_locations)} references to '{class_name}'")
         else:
             self.log_warning(f"Class '{class_name}' not found anywhere in codebase")
 
@@ -134,16 +130,12 @@ class SystematicModuleHunter:
                             ref_path = f"{relative_path} (reference)"
                             if ref_path not in found_locations:
                                 found_locations.append(ref_path)
-                                self.log_search(
-                                    f"  📦 Found module reference: {relative_path}"
-                                )
+                                self.log_search(f"  📦 Found module reference: {relative_path}")
             except:
                 continue
 
         if found_locations:
-            self.log_success(
-                f"Found {len(found_locations)} references to module '{module_name}'"
-            )
+            self.log_success(f"Found {len(found_locations)} references to module '{module_name}'")
         else:
             self.log_warning(f"Module '{module_name}' not found anywhere in codebase")
 
@@ -171,8 +163,7 @@ class SystematicModuleHunter:
             result["classes"] = [
                 name
                 for name in dir(module)
-                if not name.startswith("_")
-                and hasattr(getattr(module, name, None), "__class__")
+                if not name.startswith("_") and hasattr(getattr(module, name, None), "__class__")
             ]
             self.log_success(f"Module loaded: {module_name}")
 
@@ -245,13 +236,9 @@ class SystematicModuleHunter:
         self.results["colony_system"] = colony_results
 
         # Summary
-        working_count = len(
-            [r for r in colony_results.values() if r["status"] == "success"]
-        )
+        working_count = len([r for r in colony_results.values() if r["status"] == "success"])
         total_count = len(colony_results)
-        print(
-            f"\n📊 Colony System Summary: {working_count}/{total_count} modules working"
-        )
+        print(f"\n📊 Colony System Summary: {working_count}/{total_count} modules working")
 
     def test_consciousness_system(self):
         """Test consciousness system with comprehensive hunting"""
@@ -265,9 +252,7 @@ class SystematicModuleHunter:
                 "CreativeCore",
                 "CreativityEngine",
             ],
-            "candidate.consciousness.reflection.orchestration_service": [
-                "OrchestrationService"
-            ],
+            "candidate.consciousness.reflection.orchestration_service": ["OrchestrationService"],
             "candidate.consciousness.reflection.colony_orchestrator": [
                 "ColonyOrchestrator",
                 "QIUserContext",
@@ -289,13 +274,9 @@ class SystematicModuleHunter:
 
         self.results["consciousness_system"] = consciousness_results
 
-        working_count = len(
-            [r for r in consciousness_results.values() if r["status"] == "success"]
-        )
+        working_count = len([r for r in consciousness_results.values() if r["status"] == "success"])
         total_count = len(consciousness_results)
-        print(
-            f"\n📊 Consciousness System Summary: {working_count}/{total_count} modules working"
-        )
+        print(f"\n📊 Consciousness System Summary: {working_count}/{total_count} modules working")
 
     def test_qi_system(self):
         """Test QI system with comprehensive hunting"""
@@ -322,9 +303,7 @@ class SystematicModuleHunter:
 
         self.results["qi_system"] = qi_results
 
-        working_count = len(
-            [r for r in qi_results.values() if r["status"] == "success"]
-        )
+        working_count = len([r for r in qi_results.values() if r["status"] == "success"])
         total_count = len(qi_results)
         print(f"\n📊 QI System Summary: {working_count}/{total_count} modules working")
 
@@ -349,13 +328,9 @@ class SystematicModuleHunter:
 
         self.results["dream_system"] = dream_results
 
-        working_count = len(
-            [r for r in dream_results.values() if r["status"] == "success"]
-        )
+        working_count = len([r for r in dream_results.values() if r["status"] == "success"])
         total_count = len(dream_results)
-        print(
-            f"\n📊 Dream System Summary: {working_count}/{total_count} modules working"
-        )
+        print(f"\n📊 Dream System Summary: {working_count}/{total_count} modules working")
 
     def test_bio_symbolic_system(self):
         """Test bio-symbolic system with comprehensive hunting"""
@@ -366,9 +341,7 @@ class SystematicModuleHunter:
         bio_modules = {
             "bio.core.symbolic_bio_symbolic": ["SymbolicBioSymbolic", "BioSymbolic"],
             "bio.core.symbolic_bio_symbolic_orchestrator": ["BioSymbolicOrchestrator"],
-            "candidate.core.integration.neuro_symbolic_fusion_layer": [
-                "NeuroSymbolicFusionLayer"
-            ],
+            "candidate.core.integration.neuro_symbolic_fusion_layer": ["NeuroSymbolicFusionLayer"],
             "bio.bio_utilities": ["BioUtilities"],
         }
 
@@ -381,13 +354,9 @@ class SystematicModuleHunter:
 
         self.results["bio_symbolic_system"] = bio_results
 
-        working_count = len(
-            [r for r in bio_results.values() if r["status"] == "success"]
-        )
+        working_count = len([r for r in bio_results.values() if r["status"] == "success"])
         total_count = len(bio_results)
-        print(
-            f"\n📊 Bio-Symbolic System Summary: {working_count}/{total_count} modules working"
-        )
+        print(f"\n📊 Bio-Symbolic System Summary: {working_count}/{total_count} modules working")
 
     def run_systematic_hunt(self):
         """Run comprehensive systematic testing with hunting"""
@@ -433,9 +402,7 @@ class SystematicModuleHunter:
                 system_found_elsewhere += len(
                     [
                         cls
-                        for cls, locations in module_result.get(
-                            "missing_classes", {}
-                        ).items()
+                        for cls, locations in module_result.get("missing_classes", {}).items()
                         if locations
                     ]
                 )
@@ -445,23 +412,15 @@ class SystematicModuleHunter:
             total_missing_classes += system_missing
             total_found_elsewhere += system_found_elsewhere
 
-            success_rate = (
-                (system_working / system_total * 100) if system_total > 0 else 0
-            )
+            success_rate = (system_working / system_total * 100) if system_total > 0 else 0
             print(f"\n🔍 {system_name.replace('_', ' ').title()}:")
-            print(
-                f"   📦 Modules: {system_working}/{system_total} ({success_rate:.1f}%)"
-            )
+            print(f"   📦 Modules: {system_working}/{system_total} ({success_rate:.1f}%)")
             print(f"   🔍 Missing classes: {system_missing}")
             print(f"   📍 Found elsewhere: {system_found_elsewhere}")
 
         print("\n🎯 OVERALL HUNT RESULTS:")
-        overall_success = (
-            (working_modules / total_modules * 100) if total_modules > 0 else 0
-        )
-        print(
-            f"   📦 Working modules: {working_modules}/{total_modules} ({overall_success:.1f}%)"
-        )
+        overall_success = (working_modules / total_modules * 100) if total_modules > 0 else 0
+        print(f"   📦 Working modules: {working_modules}/{total_modules} ({overall_success:.1f}%)")
         print(f"   🔍 Total missing classes: {total_missing_classes}")
         print(f"   📍 Classes found elsewhere: {total_found_elsewhere}")
         print(f"   ⏱️  Hunt duration: {duration:.2f}s")
@@ -475,9 +434,7 @@ class SystematicModuleHunter:
                 if total_missing_classes > 0
                 else 0
             )
-            print(
-                f"   ✅ Recovery rate: {recovery_rate:.1f}% of missing classes found elsewhere"
-            )
+            print(f"   ✅ Recovery rate: {recovery_rate:.1f}% of missing classes found elsewhere")
         else:
             print("   ❌ No missing classes found elsewhere - may need creation")
 

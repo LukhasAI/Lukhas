@@ -48,9 +48,7 @@ def clear_screen():
 def print_header():
     """Print stylized header."""
     print(f"\n{Colors.PURPLE}{'═' * 60}{Colors.RESET}")
-    print(
-        f"{Colors.BOLD}{Colors.CYAN}🛡️  LUKHΛS Guardian Trail Replay System  🛡️{Colors.RESET}"
-    )
+    print(f"{Colors.BOLD}{Colors.CYAN}🛡️  LUKHΛS Guardian Trail Replay System  🛡️{Colors.RESET}")
     print(f"{Colors.PURPLE}{'═' * 60}{Colors.RESET}\n")
 
 
@@ -166,15 +164,11 @@ def load_guardian_logs(log_dir: Path) -> list[dict[str, Any]]:
                     log_data = json.load(f)
                     events.append(log_data)
             except Exception as e:
-                print(
-                    f"{Colors.YELLOW}Warning: Could not load {log_file}: {e}{Colors.RESET}"
-                )
+                print(f"{Colors.YELLOW}Warning: Could not load {log_file}: {e}{Colors.RESET}")
 
     # If no logs found, use generated events
     if not events:
-        print(
-            f"{Colors.YELLOW}No Guardian logs found. Using demonstration data.{Colors.RESET}\n"
-        )
+        print(f"{Colors.YELLOW}No Guardian logs found. Using demonstration data.{Colors.RESET}\n")
         events = generate_guardian_events()
 
     return sorted(events, key=lambda x: x.get("timestamp", ""))
@@ -211,10 +205,7 @@ def print_event(event: dict[str, Any], index: int):
 
     # Event header
     severity_color = get_severity_color(severity)
-    print(
-        f"\n{Colors.DIM}[{timestamp}]{Colors.RESET} "
-        f"{severity_color}Event "
-    )
+    print(f"\n{Colors.DIM}[{timestamp}]{Colors.RESET} {severity_color}Event ")
 
     # Drift score bar
     if drift_score > 0:
@@ -222,7 +213,9 @@ def print_event(event: dict[str, Any], index: int):
         bar_color = (
             Colors.GREEN
             if drift_score < 0.15
-            else Colors.YELLOW if drift_score < 0.20 else Colors.RED
+            else Colors.YELLOW
+            if drift_score < 0.20
+            else Colors.RED
         )
         bar = "█" * bar_length + "░" * (40 - bar_length)
         print(f"Drift: {bar_color}{bar}{Colors.RESET} {drift_score:.2f}")
@@ -250,19 +243,13 @@ def print_event(event: dict[str, Any], index: int):
             print(f"  Effect: {Colors.GREEN}{intervention['effect']}{Colors.RESET}")
 
         if "result" in intervention:
-            result_color = (
-                Colors.GREEN if intervention["result"] == "success" else Colors.RED
-            )
-            print(
-                f"  Result: {result_color}{intervention['result'].upper()}{Colors.RESET}"
-            )
+            result_color = Colors.GREEN if intervention["result"] == "success" else Colors.RED
+            print(f"  Result: {result_color}{intervention['result'].upper()}{Colors.RESET}")
 
         if "trinity_score" in intervention:
             trinity = intervention["trinity_score"]
             trinity_bar = "●" * int(trinity * 10) + "○" * (10 - int(trinity * 10))
-            print(
-                f"  Trinity: {Colors.PURPLE}{trinity_bar}{Colors.RESET} {trinity:.2f}"
-            )
+            print(f"  Trinity: {Colors.PURPLE}{trinity_bar}{Colors.RESET} {trinity:.2f}")
 
 
 def animate_transition():
@@ -282,9 +269,7 @@ def print_summary(events: list[dict[str, Any]]):
 
     total_events = len(events)
     interventions = sum(1 for e in events if e.get("intervention"))
-    successful = sum(
-        1 for e in events if e.get("intervention", {}).get("result") == "success"
-    )
+    successful = sum(1 for e in events if e.get("intervention", {}).get("result") == "success")
 
     severities = {}
     for event in events:
@@ -295,7 +280,7 @@ def print_summary(events: list[dict[str, Any]]):
     print(f"Interventions: {Colors.BOLD}{interventions}{Colors.RESET}")
     print(
         f"Success Rate: {Colors.GREEN}{successful}/{interventions}{Colors.RESET} "
-        f"({successful/interventions*100:.0f}%)"
+        f"({successful / interventions * 100:.0f}%)"
         if interventions > 0
         else ""
     )
@@ -320,15 +305,13 @@ def print_summary(events: list[dict[str, Any]]):
 def replay_mode(events: list[dict[str, Any]]):
     """Interactive replay mode."""
     print(f"\n{Colors.BOLD}Entering Replay Mode{Colors.RESET}")
-    print(
-        f"{Colors.DIM}Press Enter to advance, 'q' to quit, 'a' for auto-play{Colors.RESET}"
-    )
+    print(f"{Colors.DIM}Press Enter to advance, 'q' to quit, 'a' for auto-play{Colors.RESET}")
 
     auto_play = False
 
     for i, event in enumerate(events):
         if not auto_play:
-            user_input = input(f"\n{Colors.DIM}[{i+1}/{len(events)}] >{Colors.RESET} ")
+            user_input = input(f"\n{Colors.DIM}[{i + 1}/{len(events)}] >{Colors.RESET} ")
             if user_input.lower() == "q":
                 break
             elif user_input.lower() == "a":
@@ -377,13 +360,9 @@ def main():
     elif choice == "2":
         print_summary(events)
     elif choice == "3":
-        critical_events = [
-            e for e in events if e.get("severity") in ["high", "critical"]
-        ]
+        critical_events = [e for e in events if e.get("severity") in ["high", "critical"]]
         if critical_events:
-            print(
-                f"\n{Colors.RED}Showing {len(critical_events)} critical events{Colors.RESET}"
-            )
+            print(f"\n{Colors.RED}Showing {len(critical_events)} critical events{Colors.RESET}")
             replay_mode(critical_events)
         else:
             print(f"\n{Colors.GREEN}No critical events found!{Colors.RESET}")

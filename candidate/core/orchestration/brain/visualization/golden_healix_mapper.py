@@ -141,9 +141,7 @@ class HealixMapper:
 
         return success
 
-    async def _validate_pattern(
-        self, memory: dict[str, Any], strand_type: MemoryStrand
-    ) -> bool:
+    async def _validate_pattern(self, memory: dict[str, Any], strand_type: MemoryStrand) -> bool:
         """Validate memory pattern coherence"""
         try:
             # Check required fields based on strand type
@@ -181,9 +179,7 @@ class HealixMapper:
                 return False
 
             # Check pattern coherence score
-            coherence_score = await self._calculate_pattern_coherence(
-                memory, strand_type
-            )
+            coherence_score = await self._calculate_pattern_coherence(memory, strand_type)
             return coherence_score >= self.pattern_coherence
 
         except Exception as e:
@@ -218,14 +214,10 @@ class HealixMapper:
 
             elif strand_type == MemoryStrand.CULTURAL and "cultural_markers" in memory:
                 markers = memory["cultural_markers"]
-                strand_score = (
-                    1.0 if isinstance(markers, list) and len(markers) > 0 else 0.7
-                )
+                strand_score = 1.0 if isinstance(markers, list) and len(markers) > 0 else 0.7
 
             # Combine scores
-            final_score = (
-                length_score * 0.3 + structure_score * 0.4 + strand_score * 0.3
-            )
+            final_score = length_score * 0.3 + structure_score * 0.4 + strand_score * 0.3
             return min(1.0, final_score)
 
         except Exception as e:
@@ -243,9 +235,7 @@ class HealixMapper:
                 try:
                     memory_time = datetime.fromisoformat(memory["timestamp"])
                     time_diff = (datetime.utcnow() - memory_time).total_seconds()
-                    recency_factor = max(
-                        0.1, 1.0 / (1.0 + time_diff / 86400)
-                    )  # Decay over days
+                    recency_factor = max(0.1, 1.0 / (1.0 + time_diff / 86400))  # Decay over days
                 except (ValueError, TypeError, AttributeError) as e:
                     logger.warning(f"Failed to parse memory timestamp: {e}")
                     recency_factor = 0.5
@@ -274,9 +264,7 @@ class HealixMapper:
             logger.error(f"Resonance calculation error: {e}")
             return 0.5
 
-    async def _generate_memory_id(
-        self, memory: dict[str, Any], strand_type: MemoryStrand
-    ) -> str:
+    async def _generate_memory_id(self, memory: dict[str, Any], strand_type: MemoryStrand) -> str:
         """Generate unique memory ID"""
         # Create deterministic ID based on content and timestamp
         content_hash = hashlib.sha256(
@@ -297,18 +285,14 @@ class HealixMapper:
         return None
 
     # Mutation implementation methods
-    async def _apply_point_mutation(
-        self, memory: dict[str, Any], mutation: dict[str, Any]
-    ) -> bool:
+    async def _apply_point_mutation(self, memory: dict[str, Any], mutation: dict[str, Any]) -> bool:
         """Apply point mutation to memory"""
         try:
             target_field = mutation.get("field")
             new_value = mutation.get("value")
 
             if not target_field or target_field not in memory["data"]:
-                logger.warning(
-                    f"Point mutation target field '{target_field}' not found"
-                )
+                logger.warning(f"Point mutation target field '{target_field}' not found")
                 return False
 
             # Store original value for potential rollback
@@ -336,9 +320,7 @@ class HealixMapper:
             logger.error(f"Point mutation error: {e}")
             return False
 
-    async def _apply_insertion(
-        self, memory: dict[str, Any], mutation: dict[str, Any]
-    ) -> bool:
+    async def _apply_insertion(self, memory: dict[str, Any], mutation: dict[str, Any]) -> bool:
         """Apply insertion mutation"""
         try:
             insertion_data = mutation.get("data", {})
@@ -370,18 +352,14 @@ class HealixMapper:
             logger.error(f"Insertion mutation error: {e}")
             return False
 
-    async def _apply_deletion(
-        self, memory: dict[str, Any], mutation: dict[str, Any]
-    ) -> bool:
+    async def _apply_deletion(self, memory: dict[str, Any], mutation: dict[str, Any]) -> bool:
         """Apply deletion mutation"""
         try:
             fields_to_delete = mutation.get("fields", [])
             preserve_core = mutation.get("preserve_core", True)
 
             # Core fields that should be preserved
-            core_fields = (
-                ["content", "id", "created", "resonance"] if preserve_core else []
-            )
+            core_fields = ["content", "id", "created", "resonance"] if preserve_core else []
 
             deleted_fields = []
             for field in fields_to_delete:
@@ -402,9 +380,7 @@ class HealixMapper:
             logger.error(f"Deletion mutation error: {e}")
             return False
 
-    async def _apply_crossover(
-        self, memory: dict[str, Any], mutation: dict[str, Any]
-    ) -> bool:
+    async def _apply_crossover(self, memory: dict[str, Any], mutation: dict[str, Any]) -> bool:
         """Apply crossover mutation"""
         try:
             source_memory_id = mutation.get("source_memory_id")
@@ -416,9 +392,7 @@ class HealixMapper:
 
             source_memory = await self._find_memory(source_memory_id)
             if not source_memory:
-                logger.warning(
-                    f"Source memory {source_memory_id} not found for crossover"
-                )
+                logger.warning(f"Source memory {source_memory_id} not found for crossover")
                 return False
 
             # Perform crossover for specified fields
@@ -495,9 +469,7 @@ class HealixMapper:
                                 {
                                     **memory,
                                     "strand_type": strand_type.value,
-                                    "match_score": await self._calculate_match_score(
-                                        memory, query
-                                    ),
+                                    "match_score": await self._calculate_match_score(memory, query),
                                 }
                             )
 
@@ -510,9 +482,7 @@ class HealixMapper:
             logger.error(f"Memory search error: {e}")
             return []
 
-    async def _matches_query(
-        self, memory: dict[str, Any], query: dict[str, Any]
-    ) -> bool:
+    async def _matches_query(self, memory: dict[str, Any], query: dict[str, Any]) -> bool:
         """Check if memory matches search query"""
         try:
             # Content matching
@@ -561,9 +531,7 @@ class HealixMapper:
             logger.error(f"Query matching error: {e}")
             return False
 
-    async def _calculate_match_score(
-        self, memory: dict[str, Any], query: dict[str, Any]
-    ) -> float:
+    async def _calculate_match_score(self, memory: dict[str, Any], query: dict[str, Any]) -> float:
         """Calculate how well a memory matches the query"""
         try:
             score = 0.0
@@ -679,15 +647,11 @@ class HealixMapper:
                 # Find similar memory pairs
                 for i, memory1 in enumerate(memories):
                     for j, memory2 in enumerate(memories[i + 1 :], i + 1):
-                        similarity = await self._calculate_memory_similarity(
-                            memory1, memory2
-                        )
+                        similarity = await self._calculate_memory_similarity(memory1, memory2)
 
                         if similarity >= similarity_threshold:
                             # Consolidate memories
-                            consolidated = await self._consolidate_memory_pair(
-                                memory1, memory2
-                            )
+                            consolidated = await self._consolidate_memory_pair(memory1, memory2)
                             if consolidated:
                                 # Replace first memory with consolidated version
                                 memories[i] = consolidated
@@ -776,9 +740,7 @@ class HealixMapper:
 
             # Boost resonance due to consolidation
             resonance_boost = 0.1
-            base_memory["resonance"] = min(
-                1.0, base_memory["resonance"] + resonance_boost
-            )
+            base_memory["resonance"] = min(1.0, base_memory["resonance"] + resonance_boost)
 
             # Combine mutation histories
             base_mutations = base_memory.get("mutations", [])
@@ -881,21 +843,16 @@ class HealixMapper:
 
                     drift_analysis["drift_score"] = abs(slope)
                     drift_analysis["drift_direction"] = (
-                        "positive"
-                        if slope > 0.1
-                        else "negative" if slope < -0.1 else "stable"
+                        "positive" if slope > 0.1 else "negative" if slope < -0.1 else "stable"
                     )
 
                     # Calculate volatility (standard deviation of changes)
                     if len(weights) > 2:
-                        changes = [
-                            abs(weights[i] - weights[i - 1])
-                            for i in range(1, len(weights))
-                        ]
+                        changes = [abs(weights[i] - weights[i - 1]) for i in range(1, len(weights))]
                         mean_change = sum(changes) / len(changes)
-                        variance = sum(
-                            (change - mean_change) ** 2 for change in changes
-                        ) / len(changes)
+                        variance = sum((change - mean_change) ** 2 for change in changes) / len(
+                            changes
+                        )
                         drift_analysis["volatility"] = variance**0.5
 
             logger.info(f"Emotional drift analysis completed for {memory_id}")
@@ -933,28 +890,20 @@ class HealixMapper:
 
             for strand in strands_to_analyze:
                 memories = self.strands[strand]
-                strand_patterns = await self._analyze_strand_patterns(
-                    memories, pattern_depth
-                )
+                strand_patterns = await self._analyze_strand_patterns(memories, pattern_depth)
                 pattern_analysis["strand_patterns"][strand.value] = strand_patterns
 
             # Cross-strand pattern analysis
             if len(strands_to_analyze) > 1:
-                cross_patterns = await self._find_cross_strand_patterns(
-                    strands_to_analyze
-                )
+                cross_patterns = await self._find_cross_strand_patterns(strands_to_analyze)
                 pattern_analysis["cross_strand_patterns"] = cross_patterns
 
             # Symbolic clustering
-            symbolic_clusters = await self._cluster_symbolic_elements(
-                strands_to_analyze
-            )
+            symbolic_clusters = await self._cluster_symbolic_elements(strands_to_analyze)
             pattern_analysis["symbolic_clusters"] = symbolic_clusters
 
             # Resonance pattern analysis
-            resonance_patterns = await self._analyze_resonance_patterns(
-                strands_to_analyze
-            )
+            resonance_patterns = await self._analyze_resonance_patterns(strands_to_analyze)
             pattern_analysis["resonance_patterns"] = resonance_patterns
 
             logger.info(
@@ -996,9 +945,7 @@ class HealixMapper:
 
             # Filter for meaningful words (longer than 3 characters)
             meaningful_words = {
-                word: count
-                for word, count in word_freq.items()
-                if len(word) > 3 and count > 1
+                word: count for word, count in word_freq.items() if len(word) > 3 and count > 1
             }
 
             patterns["frequency_analysis"] = dict(
@@ -1033,7 +980,9 @@ class HealixMapper:
                         "creation_frequency": (
                             "high"
                             if avg_interval < 86400
-                            else "medium" if avg_interval < 604800 else "low"
+                            else "medium"
+                            if avg_interval < 604800
+                            else "low"
                         ),
                         "total_memories": len(memories),
                         "time_span_days": (timestamps[-1] - timestamps[0]).days,
@@ -1050,15 +999,15 @@ class HealixMapper:
                 avg_emotion = sum(emotional_weights) / len(emotional_weights)
                 patterns["emotional_patterns"] = {
                     "average_emotional_weight": avg_emotion,
-                    "emotional_variance": sum(
-                        (w - avg_emotion) ** 2 for w in emotional_weights
-                    )
+                    "emotional_variance": sum((w - avg_emotion) ** 2 for w in emotional_weights)
                     / len(emotional_weights),
                     "emotional_range": max(emotional_weights) - min(emotional_weights),
                     "predominant_valence": (
                         "positive"
                         if avg_emotion > 0.6
-                        else "negative" if avg_emotion < 0.4 else "neutral"
+                        else "negative"
+                        if avg_emotion < 0.4
+                        else "neutral"
                     ),
                 }
 
@@ -1080,18 +1029,14 @@ class HealixMapper:
             for strand in strands:
                 memories = self.strands[strand]
                 strand_patterns = await self._analyze_strand_patterns(memories, 2)
-                strand_themes[strand.value] = set(
-                    strand_patterns.get("content_themes", [])
-                )
+                strand_themes[strand.value] = set(strand_patterns.get("content_themes", []))
 
             # Find shared themes
             if len(strand_themes) > 1:
                 strand_names = list(strand_themes.keys())
                 for i, strand1 in enumerate(strand_names):
                     for strand2 in strand_names[i + 1 :]:
-                        shared_themes = strand_themes[strand1].intersection(
-                            strand_themes[strand2]
-                        )
+                        shared_themes = strand_themes[strand1].intersection(strand_themes[strand2])
                         if shared_themes:
                             cross_patterns.append(
                                 {
@@ -1099,11 +1044,7 @@ class HealixMapper:
                                     "strands": [strand1, strand2],
                                     "shared_elements": list(shared_themes),
                                     "strength": len(shared_themes)
-                                    / len(
-                                        strand_themes[strand1].union(
-                                            strand_themes[strand2]
-                                        )
-                                    ),
+                                    / len(strand_themes[strand1].union(strand_themes[strand2])),
                                 }
                             )
 
@@ -1113,9 +1054,7 @@ class HealixMapper:
             logger.error(f"Cross-strand pattern analysis error: {e}")
             return []
 
-    async def _cluster_symbolic_elements(
-        self, strands: list[MemoryStrand]
-    ) -> list[dict[str, Any]]:
+    async def _cluster_symbolic_elements(self, strands: list[MemoryStrand]) -> list[dict[str, Any]]:
         """Cluster symbolic elements across memory strands"""
         try:
             clusters = []
@@ -1207,9 +1146,7 @@ class HealixMapper:
             logger.error(f"Symbolic clustering error: {e}")
             return []
 
-    async def _analyze_resonance_patterns(
-        self, strands: list[MemoryStrand]
-    ) -> dict[str, Any]:
+    async def _analyze_resonance_patterns(self, strands: list[MemoryStrand]) -> dict[str, Any]:
         """Analyze resonance patterns across memory strands"""
         try:
             resonance_data = []
@@ -1221,8 +1158,7 @@ class HealixMapper:
                             "resonance": memory["resonance"],
                             "strand": strand.value,
                             "age_days": (
-                                datetime.utcnow()
-                                - datetime.fromisoformat(memory["created"])
+                                datetime.utcnow() - datetime.fromisoformat(memory["created"])
                             ).days,
                             "mutation_count": len(memory.get("mutations", [])),
                         }
@@ -1247,9 +1183,7 @@ class HealixMapper:
             # Strand-specific resonance averages
             for strand in strands:
                 strand_resonances = [
-                    d["resonance"]
-                    for d in resonance_data
-                    if d["strand"] == strand.value
+                    d["resonance"] for d in resonance_data if d["strand"] == strand.value
                 ]
                 if strand_resonances:
                     resonance_patterns["strand_resonance_averages"][strand.value] = {
@@ -1286,12 +1220,8 @@ class HealixMapper:
                 total_memories += strand_count
 
                 if strand_count > 0:
-                    strand_resonance = (
-                        sum(m["resonance"] for m in strand_memories) / strand_count
-                    )
-                    strand_mutations = sum(
-                        len(m.get("mutations", [])) for m in strand_memories
-                    )
+                    strand_resonance = sum(m["resonance"] for m in strand_memories) / strand_count
+                    strand_mutations = sum(len(m.get("mutations", [])) for m in strand_memories)
                     total_resonance += strand_resonance * strand_count
                     total_mutations += strand_mutations
 
@@ -1315,9 +1245,7 @@ class HealixMapper:
                 snapshot["overall_health"] = {
                     "average_resonance": avg_resonance,
                     "mutation_density": mutation_density,
-                    "memory_diversity": len(
-                        [s for s in MemoryStrand if len(self.strands[s]) > 0]
-                    ),
+                    "memory_diversity": len([s for s in MemoryStrand if len(self.strands[s]) > 0]),
                     "system_coherence": min(
                         1.0,
                         avg_resonance * (1.0 - abs(mutation_density - 2.0) / 10),
@@ -1328,12 +1256,8 @@ class HealixMapper:
             symbolic_patterns = await self.extract_symbolic_patterns(pattern_depth=1)
             snapshot["symbolic_summary"] = {
                 "active_strands": len(symbolic_patterns.get("strand_patterns", {})),
-                "cross_patterns": len(
-                    symbolic_patterns.get("cross_strand_patterns", [])
-                ),
-                "symbolic_clusters": len(
-                    symbolic_patterns.get("symbolic_clusters", [])
-                ),
+                "cross_patterns": len(symbolic_patterns.get("cross_strand_patterns", [])),
+                "symbolic_clusters": len(symbolic_patterns.get("symbolic_clusters", [])),
             }
 
             logger.info("Memory snapshot created successfully")

@@ -47,8 +47,7 @@ def _redact(obj):
     # Shallow redaction for known keys; extend as needed
     if isinstance(obj, dict):
         return {
-            k: ("[REDACTED]" if k.lower() in REDACT_KEYS else _redact(v))
-            for k, v in obj.items()
+            k: ("[REDACTED]" if k.lower() in REDACT_KEYS else _redact(v)) for k, v in obj.items()
         }
     if isinstance(obj, list):
         return [_redact(v) for v in obj]

@@ -14,9 +14,9 @@ from .regulatory_intelligence_system import RegulatoryIntelligenceSystem
 from .sovereignty_preservation_system import SovereigntyPreservationSystem
 
 __all__ = [
+    "GlobalDeploymentOrchestrator",
     "GlobalInteroperabilityEngine",
     "InternationalComplianceEngine",
     "RegulatoryIntelligenceSystem",
-    "GlobalDeploymentOrchestrator",
-    "SovereigntyPreservationSystem"
+    "SovereigntyPreservationSystem",
 ]

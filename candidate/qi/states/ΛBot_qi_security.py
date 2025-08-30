@@ -124,9 +124,7 @@ class PostQuantumCryptographyEngine:
 
         logger.info("🔐 Post-Quantum Cryptography Engine initialized")
 
-    async def generate_quantum_resistant_keys(
-        self, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def generate_quantum_resistant_keys(self, algorithm: str = "kyber") -> dict[str, Any]:
         """Generate quantum-resistant cryptographic keys"""
 
         if algorithm not in self.pq_standards:
@@ -189,9 +187,7 @@ class BioSymbolicThreatDetector:
 
         logger.info("🧬 Bio-Symbolic Threat Detector initialized")
 
-    async def detect_bio_threats(
-        self, input_data: dict[str, Any]
-    ) -> list[QIThreat]:
+    async def detect_bio_threats(self, input_data: dict[str, Any]) -> list[QIThreat]:
         """Detect threats using bio-symbolic pattern analysis"""
 
         detected_threats = []
@@ -210,9 +206,7 @@ class BioSymbolicThreatDetector:
 
         return enhanced_threats
 
-    async def _brain_threat_analysis(
-        self, input_data: dict[str, Any]
-    ) -> list[QIThreat]:
+    async def _brain_threat_analysis(self, input_data: dict[str, Any]) -> list[QIThreat]:
         """Use brain symphony for advanced threat analysis"""
 
         # Dreams brain for creative threat detection
@@ -221,14 +215,12 @@ class BioSymbolicThreatDetector:
         )
 
         # Emotional brain for threat sentiment analysis
-        emotional_assessment = (
-            await self.brain_symphony.emotional.evaluate_threat_patterns(input_data)
+        emotional_assessment = await self.brain_symphony.emotional.evaluate_threat_patterns(
+            input_data
         )
 
         # Memory brain for threat pattern matching
-        memory_matches = await self.brain_symphony.memory.match_threat_patterns(
-            input_data
-        )
+        memory_matches = await self.brain_symphony.memory.match_threat_patterns(input_data)
 
         # Learning brain for threat classification
         threat_classification = await self.brain_symphony.learning.classify_threats(
@@ -242,9 +234,7 @@ class BioSymbolicThreatDetector:
                 threat_id=str(uuid.uuid4()),
                 threat_type="bio_symbolic_detected",
                 severity=threat_data.get("severity", "medium"),
-                description=threat_data.get(
-                    "description", "Bio-symbolic threat detected"
-                ),
+                description=threat_data.get("description", "Bio-symbolic threat detected"),
                 qi_signature=threat_data.get("qi_patterns", {}),
                 bio_patterns=threat_data.get("bio_patterns", {}),
                 confidence=threat_data.get("confidence", 0.5),
@@ -314,9 +304,7 @@ class QIVulnerabilityAnalyzer:
         )
 
         # Phase 7: Develop adaptive mitigations
-        adaptive_mitigations = await self._develop_adaptive_mitigations(
-            bio_threats + qi_threats
-        )
+        adaptive_mitigations = await self._develop_adaptive_mitigations(bio_threats + qi_threats)
 
         time.time() - start_time
 
@@ -405,9 +393,7 @@ class AdaptiveSecurityOrchestrator:
 
         logger.info("🛡️ Adaptive Security Orchestrator initialized")
 
-    async def orchestrate_adaptive_security(
-        self, assessment: SecurityAssessment
-    ) -> dict[str, Any]:
+    async def orchestrate_adaptive_security(self, assessment: SecurityAssessment) -> dict[str, Any]:
         """Orchestrate adaptive security responses"""
 
         orchestration_result = {
@@ -432,8 +418,8 @@ class AdaptiveSecurityOrchestrator:
         await self._update_security_state(assessment)
 
         # Verify security improvements
-        orchestration_result["security_improved"] = (
-            await self._verify_security_improvement(assessment)
+        orchestration_result["security_improved"] = await self._verify_security_improvement(
+            assessment
         )
 
         return orchestration_result
@@ -491,39 +477,27 @@ class ΛBotQuantumSecurityOrchestrator:
         self.security_metrics["threats_detected"] += len(assessment.qi_threats)
 
         # Count bio-symbolic detections
-        bio_threats = [
-            t for t in assessment.qi_threats if "bio_symbolic" in t.threat_type
-        ]
+        bio_threats = [t for t in assessment.qi_threats if "bio_symbolic" in t.threat_type]
         self.security_metrics["bio_symbolic_detections"] += len(bio_threats)
 
-        logger.info(
-            f"✅ Assessment complete: {len(assessment.qi_threats)} threats detected"
-        )
+        logger.info(f"✅ Assessment complete: {len(assessment.qi_threats)} threats detected")
 
         return assessment
 
-    async def orchestrate_security_response(
-        self, assessment: SecurityAssessment
-    ) -> dict[str, Any]:
+    async def orchestrate_security_response(self, assessment: SecurityAssessment) -> dict[str, Any]:
         """Orchestrate comprehensive security response"""
 
-        response = await self.adaptive_orchestrator.orchestrate_adaptive_security(
-            assessment
-        )
+        response = await self.adaptive_orchestrator.orchestrate_adaptive_security(assessment)
 
         # Update metrics based on response
         self.security_metrics["self_healing_events"] += len(response["healing_events"])
 
-        qi_mitigations = [
-            h for h in response["healing_events"] if "quantum" in h.get("type", "")
-        ]
+        qi_mitigations = [h for h in response["healing_events"] if "quantum" in h.get("type", "")]
         self.security_metrics["qi_threats_mitigated"] += len(qi_mitigations)
 
         return response
 
-    async def generate_post_quantum_keys(
-        self, algorithm: str = "kyber"
-    ) -> dict[str, Any]:
+    async def generate_post_quantum_keys(self, algorithm: str = "kyber") -> dict[str, Any]:
         """Generate quantum-resistant cryptographic keys"""
 
         keys = await self.pq_crypto_engine.generate_quantum_resistant_keys(algorithm)
@@ -536,12 +510,8 @@ class ΛBotQuantumSecurityOrchestrator:
 
         return {
             "qi_security_metrics": self.security_metrics,
-            "current_threat_level": self.adaptive_orchestrator.security_state[
-                "threat_level"
-            ],
-            "post_quantum_readiness": self.adaptive_orchestrator.security_state[
-                "qi_readiness"
-            ],
+            "current_threat_level": self.adaptive_orchestrator.security_state["threat_level"],
+            "post_quantum_readiness": self.adaptive_orchestrator.security_state["qi_readiness"],
             "bio_symbolic_enabled": BRAIN_SYSTEM_AVAILABLE,
             "adaptive_security_active": len(
                 self.adaptive_orchestrator.security_state["adaptive_measures_active"]
@@ -592,9 +562,7 @@ async def main():
     key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     """
 
-    assessment = await orchestrator.perform_quantum_security_assessment(
-        "test/repo", test_code
-    )
+    assessment = await orchestrator.perform_quantum_security_assessment("test/repo", test_code)
 
     print("🔒 Quantum Security Assessment:")
     print(f"Threats detected: {len(assessment.qi_threats)}")

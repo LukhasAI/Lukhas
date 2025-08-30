@@ -28,6 +28,7 @@ from .processors import (
 __version__ = "2.0.0"
 __author__ = "LUCAS AGI Team"
 
+
 # Jobs-Level UX: One-line task management
 def track(task: str, context: dict = None, **kwargs):
     """
@@ -49,6 +50,7 @@ def track(task: str, context: dict = None, **kwargs):
     engine = LucasDASTEngine()
     return engine.track(task, context, **kwargs)
 
+
 # Altman AGI Vision: Proactive AI assistance
 def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
     """
@@ -65,20 +67,21 @@ def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
     engine = LucasDASTEngine()
     return engine.optimize_workflow(workflow, constraints, **kwargs)
 
+
 # Export main interface
 __all__ = [
-    "LucasDASTEngine",
-    "TaskIntelligence",
-    "PriorityOptimizer",
-    "ContextTracker",
-    "SymbolicReasoner",
-    "WorkflowAnalyzer",
-    "TaskProcessor",
-    "TagProcessor",
     "AttentionProcessor",
-    "SolutionProcessor",
+    "ContextTracker",
     "DASTAdapter",
     "LucasDASTAPI",
+    "LucasDASTEngine",
+    "PriorityOptimizer",
+    "SolutionProcessor",
+    "SymbolicReasoner",
+    "TagProcessor",
+    "TaskIntelligence",
+    "TaskProcessor",
+    "WorkflowAnalyzer",
+    "optimize_workflow",
     "track",
-    "optimize_workflow"
 ]

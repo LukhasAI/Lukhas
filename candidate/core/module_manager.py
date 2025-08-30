@@ -154,9 +154,7 @@ class ModuleManager:
 
     def register_module(self, config: ModuleConfig):
         """Register a module configuration"""
-        self.modules[config.name] = ModuleInfo(
-            config=config, status=ModuleStatus.NOT_LOADED
-        )
+        self.modules[config.name] = ModuleInfo(config=config, status=ModuleStatus.NOT_LOADED)
 
     def load_module(self, name: str, force: bool = False) -> ModuleInfo:
         """
@@ -298,9 +296,7 @@ class ModuleManager:
     def load_all(self, priority_threshold: ModulePriority = ModulePriority.OPTIONAL):
         """Load all registered modules up to a priority threshold"""
         # Sort by priority
-        sorted_modules = sorted(
-            self.modules.items(), key=lambda x: x[1].config.priority.value
-        )
+        sorted_modules = sorted(self.modules.items(), key=lambda x: x[1].config.priority.value)
 
         results = {}
         for name, info in sorted_modules:
@@ -367,7 +363,6 @@ class ModuleManager:
         """Create a fallback identity client"""
 
         class FallbackIdentityClient:
-
             def __init__(self):
                 logger.info("Using fallback identity client")
 
@@ -385,7 +380,6 @@ class ModuleManager:
         """Create a fallback memory system"""
 
         class FallbackMemorySystem:
-
             def __init__(self):
                 self.memory = {}
                 logger.info("Using fallback memory system")
@@ -485,7 +479,6 @@ def require_module(module_name: str, critical: bool = False):
     """
 
     def decorator(func: Callable) -> Callable:
-
         def wrapper(*args, **kwargs):
             manager = get_module_manager()
             module = manager.get_module(module_name)
@@ -511,11 +504,11 @@ def require_module(module_name: str, critical: bool = False):
 
 # Export all
 __all__ = [
-    "ModuleManager",
     "ModuleConfig",
     "ModuleInfo",
-    "ModuleStatus",
+    "ModuleManager",
     "ModulePriority",
+    "ModuleStatus",
     "get_module_manager",
     "initialize_system",
     "require_module",

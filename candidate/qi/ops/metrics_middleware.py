@@ -54,8 +54,11 @@ PROV_STREAM_LAT = Histogram(
     registry=REGISTRY,
 )
 
+
 class PrometheusMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
         # Normalize path (avoid cardinality explosion; trim numeric/sha-like segments)
         path = request.url.path
         for marker in ("/provenance/", "/metrics"):
@@ -83,16 +86,19 @@ class PrometheusMiddleware(BaseHTTPMiddleware):
             REQ_LATENCY.labels(request.method, path).observe(elapsed)
         return response
 
+
 def metrics_endpoint():
     def _handler(_: Request) -> Response:
         data = generate_latest(REGISTRY)
         return Response(content=data, media_type=CONTENT_TYPE_LATEST)
+
     return _handler
 
+
 __all__ = [
-    "PrometheusMiddleware",
-    "metrics_endpoint",
-    "PROV_STREAM_REQ",
     "PROV_STREAM_BYTES",
     "PROV_STREAM_LAT",
+    "PROV_STREAM_REQ",
+    "PrometheusMiddleware",
+    "metrics_endpoint",
 ]

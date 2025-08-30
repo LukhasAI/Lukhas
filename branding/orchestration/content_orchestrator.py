@@ -22,6 +22,7 @@ from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 @dataclass
 class ContentSystem:
     """Elite content system configuration"""
+
     name: str
     system_type: str  # content_engine, enterprise_system, mobile_app
     path: str
@@ -32,15 +33,18 @@ class ContentSystem:
     elite_ready: bool
     last_updated: str
 
+
 @dataclass
 class OrchestrationResult:
     """Result of orchestration operation"""
+
     success: bool
     message: str
     systems_processed: int
     voice_coherence_avg: float
     elite_systems_count: int
     timestamp: str
+
 
 class EliteContentOrchestrator:
     """
@@ -64,8 +68,16 @@ class EliteContentOrchestrator:
             "required_terms": ["LUKHAS AI", "consciousness technology", "Trinity Framework"],
             "trinity_symbols": ["⚛️", "🧠", "🛡️"],
             "prohibited_terms": ["Lucas", "Lambda AI", "production-ready"],
-            "consciousness_focus": ["digital consciousness", "conscious AI", "consciousness awakening"],
-            "founder_positioning": ["thought leadership", "consciousness pioneer", "industry innovation"]
+            "consciousness_focus": [
+                "digital consciousness",
+                "conscious AI",
+                "consciousness awakening",
+            ],
+            "founder_positioning": [
+                "thought leadership",
+                "consciousness pioneer",
+                "industry innovation",
+            ],
         }
 
         self.logger = self._setup_logging()
@@ -89,9 +101,7 @@ class EliteContentOrchestrator:
         console_handler.setLevel(logging.INFO)
 
         # Formatter
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -111,9 +121,7 @@ class EliteContentOrchestrator:
             for system_dir in self.content_engines_path.iterdir():
                 if system_dir.is_dir():
                     system = await self._analyze_system(
-                        system_dir.name,
-                        "content_engine",
-                        str(system_dir)
+                        system_dir.name, "content_engine", str(system_dir)
                     )
                     systems.append(system)
 
@@ -122,9 +130,7 @@ class EliteContentOrchestrator:
             for system_dir in self.enterprise_systems_path.iterdir():
                 if system_dir.is_dir():
                     system = await self._analyze_system(
-                        system_dir.name,
-                        "enterprise_system",
-                        str(system_dir)
+                        system_dir.name, "enterprise_system", str(system_dir)
                     )
                     systems.append(system)
 
@@ -133,9 +139,7 @@ class EliteContentOrchestrator:
             for system_dir in self.mobile_apps_path.iterdir():
                 if system_dir.is_dir():
                     system = await self._analyze_system(
-                        system_dir.name,
-                        "mobile_app",
-                        str(system_dir)
+                        system_dir.name, "mobile_app", str(system_dir)
                     )
                     systems.append(system)
 
@@ -158,9 +162,9 @@ class EliteContentOrchestrator:
 
             # Determine elite readiness
             elite_ready = (
-                voice_coherence >= self.elite_threshold and
-                trinity_integration and
-                consciousness_tech_focus
+                voice_coherence >= self.elite_threshold
+                and trinity_integration
+                and consciousness_tech_focus
             )
 
             return ContentSystem(
@@ -172,7 +176,7 @@ class EliteContentOrchestrator:
                 trinity_integration=trinity_integration,
                 consciousness_tech_focus=consciousness_tech_focus,
                 elite_ready=elite_ready,
-                last_updated=datetime.now().isoformat()
+                last_updated=datetime.now().isoformat(),
             )
 
         except Exception as e:
@@ -186,7 +190,7 @@ class EliteContentOrchestrator:
                 trinity_integration=False,
                 consciousness_tech_focus=False,
                 elite_ready=False,
-                last_updated=datetime.now().isoformat()
+                last_updated=datetime.now().isoformat(),
             )
 
     async def _calculate_system_voice_coherence(self, system_path: str) -> float:
@@ -211,7 +215,9 @@ class EliteContentOrchestrator:
 
                     if len(content.strip()) > 100:  # Skip very short files
                         analysis = self.voice_analyzer.analyze_content(
-                            str(file_path), content, self.voice_analyzer._determine_content_type(str(file_path))
+                            str(file_path),
+                            content,
+                            self.voice_analyzer._determine_content_type(str(file_path)),
                         )
                         coherence_scores.append(analysis.coherence_metrics.overall_coherence)
 
@@ -228,7 +234,15 @@ class EliteContentOrchestrator:
         """Check if system has Trinity Framework integration"""
         try:
             # Look for Trinity symbols and references
-            trinity_indicators = ["⚛️", "🧠", "🛡️", "Trinity Framework", "Identity", "Consciousness", "Guardian"]
+            trinity_indicators = [
+                "⚛️",
+                "🧠",
+                "🛡️",
+                "Trinity Framework",
+                "Identity",
+                "Consciousness",
+                "Guardian",
+            ]
 
             # Search in key files
             for file_path in Path(system_path).rglob("*.md"):
@@ -249,8 +263,12 @@ class EliteContentOrchestrator:
         """Check if system has consciousness technology focus"""
         try:
             consciousness_terms = [
-                "consciousness technology", "digital consciousness", "conscious AI",
-                "consciousness awakening", "quantum-inspired", "bio-inspired"
+                "consciousness technology",
+                "digital consciousness",
+                "conscious AI",
+                "consciousness awakening",
+                "quantum-inspired",
+                "bio-inspired",
             ]
 
             # Search in key files
@@ -278,7 +296,11 @@ class EliteContentOrchestrator:
 
             # Calculate current metrics
             voice_coherence_scores = [s.voice_coherence for s in systems]
-            avg_coherence = sum(voice_coherence_scores) / len(voice_coherence_scores) if voice_coherence_scores else 0.0
+            avg_coherence = (
+                sum(voice_coherence_scores) / len(voice_coherence_scores)
+                if voice_coherence_scores
+                else 0.0
+            )
             elite_systems = [s for s in systems if s.elite_ready]
 
             # Generate comprehensive report
@@ -298,27 +320,29 @@ class EliteContentOrchestrator:
                 systems_processed=len(systems),
                 voice_coherence_avg=avg_coherence,
                 elite_systems_count=len(elite_systems),
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
             )
 
         except Exception as e:
             self.logger.error(f"❌ Elite transformation failed: {e}")
             return OrchestrationResult(
                 success=False,
-                message=f"Elite transformation failed: {str(e)}",
+                message=f"Elite transformation failed: {e!s}",
                 systems_processed=0,
                 voice_coherence_avg=0.0,
                 elite_systems_count=0,
-                timestamp=datetime.now().isoformat()
+                timestamp=datetime.now().isoformat(),
             )
 
-    async def _generate_orchestration_report(self, systems: list[ContentSystem], avg_coherence: float):
+    async def _generate_orchestration_report(
+        self, systems: list[ContentSystem], avg_coherence: float
+    ):
         """Generate comprehensive orchestration report"""
         report_path = self.base_path / "ELITE_ORCHESTRATION_REPORT.md"
 
         report_content = f"""# 🎯 LUKHAS AI Elite Content Orchestration Report
 
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 
@@ -394,13 +418,14 @@ class EliteContentOrchestrator:
             "timestamp": datetime.now().isoformat(),
             "total_systems": len(systems),
             "elite_threshold": self.elite_threshold,
-            "systems": [asdict(system) for system in systems]
+            "systems": [asdict(system) for system in systems],
         }
 
         with open(config_path, "w") as f:
             json.dump(config_data, f, indent=2)
 
         self.logger.info(f"💾 Saved systems configuration: {config_path}")
+
 
 async def main():
     """Main orchestration execution"""
@@ -421,6 +446,7 @@ async def main():
         print(f"❌ {result.message}")
 
     print("\n🚀 Ready for Phase 2: Elite Voice Coherence Upgrade!")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

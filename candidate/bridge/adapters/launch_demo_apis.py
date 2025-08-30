@@ -67,9 +67,7 @@ def start_api(api_config):
     # Modify the script to use the configured port
     env = {"PORT": str(api_config["port"]), "API_NAME": api_config["name"]}
 
-    process = subprocess.Popen(
-        ["python", api_config["script"]], env={**env, **dict(os.environ)}
-    )
+    process = subprocess.Popen(["python", api_config["script"]], env={**env, **dict(os.environ)})
 
     return process
 
@@ -100,7 +98,7 @@ if __name__ == "__main__":
             processes.append(process)
             time.sleep(2)  # Give each API time to start
         except Exception as e:
-            print(f"❌ Failed to start {api['name']}: {str(e)}")
+            print(f"❌ Failed to start {api['name']}: {e!s}")
 
     print(f"\n✅ All {len(processes)} APIs started successfully!")
     print("\n📍 API Endpoints:")

@@ -65,7 +65,9 @@ class ConsentHistoryManager:
     def _generate_record_hash(self, record: dict, user_id: str) -> str:
         """Generate cryptographic hash for consent record"""
         # Create deterministic string for hashing
-        hash_data = f"{record['timestamp']}|{record['event_type']}|{str(record['scope_data'])}|{user_id}"
+        hash_data = (
+            f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
+        )
         return hashlib.sha256(hash_data.encode()).hexdigest()
 
     def _log_to_trace(self, user_id: str, consent_record: dict):
@@ -99,9 +101,7 @@ class ConsentHistoryManager:
 
         return True
 
-    def get_consent_timeline(
-        self, user_id: str, scope: Optional[str] = None
-    ) -> list[dict]:
+    def get_consent_timeline(self, user_id: str, scope: Optional[str] = None) -> list[dict]:
         """Get chronological consent timeline for user"""
         if user_id not in self.consent_chain:
             return []
@@ -114,9 +114,7 @@ class ConsentHistoryManager:
 
         return sorted(timeline, key=lambda x: x["timestamp"])
 
-    def generate_consent_proof(
-        self, user_id: str, scope: str, timestamp: str = None
-    ) -> dict:
+    def generate_consent_proof(self, user_id: str, scope: str, timestamp: str = None) -> dict:
         """Generate cryptographic proof of consent status"""
         # TODO: Implement zero-knowledge proof generation
         # This will allow proving consent without revealing full scope details

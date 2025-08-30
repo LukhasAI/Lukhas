@@ -25,7 +25,8 @@ except ImportError:
 
     _log_otel_fallback = get_logger(__name__)
     _log_otel_fallback.warning(
-        "OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")
+        "OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use."
+    )
 
     from typing import Any, Optional
 
@@ -35,14 +36,16 @@ except ImportError:
         body: Optional[str]  # Simplified placeholder # type: ignore
 
     class LogExporter:  # type: ignore
-        def export(
-            self,
-            batch: typing.Sequence[LogData]) -> "LogExportResult": return LogExportResult(False)  # type: ignore
-        def shutdown(self) -> None: pass
+        def export(self, batch: typing.Sequence[LogData]) -> "LogExportResult":
+            return LogExportResult(False)  # type: ignore
+
+        def shutdown(self) -> None:
+            pass
 
     @dataclass  # type: ignore
     class LogExportResult:
         success: bool  # type: ignore
+
     LogExportResult.SUCCESS = LogExportResult(True)  # type: ignore
     LogExportResult.FAILURE = LogExportResult(False)  # type: ignore
 
@@ -79,6 +82,7 @@ class InMemoryLogExporter(LogExporter):  # type: ignore
     def shutdown(self) -> None:
         """Marks the exporter as stopped. Subsequent calls to export will fail."""
         self._stopped = True
+
 
 # --- LUKHAS AI System Footer ---
 # File Origin: The OpenTelemetry Authors (opentelemetry-python/sdk/src/opentelemetry/sdk/_logs/export/in_memory_exporter.py)

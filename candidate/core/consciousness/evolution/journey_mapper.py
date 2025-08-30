@@ -47,30 +47,38 @@ class ConsciousnessJourneyMapper:
         past_events = []
         for i in range(random.randint(1, 3)):
             event_time = now - datetime.timedelta(days=random.randint(30, timespan_months * 30))
-            past_events.append({
-                "event_time_utc": event_time.isoformat(),
-                "event_type": "value_shift",
-                "description": f"Shift towards {random.choice(['minimalism', 'community', 'self-care'])}",
-                "confidence": round(random.uniform(0.7, 0.98), 2),
-            })
+            past_events.append(
+                {
+                    "event_time_utc": event_time.isoformat(),
+                    "event_type": "value_shift",
+                    "description": f"Shift towards {random.choice(['minimalism', 'community', 'self-care'])}",
+                    "confidence": round(random.uniform(0.7, 0.98), 2),
+                }
+            )
 
         predicted_transitions = []
         for i in range(random.randint(0, 2)):
             transition_time = now + datetime.timedelta(days=random.randint(30, 180))
-            predicted_transitions.append({
-                "predicted_time_utc": transition_time.isoformat(),
-                "transition_type": "life_event",
-                "description": f"Anticipated {random.choice(['career_change', 'new_relationship', 'relocation'])}",
-                "confidence": round(random.uniform(0.5, 0.85), 2),
-            })
+            predicted_transitions.append(
+                {
+                    "predicted_time_utc": transition_time.isoformat(),
+                    "transition_type": "life_event",
+                    "description": f"Anticipated {random.choice(['career_change', 'new_relationship', 'relocation'])}",
+                    "confidence": round(random.uniform(0.5, 0.85), 2),
+                }
+            )
 
         journey_map = {
             "user_id": user_id,
             "map_generated_utc": now.isoformat(),
             "current_trajectory": f"Growing towards {random.choice(['creativity', 'leadership', 'mindfulness'])}",
             "past_events": sorted(past_events, key=lambda x: x["event_time_utc"]),
-            "predicted_transitions": sorted(predicted_transitions, key=lambda x: x["predicted_time_utc"]),
-            "recommended_nias_tier": random.choice(["T1_Aware", "T2_Enlightened", "T3_Transcendent"]),
+            "predicted_transitions": sorted(
+                predicted_transitions, key=lambda x: x["predicted_time_utc"]
+            ),
+            "recommended_nias_tier": random.choice(
+                ["T1_Aware", "T2_Enlightened", "T3_Transcendent"]
+            ),
         }
 
         return journey_map

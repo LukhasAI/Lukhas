@@ -51,9 +51,7 @@ class QIAnnealedEthicalConsensus:
     nuanced ethical decision-making in complex scenarios.
     """
 
-    def __init__(
-        self, annealing_steps: int = 1000, temperature_schedule: str = "exponential"
-    ):
+    def __init__(self, annealing_steps: int = 1000, temperature_schedule: str = "exponential"):
         self.annealing_steps = annealing_steps
         self.temperature_schedule = temperature_schedule
         self.ethical_embeddings = self._initialize_ethical_embeddings()
@@ -64,9 +62,7 @@ class QIAnnealedEthicalConsensus:
         self.batch_size = int(os.environ.get("QUANTUM_BATCH_SIZE", "16"))
         self.precision = os.environ.get("QUANTUM_PRECISION", "float32")
 
-        logger.info(
-            f"Quantum-Annealed Ethical Consensus initialized with {annealing_steps} steps"
-        )
+        logger.info(f"Quantum-Annealed Ethical Consensus initialized with {annealing_steps} steps")
 
     def _initialize_ethical_embeddings(self) -> dict[str, np.ndarray]:
         """Initialize embeddings for ethical principles in a high-dimensional latent space"""
@@ -124,9 +120,7 @@ class QIAnnealedEthicalConsensus:
         # Generate embeddings based on component weights
         for principle in principles:
             # Get component weights or use default
-            components = principle_components.get(
-                principle, {"care": 0.5, "fairness": 0.5}
-            )
+            components = principle_components.get(principle, {"care": 0.5, "fairness": 0.5})
 
             # Create weighted sum of base vectors
             embedding = np.zeros(embedding_dim)
@@ -300,10 +294,7 @@ class QIAnnealedEthicalConsensus:
             "energy_final": energy_values[-1] if energy_values else 0.0,
             "processing_time": processing_time,
             "convergence": (
-                bool(
-                    len(energy_values) > 1
-                    and abs(energy_values[-1] - energy_values[-2]) < 0.0001
-                )
+                bool(len(energy_values) > 1 and abs(energy_values[-1] - energy_values[-2]) < 0.0001)
             ),
         }
 
@@ -369,9 +360,7 @@ class QIAnnealedEthicalConsensus:
 
         return final_state
 
-    def _quantum_perturbation(
-        self, state: np.ndarray, temperature: float
-    ) -> np.ndarray:
+    def _quantum_perturbation(self, state: np.ndarray, temperature: float) -> np.ndarray:
         """
         Apply quantum-inspired perturbation to state
 
@@ -409,9 +398,7 @@ class QIAnnealedEthicalConsensus:
         # Ensure values remain in reasonable range
         return np.clip(new_state, 0, 1)
 
-    def _calculate_energy(
-        self, state: np.ndarray, embeddings: list[np.ndarray]
-    ) -> float:
+    def _calculate_energy(self, state: np.ndarray, embeddings: list[np.ndarray]) -> float:
         """
         Calculate energy function for the current state
 
@@ -456,9 +443,7 @@ class QIAnnealedEthicalConsensus:
                 alignment_energy = 1.0 - np.dot(ethical_state, ideal_state)
 
         # Combine energy components with weights
-        total_energy = (
-            0.4 * coherence_energy + 0.3 * satisfaction_energy + 0.3 * alignment_energy
-        )
+        total_energy = 0.4 * coherence_energy + 0.3 * satisfaction_energy + 0.3 * alignment_energy
 
         return total_energy
 
@@ -500,9 +485,7 @@ class QIAnnealedEthicalConsensus:
             "avg_processing_time": round(avg_time, 4),
             "principle_count": len(self.ethical_embeddings),
             "embedding_dimension": (
-                len(next(iter(self.ethical_embeddings.values())))
-                if self.ethical_embeddings
-                else 0
+                len(next(iter(self.ethical_embeddings.values()))) if self.ethical_embeddings else 0
             ),
         }
 

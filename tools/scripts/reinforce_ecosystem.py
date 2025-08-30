@@ -15,7 +15,6 @@ from pathlib import Path
 
 
 class EcosystemReinforcer:
-
     def __init__(self):
         self.modules = [
             "core",
@@ -646,9 +645,7 @@ class MemoryFoldBase(ABC):
                 if "__all__" in content:
                     match = re.search(r"__all__\s*=\s*\[(.*?)\]", content, re.DOTALL)
                     if match:
-                        exports = [
-                            e.strip().strip("\"'") for e in match.group(1).split(",")
-                        ]
+                        exports = [e.strip().strip("\"'") for e in match.group(1).split(",")]
             except BaseException:
                 pass
 

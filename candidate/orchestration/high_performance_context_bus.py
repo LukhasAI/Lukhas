@@ -36,25 +36,31 @@ import uvloop  # High-performance event loop
 
 logger = logging.getLogger(__name__)
 
+
 class ContextPriority(Enum):
     """Priority levels for context messages"""
-    CRITICAL = 5    # System-critical operations
-    HIGH = 4        # Important user operations
-    NORMAL = 3      # Standard operations
-    LOW = 2         # Background operations
-    TRACE = 1       # Logging and metrics
+
+    CRITICAL = 5  # System-critical operations
+    HIGH = 4  # Important user operations
+    NORMAL = 3  # Standard operations
+    LOW = 2  # Background operations
+    TRACE = 1  # Logging and metrics
+
 
 class HandoffStatus(Enum):
     """Status of context handoffs"""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
     FAILED = "failed"
     TIMEOUT = "timeout"
 
+
 @dataclass
 class ContextMessage:
     """High-performance context message with performance tracking"""
+
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     message_type: str = ""
     payload: dict[str, Any] = field(default_factory=dict)
@@ -120,19 +126,21 @@ class ContextMessage:
                 "handoff_latency_ms": self.handoff_latency_ms,
                 "processing_latency_ms": self.processing_latency_ms,
                 "total_latency_ms": self.total_latency_ms,
-                "meets_target": self.meets_performance_target()
+                "meets_target": self.meets_performance_target(),
             },
             "trinity_context": {
                 "identity": bool(self.identity_context),
                 "consciousness": bool(self.consciousness_state),
-                "guardian": bool(self.guardian_policies)
+                "guardian": bool(self.guardian_policies),
             },
-            "timestamp": self.created_at
+            "timestamp": self.created_at,
         }
+
 
 @dataclass
 class WorkflowStep:
     """Individual step in a workflow pipeline"""
+
     step_id: str
     name: str
     handler: Callable
@@ -145,13 +153,15 @@ class WorkflowStep:
     priority: ContextPriority = ContextPriority.NORMAL
 
     # Trinity Framework requirements
-    requires_identity: bool = False      # ⚛️
-    requires_consciousness: bool = False # 🧠
-    requires_guardian: bool = False      # 🛡️
+    requires_identity: bool = False  # ⚛️
+    requires_consciousness: bool = False  # 🧠
+    requires_guardian: bool = False  # 🛡️
+
 
 @dataclass
 class PerformanceMetrics:
     """Comprehensive performance tracking"""
+
     total_messages: int = 0
     successful_handoffs: int = 0
     failed_handoffs: int = 0
@@ -193,7 +203,11 @@ class PerformanceMetrics:
             return 0.0
         sorted_latencies = sorted(self.handoff_latencies)
         p95_index = int(len(sorted_latencies) * 0.95)
-        return sorted_latencies[p95_index] if p95_index < len(sorted_latencies) else sorted_latencies[-1]
+        return (
+            sorted_latencies[p95_index]
+            if p95_index < len(sorted_latencies)
+            else sorted_latencies[-1]
+        )
 
     @property
     def success_rate(self) -> float:
@@ -201,6 +215,7 @@ class PerformanceMetrics:
         if self.total_messages == 0:
             return 0.0
         return self.successful_handoffs / self.total_messages
+
 
 class HighPerformanceContextBus:
     """
@@ -320,13 +335,15 @@ class HighPerformanceContextBus:
 
         logger.info("🛑 Context Bus stopped gracefully")
 
-    async def emit(self,
-                  message_type: str,
-                  payload: dict[str, Any],
-                  source: str = "context_bus",
-                  target: Optional[str] = None,
-                  priority: ContextPriority = ContextPriority.NORMAL,
-                  workflow_id: Optional[str] = None) -> str:
+    async def emit(
+        self,
+        message_type: str,
+        payload: dict[str, Any],
+        source: str = "context_bus",
+        target: Optional[str] = None,
+        priority: ContextPriority = ContextPriority.NORMAL,
+        workflow_id: Optional[str] = None,
+    ) -> str:
         """
         Emit a context message with high-performance handling
 
@@ -362,7 +379,7 @@ class HighPerformanceContextBus:
             # Add to transparency log
             self._add_transparency_entry(
                 f"📤 Emitted: {message_type} from {source} (priority: {priority.name})",
-                message.message_id
+                message.message_id,
             )
 
         except asyncio.QueueFull:
@@ -377,9 +394,12 @@ class HighPerformanceContextBus:
         if "*" in message_type:
             # Pattern subscription
             import re
+
             pattern = message_type.replace(".", r"\.").replace("*", ".*")
+
             def pattern_fn(msg_type):
                 return re.match(pattern, msg_type)
+
             self.pattern_subscribers.append((pattern_fn, handler))
 
             logger.info(f"📥 Pattern subscription: {message_type} → {handler.__name__}")
@@ -389,10 +409,9 @@ class HighPerformanceContextBus:
 
             logger.info(f"📥 Exact subscription: {message_type} → {handler.__name__}")
 
-    async def execute_workflow(self,
-                             workflow_id: str,
-                             steps: list[WorkflowStep],
-                             initial_context: Optional[dict] = None) -> dict[str, Any]:
+    async def execute_workflow(
+        self, workflow_id: str, steps: list[WorkflowStep], initial_context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Execute multi-step workflow with performance tracking
 
@@ -406,10 +425,7 @@ class HighPerformanceContextBus:
         """
         workflow_start = time.perf_counter()
 
-        self._add_workflow_narrative(
-            workflow_id,
-            f"🚀 Starting workflow: {len(steps)} steps"
-        )
+        self._add_workflow_narrative(workflow_id, f"🚀 Starting workflow: {len(steps)} steps")
 
         # Initialize context
         context = initial_context or {}
@@ -426,7 +442,7 @@ class HighPerformanceContextBus:
                     source=f"workflow.{workflow_id}",
                     workflow_id=workflow_id,
                     step_index=i,
-                    priority=step.priority
+                    priority=step.priority,
                 )
 
                 # Set Trinity Framework requirements
@@ -442,15 +458,13 @@ class HighPerformanceContextBus:
                 step_message.processing_start = time.perf_counter()
 
                 self._add_workflow_narrative(
-                    workflow_id,
-                    f"▶️ Executing step {i+1}/{len(steps)}: {step.name}"
+                    workflow_id, f"▶️ Executing step {i + 1}/{len(steps)}: {step.name}"
                 )
 
                 # Execute step with timeout
                 try:
                     step_result = await asyncio.wait_for(
-                        step.handler(step_message.payload),
-                        timeout=step.timeout_ms / 1000
+                        step.handler(step_message.payload), timeout=step.timeout_ms / 1000
                     )
 
                     # Complete timing
@@ -465,18 +479,20 @@ class HighPerformanceContextBus:
 
                     step_duration = (time.perf_counter() - step_start) * 1000
 
-                    step_results.append({
-                        "step_id": step.step_id,
-                        "step_name": step.name,
-                        "result": step_result,
-                        "duration_ms": step_duration,
-                        "handoff_latency_ms": step_message.handoff_latency_ms,
-                        "meets_target": step_message.meets_performance_target()
-                    })
+                    step_results.append(
+                        {
+                            "step_id": step.step_id,
+                            "step_name": step.name,
+                            "result": step_result,
+                            "duration_ms": step_duration,
+                            "handoff_latency_ms": step_message.handoff_latency_ms,
+                            "meets_target": step_message.meets_performance_target(),
+                        }
+                    )
 
                     self._add_workflow_narrative(
                         workflow_id,
-                        f"✅ Completed step {i+1}: {step.name} ({step_duration:.2f}ms)"
+                        f"✅ Completed step {i + 1}: {step.name} ({step_duration:.2f}ms)",
                     )
 
                 except asyncio.TimeoutError:
@@ -487,13 +503,11 @@ class HighPerformanceContextBus:
                         # Retry once
                         try:
                             step_result = await asyncio.wait_for(
-                                step.handler(context),
-                                timeout=step.timeout_ms / 1000
+                                step.handler(context), timeout=step.timeout_ms / 1000
                             )
                             context.update(step_result)
                             self._add_workflow_narrative(
-                                workflow_id,
-                                f"🔄 Retry successful for step {step.name}"
+                                workflow_id, f"🔄 Retry successful for step {step.name}"
                             )
                         except:
                             raise Exception(f"Step {step.name} failed after retry")
@@ -501,7 +515,7 @@ class HighPerformanceContextBus:
                         raise Exception(error_msg)
 
                 except Exception as e:
-                    error_msg = f"Step {step.name} failed: {str(e)}"
+                    error_msg = f"Step {step.name} failed: {e!s}"
                     self._add_workflow_narrative(workflow_id, f"❌ {error_msg}")
                     raise Exception(error_msg)
 
@@ -509,8 +523,7 @@ class HighPerformanceContextBus:
             workflow_duration = (time.perf_counter() - workflow_start) * 1000
 
             self._add_workflow_narrative(
-                workflow_id,
-                f"🎉 Workflow completed successfully ({workflow_duration:.2f}ms)"
+                workflow_id, f"🎉 Workflow completed successfully ({workflow_duration:.2f}ms)"
             )
 
             return {
@@ -518,17 +531,17 @@ class HighPerformanceContextBus:
                 "status": "completed",
                 "results": step_results,
                 "total_duration_ms": workflow_duration,
-                "average_handoff_ms": sum(r["handoff_latency_ms"] for r in step_results) / len(step_results),
+                "average_handoff_ms": sum(r["handoff_latency_ms"] for r in step_results)
+                / len(step_results),
                 "all_steps_meet_target": all(r["meets_target"] for r in step_results),
-                "narrative": self.workflow_narratives[workflow_id]
+                "narrative": self.workflow_narratives[workflow_id],
             }
 
         except Exception as e:
             workflow_duration = (time.perf_counter() - workflow_start) * 1000
 
             self._add_workflow_narrative(
-                workflow_id,
-                f"💥 Workflow failed: {str(e)} ({workflow_duration:.2f}ms)"
+                workflow_id, f"💥 Workflow failed: {e!s} ({workflow_duration:.2f}ms)"
             )
 
             return {
@@ -537,7 +550,7 @@ class HighPerformanceContextBus:
                 "error": str(e),
                 "results": step_results,
                 "total_duration_ms": workflow_duration,
-                "narrative": self.workflow_narratives[workflow_id]
+                "narrative": self.workflow_narratives[workflow_id],
             }
 
     async def _worker_loop(self, priority: ContextPriority, worker_name: str):
@@ -601,7 +614,7 @@ class HighPerformanceContextBus:
                 f"📨 Processed: {message.message_type} "
                 f"({message.handoff_latency_ms:.2f}ms, "
                 f"{len(handlers)} handlers)",
-                message.message_id
+                message.message_id,
             )
 
             # Return message to pool
@@ -636,8 +649,10 @@ class HighPerformanceContextBus:
 
                 # Calculate target compliance
                 if self.performance_metrics.total_messages > 0:
-                    compliance = (self.performance_metrics.successful_handoffs /
-                                self.performance_metrics.total_messages) * 100
+                    compliance = (
+                        self.performance_metrics.successful_handoffs
+                        / self.performance_metrics.total_messages
+                    ) * 100
                     self.performance_metrics.target_compliance_percent = compliance
 
                 # Log performance summary
@@ -689,11 +704,7 @@ class HighPerformanceContextBus:
     def _add_transparency_entry(self, entry: str, message_id: str):
         """Add entry to transparency log"""
         timestamp = datetime.now(timezone.utc).isoformat()
-        log_entry = {
-            "timestamp": timestamp,
-            "message": entry,
-            "message_id": message_id
-        }
+        log_entry = {"timestamp": timestamp, "message": entry, "message_id": message_id}
         self.transparency_log.append(log_entry)
 
     def _add_workflow_narrative(self, workflow_id: str, entry: str):
@@ -709,26 +720,26 @@ class HighPerformanceContextBus:
                 "total": self.performance_metrics.total_messages,
                 "successful": self.performance_metrics.successful_handoffs,
                 "failed": self.performance_metrics.failed_handoffs,
-                "success_rate": self.performance_metrics.success_rate
+                "success_rate": self.performance_metrics.success_rate,
             },
             "latency": {
                 "average_handoff_ms": self.performance_metrics.average_handoff_ms,
                 "p95_handoff_ms": self.performance_metrics.p95_handoff_ms,
-                "meets_250ms_target": self.performance_metrics.p95_handoff_ms < 250
+                "meets_250ms_target": self.performance_metrics.p95_handoff_ms < 250,
             },
             "throughput": {
                 "messages_per_second": self.performance_metrics.messages_per_second,
-                "peak_throughput": self.performance_metrics.peak_throughput
+                "peak_throughput": self.performance_metrics.peak_throughput,
             },
             "compliance": {
                 "target_compliance_percent": self.performance_metrics.target_compliance_percent,
-                "meets_performance_target": self.performance_metrics.target_compliance_percent > 95
+                "meets_performance_target": self.performance_metrics.target_compliance_percent > 95,
             },
             "system": {
                 "workers_active": len(self.workers),
                 "queue_sizes": {p.name: q.qsize() for p, q in self.message_queues.items()},
-                "memory_pool_size": len(self._message_pool)
-            }
+                "memory_pool_size": len(self._message_pool),
+            },
         }
 
     def get_transparency_log(self, limit: int = 100) -> list[dict]:
@@ -739,33 +750,39 @@ class HighPerformanceContextBus:
         """Get narrative for specific workflow"""
         return self.workflow_narratives.get(workflow_id, [])
 
+
 # Global high-performance context bus instance
 context_bus = HighPerformanceContextBus()
+
 
 # Convenience functions
 async def emit(message_type: str, payload: dict[str, Any], **kwargs) -> str:
     """Emit message to context bus"""
     return await context_bus.emit(message_type, payload, **kwargs)
 
+
 def subscribe(message_type: str, handler: Callable):
     """Subscribe to message type"""
     context_bus.subscribe(message_type, handler)
 
-async def execute_workflow(workflow_id: str, steps: list[WorkflowStep],
-                          initial_context: Optional[dict] = None) -> dict[str, Any]:
+
+async def execute_workflow(
+    workflow_id: str, steps: list[WorkflowStep], initial_context: Optional[dict] = None
+) -> dict[str, Any]:
     """Execute workflow through context bus"""
     return await context_bus.execute_workflow(workflow_id, steps, initial_context)
 
+
 # Export main components
 __all__ = [
-    "HighPerformanceContextBus",
     "ContextMessage",
     "ContextPriority",
     "HandoffStatus",
-    "WorkflowStep",
+    "HighPerformanceContextBus",
     "PerformanceMetrics",
+    "WorkflowStep",
     "context_bus",
     "emit",
+    "execute_workflow",
     "subscribe",
-    "execute_workflow"
 ]

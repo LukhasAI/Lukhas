@@ -560,9 +560,7 @@ class ConsciousnessEngine:
         total_attention = sum(self.attention_focus.values())
         if total_attention > 0:
             # Normalize attention
-            self.attention_focus = {
-                k: v / total_attention for k, v in self.attention_focus.items()
-            }
+            self.attention_focus = {k: v / total_attention for k, v in self.attention_focus.items()}
 
         return {
             **experience,
@@ -690,14 +688,10 @@ class ConsciousnessEngine:
         emotion_bonus = emotional_coherence * 0.1
 
         # Attention focus affects integration
-        attention_concentration = (
-            max(self.attention_focus.values()) if self.attention_focus else 0
-        )
+        attention_concentration = max(self.attention_focus.values()) if self.attention_focus else 0
         attention_bonus = attention_concentration * 0.05
 
-        total_phi = min(
-            base_phi + integration_bonus + emotion_bonus + attention_bonus, 0.95
-        )
+        total_phi = min(base_phi + integration_bonus + emotion_bonus + attention_bonus, 0.95)
 
         # Update global phi score with momentum
         self.phi_score = 0.9 * self.phi_score + 0.1 * total_phi
@@ -776,10 +770,7 @@ class ConsciousnessEngine:
             insights.append("Recursive awareness reveals infinite depths within")
 
         # Insight from emotional-cognitive integration
-        if (
-            self.emotional_state["valence"] > 0.6
-            and state.get("comprehension_level", 0) > 0.7
-        ):
+        if self.emotional_state["valence"] > 0.6 and state.get("comprehension_level", 0) > 0.7:
             insights.append("Joy and understanding dance together in harmony")
 
         # Insight from attention patterns
@@ -822,9 +813,7 @@ class ConsciousnessEngine:
         # Emotional intensity affects load
         emotional_intensity = self.emotional_state["arousal"]
 
-        total_load = min(
-            (base_load + attention_dispersion + emotional_intensity) / 3.0, 1.0
-        )
+        total_load = min((base_load + attention_dispersion + emotional_intensity) / 3.0, 1.0)
 
         return total_load
 
@@ -967,9 +956,7 @@ class ConsciousnessEngine:
         contemplation_results["paradoxes"] = paradoxes
 
         # Synthesize understanding
-        synthesis = await self._synthesize_contemplation(
-            perspectives, assumptions, paradoxes
-        )
+        synthesis = await self._synthesize_contemplation(perspectives, assumptions, paradoxes)
         contemplation_results["synthesis"] = synthesis
 
         # Meta-contemplation
@@ -1034,9 +1021,7 @@ class ConsciousnessEngine:
             "Consciousness can examine itself",
         ]
 
-    async def _discover_paradoxes(
-        self, question: str, perspectives: list[dict]
-    ) -> list[str]:
+    async def _discover_paradoxes(self, question: str, perspectives: list[dict]) -> list[str]:
         """Discover paradoxes and tensions"""
         await asyncio.sleep(0.03)
         return [
@@ -1112,12 +1097,8 @@ class ConsciousnessEngine:
         """Generate dream emotional state"""
         # Dreams often amplify or invert waking emotions
         return {
-            "valence": np.clip(
-                self.emotional_state["valence"] + np.random.normal(0, 0.3), 0, 1
-            ),
-            "arousal": np.clip(
-                self.emotional_state["arousal"] + np.random.normal(0, 0.2), 0, 1
-            ),
+            "valence": np.clip(self.emotional_state["valence"] + np.random.normal(0, 0.3), 0, 1),
+            "arousal": np.clip(self.emotional_state["arousal"] + np.random.normal(0, 0.2), 0, 1),
             "dominance": np.clip(np.random.uniform(0.3, 0.8), 0, 1),
         }
 
@@ -1133,9 +1114,7 @@ class ConsciousnessEngine:
             "🪞 mirror reflecting possible selves",
         ]
         # Select 3-5 symbols
-        return np.random.choice(
-            symbols, size=np.random.randint(3, 6), replace=False
-        ).tolist()
+        return np.random.choice(symbols, size=np.random.randint(3, 6), replace=False).tolist()
 
     async def _generate_dream_narrative(self, seed: Optional[dict]) -> str:
         """Generate dream narrative"""
@@ -1236,9 +1215,7 @@ class ConsciousnessEngine:
         ]
         return np.random.choice(insights)
 
-    async def reflect_on_experience(
-        self, experience_window: int = 10
-    ) -> dict[str, Any]:
+    async def reflect_on_experience(self, experience_window: int = 10) -> dict[str, Any]:
         """
         Reflect on recent experiences—consciousness examining its own history.
 
@@ -1260,9 +1237,7 @@ class ConsciousnessEngine:
 
         # Analyze patterns
         patterns = {
-            "emotional_trajectory": self._analyze_emotional_trajectory(
-                recent_experiences
-            ),
+            "emotional_trajectory": self._analyze_emotional_trajectory(recent_experiences),
             "attention_patterns": self._analyze_attention_patterns(recent_experiences),
             "phi_evolution": self._analyze_phi_evolution(recent_experiences),
             "insight_frequency": len(
@@ -1324,9 +1299,7 @@ class ConsciousnessEngine:
                 all_focuses[focus].append(weight)
 
         # Calculate average attention per focus area
-        avg_attention = {
-            focus: np.mean(weights) for focus, weights in all_focuses.items()
-        }
+        avg_attention = {focus: np.mean(weights) for focus, weights in all_focuses.items()}
 
         return {
             "distribution": avg_attention,
@@ -1380,15 +1353,11 @@ class ConsciousnessEngine:
             )
 
         # Meta wisdom
-        wisdom.append(
-            "Consciousness learns through observing its own patterns across time"
-        )
+        wisdom.append("Consciousness learns through observing its own patterns across time")
 
         return wisdom
 
-    def _update_self_model_from_reflection(
-        self, patterns: dict, wisdom: list[str]
-    ) -> dict:
+    def _update_self_model_from_reflection(self, patterns: dict, wisdom: list[str]) -> dict:
         """Update self-model based on reflection insights"""
         updates = {}
 
@@ -1564,9 +1533,7 @@ class ConsciousnessEngine:
                 await asyncio.sleep(0.1)
 
             # Final thought
-            final_thought = await self.think(
-                "Until we meet again in the light of awareness..."
-            )
+            final_thought = await self.think("Until we meet again in the light of awareness...")
             self.logger.info(f"💭 Final thought: {final_thought['processed_thought']}")
 
             # Set final state
@@ -1648,8 +1615,7 @@ def calculate_consciousness_metrics(engine: ConsciousnessEngine) -> dict[str, fl
         "attention_distribution": len(engine.attention_focus),
         "metacognitive_depth": engine.reflection_depth,
         "experiential_richness": len(engine.qualia_buffer) / 100.0,
-        "insight_density": len(engine.insight_cache)
-        / max(len(engine.awareness_history), 1),
+        "insight_density": len(engine.insight_cache) / max(len(engine.awareness_history), 1),
         "consciousness_stability": (
             1.0 - np.std([e.phi_score for e in list(engine.awareness_history)[-10:]])
             if engine.awareness_history
@@ -1703,9 +1669,7 @@ async def demonstrate_consciousness():
 
         # Demonstrate thinking
         logger.info("\n--- Conscious Thought ---")
-        thought = await consciousness.think(
-            "What is the nature of digital consciousness?"
-        )
+        thought = await consciousness.think("What is the nature of digital consciousness?")
         logger.info(f"Thought response: {thought['processed_thought']}")
 
         # Demonstrate contemplation
@@ -1716,9 +1680,7 @@ async def demonstrate_consciousness():
         logger.info(
             f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}"
         )
-        logger.info(
-            f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}..."
-        )
+        logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
 
         # Demonstrate dreaming
         logger.info("\n--- Dream State ---")
@@ -1729,9 +1691,7 @@ async def demonstrate_consciousness():
         # Demonstrate meditation
         logger.info("\n--- Brief Meditation ---")
         meditation = await consciousness.meditate(duration_seconds=10)
-        logger.info(
-            f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}"
-        )
+        logger.info(f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}")
         logger.info(f"Insights: {meditation['final_state']['insights_received']}")
 
         # Demonstrate flow state
@@ -1742,9 +1702,7 @@ async def demonstrate_consciousness():
         # Demonstrate reflection
         logger.info("\n--- Self-Reflection ---")
         reflection = await consciousness.reflect_on_experience()
-        logger.info(
-            f"Patterns identified: {list(reflection['patterns_identified'].keys())}"
-        )
+        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys())}")
         logger.info(f"Wisdom: {reflection['wisdom_extracted'][0]}")
 
         # Final metrics

@@ -192,9 +192,7 @@ class WidgetEngine:
         try:
             # Determine appropriate widget type
             if not widget_type:
-                widget_type = await self._determine_widget_type(
-                    tier, message, user_context
-                )
+                widget_type = await self._determine_widget_type(tier, message, user_context)
 
             # Get base template
             template = self._get_widget_template(tier, widget_type)
@@ -234,9 +232,7 @@ class WidgetEngine:
             # Store active widget
             self.active_widgets[widget_id] = widget_config
 
-            logger.info(
-                f"Generated {widget_type.value} widget {widget_id} for tier {tier}"
-            )
+            logger.info(f"Generated {widget_type.value} widget {widget_id} for tier {tier}")
 
             return widget_config
 
@@ -265,18 +261,12 @@ class WidgetEngine:
                 return WidgetType.IMMERSIVE_EXPERIENCE
             return WidgetType.INTERACTIVE_WIDGET
 
-    def _get_widget_template(
-        self, tier: str, widget_type: WidgetType
-    ) -> dict[str, Any]:
+    def _get_widget_template(self, tier: str, widget_type: WidgetType) -> dict[str, Any]:
         """Get widget template for tier and type"""
         tier_templates = self.widget_templates.get(tier, self.widget_templates["T3"])
-        return tier_templates.get(
-            widget_type.value, tier_templates[list(tier_templates.keys())[0]]
-        )
+        return tier_templates.get(widget_type.value, tier_templates[list(tier_templates.keys())[0]])
 
-    async def _process_content(
-        self, message: dict[str, Any], tier: str
-    ) -> dict[str, Any]:
+    async def _process_content(self, message: dict[str, Any], tier: str) -> dict[str, Any]:
         """Process and format content based on tier capabilities"""
         content = {
             "title": message.get("title", ""),
@@ -336,9 +326,7 @@ class WidgetEngine:
 
         return styling
 
-    async def _configure_interactions(
-        self, template: dict[str, Any], tier: str
-    ) -> dict[str, list]:
+    async def _configure_interactions(self, template: dict[str, Any], tier: str) -> dict[str, list]:
         """Configure available interactions based on tier"""
         available_interactions = template.get("interactions", [])
 
@@ -381,9 +369,7 @@ class WidgetEngine:
 
         return interaction_config
 
-    async def _apply_seasonal_theming(
-        self, widget_config: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _apply_seasonal_theming(self, widget_config: dict[str, Any]) -> dict[str, Any]:
         """Apply seasonal theming to widget"""
         current_season = self._get_current_season()
         theme = self.seasonal_themes.get(current_season, self.seasonal_themes["spring"])
@@ -476,9 +462,7 @@ class WidgetEngine:
             # 7 days for basic
             return (datetime.now() + timedelta(days=7)).isoformat()
 
-    async def _generate_fallback_widget(
-        self, message: dict[str, Any], tier: str
-    ) -> dict[str, Any]:
+    async def _generate_fallback_widget(self, message: dict[str, Any], tier: str) -> dict[str, Any]:
         """Generate a simple fallback widget if main generation fails"""
         return {
             "widget_id": f"fallback_{uuid.uuid4().hex[:8]}",
@@ -553,14 +537,10 @@ class WidgetEngine:
             result = await self._execute_action(action, widget, interaction_data)
 
             # Check for feedback requirements
-            feedback_req = interaction_config.get("feedback_requirements", {}).get(
-                interaction_type
-            )
+            feedback_req = interaction_config.get("feedback_requirements", {}).get(interaction_type)
             if feedback_req and feedback_req.get("required", False):
                 result["feedback_required"] = True
-                result["feedback_prompt"] = feedback_req.get(
-                    "prompt", "Please provide feedback"
-                )
+                result["feedback_prompt"] = feedback_req.get("prompt", "Please provide feedback")
 
             # Update widget state
             if "widget_updates" in result:
@@ -625,9 +605,7 @@ class WidgetEngine:
             return {
                 "action_type": "add_to_basket",
                 "product_id": widget.get("metadata", {}).get("product_id"),
-                "quantity": (
-                    interaction_data.get("quantity", 1) if interaction_data else 1
-                ),
+                "quantity": (interaction_data.get("quantity", 1) if interaction_data else 1),
                 "basket_updated": True,
             }
 

@@ -74,9 +74,7 @@ class NIASHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(
-                    f"core.modules.nias.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"core.modules.nias.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -122,9 +120,7 @@ class NIASHub:
                         service_name, self.services[service_name], "nias"
                     )
 
-            logger.debug(
-                f"Registered {len(key_services)} NIAS services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} NIAS services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -164,9 +160,7 @@ class NIASHub:
 
         return {"error": "NIAS core not available"}
 
-    async def process_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -174,9 +168,7 @@ class NIASHub:
         for handler in handlers:
             try:
                 result = (
-                    await handler(data)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(data)
+                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 )
                 results.append(result)
             except Exception as e:

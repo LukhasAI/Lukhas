@@ -35,9 +35,7 @@ def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     """
     logger.critical("Collapse handler activated!")
     if collapse_manager.recovery_attempts > 5:
-        logger.critical(
-            "Maximum recovery attempts reached. Escalating to human operator."
-        )
+        logger.critical("Maximum recovery attempts reached. Escalating to human operator.")
 
 
 class BrainCollapseManager:
@@ -82,12 +80,7 @@ class BrainCollapseManager:
         analysis: dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        return (
-            analysis.get("qi_like_state_trends", {}).get(
-                "avg_coherence_trend", 1.0
-            )
-            < 0.1
-        )
+        return analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0) < 0.1
 
     async def handle_collapse(self) -> None:
         """
@@ -220,9 +213,7 @@ class CollapseBridge:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
-            brain_integrator
-        )
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
 
     async def report_collapse(self, collapse_details: dict[str, Any]) -> None:
         """
@@ -231,7 +222,5 @@ class CollapseBridge:
         Args:
             collapse_details (Dict[str, Any]): Details of the collapse.
         """
-        logger.info(
-            "Reporting collapse to collapse manager.", collapse_details=collapse_details
-        )
+        logger.info("Reporting collapse to collapse manager.", collapse_details=collapse_details)
         await self.collapse_manager.handle_collapse()

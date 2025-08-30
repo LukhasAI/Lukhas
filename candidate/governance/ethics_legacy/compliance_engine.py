@@ -72,9 +72,7 @@ class ComplianceEngine:
         # Audit trail for compliance activities
         self.audit_trail = []
 
-        logger.info(
-            f"Enhanced Compliance Engine initialized with mode: {self.compliance_mode}"
-        )
+        logger.info(f"Enhanced Compliance Engine initialized with mode: {self.compliance_mode}")
         self._record_audit(
             "compliance_engine_initialization", "System initialized compliance engine"
         )
@@ -240,9 +238,7 @@ class ComplianceEngine:
                 if not constraint_result["passed"]:
                     result["passed"] = False
                     result["flagged_constraints"].append(constraint)
-                    result["recommendations"].extend(
-                        constraint_result.get("recommendations", [])
-                    )
+                    result["recommendations"].extend(constraint_result.get("recommendations", []))
 
                     # Update risk level
                     if constraint_result.get("risk_level", "low") == "high":
@@ -257,9 +253,7 @@ class ComplianceEngine:
         if content_type == "text":
             enhanced_result = self._analyze_text_content(content, context)
             if enhanced_result["flagged_constraints"]:
-                result["flagged_constraints"].extend(
-                    enhanced_result["flagged_constraints"]
-                )
+                result["flagged_constraints"].extend(enhanced_result["flagged_constraints"])
                 result["recommendations"].extend(enhanced_result["recommendations"])
                 result["risk_level"] = max(
                     result["risk_level"],
@@ -449,18 +443,12 @@ class ComplianceEngine:
         if "data_retention_days" in settings:
             if self.data_retention_days != settings["data_retention_days"]:
                 self.data_retention_days = settings["data_retention_days"]
-                changes.append(
-                    f"Data retention period: {settings['data_retention_days']} days"
-                )
+                changes.append(f"Data retention period: {settings['data_retention_days']} days")
 
         if "ethical_constraints" in settings:
             if set(self.ethical_constraints) != set(settings["ethical_constraints"]):
-                added = set(settings["ethical_constraints"]) - set(
-                    self.ethical_constraints
-                )
-                removed = set(self.ethical_constraints) - set(
-                    settings["ethical_constraints"]
-                )
+                added = set(settings["ethical_constraints"]) - set(self.ethical_constraints)
+                removed = set(self.ethical_constraints) - set(settings["ethical_constraints"])
                 self.ethical_constraints = settings["ethical_constraints"]
                 if added:
                     changes.append(f"Added ethical constraints: {', '.join(added)}")
@@ -470,9 +458,7 @@ class ComplianceEngine:
         if "voice_data_compliance" in settings:
             if self.voice_data_compliance != settings["voice_data_compliance"]:
                 self.voice_data_compliance = settings["voice_data_compliance"]
-                changes.append(
-                    f"Voice data compliance: {settings['voice_data_compliance']}"
-                )
+                changes.append(f"Voice data compliance: {settings['voice_data_compliance']}")
 
         if "compliance_mode" in settings:
             if self.compliance_mode != settings["compliance_mode"]:
@@ -480,13 +466,10 @@ class ComplianceEngine:
                 changes.append(f"Compliance mode: {settings['compliance_mode']}")
 
         if "differential_privacy_enabled" in settings and (
-            self.differential_privacy_enabled
-            != settings["differential_privacy_enabled"]
+            self.differential_privacy_enabled != settings["differential_privacy_enabled"]
         ):
             self.differential_privacy_enabled = settings["differential_privacy_enabled"]
-            changes.append(
-                f"Differential privacy: {settings['differential_privacy_enabled']}"
-            )
+            changes.append(f"Differential privacy: {settings['differential_privacy_enabled']}")
 
         if "privacy_budget" in settings:
             if self.privacy_budget != settings["privacy_budget"]:
@@ -496,9 +479,7 @@ class ComplianceEngine:
         if "auto_detect_region" in settings:
             if self.auto_detect_region != settings["auto_detect_region"]:
                 self.auto_detect_region = settings["auto_detect_region"]
-                changes.append(
-                    f"Auto-detect regulatory region: {settings['auto_detect_region']}"
-                )
+                changes.append(f"Auto-detect regulatory region: {settings['auto_detect_region']}")
 
         if "current_region" in settings:
             if self.current_region != settings["current_region"]:
@@ -615,9 +596,7 @@ class ComplianceEngine:
 
         return result
 
-    def _evaluate_transparency(
-        self, content, content_type, context=None
-    ) -> dict[str, Any]:
+    def _evaluate_transparency(self, content, content_type, context=None) -> dict[str, Any]:
         """Evaluate content for transparency issues"""
         result = {"passed": True, "recommendations": [], "risk_level": "low"}
 
@@ -694,9 +673,7 @@ class ComplianceEngine:
 
         return result
 
-    def _evaluate_oversight(
-        self, content, content_type, context=None
-    ) -> dict[str, Any]:
+    def _evaluate_oversight(self, content, content_type, context=None) -> dict[str, Any]:
         """Evaluate content for human oversight considerations"""
         result = {"passed": True, "recommendations": [], "risk_level": "low"}
 
@@ -744,9 +721,7 @@ class ComplianceEngine:
 
         return result
 
-    def _evaluate_value_alignment(
-        self, content, content_type, context=None
-    ) -> dict[str, Any]:
+    def _evaluate_value_alignment(self, content, content_type, context=None) -> dict[str, Any]:
         """Evaluate content for alignment with core values"""
         result = {"passed": True, "recommendations": [], "risk_level": "low"}
 
@@ -840,9 +815,7 @@ class ComplianceEngine:
             # Scale parameter for Laplace distribution
             scale = sensitivity / epsilon
             # Generate Laplace noise
-            noise = (
-                random.uniform(-1, 1) * scale * (-1 * math.log(random.uniform(0, 1)))
-            )
+            noise = random.uniform(-1, 1) * scale * (-1 * math.log(random.uniform(0, 1)))
             return value + noise
 
         result = {}
@@ -878,9 +851,7 @@ class ComplianceEngine:
 
         return regulations
 
-    def _apply_region_specific_rules(
-        self, data: dict[str, Any], data_type: str
-    ) -> list[str]:
+    def _apply_region_specific_rules(self, data: dict[str, Any], data_type: str) -> list[str]:
         """
         Apply region-specific compliance rules
 
@@ -896,9 +867,7 @@ class ComplianceEngine:
         # EU-specific rules
         if self.current_region == "eu":
             # Check for automated decision making without human oversight
-            if data.get("automated_decision", False) and not data.get(
-                "human_oversight", False
-            ):
+            if data.get("automated_decision", False) and not data.get("human_oversight", False):
                 actions.append("require_human_oversight")
 
             # EU AI Act requirements
@@ -1016,9 +985,7 @@ class ComplianceEngine:
             for attr in required_attributes:
                 if not hasattr(module, attr):
                     missing_attributes.append(attr)
-                    compliance_result["issues"].append(
-                        f"Missing required attribute: {attr}"
-                    )
+                    compliance_result["issues"].append(f"Missing required attribute: {attr}")
 
             # Check for proper module documentation
             if hasattr(module, "__doc__") and not module.__doc__:
@@ -1055,13 +1022,11 @@ class ComplianceEngine:
         except ImportError as e:
             compliance_result["compliant"] = False
             compliance_result["score"] = 0
-            compliance_result["issues"].append(f"Cannot import module: {str(e)}")
+            compliance_result["issues"].append(f"Cannot import module: {e!s}")
         except Exception as e:
             compliance_result["compliant"] = False
             compliance_result["score"] = 0
-            compliance_result["issues"].append(
-                f"Error during compliance check: {str(e)}"
-            )
+            compliance_result["issues"].append(f"Error during compliance check: {e!s}")
 
         return compliance_result
 

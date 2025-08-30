@@ -57,7 +57,6 @@ MODULE_NAME = "gemini_wrapper"
 
 
 class GeminiWrapper(LLMWrapper):
-
     def __init__(self):
         """Initialize Gemini wrapper with API key"""
         self.model = None
@@ -93,7 +92,7 @@ class GeminiWrapper(LLMWrapper):
             text = getattr(response, "text", None)
             return (normalize_output(text) or text or ""), model
         except Exception as e:
-            err = f"Gemini API Error: {str(e)}"
+            err = f"Gemini API Error: {e!s}"
             return (normalize_output(err) or err), model
 
     def is_available(self) -> bool:

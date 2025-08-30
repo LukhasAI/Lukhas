@@ -43,7 +43,7 @@ def play_voice_queue():
     print("\n Starting symbolic dream narration...\n")
     total = len(lines)
     for i, entry in enumerate(lines):
-        print(f"+ Dream {i+1}/{total} +")
+        print(f"+ Dream {i + 1}/{total} +")
         print(f" Timestamp: {entry.get('timestamp')}")
         print(f" Tags: {', '.join(entry.get('tags', []))}")
         print(f" Emotion: {entry.get('emotion_vector', {}).get('primary', 'neutral')}")

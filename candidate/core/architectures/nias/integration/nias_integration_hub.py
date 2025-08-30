@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class NIASIntegrationHub:
-
     def __init__(self):
         self.name = "nias_integration_hub"
         self.services = {}
@@ -42,9 +41,7 @@ class NIASIntegrationHub:
         logger.info(f"NIAS hub connected to: {hub_name}")
 
     def get_transparency_level(self, user_tier: str) -> dict[str, Any]:
-        return self.transparency_layers.get(
-            user_tier, self.transparency_layers["guest"]
-        )
+        return self.transparency_layers.get(user_tier, self.transparency_layers["guest"])
 
     def filter_content(self, content: dict[str, Any], user_tier: str) -> dict[str, Any]:
         transparency = self.get_transparency_level(user_tier)

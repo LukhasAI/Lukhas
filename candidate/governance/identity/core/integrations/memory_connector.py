@@ -204,9 +204,7 @@ class MemoryConnector:
                     operation_type="retrieve_memories",
                     records_affected=0,
                     memory_records=[],
-                    integration_metadata={
-                        "query_filters": self._serialize_query(query)
-                    },
+                    integration_metadata={"query_filters": self._serialize_query(query)},
                 )
 
             # Apply filters
@@ -221,21 +219,15 @@ class MemoryConnector:
                         decrypted_memories.append(decrypted_memory)
 
             # Update access patterns
-            self._update_access_patterns(
-                query.lambda_id, "retrieve", query.memory_types
-            )
+            self._update_access_patterns(query.lambda_id, "retrieve", query.memory_types)
 
             # Sort by relevance
-            sorted_memories = self._sort_memories_by_relevance(
-                decrypted_memories, query
-            )
+            sorted_memories = self._sort_memories_by_relevance(decrypted_memories, query)
 
             # Limit results
             final_memories = sorted_memories[: query.max_results]
 
-            logger.info(
-                f"Retrieved {len(final_memories)} memories for {query.lambda_id}"
-            )
+            logger.info(f"Retrieved {len(final_memories)} memories for {query.lambda_id}")
 
             return MemoryIntegrationResult(
                 success=True,
@@ -302,9 +294,7 @@ class MemoryConnector:
 
             if result.success:
                 # Create verification anchor
-                self._create_verification_anchor(
-                    lambda_id, result.memory_id, biographical_data
-                )
+                self._create_verification_anchor(lambda_id, result.memory_id, biographical_data)
 
                 logger.info(f"Created biographical anchor for {lambda_id}")
 
@@ -353,9 +343,7 @@ class MemoryConnector:
 
             for memory in memories_result.memory_records:
                 if memory.memory_type == MemoryType.BIOGRAPHICAL:
-                    score = self._calculate_biographical_match(
-                        memory.content, verification_data
-                    )
+                    score = self._calculate_biographical_match(memory.content, verification_data)
                     verification_scores.append(score)
 
             if not verification_scores:
@@ -448,9 +436,7 @@ class MemoryConnector:
             ),
             "average_daily_accesses": (
                 len(patterns)
-                / max(
-                    1, (time.time() - patterns[0].get("timestamp", time.time())) / 86400
-                )
+                / max(1, (time.time() - patterns[0].get("timestamp", time.time())) / 86400)
                 if patterns
                 else 0
             ),
@@ -461,13 +447,9 @@ class MemoryConnector:
         required_fields = ["memory_type", "content"]
         return all(field in memory_data for field in required_fields)
 
-    def _create_memory_record(
-        self, lambda_id: str, memory_data: dict[str, Any]
-    ) -> MemoryRecord:
+    def _create_memory_record(self, lambda_id: str, memory_data: dict[str, Any]) -> MemoryRecord:
         """Create memory record from data"""
-        memory_id = hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[
-            :16
-        ]
+        memory_id = hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16]
 
         # Create integrity hash
         content_hash = hashlib.sha256(
@@ -478,9 +460,7 @@ class MemoryConnector:
             memory_id=memory_id,
             lambda_id=lambda_id,
             memory_type=MemoryType(memory_data["memory_type"]),
-            access_level=MemoryAccessLevel(
-                memory_data.get("access_level", "protected")
-            ),
+            access_level=MemoryAccessLevel(memory_data.get("access_level", "protected")),
             content=memory_data["content"],
             emotional_weight=memory_data.get("emotional_weight", 0.5),
             consciousness_markers=memory_data.get("consciousness_markers", {}),
@@ -520,33 +500,25 @@ class MemoryConnector:
         # Filter by temporal range
         if query.temporal_range:
             start_time, end_time = query.temporal_range
-            filtered = [
-                m for m in filtered if start_time <= m.creation_timestamp <= end_time
-            ]
+            filtered = [m for m in filtered if start_time <= m.creation_timestamp <= end_time]
 
         # Filter by emotional range
         if query.emotional_range:
             min_emotion, max_emotion = query.emotional_range
-            filtered = [
-                m for m in filtered if min_emotion <= m.emotional_weight <= max_emotion
-            ]
+            filtered = [m for m in filtered if min_emotion <= m.emotional_weight <= max_emotion]
 
         # Filter by content keywords
         if query.content_keywords:
             keyword_filtered = []
             for memory in filtered:
                 content_str = json.dumps(memory.content).lower()
-                if any(
-                    keyword.lower() in content_str for keyword in query.content_keywords
-                ):
+                if any(keyword.lower() in content_str for keyword in query.content_keywords):
                     keyword_filtered.append(memory)
             filtered = keyword_filtered
 
         return filtered
 
-    def _check_memory_access(
-        self, memory: MemoryRecord, required_level: MemoryAccessLevel
-    ) -> bool:
+    def _check_memory_access(self, memory: MemoryRecord, required_level: MemoryAccessLevel) -> bool:
         """Check if memory is accessible at required level"""
         access_hierarchy = {
             MemoryAccessLevel.PUBLIC: 0,
@@ -581,25 +553,17 @@ class MemoryConnector:
 
         return sorted(memories, key=relevance_score, reverse=True)
 
-    def _update_access_patterns(
-        self, lambda_id: str, operation: str, memory_types: Any
-    ):
+    def _update_access_patterns(self, lambda_id: str, operation: str, memory_types: Any):
         """Update access patterns for identity analysis"""
         if lambda_id not in self.access_patterns:
             self.access_patterns[lambda_id] = []
 
         # Convert memory_types to list of strings
         if isinstance(memory_types, list):
-            type_list = [
-                mt.value if hasattr(mt, "value") else str(mt) for mt in memory_types
-            ]
+            type_list = [mt.value if hasattr(mt, "value") else str(mt) for mt in memory_types]
         else:
             type_list = [
-                (
-                    memory_types.value
-                    if hasattr(memory_types, "value")
-                    else str(memory_types)
-                )
+                (memory_types.value if hasattr(memory_types, "value") else str(memory_types))
             ]
 
         pattern = {
@@ -614,9 +578,7 @@ class MemoryConnector:
         if len(self.access_patterns[lambda_id]) > 1000:
             self.access_patterns[lambda_id] = self.access_patterns[lambda_id][-1000:]
 
-    def _integrate_with_external_memory(
-        self, memory_record: MemoryRecord
-    ) -> dict[str, Any]:
+    def _integrate_with_external_memory(self, memory_record: MemoryRecord) -> dict[str, Any]:
         """Integrate with external memory systems"""
         # Placeholder for external system integration
         return {
@@ -666,9 +628,7 @@ class MemoryConnector:
         if "people_involved" in both_dicts(stored_data, verification_data):
             total_checks += 1
             stored_people = {p.lower() for p in stored_data["people_involved"]}
-            verification_people = {
-                p.lower() for p in verification_data["people_involved"]
-            }
+            verification_people = {p.lower() for p in verification_data["people_involved"]}
 
             if stored_people.intersection(verification_people):
                 overlap = len(stored_people.intersection(verification_people))

@@ -106,9 +106,7 @@ class NeuralSymbolicBridge:
     def _calculate_symbolic_confidence(self, result: dict[str, Any]) -> float:
         """Calculate confidence score for symbolic reasoning results"""
         pattern_conf = np.mean([p.get("confidence", 0) for p in result["patterns"]])
-        relationship_conf = np.mean(
-            [r.get("confidence", 0) for r in result["relationships"]]
-        )
+        relationship_conf = np.mean([r.get("confidence", 0) for r in result["relationships"]])
         inference_conf = np.mean([i.get("confidence", 0) for i in result["inferences"]])
 
         # Weight the different components

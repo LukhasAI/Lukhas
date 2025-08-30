@@ -12,9 +12,11 @@ from datetime import datetime
 
 logger = logging.getLogger("ABotFinancialIntelligence")
 
+
 @dataclass
 class FinancialMetrics:
     """LUKHAS AI ΛBot's financial tracking and intelligence"""
+
     # Daily budget system
     daily_budget: float = 0.10  # $0.10 per day
     current_balance: float = 0.0
@@ -44,15 +46,18 @@ class FinancialMetrics:
         if self.peak_usage_days is None:
             self.peak_usage_days = []
 
+
 @dataclass
 class CallDecision:
     """Smart decision making for API calls"""
+
     should_call: bool
     reason: str
     estimated_cost: float
     priority_level: str  # "LOW", "MEDIUM", "HIGH", "CRITICAL"
     budget_impact: float
     alternative_action: str = ""
+
 
 class ABotFinancialIntelligence:
     """
@@ -113,8 +118,8 @@ class ABotFinancialIntelligence:
 
             # Conservation tracking
             if days_passed > 1:
-                self.metrics.days_without_calls += (days_passed - 1)
-                self.metrics.conservation_streak += (days_passed - 1)
+                self.metrics.days_without_calls += days_passed - 1
+                self.metrics.conservation_streak += days_passed - 1
                 saved_money = self.metrics.daily_budget * (days_passed - 1)
                 self.metrics.money_saved_by_conservation += saved_money
 
@@ -186,7 +191,11 @@ class ABotFinancialIntelligence:
                 self.metrics.flex_budget_used += estimated_cost
 
         # Budget impact calculation
-        budget_impact = (estimated_cost / self.metrics.current_balance) * 100 if self.metrics.current_balance > 0 else 100
+        budget_impact = (
+            (estimated_cost / self.metrics.current_balance) * 100
+            if self.metrics.current_balance > 0
+            else 100
+        )
 
         return CallDecision(
             should_call=should_call,
@@ -194,7 +203,7 @@ class ABotFinancialIntelligence:
             estimated_cost=estimated_cost,
             priority_level=priority_level,
             budget_impact=budget_impact,
-            alternative_action=alternative_action
+            alternative_action=alternative_action,
         )
 
     def record_api_call(self, cost: float, reason: str, success: bool = True):
@@ -229,11 +238,21 @@ class ABotFinancialIntelligence:
 
         # Base efficiency on money saved vs spent
         total_budget_available = self.metrics.total_accumulated
-        money_saved_ratio = self.metrics.money_saved_by_conservation / total_budget_available if total_budget_available > 0 else 0
+        money_saved_ratio = (
+            self.metrics.money_saved_by_conservation / total_budget_available
+            if total_budget_available > 0
+            else 0
+        )
 
         # Efficiency factors
-        conservation_bonus = min(self.metrics.conservation_streak * 2, 20)  # Max 20 points for conservation
-        flex_budget_penalty = (self.metrics.flex_budget_used / total_budget_available) * 10 if total_budget_available > 0 else 0
+        conservation_bonus = min(
+            self.metrics.conservation_streak * 2, 20
+        )  # Max 20 points for conservation
+        flex_budget_penalty = (
+            (self.metrics.flex_budget_used / total_budget_available) * 10
+            if total_budget_available > 0
+            else 0
+        )
 
         # Calculate score (0-100)
         base_score = 50
@@ -241,7 +260,9 @@ class ABotFinancialIntelligence:
         conservation_score = conservation_bonus  # Up to 20 points for conservation
         penalty = min(flex_budget_penalty, 10)  # Max 10 point penalty
 
-        self.metrics.efficiency_score = min(100, max(0, base_score + savings_score + conservation_score - penalty))
+        self.metrics.efficiency_score = min(
+            100, max(0, base_score + savings_score + conservation_score - penalty)
+        )
 
     def get_financial_report(self) -> dict:
         """Generate comprehensive financial report for Notion sync"""
@@ -250,7 +271,9 @@ class ABotFinancialIntelligence:
         # Calculate projections
         daily_average = self.metrics.month_spent / max(datetime.now().day, 1)
         monthly_projection = daily_average * 30
-        days_remaining_at_current_rate = self.metrics.current_balance / daily_average if daily_average > 0 else float("inf")
+        days_remaining_at_current_rate = (
+            self.metrics.current_balance / daily_average if daily_average > 0 else float("inf")
+        )
 
         return {
             "timestamp": datetime.now().isoformat(),
@@ -258,30 +281,30 @@ class ABotFinancialIntelligence:
                 "current_balance": self.metrics.current_balance,
                 "daily_budget": self.metrics.daily_budget,
                 "total_accumulated": self.metrics.total_accumulated,
-                "days_of_budget_remaining": days_remaining_at_current_rate
+                "days_of_budget_remaining": days_remaining_at_current_rate,
             },
             "spending_analysis": {
                 "today_spent": self.metrics.today_spent,
                 "month_spent": self.metrics.month_spent,
                 "total_spent": self.metrics.total_spent,
                 "daily_average": daily_average,
-                "monthly_projection": monthly_projection
+                "monthly_projection": monthly_projection,
             },
             "intelligence_metrics": {
                 "efficiency_score": self.metrics.efficiency_score,
                 "money_saved_by_conservation": self.metrics.money_saved_by_conservation,
                 "conservation_streak": self.metrics.conservation_streak,
                 "days_without_calls": self.metrics.days_without_calls,
-                "flex_budget_used": self.metrics.flex_budget_used
+                "flex_budget_used": self.metrics.flex_budget_used,
             },
             "usage_patterns": {
                 "calls_today": self.metrics.calls_today,
                 "calls_month": self.metrics.calls_month,
                 "total_calls": self.metrics.total_calls,
                 "last_call_reason": self.metrics.last_call_reason,
-                "peak_usage_days": self.metrics.peak_usage_days
+                "peak_usage_days": self.metrics.peak_usage_days,
             },
-            "recommendations": self._generate_recommendations()
+            "recommendations": self._generate_recommendations(),
         }
 
     def _generate_recommendations(self) -> list[str]:
@@ -289,14 +312,18 @@ class ABotFinancialIntelligence:
         recommendations = []
 
         if self.metrics.efficiency_score > 90:
-            recommendations.append("🌟 Excellent financial management! Keep up the intelligent conservation.")
+            recommendations.append(
+                "🌟 Excellent financial management! Keep up the intelligent conservation."
+            )
         elif self.metrics.efficiency_score > 70:
             recommendations.append("👍 Good budget discipline. Consider optimizing call frequency.")
         else:
             recommendations.append("⚠️ Review calling patterns. Too much budget usage detected.")
 
         if self.metrics.current_balance > (self.metrics.daily_budget * 10):
-            recommendations.append("💰 High budget accumulation. Consider upgrading to better models for enhanced performance.")
+            recommendations.append(
+                "💰 High budget accumulation. Consider upgrading to better models for enhanced performance."
+            )
 
         if self.metrics.conservation_streak > 7:
             recommendations.append("💚 Outstanding conservation streak! Budget is building nicely.")
@@ -306,20 +333,25 @@ class ABotFinancialIntelligence:
 
         return recommendations
 
+
 # Global financial intelligence instance
 abot_financial_intelligence = ABotFinancialIntelligence()
+
 
 def should_make_api_call(context: dict) -> CallDecision:
     """Quick function to check if LUKHAS AI ΛBot should make an API call"""
     return abot_financial_intelligence.analyze_call_necessity(context)
 
+
 def record_smart_api_call(cost: float, reason: str, success: bool = True):
     """Record an API call in LUKHAS AI ΛBot's financial intelligence system"""
     abot_financial_intelligence.record_api_call(cost, reason, success)
 
+
 def get_abot_financial_report() -> dict:
     """Get LUKHAS AI ΛBot's financial intelligence report for Notion sync"""
     return abot_financial_intelligence.get_financial_report()
+
 
 if __name__ == "__main__":
     # Test the financial intelligence
@@ -331,14 +363,16 @@ if __name__ == "__main__":
     print(f"   Current Balance: ${report['budget_status']['current_balance']:.4f}")
     print(f"   Efficiency Score: {report['intelligence_metrics']['efficiency_score']:.1f}%")
     print(f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}")
-    print(f"   Conservation Streak: {report['intelligence_metrics']['conservation_streak']} decisions")
+    print(
+        f"   Conservation Streak: {report['intelligence_metrics']['conservation_streak']} decisions"
+    )
 
     # Test decision making
     test_context = {
         "change_detected": True,
         "user_request": False,
         "urgency": "MEDIUM",
-        "estimated_cost": 0.001
+        "estimated_cost": 0.001,
     }
 
     decision = fi.analyze_call_necessity(test_context)

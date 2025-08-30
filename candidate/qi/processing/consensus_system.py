@@ -251,9 +251,7 @@ class QIConsensusSystem:
         # Metrics
         self.consensus_metrics = ConsensusMetrics()
 
-        logger.info(
-            f"Quantum Consensus System initialized with {len(components)} components"
-        )
+        logger.info(f"Quantum Consensus System initialized with {len(components)} components")
 
     def _get_default_initial_state(self) -> QILikeState:
         """Create default initial quantum-like state"""
@@ -383,9 +381,7 @@ class QIConsensusSystem:
                 brain_weight = brain_coherence.get(component_id, 1.0)
 
                 # Request weighted vote
-                vote = await self._request_brain_vote(
-                    component_id, proposal, brain_weight
-                )
+                vote = await self._request_brain_vote(component_id, proposal, brain_weight)
 
                 weighted_votes[component_id] = vote * brain_weight
 
@@ -444,9 +440,7 @@ class QIConsensusSystem:
             logger.warning(f"Vote timeout for proposal {proposal.proposal_id}")
             proposal.phase = ConsensusPhase.ABORTED
 
-    async def _request_component_vote(
-        self, component_id: str, proposal: ConsensusProposal
-    ) -> bool:
+    async def _request_component_vote(self, component_id: str, proposal: ConsensusProposal) -> bool:
         """Request vote from a specific component"""
         # Verify proposal signature
         if not self._verify_signature(proposal):
@@ -461,9 +455,7 @@ class QIConsensusSystem:
 
         return vote
 
-    def _evaluate_proposal(
-        self, component_id: str, proposal: ConsensusProposal
-    ) -> bool:
+    def _evaluate_proposal(self, component_id: str, proposal: ConsensusProposal) -> bool:
         """Evaluate whether to accept a proposal"""
         # Check state validity
         try:
@@ -479,8 +471,7 @@ class QIConsensusSystem:
 
             # Accept if coherence improves significantly
             coherence_improvement = (
-                proposal.proposed_state.phase_coherence
-                - self.current_state.phase_coherence
+                proposal.proposed_state.phase_coherence - self.current_state.phase_coherence
             )
             if coherence_improvement > 0.1:
                 return True
@@ -555,9 +546,7 @@ class QIConsensusSystem:
         )
 
         return {
-            "current_state": (
-                self.current_state.to_dict() if self.current_state else None
-            ),
+            "current_state": (self.current_state.to_dict() if self.current_state else None),
             "algorithm": self.algorithm.value,
             "consensus_threshold": self.consensus_threshold,
             "active_components": active_components,
@@ -607,9 +596,7 @@ class PartitionDetector:
             current_time = datetime.now(timezone.utc)
 
             for component_id, component in self.consensus_system.components.items():
-                time_since_heartbeat = (
-                    current_time - component.last_heartbeat
-                ).total_seconds()
+                time_since_heartbeat = (current_time - component.last_heartbeat).total_seconds()
 
                 if (
                     component.state == ComponentState.ACTIVE
@@ -641,9 +628,7 @@ class ConsensusMetrics:
             self.state_changes += 1
 
             # Calculate consensus time
-            consensus_time = (
-                datetime.now(timezone.utc) - proposal.timestamp
-            ).total_seconds()
+            consensus_time = (datetime.now(timezone.utc) - proposal.timestamp).total_seconds()
             self.consensus_times.append(consensus_time)
         else:
             self.rejected_proposals += 1
@@ -651,9 +636,7 @@ class ConsensusMetrics:
     def get_summary(self) -> dict[str, Any]:
         """Get metrics summary"""
         avg_consensus_time = (
-            sum(self.consensus_times) / len(self.consensus_times)
-            if self.consensus_times
-            else 0
+            sum(self.consensus_times) / len(self.consensus_times) if self.consensus_times else 0
         )
 
         return {
@@ -661,9 +644,7 @@ class ConsensusMetrics:
             "accepted_proposals": self.accepted_proposals,
             "rejected_proposals": self.rejected_proposals,
             "acceptance_rate": (
-                self.accepted_proposals / self.total_proposals
-                if self.total_proposals > 0
-                else 0
+                self.accepted_proposals / self.total_proposals if self.total_proposals > 0 else 0
             ),
             "average_consensus_time": avg_consensus_time,
             "state_changes": self.state_changes,
@@ -735,9 +716,7 @@ async def demo_bio_quantum_consensus():
     if status["current_state"]:
         state_data = status["current_state"]
         print(f"Phase Coherence: {state_data['phase_coherence']:.2%}")
-        print(
-            f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0):.2%}"
-        )
+        print(f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0):.2%}")
         print(f"Dream State: {state_data['metadata'].get('dream_state', 'unknown')}")
 
 

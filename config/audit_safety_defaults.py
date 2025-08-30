@@ -6,6 +6,7 @@ Implements comprehensive safety-first configuration without execution.
 Purpose: Define safety defaults for pre/post-MATRIZ workspace auditing.
 All defaults prioritize audit safety and dry-run modes.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,35 +25,42 @@ class AuditSafetyConfig:
     audit_mode: bool = True
 
     # Feature flags (all OFF by default for audit safety)
-    feature_flags: dict[str, bool] = field(default_factory=lambda: {
-        "FEATURE_GOVERNANCE_LEDGER": False,
-        "FEATURE_IDENTITY_PASSKEY": False,
-        "FEATURE_ORCHESTRATION_HANDOFF": False,
-        "FEATURE_POLICY_DECIDER": False,
-        "FEATURE_MATRIX_EMIT": True,  # Safe for audit
-        "FEATURE_CONSCIOUSNESS_ACTIVE": False,
-        "FEATURE_MEMORY_PERSISTENCE": False,
-        "FEATURE_REAL_API_CALLS": False
-    })
+    feature_flags: dict[str, bool] = field(
+        default_factory=lambda: {
+            "FEATURE_GOVERNANCE_LEDGER": False,
+            "FEATURE_IDENTITY_PASSKEY": False,
+            "FEATURE_ORCHESTRATION_HANDOFF": False,
+            "FEATURE_POLICY_DECIDER": False,
+            "FEATURE_MATRIX_EMIT": True,  # Safe for audit
+            "FEATURE_CONSCIOUSNESS_ACTIVE": False,
+            "FEATURE_MEMORY_PERSISTENCE": False,
+            "FEATURE_REAL_API_CALLS": False,
+        }
+    )
 
     # Safety thresholds
-    safety_thresholds: dict[str, Any] = field(default_factory=lambda: {
-        "max_api_calls_per_test": 0,  # No API calls in audit
-        "max_memory_usage_mb": 100,
-        "max_test_runtime_seconds": 300,
-        "guardian_drift_threshold": 0.01,  # Very conservative
-        "audit_trail_retention_days": 30
-    })
+    safety_thresholds: dict[str, Any] = field(
+        default_factory=lambda: {
+            "max_api_calls_per_test": 0,  # No API calls in audit
+            "max_memory_usage_mb": 100,
+            "max_test_runtime_seconds": 300,
+            "guardian_drift_threshold": 0.01,  # Very conservative
+            "audit_trail_retention_days": 30,
+        }
+    )
 
     # Audit-specific settings
-    audit_settings: dict[str, Any] = field(default_factory=lambda: {
-        "enable_comprehensive_logging": True,
-        "preserve_audit_trail": True,
-        "validate_all_imports": True,
-        "enforce_dry_run_mode": True,
-        "block_external_connections": True,
-        "require_explicit_consent": True
-    })
+    audit_settings: dict[str, Any] = field(
+        default_factory=lambda: {
+            "enable_comprehensive_logging": True,
+            "preserve_audit_trail": True,
+            "validate_all_imports": True,
+            "enforce_dry_run_mode": True,
+            "block_external_connections": True,
+            "require_explicit_consent": True,
+        }
+    )
+
 
 class SafetyDefaultsManager:
     """Manages safety defaults for audit preparation."""
@@ -280,7 +288,7 @@ def pytest_runtest_setup(item):
                 "version": "1.0.0-audit-prep",
                 "purpose": "pre_post_matriz_workspace_validation",
                 "safety_level": "maximum",
-                "generated_at": "2025-08-28T00:00:00Z"
+                "generated_at": "2025-08-28T00:00:00Z",
             },
             "safety_configuration": {
                 "dry_run_mode": self.config.dry_run_mode,
@@ -288,22 +296,22 @@ def pytest_runtest_setup(item):
                 "audit_mode": self.config.audit_mode,
                 "feature_flags": self.config.feature_flags,
                 "safety_thresholds": self.config.safety_thresholds,
-                "audit_settings": self.config.audit_settings
+                "audit_settings": self.config.audit_settings,
             },
             "compliance_validation": {
                 "no_external_api_calls": True,
                 "no_persistent_storage": True,
                 "comprehensive_logging": True,
                 "audit_trail_preserved": True,
-                "import_validation_active": True
+                "import_validation_active": True,
             },
             "risk_mitigation": {
                 "max_resource_usage": "conservative",
                 "external_connection_policy": "blocked",
                 "api_key_handling": "not_required_audit_mode",
                 "data_persistence": "temporary_only",
-                "logging_level": "comprehensive"
-            }
+                "logging_level": "comprehensive",
+            },
         }
 
     def validate_safety_config(self) -> dict[str, bool]:
@@ -312,16 +320,20 @@ def pytest_runtest_setup(item):
             "dry_run_active": self.config.dry_run_mode,
             "offline_mode_active": self.config.offline_mode,
             "audit_mode_active": self.config.audit_mode,
-            "dangerous_features_disabled": not any([
-                self.config.feature_flags.get("FEATURE_REAL_API_CALLS", True),
-                self.config.feature_flags.get("FEATURE_MEMORY_PERSISTENCE", True)
-            ]),
-            "conservative_thresholds": all([
-                self.config.safety_thresholds["max_api_calls_per_test"] == 0,
-                self.config.safety_thresholds["guardian_drift_threshold"] <= 0.01
-            ]),
+            "dangerous_features_disabled": not any(
+                [
+                    self.config.feature_flags.get("FEATURE_REAL_API_CALLS", True),
+                    self.config.feature_flags.get("FEATURE_MEMORY_PERSISTENCE", True),
+                ]
+            ),
+            "conservative_thresholds": all(
+                [
+                    self.config.safety_thresholds["max_api_calls_per_test"] == 0,
+                    self.config.safety_thresholds["guardian_drift_threshold"] <= 0.01,
+                ]
+            ),
             "audit_logging_enabled": self.config.audit_settings["enable_comprehensive_logging"],
-            "import_validation_active": self.config.audit_settings["validate_all_imports"]
+            "import_validation_active": self.config.audit_settings["validate_all_imports"],
         }
         return checks
 
@@ -338,29 +350,32 @@ def pytest_runtest_setup(item):
 
         # Generate audit settings JSON
         settings = self.generate_audit_settings_json()
-        (output_dir / "audit_safety_settings.json").write_text(
-            json.dumps(settings, indent=2)
-        )
+        (output_dir / "audit_safety_settings.json").write_text(json.dumps(settings, indent=2))
 
         # Generate validation report
         validation = self.validate_safety_config()
         (output_dir / "safety_validation_report.json").write_text(
-            json.dumps({
-                "validation_results": validation,
-                "all_checks_passed": all(validation.values()),
-                "audit_ready": all(validation.values())
-            }, indent=2)
+            json.dumps(
+                {
+                    "validation_results": validation,
+                    "all_checks_passed": all(validation.values()),
+                    "audit_ready": all(validation.values()),
+                },
+                indent=2,
+            )
         )
 
         return {
             "files_generated": 4,
             "output_directory": str(output_dir),
-            "validation_passed": all(validation.values())
+            "validation_passed": all(validation.values()),
         }
+
 
 def create_audit_safety_manager(config_dir: str = "config") -> SafetyDefaultsManager:
     """Factory function for creating safety manager."""
     return SafetyDefaultsManager(Path(config_dir))
+
 
 if __name__ == "__main__":
     # Generate audit safety configuration

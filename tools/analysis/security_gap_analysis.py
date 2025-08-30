@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class SecurityComplianceAnalyzer:
-
     def __init__(self, root_path="."):
         self.root_path = Path(root_path)
         self.analysis = {
@@ -83,9 +82,7 @@ class SecurityComplianceAnalyzer:
 
                 # Count security-related keywords
                 content_lower = content.lower()
-                keyword_count = sum(
-                    1 for keyword in security_keywords if keyword in content_lower
-                )
+                keyword_count = sum(1 for keyword in security_keywords if keyword in content_lower)
                 file_info["security_score"] = keyword_count
                 module_info["security_keywords"] += keyword_count
 
@@ -95,9 +92,7 @@ class SecurityComplianceAnalyzer:
                     for node in ast.walk(tree):
                         if isinstance(node, ast.FunctionDef):
                             file_info["functions"].append(node.name)
-                            module_info["functions"].append(
-                                f"{py_file.name}:{node.name}"
-                            )
+                            module_info["functions"].append(f"{py_file.name}:{node.name}")
                         elif isinstance(node, ast.ClassDef):
                             file_info["classes"].append(node.name)
                             module_info["classes"].append(f"{py_file.name}:{node.name}")
@@ -244,7 +239,9 @@ class SecurityComplianceAnalyzer:
             status = (
                 "❌ CRITICAL"
                 if file_count < 3
-                else "⚠️ MINIMAL" if file_count < 8 else "✅ ADEQUATE"
+                else "⚠️ MINIMAL"
+                if file_count < 8
+                else "✅ ADEQUATE"
             )
 
             print(
@@ -258,11 +255,11 @@ class SecurityComplianceAnalyzer:
             severity_icon = (
                 "🔴"
                 if gap["severity"] == "CRITICAL"
-                else "🟠" if gap["severity"] == "HIGH" else "🟡"
+                else "🟠"
+                if gap["severity"] == "HIGH"
+                else "🟡"
             )
-            print(
-                f"   {severity_icon} [{gap['severity']}] {gap['category']}: {gap['issue']}"
-            )
+            print(f"   {severity_icon} [{gap['severity']}] {gap['category']}: {gap['issue']}")
             print(f"      → {gap['details']}")
 
         # Priority Recommendations

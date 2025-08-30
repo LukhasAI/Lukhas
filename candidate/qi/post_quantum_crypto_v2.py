@@ -190,9 +190,7 @@ class QIResistantKeyManager:
             else:
                 # Ultra-secure fallback using multiple entropy sources
                 entropy = self._gather_enhanced_entropy()
-                private_key = hashlib.pbkdf2_hmac(
-                    "sha256", entropy, b"qi_salt", 100000
-                )
+                private_key = hashlib.pbkdf2_hmac("sha256", entropy, b"qi_salt", 100000)
                 public_key = hashlib.sha256(private_key).digest()
 
                 self._log_operation(
@@ -243,9 +241,7 @@ class QIResistantKeyManager:
 
     def _generate_session_id(self) -> str:
         """Generate unique session identifier"""
-        return (
-            f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp())}"
-        )
+        return f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp())}"
 
     def _log_operation(
         self,
@@ -412,9 +408,7 @@ class PostQuantumCryptoEngine:
             result = {
                 "signature_data": signature_data,
                 "algorithm": (
-                    "hybrid_pq"
-                    if self.config.enable_hybrid_mode
-                    else "enhanced_classical"
+                    "hybrid_pq" if self.config.enable_hybrid_mode else "enhanced_classical"
                 ),
                 "security_level": self.config.security_level.value,
                 "timestamp": timestamp.isoformat() if timestamp else None,
@@ -654,9 +648,7 @@ class QIKeyDerivation:
 
         # Create context string
         context_string = json.dumps(context, sort_keys=True).encode("utf-8")
-        info = (
-            b"bio_quantum_kdf_v2::" + peer_id.encode("utf-8") + b"::" + context_string
-        )
+        info = b"bio_quantum_kdf_v2::" + peer_id.encode("utf-8") + b"::" + context_string
 
         if CRYPTO_AVAILABLE:
             # Use HKDF with SHA-256 (quantum-resistant)
@@ -677,15 +669,9 @@ class QIKeyDerivation:
             }
         else:
             # Fallback to PBKDF2
-            encryption_key = hashlib.pbkdf2_hmac(
-                "sha256", shared_secret, info + b"enc", 100000
-            )
-            mac_key = hashlib.pbkdf2_hmac(
-                "sha256", shared_secret, info + b"mac", 100000
-            )
-            additional_key = hashlib.pbkdf2_hmac(
-                "sha256", shared_secret, info + b"add", 100000
-            )
+            encryption_key = hashlib.pbkdf2_hmac("sha256", shared_secret, info + b"enc", 100000)
+            mac_key = hashlib.pbkdf2_hmac("sha256", shared_secret, info + b"mac", 100000)
+            additional_key = hashlib.pbkdf2_hmac("sha256", shared_secret, info + b"add", 100000)
 
             return {
                 "encryption_key": encryption_key,
@@ -696,13 +682,13 @@ class QIKeyDerivation:
 
 # Export main classes for use in LUKHAS ecosystem
 __all__ = [
-    "PostQuantumCryptoEngine",
-    "SecurityConfig",
-    "SecurityLevel",
     "AlgorithmType",
+    "PostQuantumCryptoEngine",
+    "QIKeyDerivation",
     "QIResistantKeyManager",
     "SecureMemoryManager",
-    "QIKeyDerivation",
+    "SecurityConfig",
+    "SecurityLevel",
 ]
 
 """

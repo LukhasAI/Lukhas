@@ -227,9 +227,7 @@ class EthicsHITLOBridge:
             data=self._create_review_context(decision, evaluation, rule),
             priority=rule.decision_priority,
             urgency_deadline=(
-                datetime.now() + timedelta(minutes=timeout_minutes)
-                if timeout_minutes
-                else None
+                datetime.now() + timedelta(minutes=timeout_minutes) if timeout_minutes else None
             ),
             ethical_implications=evaluation.risk_flags,
             ai_recommendation="DENY" if not evaluation.allowed else "APPROVE",
@@ -265,12 +263,10 @@ class EthicsHITLOBridge:
                 reviewer_id="system",
                 decision="reject",
                 confidence=0.0,
-                reasoning=f"Human review failed, defaulting to denial: {str(e)}",
+                reasoning=f"Human review failed, defaulting to denial: {e!s}",
             )
 
-    async def _wait_for_decision(
-        self, decision_id: str, timeout_minutes: int
-    ) -> ReviewResponse:
+    async def _wait_for_decision(self, decision_id: str, timeout_minutes: int) -> ReviewResponse:
         """Wait for HITLO decision to complete or timeout"""
         end_time = datetime.now() + timedelta(minutes=timeout_minutes)
 
@@ -368,9 +364,7 @@ class EthicsHITLOBridge:
             questions.append("Should this action be permitted despite policy denial?")
 
         if evaluation.confidence < 0.5:
-            questions.append(
-                "What factors should be considered that the AI may have missed?"
-            )
+            questions.append("What factors should be considered that the AI may have missed?")
 
         if evaluation.collapse_risk > 0.3:
             questions.append("Could this action cause symbolic system instability?")
@@ -382,9 +376,7 @@ class EthicsHITLOBridge:
             questions.append("What safeguards should be in place to prevent harm?")
 
         if "MANIPULATION_RISK" in evaluation.risk_flags:
-            questions.append(
-                "Is this action ethically acceptable given manipulation concerns?"
-            )
+            questions.append("Is this action ethically acceptable given manipulation concerns?")
 
         # Always include general questions
         questions.extend(
@@ -397,9 +389,7 @@ class EthicsHITLOBridge:
 
         return questions
 
-    def _update_metrics(
-        self, review_result: ReviewResponse, review_time: float
-    ) -> None:
+    def _update_metrics(self, review_result: ReviewResponse, review_time: float) -> None:
         """Update internal metrics"""
         if review_result.decision == "approve":
             self.metrics["escalations_approved"] += 1
@@ -448,8 +438,7 @@ class EthicsHITLOBridge:
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=evaluation.recommendations
-                + ["Human oversight applied"],
+                recommendations=evaluation.recommendations + ["Human oversight applied"],
             )
         else:
             updated_evaluation = EthicsEvaluation(
@@ -461,8 +450,7 @@ class EthicsHITLOBridge:
                 symbolic_alignment=evaluation.symbolic_alignment,
                 collapse_risk=evaluation.collapse_risk,
                 policy_name=f"{evaluation.policy_name}+HUMAN",
-                recommendations=evaluation.recommendations
-                + ["Human oversight applied"],
+                recommendations=evaluation.recommendations + ["Human oversight applied"],
             )
 
         return updated_evaluation, review_result
@@ -482,8 +470,7 @@ class EthicsHITLOBridge:
             "approval_rate": approval_rate,
             "denial_rate": denial_rate,
             "average_review_time_minutes": self.metrics["average_review_time"],
-            "consensus_required_rate": self.metrics["consensus_required_count"]
-            / max(total, 1),
+            "consensus_required_rate": self.metrics["consensus_required_count"] / max(total, 1),
             "active_rules_count": len(self.escalation_rules),
             "hitlo_status": self.hitlo.get_status() if self.hitlo else "disconnected",
         }

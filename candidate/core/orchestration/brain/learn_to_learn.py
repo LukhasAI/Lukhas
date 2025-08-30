@@ -49,9 +49,7 @@ class MetaLearningSystem:
         duration = (datetime.datetime.now() - start_time).total_seconds()
 
         # Evaluate strategy performance
-        performance_metrics = self._evaluate_performance(
-            strategy_name, learning_result, duration
-        )
+        performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
         self._update_strategy_performance(strategy_name, performance_metrics)
 
         # Periodically update meta-parameters
@@ -82,9 +80,7 @@ class MetaLearningSystem:
 
         # Update strategy parameters if provided
         if "parameter_adjustments" in feedback:
-            self._adjust_strategy_parameters(
-                strategy_name, feedback["parameter_adjustments"]
-            )
+            self._adjust_strategy_parameters(strategy_name, feedback["parameter_adjustments"])
 
     def generate_learning_report(self) -> dict:
         """
@@ -100,8 +96,7 @@ class MetaLearningSystem:
             "learning_cycles": self.learning_cycle,
             "top_strategies": [name for name, _ in strategies_by_performance[:3]],
             "strategy_distribution": {
-                name: perf.get("usage_count", 0)
-                for name, perf in self.strategy_performance.items()
+                name: perf.get("usage_count", 0) for name, perf in self.strategy_performance.items()
             },
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
@@ -160,9 +155,7 @@ class MetaLearningSystem:
 
         # Add derived features
         features["data_sparsity"] = self._calculate_sparsity(available_data)
-        features["complexity_estimate"] = self._estimate_complexity(
-            available_data, context
-        )
+        features["complexity_estimate"] = self._estimate_complexity(available_data, context)
 
         return features
 
@@ -182,9 +175,7 @@ class MetaLearningSystem:
 
             # Adjust by past performance if available
             if name in self.strategy_performance:
-                perf_adjustment = self.strategy_performance[name].get(
-                    "overall_score", 0.5
-                )
+                perf_adjustment = self.strategy_performance[name].get("overall_score", 0.5)
                 final_score = base_score * 0.7 + perf_adjustment * 0.3
             else:
                 final_score = base_score
@@ -245,9 +236,7 @@ class MetaLearningSystem:
 
         return metrics
 
-    def _update_strategy_performance(
-        self, strategy_name: str, new_metrics: dict
-    ) -> None:
+    def _update_strategy_performance(self, strategy_name: str, new_metrics: dict) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
             self.strategy_performance[strategy_name] = {
@@ -262,16 +251,12 @@ class MetaLearningSystem:
 
         # Add new metrics to history if complete
         if "overall_score" in new_metrics:
-            self.strategy_performance[strategy_name]["performance_history"].append(
-                new_metrics
-            )
+            self.strategy_performance[strategy_name]["performance_history"].append(new_metrics)
 
             # Update overall metrics
             history = [
                 entry.get("overall_score", 0)
-                for entry in self.strategy_performance[strategy_name][
-                    "performance_history"
-                ]
+                for entry in self.strategy_performance[strategy_name]["performance_history"]
             ]
 
             # Calculate exponentially weighted average (recent more important)
@@ -302,18 +287,14 @@ class MetaLearningSystem:
             0.01, min(0.2, self.meta_parameters["adaptation_rate"])
         )
 
-    def _adjust_strategy_parameters(
-        self, strategy_name: str, adjustments: dict
-    ) -> None:
+    def _adjust_strategy_parameters(self, strategy_name: str, adjustments: dict) -> None:
         """Adjust parameters of a specific strategy"""
         if strategy_name not in self.learning_strategies:
             return
 
         for param_name, adjustment in adjustments.items():
             if param_name in self.learning_strategies[strategy_name]["parameters"]:
-                current = self.learning_strategies[strategy_name]["parameters"][
-                    param_name
-                ]
+                current = self.learning_strategies[strategy_name]["parameters"][param_name]
                 # Apply adjustment within bounds
                 self.learning_strategies[strategy_name]["parameters"][param_name] = max(
                     0.001,  # Minimum value to prevent zeros
@@ -336,9 +317,7 @@ class MetaLearningSystem:
             if earlier and recent:
                 avg_recent = sum(recent) / len(recent)
                 avg_earlier = sum(earlier) / len(earlier)
-                improvement = max(
-                    0, (avg_recent - avg_earlier) / max(0.001, avg_earlier)
-                )
+                improvement = max(0, (avg_recent - avg_earlier) / max(0.001, avg_earlier))
                 return min(1.0, improvement)
 
         return 0.5  # Default middle value
@@ -368,9 +347,7 @@ class MetaLearningSystem:
 
         # Check for data volume match
         if "data_volume" in features:
-            if features["data_volume"] < 100 and "limited_data" in strategy.get(
-                "suitable_for", []
-            ):
+            if features["data_volume"] < 100 and "limited_data" in strategy.get("suitable_for", []):
                 match_score += 0.2
 
         return min(1.0, match_score)
@@ -389,15 +366,11 @@ class MetaLearningSystem:
 
             if strategy_counts:
                 best_strategy = max(strategy_counts.items(), key=lambda x: x[1])[0]
-                insights.append(
-                    f"Strategy '{best_strategy}' shows consistently strong performance"
-                )
+                insights.append(f"Strategy '{best_strategy}' shows consistently strong performance")
 
         # Generate insight about adaptation progress
         adaptation = self._calculate_adaptation_progress()
         if adaptation > 0.2:
-            insights.append(
-                f"System shows {adaptation:.1%} improvement in learning effectiveness"
-            )
+            insights.append(f"System shows {adaptation:.1%} improvement in learning effectiveness")
 
         return insights

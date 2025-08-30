@@ -87,9 +87,13 @@ CONSTRAINTS:
 
         try:
             # Call Ollama
-            result = subprocess.run([
-                "ollama", "run", self.ollama_model
-            ], input=prompt, text=True, capture_output=True, timeout=30)
+            result = subprocess.run(
+                ["ollama", "run", self.ollama_model],
+                input=prompt,
+                text=True,
+                capture_output=True,
+                timeout=30,
+            )
 
             if result.returncode == 0:
                 # Try to extract JSON from response
@@ -107,29 +111,47 @@ CONSTRAINTS:
 
                 # Fallback: create structured response from text
                 return {
-                    "issues_found": [{"type": "analysis_completed", "description": "LLM analysis completed", "risk_level": "LOW"}],
+                    "issues_found": [
+                        {
+                            "type": "analysis_completed",
+                            "description": "LLM analysis completed",
+                            "risk_level": "LOW",
+                        }
+                    ],
                     "overall_health": "ANALYZED",
                     "recommended_actions": ["Manual review recommended"],
-                    "raw_response": response[:500]  # First 500 chars
+                    "raw_response": response[:500],  # First 500 chars
                 }
             else:
                 return {
-                    "issues_found": [{"type": "llm_error", "description": f"Ollama error: {result.stderr}", "risk_level": "HIGH"}],
+                    "issues_found": [
+                        {
+                            "type": "llm_error",
+                            "description": f"Ollama error: {result.stderr}",
+                            "risk_level": "HIGH",
+                        }
+                    ],
                     "overall_health": "ERROR",
-                    "recommended_actions": ["Check Ollama service"]
+                    "recommended_actions": ["Check Ollama service"],
                 }
 
         except subprocess.TimeoutExpired:
             return {
-                "issues_found": [{"type": "timeout", "description": "LLM analysis timeout", "risk_level": "MEDIUM"}],
+                "issues_found": [
+                    {
+                        "type": "timeout",
+                        "description": "LLM analysis timeout",
+                        "risk_level": "MEDIUM",
+                    }
+                ],
                 "overall_health": "TIMEOUT",
-                "recommended_actions": ["Retry with smaller file"]
+                "recommended_actions": ["Retry with smaller file"],
             }
         except Exception as e:
             return {
                 "issues_found": [{"type": "error", "description": str(e), "risk_level": "HIGH"}],
                 "overall_health": "ERROR",
-                "recommended_actions": ["Manual analysis needed"]
+                "recommended_actions": ["Manual analysis needed"],
             }
 
     def apply_safe_fixes(self, file_path, analysis_result):
@@ -142,7 +164,8 @@ CONSTRAINTS:
 
         # Only apply LOW risk fixes
         low_risk_fixes = [
-            issue for issue in analysis_result.get("issues_found", [])
+            issue
+            for issue in analysis_result.get("issues_found", [])
             if issue.get("risk_level") == "LOW"
         ]
 
@@ -164,7 +187,9 @@ CONSTRAINTS:
 
             # Apply simple fixes
             for fix in low_risk_fixes:
-                if fix.get("type") == "unused_import" and "Remove unused import" in fix.get("suggested_fix", ""):
+                if fix.get("type") == "unused_import" and "Remove unused import" in fix.get(
+                    "suggested_fix", ""
+                ):
                     # Very conservative: only remove imports that are clearly unused
                     lines = content.split("\n")
                     for i, line in enumerate(lines):
@@ -187,10 +212,13 @@ CONSTRAINTS:
                 "llm_analysis": analysis_result,
                 "fixes_applied": fixes_applied,
                 "t4_framework": "Constitutional Safety + LLM validation",
-                "model_used": self.ollama_model
+                "model_used": self.ollama_model,
             }
 
-            verification_file = self.verification_dir / f"ollama_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+            verification_file = (
+                self.verification_dir
+                / f"ollama_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+            )
             with open(verification_file, "w") as f:
                 json.dump(verification, f, indent=2)
 
@@ -226,14 +254,16 @@ CONSTRAINTS:
 
         # Take exactly 10 files for this batch
         start_idx = (batch_num - 1) * self.batch_size
-        batch_files = core_files[start_idx:start_idx + self.batch_size]
+        batch_files = core_files[start_idx : start_idx + self.batch_size]
 
         if not batch_files:
             print(f"✅ All batches complete! Total files: {len(core_files)}")
             return False
 
         print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files with LLM")
-        print(f"📊 Range: {start_idx+1}-{start_idx+len(batch_files)} of {len(core_files)} total")
+        print(
+            f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total"
+        )
         print("")
 
         # Process each file with LLM
@@ -292,6 +322,7 @@ CONSTRAINTS:
 
         return len(batch_files) == self.batch_size  # True if more batches available
 
+
 def main():
     parser = argparse.ArgumentParser(description="T4 Lens Ollama Core LUKHAS Processor")
     parser.add_argument("--batch", type=int, default=1, help="Batch number to process")
@@ -313,6 +344,7 @@ def main():
     if has_more:
         print("💡 To process next batch, run:")
         print(f"python t4_ollama_core_processor.py --batch {args.batch + 1}")
+
 
 if __name__ == "__main__":
     main()

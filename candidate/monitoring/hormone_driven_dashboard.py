@@ -290,15 +290,9 @@ class HormoneDrivenDashboard:
         coherence_monitor, plasticity_manager).
         """
         if args or kwargs:
-            endocrine_engine = kwargs.get(
-                "endocrine_engine", args[0] if len(args) > 0 else None
-            )
-            metrics_collector = kwargs.get(
-                "metrics_collector", args[1] if len(args) > 1 else None
-            )
-            coherence_monitor = kwargs.get(
-                "coherence_monitor", args[2] if len(args) > 2 else None
-            )
+            endocrine_engine = kwargs.get("endocrine_engine", args[0] if len(args) > 0 else None)
+            metrics_collector = kwargs.get("metrics_collector", args[1] if len(args) > 1 else None)
+            coherence_monitor = kwargs.get("coherence_monitor", args[2] if len(args) > 2 else None)
             plasticity_manager = kwargs.get(
                 "plasticity_manager", args[3] if len(args) > 3 else None
             )
@@ -463,13 +457,9 @@ class HormoneDrivenDashboard:
             return await self._generate_alert_panel_data(widget)
 
         else:
-            return {
-                "error": f"Unsupported visualization type: {widget.visualization_type.value}"
-            }
+            return {"error": f"Unsupported visualization type: {widget.visualization_type.value}"}
 
-    async def _generate_hormone_radar_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_hormone_radar_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate hormone radar chart data"""
 
         if not self.current_endocrine_state:
@@ -513,9 +503,7 @@ class HormoneDrivenDashboard:
 
         return radar_data
 
-    async def _generate_coherence_gauge_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_coherence_gauge_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate coherence gauge data"""
 
         coherence_value = self.current_coherence or 0.5
@@ -548,9 +536,7 @@ class HormoneDrivenDashboard:
             "factors": await self._get_coherence_factors(),
         }
 
-    async def _generate_time_series_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_time_series_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate time series chart data"""
 
         time_series_data = {
@@ -583,9 +569,7 @@ class HormoneDrivenDashboard:
 
         return time_series_data
 
-    async def _generate_correlation_matrix_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_correlation_matrix_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate correlation matrix data"""
 
         correlation_data = {
@@ -602,13 +586,9 @@ class HormoneDrivenDashboard:
                     correlation = 1.0
                 else:
                     # Get correlation from biological correlator or calculate
-                    correlation = self.hormone_correlations.get(metric1, {}).get(
-                        metric2, 0.0
-                    )
+                    correlation = self.hormone_correlations.get(metric1, {}).get(metric2, 0.0)
                     if correlation == 0.0:
-                        correlation = await self._calculate_metric_correlation(
-                            metric1, metric2
-                        )
+                        correlation = await self._calculate_metric_correlation(metric1, metric2)
 
                 row.append(correlation)
 
@@ -626,9 +606,7 @@ class HormoneDrivenDashboard:
 
         return correlation_data
 
-    async def _generate_adaptation_timeline_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_adaptation_timeline_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate adaptation timeline data"""
 
         if not self.plasticity_manager:
@@ -670,9 +648,7 @@ class HormoneDrivenDashboard:
 
         return timeline_data
 
-    async def _generate_prediction_chart_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_prediction_chart_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate prediction chart data"""
 
         prediction_data = {
@@ -700,9 +676,7 @@ class HormoneDrivenDashboard:
 
         return prediction_data
 
-    async def _generate_alert_panel_data(
-        self, widget: DashboardWidget
-    ) -> dict[str, Any]:
+    async def _generate_alert_panel_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate alert panel data"""
 
         alert_data = {
@@ -757,14 +731,10 @@ class HormoneDrivenDashboard:
 
                 # Calculate running correlation
                 prev_corr = self.hormone_correlations[metric_name].get(hormone, 0.0)
-                new_corr = self._simple_correlation_update(
-                    prev_corr, metric_value, hormone_level
-                )
+                new_corr = self._simple_correlation_update(prev_corr, metric_value, hormone_level)
                 self.hormone_correlations[metric_name][hormone] = new_corr
 
-    def _simple_correlation_update(
-        self, prev_corr: float, value1: float, value2: float
-    ) -> float:
+    def _simple_correlation_update(self, prev_corr: float, value1: float, value2: float) -> float:
         """Simple running correlation update"""
         # Simplified correlation update
         current_corr = 1.0 - abs(value1 - value2)
@@ -831,10 +801,7 @@ class HormoneDrivenDashboard:
         if metric_name in thresholds:
             metric_thresholds = thresholds[metric_name]
 
-            if (
-                "critical" in metric_thresholds
-                and value >= metric_thresholds["critical"]
-            ):
+            if "critical" in metric_thresholds and value >= metric_thresholds["critical"]:
                 await self._create_alert(
                     alert_id,
                     AlertSeverity.CRITICAL,
@@ -843,9 +810,7 @@ class HormoneDrivenDashboard:
                     metric_name,
                     value,
                 )
-            elif "high" in metric_thresholds and value >= metric_thresholds.get(
-                "high", 1
-            ):
+            elif "high" in metric_thresholds and value >= metric_thresholds.get("high", 1):
                 await self._create_alert(
                     alert_id,
                     AlertSeverity.HIGH,
@@ -1013,9 +978,7 @@ class HormoneDrivenDashboard:
                 }
                 for widget_id, widget in self.widgets.items()
             },
-            "alerts_count": len(
-                [a for a in self.active_alerts.values() if not a.resolved]
-            ),
+            "alerts_count": len([a for a in self.active_alerts.values() if not a.resolved]),
             "predictions_count": len(self.predictions),
             "coherence_level": self.current_coherence,
         }
@@ -1050,9 +1013,7 @@ class HormoneDrivenDashboard:
                     if isinstance(cpu, (int, float)):
                         self.current_metrics["cpu_utilization"] = float(cpu) / 100.0
                 # Accept explicit endocrine object
-                endocrine = current_state.get("endocrine") or current_state.get(
-                    "endocrine_state"
-                )
+                endocrine = current_state.get("endocrine") or current_state.get("endocrine_state")
                 if endocrine and hasattr(endocrine, "hormone_levels"):
                     self.current_endocrine_state = endocrine
                 # Accept raw top-level hormone_levels
@@ -1063,25 +1024,19 @@ class HormoneDrivenDashboard:
                         (),
                         {
                             "hormone_levels": h,
-                            "homeostasis_state": current_state.get(
-                                "homeostasis_state", "unknown"
-                            ),
+                            "homeostasis_state": current_state.get("homeostasis_state", "unknown"),
                             "coherence_score": 0.0,
                         },
                     )()
                 # Always accept nested biological -> hormone_levels
                 bio = current_state.get("biological")
-                if isinstance(bio, dict) and isinstance(
-                    bio.get("hormone_levels"), dict
-                ):
+                if isinstance(bio, dict) and isinstance(bio.get("hormone_levels"), dict):
                     self.current_endocrine_state = type(
                         "_Snapshot",
                         (),
                         {
                             "hormone_levels": bio["hormone_levels"],
-                            "homeostasis_state": bio.get(
-                                "homeostasis_state", "unknown"
-                            ),
+                            "homeostasis_state": bio.get("homeostasis_state", "unknown"),
                             "coherence_score": 0.0,
                         },
                     )()
@@ -1116,31 +1071,23 @@ class HormoneDrivenDashboard:
             )
         return insights
 
-    async def evaluate_alerts(
-        self, current_state: Optional[dict[str, Any]] = None
-    ) -> list[Any]:
+    async def evaluate_alerts(self, current_state: Optional[dict[str, Any]] = None) -> list[Any]:
         """Public wrapper to process and return active alerts as dicts."""
         try:
             if current_state and isinstance(current_state, dict):
                 # Seed endocrine state from most permissive shapes first
                 bio = current_state.get("biological")
-                if isinstance(bio, dict) and isinstance(
-                    bio.get("hormone_levels"), dict
-                ):
+                if isinstance(bio, dict) and isinstance(bio.get("hormone_levels"), dict):
                     self.current_endocrine_state = type(
                         "_Snapshot",
                         (),
                         {
                             "hormone_levels": bio["hormone_levels"],
-                            "homeostasis_state": bio.get(
-                                "homeostasis_state", "unknown"
-                            ),
+                            "homeostasis_state": bio.get("homeostasis_state", "unknown"),
                             "coherence_score": 0.0,
                         },
                     )()
-                endocrine = current_state.get("endocrine") or current_state.get(
-                    "endocrine_state"
-                )
+                endocrine = current_state.get("endocrine") or current_state.get("endocrine_state")
                 if endocrine and hasattr(endocrine, "hormone_levels"):
                     self.current_endocrine_state = endocrine
                 if isinstance(current_state.get("hormone_levels"), dict):
@@ -1150,9 +1097,7 @@ class HormoneDrivenDashboard:
                         (),
                         {
                             "hormone_levels": h,
-                            "homeostasis_state": current_state.get(
-                                "homeostasis_state", "unknown"
-                            ),
+                            "homeostasis_state": current_state.get("homeostasis_state", "unknown"),
                             "coherence_score": 0.0,
                         },
                     )()
@@ -1168,9 +1113,7 @@ class HormoneDrivenDashboard:
                     if "stress_level" in mapped and "stress_indicator" not in mapped:
                         mapped["stress_indicator"] = mapped["stress_level"]
                     if "performance" in mapped and mapped["performance"] is not None:
-                        self.current_metrics["performance"] = float(
-                            mapped["performance"]
-                        )
+                        self.current_metrics["performance"] = float(mapped["performance"])
                     self.current_metrics.update(mapped)
                 # Light mapping from "system" dict (cpu_percent -> cpu_utilization)
                 system = current_state.get("system")
@@ -1179,9 +1122,7 @@ class HormoneDrivenDashboard:
                     if isinstance(cpu, (int, float)):
                         self.current_metrics["cpu_utilization"] = float(cpu) / 100.0
 
-                coh = current_state.get("coherence") or current_state.get(
-                    "coherence_value"
-                )
+                coh = current_state.get("coherence") or current_state.get("coherence_value")
                 if isinstance(coh, (int, float)):
                     self.current_coherence = float(coh)
             await self._process_alerts()
@@ -1341,9 +1282,7 @@ class TrendPredictor:
             {
                 "timestamp": datetime.now(timezone.utc),
                 "value": value,
-                "biological_state": (
-                    endocrine_state.hormone_levels if endocrine_state else {}
-                ),
+                "biological_state": (endocrine_state.hormone_levels if endocrine_state else {}),
             }
         )
 

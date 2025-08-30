@@ -12,7 +12,7 @@ warnings.warn(
     "Import 'bio.bio_engine' is deprecated and will be removed on 2025-11-01. "
     "Please update to 'lukhas.accepted.bio.engine'",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 # Re-export everything for backward compatibility

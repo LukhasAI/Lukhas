@@ -77,9 +77,7 @@ class OracleAgent:
         openai_service: Optional[OpenAICoreService] = None,
     ):
         self.agent_id = agent_id
-        self.specialization = (
-            specialization  # "predictor", "dreamer", "prophet", "analyzer"
-        )
+        self.specialization = specialization  # "predictor", "dreamer", "prophet", "analyzer"
         self.openai_service = openai_service
         self.logger = logger.bind(agent_id=agent_id, specialization=specialization)
 
@@ -134,9 +132,7 @@ class OracleAgent:
                 }
                 confidence = 0.85
             except Exception as e:
-                self.logger.error(
-                    "OpenAI prediction failed, falling back", error=str(e)
-                )
+                self.logger.error("OpenAI prediction failed, falling back", error=str(e))
                 prediction_content = await self._fallback_prediction(context)
                 confidence = 0.65
         else:
@@ -184,9 +180,7 @@ class OracleAgent:
                 dream_content = {
                     "dream_narrative": openai_response.content,
                     "dream_type": "prophetic",
-                    "symbolic_elements": await self._extract_symbols(
-                        openai_response.content
-                    ),
+                    "symbolic_elements": await self._extract_symbols(openai_response.content),
                     "enhanced_by": "openai",
                 }
                 confidence = 0.88
@@ -242,9 +236,7 @@ class OracleAgent:
                     "prophecy": openai_response.content,
                     "prophecy_type": "analytical_symbolic",
                     "warning_level": await self._assess_warning_level(context),
-                    "recommended_actions": await self._generate_recommendations(
-                        context
-                    ),
+                    "recommended_actions": await self._generate_recommendations(context),
                     "enhanced_by": "openai",
                 }
                 confidence = 0.82
@@ -301,12 +293,8 @@ class OracleAgent:
         """Fallback prediction without OpenAI."""
         return {
             "prediction": "System analysis indicates stable continuation of current patterns",
-            "confidence_factors": [
-                "historical_analysis",
-                "pattern_matching"],
-            "trends": [
-                "stability",
-                "gradual_evolution"],
+            "confidence_factors": ["historical_analysis", "pattern_matching"],
+            "trends": ["stability", "gradual_evolution"],
             "enhanced_by": "local_analysis",
         }
 
@@ -315,10 +303,7 @@ class OracleAgent:
         return {
             "dream_narrative": "A symbolic journey through the landscape of possibilities",
             "dream_type": "reflective",
-            "symbolic_elements": [
-                "journey",
-                "landscape",
-                "transformation"],
+            "symbolic_elements": ["journey", "landscape", "transformation"],
             "enhanced_by": "local_generation",
         }
 
@@ -328,10 +313,7 @@ class OracleAgent:
             "prophecy": "The path ahead holds both challenge and opportunity. Wisdom lies in preparation and adaptability.",
             "prophecy_type": "wisdom_based",
             "warning_level": "moderate",
-            "recommended_actions": [
-                "observe",
-                "prepare",
-                "adapt"],
+            "recommended_actions": ["observe", "prepare", "adapt"],
             "enhanced_by": "local_wisdom",
         }
 
@@ -491,9 +473,7 @@ class OracleColony(BaseColony):
         )
         return await self.query_oracle(query)
 
-    async def predict_system_drift(
-        self, system_metrics: dict[str, Any]
-    ) -> OracleResponse:
+    async def predict_system_drift(self, system_metrics: dict[str, Any]) -> OracleResponse:
         """Predict potential system drift based on metrics."""
         query = OracleQuery(
             query_type="prediction",
@@ -549,17 +529,14 @@ async def get_oracle_colony() -> OracleColony:
         await oracle_colony.initialize()
     return oracle_colony
 
+
 # Convenience functions for direct Oracle access
 
 
-async def predict(
-    context: dict[str, Any], time_horizon: str = "near"
-) -> OracleResponse:
+async def predict(context: dict[str, Any], time_horizon: str = "near") -> OracleResponse:
     """Direct prediction function."""
     colony = await get_oracle_colony()
-    query = OracleQuery(
-        query_type="prediction", context=context, time_horizon=time_horizon
-    )
+    query = OracleQuery(query_type="prediction", context=context, time_horizon=time_horizon)
     return await colony.query_oracle(query)
 
 
@@ -570,15 +547,12 @@ async def dream(context: dict[str, Any], user_id: str = None) -> OracleResponse:
     return await colony.query_oracle(query)
 
 
-async def prophecy(
-    context: dict[str, Any], time_horizon: str = "medium"
-) -> OracleResponse:
+async def prophecy(context: dict[str, Any], time_horizon: str = "medium") -> OracleResponse:
     """Direct prophecy function."""
     colony = await get_oracle_colony()
-    query = OracleQuery(
-        query_type="prophecy", context=context, time_horizon=time_horizon
-    )
+    query = OracleQuery(query_type="prophecy", context=context, time_horizon=time_horizon)
     return await colony.query_oracle(query)
+
 
 """
 ══════════════════════════════════════════════════════════════════════════════════

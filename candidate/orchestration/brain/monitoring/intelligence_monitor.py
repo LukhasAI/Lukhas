@@ -272,9 +272,7 @@ class LukhasIntelligenceMonitor:
 
         with self._lock:
             # Get operation data
-            operation_data = getattr(self, "active_operations", {}).get(
-                operation_id, {}
-            )
+            operation_data = getattr(self, "active_operations", {}).get(operation_id, {})
             agent_id = operation_data.get("agent_id", "unknown")
             intelligence_engine = operation_data.get("intelligence_engine", "unknown")
 
@@ -406,9 +404,7 @@ class LukhasIntelligenceMonitor:
             agent_id,
         )
 
-    def _check_alert_conditions(
-        self, metric_name: str, value: float, metric_type: MetricType
-    ):
+    def _check_alert_conditions(self, metric_name: str, value: float, metric_type: MetricType):
         """Check if metric value triggers any alerts"""
         # Get alert thresholds for this metric
         thresholds = self.alert_thresholds.get(metric_name, {})
@@ -531,9 +527,7 @@ class LukhasIntelligenceMonitor:
         if len(response_times) < 10:
             return
 
-        recent_times = [
-            m.value for m in list(response_times)[-50:]
-        ]  # Last 50 operations
+        recent_times = [m.value for m in list(response_times)[-50:]]  # Last 50 operations
         avg_response_time = sum(recent_times) / len(recent_times)
 
         self.record_metric(
@@ -559,15 +553,11 @@ class LukhasIntelligenceMonitor:
         if len(success_metrics) < 10:
             return
 
-        recent_success = [
-            m.value for m in list(success_metrics)[-50:]
-        ]  # Last 50 operations
+        recent_success = [m.value for m in list(success_metrics)[-50:]]  # Last 50 operations
         success_rate = sum(recent_success) / len(recent_success)
         error_rate = 1.0 - success_rate
 
-        self.record_metric(
-            "error_rate", error_rate, "percentage", MetricType.PERFORMANCE
-        )
+        self.record_metric("error_rate", error_rate, "percentage", MetricType.PERFORMANCE)
 
     async def _analyze_agent_performance_trends(self):
         """Analyze agent performance trends"""
@@ -581,9 +571,7 @@ class LukhasIntelligenceMonitor:
             avg_processing_time = sum(s["processing_time"] for s in recent_stats) / len(
                 recent_stats
             )
-            success_rate = sum(1 for s in recent_stats if s["success"]) / len(
-                recent_stats
-            )
+            success_rate = sum(1 for s in recent_stats if s["success"]) / len(recent_stats)
             avg_confidence = sum(
                 s["confidence"] for s in recent_stats if s["confidence"] > 0
             ) / max(1, len([s for s in recent_stats if s["confidence"] > 0]))
@@ -708,10 +696,7 @@ class LukhasIntelligenceMonitor:
     def get_real_time_metrics(self) -> dict[str, Any]:
         """Get current real-time metrics"""
         with self._lock:
-            return {
-                name: metric.to_dict()
-                for name, metric in self.real_time_metrics.items()
-            }
+            return {name: metric.to_dict() for name, metric in self.real_time_metrics.items()}
 
     def get_agent_metrics(self, agent_id: Optional[str] = None) -> dict[str, Any]:
         """Get agent-specific metrics"""
@@ -750,9 +735,7 @@ class LukhasIntelligenceMonitor:
         for component, metrics in self.trinity_metrics.items():
             if metrics and isinstance(metrics, deque):
                 recent_scores = [
-                    m["score"]
-                    for m in list(metrics)[-10:]
-                    if isinstance(m, dict) and "score" in m
+                    m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m
                 ]
                 if recent_scores:
                     summary[component] = {
@@ -874,9 +857,7 @@ def record_operation_metric(
     )
 
 
-def start_operation_tracking(
-    operation_id: str, agent_id: str, intelligence_engine: str
-) -> float:
+def start_operation_tracking(operation_id: str, agent_id: str, intelligence_engine: str) -> float:
     """Convenience function to start operation tracking"""
     monitor = get_monitor()
     return monitor.record_operation_start(operation_id, agent_id, intelligence_engine)
@@ -928,9 +909,7 @@ if __name__ == "__main__":
             )
 
             # Record Trinity compliance
-            monitor.record_trinity_compliance(
-                0.95, 0.92, 0.88, "consciousness_architect_001"
-            )
+            monitor.record_trinity_compliance(0.95, 0.92, 0.88, "consciousness_architect_001")
 
         # Wait for metrics to be processed
         await asyncio.sleep(2)

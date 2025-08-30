@@ -106,15 +106,9 @@ def compute_affect_delta(symbols: list[str]) -> float:
         negative_indicators = ["fear", "anger", "sad", "dark", "chaos", "conflict"]
         high_arousal_indicators = ["exciting", "intense", "energy", "dynamic", "active"]
 
-        positive_score = sum(
-            1 for indicator in positive_indicators if indicator in symbol_text
-        )
-        negative_score = sum(
-            1 for indicator in negative_indicators if indicator in symbol_text
-        )
-        arousal_score = sum(
-            1 for indicator in high_arousal_indicators if indicator in symbol_text
-        )
+        positive_score = sum(1 for indicator in positive_indicators if indicator in symbol_text)
+        negative_score = sum(1 for indicator in negative_indicators if indicator in symbol_text)
+        arousal_score = sum(1 for indicator in high_arousal_indicators if indicator in symbol_text)
 
         # Calculate affect delta
         valence_intensity = abs(positive_score - negative_score) / len(symbols)
@@ -174,7 +168,9 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
             elif len(symbols) == 2:
                 dream = f"In this {emotional_modifier} dream, {symbols[0]} and {symbols[1]} merge into one"
             else:
-                dream = f"A {emotional_modifier} dream of {symbols[0]} echoing through infinite space"
+                dream = (
+                    f"A {emotional_modifier} dream of {symbols[0]} echoing through infinite space"
+                )
     return DreamResponse(dream=dream, driftScore=drift_score, affect_delta=affect_delta)
 
 
@@ -194,26 +190,20 @@ async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
     # Drift-based suggestions
     if req.driftScore > 0.15:  # High drift threshold
         if req.driftScore > 0.5:
-            suggestions.append(
-                "High drift detected - consider simplifying symbol complexity"
-            )
+            suggestions.append("High drift detected - consider simplifying symbol complexity")
             suggestions.append("Reduce symbolic noise by filtering redundant elements")
         else:
             suggestions.append(
                 f"Moderate drift (score: {req.driftScore:.3f}) - fine-tune symbol alignment"
             )
     else:
-        suggestions.append(
-            "Drift within acceptable range - maintain current configuration"
-        )
+        suggestions.append("Drift within acceptable range - maintain current configuration")
 
     # Collapse hash-based suggestions
     if req.collapseHash:
         hash_value = abs(hash(req.collapseHash)) % 1000
         if hash_value > 800:
-            suggestions.append(
-                "Collapse hash indicates high symbolic density - consider expansion"
-            )
+            suggestions.append("Collapse hash indicates high symbolic density - consider expansion")
         elif hash_value > 400:
             suggestions.append("Balanced symbolic collapse - optimize for coherence")
         else:
@@ -224,9 +214,7 @@ async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
     if combined_score > 0.3:
         suggestions.append("Apply Guardian drift correction protocols")
     elif combined_score < 0.1:
-        suggestions.append(
-            "Symbolic stability achieved - ready for consciousness integration"
-        )
+        suggestions.append("Symbolic stability achieved - ready for consciousness integration")
 
     # Ensure we always have meaningful suggestions
     if not suggestions:
@@ -321,14 +309,10 @@ async def memory_dump() -> MemoryDumpResponse:
 
         # Process emotional states from memory folds
         emotional_texts = [fold.get("content", "") for fold in memory_folds]
-        combined_text = (
-            " ".join(emotional_texts) if emotional_texts else "neutral memory state"
-        )
+        combined_text = " ".join(emotional_texts) if emotional_texts else "neutral memory state"
 
         emotion_result = process_emotion({"text": combined_text})
-        affect_delta = (
-            abs(emotion_result.get("valence", 0.5) - 0.5) * 2.0
-        )  # Scale to 0-1
+        affect_delta = abs(emotion_result.get("valence", 0.5) - 0.5) * 2.0  # Scale to 0-1
 
         emotional_state = {
             "affect_delta": affect_delta,

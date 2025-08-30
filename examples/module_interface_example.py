@@ -127,9 +127,7 @@ class DataAnalyzer(CoreInterface):
         # Check consciousness service
         if self.consciousness_service:
             awareness = await self.consciousness_service.assess_awareness({})
-            logger.info(
-                f"Consciousness awareness level: {awareness.get('overall_awareness', 0)}"
-            )
+            logger.info(f"Consciousness awareness level: {awareness.get('overall_awareness', 0)}")
 
     async def analyze_data(self, request: AnalysisRequest) -> AnalysisResult:
         """
@@ -152,9 +150,7 @@ class DataAnalyzer(CoreInterface):
                 validation = await self._validate_with_guardian(request)
                 if not validation["approved"]:
                     self.metrics["ethical_rejections"] += 1
-                    raise ValidationError(
-                        f"Guardian rejected: {validation['reasoning']}"
-                    )
+                    raise ValidationError(f"Guardian rejected: {validation['reasoning']}")
 
             # Step 2: Get consciousness assessment
             consciousness_input = None
@@ -208,9 +204,7 @@ class DataAnalyzer(CoreInterface):
 
         return await self.guardian_service.validate_action(action, context)
 
-    async def _get_consciousness_input(
-        self, request: AnalysisRequest
-    ) -> dict[str, Any]:
+    async def _get_consciousness_input(self, request: AnalysisRequest) -> dict[str, Any]:
         """Get consciousness assessment for the analysis"""
         # Assess what aspects to focus on
         awareness = await self.consciousness_service.assess_awareness(
@@ -283,9 +277,7 @@ class DataAnalyzer(CoreInterface):
 
         for value, count in value_counts.items():
             if count > 1:
-                patterns.append(
-                    {"type": "repetition", "value": str(value), "occurrences": count}
-                )
+                patterns.append({"type": "repetition", "value": str(value), "occurrences": count})
 
         return patterns
 
@@ -338,9 +330,7 @@ class DataAnalyzer(CoreInterface):
 
         return min(significance, 1.0)
 
-    async def _store_in_memory(
-        self, request: AnalysisRequest, result: AnalysisResult
-    ) -> str:
+    async def _store_in_memory(self, request: AnalysisRequest, result: AnalysisResult) -> str:
         """Store analysis in memory system"""
         memory_content = {
             "request": {
@@ -473,9 +463,7 @@ class DataAnalyzer(CoreInterface):
         health = 1.0
 
         # Deduct for failures
-        total_attempts = (
-            self.metrics["analyses_completed"] + self.metrics["analyses_failed"]
-        )
+        total_attempts = self.metrics["analyses_completed"] + self.metrics["analyses_failed"]
         if total_attempts > 0:
             failure_rate = self.metrics["analyses_failed"] / total_attempts
             health -= failure_rate * 0.5
@@ -490,9 +478,7 @@ class DataAnalyzer(CoreInterface):
 
         # Deduct for high rejection rate
         if self.metrics["analyses_completed"] > 0:
-            rejection_rate = (
-                self.metrics["ethical_rejections"] / self.metrics["analyses_completed"]
-            )
+            rejection_rate = self.metrics["ethical_rejections"] / self.metrics["analyses_completed"]
             if rejection_rate > 0.2:
                 health -= 0.2
 
@@ -531,9 +517,7 @@ async def main():
     mock_memory.store = AsyncMock(return_value="mem_12345")
 
     mock_consciousness = Mock()
-    mock_consciousness.assess_awareness = AsyncMock(
-        return_value={"overall_awareness": 0.8}
-    )
+    mock_consciousness.assess_awareness = AsyncMock(return_value={"overall_awareness": 0.8})
     mock_consciousness.make_decision = AsyncMock(
         return_value={"selected_option": "detailed", "confidence": 0.9}
     )

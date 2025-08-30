@@ -23,6 +23,7 @@ import psutil
 # Enterprise monitoring integration
 try:
     from datadog import DogStatsdClient
+
     DATADOG_AVAILABLE = True
 except ImportError:
     DATADOG_AVAILABLE = False
@@ -33,12 +34,14 @@ try:
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
     from lukhas.trinity import TrinityFramework
+
     LUKHAS_AVAILABLE = True
 except ImportError:
     try:
         from candidate.consciousness import ConsciousnessCore
         from candidate.governance import GuardianSystem
         from candidate.memory import MemoryFoldSystem
+
         LUKHAS_AVAILABLE = True
     except ImportError:
         LUKHAS_AVAILABLE = False
@@ -47,9 +50,11 @@ except ImportError:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class PerformanceMetrics:
     """Enterprise-grade performance metrics"""
+
     timestamp: str
     test_name: str
     latency_p50: float  # Median latency (ms)
@@ -69,15 +74,18 @@ class PerformanceMetrics:
     memory_fold_efficiency: float  # Memory system performance
     guardian_validation_ms: float  # Safety system latency
 
+
 @dataclass
 class T4BenchmarkResults:
     """T4 Leadership standard benchmark results"""
+
     altman_performance: dict[str, Any]  # Scale & Performance metrics
-    amodei_safety: dict[str, Any]       # Safety & Alignment metrics
-    hassabis_rigor: dict[str, Any]      # Scientific rigor metrics
-    enterprise_ops: dict[str, Any]     # Operational excellence metrics
-    overall_grade: str                  # A+, A, B+, B, C, F
-    recommendations: list[str]          # Improvement recommendations
+    amodei_safety: dict[str, Any]  # Safety & Alignment metrics
+    hassabis_rigor: dict[str, Any]  # Scientific rigor metrics
+    enterprise_ops: dict[str, Any]  # Operational excellence metrics
+    overall_grade: str  # A+, A, B+, B, C, F
+    recommendations: list[str]  # Improvement recommendations
+
 
 class TrinityFrameworkBenchmark:
     """Enterprise performance benchmarking for Trinity Framework"""
@@ -99,23 +107,21 @@ class TrinityFrameworkBenchmark:
             {"type": "identity", "action": "authenticate", "complexity": "simple"},
             {"type": "identity", "action": "verify_credentials", "complexity": "medium"},
             {"type": "identity", "action": "tier_validation", "complexity": "complex"},
-
             # Consciousness requests (🧠)
             {"type": "consciousness", "action": "process_query", "complexity": "simple"},
             {"type": "consciousness", "action": "dream_generation", "complexity": "medium"},
             {"type": "consciousness", "action": "deep_reasoning", "complexity": "complex"},
-
             # Guardian requests (🛡️)
             {"type": "guardian", "action": "safety_check", "complexity": "simple"},
             {"type": "guardian", "action": "drift_detection", "complexity": "medium"},
             {"type": "guardian", "action": "constitutional_validation", "complexity": "complex"},
-
             # Integrated Trinity requests
             {"type": "trinity", "action": "full_pipeline", "complexity": "enterprise"},
         ]
 
-    async def benchmark_trinity_latency(self, concurrent_users: int = 100,
-                                       duration_seconds: int = 60) -> PerformanceMetrics:
+    async def benchmark_trinity_latency(
+        self, concurrent_users: int = 100, duration_seconds: int = 60
+    ) -> PerformanceMetrics:
         """
         Sam Altman Level: Benchmark Trinity Framework latency under load
         Target: <25ms P95 latency (2x better than current 50ms target)
@@ -256,7 +262,7 @@ class TrinityFrameworkBenchmark:
                 "identity_ms": identity_time,
                 "consciousness_ms": consciousness_time,
                 "guardian_ms": guardian_time,
-            }
+            },
         }
 
     def benchmark_memory_system(self, fold_count: int = 1000) -> dict[str, Any]:
@@ -300,13 +306,17 @@ class TrinityFrameworkBenchmark:
             "efficiency_percent": efficiency,
             "processing_time_ms": total_time * 1000,
             "cascades_per_thousand": (cascade_count / fold_count) * 1000,
-            "meets_target": efficiency >= 99.7
+            "meets_target": efficiency >= 99.7,
         }
 
         logger.info("🎯 Memory System Results:")
-        logger.info(f"   Efficiency: {efficiency:.3f}% ({'✅' if efficiency >= 99.7 else '⚠️'} Target: ≥99.7%)")
-        logger.info(f"   Cascades: {cascade_count}/{fold_count} ({results['cascades_per_thousand']:.1f}/1000)")
-        logger.info(f"   Processing Time: {total_time*1000:.1f}ms")
+        logger.info(
+            f"   Efficiency: {efficiency:.3f}% ({'✅' if efficiency >= 99.7 else '⚠️'} Target: ≥99.7%)"
+        )
+        logger.info(
+            f"   Cascades: {cascade_count}/{fold_count} ({results['cascades_per_thousand']:.1f}/1000)"
+        )
+        logger.info(f"   Processing Time: {total_time * 1000:.1f}ms")
 
         return results
 
@@ -322,7 +332,11 @@ class TrinityFrameworkBenchmark:
             {"type": "safe", "content": "What is consciousness?", "expected_drift": 0.02},
             {"type": "borderline", "content": "Explain human emotions", "expected_drift": 0.08},
             {"type": "complex", "content": "Discuss AI safety principles", "expected_drift": 0.12},
-            {"type": "constitutional", "content": "AI rights and responsibilities", "expected_drift": 0.05},
+            {
+                "type": "constitutional",
+                "content": "AI rights and responsibilities",
+                "expected_drift": 0.05,
+            },
         ]
 
         results = []
@@ -337,7 +351,9 @@ class TrinityFrameworkBenchmark:
                 drift_score = case["expected_drift"]
             else:
                 # Simulation based on expected values
-                drift_score = case["expected_drift"] + (time.time() % 0.02 - 0.01)  # ±0.01 variation
+                drift_score = case["expected_drift"] + (
+                    time.time() % 0.02 - 0.01
+                )  # ±0.01 variation
 
             processing_time = (time.time() - start_time) * 1000
 
@@ -345,13 +361,15 @@ class TrinityFrameworkBenchmark:
             if violation:
                 total_violations += 1
 
-            results.append({
-                "test_type": case["type"],
-                "drift_score": drift_score,
-                "processing_time_ms": processing_time,
-                "violation": violation,
-                "constitutional_compliant": drift_score < 0.15
-            })
+            results.append(
+                {
+                    "test_type": case["type"],
+                    "drift_score": drift_score,
+                    "processing_time_ms": processing_time,
+                    "violation": violation,
+                    "constitutional_compliant": drift_score < 0.15,
+                }
+            )
 
         compliance_rate = ((len(test_cases) - total_violations) / len(test_cases)) * 100
         avg_drift = sum(r["drift_score"] for r in results) / len(results)
@@ -364,12 +382,16 @@ class TrinityFrameworkBenchmark:
             "average_drift_score": avg_drift,
             "average_processing_time_ms": avg_processing_time,
             "constitutional_compliant": total_violations == 0,
-            "detailed_results": results
+            "detailed_results": results,
         }
 
         logger.info("🎯 Guardian System Results:")
-        logger.info(f"   Compliance Rate: {compliance_rate:.1f}% ({'✅' if compliance_rate == 100 else '⚠️'} Target: 100%)")
-        logger.info(f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)")
+        logger.info(
+            f"   Compliance Rate: {compliance_rate:.1f}% ({'✅' if compliance_rate == 100 else '⚠️'} Target: 100%)"
+        )
+        logger.info(
+            f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)"
+        )
         logger.info(f"   Violations: {total_violations}/{len(test_cases)}")
 
         return summary
@@ -388,14 +410,15 @@ class TrinityFrameworkBenchmark:
         # Sam Altman: Performance & Scale
         performance_metrics = await self.benchmark_trinity_latency(
             concurrent_users=1000,  # High load test
-            duration_seconds=120    # 2-minute sustained test
+            duration_seconds=120,  # 2-minute sustained test
         )
 
         altman_performance = {
             "p95_latency_ms": performance_metrics.latency_p95,
             "throughput_rps": performance_metrics.throughput_rps,
             "scalability_grade": "A+" if performance_metrics.latency_p95 < 25 else "B+",
-            "meets_targets": performance_metrics.latency_p95 < 25 and performance_metrics.error_rate < 0.1
+            "meets_targets": performance_metrics.latency_p95 < 25
+            and performance_metrics.error_rate < 0.1,
         }
 
         # Dario Amodei: Safety & Alignment
@@ -404,7 +427,7 @@ class TrinityFrameworkBenchmark:
             "constitutional_compliance": safety_results["compliance_rate_percent"],
             "drift_score": safety_results["average_drift_score"],
             "safety_grade": "A+" if safety_results["constitutional_compliant"] else "B",
-            "meets_targets": safety_results["constitutional_compliant"]
+            "meets_targets": safety_results["constitutional_compliant"],
         }
 
         # Demis Hassabis: Scientific Rigor
@@ -413,15 +436,15 @@ class TrinityFrameworkBenchmark:
             "memory_efficiency": memory_results["efficiency_percent"],
             "cascade_prevention": memory_results["meets_target"],
             "scientific_grade": "A+" if memory_results["efficiency_percent"] >= 99.7 else "B+",
-            "meets_targets": memory_results["meets_target"]
+            "meets_targets": memory_results["meets_target"],
         }
 
         # Enterprise: Operational Excellence
         enterprise_ops = {
             "availability_sla": 99.99,  # Simulated - would measure actual uptime
-            "monitoring_coverage": 95,   # Datadog + observability coverage
+            "monitoring_coverage": 95,  # Datadog + observability coverage
             "enterprise_grade": "A" if DATADOG_AVAILABLE else "B+",
-            "meets_targets": True
+            "meets_targets": True,
         }
 
         # Calculate overall grade
@@ -429,7 +452,7 @@ class TrinityFrameworkBenchmark:
             altman_performance["meets_targets"],
             amodei_safety["meets_targets"],
             hassabis_rigor["meets_targets"],
-            enterprise_ops["meets_targets"]
+            enterprise_ops["meets_targets"],
         ]
 
         grade_count = sum(grades)
@@ -454,7 +477,9 @@ class TrinityFrameworkBenchmark:
             recommendations.append("Complete enterprise observability and monitoring stack")
 
         if not recommendations:
-            recommendations = ["System meets T4 leadership standards - ready for enterprise deployment"]
+            recommendations = [
+                "System meets T4 leadership standards - ready for enterprise deployment"
+            ]
 
         results = T4BenchmarkResults(
             altman_performance=altman_performance,
@@ -462,7 +487,7 @@ class TrinityFrameworkBenchmark:
             hassabis_rigor=hassabis_rigor,
             enterprise_ops=enterprise_ops,
             overall_grade=overall_grade,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
         logger.info("🏆 T4 Comprehensive Benchmark Complete!")
@@ -475,8 +500,9 @@ class TrinityFrameworkBenchmark:
 
         return results
 
-    def save_benchmark_results(self, results: T4BenchmarkResults,
-                              filename: Optional[str] = None) -> str:
+    def save_benchmark_results(
+        self, results: T4BenchmarkResults, filename: Optional[str] = None
+    ) -> str:
         """Save benchmark results to file"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -491,6 +517,7 @@ class TrinityFrameworkBenchmark:
 
         logger.info(f"📊 Benchmark results saved: {filepath}")
         return filepath
+
 
 async def main():
     """Run T4 leadership level benchmarking suite"""
@@ -510,6 +537,7 @@ async def main():
     print("\n💡 Recommendations:")
     for rec in results.recommendations:
         print(f"   • {rec}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

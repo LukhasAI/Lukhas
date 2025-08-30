@@ -39,6 +39,7 @@ try:
     )
 except ImportError as e:
     logging.warning(f"Context bus import failed: {e}")
+
     # Provide stub for missing class
     class HighPerformanceContextBus:
         def __init__(self, *args, **kwargs):
@@ -57,12 +58,14 @@ except ImportError as e:
         def __init__(self, *args, **kwargs):
             pass
 
+
 try:
     from lukhas.bridge.anthropic_bridge import AnthropicBridge
     from lukhas.bridge.google_bridge import GoogleBridge
     from lukhas.bridge.openai_bridge import OpenAIBridge
 except ImportError as e:
     logging.warning(f"Bridge imports failed: {e}")
+
     # Provide stubs
     class OpenAIBridge:
         def __init__(self, *args, **kwargs):
@@ -76,33 +79,42 @@ except ImportError as e:
         def __init__(self, *args, **kwargs):
             pass
 
+
 logger = logging.getLogger(__name__)
+
 
 class ModelProvider(Enum):
     """Available model providers for orchestration"""
+
     OPENAI_GPT4 = "openai_gpt4"
     ANTHROPIC_CLAUDE = "anthropic_claude"
     GOOGLE_GEMINI = "google_gemini"
     PERPLEXITY = "perplexity"
 
+
 class ConsensusStrategy(Enum):
     """Strategies for multi-model consensus"""
-    WEIGHTED_VOTE = "weighted_vote"       # Weighted voting based on confidence
-    MAJORITY_VOTE = "majority_vote"       # Simple majority consensus
-    UNANIMOUS = "unanimous"               # Require all models to agree
-    BEST_CONFIDENCE = "best_confidence"   # Choose highest confidence response
-    ENSEMBLE = "ensemble"                 # Combine all responses
+
+    WEIGHTED_VOTE = "weighted_vote"  # Weighted voting based on confidence
+    MAJORITY_VOTE = "majority_vote"  # Simple majority consensus
+    UNANIMOUS = "unanimous"  # Require all models to agree
+    BEST_CONFIDENCE = "best_confidence"  # Choose highest confidence response
+    ENSEMBLE = "ensemble"  # Combine all responses
+
 
 class OrchestrationMode(Enum):
     """Execution modes for orchestration"""
-    SEQUENTIAL = "sequential"   # Execute models one after another
-    PARALLEL = "parallel"       # Execute models simultaneously
-    CASCADE = "cascade"         # Each model builds on previous
-    COMPETITIVE = "competitive" # Models compete, best wins
+
+    SEQUENTIAL = "sequential"  # Execute models one after another
+    PARALLEL = "parallel"  # Execute models simultaneously
+    CASCADE = "cascade"  # Each model builds on previous
+    COMPETITIVE = "competitive"  # Models compete, best wins
+
 
 @dataclass
 class ModelResponse:
     """Response from an individual model"""
+
     model_provider: ModelProvider
     response_text: str
     confidence_score: float
@@ -121,9 +133,11 @@ class ModelResponse:
             return (self.response_timestamp - self.request_timestamp) * 1000
         return self.processing_time_ms
 
+
 @dataclass
 class ConsensusResult:
     """Result of multi-model consensus"""
+
     consensus_text: str
     confidence_score: float
     participating_models: list[ModelProvider]
@@ -139,9 +153,11 @@ class ConsensusResult:
     decision_rationale: str = ""
     model_weights: dict[ModelProvider, float] = field(default_factory=dict)
 
+
 @dataclass
 class OrchestrationPipeline:
     """Configuration for multi-model orchestration pipeline"""
+
     pipeline_id: str
     name: str
     models: list[ModelProvider]
@@ -157,9 +173,10 @@ class OrchestrationPipeline:
     min_agreement_threshold: float = 0.6
 
     # Trinity Framework requirements
-    requires_identity_validation: bool = False    # ⚛️
+    requires_identity_validation: bool = False  # ⚛️
     requires_consciousness_context: bool = False  # 🧠
-    requires_guardian_oversight: bool = True      # 🛡️
+    requires_guardian_oversight: bool = True  # 🛡️
+
 
 class MultiModelOrchestrator:
     """
@@ -191,7 +208,7 @@ class MultiModelOrchestrator:
             "successful_orchestrations": 0,
             "average_consensus_time_ms": 0.0,
             "model_usage_stats": {},
-            "agreement_rates": {}
+            "agreement_rates": {},
         }
 
         # Consensus algorithms
@@ -200,7 +217,7 @@ class MultiModelOrchestrator:
             ConsensusStrategy.MAJORITY_VOTE: self._majority_vote_consensus,
             ConsensusStrategy.UNANIMOUS: self._unanimous_consensus,
             ConsensusStrategy.BEST_CONFIDENCE: self._best_confidence_consensus,
-            ConsensusStrategy.ENSEMBLE: self._ensemble_consensus
+            ConsensusStrategy.ENSEMBLE: self._ensemble_consensus,
         }
 
         # Pre-configured pipelines for common tasks
@@ -252,7 +269,7 @@ class MultiModelOrchestrator:
                 return {
                     "text": f"Mock response from {self.model_name}: {prompt[:50]}...",
                     "confidence": 0.85,
-                    "tokens": {"input": 100, "output": 50}
+                    "tokens": {"input": 100, "output": 50},
                 }
 
         self.model_bridges[ModelProvider.OPENAI_GPT4] = MockBridge("GPT-4")
@@ -269,17 +286,21 @@ class MultiModelOrchestrator:
             models=[ModelProvider.OPENAI_GPT4, ModelProvider.ANTHROPIC_CLAUDE],
             consensus_strategy=ConsensusStrategy.WEIGHTED_VOTE,
             orchestration_mode=OrchestrationMode.PARALLEL,
-            requires_guardian_oversight=True
+            requires_guardian_oversight=True,
         )
 
         # Creative pipeline - All models for diverse perspectives
         creative_pipeline = OrchestrationPipeline(
             pipeline_id="creative_consensus",
             name="Creative Consensus Pipeline",
-            models=[ModelProvider.OPENAI_GPT4, ModelProvider.ANTHROPIC_CLAUDE, ModelProvider.GOOGLE_GEMINI],
+            models=[
+                ModelProvider.OPENAI_GPT4,
+                ModelProvider.ANTHROPIC_CLAUDE,
+                ModelProvider.GOOGLE_GEMINI,
+            ],
             consensus_strategy=ConsensusStrategy.ENSEMBLE,
             orchestration_mode=OrchestrationMode.PARALLEL,
-            requires_consciousness_context=True
+            requires_consciousness_context=True,
         )
 
         # Critical decision pipeline - Unanimous consensus required
@@ -290,21 +311,23 @@ class MultiModelOrchestrator:
             consensus_strategy=ConsensusStrategy.UNANIMOUS,
             orchestration_mode=OrchestrationMode.SEQUENTIAL,
             requires_identity_validation=True,
-            requires_guardian_oversight=True
+            requires_guardian_oversight=True,
         )
 
         self.default_pipelines = {
             "analysis": analysis_pipeline,
             "creative": creative_pipeline,
-            "critical": critical_pipeline
+            "critical": critical_pipeline,
         }
 
         logger.info(f"📋 {len(self.default_pipelines)} default pipelines configured")
 
-    async def orchestrate(self,
-                         prompt: str,
-                         pipeline: Union[str, OrchestrationPipeline],
-                         context: Optional[dict[str, Any]] = None) -> ConsensusResult:
+    async def orchestrate(
+        self,
+        prompt: str,
+        pipeline: Union[str, OrchestrationPipeline],
+        context: Optional[dict[str, Any]] = None,
+    ) -> ConsensusResult:
         """
         Execute multi-model orchestration with consensus
 
@@ -341,9 +364,9 @@ class MultiModelOrchestrator:
                     "execution_id": execution_id,
                     "pipeline": pipeline_config.name,
                     "models": [m.value for m in pipeline_config.models],
-                    "prompt_length": len(prompt)
+                    "prompt_length": len(prompt),
                 },
-                priority=ContextPriority.HIGH
+                priority=ContextPriority.HIGH,
             )
 
             # Execute models based on orchestration mode
@@ -376,18 +399,20 @@ class MultiModelOrchestrator:
                     "consensus_confidence": consensus_result.confidence_score,
                     "agreement_level": consensus_result.agreement_level,
                     "processing_time_ms": orchestration_time,
-                    "models_used": len(model_responses)
+                    "models_used": len(model_responses),
                 },
-                priority=ContextPriority.NORMAL
+                priority=ContextPriority.NORMAL,
             )
 
             # Add to execution history
-            self.execution_history.append({
-                "execution_id": execution_id,
-                "pipeline": pipeline_config.name,
-                "result": consensus_result,
-                "timestamp": datetime.now(timezone.utc)
-            })
+            self.execution_history.append(
+                {
+                    "execution_id": execution_id,
+                    "pipeline": pipeline_config.name,
+                    "result": consensus_result,
+                    "timestamp": datetime.now(timezone.utc),
+                }
+            )
 
             logger.info(f"✅ Orchestration completed: {orchestration_time:.2f}ms")
             logger.info(f"   Consensus confidence: {consensus_result.confidence_score:.3f}")
@@ -398,7 +423,7 @@ class MultiModelOrchestrator:
         except Exception as e:
             orchestration_time = (time.perf_counter() - orchestration_start) * 1000
 
-            logger.error(f"❌ Orchestration failed: {str(e)} ({orchestration_time:.2f}ms)")
+            logger.error(f"❌ Orchestration failed: {e!s} ({orchestration_time:.2f}ms)")
 
             # Emit failure event
             await self.context_bus.emit(
@@ -406,31 +431,30 @@ class MultiModelOrchestrator:
                 {
                     "execution_id": execution_id,
                     "error": str(e),
-                    "processing_time_ms": orchestration_time
+                    "processing_time_ms": orchestration_time,
                 },
-                priority=ContextPriority.HIGH
+                priority=ContextPriority.HIGH,
             )
 
             raise
 
-    async def _execute_parallel(self, prompt: str, pipeline: OrchestrationPipeline,
-                               context: Optional[dict]) -> list[ModelResponse]:
+    async def _execute_parallel(
+        self, prompt: str, pipeline: OrchestrationPipeline, context: Optional[dict]
+    ) -> list[ModelResponse]:
         """Execute models in parallel for maximum speed"""
         logger.info("⚡ Executing models in parallel")
 
         tasks = []
         for model in pipeline.models:
             if model in self.model_bridges:
-                task = asyncio.create_task(
-                    self._execute_single_model(model, prompt, context)
-                )
+                task = asyncio.create_task(self._execute_single_model(model, prompt, context))
                 tasks.append(task)
 
         # Wait for all models with timeout
         try:
             responses = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=True),
-                timeout=pipeline.max_latency_ms / 1000
+                timeout=pipeline.max_latency_ms / 1000,
             )
 
             # Filter out exceptions
@@ -441,13 +465,13 @@ class MultiModelOrchestrator:
             logger.warning(f"Parallel execution timed out after {pipeline.max_latency_ms}ms")
             # Return any completed responses
             completed_responses = [
-                task.result() for task in tasks
-                if task.done() and not task.exception()
+                task.result() for task in tasks if task.done() and not task.exception()
             ]
             return completed_responses
 
-    async def _execute_sequential(self, prompt: str, pipeline: OrchestrationPipeline,
-                                 context: Optional[dict]) -> list[ModelResponse]:
+    async def _execute_sequential(
+        self, prompt: str, pipeline: OrchestrationPipeline, context: Optional[dict]
+    ) -> list[ModelResponse]:
         """Execute models sequentially, each building on previous context"""
         logger.info("📝 Executing models sequentially")
 
@@ -456,7 +480,7 @@ class MultiModelOrchestrator:
 
         for i, model in enumerate(pipeline.models):
             if model in self.model_bridges:
-                logger.info(f"   Executing model {i+1}/{len(pipeline.models)}: {model.value}")
+                logger.info(f"   Executing model {i + 1}/{len(pipeline.models)}: {model.value}")
 
                 # Add previous responses to context
                 if responses:
@@ -470,8 +494,9 @@ class MultiModelOrchestrator:
 
         return responses
 
-    async def _execute_cascade(self, prompt: str, pipeline: OrchestrationPipeline,
-                              context: Optional[dict]) -> list[ModelResponse]:
+    async def _execute_cascade(
+        self, prompt: str, pipeline: OrchestrationPipeline, context: Optional[dict]
+    ) -> list[ModelResponse]:
         """Execute models in cascade, each refining the previous output"""
         logger.info("🌊 Executing models in cascade")
 
@@ -480,7 +505,7 @@ class MultiModelOrchestrator:
 
         for i, model in enumerate(pipeline.models):
             if model in self.model_bridges:
-                logger.info(f"   Cascade step {i+1}/{len(pipeline.models)}: {model.value}")
+                logger.info(f"   Cascade step {i + 1}/{len(pipeline.models)}: {model.value}")
 
                 response = await self._execute_single_model(model, current_prompt, context)
                 responses.append(response)
@@ -491,8 +516,9 @@ class MultiModelOrchestrator:
 
         return responses
 
-    async def _execute_competitive(self, prompt: str, pipeline: OrchestrationPipeline,
-                                  context: Optional[dict]) -> list[ModelResponse]:
+    async def _execute_competitive(
+        self, prompt: str, pipeline: OrchestrationPipeline, context: Optional[dict]
+    ) -> list[ModelResponse]:
         """Execute models competitively and select the best"""
         logger.info("🏆 Executing models competitively")
 
@@ -502,14 +528,17 @@ class MultiModelOrchestrator:
         # Select the best response based on confidence
         if responses:
             best_response = max(responses, key=lambda r: r.confidence_score)
-            logger.info(f"   Winner: {best_response.model_provider.value} "
-                       f"(confidence: {best_response.confidence_score:.3f})")
+            logger.info(
+                f"   Winner: {best_response.model_provider.value} "
+                f"(confidence: {best_response.confidence_score:.3f})"
+            )
             return [best_response]  # Return only the winner
 
         return responses
 
-    async def _execute_single_model(self, model: ModelProvider, prompt: str,
-                                   context: Optional[dict]) -> ModelResponse:
+    async def _execute_single_model(
+        self, model: ModelProvider, prompt: str, context: Optional[dict]
+    ) -> ModelResponse:
         """Execute a single model and return response"""
         request_start = time.perf_counter()
 
@@ -533,7 +562,7 @@ class MultiModelOrchestrator:
                 token_usage=result.get("tokens", {}),
                 metadata=result.get("metadata", {}),
                 request_timestamp=request_start,
-                response_timestamp=request_end
+                response_timestamp=request_end,
             )
 
             return response
@@ -544,20 +573,17 @@ class MultiModelOrchestrator:
             # Return error response
             return ModelResponse(
                 model_provider=model,
-                response_text=f"Error: {str(e)}",
+                response_text=f"Error: {e!s}",
                 confidence_score=0.0,
                 processing_time_ms=(time.perf_counter() - request_start) * 1000,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
-    def _prepare_model_params(self, model: ModelProvider, prompt: str,
-                             context: Optional[dict]) -> dict[str, Any]:
+    def _prepare_model_params(
+        self, model: ModelProvider, prompt: str, context: Optional[dict]
+    ) -> dict[str, Any]:
         """Prepare model-specific parameters"""
-        base_params = {
-            "prompt": prompt,
-            "max_tokens": 1000,
-            "temperature": 0.7
-        }
+        base_params = {"prompt": prompt, "max_tokens": 1000, "temperature": 0.7}
 
         # Add context if available
         if context:
@@ -573,8 +599,9 @@ class MultiModelOrchestrator:
 
         return base_params
 
-    async def _apply_consensus(self, responses: list[ModelResponse],
-                              strategy: ConsensusStrategy) -> ConsensusResult:
+    async def _apply_consensus(
+        self, responses: list[ModelResponse], strategy: ConsensusStrategy
+    ) -> ConsensusResult:
         """Apply consensus algorithm to model responses"""
         if not responses:
             raise ValueError("No valid responses for consensus")
@@ -608,7 +635,7 @@ class MultiModelOrchestrator:
             agreement_level=agreement_level,
             model_weights=weights,
             decision_rationale=f"Selected response from {best_response.model_provider.value} "
-                              f"with highest confidence ({best_response.confidence_score:.3f})"
+            f"with highest confidence ({best_response.confidence_score:.3f})",
         )
 
     async def _majority_vote_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
@@ -630,7 +657,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.MAJORITY_VOTE,
             agreement_level=agreement_level,
-            decision_rationale=f"Majority consensus from {len(majority_group)}/{len(responses)} models"
+            decision_rationale=f"Majority consensus from {len(majority_group)}/{len(responses)} models",
         )
 
     async def _unanimous_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
@@ -648,7 +675,7 @@ class MultiModelOrchestrator:
                 individual_responses=responses,
                 consensus_strategy=ConsensusStrategy.UNANIMOUS,
                 agreement_level=agreement_level,
-                decision_rationale=f"Unanimous consensus failed (agreement: {agreement_level:.3f})"
+                decision_rationale=f"Unanimous consensus failed (agreement: {agreement_level:.3f})",
             )
 
         # Consensus reached - use the first response as representative
@@ -661,7 +688,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.UNANIMOUS,
             agreement_level=agreement_level,
-            decision_rationale="Unanimous consensus achieved across all models"
+            decision_rationale="Unanimous consensus achieved across all models",
         )
 
     async def _best_confidence_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
@@ -677,7 +704,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.BEST_CONFIDENCE,
             agreement_level=agreement_level,
-            decision_rationale=f"Selected highest confidence response from {best_response.model_provider.value}"
+            decision_rationale=f"Selected highest confidence response from {best_response.model_provider.value}",
         )
 
     async def _ensemble_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
@@ -700,7 +727,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.ENSEMBLE,
             agreement_level=agreement_level,
-            decision_rationale=f"Ensemble of {len(responses)} model responses"
+            decision_rationale=f"Ensemble of {len(responses)} model responses",
         )
 
     def _calculate_agreement(self, responses: list[ModelResponse]) -> float:
@@ -715,7 +742,7 @@ class MultiModelOrchestrator:
 
         # Calculate variance in lengths as proxy for agreement
         variance = sum((length - avg_length) ** 2 for length in lengths) / len(lengths)
-        normalized_variance = min(variance / (avg_length ** 2), 1.0) if avg_length > 0 else 0
+        normalized_variance = min(variance / (avg_length**2), 1.0) if avg_length > 0 else 0
 
         # Agreement is inverse of normalized variance
         return 1.0 - normalized_variance
@@ -779,14 +806,14 @@ class MultiModelOrchestrator:
             "orchestrations": {
                 "total": total,
                 "successful": successful,
-                "success_rate": successful / max(total, 1)
+                "success_rate": successful / max(total, 1),
             },
             "performance": {
                 "average_consensus_time_ms": self.performance_metrics["average_consensus_time_ms"],
-                "meets_250ms_target": self.performance_metrics["average_consensus_time_ms"] < 250
+                "meets_250ms_target": self.performance_metrics["average_consensus_time_ms"] < 250,
             },
             "model_usage": self.performance_metrics["model_usage_stats"],
-            "agreement_analysis": {}
+            "agreement_analysis": {},
         }
 
         # Calculate agreement statistics
@@ -796,7 +823,7 @@ class MultiModelOrchestrator:
                     "average_agreement": sum(agreements) / len(agreements),
                     "min_agreement": min(agreements),
                     "max_agreement": max(agreements),
-                    "total_executions": len(agreements)
+                    "total_executions": len(agreements),
                 }
 
         return metrics
@@ -805,17 +832,22 @@ class MultiModelOrchestrator:
         """Get recent execution history"""
         return self.execution_history[-limit:]
 
+
 # Global orchestrator instance
 orchestrator = MultiModelOrchestrator()
 
+
 # Convenience functions
-async def orchestrate(prompt: str, pipeline: str = "analysis",
-                     context: Optional[dict] = None) -> ConsensusResult:
+async def orchestrate(
+    prompt: str, pipeline: str = "analysis", context: Optional[dict] = None
+) -> ConsensusResult:
     """Orchestrate multi-model consensus"""
     return await orchestrator.orchestrate(prompt, pipeline, context)
 
-async def get_consensus(prompt: str, models: list[str],
-                       strategy: str = "weighted_vote") -> ConsensusResult:
+
+async def get_consensus(
+    prompt: str, models: list[str], strategy: str = "weighted_vote"
+) -> ConsensusResult:
     """Get consensus from specified models"""
     model_providers = [ModelProvider(model) for model in models]
     strategy_enum = ConsensusStrategy(strategy)
@@ -825,21 +857,22 @@ async def get_consensus(prompt: str, models: list[str],
         name="Custom Consensus",
         models=model_providers,
         consensus_strategy=strategy_enum,
-        orchestration_mode=OrchestrationMode.PARALLEL
+        orchestration_mode=OrchestrationMode.PARALLEL,
     )
 
     return await orchestrator.orchestrate(prompt, pipeline)
 
+
 # Export main components
 __all__ = [
-    "MultiModelOrchestrator",
-    "ModelProvider",
-    "ConsensusStrategy",
-    "OrchestrationMode",
-    "ModelResponse",
     "ConsensusResult",
+    "ConsensusStrategy",
+    "ModelProvider",
+    "ModelResponse",
+    "MultiModelOrchestrator",
+    "OrchestrationMode",
     "OrchestrationPipeline",
-    "orchestrator",
+    "get_consensus",
     "orchestrate",
-    "get_consensus"
+    "orchestrator",
 ]

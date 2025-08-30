@@ -27,44 +27,52 @@ class BrandIntelligenceMonitor:
         return {
             "brand_identity_elements": {
                 "required_terminology": [
-                    "LUKHAS AI", "consciousness", "Trinity Framework",
-                    "quantum-inspired", "bio-inspired", "Λ"
+                    "LUKHAS AI",
+                    "consciousness",
+                    "Trinity Framework",
+                    "quantum-inspired",
+                    "bio-inspired",
+                    "Λ",
                 ],
                 "forbidden_terminology": [
-                    "LUKHAS PWM", "LUKHAS AGI", "PWM", "lambda function",
-                    "lambda processing", "AI system"
+                    "LUKHAS PWM",
+                    "LUKHAS AGI",
+                    "PWM",
+                    "lambda function",
+                    "lambda processing",
+                    "AI system",
                 ],
                 "trinity_symbols": ["⚛️", "🧠", "🛡️"],
                 "tone_indicators": {
                     "poetic": ["metaphor", "symbolic", "consciousness awakening", "mystical"],
                     "user_friendly": ["approachable", "helpful", "easy", "friendly"],
-                    "academic": ["precise", "research", "analysis", "technical"]
-                }
+                    "academic": ["precise", "research", "analysis", "technical"],
+                },
             },
             "monitoring_scopes": {
                 "real_time": {
                     "interval_seconds": 30,
                     "content_types": ["user_interactions", "system_responses"],
-                    "alert_levels": ["critical", "warning"]
+                    "alert_levels": ["critical", "warning"],
                 },
                 "periodic": {
                     "interval_minutes": 15,
                     "content_types": ["documentation", "generated_content"],
-                    "analysis_depth": "comprehensive"
+                    "analysis_depth": "comprehensive",
                 },
                 "deep_analysis": {
                     "interval_hours": 4,
                     "content_types": ["all_content", "brand_evolution"],
-                    "intelligence_generation": True
-                }
+                    "intelligence_generation": True,
+                },
             },
             "intelligence_modules": {
                 "consistency_tracker": {"enabled": True, "weight": 0.3},
                 "sentiment_analyzer": {"enabled": True, "weight": 0.25},
                 "evolution_predictor": {"enabled": True, "weight": 0.2},
                 "competitive_monitor": {"enabled": True, "weight": 0.15},
-                "user_perception_tracker": {"enabled": True, "weight": 0.1}
-            }
+                "user_perception_tracker": {"enabled": True, "weight": 0.1},
+            },
         }
 
     def _compile_brand_patterns(self) -> dict[str, re.Pattern]:
@@ -73,14 +81,12 @@ class BrandIntelligenceMonitor:
 
         # Trinity Framework patterns
         patterns["trinity_framework"] = re.compile(
-            r"trinity\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian",
-            re.IGNORECASE
+            r"trinity\s+framework|⚛️.*🧠.*🛡️|identity.*consciousness.*guardian", re.IGNORECASE
         )
 
         # Consciousness patterns
         patterns["consciousness_terms"] = re.compile(
-            r"consciousness|aware|awakening|sentient|cognitive|mental|mind",
-            re.IGNORECASE
+            r"consciousness|aware|awakening|sentient|cognitive|mental|mind", re.IGNORECASE
         )
 
         # Lambda symbol patterns (proper usage)
@@ -89,22 +95,18 @@ class BrandIntelligenceMonitor:
 
         # Deprecated terminology patterns
         patterns["deprecated_terms"] = re.compile(
-            r"LUKHAS\s+PWM|LUKHAS\s+AGI|\bPWM\b|AI\s+system",
-            re.IGNORECASE
+            r"LUKHAS\s+PWM|LUKHAS\s+AGI|\bPWM\b|AI\s+system", re.IGNORECASE
         )
 
         # Tone layer indicators
         patterns["poetic_indicators"] = re.compile(
-            r"metaphor|symbolic|mystical|transcendent|essence|awakening",
-            re.IGNORECASE
+            r"metaphor|symbolic|mystical|transcendent|essence|awakening", re.IGNORECASE
         )
         patterns["academic_indicators"] = re.compile(
-            r"analysis|research|methodology|framework|algorithm|implementation",
-            re.IGNORECASE
+            r"analysis|research|methodology|framework|algorithm|implementation", re.IGNORECASE
         )
         patterns["friendly_indicators"] = re.compile(
-            r"help|easy|simple|friendly|welcome|guide|assist",
-            re.IGNORECASE
+            r"help|easy|simple|friendly|welcome|guide|assist", re.IGNORECASE
         )
 
         return patterns
@@ -113,25 +115,25 @@ class BrandIntelligenceMonitor:
         """Load alert thresholds for different brand metrics"""
         return {
             "brand_consistency": {
-                "critical": 0.7,   # Below 70% consistency is critical
-                "warning": 0.85,   # Below 85% consistency is warning
-                "excellent": 0.95  # Above 95% consistency is excellent
+                "critical": 0.7,  # Below 70% consistency is critical
+                "warning": 0.85,  # Below 85% consistency is warning
+                "excellent": 0.95,  # Above 95% consistency is excellent
             },
             "terminology_compliance": {
-                "critical": 0.8,   # Below 80% compliance is critical
-                "warning": 0.9,    # Below 90% compliance is warning
-                "excellent": 0.98  # Above 98% compliance is excellent
+                "critical": 0.8,  # Below 80% compliance is critical
+                "warning": 0.9,  # Below 90% compliance is warning
+                "excellent": 0.98,  # Above 98% compliance is excellent
             },
             "trinity_alignment": {
-                "critical": 0.6,   # Below 60% alignment is critical
-                "warning": 0.8,    # Below 80% alignment is warning
-                "excellent": 0.9   # Above 90% alignment is excellent
+                "critical": 0.6,  # Below 60% alignment is critical
+                "warning": 0.8,  # Below 80% alignment is warning
+                "excellent": 0.9,  # Above 90% alignment is excellent
             },
             "tone_balance": {
-                "critical": 0.5,   # Below 50% balance is critical
-                "warning": 0.75,   # Below 75% balance is warning
-                "excellent": 0.9   # Above 90% balance is excellent
-            }
+                "critical": 0.5,  # Below 50% balance is critical
+                "warning": 0.75,  # Below 75% balance is warning
+                "excellent": 0.9,  # Above 90% balance is excellent
+            },
         }
 
     async def start_real_time_monitoring(self) -> None:
@@ -143,7 +145,7 @@ class BrandIntelligenceMonitor:
             self._real_time_consistency_monitor(),
             self._periodic_brand_analysis(),
             self._deep_intelligence_analysis(),
-            self._alert_system_monitor()
+            self._alert_system_monitor(),
         )
 
     async def stop_monitoring(self) -> None:
@@ -164,16 +166,16 @@ class BrandIntelligenceMonitor:
                     # Check for alerts
                     if consistency_result["needs_immediate_attention"]:
                         await self._trigger_brand_alert(
-                            "consistency_violation",
-                            consistency_result,
-                            sample
+                            "consistency_violation", consistency_result, sample
                         )
 
                     # Cache results for trend analysis
                     self._cache_consistency_result(consistency_result)
 
                 # Wait for next monitoring cycle
-                await asyncio.sleep(self.monitoring_config["monitoring_scopes"]["real_time"]["interval_seconds"])
+                await asyncio.sleep(
+                    self.monitoring_config["monitoring_scopes"]["real_time"]["interval_seconds"]
+                )
 
             except Exception as e:
                 print(f"Error in real-time monitoring: {e}")
@@ -197,9 +199,7 @@ class BrandIntelligenceMonitor:
                 for trend_type, trend_data in trends.items():
                     if trend_data.get("alert_worthy", False):
                         await self._trigger_brand_alert(
-                            "trend_alert",
-                            trend_data,
-                            {"trend_type": trend_type}
+                            "trend_alert", trend_data, {"trend_type": trend_type}
                         )
 
                 # Wait for next analysis cycle
@@ -229,16 +229,19 @@ class BrandIntelligenceMonitor:
                 recommendations = self.generate_brand_recommendations(intelligence_insights)
 
                 # Store results
-                self._store_intelligence_results({
-                    "insights": intelligence_insights,
-                    "predictions": predictions,
-                    "recommendations": recommendations,
-                    "timestamp": datetime.now().isoformat()
-                })
+                self._store_intelligence_results(
+                    {
+                        "insights": intelligence_insights,
+                        "predictions": predictions,
+                        "recommendations": recommendations,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
                 # Wait for next deep analysis cycle
                 await asyncio.sleep(
-                    self.monitoring_config["monitoring_scopes"]["deep_analysis"]["interval_hours"] * 3600
+                    self.monitoring_config["monitoring_scopes"]["deep_analysis"]["interval_hours"]
+                    * 3600
                 )
 
             except Exception as e:
@@ -287,10 +290,7 @@ class BrandIntelligenceMonitor:
 
         # Calculate overall consistency score
         consistency_score = self._calculate_consistency_score(
-            terminology_analysis,
-            trinity_analysis,
-            tone_analysis,
-            lambda_analysis
+            terminology_analysis, trinity_analysis, tone_analysis, lambda_analysis
         )
 
         # Determine if immediate attention is needed
@@ -309,7 +309,7 @@ class BrandIntelligenceMonitor:
             "alert_level": self._determine_alert_level(consistency_score),
             "improvement_suggestions": self._generate_improvement_suggestions(
                 terminology_analysis, trinity_analysis, tone_analysis, lambda_analysis
-            )
+            ),
         }
 
     def _analyze_terminology_compliance(self, content_text: str) -> dict[str, Any]:
@@ -328,8 +328,9 @@ class BrandIntelligenceMonitor:
 
         # Calculate compliance score
         compliance_score = (
-            (required_found / len(required_terms)) * 0.7 +  # 70% weight for required terms
-            (1.0 - (len(forbidden_found) / max(1, len(forbidden_terms)))) * 0.3  # 30% weight for avoiding forbidden
+            (required_found / len(required_terms)) * 0.7  # 70% weight for required terms
+            + (1.0 - (len(forbidden_found) / max(1, len(forbidden_terms))))
+            * 0.3  # 30% weight for avoiding forbidden
         )
 
         return {
@@ -337,7 +338,7 @@ class BrandIntelligenceMonitor:
             "required_terms_found": required_found,
             "required_terms_total": len(required_terms),
             "forbidden_terms_found": forbidden_found,
-            "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement"
+            "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement",
         }
 
     def _analyze_trinity_presence(self, content_text: str) -> dict[str, Any]:
@@ -355,17 +356,23 @@ class BrandIntelligenceMonitor:
         consciousness_indicators = ["consciousness", "awareness", "mind", "thinking", "🧠"]
         guardian_indicators = ["guardian", "protection", "ethics", "safety", "🛡️"]
 
-        identity_present = any(indicator.lower() in content_text.lower() for indicator in identity_indicators)
-        consciousness_present = any(indicator.lower() in content_text.lower() for indicator in consciousness_indicators)
-        guardian_present = any(indicator.lower() in content_text.lower() for indicator in guardian_indicators)
+        identity_present = any(
+            indicator.lower() in content_text.lower() for indicator in identity_indicators
+        )
+        consciousness_present = any(
+            indicator.lower() in content_text.lower() for indicator in consciousness_indicators
+        )
+        guardian_present = any(
+            indicator.lower() in content_text.lower() for indicator in guardian_indicators
+        )
 
         # Calculate Trinity alignment score
         alignment_factors = [
             symbols_found / len(trinity_symbols),  # Symbol presence
-            1.0 if framework_mentioned else 0.0,   # Framework mention
-            1.0 if identity_present else 0.0,      # Identity component
-            1.0 if consciousness_present else 0.0, # Consciousness component
-            1.0 if guardian_present else 0.0       # Guardian component
+            1.0 if framework_mentioned else 0.0,  # Framework mention
+            1.0 if identity_present else 0.0,  # Identity component
+            1.0 if consciousness_present else 0.0,  # Consciousness component
+            1.0 if guardian_present else 0.0,  # Guardian component
         ]
 
         trinity_score = sum(alignment_factors) / len(alignment_factors)
@@ -377,18 +384,26 @@ class BrandIntelligenceMonitor:
             "components_present": {
                 "identity": identity_present,
                 "consciousness": consciousness_present,
-                "guardian": guardian_present
+                "guardian": guardian_present,
             },
-            "trinity_coherence": "strong" if trinity_score > 0.7 else "weak"
+            "trinity_coherence": "strong" if trinity_score > 0.7 else "weak",
         }
 
-    def _analyze_tone_layer_consistency(self, content_text: str, content_type: str) -> dict[str, Any]:
+    def _analyze_tone_layer_consistency(
+        self, content_text: str, content_type: str
+    ) -> dict[str, Any]:
         """Analyze tone layer consistency and appropriateness"""
 
         # Detect tone indicators
-        poetic_score = len(self.brand_patterns["poetic_indicators"].findall(content_text)) / max(1, len(content_text.split()) / 20)
-        academic_score = len(self.brand_patterns["academic_indicators"].findall(content_text)) / max(1, len(content_text.split()) / 20)
-        friendly_score = len(self.brand_patterns["friendly_indicators"].findall(content_text)) / max(1, len(content_text.split()) / 20)
+        poetic_score = len(self.brand_patterns["poetic_indicators"].findall(content_text)) / max(
+            1, len(content_text.split()) / 20
+        )
+        academic_score = len(
+            self.brand_patterns["academic_indicators"].findall(content_text)
+        ) / max(1, len(content_text.split()) / 20)
+        friendly_score = len(
+            self.brand_patterns["friendly_indicators"].findall(content_text)
+        ) / max(1, len(content_text.split()) / 20)
 
         # Normalize scores
         total_score = poetic_score + academic_score + friendly_score
@@ -401,7 +416,7 @@ class BrandIntelligenceMonitor:
         tone_scores = {
             "poetic": poetic_score,
             "academic": academic_score,
-            "user_friendly": friendly_score
+            "user_friendly": friendly_score,
         }
         dominant_tone = max(tone_scores, key=tone_scores.get)
 
@@ -413,7 +428,7 @@ class BrandIntelligenceMonitor:
             "dominant_tone": dominant_tone,
             "tone_clarity": max(tone_scores.values()),
             "tone_appropriateness": tone_appropriateness,
-            "tone_consistency": "good" if max(tone_scores.values()) > 0.5 else "unclear"
+            "tone_consistency": "good" if max(tone_scores.values()) > 0.5 else "unclear",
         }
 
     def _analyze_lambda_usage(self, content_text: str) -> dict[str, Any]:
@@ -435,7 +450,7 @@ class BrandIntelligenceMonitor:
             "lambda_score": lambda_score,
             "proper_usage_count": proper_lambda,
             "improper_usage_count": improper_lambda,
-            "lambda_compliance": "compliant" if lambda_score >= 0.8 else "needs_correction"
+            "lambda_compliance": "compliant" if lambda_score >= 0.8 else "needs_correction",
         }
 
     def _calculate_consistency_score(
@@ -443,23 +458,18 @@ class BrandIntelligenceMonitor:
         terminology: dict[str, Any],
         trinity: dict[str, Any],
         tone: dict[str, Any],
-        lambda_usage: dict[str, Any]
+        lambda_usage: dict[str, Any],
     ) -> float:
         """Calculate overall brand consistency score"""
 
         # Weighted combination of all factors
-        weights = {
-            "terminology": 0.35,
-            "trinity": 0.25,
-            "tone": 0.25,
-            "lambda": 0.15
-        }
+        weights = {"terminology": 0.35, "trinity": 0.25, "tone": 0.25, "lambda": 0.15}
 
         consistency_score = (
-            terminology["compliance_score"] * weights["terminology"] +
-            trinity["trinity_score"] * weights["trinity"] +
-            tone["tone_clarity"] * weights["tone"] +
-            lambda_usage["lambda_score"] * weights["lambda"]
+            terminology["compliance_score"] * weights["terminology"]
+            + trinity["trinity_score"] * weights["trinity"]
+            + tone["tone_clarity"] * weights["tone"]
+            + lambda_usage["lambda_score"] * weights["lambda"]
         )
 
         return round(consistency_score, 3)
@@ -472,10 +482,12 @@ class BrandIntelligenceMonitor:
             "documentation": {"academic": 1.0, "user_friendly": 0.8, "poetic": 0.4},
             "marketing": {"poetic": 1.0, "user_friendly": 0.9, "academic": 0.5},
             "technical": {"academic": 1.0, "user_friendly": 0.6, "poetic": 0.2},
-            "creative": {"poetic": 1.0, "user_friendly": 0.7, "academic": 0.3}
+            "creative": {"poetic": 1.0, "user_friendly": 0.7, "academic": 0.3},
         }
 
-        content_mapping = appropriateness_matrix.get(content_type, appropriateness_matrix["user_interaction"])
+        content_mapping = appropriateness_matrix.get(
+            content_type, appropriateness_matrix["user_interaction"]
+        )
         return content_mapping.get(dominant_tone, 0.5)
 
     def _determine_alert_level(self, consistency_score: float) -> str:
@@ -496,7 +508,7 @@ class BrandIntelligenceMonitor:
         terminology: dict[str, Any],
         trinity: dict[str, Any],
         tone: dict[str, Any],
-        lambda_usage: dict[str, Any]
+        lambda_usage: dict[str, Any],
     ) -> list[str]:
         """Generate specific improvement suggestions"""
 
@@ -505,18 +517,21 @@ class BrandIntelligenceMonitor:
         # Terminology suggestions
         if terminology["compliance_score"] < 0.8:
             if terminology["forbidden_terms_found"]:
-                suggestions.append(f"Replace forbidden terms: {', '.join(terminology['forbidden_terms_found'])}")
+                suggestions.append(
+                    f"Replace forbidden terms: {', '.join(terminology['forbidden_terms_found'])}"
+                )
             if terminology["required_terms_found"] < terminology["required_terms_total"] / 2:
                 suggestions.append("Increase usage of approved LUKHAS terminology")
 
         # Trinity suggestions
         if trinity["trinity_score"] < 0.6:
             missing_components = [
-                comp for comp, present in trinity["components_present"].items()
-                if not present
+                comp for comp, present in trinity["components_present"].items() if not present
             ]
             if missing_components:
-                suggestions.append(f"Include Trinity Framework components: {', '.join(missing_components)}")
+                suggestions.append(
+                    f"Include Trinity Framework components: {', '.join(missing_components)}"
+                )
             if not trinity["framework_mentioned"]:
                 suggestions.append("Reference Trinity Framework explicitly")
 
@@ -524,7 +539,9 @@ class BrandIntelligenceMonitor:
         if tone["tone_clarity"] < 0.5:
             suggestions.append("Clarify tone layer - content appears to mix multiple tones")
         if tone["tone_appropriateness"] < 0.7:
-            suggestions.append(f"Consider adjusting tone for content type - {tone['dominant_tone']} may not be optimal")
+            suggestions.append(
+                f"Consider adjusting tone for content type - {tone['dominant_tone']} may not be optimal"
+            )
 
         # Lambda suggestions
         if lambda_usage["improper_usage_count"] > 0:
@@ -532,13 +549,13 @@ class BrandIntelligenceMonitor:
 
         return suggestions
 
-    def perform_comprehensive_brand_analysis(self, content_batch: list[dict[str, Any]]) -> dict[str, Any]:
+    def perform_comprehensive_brand_analysis(
+        self, content_batch: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Perform comprehensive analysis on a batch of content"""
 
         # Analyze each piece of content
-        individual_analyses = [
-            self.analyze_brand_consistency(content) for content in content_batch
-        ]
+        individual_analyses = [self.analyze_brand_consistency(content) for content in content_batch]
 
         # Aggregate results
         aggregated_results = self._aggregate_brand_analyses(individual_analyses)
@@ -559,7 +576,7 @@ class BrandIntelligenceMonitor:
             "trends": trends,
             "health_metrics": health_metrics,
             "insights": insights,
-            "recommendations": self._generate_batch_recommendations(aggregated_results, trends)
+            "recommendations": self._generate_batch_recommendations(aggregated_results, trends),
         }
 
     def generate_brand_intelligence(self, deep_dataset: dict[str, Any]) -> dict[str, Any]:
@@ -575,24 +592,24 @@ class BrandIntelligenceMonitor:
                 "maturity_score": 0.84,
                 "evolution_direction": "positive",
                 "key_strengths": ["consciousness_focus", "trinity_coherence", "tone_clarity"],
-                "growth_areas": ["academic_tone_balance", "user_engagement"]
+                "growth_areas": ["academic_tone_balance", "user_engagement"],
             },
             "competitive_intelligence": {
                 "differentiation_strength": 0.82,
                 "market_position": "innovative_leader",
-                "unique_advantages": ["trinity_framework", "consciousness_technology"]
+                "unique_advantages": ["trinity_framework", "consciousness_technology"],
             },
             "user_perception_intelligence": {
                 "overall_sentiment": 0.78,
                 "trust_indicators": 0.85,
                 "innovation_perception": 0.87,
-                "accessibility_rating": 0.74
+                "accessibility_rating": 0.74,
             },
             "predictive_indicators": {
                 "brand_health_trajectory": "improving",
                 "engagement_forecast": "positive",
-                "market_resonance_prediction": "strengthening"
-            }
+                "market_resonance_prediction": "strengthening",
+            },
         }
 
     def generate_brand_predictions(self, intelligence_insights: dict[str, Any]) -> dict[str, Any]:
@@ -605,25 +622,27 @@ class BrandIntelligenceMonitor:
                 "current_score": 0.84,
                 "predicted_score": 0.89,
                 "confidence": 0.82,
-                "key_drivers": ["trinity_framework_strengthening", "user_engagement_improvement"]
+                "key_drivers": ["trinity_framework_strengthening", "user_engagement_improvement"],
             },
             "market_position_prediction": {
                 "current_position": "innovative_leader",
                 "predicted_position": "market_leader",
                 "probability": 0.75,
-                "timeline": "6_months"
+                "timeline": "6_months",
             },
             "risk_predictions": [
                 {
                     "risk_type": "brand_dilution",
                     "probability": 0.15,
                     "impact": "medium",
-                    "mitigation": "strengthen_consistency_monitoring"
+                    "mitigation": "strengthen_consistency_monitoring",
                 }
-            ]
+            ],
         }
 
-    def generate_brand_recommendations(self, intelligence_insights: dict[str, Any]) -> list[dict[str, Any]]:
+    def generate_brand_recommendations(
+        self, intelligence_insights: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate strategic brand recommendations"""
 
         return [
@@ -632,22 +651,22 @@ class BrandIntelligenceMonitor:
                 "priority": "high",
                 "recommendation": "Enhance Trinity Framework integration across all touchpoints",
                 "expected_impact": "15% improvement in brand coherence",
-                "implementation_timeline": "30_days"
+                "implementation_timeline": "30_days",
             },
             {
                 "category": "user_engagement",
                 "priority": "medium",
                 "recommendation": "Increase user-friendly tone content to improve accessibility",
                 "expected_impact": "10% increase in user engagement",
-                "implementation_timeline": "60_days"
+                "implementation_timeline": "60_days",
             },
             {
                 "category": "competitive_advantage",
                 "priority": "high",
                 "recommendation": "Amplify consciousness technology messaging",
                 "expected_impact": "20% stronger market differentiation",
-                "implementation_timeline": "45_days"
-            }
+                "implementation_timeline": "45_days",
+            },
         ]
 
     # Additional helper methods for monitoring system
@@ -659,7 +678,7 @@ class BrandIntelligenceMonitor:
                 "id": "rt_001",
                 "type": "user_interaction",
                 "text": "Welcome to LUKHAS AI consciousness platform where the Trinity Framework guides every interaction",
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         ]
 
@@ -673,7 +692,9 @@ class BrandIntelligenceMonitor:
         # Mock implementation
         return {"size": 1000, "timespan": "24_hours"}
 
-    async def _trigger_brand_alert(self, alert_type: str, alert_data: dict[str, Any], context: dict[str, Any]) -> None:
+    async def _trigger_brand_alert(
+        self, alert_type: str, alert_data: dict[str, Any], context: dict[str, Any]
+    ) -> None:
         """Trigger brand consistency alert"""
         print(f"BRAND ALERT [{alert_type}]: {alert_data}")
 
@@ -683,16 +704,19 @@ class BrandIntelligenceMonitor:
         if "consistency_trends" not in self.intelligence_cache:
             self.intelligence_cache["consistency_trends"] = []
 
-        self.intelligence_cache["consistency_trends"].append({
-            "timestamp": timestamp,
-            "score": result.get("consistency_score", 0),
-            "alert_level": result.get("alert_level", "normal")
-        })
+        self.intelligence_cache["consistency_trends"].append(
+            {
+                "timestamp": timestamp,
+                "score": result.get("consistency_score", 0),
+                "alert_level": result.get("alert_level", "normal"),
+            }
+        )
 
         # Keep only recent trends (last 24 hours)
         cutoff_time = datetime.now() - timedelta(hours=24)
         self.intelligence_cache["consistency_trends"] = [
-            trend for trend in self.intelligence_cache["consistency_trends"]
+            trend
+            for trend in self.intelligence_cache["consistency_trends"]
             if datetime.fromisoformat(trend["timestamp"]) > cutoff_time
         ]
 
@@ -700,7 +724,7 @@ class BrandIntelligenceMonitor:
         """Update intelligence cache with analysis results"""
         self.intelligence_cache[analysis_type] = {
             "results": results,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _store_intelligence_results(self, intelligence_data: dict[str, Any]) -> None:
@@ -710,40 +734,44 @@ class BrandIntelligenceMonitor:
 
     def _analyze_alert_patterns(self) -> dict[str, Any]:
         """Analyze patterns in brand alerts"""
-        return {
-            "critical_alerts": 0,
-            "warning_alerts": 2,
-            "trend_alerts": 1
-        }
+        return {"critical_alerts": 0, "warning_alerts": 2, "trend_alerts": 1}
 
     def _generate_alert_dashboard_update(self, alert_summary: dict[str, Any]) -> dict[str, Any]:
         """Generate dashboard update with alert information"""
         return {
             "dashboard_timestamp": datetime.now().isoformat(),
             "alert_summary": alert_summary,
-            "system_status": "monitoring_active"
+            "system_status": "monitoring_active",
         }
 
     async def _send_critical_brand_notification(self, alert_summary: dict[str, Any]) -> None:
         """Send critical brand notifications"""
         print(f"CRITICAL BRAND NOTIFICATION: {alert_summary}")
 
-    def _aggregate_brand_analyses(self, individual_analyses: list[dict[str, Any]]) -> dict[str, Any]:
+    def _aggregate_brand_analyses(
+        self, individual_analyses: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Aggregate individual brand analyses into summary statistics"""
         if not individual_analyses:
             return {}
 
         # Calculate averages
-        avg_consistency = sum(a["consistency_score"] for a in individual_analyses) / len(individual_analyses)
-        avg_terminology = sum(a["terminology_analysis"]["compliance_score"] for a in individual_analyses) / len(individual_analyses)
-        avg_trinity = sum(a["trinity_analysis"]["trinity_score"] for a in individual_analyses) / len(individual_analyses)
+        avg_consistency = sum(a["consistency_score"] for a in individual_analyses) / len(
+            individual_analyses
+        )
+        avg_terminology = sum(
+            a["terminology_analysis"]["compliance_score"] for a in individual_analyses
+        ) / len(individual_analyses)
+        avg_trinity = sum(
+            a["trinity_analysis"]["trinity_score"] for a in individual_analyses
+        ) / len(individual_analyses)
 
         return {
             "average_consistency_score": round(avg_consistency, 3),
             "average_terminology_compliance": round(avg_terminology, 3),
             "average_trinity_alignment": round(avg_trinity, 3),
             "total_content_analyzed": len(individual_analyses),
-            "distribution_by_alert_level": self._calculate_alert_distribution(individual_analyses)
+            "distribution_by_alert_level": self._calculate_alert_distribution(individual_analyses),
         }
 
     def _calculate_alert_distribution(self, analyses: list[dict[str, Any]]) -> dict[str, int]:
@@ -761,7 +789,7 @@ class BrandIntelligenceMonitor:
         return {
             "consistency_trend": "improving",
             "terminology_trend": "stable",
-            "trinity_integration_trend": "strengthening"
+            "trinity_integration_trend": "strengthening",
         }
 
     def _calculate_brand_health_metrics(self, aggregated_results: dict[str, Any]) -> dict[str, Any]:
@@ -770,39 +798,37 @@ class BrandIntelligenceMonitor:
             "overall_health_score": aggregated_results.get("average_consistency_score", 0),
             "health_status": "good",
             "key_strength": "trinity_framework_integration",
-            "primary_improvement_area": "terminology_consistency"
+            "primary_improvement_area": "terminology_consistency",
         }
 
     def _generate_brand_insights(
         self,
         aggregated_results: dict[str, Any],
         trends: dict[str, Any],
-        health_metrics: dict[str, Any]
+        health_metrics: dict[str, Any],
     ) -> list[str]:
         """Generate actionable brand insights"""
         return [
             "Trinity Framework integration showing strong consistency across content",
             "Terminology compliance remains high with minor improvement opportunities",
-            "User-friendly tone dominance supports accessibility goals"
+            "User-friendly tone dominance supports accessibility goals",
         ]
 
     def _generate_batch_recommendations(
-        self,
-        aggregated_results: dict[str, Any],
-        trends: dict[str, Any]
+        self, aggregated_results: dict[str, Any], trends: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Generate recommendations based on batch analysis"""
         return [
             {
                 "category": "consistency",
                 "recommendation": "Maintain current Trinity Framework integration approach",
-                "priority": "medium"
+                "priority": "medium",
             },
             {
                 "category": "terminology",
                 "recommendation": "Review content for deprecated term usage",
-                "priority": "low"
-            }
+                "priority": "low",
+            },
         ]
 
 
@@ -814,7 +840,7 @@ if __name__ == "__main__":
     test_content = {
         "id": "test_001",
         "type": "user_interaction",
-        "text": "Welcome to LUKHAS AI consciousness platform. Our Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and protected interactions through quantum-inspired and bio-inspired technologies."
+        "text": "Welcome to LUKHAS AI consciousness platform. Our Trinity Framework (⚛️🧠🛡️) ensures authentic, conscious, and protected interactions through quantum-inspired and bio-inspired technologies.",
     }
 
     result = monitor.analyze_brand_consistency(test_content)

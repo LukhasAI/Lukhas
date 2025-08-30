@@ -563,9 +563,7 @@ class OnboardingConfigManager:
 
     def get_adaptive_flow(self, user_context: dict[str, Any]) -> list[str]:
         """Generate adaptive onboarding flow based on user context."""
-        personality_type = user_context.get(
-            "personality_type", self.config.default_personality
-        )
+        personality_type = user_context.get("personality_type", self.config.default_personality)
         flow_config = self.get_personality_flow(personality_type)
 
         # Start with base sequence
@@ -618,9 +616,7 @@ class OnboardingConfigManager:
         """Customize personality flow configuration."""
         try:
             if personality_type not in self.config.personality_flows:
-                self.config.personality_flows[personality_type] = (
-                    PersonalityFlowConfig()
-                )
+                self.config.personality_flows[personality_type] = PersonalityFlowConfig()
 
             flow_config = self.config.personality_flows[personality_type]
 
@@ -686,21 +682,17 @@ class OnboardingConfigManager:
         except Exception:
             return False
 
-    def _evaluate_validation_rule(
-        self, rule: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_validation_rule(self, rule: str, data: dict[str, Any]) -> dict[str, Any]:
         """Evaluate validation rule against stage data."""
         try:
             if rule == "personality_type_selected":
                 return {
-                    "valid": "personality_type" in data
-                    and data["personality_type"] is not None,
+                    "valid": "personality_type" in data and data["personality_type"] is not None,
                     "message": "Personality type must be selected",
                 }
             elif rule == "cultural_context_selected":
                 return {
-                    "valid": "cultural_context" in data
-                    and data["cultural_context"] is not None,
+                    "valid": "cultural_context" in data and data["cultural_context"] is not None,
                     "message": "Cultural context must be selected",
                 }
             elif rule.startswith("min_symbolic_elements:"):
@@ -729,7 +721,7 @@ class OnboardingConfigManager:
                 return {"valid": True, "message": "Validation passed"}
 
         except Exception as e:
-            return {"valid": False, "message": f"Validation error: {str(e)}"}
+            return {"valid": False, "message": f"Validation error: {e!s}"}
 
     def _dict_to_config(self, data: dict[str, Any]) -> OnboardingSystemConfig:
         """Convert dictionary to configuration object."""

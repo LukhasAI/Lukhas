@@ -49,14 +49,10 @@ class CausalReasoningModule:
             attended_data.get("attended_content", {}).get("semantic", {}).get("content")
         )
         emotional_content = (
-            attended_data.get("attended_content", {})
-            .get("emotional", {})
-            .get("content")
+            attended_data.get("attended_content", {}).get("emotional", {}).get("content")
         )
         contextual_content = (
-            attended_data.get("attended_content", {})
-            .get("contextual", {})
-            .get("content")
+            attended_data.get("attended_content", {}).get("contextual", {}).get("content")
         )
 
         # Identify potential causes and effects
@@ -72,9 +68,7 @@ class CausalReasoningModule:
 
         # Filter by confidence threshold
         valid_causes = {
-            k: v
-            for k, v in weighted_causes.items()
-            if v["confidence"] >= self.confidence_threshold
+            k: v for k, v in weighted_causes.items() if v["confidence"] >= self.confidence_threshold
         }
 
         # Update internal causal graph
@@ -83,13 +77,9 @@ class CausalReasoningModule:
         # Prepare reasoning results
         reasoning_results = {
             "causal_chains": valid_causes,
-            "primary_cause": (
-                self._identify_primary_cause(valid_causes) if valid_causes else None
-            ),
+            "primary_cause": (self._identify_primary_cause(valid_causes) if valid_causes else None),
             "confidence": (
-                max([v["confidence"] for v in valid_causes.values()])
-                if valid_causes
-                else 0.0
+                max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0
             ),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
@@ -101,9 +91,7 @@ class CausalReasoningModule:
 
         return reasoning_results
 
-    def _extract_causal_elements(
-        self, semantic_content, emotional_content, contextual_content
-    ):
+    def _extract_causal_elements(self, semantic_content, emotional_content, contextual_content):
         """Extract potential causes and effects from different content type"""
         elements = []
 
@@ -256,9 +244,7 @@ class CausalReasoningModule:
             type_diversity = len({elem.get("type") for elem in elements}) * 0.1
 
             # Final confidence calculation
-            final_confidence = min(
-                0.95, base_confidence + chain_strength + type_diversity
-            )
+            final_confidence = min(0.95, base_confidence + chain_strength + type_diversity)
 
             weighted_chains[chain_id] = {
                 "elements": elements,
@@ -289,9 +275,7 @@ class CausalReasoningModule:
                 }
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
-                self.causal_graph[chain_id]["confidence_history"].append(
-                    chain_data["confidence"]
-                )
+                self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
                 # Keep last 10 confidence values
 
     # SYNTAX_ERROR_FIXED:
@@ -478,9 +462,7 @@ class CausalReasoningModule:
                 "primary_cause": reasoning_results.get("primary_cause"),
                 "causal_chain_count": len(reasoning_results.get("causal_chains", {})),
                 "reasoning_depth": self._calculate_reasoning_depth(reasoning_results),
-                "temporal_relationships": self._extract_temporal_relationships(
-                    input_data, context
-                ),
+                "temporal_relationships": self._extract_temporal_relationships(input_data, context),
                 "analysis_timestamp": datetime.datetime.now().isoformat(),
             }
 

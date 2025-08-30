@@ -113,8 +113,12 @@ class IdentityLineageBridge:
         self.identity_module_available = self._check_identity_module()
 
         # Storage paths
-        self.threats_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
-        self.protection_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
+        self.threats_log_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
+        )
+        self.protection_log_path = (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
+        )
 
         logger.info(
             "IdentityLineageBridge_initialized",
@@ -155,9 +159,7 @@ class IdentityLineageBridge:
         )
 
         # Determine if operation should be blocked or modified
-        protection_response = self._evaluate_protection_response(
-            threats, stability_report
-        )
+        protection_response = self._evaluate_protection_response(threats, stability_report)
 
         # Apply protection actions if needed
         protection_actions = []
@@ -268,9 +270,7 @@ class IdentityLineageBridge:
         lineage_analysis = self.lineage_tracker.analyze_fold_lineage(fold_key)
 
         # Check for memory collapse threats
-        stability_score = lineage_analysis.get("stability_metrics", {}).get(
-            "stability_score", 1.0
-        )
+        stability_score = lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
         if stability_score < 0.3:
             threat = IdentityThreat(
                 threat_id=hashlib.sha256(
@@ -423,17 +423,13 @@ class IdentityLineageBridge:
         threat_counts = {}
         for threat_type in ThreatType:
             threat_counts[threat_type.value] = sum(
-                1
-                for t in self.detected_threats.values()
-                if t.threat_type == threat_type
+                1 for t in self.detected_threats.values() if t.threat_type == threat_type
             )
 
         # Calculate overall system health
         total_anchors = len(self.identity_tracker.identity_anchors)
         protected_anchors = len(self.protected_anchors)
-        active_threats = len(
-            [t for t in self.detected_threats.values() if t.mitigation_required]
-        )
+        active_threats = len([t for t in self.detected_threats.values() if t.mitigation_required])
 
         if total_anchors > 0:
             protection_coverage = protected_anchors / total_anchors
@@ -471,9 +467,7 @@ class IdentityLineageBridge:
         try:
             # Try to import identity module components
             # This is a mock check - replace with actual identity module detection
-            return os.path.exists(
-                "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity"
-            )
+            return os.path.exists("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity")
         except Exception:
             return False
 
@@ -564,9 +558,7 @@ class IdentityLineageBridge:
             affected_anchors.update(threat.affected_anchors)
 
         for anchor_id in affected_anchors:
-            if self.protect_identity_anchor(
-                anchor_id, protection_response["protection_level"]
-            ):
+            if self.protect_identity_anchor(anchor_id, protection_response["protection_level"]):
                 protection_actions.append(f"protected_anchor_{anchor_id}")
 
         # Create recovery protocols for high-severity threats
@@ -606,20 +598,14 @@ class IdentityLineageBridge:
         recommendations = []
 
         if health_score < 0.3:
-            recommendations.append(
-                "CRITICAL: Implement immediate identity stabilization"
-            )
+            recommendations.append("CRITICAL: Implement immediate identity stabilization")
             recommendations.append("Create additional identity anchors for redundancy")
         elif health_score < 0.6:
-            recommendations.append(
-                "Increase protection coverage for vulnerable anchors"
-            )
+            recommendations.append("Increase protection coverage for vulnerable anchors")
             recommendations.append("Monitor threat detection more closely")
 
         if threat_ratio > 0.2:
-            recommendations.append(
-                "High threat environment detected - increase monitoring"
-            )
+            recommendations.append("High threat environment detected - increase monitoring")
             recommendations.append("Consider proactive recovery protocol deployment")
 
         if not recommendations:

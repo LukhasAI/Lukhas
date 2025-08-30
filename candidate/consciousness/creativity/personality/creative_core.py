@@ -58,9 +58,7 @@ class NeuroHaikuGenerator:
         self.federated_model = federated_model
 
     def meta_haiku(self):
-        return (
-            "Quantum thoughts arise\nIn neural networks flowing\nConsciousness emerges"
-        )
+        return "Quantum thoughts arise\nIn neural networks flowing\nConsciousness emerges"
 
 
 class EthicalProtestModule:
@@ -104,9 +102,7 @@ class AI:
         )
 
         # Creative Systems
-        self.doodler = ConceptualDoodler(
-            cognitive_model=self.meta_learner.cognitive_model
-        )
+        self.doodler = ConceptualDoodler(cognitive_model=self.meta_learner.cognitive_model)
 
         # Unified Knowledge Graph
         self.knowledge_graph = self._build_knowledge_graph()
@@ -171,12 +167,8 @@ class AI:
 
     def _attention_fusion(self, model_outputs):
         """Transformer-based fusion (Late Fusion)"""
-        attention_weights = self.meta_learner.get_model(
-            "attention_weights", "fusion_controller"
-        )
-        return sum(
-            w * hash(str(out)) for w, out in zip(attention_weights, model_outputs)
-        )
+        attention_weights = self.meta_learner.get_model("attention_weights", "fusion_controller")
+        return sum(w * hash(str(out)) for w, out in zip(attention_weights, model_outputs))
 
     def _generate_output(self, processed: dict, context: dict) -> dict:
         """Generate output using integrated capabilities"""
@@ -189,9 +181,7 @@ class AI:
 
         # Ethical Decision Pathway
         elif context.get("task_type") == "protest_planning":
-            output["protest_plan"] = self.protest_module.plan_protest(
-                processed["late_fusion"]
-            )
+            output["protest_plan"] = self.protest_module.plan_protest(processed["late_fusion"])
 
         # Cognitive Learning Pathway
         else:

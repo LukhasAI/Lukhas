@@ -244,9 +244,7 @@ class EmbeddingAdapter:
 class ReasonerAdapter:
     """Wrapper around OpenAI Responses API with graceful fallback."""
 
-    def __init__(
-        self, model: str = os.getenv("LUKHAS_REASONER_MODEL", "gpt-5-mini")
-    ) -> None:
+    def __init__(self, model: str = os.getenv("LUKHAS_REASONER_MODEL", "gpt-5-mini")) -> None:
         self.model = model
         try:
             from openai import OpenAI  # type: ignore
@@ -255,9 +253,7 @@ class ReasonerAdapter:
         except Exception:  # pragma: no cover
             self._client = None
 
-    def analyze(
-        self, system_prompt: str, user_prompt: str, max_output_tokens: int = 1200
-    ) -> str:
+    def analyze(self, system_prompt: str, user_prompt: str, max_output_tokens: int = 1200) -> str:
         if self._client is None:
             # Offline fallback: heuristic summary
             return "[offline] Heuristic analysis only. No OpenAI output available."
@@ -438,7 +434,9 @@ class IntegrationAnalyzer:
         keys: list[tuple[str, str]] = []
         for v in views:
             for f in v.functions:
-                snippet = f"def {f.name}({', '.join(f.args)}):\n{f.source}\n\nDoc: {f.docstring or ''}"
+                snippet = (
+                    f"def {f.name}({', '.join(f.args)}):\n{f.source}\n\nDoc: {f.docstring or ''}"
+                )
                 texts.append(snippet)
                 keys.append((str(v.path), f.name))
         embs = self.embedder.encode_batch(texts) if texts else []
@@ -495,9 +493,7 @@ class IntegrationAnalyzer:
                 issues.append(f"Dangerous call: {call}")
                 start = idx_to_line(m.start())
                 line = (
-                    code.splitlines()[start - 1]
-                    if 0 <= start - 1 < len(code.splitlines())
-                    else ""
+                    code.splitlines()[start - 1] if 0 <= start - 1 < len(code.splitlines()) else ""
                 )
                 snippets.append(
                     {
@@ -526,9 +522,7 @@ class IntegrationAnalyzer:
                     end = r.get("end", {}).get("line")
                     if start and end:
                         lines = code.splitlines()
-                        snippet = "\n".join(
-                            lines[max(0, start - 2) : min(len(lines), end + 1)]
-                        )
+                        snippet = "\n".join(lines[max(0, start - 2) : min(len(lines), end + 1)])
                         snippets.append(
                             {
                                 "issue": f"semgrep:{r.get('check_id')}",
@@ -555,9 +549,7 @@ class IntegrationAnalyzer:
             if indent_candidates
             else self.style_prefs["indent"]
         )
-        bracket_style = (
-            "same-line" if re.search(r"def .+\):\n\s+\"\"\"", code) else "newline"
-        )
+        bracket_style = "same-line" if re.search(r"def .+\):\n\s+\"\"\"", code) else "newline"
         anti_patterns = []
         if re.search(r"except:\s*pass", code):
             anti_patterns.append("bare-except-pass")
@@ -584,9 +576,7 @@ class IntegrationAnalyzer:
                         reqs[m.group(1).lower()] = m.group(2)
             elif fn == "pyproject.toml":
                 # naive scan
-                for m in re.finditer(
-                    r"\"([A-Za-z0-9_.-]+)\"\s*=\s*\"([A-Za-z0-9_.-]+)\"", txt
-                ):
+                for m in re.finditer(r"\"([A-Za-z0-9_.-]+)\"\s*=\s*\"([A-Za-z0-9_.-]+)\"", txt):
                     reqs[m.group(1).lower()] = m.group(2)
             else:  # Pipfile
                 for m in re.finditer(
@@ -616,9 +606,7 @@ class IntegrationAnalyzer:
         }
 
     # ---------- Naming Harmonization ----------
-    def naming_analysis(
-        self, func: FunctionSig, lukhas_funcs: list[str]
-    ) -> dict[str, Any]:
+    def naming_analysis(self, func: FunctionSig, lukhas_funcs: list[str]) -> dict[str, Any]:
         convention = detect_naming_convention(func.name)
         verb_pattern = ""
         if re.match(
@@ -630,29 +618,19 @@ class IntegrationAnalyzer:
                 r"^(get|set|process|validate|compute|update|create)",
                 func.name,
                 re.IGNORECASE,
-            ).group(
-                1
-            )  # type: ignore
+            ).group(1)  # type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
-        if (
-            self.style_prefs.get("naming") == "snake_case"
-            and convention != "snake_case"
-        ):
+        if self.style_prefs.get("naming") == "snake_case" and convention != "snake_case":
             preferred = camel_to_snake(func.name)
         similar_existing = [
             n
             for n in lukhas_funcs
-            if camel_to_snake(n).split("_")[0]
-            == camel_to_snake(func.name).split("_")[0]
+            if camel_to_snake(n).split("_")[0] == camel_to_snake(func.name).split("_")[0]
         ][:3]
         rules = [
-            (
-                "camelCase → snake_case"
-                if convention != "snake_case"
-                else "keep snake_case"
-            ),
+            ("camelCase → snake_case" if convention != "snake_case" else "keep snake_case"),
             "add domain prefix if ambiguous",
             "align with existing verb patterns",
         ]
@@ -713,14 +691,9 @@ class IntegrationAnalyzer:
             best = None
             for g in target_view.functions:
                 score = 0
-                if (
-                    camel_to_snake(f.name).split("_")[0]
-                    == camel_to_snake(g.name).split("_")[0]
-                ):
+                if camel_to_snake(f.name).split("_")[0] == camel_to_snake(g.name).split("_")[0]:
                     score += 0.4
-                overlap = len(
-                    set(map(camel_to_snake, f.args)) & set(map(camel_to_snake, g.args))
-                )
+                overlap = len(set(map(camel_to_snake, f.args)) & set(map(camel_to_snake, g.args)))
                 score += min(0.6, 0.1 * overlap)
                 if best is None or score > best[0]:
                     best = (score, g)
@@ -733,27 +706,18 @@ class IntegrationAnalyzer:
             # Source context around function header
             s = f.lineno
             src_before = orphan_lines[max(0, s - 1 - context_lines) : s - 1]
-            src_after = orphan_lines[
-                s - 1 : min(len(orphan_lines), s - 1 + context_lines)
-            ]
+            src_after = orphan_lines[s - 1 : min(len(orphan_lines), s - 1 + context_lines)]
 
             # Target context around insertion line
-            tgt_before = target_lines[
-                max(0, target_line - 1 - context_lines) : target_line - 1
-            ]
+            tgt_before = target_lines[max(0, target_line - 1 - context_lines) : target_line - 1]
             tgt_after = target_lines[
-                target_line
-                - 1 : min(len(target_lines), target_line - 1 + context_lines)
+                target_line - 1 : min(len(target_lines), target_line - 1 + context_lines)
             ]
 
             # Param rename mapping
             param_map: dict[str, str] = {}
             for a in f.args:
-                a_new = (
-                    camel_to_snake(a)
-                    if self.style_prefs.get("naming") == "snake_case"
-                    else a
-                )
+                a_new = camel_to_snake(a) if self.style_prefs.get("naming") == "snake_case" else a
                 param_map[a] = a_new
 
             result.append(
@@ -780,11 +744,7 @@ class IntegrationAnalyzer:
             if self.style_prefs.get("type_hints", True)
             else ", ".join(f.args)
         )
-        name = (
-            camel_to_snake(f.name)
-            if self.style_prefs.get("naming") == "snake_case"
-            else f.name
-        )
+        name = camel_to_snake(f.name) if self.style_prefs.get("naming") == "snake_case" else f.name
         return f"def {name}({args}):"
 
     def _required_adaptations(self, f: FunctionSig) -> list[str]:
@@ -828,16 +788,12 @@ class IntegrationAnalyzer:
             inverse.setdefault(v, []).append(k)
         return {"forward": forward, "inverse": inverse}
 
-    def generate_patch(
-        self, orphan_view: ModuleView, mappings: list[LineMapping]
-    ) -> str:
+    def generate_patch(self, orphan_view: ModuleView, mappings: list[LineMapping]) -> str:
         lines: list[str] = []
         for m in mappings:
             lines.append(f"--- {m.target_file}")
             lines.append(f"+++ {m.target_file}")
-            lines.append(
-                f"@@ -{m.target_line},{m.target_line} +{m.target_line},{m.target_line} @@"
-            )
+            lines.append(f"@@ -{m.target_line},{m.target_line} +{m.target_line},{m.target_line} @@")
             lines.append("- ")
             lines.append(f"+ {m.suggested_merge}  ")
         return "\n".join(lines)
@@ -967,9 +923,7 @@ jobs:
             "You are an expert software integration analyst for the LUKHAS symbolic AGI project. "
             "Output concise, high-signal SWOT bullets. Include severity/confidence when relevant."
         )
-        sample = textwrap.shorten(
-            orphan_view.code, width=2000, placeholder="... [truncated]"
-        )
+        sample = textwrap.shorten(orphan_view.code, width=2000, placeholder="... [truncated]")
         user_prompt = f"""
         Orphaned module: {orphan_view.path.name}
         --- Orphan Code (excerpt) ---
@@ -1117,9 +1071,7 @@ jobs:
         )
         weaknesses_base = []
         if "bare-except-pass" in style.get("anti_patterns", []):
-            weaknesses_base.append(
-                SWOTEntry("Bare except-pass blocks", {"severity": "medium"})
-            )
+            weaknesses_base.append(SWOTEntry("Bare except-pass blocks", {"severity": "medium"}))
         if sec.get("critical_issues"):
             for ci in sec["critical_issues"]:
                 weaknesses_base.append(SWOTEntry(ci, {"severity": "critical"}))
@@ -1139,9 +1091,7 @@ jobs:
                 "LUKHAS_CASCADE_MODELS", "gpt-5-nano,gpt-5-mini,gpt-5"
             ).split(",")
             for mdl in [m.strip() for m in models if m.strip()]:
-                swot_llm = self.llm_enhance_swot(
-                    orphan_view, lukhas_context, model_override=mdl
-                )
+                swot_llm = self.llm_enhance_swot(orphan_view, lukhas_context, model_override=mdl)
                 for k in swot:
                     seen = {s.description for s in swot[k]}
                     for item in swot_llm[k]:
@@ -1152,9 +1102,7 @@ jobs:
                     swot["strengths"], swot["weaknesses"]
                 )
                 confidence_score_tmp = round(max(0.1, value_tmp - 0.3 * effort_tmp), 2)
-                cascade_audit.append(
-                    {"model": mdl, "confidence_after_merge": confidence_score_tmp}
-                )
+                cascade_audit.append({"model": mdl, "confidence_after_merge": confidence_score_tmp})
                 final_model = mdl
                 if confidence_score_tmp >= self.confidence_threshold:
                     break
@@ -1201,9 +1149,7 @@ jobs:
                 "memory_overhead": "+15MB estimated",
                 "cpu_impact": "negligible",
                 "integration_bottlenecks": (
-                    ["Database connection pooling"]
-                    if "db" in orphan_view.code.lower()
-                    else []
+                    ["Database connection pooling"] if "db" in orphan_view.code.lower() else []
                 ),
             },
         )
@@ -1219,9 +1165,7 @@ jobs:
             "model_versions": model_versions
             or {
                 "code_embeddings": (
-                    self.embedder.model
-                    if hasattr(self.embedder, "model")
-                    else "hash-embed-256"
+                    self.embedder.model if hasattr(self.embedder, "model") else "hash-embed-256"
                 ),
                 "security_scanner": (
                     "semgrep-auto" if shutil_which("semgrep") else "heuristic-0.1"
@@ -1242,21 +1186,15 @@ jobs:
                 "confidence_score": confidence_score,
                 "swot_analysis": {
                     "strengths": [
-                        asdict(SWOTEntry(s.description, s.meta))
-                        for s in swot["strengths"]
+                        asdict(SWOTEntry(s.description, s.meta)) for s in swot["strengths"]
                     ],
                     "weaknesses": [
-                        asdict(SWOTEntry(s.description, s.meta))
-                        for s in swot["weaknesses"]
+                        asdict(SWOTEntry(s.description, s.meta)) for s in swot["weaknesses"]
                     ],
                     "opportunities": [
-                        asdict(SWOTEntry(s.description, s.meta))
-                        for s in swot["opportunities"]
+                        asdict(SWOTEntry(s.description, s.meta)) for s in swot["opportunities"]
                     ],
-                    "threats": [
-                        asdict(SWOTEntry(s.description, s.meta))
-                        for s in swot["threats"]
-                    ],
+                    "threats": [asdict(SWOTEntry(s.description, s.meta)) for s in swot["threats"]],
                 },
                 "naming_analysis": naming,
                 "integration_recommendations": {
@@ -1319,19 +1257,17 @@ jobs:
         if naming_map_out is not None:
             try:
                 nmap = self.generate_naming_map(orphan_view, lukhas_funcs)
-                Path(naming_map_out).write_text(
-                    json.dumps(nmap, indent=2), encoding="utf-8"
-                )
+                Path(naming_map_out).write_text(json.dumps(nmap, indent=2), encoding="utf-8")
                 report["module_analysis"]["naming_map_path"] = str(naming_map_out)
-                report["module_analysis"]["test_scaffolding"] = (
-                    self.generate_test_scaffolding(orphan_view, nmap)
+                report["module_analysis"]["test_scaffolding"] = self.generate_test_scaffolding(
+                    orphan_view, nmap
                 )
             except Exception as e:
                 self.audit.log("naming_map_write_error", error=str(e))
         else:
             nmap = self.generate_naming_map(orphan_view, lukhas_funcs)
-            report["module_analysis"]["test_scaffolding"] = (
-                self.generate_test_scaffolding(orphan_view, nmap)
+            report["module_analysis"]["test_scaffolding"] = self.generate_test_scaffolding(
+                orphan_view, nmap
             )
 
         self.audit.log("end_analysis", confidence=confidence_score)
@@ -1399,9 +1335,7 @@ def _cli(argv: list[str]) -> int:
     p.add_argument("--orphan", required=True, help="Path to orphan module .py file")
     p.add_argument("--lukhas", required=True, help="Path to LUKHΛS repository root")
     p.add_argument("--out", default=None, help="Output JSON path (default: stdout)")
-    p.add_argument(
-        "--no-openai", action="store_true", help="Disable OpenAI-assisted analysis"
-    )
+    p.add_argument("--no-openai", action="store_true", help="Disable OpenAI-assisted analysis")
     p.add_argument(
         "--cheap-first",
         action="store_true",
@@ -1416,9 +1350,7 @@ def _cli(argv: list[str]) -> int:
         "--embed-model",
         default=os.getenv("LUKHAS_EMBED_MODEL", "text-embedding-3-small"),
     )
-    p.add_argument(
-        "--embed-provider", default=os.getenv("LUKHAS_EMBED_PROVIDER", "openai")
-    )
+    p.add_argument("--embed-provider", default=os.getenv("LUKHAS_EMBED_PROVIDER", "openai"))
     p.add_argument("--embed-dim", type=int, default=None)
     p.add_argument(
         "--style-naming",
@@ -1442,9 +1374,7 @@ def _cli(argv: list[str]) -> int:
         action="store_true",
         help="Dry-run integration and write a patch file (does not modify source)",
     )
-    p.add_argument(
-        "--simulate-out", default=None, help="Path for the generated patch file"
-    )
+    p.add_argument("--simulate-out", default=None, help="Path for the generated patch file")
     p.add_argument(
         "--export-naming-map",
         default=None,
@@ -1506,9 +1436,7 @@ def _cli(argv: list[str]) -> int:
         module_name=orphan.stem,
         use_openai=(not args.no_openai),
         cheap_first=args.cheap_first,
-        cascade_models=[
-            s.strip() for s in (args.cascade_models or "").split(",") if s.strip()
-        ],
+        cascade_models=[s.strip() for s in (args.cascade_models or "").split(",") if s.strip()],
         extra_info=args.extra_info,
         simulate_out=sim_path,
         naming_map_out=map_path,

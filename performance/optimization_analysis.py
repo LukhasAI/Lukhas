@@ -78,9 +78,7 @@ class PerformanceAnalyzer:
             "count": psutil.cpu_count(),
             "physical_cores": psutil.cpu_count(logical=False),
             "current_usage": psutil.cpu_percent(interval=1),
-            "load_average": (
-                psutil.getloadavg() if hasattr(psutil, "getloadavg") else None
-            ),
+            "load_average": (psutil.getloadavg() if hasattr(psutil, "getloadavg") else None),
         }
 
         # Memory information
@@ -189,9 +187,7 @@ class PerformanceAnalyzer:
                 }
 
         # Calculate statistics
-        successful_imports = [
-            t for t in import_times.values() if t["status"] == "success"
-        ]
+        successful_imports = [t for t in import_times.values() if t["status"] == "success"]
         if successful_imports:
             durations = [t["duration_ms"] for t in successful_imports]
             stats = {
@@ -475,18 +471,14 @@ class PerformanceAnalyzer:
         api_perf = self.results.get("API Performance", {}).get("result", {})
         if api_perf:
             logger.info("🚀 API Performance:")
-            logger.info(
-                f"   Average Response: {api_perf.get('average_response_ms', 0):.1f}ms"
-            )
+            logger.info(f"   Average Response: {api_perf.get('average_response_ms', 0):.1f}ms")
             logger.info(f"   P95 Response: {api_perf.get('p95_response_ms', 0):.1f}ms")
 
         # Concurrency
         concurrency = self.results.get("Concurrency Analysis", {}).get("result", {})
         if concurrency:
             logger.info("⚡ Concurrency:")
-            logger.info(
-                f"   Speedup Factor: {concurrency.get('speedup_factor', 0):.1f}x"
-            )
+            logger.info(f"   Speedup Factor: {concurrency.get('speedup_factor', 0):.1f}x")
 
         # Recommendations
         recommendations = self.results.get("recommendations", [])
@@ -497,9 +489,7 @@ class PerformanceAnalyzer:
             logger.info(f"   • {rec.get('title', 'Unknown')}")
             logger.info(f"     {rec.get('estimated_improvement', 'Improvement TBD')}")
 
-        logger.info(
-            f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0):.2f}s"
-        )
+        logger.info(f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0):.2f}s")
         logger.info("=" * 70)
 
 
@@ -513,16 +503,10 @@ async def main():
     high_priority_count = len([o for o in optimizations if o.get("priority") == "high"])
 
     if high_priority_count > 0:
-        logger.info(
-            f"\n⚠️  Found {high_priority_count} high-priority optimization opportunities"
-        )
-        logger.info(
-            "   Review the detailed analysis results for implementation guidance"
-        )
+        logger.info(f"\n⚠️  Found {high_priority_count} high-priority optimization opportunities")
+        logger.info("   Review the detailed analysis results for implementation guidance")
     else:
-        logger.info(
-            "\n✅ System performance looks good - no critical optimizations needed"
-        )
+        logger.info("\n✅ System performance looks good - no critical optimizations needed")
 
 
 if __name__ == "__main__":

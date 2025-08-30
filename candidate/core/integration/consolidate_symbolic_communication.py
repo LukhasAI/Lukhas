@@ -86,10 +86,10 @@ def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dic
             {
                 "kind": "artifact",
                 "uri": f"glyph:{glyph}",
-                "hash": hashlib.sha256(f"glyph:{glyph}".encode()).hexdigest()
+                "hash": hashlib.sha256(f"glyph:{glyph}".encode()).hexdigest(),
             }
         ],
-        "schema_ref": "lukhas://schemas/matriz_node_v1.json"
+        "schema_ref": "lukhas://schemas/matriz_node_v1.json",
     }
 
     # Convert relationships in the SymbolicWorld to MΛTRIZ links.
@@ -97,12 +97,16 @@ def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dic
         for rel in relationships:
             # Avoid duplicating links since they are stored for both symbols in the world.
             if rel.symbol1.name == symbol_name:
-                matriz_node["links"].append({
-                    "target_node_id": f"symbol:{rel.symbol2.name}",  # Placeholder ID for the target symbol.
-                    "link_type": "semantic",  # Mapping can be refined based on rel.type.
-                    "direction": "bidirectional" if rel.is_bidirectional() else "unidirectional",
-                    "explanation": f"Relationship of type '{rel.type}'"
-                })
+                matriz_node["links"].append(
+                    {
+                        "target_node_id": f"symbol:{rel.symbol2.name}",  # Placeholder ID for the target symbol.
+                        "link_type": "semantic",  # Mapping can be refined based on rel.type.
+                        "direction": "bidirectional"
+                        if rel.is_bidirectional()
+                        else "unidirectional",
+                        "explanation": f"Relationship of type '{rel.type}'",
+                    }
+                )
 
     return matriz_node
 
@@ -119,7 +123,9 @@ if __name__ == "__main__":
     s3 = world.create_symbol("property:sentience", {"type": "attribute", "domain": "philosophy"})
     world.link_symbols(s1, s2, "potential_host_of")
     world.link_symbols(s1, s3, "has_property")
-    print(f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships.")
+    print(
+        f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships."
+    )
 
     # 2. Call the bridge function to generate a MΛTRIZ node
     print("\n[2] Calling the bridge function...")

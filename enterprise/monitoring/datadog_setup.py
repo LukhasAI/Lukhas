@@ -24,6 +24,7 @@ try:
     from datadog_api_client.v1.api.dashboards_api import DashboardsApi
     from datadog_api_client.v1.api.metrics_api import MetricsApi
     from datadog_api_client.v1.api.monitors_api import MonitorsApi
+
     DATADOG_CLIENT_INSTALLED = True
 except ImportError:
     DATADOG_CLIENT_INSTALLED = False
@@ -36,20 +37,24 @@ except ImportError:
         from datadog_api_client.v1.api.dashboards_api import DashboardsApi
         from datadog_api_client.v1.api.metrics_api import MetricsApi
         from datadog_api_client.v1.api.monitors_api import MonitorsApi
+
         DATADOG_CLIENT_INSTALLED = True
     except ImportError:
         print("❌ Failed to install Datadog client")
         sys.exit(1)
 
+
 @dataclass
 class DatadogConfig:
     """Datadog configuration for LUKHAS AI"""
+
     api_key: str
     app_key: str
     site: str = "us5.datadoghq.com"  # US5 region for GitHub Student Pack
     env: str = "production"
     service: str = "lukhas-ai"
     version: str = "1.0.0"
+
 
 class LUKHASDatadogSetup:
     """Setup and configure Datadog monitoring for LUKHAS AI"""
@@ -67,6 +72,7 @@ class LUKHASDatadogSetup:
         env_file = os.path.join(os.path.dirname(__file__), "../../.env")
         if os.path.exists(env_file):
             from dotenv import load_dotenv
+
             load_dotenv(env_file)
 
         api_key = os.getenv("DATADOG_API_KEY", "")
@@ -99,7 +105,7 @@ class LUKHASDatadogSetup:
             site=os.getenv("DATADOG_SITE", "us5.datadoghq.com"),
             env=os.getenv("DATADOG_ENV", "production"),
             service=os.getenv("DATADOG_SERVICE", "lukhas-ai"),
-            version=os.getenv("DATADOG_VERSION", "1.0.0")
+            version=os.getenv("DATADOG_VERSION", "1.0.0"),
         )
 
     def test_connection(self) -> bool:
@@ -119,18 +125,20 @@ class LUKHASDatadogSetup:
                 from datadog_api_client.v1.model.point import Point
                 from datadog_api_client.v1.model.series import Series
 
-                body = MetricsPayload([
-                    Series(
-                        metric="lukhas.test.connection",
-                        type="gauge",
-                        points=[Point([datetime.now().timestamp(), 1])],
-                        tags=[
-                            f"service:{self.config.service}",
-                            f"env:{self.config.env}",
-                            "test:true"
-                        ]
-                    )
-                ])
+                body = MetricsPayload(
+                    [
+                        Series(
+                            metric="lukhas.test.connection",
+                            type="gauge",
+                            points=[Point([datetime.now().timestamp(), 1])],
+                            tags=[
+                                f"service:{self.config.service}",
+                                f"env:{self.config.env}",
+                                "test:true",
+                            ],
+                        )
+                    ]
+                )
 
                 response = api_instance.submit_metrics(body=body)
 
@@ -181,14 +189,14 @@ class LUKHASDatadogSetup:
                                     TimeseriesWidgetRequest(
                                         q="avg:lukhas.api.latency.p95{service:lukhas-ai}",
                                         display_type="line",
-                                        style={"palette": "dog_classic"}
+                                        style={"palette": "dog_classic"},
                                     ),
                                     TimeseriesWidgetRequest(
                                         q="avg:lukhas.api.latency.p99{service:lukhas-ai}",
                                         display_type="line",
-                                        style={"palette": "orange"}
-                                    )
-                                ]
+                                        style={"palette": "orange"},
+                                    ),
+                                ],
                             )
                         ),
                         # Memory Cascade Prevention
@@ -200,9 +208,9 @@ class LUKHASDatadogSetup:
                                     TimeseriesWidgetRequest(
                                         q="avg:lukhas.memory.cascade_prevention_rate{service:lukhas-ai}",
                                         display_type="bars",
-                                        style={"palette": "green"}
+                                        style={"palette": "green"},
                                     )
-                                ]
+                                ],
                             )
                         ),
                         # Guardian Drift Score
@@ -214,9 +222,9 @@ class LUKHASDatadogSetup:
                                     TimeseriesWidgetRequest(
                                         q="avg:lukhas.guardian.drift_score{service:lukhas-ai}",
                                         display_type="line",
-                                        style={"palette": "warm"}
+                                        style={"palette": "warm"},
                                     )
-                                ]
+                                ],
                             )
                         ),
                         # Consciousness Coherence
@@ -228,12 +236,12 @@ class LUKHASDatadogSetup:
                                     TimeseriesWidgetRequest(
                                         q="avg:lukhas.consciousness.coherence{service:lukhas-ai}",
                                         display_type="area",
-                                        style={"palette": "cool"}
+                                        style={"palette": "cool"},
                                     )
-                                ]
+                                ],
                             )
-                        )
-                    ]
+                        ),
+                    ],
                 )
 
                 response = api_instance.create_dashboard(body=dashboard)
@@ -256,26 +264,26 @@ class LUKHASDatadogSetup:
                 "name": "LUKHAS API Latency High (P95 > 50ms)",
                 "query": "avg(last_5m):avg:lukhas.api.latency.p95{service:lukhas-ai} > 50",
                 "message": "⚠️ API P95 latency exceeds 50ms target! Current: {{value}}ms @slack-lukhas-alerts",
-                "thresholds": {"critical": 50, "warning": 40}
+                "thresholds": {"critical": 50, "warning": 40},
             },
             {
                 "name": "LUKHAS Memory Cascade Prevention Below Target",
                 "query": "avg(last_5m):avg:lukhas.memory.cascade_prevention_rate{service:lukhas-ai} < 0.997",
                 "message": "🧠 Memory cascade prevention rate below 99.7% target! Current: {{value}} @slack-lukhas-alerts",
-                "thresholds": {"critical": 0.997, "warning": 0.999}
+                "thresholds": {"critical": 0.997, "warning": 0.999},
             },
             {
                 "name": "LUKHAS Guardian Drift Threshold Exceeded",
                 "query": "avg(last_5m):avg:lukhas.guardian.drift_score{service:lukhas-ai} > 0.15",
                 "message": "🛡️ Guardian drift score exceeds 0.15 threshold! Current: {{value}} @slack-lukhas-alerts",
-                "thresholds": {"critical": 0.15, "warning": 0.10}
+                "thresholds": {"critical": 0.15, "warning": 0.10},
             },
             {
                 "name": "LUKHAS System Uptime Below SLA",
                 "query": "avg(last_5m):avg:lukhas.system.uptime{service:lukhas-ai} < 0.9999",
                 "message": "🔴 System uptime below 99.99% SLA! Current: {{value}} @slack-lukhas-alerts",
-                "thresholds": {"critical": 0.9999, "warning": 0.99995}
-            }
+                "thresholds": {"critical": 0.9999, "warning": 0.99995},
+            },
         ]
 
         try:
@@ -295,12 +303,16 @@ class LUKHASDatadogSetup:
                         type=MonitorType.QUERY_ALERT,
                         query=alert["query"],
                         message=alert["message"],
-                        tags=[f"service:{self.config.service}", f"env:{self.config.env}", "team:lukhas"],
+                        tags=[
+                            f"service:{self.config.service}",
+                            f"env:{self.config.env}",
+                            "team:lukhas",
+                        ],
                         options={
                             "thresholds": MonitorThresholds(**alert["thresholds"]),
                             "notify_no_data": True,
-                            "no_data_timeframe": 10
-                        }
+                            "no_data_timeframe": 10,
+                        },
                     )
 
                     response = api_instance.create_monitor(body=monitor)
@@ -325,27 +337,23 @@ class LUKHASDatadogSetup:
             "lukhas.api.latency.p99": "API P99 latency in milliseconds",
             "lukhas.api.requests": "Number of API requests",
             "lukhas.api.errors": "Number of API errors",
-
             # Memory System Metrics
             "lukhas.memory.cascade_prevention_rate": "Memory cascade prevention success rate",
             "lukhas.memory.fold_count": "Number of active memory folds",
             "lukhas.memory.operation_time": "Memory operation time in ms",
-
             # Guardian System Metrics
             "lukhas.guardian.drift_score": "Guardian ethical drift score",
             "lukhas.guardian.violations": "Number of guardian violations",
             "lukhas.guardian.interventions": "Number of guardian interventions",
-
             # Consciousness System Metrics
             "lukhas.consciousness.coherence": "Consciousness coherence level",
             "lukhas.consciousness.awareness_level": "System awareness level",
             "lukhas.consciousness.processing_time": "Consciousness processing time",
-
             # System Health Metrics
             "lukhas.system.uptime": "System uptime percentage",
             "lukhas.system.cpu_usage": "CPU usage percentage",
             "lukhas.system.memory_usage": "Memory usage percentage",
-            "lukhas.system.active_users": "Number of active users"
+            "lukhas.system.active_users": "Number of active users",
         }
 
         print("Custom metrics configured:")
@@ -393,10 +401,10 @@ DATADOG_ALERT_SLACK=#lukhas-alerts
 
     def run_setup(self):
         """Run complete Datadog setup for LUKHAS AI"""
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("🚀 LUKHAS AI Datadog Setup")
         print("   Trinity Framework Monitoring (⚛️🧠🛡️)")
-        print("="*50)
+        print("=" * 50)
 
         # Step 1: Test connection
         if not self.test_connection():
@@ -414,9 +422,9 @@ DATADOG_ALERT_SLACK=#lukhas-alerts
         self.create_alerts()
 
         # Step 5: Summary
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("✅ LUKHAS AI Datadog Setup Complete!")
-        print("="*50)
+        print("=" * 50)
         print("\n📊 Next Steps:")
         print("1. View your dashboard at:")
         print(f"   https://{self.config.site}/dashboard")
@@ -429,10 +437,12 @@ DATADOG_ALERT_SLACK=#lukhas-alerts
 
         return True
 
+
 def main():
     """Main setup function"""
     setup = LUKHASDatadogSetup()
     setup.run_setup()
+
 
 if __name__ == "__main__":
     main()

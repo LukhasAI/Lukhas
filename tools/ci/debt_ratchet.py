@@ -29,9 +29,7 @@ def load_allowed():
                 ALLOWED.add(c)
         if not ALLOWED:
             # Use DEFAULT_ALLOW from auto_fix_safe.py
-            ALLOWED.update(
-                {"UP006", "UP035", "SIM102", "SIM103", "F841", "B007", "C401"}
-            )
+            ALLOWED.update({"UP006", "UP035", "SIM102", "SIM103", "F841", "B007", "C401"})
     return ALLOWED
 
 
@@ -92,11 +90,7 @@ def main():
     load_allowed()
     changed = touched_files_against_main()
     pkgs_touched = sorted(
-        {
-            to_pkg(f)
-            for f in changed
-            if to_pkg(f) in {"lukhas", "candidate", "universal_language"}
-        }
+        {to_pkg(f) for f in changed if to_pkg(f) in {"lukhas", "candidate", "universal_language"}}
     )
     if not pkgs_touched:
         print("No tracked packages touched; ratchet passes.")
@@ -113,9 +107,7 @@ def main():
         subprocess.check_call(
             ["git", "fetch", "origin", "main", "--depth", "1"], capture_output=True
         )
-        subprocess.check_call(
-            ["git", "checkout", "-q", "origin/main"], capture_output=True
-        )
+        subprocess.check_call(["git", "checkout", "-q", "origin/main"], capture_output=True)
         run_ruff(["."], "reports/lints/ruff_main.json")
         base_counts = count_by_pkg("reports/lints/ruff_main.json")
         # return to head

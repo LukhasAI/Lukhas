@@ -295,9 +295,7 @@ class RewardEngine:
 
         return reward
 
-    async def redeem_reward(
-        self, user_id: str, catalog_item_id: str
-    ) -> Optional[Reward]:
+    async def redeem_reward(self, user_id: str, catalog_item_id: str) -> Optional[Reward]:
         """
         Redeem credits for a reward from the catalog
 
@@ -388,18 +386,13 @@ class RewardEngine:
         """Check and award achievements"""
 
         # First dream achievement
-        if (
-            len(profile.reward_history) == 1
-            and "first_dream" not in profile.achievements
-        ):
+        if len(profile.reward_history) == 1 and "first_dream" not in profile.achievements:
             self._award_achievement(profile, "first_dream")
 
         # Dream sharer achievement
         if engagement_level == EngagementLevel.SHARED:
             share_count = sum(
-                1
-                for r in profile.reward_history
-                if r.metadata.get("engagement_level") == "shared"
+                1 for r in profile.reward_history if r.metadata.get("engagement_level") == "shared"
             )
             if share_count >= 5 and "dream_sharer" not in profile.achievements:
                 self._award_achievement(profile, "dream_sharer")
@@ -411,9 +404,7 @@ class RewardEngine:
 
         # Dream collector achievement
         unique_dreams = {
-            r.metadata.get("dream_id")
-            for r in profile.reward_history
-            if r.metadata.get("dream_id")
+            r.metadata.get("dream_id") for r in profile.reward_history if r.metadata.get("dream_id")
         }
         if len(unique_dreams) >= 100 and "dream_collector" not in profile.achievements:
             self._award_achievement(profile, "dream_collector")

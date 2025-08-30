@@ -25,7 +25,7 @@ MIGRATIONS = [
             ("InterventionType", "InterventionType"),
             ("EthicalConcern", "EthicalConcern"),
             ("GovernanceRule", "GovernanceRule"),
-        ]
+        ],
     },
     {
         "name": "DNA Helix Memory Architecture",
@@ -36,7 +36,7 @@ MIGRATIONS = [
             ("dna_memory_architecture", "DNAMemoryArchitecture"),
             ("helix_vault", "HelixVault"),
             ("dna_healix", "DNAHealix"),
-        ]
+        ],
     },
     {
         "name": "Memory Drift Tracker",
@@ -44,9 +44,10 @@ MIGRATIONS = [
         "target": ACCEPTED_BASE / "monitoring/drift_tracker.py",
         "imports": [
             ("MemoryDriftTracker", "MemoryDriftTracker"),
-        ]
-    }
+        ],
+    },
 ]
+
 
 def create_compatibility_shim(original_path: Path, new_import_path: str, exports: list):
     """Create a compatibility shim at the original location"""
@@ -80,6 +81,7 @@ warnings.warn(
 
     print(f"  ✓ Created compatibility shim at {original_path.relative_to(LUKHAS_ROOT)}")
 
+
 def update_module_paths(file_path: Path):
     """Update hardcoded paths in migrated modules"""
 
@@ -103,6 +105,7 @@ def update_module_paths(file_path: Path):
     with open(file_path, "w") as f:
         f.write(content)
 
+
 def migrate_module(migration: dict):
     """Migrate a single module to production"""
 
@@ -116,11 +119,7 @@ def migrate_module(migration: dict):
 
         # Copy entire directory
         if migration["source"].exists():
-            shutil.copytree(
-                migration["source"],
-                migration["target"],
-                dirs_exist_ok=True
-            )
+            shutil.copytree(migration["source"], migration["target"], dirs_exist_ok=True)
             print("  ✓ Copied directory structure")
 
             # Update paths in all Python files
@@ -140,13 +139,11 @@ def migrate_module(migration: dict):
     # Create compatibility shim
     if "imports" in migration:
         # Single file shim
-        new_import = str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
-        new_import = f"lukhas.acceptance.accepted.{new_import}"
-        create_compatibility_shim(
-            migration["source"],
-            new_import,
-            migration["imports"]
+        new_import = (
+            str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
         )
+        new_import = f"lukhas.acceptance.accepted.{new_import}"
+        create_compatibility_shim(migration["source"], new_import, migration["imports"])
     elif migration.get("is_directory") and "main_imports" in migration:
         # Directory shim - create __init__.py
         shim_path = migration["source"] / "__init__.py"
@@ -154,7 +151,7 @@ def migrate_module(migration: dict):
         new_base = new_base.replace("/", ".")
 
         shim_content = f'''"""
-Compatibility shim for {migration['name']}
+Compatibility shim for {migration["name"]}
 DEPRECATED - Will be removed after 2025-11-01
 """
 import warnings
@@ -174,10 +171,15 @@ warnings.warn(
             f.write(shim_content)
         print("  ✓ Created directory compatibility shim")
 
+
 def create_migration_log():
     """Create a log of the migration"""
 
-    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    log_path = (
+        LUKHAS_ROOT
+        / "docs/migration_logs"
+        / f"migration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    )
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_content = f"""# Migration Log - Top 3 Modules to Production
@@ -188,9 +190,9 @@ Date: {datetime.now().isoformat()}
 """
 
     for m in MIGRATIONS:
-        log_content += f"""### {m['name']}
-- **From**: `{m['source'].relative_to(LUKHAS_ROOT)}`
-- **To**: `{m['target'].relative_to(LUKHAS_ROOT)}`
+        log_content += f"""### {m["name"]}
+- **From**: `{m["source"].relative_to(LUKHAS_ROOT)}`
+- **To**: `{m["target"].relative_to(LUKHAS_ROOT)}`
 - **Status**: ✅ Migrated with compatibility shim
 
 """
@@ -208,6 +210,7 @@ All original import paths have compatibility shims that will be removed after 20
         f.write(log_content)
 
     print(f"\n📝 Migration log created: {log_path.relative_to(LUKHAS_ROOT)}")
+
 
 def main():
     print("=" * 60)
@@ -239,6 +242,7 @@ def main():
     print("2. Check for deprecation warnings in logs")
     print("3. Update imports in dependent code gradually")
     print("4. Compatibility shims will be removed after 2025-11-01")
+
 
 if __name__ == "__main__":
     main()

@@ -57,9 +57,7 @@ class DASTIntegrationHub:
         self.trio_orchestrator = TrioOrchestrator() if TrioOrchestrator else None
         self.dast_engine = DASTEngine() if DASTEngine else None
         self.audit_engine = DecisionAuditEngine() if DecisionAuditEngine else None
-        self.symbolic_framework = (
-            SymbolicLanguageFramework() if SymbolicLanguageFramework else None
-        )
+        self.symbolic_framework = SymbolicLanguageFramework() if SymbolicLanguageFramework else None
         self.seedra = SEEDRACore() if SEEDRACore else None
 
         # Component registry
@@ -144,9 +142,7 @@ class DASTIntegrationHub:
                 # Replace method with audited version
                 setattr(component_instance, method_name, audited_method)
 
-    async def _integrate_with_symbolic(
-        self, component_name: str, component_instance: Any
-    ):
+    async def _integrate_with_symbolic(self, component_name: str, component_instance: Any):
         """Integrate component with symbolic language framework"""
         # Register component's symbolic patterns
         symbolic_patterns = getattr(component_instance, "symbolic_patterns", {})

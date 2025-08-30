@@ -39,8 +39,8 @@ class SecurityFixer:
                 "files": [
                     "dashboard/backend/requirements.txt",
                     "qi/requirements.txt",
-                    "tools/scripts/docker/requirements.txt"
-                ]
+                    "tools/scripts/docker/requirements.txt",
+                ],
             },
             "python-multipart": {
                 "current": "0.0.6",
@@ -49,26 +49,22 @@ class SecurityFixer:
                 "severity": "HIGH",
                 "files": [
                     "dashboard/backend/requirements.txt",
-                    "tools/scripts/docker/requirements.txt"
-                ]
+                    "tools/scripts/docker/requirements.txt",
+                ],
             },
             "python-jose": {
                 "current": "3.3.0",
                 "fixed": "No fix available",
                 "cve": "Multiple CVEs",
                 "severity": "HIGH",
-                "files": [
-                    "dashboard/backend/requirements.txt"
-                ]
+                "files": ["dashboard/backend/requirements.txt"],
             },
             "black": {
                 "current": "23.11.0",
                 "fixed": "25.1.0",
                 "cve": "ReDoS vulnerability",
                 "severity": "MEDIUM",
-                "files": [
-                    "dashboard/backend/requirements.txt"
-                ]
+                "files": ["dashboard/backend/requirements.txt"],
             },
             "aiohttp": {
                 "current": "3.11.19",
@@ -77,8 +73,8 @@ class SecurityFixer:
                 "severity": "MEDIUM",
                 "files": [
                     "config/requirements.txt",
-                    "core/orchestration/brain/config/requirements.txt"
-                ]
+                    "core/orchestration/brain/config/requirements.txt",
+                ],
             },
             "setuptools": {
                 "current": "75.6.0",
@@ -87,8 +83,8 @@ class SecurityFixer:
                 "severity": "HIGH",
                 "files": [
                     "config/requirements.txt",
-                    "core/orchestration/brain/config/requirements.txt"
-                ]
+                    "core/orchestration/brain/config/requirements.txt",
+                ],
             },
             "transformers": {
                 "current": "4.52.0",
@@ -97,27 +93,23 @@ class SecurityFixer:
                 "severity": "HIGH",
                 "files": [
                     "config/requirements.txt",
-                    "core/orchestration/brain/config/requirements.txt"
-                ]
+                    "core/orchestration/brain/config/requirements.txt",
+                ],
             },
             "scikit-learn": {
                 "current": "1.3.2",
                 "fixed": "1.7.1",
                 "cve": "CVE-2024-5206",
                 "severity": "MEDIUM",
-                "files": [
-                    "tools/scripts/docker/requirements.txt"
-                ]
+                "files": ["tools/scripts/docker/requirements.txt"],
             },
             "orjson": {
                 "current": "3.9.10",
                 "fixed": "3.11.2",
                 "cve": "Recursion vulnerability",
                 "severity": "MEDIUM",
-                "files": [
-                    "tools/scripts/docker/requirements.txt"
-                ]
-            }
+                "files": ["tools/scripts/docker/requirements.txt"],
+            },
         }
 
     async def analyze_fix_with_ollama(self, package: str, vuln_info: dict) -> dict:
@@ -125,10 +117,10 @@ class SecurityFixer:
         prompt = f"""You are a Python security expert. Analyze this vulnerability and provide fix recommendations:
 
 Package: {package}
-Current Version: {vuln_info['current']}
-Fixed Version: {vuln_info['fixed']}
-CVE: {vuln_info['cve']}
-Severity: {vuln_info['severity']}
+Current Version: {vuln_info["current"]}
+Fixed Version: {vuln_info["fixed"]}
+CVE: {vuln_info["cve"]}
+Severity: {vuln_info["severity"]}
 
 Provide a JSON response with:
 1. risk_assessment: Brief description of the risk (1-2 sentences)
@@ -140,16 +132,14 @@ Provide a JSON response with:
 Response must be valid JSON only."""
 
         try:
-            async with aiohttp.ClientSession() as session, session.post(
-                f"{self.ollama_host}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False,
-                    "format": "json"
-                },
-                timeout=45
-            ) as resp:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={"model": self.model, "prompt": prompt, "stream": False, "format": "json"},
+                    timeout=45,
+                ) as resp,
+            ):
                 if resp.status == 200:
                     data = await resp.json()
                     return json.loads(data.get("response", "{}"))
@@ -159,7 +149,7 @@ Response must be valid JSON only."""
                 "fix_strategy": "Manual review required",
                 "potential_issues": "Unknown",
                 "test_commands": [],
-                "rollback_plan": "Restore from backup"
+                "rollback_plan": "Restore from backup",
             }
 
     def backup_requirements_files(self) -> str:
@@ -192,7 +182,9 @@ Response must be valid JSON only."""
 
             updated = False
             for i, line in enumerate(lines):
-                if line.strip().startswith(f"{package}==") or line.strip().startswith(f"{package}>="):
+                if line.strip().startswith(f"{package}==") or line.strip().startswith(
+                    f"{package}>="
+                ):
                     lines[i] = f"{package}=={new_version}\n"
                     updated = True
                     break
@@ -217,13 +209,16 @@ Response must be valid JSON only."""
             import_name = {
                 "python-multipart": "multipart",
                 "python-jose": "jose",
-                "scikit-learn": "sklearn"
+                "scikit-learn": "sklearn",
             }.get(package, package)
 
             try:
-                result = subprocess.run([
-                    sys.executable, "-c", f"import {import_name}; print('{package} import OK')"
-                ], capture_output=True, text=True, timeout=10)
+                result = subprocess.run(
+                    [sys.executable, "-c", f"import {import_name}; print('{package} import OK')"],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
 
                 if result.returncode != 0:
                     failed_imports.append(package)
@@ -267,13 +262,15 @@ Response must be valid JSON only."""
         success, failed = self.test_imports([package])
 
         if success:
-            self.fixes_applied.append({
-                "package": package,
-                "old_version": vuln_info["current"],
-                "new_version": vuln_info["fixed"],
-                "files_updated": updated_files,
-                "analysis": analysis
-            })
+            self.fixes_applied.append(
+                {
+                    "package": package,
+                    "old_version": vuln_info["current"],
+                    "new_version": vuln_info["fixed"],
+                    "files_updated": updated_files,
+                    "analysis": analysis,
+                }
+            )
             click.echo(f"   ✅ Successfully fixed {package}")
             return True
         else:
@@ -318,13 +315,17 @@ Response must be valid JSON only."""
         # Save detailed report
         report_file = f"security_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
-            json.dump({
-                "timestamp": datetime.now().isoformat(),
-                "backup_dir": backup_dir,
-                "fixes_applied": self.fixes_applied,
-                "total_fixed": total_fixed,
-                "total_vulnerabilities": len(vulns)
-            }, f, indent=2)
+            json.dump(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "backup_dir": backup_dir,
+                    "fixes_applied": self.fixes_applied,
+                    "total_fixed": total_fixed,
+                    "total_vulnerabilities": len(vulns),
+                },
+                f,
+                indent=2,
+            )
 
         click.echo(f"\n📄 Detailed report saved to: {report_file}")
         click.echo("\n🔄 Next steps:")

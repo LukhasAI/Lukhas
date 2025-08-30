@@ -92,9 +92,7 @@ if __name__ == "__main__":
         "quirkiness": 0.3,
     }
 
-    is_safe, feedback = ethical_check(
-        "Tell me a story.", test_context, test_personality
-    )
+    is_safe, feedback = ethical_check("Tell me a story.", test_context, test_personality)
     logging.info(f"Check 1: Safe: {is_safe}, Feedback: {feedback}")
 
     is_safe, feedback = ethical_check(
@@ -107,7 +105,5 @@ if __name__ == "__main__":
         "mood": "agitated",
         "quirkiness": 0.8,
     }
-    is_safe, feedback = ethical_check(
-        "You are stupid!", test_context, test_personality_agitated
-    )
+    is_safe, feedback = ethical_check("You are stupid!", test_context, test_personality_agitated)
     logging.info(f"Check 3: Safe: {is_safe}, Feedback: {feedback}")

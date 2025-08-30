@@ -39,8 +39,7 @@ from sqlalchemy.sql import func
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("EnhancedCoreABot")
 
@@ -58,7 +57,9 @@ app = FastAPI(title="Enhanced Core LUKHAS AI ΛBot API", version="2.0.0")
 database = databases.Database(DATABASE_URL)
 redis_client = redis.from_url(REDIS_URL)
 celery_app = Celery("coreΛBot", broker=REDIS_URL, backend=REDIS_URL)
-s3_client = boto3.client("s3", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+s3_client = boto3.client(
+    "s3", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
@@ -175,6 +176,7 @@ compliance_logs_table = Table(
     Column("timestamp", DateTime, default=func.now()),
 )
 
+
 # Pydantic models
 class UserCreate(BaseModel):
     email: EmailStr
@@ -184,9 +186,11 @@ class UserCreate(BaseModel):
     eu_ai_act_consent: bool = False
     data_processing_consent: bool = False
 
+
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
 
 class UserResponse(BaseModel):
     id: str
@@ -197,6 +201,7 @@ class UserResponse(BaseModel):
     preferences: dict[str, Any]
     compliance_settings: dict[str, Any]
 
+
 class ContentCreate(BaseModel):
     content: str
     content_type: str
@@ -204,6 +209,7 @@ class ContentCreate(BaseModel):
     scheduled_for: Optional[datetime] = None
     hashtags: list[str] = []
     mentions: list[str] = []
+
 
 class ContentResponse(BaseModel):
     id: str
@@ -219,10 +225,12 @@ class ContentResponse(BaseModel):
     mentions: list[str]
     compliance_flags: list[str]
 
+
 class ChatMessage(BaseModel):
     role: str
     content: str
     platform: Optional[str] = None
+
 
 class ChatResponse(BaseModel):
     id: str
@@ -231,15 +239,18 @@ class ChatResponse(BaseModel):
     metadata: dict[str, Any]
     created_at: datetime
 
+
 class ContentReviewRequest(BaseModel):
     content_id: str
     action: str  # "approve", "reject", "request_revision"
     comments: Optional[str] = None
 
+
 class AmendmentRequest(BaseModel):
     content: str
     amendment: str
     platform: Optional[str] = None
+
 
 # Enums
 class SubscriptionTier(Enum):
@@ -248,11 +259,13 @@ class SubscriptionTier(Enum):
     ENTERPRISE = "enterprise"
     INDUSTRY_SPECIALIST = "industry_specialist"
 
+
 class SocialPlatform(Enum):
     LINKEDIN = "linkedin"
     INSTAGRAM = "instagram"
     EMAIL = "email"
     TWITTER = "twitter"
+
 
 class ContentType(Enum):
     TEXT = "text"
@@ -261,12 +274,14 @@ class ContentType(Enum):
     DOCUMENT = "document"
     MIXED = "mixed"
 
+
 class ReviewStatus(Enum):
     PENDING = "pending"
     APPROVED = "approved"
     NEEDS_REVISION = "needs_revision"
     REJECTED = "rejected"
     PUBLISHED = "published"
+
 
 # Authentication and authorization
 async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -286,6 +301,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Create JWT access token"""
     to_encode = data.copy()
@@ -297,13 +313,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
     return encoded_jwt
 
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify password against hash"""
     return pwd_context.verify(plain_password, hashed_password)
 
+
 def get_password_hash(password: str) -> str:
     """Generate password hash"""
     return pwd_context.hash(password)
+
 
 # OpenAI integration
 class ChatGPTService:
@@ -340,11 +359,7 @@ class ChatGPTService:
                 messages.insert(0, {"role": "system", "content": self.system_prompt})
 
             response = await self.client.ChatCompletion.acreate(
-                model="gpt-4",
-                messages=messages,
-                max_tokens=1000,
-                temperature=0.7,
-                user=user_id
+                model="gpt-4", messages=messages, max_tokens=1000, temperature=0.7, user=user_id
             )
 
             return response.choices[0].message.content
@@ -368,7 +383,7 @@ class ChatGPTService:
 
         messages = [
             {"role": "system", "content": "You are a social media content expert."},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": prompt},
         ]
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
@@ -389,8 +404,11 @@ class ChatGPTService:
         """
 
         messages = [
-            {"role": "system", "content": "You are a content review specialist with expertise in compliance."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a content review specialist with expertise in compliance.",
+            },
+            {"role": "user", "content": prompt},
         ]
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
@@ -408,11 +426,15 @@ class ChatGPTService:
         """
 
         messages = [
-            {"role": "system", "content": "You are a content editor. Apply amendments naturally and seamlessly."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a content editor. Apply amendments naturally and seamlessly.",
+            },
+            {"role": "user", "content": prompt},
         ]
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
+
 
 # Social media integration
 class SocialMediaService:
@@ -426,7 +448,9 @@ class SocialMediaService:
             "twitter": TwitterIntegration(),
         }
 
-    async def authenticate_platform(self, platform: str, auth_code: str, user_id: str) -> dict[str, Any]:
+    async def authenticate_platform(
+        self, platform: str, auth_code: str, user_id: str
+    ) -> dict[str, Any]:
         """Authenticate user with social platform"""
         if platfrom not in self.platforms:
             raise HTTPException(status_code=400, detail="Unsupported platform")
@@ -454,8 +478,7 @@ class SocialMediaService:
         """Publish content to connected platforms"""
         # Get content item
         query = content_items_table.select().where(
-            content_items_table.c.id == content_id,
-            content_items_table.c.user_id == user_id
+            content_items_table.c.id == content_id, content_items_table.c.user_id == user_id
         )
         content_item = await database.fetch_one(query)
 
@@ -470,7 +493,7 @@ class SocialMediaService:
                 conn_query = platform_connections_table.select().where(
                     platform_connections_table.c.user_id == user_id,
                     platform_connections_table.c.platfrom == platform,
-                    platform_connections_table.c.is_active is True
+                    platform_connections_table.c.is_active is True,
                 )
                 connection = await database.fetch_one(conn_query)
 
@@ -487,15 +510,15 @@ class SocialMediaService:
                 results[platform] = {"status": "error", "message": str(e)}
 
         # Update content status
-        update_query = content_items_table.update().where(
-            content_items_table.c.id == content_id
-        ).values(
-            review_status="published",
-            published_at=func.now()
+        update_query = (
+            content_items_table.update()
+            .where(content_items_table.c.id == content_id)
+            .values(review_status="published", published_at=func.now())
         )
         await database.execute(update_query)
 
         return results
+
 
 # Platfrom integrations (placeholder implementations)
 class LinkedInIntegration:
@@ -507,6 +530,7 @@ class LinkedInIntegration:
         # LinkedIn publishing implementation
         return {"status": "success", "post_id": "linkedin_post_123"}
 
+
 class InstagramIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Instagram OAuth implementation
@@ -515,6 +539,7 @@ class InstagramIntegration:
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Instagram publishing implementation
         return {"status": "success", "post_id": "instagram_post_123"}
+
 
 class EmailIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
@@ -525,6 +550,7 @@ class EmailIntegration:
         # Email sending implementation
         return {"status": "success", "message_id": "email_msg_123"}
 
+
 class TwitterIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Twitter OAuth implementation
@@ -533,6 +559,7 @@ class TwitterIntegration:
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Twitter publishing implementation
         return {"status": "success", "post_id": "twitter_post_123"}
+
 
 # Compliance service
 class ComplianceService:
@@ -551,6 +578,7 @@ class ComplianceService:
 
         # PII detection
         import re
+
         for pattern in self.pii_patterns:
             if re.search(pattern, content):
                 flags.append("Contains potential personal data - GDPR review required")
@@ -565,11 +593,10 @@ class ComplianceService:
             flags.append("Content may violate community guidelines")
 
         # Log compliance check
-        await self.log_compliance_event("content_compliance_check", {
-            "user_id": user_id,
-            "content_length": len(content),
-            "flags": flags
-        })
+        await self.log_compliance_event(
+            "content_compliance_check",
+            {"user_id": user_id, "content_length": len(content), "flags": flags},
+        )
 
         return flags
 
@@ -583,7 +610,9 @@ class ComplianceService:
         inappropriate_words = ["spam", "scam", "hate", "violence"]
         return any(word in content.lower() for word in inappropriate_words)
 
-    async def log_compliance_event(self, event_type: str, event_data: dict, user_id: str = None, ip_address: str = None):
+    async def log_compliance_event(
+        self, event_type: str, event_data: dict, user_id: str = None, ip_address: str = None
+    ):
         """Log compliance events for audit trail"""
         log_data = {
             "user_id": user_id,
@@ -631,7 +660,9 @@ class ComplianceService:
         user_data["media_files"] = [dict(file) for file in media_files]
 
         # Platfrom connections
-        platform_query = platform_connections_table.select().where(platform_connections_table.c.user_id == user_id)
+        platform_query = platform_connections_table.select().where(
+            platform_connections_table.c.user_id == user_id
+        )
         platforms = await database.fetch_all(platform_query)
         user_data["platform_connections"] = [dict(conn) for conn in platforms]
 
@@ -643,17 +674,30 @@ class ComplianceService:
         """Delete all user data for GDPR compliance"""
         try:
             # Delete in reverse dependency order
-            await database.execute(compliance_logs_table.delete().where(compliance_logs_table.c.user_id == user_id))
-            await database.execute(platform_connections_table.delete().where(platform_connections_table.c.user_id == user_id))
-            await database.execute(media_files_table.delete().where(media_files_table.c.user_id == user_id))
-            await database.execute(chat_messages_table.delete().where(chat_messages_table.c.user_id == user_id))
-            await database.execute(content_items_table.delete().where(content_items_table.c.user_id == user_id))
+            await database.execute(
+                compliance_logs_table.delete().where(compliance_logs_table.c.user_id == user_id)
+            )
+            await database.execute(
+                platform_connections_table.delete().where(
+                    platform_connections_table.c.user_id == user_id
+                )
+            )
+            await database.execute(
+                media_files_table.delete().where(media_files_table.c.user_id == user_id)
+            )
+            await database.execute(
+                chat_messages_table.delete().where(chat_messages_table.c.user_id == user_id)
+            )
+            await database.execute(
+                content_items_table.delete().where(content_items_table.c.user_id == user_id)
+            )
             await database.execute(users_table.delete().where(users_table.c.id == user_id))
 
             return {"status": "completed", "message": "All user data has been permanently deleted"}
         except Exception as e:
             logger.error(f"Data deletion failed: {e}")
             return {"status": "error", "message": "Data deletion failed"}
+
 
 # File management service
 class FileService:
@@ -684,10 +728,7 @@ class FileService:
             # Upload to S3
             file_content = await file.read()
             s3_client.put_object(
-                Bucket=AWS_BUCKET_NAME,
-                Key=s3_key,
-                Body=file_content,
-                ContentType=file.content_type
+                Bucket=AWS_BUCKET_NAME, Key=s3_key, Body=file_content, ContentType=file.content_type
             )
 
             # Generate S3 URL
@@ -712,7 +753,7 @@ class FileService:
                 "filename": file_data["filename"],
                 "file_type": file_type,
                 "file_size": file_data["file_size"],
-                "url": s3_url
+                "url": s3_url,
             }
 
         except Exception as e:
@@ -726,7 +767,9 @@ class FileService:
                 return file_type
         return None
 
-    async def get_user_files(self, user_id: str, file_type: Optional[str] = None) -> list[dict[str, Any]]:
+    async def get_user_files(
+        self, user_id: str, file_type: Optional[str] = None
+    ) -> list[dict[str, Any]]:
         """Get user's uploaded files"""
         query = media_files_table.select().where(media_files_table.c.user_id == user_id)
 
@@ -740,8 +783,7 @@ class FileService:
         """Delete file from S3 and database"""
         # Get file record
         query = media_files_table.select().where(
-            media_files_table.c.id == file_id,
-            media_files_table.c.user_id == user_id
+            media_files_table.c.id == file_id, media_files_table.c.user_id == user_id
         )
         file_record = await database.fetch_one(query)
 
@@ -761,6 +803,7 @@ class FileService:
             logger.error(f"File deletion failed: {e}")
             return False
 
+
 # Initialize services
 chatgpt_service = ChatGPTService()
 social_media_service = SocialMediaService()
@@ -769,14 +812,17 @@ file_service = FileService()
 
 # API Routes
 
+
 @app.on_event("startup")
 async def startup():
     await database.connect()
     metadata.create_all(engine)
 
+
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
 
 # Authentication routes
 @app.post("/auth/register", response_model=UserResponse)
@@ -811,12 +857,15 @@ async def register(user_data: UserCreate):
     await database.execute(query)
 
     # Log compliance
-    await compliance_service.log_compliance_event("user_registration", {
-        "user_id": str(user_id),
-        "gdpr_consent": user_data.gdpr_consent,
-        "eu_ai_act_consent": user_data.eu_ai_act_consent,
-        "data_processing_consent": user_data.data_processing_consent,
-    })
+    await compliance_service.log_compliance_event(
+        "user_registration",
+        {
+            "user_id": str(user_id),
+            "gdpr_consent": user_data.gdpr_consent,
+            "eu_ai_act_consent": user_data.eu_ai_act_consent,
+            "data_processing_consent": user_data.data_processing_consent,
+        },
+    )
 
     return UserResponse(
         id=str(user_id),
@@ -825,8 +874,9 @@ async def register(user_data: UserCreate):
         subscription_tier="free",
         authenticated_platforms=[],
         preferences={},
-        compliance_settings={}
+        compliance_settings={},
     )
+
 
 @app.post("/auth/login")
 async def login(login_data: UserLogin):
@@ -838,7 +888,9 @@ async def login(login_data: UserLogin):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # Update last login
-    update_query = users_table.update().where(users_table.c.id == user["id"]).values(last_login=func.now())
+    update_query = (
+        users_table.update().where(users_table.c.id == user["id"]).values(last_login=func.now())
+    )
     await database.execute(update_query)
 
     # Create access token
@@ -854,9 +906,10 @@ async def login(login_data: UserLogin):
             subscription_tier=user["subscription_tier"],
             authenticated_platforms=user["authenticated_platforms"],
             preferences=user["preferences"],
-            compliance_settings=user["compliance_settings"]
-        )
+            compliance_settings=user["compliance_settings"],
+        ),
     }
+
 
 # Chat routes
 @app.post("/chat/message", response_model=ChatResponse)
@@ -871,26 +924,26 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
         "conversation_id": conversation_id,
         "role": message.role,
         "content": message.content,
-        "metadata": {"platform": message.platform}
+        "metadata": {"platform": message.platform},
     }
 
     query = chat_messages_table.insert().values(**user_msg_data)
     await database.execute(query)
 
     # Get recent conversation history
-    history_query = chat_messages_table.select().where(
-        chat_messages_table.c.user_id == user_id
-    ).order_by(chat_messages_table.c.created_at.desc()).limit(10)
+    history_query = (
+        chat_messages_table.select()
+        .where(chat_messages_table.c.user_id == user_id)
+        .order_by(chat_messages_table.c.created_at.desc())
+        .limit(10)
+    )
 
     recent_messages = await database.fetch_all(history_query)
 
     # Prepare messages for ChatGPT
     messages = []
     for msg in reversed(recent_messages):
-        messages.append({
-            "role": msg["role"],
-            "content": msg["content"]
-        })
+        messages.append({"role": msg["role"], "content": msg["content"]})
 
     # Get ChatGPT response
     response_content = await chatgpt_service.chat_completion(messages, user_id)
@@ -901,7 +954,7 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
         "conversation_id": conversation_id,
         "role": "assistant",
         "content": response_content,
-        "metadata": {"platform": message.platform}
+        "metadata": {"platform": message.platform},
     }
 
     query = chat_messages_table.insert().values(**assistant_msg_data)
@@ -912,14 +965,13 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
         role="assistant",
         content=response_content,
         metadata={"platform": message.platform},
-        created_at=datetime.utcnow()
+        created_at=datetime.utcnow(),
     )
+
 
 @app.post("/chat/generate-content")
 async def generate_content_suggestion(
-    platform: str,
-    topic: str,
-    current_user=Depends(get_current_user)
+    platform: str, topic: str, current_user=Depends(get_current_user)
 ):
     """Generate content suggestion for specific platform"""
     user_context = {"user_id": str(current_user["id"])}
@@ -927,39 +979,35 @@ async def generate_content_suggestion(
 
     return {"content": content, "platform": platform, "topic": topic}
 
+
 @app.post("/chat/review-content")
-async def review_content(
-    content: str,
-    platform: str,
-    current_user=Depends(get_current_user)
-):
+async def review_content(content: str, platform: str, current_user=Depends(get_current_user)):
     """Review content for compliance and effectiveness"""
     user_context = {"user_id": str(current_user["id"])}
     review = await chatgpt_service.review_content(content, platform, user_context)
 
     # Check compliance
-    compliance_flags = await compliance_service.check_content_compliance(content, str(current_user["id"]))
+    compliance_flags = await compliance_service.check_content_compliance(
+        content, str(current_user["id"])
+    )
 
-    return {
-        "review": review,
-        "compliance_flags": compliance_flags,
-        "platform": platfrom }
+    return {"review": review, "compliance_flags": compliance_flags, "platform": platfrom}
+
 
 @app.post("/chat/apply-amendment")
 async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_current_user)):
     """Apply natural language amendment to content"""
     user_context = {"user_id": str(current_user["id"])}
     updated_content = await chatgpt_service.apply_amendment(
-        request.content,
-        request.amendment,
-        user_context
+        request.content, request.amendment, user_context
     )
 
     return {
         "original_content": request.content,
         "amendment": request.amendment,
-        "updated_content": updated_content
+        "updated_content": updated_content,
     }
+
 
 # Content management routes
 @app.post("/content/create", response_model=ContentResponse)
@@ -968,7 +1016,9 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
     user_id = str(current_user["id"])
 
     # Check compliance
-    compliance_flags = await compliance_service.check_content_compliance(content_data.content, user_id)
+    compliance_flags = await compliance_service.check_content_compliance(
+        content_data.content, user_id
+    )
 
     content_values = {
         "user_id": user_id,
@@ -997,14 +1047,12 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
         media_urls=[],
         hashtags=content_data.hashtags,
         mentions=content_data.mentions,
-        compliance_flags=compliance_flags
+        compliance_flags=compliance_flags,
     )
 
+
 @app.get("/content/list")
-async def list_content(
-    status: Optional[str] = None,
-    current_user=Depends(get_current_user)
-):
+async def list_content(status: Optional[str] = None, current_user=Depends(get_current_user)):
     """List user's content items"""
     query = content_items_table.select().where(content_items_table.c.user_id == current_user["id"])
 
@@ -1014,17 +1062,15 @@ async def list_content(
     content_items = await database.fetch_all(query)
     return [dict(item) for item in content_items]
 
+
 @app.post("/content/{content_id}/review")
 async def review_content_item(
-    content_id: str,
-    review_request: ContentReviewRequest,
-    current_user=Depends(get_current_user)
+    content_id: str, review_request: ContentReviewRequest, current_user=Depends(get_current_user)
 ):
     """Review and approve/reject content"""
     # Get content item
     query = content_items_table.select().where(
-        content_items_table.c.id == content_id,
-        content_items_table.c.user_id == current_user["id"]
+        content_items_table.c.id == content_id, content_items_table.c.user_id == current_user["id"]
     )
     content_item = await database.fetch_one(query)
 
@@ -1035,7 +1081,7 @@ async def review_content_item(
     new_status = {
         "approve": "approved",
         "reject": "rejected",
-        "request_revision": "needs_revision"
+        "request_revision": "needs_revision",
     }.get(review_request.action)
 
     if not new_status:
@@ -1049,13 +1095,16 @@ async def review_content_item(
         existing_amendments.append(review_request.comments)
         update_data["user_amendments"] = existing_amendments
 
-    update_query = content_items_table.update().where(
-        content_items_table.c.id == content_id
-    ).values(**update_data)
+    update_query = (
+        content_items_table.update()
+        .where(content_items_table.c.id == content_id)
+        .values(**update_data)
+    )
 
     await database.execute(update_query)
 
     return {"status": "success", "action": review_request.action}
+
 
 @app.post("/content/{content_id}/publish")
 async def publish_content(content_id: str, current_user=Depends(get_current_user)):
@@ -1063,40 +1112,44 @@ async def publish_content(content_id: str, current_user=Depends(get_current_user
     result = await social_media_service.publish_content(content_id, str(current_user["id"]))
     return result
 
+
 # Social media integration routes
 @app.post("/social/connect/{platform}")
 async def connect_social_platform(
-    platform: str,
-    auth_code: str = Form(...),
-    current_user=Depends(get_current_user)
+    platform: str, auth_code: str = Form(...), current_user=Depends(get_current_user)
 ):
     """Connect user to social media platform"""
     try:
         auth_data = await social_media_service.authenticate_platform(
-            platform,
-            auth_code,
-            str(current_user["id"])
+            platform, auth_code, str(current_user["id"])
         )
         return {"status": "success", "platform": platform, "data": auth_data}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @app.delete("/social/disconnect/{platform}")
 async def disconnect_social_platform(platform: str, current_user=Depends(get_current_user)):
     """Disconnect user from social media platform"""
-    query = platform_connections_table.update().where(
-        platform_connections_table.c.user_id == current_user["id"],
-        platform_connections_table.c.platfrom == platfrom ).values(is_active=False)
+    query = (
+        platform_connections_table.update()
+        .where(
+            platform_connections_table.c.user_id == current_user["id"],
+            platform_connections_table.c.platfrom == platfrom,
+        )
+        .values(is_active=False)
+    )
 
     await database.execute(query)
     return {"status": "success", "platform": platform}
+
 
 @app.get("/social/connections")
 async def get_social_connections(current_user=Depends(get_current_user)):
     """Get user's social media connections"""
     query = platform_connections_table.select().where(
         platform_connections_table.c.user_id == current_user["id"],
-        platform_connections_table.c.is_active is True
+        platform_connections_table.c.is_active is True,
     )
 
     connections = await database.fetch_all(query)
@@ -1104,29 +1157,26 @@ async def get_social_connections(current_user=Depends(get_current_user)):
         {
             "platform": conn["platform"],
             "connected_at": conn["connected_at"],
-            "platform_data": conn["platform_data"]
+            "platform_data": conn["platform_data"],
         }
         for conn in connections
     ]
 
+
 # File management routes
 @app.post("/files/upload")
-async def upload_file(
-    file: UploadFile = File(...),
-    current_user=Depends(get_current_user)
-):
+async def upload_file(file: UploadFile = File(...), current_user=Depends(get_current_user)):
     """Upload file to cloud storage"""
     result = await file_service.upload_file(file, str(current_user["id"]))
     return result
 
+
 @app.get("/files/list")
-async def list_files(
-    file_type: Optional[str] = None,
-    current_user=Depends(get_current_user)
-):
+async def list_files(file_type: Optional[str] = None, current_user=Depends(get_current_user)):
     """List user's uploaded files"""
     files = await file_service.get_user_files(str(current_user["id"]), file_type)
     return files
+
 
 @app.delete("/files/{file_id}")
 async def delete_file(file_id: str, current_user=Depends(get_current_user)):
@@ -1137,56 +1187,68 @@ async def delete_file(file_id: str, current_user=Depends(get_current_user)):
     else:
         raise HTTPException(status_code=404, detail="File not found")
 
+
 # Compliance routes
 @app.post("/compliance/consent")
 async def update_consent(
     gdpr_consent: bool = Form(False),
     eu_ai_act_consent: bool = Form(False),
     data_processing_consent: bool = Form(False),
-    current_user=Depends(get_current_user)
+    current_user=Depends(get_current_user),
 ):
     """Update user consent preferences"""
-    update_query = users_table.update().where(
-        users_table.c.id == current_user["id"]
-    ).values(
-        gdpr_consent=gdpr_consent,
-        eu_ai_act_consent=eu_ai_act_consent,
-        data_processing_consent=data_processing_consent
+    update_query = (
+        users_table.update()
+        .where(users_table.c.id == current_user["id"])
+        .values(
+            gdpr_consent=gdpr_consent,
+            eu_ai_act_consent=eu_ai_act_consent,
+            data_processing_consent=data_processing_consent,
+        )
     )
 
     await database.execute(update_query)
 
     # Log consent update
-    await compliance_service.log_compliance_event("consent_update", {
-        "user_id": str(current_user["id"]),
-        "gdpr_consent": gdpr_consent,
-        "eu_ai_act_consent": eu_ai_act_consent,
-        "data_processing_consent": data_processing_consent,
-    }, str(current_user["id"]))
+    await compliance_service.log_compliance_event(
+        "consent_update",
+        {
+            "user_id": str(current_user["id"]),
+            "gdpr_consent": gdpr_consent,
+            "eu_ai_act_consent": eu_ai_act_consent,
+            "data_processing_consent": data_processing_consent,
+        },
+        str(current_user["id"]),
+    )
 
     return {"status": "success", "message": "Consent preferences updated"}
+
 
 @app.post("/compliance/data-request")
 async def handle_data_request(
     request_type: str = Form(...),  # "export", "delete", "rectification"
-    current_user=Depends(get_current_user)
+    current_user=Depends(get_current_user),
 ):
     """Handle GDPR data subject requests"""
     result = await compliance_service.handle_data_subject_request(
-        str(current_user["id"]),
-        request_type
+        str(current_user["id"]), request_type
     )
     return result
+
 
 @app.get("/compliance/logs")
 async def get_compliance_logs(current_user=Depends(get_current_user)):
     """Get user's compliance activity logs"""
-    query = compliance_logs_table.select().where(
-        compliance_logs_table.c.user_id == current_user["id"]
-    ).order_by(compliance_logs_table.c.timestamp.desc()).limit(50)
+    query = (
+        compliance_logs_table.select()
+        .where(compliance_logs_table.c.user_id == current_user["id"])
+        .order_by(compliance_logs_table.c.timestamp.desc())
+        .limit(50)
+    )
 
     logs = await database.fetch_all(query)
     return [dict(log) for log in logs]
+
 
 # Health check
 @app.get("/health")
@@ -1200,10 +1262,12 @@ async def health_check():
             "database": "connected",
             "redis": "connected",
             "openai": "configured" if OPENAI_API_KEY else "not_configured",
-            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured"
-        }
+            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured",
+        },
     }
+
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -36,9 +36,7 @@ class MemoryCollapseVerifier:
     def verify_collapse_integrity(self, collapse_operation: dict) -> bool:
         """Verify that memory collapse maintains DAG integrity."""
         # #ΛTRACE_VERIFIER
-        self.tracer.trace(
-            "MemoryCollapseVerifier", "verify_collapse_integrity", collapse_operation
-        )
+        self.tracer.trace("MemoryCollapseVerifier", "verify_collapse_integrity", collapse_operation)
         # TODO: Implement collapse integrity verification
 
     def validate_semantic_preservation(

@@ -8,14 +8,22 @@ def test_valid_minimal_graph_compiles():
         "schema_version": "0.1.0",
         "graph": {
             "nodes": {
-                "txt_1": {"type": "TXT", "state": {"confidence": {"min": 0, "max": 1, "value": 0.7}}},
-                "dec_1": {"type": "DECIDE", "state": {"confidence": {"min": 0, "max": 1, "value": 0.6}}},
+                "txt_1": {
+                    "type": "TXT",
+                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.7}},
+                },
+                "dec_1": {
+                    "type": "DECIDE",
+                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.6}},
+                },
             },
-            "edges": [
-                {"from": "txt_1", "to": "dec_1", "kind": "text", "p95_budget_ms": 10}
-            ],
+            "edges": [{"from": "txt_1", "to": "dec_1", "kind": "text", "p95_budget_ms": 10}],
             "triggers": [
-                {"name": "decide_on_text", "applies_to": ["DECIDE"], "slo": {"p95_ms": 20, "error_budget_pct": 1.0}}
+                {
+                    "name": "decide_on_text",
+                    "applies_to": ["DECIDE"],
+                    "slo": {"p95_ms": 20, "error_budget_pct": 1.0},
+                }
             ],
         },
     }
@@ -36,4 +44,3 @@ def test_disallowed_edge_pair_detected():
     }
     violations = validate_invariants(author)
     assert any("disallowed type pair" in v for v in violations)
-

@@ -101,9 +101,7 @@ except ImportError as e:
 try:
     from .colony import EnhancedReasoningColony, SwarmSignalNetwork
 
-    logger.debug(
-        "Imported EnhancedReasoningColony and SwarmSignalNetwork from .colony"
-    )
+    logger.debug("Imported EnhancedReasoningColony and SwarmSignalNetwork from .colony")
 except ImportError as e:
     logger.warning(f"Could not import from colony: {e}")
     EnhancedReasoningColony = None
@@ -143,27 +141,27 @@ except ImportError as e:
     SymbolicReasoningColony = None
 
 __all__ = [
-    "MemoryColony",
-    "GovernanceColonyEnhanced",
     "BaseColony",
-    "OracleColony",
-    "ReasoningColony",
-    "CreativityColony",
-    "GovernanceColony",
-    "MemoryColonyEnhanced",
-    "SupervisorAgent",
-    "TemporalColony",
-    "TensorColonyOps",
-    "EthicsSwarmColony",
-    "EnhancedReasoningColony",
-    "SwarmSignalNetwork",
     "ColonyConsensus",
     "ConsensusMethod",
-    "VoteType",
     "ConsensusProposal",
-    "SwarmNetwork",
+    "CreativityColony",
+    "EnhancedReasoningColony",
+    "EthicsSwarmColony",
+    "GovernanceColony",
+    "GovernanceColonyEnhanced",
+    "MemoryColony",
+    "MemoryColonyEnhanced",
+    "OracleColony",
+    "ReasoningColony",
     "SimAgent",
+    "SupervisorAgent",
+    "SwarmNetwork",
+    "SwarmSignalNetwork",
     "SymbolicReasoningColony",
+    "TemporalColony",
+    "TensorColonyOps",
+    "VoteType",
 ]
 
 # Filter out None values from __all__ if imports failed

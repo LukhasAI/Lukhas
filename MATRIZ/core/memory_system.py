@@ -241,13 +241,9 @@ class MemorySystem(CognitiveNode):
             if operation == "store":
                 result = self._handle_store_operation(input_data, trace_id, [trigger])
             elif operation == "retrieve":
-                result = self._handle_retrieve_operation(
-                    input_data, trace_id, [trigger]
-                )
+                result = self._handle_retrieve_operation(input_data, trace_id, [trigger])
             elif operation == "consolidate":
-                result = self._handle_consolidate_operation(
-                    input_data, trace_id, [trigger]
-                )
+                result = self._handle_consolidate_operation(input_data, trace_id, [trigger])
             elif operation == "decay":
                 result = self._handle_decay_operation(input_data, trace_id, [trigger])
             elif operation == "stats":
@@ -268,7 +264,7 @@ class MemorySystem(CognitiveNode):
 
         except Exception as e:
             return self._create_error_response(
-                f"Memory operation failed: {str(e)}",
+                f"Memory operation failed: {e!s}",
                 input_data,
                 trace_id,
                 start_time,
@@ -446,9 +442,7 @@ class MemorySystem(CognitiveNode):
             # Find candidates for consolidation from episodic and working memory
             candidates = []
 
-            for memory in list(self.episodic_memory.values()) + list(
-                self.working_memory.values()
-            ):
+            for memory in list(self.episodic_memory.values()) + list(self.working_memory.values()):
                 if (
                     memory.access_count >= self.consolidation_rules.min_access_count
                     and memory.confidence >= self.consolidation_rules.min_confidence
@@ -516,10 +510,7 @@ class MemorySystem(CognitiveNode):
                     memory.salience = max(0.0, memory.salience - decay_factor * 0.5)
 
                     # Remove if confidence drops too low (unless critical priority)
-                    if (
-                        memory.confidence < 0.1
-                        and memory.priority != MemoryPriority.CRITICAL
-                    ):
+                    if memory.confidence < 0.1 and memory.priority != MemoryPriority.CRITICAL:
                         to_remove.append(memory_id)
 
                 # Remove decayed memories
@@ -626,9 +617,7 @@ class MemorySystem(CognitiveNode):
 
         # Sort by importance (confidence * salience) and recency
         items = list(self.working_memory.values())
-        items.sort(
-            key=lambda m: (m.confidence * m.salience, m.last_accessed, m.priority.value)
-        )
+        items.sort(key=lambda m: (m.confidence * m.salience, m.last_accessed, m.priority.value))
 
         # Remove the least important item
         least_important = items[0]
@@ -641,9 +630,7 @@ class MemorySystem(CognitiveNode):
             return
 
         items = list(self.episodic_memory.values())
-        items.sort(
-            key=lambda m: (m.confidence * m.salience, m.access_count, m.last_accessed)
-        )
+        items.sort(key=lambda m: (m.confidence * m.salience, m.access_count, m.last_accessed))
 
         least_important = items[0]
         del self.episodic_memory[least_important.id]
@@ -666,9 +653,7 @@ class MemorySystem(CognitiveNode):
         del self.semantic_memory[least_important.id]
         self.stats["evictions"] += 1
 
-    def _filter_memories(
-        self, memories: list[MemoryItem], query: MemoryQuery
-    ) -> list[MemoryItem]:
+    def _filter_memories(self, memories: list[MemoryItem], query: MemoryQuery) -> list[MemoryItem]:
         """Filter memories based on query criteria."""
         filtered = []
 
@@ -691,9 +676,7 @@ class MemorySystem(CognitiveNode):
 
             # Text similarity filter
             if query.query_text and query.similarity_search:
-                similarity = self._calculate_similarity(
-                    query.query_text, memory.content
-                )
+                similarity = self._calculate_similarity(query.query_text, memory.content)
                 if similarity < 0.3:  # Minimum similarity threshold
                     continue
 
@@ -762,9 +745,7 @@ class MemorySystem(CognitiveNode):
         except ValueError:
             memory_type = MemoryType.EPISODIC
 
-        memory_id = self.store_memory(
-            content, memory_type, confidence, salience, tags, context
-        )
+        memory_id = self.store_memory(content, memory_type, confidence, salience, tags, context)
 
         # Create success state
         state = NodeState(confidence=0.95, salience=0.8, valence=0.7, utility=0.9)
@@ -805,8 +786,7 @@ class MemorySystem(CognitiveNode):
         memory_query = MemoryQuery(
             query_text=query_dict.get("text"),
             memory_types=[
-                MemoryType(t)
-                for t in query_dict.get("types", [MemoryType.EPISODIC.value])
+                MemoryType(t) for t in query_dict.get("types", [MemoryType.EPISODIC.value])
             ],
             tags=set(query_dict.get("tags", [])),
             min_confidence=query_dict.get("min_confidence", 0.0),
@@ -963,9 +943,7 @@ class MemorySystem(CognitiveNode):
         """Create standardized error response with MATRIZ node."""
         confidence = 0.1
 
-        state = NodeState(
-            confidence=confidence, salience=0.3, valence=-0.6, risk=0.8, utility=0.1
-        )
+        state = NodeState(confidence=confidence, salience=0.3, valence=-0.6, risk=0.8, utility=0.1)
 
         reflection = self.create_reflection(
             reflection_type="regret",
@@ -1195,12 +1173,12 @@ if __name__ == "__main__":
                 print("✗ FAIL")
 
         except Exception as e:
-            print(f"✗ EXCEPTION: {str(e)}")
+            print(f"✗ EXCEPTION: {e!s}")
 
     # Final statistics
     print("\n" + "=" * 50)
     print(
-        f"Test Results: {success_count}/{len(test_cases)} passed ({success_count/len(test_cases)*100:.1f}%)"
+        f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)"
     )
 
     # Show memory system statistics

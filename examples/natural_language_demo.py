@@ -211,13 +211,9 @@ class InteractiveConsciousnessDemo:
 
         async def create_sim(origin, **kwargs):
             branches = [
-                Mock(
-                    probability=0.7, divergence_point={"summary": "optimistic outcome"}
-                ),
+                Mock(probability=0.7, divergence_point={"summary": "optimistic outcome"}),
                 Mock(probability=0.5, divergence_point={"summary": "balanced outcome"}),
-                Mock(
-                    probability=0.3, divergence_point={"summary": "challenging outcome"}
-                ),
+                Mock(probability=0.3, divergence_point={"summary": "challenging outcome"}),
             ]
 
             return Mock(branches=branches, simulation_id="sim_demo")
@@ -319,9 +315,7 @@ class InteractiveConsciousnessDemo:
         """
         # Check for special commands
         if user_input.lower() in ["quit", "exit", "bye", "goodbye"]:
-            print(
-                "\nThank you for our conversation! Take care, and feel free to return anytime."
-            )
+            print("\nThank you for our conversation! Take care, and feel free to return anytime.")
             return False
 
         elif user_input.lower() == "help":
@@ -340,18 +334,14 @@ class InteractiveConsciousnessDemo:
         # Process through NL interface
         try:
             print("\n💭 Thinking...", end="", flush=True)
-            response = await self.manager.continue_conversation(
-                self.session_id, user_input
-            )
+            response = await self.manager.continue_conversation(self.session_id, user_input)
             print("\r" + " " * 20 + "\r", end="")  # Clear thinking message
 
             # Display response with formatting
             print(f"\n🤖 LUKHAS: {response}\n")
 
             # Store significant exchanges in memory
-            if any(
-                word in user_input.lower() for word in ["important", "remember", "note"]
-            ):
+            if any(word in user_input.lower() for word in ["important", "remember", "note"]):
                 memory_service = self.interface.memory_service
                 if memory_service:
                     await memory_service.store(
@@ -424,9 +414,7 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print(
-            "\n\n👋 Demo terminated. Thank you for exploring consciousness with LUKHAS!"
-        )
+        print("\n\n👋 Demo terminated. Thank you for exploring consciousness with LUKHAS!")
     except Exception as e:
         print(f"\n❌ Fatal error: {e}")
         sys.exit(1)

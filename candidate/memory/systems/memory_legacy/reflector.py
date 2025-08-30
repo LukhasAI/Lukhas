@@ -72,9 +72,7 @@ def load_dream_memories_from_log(
     )
 
     if not target_log_path.exists():
-        log.warning(
-            "Dream log file not found for reflection.", path=str(target_log_path)
-        )
+        log.warning("Dream log file not found for reflection.", path=str(target_log_path))
         return []
 
     loaded_mems: list[dict[str, Any]] = []
@@ -125,21 +123,19 @@ def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]
         visuals = mem_item.get("extracted_visual_prompts", [])
         visual_summary = visuals[0] if visuals else "[no specific visuals highlighted]"
 
-        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id',f'Entry {i+1}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
+        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id', f'Entry {i + 1}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
         if any(k in narrative.lower() for k in ["memory", "past", "recall"]):
-            reflection += (
-                "This dream may relate to memory processing or identity continuity. "
-            )
+            reflection += "This dream may relate to memory processing or identity continuity. "
         if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]):
             reflection += "Themes of self-perception or introspection appear dominant. "
-        if any(
-            k in narrative.lower() for k in ["path", "journey", "labyrinth", "choice"]
-        ):
-            reflection += "The dream suggests considerations of future paths or complex problem-solving. "
+        if any(k in narrative.lower() for k in ["path", "journey", "labyrinth", "choice"]):
+            reflection += (
+                "The dream suggests considerations of future paths or complex problem-solving. "
+            )
         reflections.append(reflection)
         log.debug(
             "Generated reflection for dream.",
-            dream_id=mem_item.get("dream_log_id", f"Entry {i+1}"),
+            dream_id=mem_item.get("dream_log_id", f"Entry {i + 1}"),
             reflection_len=len(reflection),
         )
     log.info("Reflection process completed.", num_reflections=len(reflections))
@@ -152,9 +148,7 @@ def run_dream_reflection_cycle() -> None:
     # ΛNOTE: This cycle is vital for LUKHAS's introspective capabilities.
     # Future enhancements could involve storing these reflections back into a
     # specialized memory type.
-    loaded_dream_mems = load_dream_memories_from_log(
-        limit=7
-    )  # Reflect on up to 7 recent dreams
+    loaded_dream_mems = load_dream_memories_from_log(limit=7)  # Reflect on up to 7 recent dreams
     if not loaded_dream_mems:
         log.info("No dream memories found for current reflection cycle.")
         return

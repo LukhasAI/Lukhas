@@ -12,6 +12,7 @@ import sys
 # Add path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
+
 def test_imports():
     """Test that all critical imports work correctly"""
     print("🔍 Testing imports...")
@@ -27,12 +28,16 @@ def test_imports():
             TelemetryCollector,
             with_resilience,
         )
+
         print("✅ All imports successful")
-        print(f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}")
+        print(
+            f"   ServiceAdapterBase is BaseServiceAdapter: {ServiceAdapterBase is BaseServiceAdapter}"
+        )
         return True
     except ImportError as e:
         print(f"❌ Import failed: {e}")
         return False
+
 
 def test_adapter_creation():
     """Test creating an adapter instance"""
@@ -54,7 +59,9 @@ def test_adapter_creation():
         print(f"   Service name: {adapter.service_name}")
         print("   Trinity Framework integrations:")
         print(f"     - Identity: {'Active' if adapter.identity_core else 'Not available'}")
-        print(f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}")
+        print(
+            f"     - Consciousness: {'Active' if adapter.consciousness_active else 'Not connected'}"
+        )
         print(f"     - Guardian: {'Active' if adapter.guardian else 'Not available'}")
         print(f"     - Memory: {'Active' if adapter.memory_service else 'Not available'}")
         print(f"     - Consent Ledger: {'Active' if adapter.ledger else 'Not available'}")
@@ -62,6 +69,7 @@ def test_adapter_creation():
     except Exception as e:
         print(f"❌ Adapter creation failed: {e}")
         return False
+
 
 def test_health_status():
     """Test health status with Trinity Framework info"""
@@ -89,6 +97,7 @@ def test_health_status():
         print(f"❌ Health status test failed: {e}")
         return False
 
+
 async def test_consciousness_integration():
     """Test consciousness system integration"""
     print("\n🧠 Testing consciousness integration...")
@@ -115,6 +124,7 @@ async def test_consciousness_integration():
         print(f"❌ Consciousness integration test failed: {e}")
         return False
 
+
 async def main():
     """Main verification routine"""
     print("⚛️🧠🛡️ LUKHAS AI Service Adapter Base Verification")
@@ -124,7 +134,7 @@ async def main():
         ("Import Test", test_imports),
         ("Adapter Creation", test_adapter_creation),
         ("Health Status", test_health_status),
-        ("Consciousness Integration", test_consciousness_integration)
+        ("Consciousness Integration", test_consciousness_integration),
     ]
 
     passed = 0
@@ -160,6 +170,7 @@ async def main():
         print("⚠️  Some tests failed. Check logs for details.")
 
     return passed == total
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -11,6 +11,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class AuditEngine:
     """Comprehensive audit orchestration engine"""
 
@@ -31,7 +32,7 @@ class AuditEngine:
             return {
                 "status": "error",
                 "message": "Audit script not found",
-                "timestamp": start_time.isoformat()
+                "timestamp": start_time.isoformat(),
             }
 
         try:
@@ -39,7 +40,7 @@ class AuditEngine:
             process = await asyncio.create_subprocess_exec(
                 str(self.audit_script),
                 stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
+                stderr=asyncio.subprocess.PIPE,
             )
 
             stdout, stderr = await process.communicate()
@@ -49,7 +50,7 @@ class AuditEngine:
                 return {
                     "status": "failed",
                     "message": stderr.decode(),
-                    "timestamp": start_time.isoformat()
+                    "timestamp": start_time.isoformat(),
                 }
 
             # Parse audit results
@@ -63,16 +64,12 @@ class AuditEngine:
                 "duration_seconds": duration,
                 "start_time": start_time.isoformat(),
                 "end_time": end_time.isoformat(),
-                "results": results
+                "results": results,
             }
 
         except Exception as e:
             logger.error(f"Audit execution error: {e}")
-            return {
-                "status": "error",
-                "message": str(e),
-                "timestamp": start_time.isoformat()
-            }
+            return {"status": "error", "message": str(e), "timestamp": start_time.isoformat()}
 
     async def parse_audit_results(self) -> dict[str, Any]:
         """Parse audit results from reports directory"""
@@ -82,7 +79,7 @@ class AuditEngine:
             "security": {},
             "dependencies": {},
             "tests": {},
-            "architecture": {}
+            "architecture": {},
         }
 
         try:
@@ -106,7 +103,9 @@ class AuditEngine:
                 with open(gitleaks_file) as f:
                     try:
                         data = json.load(f)
-                        results["security"]["secrets_found"] = len(data) if isinstance(data, list) else 0
+                        results["security"]["secrets_found"] = (
+                            len(data) if isinstance(data, list) else 0
+                        )
                     except json.JSONDecodeError:
                         results["security"]["secrets_found"] = 0
 
@@ -129,13 +128,15 @@ class AuditEngine:
         # For now, return mock data
         history = []
         for i in range(limit):
-            history.append({
-                "audit_id": f"AUD-2025081{4-i:02d}-{12-i:02d}0000",
-                "timestamp": f"2025-08-{14-i:02d}T12:00:00Z",
-                "status": "success" if i % 3 != 0 else "failed",
-                "duration_seconds": 180 + i * 10,
-                "issues_found": 10 - i
-            })
+            history.append(
+                {
+                    "audit_id": f"AUD-2025081{4 - i:02d}-{12 - i:02d}0000",
+                    "timestamp": f"2025-08-{14 - i:02d}T12:00:00Z",
+                    "status": "success" if i % 3 != 0 else "failed",
+                    "duration_seconds": 180 + i * 10,
+                    "issues_found": 10 - i,
+                }
+            )
         return history
 
     async def get_audit_metrics(self) -> dict[str, Any]:
@@ -149,6 +150,6 @@ class AuditEngine:
             "common_issues": [
                 {"issue": "Linting errors", "frequency": 45},
                 {"issue": "Missing tests", "frequency": 32},
-                {"issue": "Security warnings", "frequency": 12}
-            ]
+                {"issue": "Security warnings", "frequency": 12},
+            ],
         }

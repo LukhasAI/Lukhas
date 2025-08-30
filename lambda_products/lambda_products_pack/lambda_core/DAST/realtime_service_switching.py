@@ -203,9 +203,7 @@ class RealTimeServiceSwitcher:
             retry_count=request.max_retries,
         )
 
-    def get_service_status(
-        self, service_type: Optional[ServiceType] = None
-    ) -> dict[str, Any]:
+    def get_service_status(self, service_type: Optional[ServiceType] = None) -> dict[str, Any]:
         """Get current status of services"""
         status = {
             "overall_health": self._calculate_overall_health(),
@@ -296,13 +294,9 @@ class RealTimeServiceSwitcher:
 
         report["summary"] = {
             "total_requests": total_requests,
-            "success_rate": (
-                successful_requests / total_requests if total_requests > 0 else 0
-            ),
+            "success_rate": (successful_requests / total_requests if total_requests > 0 else 0),
             "avg_response_time_ms": self._calculate_avg_response_time(),
-            "failover_count": sum(
-                1 for r in self.response_history if r.retry_count > 0
-            ),
+            "failover_count": sum(1 for r in self.response_history if r.retry_count > 0),
         }
 
         # Provider-specific metrics
@@ -312,18 +306,10 @@ class RealTimeServiceSwitcher:
                 report["providers"][provider_id] = {
                     "name": provider.name if provider else "Unknown",
                     "avg_response_time_ms": statistics.mean(metrics[-100:]),
-                    "p95_response_time_ms": self._calculate_percentile(
-                        metrics[-100:], 95
-                    ),
-                    "p99_response_time_ms": self._calculate_percentile(
-                        metrics[-100:], 99
-                    ),
+                    "p95_response_time_ms": self._calculate_percentile(metrics[-100:], 95),
+                    "p99_response_time_ms": self._calculate_percentile(metrics[-100:], 99),
                     "requests_handled": len(
-                        [
-                            r
-                            for r in self.response_history
-                            if r.provider_id == provider_id
-                        ]
+                        [r for r in self.response_history if r.provider_id == provider_id]
                     ),
                     "cost_incurred": self._calculate_provider_cost(provider_id),
                 }
@@ -395,9 +381,7 @@ class RealTimeServiceSwitcher:
         else:  # ROUND_ROBIN
             return self._select_round_robin(available_providers)
 
-    def _get_available_providers(
-        self, service_type: ServiceType
-    ) -> list[ServiceProvider]:
+    def _get_available_providers(self, service_type: ServiceType) -> list[ServiceProvider]:
         """Get available providers for service type"""
         if service_type not in self.service_providers:
             return []
@@ -541,9 +525,9 @@ class RealTimeServiceSwitcher:
 
         # Keep only recent metrics
         if len(self.performance_metrics[provider_id]) > self.performance_window:
-            self.performance_metrics[provider_id] = self.performance_metrics[
-                provider_id
-            ][-self.performance_window :]
+            self.performance_metrics[provider_id] = self.performance_metrics[provider_id][
+                -self.performance_window :
+            ]
 
         # Update health
         if provider_id in self.service_health:
@@ -572,9 +556,9 @@ class RealTimeServiceSwitcher:
                 r for r in self.response_history[-100:] if r.provider_id == provider_id
             ]
             if recent_responses:
-                health.success_rate = sum(
-                    1 for r in recent_responses if r.success
-                ) / len(recent_responses)
+                health.success_rate = sum(1 for r in recent_responses if r.success) / len(
+                    recent_responses
+                )
 
             # Update health score
             health.health_score = self._calculate_health_score(health)
@@ -614,9 +598,7 @@ class RealTimeServiceSwitcher:
         """Select provider by priority"""
         return min(providers, key=lambda p: p.priority)
 
-    def _select_by_performance(
-        self, providers: list[ServiceProvider]
-    ) -> ServiceProvider:
+    def _select_by_performance(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider by performance"""
         best_score = -1
         best_provider = providers[0]
@@ -646,17 +628,13 @@ class RealTimeServiceSwitcher:
 
         return best_provider
 
-    def _select_by_load_balance(
-        self, providers: list[ServiceProvider]
-    ) -> ServiceProvider:
+    def _select_by_load_balance(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider using load balancing"""
         # Count recent requests per provider
         request_counts = {}
         for provider in providers:
             count = sum(
-                1
-                for r in self.response_history[-100:]
-                if r.provider_id == provider.provider_id
+                1 for r in self.response_history[-100:] if r.provider_id == provider.provider_id
             )
             request_counts[provider.provider_id] = count
 
@@ -700,9 +678,7 @@ class RealTimeServiceSwitcher:
         if not self.service_health:
             return "unknown"
 
-        avg_health_score = statistics.mean(
-            h.health_score for h in self.service_health.values()
-        )
+        avg_health_score = statistics.mean(h.health_score for h in self.service_health.values())
 
         if avg_health_score > 0.8:
             return "healthy"
@@ -745,9 +721,7 @@ class RealTimeServiceSwitcher:
             if p.cost_per_request > 0.05
         ]
         if high_cost_providers:
-            recommendations.append(
-                "Consider adding lower-cost alternatives for cost optimization"
-            )
+            recommendations.append("Consider adding lower-cost alternatives for cost optimization")
 
         return recommendations
 
@@ -759,9 +733,7 @@ class RealTimeServiceSwitcher:
                     return provider
         return None
 
-    def _record_failover_success(
-        self, primary: ServiceProvider, backup: ServiceProvider
-    ) -> None:
+    def _record_failover_success(self, primary: ServiceProvider, backup: ServiceProvider) -> None:
         """Record successful failover event"""
         # Would log this for analysis
 
@@ -789,9 +761,7 @@ class RealTimeServiceSwitcher:
             return 0.0
 
         request_count = sum(
-            1
-            for r in self.response_history
-            if r.provider_id == provider_id and r.success
+            1 for r in self.response_history if r.provider_id == provider_id and r.success
         )
 
         return request_count * provider.cost_per_request
@@ -835,9 +805,7 @@ class RealTimeServiceSwitcher:
                     fastest_providers[service_type] = best_provider
 
         if fastest_providers:
-            optimizations.append(
-                "Consider prioritizing fastest providers for latency optimization"
-            )
+            optimizations.append("Consider prioritizing fastest providers for latency optimization")
 
         # Check for cost optimization opportunities
         if self.failover_strategy != FailoverStrategy.COST_OPTIMIZED:
@@ -847,9 +815,7 @@ class RealTimeServiceSwitcher:
                 for p in providers
             )
             if total_cost > 100:  # Arbitrary threshold
-                optimizations.append(
-                    "Consider COST_OPTIMIZED strategy to reduce expenses"
-                )
+                optimizations.append("Consider COST_OPTIMIZED strategy to reduce expenses")
 
         return optimizations
 
@@ -885,9 +851,7 @@ if __name__ == "__main__":
         health_results = await switcher.perform_health_checks()
         print("\nHealth Check Results:")
         for provider_id, health in health_results.items():
-            print(
-                f"- {provider_id}: {health.status.value} (score: {health.health_score:.2f})"
-            )
+            print(f"- {provider_id}: {health.status.value} (score: {health.health_score:.2f})")
 
         # Get service status
         status = switcher.get_service_status()

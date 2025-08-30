@@ -49,6 +49,7 @@ try:
         return orjson.dumps(obj).decode()
 
 except ImportError:
+
     def fast_json_dumps(obj):
         return json.dumps(obj, default=str)
 
@@ -74,9 +75,7 @@ class AuditEventType(Enum):
     DATA_ACCESS = "data_access"
     USER_ACTION = "user_action"
     DRIFT_DETECTION = "drift_detection"
-    PERFORMANCE_OPTIMIZED = (
-        "performance_optimized"  # New for extreme performance tracking
-    )
+    PERFORMANCE_OPTIMIZED = "performance_optimized"  # New for extreme performance tracking
 
 
 class AuditSeverity(Enum):
@@ -161,12 +160,8 @@ class ExtremePerformanceAuditLogger:
         self.extreme_optimizer = None
 
         # High-performance configuration
-        self.buffer_size = self.config.get(
-            "buffer_size", 10000
-        )  # Large buffer for throughput
-        self.flush_interval = self.config.get(
-            "flush_interval", 0.1
-        )  # 100ms aggressive flushing
+        self.buffer_size = self.config.get("buffer_size", 10000)  # Large buffer for throughput
+        self.flush_interval = self.config.get("flush_interval", 0.1)  # 100ms aggressive flushing
         self.batch_size = self.config.get("batch_size", 1000)  # Batch operations
 
         # Storage paths (optimized for SSD)
@@ -194,9 +189,7 @@ class ExtremePerformanceAuditLogger:
         # Initialize flag
         self._initialized = False
 
-        print(
-            "🚀 ExtremePerformanceAuditLogger initialized for OpenAI-scale performance"
-        )
+        print("🚀 ExtremePerformanceAuditLogger initialized for OpenAI-scale performance")
         print(f"   Target latency: {self.target_latency_ms}ms per event")
         print(f"   Target throughput: {self.target_throughput_eps:,} events/second")
 
@@ -229,9 +222,7 @@ class ExtremePerformanceAuditLogger:
                 )
                 self._redis = redis.Redis(connection_pool=self._redis_pool)
                 await self._redis.ping()
-                print(
-                    "🚀 Redis connection pool initialized for extreme audit performance"
-                )
+                print("🚀 Redis connection pool initialized for extreme audit performance")
             except Exception:
                 print("⚠️ Redis not available - using memory buffer only")
 
@@ -267,7 +258,9 @@ class ExtremePerformanceAuditLogger:
             await self.initialize()
 
         event_start = time.perf_counter()
-        event_id = f"ep_{int(time.time() * 1000000)}_{self.events_logged}"  # Optimized ID generation
+        event_id = (
+            f"ep_{int(time.time() * 1000000)}_{self.events_logged}"  # Optimized ID generation
+        )
 
         # Create optimized audit event
         event = ExtremePerformanceAuditEvent(
@@ -322,21 +315,15 @@ class ExtremePerformanceAuditLogger:
 
         return event_id
 
-    async def _calculate_event_hash_background(
-        self, event: ExtremePerformanceAuditEvent
-    ):
+    async def _calculate_event_hash_background(self, event: ExtremePerformanceAuditEvent):
         """Calculate event hash in background without blocking"""
         try:
-            event_hash = await self.hash_calculator.calculate_hash_async(
-                event.to_dict()
-            )
+            event_hash = await self.hash_calculator.calculate_hash_async(event.to_dict())
             event.event_hash = event_hash
 
             # Update Redis cache with hash if available
             if self._redis:
-                await self._redis.hset(
-                    f"audit_hash:{event.event_id}", "hash", event_hash
-                )
+                await self._redis.hset(f"audit_hash:{event.event_id}", "hash", event_hash)
 
         except Exception as e:
             print(f"⚠️ Background hash calculation failed for {event.event_id}: {e}")
@@ -348,15 +335,10 @@ class ExtremePerformanceAuditLogger:
             pipe = self._redis.pipeline()
 
             # Store event data with 24h TTL
-            pipe.setex(
-                f"audit_event:{event.event_id}", 86400, fast_json_dumps(event.to_dict())
-            )
+            pipe.setex(f"audit_event:{event.event_id}", 86400, fast_json_dumps(event.to_dict()))
 
             # Store in performance index for fast querying
-            if (
-                event.processing_time_ms
-                and event.processing_time_ms <= self.target_latency_ms
-            ):
+            if event.processing_time_ms and event.processing_time_ms <= self.target_latency_ms:
                 pipe.zadd("audit_performance_fast", {event.event_id: time.time()})
 
             # Execute pipeline (fire-and-forget)
@@ -470,9 +452,7 @@ class ExtremePerformanceAuditLogger:
             AuditSeverity.CRITICAL
             if "constitutional" in policy_type.lower()
             else (
-                AuditSeverity.ERROR
-                if "security" in policy_type.lower()
-                else AuditSeverity.WARNING
+                AuditSeverity.ERROR if "security" in policy_type.lower() else AuditSeverity.WARNING
             )
         )
 
@@ -493,8 +473,7 @@ class ExtremePerformanceAuditLogger:
             agent_id=agent_id,
             resource=f"policy_{policy_type}",
             details=optimized_details,
-            calculate_hash=severity
-            == AuditSeverity.CRITICAL,  # Hash critical violations
+            calculate_hash=severity == AuditSeverity.CRITICAL,  # Hash critical violations
         )
 
     async def get_performance_dashboard_extreme(self) -> dict[str, Any]:
@@ -513,9 +492,7 @@ class ExtremePerformanceAuditLogger:
                 "target_throughput_eps": self.target_throughput_eps,
                 "latency_target_met": self.avg_event_time_ms <= self.target_latency_ms,
                 "throughput_target_met": current_throughput
-                >= (
-                    self.target_throughput_eps * 0.1
-                ),  # 10% of target for realistic testing
+                >= (self.target_throughput_eps * 0.1),  # 10% of target for realistic testing
             },
             "optimization_status": {
                 "async_buffer_enabled": self.audit_buffer is not None,
@@ -530,9 +507,7 @@ class ExtremePerformanceAuditLogger:
             dashboard["audit_buffer_stats"] = self.audit_buffer.get_performance_stats()
 
         if self.hash_calculator:
-            dashboard["hash_calculator_stats"] = (
-                self.hash_calculator.get_performance_stats()
-            )
+            dashboard["hash_calculator_stats"] = self.hash_calculator.get_performance_stats()
 
         # Performance assessment
         overall_performance = (
@@ -552,13 +527,9 @@ class ExtremePerformanceAuditLogger:
 
         return dashboard
 
-    async def run_performance_benchmark_extreme(
-        self, num_events: int = 10000
-    ) -> dict[str, Any]:
+    async def run_performance_benchmark_extreme(self, num_events: int = 10000) -> dict[str, Any]:
         """Run extreme performance benchmark"""
-        print(
-            f"🧪 Running extreme performance benchmark with {num_events:,} audit events..."
-        )
+        print(f"🧪 Running extreme performance benchmark with {num_events:,} audit events...")
 
         if not self._initialized:
             await self.initialize()
@@ -646,7 +617,7 @@ _extreme_audit_logger: Optional[ExtremePerformanceAuditLogger] = None
 
 async def get_extreme_audit_logger() -> ExtremePerformanceAuditLogger:
     """Get global extreme performance audit logger"""
-    global _extreme_audit_logger  # noqa: PLW0603
+    global _extreme_audit_logger
     if _extreme_audit_logger is None:
         _extreme_audit_logger = ExtremePerformanceAuditLogger()
         await _extreme_audit_logger.initialize()
@@ -654,9 +625,7 @@ async def get_extreme_audit_logger() -> ExtremePerformanceAuditLogger:
 
 
 # Convenience functions for easy migration
-async def log_audit_event_extreme(
-    event_type: AuditEventType, action: str, **kwargs
-) -> str:
+async def log_audit_event_extreme(event_type: AuditEventType, action: str, **kwargs) -> str:
     """Extreme performance audit event logging"""
     logger = await get_extreme_audit_logger()
     return await logger.log_event_extreme_performance(event_type, action, **kwargs)
@@ -670,10 +639,10 @@ async def run_audit_benchmark_extreme(num_events: int = 10000) -> dict[str, Any]
 
 # Export components
 __all__ = [
-    "ExtremePerformanceAuditLogger",
-    "ExtremePerformanceAuditEvent",
     "AuditEventType",
     "AuditSeverity",
+    "ExtremePerformanceAuditEvent",
+    "ExtremePerformanceAuditLogger",
     "get_extreme_audit_logger",
     "log_audit_event_extreme",
     "run_audit_benchmark_extreme",

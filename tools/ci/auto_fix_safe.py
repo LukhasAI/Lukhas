@@ -93,17 +93,11 @@ class Fixer(cst.CSTTransformer):
     # UP006/UP035 -> builtins
     def leave_Attribute(self, node, updated):
         if "UP006" in self.rules or "UP035" in self.rules:
-            if m.matches(
-                node, m.Attribute(value=m.Name("typing"), attr=m.Name("Dict"))
-            ):
+            if m.matches(node, m.Attribute(value=m.Name("typing"), attr=m.Name("Dict"))):
                 return cst.Name("dict")
-            if m.matches(
-                node, m.Attribute(value=m.Name("typing"), attr=m.Name("List"))
-            ):
+            if m.matches(node, m.Attribute(value=m.Name("typing"), attr=m.Name("List"))):
                 return cst.Name("list")
-            if m.matches(
-                node, m.Attribute(value=m.Name("typing"), attr=m.Name("Tuple"))
-            ):
+            if m.matches(node, m.Attribute(value=m.Name("typing"), attr=m.Name("Tuple"))):
                 return cst.Name("tuple")
         return updated
 
@@ -113,9 +107,7 @@ class Fixer(cst.CSTTransformer):
             return updated
         if len(updated.body) == 1 and isinstance(updated.body[0], cst.Assign):
             rhs = updated.body[0].value
-            if isinstance(
-                rhs, (cst.SimpleString, cst.Integer, cst.Float, cst.Name, cst.Attribute)
-            ):
+            if isinstance(rhs, (cst.SimpleString, cst.Integer, cst.Float, cst.Name, cst.Attribute)):
                 self.stats["removed_assigns"] += 1
                 return cst.RemoveFromParent()
         return updated
@@ -197,9 +189,7 @@ def main():
         encoding="utf-8",
     )
 
-    print(
-        f"✅ auto_fix_safe: considered {len(to_fix)} staged files, modified {changed}"
-    )
+    print(f"✅ auto_fix_safe: considered {len(to_fix)} staged files, modified {changed}")
     return 0
 
 

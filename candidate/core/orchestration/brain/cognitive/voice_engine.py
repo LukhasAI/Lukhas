@@ -90,17 +90,13 @@ class CognitiveVoiceEngine:
         # Apply emotional modulation
         primary_emotion = max(emotional_state.items(), key=lambda x: x[1])[0]
         if primary_emotion in self.voice_modulators["emotional"]:
-            for param, value in self.voice_modulators["emotional"][
-                primary_emotion
-            ].items():
+            for param, value in self.voice_modulators["emotional"][primary_emotion].items():
                 modulation["base_parameters"][param] *= value
 
         # Apply cognitive modulation
         cognitive_state = cognitive_patterns.get("state", "neutral")
         if cognitive_state in self.voice_modulators["cognitive"]:
-            for param, value in self.voice_modulators["cognitive"][
-                cognitive_state
-            ].items():
+            for param, value in self.voice_modulators["cognitive"][cognitive_state].items():
                 modulation["base_parameters"][param] = value
 
         return modulation

@@ -14,14 +14,15 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
+
 def test_main_server():
     """Test main LUKHAS MCP server"""
     print("🧪 Testing Main LUKHAS MCP Server...")
     try:
         import importlib.util
+
         spec = importlib.util.spec_from_file_location(
-            "lukhas_mcp_server",
-            project_root / "mcp_servers" / "lukhas_mcp_server.py"
+            "lukhas_mcp_server", project_root / "mcp_servers" / "lukhas_mcp_server.py"
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
@@ -37,14 +38,16 @@ def test_main_server():
         print(f"   ❌ Error: {e}")
         return False
 
+
 def test_consciousness_server():
     """Test consciousness MCP server"""
     print("\n🧠 Testing Consciousness MCP Server...")
     try:
         import importlib.util
+
         spec = importlib.util.spec_from_file_location(
             "consciousness_server",
-            project_root / "mcp_servers" / "lukhas_consciousness" / "server.py"
+            project_root / "mcp_servers" / "lukhas_consciousness" / "server.py",
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
@@ -59,14 +62,15 @@ def test_consciousness_server():
         print(f"   ❌ Error: {e}")
         return False
 
+
 def test_identity_server():
     """Test identity MCP server"""
     print("\n🛡️ Testing Identity MCP Server...")
     try:
         import importlib.util
+
         spec = importlib.util.spec_from_file_location(
-            "identity_server",
-            project_root / "mcp_servers" / "identity" / "server.py"
+            "identity_server", project_root / "mcp_servers" / "identity" / "server.py"
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
@@ -77,6 +81,7 @@ def test_identity_server():
         print(f"   ❌ Error: {e}")
         return False
 
+
 def test_mcp_imports():
     """Test MCP SDK imports"""
     print("\n📦 Testing MCP SDK...")
@@ -84,11 +89,13 @@ def test_mcp_imports():
         import mcp.server.stdio
         from mcp import types
         from mcp.server import Server
+
         print("   ✅ All MCP imports successful")
         return True
     except ImportError as e:
         print(f"   ❌ MCP import error: {e}")
         return False
+
 
 def main():
     """Run all MCP integration tests"""
@@ -137,6 +144,7 @@ def main():
     else:
         print(f"\n⚠️ {total_tests - passed_tests} test(s) failed. Please check the errors above.")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

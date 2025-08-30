@@ -184,14 +184,10 @@ class QIWebSecurity:
         session.last_activity = datetime.now(timezone.utc)
         return True
 
-    def _generate_quantum_signature(
-        self, message_hash: bytes, private_key: bytes
-    ) -> str:
+    def _generate_quantum_signature(self, message_hash: bytes, private_key: bytes) -> str:
         """Generate quantum-resistant signature for web requests"""
         nonce = secrets.token_bytes(16)
-        signature_data = (
-            private_key + nonce + message_hash + self.qi_random_pool[:32]
-        )
+        signature_data = private_key + nonce + message_hash + self.qi_random_pool[:32]
         signature = hashlib.sha3_384(signature_data).digest()
         return base64.b64encode(nonce + signature).decode()
 
@@ -213,9 +209,7 @@ class QIWebSecurity:
         encrypted = self._xor_encrypt(data_json.encode(), encryption_key)
         return base64.b64encode(encrypted).decode()
 
-    async def decrypt_session_data(
-        self, session_id: str, encrypted_data: str
-    ) -> dict[str, Any]:
+    async def decrypt_session_data(self, session_id: str, encrypted_data: str) -> dict[str, Any]:
         """Decrypt session data with post-quantum security"""
 
         if session_id not in self.active_sessions:

@@ -32,6 +32,7 @@ try:
         ValidationSeverity,
         get_validator,
     )
+
     VALIDATION_AVAILABLE = True
 except ImportError:
     VALIDATION_AVAILABLE = False
@@ -39,10 +40,12 @@ except ImportError:
 try:
     from fastapi import APIRouter, HTTPException, Request, status
     from pydantic import BaseModel, Field, validator
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     try:
         from flask import Blueprint, jsonify, request
+
         FLASK_AVAILABLE = True
         FASTAPI_AVAILABLE = False
     except ImportError:
@@ -51,10 +54,14 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
+
 # Pydantic models for request/response validation
 class OnboardingStartRequest(BaseModel):
     """Start onboarding request model"""
-    user_info: Optional[dict[str, Any]] = Field(default_factory=dict, description="Initial user information")
+
+    user_info: Optional[dict[str, Any]] = Field(
+        default_factory=dict, description="Initial user information"
+    )
     referral_code: Optional[str] = Field(None, description="Referral code")
     marketing_source: Optional[str] = Field(None, description="Marketing source")
 
@@ -67,12 +74,16 @@ class OnboardingStartRequest(BaseModel):
                 raise ValueError("Invalid email format")
         return v
 
+
 class TierSetupRequest(BaseModel):
     """Tier setup request model"""
+
     session_id: str = Field(..., description="Onboarding session ID")
     experience_level: str = Field("beginner", description="User experience level")
     use_cases: list[str] = Field(default_factory=list, description="Intended use cases")
-    user_preferences: Optional[dict[str, Any]] = Field(default_factory=dict, description="User preferences")
+    user_preferences: Optional[dict[str, Any]] = Field(
+        default_factory=dict, description="User preferences"
+    )
     industry: Optional[str] = Field(None, description="User's industry")
     organization_size: Optional[str] = Field(None, description="Organization size")
 
@@ -83,20 +94,27 @@ class TierSetupRequest(BaseModel):
             raise ValueError(f"Experience level must be one of: {valid_levels}")
         return v
 
+
 class ConsentRequest(BaseModel):
     """Consent collection request model"""
+
     session_id: str = Field(..., description="Onboarding session ID")
     consent_choices: dict[str, bool] = Field(..., description="Consent choices")
     ip_address: Optional[str] = Field(None, description="User IP address")
     user_agent: Optional[str] = Field(None, description="User agent string")
 
+
 class CompletionRequest(BaseModel):
     """Onboarding completion request model"""
+
     session_id: str = Field(..., description="Onboarding session ID")
     completed_steps: list[str] = Field(..., description="List of completed steps")
-    final_user_data: Optional[dict[str, Any]] = Field(default_factory=dict, description="Final user data")
+    final_user_data: Optional[dict[str, Any]] = Field(
+        default_factory=dict, description="Final user data"
+    )
     terms_accepted: bool = Field(True, description="Terms of service accepted")
     privacy_policy_accepted: bool = Field(True, description="Privacy policy accepted")
+
 
 class OnboardingSession:
     """Manages onboarding sessions and state"""
@@ -105,7 +123,9 @@ class OnboardingSession:
         self.sessions = {}  # In production, use Redis or database
         self.api_keys = {}  # In production, use secure key store
 
-    def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
+    def create_session(
+        self, user_info: dict[str, Any], referral_code: Optional[str] = None
+    ) -> dict[str, Any]:
         """Create new onboarding session"""
         session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}"
 
@@ -120,7 +140,7 @@ class OnboardingSession:
             "steps_completed": [],
             "steps_remaining": ["tier-setup", "consent", "complete"],
             "validation_results": {},
-            "security_score": 1.0
+            "security_score": 1.0,
         }
 
         self.sessions[session_id] = session_data
@@ -167,7 +187,7 @@ class OnboardingSession:
             "created_at": time.time(),
             "last_used": None,
             "usage_count": 0,
-            "rate_limit": self._get_tier_limits(tier)
+            "rate_limit": self._get_tier_limits(tier),
         }
 
         return api_key
@@ -175,15 +195,33 @@ class OnboardingSession:
     def _get_tier_limits(self, tier: str) -> dict[str, Any]:
         """Get rate limits for tier"""
         tier_limits = {
-            "LAMBDA_TIER_1": {"requests_per_minute": 10, "requests_per_day": 100, "max_cost_per_day": 5.0},
-            "LAMBDA_TIER_2": {"requests_per_minute": 50, "requests_per_day": 1000, "max_cost_per_day": 25.0},
-            "LAMBDA_TIER_3": {"requests_per_minute": 100, "requests_per_day": 5000, "max_cost_per_day": 100.0},
-            "LAMBDA_TIER_4": {"requests_per_minute": 500, "requests_per_day": 50000, "max_cost_per_day": 1000.0}
+            "LAMBDA_TIER_1": {
+                "requests_per_minute": 10,
+                "requests_per_day": 100,
+                "max_cost_per_day": 5.0,
+            },
+            "LAMBDA_TIER_2": {
+                "requests_per_minute": 50,
+                "requests_per_day": 1000,
+                "max_cost_per_day": 25.0,
+            },
+            "LAMBDA_TIER_3": {
+                "requests_per_minute": 100,
+                "requests_per_day": 5000,
+                "max_cost_per_day": 100.0,
+            },
+            "LAMBDA_TIER_4": {
+                "requests_per_minute": 500,
+                "requests_per_day": 50000,
+                "max_cost_per_day": 1000.0,
+            },
         }
         return tier_limits.get(tier, tier_limits["LAMBDA_TIER_1"])
 
+
 # Global session manager
 session_manager = OnboardingSession()
+
 
 class OnboardingService:
     """Core onboarding business logic"""
@@ -191,7 +229,9 @@ class OnboardingService:
     def __init__(self):
         self.validator = get_validator() if VALIDATION_AVAILABLE else None
 
-    async def validate_onboarding_request(self, request_data: dict[str, Any], step: str) -> Optional[dict[str, Any]]:
+    async def validate_onboarding_request(
+        self, request_data: dict[str, Any], step: str
+    ) -> Optional[dict[str, Any]]:
         """Validate onboarding request data"""
         if not self.validator:
             return None
@@ -200,16 +240,17 @@ class OnboardingService:
         result = await self.validator.validate_request("orchestration", request_data, context)
 
         if not result.is_valid:
-            return {
-                "valid": False,
-                "errors": result.errors,
-                "warnings": result.warnings
-            }
+            return {"valid": False, "errors": result.errors, "warnings": result.warnings}
 
         return {"valid": True, "warnings": result.warnings}
 
-    def assign_tier(self, experience_level: str, use_cases: list[str],
-                   industry: Optional[str] = None, org_size: Optional[str] = None) -> str:
+    def assign_tier(
+        self,
+        experience_level: str,
+        use_cases: list[str],
+        industry: Optional[str] = None,
+        org_size: Optional[str] = None,
+    ) -> str:
         """Intelligent tier assignment based on user profile"""
 
         # Base tier from experience level
@@ -217,7 +258,7 @@ class OnboardingService:
             "beginner": "LAMBDA_TIER_1",
             "intermediate": "LAMBDA_TIER_2",
             "advanced": "LAMBDA_TIER_3",
-            "expert": "LAMBDA_TIER_4"
+            "expert": "LAMBDA_TIER_4",
         }
 
         assigned_tier = base_tiers.get(experience_level, "LAMBDA_TIER_1")
@@ -252,10 +293,10 @@ class OnboardingService:
                     "Basic AI interactions",
                     "Standard support",
                     "10 requests/minute",
-                    "Community access"
+                    "Community access",
                 ],
                 "limits": {"daily_requests": 100, "cost_limit": 5.0},
-                "support_level": "community"
+                "support_level": "community",
             },
             "LAMBDA_TIER_2": {
                 "name": "Lambda Professional",
@@ -264,10 +305,10 @@ class OnboardingService:
                     "Priority support",
                     "Custom workflows",
                     "50 requests/minute",
-                    "API access"
+                    "API access",
                 ],
                 "limits": {"daily_requests": 1000, "cost_limit": 25.0},
-                "support_level": "email"
+                "support_level": "email",
             },
             "LAMBDA_TIER_3": {
                 "name": "Lambda Enterprise",
@@ -277,10 +318,10 @@ class OnboardingService:
                     "Custom integrations",
                     "100 requests/minute",
                     "Healthcare compliance",
-                    "Advanced analytics"
+                    "Advanced analytics",
                 ],
                 "limits": {"daily_requests": 5000, "cost_limit": 100.0},
-                "support_level": "dedicated"
+                "support_level": "dedicated",
             },
             "LAMBDA_TIER_4": {
                 "name": "Lambda Ultimate",
@@ -291,39 +332,32 @@ class OnboardingService:
                     "500 requests/minute",
                     "White-label options",
                     "SLA guarantees",
-                    "Custom model training"
+                    "Custom model training",
                 ],
                 "limits": {"daily_requests": 50000, "cost_limit": 1000.0},
-                "support_level": "phone_and_dedicated"
-            }
+                "support_level": "phone_and_dedicated",
+            },
         }
 
         return tier_features.get(tier, tier_features["LAMBDA_TIER_1"])
 
-    def validate_consent(self, consent_choices: dict[str, bool],
-                        healthcare_context: bool = False) -> dict[str, Any]:
+    def validate_consent(
+        self, consent_choices: dict[str, bool], healthcare_context: bool = False
+    ) -> dict[str, Any]:
         """Validate consent requirements"""
 
         # Required consents for all users
-        required_consents = [
-            "data_processing",
-            "analytics",
-            "communications"
-        ]
+        required_consents = ["data_processing", "analytics", "communications"]
 
         # Additional required consents for healthcare
         if healthcare_context:
-            required_consents.extend([
-                "medical_analysis",
-                "phi_processing",
-                "hipaa_compliance"
-            ])
+            required_consents.extend(["medical_analysis", "phi_processing", "hipaa_compliance"])
 
         optional_consents = [
             "marketing",
             "research_participation",
             "feature_updates",
-            "third_party_integrations"
+            "third_party_integrations",
         ]
 
         # Check required consents
@@ -341,10 +375,15 @@ class OnboardingService:
             "valid": len(missing_required) == 0,
             "missing_required": missing_required,
             "consent_score": consent_score,
-            "healthcare_compliant": healthcare_context and all(
-                consent_choices.get(c, False) for c in ["medical_analysis", "phi_processing", "hipaa_compliance"]
-            ) if healthcare_context else True
+            "healthcare_compliant": healthcare_context
+            and all(
+                consent_choices.get(c, False)
+                for c in ["medical_analysis", "phi_processing", "hipaa_compliance"]
+            )
+            if healthcare_context
+            else True,
         }
+
 
 # Initialize service
 onboarding_service = OnboardingService()
@@ -357,10 +396,12 @@ if FASTAPI_AVAILABLE:
     @router.post("/start")
     async def start_onboarding_endpoint(request: OnboardingStartRequest, http_request: Request):
         """Start the user onboarding process"""
-        request_id = f"onboard_start_{int(time.time()*1000)}"
+        request_id = f"onboard_start_{int(time.time() * 1000)}"
 
         logger.info(f"🚀 Starting onboarding: {request_id}")
-        logger.info(f"   User info keys: {list(request.user_info.keys()) if request.user_info else []}")
+        logger.info(
+            f"   User info keys: {list(request.user_info.keys()) if request.user_info else []}"
+        )
         logger.info(f"   Referral code: {request.referral_code is not None}")
 
         try:
@@ -374,20 +415,18 @@ if FASTAPI_AVAILABLE:
                         status_code=status.HTTP_400_BAD_REQUEST,
                         detail={
                             "error": "Validation failed",
-                            "validation_errors": validation_result["errors"]
-                        }
+                            "validation_errors": validation_result["errors"],
+                        },
                     )
 
             # Create onboarding session
-            session_data = session_manager.create_session(
-                request.user_info, request.referral_code
-            )
+            session_data = session_manager.create_session(request.user_info, request.referral_code)
 
             # Add client information
             session_data["client_info"] = {
                 "ip_address": http_request.client.host,
                 "user_agent": http_request.headers.get("user-agent", "unknown"),
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             logger.info(f"✅ Onboarding started: {session_data['session_id']}")
@@ -403,24 +442,23 @@ if FASTAPI_AVAILABLE:
                 "data": {
                     "session_id": session_data["session_id"],
                     "status": session_data["status"],
-                    "steps_remaining": session_data["steps_remaining"]
-                }
+                    "steps_remaining": session_data["steps_remaining"],
+                },
             }
 
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(f"❌ Onboarding start error: {request_id} - {str(e)}")
+            logger.error(f"❌ Onboarding start error: {request_id} - {e!s}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error starting onboarding: {str(e)}"
+                detail=f"Error starting onboarding: {e!s}",
             )
-
 
     @router.post("/tier-setup")
     async def setup_user_tier_endpoint(request: TierSetupRequest):
         """Set up user tier based on profile and requirements"""
-        request_id = f"onboard_tier_{int(time.time()*1000)}"
+        request_id = f"onboard_tier_{int(time.time() * 1000)}"
 
         logger.info(f"🎯 Setting up tier: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -432,8 +470,7 @@ if FASTAPI_AVAILABLE:
             session = session_manager.get_session(request.session_id)
             if not session:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Invalid or expired session"
+                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
                 )
 
             # Validate request data
@@ -446,34 +483,39 @@ if FASTAPI_AVAILABLE:
                         status_code=status.HTTP_400_BAD_REQUEST,
                         detail={
                             "error": "Validation failed",
-                            "validation_errors": validation_result["errors"]
-                        }
+                            "validation_errors": validation_result["errors"],
+                        },
                     )
 
             # Assign tier based on user profile
             assigned_tier = onboarding_service.assign_tier(
                 request.experience_level,
                 request.use_cases,
-                request.user_preferences.get("industry") if request.user_preferences else request.industry,
-                request.organization_size
+                request.user_preferences.get("industry")
+                if request.user_preferences
+                else request.industry,
+                request.organization_size,
             )
 
             # Get tier features and benefits
             tier_features = onboarding_service.get_tier_features(assigned_tier)
 
             # Update session
-            session_manager.update_session(request.session_id, {
-                "assigned_tier": assigned_tier,
-                "tier_setup_data": {
-                    "experience_level": request.experience_level,
-                    "use_cases": request.use_cases,
-                    "user_preferences": request.user_preferences,
-                    "industry": request.industry,
-                    "organization_size": request.organization_size
+            session_manager.update_session(
+                request.session_id,
+                {
+                    "assigned_tier": assigned_tier,
+                    "tier_setup_data": {
+                        "experience_level": request.experience_level,
+                        "use_cases": request.use_cases,
+                        "user_preferences": request.user_preferences,
+                        "industry": request.industry,
+                        "organization_size": request.organization_size,
+                    },
+                    "tier_features": tier_features,
+                    "current_step": "consent",
                 },
-                "tier_features": tier_features,
-                "current_step": "consent"
-            })
+            )
 
             session_manager.complete_step(request.session_id, "tier-setup")
 
@@ -489,27 +531,26 @@ if FASTAPI_AVAILABLE:
                     "tier_name": tier_features["name"],
                     "features": tier_features["features"],
                     "limits": tier_features["limits"],
-                    "support_level": tier_features["support_level"]
+                    "support_level": tier_features["support_level"],
                 },
                 "next_step": "consent",
                 "next_step_url": "/api/v2/onboarding/consent",
-                "healthcare_compliance_required": "healthcare" in request.use_cases
+                "healthcare_compliance_required": "healthcare" in request.use_cases,
             }
 
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(f"❌ Tier setup error: {request_id} - {str(e)}")
+            logger.error(f"❌ Tier setup error: {request_id} - {e!s}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error in tier setup: {str(e)}"
+                detail=f"Error in tier setup: {e!s}",
             )
-
 
     @router.post("/consent")
     async def collect_user_consent_endpoint(request: ConsentRequest, http_request: Request):
         """Collect and validate user consent with HIPAA compliance support"""
-        request_id = f"onboard_consent_{int(time.time()*1000)}"
+        request_id = f"onboard_consent_{int(time.time() * 1000)}"
 
         logger.info(f"📝 Collecting consent: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -520,8 +561,7 @@ if FASTAPI_AVAILABLE:
             session = session_manager.get_session(request.session_id)
             if not session:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Invalid or expired session"
+                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
                 )
 
             # Check if healthcare compliance is required
@@ -539,8 +579,8 @@ if FASTAPI_AVAILABLE:
                     detail={
                         "error": "Required consents are missing",
                         "missing_consents": consent_validation["missing_required"],
-                        "healthcare_context": healthcare_context
-                    }
+                        "healthcare_context": healthcare_context,
+                    },
                 )
 
             # Create consent record with full audit trail
@@ -560,20 +600,25 @@ if FASTAPI_AVAILABLE:
                 "audit_trail": {
                     "collected_at": datetime.now(timezone.utc).isoformat(),
                     "method": "api",
-                    "version": "2.0"
-                }
+                    "version": "2.0",
+                },
             }
 
             # Update session
-            session_manager.update_session(request.session_id, {
-                "consent_record": consent_record,
-                "healthcare_compliant": consent_validation.get("healthcare_compliant", False),
-                "current_step": "complete"
-            })
+            session_manager.update_session(
+                request.session_id,
+                {
+                    "consent_record": consent_record,
+                    "healthcare_compliant": consent_validation.get("healthcare_compliant", False),
+                    "current_step": "complete",
+                },
+            )
 
             session_manager.complete_step(request.session_id, "consent")
 
-            logger.info(f"✅ Consent collected: {request.session_id} (score: {consent_validation['consent_score']:.2f})")
+            logger.info(
+                f"✅ Consent collected: {request.session_id} (score: {consent_validation['consent_score']:.2f})"
+            )
 
             return {
                 "success": True,
@@ -584,26 +629,25 @@ if FASTAPI_AVAILABLE:
                     "consent_score": consent_validation["consent_score"],
                     "healthcare_compliant": consent_validation.get("healthcare_compliant", False),
                     "total_consents": len(request.consent_choices),
-                    "given_consents": sum(1 for v in request.consent_choices.values() if v)
+                    "given_consents": sum(1 for v in request.consent_choices.values() if v),
                 },
                 "next_step": "complete",
-                "next_step_url": "/api/v2/onboarding/complete"
+                "next_step_url": "/api/v2/onboarding/complete",
             }
 
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(f"❌ Consent collection error: {request_id} - {str(e)}")
+            logger.error(f"❌ Consent collection error: {request_id} - {e!s}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error collecting consent: {str(e)}"
+                detail=f"Error collecting consent: {e!s}",
             )
-
 
     @router.post("/complete")
     async def complete_onboarding_endpoint(request: CompletionRequest):
         """Complete the onboarding process and activate user account"""
-        request_id = f"onboard_complete_{int(time.time()*1000)}"
+        request_id = f"onboard_complete_{int(time.time() * 1000)}"
 
         logger.info(f"🏁 Completing onboarding: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -614,8 +658,7 @@ if FASTAPI_AVAILABLE:
             session = session_manager.get_session(request.session_id)
             if not session:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Invalid or expired session"
+                    status_code=status.HTTP_404_NOT_FOUND, detail="Invalid or expired session"
                 )
 
             # Verify all required steps are completed
@@ -627,15 +670,15 @@ if FASTAPI_AVAILABLE:
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail={
                         "error": "Required onboarding steps not completed",
-                        "missing_steps": missing_steps
-                    }
+                        "missing_steps": missing_steps,
+                    },
                 )
 
             # Verify terms acceptance
             if not request.terms_accepted or not request.privacy_policy_accepted:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Terms of service and privacy policy must be accepted"
+                    detail="Terms of service and privacy policy must be accepted",
                 )
 
             # Generate ΛiD and API key
@@ -653,21 +696,20 @@ if FASTAPI_AVAILABLE:
                 "status": "active",
                 "onboarding_completed": True,
                 "onboarding_version": "2.0",
-                "user_data": {
-                    **session.get("user_info", {}),
-                    **request.final_user_data
-                },
+                "user_data": {**session.get("user_info", {}), **request.final_user_data},
                 "tier_setup_data": session.get("tier_setup_data", {}),
                 "consent_record": session.get("consent_record", {}),
                 "account_type": "standard",
                 "verification_level": "basic",
                 "healthcare_compliant": session.get("healthcare_compliant", False),
-                "api_key_hash": hashlib.sha256(api_key.encode()).hexdigest()[:16],  # Store partial hash for reference
+                "api_key_hash": hashlib.sha256(api_key.encode()).hexdigest()[
+                    :16
+                ],  # Store partial hash for reference
                 "created_from": {
                     "ip_address": session.get("client_info", {}).get("ip_address"),
                     "user_agent": session.get("client_info", {}).get("user_agent"),
-                    "referral_code": session.get("referral_code")
-                }
+                    "referral_code": session.get("referral_code"),
+                },
             }
 
             # Generate welcome data with personalized recommendations
@@ -680,31 +722,34 @@ if FASTAPI_AVAILABLE:
                 "tier_info": {
                     "name": tier_features.get("name", "Lambda Starter"),
                     "features": tier_features.get("features", []),
-                    "support_level": tier_features.get("support_level", "community")
+                    "support_level": tier_features.get("support_level", "community"),
                 },
                 "personalized_recommendations": self._get_personalized_recommendations(use_cases),
                 "next_steps": [
                     "Verify your email address",
                     "Explore the API documentation",
                     "Join the LUKHAS community",
-                    "Try your first API request"
+                    "Try your first API request",
                 ],
                 "resources": {
                     "api_documentation": "/docs/api",
                     "tutorials": "/tutorials",
                     "community": "/community",
-                    "support": "/support"
+                    "support": "/support",
                 },
-                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-')}"
+                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-')}",
             }
 
             # Mark session as completed
-            session_manager.update_session(request.session_id, {
-                "status": "completed",
-                "completed_at": time.time(),
-                "lambda_id": lambda_id,
-                "user_profile": user_profile
-            })
+            session_manager.update_session(
+                request.session_id,
+                {
+                    "status": "completed",
+                    "completed_at": time.time(),
+                    "lambda_id": lambda_id,
+                    "user_profile": user_profile,
+                },
+            )
 
             session_manager.complete_step(request.session_id, "complete")
 
@@ -721,29 +766,29 @@ if FASTAPI_AVAILABLE:
                     "tier": assigned_tier,
                     "tier_name": tier_features.get("name", "Lambda Starter"),
                     "status": "active",
-                    "healthcare_compliant": user_profile["healthcare_compliant"]
+                    "healthcare_compliant": user_profile["healthcare_compliant"],
                 },
                 "welcome_data": welcome_data,
                 "next_actions": [
                     "Secure your API key in a safe location",
                     "Verify your email if provided",
                     "Set up additional security (2FA recommended)",
-                    "Explore the platform features"
+                    "Explore the platform features",
                 ],
                 "api_endpoints": {
                     "orchestration": "/api/v1/orchestrate",
                     "streaming": "/api/v1/stream",
-                    "metrics": "/api/v1/metrics"
-                }
+                    "metrics": "/api/v1/metrics",
+                },
             }
 
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(f"❌ Onboarding completion error: {request_id} - {str(e)}")
+            logger.error(f"❌ Onboarding completion error: {request_id} - {e!s}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error completing onboarding: {str(e)}"
+                detail=f"Error completing onboarding: {e!s}",
             )
 
     def _get_personalized_recommendations(self, use_cases: list[str]) -> list[str]:
@@ -751,45 +796,55 @@ if FASTAPI_AVAILABLE:
         recommendations = []
 
         if "healthcare" in use_cases:
-            recommendations.extend([
-                "Explore healthcare-compliant AI features",
-                "Review HIPAA compliance documentation",
-                "Set up secure healthcare data processing"
-            ])
+            recommendations.extend(
+                [
+                    "Explore healthcare-compliant AI features",
+                    "Review HIPAA compliance documentation",
+                    "Set up secure healthcare data processing",
+                ]
+            )
 
         if "research" in use_cases:
-            recommendations.extend([
-                "Try advanced research tools",
-                "Explore quantum-inspired processing features",
-                "Join the research community forum"
-            ])
+            recommendations.extend(
+                [
+                    "Try advanced research tools",
+                    "Explore quantum-inspired processing features",
+                    "Join the research community forum",
+                ]
+            )
 
         if "api_integration" in use_cases:
-            recommendations.extend([
-                "Review API integration examples",
-                "Set up webhooks for real-time updates",
-                "Explore SDK options"
-            ])
+            recommendations.extend(
+                [
+                    "Review API integration examples",
+                    "Set up webhooks for real-time updates",
+                    "Explore SDK options",
+                ]
+            )
 
         if "enterprise" in use_cases:
-            recommendations.extend([
-                "Contact enterprise support for custom setup",
-                "Review enterprise security features",
-                "Schedule architecture consultation"
-            ])
+            recommendations.extend(
+                [
+                    "Contact enterprise support for custom setup",
+                    "Review enterprise security features",
+                    "Schedule architecture consultation",
+                ]
+            )
 
         # Default recommendations
         if not recommendations:
             recommendations = [
                 "Try the interactive tutorial",
                 "Explore sample use cases",
-                "Join beginner-friendly community discussions"
+                "Join beginner-friendly community discussions",
             ]
 
         return recommendations[:5]  # Limit to 5 recommendations
 
 else:
-    logger.warning("⚠️ FastAPI not available - onboarding endpoints will use fallback implementation")
+    logger.warning(
+        "⚠️ FastAPI not available - onboarding endpoints will use fallback implementation"
+    )
     router = None
 
 
@@ -798,6 +853,7 @@ else:
 
 # Health check endpoint for onboarding service
 if FASTAPI_AVAILABLE:
+
     @router.get("/health")
     async def onboarding_health_check():
         """Health check for onboarding service"""
@@ -813,23 +869,24 @@ if FASTAPI_AVAILABLE:
                 "consent_management": True,
                 "healthcare_compliance": True,
                 "api_key_generation": True,
-                "validation_integration": VALIDATION_AVAILABLE
-            }
+                "validation_integration": VALIDATION_AVAILABLE,
+            },
         }
+
 
 logger.info("✅ LUKHAS Onboarding API module loaded with comprehensive features")
 
 # Export main components
 __all__ = [
+    "CompletionRequest",
+    "ConsentRequest",
+    "OnboardingService",
+    "OnboardingSession",
     "OnboardingStartRequest",
     "TierSetupRequest",
-    "ConsentRequest",
-    "CompletionRequest",
-    "OnboardingSession",
-    "OnboardingService",
-    "session_manager",
     "onboarding_service",
-    "router"  # FastAPI router
+    "router",  # FastAPI router
+    "session_manager",
 ]
 
 # ═══════════════════════════════════════════════════════════════════════════

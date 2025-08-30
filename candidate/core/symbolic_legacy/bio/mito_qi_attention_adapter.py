@@ -21,9 +21,7 @@ except ImportError:
     logger.warning("PyTorch not available - using mock implementations")
 
     class nn:
-
         class Module:
-
             def __init__(self):
                 pass
 
@@ -31,7 +29,6 @@ except ImportError:
                 return x
 
         class Linear:
-
             def __init__(self, in_features, out_features):
                 self.in_features = in_features
                 self.out_features = out_features

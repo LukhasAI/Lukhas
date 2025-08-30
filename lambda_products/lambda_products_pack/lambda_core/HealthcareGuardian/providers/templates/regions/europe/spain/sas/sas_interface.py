@@ -33,12 +33,7 @@ class SASInterface(EHRInterface):
 
     def _validate_config(self):
         """Validate SAS-specific configuration"""
-        required_fields = [
-            "centro_salud_id",
-            "provincia",
-            "certificado_digital",
-            "api_endpoints"
-        ]
+        required_fields = ["centro_salud_id", "provincia", "certificado_digital", "api_endpoints"]
         for field in required_fields:
             if field not in self.config:
                 raise ValueError(f"Missing required SAS configuration: {field}")
@@ -51,9 +46,9 @@ class SASInterface(EHRInterface):
         # - Verify credentials
         pass
 
-    async def get_patient_record(self,
-                               patient_id: str,
-                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
+    async def get_patient_record(
+        self, patient_id: str, record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve patient records from SAS
 
@@ -64,36 +59,32 @@ class SASInterface(EHRInterface):
         self.audit.log_access(
             user_id=self.config["centro_salud_id"],
             action="get_patient_record",
-            resource_id=patient_id
+            resource_id=patient_id,
         )
         # Implement SAS-specific record retrieval
         pass
 
-    async def update_patient_record(self,
-                                  patient_id: str,
-                                  data: dict[str, Any],
-                                  update_type: str) -> bool:
+    async def update_patient_record(
+        self, patient_id: str, data: dict[str, Any], update_type: str
+    ) -> bool:
         """Update patient records in SAS"""
         self.audit.log_access(
             user_id=self.config["centro_salud_id"],
             action="update_patient_record",
             resource_id=patient_id,
-            details={"update_type": update_type}
+            details={"update_type": update_type},
         )
         # Implement SAS-specific record update
         pass
 
-    async def create_encounter(self,
-                             patient_id: str,
-                             encounter_data: dict[str, Any]) -> str:
+    async def create_encounter(self, patient_id: str, encounter_data: dict[str, Any]) -> str:
         """Create new patient encounter in SAS"""
         # Implement SAS-specific encounter creation
         pass
 
-    async def get_provider_schedule(self,
-                                  provider_id: str,
-                                  start_date: datetime,
-                                  end_date: datetime) -> list[dict[str, Any]]:
+    async def get_provider_schedule(
+        self, provider_id: str, start_date: datetime, end_date: datetime
+    ) -> list[dict[str, Any]]:
         """Get provider's schedule from sas_scheduling system"""
         # Implement SAS-specific schedule retrieval
         pass
@@ -106,8 +97,6 @@ class SASInterface(EHRInterface):
     async def handle_error(self, error: Exception) -> None:
         """Handle SAS-specific errors"""
         self.audit.log_security_event(
-            event_type="error",
-            severity="error",
-            details={"error": str(error)}
+            event_type="error", severity="error", details={"error": str(error)}
         )
         # Implement SAS-specific error handling

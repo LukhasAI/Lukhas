@@ -20,9 +20,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-sys.path.append(
-    str(Path(__file__).parent.parent.parent.parent / "organized/ai-core/brain/brain")
-)
+sys.path.append(str(Path(__file__).parent.parent.parent.parent / "organized/ai-core/brain/brain"))
 try:
     from MultiBrainSymphony import SpecializedBrainCore
 except ImportError:
@@ -70,9 +68,7 @@ class GPTOSSModelLoader:
             },
         }
 
-        self.current_config = self.configs.get(
-            model_variant, self.configs["gpt-oss-20b"]
-        )
+        self.current_config = self.configs.get(model_variant, self.configs["gpt-oss-20b"])
 
     async def load_model(self) -> bool:
         """Load GPT-OSS model asynchronously"""
@@ -81,9 +77,7 @@ class GPTOSSModelLoader:
 
             # Check if model files exist
             if not self.model_path.exists():
-                logger.warning(
-                    f"Model not found at {self.model_path}. Using mock mode."
-                )
+                logger.warning(f"Model not found at {self.model_path}. Using mock mode.")
                 self.model = "mock"
             else:
                 # In production, load actual model using appropriate framework
@@ -173,9 +167,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
     """GPT-OSS Brain - Advanced Language Reasoning Specialist"""
 
     def __init__(self, model_variant: str = "gpt-oss-20b"):
-        super().__init__(
-            "gpt_oss_brain", "language reasoning", 30.0
-        )  # 30Hz gamma frequency
+        super().__init__("gpt_oss_brain", "language reasoning", 30.0)  # 30Hz gamma frequency
 
         self.model_loader = GPTOSSModelLoader(model_variant)
         self.reasoning_cache = {}
@@ -427,9 +419,7 @@ Provide clear, structured, and insightful reasoning."""
         # Weight different factors
         depth_score = min(factors.get("reasoning_depth", 0) / 20, 1.0) * 0.3
         insight_score = min(factors.get("insight_count", 0) / 5, 1.0) * 0.3
-        recommendation_score = (
-            min(factors.get("recommendation_count", 0) / 3, 1.0) * 0.2
-        )
+        recommendation_score = min(factors.get("recommendation_count", 0) / 3, 1.0) * 0.2
         context_score = factors.get("context_relevance", 0.5) * 0.2
 
         confidence = depth_score + insight_score + recommendation_score + context_score
@@ -443,10 +433,8 @@ Provide clear, structured, and insightful reasoning."""
 
         return {
             "lambda_detected": "lambda" in raw_output or "λ" in raw_output,
-            "qi_concepts": "quantum" in raw_output
-            or "superposition" in raw_output,
-            "consciousness_aware": "consciousness" in raw_output
-            or "awareness" in raw_output,
+            "qi_concepts": "quantum" in raw_output or "superposition" in raw_output,
+            "consciousness_aware": "consciousness" in raw_output or "awareness" in raw_output,
             "ethical_considered": "ethical" in raw_output or "safety" in raw_output,
         }
 
@@ -458,9 +446,7 @@ Provide clear, structured, and insightful reasoning."""
             self.metrics["average_latency"] = latency
         else:
             # Exponential moving average
-            self.metrics["average_latency"] = (
-                0.9 * self.metrics["average_latency"] + 0.1 * latency
-            )
+            self.metrics["average_latency"] = 0.9 * self.metrics["average_latency"] + 0.1 * latency
 
         # Track reasoning depth
         self.metrics["reasoning_depth"].append(len(self.context_window))
@@ -494,9 +480,7 @@ Provide clear, structured, and insightful reasoning."""
 
         cache_hit_rate = 0
         if self.metrics["total_inferences"] > 0:
-            cache_hit_rate = (
-                self.metrics["cache_hits"] / self.metrics["total_inferences"]
-            )
+            cache_hit_rate = self.metrics["cache_hits"] / self.metrics["total_inferences"]
 
         avg_depth = 0
         if self.metrics["reasoning_depth"]:
@@ -543,9 +527,7 @@ def create_gpt_oss_symphony_integration(symphony_orchestrator):
 
             # Enhance synthesized insights with GPT-OSS reasoning
             if "reasoning" in gpt_result and "key_insights" in gpt_result["reasoning"]:
-                result["synthesized_insights"].extend(
-                    gpt_result["reasoning"]["key_insights"]
-                )
+                result["synthesized_insights"].extend(gpt_result["reasoning"]["key_insights"])
 
         except Exception as e:
             logger.error(f"GPT-OSS integration error: {e}")
@@ -616,7 +598,7 @@ async def test_gpt_oss_brain():
     metrics = brain.get_metrics()
     print(f"Total Inferences: {metrics['total_inferences']}")
     print(f"Cache Hit Rate: {metrics['cache_hit_rate']:.2%}")
-    print(f"Average Latency: {metrics['average_latency']*1000:.2f}ms")
+    print(f"Average Latency: {metrics['average_latency'] * 1000:.2f}ms")
     print(f"Model Status: {'Loaded' if metrics['model_loaded'] else 'Not Loaded'}")
 
 

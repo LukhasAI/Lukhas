@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class LukhasNamingApplicator:
-
     def __init__(self):
         self.report_path = Path("docs/reports/analysis/LUKHAS_NAMING_REFINEMENTS.json")
         self.backup_dir = Path(".naming_backup")
@@ -22,9 +21,7 @@ class LukhasNamingApplicator:
             self.report = json.load(f)
 
         # LUKHAS concepts to preserve
-        self.preserve_concepts = set(
-            self.report["naming_guidelines"]["concepts_to_preserve"]
-        )
+        self.preserve_concepts = set(self.report["naming_guidelines"]["concepts_to_preserve"])
 
         # Track changes for summary
         self.changes_applied = {
@@ -41,9 +38,7 @@ class LukhasNamingApplicator:
         print("🧬 LUKHAS Naming Convention Application")
         print("=" * 60)
         print(f"Mode: {'DRY RUN' if dry_run else 'APPLYING CHANGES'}")
-        print(
-            f"Total refinements to apply: {self.report['summary']['total_refinements']}"
-        )
+        print(f"Total refinements to apply: {self.report['summary']['total_refinements']}")
         print(f"Preserving {len(self.preserve_concepts)} LUKHAS concepts")
 
         if not dry_run:
@@ -161,16 +156,9 @@ class LukhasNamingApplicator:
                 new_name = refinement["refined"]
 
                 # Skip if preserving a concept
-                if any(
-                    concept in old_name.lower() for concept in self.preserve_concepts
-                ):
-                    if not any(
-                        concept in new_name.lower()
-                        for concept in self.preserve_concepts
-                    ):
-                        print(
-                            f"   ⚠️  Skipping {old_name} → {new_name} (would lose LUKHAS concept)"
-                        )
+                if any(concept in old_name.lower() for concept in self.preserve_concepts):
+                    if not any(concept in new_name.lower() for concept in self.preserve_concepts):
+                        print(f"   ⚠️  Skipping {old_name} → {new_name} (would lose LUKHAS concept)")
                         continue
 
                 # Apply the refinement
@@ -266,9 +254,7 @@ class LukhasNamingApplicator:
         print(f"   Classes refined: {self.changes_applied['classes']}")
         print(f"   Functions refined: {self.changes_applied['functions']}")
         print(f"   Files renamed: {self.changes_applied['files']}")
-        print(
-            f"   Import statements updated: {self.changes_applied['imports_updated']}"
-        )
+        print(f"   Import statements updated: {self.changes_applied['imports_updated']}")
 
         print(f"\n🧬 LUKHAS concepts preserved: {len(self.preserve_concepts)}")
         print("   Examples: memory_fold, dream_recall, qi_state, bio_symbolic")

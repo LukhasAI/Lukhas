@@ -33,6 +33,7 @@ from .service import UniversalLanguageService
 # API Models
 class BindSymbolRequest(BaseModel):
     """Request to bind personal symbol to meaning"""
+
     symbol_type: SymbolType = Field(..., description="Type of symbol")
     symbol_data: Any = Field(..., description="Raw symbol data (stays local)")
     meaning_type: MeaningType = Field(..., description="Type of meaning")
@@ -41,6 +42,7 @@ class BindSymbolRequest(BaseModel):
 
 class BindSymbolResponse(BaseModel):
     """Response from symbol binding"""
+
     symbol_id: str = Field(..., description="Symbol ID for reference")
     quality_score: float = Field(..., description="Symbol quality score")
     message: str = Field(..., description="Success message")
@@ -48,12 +50,14 @@ class BindSymbolResponse(BaseModel):
 
 class ChallengeRequest(BaseModel):
     """Request for composition challenge"""
+
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="High-risk action")
 
 
 class ChallengeResponse(BaseModel):
     """Composition challenge response"""
+
     challenge_id: str = Field(..., description="Challenge ID")
     composition: str = Field(..., description="Required composition")
     expected_symbols: int = Field(..., description="Number of symbols needed")
@@ -62,6 +66,7 @@ class ChallengeResponse(BaseModel):
 
 class ProofSubmissionRequest(BaseModel):
     """Submit composition proof for verification"""
+
     challenge_id: str = Field(..., description="Challenge being answered")
     proof_hash: str = Field(..., description="Cryptographic proof")
     symbol_count: int = Field(..., description="Number of symbols used")
@@ -71,6 +76,7 @@ class ProofSubmissionRequest(BaseModel):
 
 class ProofVerificationResponse(BaseModel):
     """Response from proof verification"""
+
     verified: bool = Field(..., description="Whether proof is valid")
     signature: Optional[ULSignature] = Field(None, description="UL signature if verified")
     message: str = Field(..., description="Result message")
@@ -78,6 +84,7 @@ class ProofVerificationResponse(BaseModel):
 
 class ULStatusResponse(BaseModel):
     """UL system status"""
+
     initialized: bool = Field(..., description="Whether UL is initialized")
     symbol_count: int = Field(..., description="Number of bound symbols")
     composition_count: int = Field(..., description="Number of compositions")
@@ -102,8 +109,7 @@ async def get_ul_service() -> UniversalLanguageService:
 
 @router.post("/bind")
 async def bind_symbol(
-    request: BindSymbolRequest,
-    service: UniversalLanguageService = Depends(get_ul_service)
+    request: BindSymbolRequest, service: UniversalLanguageService = Depends(get_ul_service)
 ) -> BindSymbolResponse:
     """
     Bind personal symbol to meaning (local only).
@@ -112,10 +118,7 @@ async def bind_symbol(
     """
     try:
         symbol_id = await service.bind_symbol(
-            request.symbol_type,
-            request.symbol_data,
-            request.meaning_type,
-            request.meaning_value
+            request.symbol_type, request.symbol_data, request.meaning_type, request.meaning_value
         )
 
         # Get symbol details for quality score
@@ -124,17 +127,16 @@ async def bind_symbol(
         return BindSymbolResponse(
             symbol_id=symbol_id,
             quality_score=symbol.quality_score if symbol else 0.0,
-            message=f"Symbol bound to '{request.meaning_value}' successfully"
+            message=f"Symbol bound to '{request.meaning_value}' successfully",
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Symbol binding failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Symbol binding failed: {e!s}")
 
 
 @router.post("/challenge")
 async def request_challenge(
-    request: ChallengeRequest,
-    service: UniversalLanguageService = Depends(get_ul_service)
+    request: ChallengeRequest, service: UniversalLanguageService = Depends(get_ul_service)
 ) -> ChallengeResponse:
     """
     Request composition challenge for high-risk action.
@@ -144,8 +146,7 @@ async def request_challenge(
     # Check if action requires UL entropy
     if not requires_ul_entropy(request.action):
         raise HTTPException(
-            status_code=400,
-            detail=f"Action '{request.action}' does not require UL entropy"
+            status_code=400, detail=f"Action '{request.action}' does not require UL entropy"
         )
 
     try:
@@ -155,17 +156,16 @@ async def request_challenge(
             challenge_id=challenge.challenge_id,
             composition=challenge.composition,
             expected_symbols=challenge.expected_symbols,
-            expires_at=challenge.expires_at
+            expires_at=challenge.expires_at,
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Challenge generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Challenge generation failed: {e!s}")
 
 
 @router.post("/verify")
 async def verify_proof(
-    request: ProofSubmissionRequest,
-    service: UniversalLanguageService = Depends(get_ul_service)
+    request: ProofSubmissionRequest, service: UniversalLanguageService = Depends(get_ul_service)
 ) -> ProofVerificationResponse:
     """
     Verify composition proof without seeing symbols.
@@ -179,7 +179,7 @@ async def verify_proof(
             proof_hash=request.proof_hash,
             symbol_count=request.symbol_count,
             computation_time_ms=request.computation_time_ms,
-            quality_score=request.quality_score
+            quality_score=request.quality_score,
         )
 
         # Get challenge to find LID
@@ -201,21 +201,20 @@ async def verify_proof(
             return ProofVerificationResponse(
                 verified=True,
                 signature=signature,
-                message="Composition proof verified successfully"
+                message="Composition proof verified successfully",
             )
         else:
             return ProofVerificationResponse(
-                verified=False,
-                message="Composition proof verification failed"
+                verified=False, message="Composition proof verification failed"
             )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Proof verification failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Proof verification failed: {e!s}")
 
 
 @router.get("/status")
 async def get_status(
-    service: UniversalLanguageService = Depends(get_ul_service)
+    service: UniversalLanguageService = Depends(get_ul_service),
 ) -> ULStatusResponse:
     """
     Get UL system status.
@@ -226,14 +225,13 @@ async def get_status(
         initialized=service.initialized,
         symbol_count=len(service.local_store.symbols),
         composition_count=len(service.local_store.compositions),
-        active_challenges=len(service.challenge_service.active_challenges)
+        active_challenges=len(service.challenge_service.active_challenges),
     )
 
 
 @router.delete("/challenge/{challenge_id}")
 async def cancel_challenge(
-    challenge_id: str,
-    service: UniversalLanguageService = Depends(get_ul_service)
+    challenge_id: str, service: UniversalLanguageService = Depends(get_ul_service)
 ) -> dict[str, str]:
     """
     Cancel active challenge.
@@ -260,14 +258,14 @@ async def list_ul_actions() -> dict[str, Any]:
         "ul_enhanced_actions": UL_ENHANCED_ACTIONS,
         "info": {
             "description": "Actions that benefit from Universal Language entropy",
-            "usage": "Request challenge, solve with personal symbols, submit proof"
-        }
+            "usage": "Request challenge, solve with personal symbols, submit proof",
+        },
     }
 
 
 @router.get("/demo")
 async def demo_ul_flow(
-    service: UniversalLanguageService = Depends(get_ul_service)
+    service: UniversalLanguageService = Depends(get_ul_service),
 ) -> dict[str, Any]:
     """
     Demonstrate UL workflow for development.
@@ -283,22 +281,19 @@ async def demo_ul_flow(
                 "symbol_type": "emoji",
                 "symbol_data": "⚡️💪",
                 "meaning_type": "concept",
-                "meaning_value": "power"
-            }
+                "meaning_value": "power",
+            },
         },
         {
             "step": 2,
             "action": "Request challenge",
             "endpoint": "POST /ul/challenge",
-            "example": {
-                "lid": "gonzo",
-                "action": "grant_admin_scope"
-            }
+            "example": {"lid": "gonzo", "action": "grant_admin_scope"},
         },
         {
             "step": 3,
             "action": "Solve challenge locally",
-            "description": "Client solves composition with personal symbols"
+            "description": "Client solves composition with personal symbols",
         },
         {
             "step": 4,
@@ -309,14 +304,14 @@ async def demo_ul_flow(
                 "proof_hash": "sha256_hash",
                 "symbol_count": 2,
                 "computation_time_ms": 150.5,
-                "quality_score": 0.85
-            }
+                "quality_score": 0.85,
+            },
         },
         {
             "step": 5,
             "action": "Use UL signature",
-            "description": "Combine with GTΨ for complete high-risk approval"
-        }
+            "description": "Combine with GTΨ for complete high-risk approval",
+        },
     ]
 
     return {
@@ -325,14 +320,14 @@ async def demo_ul_flow(
         "current_status": {
             "initialized": service.initialized,
             "symbols": len(service.local_store.symbols),
-            "active_challenges": len(service.challenge_service.active_challenges)
+            "active_challenges": len(service.challenge_service.active_challenges),
         },
         "security_notes": [
             "All symbol data stays local",
             "Server only sees cryptographic proofs",
             "Challenges expire after 5 minutes",
-            "Quality scores ensure strong entropy"
-        ]
+            "Quality scores ensure strong entropy",
+        ],
     }
 
 

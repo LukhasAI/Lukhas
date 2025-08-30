@@ -11,17 +11,12 @@ import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
 
+
 def test_module_imports():
     """Test that all DAST modules can be imported"""
     print("🔍 Testing LUCAS DAST Module Imports...")
 
-    modules_to_test = [
-        "engine",
-        "intelligence",
-        "processors",
-        "adapters",
-        "api"
-    ]
+    modules_to_test = ["engine", "intelligence", "processors", "adapters", "api"]
 
     success_count = 0
 
@@ -35,7 +30,9 @@ def test_module_imports():
         except Exception as e:
             print(f"⚠️  Error importing {module_name}.py: {e}")
 
-    print(f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully")
+    print(
+        f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully"
+    )
     return success_count == len(modules_to_test)
 
 
@@ -100,6 +97,7 @@ def check_design_compliance():
     # Check for one-line API methods
     try:
         from engine import LucasDASTEngine
+
         engine = LucasDASTEngine()
 
         # Check if key methods exist

@@ -21,13 +21,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class SymbolType(Enum):
     """Types of personal symbols"""
-    CONCEPT = "concept"          # Abstract concepts
-    EMOTION = "emotion"          # Emotional states
-    ACTION = "action"            # Actions/commands
-    OBJECT = "object"            # Physical/digital objects
+
+    CONCEPT = "concept"  # Abstract concepts
+    EMOTION = "emotion"  # Emotional states
+    ACTION = "action"  # Actions/commands
+    OBJECT = "object"  # Physical/digital objects
     RELATIONSHIP = "relationship"  # Connections between concepts
-    MODIFIER = "modifier"        # Modifies other symbols
-    PERSONAL = "personal"        # User-specific meanings
+    MODIFIER = "modifier"  # Modifies other symbols
+    PERSONAL = "personal"  # User-specific meanings
 
 
 @dataclass
@@ -36,6 +37,7 @@ class PersonalSymbol:
     A personal symbol with user-specific meaning.
     Evolves based on usage and feedback.
     """
+
     symbol_id: str = field(default_factory=lambda: str(uuid4()))
     user_id: str = ""
 
@@ -117,7 +119,7 @@ class PersonalSymbolDictionary:
         self,
         storage_path: Optional[Path] = None,
         embedding_model: Optional[Any] = None,
-        max_symbols_per_user: int = 1000
+        max_symbols_per_user: int = 1000,
     ):
         """
         Initialize personal symbol dictionary.
@@ -160,7 +162,7 @@ class PersonalSymbolDictionary:
             ("🎯", SymbolType.ACTION, "goal, target, focus"),
             ("💭", SymbolType.CONCEPT, "thought, idea, contemplation"),
             ("🔄", SymbolType.ACTION, "repeat, cycle, refresh"),
-            ("🛡️", SymbolType.CONCEPT, "protection, safety, defense")
+            ("🛡️", SymbolType.CONCEPT, "protection, safety, defense"),
         ]
 
         for symbol, sym_type, meaning in defaults:
@@ -171,7 +173,7 @@ class PersonalSymbolDictionary:
                     meaning=meaning,
                     source="system",
                     confidence=0.9,
-                    stability=0.9
+                    stability=0.9,
                 )
 
     def add_symbol(
@@ -181,7 +183,7 @@ class PersonalSymbolDictionary:
         meaning: str,
         symbol_type: SymbolType = SymbolType.CONCEPT,
         examples: Optional[list[str]] = None,
-        **kwargs
+        **kwargs,
     ) -> PersonalSymbol:
         """
         Add a personal symbol for a user.
@@ -209,24 +211,20 @@ class PersonalSymbolDictionary:
             meaning=meaning,
             symbol_type=symbol_type,
             examples=examples or [],
-            **kwargs
+            **kwargs,
         )
 
         # Generate embedding if model available
         if self.embedding_model:
-            personal_symbol.embeddings = self._generate_embedding(
-                f"{symbol} {meaning}"
-            )
+            personal_symbol.embeddings = self._generate_embedding(f"{symbol} {meaning}")
 
         # Add to user dictionary
         self.dictionaries[user_id][symbol] = personal_symbol
 
         # Track evolution
-        self.evolution_history[f"{user_id}:{symbol}"].append({
-            "timestamp": time.time(),
-            "action": "created",
-            "meaning": meaning
-        })
+        self.evolution_history[f"{user_id}:{symbol}"].append(
+            {"timestamp": time.time(), "action": "created", "meaning": meaning}
+        )
 
         # Save
         self._save_user_dictionary(user_id)
@@ -234,10 +232,7 @@ class PersonalSymbolDictionary:
         return personal_symbol
 
     def get_symbol(
-        self,
-        user_id: str,
-        symbol: str,
-        create_if_missing: bool = False
+        self, user_id: str, symbol: str, create_if_missing: bool = False
     ) -> Optional[PersonalSymbol]:
         """
         Get a symbol from user's dictionary.
@@ -264,7 +259,7 @@ class PersonalSymbolDictionary:
                 symbol_type=global_sym.symbol_type,
                 meaning=global_sym.meaning,
                 source="global",
-                confidence=global_sym.confidence * 0.8  # Slightly lower confidence
+                confidence=global_sym.confidence * 0.8,  # Slightly lower confidence
             )
 
             self.dictionaries[user_id][symbol] = user_sym
@@ -273,10 +268,7 @@ class PersonalSymbolDictionary:
         return None
 
     def interpret_symbols(
-        self,
-        user_id: str,
-        text: str,
-        context: Optional[str] = None
+        self, user_id: str, text: str, context: Optional[str] = None
     ) -> dict[str, Any]:
         """
         Interpret symbols in text using user's dictionary.
@@ -294,7 +286,7 @@ class PersonalSymbolDictionary:
             "symbols_found": [],
             "meanings": [],
             "translated": text,
-            "confidence": 1.0
+            "confidence": 1.0,
         }
 
         user_dict = self.dictionaries.get(user_id, {})
@@ -303,12 +295,14 @@ class PersonalSymbolDictionary:
         for symbol, personal_sym in user_dict.items():
             if symbol in text:
                 interpretation["symbols_found"].append(symbol)
-                interpretation["meanings"].append({
-                    "symbol": symbol,
-                    "meaning": personal_sym.meaning,
-                    "type": personal_sym.symbol_type.value,
-                    "confidence": personal_sym.confidence
-                })
+                interpretation["meanings"].append(
+                    {
+                        "symbol": symbol,
+                        "meaning": personal_sym.meaning,
+                        "type": personal_sym.symbol_type.value,
+                        "confidence": personal_sym.confidence,
+                    }
+                )
 
                 # Update usage
                 personal_sym.update_usage()
@@ -325,22 +319,19 @@ class PersonalSymbolDictionary:
         for symbol, global_sym in self.global_symbols.items():
             if symbol in text and symbol not in interpretation["symbols_found"]:
                 interpretation["symbols_found"].append(symbol)
-                interpretation["meanings"].append({
-                    "symbol": symbol,
-                    "meaning": global_sym.meaning,
-                    "type": global_sym.symbol_type.value,
-                    "confidence": global_sym.confidence,
-                    "source": "global"
-                })
+                interpretation["meanings"].append(
+                    {
+                        "symbol": symbol,
+                        "meaning": global_sym.meaning,
+                        "type": global_sym.symbol_type.value,
+                        "confidence": global_sym.confidence,
+                        "source": "global",
+                    }
+                )
 
         return interpretation
 
-    def suggest_symbols(
-        self,
-        user_id: str,
-        concept: str,
-        limit: int = 5
-    ) -> list[PersonalSymbol]:
+    def suggest_symbols(self, user_id: str, concept: str, limit: int = 5) -> list[PersonalSymbol]:
         """
         Suggest symbols for a concept.
 
@@ -363,8 +354,7 @@ class PersonalSymbolDictionary:
             for symbol in self.dictionaries[user_id].values():
                 if symbol.embeddings is not None:
                     similarity = cosine_similarity(
-                        concept_embedding.reshape(1, -1),
-                        symbol.embeddings.reshape(1, -1)
+                        concept_embedding.reshape(1, -1), symbol.embeddings.reshape(1, -1)
                     )[0, 0]
                     user_symbols.append((symbol, similarity))
 
@@ -382,13 +372,7 @@ class PersonalSymbolDictionary:
 
         return suggestions[:limit]
 
-    def learn_from_usage(
-        self,
-        user_id: str,
-        symbol: str,
-        context: str,
-        success: bool
-    ):
+    def learn_from_usage(self, user_id: str, symbol: str, context: str, success: bool):
         """
         Learn from symbol usage.
 
@@ -406,24 +390,22 @@ class PersonalSymbolDictionary:
             personal_sym.evolve_meaning(context, feedback)
 
             # Track evolution
-            self.evolution_history[f"{user_id}:{symbol}"].append({
-                "timestamp": time.time(),
-                "action": "learned",
-                "context": context,
-                "success": success,
-                "confidence": personal_sym.confidence
-            })
+            self.evolution_history[f"{user_id}:{symbol}"].append(
+                {
+                    "timestamp": time.time(),
+                    "action": "learned",
+                    "context": context,
+                    "success": success,
+                    "confidence": personal_sym.confidence,
+                }
+            )
 
             # Save periodically
             if len(self.evolution_history[f"{user_id}:{symbol}"]) % 10 == 0:
                 self._save_user_dictionary(user_id)
 
     def merge_symbols(
-        self,
-        user_id: str,
-        symbols: list[str],
-        new_symbol: str,
-        new_meaning: str
+        self, user_id: str, symbols: list[str], new_symbol: str, new_meaning: str
     ) -> PersonalSymbol:
         """
         Merge multiple symbols into a new compound symbol.
@@ -450,7 +432,7 @@ class PersonalSymbolDictionary:
             symbol=new_symbol,
             meaning=new_meaning,
             symbol_type=SymbolType.CONCEPT,
-            related=symbols
+            related=symbols,
         )
 
         # Inherit properties from components
@@ -467,8 +449,7 @@ class PersonalSymbolDictionary:
 
         # Sort by frequency and recency
         symbols_sorted = sorted(
-            user_dict.items(),
-            key=lambda x: (x[1].frequency, x[1].last_used or 0)
+            user_dict.items(), key=lambda x: (x[1].frequency, x[1].last_used or 0)
         )
 
         # Remove bottom 10%
@@ -491,7 +472,7 @@ class PersonalSymbolDictionary:
         # Convert to serializable format
         data = {
             "symbols": self.dictionaries[user_id],
-            "history": self.evolution_history.get(user_id, [])
+            "history": self.evolution_history.get(user_id, []),
         }
 
         with open(user_file, "wb") as f:
@@ -528,51 +509,38 @@ class PersonalSymbolDictionary:
                 "total_symbols": len(user_dict),
                 "most_used": [],
                 "most_stable": [],
-                "recently_added": []
-            }
+                "recently_added": [],
+            },
         }
 
         # Export symbols
         for symbol, personal_sym in user_dict.items():
-            export["symbols"].append({
-                "symbol": symbol,
-                "meaning": personal_sym.meaning,
-                "type": personal_sym.symbol_type.value,
-                "frequency": personal_sym.frequency,
-                "confidence": personal_sym.confidence,
-                "stability": personal_sym.stability,
-                "examples": personal_sym.examples
-            })
+            export["symbols"].append(
+                {
+                    "symbol": symbol,
+                    "meaning": personal_sym.meaning,
+                    "type": personal_sym.symbol_type.value,
+                    "frequency": personal_sym.frequency,
+                    "confidence": personal_sym.confidence,
+                    "stability": personal_sym.stability,
+                    "examples": personal_sym.examples,
+                }
+            )
 
         # Calculate statistics
-        sorted_by_freq = sorted(
-            user_dict.values(),
-            key=lambda x: x.frequency,
-            reverse=True
-        )
+        sorted_by_freq = sorted(user_dict.values(), key=lambda x: x.frequency, reverse=True)
         export["statistics"]["most_used"] = [
-            {"symbol": s.symbol, "frequency": s.frequency}
-            for s in sorted_by_freq[:5]
+            {"symbol": s.symbol, "frequency": s.frequency} for s in sorted_by_freq[:5]
         ]
 
-        sorted_by_stability = sorted(
-            user_dict.values(),
-            key=lambda x: x.stability,
-            reverse=True
-        )
+        sorted_by_stability = sorted(user_dict.values(), key=lambda x: x.stability, reverse=True)
         export["statistics"]["most_stable"] = [
-            {"symbol": s.symbol, "stability": s.stability}
-            for s in sorted_by_stability[:5]
+            {"symbol": s.symbol, "stability": s.stability} for s in sorted_by_stability[:5]
         ]
 
-        sorted_by_recent = sorted(
-            user_dict.values(),
-            key=lambda x: x.created_at,
-            reverse=True
-        )
+        sorted_by_recent = sorted(user_dict.values(), key=lambda x: x.created_at, reverse=True)
         export["statistics"]["recently_added"] = [
-            {"symbol": s.symbol, "meaning": s.meaning}
-            for s in sorted_by_recent[:5]
+            {"symbol": s.symbol, "meaning": s.meaning} for s in sorted_by_recent[:5]
         ]
 
         return export
@@ -587,7 +555,7 @@ class PersonalSymbolDictionary:
                 symbol_type=SymbolType(symbol_data.get("type", "concept")),
                 examples=symbol_data.get("examples", []),
                 confidence=symbol_data.get("confidence", 0.5),
-                stability=symbol_data.get("stability", 0.5)
+                stability=symbol_data.get("stability", 0.5),
             )
 
 
@@ -607,7 +575,7 @@ if __name__ == "__main__":
         symbol="🌟",
         meaning="excellent work",
         symbol_type=SymbolType.EMOTION,
-        examples=["🌟 Great job on the project!", "Your code is 🌟"]
+        examples=["🌟 Great job on the project!", "Your code is 🌟"],
     )
     print(f"Added symbol: {symbol1.symbol} = {symbol1.meaning}")
 
@@ -616,7 +584,7 @@ if __name__ == "__main__":
         symbol="🔨",
         meaning="needs fixing",
         symbol_type=SymbolType.ACTION,
-        examples=["This function 🔨", "🔨 the bug in line 42"]
+        examples=["This function 🔨", "🔨 the bug in line 42"],
     )
     print(f"Added symbol: {symbol2.symbol} = {symbol2.meaning}")
 
@@ -629,29 +597,19 @@ if __name__ == "__main__":
 
     # Learn from usage
     dictionary.learn_from_usage(
-        user_id=user_id,
-        symbol="🌟",
-        context="praising good code",
-        success=True
+        user_id=user_id, symbol="🌟", context="praising good code", success=True
     )
     print(f"\n🌟 confidence after positive feedback: {symbol1.confidence:.2f}")
 
     # Suggest symbols
-    suggestions = dictionary.suggest_symbols(
-        user_id=user_id,
-        concept="problem",
-        limit=3
-    )
+    suggestions = dictionary.suggest_symbols(user_id=user_id, concept="problem", limit=3)
     print("\nSuggestions for 'problem':")
     for sym in suggestions:
         print(f"  • {sym.symbol}: {sym.meaning}")
 
     # Merge symbols
     compound = dictionary.merge_symbols(
-        user_id=user_id,
-        symbols=["🌟", "🔨"],
-        new_symbol="🌟🔨",
-        new_meaning="excellent fix"
+        user_id=user_id, symbols=["🌟", "🔨"], new_symbol="🌟🔨", new_meaning="excellent fix"
     )
     print(f"\nCreated compound: {compound.symbol} = {compound.meaning}")
 

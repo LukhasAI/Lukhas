@@ -17,7 +17,6 @@ from pathlib import Path
 
 
 class ConnectivityAnalyzer:
-
     def __init__(self, root_path="."):
         self.root_path = Path(root_path)
         self.python_files = []
@@ -102,10 +101,7 @@ class ConnectivityAnalyzer:
                 has_class = "class " in content
                 has_function = "def " in content
                 is_init = file_path.name == "__init__.py"
-                is_hub = (
-                    "hub" in file_path.name.lower()
-                    or "manager" in file_path.name.lower()
-                )
+                is_hub = "hub" in file_path.name.lower() or "manager" in file_path.name.lower()
 
                 connectivity_score = imports_in + imports_out
                 isolation_score = max(0, 10 - connectivity_score)
@@ -178,8 +174,7 @@ class ConnectivityAnalyzer:
                 for f in self.critical_hubs[:20]  # Top 20
             ],
             "isolated_files": [
-                {"file": f, "metrics": self.file_metrics[f]}
-                for f in self.isolated_files
+                {"file": f, "metrics": self.file_metrics[f]} for f in self.isolated_files
             ],
             "directory_analysis": self.analyze_directories(),
         }
@@ -209,12 +204,8 @@ class ConnectivityAnalyzer:
 
         # Calculate directory scores
         for directory, stats in dir_stats.items():
-            stats["avg_connectivity"] = stats["connectivity_sum"] / max(
-                1, stats["total_files"]
-            )
-            stats["isolation_ratio"] = stats["isolated_files"] / max(
-                1, stats["total_files"]
-            )
+            stats["avg_connectivity"] = stats["connectivity_sum"] / max(1, stats["total_files"])
+            stats["isolation_ratio"] = stats["isolated_files"] / max(1, stats["total_files"])
 
         return dict(dir_stats)
 

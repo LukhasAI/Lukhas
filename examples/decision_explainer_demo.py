@@ -59,9 +59,7 @@ async def demonstrate_decision_explainability():
 
     # Get different explanation types
     print("\n1️⃣ SUMMARY EXPLANATION:")
-    summary = await explain_decision(
-        emergency_context, emergency_outcome, ExplanationLevel.SUMMARY
-    )
+    summary = await explain_decision(emergency_context, emergency_outcome, ExplanationLevel.SUMMARY)
     print(summary)
 
     print("\n2️⃣ STANDARD EXPLANATION:")
@@ -134,9 +132,7 @@ async def demonstrate_decision_explainability():
     print(comparison)
 
     print("\n🔄 COUNTERFACTUAL EXPLANATION (What would change it?):")
-    counterfactuals = await get_decision_counterfactuals(
-        ethical_context, ethical_outcome
-    )
+    counterfactuals = await get_decision_counterfactuals(ethical_context, ethical_outcome)
     for i, cf in enumerate(counterfactuals, 1):
         print(f"  {i}. {cf}")
 
@@ -228,9 +224,7 @@ async def demonstrate_decision_explainability():
     for factor_info in report["dominant_factors"][:3]:
         print(f"  • {factor_info['factor']}: appeared {factor_info['frequency']} times")
 
-    print(
-        f"\nHormonal Influence: {report['hormonal_influence']['dominant_hormone']} dominant"
-    )
+    print(f"\nHormonal Influence: {report['hormonal_influence']['dominant_hormone']} dominant")
 
     print("\nIdentified Patterns:")
     for pattern in report["common_patterns"]:

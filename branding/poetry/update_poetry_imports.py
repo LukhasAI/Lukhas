@@ -12,12 +12,12 @@ def update_imports(root_dir):
     """Update poetry-related imports in Python files"""
 
     old_imports = [
-        (r"from consciousness\.creativity import advanced_haiku_generator",
-         "from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py"),
-        (r"from branding.poetry import (.*)",
-         r"from branding.poetry import \1"),
-        (r"import poetry\.",
-         "import branding.poetry."),
+        (
+            r"from consciousness\.creativity import advanced_haiku_generator",
+            "from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py",
+        ),
+        (r"from branding.poetry import (.*)", r"from branding.poetry import \1"),
+        (r"import poetry\.", "import branding.poetry."),
     ]
 
     updated_files = []
@@ -47,6 +47,7 @@ def update_imports(root_dir):
                     print(f"Error processing {filepath}: {e}")
 
     return updated_files
+
 
 if __name__ == "__main__":
     print("Updating poetry imports...")

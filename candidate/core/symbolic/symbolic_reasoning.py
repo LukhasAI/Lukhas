@@ -79,9 +79,7 @@ class SymbolicEngine:
             confidence_threshold (float): The minimum confidence score for a logical
                                           chain to be considered valid.
         """
-        self.logger = logger.getChild(
-            "SymbolicEngineInstance"
-        )  # structlog child logger
+        self.logger = logger.getChild("SymbolicEngineInstance")  # structlog child logger
         self.logger.info(
             "Initializing SymbolicEngine instance.",
             confidence_threshold=confidence_threshold,
@@ -96,9 +94,9 @@ class SymbolicEngine:
         self.reasoning_graph: dict[str, Any] = {}
         # ΛNOTE: `reasoning_history` logs summaries of recent reasoning sessions
         # for potential meta-analysis or debugging.
-        self.reasoning_history: list[dict[str, Any]] = (
-            []
-        )  # Stores summaries of recent reasoning sessions
+        self.reasoning_history: list[
+            dict[str, Any]
+        ] = []  # Stores summaries of recent reasoning sessions
 
         # ΛNOTE: `symbolic_rules` forms a declarative knowledge base of regex patterns,
         # categorizing textual cues for different types of symbolic relationships (causation, correlation, etc.).
@@ -155,15 +153,13 @@ class SymbolicEngine:
         # ΛNOTE: `logic_operators` defines the semantic interpretation of core logical connectives,
         # enabling the engine to perform basic logical evaluations on symbolic
         # propositions.
-        self.logic_operators: dict[str, Callable[..., bool]] = (
-            {  # Type hint for callable
-                "and": lambda x, y: bool(x and y),  # Ensure boolean result
-                "or": lambda x, y: bool(x or y),
-                "not": lambda x: bool(not x),
-                "implies": lambda x, y: bool((not x) or y),
-                "equivalent": lambda x, y: bool(x == y),
-            }
-        )
+        self.logic_operators: dict[str, Callable[..., bool]] = {  # Type hint for callable
+            "and": lambda x, y: bool(x and y),  # Ensure boolean result
+            "or": lambda x, y: bool(x or y),
+            "not": lambda x: bool(not x),
+            "implies": lambda x, y: bool((not x) or y),
+            "equivalent": lambda x, y: bool(x == y),
+        }
         self.logger.debug(
             "Logic operators defined.",
             operators=list(self.logic_operators.keys()),
@@ -196,16 +192,14 @@ class SymbolicEngine:
                                 including identified logical chains, valid logic,
         confidence, and timestamp.
         """
-        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp()*1000)}"  # Ensure UTC
-        method_logger = self.logger.bind(request_id=request_id, operation="reason")
-        method_logger.info(
-            "Starting symbolic reasoning.", input_keys=list(input_data.keys())
+        request_id = (
+            f"sym_reason_{int(datetime.now(timezone.utc).timestamp() * 1000)}"  # Ensure UTC
         )
+        method_logger = self.logger.bind(request_id=request_id, operation="reason")
+        method_logger.info("Starting symbolic reasoning.", input_keys=list(input_data.keys()))
 
         try:
-            semantic_content = self._extract_semantic_content(
-                input_data
-            )  # Logs internally
+            semantic_content = self._extract_semantic_content(input_data)  # Logs internally
             symbolic_content_patterns = self._extract_symbolic_patterns(
                 semantic_content
             )  # Logs internally
@@ -254,9 +248,7 @@ class SymbolicEngine:
                 "valid_logical_chains": valid_logic_chains,  # Filtered by confidence
                 "overall_max_confidence": overall_confidence,
                 "logic_was_applied": len(valid_logic_chains) > 0,
-                "reasoning_timestamp": datetime.now(
-                    timezone.utc
-                ).isoformat(),  # Ensure UTC
+                "reasoning_timestamp": datetime.now(timezone.utc).isoformat(),  # Ensure UTC
                 "request_id": request_id,
             }
             # ΛNOTE: Decision history is not being updated here, which might be an oversight if persistence is intended.
@@ -371,9 +363,7 @@ class SymbolicEngine:
                 )
                 if s.strip()
             ]
-            self.logger.debug(
-                "Processing semantic sentences.", sentence_count=len(sentences)
-            )
+            self.logger.debug("Processing semantic sentences.", sentence_count=len(sentences))
             for sent_idx, sentence_text in enumerate(sentences):
                 logical_elements_list.append(
                     {
@@ -403,13 +393,11 @@ class SymbolicEngine:
         # Add contextual elements
         self.logger.debug("Adding contextual elements.", count=len(context_dict))
         for key, value in context_dict.items():
-            if isinstance(
-                value, (str, int, float, bool)
-            ):  # Process simple context values
+            if isinstance(value, (str, int, float, bool)):  # Process simple context values
                 logical_elements_list.append(
                     {
                         "type": "contextual_info",
-                        "content": f"Context({key}): {str(value)}",
+                        "content": f"Context({key}): {value!s}",
                         "base_confidence": 0.75,
                         "context_key": key,
                     }
@@ -440,9 +428,7 @@ class SymbolicEngine:
         # use graph algorithms.
         for i, element_data in enumerate(logical_elements):
             # More unique ID, ensure UTC
-            chain_id = (
-                f"logic_chain_{i}_{int(datetime.now(timezone.utc).timestamp()*1000)}"
-            )
+            chain_id = f"logic_chain_{i}_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
             # Each element can start its own chain, or be linked to existing ones.
             # For simplicity, each element forms a primary chain here.
             # True chain building would involve finding sequences like A -> B -> C.
@@ -470,9 +456,7 @@ class SymbolicEngine:
     # ΛCAUTION: The keyword overlap check is a very basic form of semantic relatedness and may produce
     # false positives or miss more nuanced connections.
 
-    def _elements_related(
-        self, elem1_data: dict[str, Any], elem2_data: dict[str, Any]
-    ) -> bool:
+    def _elements_related(self, elem1_data: dict[str, Any], elem2_data: dict[str, Any]) -> bool:
         """Determines if two logical elements are related based on content overlap (simplified)."""
         self.logger.debug(
             "Checking relatedness between elements.",
@@ -548,12 +532,8 @@ class SymbolicEngine:
             # Bonus for multiple pieces of evidence of the same high-confidence type
             evidence_strength_bonus = 0.0
             for el_type_key, el_list in elements_by_type_map.items():
-                if ("symbolic_" in el_type_key or "formal_" in el_type_key) and len(
-                    el_list
-                ) > 1:
-                    evidence_strength_bonus += 0.05 * min(
-                        2, len(el_list) - 1
-                    )  # Capped bonus
+                if ("symbolic_" in el_type_key or "formal_" in el_type_key) and len(el_list) > 1:
+                    evidence_strength_bonus += 0.05 * min(2, len(el_list) - 1)  # Capped bonus
 
             final_chain_confidence = min(
                 0.99,
@@ -640,9 +620,7 @@ class SymbolicEngine:
         Raises:
             ValueError: If the operator_name is unknown.
         """
-        self.logger.debug(
-            "Applying logic operator.", operator_name=operator_name, args=args
-        )
+        self.logger.debug("Applying logic operator.", operator_name=operator_name, args=args)
         if operator_name in self.logic_operators:
             try:
                 result = self.logic_operators[operator_name](*args)
@@ -660,9 +638,7 @@ class SymbolicEngine:
                     error=str(te),
                     exc_info=True,
                 )
-                raise ValueError(
-                    f"Incorrect arguments for operator '{operator_name}'."
-                ) from te
+                raise ValueError(f"Incorrect arguments for operator '{operator_name}'.") from te
         else:
             self.logger.error(
                 "Unknown logic operator requested.",
@@ -684,9 +660,7 @@ class SymbolicEngine:
         insights = {
             "available_logic_operators": list(self.logic_operators.keys()),
             "symbolic_rule_categories_count": len(self.symbolic_rules),
-            "total_symbolic_rules_keywords": sum(
-                len(v) for v in self.symbolic_rules.values()
-            ),
+            "total_symbolic_rules_keywords": sum(len(v) for v in self.symbolic_rules.values()),
             "current_confidence_threshold": self.confidence_threshold,
             "current_reasoning_graph_nodes": len(
                 self.reasoning_graph

@@ -64,14 +64,14 @@ def get_qi_status() -> dict[str, Any]:
 
 
 __all__ = [
+    "QI_AVAILABLE",
+    "QI_AWARENESS_AVAILABLE",
+    "QI_BIO_AVAILABLE",
+    "QI_COORDINATION_AVAILABLE",
+    "QI_PROCESSING_AVAILABLE",
+    "bio_integration",
     "coordinator",
     "core_awareness",
-    "qi_coordinator",
-    "bio_integration",
     "get_qi_status",
-    "QI_AVAILABLE",
-    "QI_COORDINATION_AVAILABLE",
-    "QI_AWARENESS_AVAILABLE",
-    "QI_PROCESSING_AVAILABLE",
-    "QI_BIO_AVAILABLE",
+    "qi_coordinator",
 ]

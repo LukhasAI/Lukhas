@@ -18,31 +18,37 @@ import aiohttp
 # Platform-specific imports
 try:
     import tweepy  # Twitter API v2
+
     TWITTER_AVAILABLE = True
 except ImportError:
     TWITTER_AVAILABLE = False
 
 try:
     import praw  # Reddit API
+
     REDDIT_AVAILABLE = True
 except ImportError:
     REDDIT_AVAILABLE = False
 
 try:
     from linkedin_api import Linkedin  # LinkedIn API
+
     LINKEDIN_AVAILABLE = True
 except ImportError:
     LINKEDIN_AVAILABLE = False
 
 try:
     import requests_oauthlib  # OAuth for various platforms
+
     OAUTH_AVAILABLE = True
 except ImportError:
     OAUTH_AVAILABLE = False
 
+
 @dataclass
 class APICredentials:
     """API credentials for platform integration"""
+
     platform: str
     api_key: str
     api_secret: str
@@ -55,9 +61,11 @@ class APICredentials:
     pass_word: Optional[str] = None
     refresh_token: Optional[str] = None
 
+
 @dataclass
 class PostResult:
     """Result of posting to a platform"""
+
     success: bool
     platform: str
     post_id: Optional[str] = None
@@ -67,14 +75,17 @@ class PostResult:
     rate_limit_remaining: Optional[int] = None
     rate_limit_reset: Optional[datetime] = None
 
+
 @dataclass
 class RateLimitInfo:
     """Rate limiting information"""
+
     platform: str
     requests_remaining: int
     reset_time: datetime
     window_duration: int  # seconds
     last_request: datetime
+
 
 class PlatformAPIManager:
     """
@@ -84,7 +95,9 @@ class PlatformAPIManager:
 
     def __init__(self, credentials_path: str = None):
         self.base_path = Path(__file__).parent.parent
-        self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
+        self.credentials_path = credentials_path or (
+            self.base_path / "config" / "api_credentials.json"
+        )
         self.logs_path = self.base_path / "logs"
 
         # Initialize components
@@ -101,9 +114,9 @@ class PlatformAPIManager:
         self.default_rate_limits = {
             "twitter": {"requests": 300, "window": 900},  # 300 per 15 minutes
             "linkedin": {"requests": 100, "window": 3600},  # 100 per hour
-            "reddit": {"requests": 60, "window": 3600},   # 60 per hour
-            "instagram": {"requests": 200, "window": 3600}, # 200 per hour
-            "youtube": {"requests": 100, "window": 3600}   # 100 per hour
+            "reddit": {"requests": 60, "window": 3600},  # 60 per hour
+            "instagram": {"requests": 200, "window": 3600},  # 200 per hour
+            "youtube": {"requests": 100, "window": 3600},  # 100 per hour
         }
 
     def _setup_logging(self) -> logging.Logger:
@@ -149,24 +162,24 @@ class PlatformAPIManager:
                 "api_secret": "TWITTER_API_SECRET",
                 "access_token": "TWITTER_ACCESS_TOKEN",
                 "access_token_secret": "TWITTER_ACCESS_TOKEN_SECRET",
-                "bearer_token": "TWITTER_BEARER_TOKEN"
+                "bearer_token": "TWITTER_BEARER_TOKEN",
             },
             "linkedin": {
                 "client_id": "LINKEDIN_CLIENT_ID",
                 "client_secret": "LINKEDIN_CLIENT_SECRET",
-                "access_token": "LINKEDIN_ACCESS_TOKEN"
+                "access_token": "LINKEDIN_ACCESS_TOKEN",
             },
             "reddit": {
                 "client_id": "REDDIT_CLIENT_ID",
                 "client_secret": "REDDIT_CLIENT_SECRET",
                 "username": "REDDIT_USERNAME",
-                "pass_word": "REDDIT_PASSWORD"  # nosec
+                "pass_word": "REDDIT_PASSWORD",  # nosec
             },
             "instagram": {
                 "access_token": "INSTAGRAM_ACCESS_TOKEN",
                 "client_id": "INSTAGRAM_CLIENT_ID",
-                "client_secret": "INSTAGRAM_CLIENT_SECRET"
-            }
+                "client_secret": "INSTAGRAM_CLIENT_SECRET",
+            },
         }
 
         for platform, env_vars in env_platforms.items():
@@ -189,7 +202,7 @@ class PlatformAPIManager:
             "twitter": ["api_key", "api_secret"],
             "linkedin": ["client_id", "client_secret"],
             "reddit": ["client_id", "client_secret"],
-            "instagram": ["access_token"]
+            "instagram": ["access_token"],
         }
 
         if platform not in required_fields:
@@ -217,7 +230,7 @@ class PlatformAPIManager:
                         consumer_secret=creds.api_secret,
                         access_token=creds.access_token,
                         access_token_secret=creds.access_token_secret,
-                        wait_on_rate_limit=True
+                        wait_on_rate_limit=True,
                     )
                 else:
                     # Initialize with OAuth 1.0a
@@ -226,7 +239,7 @@ class PlatformAPIManager:
                         consumer_secret=creds.api_secret,
                         access_token=creds.access_token,
                         access_token_secret=creds.access_token_secret,
-                        wait_on_rate_limit=True
+                        wait_on_rate_limit=True,
                     )
 
                 self.logger.info("✅ Twitter API client initialized")
@@ -244,7 +257,7 @@ class PlatformAPIManager:
                     client_secret=creds.client_secret,
                     username=creds.username,
                     password=creds.pass_word,
-                    user_agent="LUKHAS AI Social Media Bot v1.0"
+                    user_agent="LUKHAS AI Social Media Bot v1.0",
                 )
 
                 self.logger.info("✅ Reddit API client initialized")
@@ -265,9 +278,7 @@ class PlatformAPIManager:
 
         if "twitter" not in self.platform_clients:
             return PostResult(
-                success=False,
-                platform="twitter",
-                error="Twitter client not initialized"
+                success=False, platform="twitter", error="Twitter client not initialized"
             )
 
         try:
@@ -275,11 +286,7 @@ class PlatformAPIManager:
 
             # Check rate limits
             if not await self._check_rate_limit("twitter"):
-                return PostResult(
-                    success=False,
-                    platform="twitter",
-                    error="Rate limit exceeded"
-                )
+                return PostResult(success=False, platform="twitter", error="Rate limit exceeded")
 
             # Upload media if provided
             media_ids = []
@@ -289,7 +296,7 @@ class PlatformAPIManager:
                     self.credentials["twitter"].api_key,
                     self.credentials["twitter"].api_secret,
                     self.credentials["twitter"].access_token,
-                    self.credentials["twitter"].access_token_secret
+                    self.credentials["twitter"].access_token_secret,
                 )
                 api_v1 = tweepy.API(auth)
 
@@ -299,10 +306,7 @@ class PlatformAPIManager:
                         media_ids.append(media.media_id)
 
             # Post tweet
-            response = client.create_tweet(
-                text=content,
-                media_ids=media_ids if media_ids else None
-            )
+            response = client.create_tweet(text=content, media_ids=media_ids if media_ids else None)
 
             # Update rate limit tracking
             await self._update_rate_limit("twitter")
@@ -319,25 +323,19 @@ class PlatformAPIManager:
                 platform="twitter",
                 post_id=tweet_id,
                 url=tweet_url,
-                response_data=response.data
+                response_data=response.data,
             )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to Twitter: {e}")
-            return PostResult(
-                success=False,
-                platform="twitter",
-                error=str(e)
-            )
+            return PostResult(success=False, platform="twitter", error=str(e))
 
     async def post_to_linkedin(self, content: str, media_paths: list[str] = None) -> PostResult:
         """Post to LinkedIn using custom API implementation"""
 
         if "linkedin" not in self.credentials:
             return PostResult(
-                success=False,
-                platform="linkedin",
-                error="LinkedIn credentials not configured"
+                success=False, platform="linkedin", error="LinkedIn credentials not configured"
             )
 
         try:
@@ -345,17 +343,13 @@ class PlatformAPIManager:
 
             # Check rate limits
             if not await self._check_rate_limit("linkedin"):
-                return PostResult(
-                    success=False,
-                    platform="linkedin",
-                    error="Rate limit exceeded"
-                )
+                return PostResult(success=False, platform="linkedin", error="Rate limit exceeded")
 
             # LinkedIn API requires OAuth 2.0 flow
             headers = {
                 "Authorization": f"Bearer {creds.access_token}",
                 "Content-Type": "application/json",
-                "X-Restli-Protocol-Version": "2.0.0"
+                "X-Restli-Protocol-Version": "2.0.0",
             }
 
             # Get user profile to get person URN
@@ -375,15 +369,11 @@ class PlatformAPIManager:
                     "lifecycleState": "PUBLISHED",
                     "specificContent": {
                         "com.linkedin.ugc.ShareContent": {
-                            "shareCommentary": {
-                                "text": content
-                            },
-                            "shareMediaCategory": "NONE"
+                            "shareCommentary": {"text": content},
+                            "shareMediaCategory": "NONE",
                         }
                     },
-                    "visibility": {
-                        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-                    }
+                    "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"},
                 }
 
                 # Post to LinkedIn
@@ -402,7 +392,7 @@ class PlatformAPIManager:
                             success=True,
                             platform="linkedin",
                             post_id=post_id,
-                            response_data=response_data
+                            response_data=response_data,
                         )
                     else:
                         error_text = await response.text()
@@ -410,20 +400,14 @@ class PlatformAPIManager:
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to LinkedIn: {e}")
-            return PostResult(
-                success=False,
-                platform="linkedin",
-                error=str(e)
-            )
+            return PostResult(success=False, platform="linkedin", error=str(e))
 
     async def post_to_reddit(self, title: str, content: str, subreddit: str = "test") -> PostResult:
         """Post to Reddit using PRAW"""
 
         if "reddit" not in self.platform_clients:
             return PostResult(
-                success=False,
-                platform="reddit",
-                error="Reddit client not initialized"
+                success=False, platform="reddit", error="Reddit client not initialized"
             )
 
         try:
@@ -431,11 +415,7 @@ class PlatformAPIManager:
 
             # Check rate limits
             if not await self._check_rate_limit("reddit"):
-                return PostResult(
-                    success=False,
-                    platform="reddit",
-                    error="Rate limit exceeded"
-                )
+                return PostResult(success=False, platform="reddit", error="Rate limit exceeded")
 
             # Submit post
             subreddit_obj = reddit.subreddit(subreddit)
@@ -453,25 +433,19 @@ class PlatformAPIManager:
                 platform="reddit",
                 post_id=submission.id,
                 url=post_url,
-                response_data={"subreddit": subreddit, "title": title}
+                response_data={"subreddit": subreddit, "title": title},
             )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to Reddit: {e}")
-            return PostResult(
-                success=False,
-                platform="reddit",
-                error=str(e)
-            )
+            return PostResult(success=False, platform="reddit", error=str(e))
 
     async def post_to_instagram(self, content: str, media_path: str) -> PostResult:
         """Post to Instagram using Graph API"""
 
         if "instagram" not in self.credentials:
             return PostResult(
-                success=False,
-                platform="instagram",
-                error="Instagram credentials not configured"
+                success=False, platform="instagram", error="Instagram credentials not configured"
             )
 
         try:
@@ -479,11 +453,7 @@ class PlatformAPIManager:
 
             # Check rate limits
             if not await self._check_rate_limit("instagram"):
-                return PostResult(
-                    success=False,
-                    platform="instagram",
-                    error="Rate limit exceeded"
-                )
+                return PostResult(success=False, platform="instagram", error="Rate limit exceeded")
 
             # Instagram requires image upload via Graph API
             # This is a simplified version - full implementation would handle
@@ -501,16 +471,12 @@ class PlatformAPIManager:
                 return PostResult(
                     success=False,
                     platform="instagram",
-                    error="Instagram API implementation pending - requires Facebook Graph API setup"
+                    error="Instagram API implementation pending - requires Facebook Graph API setup",
                 )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to Instagram: {e}")
-            return PostResult(
-                success=False,
-                platform="instagram",
-                error=str(e)
-            )
+            return PostResult(success=False, platform="instagram", error=str(e))
 
     async def _check_rate_limit(self, platform: str) -> bool:
         """Check if we can make a request within rate limits"""
@@ -520,9 +486,10 @@ class PlatformAPIManager:
             self.rate_limits[platform] = RateLimitInfo(
                 platform=platform,
                 requests_remaining=self.default_rate_limits[platform]["requests"],
-                reset_time=datetime.now() + timedelta(seconds=self.default_rate_limits[platform]["window"]),
+                reset_time=datetime.now()
+                + timedelta(seconds=self.default_rate_limits[platform]["window"]),
                 window_duration=self.default_rate_limits[platform]["window"],
-                last_request=datetime.now() - timedelta(hours=1)
+                last_request=datetime.now() - timedelta(hours=1),
             )
 
         rate_limit = self.rate_limits[platform]
@@ -535,7 +502,9 @@ class PlatformAPIManager:
 
         # Check if we have requests remaining
         if rate_limit.requests_remaining <= 0:
-            self.logger.warning(f"Rate limit exceeded for {platform}. Reset at {rate_limit.reset_time}")
+            self.logger.warning(
+                f"Rate limit exceeded for {platform}. Reset at {rate_limit.reset_time}"
+            )
             return False
 
         return True
@@ -557,7 +526,7 @@ class PlatformAPIManager:
                 "credentials_configured": platform in self.credentials,
                 "client_initialized": platform in self.platform_clients,
                 "library_available": self._check_library_availability(platform),
-                "rate_limit_status": None
+                "rate_limit_status": None,
             }
 
             if platform in self.rate_limits:
@@ -565,7 +534,7 @@ class PlatformAPIManager:
                 platform_status["rate_limit_status"] = {
                     "requests_remaining": rate_limit.requests_remaining,
                     "reset_time": rate_limit.reset_time.isoformat(),
-                    "last_request": rate_limit.last_request.isoformat()
+                    "last_request": rate_limit.last_request.isoformat(),
                 }
 
             status[platform] = platform_status
@@ -579,13 +548,19 @@ class PlatformAPIManager:
             "twitter": TWITTER_AVAILABLE,
             "reddit": REDDIT_AVAILABLE,
             "linkedin": OAUTH_AVAILABLE,  # Custom implementation with OAuth
-            "instagram": OAUTH_AVAILABLE  # Custom implementation with OAuth
+            "instagram": OAUTH_AVAILABLE,  # Custom implementation with OAuth
         }
 
         return availability.get(platform, False)
 
-    async def post_content(self, platform: str, content: str, title: str = None,
-                          media_paths: list[str] = None, **kwargs) -> PostResult:
+    async def post_content(
+        self,
+        platform: str,
+        content: str,
+        title: str = None,
+        media_paths: list[str] = None,
+        **kwargs,
+    ) -> PostResult:
         """Universal posting method for any platform"""
 
         self.logger.info(f"📤 Posting to {platform}: {title or content[:50]}...")
@@ -606,28 +581,22 @@ class PlatformAPIManager:
                     return await self.post_to_instagram(content, media_paths[0])
                 else:
                     return PostResult(
-                        success=False,
-                        platform="instagram",
-                        error="Instagram requires media"
+                        success=False, platform="instagram", error="Instagram requires media"
                     )
 
             else:
                 return PostResult(
-                    success=False,
-                    platform=platform,
-                    error=f"Platform {platform} not supported"
+                    success=False, platform=platform, error=f"Platform {platform} not supported"
                 )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to {platform}: {e}")
-            return PostResult(
-                success=False,
-                platform=platform,
-                error=str(e)
-            )
+            return PostResult(success=False, platform=platform, error=str(e))
+
 
 # Global API manager instance
 api_manager: Optional[PlatformAPIManager] = None
+
 
 def get_api_manager() -> PlatformAPIManager:
     """Get or create the global API manager"""
@@ -637,6 +606,7 @@ def get_api_manager() -> PlatformAPIManager:
         api_manager = PlatformAPIManager()
 
     return api_manager
+
 
 # Example usage and testing
 async def main():
@@ -668,7 +638,7 @@ async def main():
                 platform=platform,
                 content=test_content,
                 title="LUKHAS AI Platform Integration Test",
-                subreddit="test" if platform == "reddit" else None
+                subreddit="test" if platform == "reddit" else None,
             )
 
             if result.success:
@@ -679,6 +649,7 @@ async def main():
             print(f"⚠️ {platform} not configured for testing")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Platform Integration Test Complete")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

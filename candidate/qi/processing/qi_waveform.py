@@ -11,9 +11,7 @@ except Exception:  # pragma: no cover - fallback for broken import
     import time
     from datetime import datetime
 
-    def generate_dream(
-        seed: str, context: dict[str, Any] | None = None
-    ) -> dict[str, Any]:
+    def generate_dream(seed: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Fallback dream generator used when Oneiric Core is unavailable."""
         return {
             "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time())}",
@@ -33,9 +31,7 @@ class QIWaveform:
 
     base_seed: str
 
-    def collapse(
-        self, probability: float = 0.5, recursion_limit: int = 1
-    ) -> dict[str, Any] | None:
+    def collapse(self, probability: float = 0.5, recursion_limit: int = 1) -> dict[str, Any] | None:
         """Collapse waveform and optionally trigger recursive dream generation."""
         if random.random() >= probability:
             return None
@@ -46,7 +42,5 @@ class QIWaveform:
     def _request_recursive_dream(self, seed: str, limit: int) -> dict[str, Any]:
         dream = generate_dream(seed, context={"recursive": True})
         if limit > 1:
-            dream["recursive_child"] = self._request_recursive_dream(
-                dream["dream_id"], limit - 1
-            )
+            dream["recursive_child"] = self._request_recursive_dream(dream["dream_id"], limit - 1)
         return dream

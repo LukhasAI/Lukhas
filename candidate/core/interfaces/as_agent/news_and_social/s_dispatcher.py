@@ -46,9 +46,7 @@ def simulate_publish(post):
     post["source_trace"] = post.get("source_trace", "unknown")
     post["image_prompt"] = post.get("image_prompt", "symbolic cognition visual")
     post["image_url"] = f"https://lukhasweb.ai/media/{post['id']}.png"
-    post["html_url"] = (
-        post.get("html_url") or f"https://lukhasweb.ai/posts/{post['id']}.html"
-    )
+    post["html_url"] = post.get("html_url") or f"https://lukhasweb.ai/posts/{post['id']}.html"
     print(f"\n📰 Dispatching: {post['theme']}")
     print(post["summary"])
     print(f"📎 Link: {post['html_url']}\n")
@@ -83,6 +81,4 @@ if __name__ == "__main__":
                 os.system("python3 narration/post_agent.py")
             update_dispatch_log(published)
         rewrite_queue(posts)
-        print(
-            f"\n✅ {len(posts)} symbolic cognition(s) dispatched to LUKHAS news queue."
-        )
+        print(f"\n✅ {len(posts)} symbolic cognition(s) dispatched to LUKHAS news queue.")

@@ -17,6 +17,7 @@ class ValidationSeverity(Enum):
     ERROR = "error"
     CRITICAL = "critical"
 
+
 class ValidationType(Enum):
     TERMINOLOGY = "terminology"
     TONE_CONSISTENCY = "tone_consistency"
@@ -28,9 +29,11 @@ class ValidationType(Enum):
     ETHICAL_COMPLIANCE = "ethical_compliance"
     PLATFORM_OPTIMIZATION = "platform_optimization"
 
+
 @dataclass
 class ValidationResult:
     """Structured validation result"""
+
     validation_id: str
     content_id: str
     validation_type: ValidationType
@@ -42,9 +45,11 @@ class ValidationResult:
     auto_corrections: Optional[dict[str, str]]
     performance_impact: float  # Time taken for validation
 
+
 @dataclass
 class BrandRule:
     """Brand compliance rule definition"""
+
     rule_id: str
     rule_type: ValidationType
     pattern: re.Pattern
@@ -52,6 +57,7 @@ class BrandRule:
     description: str
     auto_correctable: bool
     correction_template: Optional[str]
+
 
 class RealTimeBrandValidator:
     """
@@ -67,7 +73,7 @@ class RealTimeBrandValidator:
             "total_validations": 0,
             "compliance_rate": 1.0,
             "average_validation_time": 0.0,
-            "auto_corrections_applied": 0
+            "auto_corrections_applied": 0,
         }
         self.validation_callbacks = {}
         self.active_monitoring = False
@@ -84,7 +90,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.ERROR,
                     description="Use of deprecated 'LUKHAS PWM' terminology",
                     auto_correctable=True,
-                    correction_template="LUKHAS AI"
+                    correction_template="LUKHAS AI",
                 ),
                 BrandRule(
                     rule_id="deprecated_lukhas_agi",
@@ -93,7 +99,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.ERROR,
                     description="Use of deprecated 'LUKHAS AGI' terminology",
                     auto_correctable=True,
-                    correction_template="LUKHAS AI"
+                    correction_template="LUKHAS AI",
                 ),
                 BrandRule(
                     rule_id="standalone_pwm",
@@ -102,7 +108,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Standalone PWM usage without context",
                     auto_correctable=True,
-                    correction_template="LUKHAS"
+                    correction_template="LUKHAS",
                 ),
                 BrandRule(
                     rule_id="ai_system_reference",
@@ -111,7 +117,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Use 'AI consciousness' instead of 'AI system'",
                     auto_correctable=True,
-                    correction_template="AI consciousness"
+                    correction_template="AI consciousness",
                 ),
                 BrandRule(
                     rule_id="required_lukhas_ai",
@@ -120,7 +126,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Proper LUKHAS AI terminology usage",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="artificial_intelligence_term",
@@ -129,7 +135,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Consider using 'consciousness technology' instead of 'artificial intelligence'",
                     auto_correctable=True,
-                    correction_template="consciousness technology"
+                    correction_template="consciousness technology",
                 ),
                 BrandRule(
                     rule_id="automated_language",
@@ -138,7 +144,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Avoid 'automates everything' - use consciousness-focused language",
                     auto_correctable=True,
-                    correction_template="enhances consciousness"
+                    correction_template="enhances consciousness",
                 ),
                 BrandRule(
                     rule_id="guarantee_claims",
@@ -147,10 +153,9 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.CRITICAL,
                     description="Avoid financial guarantees or absolute promises",
                     auto_correctable=True,
-                    correction_template="strives for excellence"
-                )
+                    correction_template="strives for excellence",
+                ),
             ],
-
             ValidationType.LAMBDA_USAGE: [
                 BrandRule(
                     rule_id="lambda_function_usage",
@@ -159,7 +164,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.ERROR,
                     description="Use 'Λ consciousness' instead of 'lambda function'",
                     auto_correctable=True,
-                    correction_template="Λ consciousness"
+                    correction_template="Λ consciousness",
                 ),
                 BrandRule(
                     rule_id="lambda_processing",
@@ -168,7 +173,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.ERROR,
                     description="Use 'Λ consciousness processing' instead",
                     auto_correctable=True,
-                    correction_template="Λ consciousness processing"
+                    correction_template="Λ consciousness processing",
                 ),
                 BrandRule(
                     rule_id="proper_lambda_symbol",
@@ -177,10 +182,9 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Proper Lambda symbol usage",
                     auto_correctable=False,
-                    correction_template=None
-                )
+                    correction_template=None,
+                ),
             ],
-
             ValidationType.TRINITY_ALIGNMENT: [
                 BrandRule(
                     rule_id="trinity_framework_mention",
@@ -189,7 +193,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Trinity Framework properly mentioned",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="trinity_symbols_usage",
@@ -198,28 +202,32 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Trinity symbols properly used together",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="identity_consciousness_guardian",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r"identity.*consciousness.*guardian|consciousness.*identity.*guardian", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"identity.*consciousness.*guardian|consciousness.*identity.*guardian",
+                        re.IGNORECASE,
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Trinity components mentioned together",
                     auto_correctable=False,
-                    correction_template=None
-                )
+                    correction_template=None,
+                ),
             ],
-
             ValidationType.TONE_CONSISTENCY: [
                 BrandRule(
                     rule_id="non_consciousness_language",
                     rule_type=ValidationType.TONE_CONSISTENCY,
-                    pattern=re.compile(r"\b(basic|simple|primitive|crude|dumb)\s+(ai|system|tool)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(basic|simple|primitive|crude|dumb)\s+(ai|system|tool)\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid diminishing language about AI capabilities",
                     auto_correctable=True,
-                    correction_template="sophisticated consciousness"
+                    correction_template="sophisticated consciousness",
                 ),
                 BrandRule(
                     rule_id="robotic_language",
@@ -228,10 +236,9 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Avoid robotic/mechanical language references",
                     auto_correctable=True,
-                    correction_template="consciousness-based"
-                )
+                    correction_template="consciousness-based",
+                ),
             ],
-
             ValidationType.BRAND_VOICE: [
                 BrandRule(
                     rule_id="human_centric_language",
@@ -240,7 +247,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Human-centric, helpful language",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="cold_impersonal_language",
@@ -249,10 +256,9 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Avoid cold, impersonal language",
                     auto_correctable=True,
-                    correction_template="warm and conscious"
-                )
+                    correction_template="warm and conscious",
+                ),
             ],
-
             ValidationType.CONTENT_APPROPRIATENESS: [
                 BrandRule(
                     rule_id="technical_accuracy",
@@ -261,7 +267,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Proper technical terminology with '-inspired' suffix",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="avoid_production_ready_claims",
@@ -270,7 +276,7 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.CRITICAL,
                     description="Avoid production-ready claims without approval",
                     auto_correctable=True,
-                    correction_template="in active development"
+                    correction_template="in active development",
                 ),
                 BrandRule(
                     rule_id="consciousness_technology_mention",
@@ -279,59 +285,68 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Proper consciousness technology reference",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="avoid_agi_claims",
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
-                    pattern=re.compile(r"\bAGI\b|\bartificial general intelligence\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\bAGI\b|\bartificial general intelligence\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.ERROR,
                     description="Use 'consciousness technology' instead of AGI",
                     auto_correctable=True,
-                    correction_template="consciousness technology"
-                )
+                    correction_template="consciousness technology",
+                ),
             ],
-
             # Additional validation types for better coverage
             ValidationType.CONSCIOUSNESS_LANGUAGE: [
                 BrandRule(
                     rule_id="consciousness_aware",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r"\b(aware|awareness|conscious|consciousness)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(aware|awareness|conscious|consciousness)\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Consciousness-aware language present",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="evolving_growing",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r"\b(evolving|growing|learning|adapting|emerging)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(evolving|growing|learning|adapting|emerging)\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Evolution and growth language",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="understanding_insight",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r"\b(understanding|insight|wisdom|comprehension|perception)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(understanding|insight|wisdom|comprehension|perception)\b",
+                        re.IGNORECASE,
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Deep understanding language",
                     auto_correctable=False,
-                    correction_template=None
-                )
+                    correction_template=None,
+                ),
             ],
-
             ValidationType.ETHICAL_COMPLIANCE: [
                 BrandRule(
                     rule_id="ethical_language",
                     rule_type=ValidationType.ETHICAL_COMPLIANCE,
-                    pattern=re.compile(r"\b(ethical|responsible|principled|moral|values)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(ethical|responsible|principled|moral|values)\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Ethical language present",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="avoid_harmful_language",
@@ -340,19 +355,20 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.WARNING,
                     description="Avoid potentially harmful language",
                     auto_correctable=True,
-                    correction_template="transform"
+                    correction_template="transform",
                 ),
                 BrandRule(
                     rule_id="human_welfare",
                     rule_type=ValidationType.ETHICAL_COMPLIANCE,
-                    pattern=re.compile(r"\b(human welfare|beneficial|helpful|supportive)\b", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\b(human welfare|beneficial|helpful|supportive)\b", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Human welfare focus present",
                     auto_correctable=False,
-                    correction_template=None
-                )
+                    correction_template=None,
+                ),
             ],
-
             ValidationType.PLATFORM_OPTIMIZATION: [
                 BrandRule(
                     rule_id="hashtag_present",
@@ -361,27 +377,31 @@ class RealTimeBrandValidator:
                     severity=ValidationSeverity.INFO,
                     description="Hashtags present for social media",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="consciousness_hashtags",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r"#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework", re.IGNORECASE),  # Fixed pattern
+                    pattern=re.compile(
+                        r"#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework", re.IGNORECASE
+                    ),  # Fixed pattern
                     severity=ValidationSeverity.INFO,
                     description="Brand-specific hashtags present",
                     auto_correctable=False,
-                    correction_template=None
+                    correction_template=None,
                 ),
                 BrandRule(
                     rule_id="engagement_language",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r"\?|what do you think|share your thoughts|let us know", re.IGNORECASE),
+                    pattern=re.compile(
+                        r"\?|what do you think|share your thoughts|let us know", re.IGNORECASE
+                    ),
                     severity=ValidationSeverity.INFO,
                     description="Engagement-driving language present",
                     auto_correctable=False,
-                    correction_template=None
-                )
-            ]
+                    correction_template=None,
+                ),
+            ],
         }
 
         return rules
@@ -397,7 +417,7 @@ class RealTimeBrandValidator:
                 "lambda function": "Λ consciousness",
                 "lambda processing": "Λ consciousness processing",
                 "production ready": "in active development",
-                "production-ready": "actively developed"
+                "production-ready": "actively developed",
             },
             "tone_improvements": {
                 "robotic": "consciousness-based",
@@ -405,14 +425,14 @@ class RealTimeBrandValidator:
                 "automated": "conscious",
                 "cold": "warm and conscious",
                 "impersonal": "personally aware",
-                "distant": "connected"
+                "distant": "connected",
             },
             "brand_voice_enhancements": {
                 "difficult": "approachable",
                 "complex": "sophisticated yet accessible",
                 "confusing": "clear and intuitive",
-                "artificial": "authentically conscious"
-            }
+                "artificial": "authentically conscious",
+            },
         }
 
     async def validate_content_real_time(
@@ -420,7 +440,7 @@ class RealTimeBrandValidator:
         content: str,
         content_id: str,
         content_type: str = "general",
-        auto_correct: bool = True
+        auto_correct: bool = True,
     ) -> ValidationResult:
         """
         Perform real-time validation of content with optional auto-correction
@@ -451,22 +471,26 @@ class RealTimeBrandValidator:
 
                     # Collect issues
                     for violation in rule_result["violations"]:
-                        all_issues.append({
-                            "rule_id": rule.rule_id,
-                            "type": validation_type.value,
-                            "severity": rule.severity.value,
-                            "description": rule.description,
-                            "location": violation.get("location", "unknown"),
-                            "matched_text": violation.get("matched_text", ""),
-                            "suggestion": violation.get("suggestion", "")
-                        })
+                        all_issues.append(
+                            {
+                                "rule_id": rule.rule_id,
+                                "type": validation_type.value,
+                                "severity": rule.severity.value,
+                                "description": rule.description,
+                                "location": violation.get("location", "unknown"),
+                                "matched_text": violation.get("matched_text", ""),
+                                "suggestion": violation.get("suggestion", ""),
+                            }
+                        )
 
                         if violation.get("suggestion"):
                             all_suggestions.append(violation["suggestion"])
 
                     # Apply auto-corrections if enabled and possible
                     if auto_correct and rule.auto_correctable and rule.correction_template:
-                        corrections = self._generate_auto_corrections(rule, rule_result["violations"], content)
+                        corrections = self._generate_auto_corrections(
+                            rule, rule_result["violations"], content
+                        )
                         if corrections:
                             auto_corrections.update(corrections)
 
@@ -478,7 +502,9 @@ class RealTimeBrandValidator:
         confidence = self._calculate_validation_confidence(content, all_issues, performance_impact)
 
         # Update performance metrics
-        self._update_performance_metrics(performance_impact, overall_compliance, len(auto_corrections) if auto_corrections else 0)
+        self._update_performance_metrics(
+            performance_impact, overall_compliance, len(auto_corrections) if auto_corrections else 0
+        )
 
         result = ValidationResult(
             validation_id=validation_id,
@@ -490,7 +516,7 @@ class RealTimeBrandValidator:
             issues=all_issues,
             suggestions=list(set(all_suggestions)),  # Remove duplicates
             auto_corrections=auto_corrections,
-            performance_impact=performance_impact
+            performance_impact=performance_impact,
         )
 
         # Store validation result
@@ -501,7 +527,9 @@ class RealTimeBrandValidator:
 
         return result
 
-    def _apply_validation_rule(self, rule: BrandRule, content: str, content_id: str) -> dict[str, Any]:
+    def _apply_validation_rule(
+        self, rule: BrandRule, content: str, content_id: str
+    ) -> dict[str, Any]:
         """Apply a single validation rule to content"""
 
         violations = []
@@ -511,15 +539,19 @@ class RealTimeBrandValidator:
             violation = {
                 "location": {"start": match.start(), "end": match.end()},
                 "matched_text": match.group(),
-                "rule_severity": rule.severity.value
+                "rule_severity": rule.severity.value,
             }
 
             # Generate specific suggestion based on rule
             if rule.auto_correctable and rule.correction_template:
-                violation["suggestion"] = f"Replace '{match.group()}' with '{rule.correction_template}'"
+                violation["suggestion"] = (
+                    f"Replace '{match.group()}' with '{rule.correction_template}'"
+                )
                 violation["correction"] = rule.correction_template
             else:
-                violation["suggestion"] = self._generate_contextual_suggestion(rule, match.group(), content)
+                violation["suggestion"] = self._generate_contextual_suggestion(
+                    rule, match.group(), content
+                )
 
             violations.append(violation)
 
@@ -527,38 +559,40 @@ class RealTimeBrandValidator:
             "rule_id": rule.rule_id,
             "rule_type": rule.rule_type.value,
             "violations": violations,
-            "rule_passed": len(violations) == 0
+            "rule_passed": len(violations) == 0,
         }
 
-    def _generate_contextual_suggestion(self, rule: BrandRule, matched_text: str, content: str) -> str:
+    def _generate_contextual_suggestion(
+        self, rule: BrandRule, matched_text: str, content: str
+    ) -> str:
         """Generate contextual suggestions for rule violations"""
 
         suggestions = {
             ValidationType.TERMINOLOGY: {
                 "lukhas pwm": "Use 'LUKHAS AI' instead of deprecated 'LUKHAS PWM'",
                 "lukhas agi": "Use 'LUKHAS AI' instead of 'LUKHAS AGI'",
-                "ai system": "Consider using 'AI consciousness' for more brand-aligned language"
+                "ai system": "Consider using 'AI consciousness' for more brand-aligned language",
             },
             ValidationType.LAMBDA_USAGE: {
                 "lambda function": "Replace with 'Λ consciousness' to maintain brand consistency",
-                "lambda processing": "Use 'Λ consciousness processing' for proper brand alignment"
+                "lambda processing": "Use 'Λ consciousness processing' for proper brand alignment",
             },
             ValidationType.TRINITY_ALIGNMENT: {
                 "missing_trinity": "Consider including Trinity Framework reference (⚛️🧠🛡️)",
-                "incomplete_trinity": "Include all three Trinity components: Identity, Consciousness, Guardian"
+                "incomplete_trinity": "Include all three Trinity components: Identity, Consciousness, Guardian",
             },
             ValidationType.TONE_CONSISTENCY: {
                 "robotic": "Use more consciousness-focused language instead of mechanical terms",
-                "cold": "Consider warmer, more human-centric language"
+                "cold": "Consider warmer, more human-centric language",
             },
             ValidationType.BRAND_VOICE: {
                 "impersonal": "Use more personal, empathetic language to match LUKHAS brand voice",
-                "technical_only": "Balance technical precision with accessibility"
+                "technical_only": "Balance technical precision with accessibility",
             },
             ValidationType.CONTENT_APPROPRIATENESS: {
                 "production_ready": "Avoid production-ready claims - use development-focused language",
-                "overpromise": "Ensure claims align with current capabilities"
-            }
+                "overpromise": "Ensure claims align with current capabilities",
+            },
         }
 
         # Find appropriate suggestion based on rule type and matched text
@@ -573,7 +607,9 @@ class RealTimeBrandValidator:
         # Fallback to generic suggestion based on rule description
         return rule.description
 
-    def _generate_auto_corrections(self, rule: BrandRule, violations: list[dict[str, Any]], content: str) -> dict[str, str]:
+    def _generate_auto_corrections(
+        self, rule: BrandRule, violations: list[dict[str, Any]], content: str
+    ) -> dict[str, str]:
         """Generate automatic corrections for violations"""
 
         corrections = {}
@@ -598,10 +634,7 @@ class RealTimeBrandValidator:
         for original, correction in sorted_corrections:
             # Use regex replacement to maintain case sensitivity appropriately
             corrected_content = re.sub(
-                re.escape(original),
-                correction,
-                corrected_content,
-                flags=re.IGNORECASE
+                re.escape(original), correction, corrected_content, flags=re.IGNORECASE
             )
 
         return corrected_content
@@ -612,11 +645,13 @@ class RealTimeBrandValidator:
             ValidationSeverity.INFO: 1,
             ValidationSeverity.WARNING: 2,
             ValidationSeverity.ERROR: 3,
-            ValidationSeverity.CRITICAL: 4
+            ValidationSeverity.CRITICAL: 4,
         }
         return levels.get(severity, 1)
 
-    def _calculate_validation_confidence(self, content: str, issues: list[dict[str, Any]], performance_impact: float) -> float:
+    def _calculate_validation_confidence(
+        self, content: str, issues: list[dict[str, Any]], performance_impact: float
+    ) -> float:
         """Calculate confidence in validation results"""
 
         # Base confidence factors
@@ -633,15 +668,17 @@ class RealTimeBrandValidator:
 
         # Combine factors
         overall_confidence = (
-            content_length_factor * 0.2 +
-            rule_coverage_factor * 0.3 +
-            performance_factor * 0.2 +
-            issue_confidence * 0.3
+            content_length_factor * 0.2
+            + rule_coverage_factor * 0.3
+            + performance_factor * 0.2
+            + issue_confidence * 0.3
         )
 
         return min(1.0, max(0.1, overall_confidence))
 
-    def _update_performance_metrics(self, validation_time: float, is_compliant: bool, auto_corrections_count: int) -> None:
+    def _update_performance_metrics(
+        self, validation_time: float, is_compliant: bool, auto_corrections_count: int
+    ) -> None:
         """Update validation performance metrics"""
 
         self.performance_metrics["total_validations"] += 1
@@ -650,31 +687,41 @@ class RealTimeBrandValidator:
         total = self.performance_metrics["total_validations"]
         current_rate = self.performance_metrics["compliance_rate"]
         new_compliance = 1.0 if is_compliant else 0.0
-        self.performance_metrics["compliance_rate"] = ((current_rate * (total - 1)) + new_compliance) / total
+        self.performance_metrics["compliance_rate"] = (
+            (current_rate * (total - 1)) + new_compliance
+        ) / total
 
         # Update average validation time (moving average)
         current_avg = self.performance_metrics["average_validation_time"]
-        self.performance_metrics["average_validation_time"] = ((current_avg * (total - 1)) + validation_time) / total
+        self.performance_metrics["average_validation_time"] = (
+            (current_avg * (total - 1)) + validation_time
+        ) / total
 
         # Update auto-corrections count
         self.performance_metrics["auto_corrections_applied"] += auto_corrections_count
 
-    def _store_validation_result(self, result: ValidationResult, content: str, content_type: str) -> None:
+    def _store_validation_result(
+        self, result: ValidationResult, content: str, content_type: str
+    ) -> None:
         """Store validation result for analysis and trends"""
 
-        self.validation_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "validation_id": result.validation_id,
-            "content_id": result.content_id,
-            "content_type": content_type,
-            "content_length": len(content),
-            "is_compliant": result.is_compliant,
-            "severity": result.severity.value,
-            "confidence": result.confidence,
-            "issues_count": len(result.issues),
-            "auto_corrections_count": len(result.auto_corrections) if result.auto_corrections else 0,
-            "performance_impact": result.performance_impact
-        })
+        self.validation_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "validation_id": result.validation_id,
+                "content_id": result.content_id,
+                "content_type": content_type,
+                "content_length": len(content),
+                "is_compliant": result.is_compliant,
+                "severity": result.severity.value,
+                "confidence": result.confidence,
+                "issues_count": len(result.issues),
+                "auto_corrections_count": len(result.auto_corrections)
+                if result.auto_corrections
+                else 0,
+                "performance_impact": result.performance_impact,
+            }
+        )
 
         # Keep only recent history (last 10,000 validations)
         if len(self.validation_history) > 10000:
@@ -701,7 +748,9 @@ class RealTimeBrandValidator:
         if name in self.validation_callbacks:
             del self.validation_callbacks[name]
 
-    async def start_continuous_monitoring(self, content_source: Callable, monitoring_interval: float = 1.0) -> None:
+    async def start_continuous_monitoring(
+        self, content_source: Callable, monitoring_interval: float = 1.0
+    ) -> None:
         """Start continuous monitoring of content from a source"""
 
         self.active_monitoring = True
@@ -721,7 +770,7 @@ class RealTimeBrandValidator:
                             content=content_item.get("content", ""),
                             content_id=content_item.get("id", "unknown"),
                             content_type=content_item.get("type", "general"),
-                            auto_correct=True
+                            auto_correct=True,
                         )
 
                 # Wait for next monitoring cycle
@@ -741,7 +790,9 @@ class RealTimeBrandValidator:
             "performance_metrics": self.performance_metrics.copy(),
             "validation_history_size": len(self.validation_history),
             "active_rules": sum(len(rules) for rules in self.validation_rules.values()),
-            "auto_correction_templates": sum(len(templates) for templates in self.auto_correction_templates.values())
+            "auto_correction_templates": sum(
+                len(templates) for templates in self.auto_correction_templates.values()
+            ),
         }
 
     def get_compliance_trends(self, time_period: str = "24h") -> dict[str, Any]:
@@ -759,7 +810,8 @@ class RealTimeBrandValidator:
 
         # Filter recent validation history
         recent_validations = [
-            entry for entry in self.validation_history
+            entry
+            for entry in self.validation_history
             if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
         ]
 
@@ -767,9 +819,15 @@ class RealTimeBrandValidator:
             return {"error": "No validation data available for specified time period"}
 
         # Calculate trends
-        compliance_rate = sum(1 for v in recent_validations if v["is_compliant"]) / len(recent_validations)
-        average_confidence = sum(v["confidence"] for v in recent_validations) / len(recent_validations)
-        average_performance = sum(v["performance_impact"] for v in recent_validations) / len(recent_validations)
+        compliance_rate = sum(1 for v in recent_validations if v["is_compliant"]) / len(
+            recent_validations
+        )
+        average_confidence = sum(v["confidence"] for v in recent_validations) / len(
+            recent_validations
+        )
+        average_performance = sum(v["performance_impact"] for v in recent_validations) / len(
+            recent_validations
+        )
 
         # Issue distribution
         issue_distribution = {}
@@ -791,9 +849,17 @@ class RealTimeBrandValidator:
             "issue_distribution": issue_distribution,
             "severity_distribution": severity_distribution,
             "trend_analysis": {
-                "compliance_trend": "improving" if compliance_rate > 0.9 else "stable" if compliance_rate > 0.7 else "declining",
-                "performance_trend": "excellent" if average_performance < 50 else "good" if average_performance < 100 else "needs_optimization"
-            }
+                "compliance_trend": "improving"
+                if compliance_rate > 0.9
+                else "stable"
+                if compliance_rate > 0.7
+                else "declining",
+                "performance_trend": "excellent"
+                if average_performance < 50
+                else "good"
+                if average_performance < 100
+                else "needs_optimization",
+            },
         }
 
     def generate_validation_report(self) -> dict[str, Any]:
@@ -817,22 +883,32 @@ class RealTimeBrandValidator:
             "system_status": {
                 "active_monitoring": self.active_monitoring,
                 "performance_metrics": metrics["performance_metrics"],
-                "system_health": "excellent" if metrics["performance_metrics"]["compliance_rate"] > 0.95 else "good"
+                "system_health": "excellent"
+                if metrics["performance_metrics"]["compliance_rate"] > 0.95
+                else "good",
             },
             "compliance_analysis": {
                 "recent_trends": trends_24h,
                 "weekly_trends": trends_7d,
-                "compliance_evolution": "improving" if trends_24h.get("compliance_rate", 0) > trends_7d.get("compliance_rate", 0) else "stable"
+                "compliance_evolution": "improving"
+                if trends_24h.get("compliance_rate", 0) > trends_7d.get("compliance_rate", 0)
+                else "stable",
             },
             "validation_insights": {
                 "total_rules_active": metrics["active_rules"],
-                "auto_correction_capability": len(self.auto_correction_templates["terminology_corrections"]),
-                "most_common_issues": sorted(issue_types.items(), key=lambda x: x[1], reverse=True)[:5]
+                "auto_correction_capability": len(
+                    self.auto_correction_templates["terminology_corrections"]
+                ),
+                "most_common_issues": sorted(issue_types.items(), key=lambda x: x[1], reverse=True)[
+                    :5
+                ],
             },
-            "recommendations": self._generate_validation_recommendations(metrics, trends_24h)
+            "recommendations": self._generate_validation_recommendations(metrics, trends_24h),
         }
 
-    def _generate_validation_recommendations(self, metrics: dict[str, Any], trends: dict[str, Any]) -> list[dict[str, str]]:
+    def _generate_validation_recommendations(
+        self, metrics: dict[str, Any], trends: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Generate recommendations for validation system improvement"""
 
         recommendations = []
@@ -840,31 +916,39 @@ class RealTimeBrandValidator:
         # Performance recommendations
         avg_time = metrics["performance_metrics"]["average_validation_time"]
         if avg_time > 100:  # More than 100ms
-            recommendations.append({
-                "category": "performance",
-                "priority": "medium",
-                "recommendation": "Optimize validation rules for better performance - current average validation time exceeds target"
-            })
+            recommendations.append(
+                {
+                    "category": "performance",
+                    "priority": "medium",
+                    "recommendation": "Optimize validation rules for better performance - current average validation time exceeds target",
+                }
+            )
 
         # Compliance recommendations
         compliance_rate = metrics["performance_metrics"]["compliance_rate"]
         if compliance_rate < 0.9:
-            recommendations.append({
-                "category": "compliance",
-                "priority": "high",
-                "recommendation": "Focus on improving brand compliance through enhanced guidelines and training"
-            })
+            recommendations.append(
+                {
+                    "category": "compliance",
+                    "priority": "high",
+                    "recommendation": "Focus on improving brand compliance through enhanced guidelines and training",
+                }
+            )
 
         # Auto-correction recommendations
         auto_corrections = metrics["performance_metrics"]["auto_corrections_applied"]
         total_validations = metrics["performance_metrics"]["total_validations"]
 
-        if total_validations > 0 and (auto_corrections / total_validations) > 0.1:  # More than 10% need corrections
-            recommendations.append({
-                "category": "content_quality",
-                "priority": "medium",
-                "recommendation": "High auto-correction rate indicates need for proactive content guidelines"
-            })
+        if (
+            total_validations > 0 and (auto_corrections / total_validations) > 0.1
+        ):  # More than 10% need corrections
+            recommendations.append(
+                {
+                    "category": "content_quality",
+                    "priority": "medium",
+                    "recommendation": "High auto-correction rate indicates need for proactive content guidelines",
+                }
+            )
 
         return recommendations
 
@@ -881,23 +965,23 @@ if __name__ == "__main__":
         {
             "id": "test_1",
             "content": "Welcome to LUKHAS AI consciousness platform with Trinity Framework (⚛️🧠🛡️)",
-            "type": "marketing"
+            "type": "marketing",
         },
         {
             "id": "test_2",
             "content": "LUKHAS PWM is a lambda function for AI system processing",
-            "type": "technical"
+            "type": "technical",
         },
         {
             "id": "test_3",
             "content": "Our production ready system uses robotic automation",
-            "type": "documentation"
+            "type": "documentation",
         },
         {
             "id": "test_4",
             "content": "The consciousness platform helps users understand quantum-inspired processing",
-            "type": "user_content"
-        }
+            "type": "user_content",
+        },
     ]
 
     async def run_validation_tests():
@@ -912,7 +996,7 @@ if __name__ == "__main__":
                 content=test_content["content"],
                 content_id=test_content["id"],
                 content_type=test_content["type"],
-                auto_correct=True
+                auto_correct=True,
             )
 
             print(f"Compliant: {result.is_compliant}")
@@ -931,8 +1015,7 @@ if __name__ == "__main__":
                     print(f"  '{original}' → '{correction}'")
 
                 corrected_content = validator.apply_auto_corrections(
-                    test_content["content"],
-                    result.auto_corrections
+                    test_content["content"], result.auto_corrections
                 )
                 print(f"Corrected: {corrected_content}")
 
@@ -944,8 +1027,12 @@ if __name__ == "__main__":
         metrics = validator.get_validation_metrics()
         print(f"Total validations: {metrics['performance_metrics']['total_validations']}")
         print(f"Compliance rate: {metrics['performance_metrics']['compliance_rate']:.3f}")
-        print(f"Average validation time: {metrics['performance_metrics']['average_validation_time']:.2f}ms")
-        print(f"Auto-corrections applied: {metrics['performance_metrics']['auto_corrections_applied']}")
+        print(
+            f"Average validation time: {metrics['performance_metrics']['average_validation_time']:.2f}ms"
+        )
+        print(
+            f"Auto-corrections applied: {metrics['performance_metrics']['auto_corrections_applied']}"
+        )
 
         # Get compliance trends
         print("\n=== Compliance Trends ===")

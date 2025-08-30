@@ -238,14 +238,9 @@ class ConsciousnessMapper:
             weights.append(1.5)
 
         # EEG factors (if available)
-        if (
-            biometrics.eeg_alpha_power is not None
-            and biometrics.eeg_beta_power is not None
-        ):
+        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
             # Alpha/Beta ratio indicates relaxed awareness
-            alpha_beta_ratio = biometrics.eeg_alpha_power / (
-                biometrics.eeg_beta_power + 0.1
-            )
+            alpha_beta_ratio = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 0.1)
             normalized_ratio = min(1.0, alpha_beta_ratio / 2.0)  # Normalize to 0-1
             factors.append(normalized_ratio)
             weights.append(1.0)
@@ -264,9 +259,7 @@ class ConsciousnessMapper:
 
         # Calculate weighted average
         if factors:
-            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(
-                weights
-            )
+            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(weights)
         else:
             consciousness_level = 0.5  # Default to moderate consciousness
 
@@ -288,22 +281,14 @@ class ConsciousnessMapper:
         # Map to emotional state using circumplex model
         if arousal > 0.6:
             if valence > 0.6:
-                emotion = (
-                    EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
-                )
+                emotion = EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
             else:
-                emotion = (
-                    EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
-                )
+                emotion = EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
         else:
             if valence > 0.6:
                 emotion = EmotionalState.CALM if arousal < 0.3 else EmotionalState.TRUST
             else:
-                emotion = (
-                    EmotionalState.CONTEMPLATION
-                    if valence > 0.4
-                    else EmotionalState.NEUTRAL
-                )
+                emotion = EmotionalState.CONTEMPLATION if valence > 0.4 else EmotionalState.NEUTRAL
 
         # Special cases based on cognitive metrics
         if cognitive.flow_state > 0.8:
@@ -344,9 +329,7 @@ class ConsciousnessMapper:
 
         return sum(arousal_factors) / len(arousal_factors) if arousal_factors else 0.5
 
-    def _calculate_valence(
-        self, biometrics: BiometricData, cognitive: CognitiveMetrics
-    ) -> float:
+    def _calculate_valence(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
         """Calculate emotional valence (positive/negative)"""
         valence_factors = []
 
@@ -491,13 +474,8 @@ class ConsciousnessMapper:
             relax_factors.append(min(1.0, hrv_relax))
 
         # Alpha wave dominance
-        if (
-            biometrics.eeg_alpha_power is not None
-            and biometrics.eeg_beta_power is not None
-        ):
-            alpha_dominance = biometrics.eeg_alpha_power / (
-                biometrics.eeg_beta_power + 1.0
-            )
+        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
+            alpha_dominance = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 1.0)
             relax_factors.append(min(1.0, alpha_dominance / 2.0))
 
         # Low cognitive load
@@ -516,16 +494,12 @@ class ConsciousnessMapper:
 
         # Micro-variations in heart rate (real humans have natural variability)
         if biometrics.heart_rate_variability is not None:
-            hrv_authenticity = (
-                1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
-            )
+            hrv_authenticity = 1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
             authenticity_factors.append(hrv_authenticity)
 
         # Natural eye movement patterns
         if biometrics.eye_movement_velocity is not None:
-            eye_authenticity = (
-                1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
-            )
+            eye_authenticity = 1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
             authenticity_factors.append(eye_authenticity)
 
         # Coherent emotional-physiological coupling
@@ -540,14 +514,10 @@ class ConsciousnessMapper:
             authenticity_factors.append(breath_authenticity)
 
         return (
-            sum(authenticity_factors) / len(authenticity_factors)
-            if authenticity_factors
-            else 0.8
+            sum(authenticity_factors) / len(authenticity_factors) if authenticity_factors else 0.8
         )
 
-    def _smooth_state_transition(
-        self, new_state: ConsciousnessState
-    ) -> ConsciousnessState:
+    def _smooth_state_transition(self, new_state: ConsciousnessState) -> ConsciousnessState:
         """Smooth state transitions using history"""
         if not self.state_history:
             return new_state
@@ -558,9 +528,7 @@ class ConsciousnessMapper:
         # Smooth numerical values
         smoothed_consciousness = (
             new_state.consciousness_level * 0.5
-            + sum(s.consciousness_level for s in recent_states)
-            / len(recent_states)
-            * 0.5
+            + sum(s.consciousness_level for s in recent_states) / len(recent_states) * 0.5
         )
 
         smoothed_neural_synchrony = (

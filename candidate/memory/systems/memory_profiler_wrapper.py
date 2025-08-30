@@ -2,6 +2,7 @@
 Memory Profiler Wrapper
 Provides integration layer for memory profiler components
 """
+
 import logging
 from datetime import datetime
 from typing import Any, Optional
@@ -129,13 +130,9 @@ class MemoryProfiler:
 
         # Generate recommendations
         if analysis["total_deallocations"] < analysis["total_allocations"] * 0.8:
-            analysis["recommendations"].append(
-                "Consider more aggressive memory cleanup"
-            )
+            analysis["recommendations"].append("Consider more aggressive memory cleanup")
 
-        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get(
-            "total_size", 0
-        )
+        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get("total_size", 0)
         total_usage = sum(s["total_size"] for s in self.category_stats.values())
 
         if total_usage > 0 and temp_usage / total_usage > 0.5:

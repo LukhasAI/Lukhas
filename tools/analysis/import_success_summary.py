@@ -75,25 +75,19 @@ def analyze_final_state():
         (valid_syntax_files / total_python_files) * 100 if total_python_files > 0 else 0
     )
     import_success_rate = (
-        (fully_working_files / total_python_files) * 100
-        if total_python_files > 0
-        else 0
+        (fully_working_files / total_python_files) * 100 if total_python_files > 0 else 0
     )
 
     print("\n📈 Overall Statistics:")
     print(f"   Total Python files analyzed: {total_python_files:,}")
+    print(f"   Files with valid syntax: {valid_syntax_files:,} ({syntax_success_rate:.1f}%)")
     print(
-        f"   Files with valid syntax: {valid_syntax_files:,} ({syntax_success_rate:.1f}%)"
+        f"   Files with syntax errors: {syntax_error_files:,} ({(syntax_error_files / total_python_files) * 100:.1f}%)"
     )
     print(
-        f"   Files with syntax errors: {syntax_error_files:,} ({(syntax_error_files/total_python_files)*100:.1f}%)"
+        f"   Files with import issues: {import_error_files:,} ({(import_error_files / total_python_files) * 100:.1f}%)"
     )
-    print(
-        f"   Files with import issues: {import_error_files:,} ({(import_error_files/total_python_files)*100:.1f}%)"
-    )
-    print(
-        f"   Fully working files: {fully_working_files:,} ({import_success_rate:.1f}%)"
-    )
+    print(f"   Fully working files: {fully_working_files:,} ({import_success_rate:.1f}%)")
 
     # Analyze by module
     module_stats = defaultdict(
@@ -134,12 +128,8 @@ def analyze_final_state():
 
     # Show improvement metrics
     print("\n🎯 Key Improvements:")
-    print(
-        f"   • Reduced import errors from 3,672 to {import_error_files:,} (84.4% reduction)"
-    )
-    print(
-        f"   • Created {valid_syntax_files - syntax_error_files:,} working Python files"
-    )
+    print(f"   • Reduced import errors from 3,672 to {import_error_files:,} (84.4% reduction)")
+    print(f"   • Created {valid_syntax_files - syntax_error_files:,} working Python files")
     print("   • Achieved 96.1% syntax validity across codebase")
     print("   • Fixed circular dependencies from 7 to 4 (43% reduction)")
     print("   • Created comprehensive dependency injection system")
@@ -150,16 +140,12 @@ def analyze_final_state():
     active_syntax_errors = [
         e
         for e in syntax_errors
-        if not any(
-            ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
-        )
+        if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
     ]
     active_import_errors = [
         e
         for e in import_errors
-        if not any(
-            ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
-        )
+        if not any(ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"])
     ]
 
     print("\n⚠️ Remaining Issues (Active Codebase Only):")
@@ -194,9 +180,7 @@ def analyze_final_state():
     }
 
     # Save report
-    report_path = (
-        PROJECT_ROOT / "docs/reports/analysis/_IMPORT_SUCCESS_FINAL_REPORT.json"
-    )
+    report_path = PROJECT_ROOT / "docs/reports/analysis/_IMPORT_SUCCESS_FINAL_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w", encoding="utf-8") as f:

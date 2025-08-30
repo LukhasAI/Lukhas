@@ -24,6 +24,7 @@ from pymongo import TEXT, IndexModel
 
 logger = logging.getLogger(__name__)
 
+
 class LUKHASConsciousnessStore:
     """
     MongoDB Atlas integration for LUKHAS AI consciousness data.
@@ -42,8 +43,7 @@ class LUKHASConsciousnessStore:
 
         # MongoDB Atlas connection (GitHub Student Pack)
         self.connection_string = os.getenv(
-            "MONGODB_ATLAS_URI",
-            "mongodb+srv://<username>:<password>@lukhas-cluster.mongodb.net/"
+            "MONGODB_ATLAS_URI", "mongodb+srv://<username>:<password>@lukhas-cluster.mongodb.net/"
         )
 
         # Database configuration
@@ -54,7 +54,7 @@ class LUKHASConsciousnessStore:
             "consciousness_states",
             "trinity_framework",
             "dream_sessions",
-            "identity_contexts"
+            "identity_contexts",
         ]
 
     async def connect(self) -> bool:
@@ -86,29 +86,35 @@ class LUKHASConsciousnessStore:
 
         # Conversations indexes
         conversations = self.collections["conversations"]
-        await conversations.create_indexes([
-            IndexModel([("session_id", 1)]),
-            IndexModel([("user_id", 1), ("timestamp", -1)]),
-            IndexModel([("consciousness_level", -1)]),
-            IndexModel([("message", TEXT), ("response", TEXT)])  # Full-text search
-        ])
+        await conversations.create_indexes(
+            [
+                IndexModel([("session_id", 1)]),
+                IndexModel([("user_id", 1), ("timestamp", -1)]),
+                IndexModel([("consciousness_level", -1)]),
+                IndexModel([("message", TEXT), ("response", TEXT)]),  # Full-text search
+            ]
+        )
 
         # Memory folds indexes
         memory_folds = self.collections["memory_folds"]
-        await memory_folds.create_indexes([
-            IndexModel([("fold_id", 1)]),
-            IndexModel([("created_at", -1)]),
-            IndexModel([("parent_fold", 1)]),
-            IndexModel([("fold_type", 1), ("importance_score", -1)])
-        ])
+        await memory_folds.create_indexes(
+            [
+                IndexModel([("fold_id", 1)]),
+                IndexModel([("created_at", -1)]),
+                IndexModel([("parent_fold", 1)]),
+                IndexModel([("fold_type", 1), ("importance_score", -1)]),
+            ]
+        )
 
         # Consciousness states indexes
         consciousness_states = self.collections["consciousness_states"]
-        await consciousness_states.create_indexes([
-            IndexModel([("timestamp", -1)]),
-            IndexModel([("system_state", 1)]),
-            IndexModel([("trinity_balance", 1)])
-        ])
+        await consciousness_states.create_indexes(
+            [
+                IndexModel([("timestamp", -1)]),
+                IndexModel([("system_state", 1)]),
+                IndexModel([("trinity_balance", 1)]),
+            ]
+        )
 
         logger.info("📊 MongoDB indexes created for optimal consciousness data access")
 
@@ -120,7 +126,7 @@ class LUKHASConsciousnessStore:
         response: str,
         consciousness_level: float,
         model_used: str,
-        metadata: dict[str, Any] = None
+        metadata: dict[str, Any] = None,
     ) -> str:
         """Store a consciousness conversation interaction"""
 
@@ -136,8 +142,8 @@ class LUKHASConsciousnessStore:
             "trinity_context": {
                 "identity_strength": metadata.get("identity_strength", 0.5),
                 "consciousness_depth": consciousness_level,
-                "guardian_oversight": metadata.get("guardian_oversight", True)
-            }
+                "guardian_oversight": metadata.get("guardian_oversight", True),
+            },
         }
 
         result = await self.collections["conversations"].insert_one(conversation_doc)
@@ -151,7 +157,7 @@ class LUKHASConsciousnessStore:
         fold_type: str,
         importance_score: float,
         parent_fold: Optional[str] = None,
-        emotional_context: dict[str, float] = None
+        emotional_context: dict[str, float] = None,
     ) -> str:
         """Create a new memory fold with cascade prevention"""
 
@@ -171,22 +177,29 @@ class LUKHASConsciousnessStore:
             "created_at": datetime.utcnow(),
             "access_count": 0,
             "last_accessed": None,
-            "cascade_protected": True
+            "cascade_protected": True,
         }
 
         await self.collections["memory_folds"].insert_one(fold_doc)
 
-        logger.info(f"🧠 Created memory fold: {fold_doc['fold_id']} (importance: {importance_score})")
+        logger.info(
+            f"🧠 Created memory fold: {fold_doc['fold_id']} (importance: {importance_score})"
+        )
         return fold_doc["fold_id"]
 
     async def _prevent_memory_cascade(self):
         """Implement 99.7% cascade prevention by archiving low-importance folds"""
 
         # Find lowest importance folds to archive
-        low_importance_folds = await self.collections["memory_folds"].find(
-            {"importance_score": {"$lt": 0.3}},
-            sort=[("importance_score", 1), ("last_accessed", 1)]
-        ).limit(50).to_list(length=50)
+        low_importance_folds = (
+            await self.collections["memory_folds"]
+            .find(
+                {"importance_score": {"$lt": 0.3}},
+                sort=[("importance_score", 1), ("last_accessed", 1)],
+            )
+            .limit(50)
+            .to_list(length=50)
+        )
 
         if low_importance_folds:
             # Archive to separate collection
@@ -195,9 +208,7 @@ class LUKHASConsciousnessStore:
 
             # Remove from active memory
             fold_ids = [fold["fold_id"] for fold in low_importance_folds]
-            await self.collections["memory_folds"].delete_many(
-                {"fold_id": {"$in": fold_ids}}
-            )
+            await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids}})
 
             logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids)} low-importance folds")
 
@@ -205,7 +216,7 @@ class LUKHASConsciousnessStore:
         self,
         system_state: str,
         trinity_balance: dict[str, float],
-        performance_metrics: dict[str, Any]
+        performance_metrics: dict[str, Any],
     ):
         """Update system consciousness state"""
 
@@ -215,40 +226,38 @@ class LUKHASConsciousnessStore:
             "trinity_balance": {
                 "identity": trinity_balance.get("identity", 0.33),
                 "consciousness": trinity_balance.get("consciousness", 0.33),
-                "guardian": trinity_balance.get("guardian", 0.33)
+                "guardian": trinity_balance.get("guardian", 0.33),
             },
             "performance_metrics": performance_metrics,
-            "health_score": sum(trinity_balance.values()) / len(trinity_balance)
+            "health_score": sum(trinity_balance.values()) / len(trinity_balance),
         }
 
         await self.collections["consciousness_states"].insert_one(state_doc)
         logger.info(f"⚛️🧠🛡️ Updated Trinity Framework state: {system_state}")
 
     async def search_conversations(
-        self,
-        query: str,
-        limit: int = 10,
-        min_consciousness_level: float = 0.0
+        self, query: str, limit: int = 10, min_consciousness_level: float = 0.0
     ) -> list[dict[str, Any]]:
         """Search conversations using full-text search"""
 
         search_filter = {
             "$text": {"$search": query},
-            "consciousness_level": {"$gte": min_consciousness_level}
+            "consciousness_level": {"$gte": min_consciousness_level},
         }
 
-        conversations = await self.collections["conversations"].find(
-            search_filter,
-            {"score": {"$meta": "textScore"}}
-        ).sort([("score", {"$meta": "textScore"})]).limit(limit).to_list(length=limit)
+        conversations = (
+            await self.collections["conversations"]
+            .find(search_filter, {"score": {"$meta": "textScore"}})
+            .sort([("score", {"$meta": "textScore"})])
+            .limit(limit)
+            .to_list(length=limit)
+        )
 
         logger.info(f"🔍 Found {len(conversations)} conversations for query: '{query}'")
         return conversations
 
     async def get_memory_context(
-        self,
-        fold_type: Optional[str] = None,
-        limit: int = 20
+        self, fold_type: Optional[str] = None, limit: int = 20
     ) -> list[dict[str, Any]]:
         """Get relevant memory context for consciousness processing"""
 
@@ -256,49 +265,63 @@ class LUKHASConsciousnessStore:
         if fold_type:
             query["fold_type"] = fold_type
 
-        memory_folds = await self.collections["memory_folds"].find(
-            query
-        ).sort([("importance_score", -1), ("created_at", -1)]).limit(limit).to_list(length=limit)
+        memory_folds = (
+            await self.collections["memory_folds"]
+            .find(query)
+            .sort([("importance_score", -1), ("created_at", -1)])
+            .limit(limit)
+            .to_list(length=limit)
+        )
 
         # Update access tracking
         for fold in memory_folds:
             await self.collections["memory_folds"].update_one(
                 {"fold_id": fold["fold_id"]},
-                {
-                    "$inc": {"access_count": 1},
-                    "$set": {"last_accessed": datetime.utcnow()}
-                }
+                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.utcnow()}},
             )
 
         return memory_folds
 
-    async def get_consciousness_analytics(
-        self,
-        days: int = 7
-    ) -> dict[str, Any]:
+    async def get_consciousness_analytics(self, days: int = 7) -> dict[str, Any]:
         """Get consciousness system analytics"""
 
         start_date = datetime.utcnow() - timedelta(days=days)
 
         # Conversation analytics
-        conversation_stats = await self.collections["conversations"].aggregate([
-            {"$match": {"timestamp": {"$gte": start_date}}},
-            {"$group": {
-                "_id": None,
-                "total_conversations": {"$sum": 1},
-                "avg_consciousness_level": {"$avg": "$consciousness_level"},
-                "unique_sessions": {"$addToSet": "$session_id"}
-            }}
-        ]).to_list(length=1)
+        conversation_stats = (
+            await self.collections["conversations"]
+            .aggregate(
+                [
+                    {"$match": {"timestamp": {"$gte": start_date}}},
+                    {
+                        "$group": {
+                            "_id": None,
+                            "total_conversations": {"$sum": 1},
+                            "avg_consciousness_level": {"$avg": "$consciousness_level"},
+                            "unique_sessions": {"$addToSet": "$session_id"},
+                        }
+                    },
+                ]
+            )
+            .to_list(length=1)
+        )
 
         # Memory fold stats
-        memory_stats = await self.collections["memory_folds"].aggregate([
-            {"$group": {
-                "_id": "$fold_type",
-                "count": {"$sum": 1},
-                "avg_importance": {"$avg": "$importance_score"}
-            }}
-        ]).to_list(length=10)
+        memory_stats = (
+            await self.collections["memory_folds"]
+            .aggregate(
+                [
+                    {
+                        "$group": {
+                            "_id": "$fold_type",
+                            "count": {"$sum": 1},
+                            "avg_importance": {"$avg": "$importance_score"},
+                        }
+                    }
+                ]
+            )
+            .to_list(length=10)
+        )
 
         # Trinity Framework balance
         latest_state = await self.collections["consciousness_states"].find_one(
@@ -311,7 +334,7 @@ class LUKHASConsciousnessStore:
             "trinity_balance": latest_state.get("trinity_balance", {}) if latest_state else {},
             "system_health": latest_state.get("health_score", 0) if latest_state else 0,
             "analysis_period_days": days,
-            "generated_at": datetime.utcnow()
+            "generated_at": datetime.utcnow(),
         }
 
         return analytics
@@ -322,8 +345,10 @@ class LUKHASConsciousnessStore:
             self.client.close()
             logger.info("📝 MongoDB Atlas connection closed")
 
+
 # Global instance for LUKHAS AI
 consciousness_store: Optional[LUKHASConsciousnessStore] = None
+
 
 async def initialize_consciousness_store() -> LUKHASConsciousnessStore:
     """Initialize the global consciousness store"""
@@ -339,11 +364,13 @@ async def initialize_consciousness_store() -> LUKHASConsciousnessStore:
 
     return consciousness_store
 
+
 async def get_consciousness_store() -> Optional[LUKHASConsciousnessStore]:
     """Get the global consciousness store instance"""
     if consciousness_store is None:
         return await initialize_consciousness_store()
     return consciousness_store
+
 
 # Example usage
 async def main():
@@ -363,7 +390,7 @@ async def main():
         response="Consciousness is the state of being aware and perceptive...",
         consciousness_level=0.85,
         model_used="gpt-4",
-        metadata={"identity_strength": 0.9, "guardian_oversight": True}
+        metadata={"identity_strength": 0.9, "guardian_oversight": True},
     )
 
     # Create a memory fold
@@ -371,14 +398,14 @@ async def main():
         content="User showed deep interest in consciousness theory",
         fold_type="learning",
         importance_score=0.8,
-        emotional_context={"curiosity": 0.9, "engagement": 0.8}
+        emotional_context={"curiosity": 0.9, "engagement": 0.8},
     )
 
     # Update consciousness state
     await store.update_consciousness_state(
         system_state="highly_engaged",
         trinity_balance={"identity": 0.9, "consciousness": 0.85, "guardian": 0.88},
-        performance_metrics={"response_time": 1.2, "accuracy": 0.92}
+        performance_metrics={"response_time": 1.2, "accuracy": 0.92},
     )
 
     # Get analytics
@@ -387,6 +414,7 @@ async def main():
 
     # Close connection
     await store.close()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

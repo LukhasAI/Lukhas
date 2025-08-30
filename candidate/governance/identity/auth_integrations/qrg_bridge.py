@@ -19,6 +19,7 @@ from typing import Any, Optional
 
 class QRAuthMode(Enum):
     """QR Authentication modes"""
+
     BASIC = "basic"
     ANIMATED = "animated"
     STEGANOGRAPHIC = "steganographic"
@@ -29,6 +30,7 @@ class QRAuthMode(Enum):
 @dataclass
 class QRGAuthIntegration:
     """Configuration for QRG authentication integration"""
+
     qrg_enabled: bool = True
     animation_enabled: bool = True
     steganography_enabled: bool = True
@@ -75,21 +77,18 @@ class AuthQRGBridge:
                     "animation_engine",
                     "steganography",
                     "consciousness_layer",
-                    "qi_entropy"
-                ]
+                    "qi_entropy",
+                ],
             }
         except Exception as e:
             return {
                 "status": "integration_pending",
                 "error": str(e),
-                "note": "QRG components not yet wired"
+                "note": "QRG components not yet wired",
             }
 
     async def generate_auth_qr(
-        self,
-        user_id: str,
-        auth_data: dict[str, Any],
-        mode: QRAuthMode = None
+        self, user_id: str, auth_data: dict[str, Any], mode: QRAuthMode = None
     ) -> dict[str, Any]:
         """Generate authentication QR code with specified mode"""
         if mode is None:
@@ -100,27 +99,21 @@ class AuthQRGBridge:
             "qr_generated": False,
             "mode": mode.value,
             "data_embedded": False,
-            "status": "pending_qrg_integration"
+            "status": "pending_qrg_integration",
         }
 
-    async def validate_auth_qr(
-        self,
-        qr_data: str,
-        user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_auth_qr(self, qr_data: str, user_context: dict[str, Any]) -> dict[str, Any]:
         """Validate authentication QR code"""
         # TODO: Implement when QRG is integrated
         return {
             "valid": False,
             "consciousness_score": 0.0,
             "qi_entropy_verified": False,
-            "status": "pending_qrg_integration"
+            "status": "pending_qrg_integration",
         }
 
     async def create_animated_auth_flow(
-        self,
-        session_id: str,
-        consciousness_data: dict[str, Any]
+        self, session_id: str, consciousness_data: dict[str, Any]
     ) -> dict[str, Any]:
         """Create animated QR authentication flow"""
         # TODO: Implement when QRG animation engine is integrated
@@ -128,13 +121,11 @@ class AuthQRGBridge:
             "animation_created": False,
             "session_id": session_id,
             "consciousness_integrated": False,
-            "status": "pending_animation_integration"
+            "status": "pending_animation_integration",
         }
 
     async def embed_steganographic_auth(
-        self,
-        base_qr: str,
-        hidden_auth_data: dict[str, Any]
+        self, base_qr: str, hidden_auth_data: dict[str, Any]
     ) -> tuple[str, dict[str, Any]]:
         """Embed hidden authentication data in QR code"""
         # TODO: Implement when QRG steganography is integrated
@@ -143,8 +134,8 @@ class AuthQRGBridge:
             {
                 "embedded": False,
                 "hidden_data_size": 0,
-                "status": "pending_steganography_integration"
-            }
+                "status": "pending_steganography_integration",
+            },
         )
 
 
@@ -158,9 +149,4 @@ def create_qrg_bridge(config: Optional[QRGAuthIntegration] = None) -> AuthQRGBri
 
 
 # Export for authentication system
-__all__ = [
-    "AuthQRGBridge",
-    "QRGAuthIntegration",
-    "QRAuthMode",
-    "create_qrg_bridge"
-]
+__all__ = ["AuthQRGBridge", "QRAuthMode", "QRGAuthIntegration", "create_qrg_bridge"]

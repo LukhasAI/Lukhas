@@ -123,9 +123,7 @@ class AGITelemetrySystem:
         if name in self.anomaly_detectors:
             asyncio.create_task(self._check_anomaly(name, value))
 
-    def increment_counter(
-        self, name: str, value: float = 1.0, labels: dict[str, str] = None
-    ):
+    def increment_counter(self, name: str, value: float = 1.0, labels: dict[str, str] = None):
         """Increment a counter metric"""
         self.record_metric(name, value, MetricType.COUNTER, labels)
 
@@ -222,9 +220,7 @@ class AGITelemetrySystem:
         # Record to specialized metrics
         await self.learning_metrics.record(event)
 
-    async def check_emergence(
-        self, behavior_data: dict[str, Any]
-    ) -> Optional[dict[str, Any]]:
+    async def check_emergence(self, behavior_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Check for emergent behaviors"""
         emergence = await self.emergence_detector.analyze(behavior_data)
 
@@ -308,10 +304,8 @@ class AGITelemetrySystem:
             await asyncio.sleep(60)  # Every minute
 
             for metric_name, detector in self.anomaly_detectors.items():
-                if metric_name in self.metrics and self.metrics[metric_name]:
-                    recent_values = [
-                        m.value for m in list(self.metrics[metric_name])[-100:]
-                    ]
+                if self.metrics.get(metric_name):
+                    recent_values = [m.value for m in list(self.metrics[metric_name])[-100:]]
 
                     if recent_values:
                         is_anomaly = await detector(recent_values)
@@ -364,7 +358,7 @@ class AGITelemetrySystem:
             if deviation > 0.5:  # 50% deviation
                 self.create_alert(
                     f"Performance Anomaly: {metric}",
-                    f"Value {value} deviates {deviation*100:.1f}% from baseline {baseline}",
+                    f"Value {value} deviates {deviation * 100:.1f}% from baseline {baseline}",
                     AlertSeverity.WARNING,
                     "performance_monitor",
                 )

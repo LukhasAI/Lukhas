@@ -156,9 +156,7 @@ class BrainAdapter:
         hours = content.get("hours_limit", 24.0)
         max_count = content.get("max_memories", 100)
 
-        logger.info(
-            f"Starting memory consolidation: {hours}h limit, max {max_count}..."
-        )
+        logger.info(f"Starting memory consolidation: {hours}h limit, max {max_count}...")
         asyncio.create_task(self.consolidate_memories(hours, max_count))
 
     def _handle_dream_cycle(self, content: dict[str, Any]) -> None:

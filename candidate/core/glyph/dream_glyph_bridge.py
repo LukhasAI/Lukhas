@@ -322,9 +322,7 @@ class DreamGlyphBridge:
         matching_seeds = []
 
         for seed in self.dream_seeds.values():
-            if archetype.lower() in [
-                arch.lower() for arch in seed.archetypal_resonance
-            ]:
+            if archetype.lower() in [arch.lower() for arch in seed.archetypal_resonance]:
                 matching_seeds.append(seed)
 
         return matching_seeds
@@ -452,9 +450,7 @@ class DreamGlyphBridge:
             ],
         }
 
-    def _extract_symbolic_content(
-        self, glyph: Glyph, dream_phase: DreamPhase
-    ) -> dict[str, Any]:
+    def _extract_symbolic_content(self, glyph: Glyph, dream_phase: DreamPhase) -> dict[str, Any]:
         """Extract symbolic content from glyph for dream processing."""
         content = {
             "symbol": glyph.symbol,
@@ -497,9 +493,7 @@ class DreamGlyphBridge:
 
         return archetypes[:3]  # Limit to top 3 archetypes
 
-    def _generate_narrative_fragments(
-        self, glyph: Glyph, dream_phase: DreamPhase
-    ) -> list[str]:
+    def _generate_narrative_fragments(self, glyph: Glyph, dream_phase: DreamPhase) -> list[str]:
         """Generate narrative fragments for dream processing."""
         templates = self.narrative_templates.get(dream_phase.value, [])
         if not templates:
@@ -517,9 +511,7 @@ class DreamGlyphBridge:
             # Fill template with glyph context
             context = {
                 "symbol": glyph.symbol,
-                "theme": (
-                    archetype_mapping["themes"][0] if archetype_mapping else "mystery"
-                ),
+                "theme": (archetype_mapping["themes"][0] if archetype_mapping else "mystery"),
                 "emotion": self._get_dominant_emotion(glyph.emotion_vector),
                 "archetype": archetypes[0] if archetypes else "unknown",
             }
@@ -597,14 +589,10 @@ class DreamGlyphBridge:
             symbol = "💭"
 
         # Create dream-derived glyph
-        dream_glyph = Glyph(
-            glyph_type=glyph_type, symbol=symbol, priority=GlyphPriority.MEDIUM
-        )
+        dream_glyph = Glyph(glyph_type=glyph_type, symbol=symbol, priority=GlyphPriority.MEDIUM)
 
         # Set emotion vector based on dream content
-        dream_glyph.emotion_vector = self._extract_dream_emotions(
-            dream_content, archetype_mapping
-        )
+        dream_glyph.emotion_vector = self._extract_dream_emotions(dream_content, archetype_mapping)
 
         # Add semantic tags
         dream_glyph.add_semantic_tag("dream_derived")
@@ -618,9 +606,7 @@ class DreamGlyphBridge:
         dream_glyph.update_symbolic_hash()
         return dream_glyph
 
-    def _calculate_consolidation_score(
-        self, dream_content: dict[str, Any], glyph: Glyph
-    ) -> float:
+    def _calculate_consolidation_score(self, dream_content: dict[str, Any], glyph: Glyph) -> float:
         """Calculate consolidation score for dream glyph."""
         score_factors = []
 
@@ -659,9 +645,7 @@ class DreamGlyphBridge:
         # Fallback to general content summary
         return f"Dream content with {len(dream_content)} elements processed"
 
-    def _analyze_emotional_patterns(
-        self, memory_traces: list[dict[str, Any]]
-    ) -> dict[str, float]:
+    def _analyze_emotional_patterns(self, memory_traces: list[dict[str, Any]]) -> dict[str, float]:
         """Analyze emotional patterns across memory traces."""
         emotion_sums = defaultdict(float)
         emotion_counts = defaultdict(int)
@@ -676,9 +660,7 @@ class DreamGlyphBridge:
         dominant_emotions = {}
         for emotion in emotion_sums:
             if emotion_counts[emotion] > 0:
-                dominant_emotions[emotion] = (
-                    emotion_sums[emotion] / emotion_counts[emotion]
-                )
+                dominant_emotions[emotion] = emotion_sums[emotion] / emotion_counts[emotion]
 
         return dominant_emotions
 
@@ -702,9 +684,7 @@ class DreamGlyphBridge:
 
         return list(themes)[:5]  # Limit to 5 themes
 
-    def _consolidate_emotions(
-        self, emotion_patterns: dict[str, float]
-    ) -> EmotionVector:
+    def _consolidate_emotions(self, emotion_patterns: dict[str, float]) -> EmotionVector:
         """Consolidate emotion patterns into a single EmotionVector."""
         emotion_vector = EmotionVector()
 
@@ -747,9 +727,7 @@ class DreamGlyphBridge:
                 )
 
         # Set meta-emotional properties
-        emotion_vector.intensity = min(
-            1.0, sum(emotion_patterns.values()) / len(emotion_patterns)
-        )
+        emotion_vector.intensity = min(1.0, sum(emotion_patterns.values()) / len(emotion_patterns))
         emotion_vector.stability = 1.0 - (
             max(emotion_patterns.values()) - min(emotion_patterns.values())
             if emotion_patterns

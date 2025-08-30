@@ -248,9 +248,7 @@ class CognitiveNode(ABC):
                 self.status = NodeStatus.BUSY
 
             # Process the task
-            result = await asyncio.wait_for(
-                self.process_task(task), timeout=task.timeout_seconds
-            )
+            result = await asyncio.wait_for(self.process_task(task), timeout=task.timeout_seconds)
 
             task.result = result
             task.status = "completed"
@@ -291,9 +289,7 @@ class CognitiveNode(ABC):
             # Update average response time
             total = self.metrics.total_tasks_processed
             current_avg = self.metrics.average_response_time
-            self.metrics.average_response_time = (
-                current_avg * (total - 1) + duration
-            ) / total
+            self.metrics.average_response_time = (current_avg * (total - 1) + duration) / total
 
             # Update quality trend
             quality = 1.0 if task.status == "completed" else 0.0
@@ -337,13 +333,9 @@ class CognitiveNode(ABC):
 
     def get_status(self) -> dict[str, Any]:
         """Get comprehensive node status"""
-        success_rate = self.metrics.successful_tasks / max(
-            1, self.metrics.total_tasks_processed
-        )
+        success_rate = self.metrics.successful_tasks / max(1, self.metrics.total_tasks_processed)
 
-        quality_score = sum(self.metrics.quality_trend) / max(
-            1, len(self.metrics.quality_trend)
-        )
+        quality_score = sum(self.metrics.quality_trend) / max(1, len(self.metrics.quality_trend))
 
         return {
             "node_id": self.node_id,
@@ -415,9 +407,7 @@ class CognitiveMeshCoordinator:
         self._running = True
         self._health_monitor_task = asyncio.create_task(self._health_monitor_loop())
         self._load_balancer_task = asyncio.create_task(self._load_balancer_loop())
-        self._topology_optimizer_task = asyncio.create_task(
-            self._topology_optimizer_loop()
-        )
+        self._topology_optimizer_task = asyncio.create_task(self._topology_optimizer_loop())
 
         logger.info("ΛMESH: Mesh coordinator started", mesh_id=self.mesh_id)
 
@@ -487,9 +477,7 @@ class CognitiveMeshCoordinator:
         self.node_types[node.node_type].discard(node_id)
 
         # Remove from routing table
-        self.routing_table = {
-            k: v for k, v in self.routing_table.items() if v != node_id
-        }
+        self.routing_table = {k: v for k, v in self.routing_table.items() if v != node_id}
 
         # Stop node
         await node.stop()
@@ -765,9 +753,7 @@ class CognitiveMeshCoordinator:
 
                 # Update active node count
                 self.mesh_metrics["active_nodes"] = sum(
-                    1
-                    for node in self.nodes.values()
-                    if node.status == NodeStatus.ONLINE
+                    1 for node in self.nodes.values() if node.status == NodeStatus.ONLINE
                 )
 
                 await asyncio.sleep(10)  # Check every 10 seconds

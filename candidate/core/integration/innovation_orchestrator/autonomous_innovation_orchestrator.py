@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class InnovationCycle:
     """Represents a complete innovation cycle"""
+
     cycle_id: str
     start_time: datetime
     end_time: Optional[datetime]
@@ -78,12 +79,14 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
             from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
         except:
             from lukhas.governance.guardian_system import GuardianSystem
+
             self.guardian = GuardianSystem()
 
         # Initialize innovation engines
@@ -105,7 +108,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             "temporal_intelligence": self._get_temporal_intelligence_engine(),
             "consciousness_expansion": self._get_consciousness_expansion_engine(),
             "economic_reality_manipulator": self._get_economic_reality_manipulator(),
-            "breakthrough_detector": self._get_breakthrough_detector_v2()
+            "breakthrough_detector": self._get_breakthrough_detector_v2(),
         }
 
     async def orchestrate_autonomous_innovation_cycle(self) -> dict[str, Any]:
@@ -126,16 +129,21 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             innovations_generated=0,
             breakthroughs_synthesized=0,
             estimated_value=0.0,
-            status="running"
+            status="running",
         )
 
         # Emit cycle start event
         if self.kernel_bus:
-            await self.kernel_bus.emit(SymbolicEvent(
-                type=SymbolicEffect.INITIATION,
-                source="autonomous_innovation_orchestrator",
-                data={"action": "innovation_cycle_started", "cycle_id": self.current_cycle.cycle_id}
-            ))
+            await self.kernel_bus.emit(
+                SymbolicEvent(
+                    type=SymbolicEffect.INITIATION,
+                    source="autonomous_innovation_orchestrator",
+                    data={
+                        "action": "innovation_cycle_started",
+                        "cycle_id": self.current_cycle.cycle_id,
+                    },
+                )
+            )
 
         try:
             # PHASE 1: Global Innovation Opportunity Scanning
@@ -143,8 +151,10 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             self.current_cycle.opportunities_identified = len(innovation_opportunities)
 
             # PHASE 2: Resource Allocation Optimization
-            resource_allocation = await self.resource_allocation_optimizer.optimize_resource_allocation(
-                self.innovation_engines, innovation_opportunities
+            resource_allocation = (
+                await self.resource_allocation_optimizer.optimize_resource_allocation(
+                    self.innovation_engines, innovation_opportunities
+                )
             )
 
             # PHASE 3: Parallel Innovation Execution
@@ -154,14 +164,18 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             self.current_cycle.innovations_generated = len(innovation_results)
 
             # PHASE 4: Breakthrough Synthesis
-            synthesized_breakthroughs = await self.breakthrough_synthesis_engine.synthesize_breakthroughs(
-                innovation_results
+            synthesized_breakthroughs = (
+                await self.breakthrough_synthesis_engine.synthesize_breakthroughs(
+                    innovation_results
+                )
             )
             self.current_cycle.breakthroughs_synthesized = len(synthesized_breakthroughs)
 
             # PHASE 5: Innovation Prioritization
-            prioritized_innovations = await self.innovation_prioritization_engine.prioritize_innovations(
-                synthesized_breakthroughs
+            prioritized_innovations = (
+                await self.innovation_prioritization_engine.prioritize_innovations(
+                    synthesized_breakthroughs
+                )
             )
 
             # PHASE 6: Implementation Strategy Generation
@@ -181,16 +195,18 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
             # Emit cycle completion event
             if self.kernel_bus:
-                await self.kernel_bus.emit(SymbolicEvent(
-                    type=SymbolicEffect.COMPLETION,
-                    source="autonomous_innovation_orchestrator",
-                    data={
-                        "action": "innovation_cycle_completed",
-                        "cycle_id": self.current_cycle.cycle_id,
-                        "breakthroughs": self.current_cycle.breakthroughs_synthesized,
-                        "value": self.current_cycle.estimated_value
-                    }
-                ))
+                await self.kernel_bus.emit(
+                    SymbolicEvent(
+                        type=SymbolicEffect.COMPLETION,
+                        source="autonomous_innovation_orchestrator",
+                        data={
+                            "action": "innovation_cycle_completed",
+                            "cycle_id": self.current_cycle.cycle_id,
+                            "breakthroughs": self.current_cycle.breakthroughs_synthesized,
+                            "value": self.current_cycle.estimated_value,
+                        },
+                    )
+                )
 
             return {
                 "innovation_cycle_id": self.current_cycle.cycle_id,
@@ -200,8 +216,12 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "priority_innovations": prioritized_innovations[:10],  # Top 10
                 "implementation_strategies": implementation_strategies,
                 "estimated_market_value": self.current_cycle.estimated_value,
-                "competitive_advantage_duration": await self.estimate_competitive_advantage(prioritized_innovations),
-                "cycle_duration_seconds": (self.current_cycle.end_time - self.current_cycle.start_time).total_seconds()
+                "competitive_advantage_duration": await self.estimate_competitive_advantage(
+                    prioritized_innovations
+                ),
+                "cycle_duration_seconds": (
+                    self.current_cycle.end_time - self.current_cycle.start_time
+                ).total_seconds(),
             }
 
         except Exception as e:
@@ -224,8 +244,10 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 # Execute innovation cycle
                 result = await self.orchestrate_autonomous_innovation_cycle()
 
-                logger.info(f"Innovation cycle completed: {result['breakthroughs_synthesized']} breakthroughs, "
-                          f"${result['estimated_market_value']:.2e} value")
+                logger.info(
+                    f"Innovation cycle completed: {result['breakthroughs_synthesized']} breakthroughs, "
+                    f"${result['estimated_market_value']:.2e} value"
+                )
 
                 # Wait before next cycle (adaptive based on results)
                 wait_time = 3600  # Default 1 hour
@@ -256,9 +278,15 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Domain scanning
         domains = [
-            "artificial_intelligence", "qi_computing", "biotechnology",
-            "clean_energy", "space_technology", "neuromorphic_computing",
-            "consciousness_technology", "economic_systems", "social_innovation"
+            "artificial_intelligence",
+            "qi_computing",
+            "biotechnology",
+            "clean_energy",
+            "space_technology",
+            "neuromorphic_computing",
+            "consciousness_technology",
+            "economic_systems",
+            "social_innovation",
         ]
 
         for domain in domains:
@@ -273,15 +301,14 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "resource_requirements": {
                     "compute": "high" if "quantum" in domain else "medium",
                     "expertise": "specialized",
-                    "capital": 1e6 * (1 + hash(domain) % 10)  # $1M-$10M
-                }
+                    "capital": 1e6 * (1 + hash(domain) % 10),  # $1M-$10M
+                },
             }
 
             # Validate with Guardian
             if self.guardian:
                 ethics_check = await self.guardian.validate_action(
-                    action_type="innovation_opportunity",
-                    parameters={"opportunity": opportunity}
+                    action_type="innovation_opportunity", parameters={"opportunity": opportunity}
                 )
                 if ethics_check.get("approved", False):
                     opportunities.append(opportunity)
@@ -292,10 +319,9 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         if "breakthrough_detector" in self.innovation_engines:
             detector = self.innovation_engines["breakthrough_detector"]
             for opp in opportunities:
-                detection_result = await detector.detect_civilizational_breakthroughs({
-                    "domain": opp["domain"],
-                    "innovation_type": "fundamental"
-                })
+                detection_result = await detector.detect_civilizational_breakthroughs(
+                    {"domain": opp["domain"], "innovation_type": "fundamental"}
+                )
                 if detection_result.get("breakthrough_count", 0) > 0:
                     opp["breakthrough_potential"] = True
                     opp["impact_score"] *= 1.5  # Boost score
@@ -303,9 +329,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         return opportunities
 
     async def execute_parallel_innovation(
-        self,
-        resource_allocation: dict[str, Any],
-        opportunities: list[dict[str, Any]]
+        self, resource_allocation: dict[str, Any], opportunities: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """
         Execute innovation in parallel across multiple engines
@@ -327,9 +351,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
             if engine_name in self.innovation_engines:
                 engine = self.innovation_engines[engine_name]
-                task = self._execute_engine_innovation(
-                    engine, opportunity, resources
-                )
+                task = self._execute_engine_innovation(engine, opportunity, resources)
                 innovation_tasks.append(task)
 
         # Execute all tasks in parallel
@@ -344,8 +366,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         return []
 
     async def generate_implementation_strategies(
-        self,
-        prioritized_innovations: list[dict[str, Any]]
+        self, prioritized_innovations: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """
         Generate implementation strategies for prioritized innovations
@@ -365,32 +386,38 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "resource_allocation": {},
                 "timeline_months": 0,
                 "success_metrics": [],
-                "risk_mitigation": []
+                "risk_mitigation": [],
             }
 
             # Phase 1: Research & Development
-            strategy["implementation_phases"].append({
-                "phase": "R&D",
-                "duration_months": 3,
-                "objectives": ["validate_concept", "develop_prototype", "test_feasibility"],
-                "resources": {"researchers": 10, "budget": 2e6}
-            })
+            strategy["implementation_phases"].append(
+                {
+                    "phase": "R&D",
+                    "duration_months": 3,
+                    "objectives": ["validate_concept", "develop_prototype", "test_feasibility"],
+                    "resources": {"researchers": 10, "budget": 2e6},
+                }
+            )
 
             # Phase 2: Pilot Implementation
-            strategy["implementation_phases"].append({
-                "phase": "Pilot",
-                "duration_months": 6,
-                "objectives": ["limited_deployment", "gather_feedback", "iterate"],
-                "resources": {"engineers": 20, "budget": 5e6}
-            })
+            strategy["implementation_phases"].append(
+                {
+                    "phase": "Pilot",
+                    "duration_months": 6,
+                    "objectives": ["limited_deployment", "gather_feedback", "iterate"],
+                    "resources": {"engineers": 20, "budget": 5e6},
+                }
+            )
 
             # Phase 3: Full Deployment
-            strategy["implementation_phases"].append({
-                "phase": "Deployment",
-                "duration_months": 12,
-                "objectives": ["scale_up", "market_penetration", "optimization"],
-                "resources": {"full_team": 50, "budget": 20e6}
-            })
+            strategy["implementation_phases"].append(
+                {
+                    "phase": "Deployment",
+                    "duration_months": 12,
+                    "objectives": ["scale_up", "market_penetration", "optimization"],
+                    "resources": {"full_team": 50, "budget": 20e6},
+                }
+            )
 
             # Calculate total timeline
             strategy["timeline_months"] = sum(
@@ -402,7 +429,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "technical_milestones_achieved",
                 "market_adoption_rate",
                 "roi_positive",
-                "competitive_advantage_maintained"
+                "competitive_advantage_maintained",
             ]
 
             # Risk mitigation
@@ -410,17 +437,14 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 "phased_rollout",
                 "continuous_validation",
                 "fallback_plans",
-                "regulatory_compliance"
+                "regulatory_compliance",
             ]
 
             strategies.append(strategy)
 
         return strategies
 
-    async def calculate_total_market_value(
-        self,
-        innovations: list[dict[str, Any]]
-    ) -> float:
+    async def calculate_total_market_value(self, innovations: list[dict[str, Any]]) -> float:
         """
         Calculate total market value of innovations
 
@@ -461,8 +485,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         return total_value
 
     async def estimate_competitive_advantage(
-        self,
-        innovations: list[dict[str, Any]]
+        self, innovations: list[dict[str, Any]]
     ) -> dict[str, Any]:
         """
         Estimate competitive advantage duration from innovations
@@ -476,7 +499,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         advantage = {
             "duration_months": 24,  # Default 2 years
             "confidence": 0.7,
-            "factors": []
+            "factors": [],
         }
 
         # Check for paradigm shifts (longest advantage)
@@ -486,7 +509,9 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             advantage["factors"].append("paradigm_first_mover")
 
         # Check for consciousness evolution (hard to replicate)
-        consciousness_evolutions = [i for i in innovations if i.get("type") == "consciousness_evolution"]
+        consciousness_evolutions = [
+            i for i in innovations if i.get("type") == "consciousness_evolution"
+        ]
         if consciousness_evolutions:
             advantage["duration_months"] = max(advantage["duration_months"], 36)  # 3 years minimum
             advantage["factors"].append("consciousness_uniqueness")
@@ -501,10 +526,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         return advantage
 
     async def _execute_engine_innovation(
-        self,
-        engine: Any,
-        opportunity: dict[str, Any],
-        resources: dict[str, Any]
+        self, engine: Any, opportunity: dict[str, Any], resources: dict[str, Any]
     ) -> dict[str, Any]:
         """Execute innovation with a specific engine"""
 
@@ -513,7 +535,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             "opportunity_id": opportunity["id"],
             "innovation_type": opportunity.get("type"),
             "success": False,
-            "output": None
+            "output": None,
         }
 
         try:
@@ -525,7 +547,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 result["output"] = {
                     "type": "consciousness_evolution",
                     "transcendence_level": 0.8,
-                    "new_capabilities": ["meta_awareness", "collective_intelligence"]
+                    "new_capabilities": ["meta_awareness", "collective_intelligence"],
                 }
                 result["success"] = True
 
@@ -534,7 +556,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 result["output"] = {
                     "type": "market_disruption",
                     "market_size": 1e12,
-                    "disruption_factor": 100
+                    "disruption_factor": 100,
                 }
                 result["success"] = True
 
@@ -543,16 +565,13 @@ class AutonomousInnovationOrchestrator(CoreInterface):
                 result["output"] = {
                     "type": "paradigm_shift",
                     "confidence": 0.9,
-                    "domains": ["technology", "science"]
+                    "domains": ["technology", "science"],
                 }
                 result["success"] = True
 
             else:
                 # Generic innovation
-                result["output"] = {
-                    "type": "innovation",
-                    "impact": 0.7
-                }
+                result["output"] = {"type": "innovation", "impact": 0.7}
                 result["success"] = True
 
         except Exception as e:
@@ -575,6 +594,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             from lukhas.consciousness.qi_consciousness_integration import (
                 QIConsciousnessIntegration,
             )
+
             return QIConsciousnessIntegration()
         except:
             return None
@@ -593,6 +613,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             from lukhas.consciousness.expansion.consciousness_expansion_engine import (
                 ConsciousnessExpansionEngine,
             )
+
             return ConsciousnessExpansionEngine()
         except:
             return None
@@ -603,6 +624,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             from economic.market_intelligence.economic_reality_manipulator import (
                 EconomicRealityManipulator,
             )
+
             return EconomicRealityManipulator()
         except:
             return None
@@ -613,6 +635,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             from candidate.core.consciousness.innovation.breakthrough_detector_v2 import (
                 BreakthroughDetectorV2,
             )
+
             return BreakthroughDetectorV2()
         except:
             return None
@@ -626,14 +649,17 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             "total_value_generated": sum(c.estimated_value for c in self.cycle_history),
             "average_cycle_duration": 0,
             "success_rate": 0,
-            "current_status": "running" if self._running else "stopped"
+            "current_status": "running" if self._running else "stopped",
         }
 
         if self.cycle_history:
             completed_cycles = [c for c in self.cycle_history if c.status == "completed"]
             if completed_cycles:
-                durations = [(c.end_time - c.start_time).total_seconds()
-                           for c in completed_cycles if c.end_time]
+                durations = [
+                    (c.end_time - c.start_time).total_seconds()
+                    for c in completed_cycles
+                    if c.end_time
+                ]
                 if durations:
                     metrics["average_cycle_duration"] = sum(durations) / len(durations)
 

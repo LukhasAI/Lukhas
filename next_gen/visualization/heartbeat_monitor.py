@@ -121,9 +121,7 @@ class HeartbeatVisualizer:
         "description": "Unknown - Standard heartbeat",
     }
 
-    def __init__(
-        self, consciousness_state_file: str = "next_gen/stream/consciousness_state.json"
-    ):
+    def __init__(self, consciousness_state_file: str = "next_gen/stream/consciousness_state.json"):
         self.consciousness_file = Path(consciousness_state_file)
         self.current_state = "focused"
         self.running = False
@@ -190,9 +188,7 @@ class HeartbeatVisualizer:
     async def _render_heartbeat(self):
         """Render the main heartbeat visualization"""
         while self.running:
-            pattern = self.HEARTBEAT_PATTERNS.get(
-                self.current_state, self.DEFAULT_PATTERN
-            )
+            pattern = self.HEARTBEAT_PATTERNS.get(self.current_state, self.DEFAULT_PATTERN)
 
             # Calculate timing
             bpm = pattern["bpm"] * self.intensity_multiplier
@@ -211,18 +207,13 @@ class HeartbeatVisualizer:
 
             # Beat detection
             if time_in_beat < 0.1:  # Peak of beat
-                if (
-                    current_time - getattr(self, "_last_beat_time", 0)
-                    > beat_interval * 0.8
-                ):
+                if current_time - getattr(self, "_last_beat_time", 0) > beat_interval * 0.8:
                     self.beat_count += 1
                     self._last_beat_time = current_time
 
             await asyncio.sleep(0.05)  # 20 FPS
 
-    async def _draw_heartbeat_frame(
-        self, pattern: dict, intensity: float, phase: float
-    ):
+    async def _draw_heartbeat_frame(self, pattern: dict, intensity: float, phase: float):
         """Draw a single frame of the heartbeat animation"""
 
         # Move to heartbeat area (center of screen)
@@ -235,9 +226,7 @@ class HeartbeatVisualizer:
         # Create pulsing effect with intensity
         if intensity > 0.7:
             # Strong pulse - larger, brighter
-            display_glyph = (
-                f"{color}{Console.BOLD}{glyph} {glyph} {glyph}{Console.RESET}"
-            )
+            display_glyph = f"{color}{Console.BOLD}{glyph} {glyph} {glyph}{Console.RESET}"
         elif intensity > 0.4:
             # Medium pulse
             display_glyph = f"{color}{glyph} {glyph}{Console.RESET}"
@@ -283,9 +272,7 @@ class HeartbeatVisualizer:
     async def _display_status(self):
         """Display system status and metrics"""
         while self.running:
-            pattern = self.HEARTBEAT_PATTERNS.get(
-                self.current_state, self.DEFAULT_PATTERN
-            )
+            pattern = self.HEARTBEAT_PATTERNS.get(self.current_state, self.DEFAULT_PATTERN)
 
             # Header
             print(Console.move_cursor(3, 20), end="")
@@ -341,9 +328,7 @@ class HeartbeatVisualizer:
 
             # Guardian status (simulated)
             guardian_status = (
-                "🛡️ MONITORING"
-                if self.current_state != "turbulent"
-                else "🚨 INTERVENING"
+                "🛡️ MONITORING" if self.current_state != "turbulent" else "🚨 INTERVENING"
             )
             print(Console.move_cursor(19, 20), end="")
             print(Console.CLEAR_LINE, end="")
@@ -355,9 +340,7 @@ class HeartbeatVisualizer:
             # Instructions
             print(Console.move_cursor(22, 20), end="")
             print(Console.CLEAR_LINE, end="")
-            print(
-                f"{Console.DIM}Press Ctrl+C to stop monitoring{Console.RESET}", end=""
-            )
+            print(f"{Console.DIM}Press Ctrl+C to stop monitoring{Console.RESET}", end="")
 
             await asyncio.sleep(0.5)  # Update status 2x per second
 
@@ -428,12 +411,8 @@ async def main():
     """Main entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="LUKHAS Consciousness Heartbeat Monitor"
-    )
-    parser.add_argument(
-        "--demo", action="store_true", help="Run demo with state transitions"
-    )
+    parser = argparse.ArgumentParser(description="LUKHAS Consciousness Heartbeat Monitor")
+    parser.add_argument("--demo", action="store_true", help="Run demo with state transitions")
     parser.add_argument(
         "--state-file",
         type=str,
@@ -455,9 +434,7 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print(
-            f"\n{Console.YELLOW}💫 Heartbeat monitoring stopped by user{Console.RESET}"
-        )
+        print(f"\n{Console.YELLOW}💫 Heartbeat monitoring stopped by user{Console.RESET}")
     except Exception as e:
         print(f"\n{Console.RED}❌ Error: {e}{Console.RESET}")
         sys.exit(1)

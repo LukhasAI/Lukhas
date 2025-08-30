@@ -20,16 +20,18 @@ logger = logging.getLogger(__name__)
 
 class AttributionMethod(Enum):
     """Attribution methods in priority order (highest to lowest confidence)"""
-    AFFILIATE_LINK = "affiliate_link"          # Primary: Direct affiliate tracking
-    S2S_POSTBACK = "s2s_postback"             # Secondary: Server-to-server postback
-    RECEIPT_MATCHING = "receipt_matching"      # Tertiary: Email receipt matching
+
+    AFFILIATE_LINK = "affiliate_link"  # Primary: Direct affiliate tracking
+    S2S_POSTBACK = "s2s_postback"  # Secondary: Server-to-server postback
+    RECEIPT_MATCHING = "receipt_matching"  # Tertiary: Email receipt matching
     BEHAVIORAL_INFERENCE = "behavioral_inference"  # Fallback: Pattern-based inference
-    LAST_TOUCH = "last_touch"                 # Last resort: Time-based attribution
+    LAST_TOUCH = "last_touch"  # Last resort: Time-based attribution
 
 
 @dataclass
 class AttributionAttempt:
     """Single attribution attempt with confidence score"""
+
     method: AttributionMethod
     confidence: float  # 0.0 to 1.0
     attribution_data: dict[str, Any]
@@ -44,6 +46,7 @@ class AttributionAttempt:
 @dataclass
 class AttributionResult:
     """Final attribution result after fallback ladder"""
+
     method_used: AttributionMethod
     confidence: float
     user_id: str
@@ -74,7 +77,7 @@ class AttributionFallbackLadder:
             AttributionMethod.S2S_POSTBACK: 0.85,
             AttributionMethod.RECEIPT_MATCHING: 0.75,
             AttributionMethod.BEHAVIORAL_INFERENCE: 0.60,
-            AttributionMethod.LAST_TOUCH: 0.40
+            AttributionMethod.LAST_TOUCH: 0.40,
         }
 
         # Initialize service connections
@@ -84,9 +87,7 @@ class AttributionFallbackLadder:
 
     async def __aenter__(self):
         """Async context manager entry"""
-        self.session = aiohttp.ClientSession(
-            timeout=aiohttp.ClientTimeout(total=30)
-        )
+        self.session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30))
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
@@ -95,9 +96,7 @@ class AttributionFallbackLadder:
             await self.session.close()
 
     async def attribute_conversion(
-        self,
-        conversion_data: dict[str, Any],
-        context: dict[str, Any]
+        self, conversion_data: dict[str, Any], context: dict[str, Any]
     ) -> AttributionResult:
         """
         Main attribution function - tries methods in priority order
@@ -124,7 +123,7 @@ class AttributionFallbackLadder:
             (AttributionMethod.S2S_POSTBACK, self._try_s2s_postback),
             (AttributionMethod.RECEIPT_MATCHING, self._try_receipt_matching),
             (AttributionMethod.BEHAVIORAL_INFERENCE, self._try_behavioral_inference),
-            (AttributionMethod.LAST_TOUCH, self._try_last_touch_attribution)
+            (AttributionMethod.LAST_TOUCH, self._try_last_touch_attribution),
         ]
 
         for method, handler in attribution_methods:
@@ -138,7 +137,9 @@ class AttributionFallbackLadder:
                 threshold = self.confidence_thresholds[method]
 
                 if attempt.success and attempt.confidence >= threshold:
-                    logger.info(f"Attribution successful via {method.value} (confidence: {attempt.confidence:.3f})")
+                    logger.info(
+                        f"Attribution successful via {method.value} (confidence: {attempt.confidence:.3f})"
+                    )
 
                     return AttributionResult(
                         method_used=method,
@@ -148,21 +149,25 @@ class AttributionFallbackLadder:
                         conversion_id=attempt.conversion_id,
                         attribution_data=attempt.attribution_data,
                         fallback_attempts=attempts,
-                        total_processing_time=time.time() - start_time
+                        total_processing_time=time.time() - start_time,
                     )
 
-                logger.info(f"Attribution via {method.value} below threshold (confidence: {attempt.confidence:.3f})")
+                logger.info(
+                    f"Attribution via {method.value} below threshold (confidence: {attempt.confidence:.3f})"
+                )
 
             except Exception as e:
-                logger.error(f"Attribution method {method.value} failed: {str(e)}")
-                attempts.append(AttributionAttempt(
-                    method=method,
-                    confidence=0.0,
-                    attribution_data={},
-                    timestamp=time.time(),
-                    success=False,
-                    error_reason=str(e)
-                ))
+                logger.error(f"Attribution method {method.value} failed: {e!s}")
+                attempts.append(
+                    AttributionAttempt(
+                        method=method,
+                        confidence=0.0,
+                        attribution_data={},
+                        timestamp=time.time(),
+                        success=False,
+                        error_reason=str(e),
+                    )
+                )
 
         # If all methods fail, create a fallback result
         logger.warning("All attribution methods failed, creating fallback result")
@@ -175,7 +180,7 @@ class AttributionFallbackLadder:
             conversion_id=f"fallback_{order_id}",
             attribution_data={"fallback_reason": "all_methods_failed"},
             fallback_attempts=attempts,
-            total_processing_time=time.time() - start_time
+            total_processing_time=time.time() - start_time,
         )
 
     async def _try_affiliate_attribution(self, conversion_data, context) -> AttributionAttempt:
@@ -196,7 +201,7 @@ class AttributionFallbackLadder:
                 attribution_data={},
                 timestamp=time.time(),
                 success=False,
-                error_reason="No affiliate tracking parameters found"
+                error_reason="No affiliate tracking parameters found",
             )
 
         # Extract attribution data
@@ -204,7 +209,7 @@ class AttributionFallbackLadder:
             "click_id": click_id,
             "affiliate_params": affiliate_params,
             "referrer": referrer,
-            "tracking_method": "direct_affiliate"
+            "tracking_method": "direct_affiliate",
         }
 
         # Calculate confidence based on data quality
@@ -232,7 +237,7 @@ class AttributionFallbackLadder:
             user_id=conversion_data.get("user_id"),
             opportunity_id=affiliate_params.get("opportunity_id"),
             conversion_id=f"affiliate_{conversion_data.get('order_id')}",
-            success=confidence >= self.confidence_thresholds[AttributionMethod.AFFILIATE_LINK]
+            success=confidence >= self.confidence_thresholds[AttributionMethod.AFFILIATE_LINK],
         )
 
     async def _try_s2s_postback(self, conversion_data, context) -> AttributionAttempt:
@@ -247,7 +252,7 @@ class AttributionFallbackLadder:
             "user_id": conversion_data.get("user_id"),
             "amount": conversion_data.get("amount"),
             "timestamp": conversion_data.get("timestamp"),
-            "verification_token": self._generate_verification_token(conversion_data)
+            "verification_token": self._generate_verification_token(conversion_data),
         }
 
         # Try to verify with merchant S2S endpoint
@@ -259,16 +264,15 @@ class AttributionFallbackLadder:
                 attribution_data={},
                 timestamp=time.time(),
                 success=False,
-                error_reason="No merchant S2S endpoint configured"
+                error_reason="No merchant S2S endpoint configured",
             )
 
         try:
             async with self.session.post(
                 merchant_endpoint,
                 json=postback_data,
-                headers={"Authorization": f'Bearer {self.config.get("s2s_token")}'}
+                headers={"Authorization": f"Bearer {self.config.get('s2s_token')}"},
             ) as response:
-
                 if response.status == 200:
                     s2s_response = await response.json()
 
@@ -276,7 +280,7 @@ class AttributionFallbackLadder:
                         "s2s_verified": True,
                         "merchant_confirmation": s2s_response,
                         "verification_token": postback_data["verification_token"],
-                        "tracking_method": "s2s_postback"
+                        "tracking_method": "s2s_postback",
                     }
 
                     # High confidence for successful S2S verification
@@ -295,7 +299,7 @@ class AttributionFallbackLadder:
                         user_id=conversion_data.get("user_id"),
                         opportunity_id=s2s_response.get("opportunity_id"),
                         conversion_id=f"s2s_{conversion_data.get('order_id')}",
-                        success=True
+                        success=True,
                     )
 
                 else:
@@ -306,7 +310,7 @@ class AttributionFallbackLadder:
                         attribution_data={},
                         timestamp=time.time(),
                         success=False,
-                        error_reason=f"S2S verification failed: {response.status} - {error_text}"
+                        error_reason=f"S2S verification failed: {response.status} - {error_text}",
                     )
 
         except Exception as e:
@@ -316,7 +320,7 @@ class AttributionFallbackLadder:
                 attribution_data={},
                 timestamp=time.time(),
                 success=False,
-                error_reason=f"S2S request failed: {str(e)}"
+                error_reason=f"S2S request failed: {e!s}",
             )
 
     async def _try_receipt_matching(self, conversion_data, context) -> AttributionAttempt:
@@ -331,7 +335,7 @@ class AttributionFallbackLadder:
                 order_id=conversion_data.get("order_id"),
                 amount=conversion_data.get("amount"),
                 merchant=conversion_data.get("merchant"),
-                timestamp_window=context.get("receipt_window_hours", 24)
+                timestamp_window=context.get("receipt_window_hours", 24),
             )
 
             if receipt_result["matched"]:
@@ -339,7 +343,7 @@ class AttributionFallbackLadder:
                     "receipt_matched": True,
                     "receipt_details": receipt_result["receipt"],
                     "match_confidence": receipt_result["confidence"],
-                    "tracking_method": "receipt_matching"
+                    "tracking_method": "receipt_matching",
                 }
 
                 # Confidence based on receipt match quality
@@ -353,7 +357,8 @@ class AttributionFallbackLadder:
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=receipt_result.get("opportunity_id"),
                     conversion_id=f"receipt_{conversion_data.get('order_id')}",
-                    success=confidence >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING]
+                    success=confidence
+                    >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING],
                 )
 
             else:
@@ -363,7 +368,7 @@ class AttributionFallbackLadder:
                     attribution_data={},
                     timestamp=time.time(),
                     success=False,
-                    error_reason="No matching receipt found"
+                    error_reason="No matching receipt found",
                 )
 
         except Exception as e:
@@ -373,7 +378,7 @@ class AttributionFallbackLadder:
                 attribution_data={},
                 timestamp=time.time(),
                 success=False,
-                error_reason=f"Receipt matching failed: {str(e)}"
+                error_reason=f"Receipt matching failed: {e!s}",
             )
 
     async def _try_behavioral_inference(self, conversion_data, context) -> AttributionAttempt:
@@ -386,7 +391,7 @@ class AttributionFallbackLadder:
             behavioral_result = await self.behavioral_analyzer.infer_attribution(
                 user_id=conversion_data.get("user_id"),
                 purchase_data=conversion_data,
-                context=context
+                context=context,
             )
 
             if behavioral_result["attribution_likely"]:
@@ -394,7 +399,7 @@ class AttributionFallbackLadder:
                     "behavioral_signals": behavioral_result["signals"],
                     "pattern_match": behavioral_result["pattern"],
                     "inference_confidence": behavioral_result["confidence"],
-                    "tracking_method": "behavioral_inference"
+                    "tracking_method": "behavioral_inference",
                 }
 
                 # Confidence capped at 70% for behavioral inference
@@ -408,7 +413,8 @@ class AttributionFallbackLadder:
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=behavioral_result.get("opportunity_id"),
                     conversion_id=f"behavioral_{conversion_data.get('order_id')}",
-                    success=confidence >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE]
+                    success=confidence
+                    >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE],
                 )
 
             else:
@@ -418,7 +424,7 @@ class AttributionFallbackLadder:
                     attribution_data={},
                     timestamp=time.time(),
                     success=False,
-                    error_reason="No behavioral attribution pattern detected"
+                    error_reason="No behavioral attribution pattern detected",
                 )
 
         except Exception as e:
@@ -428,7 +434,7 @@ class AttributionFallbackLadder:
                 attribution_data={},
                 timestamp=time.time(),
                 success=False,
-                error_reason=f"Behavioral inference failed: {str(e)}"
+                error_reason=f"Behavioral inference failed: {e!s}",
             )
 
     async def _try_last_touch_attribution(self, conversion_data, context) -> AttributionAttempt:
@@ -441,7 +447,7 @@ class AttributionFallbackLadder:
         attribution_data = {
             "last_interaction_time": context.get("last_lukhas_interaction"),
             "session_data": context.get("session_data", {}),
-            "tracking_method": "last_touch_fallback"
+            "tracking_method": "last_touch_fallback",
         }
 
         # Base confidence for last touch (always low)
@@ -466,7 +472,7 @@ class AttributionFallbackLadder:
             user_id=conversion_data.get("user_id"),
             opportunity_id="unknown",
             conversion_id=f"lasttouch_{conversion_data.get('order_id')}",
-            success=True  # Last touch always succeeds
+            success=True,  # Last touch always succeeds
         )
 
     def _generate_verification_token(self, conversion_data: dict[str, Any]) -> str:
@@ -487,12 +493,7 @@ class ReceiptMatcher:
         self.email_connectors = {}  # Gmail, Outlook, etc. connectors
 
     async def match_purchase_receipt(
-        self,
-        user_id: str,
-        order_id: str,
-        amount: float,
-        merchant: str,
-        timestamp_window: int = 24
+        self, user_id: str, order_id: str, amount: float, merchant: str, timestamp_window: int = 24
     ) -> dict[str, Any]:
         """
         Match purchase against email receipts
@@ -503,7 +504,7 @@ class ReceiptMatcher:
             "user_id": user_id,
             "merchant": merchant,
             "amount_range": (amount * 0.95, amount * 1.05),  # 5% tolerance
-            "time_window_hours": timestamp_window
+            "time_window_hours": timestamp_window,
         }
 
         receipt_results = await self._search_receipt_emails(search_params)
@@ -530,7 +531,7 @@ class ReceiptMatcher:
                 "confidence": best_score,
                 "receipt": best_match,
                 "opportunity_id": lukhas_attribution.get("opportunity_id"),
-                "attribution_markers": lukhas_attribution
+                "attribution_markers": lukhas_attribution,
             }
 
         return {"matched": False, "confidence": best_score}
@@ -545,11 +546,13 @@ class ReceiptMatcher:
                 "subject": f"Receipt from {params['merchant']}",
                 "body": f"Order total: ${params['amount_range'][0]:.2f}",
                 "timestamp": time.time() - 3600,
-                "sender": f"noreply@{params['merchant'].lower()}.com"
+                "sender": f"noreply@{params['merchant'].lower()}.com",
             }
         ]
 
-    def _score_receipt_match(self, receipt: dict[str, Any], order_id: str, amount: float, merchant: str) -> float:
+    def _score_receipt_match(
+        self, receipt: dict[str, Any], order_id: str, amount: float, merchant: str
+    ) -> float:
         """Score how well receipt matches purchase data"""
 
         score = 0.0
@@ -607,6 +610,7 @@ class ReceiptMatcher:
 
         # Look for opportunity ID patterns
         import re
+
         opp_match = re.search(r"opp_[a-zA-Z0-9_]+", text)
         if opp_match:
             attribution["opportunity_id"] = opp_match.group()
@@ -624,10 +628,7 @@ class BehavioralAnalyzer:
         self.config = config
 
     async def infer_attribution(
-        self,
-        user_id: str,
-        purchase_data: dict[str, Any],
-        context: dict[str, Any]
+        self, user_id: str, purchase_data: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Infer attribution based on behavioral patterns
@@ -645,17 +646,19 @@ class BehavioralAnalyzer:
                 "confidence": pattern_score,
                 "signals": signals,
                 "pattern": "lukhas_influenced_purchase",
-                "opportunity_id": signals.get("likely_opportunity_id")
+                "opportunity_id": signals.get("likely_opportunity_id"),
             }
 
         return {
             "attribution_likely": False,
             "confidence": pattern_score,
             "signals": signals,
-            "pattern": "no_clear_pattern"
+            "pattern": "no_clear_pattern",
         }
 
-    async def _collect_behavioral_signals(self, user_id: str, purchase_data: dict[str, Any]) -> dict[str, Any]:
+    async def _collect_behavioral_signals(
+        self, user_id: str, purchase_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Collect behavioral signals for analysis"""
 
         # This would query user behavior databases
@@ -666,10 +669,12 @@ class BehavioralAnalyzer:
             "time_between_last_interaction_and_purchase": 7200,  # 2 hours
             "similar_product_interactions": True,
             "price_comparison_behavior": True,
-            "typical_purchase_pattern": "research_then_buy"
+            "typical_purchase_pattern": "research_then_buy",
         }
 
-    def _analyze_attribution_patterns(self, signals: dict[str, Any], purchase_data: dict[str, Any]) -> float:
+    def _analyze_attribution_patterns(
+        self, signals: dict[str, Any], purchase_data: dict[str, Any]
+    ) -> float:
         """Analyze behavioral patterns for attribution likelihood"""
 
         score = 0.0
@@ -708,25 +713,18 @@ async def main():
     config = {
         "s2s_token": "test_token_123",
         "s2s_secret": "test_secret_456",
-        "receipt_matching": {
-            "enabled": True,
-            "email_providers": ["gmail", "outlook"]
-        },
-        "behavioral_analysis": {
-            "enabled": True,
-            "confidence_threshold": 0.6
-        }
+        "receipt_matching": {"enabled": True, "email_providers": ["gmail", "outlook"]},
+        "behavioral_analysis": {"enabled": True, "confidence_threshold": 0.6},
     }
 
     async with AttributionFallbackLadder(config) as attribution:
-
         # Test conversion data
         conversion_data = {
             "user_id": "lukhas_user_12345",
             "order_id": "order_67890",
             "amount": 299.99,
             "merchant": "TechStore",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Test context data
@@ -735,16 +733,13 @@ async def main():
                 "campaign_id": "summer_sale_2024",
                 "source": "lukhas_nias",
                 "opportunity_id": "opp_tech_headphones_123",
-                "timestamp": time.time() - 1800  # 30 minutes ago
+                "timestamp": time.time() - 1800,  # 30 minutes ago
             },
             "click_id": "click_abcdef123456",
             "referrer": "https://lukhas.ai/r/tech-headphones",
-            "session_data": {
-                "device": "desktop",
-                "browser": "chrome"
-            },
+            "session_data": {"device": "desktop", "browser": "chrome"},
             "last_lukhas_interaction": time.time() - 3600,  # 1 hour ago
-            "merchant_s2s_endpoint": "https://techstore.com/api/lukhas/verify"
+            "merchant_s2s_endpoint": "https://techstore.com/api/lukhas/verify",
         }
 
         # Run attribution
@@ -759,7 +754,9 @@ async def main():
         print(f"  Attempts Made: {len(result.fallback_attempts)}")
 
         for i, attempt in enumerate(result.fallback_attempts):
-            print(f"  Attempt {i+1}: {attempt.method.value} - {attempt.confidence:.3f} - {'✓' if attempt.success else '✗'}")
+            print(
+                f"  Attempt {i + 1}: {attempt.method.value} - {attempt.confidence:.3f} - {'✓' if attempt.success else '✗'}"
+            )
 
 
 if __name__ == "__main__":

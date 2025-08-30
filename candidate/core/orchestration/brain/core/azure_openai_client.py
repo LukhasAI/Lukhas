@@ -63,9 +63,7 @@ class LukhASAzureOpenAI:
     def _initialize_client(self):
         """Initialize Azure OpenAI client"""
         try:
-            if not all(
-                k in self.config for k in ["api_key", "endpoint", "api_version"]
-            ):
+            if not all(k in self.config for k in ["api_key", "endpoint", "api_version"]):
                 print("❌ Missing Azure OpenAI configuration")
                 return
 
@@ -80,9 +78,7 @@ class LukhASAzureOpenAI:
                 )
 
             except ImportError:
-                print(
-                    "⚠️  Azure OpenAI client not available. Install with: pip install openai"
-                )
+                print("⚠️  Azure OpenAI client not available. Install with: pip install openai")
                 return
 
         except Exception as e:
@@ -105,17 +101,13 @@ class LukhASAzureOpenAI:
             print(f"❌ Connection failed: {e}")
             return False
 
-    def chat_completion(
-        self, messages: list[dict], model: str = "gpt-35-turbo", **kwargs
-    ):
+    def chat_completion(self, messages: list[dict], model: str = "gpt-35-turbo", **kwargs):
         """Create chat completion using Azure OpenAI"""
         if not self.client:
             raise Exception("Azure OpenAI client not initialized")
 
         try:
-            response = self.client.chat.completions.create(
-                model=model, messages=messages, **kwargs
-            )
+            response = self.client.chat.completions.create(model=model, messages=messages, **kwargs)
             return response
 
         except Exception as e:

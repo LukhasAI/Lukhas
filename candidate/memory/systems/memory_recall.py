@@ -110,9 +110,7 @@ def recall_memories(
         )
         # Decide if to proceed or return early based on project policy for partial placeholders
         # For now, allowing to proceed to see if placeholder logic covers it.
-    elif (
-        not SEEDRA_CORE_AVAILABLE and not SEEDRA_VAULT_AVAILABLE
-    ):  # Both are placeholders
+    elif not SEEDRA_CORE_AVAILABLE and not SEEDRA_VAULT_AVAILABLE:  # Both are placeholders
         log.warning(
             "Using placeholders for both SEEDRA core (SID generation) and vault (decryption)."
         )
@@ -177,9 +175,7 @@ def recall_memories(
     log.info(f"Found {len(mem_files)} potential memory files to process.")
 
     for enc_file_path in mem_files:
-        dec_temp_name = (
-            f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4().hex[:8]}.json"
-        )
+        dec_temp_name = f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4().hex[:8]}.json"
         dec_temp_path = temp_decrypt_dir / dec_temp_name
         try:
             log.debug(
@@ -200,12 +196,8 @@ def recall_memories(
                 log.info(
                     "Retrieved 'Lukhas' memory.",
                     file=enc_file_path.name,
-                    ts=content.get(
-                        "timestamp_utc_iso", content.get("timestamp", "N/A")
-                    ),
-                    event=str(
-                        content.get("event_description", content.get("event", ""))
-                    )[:60]
+                    ts=content.get("timestamp_utc_iso", content.get("timestamp", "N/A")),
+                    event=str(content.get("event_description", content.get("event", "")))[:60]
                     + "...",
                 )
             else:

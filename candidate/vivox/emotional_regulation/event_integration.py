@@ -69,7 +69,7 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
         # Support legacy parameter names
         original_state: VADVector = None,
         trigger: str = None,  # Support single trigger parameter
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             event_id=f"vivox_shift_{user_id}_{int(datetime.now().timestamp())}",
@@ -93,7 +93,9 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
 
         self.previous_state = previous_state.to_dict() if previous_state else {}
         self.new_state = new_state.to_dict() if new_state else {}
-        self.shift_magnitude = previous_state.distance_to(new_state) if (previous_state and new_state) else 0.0
+        self.shift_magnitude = (
+            previous_state.distance_to(new_state) if (previous_state and new_state) else 0.0
+        )
         self.triggers = triggers
         self.vivox_context = context
 
@@ -173,9 +175,7 @@ class VIVOXEventBusIntegration:
         """Setup default event subscriptions"""
         try:
             # Subscribe to relevant system events
-            self.event_bus.subscribe(
-                EmotionalStateChanged, self._handle_system_emotional_change
-            )
+            self.event_bus.subscribe(EmotionalStateChanged, self._handle_system_emotional_change)
 
             self.event_bus.subscribe(
                 EmotionalRegulationApplied, self._handle_system_regulation_event
@@ -189,7 +189,7 @@ class VIVOXEventBusIntegration:
 
     async def publish_emotional_shift(
         self,
-        user_id_or_shift = None,
+        user_id_or_shift=None,
         previous_state: VADVector = None,
         new_state: VADVector = None,
         triggers: list[str] = None,
@@ -222,13 +222,14 @@ class VIVOXEventBusIntegration:
                 # Extract parameters from the event for system event publishing
                 if hasattr(event, "previous_state") and hasattr(event, "new_state"):
                     from .vivox_ern_core import VADVector
+
                     # Reconstruct VADVector from dict
                     if event.previous_state:
                         previous_state = VADVector(
                             valence=event.previous_state.get("valence", 0.0),
                             arousal=event.previous_state.get("arousal", 0.0),
                             dominance=event.previous_state.get("dominance", 0.0),
-                            intensity=event.previous_state.get("intensity", 0.5)
+                            intensity=event.previous_state.get("intensity", 0.5),
                         )
                     else:
                         previous_state = None
@@ -238,7 +239,7 @@ class VIVOXEventBusIntegration:
                             valence=event.new_state.get("valence", 0.0),
                             arousal=event.new_state.get("arousal", 0.0),
                             dominance=event.new_state.get("dominance", 0.0),
-                            intensity=event.new_state.get("intensity", 0.5)
+                            intensity=event.new_state.get("intensity", 0.5),
                         )
                     else:
                         new_state = None
@@ -264,7 +265,7 @@ class VIVOXEventBusIntegration:
                     current_vad=new_state.to_dict(),
                     trigger=str(context.get("trigger", "vivox_shift")),
                     intensity=new_state.intensity if new_state else 0.0,
-                    source_module="vivox_ern"
+                    source_module="vivox_ern",
                 )
                 await self.event_bus.emit(system_event)
 
@@ -279,9 +280,7 @@ class VIVOXEventBusIntegration:
     ):
         """Publish regulation application event"""
         try:
-            event = VIVOXRegulationApplied(
-                user_id=user_id, regulation_response=regulation_response
-            )
+            event = VIVOXRegulationApplied(user_id=user_id, regulation_response=regulation_response)
 
             await self._publish_event(event)
 
@@ -306,9 +305,7 @@ class VIVOXEventBusIntegration:
             logger.error(f"Failed to publish regulation event: {e}")
             self.integration_health *= 0.95
 
-    async def publish_emotional_memory_stored(
-        self, user_id: str, memory_data: dict[str, Any]
-    ):
+    async def publish_emotional_memory_stored(self, user_id: str, memory_data: dict[str, Any]):
         """Publish emotional memory storage event"""
         try:
             event = VIVOXEmotionalMemoryStored(user_id=user_id, memory_data=memory_data)
@@ -320,9 +317,7 @@ class VIVOXEventBusIntegration:
             logger.error(f"Failed to publish memory event: {e}")
             self.integration_health *= 0.95
 
-    async def publish_neuroplastic_update(
-        self, user_id: str, update_data: dict[str, Any]
-    ):
+    async def publish_neuroplastic_update(self, user_id: str, update_data: dict[str, Any]):
         """Publish neuroplastic learning update event"""
         try:
             event = VIVOXNeuroplasticUpdate(user_id=user_id, update_data=update_data)
@@ -450,8 +445,7 @@ class VIVOXEventBusIntegration:
     def get_integration_status(self) -> dict[str, Any]:
         """Get integration status and health metrics"""
         return {
-            "event_bus_connected": self.event_bus is not None
-            and EVENT_SYSTEM_AVAILABLE,
+            "event_bus_connected": self.event_bus is not None and EVENT_SYSTEM_AVAILABLE,
             "events_published": self.events_published,
             "events_processed": self.events_processed,
             "integration_health": self.integration_health,
@@ -470,9 +464,7 @@ class VIVOXEventBusIntegration:
         self, user_id: str, time_window_hours: int = 24
     ) -> dict[str, Any]:
         """Get emotional analytics from event history"""
-        cutoff_time = datetime.now(timezone.utc).timestamp() - (
-            time_window_hours * 3600
-        )
+        cutoff_time = datetime.now(timezone.utc).timestamp() - (time_window_hours * 3600)
 
         user_events = [
             e
@@ -491,9 +483,7 @@ class VIVOXEventBusIntegration:
         for event in user_events:
             # Count event types
             event_type = event.event_type
-            analytics["event_types"][event_type] = (
-                analytics["event_types"].get(event_type, 0) + 1
-            )
+            analytics["event_types"][event_type] = analytics["event_types"].get(event_type, 0) + 1
 
             # Collect regulation effectiveness
             if isinstance(event, VIVOXRegulationApplied):
@@ -586,9 +576,7 @@ class VIVOXERNIntegratedSystem:
         )
 
         # Publish events
-        await self.event_integration.publish_regulation_applied(
-            user_id, regulation_response
-        )
+        await self.event_integration.publish_regulation_applied(user_id, regulation_response)
 
         # Publish emotional shift if significant
         if original_state.distance_to(regulation_response.regulated_state) > 0.1:
@@ -612,9 +600,7 @@ class VIVOXERNIntegratedSystem:
             "effectiveness": regulation_response.effectiveness,
             "context_hash": str(hash(str(context))),
         }
-        await self.event_integration.publish_emotional_memory_stored(
-            user_id, memory_data
-        )
+        await self.event_integration.publish_emotional_memory_stored(user_id, memory_data)
 
         return regulation_response
 
@@ -650,9 +636,7 @@ class VIVOXERNIntegratedSystem:
 
         self.audit_trail.append(audit_entry)
 
-    def get_user_audit_trail(
-        self, user_id: str, hours: int = 24
-    ) -> list[dict[str, Any]]:
+    def get_user_audit_trail(self, user_id: str, hours: int = 24) -> list[dict[str, Any]]:
         """Get audit trail for specific user"""
         cutoff_time = datetime.now(timezone.utc).timestamp() - (hours * 3600)
 

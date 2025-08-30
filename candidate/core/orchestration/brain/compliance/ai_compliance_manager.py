@@ -84,9 +84,7 @@ class AIComplianceManager:
         self.assessment_history = []
         self.violation_log = []
 
-        self.logger.info(
-            f"🛡️ AI Compliance Manager initialized for {region} with {level} level"
-        )
+        self.logger.info(f"🛡️ AI Compliance Manager initialized for {region} with {level} level")
 
     async def validate_ai_action(
         self, action: dict[str, Any], context: dict[str, Any]
@@ -112,9 +110,7 @@ class AIComplianceManager:
                 if not eu_result["compliant"]:
                     result["compliant"] = False
                     result["violations"].extend(eu_result.get("violations", []))
-                    result["required_actions"].extend(
-                        eu_result.get("required_actions", [])
-                    )
+                    result["required_actions"].extend(eu_result.get("required_actions", []))
 
             # GDPR compliance check
             if context.get("involves_personal_data", False):
@@ -123,9 +119,7 @@ class AIComplianceManager:
                 if not gdpr_result["compliant"]:
                     result["compliant"] = False
                     result["violations"].extend(gdpr_result.get("violations", []))
-                    result["required_actions"].extend(
-                        gdpr_result.get("required_actions", [])
-                    )
+                    result["required_actions"].extend(gdpr_result.get("required_actions", []))
 
             # NIST AI RMF compliance check
             if self.region in ["US", "GLOBAL"]:
@@ -134,9 +128,7 @@ class AIComplianceManager:
                 if not nist_result["compliant"]:
                     result["compliant"] = False
                     result["violations"].extend(nist_result.get("violations", []))
-                    result["required_actions"].extend(
-                        nist_result.get("required_actions", [])
-                    )
+                    result["required_actions"].extend(nist_result.get("required_actions", []))
 
             # ISO/IEC standards compliance
             iso_result = await self._check_iso_compliance(action, context)
@@ -144,18 +136,14 @@ class AIComplianceManager:
             if not iso_result["compliant"]:
                 result["compliant"] = False
                 result["violations"].extend(iso_result.get("violations", []))
-                result["required_actions"].extend(
-                    iso_result.get("required_actions", [])
-                )
+                result["required_actions"].extend(iso_result.get("required_actions", []))
 
             # Determine overall compliance level
             if result["violations"]:
                 critical_violations = [
                     v for v in result["violations"] if v.get("severity") == "critical"
                 ]
-                high_violations = [
-                    v for v in result["violations"] if v.get("severity") == "high"
-                ]
+                high_violations = [v for v in result["violations"] if v.get("severity") == "high"]
 
                 if critical_violations:
                     result["compliance_level"] = ComplianceLevel.CRITICAL.value
@@ -170,14 +158,12 @@ class AIComplianceManager:
             # Log violations if any
             if result["violations"]:
                 self.violation_log.extend(result["violations"])
-                self.logger.warning(
-                    f"Compliance violations detected: {len(result['violations'])}"
-                )
+                self.logger.warning(f"Compliance violations detected: {len(result['violations'])}")
 
             return result
 
         except Exception as e:
-            self.logger.error(f"Compliance validation error: {str(e)}")
+            self.logger.error(f"Compliance validation error: {e!s}")
             return {
                 **result,
                 "compliant": False,
@@ -507,9 +493,7 @@ class AIComplianceManager:
                 ),
                 "violation_count": len(self.violation_log),
                 "last_assessment": (
-                    self.assessment_history[-1]["timestamp"]
-                    if self.assessment_history
-                    else None
+                    self.assessment_history[-1]["timestamp"] if self.assessment_history else None
                 ),
             },
             "data_processing_purposes": self._get_processing_purposes(),
@@ -558,9 +542,7 @@ class AIComplianceManager:
         # Calculate compliance metrics
         total_assessments = len(recent_assessments)
         compliant_assessments = len([a for a in recent_assessments if a["compliant"]])
-        compliance_rate = (
-            compliant_assessments / total_assessments if total_assessments > 0 else 0
-        )
+        compliance_rate = compliant_assessments / total_assessments if total_assessments > 0 else 0
 
         # Violation analysis
         recent_violations = []
@@ -591,13 +573,9 @@ class AIComplianceManager:
             "overall_status": status,
             "violation_counts_by_framework": violation_counts,
             "most_violated_framework": (
-                max(violation_counts.items(), key=lambda x: x[1])[0]
-                if violation_counts
-                else None
+                max(violation_counts.items(), key=lambda x: x[1])[0] if violation_counts else None
             ),
-            "recommendations": self._generate_compliance_recommendations(
-                recent_assessments
-            ),
+            "recommendations": self._generate_compliance_recommendations(recent_assessments),
             "regulatory_alignment": {
                 "EU_AI_ACT": "Full compliance monitoring active",
                 "GDPR": "Data protection controls enforced",
@@ -606,9 +584,7 @@ class AIComplianceManager:
             },
         }
 
-    def _generate_compliance_recommendations(
-        self, assessments: list[dict[str, Any]]
-    ) -> list[str]:
+    def _generate_compliance_recommendations(self, assessments: list[dict[str, Any]]) -> list[str]:
         """Generate compliance recommendations based on recent assessments"""
 
         recommendations = []
@@ -625,14 +601,10 @@ class AIComplianceManager:
 
         # Generate specific recommendations
         if "transparency_violation" in violation_types:
-            recommendations.append(
-                "Implement user disclosure mechanisms for AI interactions"
-            )
+            recommendations.append("Implement user disclosure mechanisms for AI interactions")
 
         if "missing_lawful_basis" in violation_types:
-            recommendations.append(
-                "Establish clear lawful basis for all personal data processing"
-            )
+            recommendations.append("Establish clear lawful basis for all personal data processing")
 
         if "missing_governance" in violation_types:
             recommendations.append("Strengthen AI governance and oversight structures")
@@ -641,9 +613,7 @@ class AIComplianceManager:
             recommendations.append("Review and eliminate any prohibited AI practices")
 
         if len(all_violations) > len(assessments) * 0.1:  # More than 10% violation rate
-            recommendations.append(
-                "Conduct comprehensive compliance audit and remediation"
-            )
+            recommendations.append("Conduct comprehensive compliance audit and remediation")
 
         return recommendations
 

@@ -22,20 +22,24 @@ import aiohttp
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class LoadTestConfig:
     """Configuration for enterprise load testing"""
+
     base_url: str = "http://localhost:8000"
     concurrent_users: int = 10000
     ramp_up_seconds: int = 60
     test_duration_seconds: int = 300  # 5 minutes sustained
     target_rps: int = 1000
     max_latency_p95: float = 25.0  # Sam Altman standard
-    max_error_rate: float = 0.1   # 0.1% max error rate
+    max_error_rate: float = 0.1  # 0.1% max error rate
+
 
 @dataclass
 class LoadTestResults:
     """Enterprise load test results"""
+
     total_requests: int
     successful_requests: int
     failed_requests: int
@@ -47,6 +51,7 @@ class LoadTestResults:
     peak_concurrent_users: int
     test_duration: float
     meets_sam_altman_standard: bool
+
 
 class T4LoadTester:
     """Enterprise-grade load testing for LUKHAS Trinity Framework"""
@@ -75,12 +80,10 @@ class T4LoadTester:
             {"endpoint": "/api/v1/identity/authenticate", "weight": 0.15, "method": "POST"},
             {"endpoint": "/api/v1/identity/verify", "weight": 0.10, "method": "GET"},
             {"endpoint": "/api/v1/identity/tier-check", "weight": 0.05, "method": "GET"},
-
             # Consciousness System Load (🧠) - 50% of traffic
             {"endpoint": "/api/v1/consciousness/query", "weight": 0.25, "method": "POST"},
             {"endpoint": "/api/v1/consciousness/dream", "weight": 0.15, "method": "POST"},
             {"endpoint": "/api/v1/consciousness/memory", "weight": 0.10, "method": "GET"},
-
             # Guardian System Load (🛡️) - 20% of traffic
             {"endpoint": "/api/v1/guardian/validate", "weight": 0.10, "method": "POST"},
             {"endpoint": "/api/v1/guardian/audit", "weight": 0.05, "method": "GET"},
@@ -89,8 +92,9 @@ class T4LoadTester:
 
         return patterns
 
-    async def single_request(self, endpoint: str, method: str = "GET",
-                           payload: Optional[dict] = None) -> dict[str, Any]:
+    async def single_request(
+        self, endpoint: str, method: str = "GET", payload: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Execute single API request with timing"""
         start_time = time.time()
 
@@ -115,7 +119,7 @@ class T4LoadTester:
                 "status_code": status,
                 "latency_ms": latency,
                 "endpoint": endpoint,
-                "timestamp": start_time
+                "timestamp": start_time,
             }
 
         except Exception as e:
@@ -126,7 +130,7 @@ class T4LoadTester:
                 "latency_ms": latency,
                 "endpoint": endpoint,
                 "error": str(e),
-                "timestamp": start_time
+                "timestamp": start_time,
             }
 
     async def ramp_up_users(self, target_users: int, ramp_seconds: int) -> None:
@@ -141,7 +145,9 @@ class T4LoadTester:
             new_users = target_for_second - current_users
 
             if new_users > 0:
-                logger.info(f"   Second {second + 1}: Adding {new_users} users (Total: {target_for_second})")
+                logger.info(
+                    f"   Second {second + 1}: Adding {new_users} users (Total: {target_for_second})"
+                )
                 # This would spawn actual user simulation tasks
                 await asyncio.sleep(1)
                 current_users = target_for_second
@@ -178,8 +184,10 @@ class T4LoadTester:
                 for _ in range(min(requests_to_generate, 100)):  # Limit batch size
                     # Select endpoint based on weight
                     import random
-                    pattern = random.choices(load_patterns,
-                                           weights=[p["weight"] for p in load_patterns])[0]
+
+                    pattern = random.choices(
+                        load_patterns, weights=[p["weight"] for p in load_patterns]
+                    )[0]
 
                     task = asyncio.create_task(
                         self.single_request(pattern["endpoint"], pattern["method"])
@@ -197,11 +205,7 @@ class T4LoadTester:
                         result = await task
                         request_results.append(result)
                     except Exception as e:
-                        request_results.append({
-                            "success": False,
-                            "latency_ms": 0,
-                            "error": str(e)
-                        })
+                        request_results.append({"success": False, "latency_ms": 0, "error": str(e)})
                     active_tasks.remove(task)
 
             # Brief pause to prevent overwhelming
@@ -223,8 +227,16 @@ class T4LoadTester:
 
         if latencies:
             avg_latency = statistics.mean(latencies)
-            p95_latency = statistics.quantiles(latencies, n=20)[18] if len(latencies) >= 20 else max(latencies)
-            p99_latency = statistics.quantiles(latencies, n=100)[98] if len(latencies) >= 100 else max(latencies)
+            p95_latency = (
+                statistics.quantiles(latencies, n=20)[18]
+                if len(latencies) >= 20
+                else max(latencies)
+            )
+            p99_latency = (
+                statistics.quantiles(latencies, n=100)[98]
+                if len(latencies) >= 100
+                else max(latencies)
+            )
         else:
             avg_latency = p95_latency = p99_latency = 0
 
@@ -239,8 +251,10 @@ class T4LoadTester:
             error_rate=(len(failed) / len(request_results)) * 100 if request_results else 0,
             peak_concurrent_users=self.config.concurrent_users,
             test_duration=total_time,
-            meets_sam_altman_standard=(p95_latency < self.config.max_latency_p95 and
-                                     (len(failed) / len(request_results)) * 100 < self.config.max_error_rate)
+            meets_sam_altman_standard=(
+                p95_latency < self.config.max_latency_p95
+                and (len(failed) / len(request_results)) * 100 < self.config.max_error_rate
+            ),
         )
 
         # Log results
@@ -249,11 +263,15 @@ class T4LoadTester:
         logger.info(f"   Successful: {results.successful_requests:,}")
         logger.info(f"   Failed: {results.failed_requests:,}")
         logger.info(f"   Average Latency: {results.average_latency:.2f}ms")
-        logger.info(f"   P95 Latency: {results.p95_latency:.2f}ms ({'✅' if results.p95_latency < 25 else '⚠️'} Target: <25ms)")
+        logger.info(
+            f"   P95 Latency: {results.p95_latency:.2f}ms ({'✅' if results.p95_latency < 25 else '⚠️'} Target: <25ms)"
+        )
         logger.info(f"   P99 Latency: {results.p99_latency:.2f}ms")
         logger.info(f"   Throughput: {results.throughput_rps:.1f} RPS")
         logger.info(f"   Error Rate: {results.error_rate:.2f}%")
-        logger.info(f"   Sam Altman Standard: {'✅ PASSED' if results.meets_sam_altman_standard else '❌ NEEDS WORK'}")
+        logger.info(
+            f"   Sam Altman Standard: {'✅ PASSED' if results.meets_sam_altman_standard else '❌ NEEDS WORK'}"
+        )
 
         return results
 
@@ -270,6 +288,7 @@ class T4LoadTester:
         logger.info("🏁 T4 Load Test Complete!")
         return results
 
+
 async def run_t4_load_test():
     """Run T4 leadership level load testing"""
     config = LoadTestConfig(
@@ -278,7 +297,7 @@ async def run_t4_load_test():
         test_duration_seconds=300,  # 5 minutes sustained
         target_rps=1000,
         max_latency_p95=25.0,  # 2x better than current target
-        max_error_rate=0.1
+        max_error_rate=0.1,
     )
 
     async with T4LoadTester(config) as tester:
@@ -291,28 +310,33 @@ async def run_t4_load_test():
         results_file = os.path.join(output_dir, f"load_test_results_{timestamp}.json")
 
         with open(results_file, "w") as f:
-            json.dump({
-                "config": {
-                    "concurrent_users": config.concurrent_users,
-                    "target_rps": config.target_rps,
-                    "test_duration": config.test_duration_seconds,
-                    "sam_altman_standard": config.max_latency_p95
+            json.dump(
+                {
+                    "config": {
+                        "concurrent_users": config.concurrent_users,
+                        "target_rps": config.target_rps,
+                        "test_duration": config.test_duration_seconds,
+                        "sam_altman_standard": config.max_latency_p95,
+                    },
+                    "results": {
+                        "total_requests": results.total_requests,
+                        "successful_requests": results.successful_requests,
+                        "failed_requests": results.failed_requests,
+                        "average_latency": results.average_latency,
+                        "p95_latency": results.p95_latency,
+                        "p99_latency": results.p99_latency,
+                        "throughput_rps": results.throughput_rps,
+                        "error_rate": results.error_rate,
+                        "meets_standard": results.meets_sam_altman_standard,
+                    },
                 },
-                "results": {
-                    "total_requests": results.total_requests,
-                    "successful_requests": results.successful_requests,
-                    "failed_requests": results.failed_requests,
-                    "average_latency": results.average_latency,
-                    "p95_latency": results.p95_latency,
-                    "p99_latency": results.p99_latency,
-                    "throughput_rps": results.throughput_rps,
-                    "error_rate": results.error_rate,
-                    "meets_standard": results.meets_sam_altman_standard
-                }
-            }, f, indent=2)
+                f,
+                indent=2,
+            )
 
         logger.info(f"📊 Results saved: {results_file}")
         return results
+
 
 if __name__ == "__main__":
     asyncio.run(run_t4_load_test())

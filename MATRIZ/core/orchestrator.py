@@ -11,13 +11,13 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from .node_interface import (
     CognitiveNode,
+    NodeReflection,
     NodeState,
     NodeTrigger,
-    NodeReflection,
 )
 
 
@@ -100,9 +100,7 @@ class CognitiveOrchestrator:
             output_data=result,
             matriz_node=result.get("matriz_node", {}),
             processing_time=time.time() - start_time,
-            validation_result=(
-                validation if "validator" in self.available_nodes else True
-            ),
+            validation_result=(validation if "validator" in self.available_nodes else True),
             reasoning_chain=self._build_reasoning_chain(),
         )
         self.execution_trace.append(trace)
@@ -128,6 +126,7 @@ class CognitiveOrchestrator:
             detected_intent = "general"
 
         state = NodeState(confidence=0.9, salience=1.0)
+
         # Create a temporary lightweight node producer to leverage helper
         class _IntentEmitter(CognitiveNode):  # type: ignore
             def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
@@ -166,6 +165,7 @@ class CognitiveOrchestrator:
 
     def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
         """Create DECISION MATRIZ node (schema-compliant)."""
+
         class _DecisionEmitter(CognitiveNode):  # type: ignore
             def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
                 raise NotImplementedError
@@ -244,15 +244,11 @@ class CognitiveOrchestrator:
         chain = []
         for _node_id, node in self.matriz_graph.items():
             if node["type"] == "INTENT":
-                chain.append(
-                    f"Understood intent: {node['state'].get('intent', 'unknown')}"
-                )
+                chain.append(f"Understood intent: {node['state'].get('intent', 'unknown')}")
             elif node["type"] == "DECISION":
                 chain.append(f"Decision: {node['state'].get('decision', 'unknown')}")
             elif node["type"] == "REFLECTION":
-                chain.append(
-                    f"Reflection: {node['state'].get('reflection_type', 'unknown')}"
-                )
+                chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown')}")
         return chain
 
     def get_causal_chain(self, node_id: str) -> list[dict]:

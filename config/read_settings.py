@@ -41,9 +41,7 @@ if (
         wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
     )
-    logger = structlog.get_logger(
-        "ΛTRACE.core.config.ReadSettingsScript"
-    )  # Re-bind after config
+    logger = structlog.get_logger("ΛTRACE.core.config.ReadSettingsScript")  # Re-bind after config
 
 # AIMPORT_TODO: Ensure settings_loader.py is robustly available in the
 # same directory or via PYTHONPATH.
@@ -98,9 +96,7 @@ def display_settings():
     validation_result = (
         validate_settings()
     )  # Assuming this returns a meaningful status or logs itself
-    logger.info(
-        "Settings validation complete.", validation_status=str(validation_result)
-    )
+    logger.info("Settings validation complete.", validation_status=str(validation_result))
 
     logger.info("Displaying Consent and Memory Policy.")
     logger.info("\n📖 Consent and Memory Policy:")

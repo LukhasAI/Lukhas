@@ -13,9 +13,7 @@ from pathlib import Path
 def run_command(cmd: list[str], cwd: str = ".") -> tuple[int, str, str]:
     """Run a command and return exit code, stdout, stderr"""
     try:
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, cwd=cwd, timeout=60
-        )
+        result = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, timeout=60)
         return result.returncode, result.stdout, result.stderr
     except subprocess.TimeoutExpired:
         return 1, "", "Command timed out"
@@ -60,9 +58,7 @@ def fix_syntax_errors(file_path: Path) -> bool:
         content = "\n".join(fixed_lines)
 
         # Fix invalid method names like _identity_core.resolve_access_tier
-        content = re.sub(
-            r"def _identity_core\.(\w+)", r"def _identity_core_\1", content
-        )
+        content = re.sub(r"def _identity_core\.(\w+)", r"def _identity_core_\1", content)
 
         # Fix broken imports
         content = re.sub(r"from typing import for\b", "from typing import Any", content)

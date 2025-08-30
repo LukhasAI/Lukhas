@@ -88,9 +88,7 @@ class LambdaIDEntropyEngine:
         self.pattern_weights = self._load_pattern_weights()
         self.entropy_history = defaultdict(list)  # For tracking improvements
 
-    def analyze_entropy(
-        self, lambda_id: str, tier: Optional[int] = None
-    ) -> EntropyAnalysis:
+    def analyze_entropy(self, lambda_id: str, tier: Optional[int] = None) -> EntropyAnalysis:
         """
         Comprehensive entropy analysis of a ΛiD.
 
@@ -124,15 +122,9 @@ class LambdaIDEntropyEngine:
             # Calculate component-specific scores
             analysis.component_scores.update(
                 {
-                    "timestamp_entropy": self._calculate_component_entropy(
-                        timestamp_hash
-                    ),
-                    "symbolic_strength": self._calculate_symbolic_strength(
-                        symbolic_char
-                    ),
-                    "entropy_hash_quality": self._calculate_component_entropy(
-                        entropy_hash
-                    ),
+                    "timestamp_entropy": self._calculate_component_entropy(timestamp_hash),
+                    "symbolic_strength": self._calculate_symbolic_strength(symbolic_char),
+                    "entropy_hash_quality": self._calculate_component_entropy(entropy_hash),
                     "pattern_complexity": self._calculate_pattern_complexity(lambda_id),
                 }
             )
@@ -141,9 +133,7 @@ class LambdaIDEntropyEngine:
             analysis.overall_score = self._calculate_overall_score(analysis)
 
             # Determine entropy level
-            analysis.entropy_level = self._determine_entropy_level(
-                analysis.overall_score
-            )
+            analysis.entropy_level = self._determine_entropy_level(analysis.overall_score)
 
             # Tier compliance analysis
             if tier is not None:
@@ -171,7 +161,7 @@ class LambdaIDEntropyEngine:
             return analysis
 
         except Exception as e:
-            analysis.weaknesses.append(f"Analysis error: {str(e)}")
+            analysis.weaknesses.append(f"Analysis error: {e!s}")
             return analysis
 
     def calculate_live_entropy(self, partial_id: str, tier: int) -> dict[str, Any]:
@@ -192,14 +182,10 @@ class LambdaIDEntropyEngine:
             }
 
         live_score = self._calculate_shannon_entropy(partial_id)
-        target_score = self.tier_thresholds.get(f"tier_{tier}", {}).get(
-            "recommended", 3.0
-        )
+        target_score = self.tier_thresholds.get(f"tier_{tier}", {}).get("recommended", 3.0)
 
         # Generate real-time suggestions
-        suggestions = self._generate_live_suggestions(
-            partial_id, live_score, target_score
-        )
+        suggestions = self._generate_live_suggestions(partial_id, live_score, target_score)
 
         return {
             "current_entropy": round(live_score, 2),
@@ -306,18 +292,14 @@ class LambdaIDEntropyEngine:
 
         return entropy
 
-    def _calculate_boost_factors(
-        self, lambda_id: str, symbolic_char: str
-    ) -> dict[str, float]:
+    def _calculate_boost_factors(self, lambda_id: str, symbolic_char: str) -> dict[str, float]:
         """Calculate boost factors for ΛiD components"""
         boosts = {}
 
         # Unicode symbolic character boost
         if ord(symbolic_char) > 127:  # Non-ASCII
             category = unicodedata.category(symbolic_char)
-            boost_value = self.boost_factors.get("unicode_categories", {}).get(
-                category, 1.0
-            )
+            boost_value = self.boost_factors.get("unicode_categories", {}).get(category, 1.0)
             boosts["unicode_symbolic"] = boost_value
 
         # Pattern complexity boost
@@ -456,9 +438,7 @@ class LambdaIDEntropyEngine:
         recommendations = []
 
         if analysis.base_entropy < 2.0:
-            recommendations.append(
-                "Consider using more diverse characters in hash components"
-            )
+            recommendations.append("Consider using more diverse characters in hash components")
 
         if "unicode_symbolic" not in analysis.boost_factors:
             recommendations.append("Use Unicode symbolic characters for entropy boost")
@@ -528,9 +508,7 @@ class LambdaIDEntropyEngine:
 
             # Hash component optimization
             if self._calculate_component_entropy(entropy_hash) < 2.0:
-                optimizations.append(
-                    "Generate new entropy hash with better character distribution"
-                )
+                optimizations.append("Generate new entropy hash with better character distribution")
 
         return optimizations
 
@@ -694,4 +672,4 @@ if __name__ == "__main__":
 EntropyEngine = LambdaIDEntropyEngine
 
 # Export classes
-__all__ = ["LambdaIDEntropyEngine", "EntropyEngine", "EntropyAnalysis", "EntropyLevel"]
+__all__ = ["EntropyAnalysis", "EntropyEngine", "EntropyLevel", "LambdaIDEntropyEngine"]

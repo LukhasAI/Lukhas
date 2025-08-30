@@ -153,8 +153,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
         # Calculate importance based on emotional salience
         emotional_impact = (
-            abs(episodic_content.context.emotional_valence)
-            * episodic_content.context.arousal_level
+            abs(episodic_content.context.emotional_valence) * episodic_content.context.arousal_level
         )
 
         base_importance = metadata.importance
@@ -297,7 +296,6 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
         # Simple implementation - in practice would use more sophisticated search
         for memory_id, content in self.episodic_memories.items():
-
             # Text search
             if isinstance(query, str):
                 if (
@@ -305,12 +303,9 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                     or query.lower() in content.description.lower()
                     or query.lower() in str(content.content).lower()
                 ):
-
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get(
-                                "operation_id", f"search_{memory_id}"
-                            ),
+                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
                             success=True,
                             memory_id=memory_id,
                             content=content,
@@ -327,9 +322,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                 if "emotional_valence" in query:
                     valence_range = query["emotional_valence"]
                     if not (
-                        valence_range[0]
-                        <= content.context.emotional_valence
-                        <= valence_range[1]
+                        valence_range[0] <= content.context.emotional_valence <= valence_range[1]
                     ):
                         match = False
 
@@ -340,9 +333,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                 if match:
                     results.append(
                         MemoryResponse(
-                            operation_id=kwargs.get(
-                                "operation_id", f"search_{memory_id}"
-                            ),
+                            operation_id=kwargs.get("operation_id", f"search_{memory_id}"),
                             success=True,
                             memory_id=memory_id,
                             content=content,

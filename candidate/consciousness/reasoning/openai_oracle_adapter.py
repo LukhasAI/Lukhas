@@ -24,6 +24,7 @@
 ║ ΛTAG: ΛORACLE, ΛOPENAI, ΛPREDICTION, ΛPROPHECY, ΛREASONING
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import json
 import logging
 import re
@@ -641,9 +642,7 @@ For each analysis:
             "finally",
         ]
 
-        markers_found = sum(
-            1 for marker in structure_markers if marker.lower() in content.lower()
-        )
+        markers_found = sum(1 for marker in structure_markers if marker.lower() in content.lower())
         return min(markers_found / 10, 1.0)
 
     def _extract_temporal_connections(self, content: str) -> list[str]:

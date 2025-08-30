@@ -15,9 +15,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -183,8 +181,7 @@ class OrganizationalAuditor:
 
                 # Check for task/todo files in wrong locations
                 if any(
-                    keyword in content.lower()
-                    for keyword in ["todo", "task", "claude", "agent"]
+                    keyword in content.lower() for keyword in ["todo", "task", "claude", "agent"]
                 ) and ("memory" in str(relative_path) or "core" in str(relative_path)):
                     self.issues["misplaced_task_files"].append(str(relative_path))
 
@@ -199,27 +196,27 @@ class OrganizationalAuditor:
         dream_files = list(self.workspace.glob("**/dream*"))
         for file in dream_files:
             relative_path = file.relative_to(self.workspace)
-            if "dream" not in str(
-                relative_path.parent
-            ) and "lukhas/core/dream" not in str(relative_path):
+            if "dream" not in str(relative_path.parent) and "lukhas/core/dream" not in str(
+                relative_path
+            ):
                 self.issues["misplaced_dream_files"].append(str(relative_path))
 
         # Find voice-related files outside voice modules
         voice_files = list(self.workspace.glob("**/voice*"))
         for file in voice_files:
             relative_path = file.relative_to(self.workspace)
-            if "voice" not in str(
-                relative_path.parent
-            ) and "lukhas/core/voice" not in str(relative_path):
+            if "voice" not in str(relative_path.parent) and "lukhas/core/voice" not in str(
+                relative_path
+            ):
                 self.issues["misplaced_voice_files"].append(str(relative_path))
 
         # Find memory-related files outside memory modules
         memory_files = list(self.workspace.glob("**/memory*"))
         for file in memory_files:
             relative_path = file.relative_to(self.workspace)
-            if "memory" not in str(
-                relative_path.parent
-            ) and "lukhas/core/memory" not in str(relative_path):
+            if "memory" not in str(relative_path.parent) and "lukhas/core/memory" not in str(
+                relative_path
+            ):
                 self.issues["misplaced_memory_files"].append(str(relative_path))
 
     def _check_module_organization(self):
@@ -240,16 +237,12 @@ class OrganizationalAuditor:
         # Check for required files
         for required_file in expected_files:
             if not (module_path / required_file).exists():
-                self.issues["incomplete_modules"].append(
-                    f"{module_name}: missing {required_file}"
-                )
+                self.issues["incomplete_modules"].append(f"{module_name}: missing {required_file}")
 
         # Check for foreign files
         for file in module_path.glob("*"):
             if (
-                file.is_file()
-                and file.name not in expected_files
-                and not file.name.endswith(".py")
+                file.is_file() and file.name not in expected_files and not file.name.endswith(".py")
             ) and file.suffix in [".md", ".txt", ".json"]:
                 # Check if it belongs here
                 if module_name.lower() not in file.name.lower():
@@ -271,17 +264,11 @@ class OrganizationalAuditor:
 
             filename = file.stem
             if "_" in filename:
-                naming_patterns["snake_case"].append(
-                    str(file.relative_to(self.workspace))
-                )
+                naming_patterns["snake_case"].append(str(file.relative_to(self.workspace)))
             elif any(c.isupper() for c in filename[1:]):
-                naming_patterns["camelCase"].append(
-                    str(file.relative_to(self.workspace))
-                )
+                naming_patterns["camelCase"].append(str(file.relative_to(self.workspace)))
             else:
-                naming_patterns["lowercase"].append(
-                    str(file.relative_to(self.workspace))
-                )
+                naming_patterns["lowercase"].append(str(file.relative_to(self.workspace)))
 
         # Report inconsistencies if multiple patterns are heavily used
         if len(naming_patterns) > 1:
@@ -301,9 +288,7 @@ class OrganizationalAuditor:
             relative_path = md_file.relative_to(self.workspace)
 
             # Check if documentation is properly organized
-            if "documentation" not in str(relative_path) and "docs" not in str(
-                relative_path
-            ):
+            if "documentation" not in str(relative_path) and "docs" not in str(relative_path):
                 # Check if it's a legitimate README or module doc
                 if md_file.name.lower() not in [
                     "readme.md",
@@ -351,9 +336,7 @@ class OrganizationalAuditor:
         # Check for proper testing structure
         test_dirs = list(self.workspace.glob("**/tests/"))
         if not test_dirs:
-            self.issues["missing_test_structure"].append(
-                "No dedicated test directories found"
-            )
+            self.issues["missing_test_structure"].append("No dedicated test directories found")
 
     def _matches_pattern(self, filename: str, pattern: str) -> bool:
         """Check if filename matches a glob pattern."""
@@ -419,27 +402,19 @@ class OrganizationalAuditor:
             )
 
         if self.issues.get("incomplete_modules"):
-            recommendations.append(
-                "HIGH: Complete all module structures with required files"
-            )
+            recommendations.append("HIGH: Complete all module structures with required files")
 
         if self.issues.get("empty_directories"):
             recommendations.append("CLEANUP: Remove all empty directories")
 
         if self.issues.get("legacy_files"):
-            recommendations.append(
-                "CLEANUP: Remove or archive all legacy/temporary files"
-            )
+            recommendations.append("CLEANUP: Remove or archive all legacy/temporary files")
 
         recommendations.append(
             "STRUCTURE: Implement proper modular organization before commercial deployment"
         )
-        recommendations.append(
-            "TESTING: Establish comprehensive test directory structure"
-        )
-        recommendations.append(
-            "CONFIG: Create production-ready configuration management"
-        )
+        recommendations.append("TESTING: Establish comprehensive test directory structure")
+        recommendations.append("CONFIG: Create production-ready configuration management")
 
         return recommendations
 
@@ -458,9 +433,7 @@ class OrganizationalAuditor:
             priority.append("3. HIGH: Complete module implementations")
 
         # Medium priorities
-        if self.issues.get("misplaced_dream_files") or self.issues.get(
-            "misplaced_voice_files"
-        ):
+        if self.issues.get("misplaced_dream_files") or self.issues.get("misplaced_voice_files"):
             priority.append("4. MEDIUM: Relocate domain-specific files")
 
         if self.issues.get("empty_directories"):
@@ -477,11 +450,11 @@ class OrganizationalAuditor:
         summary = f"""
 🔍 lukhas WORKSPACE ORGANIZATIONAL AUDIT
 ======================================
-Audit Date: {report['audit_timestamp']}
-Total Issues: {report['total_issues_found']}
-Critical Issues: {report['critical_issues']}
-Severity Level: {report['severity_level']}
-Commercial Readiness: {report['commercial_readiness']}
+Audit Date: {report["audit_timestamp"]}
+Total Issues: {report["total_issues_found"]}
+Critical Issues: {report["critical_issues"]}
+Severity Level: {report["severity_level"]}
+Commercial Readiness: {report["commercial_readiness"]}
 
 📊 ISSUES BY CATEGORY:
 """
@@ -504,7 +477,7 @@ Commercial Readiness: {report['commercial_readiness']}
             summary += f"{priority}\n"
 
         summary += f"""
-⚠️  COMMERCIAL DEPLOYMENT READINESS: {report['commercial_readiness']}
+⚠️  COMMERCIAL DEPLOYMENT READINESS: {report["commercial_readiness"]}
 
 Next Steps:
 1. Address critical issues immediately

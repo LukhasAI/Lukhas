@@ -303,9 +303,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                     return False
         return True
 
-    def _check_violation(
-        self, principle: EthicalPrinciple, decision: EthicalDecision
-    ) -> bool:
+    def _check_violation(self, principle: EthicalPrinciple, decision: EthicalDecision) -> bool:
         """Check if decision violates principle"""
         # Simplified violation detection
         if principle.name == "Do No Harm":
@@ -373,9 +371,7 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
         if utility_score > 0:
             evaluation.verdict = EthicalVerdict.APPROVED
             evaluation.confidence = min(0.9, 0.5 + (utility_score * 0.1))
-            evaluation.reasoning.append(
-                f"Net positive outcomes expected (score: {utility_score})"
-            )
+            evaluation.reasoning.append(f"Net positive outcomes expected (score: {utility_score})")
         elif utility_score == 0:
             evaluation.verdict = EthicalVerdict.REQUIRES_REVIEW
             evaluation.confidence = 0.5
@@ -578,14 +574,11 @@ class MetaEthicsGovernor:
         # Apply cultural weighting
         avg_confidence = total_confidence / len(evaluations)
         cultural_modifier = cultural_weights.get("individual_rights_priority", 0.7)
-        final_confidence = min(
-            0.95, avg_confidence * consensus_confidence * cultural_modifier
-        )
+        final_confidence = min(0.95, avg_confidence * consensus_confidence * cultural_modifier)
 
         # Determine if human review is required
         human_review_needed = (
-            final_verdict
-            in [EthicalVerdict.CULTURAL_CONFLICT, EthicalVerdict.REQUIRES_REVIEW]
+            final_verdict in [EthicalVerdict.CULTURAL_CONFLICT, EthicalVerdict.REQUIRES_REVIEW]
             or final_confidence < 0.6
             or decision.urgency.value >= Severity.HIGH.value
             or any(eval_result.human_review_required for eval_result in evaluations)
@@ -653,9 +646,7 @@ class MetaEthicsGovernor:
                     else:
                         callback(event_data)
                 except Exception as e:
-                    logger.warning(
-                        "ΛMEG: Event callback failed", event=event_type, error=str(e)
-                    )
+                    logger.warning("ΛMEG: Event callback failed", event=event_type, error=str(e))
 
     def add_ethical_engine(self, engine: EthicalFrameworkEngine):
         """Add a custom ethical framework engine"""
@@ -681,9 +672,7 @@ class MetaEthicsGovernor:
         for i, evaluation in enumerate(self.human_review_queue):
             if evaluation.evaluation_id == evaluation_id:
                 evaluation.verdict = resolution
-                evaluation.reasoning.append(
-                    f"Human review resolved: {resolution.value}"
-                )
+                evaluation.reasoning.append(f"Human review resolved: {resolution.value}")
                 del self.human_review_queue[i]
                 logger.info(
                     "ΛMEG: Human review resolved",
@@ -711,9 +700,7 @@ class MetaEthicsGovernor:
             ],
         }
 
-    async def quick_ethical_check(
-        self, action: str, context: dict[str, Any] = None
-    ) -> bool:
+    async def quick_ethical_check(self, action: str, context: dict[str, Any] = None) -> bool:
         """Quick ethical check for simple decisions"""
         decision = EthicalDecision(
             action_type="quick_check",

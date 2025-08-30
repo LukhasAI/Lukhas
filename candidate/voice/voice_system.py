@@ -32,6 +32,7 @@ logger = get_logger(__name__)
 
 class VoiceProcessingMode(Enum):
     """Enhanced voice processing modes"""
+
     REAL_TIME = "real_time"
     BATCH = "batch"
     STREAMING = "streaming"
@@ -41,15 +42,17 @@ class VoiceProcessingMode(Enum):
 
 class VoiceQualityLevel(Enum):
     """Voice quality levels for processing"""
-    LOW = "low"          # Fast, lower quality
-    MEDIUM = "medium"    # Balanced
-    HIGH = "high"        # Slower, higher quality
-    STUDIO = "studio"    # Highest quality, slowest
+
+    LOW = "low"  # Fast, lower quality
+    MEDIUM = "medium"  # Balanced
+    HIGH = "high"  # Slower, higher quality
+    STUDIO = "studio"  # Highest quality, slowest
 
 
 @dataclass
 class VoiceProcessingContext:
     """Enhanced context for voice processing"""
+
     user_id: Optional[str] = None
     session_id: Optional[str] = None
     conversation_context: dict[str, Any] = field(default_factory=dict)
@@ -81,13 +84,14 @@ class VoiceProcessingContext:
             "personality_traits": self.personality_traits,
             "time_of_day": self.time_of_day,
             "ambient_noise_level": self.ambient_noise_level,
-            "device_capabilities": self.device_capabilities
+            "device_capabilities": self.device_capabilities,
         }
 
 
 @dataclass
 class VoiceProcessingResult:
     """Result of voice processing operation"""
+
     success: bool
     audio_data: Optional[bytes] = None
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -105,7 +109,7 @@ class VoiceProcessingResult:
             "processing_time_ms": self.processing_time_ms,
             "quality_metrics": self.quality_metrics,
             "consciousness_insights": self.consciousness_insights,
-            "error_message": self.error_message
+            "error_message": self.error_message,
         }
 
 
@@ -118,10 +122,7 @@ class ConsciousnessVoiceAdapter:
         self.emotion_hub = EmotionHub()
         self.logger = get_logger(f"{__name__}.ConsciousnessVoiceAdapter")
 
-    async def analyze_context_for_voice(
-        self,
-        context: VoiceProcessingContext
-    ) -> dict[str, Any]:
+    async def analyze_context_for_voice(self, context: VoiceProcessingContext) -> dict[str, Any]:
         """Analyze context through consciousness lens for voice processing"""
         try:
             # Get consciousness state
@@ -149,24 +150,20 @@ class ConsciousnessVoiceAdapter:
                 ),
                 "recommended_voice_parameters": await self._generate_voice_recommendations(
                     consciousness_analysis, emotional_state, memory_context
-                )
+                ),
             }
 
             return insights
 
         except Exception as e:
-            self.logger.error(f"Consciousness analysis failed: {str(e)}")
-            return {
-                "consciousness_level": 0.5,
-                "dominant_emotion": "neutral",
-                "error": str(e)
-            }
+            self.logger.error(f"Consciousness analysis failed: {e!s}")
+            return {"consciousness_level": 0.5, "dominant_emotion": "neutral", "error": str(e)}
 
     def _calculate_contextual_relevance(
         self,
         context: VoiceProcessingContext,
         consciousness_analysis: dict[str, Any],
-        emotional_state: dict[str, Any]
+        emotional_state: dict[str, Any],
     ) -> float:
         """Calculate how relevant the context is for voice adaptation"""
         relevance_score = 0.5
@@ -189,13 +186,13 @@ class ConsciousnessVoiceAdapter:
         self,
         consciousness_analysis: dict[str, Any],
         emotional_state: dict[str, Any],
-        memory_context: list[dict[str, Any]]
+        memory_context: list[dict[str, Any]],
     ) -> dict[str, Any]:
         """Generate voice parameter recommendations based on consciousness state"""
         recommendations = {
             "modulation_mode": VoiceModulationMode.NATURAL,
             "parameters": VoiceParameters(),
-            "priority_adjustments": []
+            "priority_adjustments": [],
         }
 
         # Consciousness-based adjustments
@@ -244,26 +241,26 @@ class EnhancedVoiceProcessor:
                 "sample_rate": 22050,
                 "bit_depth": 16,
                 "processing_threads": 1,
-                "algorithm_complexity": "simple"
+                "algorithm_complexity": "simple",
             },
             VoiceQualityLevel.MEDIUM: {
                 "sample_rate": 44100,
                 "bit_depth": 16,
                 "processing_threads": 2,
-                "algorithm_complexity": "standard"
+                "algorithm_complexity": "standard",
             },
             VoiceQualityLevel.HIGH: {
                 "sample_rate": 48000,
                 "bit_depth": 24,
                 "processing_threads": 3,
-                "algorithm_complexity": "advanced"
+                "algorithm_complexity": "advanced",
             },
             VoiceQualityLevel.STUDIO: {
                 "sample_rate": 96000,
                 "bit_depth": 32,
                 "processing_threads": 4,
-                "algorithm_complexity": "premium"
-            }
+                "algorithm_complexity": "premium",
+            },
         }
 
         # Real-time processing queue
@@ -277,28 +274,32 @@ class EnhancedVoiceProcessor:
         self,
         text: str,
         context: VoiceProcessingContext,
-        mode: VoiceProcessingMode = VoiceProcessingMode.BATCH
+        mode: VoiceProcessingMode = VoiceProcessingMode.BATCH,
     ) -> VoiceProcessingResult:
         """Enhanced voice processing with consciousness integration"""
         start_time = time.time()
 
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "enhanced_voice_processing",
-                "text_length": len(text),
-                "context": context.to_dict(),
-                "mode": mode.value
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "enhanced_voice_processing",
+                    "text_length": len(text),
+                    "context": context.to_dict(),
+                    "mode": mode.value,
+                }
+            )
 
             if not validation_result.get("approved", False):
                 return VoiceProcessingResult(
                     success=False,
-                    error_message=f"Guardian rejected operation: {validation_result.get('reason')}"
+                    error_message=f"Guardian rejected operation: {validation_result.get('reason')}",
                 )
 
             # Analyze context through consciousness
-            consciousness_insights = await self.consciousness_adapter.analyze_context_for_voice(context)
+            consciousness_insights = await self.consciousness_adapter.analyze_context_for_voice(
+                context
+            )
 
             # Determine processing approach based on mode
             if mode == VoiceProcessingMode.REAL_TIME:
@@ -306,7 +307,9 @@ class EnhancedVoiceProcessor:
             elif mode == VoiceProcessingMode.STREAMING:
                 result = await self._process_streaming(text, context, consciousness_insights)
             elif mode == VoiceProcessingMode.CONSCIOUSNESS_DRIVEN:
-                result = await self._process_consciousness_driven(text, context, consciousness_insights)
+                result = await self._process_consciousness_driven(
+                    text, context, consciousness_insights
+                )
             else:  # BATCH or INTERACTIVE
                 result = await self._process_batch(text, context, consciousness_insights)
 
@@ -315,30 +318,30 @@ class EnhancedVoiceProcessor:
             result.processing_time_ms = (time.time() - start_time) * 1000
 
             # Emit GLYPH event
-            await GLYPH.emit("voice.processing.completed", {
-                "mode": mode.value,
-                "processing_time_ms": result.processing_time_ms,
-                "quality_level": context.quality_level.value,
-                "consciousness_insights": consciousness_insights,
-                "success": result.success
-            })
+            await GLYPH.emit(
+                "voice.processing.completed",
+                {
+                    "mode": mode.value,
+                    "processing_time_ms": result.processing_time_ms,
+                    "quality_level": context.quality_level.value,
+                    "consciousness_insights": consciousness_insights,
+                    "success": result.success,
+                },
+            )
 
             return result
 
         except Exception as e:
-            self.logger.error(f"Enhanced voice processing failed: {str(e)}")
+            self.logger.error(f"Enhanced voice processing failed: {e!s}")
 
             return VoiceProcessingResult(
                 success=False,
                 error_message=str(e),
-                processing_time_ms=(time.time() - start_time) * 1000
+                processing_time_ms=(time.time() - start_time) * 1000,
             )
 
     async def _process_real_time(
-        self,
-        text: str,
-        context: VoiceProcessingContext,
-        consciousness_insights: dict[str, Any]
+        self, text: str, context: VoiceProcessingContext, consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice with real-time constraints"""
         # Use lower quality settings for speed
@@ -359,16 +362,13 @@ class EnhancedVoiceProcessor:
                 "text": text,
                 "parameters": voice_params.to_dict(),
                 "quality_level": context.quality_level.value,
-                "latency_optimized": True
+                "latency_optimized": True,
             },
-            quality_metrics={"estimated_quality": 0.7}
+            quality_metrics={"estimated_quality": 0.7},
         )
 
     async def _process_streaming(
-        self,
-        text: str,
-        context: VoiceProcessingContext,
-        consciousness_insights: dict[str, Any]
+        self, text: str, context: VoiceProcessingContext, consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice for streaming output"""
         # Break text into chunks for streaming
@@ -383,16 +383,13 @@ class EnhancedVoiceProcessor:
                 "text": text,
                 "chunks": len(text_chunks),
                 "parameters": voice_params.to_dict(),
-                "streaming_ready": True
+                "streaming_ready": True,
             },
-            quality_metrics={"estimated_quality": 0.8}
+            quality_metrics={"estimated_quality": 0.8},
         )
 
     async def _process_consciousness_driven(
-        self,
-        text: str,
-        context: VoiceProcessingContext,
-        consciousness_insights: dict[str, Any]
+        self, text: str, context: VoiceProcessingContext, consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice with full consciousness integration"""
         # Use consciousness insights to heavily modify processing
@@ -419,16 +416,13 @@ class EnhancedVoiceProcessor:
                 "text": text,
                 "parameters": voice_params.to_dict(),
                 "consciousness_enhanced": True,
-                "consciousness_level": consciousness_level
+                "consciousness_level": consciousness_level,
             },
-            quality_metrics={"estimated_quality": 0.9}
+            quality_metrics={"estimated_quality": 0.9},
         )
 
     async def _process_batch(
-        self,
-        text: str,
-        context: VoiceProcessingContext,
-        consciousness_insights: dict[str, Any]
+        self, text: str, context: VoiceProcessingContext, consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice in batch mode with full quality"""
         voice_params = self._get_consciousness_adapted_parameters(consciousness_insights)
@@ -440,14 +434,13 @@ class EnhancedVoiceProcessor:
                 "text": text,
                 "parameters": voice_params.to_dict(),
                 "quality_level": context.quality_level.value,
-                "full_processing": True
+                "full_processing": True,
             },
-            quality_metrics={"estimated_quality": 0.85}
+            quality_metrics={"estimated_quality": 0.85},
         )
 
     def _get_consciousness_adapted_parameters(
-        self,
-        consciousness_insights: dict[str, Any]
+        self, consciousness_insights: dict[str, Any]
     ) -> VoiceParameters:
         """Get voice parameters adapted from consciousness insights"""
         recommendations = consciousness_insights.get("recommended_voice_parameters", {})
@@ -476,7 +469,7 @@ class EnhancedVoiceProcessor:
             "sadness": {"pitch_shift": 0.95, "speed_factor": 0.9},
             "anger": {"volume_gain": 1.1, "roughness": 0.1},
             "fear": {"pitch_shift": 1.1, "vibrato_rate": 2.0},
-            "surprise": {"pitch_shift": 1.15, "emotion_intensity": 1.3}
+            "surprise": {"pitch_shift": 1.15, "emotion_intensity": 1.3},
         }
 
         if dominant_emotion in emotion_adjustments:
@@ -541,9 +534,7 @@ class EnhancedVoiceProcessor:
 
                     # Process the task
                     result = await self.process_voice_enhanced(
-                        task_data["text"],
-                        task_data["context"],
-                        VoiceProcessingMode.REAL_TIME
+                        task_data["text"], task_data["context"], VoiceProcessingMode.REAL_TIME
                     )
 
                     # Notify completion if callback provided
@@ -556,7 +547,7 @@ class EnhancedVoiceProcessor:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                self.logger.error(f"Real-time worker error: {str(e)}")
+                self.logger.error(f"Real-time worker error: {e!s}")
                 await asyncio.sleep(0.1)
 
     def queue_real_time_processing(
@@ -564,14 +555,10 @@ class EnhancedVoiceProcessor:
         text: str,
         context: VoiceProcessingContext,
         priority: int = 5,
-        callback: Optional[Callable] = None
+        callback: Optional[Callable] = None,
     ):
         """Queue text for real-time processing"""
-        task_data = {
-            "text": text,
-            "context": context,
-            "callback": callback
-        }
+        task_data = {"text": text, "context": context, "callback": callback}
 
         self.processing_queue.put((priority, task_data))
 
@@ -606,7 +593,7 @@ class VoiceSystemEnhanced:
         session_id: Optional[str] = None,
         mode: VoiceProcessingMode = VoiceProcessingMode.BATCH,
         quality: VoiceQualityLevel = VoiceQualityLevel.MEDIUM,
-        additional_context: Optional[dict[str, Any]] = None
+        additional_context: Optional[dict[str, Any]] = None,
     ) -> VoiceProcessingResult:
         """
         Main interface for text-to-speech processing
@@ -627,7 +614,7 @@ class VoiceSystemEnhanced:
             user_id=user_id,
             session_id=session_id,
             conversation_context=additional_context or {},
-            quality_level=quality
+            quality_level=quality,
         )
 
         # Process with enhanced system
@@ -640,10 +627,7 @@ class VoiceSystemEnhanced:
         return result
 
     async def start_real_time_session(
-        self,
-        session_id: str,
-        user_id: Optional[str] = None,
-        callback: Optional[Callable] = None
+        self, session_id: str, user_id: Optional[str] = None, callback: Optional[Callable] = None
     ) -> bool:
         """Start real-time processing session"""
         try:
@@ -653,14 +637,14 @@ class VoiceSystemEnhanced:
                 "user_id": user_id,
                 "start_time": time.time(),
                 "callback": callback,
-                "mode": "real_time"
+                "mode": "real_time",
             }
 
             self.logger.info(f"Started real-time session: {session_id}")
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to start real-time session: {str(e)}")
+            self.logger.error(f"Failed to start real-time session: {e!s}")
             return False
 
     async def stop_real_time_session(self, session_id: str) -> bool:
@@ -677,15 +661,10 @@ class VoiceSystemEnhanced:
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to stop real-time session: {str(e)}")
+            self.logger.error(f"Failed to stop real-time session: {e!s}")
             return False
 
-    def queue_real_time_text(
-        self,
-        session_id: str,
-        text: str,
-        priority: int = 5
-    ):
+    def queue_real_time_text(self, session_id: str, text: str, priority: int = 5):
         """Queue text for real-time processing"""
         if session_id not in self.active_sessions:
             self.logger.warning(f"Session {session_id} not found for real-time processing")
@@ -695,30 +674,25 @@ class VoiceSystemEnhanced:
         context = VoiceProcessingContext(
             user_id=session.get("user_id"),
             session_id=session_id,
-            quality_level=VoiceQualityLevel.LOW  # Fast processing for real-time
+            quality_level=VoiceQualityLevel.LOW,  # Fast processing for real-time
         )
 
-        self.processor.queue_real_time_processing(
-            text, context, priority, session.get("callback")
-        )
+        self.processor.queue_real_time_processing(text, context, priority, session.get("callback"))
 
-    async def _update_session(
-        self,
-        session_id: str,
-        text: str,
-        result: VoiceProcessingResult
-    ):
+    async def _update_session(self, session_id: str, text: str, result: VoiceProcessingResult):
         """Update session with processing result"""
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = {
                 "created": time.time(),
                 "texts_processed": 0,
-                "total_processing_time": 0.0
+                "total_processing_time": 0.0,
             }
 
         session = self.active_sessions[session_id]
         session["texts_processed"] = session.get("texts_processed", 0) + 1
-        session["total_processing_time"] = session.get("total_processing_time", 0.0) + result.processing_time_ms
+        session["total_processing_time"] = (
+            session.get("total_processing_time", 0.0) + result.processing_time_ms
+        )
         session["last_text"] = text
         session["last_result"] = result.to_dict()
         session["updated"] = time.time()
@@ -736,11 +710,11 @@ class VoiceSystemEnhanced:
 
 # Export main classes
 __all__ = [
-    "VoiceSystemEnhanced",
+    "ConsciousnessVoiceAdapter",
     "EnhancedVoiceProcessor",
     "VoiceProcessingContext",
-    "VoiceProcessingResult",
     "VoiceProcessingMode",
+    "VoiceProcessingResult",
     "VoiceQualityLevel",
-    "ConsciousnessVoiceAdapter"
+    "VoiceSystemEnhanced",
 ]

@@ -137,30 +137,20 @@ class ProtonGradient:
     """Simulates bio-inspired quantum-enhanced gradient processing."""
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
-        self.qi_oscillator: QIOscillator = (
-            qi_oscillator or QIOscillator()
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.gradient_state_vector = np.zeros(3, dtype=float)
         self.log.info("ProtonGradient component initialized.")
 
     @lukhas_tier_required(2)
     def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Processes input data through a quantum-modulated gradient."""
-        self.log.debug(
-            "Processing input via ProtonGradient.", input_keys=list(input_data.keys())
-        )
+        self.log.debug("Processing input via ProtonGradient.", input_keys=list(input_data.keys()))
         try:
             numeric_values = [
-                float(val)
-                for val in input_data.values()
-                if isinstance(val, (int, float))
+                float(val) for val in input_data.values() if isinstance(val, (int, float))
             ]
-            string_lengths = [
-                len(str(val)) for val in input_data.values() if isinstance(val, str)
-            ]
+            string_lengths = [len(str(val)) for val in input_data.values() if isinstance(val, str)]
             total_numeric_sum = sum(numeric_values)
             total_string_len_sum = sum(string_lengths)
             num_items = len(numeric_values) + len(string_lengths)
@@ -170,9 +160,7 @@ class ProtonGradient:
                 gradient_strength = 0.0
             else:
                 gradient_strength = (
-                    total_numeric_sum / max(1, len(numeric_values))
-                    if numeric_values
-                    else 0
+                    total_numeric_sum / max(1, len(numeric_values)) if numeric_values else 0
                 ) + (
                     total_string_len_sum / max(1, len(string_lengths)) / 10.0
                     if string_lengths
@@ -187,9 +175,7 @@ class ProtonGradient:
                 self.gradient_state_vector + random_influence
             )
 
-            processed_data = self._apply_gradient_to_data(
-                input_data, self.gradient_state_vector
-            )
+            processed_data = self._apply_gradient_to_data(input_data, self.gradient_state_vector)
             self.log.info(
                 "ProtonGradient processing complete.",
                 gradient_norm=np.linalg.norm(self.gradient_state_vector).item(),
@@ -202,7 +188,7 @@ class ProtonGradient:
                 exc_info=True,
             )
             return {
-                "error": f"ProtonGradient processing failed: {str(e)}",
+                "error": f"ProtonGradient processing failed: {e!s}",
                 **input_data,
             }
 
@@ -216,14 +202,10 @@ class ProtonGradient:
 
         for i, (key, value) in enumerate(data.items()):
             if isinstance(value, (int, float)):
-                effect_factor = gradient_effect_factors[
-                    i % len(gradient_effect_factors)
-                ]
+                effect_factor = gradient_effect_factors[i % len(gradient_effect_factors)]
                 processed_data[key] = value * (1.0 + effect_factor)
             elif isinstance(value, dict):
-                processed_data[key] = self._apply_gradient_to_data(
-                    value, gradient_vector * 0.9
-                )
+                processed_data[key] = self._apply_gradient_to_data(value, gradient_vector * 0.9)
             else:
                 processed_data[key] = value
         return processed_data
@@ -234,12 +216,8 @@ class QIAttentionGate:
     """Simulates a quantum-enhanced attention gating mechanism."""
 
     def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
-        self.bio_oscillator: QIBioOscillator = (
-            bio_oscillator or QIBioOscillator()
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.log.info("QIAttentionGate initialized.")
 
     @lukhas_tier_required(2)
@@ -279,19 +257,13 @@ class QIAttentionGate:
             weight_idx = 0
             for key, value in input_data.items():
                 if isinstance(value, (int, float)):
-                    if key in focus_map and weight_idx < len(
-                        normalized_attention_weights
-                    ):
-                        attended_data[key] = (
-                            value * normalized_attention_weights[weight_idx]
-                        )
+                    if key in focus_map and weight_idx < len(normalized_attention_weights):
+                        attended_data[key] = value * normalized_attention_weights[weight_idx]
                         weight_idx += 1
                     else:
                         attended_data[key] = value
                 elif isinstance(value, dict) and key in focus_map:
-                    nested_focus_map = {
-                        k: v * focus_map[key] for k, v in focus_map.items()
-                    }
+                    nested_focus_map = {k: v * focus_map[key] for k, v in focus_map.items()}
                     attended_data[key] = await self.attend(value, nested_focus_map)
                 else:
                     attended_data[key] = value
@@ -304,12 +276,10 @@ class QIAttentionGate:
                 error_message=str(e),
                 exc_info=True,
             )
-            return {"error": f"QIAttentionGate failed: {str(e)}", **input_data}
+            return {"error": f"QIAttentionGate failed: {e!s}", **input_data}
 
     @lukhas_tier_required(3)
-    def _normalize_attention_weights(
-        self, modulated_frequencies: np.ndarray
-    ) -> np.ndarray:
+    def _normalize_attention_weights(self, modulated_frequencies: np.ndarray) -> np.ndarray:
         """Normalizes attention weights using coherence-inspired processing from the bio-oscillator."""
         coherence_factor = self.bio_oscillator.get_coherence()
         exp_weights = np.exp(modulated_frequencies * coherence_factor)
@@ -324,9 +294,7 @@ class CristaFilter:
     """Simulates a bio-inspired filtering system with quantum enhancement, analogous to mitochondrial cristae."""
 
     def __init__(self):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.filter_state_params: dict[str, dict[str, float]] = {}
         self.log.info("CristaFilter initialized.")
 
@@ -373,12 +341,10 @@ class CristaFilter:
                 error_message=str(e),
                 exc_info=True,
             )
-            return {"error": f"CristaFilter failed: {str(e)}", **input_data}
+            return {"error": f"CristaFilter failed: {e!s}", **input_data}
 
     @lukhas_tier_required(3)
-    def _initialize_filter_state_params(
-        self, system_context_state: dict[str, Any]
-    ) -> None:
+    def _initialize_filter_state_params(self, system_context_state: dict[str, Any]) -> None:
         """Initializes filter state parameters based on the initial system context."""
         self.log.debug("Initializing crista filter state params.")
         for key in system_context_state:
@@ -389,9 +355,7 @@ class CristaFilter:
             }
 
     @lukhas_tier_required(3)
-    async def _update_filter_state_params(
-        self, system_context_state: dict[str, Any]
-    ) -> None:
+    async def _update_filter_state_params(self, system_context_state: dict[str, Any]) -> None:
         """Updates filter state parameters based on dynamic system changes (simulated)."""
         self.log.debug("Updating crista filter state params based on system context.")
         await asyncio.sleep(0.005)
@@ -439,9 +403,7 @@ class CardiolipinEncoder:
     """
 
     def __init__(self):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
         self.encoding_state: dict[str, Any] = {}
         self.log.info("CardiolipinEncoder initialized.")
 
@@ -457,30 +419,20 @@ class CardiolipinEncoder:
             # Ensure all data is serializable for JSON dump, simple conversion for
             # complex objects
             serializable_data = {
-                k: (
-                    str(v)
-                    if not isinstance(v, (str, int, float, bool, list, dict))
-                    else v
-                )
+                k: (str(v) if not isinstance(v, (str, int, float, bool, list, dict)) else v)
                 for k, v in identity_data.items()
             }
             encoded_data["lukhas_cardiolipin_signature"] = hashlib.sha256(
                 json.dumps(serializable_data, sort_keys=True).encode("utf-8")
             ).hexdigest()
-            encoded_data["encoding_timestamp_utc_iso"] = datetime.now(
-                timezone.utc
-            ).isoformat()
-            encoded_data["encoding_method_simulated"] = (
-                "SHA256_JSON_SORTED_STR_CONVERTED"
-            )
+            encoded_data["encoding_timestamp_utc_iso"] = datetime.now(timezone.utc).isoformat()
+            encoded_data["encoding_method_simulated"] = "SHA256_JSON_SORTED_STR_CONVERTED"
             self.log.info(
                 "Identity data encoded with Cardiolipin-inspired signature.",
                 signature_preview=encoded_data["lukhas_cardiolipin_signature"][:16],
             )
         except Exception as e:
-            self.log.error(
-                "Failed to encode identity data.", error_message=str(e), exc_info=True
-            )
+            self.log.error("Failed to encode identity data.", error_message=str(e), exc_info=True)
             encoded_data["lukhas_cardiolipin_signature"] = "ERROR_ENCODING"
             encoded_data["encoding_error"] = str(e)
         return encoded_data

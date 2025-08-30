@@ -19,9 +19,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # Set up logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -126,15 +124,11 @@ class ImportErrorFixer:
                         with open(file_path, "w", encoding="utf-8") as f:
                             f.writelines(lines)
 
-                        logger.info(
-                            f"✅ Fixed syntax in {error_info['file']}:{error_info['line']}"
-                        )
+                        logger.info(f"✅ Fixed syntax in {error_info['file']}:{error_info['line']}")
                         self.fixed_files.append(str(file_path))
 
             except Exception as e:
-                logger.error(
-                    f"❌ Could not fix syntax error in {error_info['file']}: {e}"
-                )
+                logger.error(f"❌ Could not fix syntax error in {error_info['file']}: {e}")
 
     def fix_common_syntax_issues(self, line: str) -> str:
         """Fix common syntax issues in a line"""
@@ -169,9 +163,7 @@ class ImportErrorFixer:
             if old_pattern in stripped:
                 if stripped.startswith("from ") or stripped.startswith("import "):
                     # Replace the pattern in import statements
-                    stripped = stripped.replace(
-                        old_pattern, new_pattern.split(" import")[0]
-                    )
+                    stripped = stripped.replace(old_pattern, new_pattern.split(" import")[0])
 
         return indent + stripped
 
@@ -315,16 +307,12 @@ class ImportErrorFixer:
                     return str(path.relative_to(self.root_path)).replace("/", ".")
                 elif path.with_suffix(".py").exists():
                     return (
-                        str(path.relative_to(self.root_path))
-                        .replace("/", ".")
-                        .replace(".py", "")
+                        str(path.relative_to(self.root_path)).replace("/", ".").replace(".py", "")
                     )
 
         return None
 
-    def update_import_in_file(
-        self, file_path_str: str, old_import: str, new_import: str
-    ) -> None:
+    def update_import_in_file(self, file_path_str: str, old_import: str, new_import: str) -> None:
         """Update import statement in a file"""
         file_path = self.root_path / file_path_str
 
@@ -355,9 +343,7 @@ class ImportErrorFixer:
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
 
-                logger.info(
-                    f"✅ Updated import {old_import} -> {new_import} in {file_path_str}"
-                )
+                logger.info(f"✅ Updated import {old_import} -> {new_import} in {file_path_str}")
                 self.fixed_files.append(file_path_str)
 
         except Exception as e:
@@ -388,9 +374,7 @@ class ImportErrorFixer:
         """Report external modules that need to be installed"""
         if external_modules:
             logger.info("📦 External modules that may need installation:")
-            for module_name, files in list(external_modules.items())[
-                :10
-            ]:  # Show first 10
+            for module_name, files in list(external_modules.items())[:10]:  # Show first 10
                 logger.info(f"   • {module_name} (used in {len(files)} files)")
 
     def create_missing_init_files(self) -> None:
@@ -404,16 +388,13 @@ class ImportErrorFixer:
                 and any(directory.rglob("*.py"))
                 and not (directory / "__init__.py").exists()
             ):
-
                 init_file = directory / "__init__.py"
                 module_name = directory.name.replace("_", " ").title()
 
                 with open(init_file, "w", encoding="utf-8") as f:
                     f.write(f'"""\n{module_name} Module\n"""\n\n')
 
-                logger.info(
-                    f"✅ Created __init__.py in {directory.relative_to(self.root_path)}"
-                )
+                logger.info(f"✅ Created __init__.py in {directory.relative_to(self.root_path)}")
                 self.fixed_files.append(str(init_file))
 
     def fix_common_import_patterns(self) -> None:

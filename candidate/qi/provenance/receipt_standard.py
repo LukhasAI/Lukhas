@@ -14,38 +14,48 @@ try:
 except Exception:
     _HAS_PROV = False
 
+
 def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
 
 def _semantic_hash(vector: list[float] | None) -> str | None:
     if not vector:
         return None
     # simple stable hash (don't store vector by default)
-    return _sha256(json.dumps([round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False).encode())
+    return _sha256(
+        json.dumps(
+            [round(x, 6) for x in vector], separators=(",", ":"), ensure_ascii=False
+        ).encode()
+    )
+
 
 @dataclass
 class ProvEntity:
-    id: str                    # "entity:artifact:<sha>"
-    type: str                  # e.g., "artifact", "prompt", "model_output"
+    id: str  # "entity:artifact:<sha>"
+    type: str  # e.g., "artifact", "prompt", "model_output"
     digest_sha256: str | None = None
     mime_type: str | None = None
     size_bytes: int | None = None
     storage_url: str | None = None
 
+
 @dataclass
 class ProvAgent:
-    id: str                    # "agent:user:<id>", "agent:service:<name>"
-    role: str                  # "user"|"service"|"system"
+    id: str  # "agent:user:<id>", "agent:service:<name>"
+    role: str  # "user"|"service"|"system"
     meta: dict[str, Any] = None
+
 
 @dataclass
 class ProvActivity:
-    id: str                    # "activity:run:<run_id>"
-    type: str                  # e.g., "generate_summary"
+    id: str  # "activity:run:<run_id>"
+    type: str  # e.g., "generate_summary"
     started_at: float = 0.0
     ended_at: float = 0.0
     jurisdiction: str | None = None
     context: str | None = None
+
 
 @dataclass
 class Receipt:
@@ -74,6 +84,7 @@ class Receipt:
     schema_version: str = "prov-1.0.0"
     created_at: float = 0.0
     id: str = ""  # stable id for sinks
+
 
 def build_receipt(
     *,
@@ -123,20 +134,27 @@ def build_receipt(
     )
 
     # Stable, privacy-safe receipt id
-    rid = _sha256(json.dumps({
-        "artifact": artifact_sha,
-        "run": run_id,
-        "task": task,
-        "t": int(created)
-    }, sort_keys=True, separators=(",", ":")).encode())
+    rid = _sha256(
+        json.dumps(
+            {"artifact": artifact_sha, "run": run_id, "task": task, "t": int(created)},
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode()
+    )
 
     # Optional signature (Merkle + ed25519)
     att: dict[str, Any] | None = None
     if _HAS_PROV:
         steps = [
-            {"phase":"entity", "sha": artifact_sha, "mime": artifact_mime, "size": artifact_size},
-            {"phase":"activity", "run_id": run_id, "task": task, "jurisdiction": jurisdiction, "context": context},
-            {"phase":"agents", "agents": [a.id for a in agents]},
+            {"phase": "entity", "sha": artifact_sha, "mime": artifact_mime, "size": artifact_size},
+            {
+                "phase": "activity",
+                "run_id": run_id,
+                "task": task,
+                "jurisdiction": jurisdiction,
+                "context": context,
+            },
+            {"phase": "agents", "agents": [a.id for a in agents]},
         ] + (extra_steps or [])
         ch = merkle_chain(steps)
         at = attest(ch, tag="receipt")
@@ -157,13 +175,15 @@ def build_receipt(
         risk_flags=risk_flags or [],
         embedding_hash=_semantic_hash(embedding_vector),
         latency_ms=int((ended_at - started_at) * 1000) if ended_at and started_at else None,
-        tokens_in=tokens_in, tokens_out=tokens_out,
+        tokens_in=tokens_in,
+        tokens_out=tokens_out,
         metrics=metrics,
         attestation=att,
         schema_version="prov-1.0.0",
         created_at=created,
         id=rid,
     )
+
 
 def to_json(receipt: Receipt) -> dict[str, Any]:
     d = asdict(receipt)

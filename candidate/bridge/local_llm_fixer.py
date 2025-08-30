@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class FixType(Enum):
     """Types of fixes we can apply"""
+
     SYNTAX_ERROR = "syntax_error"
     UNDEFINED_NAME = "undefined_name"
     UNUSED_IMPORT = "unused_import"
@@ -33,6 +34,7 @@ class FixType(Enum):
 @dataclass
 class CodeIssue:
     """Represents a code issue to fix"""
+
     file_path: str
     line_number: int
     issue_type: FixType
@@ -44,6 +46,7 @@ class CodeIssue:
 @dataclass
 class CodeFix:
     """Represents a proposed fix"""
+
     issue: CodeIssue
     original_code: str
     fixed_code: str
@@ -61,7 +64,7 @@ class LocalLLMFixer:
         self,
         ollama_host: str = "http://localhost:11434",
         model: str = "deepseek-coder:6.7b",
-        guardian_threshold: float = 0.85
+        guardian_threshold: float = 0.85,
     ):
         self.ollama_host = ollama_host
         self.model = model
@@ -106,14 +109,16 @@ class LocalLLMFixer:
             try:
                 ast.parse(content)
             except SyntaxError as e:
-                issues.append(CodeIssue(
-                    file_path=file_path,
-                    line_number=e.lineno or 0,
-                    issue_type=FixType.SYNTAX_ERROR,
-                    message=str(e),
-                    code_context=self._get_context(content, e.lineno or 0),
-                    severity=1.0
-                ))
+                issues.append(
+                    CodeIssue(
+                        file_path=file_path,
+                        line_number=e.lineno or 0,
+                        issue_type=FixType.SYNTAX_ERROR,
+                        message=str(e),
+                        code_context=self._get_context(content, e.lineno or 0),
+                        severity=1.0,
+                    )
+                )
 
             # Run ruff for other issues
             issues.extend(await self._run_ruff_analysis(file_path))
@@ -131,20 +136,22 @@ class LocalLLMFixer:
             result = subprocess.run(
                 ["python3", "-m", "ruff", "check", file_path, "--output-format", "json"],
                 capture_output=True,
-                text=True
+                text=True,
             )
 
             if result.stdout:
                 ruff_issues = json.loads(result.stdout)
                 for issue in ruff_issues:
-                    issues.append(CodeIssue(
-                        file_path=file_path,
-                        line_number=issue.get("location", {}).get("row", 0),
-                        issue_type=self._map_ruff_code(issue.get("code", "")),
-                        message=issue.get("message", ""),
-                        code_context="",  # Will be filled later
-                        severity=0.7 if issue.get("code", "").startswith("F") else 0.5
-                    ))
+                    issues.append(
+                        CodeIssue(
+                            file_path=file_path,
+                            line_number=issue.get("location", {}).get("row", 0),
+                            issue_type=self._map_ruff_code(issue.get("code", "")),
+                            message=issue.get("message", ""),
+                            code_context="",  # Will be filled later
+                            severity=0.7 if issue.get("code", "").startswith("F") else 0.5,
+                        )
+                    )
         except Exception as e:
             logger.error(f"Ruff analysis failed: {e}")
 
@@ -232,9 +239,9 @@ Fixed code:"""
                     "options": {
                         "temperature": 0.3,  # Low temperature for code fixes
                         "top_p": 0.9,
-                        "max_tokens": 500
-                    }
-                }
+                        "max_tokens": 500,
+                    },
+                },
             ) as resp:
                 if resp.status == 200:
                     data = await resp.json()
@@ -244,10 +251,7 @@ Fixed code:"""
         return None
 
     def _parse_fix_response(
-        self,
-        issue: CodeIssue,
-        response: str,
-        lines: list[str]
+        self, issue: CodeIssue, response: str, lines: list[str]
     ) -> Optional[CodeFix]:
         """Parse LLM response into a CodeFix"""
         # Clean the response
@@ -269,7 +273,7 @@ Fixed code:"""
             original_code=original_code,
             fixed_code=fixed_code,
             confidence=confidence,
-            explanation=f"Auto-fixed {issue.issue_type.value}"
+            explanation=f"Auto-fixed {issue.issue_type.value}",
         )
 
     def _calculate_confidence(self, fix_type: FixType, fixed_code: str) -> float:
@@ -281,7 +285,7 @@ Fixed code:"""
             FixType.SYNTAX_ERROR: 0.70,
             FixType.UNDEFINED_NAME: 0.60,
             FixType.TYPE_ANNOTATION: 0.75,
-            FixType.DOCSTRING: 0.85
+            FixType.DOCSTRING: 0.85,
         }
 
         base_confidence = confidence_map.get(fix_type, 0.5)
@@ -297,7 +301,9 @@ Fixed code:"""
     async def apply_fix(self, fix: CodeFix, dry_run: bool = False) -> bool:
         """Apply a fix to the file"""
         if fix.confidence < self.guardian_threshold:
-            logger.warning(f"Fix confidence {fix.confidence} below threshold {self.guardian_threshold}")
+            logger.warning(
+                f"Fix confidence {fix.confidence} below threshold {self.guardian_threshold}"
+            )
             return False
 
         try:
@@ -326,7 +332,9 @@ Fixed code:"""
                     self.failed_fixes.append(fix)
                     return False
             else:
-                logger.info(f"[DRY RUN] Would apply fix to {fix.issue.file_path}:{fix.issue.line_number}")
+                logger.info(
+                    f"[DRY RUN] Would apply fix to {fix.issue.file_path}:{fix.issue.line_number}"
+                )
                 return True
 
         except Exception as e:
@@ -341,7 +349,7 @@ Fixed code:"""
             "issues_found": 0,
             "fixes_applied": 0,
             "fixes_failed": 0,
-            "fixes": []
+            "fixes": [],
         }
 
         # Analyze the file
@@ -357,11 +365,9 @@ Fixed code:"""
                     results["fixes_applied"] += 1
                 else:
                     results["fixes_failed"] += 1
-                results["fixes"].append({
-                    "issue": issue.message,
-                    "confidence": fix.confidence,
-                    "success": success
-                })
+                results["fixes"].append(
+                    {"issue": issue.message, "confidence": fix.confidence, "success": success}
+                )
 
         return results
 
@@ -370,8 +376,10 @@ Fixed code:"""
         return {
             "successful_fixes": len(self.successful_fixes),
             "failed_fixes": len(self.failed_fixes),
-            "success_rate": len(self.successful_fixes) / max(1, len(self.successful_fixes) + len(self.failed_fixes)),
-            "average_confidence": sum(f.confidence for f in self.successful_fixes) / max(1, len(self.successful_fixes))
+            "success_rate": len(self.successful_fixes)
+            / max(1, len(self.successful_fixes) + len(self.failed_fixes)),
+            "average_confidence": sum(f.confidence for f in self.successful_fixes)
+            / max(1, len(self.successful_fixes)),
         }
 
 
@@ -380,7 +388,9 @@ async def main():
     async with LocalLLMFixer() as fixer:
         # Check if Ollama is available
         if not await fixer.check_ollama_available():
-            print("❌ Ollama not available. Please install and run Ollama with deepseek-coder model.")
+            print(
+                "❌ Ollama not available. Please install and run Ollama with deepseek-coder model."
+            )
             print("   brew install ollama")
             print("   ollama pull deepseek-coder:6.7b")
             print("   ollama serve")

@@ -173,9 +173,7 @@ class EmotionalFilter:
         logger.info(f"Created emotional profile for user {user_id}")
         return profile
 
-    async def update_emotional_state(
-        self, user_id: str, emotional_vector: EmotionalVector
-    ) -> bool:
+    async def update_emotional_state(self, user_id: str, emotional_vector: EmotionalVector) -> bool:
         """Update user's current emotional state"""
         if user_id not in self.user_profiles:
             logger.error(f"User profile not found: {user_id}")
@@ -183,17 +181,13 @@ class EmotionalFilter:
 
         try:
             # Calculate emotional momentum
-            if user_id in self.emotional_history and self.emotional_history[user_id]:
+            if self.emotional_history.get(user_id):
                 last_timestamp, last_vector = self.emotional_history[user_id][-1]
-                time_delta = (
-                    datetime.now() - last_timestamp
-                ).total_seconds() / 60.0  # minutes
+                time_delta = (datetime.now() - last_timestamp).total_seconds() / 60.0  # minutes
 
                 if time_delta > 0:
                     stress_change = emotional_vector.stress - last_vector.stress
-                    emotional_vector.emotional_momentum = stress_change / max(
-                        1.0, time_delta
-                    )
+                    emotional_vector.emotional_momentum = stress_change / max(1.0, time_delta)
 
             # Store in history
             self.emotional_history[user_id].append((datetime.now(), emotional_vector))
@@ -240,7 +234,7 @@ class EmotionalFilter:
 
         # Use provided state or get most recent
         if current_emotional_state is None:
-            if user_id in self.emotional_history and self.emotional_history[user_id]:
+            if self.emotional_history.get(user_id):
                 _, current_emotional_state = self.emotional_history[user_id][-1]
             else:
                 current_emotional_state = profile.baseline_vector
@@ -283,9 +277,7 @@ class EmotionalFilter:
 
             # 6. Circadian considerations
             if self.config["circadian_awareness"]:
-                circadian_check = await self._check_circadian_compatibility(
-                    message, profile
-                )
+                circadian_check = await self._check_circadian_compatibility(message, profile)
                 if not circadian_check["approved"]:
                     return circadian_check
 
@@ -303,7 +295,7 @@ class EmotionalFilter:
             logger.error(f"Error in emotional filtering: {e}")
             return {
                 "approved": False,
-                "reason": f"Filtering error: {str(e)}",
+                "reason": f"Filtering error: {e!s}",
                 "action": "block",
             }
 
@@ -440,9 +432,7 @@ class EmotionalFilter:
                 "approved": False,
                 "reason": f"Message intensity ({message_intensity:.2f}) exceeds attention capacity ({adjusted_capacity:.2f})",
                 "action": "transform",
-                "suggested_intensity": min(
-                    adjusted_capacity * 0.8, message_intensity * 0.7
-                ),
+                "suggested_intensity": min(adjusted_capacity * 0.8, message_intensity * 0.7),
             }
 
         return {"approved": True}
@@ -518,10 +508,7 @@ class EmotionalFilter:
         # Evening sensitivity
         if 18 <= current_hour <= 22:
             evening_sensitivity = circadian_prefs.get("evening_sensitivity", 1.0)
-            if (
-                evening_sensitivity > 1.0
-                and message.emotional_tone == EmotionalState.CALM
-            ):
+            if evening_sensitivity > 1.0 and message.emotional_tone == EmotionalState.CALM:
                 # Evening is a good time for calming messages
                 return {"approved": True, "reason": "Evening calm message preferred"}
 
@@ -556,9 +543,7 @@ class EmotionalFilter:
             recommendations["method"] = "voice"
 
         # Intensity adjustments
-        optimal_intensity = min(
-            message.intensity, emotional_state.attention_capacity * 0.9
-        )
+        optimal_intensity = min(message.intensity, emotional_state.attention_capacity * 0.9)
         if optimal_intensity != message.intensity:
             recommendations["intensity_adjustment"] = optimal_intensity
 
@@ -591,22 +576,14 @@ class EmotionalFilter:
             "stress": {
                 "current": stress_values[-1],
                 "average": sum(stress_values) / len(stress_values),
-                "trend": (
-                    "increasing"
-                    if stress_values[-1] > stress_values[0]
-                    else "decreasing"
-                ),
+                "trend": ("increasing" if stress_values[-1] > stress_values[0] else "decreasing"),
                 "peak": max(stress_values),
                 "low": min(stress_values),
             },
             "energy": {
                 "current": energy_values[-1],
                 "average": sum(energy_values) / len(energy_values),
-                "trend": (
-                    "increasing"
-                    if energy_values[-1] > energy_values[0]
-                    else "decreasing"
-                ),
+                "trend": ("increasing" if energy_values[-1] > energy_values[0] else "decreasing"),
             },
             "focus": {
                 "current": focus_values[-1],
@@ -630,9 +607,7 @@ class EmotionalFilter:
         avg_stress = sum(stress_values) / len(stress_values)
 
         if avg_stress > 0.7:
-            recommendations.append(
-                "Consider stress reduction techniques - average stress is high"
-            )
+            recommendations.append("Consider stress reduction techniques - average stress is high")
 
         focus_values = [vector.focus for _, vector in history]
         focus_periods = [v for v in focus_values if v >= 0.8]
@@ -644,8 +619,7 @@ class EmotionalFilter:
 
         # Check for emotional volatility
         stress_changes = [
-            abs(stress_values[i] - stress_values[i - 1])
-            for i in range(1, len(stress_values))
+            abs(stress_values[i] - stress_values[i - 1]) for i in range(1, len(stress_values))
         ]
         if stress_changes and sum(stress_changes) / len(stress_changes) > 0.3:
             recommendations.append(

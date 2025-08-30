@@ -60,9 +60,7 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
         """Fallback stub for AuditLogger"""
 
         def log_access_denied(self, agent_id, func_name, tier, min_tier):
-            print(
-                f"ACCESS DENIED: {agent_id} tried {func_name} with tier {tier}, needs {min_tier}"
-            )
+            print(f"ACCESS DENIED: {agent_id} tried {func_name} with tier {tier}, needs {min_tier}")
 
         def log_access_granted(self, agent_id, func_name, tier):
             print(f"ACCESS GRANTED: {agent_id} executed {func_name} with tier {tier}")
@@ -245,12 +243,8 @@ class IdentityConnector:
                 # Simplified check - in full implementation would validate session
                 if session_id.startswith("agent_session_"):
                     # Get user permissions
-                    user = self.users.get(
-                        "system_admin"
-                    )  # Default to system admin for agents
-                    if (
-                        user and user.current_tier.value >= 3
-                    ):  # T3+ required for most operations
+                    user = self.users.get("system_admin")  # Default to system admin for agents
+                    if user and user.current_tier.value >= 3:  # T3+ required for most operations
                         return (
                             AccessDecision.ALLOW.value,
                             f"Access granted for {resource}",
@@ -339,9 +333,7 @@ class IdentityConnector:
                 return event_id
 
             def log_event(self, source, event_type, data=None):
-                self._events.append(
-                    {"source": source, "event_type": event_type, "data": data}
-                )
+                self._events.append({"source": source, "event_type": event_type, "data": data})
 
         return SyncAuditLogger()
 
@@ -366,9 +358,7 @@ class IdentityConnector:
             async def verify_access(self, agent_id: str, resource: str) -> bool:
                 return True
 
-            async def check_access(
-                self, session_id: str, resource: str, access_type: str
-            ):
+            async def check_access(self, session_id: str, resource: str, access_type: str):
                 return ("allow", "stub_implementation")
 
         return AccessControlStub()
@@ -387,9 +377,7 @@ class IdentityConnector:
 
                 return MonitorContext()
 
-            async def assess_safety(
-                self, content: str, context: dict, user_intent: str = None
-            ):
+            async def assess_safety(self, content: str, context: dict, user_intent: str = None):
                 # Stub assessment - always safe
                 from dataclasses import dataclass
                 from datetime import datetime
@@ -575,23 +563,17 @@ class IdentityConnector:
             trusted_name in str(type(module_instance).__module__)
             for trusted_name in trusted_modules
         ):
-            raise SecurityError(
-                f"Untrusted module source: {type(module_instance).__module__}"
-            )
+            raise SecurityError(f"Untrusted module source: {type(module_instance).__module__}")
 
         if self._implementation_type == "production":
             # Real implementation with full audit trail and controlled method injection
 
             # Create secure wrappers instead of direct injection
             def create_secure_check_access(access_control):
-                async def secure_check_access(
-                    session_id: str, resource: str, access_type
-                ):
+                async def secure_check_access(session_id: str, resource: str, access_type):
                     if not isinstance(session_id, str) or not isinstance(resource, str):
                         raise ValueError("session_id and resource must be strings")
-                    return await access_control.check_access(
-                        session_id, resource, access_type
-                    )
+                    return await access_control.check_access(session_id, resource, access_type)
 
                 return secure_check_access
 
@@ -599,9 +581,7 @@ class IdentityConnector:
                 async def secure_log_audit(
                     action, enforcement_type, details, user_id=None, session_id=None
                 ):
-                    if not isinstance(action, str) or not isinstance(
-                        enforcement_type, str
-                    ):
+                    if not isinstance(action, str) or not isinstance(enforcement_type, str):
                         raise ValueError("action and enforcement_type must be strings")
                     return await audit_logger.log_constitutional_enforcement(
                         action, enforcement_type, details, user_id, session_id
@@ -618,13 +598,9 @@ class IdentityConnector:
                 return secure_monitor_safety
 
             # Use controlled method injection with validation wrappers
-            module_instance._check_access = create_secure_check_access(
-                self.access_control
-            )
+            module_instance._check_access = create_secure_check_access(self.access_control)
             module_instance._log_audit = create_secure_log_audit(self.audit_logger)
-            module_instance._monitor_safety = create_secure_monitor_safety(
-                self.safety_monitor
-            )
+            module_instance._monitor_safety = create_secure_monitor_safety(self.safety_monitor)
 
             # Log connection using real audit system
             await self.audit_logger.log_constitutional_enforcement(
@@ -657,9 +633,7 @@ class IdentityConnector:
                     return self._create_safety_monitor_stub().monitor_operation(
                         "invalid", "invalid"
                     )
-                return self._create_safety_monitor_stub().monitor_operation(
-                    agent_id, operation
-                )
+                return self._create_safety_monitor_stub().monitor_operation(agent_id, operation)
 
             module_instance._check_access = stub_check_access
             module_instance._log_audit = stub_log_audit
@@ -713,18 +687,12 @@ class IdentityConnector:
         """Get current implementation status and capabilities."""
         return {
             "type": self._implementation_type,
-            "access_control": (
-                "real" if self._implementation_type == "production" else "stub"
-            ),
+            "access_control": ("real" if self._implementation_type == "production" else "stub"),
             "safety_monitor": (
-                "constitutional_ai"
-                if self._implementation_type == "production"
-                else "stub"
+                "constitutional_ai" if self._implementation_type == "production" else "stub"
             ),
             "audit_logger": (
-                "full_compliance"
-                if self._implementation_type == "production"
-                else "stub"
+                "full_compliance" if self._implementation_type == "production" else "stub"
             ),
             "features": {
                 "tiered_access_t1_t5": self._implementation_type == "production",

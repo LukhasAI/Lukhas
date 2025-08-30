@@ -176,9 +176,7 @@ class SymbolicReasoner:
                 conclusion_id = f"Conc_{conclusion_counter}"
 
                 rule_label = f"Rule {i}\\nPattern: {self._format_props(rule['pattern'])}\\nDerives: {self._format_props(rule['conclusion'])}\\nRule Confidence: {rule['confidence']:.2f}"
-                dot_lines.append(
-                    f'  {rule_id} [label="{rule_label}", fillcolor="#F5F6CE"];'
-                )
+                dot_lines.append(f'  {rule_id} [label="{rule_label}", fillcolor="#F5F6CE"];')
                 dot_lines.append(
                     f'  S_{symbol.name} -> {rule_id} [label="matches (score: {match_score:.2f})"];'
                 )
@@ -272,9 +270,7 @@ class SymbolicReasoner:
 
         return patterns
 
-    def _find_relationship_patterns(
-        self, symbols: list[Symbol]
-    ) -> list[dict[str, Any]]:
+    def _find_relationship_patterns(self, symbols: list[Symbol]) -> list[dict[str, Any]]:
         """Find patterns in symbol relationships"""
         patterns = []
 

@@ -232,9 +232,7 @@ def show_data_flow_example():
     print("   → detects: {'anger': 0.3, 'fear': 0.4, 'sadness': 0.2}")
     print("   ↓")
     print("2️⃣  consciousness.auto_consciousness.assess_awareness()")
-    print(
-        "   → returns: {'awareness_level': 0.85, 'attention_targets': ['user_stress']}"
-    )
+    print("   → returns: {'awareness_level': 0.85, 'attention_targets': ['user_stress']}")
     print("   ↓")
     print("3️⃣  bio.endocrine_integration.get_hormone_levels()")
     print("   → simulates: {'cortisol': 0.8, 'adrenaline': 0.7, 'gaba': 0.3}")

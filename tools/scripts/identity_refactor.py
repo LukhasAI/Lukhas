@@ -17,8 +17,7 @@ class IdentityRefactor:
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.backup_dir = (
-            self.workspace
-            / f".identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            self.workspace / f".identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         self.changes = []
 
@@ -237,9 +236,7 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = \
 
         updated_files = 0
         for py_file in self.workspace.rglob("*.py"):
-            if ".identity_backup" in str(py_file) or str(py_file).endswith(
-                "identity_refactor.py"
-            ):
+            if ".identity_backup" in str(py_file) or str(py_file).endswith("identity_refactor.py"):
                 continue
 
             try:

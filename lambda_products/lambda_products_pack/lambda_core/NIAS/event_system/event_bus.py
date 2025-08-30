@@ -171,9 +171,7 @@ class NIASEventBus:
             self._user_event_history[user_id].append(event)
             # Keep only recent events per user (last 100)
             if len(self._user_event_history[user_id]) > 100:
-                self._user_event_history[user_id] = self._user_event_history[user_id][
-                    -100:
-                ]
+                self._user_event_history[user_id] = self._user_event_history[user_id][-100:]
 
         # Track correlated events
         if correlation_id:
@@ -218,9 +216,7 @@ class NIASEventBus:
             priority=3,
         )
 
-        logger.info(
-            f"Message processing started: {message_id} (correlation: {correlation_id})"
-        )
+        logger.info(f"Message processing started: {message_id} (correlation: {correlation_id})")
         return correlation_id
 
     async def complete_message_processing(
@@ -350,20 +346,13 @@ class NIASEventBus:
                         event.processed = True
 
                     except Exception as e:
-                        logger.error(
-                            f"Error in event handler for {event.event_type}: {e}"
-                        )
+                        logger.error(f"Error in event handler for {event.event_type}: {e}")
                         self._events_failed += 1
 
                         # Retry logic for critical events
-                        if (
-                            event.priority >= 4
-                            and event.retry_count < event.max_retries
-                        ):
+                        if event.priority >= 4 and event.retry_count < event.max_retries:
                             event.retry_count += 1
-                            await asyncio.sleep(
-                                2**event.retry_count
-                            )  # Exponential backoff
+                            await asyncio.sleep(2**event.retry_count)  # Exponential backoff
                             await self._priority_queue.put((10 - event.priority, event))
                             return
 
@@ -402,18 +391,14 @@ class NIASEventBus:
             "messages_delivered": self._messages_delivered,
             "messages_blocked": self._messages_blocked,
             "delivery_rate": (
-                self._messages_delivered
-                / max(1, self._messages_delivered + self._messages_blocked)
+                self._messages_delivered / max(1, self._messages_delivered + self._messages_blocked)
             ),
             "success_rate": (
-                self._events_processed
-                / max(1, self._events_processed + self._events_failed)
+                self._events_processed / max(1, self._events_processed + self._events_failed)
             ),
             "active_users": len(self._user_event_history),
             "active_correlations": len(self._correlation_tracking),
-            "subscriber_count": sum(
-                len(callbacks) for callbacks in self._subscribers.values()
-            ),
+            "subscriber_count": sum(len(callbacks) for callbacks in self._subscribers.values()),
             "unique_event_types": len(self._subscribers),
             "average_events_per_second": self._events_processed / max(1, uptime),
         }

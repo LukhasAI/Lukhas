@@ -375,9 +375,7 @@ class AuthGlyphRegistry:
         try:
             # Get tier GLYPH
             tier_glyph_obj = self.get_tier_glyph(tier_level)
-            tier_glyph = (
-                tier_glyph_obj.symbol if tier_glyph_obj else f"🏆{tier_level[-1]}"
-            )
+            tier_glyph = tier_glyph_obj.symbol if tier_glyph_obj else f"🏆{tier_level[-1]}"
 
             # Create access GLYPH based on context
             if access_context.get("granted", False):
@@ -503,9 +501,7 @@ class AuthGlyphRegistry:
                 session_context = {
                     "active": True,
                     "session_id": session_id,
-                    "consciousness_integration": metadata.get(
-                        "consciousness_integration", False
-                    ),
+                    "consciousness_integration": metadata.get("consciousness_integration", False),
                 }
 
                 symbolic_identity = self.create_symbolic_identity(
@@ -536,15 +532,11 @@ class AuthGlyphRegistry:
             # Add Guardian GLYPHs if applicable
             if metadata.get("guardian_monitoring", False):
                 guardian_glyph = self.get_glyph("guardian_monitoring")
-                glyph_claims["glyph_guardian"] = (
-                    guardian_glyph.symbol if guardian_glyph else "🛡️"
-                )
+                glyph_claims["glyph_guardian"] = guardian_glyph.symbol if guardian_glyph else "🛡️"
 
             if metadata.get("drift_detected", False):
                 drift_glyph = self.get_glyph("drift_detected")
-                glyph_claims["glyph_drift"] = (
-                    drift_glyph.symbol if drift_glyph else "⚡"
-                )
+                glyph_claims["glyph_drift"] = drift_glyph.symbol if drift_glyph else "⚡"
 
             if metadata.get("bias_detected", False):
                 bias_glyph = self.get_glyph("bias_alert")
@@ -641,9 +633,7 @@ class AuthGlyphRegistry:
         try:
             # Get user symbolic identity
             user_id = auth_context.get("user_id")
-            symbolic_identity = (
-                self.symbolic_identities.get(user_id) if user_id else None
-            )
+            symbolic_identity = self.symbolic_identities.get(user_id) if user_id else None
 
             # Create message GLYPH
             if target_module == "consciousness":
@@ -713,9 +703,9 @@ auth_glyph_registry = AuthGlyphRegistry()
 
 # Export main classes and instance
 __all__ = [
-    "AuthGlyphRegistry",
     "AuthGlyph",
-    "SymbolicIdentity",
     "AuthGlyphCategory",
+    "AuthGlyphRegistry",
+    "SymbolicIdentity",
     "auth_glyph_registry",
 ]

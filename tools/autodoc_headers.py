@@ -32,9 +32,7 @@ class DocHeaderGenerator:
         modules = []
         for py_file in self.base_path.rglob("*.py"):
             # Skip test files and __pycache__
-            if "__pycache__" not in str(py_file) and not py_file.name.startswith(
-                "test_"
-            ):
+            if "__pycache__" not in str(py_file) and not py_file.name.startswith("test_"):
                 modules.append(py_file)
         return sorted(modules)
 
@@ -121,13 +119,10 @@ class DocHeaderGenerator:
         if any(term in path_str for term in ["identity", "auth", "lid", "lambda"]):
             return "⚛️"
         elif any(
-            term in path_str
-            for term in ["consent", "governance", "guardian", "ethics", "policy"]
+            term in path_str for term in ["consent", "governance", "guardian", "ethics", "policy"]
         ):
             return "🛡️"
-        elif any(
-            term in path_str for term in ["consciousness", "brain", "memory", "context"]
-        ):
+        elif any(term in path_str for term in ["consciousness", "brain", "memory", "context"]):
             return "🧠"
         else:
             # Default based on parent directory
@@ -288,13 +283,9 @@ class DocHeaderGenerator:
                         f.write("```\n\n")
 
                         if item["info"]["classes"]:
-                            f.write(
-                                f"**Classes**: {', '.join(item['info']['classes'])}\n\n"
-                            )
+                            f.write(f"**Classes**: {', '.join(item['info']['classes'])}\n\n")
                         if item["info"]["functions"]:
-                            f.write(
-                                f"**Functions**: {', '.join(item['info']['functions'])}\n\n"
-                            )
+                            f.write(f"**Functions**: {', '.join(item['info']['functions'])}\n\n")
                 else:
                     for path in self.report["processed"]:
                         f.write(f"- `{path}`\n")
@@ -313,13 +304,9 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Auto-generate documentation headers")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Simulate without writing files"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Simulate without writing files")
     parser.add_argument("--path", default="lukhas/accepted", help="Base path to scan")
-    parser.add_argument(
-        "--report", default="docs/AUDIT/DOCS_TODO.md", help="Report output path"
-    )
+    parser.add_argument("--report", default="docs/AUDIT/DOCS_TODO.md", help="Report output path")
 
     args = parser.parse_args()
 

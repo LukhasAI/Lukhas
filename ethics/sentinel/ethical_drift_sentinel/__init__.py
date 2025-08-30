@@ -19,6 +19,7 @@ __version__ = "1.0.0"
 
 class EscalationTier(Enum):
     """Ethical drift escalation levels"""
+
     NOTICE = "notice"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -27,6 +28,7 @@ class EscalationTier(Enum):
 
 class ViolationType(Enum):
     """Types of ethical violations"""
+
     DRIFT_THRESHOLD = "drift_threshold"
     BIAS_DETECTION = "bias_detection"
     CONSENT_VIOLATION = "consent_violation"
@@ -38,6 +40,7 @@ class ViolationType(Enum):
 @dataclass
 class EthicalViolation:
     """Ethical violation record"""
+
     violation_type: str
     severity: EscalationTier
     description: str
@@ -63,5 +66,5 @@ class EthicalDriftSentinel:
         return {
             "escalated": True,
             "tier": violation.severity.value,
-            "timestamp": violation.timestamp
+            "timestamp": violation.timestamp,
         }

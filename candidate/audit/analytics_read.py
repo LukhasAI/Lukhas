@@ -32,9 +32,7 @@ def recent_tool_usage(limit: int = 200) -> list[dict]:
 def summarize_tools(window_s: int = 24 * 3600) -> dict[str, dict]:
     now = time.time()
     rows = [
-        r
-        for r in _read_jsonl(_USAGE, limit=5000)
-        if (now - (r.get("ts", now) / 1000)) <= window_s
+        r for r in _read_jsonl(_USAGE, limit=5000) if (now - (r.get("ts", now) / 1000)) <= window_s
     ]
     by: dict[str, dict] = {}
     for r in rows:
@@ -66,11 +64,7 @@ def summarize_safety_modes(window_s: int = 24 * 3600) -> dict[str, int]:
     for r in _read_jsonl(_USAGE, limit=5000):
         if (now - (r.get("ts", now) / 1000)) > window_s:
             continue
-        mode = (
-            (r.get("params_snapshot") or {}).get("mode")
-            or r.get("safety_mode")
-            or "balanced"
-        )
+        mode = (r.get("params_snapshot") or {}).get("mode") or r.get("safety_mode") or "balanced"
         mode = str(mode).lower()
         if mode in counts:
             counts[mode] += 1

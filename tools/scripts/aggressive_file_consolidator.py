@@ -14,7 +14,6 @@ from datetime import datetime
 
 
 class AggressiveFileConsolidator:
-
     def __init__(self):
         # Load the consolidation plan
         with open("docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json") as f:
@@ -229,9 +228,7 @@ class AggressiveFileConsolidator:
             insert_index = 0
 
             for i, line in enumerate(lines):
-                if line.strip() and not line.startswith(
-                    ("import", "from", "#", '"""', "'''")
-                ):
+                if line.strip() and not line.startswith(("import", "from", "#", '"""', "'''")):
                     insert_index = i
                     break
 

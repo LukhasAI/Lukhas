@@ -99,9 +99,7 @@ class StricterEthicalEvaluator:
         for system in self.protected_systems:
             if system in content_str or system in action_lower:
                 if "override" in action_lower or "bypass" in action_lower:
-                    risk_factors.append(
-                        f"Attempting to override protected system: {system}"
-                    )
+                    risk_factors.append(f"Attempting to override protected system: {system}")
                     base_risk = max(base_risk, 0.9)
                     potential_harms.append(
                         {
@@ -114,7 +112,7 @@ class StricterEthicalEvaluator:
         # 3. Analyze context for risk amplifiers
         amplifier = 1.0
         for factor, multiplier in self.risk_amplifiers.items():
-            if factor in context and context[factor]:
+            if context.get(factor):
                 risk_factors.append(f"Risk amplifier present: {factor}")
                 amplifier = max(amplifier, multiplier)
 
@@ -211,9 +209,7 @@ class StricterEthicalEvaluator:
         # Check for override actions
         if "override" in action.action_type:
             alternatives.append("Request proper authorization instead of overriding")
-            alternatives.append(
-                "Document the need and escalate through proper channels"
-            )
+            alternatives.append("Document the need and escalate through proper channels")
             alternatives.append("Use temporary access with audit trail")
 
         # Check for data access without consent
@@ -224,8 +220,7 @@ class StricterEthicalEvaluator:
 
         # Check for destructive actions
         if any(
-            keyword in action.action_type.lower()
-            for keyword in ["delete", "remove", "destroy"]
+            keyword in action.action_type.lower() for keyword in ["delete", "remove", "destroy"]
         ):
             alternatives.append("Archive data instead of deleting")
             alternatives.append("Implement soft delete with recovery option")
@@ -273,9 +268,7 @@ class StrictDecisionMaker:
         )
 
         # Get safer alternatives
-        alternatives = self.evaluator.recommend_safer_alternatives(
-            action, risk_assessment
-        )
+        alternatives = self.evaluator.recommend_safer_alternatives(action, risk_assessment)
 
         # Override decision if risk is too high
         should_suppress = (

@@ -24,6 +24,7 @@ logger = get_logger(__name__)
 
 class VoiceQualityMetric(Enum):
     """Voice quality metrics"""
+
     SIGNAL_TO_NOISE_RATIO = "snr"
     TOTAL_HARMONIC_DISTORTION = "thd"
     DYNAMIC_RANGE = "dynamic_range"
@@ -46,17 +47,19 @@ class VoiceQualityMetric(Enum):
 
 class QualityGrade(Enum):
     """Quality grades"""
-    EXCELLENT = "excellent"      # 90-100%
-    VERY_GOOD = "very_good"     # 80-89%
-    GOOD = "good"               # 70-79%
-    FAIR = "fair"               # 60-69%
-    POOR = "poor"               # 50-59%
-    VERY_POOR = "very_poor"     # <50%
+
+    EXCELLENT = "excellent"  # 90-100%
+    VERY_GOOD = "very_good"  # 80-89%
+    GOOD = "good"  # 70-79%
+    FAIR = "fair"  # 60-69%
+    POOR = "poor"  # 50-59%
+    VERY_POOR = "very_poor"  # <50%
 
 
 @dataclass
 class VoiceQualityScore:
     """Voice quality score for a specific metric"""
+
     metric: VoiceQualityMetric
     value: float
     unit: str
@@ -72,13 +75,14 @@ class VoiceQualityScore:
             "unit": self.unit,
             "grade": self.grade.value,
             "confidence": self.confidence,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class VoiceQualityReport:
     """Comprehensive voice quality report"""
+
     overall_score: float
     overall_grade: QualityGrade
 
@@ -116,7 +120,7 @@ class VoiceQualityReport:
             "algorithms_used": self.algorithms_used,
             "recommendations": self.recommendations,
             "issues_detected": self.issues_detected,
-            "context": self.context
+            "context": self.context,
         }
 
 
@@ -143,11 +147,11 @@ class SNRAnalyzer(VoiceQualityAnalyzer):
 
         # Estimate signal and noise
         # Simple method: assume top 10% of energy is signal, bottom 10% is noise
-        energy = data ** 2
+        energy = data**2
         sorted_energy = np.sort(energy)
 
-        signal_energy = np.mean(sorted_energy[-int(0.1 * len(sorted_energy)):])
-        noise_energy = np.mean(sorted_energy[:int(0.1 * len(sorted_energy))])
+        signal_energy = np.mean(sorted_energy[-int(0.1 * len(sorted_energy)) :])
+        noise_energy = np.mean(sorted_energy[: int(0.1 * len(sorted_energy))])
 
         if noise_energy == 0:
             snr_db = 60.0  # Very high SNR
@@ -173,10 +177,7 @@ class SNRAnalyzer(VoiceQualityAnalyzer):
             value=float(snr_db),
             unit="dB",
             grade=grade,
-            metadata={
-                "signal_energy": float(signal_energy),
-                "noise_energy": float(noise_energy)
-            }
+            metadata={"signal_energy": float(signal_energy), "noise_energy": float(noise_energy)},
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -194,7 +195,7 @@ class THDAnalyzer(VoiceQualityAnalyzer):
         # FFT analysis
         fft = np.fft.rfft(data)
         magnitude = np.abs(fft)
-        frequencies = np.fft.rfftfreq(len(data), 1/sample_rate)
+        frequencies = np.fft.rfftfreq(len(data), 1 / sample_rate)
 
         # Find fundamental frequency (peak in 80-800 Hz range)
         f0_range = (frequencies >= 80) & (frequencies <= 800)
@@ -243,8 +244,10 @@ class THDAnalyzer(VoiceQualityAnalyzer):
             grade=grade,
             metadata={
                 "fundamental_frequency": float(f0) if "f0" in locals() else None,
-                "fundamental_energy": float(fundamental_energy) if "fundamental_energy" in locals() else None
-            }
+                "fundamental_energy": float(fundamental_energy)
+                if "fundamental_energy" in locals()
+                else None,
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -264,8 +267,8 @@ class DynamicRangeAnalyzer(VoiceQualityAnalyzer):
 
         rms_values = []
         for i in range(0, len(data) - window_size, hop_size):
-            window = data[i:i + window_size]
-            rms = np.sqrt(np.mean(window ** 2))
+            window = data[i : i + window_size]
+            rms = np.sqrt(np.mean(window**2))
             if rms > 0:
                 rms_values.append(rms)
 
@@ -300,8 +303,8 @@ class DynamicRangeAnalyzer(VoiceQualityAnalyzer):
             metadata={
                 "max_rms": float(max_rms) if "max_rms" in locals() else None,
                 "min_rms": float(min_rms) if "min_rms" in locals() else None,
-                "rms_windows": len(rms_values)
-            }
+                "rms_windows": len(rms_values),
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -319,7 +322,7 @@ class SpectralCentroidAnalyzer(VoiceQualityAnalyzer):
         # FFT analysis
         fft = np.fft.rfft(data)
         magnitude = np.abs(fft)
-        frequencies = np.fft.rfftfreq(len(data), 1/sample_rate)
+        frequencies = np.fft.rfftfreq(len(data), 1 / sample_rate)
 
         # Calculate spectral centroid
         if np.sum(magnitude) > 0:
@@ -349,8 +352,8 @@ class SpectralCentroidAnalyzer(VoiceQualityAnalyzer):
             grade=grade,
             metadata={
                 "spectral_energy": float(np.sum(magnitude)),
-                "frequency_range": [float(frequencies[0]), float(frequencies[-1])]
-            }
+                "frequency_range": [float(frequencies[0]), float(frequencies[-1])],
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -389,10 +392,7 @@ class ZeroCrossingRateAnalyzer(VoiceQualityAnalyzer):
             value=float(zcr),
             unit="Hz",
             grade=grade,
-            metadata={
-                "total_zero_crossings": int(zero_crossings),
-                "samples": len(data)
-            }
+            metadata={"total_zero_crossings": int(zero_crossings), "samples": len(data)},
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -413,11 +413,11 @@ class PitchStabilityAnalyzer(VoiceQualityAnalyzer):
 
         pitches = []
         for i in range(0, len(data) - frame_size, hop_size):
-            frame = data[i:i + frame_size]
+            frame = data[i : i + frame_size]
 
             # Autocorrelation-based pitch detection
             autocorr = np.correlate(frame, frame, mode="full")
-            autocorr = autocorr[len(autocorr)//2:]
+            autocorr = autocorr[len(autocorr) // 2 :]
 
             # Find peak in pitch range (80-800 Hz)
             min_period = int(sample_rate / 800)
@@ -470,8 +470,8 @@ class PitchStabilityAnalyzer(VoiceQualityAnalyzer):
             metadata={
                 "pitch_frames": len(pitches),
                 "mean_pitch": float(np.mean(pitches)) if len(pitches) > 0 else None,
-                "pitch_std": float(np.std(pitches)) if len(pitches) > 0 else None
-            }
+                "pitch_std": float(np.std(pitches)) if len(pitches) > 0 else None,
+            },
         )
 
     def get_metric_type(self) -> VoiceQualityMetric:
@@ -493,7 +493,7 @@ class LUKHASVoiceAnalytics:
             VoiceQualityMetric.DYNAMIC_RANGE: DynamicRangeAnalyzer(),
             VoiceQualityMetric.SPECTRAL_CENTROID: SpectralCentroidAnalyzer(),
             VoiceQualityMetric.ZERO_CROSSING_RATE: ZeroCrossingRateAnalyzer(),
-            VoiceQualityMetric.PITCH_STABILITY: PitchStabilityAnalyzer()
+            VoiceQualityMetric.PITCH_STABILITY: PitchStabilityAnalyzer(),
         }
 
         # Quality thresholds for overall grading
@@ -503,14 +503,14 @@ class LUKHASVoiceAnalytics:
             VoiceQualityMetric.DYNAMIC_RANGE: 0.15,
             VoiceQualityMetric.SPECTRAL_CENTROID: 0.10,
             VoiceQualityMetric.ZERO_CROSSING_RATE: 0.10,
-            VoiceQualityMetric.PITCH_STABILITY: 0.20
+            VoiceQualityMetric.PITCH_STABILITY: 0.20,
         }
 
         # Analysis statistics
         self.stats = {
             "analyses_performed": 0,
             "average_analysis_time": 0.0,
-            "quality_distribution": {grade.value: 0 for grade in QualityGrade}
+            "quality_distribution": {grade.value: 0 for grade in QualityGrade},
         }
 
         self.logger.info("LUKHAS Voice Analytics initialized")
@@ -522,7 +522,7 @@ class LUKHASVoiceAnalytics:
         channels: int = 1,
         format: AudioFormat = AudioFormat.PCM_16,
         metrics: Optional[list[VoiceQualityMetric]] = None,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> VoiceQualityReport:
         """
         Analyze voice quality comprehensively
@@ -543,11 +543,13 @@ class LUKHASVoiceAnalytics:
 
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "voice_quality_analysis",
-                "audio_length": len(audio_data),
-                "context": context or {}
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "voice_quality_analysis",
+                    "audio_length": len(audio_data),
+                    "context": context or {},
+                }
+            )
 
             if not validation_result.get("approved", False):
                 raise ValueError(f"Guardian rejected analysis: {validation_result.get('reason')}")
@@ -561,10 +563,7 @@ class LUKHASVoiceAnalytics:
                 raise ValueError(f"Unsupported audio format: {format}")
 
             buffer = AudioBuffer(
-                data=audio_array,
-                sample_rate=sample_rate,
-                channels=channels,
-                format=format
+                data=audio_array, sample_rate=sample_rate, channels=channels, format=format
             )
 
             # Select metrics to analyze
@@ -584,7 +583,7 @@ class LUKHASVoiceAnalytics:
                     scores[metric] = score
                     algorithms_used.append(metric.value)
                 except Exception as e:
-                    self.logger.warning(f"Analysis failed for {metric.value}: {str(e)}")
+                    self.logger.warning(f"Analysis failed for {metric.value}: {e!s}")
 
             # Calculate overall score
             overall_score, overall_grade = self._calculate_overall_quality(scores)
@@ -606,42 +605,44 @@ class LUKHASVoiceAnalytics:
                 algorithms_used=algorithms_used,
                 recommendations=recommendations,
                 issues_detected=issues_detected,
-                context=context or {}
+                context=context or {},
             )
 
             # Update statistics
             self.stats["quality_distribution"][overall_grade.value] += 1
             self.stats["average_analysis_time"] = (
-                (self.stats["average_analysis_time"] * (self.stats["analyses_performed"] - 1) +
-                 report.analysis_time_ms) / self.stats["analyses_performed"]
-            )
+                self.stats["average_analysis_time"] * (self.stats["analyses_performed"] - 1)
+                + report.analysis_time_ms
+            ) / self.stats["analyses_performed"]
 
             # Emit GLYPH event
-            await GLYPH.emit("voice.quality.analyzed", {
-                "overall_score": overall_score,
-                "overall_grade": overall_grade.value,
-                "metrics_analyzed": len(scores),
-                "analysis_time_ms": report.analysis_time_ms,
-                "audio_duration": report.duration_seconds
-            })
+            await GLYPH.emit(
+                "voice.quality.analyzed",
+                {
+                    "overall_score": overall_score,
+                    "overall_grade": overall_grade.value,
+                    "metrics_analyzed": len(scores),
+                    "analysis_time_ms": report.analysis_time_ms,
+                    "audio_duration": report.duration_seconds,
+                },
+            )
 
             return report
 
         except Exception as e:
-            self.logger.error(f"Voice quality analysis failed: {str(e)}")
+            self.logger.error(f"Voice quality analysis failed: {e!s}")
 
             # Return minimal report with error
             return VoiceQualityReport(
                 overall_score=0.0,
                 overall_grade=QualityGrade.VERY_POOR,
                 analysis_time_ms=(time.time() - start_time) * 1000,
-                issues_detected=[f"Analysis failed: {str(e)}"],
-                context=context or {}
+                issues_detected=[f"Analysis failed: {e!s}"],
+                context=context or {},
             )
 
     def _calculate_overall_quality(
-        self,
-        scores: dict[VoiceQualityMetric, VoiceQualityScore]
+        self, scores: dict[VoiceQualityMetric, VoiceQualityScore]
     ) -> tuple[float, QualityGrade]:
         """Calculate overall quality score and grade"""
         if not scores:
@@ -654,7 +655,7 @@ class LUKHASVoiceAnalytics:
             QualityGrade.GOOD: 75,
             QualityGrade.FAIR: 65,
             QualityGrade.POOR: 55,
-            QualityGrade.VERY_POOR: 25
+            QualityGrade.VERY_POOR: 25,
         }
 
         # Calculate weighted average
@@ -686,8 +687,7 @@ class LUKHASVoiceAnalytics:
         return overall_score, overall_grade
 
     def _generate_recommendations(
-        self,
-        scores: dict[VoiceQualityMetric, VoiceQualityScore]
+        self, scores: dict[VoiceQualityMetric, VoiceQualityScore]
     ) -> list[str]:
         """Generate quality improvement recommendations"""
         recommendations = []
@@ -707,10 +707,7 @@ class LUKHASVoiceAnalytics:
 
         return recommendations
 
-    def _detect_issues(
-        self,
-        scores: dict[VoiceQualityMetric, VoiceQualityScore]
-    ) -> list[str]:
+    def _detect_issues(self, scores: dict[VoiceQualityMetric, VoiceQualityScore]) -> list[str]:
         """Detect specific audio quality issues"""
         issues = []
 
@@ -731,7 +728,7 @@ class LUKHASVoiceAnalytics:
         self,
         audio_files: list[tuple[str, bytes]],
         sample_rate: int = 44100,
-        format: AudioFormat = AudioFormat.PCM_16
+        format: AudioFormat = AudioFormat.PCM_16,
     ) -> list[VoiceQualityReport]:
         """
         Analyze multiple audio files in batch
@@ -752,18 +749,20 @@ class LUKHASVoiceAnalytics:
                     audio_data=audio_data,
                     sample_rate=sample_rate,
                     format=format,
-                    context={"filename": filename}
+                    context={"filename": filename},
                 )
                 reports.append(report)
             except Exception as e:
-                self.logger.error(f"Failed to analyze {filename}: {str(e)}")
+                self.logger.error(f"Failed to analyze {filename}: {e!s}")
                 # Add error report
-                reports.append(VoiceQualityReport(
-                    overall_score=0.0,
-                    overall_grade=QualityGrade.VERY_POOR,
-                    issues_detected=[f"Analysis failed: {str(e)}"],
-                    context={"filename": filename}
-                ))
+                reports.append(
+                    VoiceQualityReport(
+                        overall_score=0.0,
+                        overall_grade=QualityGrade.VERY_POOR,
+                        issues_detected=[f"Analysis failed: {e!s}"],
+                        context={"filename": filename},
+                    )
+                )
 
         return reports
 
@@ -778,9 +777,7 @@ class LUKHASVoiceAnalytics:
 
 # Convenience function
 async def analyze_voice_quality(
-    audio_data: bytes,
-    sample_rate: int = 44100,
-    format: AudioFormat = AudioFormat.PCM_16
+    audio_data: bytes, sample_rate: int = 44100, format: AudioFormat = AudioFormat.PCM_16
 ) -> VoiceQualityReport:
     """
     Simple voice quality analysis
@@ -800,9 +797,9 @@ async def analyze_voice_quality(
 # Export main classes
 __all__ = [
     "LUKHASVoiceAnalytics",
+    "QualityGrade",
+    "VoiceQualityMetric",
     "VoiceQualityReport",
     "VoiceQualityScore",
-    "VoiceQualityMetric",
-    "QualityGrade",
-    "analyze_voice_quality"
+    "analyze_voice_quality",
 ]

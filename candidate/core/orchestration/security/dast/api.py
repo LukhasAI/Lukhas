@@ -76,7 +76,7 @@ class LucasDASTAPI:
             return self._success_response(response, 201)
 
         except Exception as e:
-            return self._error_response(f"Task creation failed: {str(e)}", 500)
+            return self._error_response(f"Task creation failed: {e!s}", 500)
 
     async def get_tasks(self, query_params: dict) -> dict[str, Any]:
         """
@@ -121,7 +121,7 @@ class LucasDASTAPI:
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Task retrieval failed: {e!s}", 500)
 
     async def get_task_by_id(self, task_id: str) -> dict[str, Any]:
         """
@@ -155,11 +155,9 @@ class LucasDASTAPI:
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Task retrieval failed: {e!s}", 500)
 
-    async def put_task_progress(
-        self, task_id: str, request_data: dict
-    ) -> dict[str, Any]:
+    async def put_task_progress(self, task_id: str, request_data: dict) -> dict[str, Any]:
         """
         PUT /api/v2/tasks/{task_id}/progress
         Update task progress with AI insights
@@ -185,7 +183,7 @@ class LucasDASTAPI:
             return self._success_response(result)
 
         except Exception as e:
-            return self._error_response(f"Progress update failed: {str(e)}", 500)
+            return self._error_response(f"Progress update failed: {e!s}", 500)
 
     async def delete_task(self, task_id: str) -> dict[str, Any]:
         """
@@ -209,7 +207,7 @@ class LucasDASTAPI:
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task deletion failed: {str(e)}", 500)
+            return self._error_response(f"Task deletion failed: {e!s}", 500)
 
     # ========================================
     # 🤝 COLLABORATION ENDPOINTS
@@ -241,7 +239,7 @@ class LucasDASTAPI:
             return self._success_response(result)
 
         except Exception as e:
-            return self._error_response(f"Collaboration failed: {str(e)}", 500)
+            return self._error_response(f"Collaboration failed: {e!s}", 500)
 
     async def get_focus(self, query_params: dict) -> dict[str, Any]:
         """
@@ -263,9 +261,7 @@ class LucasDASTAPI:
             response = {
                 "focus_tasks": focus_tasks,
                 "ai_recommendation": "Focus on these tasks for maximum impact",
-                "estimated_focus_time": sum(
-                    task.get("estimated_time", 60) for task in focus_tasks
-                ),
+                "estimated_focus_time": sum(task.get("estimated_time", 60) for task in focus_tasks),
                 "optimization_score": 8.5,  # AI-calculated score
             }
 
@@ -273,7 +269,7 @@ class LucasDASTAPI:
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Focus retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Focus retrieval failed: {e!s}", 500)
 
     # ========================================
     # 📊 ANALYTICS & INSIGHTS ENDPOINTS
@@ -299,9 +295,7 @@ class LucasDASTAPI:
 
             # Generate analytics based on type
             if analytics_type == "performance":
-                analytics = self._generate_performance_analytics(
-                    performance_stats, timeframe
-                )
+                analytics = self._generate_performance_analytics(performance_stats, timeframe)
             elif analytics_type == "workflow":
                 analytics = self._generate_workflow_analytics(timeframe)
             elif analytics_type == "trends":
@@ -313,7 +307,7 @@ class LucasDASTAPI:
             return self._success_response(analytics)
 
         except Exception as e:
-            return self._error_response(f"Analytics generation failed: {str(e)}", 500)
+            return self._error_response(f"Analytics generation failed: {e!s}", 500)
 
     async def get_insights(self, query_params: dict) -> dict[str, Any]:
         """
@@ -335,7 +329,7 @@ class LucasDASTAPI:
             return self._success_response(insights)
 
         except Exception as e:
-            return self._error_response(f"Insights generation failed: {str(e)}", 500)
+            return self._error_response(f"Insights generation failed: {e!s}", 500)
 
     # ========================================
     # 🔧 SYSTEM & HEALTH ENDPOINTS
@@ -382,7 +376,7 @@ class LucasDASTAPI:
             return self._success_response(health_status)
 
         except Exception as e:
-            return self._error_response(f"Health check failed: {str(e)}", 500)
+            return self._error_response(f"Health check failed: {e!s}", 500)
 
     async def get_version(self) -> dict[str, Any]:
         """
@@ -442,9 +436,7 @@ class LucasDASTAPI:
             ]
 
         if priority_filter:
-            filtered = [
-                task for task in filtered if task.priority.value == priority_filter
-            ]
+            filtered = [task for task in filtered if task.priority.value == priority_filter]
 
         if status_filter:
             filtered = [task for task in filtered if task.status.value == status_filter]
@@ -641,18 +633,14 @@ class LucasDASTAPI:
 
         # Keep only recent metrics
         if len(self.performance_metrics[endpoint]) > 100:
-            self.performance_metrics[endpoint] = self.performance_metrics[endpoint][
-                -100:
-            ]
+            self.performance_metrics[endpoint] = self.performance_metrics[endpoint][-100:]
 
     def _calculate_average_api_response_time(self) -> float:
         """Calculate average API response time"""
         if not self.request_log:
             return 0.0
 
-        recent_requests = [
-            req for req in self.request_log if time.time() - req["timestamp"] < 3600
-        ]
+        recent_requests = [req for req in self.request_log if time.time() - req["timestamp"] < 3600]
         if not recent_requests:
             return 0.0
 

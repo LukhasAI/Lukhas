@@ -161,35 +161,57 @@ try:
 except ImportError:
     # Fallback implementations for missing components
     class MemoryFoldSystem:
-        def __init__(self): pass
-        async def create_fold(self, *args, **kwargs): return {"fold_key": "test", "status": "created"}
-        async def retrieve_fold(self, *args, **kwargs): return None
-        async def update_fold(self, *args, **kwargs): return {"status": "updated"}
+        def __init__(self):
+            pass
+
+        async def create_fold(self, *args, **kwargs):
+            return {"fold_key": "test", "status": "created"}
+
+        async def retrieve_fold(self, *args, **kwargs):
+            return None
+
+        async def update_fold(self, *args, **kwargs):
+            return {"status": "updated"}
 
     class FoldMetrics:
-        def __init__(self): pass
+        def __init__(self):
+            pass
 
     class CausalMemoryChains:
-        def __init__(self): pass
-        async def track_causation(self, *args, **kwargs): return True
+        def __init__(self):
+            pass
+
+        async def track_causation(self, *args, **kwargs):
+            return True
 
     class EmotionalMemory:
-        def __init__(self): pass
-        async def process_emotional_context(self, *args, **kwargs): return {"emotional_stability": 0.8}
+        def __init__(self):
+            pass
+
+        async def process_emotional_context(self, *args, **kwargs):
+            return {"emotional_stability": 0.8}
 
     class SymbolicQuarantineSanctum:
-        def __init__(self): pass
-        async def quarantine_check(self, *args, **kwargs): return {"safe": True}
+        def __init__(self):
+            pass
+
+        async def quarantine_check(self, *args, **kwargs):
+            return {"safe": True}
 
     class AdvancedSymbolicDeltaCompressor:
-        def __init__(self): pass
-        async def compress_memory_delta(self, *args, **kwargs): return {"compressed": True}
+        def __init__(self):
+            pass
+
+        async def compress_memory_delta(self, *args, **kwargs):
+            return {"compressed": True}
+
 
 logger = logging.getLogger(__name__)
 
 
 class MemoryOperationType(Enum):
     """Types of memory operations"""
+
     CREATE = "create"
     RETRIEVE = "retrieve"
     UPDATE = "update"
@@ -200,6 +222,7 @@ class MemoryOperationType(Enum):
 
 class MemoryState(Enum):
     """Memory processing states"""
+
     ACTIVE = "active"
     CONSOLIDATED = "consolidated"
     COMPRESSED = "compressed"
@@ -210,6 +233,7 @@ class MemoryState(Enum):
 @dataclass
 class MemoryOperation:
     """Represents a memory operation with full context"""
+
     operation_id: str
     operation_type: MemoryOperationType
     memory_id: str
@@ -225,6 +249,7 @@ class MemoryOperation:
 @dataclass
 class ConsolidatedMemoryMetrics:
     """Comprehensive memory system metrics"""
+
     total_operations: int = 0
     successful_operations: int = 0
     cascade_preventions: int = 0
@@ -286,7 +311,7 @@ class ConsolidatedUnifiedmemorycore:
                 return {
                     "status": "cascade_prevented",
                     "reason": cascade_check["reason"],
-                    "prevention_score": cascade_check["prevention_score"]
+                    "prevention_score": cascade_check["prevention_score"],
                 }
 
             # ⚛️ Identity: Preserve causal chains and emotional context
@@ -302,7 +327,7 @@ class ConsolidatedUnifiedmemorycore:
                 return {
                     "status": "quarantined",
                     "reason": quarantine_result.get("reason", "safety_violation"),
-                    "quarantine_id": quarantine_result.get("quarantine_id")
+                    "quarantine_id": quarantine_result.get("quarantine_id"),
                 }
 
             # Main memory processing pipeline
@@ -324,21 +349,23 @@ class ConsolidatedUnifiedmemorycore:
                 "consciousness_integration": consciousness_integration,
                 "processing_result": processing_result,
                 "causal_chain_length": len(operation.causal_chain),
-                "emotional_fidelity": self.metrics.emotional_fidelity
+                "emotional_fidelity": self.metrics.emotional_fidelity,
             }
 
             return final_result
 
         except Exception as e:
             self._update_metrics(operation_start, False)
-            logger.error(f"Unified memory processing failed for {memory_id}: {str(e)}")
+            logger.error(f"Unified memory processing failed for {memory_id}: {e!s}")
             return {
                 "status": "error",
                 "error": str(e),
-                "processing_time": time.time() - operation_start
+                "processing_time": time.time() - operation_start,
             }
 
-    def _create_operation_context(self, memory_data: dict, operation_type: MemoryOperationType) -> MemoryOperation:
+    def _create_operation_context(
+        self, memory_data: dict, operation_type: MemoryOperationType
+    ) -> MemoryOperation:
         """Create comprehensive operation context"""
         memory_id = memory_data.get("memory_id", self._generate_memory_id())
         fold_key = f"fold_{memory_id}_{int(time.time() * 1000)}"
@@ -353,7 +380,7 @@ class ConsolidatedUnifiedmemorycore:
             causal_chain=memory_data.get("causal_chain", []),
             emotional_context=memory_data.get("emotional_context", {}),
             consciousness_markers=memory_data.get("consciousness_markers", {}),
-            processing_metadata=memory_data.get("metadata", {})
+            processing_metadata=memory_data.get("metadata", {}),
         )
 
     async def _check_cascade_prevention(self, operation: MemoryOperation) -> dict:
@@ -363,7 +390,8 @@ class ConsolidatedUnifiedmemorycore:
 
         # Track operation frequency
         recent_ops = [
-            op_time for op_time in self.cascade_tracker[memory_id]
+            op_time
+            for op_time in self.cascade_tracker[memory_id]
             if (current_time - op_time).total_seconds() < self.cascade_cooldown
         ]
 
@@ -386,7 +414,8 @@ class ConsolidatedUnifiedmemorycore:
             self.cascade_tracker[memory_id].append(current_time)
             # Cleanup old entries
             self.cascade_tracker[memory_id] = [
-                op_time for op_time in self.cascade_tracker[memory_id]
+                op_time
+                for op_time in self.cascade_tracker[memory_id]
                 if (current_time - op_time).total_seconds() < 60  # Keep 1 minute history
             ]
 
@@ -394,7 +423,7 @@ class ConsolidatedUnifiedmemorycore:
             "safe": safe,
             "cascade_risk": cascade_risk,
             "prevention_score": 1.0 - cascade_risk if safe else 0.0,
-            "reason": "cascade_risk_exceeded" if not safe else "safe_operation"
+            "reason": "cascade_risk_exceeded" if not safe else "safe_operation",
         }
 
     async def _process_identity_preservation(self, operation: MemoryOperation) -> dict:
@@ -409,8 +438,8 @@ class ConsolidatedUnifiedmemorycore:
                     metadata={
                         "operation_id": operation.operation_id,
                         "chain_position": i,
-                        "timestamp": operation.timestamp.isoformat()
-                    }
+                        "timestamp": operation.timestamp.isoformat(),
+                    },
                 )
 
         # Calculate causal chain integrity
@@ -420,7 +449,7 @@ class ConsolidatedUnifiedmemorycore:
             "causal_chain_tracked": len(operation.causal_chain),
             "chain_integrity": chain_integrity,
             "identity_preserved": True,
-            "causation_depth": len(operation.causal_chain)
+            "causation_depth": len(operation.causal_chain),
         }
 
     async def _integrate_consciousness_awareness(self, operation: MemoryOperation) -> dict:
@@ -435,10 +464,10 @@ class ConsolidatedUnifiedmemorycore:
 
         # Calculate consciousness integration score
         integration_score = (
-            awareness_level * 0.4 +
-            (len(attention_focus) / 10.0) * 0.3 +
-            (1.0 if dream_state else 0.5) * 0.2 +
-            (len(metacognitive_flags) / 5.0) * 0.1
+            awareness_level * 0.4
+            + (len(attention_focus) / 10.0) * 0.3
+            + (1.0 if dream_state else 0.5) * 0.2
+            + (len(metacognitive_flags) / 5.0) * 0.1
         )
 
         return {
@@ -447,7 +476,7 @@ class ConsolidatedUnifiedmemorycore:
             "dream_state_active": dream_state,
             "metacognitive_depth": len(metacognitive_flags),
             "integration_score": min(1.0, integration_score),
-            "consciousness_enhanced": integration_score > 0.6
+            "consciousness_enhanced": integration_score > 0.6,
         }
 
     async def _execute_unified_pipeline(self, operation: MemoryOperation) -> dict:
@@ -485,34 +514,34 @@ class ConsolidatedUnifiedmemorycore:
                     "timestamp": operation.timestamp.isoformat(),
                     "causal_chain": operation.causal_chain,
                     "emotional_context": operation.emotional_context,
-                    "consciousness_markers": operation.consciousness_markers
+                    "consciousness_markers": operation.consciousness_markers,
                 },
                 "importance_score": operation.priority,
-                "creation_timestamp": operation.timestamp.isoformat()
+                "creation_timestamp": operation.timestamp.isoformat(),
             }
 
             fold_result = await self.fold_system.create_fold(
                 fold_key=operation.fold_key,
                 content=fold_data["content"],
                 importance_score=operation.priority,
-                emotional_context=operation.emotional_context
+                emotional_context=operation.emotional_context,
             )
 
             # Update fold efficiency metric
             self.metrics.fold_efficiency = (
-                self.metrics.fold_efficiency * 0.9 +
-                (1.0 if fold_result.get("status") == "created" else 0.0) * 0.1
+                self.metrics.fold_efficiency * 0.9
+                + (1.0 if fold_result.get("status") == "created" else 0.0) * 0.1
             )
 
             return {
                 "status": "success",
                 "fold_key": operation.fold_key,
                 "fold_created": fold_result.get("status") == "created",
-                "fold_size": len(str(fold_data))
+                "fold_size": len(str(fold_data)),
             }
 
         except Exception as e:
-            logger.error(f"Fold processing failed: {str(e)}")
+            logger.error(f"Fold processing failed: {e!s}")
             return {"status": "error", "error": str(e)}
 
     async def _process_emotional_context(self, operation: MemoryOperation) -> dict:
@@ -521,7 +550,7 @@ class ConsolidatedUnifiedmemorycore:
             emotional_result = await self.emotional_memory.process_emotional_context(
                 emotion_data=operation.emotional_context,
                 memory_id=operation.memory_id,
-                intensity=operation.emotional_context.get("intensity", 0.5)
+                intensity=operation.emotional_context.get("intensity", 0.5),
             )
 
             # Update emotional fidelity metric
@@ -533,7 +562,7 @@ class ConsolidatedUnifiedmemorycore:
             return emotional_result
 
         except Exception as e:
-            logger.error(f"Emotional processing failed: {str(e)}")
+            logger.error(f"Emotional processing failed: {e!s}")
             return {"status": "error", "error": str(e), "fidelity_score": 0.0}
 
     async def _process_compression(self, operation: MemoryOperation) -> dict:
@@ -542,7 +571,7 @@ class ConsolidatedUnifiedmemorycore:
             compression_result = await self.delta_compressor.compress_memory_delta(
                 fold_key=operation.fold_key,
                 content=operation.processing_metadata,
-                importance_score=operation.priority
+                importance_score=operation.priority,
             )
 
             # Update compression ratio metric
@@ -554,22 +583,22 @@ class ConsolidatedUnifiedmemorycore:
             return compression_result
 
         except Exception as e:
-            logger.error(f"Compression processing failed: {str(e)}")
+            logger.error(f"Compression processing failed: {e!s}")
             return {"status": "error", "error": str(e)}
 
     async def _process_consolidation(self, operation: MemoryOperation) -> dict:
         """Process memory consolidation"""
         # Consolidation logic for memory integration
         consolidation_score = (
-            operation.priority * 0.4 +
-            len(operation.causal_chain) / 10.0 * 0.3 +
-            operation.emotional_context.get("intensity", 0.0) * 0.3
+            operation.priority * 0.4
+            + len(operation.causal_chain) / 10.0 * 0.3
+            + operation.emotional_context.get("intensity", 0.0) * 0.3
         )
 
         return {
             "consolidation_score": min(1.0, consolidation_score),
             "integration_quality": "high" if consolidation_score > 0.7 else "moderate",
-            "memory_stability": 0.8 + consolidation_score * 0.2
+            "memory_stability": 0.8 + consolidation_score * 0.2,
         }
 
     async def _optimize_performance(self, operation: MemoryOperation, result: dict):
@@ -580,13 +609,14 @@ class ConsolidatedUnifiedmemorycore:
             self.fold_cache[cache_key] = {
                 "operation": asdict(operation),
                 "result": result,
-                "cached_at": time.time()
+                "cached_at": time.time(),
             }
 
             # Cleanup old cache entries
             if len(self.fold_cache) > self.cache_size_limit:
-                oldest_key = min(self.fold_cache.keys(),
-                    key=lambda k: self.fold_cache[k]["cached_at"])
+                oldest_key = min(
+                    self.fold_cache.keys(), key=lambda k: self.fold_cache[k]["cached_at"]
+                )
                 del self.fold_cache[oldest_key]
 
     def _calculate_causal_integrity(self, causal_chain: list[str]) -> float:
@@ -614,13 +644,12 @@ class ConsolidatedUnifiedmemorycore:
         # Update average processing time with exponential moving average
         alpha = 0.1
         self.metrics.average_processing_time = (
-            alpha * processing_time +
-            (1 - alpha) * self.metrics.average_processing_time
+            alpha * processing_time + (1 - alpha) * self.metrics.average_processing_time
         )
 
         # Update consciousness integration score
-        self.metrics.consciousness_integration = (
-            self.metrics.successful_operations / max(1, self.metrics.total_operations)
+        self.metrics.consciousness_integration = self.metrics.successful_operations / max(
+            1, self.metrics.total_operations
         )
 
         self.metrics.last_updated = datetime.now(timezone.utc)
@@ -632,7 +661,9 @@ class ConsolidatedUnifiedmemorycore:
         memory_data["operation_type"] = "create"
         return await self.process_memory(memory_data)
 
-    async def retrieve_memory(self, memory_id: str, fold_key: Optional[str] = None) -> Optional[dict]:
+    async def retrieve_memory(
+        self, memory_id: str, fold_key: Optional[str] = None
+    ) -> Optional[dict]:
         """Retrieve memory with consciousness-aware recall"""
         try:
             # Check cache first for performance
@@ -643,7 +674,7 @@ class ConsolidatedUnifiedmemorycore:
                     "status": "success",
                     "memory_id": memory_id,
                     "source": "cache",
-                    "data": cached_data["result"]
+                    "data": cached_data["result"],
                 }
 
             # Retrieve from fold system
@@ -655,30 +686,29 @@ class ConsolidatedUnifiedmemorycore:
                         "memory_id": memory_id,
                         "fold_key": fold_key,
                         "source": "fold_system",
-                        "data": fold_result
+                        "data": fold_result,
                     }
 
             return None
 
         except Exception as e:
-            logger.error(f"Memory retrieval failed for {memory_id}: {str(e)}")
+            logger.error(f"Memory retrieval failed for {memory_id}: {e!s}")
             return None
 
     async def update_memory(self, memory_id: str, updates: dict) -> dict:
         """Update existing memory"""
-        updates.update({
-            "memory_id": memory_id,
-            "operation_type": "update"
-        })
+        updates.update({"memory_id": memory_id, "operation_type": "update"})
         return await self.process_memory(updates)
 
-    async def consolidate_memories(self, memory_ids: list[str], consolidation_strategy: str = "semantic") -> dict:
+    async def consolidate_memories(
+        self, memory_ids: list[str], consolidation_strategy: str = "semantic"
+    ) -> dict:
         """Consolidate multiple memories"""
         consolidation_data = {
             "memory_ids": memory_ids,
             "operation_type": "consolidate",
             "consolidation_strategy": consolidation_strategy,
-            "batch_processing": True
+            "batch_processing": True,
         }
         return await self.process_memory(consolidation_data)
 
@@ -694,7 +724,7 @@ class ConsolidatedUnifiedmemorycore:
             ),
             "cache_efficiency": len(self.fold_cache) / self.cache_size_limit,
             "active_operations": len(self.processing_queue),
-            "system_health": self._calculate_system_health()
+            "system_health": self._calculate_system_health(),
         }
 
     def _calculate_system_health(self) -> float:
@@ -703,7 +733,7 @@ class ConsolidatedUnifiedmemorycore:
             self.metrics.fold_efficiency,
             self.metrics.causal_chain_integrity,
             self.metrics.emotional_fidelity,
-            self.metrics.consciousness_integration
+            self.metrics.consciousness_integration,
         ]
         return sum(health_components) / len(health_components)
 
@@ -722,7 +752,7 @@ class ConsolidatedUnifiedmemorycore:
         return {
             "status": "reset_complete",
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "systems_reset": ["processing_queue", "fold_cache", "cascade_tracker", "metrics"]
+            "systems_reset": ["processing_queue", "fold_cache", "cascade_tracker", "metrics"],
         }
 
 

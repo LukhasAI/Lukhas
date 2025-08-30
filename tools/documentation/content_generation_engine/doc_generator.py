@@ -67,9 +67,7 @@ class DocGenerator:
 
         logger.info(f"DocGenerator initialized with template path: {template_path}")
 
-    def generate_documentation(
-        self, source_path: str, config: DocumentationConfig
-    ) -> str:
+    def generate_documentation(self, source_path: str, config: DocumentationConfig) -> str:
         """
         Generate comprehensive documentation for a given source.
         Uses Lukhas's intelligence to structure and present information optimally.
@@ -91,7 +89,7 @@ class DocGenerator:
             return doc_content
 
         except Exception as e:
-            logger.error(f"Documentation generation failed: {str(e)}", exc_info=True)
+            logger.error(f"Documentation generation failed: {e!s}", exc_info=True)
             raise
 
     def _analyze_source(self, source_path: str):
@@ -125,7 +123,7 @@ class DocGenerator:
                     self._process_function(node, file_path)
 
         except Exception as e:
-            logger.error(f"Failed to analyze Python file {file_path}: {str(e)}")
+            logger.error(f"Failed to analyze Python file {file_path}: {e!s}")
             raise
 
     def _process_class(self, node: ast.ClassDef, file_path: str):
@@ -141,9 +139,7 @@ class DocGenerator:
             source_location=file_path,
             properties={
                 "line_number": node.lineno,
-                "decorators": [
-                    d.id for d in node.decorator_list if isinstance(d, ast.Name)
-                ],
+                "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
                 "bases": [b.id for b in node.bases if isinstance(b, ast.Name)],
             },
         )
@@ -181,9 +177,7 @@ class DocGenerator:
             properties={
                 "line_number": node.lineno,
                 "is_async": isinstance(node, ast.AsyncFunctionDef),
-                "decorators": [
-                    d.id for d in node.decorator_list if isinstance(d, ast.Name)
-                ],
+                "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
                 "arguments": args_info,
                 "returns": returns_type,
             },
@@ -219,9 +213,7 @@ class DocGenerator:
         for arg in args.args:
             arg_info = {
                 "name": arg.arg,
-                "type": (
-                    self._extract_type_hint(arg.annotation) if arg.annotation else "Any"
-                ),
+                "type": (self._extract_type_hint(arg.annotation) if arg.annotation else "Any"),
             }
             processed_args.append(arg_info)
 
@@ -256,9 +248,7 @@ class DocGenerator:
         )
 
         # Add classes
-        for class_node in self.skg.get_connected_nodes(
-            module_node.id, RelationshipType.CONTAINS
-        ):
+        for class_node in self.skg.get_connected_nodes(module_node.id, RelationshipType.CONTAINS):
             if class_node.node_type == NodeType.CLASS:
                 class_section = self._generate_class_section(class_node, config)
                 module_section.subsections.append(class_section)
@@ -281,9 +271,7 @@ class DocGenerator:
         )
 
         # Add methods
-        for method_node in self.skg.get_connected_nodes(
-            class_node.id, RelationshipType.CONTAINS
-        ):
+        for method_node in self.skg.get_connected_nodes(class_node.id, RelationshipType.CONTAINS):
             if method_node.node_type == NodeType.FUNCTION:
                 method_section = self._generate_function_section(method_node, config)
                 class_section.subsections.append(method_section)
@@ -297,9 +285,7 @@ class DocGenerator:
         props = func_node.properties
 
         # Build signature
-        signature = self._build_function_signature(
-            func_node.name, props.get("arguments", {})
-        )
+        signature = self._build_function_signature(func_node.name, props.get("arguments", {}))
 
         # Create function section
         return DocSection(
@@ -364,9 +350,7 @@ class DocGenerator:
 
         return enhanced_sections
 
-    def _calculate_optimal_complexity(
-        self, section: DocSection, bio_data: dict[str, Any]
-    ) -> int:
+    def _calculate_optimal_complexity(self, section: DocSection, bio_data: dict[str, Any]) -> int:
         """Calculate optimal complexity level based on bio-oscillator data."""
         # This would integrate with Lukhas's bio-oscillator
         base_complexity = section.complexity_level
@@ -376,16 +360,12 @@ class DocGenerator:
         optimal = base_complexity * attention_level * (1 - cognitive_load)
         return max(1, min(5, round(optimal)))
 
-    def _add_cultural_context(
-        self, section: DocSection, cultural_context: str
-    ) -> DocSection:
+    def _add_cultural_context(self, section: DocSection, cultural_context: str) -> DocSection:
         """Add cultural context to documentation content."""
         # This would use Lukhas's cultural adaptation system
         # For now, just add cultural-specific examples or explanations
         if section.content:
-            section.content += (
-                f"\n\nCultural Note: Adapted for {cultural_context} context."
-            )
+            section.content += f"\n\nCultural Note: Adapted for {cultural_context} context."
         return section
 
     def _prepare_for_voice(self, section: DocSection) -> DocSection:
@@ -395,9 +375,7 @@ class DocGenerator:
             section.title = f"<voice-emphasis>{section.title}</voice-emphasis>"
         return section
 
-    def _render_documentation(
-        self, sections: list[DocSection], config: DocumentationConfig
-    ) -> str:
+    def _render_documentation(self, sections: list[DocSection], config: DocumentationConfig) -> str:
         """Render final documentation using templates."""
         template_name = f"documentation.{config.output_format}.jinja2"
         template = self.template_env.get_template(template_name)

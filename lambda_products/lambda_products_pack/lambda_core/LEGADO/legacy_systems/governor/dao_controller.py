@@ -193,9 +193,13 @@ class DAOGovernanceNode:
 
             comment = None
             if vote:
-                comment = f"I approve this proposal as it aligns with {member['domain']} principles."
+                comment = (
+                    f"I approve this proposal as it aligns with {member['domain']} principles."
+                )
             else:
-                comment = f"I reject this proposal as it raises concerns in the {member['domain']} area."
+                comment = (
+                    f"I reject this proposal as it raises concerns in the {member['domain']} area."
+                )
 
             self.vote_on_proposal(
                 proposal_id=proposal_id,

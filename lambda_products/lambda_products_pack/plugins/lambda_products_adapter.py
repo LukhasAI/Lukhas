@@ -109,9 +109,7 @@ class NIASPlugin(LukhasPlugin):
     async def health_check(self) -> HealthStatus:
         """Check NIΛS health"""
         try:
-            is_healthy = (
-                self.nias_engine is not None and self.status == PluginStatus.ACTIVE
-            )
+            is_healthy = self.nias_engine is not None and self.status == PluginStatus.ACTIVE
 
             return HealthStatus(
                 is_healthy=is_healthy,
@@ -121,22 +119,16 @@ class NIASPlugin(LukhasPlugin):
                 uptime_seconds=self.get_uptime(),
                 custom_metrics={
                     "messages_processed": (
-                        getattr(self.nias_engine, "message_count", 0)
-                        if self.nias_engine
-                        else 0
+                        getattr(self.nias_engine, "message_count", 0) if self.nias_engine else 0
                     ),
                     "consent_checks": (
-                        getattr(self.nias_engine, "consent_checks", 0)
-                        if self.nias_engine
-                        else 0
+                        getattr(self.nias_engine, "consent_checks", 0) if self.nias_engine else 0
                     ),
                 },
             )
         except Exception as e:
             logger.error(f"Health check failed for NIΛS: {e}")
-            return HealthStatus(
-                is_healthy=False, last_check=datetime.now(), error_count=1
-            )
+            return HealthStatus(is_healthy=False, last_check=datetime.now(), error_count=1)
 
     async def process(self, input_data: Any) -> Any:
         """Process message through NIΛS"""
@@ -481,4 +473,4 @@ class LambdaProductsAdapter:
 
 
 # Export main classes
-__all__ = ["LambdaProductsAdapter", "NIASPlugin", "ABASPlugin", "DASTPlugin"]
+__all__ = ["ABASPlugin", "DASTPlugin", "LambdaProductsAdapter", "NIASPlugin"]

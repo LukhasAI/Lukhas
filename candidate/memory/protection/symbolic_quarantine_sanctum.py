@@ -42,6 +42,7 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import argparse
 import asyncio
 import json
@@ -192,12 +193,8 @@ class SanctumManifest:
     permanent_locks: int = 0
 
     # Statistics by source system
-    quarantines_by_source: dict[str, int] = field(
-        default_factory=lambda: defaultdict(int)
-    )
-    threat_level_distribution: dict[str, int] = field(
-        default_factory=lambda: defaultdict(int)
-    )
+    quarantines_by_source: dict[str, int] = field(default_factory=lambda: defaultdict(int))
+    threat_level_distribution: dict[str, int] = field(default_factory=lambda: defaultdict(int))
     repair_protocol_stats: dict[str, dict[str, int]] = field(
         default_factory=lambda: defaultdict(lambda: defaultdict(int))
     )
@@ -351,9 +348,7 @@ class SymbolicQuarantineSanctum:
             memory_ids = self._extract_memory_ids(content)
             lambda_tags = self._extract_lambda_tags(content)
             entropy_score = self._calculate_entropy_score(content)
-            contamination_vectors = self._identify_contamination_vectors(
-                content, metadata or {}
-            )
+            contamination_vectors = self._identify_contamination_vectors(content, metadata or {})
 
             # Create quarantine entry
             quarantine_entry = QuarantineEntry(
@@ -465,9 +460,7 @@ class SymbolicQuarantineSanctum:
         try:
             # Mark entry as repairing
             entry.status = QuarantineStatus.REPAIRING
-            entry.add_audit_entry(
-                "REPAIR_STARTED", {"protocol_type": protocol_type.value}
-            )
+            entry.add_audit_entry("REPAIR_STARTED", {"protocol_type": protocol_type.value})
 
             # Create repair protocol instance
             protocol = RepairProtocol(
@@ -592,9 +585,7 @@ class SymbolicQuarantineSanctum:
 
         # Factor 1: Repair success rate
         if entry.repair_attempts:
-            successful_repairs = len(
-                [r for r in entry.repair_attempts if r.get("success", False)]
-            )
+            successful_repairs = len([r for r in entry.repair_attempts if r.get("success", False)])
             repair_success_ratio = successful_repairs / len(entry.repair_attempts)
             viability_score += repair_success_ratio * 0.3
             confidence_score += 0.2
@@ -758,9 +749,7 @@ class SymbolicQuarantineSanctum:
                     "force_release": force_release,
                     "reviewer_approval": reviewer_approval,
                     "viability": (
-                        entry.viability_assessment.value
-                        if entry.viability_assessment
-                        else None
+                        entry.viability_assessment.value if entry.viability_assessment else None
                     ),
                 },
             )
@@ -783,9 +772,7 @@ class SymbolicQuarantineSanctum:
                     "force_release": force_release,
                     "reviewer_approval": reviewer_approval,
                     "final_viability": (
-                        entry.viability_assessment.value
-                        if entry.viability_assessment
-                        else None
+                        entry.viability_assessment.value if entry.viability_assessment else None
                     ),
                 },
             )
@@ -923,9 +910,7 @@ class SymbolicQuarantineSanctum:
                 protocol: {
                     **stats,
                     "success_rate": (
-                        stats["successes"] / stats["attempts"]
-                        if stats["attempts"] > 0
-                        else 0.0
+                        stats["successes"] / stats["attempts"] if stats["attempts"] > 0 else 0.0
                     ),
                 }
                 for protocol, stats in protocol_stats.items()
@@ -975,9 +960,7 @@ class SymbolicQuarantineSanctum:
             contradiction_level = self._calculate_contradiction_metrics(entry)
             if contradiction_level > self.safety_thresholds["contradiction_threshold"]:
                 contamination_score += 0.2
-                contamination_reasons.append(
-                    f"High contradictions: {contradiction_level:.3f}"
-                )
+                contamination_reasons.append(f"High contradictions: {contradiction_level:.3f}")
 
             # Check emotional volatility
             volatility = self._calculate_emotional_volatility(entry)
@@ -994,9 +977,7 @@ class SymbolicQuarantineSanctum:
             # Create finding if contamination detected
             if contamination_score > 0.5:
                 finding = {
-                    "entry_id": entry.get(
-                        "entry_id", f"unknown_{uuid.uuid4().hex[:8]}"
-                    ),
+                    "entry_id": entry.get("entry_id", f"unknown_{uuid.uuid4().hex[:8]}"),
                     "contamination_score": contamination_score,
                     "contamination_reasons": contamination_reasons,
                     "threat_level": self._assess_threat_level(contamination_score),
@@ -1046,9 +1027,7 @@ class SymbolicQuarantineSanctum:
 
     # Private implementation methods
 
-    async def _create_isolation_vault(
-        self, entry_id: str, content: dict[str, Any]
-    ) -> Path:
+    async def _create_isolation_vault(self, entry_id: str, content: dict[str, Any]) -> Path:
         """Create secure isolation vault for quarantined entry."""
         vault_path = self.sanctum_directory / f"{entry_id}.vault"
 
@@ -1278,9 +1257,7 @@ class SymbolicQuarantineSanctum:
 
                 # Verify hash if available
                 if "content_hash" in vault_data:
-                    sha256(
-                        json.dumps(entry.original_content, sort_keys=True).encode()
-                    ).hexdigest()
+                    sha256(json.dumps(entry.original_content, sort_keys=True).encode()).hexdigest()
 
                     # Allow for repaired content to have different hash
                     # but check structural integrity
@@ -1495,9 +1472,7 @@ class SymbolicQuarantineSanctum:
             "incompatible",
         ]
 
-        contradiction_count = sum(
-            1 for keyword in contradiction_keywords if keyword in content_str
-        )
+        contradiction_count = sum(1 for keyword in contradiction_keywords if keyword in content_str)
 
         return min(contradiction_count * 0.2, 1.0)
 
@@ -1524,9 +1499,7 @@ class SymbolicQuarantineSanctum:
             "overwhelming",
         ]
 
-        volatility = sum(
-            0.15 for keyword in volatile_keywords if keyword in content_str
-        )
+        volatility = sum(0.15 for keyword in volatile_keywords if keyword in content_str)
 
         return min(volatility, 1.0)
 
@@ -1633,13 +1606,9 @@ def main():
 
     # Status command
     status_parser = subparsers.add_parser("status", help="Show quarantine status")
-    status_parser.add_argument(
-        "entry_id", nargs="?", help="Specific entry ID (optional)"
-    )
+    status_parser.add_argument("entry_id", nargs="?", help="Specific entry ID (optional)")
 
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Enable verbose logging"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -1678,9 +1647,7 @@ def main():
                         if args.verbose:
                             print(f"⚠️ Failed to load {file_path}: {e}")
 
-            findings = await sanctum.scan_for_contamination(
-                entries, args.auto_quarantine
-            )
+            findings = await sanctum.scan_for_contamination(entries, args.auto_quarantine)
 
             if args.format == "json":
                 print(json.dumps(findings, indent=2))
@@ -1775,16 +1742,10 @@ def main():
             else:
                 report = sanctum.get_sanctum_report()
                 print("🏛️ ΛSANCTUM Status:")
-                print(
-                    f"  Active quarantines: {report['summary']['active_quarantines']}"
-                )
+                print(f"  Active quarantines: {report['summary']['active_quarantines']}")
                 print(f"  Total processed: {report['summary']['total_quarantines']}")
-                print(
-                    f"  Successful repairs: {report['summary']['successful_repairs']}"
-                )
-                print(
-                    f"  Capacity usage: {report['quarantine_capacity']['utilization']:.1%}"
-                )
+                print(f"  Successful repairs: {report['summary']['successful_repairs']}")
+                print(f"  Capacity usage: {report['quarantine_capacity']['utilization']:.1%}")
 
         else:
             parser.print_help()

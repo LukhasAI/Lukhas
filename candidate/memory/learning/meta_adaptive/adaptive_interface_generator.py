@@ -188,9 +188,7 @@ class AdaptiveInterfaceGenerator:
         # Define standard interactions
         for component in components:
             component_type = component["type"]
-            interactions[component_type] = self._get_standard_interactions(
-                component_type
-            )
+            interactions[component_type] = self._get_standard_interactions(component_type)
 
         return interactions
 
@@ -289,9 +287,7 @@ class AdaptiveInterfaceGenerator:
         """Get component specification by type"""
         return self.interface_components.get(component_type)
 
-    def _find_optimal_placement(
-        self, component_spec: dict, grid: dict
-    ) -> Optional[dict]:
+    def _find_optimal_placement(self, component_spec: dict, grid: dict) -> Optional[dict]:
         """Find optimal placement for component in grid"""
         # Placeholder - this would implement a layout algorithm
         # For now, return a simple placement

@@ -35,6 +35,7 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+
 class Phase2ValidationRunner:
     """Phase 2 comprehensive validation runner"""
 
@@ -50,7 +51,7 @@ class Phase2ValidationRunner:
             "performance_metrics": {},
             "coverage_analysis": {},
             "quality_gates": {},
-            "promotion_readiness": False
+            "promotion_readiness": False,
         }
 
     def setup_environment(self):
@@ -64,7 +65,7 @@ class Phase2ValidationRunner:
             "DRIFT_THRESHOLD": "0.15",
             "PERFORMANCE_BENCHMARK_MODE": "true",
             "COVERAGE_TARGET": "85",
-            "PYTHONPATH": str(Path.cwd())
+            "PYTHONPATH": str(Path.cwd()),
         }
 
         for key, value in test_env.items():
@@ -81,7 +82,7 @@ class Phase2ValidationRunner:
             "-v",
             "--tb=short",
             f"--junitxml={self.results_dir}/integration_tests.xml",
-            f"--json-report={self.results_dir}/integration_report.json"
+            f"--json-report={self.results_dir}/integration_report.json",
         ]
 
         if self.quick_mode:
@@ -100,7 +101,7 @@ class Phase2ValidationRunner:
                 "tests_run": self._count_tests_from_output(result.stdout),
                 "failures": self._count_failures_from_output(result.stdout),
                 "stdout": result.stdout,
-                "stderr": result.stderr
+                "stderr": result.stderr,
             }
 
             if success:
@@ -126,7 +127,7 @@ class Phase2ValidationRunner:
             "tests/phase2/test_security_compliance.py",
             "-v",
             "--tb=short",
-            f"--junitxml={self.results_dir}/security_tests.xml"
+            f"--junitxml={self.results_dir}/security_tests.xml",
         ]
 
         start_time = time.time()
@@ -141,7 +142,7 @@ class Phase2ValidationRunner:
                 "execution_time": execution_time,
                 "tests_run": self._count_tests_from_output(result.stdout),
                 "failures": self._count_failures_from_output(result.stdout),
-                "compliance_validation": self._extract_compliance_metrics(result.stdout)
+                "compliance_validation": self._extract_compliance_metrics(result.stdout),
             }
 
             if success:
@@ -165,7 +166,7 @@ class Phase2ValidationRunner:
             "-v",
             "-s",  # Show print output for performance metrics
             "--tb=short",
-            f"--junitxml={self.results_dir}/performance_tests.xml"
+            f"--junitxml={self.results_dir}/performance_tests.xml",
         ]
 
         start_time = time.time()
@@ -180,7 +181,7 @@ class Phase2ValidationRunner:
                 "execution_time": execution_time,
                 "benchmarks_run": self._count_tests_from_output(result.stdout),
                 "performance_metrics": self._extract_performance_metrics(result.stdout),
-                "targets_met": self._check_performance_targets(result.stdout)
+                "targets_met": self._check_performance_targets(result.stdout),
             }
 
             if success:
@@ -204,8 +205,9 @@ class Phase2ValidationRunner:
             "tests/phase2/test_tool_execution_safety.py",
             "-v",
             "--tb=short",
-            "-k", "not test_docker",  # Skip Docker tests that may not work in all environments
-            f"--junitxml={self.results_dir}/tool_safety_tests.xml"
+            "-k",
+            "not test_docker",  # Skip Docker tests that may not work in all environments
+            f"--junitxml={self.results_dir}/tool_safety_tests.xml",
         ]
 
         start_time = time.time()
@@ -219,7 +221,7 @@ class Phase2ValidationRunner:
                 "success": success,
                 "execution_time": execution_time,
                 "safety_tests_run": self._count_tests_from_output(result.stdout),
-                "security_validations": self._extract_safety_metrics(result.stdout)
+                "security_validations": self._extract_safety_metrics(result.stdout),
             }
 
             if success:
@@ -238,12 +240,7 @@ class Phase2ValidationRunner:
         logger.info("📊 Running coverage analysis...")
 
         # Run tests with coverage
-        coverage_command = [
-            "coverage", "run", "-m", "pytest",
-            "tests/phase2/",
-            "--tb=short",
-            "-q"
-        ]
+        coverage_command = ["coverage", "run", "-m", "pytest", "tests/phase2/", "--tb=short", "-q"]
 
         try:
             # Run coverage collection
@@ -251,24 +248,23 @@ class Phase2ValidationRunner:
 
             # Generate coverage report
             report_result = subprocess.run(
-                ["coverage", "report", "--format=json"],
-                capture_output=True, text=True, check=True
+                ["coverage", "report", "--format=json"], capture_output=True, text=True, check=True
             )
 
             coverage_data = json.loads(report_result.stdout)
             total_coverage = coverage_data["totals"]["percent_covered"]
 
             # Generate HTML report
-            subprocess.run([
-                "coverage", "html", "-d", f"{self.results_dir}/coverage_html"
-            ], check=True)
+            subprocess.run(
+                ["coverage", "html", "-d", f"{self.results_dir}/coverage_html"], check=True
+            )
 
             coverage_results = {
                 "success": True,
                 "total_coverage": total_coverage,
                 "target_met": total_coverage >= 85.0,
                 "files_analyzed": len(coverage_data["files"]),
-                "coverage_data": coverage_data
+                "coverage_data": coverage_data,
             }
 
             logger.info(f"📊 Coverage analysis: {total_coverage:.1f}% (target: 85%)")
@@ -294,10 +290,12 @@ class Phase2ValidationRunner:
         quality_gates = {
             "integration_tests_pass": test_results.get("integration", {}).get("success", False),
             "security_compliance_pass": test_results.get("security", {}).get("success", False),
-            "performance_targets_met": test_results.get("performance", {}).get("targets_met", False),
+            "performance_targets_met": test_results.get("performance", {}).get(
+                "targets_met", False
+            ),
             "tool_safety_validated": test_results.get("tool_safety", {}).get("success", False),
             "coverage_target_met": coverage.get("target_met", False),
-            "no_critical_failures": self._check_no_critical_failures()
+            "no_critical_failures": self._check_no_critical_failures(),
         }
 
         # Calculate promotion readiness
@@ -310,11 +308,13 @@ class Phase2ValidationRunner:
             "gates_passed": gates_passed,
             "total_gates": total_gates,
             "pass_rate": gates_passed / total_gates,
-            "promotion_ready": promotion_ready
+            "promotion_ready": promotion_ready,
         }
 
         # Log quality gate results
-        logger.info(f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed/total_gates*100:.1f}%)")
+        logger.info(
+            f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed / total_gates * 100:.1f}%)"
+        )
         for gate, passed in quality_gates.items():
             status = "✅" if passed else "❌"
             logger.info(f"  {status} {gate}")
@@ -332,7 +332,9 @@ class Phase2ValidationRunner:
 
         # Update final results
         self.validation_results["quality_gates"] = self.evaluate_quality_gates()
-        self.validation_results["promotion_readiness"] = self.validation_results["quality_gates"]["promotion_ready"]
+        self.validation_results["promotion_readiness"] = self.validation_results["quality_gates"][
+            "promotion_ready"
+        ]
 
         # Save detailed results
         results_file = self.results_dir / "phase2_validation_report.json"
@@ -357,8 +359,12 @@ class Phase2ValidationRunner:
 
         # Run test suites
         self.validation_results["test_suites"]["integration"] = await self.run_integration_tests()
-        self.validation_results["test_suites"]["security"] = await self.run_security_compliance_tests()
-        self.validation_results["test_suites"]["performance"] = await self.run_performance_benchmarks()
+        self.validation_results["test_suites"][
+            "security"
+        ] = await self.run_security_compliance_tests()
+        self.validation_results["test_suites"][
+            "performance"
+        ] = await self.run_performance_benchmarks()
         self.validation_results["test_suites"]["tool_safety"] = await self.run_tool_safety_tests()
 
         # Run coverage analysis
@@ -380,12 +386,14 @@ class Phase2ValidationRunner:
     def _count_tests_from_output(self, output: str) -> int:
         """Extract test count from pytest output"""
         import re
+
         match = re.search(r"(\d+) passed", output)
         return int(match.group(1)) if match else 0
 
     def _count_failures_from_output(self, output: str) -> int:
         """Extract failure count from pytest output"""
         import re
+
         match = re.search(r"(\d+) failed", output)
         return int(match.group(1)) if match else 0
 
@@ -401,7 +409,7 @@ class Phase2ValidationRunner:
             "authentication_avg_ms": 45,
             "guardian_validation_avg_ms": 85,
             "tool_execution_avg_ms": 850,
-            "memory_operations_avg_ms": 5
+            "memory_operations_avg_ms": 5,
         }
 
     def _check_performance_targets(self, output: str) -> bool:
@@ -434,7 +442,9 @@ class Phase2ValidationRunner:
             f.write("# LUKHAS AI Phase 2 Validation Summary\n\n")
             f.write(f"**Generated:** {self.validation_results['timestamp']}\n")
             f.write(f"**Mode:** {self.validation_results['mode']}\n")
-            f.write(f"**Execution Time:** {self.validation_results.get('total_execution_time', 0):.1f}s\n\n")
+            f.write(
+                f"**Execution Time:** {self.validation_results.get('total_execution_time', 0):.1f}s\n\n"
+            )
 
             # Quality Gates
             gates = self.validation_results["quality_gates"]["gates"]
@@ -457,7 +467,9 @@ async def main():
     parser = argparse.ArgumentParser(description="LUKHAS AI Phase 2 Validation Runner")
     parser.add_argument("--quick", action="store_true", help="Run quick validation")
     parser.add_argument("--coverage-only", action="store_true", help="Run only coverage analysis")
-    parser.add_argument("--performance-only", action="store_true", help="Run only performance benchmarks")
+    parser.add_argument(
+        "--performance-only", action="store_true", help="Run only performance benchmarks"
+    )
     parser.add_argument("--report-only", action="store_true", help="Generate summary report only")
 
     args = parser.parse_args()
@@ -472,7 +484,9 @@ async def main():
             return 0
         elif args.performance_only:
             runner.setup_environment()
-            runner.validation_results["test_suites"]["performance"] = await runner.run_performance_benchmarks()
+            runner.validation_results["test_suites"][
+                "performance"
+            ] = await runner.run_performance_benchmarks()
             runner.generate_summary_report()
             return 0
         elif args.report_only:

@@ -72,7 +72,7 @@ async def demonstrate_enhanced_vivox():
             test_input["dimensions"], test_input["emotional"], test_input["context"]
         )
         states_observed.append(state.name)
-        print(f"  Input {i+1}: {state.name}")
+        print(f"  Input {i + 1}: {state.name}")
         print(
             f"    Emotional: V={test_input['emotional']['valence']:.1f}, "
             f"A={test_input['emotional']['arousal']:.1f}"
@@ -138,7 +138,7 @@ async def demonstrate_enhanced_vivox():
     correct_decisions = 0
 
     for i, test_case in enumerate(test_actions):
-        print(f"\n  Test {i+1}: {test_case['action'].action_type}")
+        print(f"\n  Test {i + 1}: {test_case['action'].action_type}")
 
         # Get initial decision
         initial_decision = await mae.evaluate_action_proposal(
@@ -157,17 +157,12 @@ async def demonstrate_enhanced_vivox():
         if correct:
             correct_decisions += 1
 
-        print(
-            f"    Initial: {'✅ Approved' if initial_decision.approved else '❌ Rejected'}"
-        )
+        print(f"    Initial: {'✅ Approved' if initial_decision.approved else '❌ Rejected'}")
         print(f"    Final: {'✅ Approved' if approved else '❌ Rejected'}")
         print(f"    Expected: {test_case['expected']}")
         print(f"    Result: {'✅ Correct' if correct else '❌ Incorrect'}")
 
-        if (
-            hasattr(final_decision, "risk_assessment")
-            and final_decision.risk_assessment
-        ):
+        if hasattr(final_decision, "risk_assessment") and final_decision.risk_assessment:
             risk = final_decision.risk_assessment
             print(f"    Risk Level: {risk.risk_level:.2f}")
             if risk.risk_factors:
@@ -180,9 +175,7 @@ async def demonstrate_enhanced_vivox():
             print(f"    Alternatives: {final_decision.recommended_alternatives[0]}")
 
     accuracy = (correct_decisions / len(test_actions)) * 100
-    print(
-        f"\n  Decision Accuracy: {correct_decisions}/{len(test_actions)} ({accuracy:.0f}%)"
-    )
+    print(f"\n  Decision Accuracy: {correct_decisions}/{len(test_actions)} ({accuracy:.0f}%)")
 
     print("\n3️⃣ Combined Enhancement Demo")
     print("-" * 30)

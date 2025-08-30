@@ -23,35 +23,92 @@ class BotCustomizer:
         # Design templates
         self.designs = {
             "1": {"name": "Minimal", "text": "🤖 LUKHAS AI ΛBot", "style": "minimal"},
-            "2": {"name": "Detailed", "text": "🎯 LUKHAS AI ΛBot Monitor - {status}", "style": "detailed"},
+            "2": {
+                "name": "Detailed",
+                "text": "🎯 LUKHAS AI ΛBot Monitor - {status}",
+                "style": "detailed",
+            },
             "3": {"name": "Compact", "text": "Λ {violations}", "style": "compact"},
-            "4": {"name": "Professional", "text": "📊 Quality: {quality_score}%", "style": "professional"},
-            "5": {"name": "Developer", "text": "⚡ {files_scanned} files | {violations} issues", "style": "developer"},
-            "6": {"name": "Gaming", "text": "🎮 Level {quality_level} | ⚔️ {critical} critical", "style": "gaming"},
-            "7": {"name": "Custom", "text": "Your custom design", "style": "custom"}
+            "4": {
+                "name": "Professional",
+                "text": "📊 Quality: {quality_score}%",
+                "style": "professional",
+            },
+            "5": {
+                "name": "Developer",
+                "text": "⚡ {files_scanned} files | {violations} issues",
+                "style": "developer",
+            },
+            "6": {
+                "name": "Gaming",
+                "text": "🎮 Level {quality_level} | ⚔️ {critical} critical",
+                "style": "gaming",
+            },
+            "7": {"name": "Custom", "text": "Your custom design", "style": "custom"},
         }
 
         # Click actions
         self.actions = {
-            "1": {"name": "Quick Scan", "command": "workbench.action.tasks.runTask", "args": ["LUKHAS AI ΛBot: Quick Scan"]},
-            "2": {"name": "Show Report", "command": "vscode.open", "args": ["${workspaceFolder}/naming_audit_report.json"]},
-            "3": {"name": "Show Dashboard", "command": "vscode.open", "args": ["${workspaceFolder}/quality-metrics-live.json"]},
-            "4": {"name": "Apply Auto-Fixes", "command": "workbench.action.tasks.runTask", "args": ["LUKHAS AI ΛBot: Apply Auto-Fixes"]},
-            "5": {"name": "Command Palette", "command": "workbench.action.quickOpen", "args": [">LUKHAS AI ΛBot"]},
-            "6": {"name": "Show Problems", "command": "workbench.actions.view.problems", "args": []},
-            "7": {"name": "Terminal Focus", "command": "workbench.action.terminal.focus", "args": []},
-            "8": {"name": "Full Audit", "command": "workbench.action.tasks.runTask", "args": ["LUKHAS AI ΛBot: Full Audit"]},
-            "9": {"name": "Stop Scanner", "command": "workbench.action.tasks.runTask", "args": ["LUKHAS AI ΛBot: Stop Scanner"]}
+            "1": {
+                "name": "Quick Scan",
+                "command": "workbench.action.tasks.runTask",
+                "args": ["LUKHAS AI ΛBot: Quick Scan"],
+            },
+            "2": {
+                "name": "Show Report",
+                "command": "vscode.open",
+                "args": ["${workspaceFolder}/naming_audit_report.json"],
+            },
+            "3": {
+                "name": "Show Dashboard",
+                "command": "vscode.open",
+                "args": ["${workspaceFolder}/quality-metrics-live.json"],
+            },
+            "4": {
+                "name": "Apply Auto-Fixes",
+                "command": "workbench.action.tasks.runTask",
+                "args": ["LUKHAS AI ΛBot: Apply Auto-Fixes"],
+            },
+            "5": {
+                "name": "Command Palette",
+                "command": "workbench.action.quickOpen",
+                "args": [">LUKHAS AI ΛBot"],
+            },
+            "6": {
+                "name": "Show Problems",
+                "command": "workbench.actions.view.problems",
+                "args": [],
+            },
+            "7": {
+                "name": "Terminal Focus",
+                "command": "workbench.action.terminal.focus",
+                "args": [],
+            },
+            "8": {
+                "name": "Full Audit",
+                "command": "workbench.action.tasks.runTask",
+                "args": ["LUKHAS AI ΛBot: Full Audit"],
+            },
+            "9": {
+                "name": "Stop Scanner",
+                "command": "workbench.action.tasks.runTask",
+                "args": ["LUKHAS AI ΛBot: Stop Scanner"],
+            },
         }
 
         # Color schemes
         self.colors = {
-            "1": {"name": "Default", "success": "#28a745", "warning": "#ffc107", "error": "#dc3545"},
+            "1": {
+                "name": "Default",
+                "success": "#28a745",
+                "warning": "#ffc107",
+                "error": "#dc3545",
+            },
             "2": {"name": "Bright", "success": "#00ff88", "warning": "#ffaa00", "error": "#ff4444"},
             "3": {"name": "Subtle", "success": "#00aa00", "warning": "#aa6600", "error": "#aa0000"},
             "4": {"name": "GitHub", "success": "#2ea043", "warning": "#fb8500", "error": "#d1242f"},
             "5": {"name": "Neon", "success": "#39d353", "warning": "#d4ac0d", "error": "#e74c3c"},
-            "6": {"name": "Retro", "success": "#00ff00", "warning": "#ffff00", "error": "#ff0000"}
+            "6": {"name": "Retro", "success": "#00ff00", "warning": "#ffff00", "error": "#ff0000"},
         }
 
     def show_menu(self):
@@ -148,7 +205,9 @@ class BotCustomizer:
         print()
 
         for key, scheme in self.colors.items():
-            print(f"{key}. {scheme['name']}: Success({scheme['success']}) Warning({scheme['warning']}) Error({scheme['error']})")
+            print(
+                f"{key}. {scheme['name']}: Success({scheme['success']}) Warning({scheme['warning']}) Error({scheme['error']})"
+            )
         print()
 
         choice = input("Select color scheme (1-6): ").strip()
@@ -182,7 +241,11 @@ class BotCustomizer:
 
         print("\n📝 Sample Status Bar:")
         sample_text = getattr(self, "current_design", {}).get("text", "🤖 LUKHAS AI ΛBot")
-        sample_text = sample_text.replace("{status}", "monitoring").replace("{violations}", "3").replace("{quality_score}", "95")
+        sample_text = (
+            sample_text.replace("{status}", "monitoring")
+            .replace("{violations}", "3")
+            .replace("{quality_score}", "95")
+        )
         print(f"  {sample_text}")
 
         input("\nPress Enter to continue...")
@@ -195,7 +258,11 @@ class BotCustomizer:
 
         try:
             # Update the status bar widget
-            if hasattr(self, "current_design") or hasattr(self, "current_action") or hasattr(self, "current_colors"):
+            if (
+                hasattr(self, "current_design")
+                or hasattr(self, "current_action")
+                or hasattr(self, "current_colors")
+            ):
                 self.update_status_bar_code()
                 print("✅ Status bar code updated")
 
@@ -235,7 +302,7 @@ class BotCustomizer:
             "design": getattr(self, "current_design", {}),
             "action": getattr(self, "current_action", {}),
             "colors": getattr(self, "current_colors", {}),
-            "updated": datetime.now().isoformat()
+            "updated": datetime.now().isoformat(),
         }
 
         config_file = self.workspace / ".vscode" / "abot_config.json"
@@ -251,11 +318,11 @@ class BotCustomizer:
         return f"""
         # Auto-generated widget configuration
         widget_data = {{
-            "text": "{design.get('text', '🤖 LUKHAS AI ΛBot')}",
-            "tooltip": "LUKHAS AI ΛBot Quality Monitor - Click for {action.get('name', 'actions')}",
-            "color": "{colors.get('success', '#28a745')}",
-            "command": "{action.get('command', 'workbench.action.tasks.runTask')}",
-            "arguments": {action.get('args', [])},
+            "text": "{design.get("text", "🤖 LUKHAS AI ΛBot")}",
+            "tooltip": "LUKHAS AI ΛBot Quality Monitor - Click for {action.get("name", "actions")}",
+            "color": "{colors.get("success", "#28a745")}",
+            "command": "{action.get("command", "workbench.action.tasks.runTask")}",
+            "arguments": {action.get("args", [])},
             "priority": 100,
             "alignment": "left"
         }}
@@ -267,23 +334,26 @@ class BotCustomizer:
         import time
 
         # Stop current widget
-        subprocess.run([
-            "pkill", "-f", "BotStatusBar.py"
-        ], capture_output=True)
+        subprocess.run(["pkill", "-f", "BotStatusBar.py"], capture_output=True)
 
         time.sleep(1)
 
         # Start new widget
-        subprocess.Popen([
-            "python3",
-            str(self.workspace / "LUKHAS AI ΛBot" / "specialists" / "BotStatusBar.py"),
-            "--workspace", str(self.workspace)
-        ])
+        subprocess.Popen(
+            [
+                "python3",
+                str(self.workspace / "LUKHAS AI ΛBot" / "specialists" / "BotStatusBar.py"),
+                "--workspace",
+                str(self.workspace),
+            ]
+        )
 
     def clear_screen(self):
         """Clear the terminal screen."""
         import os
+
         os.system("clear" if os.name == "posix" else "cls")
+
 
 def main():
     """Main entry point."""
@@ -300,6 +370,7 @@ def main():
         sys.exit(1)
 
     print("\n✨ Customization complete! Check your VS Code status bar.")
+
 
 if __name__ == "__main__":
     main()

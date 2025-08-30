@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class EmergencyType(Enum):
     """Types of emergencies - from original Guardian system"""
+
     MEDICAL = "medical"
     FALL = "fall"
     PSYCHOLOGICAL = "psychological"
@@ -29,6 +30,7 @@ class EmergencyType(Enum):
 
 class EmergencySeverity(Enum):
     """Emergency severity levels"""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -39,6 +41,7 @@ class EmergencySeverity(Enum):
 @dataclass
 class EmergencyContact:
     """Emergency contact information"""
+
     name: str
     phone: str
     relationship: str
@@ -50,6 +53,7 @@ class EmergencyContact:
 @dataclass
 class EmergencyIncident:
     """Emergency incident record"""
+
     incident_id: str
     emergency_type: EmergencyType
     severity: EmergencySeverity
@@ -74,21 +78,37 @@ class EmergencyResponseSystem:
     # Emergency keywords in Spanish/Andalusian
     EMERGENCY_KEYWORDS = {
         EmergencyType.MEDICAL: [
-            "dolor pecho", "no puedo respirar", "mareo", "desmayo",
-            "infarto", "corazón", "sangre", "caída", "golpe cabeza",
-            "no me encuentro bien", "me duele mucho", "ayuda"
+            "dolor pecho",
+            "no puedo respirar",
+            "mareo",
+            "desmayo",
+            "infarto",
+            "corazón",
+            "sangre",
+            "caída",
+            "golpe cabeza",
+            "no me encuentro bien",
+            "me duele mucho",
+            "ayuda",
         ],
         EmergencyType.FALL: [
-            "me he caído", "me caí", "no puedo levantarme",
-            "estoy en el suelo", "tropezado", "resbalado"
+            "me he caído",
+            "me caí",
+            "no puedo levantarme",
+            "estoy en el suelo",
+            "tropezado",
+            "resbalado",
         ],
         EmergencyType.PSYCHOLOGICAL: [
-            "ansiedad", "pánico", "confundido", "no sé dónde estoy",
-            "tengo miedo", "estoy solo", "deprimido"
+            "ansiedad",
+            "pánico",
+            "confundido",
+            "no sé dónde estoy",
+            "tengo miedo",
+            "estoy solo",
+            "deprimido",
         ],
-        EmergencyType.SECURITY: [
-            "alguien en casa", "ruido", "ladrón", "puerta abierta"
-        ]
+        EmergencyType.SECURITY: ["alguien en casa", "ruido", "ladrón", "puerta abierta"],
     }
 
     # Emergency phrases for different severities
@@ -96,28 +116,28 @@ class EmergencyResponseSystem:
         EmergencySeverity.LIFE_THREATENING: {
             "message": "🚨 EMERGENCIA CRÍTICA DETECTADA",
             "voice": "Emergencia detectada. Llamando al 112 inmediatamente. Manténgase tranquilo.",
-            "action": "dispatch_immediate"
+            "action": "dispatch_immediate",
         },
         EmergencySeverity.CRITICAL: {
             "message": "⚠️ SITUACIÓN CRÍTICA",
             "voice": "Necesita ayuda urgente. Voy a llamar a emergencias. ¿Está consciente?",
-            "action": "dispatch_urgent"
+            "action": "dispatch_urgent",
         },
         EmergencySeverity.HIGH: {
             "message": "⚡ ATENCIÓN NECESARIA",
             "voice": "Parece que necesita ayuda. ¿Quiere que llame a alguien?",
-            "action": "confirm_dispatch"
+            "action": "confirm_dispatch",
         },
         EmergencySeverity.MEDIUM: {
             "message": "📞 ASISTENCIA RECOMENDADA",
             "voice": "Le recomiendo contactar con su médico. ¿Le ayudo a llamar?",
-            "action": "offer_assistance"
+            "action": "offer_assistance",
         },
         EmergencySeverity.LOW: {
             "message": "ℹ️ SUPERVISIÓN",
             "voice": "Voy a estar pendiente de usted. Avíseme si empeora.",
-            "action": "monitor"
-        }
+            "action": "monitor",
+        },
     }
 
     def __init__(self, config: dict[str, Any] = None, guardian=None):
@@ -166,7 +186,7 @@ class EmergencyResponseSystem:
                 relationship="emergency_services",
                 priority=1,
                 languages=["es"],
-                notify_automatically=True
+                notify_automatically=True,
             ),
             EmergencyContact(
                 name="Emergencias Sanitarias",
@@ -174,21 +194,23 @@ class EmergencyResponseSystem:
                 relationship="medical_emergency",
                 priority=2,
                 languages=["es"],
-                notify_automatically=True
-            )
+                notify_automatically=True,
+            ),
         ]
 
         # Load user's family contacts from config
         family_contacts = self.config.get("family_contacts", [])
         for contact in family_contacts:
-            self.emergency_contacts.append(EmergencyContact(
-                name=contact.get("name"),
-                phone=contact.get("phone"),
-                relationship=contact.get("relationship", "family"),
-                priority=contact.get("priority", 3),
-                languages=contact.get("languages", ["es"]),
-                notify_automatically=contact.get("auto_notify", False)
-            ))
+            self.emergency_contacts.append(
+                EmergencyContact(
+                    name=contact.get("name"),
+                    phone=contact.get("phone"),
+                    relationship=contact.get("relationship", "family"),
+                    priority=contact.get("priority", 3),
+                    languages=contact.get("languages", ["es"]),
+                    notify_automatically=contact.get("auto_notify", False),
+                )
+            )
 
         # Add default contacts if not already present
         for default in default_contacts:
@@ -213,8 +235,12 @@ class EmergencyResponseSystem:
 
         # Check for life-threatening keywords
         life_threatening = [
-            "no puedo respirar", "dolor pecho fuerte", "infarto",
-            "mucha sangre", "inconsciente", "no responde"
+            "no puedo respirar",
+            "dolor pecho fuerte",
+            "infarto",
+            "mucha sangre",
+            "inconsciente",
+            "no responde",
         ]
 
         for keyword in life_threatening:
@@ -222,10 +248,7 @@ class EmergencyResponseSystem:
                 return "critical"
 
         # Check for high severity
-        high_severity = [
-            "me he caído", "dolor fuerte", "mareo", "confundido",
-            "no puedo moverme"
-        ]
+        high_severity = ["me he caído", "dolor fuerte", "mareo", "confundido", "no puedo moverme"]
 
         for keyword in high_severity:
             if keyword in input_lower:
@@ -245,10 +268,12 @@ class EmergencyResponseSystem:
 
         return "low"
 
-    async def handle_emergency(self,
-                             description: str,
-                             emergency_type: EmergencyType = EmergencyType.UNKNOWN,
-                             location: tuple[float, float] = None) -> EmergencyIncident:
+    async def handle_emergency(
+        self,
+        description: str,
+        emergency_type: EmergencyType = EmergencyType.UNKNOWN,
+        location: tuple[float, float] = None,
+    ) -> EmergencyIncident:
         """
         Handle an emergency situation
 
@@ -274,7 +299,7 @@ class EmergencyResponseSystem:
             actions_taken=[],
             contacts_notified=[],
             response_time=None,
-            status="active"
+            status="active",
         )
 
         # Store incident
@@ -301,7 +326,7 @@ class EmergencyResponseSystem:
             "medium": EmergencySeverity.MEDIUM,
             "high": EmergencySeverity.HIGH,
             "critical": EmergencySeverity.CRITICAL,
-            "life_threatening": EmergencySeverity.LIFE_THREATENING
+            "life_threatening": EmergencySeverity.LIFE_THREATENING,
         }
         return mapping.get(severity_str, EmergencySeverity.MEDIUM)
 
@@ -320,7 +345,7 @@ class EmergencyResponseSystem:
             "dificultad respirar": "dificultad respiratoria",
             "sangrado": "sangrado",
             "caída": "traumatismo por caída",
-            "desmayo": "pérdida de consciencia"
+            "desmayo": "pérdida de consciencia",
         }
 
         for keyword, symptom in symptom_keywords.items():
@@ -393,8 +418,8 @@ class EmergencyResponseSystem:
             "patient_info": {
                 "age": "elderly",
                 "conditions": self.config.get("medical_conditions", []),
-                "medications": self.config.get("medications", [])
-            }
+                "medications": self.config.get("medications", []),
+            },
         }
 
         # Log the call
@@ -413,7 +438,9 @@ class EmergencyResponseSystem:
                 await self._send_emergency_notification(contact, incident)
                 incident.contacts_notified.append(contact.name)
 
-    async def _send_emergency_notification(self, contact: EmergencyContact, incident: EmergencyIncident):
+    async def _send_emergency_notification(
+        self, contact: EmergencyContact, incident: EmergencyIncident
+    ):
         """Send notification to emergency contact"""
         message = self._create_emergency_message(incident, contact.languages[0])
 
@@ -453,7 +480,7 @@ class EmergencyResponseSystem:
 
     async def _schedule_checkins(self, incident: EmergencyIncident):
         """Schedule periodic check-ins for monitored situations"""
-        check_in_intervals = [5*60, 15*60, 30*60]  # 5, 15, 30 minutes
+        check_in_intervals = [5 * 60, 15 * 60, 30 * 60]  # 5, 15, 30 minutes
 
         for interval in check_in_intervals:
             await asyncio.sleep(interval)
@@ -484,13 +511,15 @@ class EmergencyResponseSystem:
         thresholds = {
             "low": {"acceleration": 4.0, "orientation": 90},
             "medium": {"acceleration": 3.0, "orientation": 70},
-            "high": {"acceleration": 2.0, "orientation": 50}
+            "high": {"acceleration": 2.0, "orientation": 50},
         }
 
         threshold = thresholds.get(self.fall_sensitivity, thresholds["medium"])
 
-        if (acceleration > threshold["acceleration"] and
-            orientation_change > threshold["orientation"]):
+        if (
+            acceleration > threshold["acceleration"]
+            and orientation_change > threshold["orientation"]
+        ):
             logger.warning("Fall detected!")
             return True
 
@@ -503,7 +532,7 @@ class EmergencyResponseSystem:
             incident = await self.handle_emergency(
                 description="Detección automática de caída",
                 emergency_type=EmergencyType.FALL,
-                location=self.last_known_location
+                location=self.last_known_location,
             )
 
             # Voice check
@@ -533,7 +562,7 @@ class EmergencyResponseSystem:
         """Activate full emergency protocol"""
         incident = await self.handle_emergency(
             description="Protocolo de emergencia activado manualmente",
-            emergency_type=EmergencyType.MEDICAL
+            emergency_type=EmergencyType.MEDICAL,
         )
 
         return incident
@@ -564,5 +593,5 @@ class EmergencyResponseSystem:
             "active_incidents": len(self.active_incidents),
             "emergency_number": self.emergency_number,
             "contacts_configured": len(self.emergency_contacts),
-            "last_location": self.last_known_location is not None
+            "last_location": self.last_known_location is not None,
         }

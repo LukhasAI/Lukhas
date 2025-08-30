@@ -105,9 +105,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         self.project = os.getenv("PROJECT_ID")
 
         if not self.api_key:
-            raise ValueError(
-                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
-            )
+            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
         # Initialize clients with organization from .env
         client_kwargs = {"api_key": self.api_key}
@@ -244,9 +242,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
 
         # Set defaults
-        temperature = (
-            temperature if temperature is not None else self.default_temperature
-        )
+        temperature = temperature if temperature is not None else self.default_temperature
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         # Prepare request parameters
@@ -274,9 +270,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         for attempt in range(self.retry_attempts):
             try:
                 if stream:
-                    return await self.async_client.chat.completions.create(
-                        **params, stream=True
-                    )
+                    return await self.async_client.chat.completions.create(**params, stream=True)
                 else:
                     response = await self.async_client.chat.completions.create(**params)
                     return response.model_dump()
@@ -304,9 +298,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         if model is None:
             model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
 
-        temperature = (
-            temperature if temperature is not None else self.default_temperature
-        )
+        temperature = temperature if temperature is not None else self.default_temperature
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         response = self.client.chat.completions.create(
@@ -323,9 +315,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
     async def reasoning_task(self, prompt: str, context: Optional[dict] = None) -> str:
         """Execute a reasoning task with appropriate model and parameters"""
-        system_prompt = (
-            "You are an advanced reasoning system. Analyze the problem step by step."
-        )
+        system_prompt = "You are an advanced reasoning system. Analyze the problem step by step."
 
         messages = [{"role": "system", "content": system_prompt}]
 
@@ -349,9 +339,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
     async def creative_task(self, prompt: str, style: Optional[str] = None) -> str:
         """Execute a creative task with appropriate parameters"""
-        system_prompt = (
-            "You are a creative AI assistant capable of generating imaginative content."
-        )
+        system_prompt = "You are a creative AI assistant capable of generating imaginative content."
 
         if style:
             system_prompt += f" Generate content in the style of: {style}"
@@ -369,9 +357,7 @@ class UnifiedOpenAIClient(LLMWrapper):
 
         return response["choices"][0]["message"]["content"]
 
-    async def ethics_check(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def ethics_check(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Check ethical implications of an action"""
         messages = [
             {
@@ -384,9 +370,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             },
         ]
 
-        response = await self.chat_completion(
-            messages=messages, task="ethics", temperature=0.3
-        )
+        response = await self.chat_completion(messages=messages, task="ethics", temperature=0.3)
 
         content = response["choices"][0]["message"]["content"]
 
@@ -410,9 +394,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         return {
             "task_models": self.TASK_MODELS,
             "selected_model": (
-                self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
-                if task
-                else None
+                self.TASK_MODELS.get(task, self.TASK_MODELS["general"]) if task else None
             ),
             "organization_id": self.organization_id,
             "project_id": self.project_id,
@@ -425,7 +407,9 @@ class UnifiedOpenAIClient(LLMWrapper):
         await self.async_client.close()
         logger.info("UnifiedOpenAIClient closed")
 
-    async def generate_response(self, prompt: str, model: Optional[str] = None, **kwargs) -> tuple[str, str]:
+    async def generate_response(
+        self, prompt: str, model: Optional[str] = None, **kwargs
+    ) -> tuple[str, str]:
         """
         Generate a response from the LLM.
         This is an adapter method to comply with the LLMWrapper interface.

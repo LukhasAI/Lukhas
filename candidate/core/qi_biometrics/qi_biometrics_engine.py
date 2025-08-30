@@ -13,20 +13,25 @@ from typing import Any
 class AppleHealthKitAPI:
     async def get_heart_rate_variability(self, user_id: str) -> float:
         return random.uniform(20, 100)
+
     async def get_circadian_rhythm(self, user_id: str) -> str:
         return random.choice(["peak_focus", "trough", "creative_window"])
+
 
 class OuraRingAPI:
     async def get_sleep_chronotype(self, user_id: str) -> str:
         return random.choice(["lion", "bear", "wolf", "dolphin"])
 
+
 class NeuralinkAPI:
     async def get_neural_coherence_score(self, user_id: str) -> float:
         return random.uniform(0.1, 0.9)
 
+
 class HiveMindSensorNetwork:
     async def get_collective_resonance(self, user_id: str) -> float:
         return random.uniform(0.1, 0.9)
+
 
 class QiBiometricsEngine:
     """
@@ -57,8 +62,10 @@ class QiBiometricsEngine:
             "neural_coherence": neural_coherence,
             "heart_rate_variability": hrv,
             "circadian_phase": circadian_phase,
-            "glucose_consciousness_impact": random.uniform(0.1, 0.9), # Placeholder
-            "qi_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(user_id)
+            "glucose_consciousness_impact": random.uniform(0.1, 0.9),  # Placeholder
+            "qi_entanglement_potential": await self.hive_mind_sensors.get_collective_resonance(
+                user_id
+            ),
         }
 
     async def predict_biological_receptivity(self, user_id: str) -> dict[str, float]:
@@ -77,5 +84,5 @@ class QiBiometricsEngine:
             "creative_genesis_window": min(1.0, creative_window),
             "decision_clarity_peak": min(1.0, decision_peak),
             "empathy_resonance_maximum": min(1.0, empathy_max),
-            "transcendence_probability": min(1.0, transcendence_prob)
+            "transcendence_probability": min(1.0, transcendence_prob),
         }

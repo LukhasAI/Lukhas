@@ -12,7 +12,7 @@ __all__ = [
     "ConsentManager",
     "ConsentRequest",
     "ConsentStatus",
-    "PrivacyGuardian",
     "DataClassification",
-    "PrivacyPolicy"
+    "PrivacyGuardian",
+    "PrivacyPolicy",
 ]

@@ -48,9 +48,7 @@ class VoiceIntegrationLayer:
             {
                 **context,
                 **voice_result,
-                "profile_params": profile.get_parameters_for_emotion(
-                    context.get("emotion")
-                ),
+                "profile_params": profile.get_parameters_for_emotion(context.get("emotion")),
             }
         )
 

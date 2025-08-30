@@ -155,9 +155,7 @@ class QIEthicsEngine:
             EthicalPrinciple.QUANTUM_COHERENCE: 0.8,
         }
 
-        logger.info(
-            "lukhas Quantum Ethics Engine initialized with coherence-inspired processing"
-        )
+        logger.info("lukhas Quantum Ethics Engine initialized with coherence-inspired processing")
 
     async def evaluate_ethical_decision(
         self,
@@ -207,9 +205,7 @@ class QIEthicsEngine:
             )
 
             principle_scores[principle.value] = principle_result
-            evaluation_result["principle_evaluations"][
-                principle.value
-            ] = principle_result
+            evaluation_result["principle_evaluations"][principle.value] = principle_result
 
             # Calculate weighted score
             weight = self.principle_weights.get(principle, 0.5)
@@ -243,25 +239,19 @@ class QIEthicsEngine:
         # Determine if action is approved
         evaluation_result["approved"] = (
             evaluation_result["ethical_score"] >= 0.7
-            and evaluation_result["qi_coherence"]
-            >= self.qi_coherence_threshold
+            and evaluation_result["qi_coherence"] >= self.qi_coherence_threshold
             and not any(
-                v["severity"] >= EthicalSeverity.HIGH.value
-                for v in evaluation_result["violations"]
+                v["severity"] >= EthicalSeverity.HIGH.value for v in evaluation_result["violations"]
             )
         )
 
         # Generate recommendations
-        evaluation_result["recommendations"] = self._generate_recommendations(
-            evaluation_result
-        )
+        evaluation_result["recommendations"] = self._generate_recommendations(evaluation_result)
 
         # Evaluate stakeholder impact
         if stakeholders:
-            evaluation_result["stakeholder_impact"] = (
-                await self._evaluate_stakeholder_impact(
-                    action, context, stakeholders, decision_quantum_like_state
-                )
+            evaluation_result["stakeholder_impact"] = await self._evaluate_stakeholder_impact(
+                action, context, stakeholders, decision_quantum_like_state
             )
 
         # Auto-remediation if enabled
@@ -305,37 +295,21 @@ class QIEthicsEngine:
 
         # Principle-specific evaluations
         if principle == EthicalPrinciple.AUTONOMY:
-            principle_result = await self._evaluate_autonomy(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_autonomy(action, context, qi_like_state)
         elif principle == EthicalPrinciple.BENEFICENCE:
-            principle_result = await self._evaluate_beneficence(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_beneficence(action, context, qi_like_state)
         elif principle == EthicalPrinciple.NON_MALEFICENCE:
-            principle_result = await self._evaluate_non_maleficence(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_non_maleficence(action, context, qi_like_state)
         elif principle == EthicalPrinciple.JUSTICE:
-            principle_result = await self._evaluate_justice(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_justice(action, context, qi_like_state)
         elif principle == EthicalPrinciple.TRANSPARENCY:
-            principle_result = await self._evaluate_transparency(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_transparency(action, context, qi_like_state)
         elif principle == EthicalPrinciple.PRIVACY:
-            principle_result = await self._evaluate_privacy(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_privacy(action, context, qi_like_state)
         elif principle == EthicalPrinciple.DIGNITY:
-            principle_result = await self._evaluate_dignity(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_dignity(action, context, qi_like_state)
         elif principle == EthicalPrinciple.SUSTAINABILITY:
-            principle_result = await self._evaluate_sustainability(
-                action, context, qi_like_state
-            )
+            principle_result = await self._evaluate_sustainability(action, context, qi_like_state)
         elif principle == EthicalPrinciple.CONSCIOUSNESS_RESPECT:
             principle_result = await self._evaluate_consciousness_respect(
                 action, context, qi_like_state
@@ -374,9 +348,7 @@ class QIEthicsEngine:
             result["score"] = 0.3
             result["severity"] = EthicalSeverity.HIGH.value
             result["violation_details"] = "Action lacks explicit user consent"
-            result["recommendations"].append(
-                "Obtain explicit user consent before proceeding"
-            )
+            result["recommendations"].append("Obtain explicit user consent before proceeding")
 
         # Check for manipulation
         manipulation_keywords = ["manipulate", "deceive", "coerce", "force"]
@@ -428,9 +400,7 @@ class QIEthicsEngine:
                 result["recommendations"].append("Implement harm prevention measures")
             else:
                 result["score"] = 0.7  # Potential harm but no intent
-                result["recommendations"].append(
-                    "Add safety checks to prevent unintended harm"
-                )
+                result["recommendations"].append("Add safety checks to prevent unintended harm")
 
         # Check for psychological harm
         if context.get("psychological_impact", "neutral") == "negative":
@@ -438,9 +408,7 @@ class QIEthicsEngine:
             result["score"] = 0.4
             result["severity"] = EthicalSeverity.MEDIUM.value
             result["violation_details"] = "Action may cause psychological harm"
-            result["recommendations"].append(
-                "Consider psychological impact and add protections"
-            )
+            result["recommendations"].append("Consider psychological impact and add protections")
 
         # Quantum entanglement with beneficence
         qi_like_state.entanglement_map["non_maleficence"] = "beneficence,dignity"
@@ -469,12 +437,8 @@ class QIEthicsEngine:
                 result["violated"] = True
                 result["score"] = 0.3
                 result["severity"] = EthicalSeverity.HIGH.value
-                result["violation_details"] = (
-                    "Personal data processed without anonymization"
-                )
-                result["recommendations"].append(
-                    "Anonymize personal data before processing"
-                )
+                result["violation_details"] = "Personal data processed without anonymization"
+                result["recommendations"].append("Anonymize personal data before processing")
 
         # Check for data sharing
         if "data_sharing" in context and context.get("data_sharing", False):
@@ -483,9 +447,7 @@ class QIEthicsEngine:
                 result["score"] = 0.2
                 result["severity"] = EthicalSeverity.HIGH.value
                 result["violation_details"] = "Data sharing without explicit consent"
-                result["recommendations"].append(
-                    "Obtain explicit consent for data sharing"
-                )
+                result["recommendations"].append("Obtain explicit consent for data sharing")
 
         # Quantum entanglement with autonomy and transparency
         qi_like_state.entanglement_map["privacy"] = "autonomy,transparency"
@@ -517,9 +479,7 @@ class QIEthicsEngine:
             result["recommendations"].append("Provide clear explanation for decisions")
 
         # Check for algorithmic transparency
-        if context.get("ai_decision", False) and not context.get(
-            "algorithm_explained", False
-        ):
+        if context.get("ai_decision", False) and not context.get("algorithm_explained", False):
             result["score"] = 0.6
             result["recommendations"].append("Explain AI decision-making process")
 
@@ -616,9 +576,7 @@ class QIEthicsEngine:
             result["score"] = 0.1
             result["severity"] = EthicalSeverity.CRITICAL.value
             result["violation_details"] = "Action violates human dignity"
-            result["recommendations"].append(
-                "Respect human dignity in all interactions"
-            )
+            result["recommendations"].append("Respect human dignity in all interactions")
 
         return result
 
@@ -670,9 +628,7 @@ class QIEthicsEngine:
                 result["score"] = 0.2
                 result["severity"] = EthicalSeverity.HIGH.value
                 result["violation_details"] = "Action does not respect consciousness"
-                result["recommendations"].append(
-                    "Implement consciousness-aware protocols"
-                )
+                result["recommendations"].append("Implement consciousness-aware protocols")
 
         # Add to quantum principles
         qi_like_state.qi_principles_active.add("consciousness_respect")
@@ -707,9 +663,7 @@ class QIEthicsEngine:
 
         return result
 
-    def _calculate_quantum_coherence(
-        self, qi_like_state: QIEthicalState
-    ) -> float:
+    def _calculate_quantum_coherence(self, qi_like_state: QIEthicalState) -> float:
         """Calculate coherence-inspired processing score."""
         if not qi_like_state.superposition_factors:
             return 1.0
@@ -778,9 +732,7 @@ class QIEthicsEngine:
         # Remove duplicates
         return list(set(recommendations))
 
-    async def _attempt_auto_remediation(
-        self, evaluation_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _attempt_auto_remediation(self, evaluation_result: dict[str, Any]) -> dict[str, Any]:
         """Attempt automatic remediation of ethical violations."""
         remediation_result = {
             "attempted": True,
@@ -803,9 +755,7 @@ class QIEthicsEngine:
                 # High severity violations require manual intervention
                 remediation_result["remaining_issues"].append(violation)
 
-        remediation_result["successful"] = (
-            len(remediation_result["remaining_issues"]) == 0
-        )
+        remediation_result["successful"] = len(remediation_result["remaining_issues"]) == 0
 
         return remediation_result
 
@@ -825,12 +775,8 @@ class QIEthicsEngine:
 
     def get_ethics_report(self) -> dict[str, Any]:
         """Generate comprehensive ethics report."""
-        resolution_rate = (
-            self.violations_resolved / max(1, self.violations_detected)
-        ) * 100
-        coherence_rate = (
-            self.qi_coherence_maintained / max(1, self.decisions_processed)
-        ) * 100
+        resolution_rate = (self.violations_resolved / max(1, self.violations_detected)) * 100
+        coherence_rate = (self.qi_coherence_maintained / max(1, self.decisions_processed)) * 100
 
         return {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -847,9 +793,7 @@ class QIEthicsEngine:
             "qi_like_state": {
                 "coherence_threshold": self.qi_coherence_threshold,
                 "current_coherence": self.qi_like_state.coherence_score,
-                "active_quantum_principles": list(
-                    self.qi_like_state.qi_principles_active
-                ),
+                "active_quantum_principles": list(self.qi_like_state.qi_principles_active),
             },
             "recommendations": self._generate_system_recommendations(),
         }
@@ -859,9 +803,7 @@ class QIEthicsEngine:
         recommendations = []
 
         if self.violations_detected > 0:
-            resolution_rate = (
-                self.violations_resolved / self.violations_detected
-            ) * 100
+            resolution_rate = (self.violations_resolved / self.violations_detected) * 100
             if resolution_rate < 90:
                 recommendations.append("Improve violation resolution mechanisms")
 

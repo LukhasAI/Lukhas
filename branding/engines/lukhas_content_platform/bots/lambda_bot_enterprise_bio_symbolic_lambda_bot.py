@@ -243,13 +243,9 @@ class BioSymbolicΛBot:
             },
         }
 
-        logger.info(
-            f"🦠 Initialized {len(self.biological_analogies)} biological analogies"
-        )
+        logger.info(f"🦠 Initialized {len(self.biological_analogies)} biological analogies")
 
-    async def start_bio_symbolic_analysis(
-        self, target_path: str
-    ) -> SymbolicAnalysisSession:
+    async def start_bio_symbolic_analysis(self, target_path: str) -> SymbolicAnalysisSession:
         """Start bio-symbolic analysis session"""
         session_id = f"bio_sym_{int(time.time())}"
 
@@ -332,9 +328,7 @@ class BioSymbolicΛBot:
         )
         patterns.append(cellular_pattern)
 
-        logger.info(
-            f"🦠 Discovered cellular pattern: {cellular_pattern.biological_analogy}"
-        )
+        logger.info(f"🦠 Discovered cellular pattern: {cellular_pattern.biological_analogy}")
         return patterns
 
     async def _discover_neural_patterns(self) -> list[BioSymbolicPattern]:
@@ -362,9 +356,7 @@ class BioSymbolicΛBot:
         )
         patterns.append(neural_pattern)
 
-        logger.info(
-            f"🧠 Discovered neural pattern: {neural_pattern.biological_analogy}"
-        )
+        logger.info(f"🧠 Discovered neural pattern: {neural_pattern.biological_analogy}")
         return patterns
 
     async def _discover_dna_patterns(self) -> list[BioSymbolicPattern]:
@@ -416,9 +408,7 @@ class BioSymbolicΛBot:
         )
         patterns.append(ecosystem_pattern)
 
-        logger.info(
-            f"🌿 Discovered ecosystem pattern: {ecosystem_pattern.biological_analogy}"
-        )
+        logger.info(f"🌿 Discovered ecosystem pattern: {ecosystem_pattern.biological_analogy}")
         return patterns
 
     async def _discover_emergent_patterns(self) -> list[BioSymbolicPattern]:
@@ -442,9 +432,7 @@ class BioSymbolicΛBot:
         )
         patterns.append(emergent_pattern)
 
-        logger.info(
-            f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}"
-        )
+        logger.info(f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}")
         return patterns
 
     async def generate_bio_inspired_modularization_strategy(
@@ -612,9 +600,7 @@ class BioSymbolicΛBot:
 
         strategy["implementation_phases"] = implementation_phases
 
-        logger.info(
-            f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases"
-        )
+        logger.info(f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases")
         return strategy
 
     async def get_bio_symbolic_insights(self) -> dict[str, Any]:
@@ -624,9 +610,7 @@ class BioSymbolicΛBot:
 
         insights = {
             "session_id": self.current_session.session_id,
-            "analysis_runtime": (
-                datetime.now() - self.current_session.start_time
-            ).total_seconds(),
+            "analysis_runtime": (datetime.now() - self.current_session.start_time).total_seconds(),
             "patterns_discovered": len(self.current_session.patterns_discovered),
             "bio_symbolic_summary": {},
             "biological_health_score": 0.0,
@@ -635,12 +619,8 @@ class BioSymbolicΛBot:
 
         if self.current_session.patterns_discovered:
             # Calculate biological health score
-            confidence_scores = [
-                p.confidence for p in self.current_session.patterns_discovered
-            ]
-            insights["biological_health_score"] = sum(confidence_scores) / len(
-                confidence_scores
-            )
+            confidence_scores = [p.confidence for p in self.current_session.patterns_discovered]
+            insights["biological_health_score"] = sum(confidence_scores) / len(confidence_scores)
 
             # Assess modularization readiness
             if insights["biological_health_score"] > 0.9:
@@ -648,9 +628,7 @@ class BioSymbolicΛBot:
             elif insights["biological_health_score"] > 0.8:
                 insights["modularization_readiness"] = "good_biological_patterns"
             elif insights["biological_health_score"] > 0.7:
-                insights["modularization_readiness"] = (
-                    "moderate_biological_organization"
-                )
+                insights["modularization_readiness"] = "moderate_biological_organization"
             else:
                 insights["modularization_readiness"] = "needs_biological_restructuring"
 
@@ -676,9 +654,7 @@ async def main():
     bio_bot = BioSymbolicΛBot()
 
     # Start bio-symbolic analysis
-    session = await bio_bot.start_bio_symbolic_analysis(
-        "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-    )
+    session = await bio_bot.start_bio_symbolic_analysis("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     print("\n🔬 Bio-Symbolic Analysis Session Active:")
     print(f"   Session ID: {session.session_id}")

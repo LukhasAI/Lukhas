@@ -162,14 +162,11 @@ Methods:
 
         # Check for symbolic usage
         has_symbols = any(
-            symbol in code
-            for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
+            symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL]
         )
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
-            suggestions.append(
-                "Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)"
-            )
+            suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
             score -= 15
 
         # Check naming conventions
@@ -198,9 +195,7 @@ Methods:
         context: str = "",
     ) -> str:
         """Generate Trinity Framework documentation"""
-        template = self.trinity_templates.get(
-            element_type, self.trinity_templates["function"]
-        )
+        template = self.trinity_templates.get(element_type, self.trinity_templates["function"])
 
         # Generate context-appropriate content
         if element_type == "function":
@@ -242,9 +237,7 @@ Methods:
             "dream": ["dream", "vision", "weaver", "resonance", "pattern"],
         }
 
-        domain_concepts = base_concepts.get(
-            domain, ["engine", "processor", "manager", "handler"]
-        )
+        domain_concepts = base_concepts.get(domain, ["engine", "processor", "manager", "handler"])
 
         suggestions = []
         for concept in domain_concepts:
@@ -262,9 +255,7 @@ Methods:
             "symbolic_integration": f"Consider adding {CONSCIOUSNESS_SYMBOL} for consciousness aspects",
         }
 
-    async def explain_lukhas_concept(
-        self, concept: str, audience: str = "developer"
-    ) -> str:
+    async def explain_lukhas_concept(self, concept: str, audience: str = "developer") -> str:
         """Explain LUKHAS concept in Trinity format"""
         concept_lower = concept.lower().replace(" ", "_")
         definition = self.symbolic_vocabulary.get(
@@ -362,9 +353,7 @@ async def main():
         elif command == "trinity" and len(sys.argv) > 3:
             element_type = sys.argv[2]
             element_name = sys.argv[3]
-            result = await server.generate_trinity_documentation(
-                element_type, element_name
-            )
+            result = await server.generate_trinity_documentation(element_type, element_name)
             print(result)
 
         elif command == "export":
@@ -374,9 +363,7 @@ async def main():
     else:
         print("🌈 Available commands:")
         print("python lukhas_knowledge_server.py review 'code here'")
-        print(
-            "python lukhas_knowledge_server.py naming 'purpose' 'function/class' 'domain'"
-        )
+        print("python lukhas_knowledge_server.py naming 'purpose' 'function/class' 'domain'")
         print("python lukhas_knowledge_server.py trinity 'function/class' 'name'")
         print("python lukhas_knowledge_server.py export")
 

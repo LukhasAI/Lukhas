@@ -10,9 +10,7 @@ import _plotly_utils.basevalidators as _bv
 
 
 class SpikethicknessValidator(_bv.NumberValidator):
-    def __init__(
-        self, plotly_name="spikethickness", parent_name="layout.scene.zaxis", **kwargs
-    ):
+    def __init__(self, plotly_name="spikethickness", parent_name="layout.scene.zaxis", **kwargs):
         super().__init__(
             plotly_name,
             parent_name,

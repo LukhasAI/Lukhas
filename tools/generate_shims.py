@@ -193,26 +193,26 @@ warnings.warn(
             else:
                 path.parent.mkdir(parents=True, exist_ok=True)
                 shim_content = f'''"""
-Compatibility shim for {old_path.replace('/__init__.py', '')}
+Compatibility shim for {old_path.replace("/__init__.py", "")}
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: {new_module}
 
 NOTE: This is a candidate module. Enable with feature flag:
-  {new_module.split('.')[-1].upper()}_ENABLED=true
+  {new_module.split(".")[-1].upper()}_ENABLED=true
 """
 
 import os
 import warnings
 
 warnings.warn(
-    "Import '{old_path.replace('/__init__.py', '').replace('/', '.')}' is deprecated. "
+    "Import '{old_path.replace("/__init__.py", "").replace("/", ".")}' is deprecated. "
     "Please update to '{new_module}' and enable feature flag",
     DeprecationWarning,
     stacklevel=2
 )
 
 # Check if feature flag is enabled
-flag_name = "{new_module.split('.')[-1].upper()}_ENABLED"
+flag_name = "{new_module.split(".")[-1].upper()}_ENABLED"
 if os.getenv(flag_name, "false").lower() == "true":
     try:
         from {new_module} import *

@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class ModalityType(Enum):
     """Types of input modalities"""
+
     TEXT = "text"
     EMOJI = "emoji"
     IMAGE = "image"
@@ -35,6 +36,7 @@ class ModalityType(Enum):
 @dataclass
 class ModalityFeatures:
     """Extracted features from a modality"""
+
     modality: ModalityType
     raw_data: Any
     features: Optional[np.ndarray] = None
@@ -106,13 +108,14 @@ class ModalityFeatures:
             "modality": self.modality.value,
             "fingerprint": self.fingerprint,
             "entropy_bits": self.entropy_bits,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class MultiModalMessage:
     """A message containing multiple modalities"""
+
     message_id: str
     modalities: list[ModalityFeatures]
     combined_entropy: float = 0.0
@@ -164,7 +167,7 @@ class ModalityProcessor:
             ModalityType.GESTURE: self.process_gesture,
             ModalityType.STROKE: self.process_stroke,
             ModalityType.PATTERN: self.process_pattern,
-            ModalityType.RHYTHM: self.process_rhythm
+            ModalityType.RHYTHM: self.process_rhythm,
         }
 
     def process(self, raw_data: Any, modality_type: ModalityType) -> ModalityFeatures:
@@ -179,14 +182,10 @@ class ModalityProcessor:
             "length": len(text),
             "words": len(text.split()),
             "unique_chars": len(set(text)),
-            "language": self.detect_language(text)
+            "language": self.detect_language(text),
         }
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=text,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=text, metadata=features)
 
     def process_emoji(self, emoji: str, modality_type: ModalityType) -> ModalityFeatures:
         """Process emoji modality"""
@@ -196,14 +195,10 @@ class ModalityProcessor:
         features = {
             "emoji_count": len(emoji),
             "codepoints": codepoints,
-            "categories": self.get_emoji_categories(emoji)
+            "categories": self.get_emoji_categories(emoji),
         }
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=emoji,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=emoji, metadata=features)
 
     def process_color(self, color: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process color modality"""
@@ -223,14 +218,10 @@ class ModalityProcessor:
         features = {
             "rgb": rgb,
             "hsv": self.rgb_to_hsv(rgb),
-            "luminance": self.calculate_luminance(rgb)
+            "luminance": self.calculate_luminance(rgb),
         }
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=color,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=color, metadata=features)
 
     def process_gesture(self, gesture_data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process gesture modality"""
@@ -239,61 +230,33 @@ class ModalityProcessor:
 
         features = {
             "point_count": len(points),
-            "complexity": self.calculate_gesture_complexity(points)
+            "complexity": self.calculate_gesture_complexity(points),
         }
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=gesture_data,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=gesture_data, metadata=features)
 
     def process_stroke(self, stroke_data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process drawing/writing stroke"""
         # Similar to gesture but with pressure/velocity
-        features = {
-            "stroke_type": "drawing",
-            "normalized": False
-        }
+        features = {"stroke_type": "drawing", "normalized": False}
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=stroke_data,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=stroke_data, metadata=features)
 
     def process_pattern(self, pattern_data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process visual pattern"""
-        features = {
-            "pattern_type": "visual",
-            "repetitions": 0
-        }
+        features = {"pattern_type": "visual", "repetitions": 0}
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=pattern_data,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=pattern_data, metadata=features)
 
     def process_rhythm(self, rhythm_data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process rhythm/temporal pattern"""
-        features = {
-            "tempo": 0,
-            "pattern": []
-        }
+        features = {"tempo": 0, "pattern": []}
 
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=rhythm_data,
-            metadata=features
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=rhythm_data, metadata=features)
 
     def process_default(self, data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Default processor for unknown modalities"""
-        return ModalityFeatures(
-            modality=modality_type,
-            raw_data=data
-        )
+        return ModalityFeatures(modality=modality_type, raw_data=data)
 
     # Helper methods
     def detect_language(self, text: str) -> str:
@@ -309,7 +272,7 @@ class ModalityProcessor:
     def hex_to_rgb(self, hex_color: str) -> tuple[int, int, int]:
         """Convert hex color to RGB"""
         hex_color = hex_color.lstrip("#")
-        return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+        return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
 
     def rgb_to_hsv(self, rgb: tuple[int, int, int]) -> tuple[float, float, float]:
         """Convert RGB to HSV"""
@@ -374,7 +337,7 @@ class MultiModalProcessor:
 
         message = MultiModalMessage(
             message_id="",  # Will be auto-generated
-            modalities=modalities
+            modalities=modalities,
         )
 
         # Cache the message
@@ -396,20 +359,21 @@ class MultiModalProcessor:
             "message_id": message.message_id,
             "total_entropy": message.combined_entropy,
             "modality_count": len(message.modalities),
-            "modalities": {}
+            "modalities": {},
         }
 
         for modality in message.modalities:
             combined["modalities"][modality.modality.value] = {
                 "fingerprint": modality.fingerprint,
                 "entropy": modality.entropy_bits,
-                "metadata": modality.metadata
+                "metadata": modality.metadata,
             }
 
         return combined
 
-    def calculate_similarity(self, message1: MultiModalMessage,
-                           message2: MultiModalMessage) -> float:
+    def calculate_similarity(
+        self, message1: MultiModalMessage, message2: MultiModalMessage
+    ) -> float:
         """Calculate similarity between two multi-modal messages"""
         # Find common modalities
         modalities1 = {m.modality for m in message1.modalities}
@@ -436,8 +400,7 @@ class MultiModalProcessor:
         # Average similarity
         return sum(similarities) / len(similarities) if similarities else 0.0
 
-    def _calculate_modality_similarity(self, m1: ModalityFeatures,
-                                     m2: ModalityFeatures) -> float:
+    def _calculate_modality_similarity(self, m1: ModalityFeatures, m2: ModalityFeatures) -> float:
         """Calculate similarity between two modality features"""
         # Simple implementation - can be enhanced
         if m1.modality != m2.modality:
@@ -447,8 +410,7 @@ class MultiModalProcessor:
         if m1.metadata and m2.metadata:
             common_keys = set(m1.metadata.keys()) & set(m2.metadata.keys())
             if common_keys:
-                matches = sum(1 for k in common_keys
-                            if m1.metadata[k] == m2.metadata[k])
+                matches = sum(1 for k in common_keys if m1.metadata[k] == m2.metadata[k])
                 return matches / len(common_keys)
 
         return 0.0
@@ -471,7 +433,7 @@ class MultiModalProcessor:
             "total_messages": len(self.message_cache),
             "average_entropy": total_entropy / len(self.message_cache),
             "modality_distribution": modality_counts,
-            "cache_size": len(self.message_cache)
+            "cache_size": len(self.message_cache),
         }
 
 

@@ -72,7 +72,7 @@ def render_svg(label: str, status: str) -> str:
         f"<svg xmlns='http://www.w3.org/2000/svg' width='{w}' height='{h}' role='img' aria-label='{label}'>"
         f"<rect rx='4' width='{w}' height='{h}' fill='{bg}'/>"
         f"<g fill='{fg}' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Inter,sans-serif' font-size='12'>"
-        f"<text x='{w/2:.0f}' y='16' text-anchor='middle'>{label}</text>"
+        f"<text x='{w / 2:.0f}' y='16' text-anchor='middle'>{label}</text>"
         f"</g></svg>"
     )
 
@@ -90,9 +90,7 @@ def main() -> int:
     out_path = Path(args.outp)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(svg, encoding="utf-8")
-    print(
-        json.dumps({"ok": True, "status": status, "label": label, "out": str(out_path)})
-    )
+    print(json.dumps({"ok": True, "status": status, "label": label, "out": str(out_path)}))
     return 0
 
 

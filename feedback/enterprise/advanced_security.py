@@ -195,9 +195,7 @@ class AdvancedSecuritySystem(CoreInterface):
         session_key = self._derive_session_key(user_id, session_id)
 
         # Create integrity hash
-        integrity_data = (
-            f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat()}"
-        )
+        integrity_data = f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat()}"
         integrity_hash = self._create_integrity_hash(integrity_data)
 
         context = SecurityContext(
@@ -400,9 +398,7 @@ class AdvancedSecuritySystem(CoreInterface):
         }
         return mitigations.get(threat_type, "Apply general security measures")
 
-    def _verify_integrity(
-        self, feedback: FeedbackItem, context: SecurityContext
-    ) -> bool:
+    def _verify_integrity(self, feedback: FeedbackItem, context: SecurityContext) -> bool:
         """Verify feedback integrity"""
         # Create hash of feedback content
         feedback_str = json.dumps(
@@ -427,20 +423,14 @@ class AdvancedSecuritySystem(CoreInterface):
         # Exponential moving average
         alpha = 0.1
         if positive:
-            self.trust_scores[user_id] = (
-                alpha * 1.0 + (1 - alpha) * self.trust_scores[user_id]
-            )
+            self.trust_scores[user_id] = alpha * 1.0 + (1 - alpha) * self.trust_scores[user_id]
         else:
-            self.trust_scores[user_id] = (
-                alpha * 0.0 + (1 - alpha) * self.trust_scores[user_id]
-            )
+            self.trust_scores[user_id] = alpha * 0.0 + (1 - alpha) * self.trust_scores[user_id]
 
         # Clamp between 0 and 1
         self.trust_scores[user_id] = max(0.0, min(1.0, self.trust_scores[user_id]))
 
-    async def encrypt_feedback(
-        self, feedback: FeedbackItem, context: SecurityContext
-    ) -> bytes:
+    async def encrypt_feedback(self, feedback: FeedbackItem, context: SecurityContext) -> bytes:
         """Encrypt feedback with AES-256-GCM"""
         # Serialize feedback
         feedback_json = json.dumps(
@@ -622,20 +612,12 @@ class AdvancedSecuritySystem(CoreInterface):
         """Detect coordinated attack patterns"""
         # Check for sudden spike in requests
         recent_requests = sum(
-            len(
-                [
-                    r
-                    for r in requests
-                    if r > datetime.now(timezone.utc) - timedelta(minutes=5)
-                ]
-            )
+            len([r for r in requests if r > datetime.now(timezone.utc) - timedelta(minutes=5)])
             for requests in self.rate_limits.values()
         )
 
         if recent_requests > 10000:  # Threshold
-            logger.warning(
-                f"Potential DDoS detected: {recent_requests} requests in 5 minutes"
-            )
+            logger.warning(f"Potential DDoS detected: {recent_requests} requests in 5 minutes")
 
             # Implement mitigation
             # In production, trigger DDoS protection
@@ -651,9 +633,7 @@ class AdvancedSecuritySystem(CoreInterface):
         cutoff = datetime.now(timezone.utc) - timedelta(hours=1)
 
         for user_id in list(self.rate_limits.keys()):
-            self.rate_limits[user_id] = [
-                req for req in self.rate_limits[user_id] if req > cutoff
-            ]
+            self.rate_limits[user_id] = [req for req in self.rate_limits[user_id] if req > cutoff]
 
             if not self.rate_limits[user_id]:
                 del self.rate_limits[user_id]
@@ -690,9 +670,7 @@ class AdvancedSecuritySystem(CoreInterface):
             feedback = data.get("feedback")
             context = data.get("context")
 
-            is_secure, threat_info = await self.validate_feedback_security(
-                feedback, context
-            )
+            is_secure, threat_info = await self.validate_feedback_security(feedback, context)
 
             return {
                 "secure": is_secure,
@@ -714,9 +692,7 @@ class AdvancedSecuritySystem(CoreInterface):
         """Handle GLYPH communication"""
         return {
             "operational": self.operational,
-            "threats_detected": sum(
-                1 for entry in self.security_blockchain if "threat" in entry
-            ),
+            "threats_detected": sum(1 for entry in self.security_blockchain if "threat" in entry),
             "active_sessions": len(self.verified_sessions),
         }
 
@@ -728,9 +704,7 @@ class AdvancedSecuritySystem(CoreInterface):
                 "active_sessions": len(self.verified_sessions),
                 "blocked_users": len(self.blocked_ips),
                 "average_trust_score": (
-                    np.mean(list(self.trust_scores.values()))
-                    if self.trust_scores
-                    else 0.5
+                    np.mean(list(self.trust_scores.values())) if self.trust_scores else 0.5
                 ),
                 "threats_last_hour": sum(
                     1 for entry in self.security_blockchain[-100:] if "threat" in entry
@@ -739,9 +713,7 @@ class AdvancedSecuritySystem(CoreInterface):
             "blockchain": {
                 "blocks": len(self.security_blockchain),
                 "latest_hash": (
-                    self.security_blockchain[-1]["block_hash"]
-                    if self.security_blockchain
-                    else None
+                    self.security_blockchain[-1]["block_hash"] if self.security_blockchain else None
                 ),
             },
             "encryption": {

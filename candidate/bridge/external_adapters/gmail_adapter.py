@@ -63,7 +63,7 @@ MODULE_NAME = "gmail_adapter"
 GMAIL_SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/gmail.compose",
-    "https://www.googleapis.com/auth/gmail.modify"
+    "https://www.googleapis.com/auth/gmail.modify",
 ]
 
 
@@ -122,7 +122,7 @@ class GmailMessage:
                 "filename": part.get("filename"),
                 "mime_type": mime_type,
                 "attachment_id": part.get("body", {}).get("attachmentId"),
-                "size": part.get("body", {}).get("size", 0)
+                "size": part.get("body", {}).get("size", 0),
             }
             self.attachments.append(attachment_info)
 
@@ -139,7 +139,7 @@ class GmailMessage:
             "body_text": self.body_text,
             "body_html": self.body_html,
             "attachments": self.attachments,
-            "labels": self.labels
+            "labels": self.labels,
         }
 
 
@@ -156,7 +156,9 @@ class GmailAdapter:
         # OAuth configuration
         self.client_id = self.config.get("gmail_client_id")
         self.client_secret = self.config.get("gmail_client_secret")
-        self.redirect_uri = self.config.get("gmail_redirect_uri", "http://localhost:8080/auth/gmail/callback")
+        self.redirect_uri = self.config.get(
+            "gmail_redirect_uri", "http://localhost:8080/auth/gmail/callback"
+        )
 
         # API configuration
         self.api_version = self.config.get("api_version", "v1")
@@ -191,19 +193,17 @@ class GmailAdapter:
                         "client_secret": self.client_secret,
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                         "token_uri": "https://oauth2.googleapis.com/token",
-                        "redirect_uris": [self.redirect_uri]
+                        "redirect_uris": [self.redirect_uri],
                     }
                 },
-                scopes=GMAIL_SCOPES
+                scopes=GMAIL_SCOPES,
             )
 
             flow.redirect_uri = self.redirect_uri
 
             # Generate authorization URL
             auth_url, _ = flow.authorization_url(
-                access_type="offline",
-                include_granted_scopes="true",
-                state=state or user_id
+                access_type="offline", include_granted_scopes="true", state=state or user_id
             )
 
             logger.info("Generated Gmail auth URL for user: %s", user_id)
@@ -233,10 +233,10 @@ class GmailAdapter:
                         "client_secret": self.client_secret,
                         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                         "token_uri": "https://oauth2.googleapis.com/token",
-                        "redirect_uris": [self.redirect_uri]
+                        "redirect_uris": [self.redirect_uri],
                     }
                 },
-                scopes=GMAIL_SCOPES
+                scopes=GMAIL_SCOPES,
             )
 
             flow.redirect_uri = self.redirect_uri
@@ -255,8 +255,8 @@ class GmailAdapter:
                     "token_uri": credentials.token_uri,
                     "client_id": credentials.client_id,
                     "client_secret": credentials.client_secret,
-                    "scopes": credentials.scopes
-                }
+                    "scopes": credentials.scopes,
+                },
             )
 
             logger.info("Gmail OAuth callback processed for user: %s", user_id)
@@ -284,7 +284,7 @@ class GmailAdapter:
                 token_uri=creds_data["token_uri"],
                 client_id=creds_data["client_id"],
                 client_secret=creds_data["client_secret"],
-                scopes=creds_data["scopes"]
+                scopes=creds_data["scopes"],
             )
 
             # Refresh if needed
@@ -301,8 +301,8 @@ class GmailAdapter:
                         "token_uri": credentials.token_uri,
                         "client_id": credentials.client_id,
                         "client_secret": credentials.client_secret,
-                        "scopes": credentials.scopes
-                    }
+                        "scopes": credentials.scopes,
+                    },
                 )
 
             # Build Gmail service
@@ -320,7 +320,7 @@ class GmailAdapter:
         user_id: str,
         query: Optional[str] = None,
         max_results: Optional[int] = None,
-        include_spam_trash: bool = False
+        include_spam_trash: bool = False,
     ) -> list[GmailMessage]:
         """
         Get messages from Gmail
@@ -341,7 +341,7 @@ class GmailAdapter:
             list_params = {
                 "userId": "me",
                 "maxResults": max_results or self.max_results,
-                "includeSpamTrash": include_spam_trash
+                "includeSpamTrash": include_spam_trash,
             }
 
             if query:
@@ -358,11 +358,12 @@ class GmailAdapter:
                     await asyncio.sleep(self.rate_limit_delay)
 
                     # Get full message
-                    message = service.users().messages().get(
-                        userId="me",
-                        id=msg_info["id"],
-                        format="full"
-                    ).execute()
+                    message = (
+                        service.users()
+                        .messages()
+                        .get(userId="me", id=msg_info["id"], format="full")
+                        .execute()
+                    )
 
                     messages.append(GmailMessage(message))
 
@@ -378,10 +379,7 @@ class GmailAdapter:
             return []
 
     async def search_messages(
-        self,
-        user_id: str,
-        search_query: str,
-        max_results: Optional[int] = None
+        self, user_id: str, search_query: str, max_results: Optional[int] = None
     ) -> list[GmailMessage]:
         """
         Search messages using Gmail Query Language
@@ -405,7 +403,7 @@ class GmailAdapter:
         html_body: Optional[str] = None,
         cc: Optional[list[str]] = None,
         bcc: Optional[list[str]] = None,
-        reply_to: Optional[str] = None
+        reply_to: Optional[str] = None,
     ) -> Optional[str]:
         """
         Send an email message
@@ -449,10 +447,9 @@ class GmailAdapter:
             raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode("utf-8")
 
             # Send message
-            send_result = service.users().messages().send(
-                userId="me",
-                body={"raw": raw_message}
-            ).execute()
+            send_result = (
+                service.users().messages().send(userId="me", body={"raw": raw_message}).execute()
+            )
 
             message_id = send_result.get("id")
             logger.info("Sent Gmail message %s for user: %s", message_id, user_id)
@@ -464,11 +461,7 @@ class GmailAdapter:
             return None
 
     async def reply_to_message(
-        self,
-        user_id: str,
-        original_message_id: str,
-        body: str,
-        html_body: Optional[str] = None
+        self, user_id: str, original_message_id: str, body: str, html_body: Optional[str] = None
     ) -> Optional[str]:
         """
         Reply to an existing message
@@ -486,12 +479,17 @@ class GmailAdapter:
             service = await self._get_gmail_service(user_id)
 
             # Get original message
-            original = service.users().messages().get(
-                userId="me",
-                id=original_message_id,
-                format="metadata",
-                metadataHeaders=["Subject", "From", "Message-ID"]
-            ).execute()
+            original = (
+                service.users()
+                .messages()
+                .get(
+                    userId="me",
+                    id=original_message_id,
+                    format="metadata",
+                    metadataHeaders=["Subject", "From", "Message-ID"],
+                )
+                .execute()
+            )
 
             # Parse original headers
             headers = {h["name"]: h["value"] for h in original["payload"]["headers"]}
@@ -500,7 +498,11 @@ class GmailAdapter:
             headers.get("Message-ID", "")
 
             # Create reply
-            reply_subject = f"Re: {original_subject}" if not original_subject.startswith("Re:") else original_subject
+            reply_subject = (
+                f"Re: {original_subject}"
+                if not original_subject.startswith("Re:")
+                else original_subject
+            )
 
             return await self.send_message(
                 user_id=user_id,
@@ -508,7 +510,7 @@ class GmailAdapter:
                 subject=reply_subject,
                 body=body,
                 html_body=html_body,
-                reply_to=None  # Will use default
+                reply_to=None,  # Will use default
             )
 
         except Exception as e:
@@ -553,9 +555,7 @@ class GmailAdapter:
             service = await self._get_gmail_service(user_id)
 
             service.users().messages().modify(
-                userId="me",
-                id=message_id,
-                body={"removeLabelIds": ["UNREAD"]}
+                userId="me", id=message_id, body={"removeLabelIds": ["UNREAD"]}
             ).execute()
 
             logger.info("Marked message %s as read for user: %s", message_id, user_id)
@@ -579,10 +579,7 @@ class GmailAdapter:
         try:
             service = await self._get_gmail_service(user_id)
 
-            service.users().messages().trash(
-                userId="me",
-                id=message_id
-            ).execute()
+            service.users().messages().trash(userId="me", id=message_id).execute()
 
             logger.info("Deleted message %s for user: %s", message_id, user_id)
             return True
@@ -611,14 +608,11 @@ class GmailAdapter:
                 "status": "healthy",
                 "email_address": profile.get("emailAddress"),
                 "messages_total": profile.get("messagesTotal"),
-                "threads_total": profile.get("threadsTotal")
+                "threads_total": profile.get("threadsTotal"),
             }
 
         except Exception as e:
-            return {
-                "status": "error",
-                "error": str(e)
-            }
+            return {"status": "error", "error": str(e)}
 
 
 """

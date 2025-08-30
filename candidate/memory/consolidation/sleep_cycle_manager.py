@@ -84,9 +84,7 @@ class SleepCycle:
 
     # Stage durations (seconds)
     stage_durations: dict[SleepStage, float] = field(default_factory=dict)
-    stage_transitions: list[tuple[SleepStage, SleepStage, float]] = field(
-        default_factory=list
-    )
+    stage_transitions: list[tuple[SleepStage, SleepStage, float]] = field(default_factory=list)
 
     # Cycle characteristics
     rem_proportion: float = 0.2  # Increases with cycle number
@@ -268,9 +266,7 @@ class SleepCycleManager:
             # SYNTAX_ERROR_FIXED:
             # self.current_cycle.stage_durations[old_stage] = " +
             # "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
-            self.current_cycle.stage_transitions.append(
-                (old_stage, new_stage, current_time)
-            )
+            self.current_cycle.stage_transitions.append((old_stage, new_stage, current_time))
 
         # Transition
         self.current_stage = new_stage
@@ -439,9 +435,7 @@ class SleepCycleManager:
                 self.sleep_pressure = min(1.0, self.sleep_pressure + 0.01)
             else:
                 # Decrease sleep pressure during sleep
-                self.sleep_pressure = max(
-                    0.0, self.sleep_pressure - self.sleep_pressure_decay / 60
-                )
+                self.sleep_pressure = max(0.0, self.sleep_pressure - self.sleep_pressure_decay / 60)
 
             # Update architecture
             total_time = sum(self.time_in_stages.values())
@@ -449,9 +443,7 @@ class SleepCycleManager:
                 self.architecture.total_sleep_time = (
                     total_time - self.time_in_stages[SleepStage.WAKE]
                 )
-                self.architecture.sleep_efficiency = (
-                    self.architecture.total_sleep_time / total_time
-                )
+                self.architecture.sleep_efficiency = self.architecture.total_sleep_time / total_time
 
                 # Update stage percentages
                 for stage in SleepStage:
@@ -492,9 +484,7 @@ class SleepCycleManager:
         # Calculate quality metrics
         transitions = len(self.current_cycle.stage_transitions)
         expected_transitions = 5  # Typical cycle
-        self.current_cycle.fragmentation_index = min(
-            1.0, transitions / (expected_transitions * 2)
-        )
+        self.current_cycle.fragmentation_index = min(1.0, transitions / (expected_transitions * 2))
 
         # Consolidation score based on SWS and REM proportions
         sws_score = self.current_cycle.get_stage_proportion(SleepStage.NREM3)
@@ -558,20 +548,14 @@ class SleepCycleManager:
         # Current cycle metrics
         if self.current_cycle:
             metrics["current_cycle_id"] = self.current_cycle.cycle_id
-            metrics["current_cycle_duration_min"] = (
-                self.current_cycle.calculate_duration() / 60
-            )
+            metrics["current_cycle_duration_min"] = self.current_cycle.calculate_duration() / 60
             metrics["current_cycle_rem_prop"] = self.current_cycle.rem_proportion
             metrics["current_cycle_sws_prop"] = self.current_cycle.sws_proportion
 
         # History metrics
         if self.cycle_history:
-            avg_duration = (
-                np.mean([c.calculate_duration() for c in self.cycle_history]) / 60
-            )
-            avg_consolidation = np.mean(
-                [c.consolidation_score for c in self.cycle_history]
-            )
+            avg_duration = np.mean([c.calculate_duration() for c in self.cycle_history]) / 60
+            avg_consolidation = np.mean([c.consolidation_score for c in self.cycle_history])
             metrics["average_cycle_duration_min"] = avg_duration
             metrics["average_consolidation_score"] = avg_consolidation
 

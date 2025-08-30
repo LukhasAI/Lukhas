@@ -67,9 +67,7 @@ class StateType(Enum):
     GLOBAL_PERSISTENT = "global_persistent"  # Event-sourced, durable
     LOCAL_EPHEMERAL = "local_ephemeral"  # Actor-local, in-memory
     CACHED_DERIVED = "cached_derived"  # Computed from events, cached
-    REPLICATED_SHARED = (
-        "replicated_shared"  # Shared across actors, eventually consistent
-    )
+    REPLICATED_SHARED = "replicated_shared"  # Shared across actors, eventually consistent
 
 
 class ConsistencyLevel(Enum):
@@ -107,9 +105,7 @@ class StateAggregator(ABC):
     """Abstract base for state aggregation strategies"""
 
     @abstractmethod
-    def aggregate(
-        self, events: list[Event], initial_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def aggregate(self, events: list[Event], initial_state: dict[str, Any]) -> dict[str, Any]:
         """Aggregate events into state"""
 
     @abstractmethod
@@ -120,9 +116,7 @@ class StateAggregator(ABC):
 class DefaultStateAggregator(StateAggregator):
     """Default aggregation strategy applying events sequentially"""
 
-    def aggregate(
-        self, events: list[Event], initial_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def aggregate(self, events: list[Event], initial_state: dict[str, Any]) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -229,9 +223,7 @@ class TieredStateManager:
 
         # For persistent state, reconstruct from events
         if self.event_store and state_type == StateType.GLOBAL_PERSISTENT:
-            return await self._reconstruct_from_events(
-                aggregate_id, version, consistency
-            )
+            return await self._reconstruct_from_events(aggregate_id, version, consistency)
 
         return {}
 
@@ -315,9 +307,7 @@ class TieredStateManager:
         logger.info(f"Created snapshot for {aggregate_id} at version {version}")
         return snapshot
 
-    async def sync_actor_state(
-        self, actor: Any, sync_direction: str = "bidirectional"
-    ) -> None:
+    async def sync_actor_state(self, actor: Any, sync_direction: str = "bidirectional") -> None:
         """
         Synchronize state between actor and persistent store.
         sync_direction: "to_persistent", "from_persistent", "bidirectional"
@@ -326,9 +316,7 @@ class TieredStateManager:
 
         if sync_direction in ["from_persistent", "bidirectional"]:
             # Load persistent state into actor
-            persistent_state = await self.get_state(
-                actor_id, StateType.GLOBAL_PERSISTENT
-            )
+            persistent_state = await self.get_state(actor_id, StateType.GLOBAL_PERSISTENT)
 
             if hasattr(actor, "state"):
                 actor.state.update(persistent_state)
@@ -582,9 +570,7 @@ class StateCoordinator:
 class CounterAggregator(StateAggregator):
     """Aggregator for counter-based state"""
 
-    def aggregate(
-        self, events: list[Event], initial_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def aggregate(self, events: list[Event], initial_state: dict[str, Any]) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -605,9 +591,7 @@ class CounterAggregator(StateAggregator):
 class MetricsAggregator(StateAggregator):
     """Aggregator for metrics and statistics"""
 
-    def aggregate(
-        self, events: list[Event], initial_state: dict[str, Any]
-    ) -> dict[str, Any]:
+    def aggregate(self, events: list[Event], initial_state: dict[str, Any]) -> dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:

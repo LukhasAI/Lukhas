@@ -19,7 +19,6 @@ from typing import Any
 
 
 class VoiceModulator:
-
     def __init__(self, settings: dict[str, Any]):
         self.default_voice = settings.get("default_voice", "neutral")
         self.emotion_mapping = settings.get(

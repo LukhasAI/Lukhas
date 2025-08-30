@@ -126,9 +126,7 @@ class MemoryEntry:
     memory_type: MemoryType
     priority: MemoryPriority
     strand: MemoryStrand
-    timestamp_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     access_count: int = 0
     last_accessed_utc: Optional[str] = None
     lukhas_lambda_id: Optional[str] = None  # AIDENTITY
@@ -141,15 +139,9 @@ class MemoryEntry:
 @dataclass
 class MemoryConfig(BaseConfig):
     max_helix_size: int = 10000  # ΛNOTE: Conceptual limit for "helix" memory.
-    max_short_term_capacity: int = field(
-        default=1000, metadata={"alias": "max_short_term"}
-    )
-    memory_retention_days: int = (
-        365  # ΛDRIFT_POINT: Retention policy impacts available memory.
-    )
-    enable_encryption: bool = (
-        True  # ΛDRIFT_POINT: Encryption status changes data representation.
-    )
+    max_short_term_capacity: int = field(default=1000, metadata={"alias": "max_short_term"})
+    memory_retention_days: int = 365  # ΛDRIFT_POINT: Retention policy impacts available memory.
+    enable_encryption: bool = True  # ΛDRIFT_POINT: Encryption status changes data representation.
     enable_visualization_support: bool = field(
         default=True, metadata={"alias": "enable_visualization"}
     )
@@ -175,15 +167,9 @@ class MemoryConfig(BaseConfig):
 class MemoryHealth(BaseHealth):
     total_memories_indexed: int = field(default=0, metadata={"alias": "total_memories"})
     helix_memory_count: int = field(default=0, metadata={"alias": "helix_memories"})
-    short_term_memory_count: int = field(
-        default=0, metadata={"alias": "short_term_memories"}
-    )
-    long_term_memory_count: int = field(
-        default=0, metadata={"alias": "long_term_memories"}
-    )
-    encrypted_memory_count: int = field(
-        default=0, metadata={"alias": "encrypted_memories"}
-    )
+    short_term_memory_count: int = field(default=0, metadata={"alias": "short_term_memories"})
+    long_term_memory_count: int = field(default=0, metadata={"alias": "long_term_memories"})
+    encrypted_memory_count: int = field(default=0, metadata={"alias": "encrypted_memories"})
     memory_types_distribution: dict[str, int] = field(default_factory=dict)
     priority_distribution: dict[str, int] = field(default_factory=dict)
     strand_distribution: dict[str, int] = field(default_factory=dict)
@@ -216,30 +202,20 @@ class MemoryModule(BaseModule):
         # ΛTRACE: Initializing MemoryModule instance.
         self.config: MemoryConfig = config or MemoryConfig()
         self.memory_helix: list[MemoryEntry] = []
-        self.short_term_memory: list[MemoryEntry] = (
-            []
-        )  # ΛNOTE: Conceptual memory stores.
+        self.short_term_memory: list[MemoryEntry] = []  # ΛNOTE: Conceptual memory stores.
         self.long_term_memory: list[MemoryEntry] = []
         self.memory_by_type: dict[MemoryType, list[str]] = {mt: [] for mt in MemoryType}
-        self.memory_by_strand: dict[MemoryStrand, list[str]] = {
-            ms: [] for ms in MemoryStrand
-        }
-        self.memory_by_priority: dict[MemoryPriority, list[str]] = {
-            mp: [] for mp in MemoryPriority
-        }
-        self.memory_index: dict[str, MemoryEntry] = (
-            {}
-        )  # ΛNOTE: Primary index for memory access.
-        self.memory_bonds: dict[str, list[dict[str, Any]]] = (
-            {}
-        )  # ΛNOTE: Conceptual "bonds" between memories.
+        self.memory_by_strand: dict[MemoryStrand, list[str]] = {ms: [] for ms in MemoryStrand}
+        self.memory_by_priority: dict[MemoryPriority, list[str]] = {mp: [] for mp in MemoryPriority}
+        self.memory_index: dict[str, MemoryEntry] = {}  # ΛNOTE: Primary index for memory access.
+        self.memory_bonds: dict[
+            str, list[dict[str, Any]]
+        ] = {}  # ΛNOTE: Conceptual "bonds" between memories.
         self.temporal_index: dict[str, list[str]] = {}
         self.encryption_key: Optional[bytes] = None
         self._consolidation_task: Optional[asyncio.Task] = None
         self.health: MemoryHealth = MemoryHealth()
-        self.logger.info(
-            "MemoryModule instance created.", config_preview=str(self.config)[:200]
-        )  # type: ignore
+        self.logger.info("MemoryModule instance created.", config_preview=str(self.config)[:200])  # type: ignore
 
     # ΛNOTE: These decorators are placeholders if BaseModule not properly imported.
     @symbolic_vocabulary("memory_awakening", "🧠⚡")
@@ -266,9 +242,7 @@ class MemoryModule(BaseModule):
             return True
         except Exception as e:
             # ΛTRACE: Memory Module startup failed.
-            await self.logger.error(
-                "Memory Module startup failed.", error=str(e), exc_info=True
-            )
+            await self.logger.error("Memory Module startup failed.", error=str(e), exc_info=True)
             return False  # type: ignore
 
     @symbolic_vocabulary("memory_rest", "🧠💤")
@@ -285,9 +259,7 @@ class MemoryModule(BaseModule):
             self._is_running = False
             # ΛTRACE: Memory Module shutdown complete.
             # type: ignore
-            await self.logger.info(
-                "LUKHAS Memory Module shutdown complete.", status="inactive"
-            )
+            await self.logger.info("LUKHAS Memory Module shutdown complete.", status="inactive")
             return True
         except asyncio.CancelledError:
             await self.logger.info(
@@ -300,9 +272,7 @@ class MemoryModule(BaseModule):
             )
         except Exception as e:
             # ΛTRACE: Memory Module shutdown failed.
-            await self.logger.error(
-                "Memory Module shutdown failed.", error=str(e), exc_info=True
-            )
+            await self.logger.error("Memory Module shutdown failed.", error=str(e), exc_info=True)
             return False  # type: ignore
 
     # ΛSEED_CHAIN: `content` and other parameters seed the creation of a MemoryEntry.
@@ -335,15 +305,11 @@ class MemoryModule(BaseModule):
         )
         try:
             enc = (
-                encrypt_override
-                if encrypt_override is not None
-                else self.config.enable_encryption
+                encrypt_override if encrypt_override is not None else self.config.enable_encryption
             )
             # ΛCAUTION: Encryption logic is stubbed.
             eff_content = (
-                await self._encrypt_content(content)
-                if enc and self.encryption_key
-                else content
+                await self._encrypt_content(content) if enc and self.encryption_key else content
             )
             mem_entry = MemoryEntry(
                 id=mem_id,
@@ -390,9 +356,7 @@ class MemoryModule(BaseModule):
     ) -> Optional[MemoryEntry]:
         # ΛTRACE: Retrieving memory.
         # type: ignore
-        await self.logger.debug(
-            "Retrieving memory.", id=memory_id, requestor_id=lukhas_lambda_id
-        )
+        await self.logger.debug("Retrieving memory.", id=memory_id, requestor_id=lukhas_lambda_id)
         try:
             if memory_id not in self.memory_index:
                 # ΛTRACE: Memory ID not found in index.
@@ -423,9 +387,7 @@ class MemoryModule(BaseModule):
                 # type: ignore
                 dec_entry.content = await self._decrypt_content(mem_entry.content)
                 # ΛTRACE: Memory content decrypted (stub).
-                await self.logger.debug(
-                    "Memory content decrypted (stub).", id=memory_id
-                )
+                await self.logger.debug("Memory content decrypted (stub).", id=memory_id)
                 return dec_entry  # type: ignore
             # ΛTRACE: Memory retrieved successfully.
             # type: ignore
@@ -443,12 +405,8 @@ class MemoryModule(BaseModule):
     # ΛCAUTION: All methods below are STUBS and represent significant
     # #ΛDRIFT_POINTs if implemented.
     async def _initialize_encryption(self):
-        await self.logger.info(
-            "Encryption STUB.", enabled=self.config.enable_encryption
-        )
-        self.encryption_key = (
-            os.urandom(32) if self.config.enable_encryption else None
-        )  # type: ignore
+        await self.logger.info("Encryption STUB.", enabled=self.config.enable_encryption)
+        self.encryption_key = os.urandom(32) if self.config.enable_encryption else None  # type: ignore
 
     async def _encrypt_content(self, c: dict[str, Any]) -> dict[str, Any]:
         await self.logger.debug("Encrypt STUB.")
@@ -506,14 +464,10 @@ class MemoryModule(BaseModule):
     async def _get_recent_memories(self, hours: int) -> list[MemoryEntry]:
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         return [
-            m
-            for m in self.memory_helix
-            if datetime.fromisoformat(m.timestamp_utc) >= cutoff
+            m for m in self.memory_helix if datetime.fromisoformat(m.timestamp_utc) >= cutoff
         ]  # ΛRECALL (internal)
 
-    async def _identify_memory_patterns(
-        self, memories: list[MemoryEntry]
-    ) -> list[dict]:
+    async def _identify_memory_patterns(self, memories: list[MemoryEntry]) -> list[dict]:
         return []  # ΛNOTE: Stub for pattern identification.
 
     async def _consolidate_memories(self, memories: list[MemoryEntry]) -> int:
@@ -558,14 +512,10 @@ class MemoryModule(BaseModule):
             is_healthy=self.health.is_healthy,
         )
 
-    async def process_request(
-        self, request: Any
-    ) -> dict[str, Any]:  # BaseModule override
+    async def process_request(self, request: Any) -> dict[str, Any]:  # BaseModule override
         # ΛTRACE: Processing generic request (stub).
         # type: ignore
-        await self.logger.debug(
-            "Processing request (stub).", request_type=type(request).__name__
-        )
+        await self.logger.debug("Processing request (stub).", request_type=type(request).__name__)
         return {"status": "processed_stub", "request_summary": str(request)[:100]}
 
     async def get_health_status(self) -> MemoryHealth:  # BaseModule override

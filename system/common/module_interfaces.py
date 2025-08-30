@@ -28,9 +28,7 @@ class IMemoryModule(ABC):
     """Interface for memory modules"""
 
     @abstractmethod
-    async def store(
-        self, key: str, value: Any, metadata: dict[str, Any] = None
-    ) -> bool:
+    async def store(self, key: str, value: Any, metadata: dict[str, Any] = None) -> bool:
         """Store data in memory"""
 
     @abstractmethod
@@ -86,7 +84,5 @@ class ICoreModule(ABC):
         """Get system status"""
 
     @abstractmethod
-    async def execute_symbolic_operation(
-        self, operation: str, params: dict[str, Any]
-    ) -> Any:
+    async def execute_symbolic_operation(self, operation: str, params: dict[str, Any]) -> Any:
         """Execute symbolic operation"""

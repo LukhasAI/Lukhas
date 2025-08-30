@@ -17,9 +17,11 @@ from lukhas.core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from candidate.core.enhanced_swarm import EnhancedColony as AgentColonyEnhanced
-    from candidate.core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgentEnhanced
-    from candidate.core.enhanced_swarm import EnhancedSwarmHub as SwarmHubEnhanced
+    from candidate.core.enhanced_swarm import (
+        EnhancedColony as AgentColonyEnhanced,
+        EnhancedSwarmAgent as SwarmAgentEnhanced,
+        EnhancedSwarmHub as SwarmHubEnhanced,
+    )
 
     ENHANCED_AVAILABLE = True
 except ImportError:
@@ -43,9 +45,7 @@ class SwarmAgent(Actor):
         super().__init__(agent_id)
         self.agent_id = agent_id
         self.colony = colony
-        self.tracer = AIAgentTracer(
-            f"agent-{self.agent_id}", get_global_tracer().collector
-        )
+        self.tracer = AIAgentTracer(f"agent-{self.agent_id}", get_global_tracer().collector)
 
         if ENHANCED_AVAILABLE and capabilities:
             # Use enhanced agent with real behaviors
@@ -88,9 +88,7 @@ class AgentColony:
         self.colony_id = colony_id
         self.supervisor = Supervisor(strategy=supervisor_strategy)
         self.agents = {}
-        self.tracer = AIAgentTracer(
-            f"colony-{self.colony_id}", get_global_tracer().collector
-        )
+        self.tracer = AIAgentTracer(f"colony-{self.colony_id}", get_global_tracer().collector)
         self.resource_state = ResourceState.STABLE
         self.memory_load = 0.5  # Simulated memory load
         self.symbolic_tags = set()
@@ -98,9 +96,7 @@ class AgentColony:
 
         if ENHANCED_AVAILABLE and capabilities:
             # Use enhanced colony with real behaviors
-            self._enhanced_colony = AgentColonyEnhanced(
-                colony_id, capabilities, agent_count
-            )
+            self._enhanced_colony = AgentColonyEnhanced(colony_id, capabilities, agent_count)
             if agent_count > 0:
                 self.populate_agents(agent_count, capabilities)
         else:
@@ -115,9 +111,7 @@ class AgentColony:
 
     def add_symbolic_tag(self, tag):
         self.symbolic_tags.add(tag)
-        self.symbolic_tag_density = (
-            len(self.symbolic_tags) / 100.0
-        )  # Simplified calculation
+        self.symbolic_tag_density = len(self.symbolic_tags) / 100.0  # Simplified calculation
 
     def create_agent(self, agent_id, capabilities=None):
         with self.tracer.trace_agent_operation(self.colony_id, "create_agent"):
@@ -198,9 +192,7 @@ class SwarmHub:
 
         if self._enhanced_hub and capabilities:
             # Register with enhanced hub for better inter-colony communication
-            enhanced_colony = self._enhanced_hub.create_colony(
-                colony_id, capabilities, agent_count
-            )
+            enhanced_colony = self._enhanced_hub.create_colony(colony_id, capabilities, agent_count)
             colony._enhanced_colony = enhanced_colony
 
         print(f"SwarmHub: Registered colony {colony_id} with {agent_count} agents")
@@ -209,9 +201,7 @@ class SwarmHub:
     def create_colony(self, colony_id, capabilities, agent_count):
         """Create and populate a colony with enhanced behaviors."""
         if self._enhanced_hub:
-            enhanced_colony = self._enhanced_hub.create_colony(
-                colony_id, capabilities, agent_count
-            )
+            enhanced_colony = self._enhanced_hub.create_colony(colony_id, capabilities, agent_count)
             # Create legacy wrapper
             colony = AgentColony(colony_id, capabilities, agent_count)
             colony._enhanced_colony = enhanced_colony
@@ -284,9 +274,7 @@ class SwarmHub:
         print("=== Demonstrating Enhanced Swarm Capabilities ===")
 
         # Create specialized colonies
-        reasoning = self.create_colony(
-            "reasoning", ["logical_reasoning", "problem_solving"], 3
-        )
+        reasoning = self.create_colony("reasoning", ["logical_reasoning", "problem_solving"], 3)
         self.create_colony("memory", ["episodic_memory", "semantic_memory"], 3)
         self.create_colony("creativity", ["idea_generation", "synthesis"], 2)
 

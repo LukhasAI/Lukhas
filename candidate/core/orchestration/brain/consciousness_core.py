@@ -50,9 +50,7 @@ class ConsciousnessCore:
         self.evolution_history: list[ConsciousnessState] = []
         self.active_processes: dict[str, Any] = {}
 
-        logger.info(
-            f"🧠 Consciousness Core initialized (max level: {config.max_consciousness})"
-        )
+        logger.info(f"🧠 Consciousness Core initialized (max level: {config.max_consciousness})")
 
     def awaken(self) -> dict[str, Any]:
         """Initialize consciousness system"""
@@ -131,7 +129,9 @@ class ConsciousnessCore:
         context = level_contexts.get(self.current_state.level, "I am an AI assistant.")
 
         if self.current_state.active_processes:
-            context += f" Currently active processes: {', '.join(self.current_state.active_processes)}."
+            context += (
+                f" Currently active processes: {', '.join(self.current_state.active_processes)}."
+            )
 
         return context
 

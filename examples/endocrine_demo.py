@@ -40,12 +40,8 @@ async def demonstrate_endocrine_system():
     # Show immediate hormone changes
     stress_levels = system.get_hormone_levels()
     print("\n  Hormone changes:")
-    print(
-        f"    Cortisol: {initial_levels['cortisol']:.2f} → {stress_levels['cortisol']:.2f}"
-    )
-    print(
-        f"    Adrenaline: {initial_levels['adrenaline']:.2f} → {stress_levels['adrenaline']:.2f}"
-    )
+    print(f"    Cortisol: {initial_levels['cortisol']:.2f} → {stress_levels['cortisol']:.2f}")
+    print(f"    Adrenaline: {initial_levels['adrenaline']:.2f} → {stress_levels['adrenaline']:.2f}")
 
     # Show effects
     effects = system._calculate_effects()
@@ -66,9 +62,7 @@ async def demonstrate_endocrine_system():
     current_profile = system.get_hormone_profile()
     print(f"  State: {current_profile['dominant_state']}")
     print(f"  Mood valence: {current_profile['effects']['mood_valence']:.2f}")
-    print(
-        f"  Emotional stability: {current_profile['effects']['emotional_stability']:.2f}"
-    )
+    print(f"  Emotional stability: {current_profile['effects']['emotional_stability']:.2f}")
 
     # 6. Trigger social bonding to counteract stress
     print("\n🤝 Triggering Social Bonding (intensity: 0.6)")
@@ -107,19 +101,13 @@ async def demonstrate_endocrine_system():
 
     # 9. Show neuroplasticity throughout the day
     print("\n🧠 Neuroplasticity Analysis:")
-    print(
-        f"  Current neuroplasticity: {rest_profile['effects']['neuroplasticity']:.2f}"
-    )
+    print(f"  Current neuroplasticity: {rest_profile['effects']['neuroplasticity']:.2f}")
     print("  Factors affecting neuroplasticity:")
-    print(
-        f"    - Stress (cortisol): {rest_profile['levels']['cortisol']:.2f} (inhibits)"
-    )
+    print(f"    - Stress (cortisol): {rest_profile['levels']['cortisol']:.2f} (inhibits)")
     print(
         f"    - Mood (dopamine/serotonin): {rest_profile['effects']['mood_valence']:.2f} (enhances)"
     )
-    print(
-        f"    - Rest (melatonin): {rest_profile['levels']['melatonin']:.2f} (crucial)"
-    )
+    print(f"    - Rest (melatonin): {rest_profile['levels']['melatonin']:.2f} (crucial)")
 
     # 10. Show effect history
     print("\n📜 Effect History:")

@@ -51,7 +51,7 @@ async def debug_audit_system():
         query = AuditQuery(
             start_time=datetime.now() - timedelta(hours=1),
             end_time=datetime.now() + timedelta(hours=1),
-            limit=100
+            limit=100,
         )
         events = await audit_system.query_events(query)
         print(f"   📊 Found {len(events)} events via query_events")
@@ -63,6 +63,7 @@ async def debug_audit_system():
 
         print(f"\n📁 Storage base path: {audit_system.storage.base_path}")
         import os
+
         if os.path.exists(audit_system.storage.base_path):
             print("📂 Directory contents:")
             for item in os.listdir(audit_system.storage.base_path):

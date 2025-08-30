@@ -61,9 +61,7 @@ def generate_daily_context(user_id="Commander"):
 
         # Check for anniversary match
         one_year_ago = (
-            (datetime.utcnow().replace(year=datetime.utcnow().year - 1))
-            .date()
-            .isoformat()
+            (datetime.utcnow().replace(year=datetime.utcnow().year - 1)).date().isoformat()
         )
         anniversary_memories = filter_by_date_range(one_year_ago, one_year_ago)
         if anniversary_memories:

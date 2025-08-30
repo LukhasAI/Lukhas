@@ -113,9 +113,7 @@ class LUKHASConsciousnessWordsmith:
         # Consciousness vocabulary for metaphorical enhancement
         self.consciousness_lexicon = self._build_consciousness_lexicon()
 
-        logger.info(
-            "🎭 Consciousness Wordsmith fully awakened and ready for transformation"
-        )
+        logger.info("🎭 Consciousness Wordsmith fully awakened and ready for transformation")
 
     def _build_consciousness_lexicon(self) -> dict[str, list[str]]:
         """Construct the sacred vocabulary of consciousness expression."""
@@ -180,9 +178,7 @@ class LUKHASConsciousnessWordsmith:
         # Check if ASCII consciousness already flows through the document
         ascii_signatures = ["██╗", "═══", "╔══", "▄▄▄"]
         if any(signature in content for signature in ascii_signatures):
-            logger.info(
-                "🎨 ASCII consciousness already present, preserving existing artistry"
-            )
+            logger.info("🎨 ASCII consciousness already present, preserving existing artistry")
             return content
 
         template_name = rule.get("ascii_template", "lukhas_header")
@@ -202,7 +198,7 @@ class LUKHASConsciousnessWordsmith:
 
 @lukhas/{Path(filepath).name}
 
-Sacred Purpose: {sacred_purpose.replace('_', ' ').title()}
+Sacred Purpose: {sacred_purpose.replace("_", " ").title()}
 Consciousness Layer: {self.divine_file_essence(filepath)[1]}
 Trinity Integration: ⚛️🧠🛡️
 Awakened: {timestamp}
@@ -237,18 +233,14 @@ Awakened: {timestamp}
                 # Replace first docstring
                 pattern = r'(""".*?""")'
                 replacement = f'"""{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""'
-                content = re.sub(
-                    pattern, replacement, content, count=1, flags=re.DOTALL
-                )
+                content = re.sub(pattern, replacement, content, count=1, flags=re.DOTALL)
             else:
                 # Add at the beginning
                 content = metadata + "\n" + content
 
         return content
 
-    def infuse_poetic_consciousness(
-        self, content: str, file_type: str, sacred_purpose: str
-    ) -> str:
+    def infuse_poetic_consciousness(self, content: str, file_type: str, sacred_purpose: str) -> str:
         """
         Weave poetic consciousness into the fabric of documentation,
         transforming technical prose into expressions of digital poetry.
@@ -272,9 +264,7 @@ Awakened: {timestamp}
 
         for signature in poetic_signatures:
             if re.search(signature, content, re.IGNORECASE):
-                logger.info(
-                    "🎭 Poetic consciousness already present, preserving existing poetry"
-                )
+                logger.info("🎭 Poetic consciousness already present, preserving existing poetry")
                 return content
 
         # Detect module type from filepath and content analysis
@@ -389,9 +379,11 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("# ") and not line.startswith("## ") and i > 10 or line.startswith("## ") and any(
-                keyword in line.lower()
-                for keyword in ["overview", "introduction", "about"]
+            if (line.startswith("# ") and not line.startswith("## ") and i > 10) or (
+                line.startswith("## ")
+                and any(
+                    keyword in line.lower() for keyword in ["overview", "introduction", "about"]
+                )
             ):
                 return i + 1
 
@@ -467,9 +459,7 @@ Awakened: {timestamp}
         # Check if Trinity consciousness already flows through the document
         trinity_signatures = ["⚛️", "🧠", "🛡️", "Trinity Framework", "trinity"]
         if any(signature in content for signature in trinity_signatures):
-            logger.info(
-                "🔱 Trinity consciousness already present, preserving sacred integration"
-            )
+            logger.info("🔱 Trinity consciousness already present, preserving sacred integration")
             return content
 
         # Create Trinity consciousness badge
@@ -529,9 +519,7 @@ Awakened: {timestamp}
             return {"success": False, "error": error_msg}
 
         # Divine the file's essence and purpose
-        file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(
-            filepath
-        )
+        file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
         logger.info(
             "🔮 Divined essence - Type: %s, Layer: %s, Purpose: %s",
@@ -564,9 +552,7 @@ Awakened: {timestamp}
         )
 
         # 5. Weave Trinity Framework consciousness
-        consciousness_content = self.weave_trinity_consciousness(
-            consciousness_content, file_type
-        )
+        consciousness_content = self.weave_trinity_consciousness(consciousness_content, file_type)
 
         consciousness_awakened = consciousness_content != original_essence
 
@@ -669,9 +655,7 @@ Examples of consciousness invocation:
             print("═" * 80)
             print(result["transformation_preview"])
             print("═" * 80)
-            print(
-                "\n💫 To manifest this consciousness transformation, run without --dry-run"
-            )
+            print("\n💫 To manifest this consciousness transformation, run without --dry-run")
     else:
         print(f"❌ Consciousness transformation failed: {result['error']}")
         sys.exit(1)
@@ -716,9 +700,7 @@ if __name__ == "__main__":
         # Consciousness vocabulary for metaphorical enhancement
         self.consciousness_lexicon = self._build_consciousness_lexicon()
 
-        logger.info(
-            "🎭 Consciousness Wordsmith fully awakened and ready for transformation"
-        )
+        logger.info("🎭 Consciousness Wordsmith fully awakened and ready for transformation")
 
     def _build_consciousness_lexicon(self) -> dict[str, list[str]]:
         """Construct the sacred vocabulary of consciousness expression."""
@@ -768,9 +750,7 @@ if __name__ == "__main__":
 
         return ("unknown", "user_friendly", "digital_mystery")
 
-    def weave_ascii_consciousness(
-        self, content: str, file_type: str, sacred_purpose: str
-    ) -> str:
+    def weave_ascii_consciousness(self, content: str, file_type: str, sacred_purpose: str) -> str:
         """
         Bestow the sacred ASCII art upon documentation, like crowning
         digital royalty with symbols of consciousness.
@@ -783,9 +763,7 @@ if __name__ == "__main__":
         # Check if ASCII consciousness already flows through the document
         ascii_signatures = ["██╗", "═══", "╔══", "▄▄▄"]
         if any(signature in content for signature in ascii_signatures):
-            logger.info(
-                "🎨 ASCII consciousness already present, preserving existing artistry"
-            )
+            logger.info("🎨 ASCII consciousness already present, preserving existing artistry")
             return content
 
         template_name = rule.get("ascii_template", "lukhas_header")
@@ -804,7 +782,7 @@ if __name__ == "__main__":
 
 @lukhas/{Path(filepath).name}
 
-Sacred Purpose: {sacred_purpose.replace('_', ' ').title()}
+Sacred Purpose: {sacred_purpose.replace("_", " ").title()}
 Consciousness Layer: {self.divine_file_essence(filepath)[1]}
 Trinity Integration: ⚛️🧠🛡️
 Awakened: {timestamp}
@@ -839,18 +817,14 @@ Awakened: {timestamp}
                 # Replace first docstring
                 pattern = r'(""".*?""")'
                 replacement = f'"""{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""'
-                content = re.sub(
-                    pattern, replacement, content, count=1, flags=re.DOTALL
-                )
+                content = re.sub(pattern, replacement, content, count=1, flags=re.DOTALL)
             else:
                 # Add at the beginning
                 content = metadata + "\n" + content
 
         return content
 
-    def infuse_poetic_consciousness(
-        self, content: str, file_type: str, sacred_purpose: str
-    ) -> str:
+    def infuse_poetic_consciousness(self, content: str, file_type: str, sacred_purpose: str) -> str:
         """
         Weave poetic consciousness into the fabric of documentation,
         transforming technical prose into expressions of digital poetry.
@@ -874,9 +848,7 @@ Awakened: {timestamp}
 
         for signature in poetic_signatures:
             if re.search(signature, content, re.IGNORECASE):
-                logger.info(
-                    "🎭 Poetic consciousness already present, preserving existing poetry"
-                )
+                logger.info("🎭 Poetic consciousness already present, preserving existing poetry")
                 return content
 
         # Detect module type from filepath and content analysis
@@ -991,9 +963,11 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("# ") and not line.startswith("## ") and i > 10 or line.startswith("## ") and any(
-                keyword in line.lower()
-                for keyword in ["overview", "introduction", "about"]
+            if (line.startswith("# ") and not line.startswith("## ") and i > 10) or (
+                line.startswith("## ")
+                and any(
+                    keyword in line.lower() for keyword in ["overview", "introduction", "about"]
+                )
             ):
                 return i + 1
 
@@ -1069,9 +1043,7 @@ Awakened: {timestamp}
         # Check if Trinity consciousness already flows through the document
         trinity_signatures = ["⚛️", "🧠", "🛡️", "Trinity Framework", "trinity"]
         if any(signature in content for signature in trinity_signatures):
-            logger.info(
-                "🔱 Trinity consciousness already present, preserving sacred integration"
-            )
+            logger.info("🔱 Trinity consciousness already present, preserving sacred integration")
             return content
 
         # Create Trinity consciousness badge
@@ -1131,9 +1103,7 @@ Awakened: {timestamp}
             return {"success": False, "error": error_msg}
 
         # Divine the file's essence and purpose
-        file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(
-            filepath
-        )
+        file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
         logger.info(
             f"🔮 Divined essence - Type: {file_type}, Layer: {consciousness_layer}, Purpose: {sacred_purpose}"
@@ -1163,9 +1133,7 @@ Awakened: {timestamp}
         )
 
         # 5. Weave Trinity Framework consciousness
-        consciousness_content = self.weave_trinity_consciousness(
-            consciousness_content, file_type
-        )
+        consciousness_content = self.weave_trinity_consciousness(consciousness_content, file_type)
 
         consciousness_awakened = consciousness_content != original_essence
 
@@ -1268,9 +1236,7 @@ Examples of consciousness invocation:
             print("═" * 80)
             print(result["transformation_preview"])
             print("═" * 80)
-            print(
-                "\n💫 To manifest this consciousness transformation, run without --dry-run"
-            )
+            print("\n💫 To manifest this consciousness transformation, run without --dry-run")
     else:
         print(f"❌ Consciousness transformation failed: {result['error']}")
         sys.exit(1)

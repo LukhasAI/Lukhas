@@ -72,9 +72,7 @@ class LukhasAIAgent:
             "status": "completed",
             "timestamp": datetime.now().isoformat(),
             "tier": self.tier.value,
-            "capabilities_used": self.capabilities.new_features[
-                :2
-            ],  # Show first 2 features
+            "capabilities_used": self.capabilities.new_features[:2],  # Show first 2 features
         }
 
         return result
@@ -165,9 +163,7 @@ class LukhasAIAgentTeam:
                 "Documentation enhancement automation",
             ],
         )
-        self.agents["jules"] = LukhasAIAgent(
-            "Jules", AgentTier.DEVELOPER, jules_capabilities
-        )
+        self.agents["jules"] = LukhasAIAgent("Jules", AgentTier.DEVELOPER, jules_capabilities)
 
         # 4. ΛAgent - Superior Process Intelligence (ENTERPRISE)
         lambda_agent_capabilities = AgentCapabilities(
@@ -502,9 +498,7 @@ class LukhasAIAgentTeam:
                 "system_status": "PRODUCTION_READY_FOR_HANDOVER",
             }
 
-            logger.info(
-                f"🎉 Complete Consolidation Process finished in {total_time:.2f} seconds"
-            )
+            logger.info(f"🎉 Complete Consolidation Process finished in {total_time:.2f} seconds")
             return final_results
 
         except Exception as e:

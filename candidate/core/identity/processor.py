@@ -95,9 +95,7 @@ class IdentityProcessor:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data or set default
-        category = (
-            data.get("category", "identity") if isinstance(data, dict) else "identity"
-        )
+        category = data.get("category", "identity") if isinstance(data, dict) else "identity"
 
         if category == "consciousness":
             return await self._process_consciousness(data)

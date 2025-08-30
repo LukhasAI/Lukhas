@@ -59,6 +59,7 @@ MODULE_NAME = "context_manager"
 @dataclass
 class ContextEntry:
     """Individual context entry with metadata"""
+
     id: str
     timestamp: datetime
     prompt: str
@@ -74,6 +75,7 @@ class ContextEntry:
 @dataclass
 class ContextSummary:
     """Compressed context summary for efficient storage"""
+
     id: str
     summary_text: str
     key_points: list[str]
@@ -109,15 +111,18 @@ class ContextManager:
         self.compression_stats = {
             "compressions_performed": 0,
             "total_entries_compressed": 0,
-            "compression_ratio": 0.0
+            "compression_ratio": 0.0,
         }
 
         # Background tasks
         self._cleanup_task = None
         self._start_background_tasks()
 
-        logger.info("Context Manager initialized with %d max entries, %dh max age",
-                   self.max_context_entries, self.max_context_age_hours)
+        logger.info(
+            "Context Manager initialized with %d max entries, %dh max age",
+            self.max_context_entries,
+            self.max_context_age_hours,
+        )
 
     def _start_background_tasks(self):
         """Start background maintenance tasks"""
@@ -156,9 +161,11 @@ class ContextManager:
 
             context_data = {
                 "entries": [asdict(entry) for entry in relevant_entries[-10:]],  # Last 10 entries
-                "summaries": [asdict(summary) for summary in relevant_summaries[-5:]],  # Last 5 summaries
+                "summaries": [
+                    asdict(summary) for summary in relevant_summaries[-5:]
+                ],  # Last 5 summaries
                 "total_entries": len(entries),
-                "total_summaries": len(summaries)
+                "total_summaries": len(summaries),
             }
 
             # Track performance
@@ -172,11 +179,7 @@ class ContextManager:
             return {"entries": [], "summaries": [], "total_entries": 0}
 
     async def update_context(
-        self,
-        context_id: str,
-        prompt: str,
-        response: str,
-        metadata: Optional[dict[str, Any]] = None
+        self, context_id: str, prompt: str, response: str, metadata: Optional[dict[str, Any]] = None
     ) -> bool:
         """
         Update context with new prompt/response pair
@@ -202,7 +205,7 @@ class ContextManager:
                 metadata=metadata or {},
                 session_id=metadata.get("session_id") if metadata else None,
                 emotional_state=metadata.get("emotional_state") if metadata else None,
-                task_context=metadata.get("task_context") if metadata else None
+                task_context=metadata.get("task_context") if metadata else None,
             )
 
             # Add to context cache
@@ -240,7 +243,9 @@ class ContextManager:
         Returns:
             Enhanced prompt with context
         """
-        if not context_data or not context_data.get("entries") and not context_data.get("summaries"):
+        if not context_data or (
+            not context_data.get("entries") and not context_data.get("summaries")
+        ):
             return prompt
 
         try:
@@ -341,7 +346,9 @@ class ContextManager:
         # Create summary text
         summary_text = f"Conversation involving {len(entries)} exchanges. "
         if len(key_points) > 5:
-            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points)-3} more."
+            summary_text += (
+                f"Key topics: {', '.join(key_points[:3])} and {len(key_points) - 3} more."
+            )
         else:
             summary_text += f"Topics: {', '.join(key_points)}"
 
@@ -357,7 +364,7 @@ class ContextManager:
             emotional_context=emotional_scores,
             time_range=(entries[0].timestamp, entries[-1].timestamp),
             relevance_score=relevance_score,
-            original_entries=len(entries)
+            original_entries=len(entries),
         )
 
     def _filter_relevant_entries(self, entries: list[ContextEntry]) -> list[ContextEntry]:
@@ -390,7 +397,9 @@ class ContextManager:
         if not summaries:
             return []
 
-        cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
+        cutoff_time = datetime.utcnow() - timedelta(
+            hours=self.max_context_age_hours * 2
+        )  # Keep summaries longer
 
         relevant_summaries = []
         for summary in summaries:
@@ -445,8 +454,11 @@ class ContextManager:
                     logger.debug("Cleaned up summaries: %s", context_id)
 
                 if contexts_to_remove or summaries_to_remove:
-                    logger.info("Cleanup: removed %d contexts, %d summary groups",
-                              len(contexts_to_remove), len(summaries_to_remove))
+                    logger.info(
+                        "Cleanup: removed %d contexts, %d summary groups",
+                        len(contexts_to_remove),
+                        len(summaries_to_remove),
+                    )
 
             except Exception as e:
                 logger.error("Cleanup task error: %s", str(e))
@@ -457,7 +469,9 @@ class ContextManager:
 
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Get context manager performance metrics"""
-        avg_handoff_time = sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
+        avg_handoff_time = (
+            sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
+        )
 
         return {
             "active_contexts": len(self.context_cache),
@@ -466,7 +480,7 @@ class ContextManager:
             "handoff_target_ms": self.handoff_target_ms,
             "compression_stats": self.compression_stats.copy(),
             "cache_hit_ratio": self._calculate_cache_hit_ratio(),
-            "memory_usage_estimate": self._estimate_memory_usage()
+            "memory_usage_estimate": self._estimate_memory_usage(),
         }
 
     def _calculate_cache_hit_ratio(self) -> float:
@@ -495,7 +509,7 @@ class ContextManager:
         return {
             "contexts_bytes": contexts_size,
             "summaries_bytes": summaries_size,
-            "total_bytes": contexts_size + summaries_size
+            "total_bytes": contexts_size + summaries_size,
         }
 
     async def health_check(self) -> dict[str, Any]:
@@ -518,8 +532,8 @@ class ContextManager:
             "configuration": {
                 "max_context_entries": self.max_context_entries,
                 "max_context_age_hours": self.max_context_age_hours,
-                "handoff_target_ms": self.handoff_target_ms
-            }
+                "handoff_target_ms": self.handoff_target_ms,
+            },
         }
 
 

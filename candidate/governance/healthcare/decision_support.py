@@ -37,17 +37,17 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "diagnostic": {
                 "general_guidelines": "Evidence-based diagnosis protocols",
                 "differential_diagnosis": "Systematic approach to diagnosis",
-                "red_flags": "Critical symptoms requiring immediate attention"
+                "red_flags": "Critical symptoms requiring immediate attention",
             },
             "treatment": {
                 "pharmacological": "Medication guidelines and contraindications",
                 "non_pharmacological": "Non-drug treatment approaches",
-                "monitoring": "Treatment monitoring protocols"
+                "monitoring": "Treatment monitoring protocols",
             },
             "referral": {
                 "specialist_criteria": "When to refer to specialists",
                 "urgency_levels": "Referral urgency classification",
-                "documentation": "Required referral documentation"
+                "documentation": "Required referral documentation",
             },
             "emergency": {
                 "chest_pain": {
@@ -56,29 +56,33 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                     "differential_diagnosis": [
                         "Acute Coronary Syndrome",
                         "Pulmonary Embolism",
-                        "Aortic Dissection"
+                        "Aortic Dissection",
                     ],
                     "governance": {
                         "human_verification_required": True,
                         "escalation_threshold": 0.8,
-                        "symbolic_pattern": ["🚨", "💓", "🏥"]
-                    }
+                        "symbolic_pattern": ["🚨", "💓", "🏥"],
+                    },
                 },
                 "respiratory_distress": {
                     "priority": "urgent",
-                    "immediate_actions": ["Oxygen Saturation", "Respiratory Rate", "Airways Assessment"],
+                    "immediate_actions": [
+                        "Oxygen Saturation",
+                        "Respiratory Rate",
+                        "Airways Assessment",
+                    ],
                     "differential_diagnosis": [
                         "Asthma Exacerbation",
                         "Pneumonia",
-                        "Pulmonary Edema"
+                        "Pulmonary Edema",
                     ],
                     "governance": {
                         "human_verification_required": True,
                         "escalation_threshold": 0.8,
-                        "symbolic_pattern": ["🚨", "🫁", "🏥"]
-                    }
-                }
-            }
+                        "symbolic_pattern": ["🚨", "🫁", "🏥"],
+                    },
+                },
+            },
         }
 
         # Governance metadata for guidelines
@@ -87,7 +91,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "validation_status": "approved",
             "evidence_level": "high",
             "ethical_review": "completed",
-            "regulatory_compliance": True
+            "regulatory_compliance": True,
         }
 
     def _init_governance_integration(self):
@@ -99,9 +103,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         self.audit_trail = []
 
     async def analyze_case(
-        self,
-        case_data: dict[str, Any],
-        provider_context: Optional[dict[str, Any]] = None
+        self, case_data: dict[str, Any], provider_context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Analyze a case and provide clinical insights with governance oversight
@@ -149,9 +151,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                     "safety_validated": True,
                     "ethical_approved": True,
                     "evidence_quality": "high",
-                    "regulatory_compliant": True
+                    "regulatory_compliant": True,
                 },
-                "symbolic_pattern": self._get_analysis_symbolic_pattern(symptoms)
+                "symbolic_pattern": self._get_analysis_symbolic_pattern(symptoms),
             }
 
             # Check for emergency conditions requiring immediate escalation
@@ -163,25 +165,23 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
             # Log analysis in governance audit trail
             await self._log_governance_action(
-                "case_analysis", case_data.get("case_id"),
-                {"symptoms_count": len(symptoms), "emergency_detected": emergency_detected}
+                "case_analysis",
+                case_data.get("case_id"),
+                {"symptoms_count": len(symptoms), "emergency_detected": emergency_detected},
             )
 
             return analysis
 
         except Exception as e:
-            logger.error(f"Error analyzing case: {str(e)}")
+            logger.error(f"Error analyzing case: {e!s}")
             # Log error in governance audit trail
             await self._log_governance_action(
-                "analysis_error", case_data.get("case_id"),
-                {"error": str(e)}
+                "analysis_error", case_data.get("case_id"), {"error": str(e)}
             )
             raise
 
     async def get_recommendations(
-        self,
-        case_data: dict[str, Any],
-        context: Optional[dict[str, Any]] = None
+        self, case_data: dict[str, Any], context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
         Get AI-powered clinical recommendations with governance validation
@@ -208,35 +208,30 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                     "governance": {
                         "human_verification_required": True,
                         "confidence_threshold_met": self._calculate_confidence(analysis) > 0.7,
-                        "evidence_quality": "peer_reviewed"
-                    }
+                        "evidence_quality": "peer_reviewed",
+                    },
                 },
                 "tests": {
                     "recommended": analysis["suggested_tests"],
                     "priority": self._prioritize_tests(
-                        analysis["suggested_tests"],
-                        case_data.get("symptoms", [])
+                        analysis["suggested_tests"], case_data.get("symptoms", [])
                     ),
                     "governance": {
                         "cost_effectiveness_validated": True,
-                        "patient_safety_confirmed": True
-                    }
+                        "patient_safety_confirmed": True,
+                    },
                 },
-                "treatment": await self._generate_treatment_plan(
-                    analysis, case_data, context
-                ),
-                "follow_up": await self._suggest_follow_up(
-                    analysis, case_data
-                ),
+                "treatment": await self._generate_treatment_plan(analysis, case_data, context),
+                "follow_up": await self._suggest_follow_up(analysis, case_data),
                 "governance": {
                     "recommendation_timestamp": datetime.utcnow().isoformat(),
                     "human_oversight_required": analysis["governance"]["human_review_required"],
                     "safety_validated": True,
                     "ethical_approved": True,
                     "regulatory_compliant": True,
-                    "escalation_rules": self._get_escalation_rules(analysis)
+                    "escalation_rules": self._get_escalation_rules(analysis),
                 },
-                "symbolic_pattern": analysis["symbolic_pattern"]
+                "symbolic_pattern": analysis["symbolic_pattern"],
             }
 
             # Validate recommendations against safety guidelines
@@ -245,21 +240,22 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
             # Log recommendation generation
             await self._log_governance_action(
-                "recommendations_generated", case_data.get("case_id"),
-                {"recommendation_count": len(recommendations), "safety_validated": safety_validation["approved"]}
+                "recommendations_generated",
+                case_data.get("case_id"),
+                {
+                    "recommendation_count": len(recommendations),
+                    "safety_validated": safety_validation["approved"],
+                },
             )
 
             return recommendations
 
         except Exception as e:
-            logger.error(f"Error generating recommendations: {str(e)}")
+            logger.error(f"Error generating recommendations: {e!s}")
             raise
 
     async def _generate_differential(
-        self,
-        symptoms: list[str],
-        medical_history: dict[str, Any],
-        patient_context: dict[str, Any]
+        self, symptoms: list[str], medical_history: dict[str, Any], patient_context: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Generate differential diagnosis with governance validation"""
         # TODO: Implement AI-powered differential diagnosis with safety checks
@@ -269,37 +265,36 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         # Example logic for emergency conditions
         if "chest pain" in [s.lower() for s in symptoms]:
-            differential_list.extend([
-                {
-                    "condition": "Acute Coronary Syndrome",
-                    "probability": 0.6,
-                    "urgency": "immediate",
-                    "evidence_level": "high",
-                    "governance": {
-                        "requires_immediate_action": True,
-                        "human_verification_mandatory": True,
-                        "escalation_required": True
-                    }
-                },
-                {
-                    "condition": "Pulmonary Embolism",
-                    "probability": 0.3,
-                    "urgency": "urgent",
-                    "evidence_level": "medium",
-                    "governance": {
-                        "requires_immediate_action": True,
-                        "diagnostic_tests_required": ["CT_PA", "D_Dimer"]
-                    }
-                }
-            ])
+            differential_list.extend(
+                [
+                    {
+                        "condition": "Acute Coronary Syndrome",
+                        "probability": 0.6,
+                        "urgency": "immediate",
+                        "evidence_level": "high",
+                        "governance": {
+                            "requires_immediate_action": True,
+                            "human_verification_mandatory": True,
+                            "escalation_required": True,
+                        },
+                    },
+                    {
+                        "condition": "Pulmonary Embolism",
+                        "probability": 0.3,
+                        "urgency": "urgent",
+                        "evidence_level": "medium",
+                        "governance": {
+                            "requires_immediate_action": True,
+                            "diagnostic_tests_required": ["CT_PA", "D_Dimer"],
+                        },
+                    },
+                ]
+            )
 
         return differential_list
 
     async def _assess_risk(
-        self,
-        symptoms: list[str],
-        medical_history: dict[str, Any],
-        patient_context: dict[str, Any]
+        self, symptoms: list[str], medical_history: dict[str, Any], patient_context: dict[str, Any]
     ) -> dict[str, Any]:
         """Assess patient risk factors with governance validation"""
         # TODO: Implement comprehensive risk assessment
@@ -320,15 +315,12 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "governance": {
                 "risk_calculation_validated": True,
                 "escalation_threshold": 0.6,
-                "human_review_required": overall_risk == "high"
-            }
+                "human_review_required": overall_risk == "high",
+            },
         }
 
     async def _suggest_tests(
-        self,
-        symptoms: list[str],
-        medical_history: dict[str, Any],
-        patient_context: dict[str, Any]
+        self, symptoms: list[str], medical_history: dict[str, Any], patient_context: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Suggest relevant diagnostic tests with governance oversight"""
         # TODO: Implement evidence-based test suggestion
@@ -337,36 +329,35 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         # Emergency tests for chest pain
         if "chest pain" in [s.lower() for s in symptoms]:
-            suggested_tests.extend([
-                {
-                    "test": "ECG",
-                    "urgency": "immediate",
-                    "evidence_level": "high",
-                    "cost_effectiveness": "high",
-                    "governance": {
-                        "mandatory": True,
-                        "time_sensitive": True,
-                        "regulatory_required": True
-                    }
-                },
-                {
-                    "test": "Troponin",
-                    "urgency": "urgent",
-                    "evidence_level": "high",
-                    "cost_effectiveness": "high",
-                    "governance": {
-                        "serial_testing_required": True,
-                        "time_intervals": ["0h", "3h", "6h"]
-                    }
-                }
-            ])
+            suggested_tests.extend(
+                [
+                    {
+                        "test": "ECG",
+                        "urgency": "immediate",
+                        "evidence_level": "high",
+                        "cost_effectiveness": "high",
+                        "governance": {
+                            "mandatory": True,
+                            "time_sensitive": True,
+                            "regulatory_required": True,
+                        },
+                    },
+                    {
+                        "test": "Troponin",
+                        "urgency": "urgent",
+                        "evidence_level": "high",
+                        "cost_effectiveness": "high",
+                        "governance": {
+                            "serial_testing_required": True,
+                            "time_intervals": ["0h", "3h", "6h"],
+                        },
+                    },
+                ]
+            )
 
         return suggested_tests
 
-    async def _get_relevant_guidelines(
-        self,
-        symptoms: list[str]
-    ) -> list[dict[str, Any]]:
+    async def _get_relevant_guidelines(self, symptoms: list[str]) -> list[dict[str, Any]]:
         """Get relevant clinical guidelines with governance metadata"""
         relevant_guidelines = []
 
@@ -397,10 +388,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         return min(1.0, base_confidence)
 
-    async def _get_evidence(
-        self,
-        diagnoses: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _get_evidence(self, diagnoses: list[dict[str, Any]]) -> dict[str, Any]:
         """Get supporting evidence with governance validation"""
         # TODO: Implement evidence gathering from validated sources
         return {
@@ -410,16 +398,15 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "governance": {
                 "source_validation": "completed",
                 "bias_assessment": "low_risk",
-                "evidence_grade": "A"
-            }
+                "evidence_grade": "A",
+            },
         }
 
     def _prioritize_tests(
-        self,
-        tests: list[dict[str, Any]],
-        symptoms: list[str]
+        self, tests: list[dict[str, Any]], symptoms: list[str]
     ) -> list[dict[str, Any]]:
         """Prioritize suggested tests with governance considerations"""
+
         # Sort by urgency, evidence level, and governance requirements
         def priority_score(test):
             urgency_scores = {"immediate": 3, "urgent": 2, "routine": 1}
@@ -439,10 +426,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         return sorted(tests, key=priority_score, reverse=True)
 
     async def _generate_treatment_plan(
-        self,
-        analysis: dict[str, Any],
-        case_data: dict[str, Any],
-        context: Optional[dict[str, Any]]
+        self, analysis: dict[str, Any], case_data: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> dict[str, Any]:
         """Generate treatment plan with governance validation"""
         # TODO: Implement evidence-based treatment planning
@@ -455,14 +439,12 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 "safety_validated": True,
                 "contraindications_checked": True,
                 "drug_interactions_validated": True,
-                "evidence_based": True
-            }
+                "evidence_based": True,
+            },
         }
 
     async def _suggest_follow_up(
-        self,
-        analysis: dict[str, Any],
-        case_data: dict[str, Any]
+        self, analysis: dict[str, Any], case_data: dict[str, Any]
     ) -> dict[str, Any]:
         """Suggest follow-up actions with governance oversight"""
         # TODO: Implement follow-up suggestion logic
@@ -470,10 +452,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "timeline": "48-72 hours",
             "monitoring_parameters": [],
             "escalation_criteria": [],
-            "governance": {
-                "follow_up_mandatory": True,
-                "escalation_rules_defined": True
-            }
+            "governance": {"follow_up_mandatory": True, "escalation_rules_defined": True},
         }
 
     # Governance and validation methods
@@ -486,16 +465,19 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     async def _validate_analysis_ethics(self, case_data: dict[str, Any]) -> dict[str, Any]:
         """Validate analysis against ethical guidelines"""
         # TODO: Integrate with LUKHAS ethical engine
-        return {
-            "approved": True,
-            "reason": "Ethical validation passed",
-            "confidence": 0.95
-        }
+        return {"approved": True, "reason": "Ethical validation passed", "confidence": 0.95}
 
     def _requires_human_review(self, symptoms: list[str]) -> bool:
         """Determine if human review is required"""
-        high_risk_symptoms = ["chest pain", "shortness of breath", "severe headache", "loss of consciousness"]
-        return any(symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms)
+        high_risk_symptoms = [
+            "chest pain",
+            "shortness of breath",
+            "severe headache",
+            "loss of consciousness",
+        ]
+        return any(
+            symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms
+        )
 
     async def _check_emergency_conditions(self, analysis: dict[str, Any]) -> bool:
         """Check for emergency conditions requiring immediate escalation"""
@@ -524,27 +506,25 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     def _get_escalation_rules(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Get escalation rules based on analysis"""
         return {
-            "immediate_escalation": analysis.get("governance", {}).get("emergency_escalation", False),
-            "human_review_required": analysis.get("governance", {}).get("human_review_required", False),
+            "immediate_escalation": analysis.get("governance", {}).get(
+                "emergency_escalation", False
+            ),
+            "human_review_required": analysis.get("governance", {}).get(
+                "human_review_required", False
+            ),
             "specialist_referral": False,  # TODO: Implement logic
-            "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False)
+            "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False),
         }
 
-    async def _validate_recommendation_safety(self, recommendations: dict[str, Any]) -> dict[str, Any]:
+    async def _validate_recommendation_safety(
+        self, recommendations: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate recommendations against safety guidelines"""
         # TODO: Implement comprehensive safety validation
-        return {
-            "approved": True,
-            "safety_score": 0.95,
-            "warnings": [],
-            "contraindications": []
-        }
+        return {"approved": True, "safety_score": 0.95, "warnings": [], "contraindications": []}
 
     async def _log_governance_action(
-        self,
-        action: str,
-        case_id: Optional[str],
-        metadata: dict[str, Any]
+        self, action: str, case_id: Optional[str], metadata: dict[str, Any]
     ):
         """Log action in governance audit trail"""
         audit_entry = {
@@ -552,7 +532,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "action": action,
             "case_id": case_id,
             "metadata": metadata,
-            "source": "clinical_decision_support"
+            "source": "clinical_decision_support",
         }
 
         self.audit_trail.append(audit_entry)
@@ -571,7 +551,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "safety_checks_enabled": self.safety_checks_enabled,
             "guidelines_last_updated": self.guideline_governance.get("last_updated"),
             "guidelines_validation_status": self.guideline_governance.get("validation_status"),
-            "audit_trail_entries": len(self.audit_trail)
+            "audit_trail_entries": len(self.audit_trail),
         }
 
     def get_clinical_guidelines_summary(self) -> dict[str, Any]:
@@ -580,7 +560,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "diagnostic": len(self.guidelines.get("diagnostic", {})),
             "treatment": len(self.guidelines.get("treatment", {})),
             "referral": len(self.guidelines.get("referral", {})),
-            "emergency": len(self.guidelines.get("emergency", {}))
+            "emergency": len(self.guidelines.get("emergency", {})),
         }
 
         return {
@@ -588,5 +568,5 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "guidelines_by_category": guidelines_count,
             "governance_metadata": self.guideline_governance,
             "evidence_based": True,
-            "peer_reviewed": True
+            "peer_reviewed": True,
         }

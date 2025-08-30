@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class LLMProvider(Enum):
     """Supported LLM providers"""
+
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     GOOGLE = "google"
@@ -30,6 +31,7 @@ class LLMProvider(Enum):
 @dataclass
 class TokenMapping:
     """Maps between our symbols and LLM tokens"""
+
     symbol_id: str
     llm_token_ids: list[int]
     provider: LLMProvider
@@ -42,13 +44,14 @@ class TokenMapping:
             "llm_token_ids": self.llm_token_ids,
             "provider": self.provider.value,
             "confidence": self.confidence,
-            "usage_count": self.usage_count
+            "usage_count": self.usage_count,
         }
 
 
 @dataclass
 class FewShotExample:
     """Few-shot learning example for symbol understanding"""
+
     input_symbols: list[Symbol]
     output_text: str
     context: Optional[str] = None
@@ -67,8 +70,9 @@ class PromptOptimizer:
         self.optimization_cache: dict[str, str] = {}
         self.token_budget = 4096  # Default token limit
 
-    def optimize_prompt(self, base_prompt: str, symbols: list[Symbol],
-                       token_limit: Optional[int] = None) -> str:
+    def optimize_prompt(
+        self, base_prompt: str, symbols: list[Symbol], token_limit: Optional[int] = None
+    ) -> str:
         """Optimize prompt to fit within token limits"""
         limit = token_limit or self.token_budget
 
@@ -92,12 +96,11 @@ class PromptOptimizer:
 
         return f"{base}\n\nSymbol Definitions:\n" + "\n".join(symbol_defs)
 
-    def _build_compressed_prompt(self, base: str, symbols: list[Symbol],
-                                limit: int) -> str:
+    def _build_compressed_prompt(self, base: str, symbols: list[Symbol], limit: int) -> str:
         """Build compressed prompt for token efficiency"""
         # Use only essential symbol information
         essential = []
-        for symbol in symbols[:limit // 10]:  # Rough compression
+        for symbol in symbols[: limit // 10]:  # Rough compression
             essential.append(f"{symbol.name}={symbol.glyph or symbol.value}")
 
         return f"{base}\nSymbols: {', '.join(essential)}"
@@ -121,27 +124,31 @@ class FewShotExampleBank:
         # Emotion domain examples
         emotion_examples = [
             FewShotExample(
-                input_symbols=[Symbol(
-                    id="EMO_JOY",
-                    domain=SymbolicDomain.EMOTION,
-                    name="joy",
-                    value=1.0,
-                    glyph="😊"
-                )],
+                input_symbols=[
+                    Symbol(
+                        id="EMO_JOY",
+                        domain=SymbolicDomain.EMOTION,
+                        name="joy",
+                        value=1.0,
+                        glyph="😊",
+                    )
+                ],
                 output_text="Expressing happiness and positive emotions",
-                quality_score=0.95
+                quality_score=0.95,
             ),
             FewShotExample(
-                input_symbols=[Symbol(
-                    id="EMO_SAD",
-                    domain=SymbolicDomain.EMOTION,
-                    name="sadness",
-                    value=-1.0,
-                    glyph="😢"
-                )],
+                input_symbols=[
+                    Symbol(
+                        id="EMO_SAD",
+                        domain=SymbolicDomain.EMOTION,
+                        name="sadness",
+                        value=-1.0,
+                        glyph="😢",
+                    )
+                ],
                 output_text="Expressing sadness or disappointment",
-                quality_score=0.95
-            )
+                quality_score=0.95,
+            ),
         ]
         self.examples[SymbolicDomain.EMOTION] = emotion_examples
 
@@ -225,15 +232,12 @@ class LLMLanguageBridge:
 
         # Cache the mapping
         self.tokenizer_alignment[symbol.id] = TokenMapping(
-            symbol_id=symbol.id,
-            llm_token_ids=token_ids,
-            provider=self.provider
+            symbol_id=symbol.id, llm_token_ids=token_ids, provider=self.provider
         )
 
         return token_ids
 
-    def inject_into_context(self, symbols: list[Symbol],
-                          base_prompt: str = "") -> str:
+    def inject_into_context(self, symbols: list[Symbol], base_prompt: str = "") -> str:
         """
         Inject symbolic context into LLM prompts efficiently.
 
@@ -257,8 +261,7 @@ class LLMLanguageBridge:
         # Optimize the prompt
         full_context = "\n".join(context_parts)
         optimized = self.prompt_optimizer.optimize_prompt(
-            base_prompt + "\n" + full_context,
-            symbols
+            base_prompt + "\n" + full_context, symbols
         )
 
         return optimized
@@ -313,9 +316,9 @@ class LLMLanguageBridge:
         np.random.seed(hash(symbol.id) % 2**32)
         return np.random.randn(768)
 
-    def semantic_search(self, query_symbols: list[Symbol],
-                       candidate_symbols: list[list[Symbol]],
-                       top_k: int = 5) -> list[tuple[list[Symbol], float]]:
+    def semantic_search(
+        self, query_symbols: list[Symbol], candidate_symbols: list[list[Symbol]], top_k: int = 5
+    ) -> list[tuple[list[Symbol], float]]:
         """
         Semantic search using symbol embeddings.
 
@@ -359,7 +362,7 @@ class SymbolRLHF:
             "context": symbol_use.get("context", ""),
             "response": symbol_use.get("response", ""),
             "rating": symbol_use.get("rating", 0),  # Human rating
-            "timestamp": symbol_use.get("timestamp", 0)
+            "timestamp": symbol_use.get("timestamp", 0),
         }
 
         self.feedback_buffer.append(feedback)
@@ -422,9 +425,9 @@ class LLMSymbolAPI:
         self.rlhf = SymbolRLHF()
         self.conversation_cache: dict[str, list[dict]] = {}
 
-    def symbolic_completion(self, symbols: list[Symbol],
-                          prompt: str = "",
-                          max_tokens: int = 100) -> tuple[str, list[Symbol]]:
+    def symbolic_completion(
+        self, symbols: list[Symbol], prompt: str = "", max_tokens: int = 100
+    ) -> tuple[str, list[Symbol]]:
         """
         Generate completion using symbols as context.
 
@@ -444,15 +447,13 @@ class LLMSymbolAPI:
         """Teach LLM a new symbol through examples"""
         for example in examples:
             few_shot = FewShotExample(
-                input_symbols=[symbol],
-                output_text=example,
-                quality_score=0.9
+                input_symbols=[symbol], output_text=example, quality_score=0.9
             )
             self.bridge.few_shot_library.add_example(few_shot, symbol.domain)
 
-    def symbolic_conversation(self, conversation_id: str,
-                            symbols: list[Symbol],
-                            message: str) -> dict[str, Any]:
+    def symbolic_conversation(
+        self, conversation_id: str, symbols: list[Symbol], message: str
+    ) -> dict[str, Any]:
         """
         Maintain conversation with symbolic context.
         """
@@ -463,35 +464,23 @@ class LLMSymbolAPI:
         history = self.conversation_cache[conversation_id]
 
         # Add current message
-        history.append({
-            "role": "user",
-            "symbols": symbols,
-            "message": message
-        })
+        history.append({"role": "user", "symbols": symbols, "message": message})
 
         # Generate response
-        response_text, response_symbols = self.symbolic_completion(
-            symbols, message
-        )
+        response_text, response_symbols = self.symbolic_completion(symbols, message)
 
         # Add to history
-        history.append({
-            "role": "assistant",
-            "symbols": response_symbols,
-            "message": response_text
-        })
+        history.append({"role": "assistant", "symbols": response_symbols, "message": response_text})
 
         # Collect feedback for RLHF
-        self.rlhf.collect_feedback({
-            "symbols": symbols,
-            "context": message,
-            "response": response_text
-        })
+        self.rlhf.collect_feedback(
+            {"symbols": symbols, "context": message, "response": response_text}
+        )
 
         return {
             "response": response_text,
             "symbols": response_symbols,
-            "conversation_id": conversation_id
+            "conversation_id": conversation_id,
         }
 
 

@@ -14,6 +14,7 @@
 ║ Initialization for awareness components.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 # Module imports
@@ -54,9 +55,7 @@ try:
 
     logger.info("ΛTRACE: Core awareness components imported.")
 except ImportError as e:
-    logger.error(
-        f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True
-    )
+    logger.error(f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True)
     # Define placeholders if needed for graceful degradation, though usually
     # not for __init__.py
     LucasAwarenessProtocol = None  # type: ignore
@@ -66,8 +65,8 @@ except ImportError as e:
 
 # Human-readable comment: Defines the public API of the 'awareness' package.
 __all__ = [
-    "LucasAwarenessProtocol",
     "BioSymbolicAwarenessAdapter",
+    "LucasAwarenessProtocol",
     "SymbolicTraceLogger",
     # Add other names to be exported by 'from candidate.core.advanced.brain.awareness import *'
 ]

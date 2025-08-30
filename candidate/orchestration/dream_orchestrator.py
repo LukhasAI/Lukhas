@@ -11,10 +11,13 @@ from openai import OpenAI
 CACHE_DIR = "candidate/orchestration/.cache"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
+
 def get_cache_path(seed: str) -> str:
     import hashlib
+
     seed_hash = hashlib.md5(seed.encode()).hexdigest()
     return os.path.join(CACHE_DIR, f"{seed_hash}.json")
+
 
 def read_from_cache(seed: str) -> dict | None:
     cache_path = get_cache_path(seed)
@@ -26,13 +29,16 @@ def read_from_cache(seed: str) -> dict | None:
             return None
     return None
 
+
 def write_to_cache(seed: str, data: dict):
     cache_path = get_cache_path(seed)
     try:
         with open(cache_path, "w") as f:
             json.dump(data, f)
     except OSError:
-        pass # Fail silently if cache write fails
+        pass  # Fail silently if cache write fails
+
+
 # --- End Caching ---
 
 
@@ -81,15 +87,15 @@ class DreamOrchestrator:
             - "colors": (array of 3 strings) Provide 3 hex color codes. The first is the background, the others are for the object/lights.
             - "particle_count": (integer) A number between 500 and 8000.
         """
-        user_prompt = f"Dream Seed: \"{seed}\"\nRelated LUKHAS Concepts: {', '.join(concepts)}"
+        user_prompt = f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts)}'
 
         response = self.openai_client.chat.completions.create(
             model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
-            response_format={"type": "json_object"}
+            response_format={"type": "json_object"},
         )
         return json.loads(response.choices[0].message.content)
 
@@ -105,7 +111,6 @@ class DreamOrchestrator:
             result_queue.put(("texture", response.data[0].url))
         except Exception as e:
             result_queue.put(("texture", e))
-
 
     def _get_audio_url_from_tts(self, narrative: str, result_queue: Queue):
         print("Generating audio with TTS...", file=sys.stderr)
@@ -137,8 +142,12 @@ class DreamOrchestrator:
             raise Exception("Guardian check failed for generated narrative.")
 
         result_queue = Queue()
-        texture_thread = Thread(target=self._get_texture_url_from_dalle, args=(manifest_core["narrative"], result_queue))
-        audio_thread = Thread(target=self._get_audio_url_from_tts, args=(manifest_core["narrative"], result_queue))
+        texture_thread = Thread(
+            target=self._get_texture_url_from_dalle, args=(manifest_core["narrative"], result_queue)
+        )
+        audio_thread = Thread(
+            target=self._get_audio_url_from_tts, args=(manifest_core["narrative"], result_queue)
+        )
 
         texture_thread.start()
         audio_thread.start()
@@ -167,7 +176,9 @@ class DreamOrchestrator:
 
     def store_dream(self, manifest: dict) -> str:
         memory_id = f"mem_{int(time.time())}"
-        print(f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}", file=sys.stderr)
+        print(
+            f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}", file=sys.stderr
+        )
         try:
             with open(self.memory_log_path, "a") as f:
                 manifest_to_store = {**manifest, "memory_id": memory_id, "stored_at": time.time()}
@@ -178,12 +189,15 @@ class DreamOrchestrator:
             print(f"Error storing dream: {e}", file=sys.stderr)
             raise
 
+
 if __name__ == "__main__":
     import argparse
     import sys
 
     parser = argparse.ArgumentParser(description="Dream Weaver Orchestrator")
-    parser.add_argument("--store", action="store_true", help="Store a dream manifest instead of weaving a new one.")
+    parser.add_argument(
+        "--store", action="store_true", help="Store a dream manifest instead of weaving a new one."
+    )
     args = parser.parse_args()
 
     orchestrator = DreamOrchestrator()

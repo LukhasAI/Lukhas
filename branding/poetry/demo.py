@@ -10,6 +10,7 @@ from soul import EmotionalTone, dream, error_haiku, express
 def divider():
     print("\n" + "─" * 60 + "\n")
 
+
 def main():
     print("""
     ╔══════════════════════════════════════════════════════════╗
@@ -49,7 +50,7 @@ def main():
     states = [
         ("Loading", EmotionalTone.CURIOSITY),
         ("Processing", EmotionalTone.DETERMINATION),
-        ("Complete", EmotionalTone.JOY)
+        ("Complete", EmotionalTone.JOY),
     ]
 
     print("▸ System States Transformed:")
@@ -74,7 +75,7 @@ def main():
     operations = [
         "Folding memory into temporal dimensions",
         "Cascade prevention engaged at 99.7% efficiency",
-        "Emotional coordinates mapped to VAD space"
+        "Emotional coordinates mapped to VAD space",
     ]
 
     for op in operations:
@@ -122,6 +123,7 @@ def main():
     ║    "Think Different. Code Different. Dream Different."    ║
     ╚══════════════════════════════════════════════════════════╝
     """)
+
 
 if __name__ == "__main__":
     main()

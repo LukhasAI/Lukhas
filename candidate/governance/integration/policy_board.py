@@ -73,9 +73,7 @@ class EnhancedPolicyProposal:
         self.vote_weights: dict[str, float] = {}
         self.logger.info("EnhancedPolicyProposal initialized.")
 
-    def cast_quantum_vote(
-        self, agent: str, vote: bool, qi_like_state: float
-    ) -> None:
+    def cast_quantum_vote(self, agent: str, vote: bool, qi_like_state: float) -> None:
         """Cast a quantum-enhanced vote"""
         self.logger.debug(
             "Casting quantum vote",
@@ -153,9 +151,7 @@ class EnhancedPolicyBoard:
     """
 
     def __init__(self):
-        self.logger = logger.bind(
-            board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}")
         self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 
@@ -172,9 +168,7 @@ class EnhancedPolicyBoard:
         self.log_path = Path("logs/policy_quantum_log.jsonl")
         try:
             self.log_path.parent.mkdir(parents=True, exist_ok=True)
-            self.logger.info(
-                "Policy board log directory ensured.", path=str(self.log_path)
-            )
+            self.logger.info("Policy board log directory ensured.", path=str(self.log_path))
         except Exception as e_dir:
             self.logger.error(
                 "Failed to create log directory for policy board.",
@@ -184,9 +178,7 @@ class EnhancedPolicyBoard:
 
         self.logger.info("Initialized enhanced policy board.", config=self.config)
 
-    async def submit_proposal(
-        self, proposal_id: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def submit_proposal(self, proposal_id: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Submit a new policy proposal
         """
@@ -213,9 +205,7 @@ class EnhancedPolicyBoard:
                 awareness_status=system_state.get("health", {}).get("status"),
             )
 
-            proposal = EnhancedPolicyProposal(
-                proposal_id, metadata, self.qi_oscillator
-            )
+            proposal = EnhancedPolicyProposal(proposal_id, metadata, self.qi_oscillator)
 
             self.active_proposals[proposal_id] = proposal
 
@@ -224,15 +214,11 @@ class EnhancedPolicyBoard:
                 {
                     "proposal_id": proposal_id,
                     "metadata": metadata,  # Consider summarizing if large
-                    "awareness_snapshot_status": system_state.get("health", {}).get(
-                        "status"
-                    ),
+                    "awareness_snapshot_status": system_state.get("health", {}).get("status"),
                 },
             )
 
-            self.logger.info(
-                "Policy proposal submitted successfully.", proposal_id=proposal_id
-            )
+            self.logger.info("Policy proposal submitted successfully.", proposal_id=proposal_id)
             # ΛPHASE_NODE: Proposal Submission End
             return {"status": "submitted", "proposal_id": proposal_id}
 
@@ -274,9 +260,7 @@ class EnhancedPolicyBoard:
             # ΛNOTE: Quantum state for vote is derived from the boolean vote value itself via modulation.
             # This is a simplified model of "quantum-enhanced" voting.
             qi_like_state_basis = float(vote)  # True -> 1.0, False -> 0.0
-            qi_like_state = self.qi_oscillator.qi_modulate(
-                qi_like_state_basis
-            )
+            qi_like_state = self.qi_oscillator.qi_modulate(qi_like_state_basis)
             self.logger.debug(
                 "Quantum state for vote calculated.",
                 proposal_id=proposal_id,
@@ -285,9 +269,7 @@ class EnhancedPolicyBoard:
                 modulated_state=qi_like_state,
             )
 
-            proposal.cast_quantum_vote(
-                agent, vote, qi_like_state
-            )  # Internal logging
+            proposal.cast_quantum_vote(agent, vote, qi_like_state)  # Internal logging
 
             status_after_vote = proposal.get_status()  # Internal logging
 

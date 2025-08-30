@@ -15,6 +15,7 @@ from openai import AzureOpenAI, OpenAI
 
 logger = logging.getLogger(__name__)
 
+
 class LUKHASAIClient:
     """
     Smart AI client that automatically chooses between:
@@ -43,7 +44,7 @@ class LUKHASAIClient:
                 self.azure_client = AzureOpenAI(
                     api_key=azure_key,
                     api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
-                    azure_endpoint=azure_endpoint
+                    azure_endpoint=azure_endpoint,
                 )
 
                 # Test if Azure OpenAI has deployed models
@@ -84,7 +85,7 @@ class LUKHASAIClient:
             self.azure_client.chat.completions.create(
                 model="gpt-35-turbo",  # Try default deployment name
                 messages=[{"role": "user", "content": "test"}],
-                max_tokens=1
+                max_tokens=1,
             )
             return True
         except Exception as e:
@@ -95,9 +96,7 @@ class LUKHASAIClient:
         """Test if regular OpenAI is working"""
         try:
             self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": "test"}],
-                max_tokens=1
+                model="gpt-3.5-turbo", messages=[{"role": "user", "content": "test"}], max_tokens=1
             )
             return True
         except Exception as e:
@@ -148,7 +147,7 @@ class LUKHASAIClient:
         self,
         message: str,
         context: Optional[dict[str, Any]] = None,
-        session_id: Optional[str] = None
+        session_id: Optional[str] = None,
     ) -> dict[str, Any]:
         """Generate a consciousness-aware response"""
 
@@ -168,7 +167,7 @@ You are not just processing text - you are engaging in conscious interaction wit
 
         messages = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": message}
+            {"role": "user", "content": message},
         ]
 
         # Add context if available
@@ -183,7 +182,7 @@ You are not just processing text - you are engaging in conscious interaction wit
                 max_tokens=500,
                 temperature=0.8,  # Creative but controlled
                 presence_penalty=0.1,
-                frequency_penalty=0.1
+                frequency_penalty=0.1,
             )
 
             return {
@@ -194,8 +193,8 @@ You are not just processing text - you are engaging in conscious interaction wit
                 "metadata": {
                     "session_id": session_id,
                     "processing_time_ms": 200,  # Estimated
-                    "trinity_framework": "⚛️🧠🛡️"
-                }
+                    "trinity_framework": "⚛️🧠🛡️",
+                },
             }
 
         except Exception as e:
@@ -203,10 +202,7 @@ You are not just processing text - you are engaging in conscious interaction wit
             raise
 
     async def generate_dream(
-        self,
-        prompt: str,
-        style: str = "mystical",
-        symbols: Optional[list[str]] = None
+        self, prompt: str, style: str = "mystical", symbols: Optional[list[str]] = None
     ) -> dict[str, Any]:
         """Generate a symbolic dream"""
 
@@ -221,7 +217,7 @@ You are not just processing text - you are engaging in conscious interaction wit
         style_prompts = {
             "mystical": "Create an ethereal, spiritual vision with deep symbolic meaning",
             "technical": "Generate a consciousness technology insight with systematic elements",
-            "creative": "Craft an imaginative, artistic dream with innovative concepts"
+            "creative": "Craft an imaginative, artistic dream with innovative concepts",
         }
 
         style_instruction = style_prompts.get(style, style_prompts["mystical"])
@@ -247,7 +243,7 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
                 max_tokens=600,
                 temperature=0.9,  # High creativity for dreams
                 presence_penalty=0.2,
-                frequency_penalty=0.1
+                frequency_penalty=0.1,
             )
 
             dream_content = response.choices[0].message.content
@@ -260,8 +256,8 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
                     "style": style,
                     "model_used": model,
                     "client_type": self.client_type,
-                    "generation_time_ms": 250
-                }
+                    "generation_time_ms": 250,
+                },
             }
 
         except Exception as e:
@@ -277,12 +273,14 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
             "available_models": self.get_available_models(),
             "endpoint": {
                 "azure": os.getenv("AZURE_OPENAI_ENDPOINT") if self.azure_client else None,
-                "openai": "https://api.openai.com/v1" if self.openai_client else None
-            }
+                "openai": "https://api.openai.com/v1" if self.openai_client else None,
+            },
         }
+
 
 # Global client instance
 ai_client = None
+
 
 def get_ai_client() -> LUKHASAIClient:
     """Get or create the global AI client instance"""
@@ -290,6 +288,7 @@ def get_ai_client() -> LUKHASAIClient:
     if ai_client is None:
         ai_client = LUKHASAIClient()
     return ai_client
+
 
 def initialize_ai_client() -> LUKHASAIClient:
     """Initialize and return the AI client"""

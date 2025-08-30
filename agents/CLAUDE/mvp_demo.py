@@ -38,25 +38,21 @@ class LukhasMinimalMVP:
         self.secrets = {
             "kms_enabled": True,
             "vault_url": "vault.lukhas.internal",
-            "rotation_days": 90
+            "rotation_days": 90,
         }
 
         # Agent 3: Adapters (mock for demo)
         self.adapters = {
             "gmail": self.MockGmailAdapter(),
             "drive": self.MockDriveAdapter(),
-            "dropbox": self.MockDropboxAdapter()
+            "dropbox": self.MockDropboxAdapter(),
         }
 
         # Agent 4: Context Bus
         self.context_bus = self.ContextBus()
 
         # Agent 5: UI State
-        self.ui_state = {
-            "logged_in": False,
-            "current_user": None,
-            "workflow_progress": []
-        }
+        self.ui_state = {"logged_in": False, "current_user": None, "workflow_progress": []}
 
         # Agent 6: Test Results
         self.test_results = []
@@ -65,44 +61,44 @@ class LukhasMinimalMVP:
 
     class MockGmailAdapter:
         """Agent 3: Gmail Adapter Mock"""
+
         def fetch_emails(self, query, token):
             time.sleep(0.1)  # Simulate API call
             return [
                 {"subject": "Flight to Tokyo", "date": "2024-03-15"},
                 {"subject": "Hotel Booking Confirmation", "date": "2024-03-10"},
-                {"subject": "Travel Insurance", "date": "2024-03-08"}
+                {"subject": "Travel Insurance", "date": "2024-03-08"},
             ]
 
     class MockDriveAdapter:
         """Agent 3: Drive Adapter Mock"""
+
         def list_files(self, folder, token):
             time.sleep(0.1)  # Simulate API call
             return [
                 {"name": "Passport_Scan.pdf", "size": "2.1MB"},
-                {"name": "Itinerary.docx", "size": "145KB"}
+                {"name": "Itinerary.docx", "size": "145KB"},
             ]
 
     class MockDropboxAdapter:
         """Agent 3: Dropbox Adapter Mock"""
+
         def get_files(self, path, token):
             time.sleep(0.1)  # Simulate API call
             return [
                 {"name": "Travel_Guide_Japan.pdf", "size": "5.2MB"},
-                {"name": "Emergency_Contacts.txt", "size": "2KB"}
+                {"name": "Emergency_Contacts.txt", "size": "2KB"},
             ]
 
     class ContextBus:
         """Agent 4: Context Orchestration Bus"""
+
         def __init__(self):
             self.context = {}
             self.events = []
 
         def publish(self, event_type, data):
-            event = {
-                "type": event_type,
-                "data": data,
-                "timestamp": time.time()
-            }
+            event = {"type": event_type, "data": data, "timestamp": time.time()}
             self.events.append(event)
             print(f"  📡 Event: {event_type}")
             return event
@@ -126,10 +122,7 @@ class LukhasMinimalMVP:
         print("📝 Step 1: User Registration")
         print("-" * 40)
 
-        user = self.identity_service.register_user(
-            email="demo@lukhas.ai",
-            display_name="Demo User"
-        )
+        user = self.identity_service.register_user(email="demo@lukhas.ai", display_name="Demo User")
 
         print(f"✅ User registered with ΛID: {user['lid']}")
         print(f"⚡ Performance: {user['performance_ms']:.2f}ms")
@@ -141,8 +134,7 @@ class LukhasMinimalMVP:
         print("-" * 40)
 
         auth = self.identity_service.authenticate(
-            lid=user["lid"],
-            passkey_response={"mock": "biometric_verified"}
+            lid=user["lid"], passkey_response={"mock": "biometric_verified"}
         )
 
         if auth["success"]:
@@ -174,7 +166,7 @@ class LukhasMinimalMVP:
             lid=user["lid"],
             resource_type="gmail",
             scope=["read", "list"],
-            purpose="travel_document_analysis"
+            purpose="travel_document_analysis",
         )
         print(f"✅ Gmail consent granted: {gmail_consent.consent_id[:20]}...")
 
@@ -183,18 +175,19 @@ class LukhasMinimalMVP:
             lid=user["lid"],
             resource_type="dropbox",
             scope=["read"],
-            purpose="travel_document_analysis"
+            purpose="travel_document_analysis",
         )
         print(f"✅ Dropbox consent granted: {dropbox_consent.consent_id[:20]}...")
 
         # Generate Λ-trace audit
         from consent_ledger import PolicyVerdict
+
         trace = self.consent_ledger.generate_trace(
             lid=user["lid"],
             action="analyze_documents",
             resource="gmail,dropbox",
             purpose="travel_summary",
-            verdict=PolicyVerdict.ALLOW
+            verdict=PolicyVerdict.ALLOW,
         )
         print(f"📝 Λ-trace generated: {trace.trace_id}")
         print()
@@ -207,7 +200,7 @@ class LukhasMinimalMVP:
         policy_check = self.policy_engine.validate_action(
             lid=user["lid"],
             action="read_emails",
-            context={"resource_type": "gmail", "purpose": "analysis"}
+            context={"resource_type": "gmail", "purpose": "analysis"},
         )
         print(f"⚖️ Policy check: {policy_check['verdict'].value}")
 
@@ -217,7 +210,7 @@ class LukhasMinimalMVP:
             {"name": "Retrieve Dropbox files", "agent": 3},
             {"name": "Analyze with GPT-4", "agent": 4},
             {"name": "Cross-reference with Claude", "agent": 4},
-            {"name": "Generate summary", "agent": 4}
+            {"name": "Generate summary", "agent": 4},
         ]
 
         print("\n🚀 Executing workflow:")
@@ -247,11 +240,7 @@ class LukhasMinimalMVP:
         # Step 7: Feedback Collection
         print("💭 Step 7: Feedback")
         print("-" * 40)
-        feedback = {
-            "rating": 5,
-            "comment": "Very helpful summary!",
-            "timestamp": time.time()
-        }
+        feedback = {"rating": 5, "comment": "Very helpful summary!", "timestamp": time.time()}
         print(f"⭐ User rating: {'⭐' * feedback['rating']}")
         print(f"💬 Comment: {feedback['comment']}")
         print()
@@ -292,13 +281,11 @@ class LukhasMinimalMVP:
             "feedback_rating": feedback["rating"],
             "performance_metrics": {
                 "auth_ms": auth["performance_ms"],
-                "meets_target": auth["meets_target"]
-            }
+                "meets_target": auth["meets_target"],
+            },
         }
 
-        Path("CLAUDE_ARMY/demo_results.json").write_text(
-            json.dumps(results, indent=2)
-        )
+        Path("CLAUDE_ARMY/demo_results.json").write_text(json.dumps(results, indent=2))
         print("\n💾 Results saved to CLAUDE_ARMY/demo_results.json")
 
 
@@ -448,9 +435,9 @@ if __name__ == "__main__":
     create_ci_config()
 
     # Run the MVP demo
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🚀 RUNNING COMPLETE MVP DEMO WITH ALL 7 AGENTS")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
 
     mvp = LukhasMinimalMVP()
     mvp.run_demo()

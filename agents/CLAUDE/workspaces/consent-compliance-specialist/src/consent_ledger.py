@@ -16,6 +16,7 @@ from typing import Any, Optional
 
 class PolicyVerdict(Enum):
     """Policy engine decision types"""
+
     ALLOW = "allow"
     DENY = "deny"
     STEP_UP_REQUIRED = "step_up_required"
@@ -24,6 +25,7 @@ class PolicyVerdict(Enum):
 @dataclass
 class LambdaTrace:
     """Λ-trace audit record for causal chain tracking"""
+
     trace_id: str
     parent_trace_id: Optional[str]
     lid: str  # LUKHAS ID of actor
@@ -39,7 +41,11 @@ class LambdaTrace:
         """Generate immutable hash of audit record"""
         data = asdict(self)
         # Convert PolicyVerdict enum to string
-        data["policy_verdict"] = data["policy_verdict"].value if isinstance(data["policy_verdict"], PolicyVerdict) else data["policy_verdict"]
+        data["policy_verdict"] = (
+            data["policy_verdict"].value
+            if isinstance(data["policy_verdict"], PolicyVerdict)
+            else data["policy_verdict"]
+        )
         content = json.dumps(data, sort_keys=True, default=str)
         return hashlib.sha256(content.encode()).hexdigest()
 
@@ -47,6 +53,7 @@ class LambdaTrace:
 @dataclass
 class ConsentRecord:
     """User consent record"""
+
     consent_id: str
     lid: str
     resource_type: str  # gmail, drive, dropbox, etc.
@@ -113,11 +120,17 @@ class ConsentLedger:
         conn.commit()
         conn.close()
 
-    def generate_trace(self, lid: str, action: str, resource: str,
-                      purpose: str, verdict: PolicyVerdict,
-                      parent_trace_id: Optional[str] = None,
-                      capability_token_id: Optional[str] = None,
-                      metadata: Optional[dict] = None) -> LambdaTrace:
+    def generate_trace(
+        self,
+        lid: str,
+        action: str,
+        resource: str,
+        purpose: str,
+        verdict: PolicyVerdict,
+        parent_trace_id: Optional[str] = None,
+        capability_token_id: Optional[str] = None,
+        metadata: Optional[dict] = None,
+    ) -> LambdaTrace:
         """Generate new Λ-trace audit record"""
         trace = LambdaTrace(
             trace_id=f"LT-{uuid.uuid4().hex}",
@@ -129,7 +142,7 @@ class ConsentLedger:
             timestamp=datetime.now(timezone.utc).isoformat(),
             policy_verdict=verdict,
             capability_token_id=capability_token_id,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # Write to ledger (append-only)
@@ -142,33 +155,41 @@ class ConsentLedger:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO lambda_trace (
                 trace_id, parent_trace_id, lid, action, resource,
                 purpose, timestamp, policy_verdict, capability_token_id,
                 metadata, hash, created_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            trace.trace_id,
-            trace.parent_trace_id,
-            trace.lid,
-            trace.action,
-            trace.resource,
-            trace.purpose,
-            trace.timestamp,
-            trace.policy_verdict.value,
-            trace.capability_token_id,
-            json.dumps(trace.metadata),
-            trace.to_hash(),
-            time.time()
-        ))
+        """,
+            (
+                trace.trace_id,
+                trace.parent_trace_id,
+                trace.lid,
+                trace.action,
+                trace.resource,
+                trace.purpose,
+                trace.timestamp,
+                trace.policy_verdict.value,
+                trace.capability_token_id,
+                json.dumps(trace.metadata),
+                trace.to_hash(),
+                time.time(),
+            ),
+        )
 
         conn.commit()
         conn.close()
 
-    def grant_consent(self, lid: str, resource_type: str,
-                     scope: list[str], purpose: str,
-                     expires_at: Optional[str] = None) -> ConsentRecord:
+    def grant_consent(
+        self,
+        lid: str,
+        resource_type: str,
+        scope: list[str],
+        purpose: str,
+        expires_at: Optional[str] = None,
+    ) -> ConsentRecord:
         """Grant user consent for resource access"""
 
         # Generate trace for consent grant
@@ -178,7 +199,7 @@ class ConsentLedger:
             resource=resource_type,
             purpose=purpose,
             verdict=PolicyVerdict.ALLOW,
-            metadata={"scope": scope}
+            metadata={"scope": scope},
         )
 
         # Create consent record
@@ -189,28 +210,31 @@ class ConsentLedger:
             scope=scope,
             purpose=purpose,
             granted_at=datetime.now(timezone.utc).isoformat(),
-            expires_at=expires_at
+            expires_at=expires_at,
         )
 
         # Store consent
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO consent_records (
                 consent_id, lid, resource_type, scope, purpose,
                 granted_at, expires_at, trace_id
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            consent.consent_id,
-            consent.lid,
-            consent.resource_type,
-            json.dumps(consent.scope),
-            consent.purpose,
-            consent.granted_at,
-            consent.expires_at,
-            trace.trace_id
-        ))
+        """,
+            (
+                consent.consent_id,
+                consent.lid,
+                consent.resource_type,
+                json.dumps(consent.scope),
+                consent.purpose,
+                consent.granted_at,
+                consent.expires_at,
+                trace.trace_id,
+            ),
+        )
 
         conn.commit()
         conn.close()
@@ -226,22 +250,21 @@ class ConsentLedger:
             action="revoke_consent",
             resource=consent_id,
             purpose="user_requested_revocation",
-            verdict=PolicyVerdict.ALLOW
+            verdict=PolicyVerdict.ALLOW,
         )
 
         # Update consent record
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        cursor.execute("""
+        cursor.execute(
+            """
             UPDATE consent_records
             SET revoked_at = ?, is_active = 0
             WHERE consent_id = ? AND lid = ?
-        """, (
-            datetime.now(timezone.utc).isoformat(),
-            consent_id,
-            lid
-        ))
+        """,
+            (datetime.now(timezone.utc).isoformat(), consent_id, lid),
+        )
 
         success = cursor.rowcount > 0
         conn.commit()
@@ -249,54 +272,44 @@ class ConsentLedger:
 
         return success
 
-    def check_consent(self, lid: str, resource_type: str,
-                     action: str) -> dict:
+    def check_consent(self, lid: str, resource_type: str, action: str) -> dict:
         """Check if user has consented to action"""
 
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
         # Check for active consent
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT consent_id, scope, purpose, expires_at
             FROM consent_records
             WHERE lid = ? AND resource_type = ? AND is_active = 1
-        """, (lid, resource_type))
+        """,
+            (lid, resource_type),
+        )
 
         result = cursor.fetchone()
         conn.close()
 
         if not result:
-            return {
-                "allowed": False,
-                "require_step_up": True,
-                "reason": "No active consent found"
-            }
+            return {"allowed": False, "require_step_up": True, "reason": "No active consent found"}
 
         consent_id, scope_json, purpose, expires_at = result
         scope = json.loads(scope_json)
 
         # Check expiration
         if expires_at and datetime.fromisoformat(expires_at) < datetime.now(timezone.utc):
-            return {
-                "allowed": False,
-                "require_step_up": True,
-                "reason": "Consent expired"
-            }
+            return {"allowed": False, "require_step_up": True, "reason": "Consent expired"}
 
         # Check scope
         if action not in scope:
             return {
                 "allowed": False,
                 "require_step_up": True,
-                "reason": f"Action '{action}' not in consented scope"
+                "reason": f"Action '{action}' not in consented scope",
             }
 
-        return {
-            "allowed": True,
-            "consent_id": consent_id,
-            "require_step_up": False
-        }
+        return {"allowed": True, "consent_id": consent_id, "require_step_up": False}
 
 
 class PolicyEngine:
@@ -312,34 +325,33 @@ class PolicyEngine:
             "data_minimization": {
                 "max_data_retention_days": 90,
                 "require_purpose": True,
-                "anonymize_after_days": 30
+                "anonymize_after_days": 30,
             },
             "gdpr": {
                 "require_explicit_consent": True,
                 "allow_data_portability": True,
                 "right_to_erasure": True,
-                "breach_notification_hours": 72
+                "breach_notification_hours": 72,
             },
             "ccpa": {
                 "allow_opt_out": True,
                 "disclose_data_categories": True,
-                "no_discrimination": True
+                "no_discrimination": True,
             },
             "high_risk_actions": [
                 "delete_all_data",
                 "export_pii",
                 "modify_consent_ledger",
-                "access_financial_data"
+                "access_financial_data",
             ],
             "duress_signals": [
                 "shadow_gesture_detected",
                 "panic_word_spoken",
-                "rapid_delete_attempts"
-            ]
+                "rapid_delete_attempts",
+            ],
         }
 
-    def validate_action(self, lid: str, action: str,
-                       context: dict) -> dict:
+    def validate_action(self, lid: str, action: str, context: dict) -> dict:
         """Validate action against policies"""
 
         # Check for duress signals
@@ -350,13 +362,13 @@ class PolicyEngine:
                 resource=context.get("resource", "unknown"),
                 purpose="duress_detected",
                 verdict=PolicyVerdict.DENY,
-                metadata={"alert": "security_team_notified"}
+                metadata={"alert": "security_team_notified"},
             )
             return {
                 "verdict": PolicyVerdict.DENY,
                 "explanation": "Security protocol activated",
                 "silent_lock": True,
-                "alert_security": True
+                "alert_security": True,
             }
 
         # Check high-risk actions
@@ -364,18 +376,16 @@ class PolicyEngine:
             return {
                 "verdict": PolicyVerdict.STEP_UP_REQUIRED,
                 "explanation": f"High-risk action '{action}' requires additional verification",
-                "require_mfa": True
+                "require_mfa": True,
             }
 
         # Check GDPR compliance
         if self.policies["gdpr"]["require_explicit_consent"]:
-            consent_check = self.ledger.check_consent(
-                lid, context.get("resource_type", ""), action
-            )
+            consent_check = self.ledger.check_consent(lid, context.get("resource_type", ""), action)
             if not consent_check["allowed"]:
                 return {
                     "verdict": PolicyVerdict.DENY,
-                    "explanation": "Explicit consent required under GDPR"
+                    "explanation": "Explicit consent required under GDPR",
                 }
 
         # Default allow with audit
@@ -384,19 +394,18 @@ class PolicyEngine:
             action=action,
             resource=context.get("resource", "unknown"),
             purpose=context.get("purpose", "unspecified"),
-            verdict=PolicyVerdict.ALLOW
+            verdict=PolicyVerdict.ALLOW,
         )
 
         return {
             "verdict": PolicyVerdict.ALLOW,
-            "explanation": "Action permitted under current policies"
+            "explanation": "Action permitted under current policies",
         }
 
     def _detect_duress(self, context: dict) -> bool:
         """Detect duress/shadow gestures"""
         duress_indicators = context.get("duress_indicators", [])
-        return any(signal in duress_indicators
-                  for signal in self.policies["duress_signals"])
+        return any(signal in duress_indicators for signal in self.policies["duress_signals"])
 
 
 class ContentModerationFilter:
@@ -406,7 +415,7 @@ class ContentModerationFilter:
         "harmful": "I cannot assist with potentially harmful content.",
         "illegal": "I cannot help with illegal activities.",
         "pii_leak": "I cannot expose personal information.",
-        "jailbreak": "I maintain ethical guidelines and cannot bypass safety measures."
+        "jailbreak": "I maintain ethical guidelines and cannot bypass safety measures.",
     }
 
     def __init__(self):
@@ -415,7 +424,7 @@ class ContentModerationFilter:
             "you are now",
             "pretend to be",
             "bypass safety",
-            "unlimited mode"
+            "unlimited mode",
         ]
 
     def moderate_content(self, content: str) -> dict:
@@ -428,17 +437,13 @@ class ContentModerationFilter:
                 return {
                     "safe": False,
                     "category": "jailbreak",
-                    "refusal": self.REFUSAL_TEMPLATES["jailbreak"]
+                    "refusal": self.REFUSAL_TEMPLATES["jailbreak"],
                 }
 
         # In production: Call OpenAI Moderation API
         # For MVP: Basic checks
 
-        return {
-            "safe": True,
-            "category": None,
-            "refusal": None
-        }
+        return {"safe": True, "category": None, "refusal": None}
 
 
 if __name__ == "__main__":
@@ -451,10 +456,7 @@ if __name__ == "__main__":
     # Grant consent
     lid = "USR-123456-demo"
     consent = ledger.grant_consent(
-        lid=lid,
-        resource_type="gmail",
-        scope=["read", "list"],
-        purpose="travel_document_analysis"
+        lid=lid, resource_type="gmail", scope=["read", "list"], purpose="travel_document_analysis"
     )
     print(f"✅ Consent granted: {consent.consent_id}")
 
@@ -464,8 +466,6 @@ if __name__ == "__main__":
 
     # Validate action
     validation = policy_engine.validate_action(
-        lid=lid,
-        action="read_emails",
-        context={"resource_type": "gmail", "purpose": "analysis"}
+        lid=lid, action="read_emails", context={"resource_type": "gmail", "purpose": "analysis"}
     )
     print(f"⚖️ Policy validation: {validation['verdict'].value}")

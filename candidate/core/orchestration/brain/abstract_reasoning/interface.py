@@ -40,9 +40,7 @@ class AbstractReasoningBrainInterface:
         self.interface_active = False
 
         # Radar analytics integration
-        self.enable_radar_analytics = (
-            enable_radar_analytics and RADAR_INTEGRATION_AVAILABLE
-        )
+        self.enable_radar_analytics = enable_radar_analytics and RADAR_INTEGRATION_AVAILABLE
         self.radar_integration = None
         if self.enable_radar_analytics:
             self.radar_integration = BioQuantumRadarIntegration(self)
@@ -54,9 +52,7 @@ class AbstractReasoningBrainInterface:
             self.interface_active = True
 
             if self.radar_integration:
-                logger.info(
-                    "🚀 Abstract Reasoning Interface initialized with Radar Analytics"
-                )
+                logger.info("🚀 Abstract Reasoning Interface initialized with Radar Analytics")
             else:
                 logger.info("🚀 Abstract Reasoning Interface initialized")
             return True
@@ -95,9 +91,7 @@ class AbstractReasoningBrainInterface:
 
         # If radar analytics is enabled, use the integrated processing
         if use_radar and self.radar_integration:
-            logger.info(
-                f"🧠📊 Starting abstract reasoning with radar analytics: {reasoning_type}"
-            )
+            logger.info(f"🧠📊 Starting abstract reasoning with radar analytics: {reasoning_type}")
 
             problem_description = (
                 problem
@@ -140,12 +134,8 @@ class AbstractReasoningBrainInterface:
             # Extract key components for easier access
             simplified_result = {
                 "solution": result.get("reasoning_result", {}).get("solution", {}),
-                "confidence": result.get("confidence_metrics", {}).get(
-                    "meta_confidence", 0.0
-                ),
-                "reasoning_path": result.get("reasoning_result", {}).get(
-                    "reasoning_path", {}
-                ),
+                "confidence": result.get("confidence_metrics", {}).get("meta_confidence", 0.0),
+                "reasoning_path": result.get("reasoning_result", {}).get("reasoning_path", {}),
                 "coherence": result.get("processing_metadata", {}).get(
                     "brain_symphony_coherence", 0.0
                 ),
@@ -192,9 +182,7 @@ class AbstractReasoningBrainInterface:
         logger.info(f"🎼 Orchestrating brains: {target_brains or 'all'}")
 
         try:
-            result = await self.core.orchestrate_cross_brain_reasoning(
-                request, target_brains
-            )
+            result = await self.core.orchestrate_cross_brain_reasoning(request, target_brains)
             return result
 
         except Exception as e:
@@ -205,9 +193,7 @@ class AbstractReasoningBrainInterface:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def analyze_confidence(
-        self, reasoning_result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def analyze_confidence(self, reasoning_result: dict[str, Any]) -> dict[str, Any]:
         """
         Perform detailed confidence analysis on a reasoning result
 
@@ -228,14 +214,10 @@ class AbstractReasoningBrainInterface:
                     "symbolic": confidence_metrics.get("symbolic_confidence", 0.0),
                     "emotional": confidence_metrics.get("emotional_confidence", 0.0),
                 },
-                "uncertainty_analysis": confidence_metrics.get(
-                    "uncertainty_decomposition", {}
-                ),
+                "uncertainty_analysis": confidence_metrics.get("uncertainty_decomposition", {}),
                 "coherence_score": confidence_metrics.get("cross_brain_coherence", 0.0),
                 "calibration_quality": confidence_metrics.get("calibration_score", 0.0),
-                "confidence_interpretation": self._interpret_confidence(
-                    confidence_metrics
-                ),
+                "confidence_interpretation": self._interpret_confidence(confidence_metrics),
             }
 
             return analysis
@@ -244,9 +226,7 @@ class AbstractReasoningBrainInterface:
             logger.error(f"❌ Confidence analysis failed: {e}")
             return {"error": str(e)}
 
-    def _interpret_confidence(
-        self, confidence_metrics: dict[str, Any]
-    ) -> dict[str, str]:
+    def _interpret_confidence(self, confidence_metrics: dict[str, Any]) -> dict[str, str]:
         """Interpret confidence metrics for human understanding"""
         meta_confidence = confidence_metrics.get("meta_confidence", 0.0)
         coherence = confidence_metrics.get("cross_brain_coherence", 0.0)
@@ -255,21 +235,13 @@ class AbstractReasoningBrainInterface:
 
         # Overall confidence interpretation
         if meta_confidence >= 0.9:
-            interpretations["overall"] = (
-                "Very High - Strong agreement across all reasoning methods"
-            )
+            interpretations["overall"] = "Very High - Strong agreement across all reasoning methods"
         elif meta_confidence >= 0.8:
-            interpretations["overall"] = (
-                "High - Good agreement with minor uncertainties"
-            )
+            interpretations["overall"] = "High - Good agreement with minor uncertainties"
         elif meta_confidence >= 0.7:
-            interpretations["overall"] = (
-                "Moderate - Reasonable confidence with some disagreement"
-            )
+            interpretations["overall"] = "Moderate - Reasonable confidence with some disagreement"
         elif meta_confidence >= 0.6:
-            interpretations["overall"] = (
-                "Low-Moderate - Significant uncertainties present"
-            )
+            interpretations["overall"] = "Low-Moderate - Significant uncertainties present"
         else:
             interpretations["overall"] = "Low - High uncertainty, proceed with caution"
 
@@ -277,9 +249,7 @@ class AbstractReasoningBrainInterface:
         if coherence >= 0.8:
             interpretations["coherence"] = "Excellent - All brain systems in harmony"
         elif coherence >= 0.7:
-            interpretations["coherence"] = (
-                "Good - Strong coordination between brain systems"
-            )
+            interpretations["coherence"] = "Good - Strong coordination between brain systems"
         elif coherence >= 0.6:
             interpretations["coherence"] = "Fair - Some discord between brain systems"
         else:
@@ -288,9 +258,7 @@ class AbstractReasoningBrainInterface:
         # Uncertainty interpretation
         uncertainty = confidence_metrics.get("uncertainty_decomposition", {})
         dominant_uncertainty = (
-            max(uncertainty.items(), key=lambda x: x[1])
-            if uncertainty
-            else ("unknown", 0)
+            max(uncertainty.items(), key=lambda x: x[1]) if uncertainty else ("unknown", 0)
         )
 
         if dominant_uncertainty[1] > 0.3:
@@ -298,9 +266,7 @@ class AbstractReasoningBrainInterface:
                 f"Dominated by {dominant_uncertainty[0]} uncertainty"
             )
         else:
-            interpretations["primary_uncertainty"] = (
-                "Well-balanced uncertainty distribution"
-            )
+            interpretations["primary_uncertainty"] = "Well-balanced uncertainty distribution"
 
         return interpretations
 
@@ -376,21 +342,13 @@ class AbstractReasoningBrainInterface:
             summaries = []
             for session in full_history:
                 summary = {
-                    "timestamp": session.get("processing_metadata", {}).get(
-                        "processing_timestamp"
-                    ),
-                    "reasoning_type": session.get("processing_metadata", {}).get(
-                        "reasoning_type"
-                    ),
-                    "confidence": session.get("confidence_metrics", {}).get(
-                        "meta_confidence", 0.0
-                    ),
+                    "timestamp": session.get("processing_metadata", {}).get("processing_timestamp"),
+                    "reasoning_type": session.get("processing_metadata", {}).get("reasoning_type"),
+                    "confidence": session.get("confidence_metrics", {}).get("meta_confidence", 0.0),
                     "coherence": session.get("processing_metadata", {}).get(
                         "brain_symphony_coherence", 0.0
                     ),
-                    "success": session.get("confidence_metrics", {}).get(
-                        "meta_confidence", 0.0
-                    )
+                    "success": session.get("confidence_metrics", {}).get("meta_confidence", 0.0)
                     > 0.7,
                 }
                 summaries.append(summary)
@@ -478,9 +436,7 @@ class AbstractReasoningBrainInterface:
 
         logger.info(f"🔄 Starting radar monitoring (interval: {update_interval}s)")
         try:
-            await self.radar_integration.start_real_time_monitoring(
-                update_interval, max_duration
-            )
+            await self.radar_integration.start_real_time_monitoring(update_interval, max_duration)
             return True
         except Exception as e:
             logger.error(f"Failed to start radar monitoring: {e}")
@@ -706,9 +662,7 @@ async def reason_about(
     await interface.initialize()
 
     try:
-        result = await interface.reason_abstractly(
-            problem_description, context, reasoning_type
-        )
+        result = await interface.reason_abstractly(problem_description, context, reasoning_type)
         # Return just the reasoning result for backward compatibility
         if isinstance(result, dict) and "reasoning_result" in result:
             return result["reasoning_result"]
@@ -741,9 +695,7 @@ async def demo_radar_integration():
 
     # Test 2: Real-time monitoring
     print("\n2️⃣ Testing real-time monitoring (10 seconds)...")
-    export_path = await start_radar_monitoring_session(
-        update_interval=1.0, duration=10.0
-    )
+    export_path = await start_radar_monitoring_session(update_interval=1.0, duration=10.0)
     print(f"   📁 Analytics exported to: {export_path}")
 
     # Test 3: Multiple reasoning calls with analytics

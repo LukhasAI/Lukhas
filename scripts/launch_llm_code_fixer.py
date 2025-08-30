@@ -30,6 +30,7 @@ class Colors:
     BOLD = "\033[1m"
     END = "\033[0m"
 
+
 def print_banner():
     """Print the LUKHAS banner"""
     print(f"{Colors.CYAN}{Colors.BOLD}")
@@ -37,6 +38,7 @@ def print_banner():
     print("⚛️🧠🛡️ Trinity Framework Consciousness Technology")
     print("=" * 55)
     print(f"{Colors.END}")
+
 
 def check_prerequisites():
     """Check if prerequisites are available"""
@@ -67,6 +69,7 @@ def check_prerequisites():
     for service_name, base_url, endpoint in llm_services:
         try:
             import requests
+
             response = requests.get(f"{base_url}{endpoint}", timeout=2)
             if response.status_code == 200:
                 print(f"✅ {service_name} available at {base_url}")
@@ -77,10 +80,13 @@ def check_prerequisites():
 
     if not llm_available:
         issues.append("No local LLM service found. Please start Ollama or LM Studio.")
-        print(f"{Colors.YELLOW}   To install Ollama: curl -fsSL https://ollama.ai/install.sh | sh{Colors.END}")
+        print(
+            f"{Colors.YELLOW}   To install Ollama: curl -fsSL https://ollama.ai/install.sh | sh{Colors.END}"
+        )
         print(f"{Colors.YELLOW}   To start Ollama: ollama serve{Colors.END}")
 
     return issues
+
 
 def run_quick_analysis():
     """Run quick Ruff analysis to show current status"""
@@ -88,11 +94,12 @@ def run_quick_analysis():
 
     try:
         # Run Ruff with statistics
-        result = subprocess.run([
-            "ruff", "check", ".",
-            "--statistics",
-            "--no-fix"
-        ], capture_output=True, text=True, cwd=Path.cwd())
+        result = subprocess.run(
+            ["ruff", "check", ".", "--statistics", "--no-fix"],
+            capture_output=True,
+            text=True,
+            cwd=Path.cwd(),
+        )
 
         if result.stdout:
             print(f"\n{Colors.CYAN}Current Code Quality Issues:{Colors.END}")
@@ -107,6 +114,7 @@ def run_quick_analysis():
 
     except Exception as e:
         print(f"{Colors.RED}❌ Analysis failed: {e}{Colors.END}")
+
 
 def main():
     """Main launcher function"""
@@ -144,7 +152,7 @@ def main():
         "4": ["python", "tools/llm_code_fixer.py"],
         "5": ["python", "tools/llm_code_fixer.py", "--dry-run", "--report-only"],
         "6": None,  # Custom
-        "0": None   # Exit
+        "0": None,  # Exit
     }
 
     if choice == "0":
@@ -166,7 +174,7 @@ def main():
             print("No arguments provided, exiting.")
             return 0
 
-    elif choice in commands and commands[choice]:
+    elif commands.get(choice):
         command = commands[choice]
     else:
         print(f"{Colors.RED}❌ Invalid choice{Colors.END}")
@@ -186,7 +194,9 @@ def main():
             print("  2. Run tests to ensure functionality")
             print("  3. Commit the improvements")
         else:
-            print(f"\n{Colors.RED}❌ Code improvement failed with exit code {result.returncode}{Colors.END}")
+            print(
+                f"\n{Colors.RED}❌ Code improvement failed with exit code {result.returncode}{Colors.END}"
+            )
 
         return result.returncode
 
@@ -196,6 +206,7 @@ def main():
     except Exception as e:
         print(f"\n{Colors.RED}❌ Unexpected error: {e}{Colors.END}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -55,7 +55,6 @@ MODULE_NAME = "azure_openai_wrapper"
 
 
 class AzureOpenaiWrapper:
-
     def __init__(self):
         """Initialize Azure OpenAI wrapper with API key, endpoint, org ID,
         and project ID"""
@@ -81,9 +80,7 @@ class AzureOpenaiWrapper:
 
                 self.client = AzureOpenAI(**client_kwargs)
 
-                print(
-                    f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}"
-                )
+                print(f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}")
                 if self.config["org_id"]:
                     print(f"   Organization ID: {self.config['org_id']}")
                 if self.config["project_id"]:
@@ -122,7 +119,7 @@ class AzureOpenaiWrapper:
             content = getattr(response.choices[0].message, "content", None)
             return normalize_output(content) or content or ""
         except Exception as e:
-            err = f"Azure OpenAI API Error: {str(e)}"
+            err = f"Azure OpenAI API Error: {e!s}"
             return normalize_output(err) or err
 
     def is_available(self) -> bool:

@@ -18,28 +18,46 @@ DISPLAY_TERMS = {
     "LUKHΛS": "Display form - use in logos, headings, marketing",
     "ΛI": "Display form for AI - use in promotional content",
     "ΛiD": "Display form for identity system",
-    "MΛTRIZ": "Display form for MATRIZ product"
+    "MΛTRIZ": "Display form for MATRIZ product",
 }
 
 PLAIN_TERMS = {
     "Lukhas": "Plain text form - use in body copy, SEO, accessibility",
     "Lukhas AI": "Plain text for AI product",
     "Lukhas ID": "Plain text for identity system",
-    "Matriz": "Plain text for MATRIZ product"
+    "Matriz": "Plain text for MATRIZ product",
 }
 
 # File patterns to check
 INCLUDE_PATTERNS = [
-    "**/*.py", "**/*.js", "**/*.ts", "**/*.tsx", "**/*.jsx",
-    "**/*.md", "**/*.json", "**/*.yaml", "**/*.yml",
-    "**/*.html", "**/*.css", "**/*.scss"
+    "**/*.py",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.jsx",
+    "**/*.md",
+    "**/*.json",
+    "**/*.yaml",
+    "**/*.yml",
+    "**/*.html",
+    "**/*.css",
+    "**/*.scss",
 ]
 
 # Directories to exclude
 EXCLUDE_DIRS = [
-    ".git", "node_modules", ".venv", "venv", "__pycache__",
-    "dist", "build", ".next", "coverage", ".pytest_cache"
+    ".git",
+    "node_modules",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "dist",
+    "build",
+    ".next",
+    "coverage",
+    ".pytest_cache",
 ]
+
 
 class BrandValidator:
     def __init__(self, root_dir: str):
@@ -60,20 +78,26 @@ class BrandValidator:
                 # Check for deprecated terms
                 for deprecated, replacement in DEPRECATED_TERMS.items():
                     if deprecated in line:
-                        violations.append((
-                            line_num,
-                            f"Deprecated term '{deprecated}' found",
-                            f"Replace with '{replacement}'"
-                        ))
+                        violations.append(
+                            (
+                                line_num,
+                                f"Deprecated term '{deprecated}' found",
+                                f"Replace with '{replacement}'",
+                            )
+                        )
 
                 # Check for incorrect Lambda usage in URLs
-                if "Λ" in line and ("href=" in line or "url" in line.lower() or "path" in line.lower()):
+                if "Λ" in line and (
+                    "href=" in line or "url" in line.lower() or "path" in line.lower()
+                ):
                     if "aria-label" not in line and "display" not in line.lower():
-                        violations.append((
-                            line_num,
-                            "Lambda (Λ) found in URL/path context",
-                            "Use plain text form in URLs and paths"
-                        ))
+                        violations.append(
+                            (
+                                line_num,
+                                "Lambda (Λ) found in URL/path context",
+                                "Use plain text form in URLs and paths",
+                            )
+                        )
 
         except Exception as e:
             print(f"Error reading {filepath}: {e}", file=sys.stderr)
@@ -82,12 +106,7 @@ class BrandValidator:
 
     def validate_directory(self) -> dict[str, list]:
         """Validate entire directory tree"""
-        results = {
-            "violations": [],
-            "warnings": [],
-            "files_checked": 0,
-            "files_with_issues": 0
-        }
+        results = {"violations": [], "warnings": [], "files_checked": 0, "files_with_issues": 0}
 
         for pattern in INCLUDE_PATTERNS:
             for filepath in self.root_dir.glob(pattern):
@@ -103,29 +122,31 @@ class BrandValidator:
                     relative_path = filepath.relative_to(self.root_dir)
 
                     for line_num, issue, suggestion in violations:
-                        results["violations"].append({
-                            "file": str(relative_path),
-                            "line": line_num,
-                            "issue": issue,
-                            "suggestion": suggestion
-                        })
+                        results["violations"].append(
+                            {
+                                "file": str(relative_path),
+                                "line": line_num,
+                                "issue": issue,
+                                "suggestion": suggestion,
+                            }
+                        )
 
         return results
 
     def print_report(self, results: dict) -> bool:
         """Print validation report and return success status"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("LUKHAS BRAND VALIDATION REPORT")
-        print("="*60)
+        print("=" * 60)
 
         print(f"\nFiles checked: {results['files_checked']}")
         print(f"Files with issues: {results['files_with_issues']}")
         print(f"Total violations: {len(results['violations'])}")
 
         if results["violations"]:
-            print("\n" + "-"*60)
+            print("\n" + "-" * 60)
             print("VIOLATIONS FOUND:")
-            print("-"*60)
+            print("-" * 60)
 
             # Group by file
             by_file = {}
@@ -142,9 +163,9 @@ class BrandValidator:
                     print(f"    → {v['suggestion']}")
 
         if results["warnings"]:
-            print("\n" + "-"*60)
+            print("\n" + "-" * 60)
             print("WARNINGS:")
-            print("-"*60)
+            print("-" * 60)
             for warning in results["warnings"]:
                 print(f"  ⚠️  {warning}")
 
@@ -158,6 +179,7 @@ class BrandValidator:
             print("  • Use Lambda (Λ) only in display contexts, not URLs")
             print("  • Always provide aria-label for accessibility")
             return False
+
 
 def main():
     """Main entry point"""
@@ -174,6 +196,7 @@ def main():
 
     # Exit with appropriate code
     sys.exit(0 if success else 1)
+
 
 if __name__ == "__main__":
     main()

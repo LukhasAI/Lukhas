@@ -144,9 +144,7 @@ class EnvValidator:
             self._validate_var(config)
 
         if self.errors:
-            logger.error(
-                f"Environment validation failed with {len(self.errors)} errors"
-            )
+            logger.error(f"Environment validation failed with {len(self.errors)} errors")
             for error in self.errors:
                 logger.error(f"  - {error}")
 
@@ -163,9 +161,7 @@ class EnvValidator:
         # Check if required but missing
         if value is None:
             if config.required:
-                self.errors.append(
-                    f"{config.name} is required but not set. {config.description}"
-                )
+                self.errors.append(f"{config.name} is required but not set. {config.description}")
                 return None
             else:
                 # Use default value
@@ -179,7 +175,7 @@ class EnvValidator:
             self.validated_vars[config.name] = validated_value
             return validated_value
         except ValueError as e:
-            self.errors.append(f"{config.name}: {str(e)}")
+            self.errors.append(f"{config.name}: {e!s}")
             return None
 
     def _validate_type(self, value: str, config: EnvVarConfig) -> Any:
@@ -193,9 +189,7 @@ class EnvValidator:
 
         elif config.var_type == EnvVarType.SECRET:
             if config.min_length and len(value) < config.min_length:
-                raise ValueError(
-                    f"Secret must be at least {config.min_length} characters"
-                )
+                raise ValueError(f"Secret must be at least {config.min_length} characters")
             # Don't log the actual secret value
             return value
 
@@ -226,9 +220,7 @@ class EnvValidator:
 
         elif config.var_type == EnvVarType.URL:
             # Basic URL validation
-            if not value.startswith(
-                ("http://", "https://", "sqlite://", "postgresql://")
-            ):
+            if not value.startswith(("http://", "https://", "sqlite://", "postgresql://")):
                 raise ValueError("Must be a valid URL")
             return value
 
@@ -265,9 +257,7 @@ class EnvValidator:
                 lines.append("# OPTIONAL")
 
             if config.allowed_values:
-                lines.append(
-                    f"# Allowed values: {', '.join(map(str, config.allowed_values))}"
-                )
+                lines.append(f"# Allowed values: {', '.join(map(str, config.allowed_values))}")
             if config.min_length:
                 lines.append(f"# Minimum length: {config.min_length}")
             if config.min_value is not None:

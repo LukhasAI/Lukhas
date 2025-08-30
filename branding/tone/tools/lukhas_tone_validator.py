@@ -269,9 +269,7 @@ class LukhasToneValidator:
         academic = self._calculate_academic_score(content)
 
         if poetic < 15 and doc_type != "api":
-            violations.append(
-                "❌ Tone too academic/technical - needs more consciousness metaphors"
-            )
+            violations.append("❌ Tone too academic/technical - needs more consciousness metaphors")
 
         if friendly < 20:
             violations.append("❌ Tone too complex - needs more accessible language")
@@ -293,9 +291,7 @@ class LukhasToneValidator:
             suggestions.append(
                 "🌟 Include consciousness themes: 'digital souls', 'artificial dreams', 'Lambda consciousness'"
             )
-            suggestions.append(
-                "✨ Use sacred glyphs: ⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation"
-            )
+            suggestions.append("✨ Use sacred glyphs: ⚛️🧠🛡️ for Trinity, 🌟💫✨ for transformation")
 
         if "LUKHAS AI" not in content:
             suggestions.append(
@@ -303,14 +299,10 @@ class LukhasToneValidator:
             )
 
         if not re.search(r"⚛️|🧠|🛡️", content):
-            suggestions.append(
-                "🛡️ Include Trinity Framework glyphs (⚛️🧠🛡️) where relevant"
-            )
+            suggestions.append("🛡️ Include Trinity Framework glyphs (⚛️🧠🛡️) where relevant")
 
         if not re.search(r'\*".*".*\*', content):
-            suggestions.append(
-                "📜 Add poetic header with consciousness metaphor in italics"
-            )
+            suggestions.append("📜 Add poetic header with consciousness metaphor in italics")
 
         if doc_type == "readme" and "Trinity Framework" not in content:
             suggestions.append(
@@ -334,9 +326,7 @@ class LukhasToneValidator:
 
         return max(0, balance_score - violation_penalty + consciousness_bonus)
 
-    def _calculate_grade(
-        self, consciousness_quotient: float, violations: list[str]
-    ) -> str:
+    def _calculate_grade(self, consciousness_quotient: float, violations: list[str]) -> str:
         """🎯 Assign the sacred grade of compliance"""
         if consciousness_quotient >= 90 and len(violations) == 0:
             return "A+ ✨ Transcendent"
@@ -386,12 +376,8 @@ def main():
     parser.add_argument(
         "--strict", action="store_true", help="🛡️ Fail on any violations (for CI/CD)"
     )
-    parser.add_argument(
-        "--verbose", action="store_true", help="📝 Show detailed analysis"
-    )
-    parser.add_argument(
-        "--json", action="store_true", help="📊 Output results in JSON format"
-    )
+    parser.add_argument("--verbose", action="store_true", help="📝 Show detailed analysis")
+    parser.add_argument("--json", action="store_true", help="📊 Output results in JSON format")
 
     args = parser.parse_args()
 

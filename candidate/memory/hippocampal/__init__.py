@@ -12,10 +12,10 @@ from .pattern_separator import PatternSeparator
 from .theta_oscillator import OscillationPhase, ThetaOscillator
 
 __all__ = [
-    "HippocampalBuffer",
     "EpisodicMemory",
+    "HippocampalBuffer",
     "HippocampalState",
+    "OscillationPhase",
     "PatternSeparator",
     "ThetaOscillator",
-    "OscillationPhase",
 ]

@@ -29,9 +29,7 @@ class WalletIdentityManager:
     and adapt while preserving security protocols.
     """
 
-    def __init__(
-        self, identity_file: Optional[str] = None, encryption_level: str = "high"
-    ):
+    def __init__(self, identity_file: Optional[str] = None, encryption_level: str = "high"):
         self.logger = logging.getLogger("WalletIdentityManager")
 
         # Wallet-specific identity attributes
@@ -127,9 +125,7 @@ class WalletIdentityManager:
         self.logger.info(f"Created wallet identity: {wallet_identity.lambda_id}")
 
         # Take snapshot of significant change
-        self._take_wallet_identity_snapshot(
-            f"wallet_created_{wallet_identity.lambda_id}"
-        )
+        self._take_wallet_identity_snapshot(f"wallet_created_{wallet_identity.lambda_id}")
 
         return wallet_identity
 
@@ -275,9 +271,7 @@ class WalletIdentityManager:
             if lambda_id in snapshot.get("reason", "")
         ]
 
-    def _assess_transaction_significance(
-        self, transaction_data: dict[str, Any]
-    ) -> float:
+    def _assess_transaction_significance(self, transaction_data: dict[str, Any]) -> float:
         """Assess the significance of a transaction"""
         significance = 0.0
 
@@ -322,9 +316,7 @@ class WalletIdentityManager:
         # Limit the number of stored snapshots
         max_snapshots = 100
         if len(self.wallet_identity_snapshots) > max_snapshots:
-            self.wallet_identity_snapshots = self.wallet_identity_snapshots[
-                -max_snapshots:
-            ]
+            self.wallet_identity_snapshots = self.wallet_identity_snapshots[-max_snapshots:]
 
     def _load_wallet_identity(self, identity_file: str):
         """Load wallet identity from a file"""
@@ -343,9 +335,7 @@ class WalletIdentityManager:
             self._take_wallet_identity_snapshot("loaded_from_file")
 
         except Exception as e:
-            self.logger.error(
-                f"Failed to load wallet identity from {identity_file}: {e}"
-            )
+            self.logger.error(f"Failed to load wallet identity from {identity_file}: {e}")
             # Continue with default identity
 
     def save_wallet_identity(self, identity_file: str) -> bool:
@@ -378,9 +368,7 @@ class WalletIdentityManager:
         """Get security summary for all wallet identities"""
         total_wallets = len(self.active_wallets)
         biometric_protected = sum(
-            1
-            for wallet in self.active_wallets.values()
-            if wallet.biometric_hash is not None
+            1 for wallet in self.active_wallets.values() if wallet.biometric_hash is not None
         )
 
         tier_distribution = defaultdict(int)
@@ -397,7 +385,6 @@ class WalletIdentityManager:
             ),
             "vaults_active": len(self.wallet_vaults),
             "security_events": sum(
-                len(pattern.get("security_events", []))
-                for pattern in self.access_patterns.values()
+                len(pattern.get("security_events", [])) for pattern in self.access_patterns.values()
             ),
         }

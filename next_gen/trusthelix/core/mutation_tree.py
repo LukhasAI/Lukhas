@@ -120,9 +120,7 @@ class SymbolicMutationTree:
         self.mutation_history: list[GlyphMutation] = []
         self.active_paths: dict[str, ConsentNode] = {}
 
-        logger.info(
-            f"🌳 TrustHelix initialized with genesis: {self.genesis_hash[:16]}..."
-        )
+        logger.info(f"🌳 TrustHelix initialized with genesis: {self.genesis_hash[:16]}...")
 
     def _compute_genesis_hash(self) -> str:
         """Reference to immutable Genesis Transmission"""
@@ -151,9 +149,7 @@ class SymbolicMutationTree:
 
         # Mutate glyphs based on trust change
         mutated_glyphs = []
-        trust_direction = (
-            "increase" if impact > 0 else "decrease" if impact < 0 else "neutral"
-        )
+        trust_direction = "increase" if impact > 0 else "decrease" if impact < 0 else "neutral"
 
         for glyph in glyphs:
             # Check if this glyph has a mutation rule
@@ -166,15 +162,9 @@ class SymbolicMutationTree:
                         for state, state_glyph in mutations.items():
                             if state_glyph == glyph:
                                 # Already in a state, decide next mutation
-                                if (
-                                    trust_direction == "increase"
-                                    and state != "increase"
-                                ):
+                                if trust_direction == "increase" and state != "increase":
                                     new_glyph = mutations["increase"]
-                                elif (
-                                    trust_direction == "decrease"
-                                    and state != "decrease"
-                                ):
+                                elif trust_direction == "decrease" and state != "decrease":
                                     new_glyph = mutations["decrease"]
                                 else:
                                     new_glyph = glyph  # No change if already at extreme
@@ -228,9 +218,7 @@ class SymbolicMutationTree:
         logger.info(
             f"🔄 Action tracked: {action} → drift: {self.current_drift:.3f} ({drift_delta:+.3f})"
         )
-        logger.info(
-            f"🎭 Glyphs mutated: {' '.join(glyphs)} → {' '.join(mutated_glyphs)}"
-        )
+        logger.info(f"🎭 Glyphs mutated: {' '.join(glyphs)} → {' '.join(mutated_glyphs)}")
 
         return mutated_glyphs, self.current_drift
 
@@ -302,9 +290,7 @@ class SymbolicMutationTree:
         lines = ["🌳 TrustHelix Consent Tree"]
         lines.append("=" * 40)
         lines.append(f"Genesis: {self.genesis_hash[:16]}...")
-        lines.append(
-            f"Current Drift: {self.current_drift:.3f} {self.get_drift_state().value}"
-        )
+        lines.append(f"Current Drift: {self.current_drift:.3f} {self.get_drift_state().value}")
         lines.append(f"Mutations: {len(self.mutation_history)}")
         lines.append(f"Entropy: {self.calculate_entropy():.3f}")
         lines.append("")
@@ -312,9 +298,7 @@ class SymbolicMutationTree:
         # Show recent mutations
         lines.append("Recent Mutations:")
         for mutation in self.mutation_history[-5:]:
-            lines.append(
-                f"  {mutation.from_glyph} → {mutation.to_glyph} ({mutation.action})"
-            )
+            lines.append(f"  {mutation.from_glyph} → {mutation.to_glyph} ({mutation.action})")
 
         return "\n".join(lines)
 

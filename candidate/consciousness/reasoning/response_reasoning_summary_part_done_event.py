@@ -55,7 +55,7 @@ logger.info(
     module_path=__file__,
 )
 
-__all__ = ["ResponseReasoningSummaryPartDoneEvent", "Part"]
+__all__ = ["Part", "ResponseReasoningSummaryPartDoneEvent"]
 
 
 # Human-readable comment: Represents a segment of a reasoning summary.

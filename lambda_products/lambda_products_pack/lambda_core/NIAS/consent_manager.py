@@ -115,9 +115,7 @@ class ConsentManager:
         self.vendor_permissions: dict[str, dict[str, dict]] = {}
         self.ai_generation_settings: dict[str, dict] = {}
 
-        logger.info(
-            "NIΛS Consent Manager initialized with enhanced data source permissions"
-        )
+        logger.info("NIΛS Consent Manager initialized with enhanced data source permissions")
 
     def _default_config(self) -> dict:
         """Default consent manager configuration"""
@@ -162,9 +160,7 @@ class ConsentManager:
             if duration_hours:
                 expires_at = datetime.now() + timedelta(hours=duration_hours)
             elif self.config["default_expiry_hours"]:
-                expires_at = datetime.now() + timedelta(
-                    hours=self.config["default_expiry_hours"]
-                )
+                expires_at = datetime.now() + timedelta(hours=self.config["default_expiry_hours"])
 
             # Create consent record
             record = ConsentRecord(
@@ -351,7 +347,7 @@ class ConsentManager:
             logger.error(f"Error validating consent: {e}")
             return {
                 "valid": False,
-                "reason": f"Validation error: {str(e)}",
+                "reason": f"Validation error: {e!s}",
                 "current_level": ConsentLevel.NONE,
                 "required_level": required_level,
             }
@@ -420,9 +416,7 @@ class ConsentManager:
                 "scope": record.scope.value,
                 "level": record.level.value,
                 "granted_at": record.granted_at.isoformat(),
-                "expires_at": (
-                    record.expires_at.isoformat() if record.expires_at else None
-                ),
+                "expires_at": (record.expires_at.isoformat() if record.expires_at else None),
                 "context": record.context,
             }
 
@@ -437,15 +431,11 @@ class ConsentManager:
             "active_consents": active_consents,
             "expired_consents": expired_consents,
             "last_updated": (
-                max(r.granted_at for r in user_records).isoformat()
-                if user_records
-                else None
+                max(r.granted_at for r in user_records).isoformat() if user_records else None
             ),
         }
 
-    async def create_consent_template(
-        self, template_name: str, template_config: dict[str, Any]
-    ):
+    async def create_consent_template(self, template_name: str, template_config: dict[str, Any]):
         """Create a reusable consent template"""
         self.consent_templates[template_name] = template_config
         logger.info(f"Created consent template: {template_name}")
@@ -485,9 +475,7 @@ class ConsentManager:
                     "scope": record.scope.value,
                     "level": record.level.value,
                     "granted_at": record.granted_at.isoformat(),
-                    "expires_at": (
-                        record.expires_at.isoformat() if record.expires_at else None
-                    ),
+                    "expires_at": (record.expires_at.isoformat() if record.expires_at else None),
                     "context": record.context,
                     "revocable": record.revocable,
                     "audit_trail": record.audit_trail,
@@ -627,9 +615,7 @@ class ConsentManager:
             logger.error(f"Error revoking data source consent: {e}")
             return False
 
-    async def check_data_source_permission(
-        self, user_id: str, data_source: DataSource
-    ) -> bool:
+    async def check_data_source_permission(self, user_id: str, data_source: DataSource) -> bool:
         """Check if user has granted permission for a specific data source"""
         if user_id not in self.data_source_permissions:
             return False
@@ -821,9 +807,9 @@ class ConsentManager:
         # Data source permissions
         if user_id in self.data_source_permissions:
             for source in DataSource:
-                profile["data_sources"][source.value] = self.data_source_permissions[
-                    user_id
-                ].get(source, False)
+                profile["data_sources"][source.value] = self.data_source_permissions[user_id].get(
+                    source, False
+                )
 
         # Vendor permissions
         if user_id in self.vendor_permissions:

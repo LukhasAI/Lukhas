@@ -355,9 +355,7 @@ class ConfigBuilder:
         if "pair_programming" not in config["development_mode"]:
             config["development_mode"]["pair_programming"] = {}
 
-        config["development_mode"]["pair_programming"]["style"] = styles[
-            style_choice - 1
-        ]
+        config["development_mode"]["pair_programming"]["style"] = styles[style_choice - 1]
 
         # Features
         print("\n✨ Advanced Features:")
@@ -376,25 +374,19 @@ class ConfigBuilder:
             if click.confirm("Enable quantum coherence monitoring?", default=True):
                 if "features" not in config["lukhas_integration"]:
                     config["lukhas_integration"]["features"] = {}
-                config["lukhas_integration"]["features"][
-                    "qi_coherence_monitoring"
-                ] = True
+                config["lukhas_integration"]["features"]["qi_coherence_monitoring"] = True
 
         if "dream" in selected_modules:
             if click.confirm("Enable dream mode exploration?", default=True):
                 if "features" not in config["lukhas_integration"]:
                     config["lukhas_integration"]["features"] = {}
-                config["lukhas_integration"]["features"][
-                    "dream_mode_exploration"
-                ] = True
+                config["lukhas_integration"]["features"]["dream_mode_exploration"] = True
 
         if "governance" in selected_modules:
             if click.confirm("Enable guardian system integration?", default=True):
                 if "features" not in config["lukhas_integration"]:
                     config["lukhas_integration"]["features"] = {}
-                config["lukhas_integration"]["features"][
-                    "guardian_system_integration"
-                ] = True
+                config["lukhas_integration"]["features"]["guardian_system_integration"] = True
 
         return config
 

@@ -11,6 +11,7 @@ Original: lukhas_emotion_log_alt.py
 Advanced: lukhas_emotion_log_alt.py
 Integration Date: 2025-05-31T07:55:28.105121
 """
+
 import logging
 
 """
@@ -41,9 +42,7 @@ last_logged_time = None
 
 def log_emotion(state, source="manual", intensity=1):
     global last_logged_time
-    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(
-        seconds=10
-    ):
+    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(seconds=10):
         logging.warning("Emotion logging rate limit exceeded.")
         return None
     last_logged_time = datetime.utcnow()
@@ -118,9 +117,7 @@ def blend_emotions():
     """
     from collections import Counter
 
-    recent_emotions = [
-        entry["state"] for entry in emotion_db["log"][-5:]
-    ]  # Last 5 emotions
+    recent_emotions = [entry["state"] for entry in emotion_db["log"][-5:]]  # Last 5 emotions
     if not recent_emotions:
         return "neutral"
     emotion_counts = Counter(recent_emotions)

@@ -231,17 +231,12 @@ class SymbolicEngine:
 
             evidence_strength = 0
             for elem_type, elems in elements_by_type.items():
-                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(
-                    elems
-                ) > 1:
+                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(elems) > 1:
                     evidence_strength += 0.05 * min(3, len(elems))
 
             final_confidence = min(
                 0.99,
-                base_confidence
-                + type_diversity_bonus
-                + symbolic_bonus
-                + evidence_strength,
+                base_confidence + type_diversity_bonus + symbolic_bonus + evidence_strength,
             )
 
             weighted_logic[chain_id] = {

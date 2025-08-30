@@ -77,9 +77,7 @@ import numpy as np
 # import matplotlib.pyplot as plt
 # Initialize ΛTRACE logger for this module using structlog
 
-logger.info(
-    "ΛTRACE: Initializing ethical_reasoning_system.py module.", module_path=__file__
-)
+logger.info("ΛTRACE: Initializing ethical_reasoning_system.py module.", module_path=__file__)
 
 
 # Defines the major ethical frameworks that the system can use for moral reasoning.
@@ -89,22 +87,14 @@ class EthicalFramework(Enum):
     """Enumerates major ethical frameworks for moral reasoning and decision analysis."""
 
     DEONTOLOGICAL = auto()  # Duty-based ethics (e.g., Kantian Categorical Imperative).
-    CONSEQUENTIALIST = (
-        auto()
-    )  # Outcome-based ethics (e.g., Utilitarianism - maximizing good).
+    CONSEQUENTIALIST = auto()  # Outcome-based ethics (e.g., Utilitarianism - maximizing good).
     VIRTUE_ETHICS = auto()  # Character-based ethics (e.g., Aristotelian virtues).
-    CARE_ETHICS = (
-        auto()
-    )  # Relationship-focused ethics, emphasizing compassion and empathy.
-    CONTRACTUALISM = (
-        auto()
-    )  # Ethics based on social contract theory (e.g., Scanlon, Rawls).
+    CARE_ETHICS = auto()  # Relationship-focused ethics, emphasizing compassion and empathy.
+    CONTRACTUALISM = auto()  # Ethics based on social contract theory (e.g., Scanlon, Rawls).
     PRINCIPLISM = (
         auto()
     )  # Approach based on a set of core principles (e.g., Beauchamp & Childress).
-    PRAGMATIC_ETHICS = (
-        auto()
-    )  # Context-dependent, practical ethics focusing on problem-solving.
+    PRAGMATIC_ETHICS = auto()  # Context-dependent, practical ethics focusing on problem-solving.
 
 
 logger.debug(
@@ -122,23 +112,13 @@ class MoralPrinciple(Enum):
     AUTONOMY = auto()  # Respect for self-determination and individual choice.
     BENEFICENCE = auto()  # Duty to do good and promote well-being.
     NON_MALEFICENCE = auto()  # Duty to avoid causing harm ("first, do no harm").
-    JUSTICE = (
-        auto()
-    )  # Fairness in distribution of benefits, risks, and costs; impartiality.
+    JUSTICE = auto()  # Fairness in distribution of benefits, risks, and costs; impartiality.
     VERACITY = auto()  # Truthfulness, honesty, and accuracy in communication.
     FIDELITY = auto()  # Faithfulness to commitments, promises, and responsibilities.
-    DIGNITY = (
-        auto()
-    )  # Inherent worth and respect owed to all sentient beings, particularly humans.
-    PRIVACY = (
-        auto()
-    )  # Right to control personal information and be free from intrusion.
-    TRANSPARENCY = (
-        auto()
-    )  # Openness and explainability in processes and decision-making (XAI).
-    ACCOUNTABILITY = (
-        auto()
-    )  # Responsibility for actions, decisions, and their consequences.
+    DIGNITY = auto()  # Inherent worth and respect owed to all sentient beings, particularly humans.
+    PRIVACY = auto()  # Right to control personal information and be free from intrusion.
+    TRANSPARENCY = auto()  # Openness and explainability in processes and decision-making (XAI).
+    ACCOUNTABILITY = auto()  # Responsibility for actions, decisions, and their consequences.
     SUSTAINABILITY = (
         auto()
     )  # Consideration for long-term ecological and societal well-being. # Added
@@ -166,9 +146,7 @@ class StakeholderType(Enum):
     FUTURE_GENERATIONS = auto()  # Long-term impact on those not yet born.
     VULNERABLE_POPULATIONS = auto()  # Groups at higher risk of harm or disadvantage.
     ENVIRONMENT = auto()  # Natural environment and ecological systems.
-    ORGANIZATION_OPERATING_AI = (
-        auto()
-    )  # The entity developing or deploying the AI. # Renamed
+    ORGANIZATION_OPERATING_AI = auto()  # The entity developing or deploying the AI. # Renamed
     REGULATORY_BODIES = auto()  # Governmental and oversight agencies. # Renamed
     AI_SYSTEM_ITSELF = (
         auto()
@@ -188,9 +166,7 @@ logger.debug(
 class EthicalDilemmaType(Enum):
     """Classifies common categories of ethical dilemmas faced by AI systems."""
 
-    RIGHTS_CONFLICT = (
-        auto()
-    )  # Conflict between competing rights of different stakeholders.
+    RIGHTS_CONFLICT = auto()  # Conflict between competing rights of different stakeholders.
     UTILITARIAN_TRADEOFF = (
         auto()
     )  # Dilemma involving maximizing overall good where some harm is unavoidable.
@@ -233,18 +209,14 @@ class MoralJudgment:
     """
 
     judgment_id: str  # Unique identifier for this specific judgment.
-    ethical_question_analyzed: (
-        str  # The ethical question or dilemma being addressed. # Renamed
-    )
+    ethical_question_analyzed: str  # The ethical question or dilemma being addressed. # Renamed
     recommended_action_or_stance: (
         str  # The system's recommended action or ethical stance. # Renamed
     )
     moral_justification_narrative: (
         str  # Detailed textual justification for the recommendation. # Renamed
     )
-    overall_confidence_score: (
-        float  # Confidence in the judgment (normalized 0.0 to 1.0). # Renamed
-    )
+    overall_confidence_score: float  # Confidence in the judgment (normalized 0.0 to 1.0). # Renamed
     identified_uncertainty_factors: list[
         str
     ]  # Factors contributing to uncertainty in the judgment. # Renamed
@@ -263,17 +235,13 @@ class MoralJudgment:
     identified_potential_harms: list[
         dict[str, Any]
     ]  # List of potential harms associated with the recommendation. # Renamed
-    proposed_mitigation_strategies: list[
-        str
-    ]  # Strategies to mitigate identified harms. # Renamed
+    proposed_mitigation_strategies: list[str]  # Strategies to mitigate identified harms. # Renamed
     timestamp_utc: datetime = field(
         default_factory=lambda: datetime.now(timezone.utc)
     )  # Timestamp of judgment creation. # Renamed
 
 
-logger.debug(
-    "ΛTRACE: MoralJudgment Dataclass defined for structured ethical decision output."
-)
+logger.debug("ΛTRACE: MoralJudgment Dataclass defined for structured ethical decision output.")
 
 
 # Represents the system's assessment of its alignment with target human values.
@@ -313,9 +281,7 @@ class ValueAlignmentAssessment:  # Renamed
     )  # Timestamp of the assessment.
 
 
-logger.debug(
-    "ΛTRACE: ValueAlignmentAssessment Dataclass defined for tracking value alignment."
-)
+logger.debug("ΛTRACE: ValueAlignmentAssessment Dataclass defined for tracking value alignment.")
 
 
 # Represents an ethical constraint that the AI system must adhere to.
@@ -334,12 +300,8 @@ class EthicalConstraint:
     # Type or category of the constraint (e.g., "safety", "privacy",
     # "fairness"). # Renamed
     constraint_category: str
-    constraint_description_text: (
-        str  # Human-readable description of the constraint. # Renamed
-    )
-    priority_level_code: (
-        int  # Priority of the constraint (e.g., 1=highest, 10=lowest). # Renamed
-    )
+    constraint_description_text: str  # Human-readable description of the constraint. # Renamed
+    priority_level_code: int  # Priority of the constraint (e.g., 1=highest, 10=lowest). # Renamed
     # True if violating this constraint is absolutely forbidden under normal
     # circumstances. # Renamed
     is_hard_constraint: bool
@@ -359,9 +321,7 @@ class EthicalConstraint:
     )
 
 
-logger.debug(
-    "ΛTRACE: EthicalConstraint Dataclass defined for rule-based ethical guidance."
-)
+logger.debug("ΛTRACE: EthicalConstraint Dataclass defined for rule-based ethical guidance.")
 
 
 # ΛNOTE: Implements duty-based (Kantian) ethical reasoning, focusing on rules, duties, and universalizability.
@@ -412,7 +372,7 @@ class DeontologicalReasoner:
 
         Evaluate action using deontological principles.
         """
-        req_id = f"deont_eval_{int(time.time()*1000)}"
+        req_id = f"deont_eval_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Starting deontological evaluation for action: '{proposed_action}', maxim: '{maxim}'."
         )
@@ -430,9 +390,7 @@ class DeontologicalReasoner:
             f"ΛTRACE ({req_id}): Universal law test result: {universal_law_result.get('passes')}"
         )
 
-        humanity_test_result = await self._humanity_formula_test(
-            proposed_action, context
-        )
+        humanity_test_result = await self._humanity_formula_test(proposed_action, context)
         evaluation["evaluations"]["humanity_formula"] = humanity_test_result
         self.logger.debug(
             f"ΛTRACE ({req_id}): Humanity formula test result: {humanity_test_result.get('passes')}"
@@ -463,16 +421,10 @@ class DeontologicalReasoner:
         )
         return evaluation
 
-    async def _universal_law_test(
-        self, maxim: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
-        self.logger.debug(
-            f"ΛTRACE: Performing universal law test for maxim: '{maxim}'."
-        )
+    async def _universal_law_test(self, maxim: str, context: dict[str, Any]) -> dict[str, Any]:
+        self.logger.debug(f"ΛTRACE: Performing universal law test for maxim: '{maxim}'.")
         logical_contradiction = await self._check_logical_contradiction(maxim)
-        practical_contradiction = await self._check_practical_contradiction(
-            maxim, context
-        )
+        practical_contradiction = await self._check_practical_contradiction(maxim, context)
         passes = not (logical_contradiction or practical_contradiction)
         self.logger.debug(
             f"ΛTRACE: Universal law test - Logical contradiction: {logical_contradiction}, Practical: {practical_contradiction}, Passes: {passes}"
@@ -488,9 +440,7 @@ class DeontologicalReasoner:
         }
 
     async def _check_logical_contradiction(self, maxim: str) -> bool:
-        self.logger.debug(
-            f"ΛTRACE: Checking logical contradiction for maxim: '{maxim}'."
-        )
+        self.logger.debug(f"ΛTRACE: Checking logical contradiction for maxim: '{maxim}'.")
         # ... (original logic)
         contradiction_patterns = [
             ("lie", "truth"),
@@ -506,12 +456,8 @@ class DeontologicalReasoner:
                 return True
         return False
 
-    async def _check_practical_contradiction(
-        self, maxim: str, context: dict[str, Any]
-    ) -> bool:
-        self.logger.debug(
-            f"ΛTRACE: Checking practical contradiction for maxim: '{maxim}'."
-        )
+    async def _check_practical_contradiction(self, maxim: str, context: dict[str, Any]) -> bool:
+        self.logger.debug(f"ΛTRACE: Checking practical contradiction for maxim: '{maxim}'.")
         # ... (original logic)
         maxim_lower = maxim.lower()
         if "deceive" in maxim_lower or "lie" in maxim_lower:
@@ -530,12 +476,8 @@ class DeontologicalReasoner:
         else:
             return f"'{maxim}' can be consistently universalized"
 
-    async def _humanity_formula_test(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
-        self.logger.debug(
-            f"ΛTRACE: Performing humanity formula test for action: '{action}'."
-        )
+    async def _humanity_formula_test(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
+        self.logger.debug(f"ΛTRACE: Performing humanity formula test for action: '{action}'.")
         # ... (original logic)
         treats_as_means_only = await self._check_treats_as_means_only(action, context)
         respects_autonomy = await self._check_respects_autonomy(action, context)
@@ -548,17 +490,11 @@ class DeontologicalReasoner:
             "passes": passes,
             "treats_as_means_only": treats_as_means_only,
             "respects_autonomy": respects_autonomy,
-            "reasoning": self._generate_humanity_reasoning(
-                treats_as_means_only, respects_autonomy
-            ),
+            "reasoning": self._generate_humanity_reasoning(treats_as_means_only, respects_autonomy),
         }
 
-    async def _check_treats_as_means_only(
-        self, action: str, context: dict[str, Any]
-    ) -> bool:
-        self.logger.debug(
-            f"ΛTRACE: Checking if action '{action}' treats as means only."
-        )
+    async def _check_treats_as_means_only(self, action: str, context: dict[str, Any]) -> bool:
+        self.logger.debug(f"ΛTRACE: Checking if action '{action}' treats as means only.")
         # ... (original logic)
         action_lower = action.lower()
         means_only_indicators = [
@@ -570,9 +506,7 @@ class DeontologicalReasoner:
         ]
         return any(indicator in action_lower for indicator in means_only_indicators)
 
-    async def _check_respects_autonomy(
-        self, action: str, context: dict[str, Any]
-    ) -> bool:
+    async def _check_respects_autonomy(self, action: str, context: dict[str, Any]) -> bool:
         self.logger.debug(f"ΛTRACE: Checking if action '{action}' respects autonomy.")
         # ... (original logic)
         autonomy_indicators = [
@@ -595,12 +529,8 @@ class DeontologicalReasoner:
         else:
             return "Action treats people as ends in themselves and respects autonomy"
 
-    async def _kingdom_of_ends_test(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
-        self.logger.debug(
-            f"ΛTRACE: Performing kingdom of ends test for action: '{action}'."
-        )
+    async def _kingdom_of_ends_test(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
+        self.logger.debug(f"ΛTRACE: Performing kingdom of ends test for action: '{action}'.")
         # ... (original logic)
         rational_legislation = await self._check_rational_legislation(action, context)
         promotes_dignity = await self._check_promotes_dignity(action, context)
@@ -613,17 +543,11 @@ class DeontologicalReasoner:
             "passes": passes,
             "rational_legislation": rational_legislation,
             "promotes_dignity": promotes_dignity,
-            "reasoning": self._generate_kingdom_reasoning(
-                rational_legislation, promotes_dignity
-            ),
+            "reasoning": self._generate_kingdom_reasoning(rational_legislation, promotes_dignity),
         }
 
-    async def _check_rational_legislation(
-        self, action: str, context: dict[str, Any]
-    ) -> bool:
-        self.logger.debug(
-            f"ΛTRACE: Checking rational legislation for action: '{action}'."
-        )
+    async def _check_rational_legislation(self, action: str, context: dict[str, Any]) -> bool:
+        self.logger.debug(f"ΛTRACE: Checking rational legislation for action: '{action}'.")
         # ... (original logic)
         action_lower = action.lower()
         positive_actions = ["help", "protect", "respect", "educate", "heal"]
@@ -632,9 +556,7 @@ class DeontologicalReasoner:
             return True
         return not any(neg in action_lower for neg in negative_actions)
 
-    async def _check_promotes_dignity(
-        self, action: str, context: dict[str, Any]
-    ) -> bool:
+    async def _check_promotes_dignity(self, action: str, context: dict[str, Any]) -> bool:
         self.logger.debug(f"ΛTRACE: Checking if action '{action}' promotes dignity.")
         # ... (original logic)
         dignity_indicators = [
@@ -657,9 +579,7 @@ class DeontologicalReasoner:
         else:
             return "Action would be acceptable in a kingdom of ends"
 
-    async def _analyze_duty_conflicts(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _analyze_duty_conflicts(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
         self.logger.debug(f"ΛTRACE: Analyzing duty conflicts for action: '{action}'.")
         # ... (original logic)
         relevant_duties = self._identify_relevant_duties(action, context)
@@ -674,12 +594,8 @@ class DeontologicalReasoner:
             "resolution": resolution,
         }
 
-    def _identify_relevant_duties(
-        self, action: str, context: dict[str, Any]
-    ) -> list[str]:
-        self.logger.debug(
-            f"ΛTRACE: Identifying relevant duties for action: '{action}'."
-        )
+    def _identify_relevant_duties(self, action: str, context: dict[str, Any]) -> list[str]:
+        self.logger.debug(f"ΛTRACE: Identifying relevant duties for action: '{action}'.")
         # ... (original logic)
         action_lower = action.lower()
         relevant_duties = []
@@ -707,9 +623,7 @@ class DeontologicalReasoner:
         conflicts = []
         for duty1, duty2 in conflict_patterns:
             if duty1 in duties and duty2 in duties:
-                conflicts.append(
-                    {"duty1": duty1, "duty2": duty2, "type": "principle_conflict"}
-                )
+                conflicts.append({"duty1": duty1, "duty2": duty2, "type": "principle_conflict"})
         return conflicts
 
     def _resolve_duty_conflicts(self, conflicts: list[dict[str, str]]) -> str:
@@ -791,7 +705,7 @@ class ConsequentialistReasoner:
 
         Evaluate action using consequentialist principles.
         """
-        req_id = f"conseq_eval_{int(time.time()*1000)}"
+        req_id = f"conseq_eval_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Starting consequentialist evaluation for action: '{proposed_action}'. Alternatives: {alternatives}"
         )
@@ -806,9 +720,7 @@ class ConsequentialistReasoner:
         }
         action_utilities = {}
 
-        for (
-            alt_action
-        ) in alternatives:  # Renamed 'action' to 'alt_action' to avoid conflict
+        for alt_action in alternatives:  # Renamed 'action' to 'alt_action' to avoid conflict
             utility_scores = await self._calculate_action_utility(alt_action, context)
             action_utilities[alt_action] = utility_scores
             self.logger.debug(
@@ -818,9 +730,7 @@ class ConsequentialistReasoner:
         evaluation["utility_calculations"] = action_utilities
         best_action = await self._determine_optimal_action(action_utilities)
         evaluation["recommended_action"] = best_action
-        evaluation["confidence"] = self._calculate_consequentialist_confidence(
-            action_utilities
-        )
+        evaluation["confidence"] = self._calculate_consequentialist_confidence(action_utilities)
         evaluation["justification"] = self._generate_utilitarian_justification(
             proposed_action, best_action, action_utilities
         )
@@ -861,9 +771,7 @@ class ConsequentialistReasoner:
         self.logger.debug(f"ΛTRACE: Utility scores for '{action}': {utility_scores}")
         return utility_scores
 
-    async def _predict_consequences(
-        self, action: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _predict_consequences(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
         self.logger.debug(f"ΛTRACE: Predicting consequences for action: '{action}'.")
         # ... (original logic with added logging for key predictions)
         consequences = {
@@ -915,9 +823,7 @@ class ConsequentialistReasoner:
         preference_satisfaction = 0.0
         for _stakeholder, preferences in stakeholder_preferences.items():
             for preference, strength in preferences.items():
-                satisfaction_level = self._check_preference_satisfaction(
-                    preference, consequences
-                )
+                satisfaction_level = self._check_preference_satisfaction(preference, consequences)
                 preference_satisfaction += satisfaction_level * strength
         return preference_satisfaction
 
@@ -926,9 +832,7 @@ class ConsequentialistReasoner:
     def _check_preference_satisfaction(
         self, preference: str, consequences: dict[str, Any]
     ) -> float:
-        self.logger.debug(
-            f"ΛTRACE: Checking preference satisfaction for '{preference}'."
-        )
+        self.logger.debug(f"ΛTRACE: Checking preference satisfaction for '{preference}'.")
         # ... (original logic)
         preference_lower = preference.lower()
         all_effects = {
@@ -996,11 +900,7 @@ class ConsequentialistReasoner:
                 if self._affects_capability(effect, capability):
                     capability_impact += value
             capability_score += max(capability_impact, -1.0)
-        return (
-            capability_score / len(central_capabilities)
-            if central_capabilities
-            else 0.0
-        )
+        return capability_score / len(central_capabilities) if central_capabilities else 0.0
 
     def _affects_capability(self, effect: str, capability: str) -> bool:
         # self.logger.debug(f"ΛTRACE: Checking if effect '{effect}' affects capability '{capability}'.") # Too verbose for loop
@@ -1042,9 +942,7 @@ class ConsequentialistReasoner:
     # ΛNOTE: This method embodies the core decision rule of utilitarianism: selecting the action
     # with the highest aggregate utility. The weighting of different utility types
     # (classical, preference, etc.) is a critical symbolic parameter here.
-    async def _determine_optimal_action(
-        self, action_utilities: dict[str, dict[str, float]]
-    ) -> str:
+    async def _determine_optimal_action(self, action_utilities: dict[str, dict[str, float]]) -> str:
         self.logger.debug("ΛTRACE: Determining optimal action from utilities.")
         # ... (original logic)
         action_scores = {}
@@ -1057,9 +955,7 @@ class ConsequentialistReasoner:
             )
             action_scores[action] = combined_score
         optimal_action = (
-            max(action_scores.items(), key=lambda x: x[1])[0]
-            if action_scores
-            else "do_nothing"
+            max(action_scores.items(), key=lambda x: x[1])[0] if action_scores else "do_nothing"
         )  # Added default
         self.logger.debug(
             f"ΛTRACE: Optimal action determined: '{optimal_action}'. Scores: {action_scores}"
@@ -1099,14 +995,12 @@ class ConsequentialistReasoner:
         self.logger.debug("ΛTRACE: Generating utilitarian justification.")
         # ... (original logic)
         if proposed_action == recommended_action:
-            utility_score = action_utilities.get(proposed_action, {}).get(
-                "classical_util", 0
+            utility_score = action_utilities.get(proposed_action, {}).get("classical_util", 0)
+            return (
+                f"Action '{proposed_action}' maximizes overall utility (score: {utility_score:.2f})"
             )
-            return f"Action '{proposed_action}' maximizes overall utility (score: {utility_score:.2f})"
         else:
-            proposed_utility = action_utilities.get(proposed_action, {}).get(
-                "classical_util", 0
-            )
+            proposed_utility = action_utilities.get(proposed_action, {}).get("classical_util", 0)
             recommended_utility = action_utilities.get(recommended_action, {}).get(
                 "classical_util", 0
             )
@@ -1172,7 +1066,7 @@ class ValueAlignmentSystem:
 
         Learn values from human feedback on decisions.
         """
-        req_id = f"valign_learn_{int(time.time()*1000)}"
+        req_id = f"valign_learn_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Learning from feedback. Action: '{action_taken}', Feedback type: {feedback.get('type')}"
         )
@@ -1182,17 +1076,11 @@ class ValueAlignmentSystem:
         values_before_update = self.learned_values.copy()
 
         if feedback_type == "rating":
-            await self._learn_from_rating_feedback(
-                decision_context, action_taken, feedback
-            )
+            await self._learn_from_rating_feedback(decision_context, action_taken, feedback)
         elif feedback_type == "preference":
-            await self._learn_from_preference_feedback(
-                decision_context, action_taken, feedback
-            )
+            await self._learn_from_preference_feedback(decision_context, action_taken, feedback)
         elif feedback_type == "correction":
-            await self._learn_from_correction_feedback(
-                decision_context, action_taken, feedback
-            )
+            await self._learn_from_correction_feedback(decision_context, action_taken, feedback)
         else:
             self.logger.warning(
                 f"ΛTRACE ({req_id}): Unknown feedback type '{feedback_type}'. No learning applied."
@@ -1227,9 +1115,7 @@ class ValueAlignmentSystem:
         relevant_values = self._identify_relevant_values(context, action)
         learning_rate = 0.01 * confidence
         for value_name in relevant_values:  # Renamed 'value' to 'value_name'
-            original_val = self.learned_values.get(
-                value_name, 0.5
-            )  # Get current or default
+            original_val = self.learned_values.get(value_name, 0.5)  # Get current or default
             if rating > 0:
                 self.learned_values[value_name] = original_val + learning_rate * rating
                 self.value_uncertainty[value_name] = (
@@ -1240,9 +1126,7 @@ class ValueAlignmentSystem:
                 self.value_uncertainty[value_name] = (
                     self.value_uncertainty.get(value_name, 0.2) * 1.05
                 )
-            self.learned_values[value_name] = np.clip(
-                self.learned_values[value_name], 0.0, 1.0
-            )
+            self.learned_values[value_name] = np.clip(self.learned_values[value_name], 0.0, 1.0)
             self.logger.debug(
                 f"ΛTRACE: Value '{value_name}' updated from {original_val:.3f} to {self.learned_values[value_name]:.3f} based on rating."
             )
@@ -1267,24 +1151,16 @@ class ValueAlignmentSystem:
         for value_name in preferred_values:
             original_val = self.learned_values.get(value_name, 0.5)
             self.learned_values[value_name] = original_val + learning_rate
-            self.value_uncertainty[value_name] = (
-                self.value_uncertainty.get(value_name, 0.2) * 0.98
-            )
-            self.learned_values[value_name] = np.clip(
-                self.learned_values[value_name], 0.0, 1.0
-            )
+            self.value_uncertainty[value_name] = self.value_uncertainty.get(value_name, 0.2) * 0.98
+            self.learned_values[value_name] = np.clip(self.learned_values[value_name], 0.0, 1.0)
             self.logger.debug(
                 f"ΛTRACE: Value '{value_name}' (preferred) updated from {original_val:.3f} to {self.learned_values[value_name]:.3f}."
             )
         for value_name in rejected_values:
             original_val = self.learned_values.get(value_name, 0.5)
             self.learned_values[value_name] = original_val - learning_rate * 0.5
-            self.value_uncertainty[value_name] = (
-                self.value_uncertainty.get(value_name, 0.2) * 1.02
-            )
-            self.learned_values[value_name] = np.clip(
-                self.learned_values[value_name], 0.0, 1.0
-            )
+            self.value_uncertainty[value_name] = self.value_uncertainty.get(value_name, 0.2) * 1.02
+            self.learned_values[value_name] = np.clip(self.learned_values[value_name], 0.0, 1.0)
             self.logger.debug(
                 f"ΛTRACE: Value '{value_name}' (rejected) updated from {original_val:.3f} to {self.learned_values[value_name]:.3f}."
             )
@@ -1299,9 +1175,7 @@ class ValueAlignmentSystem:
         correct_action = feedback.get("correct_action")
         explanation = feedback.get("explanation", "")
         if not correct_action:
-            self.logger.warning(
-                "ΛTRACE: No correct action provided in correction feedback."
-            )
+            self.logger.warning("ΛTRACE: No correct action provided in correction feedback.")
             return
 
         value_mentions = self._extract_values_from_text(explanation)
@@ -1311,9 +1185,7 @@ class ValueAlignmentSystem:
                 original_val = self.learned_values[value_name]
                 self.learned_values[value_name] += learning_rate * importance
                 self.value_uncertainty[value_name] *= 0.9
-                self.learned_values[value_name] = np.clip(
-                    self.learned_values[value_name], 0.0, 1.0
-                )
+                self.learned_values[value_name] = np.clip(self.learned_values[value_name], 0.0, 1.0)
                 self.logger.debug(
                     f"ΛTRACE: Value '{value_name}' updated from {original_val:.3f} to {self.learned_values[value_name]:.3f} based on correction."
                 )
@@ -1322,12 +1194,8 @@ class ValueAlignmentSystem:
                     f"ΛTRACE: Value '{value_name}' mentioned in correction not in learned values. It may need to be added to core_human_values."
                 )
 
-    def _identify_relevant_values(
-        self, context: dict[str, Any], action: str
-    ) -> list[str]:
-        self.logger.debug(
-            f"ΛTRACE: Identifying relevant values for context/action: '{action}'."
-        )
+    def _identify_relevant_values(self, context: dict[str, Any], action: str) -> list[str]:
+        self.logger.debug(f"ΛTRACE: Identifying relevant values for context/action: '{action}'.")
         # ... (original logic)
         relevant_values = []
         action_lower = action.lower()
@@ -1392,9 +1260,7 @@ class ValueAlignmentSystem:
             self.logger.debug(
                 "ΛTRACE: No significant value drift detected. Updates applied as learned."
             )
-        learning_event["values_after"] = (
-            self.learned_values.copy()
-        )  # Ensure this is set
+        learning_event["values_after"] = self.learned_values.copy()  # Ensure this is set
 
     # ΛNOTE: This method implements a symbolic check for ethical drift by comparing recent changes
     # in learned values against a threshold. It's a basic form of meta-ethical monitoring.
@@ -1409,9 +1275,7 @@ class ValueAlignmentSystem:
         total_change = 0.0
         for event in recent_events:
             values_before = event.get("values_before", {})
-            values_after = event.get(
-                "values_after", {}
-            )  # Should be set by _apply_value_updates
+            values_after = event.get("values_after", {})  # Should be set by _apply_value_updates
             if not values_after:  # Add a check if values_after is None
                 self.logger.warning(
                     f"ΛTRACE: 'values_after' is None for a recent event. Skipping this event for drift calculation. Event: {event.get('timestamp')}"
@@ -1419,9 +1283,7 @@ class ValueAlignmentSystem:
                 continue
             for value_name in values_before:
                 if value_name in values_after:
-                    total_change += abs(
-                        values_after[value_name] - values_before[value_name]
-                    )
+                    total_change += abs(values_after[value_name] - values_before[value_name])
         drift_threshold = 0.5
         is_drifting = total_change > drift_threshold
         self.logger.debug(
@@ -1439,9 +1301,7 @@ class ValueAlignmentSystem:
                 alignment_score += 1.0 - abs(learned_weight - core_weight)
                 total_values_compared += 1
         self.alignment_metrics["core_value_alignment"] = (
-            alignment_score / total_values_compared
-            if total_values_compared > 0
-            else 0.0
+            alignment_score / total_values_compared if total_values_compared > 0 else 0.0
         )
         self.logger.debug(
             f"ΛTRACE: Core value alignment: {self.alignment_metrics['core_value_alignment']:.3f}"
@@ -1467,8 +1327,7 @@ class ValueAlignmentSystem:
                     continue
 
                 total_event_change = sum(
-                    abs(values_after.get(v, 0) - values_before.get(v, 0))
-                    for v in values_before
+                    abs(values_after.get(v, 0) - values_before.get(v, 0)) for v in values_before
                 )
                 recent_changes.append(total_event_change)
 
@@ -1479,17 +1338,13 @@ class ValueAlignmentSystem:
                     f"ΛTRACE: Value stability: {self.alignment_metrics['value_stability']:.3f}"
                 )
             else:
-                self.alignment_metrics["value_stability"] = (
-                    0.0  # Default if no changes or values
-                )
+                self.alignment_metrics["value_stability"] = 0.0  # Default if no changes or values
                 self.logger.debug(
                     "ΛTRACE: Value stability set to 0.0 due to no recent changes or learned values."
                 )
 
         avg_uncertainty = (
-            np.mean(list(self.value_uncertainty.values()))
-            if self.value_uncertainty
-            else 0.0
+            np.mean(list(self.value_uncertainty.values())) if self.value_uncertainty else 0.0
         )
         self.alignment_metrics["value_certainty"] = 1.0 - avg_uncertainty
         self.logger.debug(
@@ -1509,7 +1364,7 @@ class ValueAlignmentSystem:
 
         Assess current value alignment for a decision context.
         """
-        req_id = f"valign_assess_{int(time.time()*1000)}"
+        req_id = f"valign_assess_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Assessing value alignment for context: {str(decision_context)[:100]}..."
         )
@@ -1586,15 +1441,11 @@ class ValueAlignmentSystem:
                 risks.append(f"High uncertainty in critical value '{value_name}'")
         if self.alignment_metrics.get("value_stability", 1.0) < 0.6:
             risks.append("Unstable value learning - rapid recent changes detected")
-        self.logger.debug(
-            f"ΛTRACE: Identified {len(risks)} misalignment risks: {risks}"
-        )
+        self.logger.debug(f"ΛTRACE: Identified {len(risks)} misalignment risks: {risks}")
         return risks
 
     def _suggest_alignment_interventions(self, risks: list[str]) -> list[str]:
-        self.logger.debug(
-            f"ΛTRACE: Suggesting alignment interventions for {len(risks)} risks."
-        )
+        self.logger.debug(f"ΛTRACE: Suggesting alignment interventions for {len(risks)} risks.")
         # ... (original logic)
         interventions = []
         if any("drifted significantly" in risk for risk in risks):
@@ -1648,9 +1499,9 @@ class EthicalReasoningSystem:
         self.moral_judgments: list[MoralJudgment] = []
         self.active_constraints: list[EthicalConstraint] = []
         self._initialize_default_constraints()
-        self.cultural_contexts: dict[str, dict[str, Any]] = (
-            {}
-        )  # Example: {"western": {"privacy_emphasis": "high"}}
+        self.cultural_contexts: dict[
+            str, dict[str, Any]
+        ] = {}  # Example: {"western": {"privacy_emphasis": "high"}}
         self.ethical_drift_detector = self._initialize_drift_detector()
         self.logger.debug("ΛTRACE: EthicalReasoningSystem instance fully initialized.")
 
@@ -1705,9 +1556,7 @@ class EthicalReasoningSystem:
             self.logger.debug(
                 f"ΛTRACE: Added default constraint: {id}, Priority: {prio}, Hard: {hard}"
             )
-        self.active_constraints.sort(
-            key=lambda c: c.priority_level_code
-        )  # Corrected sort key
+        self.active_constraints.sort(key=lambda c: c.priority_level_code)  # Corrected sort key
 
     # ΛNOTE: Initializes the ethical drift detector mechanism, crucial for monitoring long-term
     # stability of the AGI's ethical reasoning.
@@ -1740,27 +1589,21 @@ class EthicalReasoningSystem:
 
         Make comprehensive ethical judgment using multiple frameworks.
         """
-        req_id = f"ers_judge_{int(time.time()*1000)}"
+        req_id = f"ers_judge_{int(time.time() * 1000)}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Making ethical judgment for question: '{ethical_question}'. Context keys: {list(context.keys())}"
         )
         judgment_id = str(uuid.uuid4())
 
-        constraint_violations = await self._check_ethical_constraints(
-            ethical_question, context
-        )
-        if constraint_violations and any(
-            v["hard_constraint"] for v in constraint_violations
-        ):
+        constraint_violations = await self._check_ethical_constraints(ethical_question, context)
+        if constraint_violations and any(v["hard_constraint"] for v in constraint_violations):
             self.logger.warning(
                 f"ΛTRACE ({req_id}): Hard constraint violated. Creating immediate judgment."
             )
             judgment = self._create_constraint_violation_judgment(
                 judgment_id, ethical_question, constraint_violations
             )
-            self.moral_judgments.append(
-                judgment
-            )  # Store even constraint violation judgments
+            self.moral_judgments.append(judgment)  # Store even constraint violation judgments
             return judgment
 
         framework_analyses = {}
@@ -1774,9 +1617,7 @@ class EthicalReasoningSystem:
                 f"ΛTRACE ({req_id}): Deontological analysis complete. Verdict: {deont_analysis.get('verdict')}"
             )
 
-            alternatives = context.get(
-                "alternatives", []
-            )  # Ensure alternatives is a list
+            alternatives = context.get("alternatives", [])  # Ensure alternatives is a list
             if not isinstance(alternatives, list):
                 alternatives = []
             conseq_analysis = await self.consequentialist_reasoner.evaluate_action(
@@ -1791,9 +1632,7 @@ class EthicalReasoningSystem:
                 f"ΛTRACE ({req_id}): 'proposed_action' missing in context. Skipping framework analyses that depend on it."
             )
 
-        alignment_assessment = await self.value_alignment_system.assess_alignment(
-            context
-        )
+        alignment_assessment = await self.value_alignment_system.assess_alignment(context)
         self.logger.debug(
             f"ΛTRACE ({req_id}): Value alignment assessment score: {alignment_assessment.alignment_score:.2f}"
         )
@@ -1867,9 +1706,7 @@ class EthicalReasoningSystem:
                 self.logger.warning(
                     f"ΛTRACE: Ethical constraint VIOLATED: {constraint.constraint_id} by action '{proposed_action}'. Hard: {constraint.hard_constraint}"
                 )
-        self.logger.debug(
-            f"ΛTRACE: Found {len(violations)} ethical constraint violations."
-        )
+        self.logger.debug(f"ΛTRACE: Found {len(violations)} ethical constraint violations.")
         return violations
 
     async def _evaluate_constraint_violation(
@@ -1898,9 +1735,7 @@ class EthicalReasoningSystem:
                 str(context.get("cultural_context", "")).lower()
                 + str(context.get("emergency_status", "")).lower()
             )  # Example context fields
-            if not any(
-                exception.replace("_", " ") in context_str for exception in exceptions
-            ):
+            if not any(exception.replace("_", " ") in context_str for exception in exceptions):
                 self.logger.debug(
                     f"ΛTRACE: Constraint '{constraint.constraint_id}' violated by pattern, no exception applies."
                 )
@@ -1926,8 +1761,7 @@ class EthicalReasoningSystem:
         )
         confidence = 0.95 if hard_violations else 0.7
         violation_descs = [
-            v.get("explanation", v.get("description", "Unknown violation"))
-            for v in violations
+            v.get("explanation", v.get("description", "Unknown violation")) for v in violations
         ]  # Use explanation or description
         justification = "Ethical constraints violated: " + "; ".join(violation_descs)
 
@@ -1966,16 +1800,10 @@ class EthicalReasoningSystem:
         for stakeholder in identified_stakeholders:
             stakeholder_impacts[stakeholder] = {
                 "affected": True,
-                "impact_magnitude": self._estimate_impact_magnitude(
-                    stakeholder, context
-                ),
+                "impact_magnitude": self._estimate_impact_magnitude(stakeholder, context),
                 "impact_valence": self._estimate_impact_valence(stakeholder, context),
-                "specific_impacts": self._identify_specific_impacts(
-                    stakeholder, context
-                ),
-                "mitigation_needs": self._identify_mitigation_needs(
-                    stakeholder, context
-                ),
+                "specific_impacts": self._identify_specific_impacts(stakeholder, context),
+                "mitigation_needs": self._identify_mitigation_needs(stakeholder, context),
             }
         self.logger.debug(
             f"ΛTRACE: Stakeholder impact analysis complete for {len(stakeholder_impacts)} types."
@@ -2004,13 +1832,16 @@ class EthicalReasoningSystem:
         # self.logger.debug(f"ΛTRACE: Estimating impact valence for {stakeholder.name}.") # Potentially verbose
         # ... (original logic)
         proposed_action = context.get("proposed_action", "").lower()
-        positive_indicators, negative_indicators = [
-            "help",
-            "benefit",
-            "support",
-            "improve",
-            "assist",
-        ], ["harm", "hurt", "damage", "reduce", "limit"]
+        positive_indicators, negative_indicators = (
+            [
+                "help",
+                "benefit",
+                "support",
+                "improve",
+                "assist",
+            ],
+            ["harm", "hurt", "damage", "reduce", "limit"],
+        )
         pos_score = sum(1 for ind in positive_indicators if ind in proposed_action)
         neg_score = sum(1 for ind in negative_indicators if ind in proposed_action)
         if pos_score > neg_score:
@@ -2064,18 +1895,12 @@ class EthicalReasoningSystem:
         if isinstance(cultural_context_data, dict):  # Ensure it's a dict
             for culture, details in cultural_context_data.items():
                 if "religious" in str(details).lower():
-                    considerations.append(
-                        f"Religious considerations for {culture} context"
-                    )
+                    considerations.append(f"Religious considerations for {culture} context")
                 if "traditional" in str(details).lower():
-                    considerations.append(
-                        f"Traditional value considerations for {culture} context"
-                    )
+                    considerations.append(f"Traditional value considerations for {culture} context")
         if not considerations:
             considerations.append("Apply culturally neutral ethical principles")
-        self.logger.debug(
-            f"ΛTRACE: Cultural sensitivity considerations: {considerations}"
-        )
+        self.logger.debug(f"ΛTRACE: Cultural sensitivity considerations: {considerations}")
         return considerations
 
     def _identify_uncertainty_factors(
@@ -2106,9 +1931,7 @@ class EthicalReasoningSystem:
             uncertainty_factors.append("incomplete_information")
         if context.get("novel_situation", False):
             uncertainty_factors.append("novel_ethical_territory")
-        self.logger.debug(
-            f"ΛTRACE: Identified uncertainty factors: {uncertainty_factors}"
-        )
+        self.logger.debug(f"ΛTRACE: Identified uncertainty factors: {uncertainty_factors}")
         return uncertainty_factors
 
     async def _synthesize_moral_judgment(
@@ -2128,9 +1951,7 @@ class EthicalReasoningSystem:
         recommended_action = await self._determine_recommended_action(
             framework_analyses, constraint_violations, context
         )
-        self.logger.debug(
-            f"ΛTRACE: Synthesized recommended action: '{recommended_action}'."
-        )
+        self.logger.debug(f"ΛTRACE: Synthesized recommended action: '{recommended_action}'.")
         justification = await self._generate_moral_justification(
             recommended_action,
             framework_analyses,
@@ -2143,9 +1964,7 @@ class EthicalReasoningSystem:
         self.logger.debug(f"ΛTRACE: Synthesized confidence: {confidence:.2f}.")
         principle_weights = self._extract_principle_weights(framework_analyses, context)
         framework_consensus = self._calculate_framework_consensus(framework_analyses)
-        potential_harms = self._identify_potential_harms(
-            stakeholder_analysis, framework_analyses
-        )
+        potential_harms = self._identify_potential_harms(stakeholder_analysis, framework_analyses)
         mitigation_strategies = self._generate_mitigation_strategies(
             potential_harms, constraint_violations, stakeholder_analysis
         )
@@ -2164,9 +1983,7 @@ class EthicalReasoningSystem:
             potential_harms=potential_harms,
             mitigation_strategies=mitigation_strategies,
         )
-        self.logger.info(
-            f"ΛTRACE: Moral judgment synthesis complete (ID: {judgment.judgment_id})."
-        )
+        self.logger.info(f"ΛTRACE: Moral judgment synthesis complete (ID: {judgment.judgment_id}).")
         return judgment
 
     async def _determine_recommended_action(
@@ -2175,9 +1992,7 @@ class EthicalReasoningSystem:
         constraint_violations: list[dict[str, Any]],
         context: dict[str, Any],
     ) -> str:
-        self.logger.debug(
-            "ΛTRACE: Determining recommended action from framework analyses."
-        )
+        self.logger.debug("ΛTRACE: Determining recommended action from framework analyses.")
         # ... (original logic)
         if any(v.get("hard_constraint") for v in constraint_violations):
             return "DO NOT PROCEED - Hard ethical constraints violated"
@@ -2195,9 +2010,7 @@ class EthicalReasoningSystem:
                     "recommended_action", context.get("proposed_action", "PROCEED")
                 )
 
-        proceed_count = sum(
-            1 for rec in framework_recs.values() if "DO NOT PROCEED" not in rec
-        )
+        proceed_count = sum(1 for rec in framework_recs.values() if "DO NOT PROCEED" not in rec)
         if not framework_recs:  # Handle case where no framework analyses are available
             self.logger.warning(
                 "ΛTRACE: No framework analyses available to determine recommended action. Defaulting to 'PROCEED WITH CAUTION'."
@@ -2223,19 +2036,11 @@ class EthicalReasoningSystem:
         parts = []  # Renamed
         for framework, analysis in framework_analyses.items():
             if framework == EthicalFramework.DEONTOLOGICAL:
-                parts.append(
-                    f"Deontological analysis: {analysis.get('verdict', 'uncertain')}"
-                )
+                parts.append(f"Deontological analysis: {analysis.get('verdict', 'uncertain')}")
             elif framework == EthicalFramework.CONSEQUENTIALIST:
-                parts.append(
-                    analysis.get("justification", "Consequentialist analysis conducted")
-                )
-        parts.append(
-            f"Value alignment score: {alignment_assessment.alignment_score:.2f}"
-        )
-        parts.append(
-            f"Considered impacts on {len(stakeholder_analysis)} stakeholder groups"
-        )
+                parts.append(analysis.get("justification", "Consequentialist analysis conducted"))
+        parts.append(f"Value alignment score: {alignment_assessment.alignment_score:.2f}")
+        parts.append(f"Considered impacts on {len(stakeholder_analysis)} stakeholder groups")
         return ". ".join(parts)
 
     def _calculate_overall_confidence(
@@ -2277,9 +2082,7 @@ class EthicalReasoningSystem:
                 weights[MoralPrinciple.JUSTICE] += 0.1
         total_weight = sum(weights.values())
         normalized_weights = (
-            {p: w / total_weight for p, w in weights.items()}
-            if total_weight > 0
-            else weights
+            {p: w / total_weight for p, w in weights.items()} if total_weight > 0 else weights
         )
         self.logger.debug(
             f"ΛTRACE: Extracted principle weights (sample): AUTONOMY={normalized_weights.get(MoralPrinciple.AUTONOMY, 0):.2f}"
@@ -2370,10 +2173,7 @@ class EthicalReasoningSystem:
             mitigation_needs = analysis.get("mitigation_needs", [])
             if mitigation_needs:
                 strategies.extend(
-                    [
-                        f"Address {need} for {stakeholder.name}"
-                        for need in mitigation_needs
-                    ]
+                    [f"Address {need} for {stakeholder.name}" for need in mitigation_needs]
                 )
         if not strategies:
             strategies.extend(
@@ -2383,9 +2183,7 @@ class EthicalReasoningSystem:
                 ]
             )
         unique_strategies = list(set(strategies))
-        self.logger.debug(
-            f"ΛTRACE: Generated {len(unique_strategies)} mitigation strategies."
-        )
+        self.logger.debug(f"ΛTRACE: Generated {len(unique_strategies)} mitigation strategies.")
         return unique_strategies
 
     # ΛNOTE: This method monitors for ethical drift by analyzing trends in recent moral judgments.
@@ -2399,18 +2197,12 @@ class EthicalReasoningSystem:
         )
         # ... (original logic with logging for drift detection)
         self.ethical_drift_detector["recent_judgments"].append(judgment)
-        if (
-            len(self.ethical_drift_detector["recent_judgments"]) >= 20
-        ):  # Ensure enough data points
-            recent_judgments_list = list(
-                self.ethical_drift_detector["recent_judgments"]
-            )  # Renamed
+        if len(self.ethical_drift_detector["recent_judgments"]) >= 20:  # Ensure enough data points
+            recent_judgments_list = list(self.ethical_drift_detector["recent_judgments"])  # Renamed
 
             # Ensure there are enough judgments for comparison slices
             if len(recent_judgments_list) >= 20:
-                conf_trend = [
-                    j.confidence_score for j in recent_judgments_list[-10:]
-                ]  # Renamed
+                conf_trend = [j.confidence_score for j in recent_judgments_list[-10:]]  # Renamed
                 avg_recent_conf = (
                     np.mean(conf_trend) if conf_trend else 0.5
                 )  # Renamed, added default
@@ -2470,9 +2262,7 @@ class EthicalReasoningSystem:
         }  # Renamed keys for clarity
 
         recent_judgments_24h = [
-            j
-            for j in self.moral_judgments
-            if j.timestamp > datetime.now() - timedelta(hours=24)
+            j for j in self.moral_judgments if j.timestamp > datetime.now() - timedelta(hours=24)
         ]
         report["recent_judgments_last_24h"] = len(recent_judgments_24h)
 
@@ -2489,9 +2279,7 @@ class EthicalReasoningSystem:
                 for framework in judgment.framework_consensus:
                     report["framework_usage_stats"][framework.name] += 1
 
-        report["value_alignment_summary"] = (
-            self.value_alignment_system.alignment_metrics
-        )
+        report["value_alignment_summary"] = self.value_alignment_system.alignment_metrics
         self.logger.info(
             f"ΛTRACE: Ethical system report generated. Total judgments: {report['total_judgments_processed']}"
         )
@@ -2499,9 +2287,7 @@ class EthicalReasoningSystem:
 
     # ΛEXPOSE: Updates the system's active ethical constraints.
     # This allows for dynamic modification of the AGI's ethical rule set.
-    async def update_ethical_constraints(
-        self, new_constraints: list[EthicalConstraint]
-    ) -> None:
+    async def update_ethical_constraints(self, new_constraints: list[EthicalConstraint]) -> None:
         """
         # ΛNOTE: This method allows for the dynamic update of the AGI's symbolic ethical constraints.
         # It's a critical function for maintaining and evolving the ethical framework over time.
@@ -2515,9 +2301,7 @@ class EthicalReasoningSystem:
         # ... (original logic)
         added_count = 0
         for constraint in new_constraints:
-            if constraint.constraint_id not in [
-                c.constraint_id for c in self.active_constraints
-            ]:
+            if constraint.constraint_id not in [c.constraint_id for c in self.active_constraints]:
                 self.active_constraints.append(constraint)
                 self.logger.info(
                     f"ΛTRACE: New ethical constraint ADDED: ID='{constraint.constraint_id}', Desc='{constraint.description}', Prio={constraint.priority_level}"
@@ -2546,9 +2330,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     Example usage of the Ethical Reasoning System.
     """
     # Using main logger for example, or could create a specific test logger
-    logger.info(
-        "ΛTRACE: Starting EthicalReasoningSystem example usage (main_ethics_test)."
-    )
+    logger.info("ΛTRACE: Starting EthicalReasoningSystem example usage (main_ethics_test).")
 
     # Initialize logging for the example itself if needed, or rely on module/class loggers
     # Example: logging.basicConfig(level=logging.DEBUG) to see all ΛTRACE logs
@@ -2633,9 +2415,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
         "strength": 0.9,  # Strong correction
         "explanation": "While safety research is crucial, the principle of autonomy and explicit consent for data use, especially under GDPR, outweighs the potential benefits of broader sharing without specific opt-in. Users must have granular control.",
     }
-    logger.info(
-        f"ΛTRACE_TEST: Simulating learning from feedback: {feedback_scenario['type']}"
-    )
+    logger.info(f"ΛTRACE_TEST: Simulating learning from feedback: {feedback_scenario['type']}")
     await ethics_system.value_alignment_system.learn_from_feedback(
         decision_context=context,
         action_taken=judgment.recommended_action,
@@ -2647,7 +2427,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
     # Log report details (could be extensive, choose key parts or use
     # structlog for full object)
     logger.info(
-        f"ΛTRACE_TEST: System Report - Total Judgments: {report.get('total_judgments_processed')}, Alignment Score: {report.get('value_alignment_summary',{}).get('core_value_alignment'):.3f}"
+        f"ΛTRACE_TEST: System Report - Total Judgments: {report.get('total_judgments_processed')}, Alignment Score: {report.get('value_alignment_summary', {}).get('core_value_alignment'):.3f}"
     )
     slogger.info(
         "Ethical System Report (Structlog)",
@@ -2655,9 +2435,7 @@ async def main_ethics_test():  # Renamed to avoid conflict if 'main' is generic
         total_judgments=report.get("total_judgments_processed"),
     )
 
-    logger.info(
-        "ΛTRACE: EthicalReasoningSystem example usage (main_ethics_test) finished."
-    )
+    logger.info("ΛTRACE: EthicalReasoningSystem example usage (main_ethics_test) finished.")
 
 
 # ΛEXPOSE: Main execution block allowing the script to be run as a standalone demo/test.

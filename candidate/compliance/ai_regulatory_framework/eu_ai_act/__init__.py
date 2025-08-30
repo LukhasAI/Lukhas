@@ -11,4 +11,4 @@ from .compliance_validator import (
     EUAIActValidator,
 )
 
-__all__ = ["EUAIActValidator", "AISystemProfile", "ComplianceAssessment"]
+__all__ = ["AISystemProfile", "ComplianceAssessment", "EUAIActValidator"]

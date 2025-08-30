@@ -19,7 +19,6 @@ from typing import Any
 
 
 class ConnectivityAnalyzer:
-
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.module_imports = defaultdict(set)
@@ -107,9 +106,7 @@ class ConnectivityAnalyzer:
                             if len(parts) > node.level:
                                 parent_parts = parts[: -node.level]
                                 if base_module:
-                                    base_module = (
-                                        ".".join(parent_parts) + "." + base_module
-                                    )
+                                    base_module = ".".join(parent_parts) + "." + base_module
                                 else:
                                     base_module = ".".join(parent_parts)
 
@@ -127,9 +124,10 @@ class ConnectivityAnalyzer:
 
             # Check for if __name__ == "__main__"
             for node in ast.walk(tree):
-                if isinstance(node, ast.If) and isinstance(node.test, ast.Compare) and (
-                    isinstance(node.test.left, ast.Name)
-                    and node.test.left.id == "__name__"
+                if (
+                    isinstance(node, ast.If)
+                    and isinstance(node.test, ast.Compare)
+                    and (isinstance(node.test.left, ast.Name) and node.test.left.id == "__name__")
                 ):
                     metrics["has_main"] = True
 
@@ -200,9 +198,7 @@ class ConnectivityAnalyzer:
             # Additional checks for truly isolated files
             if (
                 metrics["lines_of_code"] > 10  # Not empty
-                and not any(
-                    skip in file_path for skip in ["test", "__pycache__", "example"]
-                )
+                and not any(skip in file_path for skip in ["test", "__pycache__", "example"])
                 and metrics["file_size"] > 100
             ):  # Not trivial
                 truly_isolated.append(
@@ -304,9 +300,7 @@ def main():
     print(f"   Connected files: {report['analysis_summary']['connected_files']}")
     print(f"   Isolated files: {report['analysis_summary']['isolated_files']}")
     print(f"   Critical hubs: {report['analysis_summary']['hub_files']}")
-    print(
-        f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}"
-    )
+    print(f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}")
 
     if report["isolated_files"]:
         print(f"\n⚠️  Found {len(report['isolated_files'])} isolated files:")

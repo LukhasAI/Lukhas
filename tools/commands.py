@@ -38,9 +38,7 @@ class BaseCommand(ABC):
         parser = argparse.ArgumentParser(prog=self.name, description=self.description)
 
         # Common arguments
-        parser.add_argument(
-            "--verbose", "-v", action="store_true", help="Enable verbose output"
-        )
+        parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose output")
         parser.add_argument(
             "--dry-run",
             action="store_true",
@@ -103,9 +101,7 @@ class TestCommand(BaseCommand):
     """Base class for test-related commands"""
 
     def setup_parser(self, parser: argparse.ArgumentParser) -> None:
-        parser.add_argument(
-            "--coverage", action="store_true", help="Include coverage reporting"
-        )
+        parser.add_argument("--coverage", action="store_true", help="Include coverage reporting")
         parser.add_argument(
             "--pattern",
             "-p",

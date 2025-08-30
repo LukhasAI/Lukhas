@@ -52,7 +52,7 @@ def check_box_alignment(file_path):
 
         issues = []
         for i, line in enumerate(lines):
-            issues.append(f"Line {i}: Box breaks - {repr(line)}")
+            issues.append(f"Line {i}: Box breaks - {line!r}")
 
         if issues:
             return False, f"Box alignment issues: {issues}"

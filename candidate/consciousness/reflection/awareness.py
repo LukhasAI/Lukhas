@@ -97,14 +97,10 @@ class SystemAwareness:
             )
 
             # Filter through cristae topology
-            filtered_state = self.crista_filter.filter(
-                attended_state, self.awareness_state
-            )
+            filtered_state = self.crista_filter.filter(attended_state, self.awareness_state)
 
             # Process through proton gradient
-            gradient_processed = self.proton_gradient.process(
-                filtered_state, self.awareness_state
-            )
+            gradient_processed = self.proton_gradient.process(filtered_state, self.awareness_state)
 
             # Update awareness state
             self._update_awareness(gradient_processed)
@@ -132,9 +128,7 @@ class SystemAwareness:
                 "reflection": reflection,
                 "recommendations": recommendations,
                 "metrics": {
-                    key: np.mean(values[-10:])
-                    for key, values in self.metrics.items()
-                    if values
+                    key: np.mean(values[-10:]) for key, values in self.metrics.items() if values
                 },
             }
 
@@ -161,9 +155,7 @@ class SystemAwareness:
             )
 
             # Filter through cristae topology
-            filtered_error = self.crista_filter.filter(
-                attended_error, self.awareness_state
-            )
+            filtered_error = self.crista_filter.filter(attended_error, self.awareness_state)
 
             # Update error state
             self.awareness_state["error_state"].update(filtered_error)
@@ -172,9 +164,7 @@ class SystemAwareness:
             error_reflection = self._reflect_on_error(filtered_error)
 
             # Generate recovery plan
-            recovery_plan = self._generate_recovery_plan(
-                filtered_error, error_reflection
-            )
+            recovery_plan = self._generate_recovery_plan(filtered_error, error_reflection)
 
             return {
                 "error_state": self.awareness_state["error_state"],
@@ -197,21 +187,15 @@ class SystemAwareness:
 
         # Update attention focus
         if "attention_updates" in processed_data:
-            self.awareness_state["attention_focus"].update(
-                processed_data["attention_updates"]
-            )
+            self.awareness_state["attention_focus"].update(processed_data["attention_updates"])
 
         # Update health metrics
         if "health_updates" in processed_data:
-            self.awareness_state["health_metrics"].update(
-                processed_data["health_updates"]
-            )
+            self.awareness_state["health_metrics"].update(processed_data["health_updates"])
 
         # Update resource state
         if "resource_updates" in processed_data:
-            self.awareness_state["resource_state"].update(
-                processed_data["resource_updates"]
-            )
+            self.awareness_state["resource_state"].update(processed_data["resource_updates"])
 
         # Update active processes
         if "process_updates" in processed_data:
@@ -248,10 +232,7 @@ class SystemAwareness:
         }
 
         # Check consciousness health
-        if (
-            self.awareness_state["consciousness_level"]
-            < self.health_thresholds["consciousness"]
-        ):
+        if self.awareness_state["consciousness_level"] < self.health_thresholds["consciousness"]:
             health_status["consciousness"]["status"] = "degraded"
 
         # Check resource health
@@ -259,9 +240,7 @@ class SystemAwareness:
             usage = state.get("usage", 0.0)
             health_status["resources"]["metrics"][resource] = {
                 "status": (
-                    "healthy"
-                    if usage < self.health_thresholds["resources"]
-                    else "stressed"
+                    "healthy" if usage < self.health_thresholds["resources"] else "stressed"
                 ),
                 "usage": usage,
             }
@@ -274,10 +253,7 @@ class SystemAwareness:
             health_status["errors"]["status"] = "degraded"
 
         # Check response time health
-        if (
-            health_status["response_time"]["value"]
-            > self.health_thresholds["response_time"]
-        ):
+        if health_status["response_time"]["value"] > self.health_thresholds["response_time"]:
             health_status["response_time"]["status"] = "degraded"
 
         return health_status
@@ -398,9 +374,7 @@ class SystemAwareness:
         """Record performance metrics"""
         processing_time = (datetime.now() - start_time).total_seconds()
 
-        self.metrics["consciousness_stability"].append(
-            self.awareness_state["consciousness_level"]
-        )
+        self.metrics["consciousness_stability"].append(self.awareness_state["consciousness_level"])
         self.metrics["resource_efficiency"].append(
             1.0
             - max(

@@ -54,9 +54,7 @@ class DASTEngine:
 
     async def track_task(self, task: Any, user_context: dict[str, Any]) -> Symbol:
         """Track a task and return a symbolic representation."""
-        return await self.activity_tracker.track_activity(
-            task, user_context.get("user_id")
-        )
+        return await self.activity_tracker.track_activity(task, user_context.get("user_id"))
 
 
 class TaskCompatibilityEngine:
@@ -69,9 +67,7 @@ class TaskCompatibilityEngine:
 
     async def score_compatibility(self, task: Any, user_context: Any) -> float:
         # Check user consent
-        consent = await self.engine.seedra.check_consent(
-            user_context["user_id"], "task_tracking"
-        )
+        consent = await self.engine.seedra.check_consent(user_context["user_id"], "task_tracking")
         if not consent.get("allowed"):
             return 0.0
 
@@ -154,13 +150,9 @@ class RealtimeDataAggregator:
     ) -> dict[str, Symbol]:
         aggregated: dict[str, Symbol] = {}
         for source in data_sources:
-            consent = await self.engine.seedra.check_consent(
-                user_id, f"external_data_{source}"
-            )
+            consent = await self.engine.seedra.check_consent(user_id, f"external_data_{source}")
             if consent.get("allowed"):
                 # TODO: implement _fetch_data
                 data = {}  # placeholder
-                aggregated[source] = self.engine.symbolic.create_symbol(
-                    f"{source}_data", data
-                )
+                aggregated[source] = self.engine.symbolic.create_symbol(f"{source}_data", data)
         return aggregated

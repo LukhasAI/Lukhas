@@ -10,6 +10,7 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
+
 import asyncio
 import logging
 import random
@@ -101,9 +102,7 @@ class EnhancedSwarmAgent(Actor):
     Enhanced SwarmAgent with real behaviors and capabilities.
     """
 
-    def __init__(
-        self, agent_id: str, colony: "EnhancedColony", capabilities: list[str] = None
-    ):
+    def __init__(self, agent_id: str, colony: "EnhancedColony", capabilities: list[str] = None):
         super().__init__(agent_id)
         self.agent_id = agent_id
         self.colony = colony
@@ -129,9 +128,7 @@ class EnhancedSwarmAgent(Actor):
         self.tasks_failed = 0
         self.collaborations = 0
 
-        self.tracer = AIAgentTracer(
-            f"agent-{self.agent_id}", get_global_tracer().collector
-        )
+        self.tracer = AIAgentTracer(f"agent-{self.agent_id}", get_global_tracer().collector)
 
     def receive(self, message: dict[str, Any]):
         """Handle incoming messages."""
@@ -204,9 +201,7 @@ class EnhancedSwarmAgent(Actor):
 
         self.state = AgentState.IDLE
 
-    def _can_handle_task(
-        self, task_type: str
-    ) -> tuple[bool, Optional[AgentCapability]]:
+    def _can_handle_task(self, task_type: str) -> tuple[bool, Optional[AgentCapability]]:
         """Check if agent can handle a task type."""
         # Direct capability match
         if task_type in self.capabilities:
@@ -243,9 +238,7 @@ class EnhancedSwarmAgent(Actor):
 
         return False
 
-    async def _execute_task(
-        self, task: dict[str, Any], capability: AgentCapability
-    ) -> bool:
+    async def _execute_task(self, task: dict[str, Any], capability: AgentCapability) -> bool:
         """Execute a task using the given capability."""
         # Simulate task execution with success probability based on capability
         execution_time = random.uniform(0.1, 0.5)
@@ -439,9 +432,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         self.colony_id = colony_id
         self.colony_type = colony_type
         self.agents: dict[str, EnhancedSwarmAgent] = {}
-        self.agent_graph: dict[str, set[str]] = defaultdict(
-            set
-        )  # Neighbor relationships
+        self.agent_graph: dict[str, set[str]] = defaultdict(set)  # Neighbor relationships
 
         # Colony-level metrics
         self.collective_knowledge: dict[str, Any] = {}
@@ -549,9 +540,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
         # Distribute task to agents
         agent_results = []
-        for agent_id in capable_agents[
-            : min(3, len(capable_agents))
-        ]:  # Use max 3 agents
+        for agent_id in capable_agents[: min(3, len(capable_agents))]:  # Use max 3 agents
             agent = self.agents[agent_id]
             result = await agent.process_task_request(task)
             if result:
@@ -580,9 +569,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
         final_result = {
             "task_id": task_id,
-            "status": (
-                "completed" if consensus_result["consensus_achieved"] else "partial"
-            ),
+            "status": ("completed" if consensus_result["consensus_achieved"] else "partial"),
             "result": consensus_result["result"],
             "confidence": consensus_result["confidence"],
             "agents_involved": len(agent_results),
@@ -754,13 +741,9 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             "colony": self.colony_id,
         }
 
-    async def _collaborative_task_execution(
-        self, task: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _collaborative_task_execution(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task through agent collaboration."""
-        self.logger.info(
-            f"Initiating collaborative execution for task {task.get('id')}"
-        )
+        self.logger.info(f"Initiating collaborative execution for task {task.get('id')}")
 
         # Broadcast task to all agents
         await self.broadcast_to_agents(
@@ -859,9 +842,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         # Pattern 1: Specialization emergence
         capability_clusters = defaultdict(list)
         for agent in self.agents.values():
-            primary_cap = max(
-                agent.capabilities.items(), key=lambda x: x[1].proficiency
-            )[0]
+            primary_cap = max(agent.capabilities.items(), key=lambda x: x[1].proficiency)[0]
             capability_clusters[primary_cap].append(agent.agent_id)
 
         if len(capability_clusters) > 1:
@@ -876,9 +857,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         # Pattern 2: Trust networks
         trust_clusters = defaultdict(set)
         for agent in self.agents.values():
-            high_trust = [
-                other for other, trust in agent.trust_scores.items() if trust > 0.7
-            ]
+            high_trust = [other for other, trust in agent.trust_scores.items() if trust > 0.7]
             if high_trust:
                 cluster_id = min(high_trust)  # Use lowest ID as cluster identifier
                 trust_clusters[cluster_id].add(agent.agent_id)
@@ -932,8 +911,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
             "agent_states": dict(agent_states),
             "average_energy": total_energy / len(self.agents) if self.agents else 0,
             "capabilities": {
-                name: prof / len(self.agents)
-                for name, prof in total_capabilities.items()
+                name: prof / len(self.agents) for name, prof in total_capabilities.items()
             },
             "collective_knowledge_items": len(self.collective_knowledge),
             "consensus_history": len(self.consensus_history),
@@ -1002,9 +980,7 @@ class EnhancedSwarmHub:
         self.logger.info(f"Created {colony_type} colony: {colony_id}")
         return colony
 
-    def _establish_colony_links(
-        self, new_colony_id: str, colony_type: Union[str, list[str]]
-    ):
+    def _establish_colony_links(self, new_colony_id: str, colony_type: Union[str, list[str]]):
         """Establish links between related colonies."""
         # Define colony relationships
         relationships = {
@@ -1020,9 +996,7 @@ class EnhancedSwarmHub:
         if isinstance(colony_type, list):
             # If list of capabilities, infer colony type from colony_id
             if any(t in new_colony_id.lower() for t in relationships):
-                inferred_type = next(
-                    t for t in relationships if t in new_colony_id.lower()
-                )
+                inferred_type = next(t for t in relationships if t in new_colony_id.lower())
                 related_types = relationships.get(inferred_type, [])
             else:
                 related_types = []
@@ -1097,9 +1071,7 @@ class EnhancedSwarmHub:
         self.logger.info(f"Swarm consensus on {topic}: {swarm_consensus}")
         return swarm_consensus
 
-    async def propagate_knowledge(
-        self, knowledge_type: str, knowledge: Any, source_colony: str
-    ):
+    async def propagate_knowledge(self, knowledge_type: str, knowledge: Any, source_colony: str):
         """Propagate knowledge across the swarm."""
         self.global_knowledge[knowledge_type] = knowledge
 

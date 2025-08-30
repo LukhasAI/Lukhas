@@ -77,9 +77,7 @@ class AdaptiveUIController:
         enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD,
     ):
         self.session_id = session_id
-        self.constitutional_gatekeeper = get_constitutional_gatekeeper(
-            enforcement_level
-        )
+        self.constitutional_gatekeeper = get_constitutional_gatekeeper(enforcement_level)
         self.current_config = self._get_default_config()
         self.cognitive_history: list[CognitiveLoadMetrics] = []
         self.adaptation_callbacks: list = []
@@ -100,9 +98,7 @@ class AdaptiveUIController:
             haptic_feedback=True,  # Enabled for mobile devices
         )
 
-    def assess_cognitive_load(
-        self, user_metrics: dict[str, Any]
-    ) -> CognitiveLoadMetrics:
+    def assess_cognitive_load(self, user_metrics: dict[str, Any]) -> CognitiveLoadMetrics:
         """
         Assess user cognitive load from various input metrics.
 
@@ -241,14 +237,10 @@ class AdaptiveUIController:
         if cognitive_metrics.stress_indicators > 0.6:
             new_config.animation_speed = max(0.1, new_config.animation_speed - 0.2)
             new_config.contrast_level = min(1.0, new_config.contrast_level + 0.1)
-            adaptation_reasons.append(
-                "Stress detected - reduced animations, increased contrast"
-            )
+            adaptation_reasons.append("Stress detected - reduced animations, increased contrast")
 
         if cognitive_metrics.attention_score < 0.4:
-            new_config.font_size_multiplier = min(
-                1.5, new_config.font_size_multiplier + 0.1
-            )
+            new_config.font_size_multiplier = min(1.5, new_config.font_size_multiplier + 0.1)
             adaptation_reasons.append("Low attention - increased font size")
 
         # Constitutional validation of new configuration
@@ -263,9 +255,7 @@ class AdaptiveUIController:
         }
 
         is_accessible, accessibility_issues = (
-            self.constitutional_gatekeeper.validate_neurodivergent_accessibility(
-                ui_dict
-            )
+            self.constitutional_gatekeeper.validate_neurodivergent_accessibility(ui_dict)
         )
 
         if not is_accessible:
@@ -278,9 +268,7 @@ class AdaptiveUIController:
                 elif "Time pressure" in issue:
                     new_config.timeout_seconds = max(20, new_config.timeout_seconds)
 
-            adaptation_reasons.append(
-                "Constitutional accessibility corrections applied"
-            )
+            adaptation_reasons.append("Constitutional accessibility corrections applied")
 
         # Validate final configuration
         is_valid, violations = self.constitutional_gatekeeper.validate_ui_parameters(
@@ -298,15 +286,11 @@ class AdaptiveUIController:
                 except Exception as e:
                     ui_logger.error(f"Error in adaptation callback: {e}")
         else:
-            ui_logger.warning(
-                f"UI adaptation blocked by constitutional violations: {violations}"
-            )
+            ui_logger.warning(f"UI adaptation blocked by constitutional violations: {violations}")
 
         return self.current_config
 
-    def get_adaptation_mode(
-        self, cognitive_metrics: CognitiveLoadMetrics
-    ) -> UIAdaptationMode:
+    def get_adaptation_mode(self, cognitive_metrics: CognitiveLoadMetrics) -> UIAdaptationMode:
         """
         Determine the appropriate UI adaptation mode.
 
@@ -327,10 +311,7 @@ class AdaptiveUIController:
             return UIAdaptationMode.EMERGENCY
         elif cognitive_load > 0.6 or cognitive_metrics.fatigue_level > 0.6:
             return UIAdaptationMode.SIMPLIFIED
-        elif (
-            cognitive_metrics.error_rate > 0.3
-            or cognitive_metrics.attention_score < 0.4
-        ):
+        elif cognitive_metrics.error_rate > 0.3 or cognitive_metrics.attention_score < 0.4:
             return UIAdaptationMode.ACCESSIBLE
         else:
             return UIAdaptationMode.OPTIMAL
@@ -352,9 +333,7 @@ class AdaptiveUIController:
             "session_id": self.session_id,
             "current_config": asdict(self.current_config),
             "adaptation_mode": (
-                self.get_adaptation_mode(latest_metrics).value
-                if latest_metrics
-                else "unknown"
+                self.get_adaptation_mode(latest_metrics).value if latest_metrics else "unknown"
             ),
             "cognitive_metrics": asdict(latest_metrics) if latest_metrics else None,
             "cognitive_history_length": len(self.cognitive_history),
@@ -394,7 +373,7 @@ class AdaptiveUIController:
 # Export the main classes and types
 __all__ = [
     "AdaptiveUIController",
-    "UIAdaptationMode",
     "CognitiveLoadMetrics",
+    "UIAdaptationMode",
     "UIConfiguration",
 ]

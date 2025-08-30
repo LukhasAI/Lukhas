@@ -64,9 +64,7 @@ class MemorySegment:
     collapse_hash: str
     emotional_context: dict[str, Any] = field(default_factory=dict)
     access_count: int = 0
-    last_accessed_utc: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )
+    last_accessed_utc: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 # ΛDRIFT_POINT: The entire drift score calculation is a critical point
@@ -102,19 +100,13 @@ def calculate_drift_score(
     base_n = np.linalg.norm(base_norm_segment)
 
     if base_n < 1e-9:  # Avoid division by zero if baseline is effectively zero
-        log.warning(
-            "DriftScore calculation: Baseline norm is near zero.", baseline_norm=base_n
-        )
+        log.warning("DriftScore calculation: Baseline norm is near zero.", baseline_norm=base_n)
         return (
             1.0 if eu_dist > 1e-9 else 0.0
         )  # Max drift if current state is non-zero, else no drift
 
-    stress = float(
-        emotional_context.get("stress_level", 0.0)
-    )  # Example emotional factor
-    emotional_weight = (
-        1.0 + np.clip(stress, 0.0, 1.0) * 0.3
-    )  # Stress can amplify perceived drift
+    stress = float(emotional_context.get("stress_level", 0.0))  # Example emotional factor
+    emotional_weight = 1.0 + np.clip(stress, 0.0, 1.0) * 0.3  # Stress can amplify perceived drift
 
     drift = (eu_dist / base_n) * emotional_weight
     calculated_drift = np.clip(drift, 0.0, 1.0)
@@ -147,9 +139,9 @@ class HealixMemoryCore:
         self.decay_threshold: float = np.clip(decay_threshold, 0.0, 1.0)  # ΛDRIFT_POINT
         self.baseline_vector_size: int = baseline_vector_size
         self.baseline_state: Optional[np.ndarray] = None  # Initialized on first use
-        self.compliance_log: list[dict[str, Any]] = (
-            []
-        )  # For tracking significant events like anonymization
+        self.compliance_log: list[
+            dict[str, Any]
+        ] = []  # For tracking significant events like anonymization
         # ΛTRACE: HealixMemoryCore initialized.
         log.info(
             "HealixMemoryCore initialized.",
@@ -163,11 +155,7 @@ class HealixMemoryCore:
         # ΛTRACE: Encoding data to DNA sequence.
         log.debug("Encoding data to DNA.", data_type=type(data).__name__)
         try:
-            data_s = (
-                json.dumps(data, ensure_ascii=False)
-                if not isinstance(data, str)
-                else data
-            )
+            data_s = json.dumps(data, ensure_ascii=False) if not isinstance(data, str) else data
             bin_rep = "".join(format(byte, "08b") for byte in data_s.encode("utf-8"))
             if len(bin_rep) % 2 != 0:
                 bin_rep += "0"  # Ensure even length for 2-bit pairing
@@ -308,9 +296,7 @@ class HealixMemoryCore:
             )
 
         drift = calculate_drift_score(num_state, self.get_baseline_state(), emo_ctx)
-        mem_id = sha3_256(dna_enc.encode("utf-8")).hexdigest()[
-            :24
-        ]  # Content-derived ID
+        mem_id = sha3_256(dna_enc.encode("utf-8")).hexdigest()[:24]  # Content-derived ID
         collapse_h = self.generate_collapse_hash(dna_enc)
 
         seg = MemorySegment(
@@ -346,13 +332,9 @@ class HealixMemoryCore:
     def anonymize_sequence(self, dna_seq: str, strategy: str = "random_choice") -> str:
         """Anonymizes a DNA sequence based on the given strategy."""
         # ΛTRACE: Anonymizing DNA sequence.
-        log.debug(
-            "Anonymizing DNA sequence.", strategy=strategy, original_length=len(dna_seq)
-        )
+        log.debug("Anonymizing DNA sequence.", strategy=strategy, original_length=len(dna_seq))
         if strategy == "random_choice":
-            return "".join(
-                np.random.choice(["A", "T", "C", "G"]) for _ in range(len(dna_seq))
-            )
+            return "".join(np.random.choice(["A", "T", "C", "G"]) for _ in range(len(dna_seq)))
         log.warning(
             "Unknown anonymization strategy, returning original sequence.",
             requested_strategy=strategy,
@@ -366,9 +348,7 @@ class HealixMemoryCore:
     async def apply_epigenetic_decay(self) -> dict[str, Any]:
         """Applies epigenetic decay logic to memory segments."""
         # ΛTRACE: Applying epigenetic decay cycle.
-        log.info(
-            "Applying epigenetic decay cycle.", total_segments=len(self.memory_segments)
-        )
+        log.info("Applying epigenetic decay cycle.", total_segments=len(self.memory_segments))
         stats = {
             "checked": len(self.memory_segments),
             "methylated": 0,
@@ -388,9 +368,7 @@ class HealixMemoryCore:
                     segment.drift_score * 1.2, 0.0, 1.0
                 )  # Higher drift, higher probability
 
-                if (
-                    np.random.random() < decay_probability
-                ):  # Stochastic application of decay
+                if np.random.random() < decay_probability:  # Stochastic application of decay
                     ts_iso = datetime.now(timezone.utc).isoformat()
                     # ΛCAUTION: Stricter criteria for more destructive anonymization.
                     if decay_probability > 0.75 or segment.drift_score > 0.9:
@@ -419,9 +397,7 @@ class HealixMemoryCore:
                             decay_prob=decay_probability,
                         )
                     else:
-                        segment.methylation_flag = (
-                            True  # Mark as methylated (suppressed)
-                        )
+                        segment.methylation_flag = True  # Mark as methylated (suppressed)
                         stats["methylated"] += 1
                         self.compliance_log.append(
                             {
@@ -475,9 +451,7 @@ class HealixMemoryCore:
                 memory_id=memory_id,
                 drift_score=segment.drift_score,
             )
-            if override_approvers and QuorumOverride().request_access(
-                override_approvers
-            ):
+            if override_approvers and QuorumOverride().request_access(override_approvers):
                 log.info("Quorum override approved", memory_id=memory_id)
             else:
                 return {
@@ -489,9 +463,7 @@ class HealixMemoryCore:
 
         decoded_data = self.decode_from_dna(segment.data)
         # ΛTRACE: Memory segment retrieved and decoded successfully.
-        log.info(
-            "Memory segment retrieved.", id=memory_id, access_count=segment.access_count
-        )
+        log.info("Memory segment retrieved.", id=memory_id, access_count=segment.access_count)
         return {
             "id": memory_id,
             "status": "active",
@@ -518,9 +490,7 @@ class HealixMemoryCore:
             }
 
         total_segments = len(self.memory_segments)
-        methylated_segments = sum(
-            1 for s in self.memory_segments.values() if s.methylation_flag
-        )
+        methylated_segments = sum(1 for s in self.memory_segments.values() if s.methylation_flag)
         active_segments = total_segments - methylated_segments
         average_drift_score = (
             np.mean([s.drift_score for s in self.memory_segments.values()])
@@ -528,9 +498,7 @@ class HealixMemoryCore:
             else 0.0
         )
         high_drift_segments = sum(
-            1
-            for s in self.memory_segments.values()
-            if s.drift_score > self.decay_threshold
+            1 for s in self.memory_segments.values() if s.drift_score > self.decay_threshold
         )
 
         stats = {
@@ -564,9 +532,7 @@ class HealixMemoryCore:
                         if log_item["event"] == "memory_anonymized"
                     ]
                 ),  # Corrected key
-                "methylated_events_total": stats[
-                    "methylated_segments"
-                ],  # From overall stats
+                "methylated_events_total": stats["methylated_segments"],  # From overall stats
             },
             "conceptual_gdpr_alignment": {
                 "data_erasure_support": "Decay leads to anonymization (irreversible transformation)",
@@ -576,16 +542,12 @@ class HealixMemoryCore:
                 "transparency_logging": "Compliance log tracks significant state changes",
                 "human_oversight_points": "Configurable decay_threshold and drift calculation parameters",
             },
-            "recent_compliance_log_preview": self.compliance_log[
-                -5:
-            ],  # Preview last 5 events
+            "recent_compliance_log_preview": self.compliance_log[-5:],  # Preview last 5 events
         }
         log.info(
             "Healix compliance report generated.",
             total_log_events=len(self.compliance_log),
-            anonymized_events_in_report=report["privacy_related_actions"][
-                "anonymized_events"
-            ],
+            anonymized_events_in_report=report["privacy_related_actions"]["anonymized_events"],
         )
         return report
 
@@ -611,9 +573,7 @@ class HealixVisualizer:
         """Generates data suitable for plotting a memory landscape."""
         # ΛTRACE: Creating memory landscape plot data.
         if not self.core.memory_segments:
-            log.warning(
-                "No memory segments available for landscape plot data generation."
-            )
+            log.warning("No memory segments available for landscape plot data generation.")
             return {"error": "No data in Healix core"}
 
         segments_list = list(self.core.memory_segments.values())
@@ -622,9 +582,7 @@ class HealixVisualizer:
             "drift_scores": [s.drift_score for s in segments_list],
             "is_methylated": [1 if s.methylation_flag else 0 for s in segments_list],
             "access_counts": [s.access_count for s in segments_list],
-            "timestamp_iso_strings": [
-                s.timestamp_utc.isoformat() for s in segments_list
-            ],
+            "timestamp_iso_strings": [s.timestamp_utc.isoformat() for s in segments_list],
             "emotional_stress_levels": [
                 s.emotional_context.get("stress_level", 0.0) for s in segments_list
             ],  # Example emotional dimension
@@ -632,15 +590,11 @@ class HealixVisualizer:
             "summary_stats": self.core.get_memory_stats(),
         }
         # ΛTRACE: Memory landscape plot data generated.
-        log.debug(
-            "Memory landscape plot data generated.", number_of_points=len(segments_list)
-        )
+        log.debug("Memory landscape plot data generated.", number_of_points=len(segments_list))
         return data
 
     # ΛGLYPH: Generates data for simulating and visualizing decay over steps.
-    async def generate_decay_simulation_data_async(
-        self, steps: int = 10
-    ) -> list[dict[str, Any]]:
+    async def generate_decay_simulation_data_async(self, steps: int = 10) -> list[dict[str, Any]]:
         """Generates data from simulating epigenetic decay over multiple steps."""
         # ΛTRACE: Generating epigenetic decay simulation data.
         log.info("Generating epigenetic decay simulation data.", simulation_steps=steps)
@@ -723,11 +677,9 @@ async def demo_healix_system_main():
     for mid_idx, mid_val in enumerate(mids[:2]):  # Retrieve first two
         retrieved_mem = await core.retrieve_memory(mid_val)
         log.info(
-            f"Retrieved memory {mid_idx+1}.",
+            f"Retrieved memory {mid_idx + 1}.",
             result_preview=(
-                str(retrieved_mem)[:100] + "..."
-                if retrieved_mem
-                else "Not Found/Suppressed"
+                str(retrieved_mem)[:100] + "..." if retrieved_mem else "Not Found/Suppressed"
             ),
         )
 

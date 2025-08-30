@@ -149,9 +149,7 @@ class MonitoringConfig:
     critical_threshold_percent: float = 25.0
     baseline_window_hours: int = 24  # Hours for baseline calculation
     enable_alerts: bool = True
-    alert_channels: list[AlertChannel] = field(
-        default_factory=lambda: [AlertChannel.LOG]
-    )
+    alert_channels: list[AlertChannel] = field(default_factory=lambda: [AlertChannel.LOG])
     statistical_test: str = "zscore"  # zscore, ks_test, moving_average
 
 
@@ -224,12 +222,8 @@ class StatisticalAnalyzer:
 
         for value in all_values:
             # Calculate empirical CDFs
-            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(
-                baseline_sorted
-            )
-            current_cdf = sum(1 for x in current_sorted if x <= value) / len(
-                current_sorted
-            )
+            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(baseline_sorted)
+            current_cdf = sum(1 for x in current_sorted if x <= value) / len(current_sorted)
 
             diff = abs(baseline_cdf - current_cdf)
             max_diff = max(max_diff, diff)
@@ -293,22 +287,14 @@ class MetricCollector:
         """Get recent metric values within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_points = [
-            point
-            for point in self.metrics[metric_name]
-            if point.timestamp >= cutoff_time
+            point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time
         ]
         return [point.value for point in recent_points]
 
-    def get_metric_history(
-        self, metric_name: str, hours: int = 24
-    ) -> list[MetricDataPoint]:
+    def get_metric_history(self, metric_name: str, hours: int = 24) -> list[MetricDataPoint]:
         """Get complete metric history within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
-        return [
-            point
-            for point in self.metrics[metric_name]
-            if point.timestamp >= cutoff_time
-        ]
+        return [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
 
     async def _cleanup_old_metrics(self):
         """Remove old metric data points to prevent memory growth"""
@@ -340,9 +326,7 @@ class DriftDetector:
         self.active_alerts: dict[str, DriftAlert] = {}
         self.alert_history: deque = deque(maxlen=1000)
 
-    async def detect_drift(
-        self, metric_collector: MetricCollector
-    ) -> Optional[DriftAlert]:
+    async def detect_drift(self, metric_collector: MetricCollector) -> Optional[DriftAlert]:
         """
         Detect drift in metrics and generate alerts if necessary
 
@@ -354,7 +338,8 @@ class DriftDetector:
         """
         # Get recent metric values
         recent_values = metric_collector.get_recent_values(
-            self.config.metric_name, hours=1  # Last hour for current analysis
+            self.config.metric_name,
+            hours=1,  # Last hour for current analysis
         )
 
         if not recent_values:
@@ -387,9 +372,7 @@ class DriftDetector:
                 if abs(zscore) > 2:
                     drift_detected = True
                     deviation_percent = (
-                        abs(current_value - self.current_baseline)
-                        / self.current_baseline
-                        * 100
+                        abs(current_value - self.current_baseline) / self.current_baseline * 100
                     )
 
         elif self.config.statistical_test == "ks_test":
@@ -412,9 +395,7 @@ class DriftDetector:
                     deviation_percent = ks_statistic * 100
 
         elif self.config.statistical_test == "moving_average":
-            all_values = metric_collector.get_recent_values(
-                self.config.metric_name, hours=24
-            )
+            all_values = metric_collector.get_recent_values(self.config.metric_name, hours=24)
 
             if len(all_values) > self.config.window_size:
                 deviation_percent = self.analyzer.moving_average_deviation(
@@ -617,9 +598,7 @@ class AlertManager:
         suppression_key = f"{alert.drift_type.value}_{alert.metric_name}"
         if suppression_key in self.alert_suppression:
             last_alert = self.alert_suppression[suppression_key]
-            if (
-                datetime.now() - last_alert
-            ).total_seconds() < 300:  # 5 minute suppression
+            if (datetime.now() - last_alert).total_seconds() < 300:  # 5 minute suppression
                 return
 
         # Send through all configured channels
@@ -808,9 +787,7 @@ class DriftMonitoringAPI:
 
         return await self._analyze_metric(metric_key)
 
-    async def get_metric_summary(
-        self, metric_name: str, hours: int = 24
-    ) -> dict[str, Any]:
+    async def get_metric_summary(self, metric_name: str, hours: int = 24) -> dict[str, Any]:
         """Get summary statistics for a metric"""
         values = self.metric_collector.get_recent_values(metric_name, hours)
 
@@ -844,9 +821,7 @@ class DriftMonitoringAPI:
 
         return summary
 
-    async def get_active_alerts(
-        self, severity: Optional[DriftSeverity] = None
-    ) -> list[DriftAlert]:
+    async def get_active_alerts(self, severity: Optional[DriftSeverity] = None) -> list[DriftAlert]:
         """Get currently active alerts"""
         active_alerts = []
 
@@ -894,9 +869,7 @@ class DriftMonitoringAPI:
                 self.monitoring_stats["last_analysis_time"] = datetime.now()
 
                 # Adaptive sleep based on analysis time
-                sleep_time = max(
-                    30, 60 - analysis_time
-                )  # At least 30s, adjust for analysis time
+                sleep_time = max(30, 60 - analysis_time)  # At least 30s, adjust for analysis time
                 await asyncio.sleep(sleep_time)
 
             except Exception as e:

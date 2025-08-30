@@ -179,9 +179,7 @@ class WorkflowOrchestrator:
         self.hub = integration_hub
         self.logger = logger.bind(component="WorkflowOrchestrator")
 
-    async def execute_workflow(
-        self, request: IntegrationRequest
-    ) -> IntegrationResponse:
+    async def execute_workflow(self, request: IntegrationRequest) -> IntegrationResponse:
         """Execute a complete workflow across modules."""
         workflow_logger = self.logger.bind(
             request_id=request.request_id,
@@ -258,9 +256,7 @@ class WorkflowOrchestrator:
         # Step 2: XIL explanation generation
         if self.hub.xil:
             xil_start = datetime.now(timezone.utc)
-            explanation_request = await self._create_explanation_request(
-                request, results
-            )
+            explanation_request = await self._create_explanation_request(request, results)
             explanation = await self.hub.xil.explain_decision(
                 request.request_id, explanation_request, request.input_data
             )
@@ -289,15 +285,9 @@ class WorkflowOrchestrator:
             or results.get("ethical_evaluation", {}).get("human_review_required", False)
         ):
             hitlo_start = datetime.now(timezone.utc)
-            decision_context = await self._create_hitlo_decision_context(
-                request, results
-            )
-            hitlo_decision_id = await self.hub.hitlo.submit_decision_for_review(
-                decision_context
-            )
-            hitlo_time = (
-                datetime.now(timezone.utc) - hitlo_start
-            ).total_seconds() * 1000
+            decision_context = await self._create_hitlo_decision_context(request, results)
+            hitlo_decision_id = await self.hub.hitlo.submit_decision_for_review(decision_context)
+            hitlo_time = (datetime.now(timezone.utc) - hitlo_start).total_seconds() * 1000
 
             results["human_review"] = {
                 "decision_id": hitlo_decision_id,
@@ -330,9 +320,7 @@ class WorkflowOrchestrator:
                 "scenario_name", f"scenario_{request.request_id}"
             )
             scenario_description = request.input_data.get("scenario_description", "")
-            simulation_type = request.input_data.get(
-                "simulation_type", "counterfactual"
-            )
+            simulation_type = request.input_data.get("simulation_type", "counterfactual")
 
             scenario = await self.hub.hds.create_scenario(
                 scenario_name, scenario_description, simulation_type
@@ -342,11 +330,7 @@ class WorkflowOrchestrator:
             if "decision_data" in request.input_data:
                 timeline_results = await self.hub.hds.simulate_decision(
                     scenario.scenario_id,
-                    (
-                        scenario.timelines[0].timeline_id
-                        if scenario.timelines
-                        else "default"
-                    ),
+                    (scenario.timelines[0].timeline_id if scenario.timelines else "default"),
                     request.input_data["decision_data"],
                 )
                 results["dream_simulation"] = timeline_results
@@ -365,14 +349,10 @@ class WorkflowOrchestrator:
         # Step 2: CPI causal analysis
         if self.hub.cpi:
             cpi_start = datetime.now(timezone.utc)
-            data_sources = request.input_data.get(
-                "data_sources", ["simulation_results"]
-            )
+            data_sources = request.input_data.get("data_sources", ["simulation_results"])
             graph_name = f"causal_graph_{request.request_id}"
 
-            causal_graph = await self.hub.cpi.induce_causal_graph(
-                data_sources, graph_name
-            )
+            causal_graph = await self.hub.cpi.induce_causal_graph(data_sources, graph_name)
             results["causal_analysis"] = {
                 "graph_id": causal_graph.graph_id,
                 "node_count": len(causal_graph.nodes),
@@ -435,13 +415,9 @@ class WorkflowOrchestrator:
         if self.hub.cpi:
             cpi_start = datetime.now(timezone.utc)
             data_sources = request.input_data.get("data_sources", [])
-            graph_name = request.input_data.get(
-                "graph_name", f"analysis_{request.request_id}"
-            )
+            graph_name = request.input_data.get("graph_name", f"analysis_{request.request_id}")
 
-            causal_graph = await self.hub.cpi.induce_causal_graph(
-                data_sources, graph_name
-            )
+            causal_graph = await self.hub.cpi.induce_causal_graph(data_sources, graph_name)
 
             # Run intervention analysis if specified
             if "intervention" in request.input_data:
@@ -456,8 +432,7 @@ class WorkflowOrchestrator:
             results["causal_graph"] = {
                 "graph_id": causal_graph.graph_id,
                 "nodes": [
-                    {"id": node.node_id, "type": node.node_type}
-                    for node in causal_graph.nodes
+                    {"id": node.node_id, "type": node.node_type} for node in causal_graph.nodes
                 ],
                 "edges": [
                     {
@@ -482,9 +457,7 @@ class WorkflowOrchestrator:
                 "intervention_results": results.get("intervention_analysis", {}),
             }
 
-            explanation_request = await self._create_explanation_request(
-                request, results
-            )
+            explanation_request = await self._create_explanation_request(request, results)
             explanation = await self.hub.xil.explain_decision(
                 request.request_id, explanation_request, explanation_context
             )
@@ -533,9 +506,7 @@ class WorkflowOrchestrator:
                 memory_id = await self.hub.ppmv.store_memory(
                     content=request.input_data["data_to_store"],
                     memory_type=request.input_data.get("memory_type", "user_data"),
-                    privacy_policy_id=request.input_data.get(
-                        "privacy_policy", "strict_policy"
-                    ),
+                    privacy_policy_id=request.input_data.get("privacy_policy", "strict_policy"),
                 )
                 results["storage"] = {"memory_id": memory_id}
 
@@ -557,26 +528,18 @@ class WorkflowOrchestrator:
             privacy_context = {
                 "privacy_operations": results,
                 "privacy_level": request.input_data.get("privacy_level", "high"),
-                "data_sensitivity": request.input_data.get(
-                    "data_sensitivity", "medium"
-                ),
+                "data_sensitivity": request.input_data.get("data_sensitivity", "medium"),
             }
 
-            explanation_request = await self._create_explanation_request(
-                request, results
-            )
+            explanation_request = await self._create_explanation_request(request, results)
             explanation = await self.hub.xil.explain_decision(
                 request.request_id, explanation_request, privacy_context
             )
 
             results["privacy_explanation"] = {
                 "explanation": explanation.natural_language,
-                "privacy_guarantees": explanation.metadata.get(
-                    "privacy_guarantees", []
-                ),
-                "compliance_status": explanation.metadata.get(
-                    "compliance_status", "unknown"
-                ),
+                "privacy_guarantees": explanation.metadata.get("privacy_guarantees", []),
+                "compliance_status": explanation.metadata.get("compliance_status", "unknown"),
             }
 
             xil_time = (datetime.now(timezone.utc) - xil_start).total_seconds() * 1000
@@ -585,9 +548,7 @@ class WorkflowOrchestrator:
         # Step 3: HITLO privacy review
         if self.hub.hitlo and request.input_data.get("require_privacy_review", False):
             hitlo_start = datetime.now(timezone.utc)
-            privacy_decision_context = await self._create_privacy_decision_context(
-                request, results
-            )
+            privacy_decision_context = await self._create_privacy_decision_context(request, results)
             hitlo_decision_id = await self.hub.hitlo.submit_decision_for_review(
                 privacy_decision_context
             )
@@ -598,9 +559,7 @@ class WorkflowOrchestrator:
                 "status": "submitted",
             }
 
-            hitlo_time = (
-                datetime.now(timezone.utc) - hitlo_start
-            ).total_seconds() * 1000
+            hitlo_time = (datetime.now(timezone.utc) - hitlo_start).total_seconds() * 1000
             response.performance_metrics["hitlo_time_ms"] = hitlo_time
 
         return results
@@ -629,9 +588,7 @@ class WorkflowOrchestrator:
             configuration=request.configuration,
             require_human_approval=True,
         )
-        decision_response = await self._execute_decision_pipeline(
-            decision_request, response
-        )
+        decision_response = await self._execute_decision_pipeline(decision_request, response)
         results["decision_phase"] = decision_response
 
         # Finally execute privacy workflow if needed
@@ -646,9 +603,7 @@ class WorkflowOrchestrator:
                 },
                 configuration=request.configuration,
             )
-            privacy_response = await self._execute_privacy_workflow(
-                privacy_request, response
-            )
+            privacy_response = await self._execute_privacy_workflow(privacy_request, response)
             results["privacy_phase"] = privacy_response
 
         return results
@@ -669,7 +624,7 @@ class WorkflowOrchestrator:
             request_id=request.request_id,
             decision_id=decision_id,
             step="initiated",
-            narrative="Starting MEG ethical decision orchestration workflow"
+            narrative="Starting MEG ethical decision orchestration workflow",
         )
 
         try:
@@ -684,8 +639,8 @@ class WorkflowOrchestrator:
                 "trinity_framework": {
                     "identity_verification": True,
                     "consciousness_alignment": True,
-                    "guardian_oversight": True
-                }
+                    "guardian_oversight": True,
+                },
             }
 
             logger.info(
@@ -694,7 +649,7 @@ class WorkflowOrchestrator:
                 step="context_extracted",
                 ethical_constraints_count=len(ethical_context["ethical_constraints"]),
                 stakeholder_impact=ethical_context["stakeholder_impact"],
-                narrative="Extracted ethical context for MEG decision framework"
+                narrative="Extracted ethical context for MEG decision framework",
             )
 
             # Phase 2: Create MEG decision structure
@@ -708,21 +663,21 @@ class WorkflowOrchestrator:
                     "principles": ["beneficence", "non_maleficence", "autonomy", "justice"],
                     "governance_level": "strict",
                     "compliance_requirements": ["gdpr", "ccpa", "lukhas_ethics_charter"],
-                    "risk_assessment": "moderate"
+                    "risk_assessment": "moderate",
                 },
                 "decision_criteria": {
                     "harm_potential": self._assess_harm_potential(request),
                     "privacy_impact": self._assess_privacy_impact(request),
                     "transparency_requirement": self._assess_transparency_requirement(request),
-                    "human_oversight_needed": self._requires_human_oversight(request)
+                    "human_oversight_needed": self._requires_human_oversight(request),
                 },
                 "workflow_state": "pending_evaluation",
                 "orchestration_metadata": {
                     "created_by": "ExecutiveDecisionIntegrator",
                     "workflow_version": "1.0",
                     "context_preserved": True,
-                    "performance_target_ms": 250
-                }
+                    "performance_target_ms": 250,
+                },
             }
 
             logger.info(
@@ -731,7 +686,7 @@ class WorkflowOrchestrator:
                 step="decision_structured",
                 ethical_principles_count=len(meg_decision["ethical_framework"]["principles"]),
                 governance_level=meg_decision["ethical_framework"]["governance_level"],
-                narrative="MEG decision structure created with ethical framework"
+                narrative="MEG decision structure created with ethical framework",
             )
 
             # Phase 3: Integrate with LUKHAS event system for orchestration
@@ -742,8 +697,8 @@ class WorkflowOrchestrator:
                         "decision_id": decision_id,
                         "request_id": request.request_id,
                         "meg_decision": meg_decision,
-                        "workflow_step": "ethical_validation_pending"
-                    }
+                        "workflow_step": "ethical_validation_pending",
+                    },
                 )
 
             # Phase 4: Return orchestrated decision for workflow continuation
@@ -755,7 +710,7 @@ class WorkflowOrchestrator:
                 step="orchestration_complete",
                 processing_time_ms=processing_time,
                 workflow_ready=True,
-                narrative="MEG decision orchestration workflow completed successfully"
+                narrative="MEG decision orchestration workflow completed successfully",
             )
 
             return meg_decision
@@ -766,7 +721,7 @@ class WorkflowOrchestrator:
                 decision_id=decision_id,
                 request_id=request.request_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Return error decision structure for workflow continuity
             return {
@@ -775,7 +730,7 @@ class WorkflowOrchestrator:
                 "decision_type": "ethical_validation_error",
                 "error": str(e),
                 "workflow_state": "error",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _create_explanation_request(
@@ -795,7 +750,7 @@ class WorkflowOrchestrator:
             request_id=request.request_id,
             explanation_id=explanation_id,
             step="initiated",
-            narrative="Starting XIL explanation generation orchestration workflow"
+            narrative="Starting XIL explanation generation orchestration workflow",
         )
 
         try:
@@ -806,7 +761,7 @@ class WorkflowOrchestrator:
                 "explanation_depth": request.metadata.get("explanation_depth", "detailed"),
                 "include_causal_chains": request.metadata.get("include_causality", True),
                 "include_confidence_scores": request.metadata.get("include_confidence", True),
-                "privacy_constraints": request.metadata.get("privacy_constraints", [])
+                "privacy_constraints": request.metadata.get("privacy_constraints", []),
             }
 
             logger.info(
@@ -815,7 +770,7 @@ class WorkflowOrchestrator:
                 step="requirements_analyzed",
                 complexity_level=explanation_requirements["complexity_level"],
                 target_audience=explanation_requirements["target_audience"],
-                narrative="Analyzed explanation requirements for appropriate XIL response"
+                narrative="Analyzed explanation requirements for appropriate XIL response",
             )
 
             # Phase 2: Extract explainable elements from results
@@ -825,7 +780,7 @@ class WorkflowOrchestrator:
                 "confidence_metrics": self._extract_confidence_metrics(results),
                 "alternative_options": self._extract_alternatives(results),
                 "risk_assessments": self._extract_risk_assessments(results),
-                "ethical_considerations": self._extract_ethical_considerations(results)
+                "ethical_considerations": self._extract_ethical_considerations(results),
             }
 
             # Phase 3: Create XIL explanation request structure
@@ -839,31 +794,31 @@ class WorkflowOrchestrator:
                     "original_request": {
                         "type": request.request_type.value,
                         "priority": request.priority,
-                        "modules": [m.value for m in request.modules]
+                        "modules": [m.value for m in request.modules],
                     },
                     "processing_results": results,
-                    "explainable_elements": explainable_elements
+                    "explainable_elements": explainable_elements,
                 },
                 "explanation_framework": {
                     "methodology": "causal_narrative_generation",
                     "transparency_level": "full",
                     "interpretability_approach": "step_by_step_reasoning",
-                    "human_readable_format": True
+                    "human_readable_format": True,
                 },
                 "narrative_structure": {
                     "introduction": "Context and objectives",
                     "methodology": "How decisions were made",
                     "results": "What was decided and why",
                     "implications": "Consequences and next steps",
-                    "confidence": "Reliability and limitations"
+                    "confidence": "Reliability and limitations",
                 },
                 "workflow_state": "pending_generation",
                 "orchestration_metadata": {
                     "created_by": "ExecutiveDecisionIntegrator",
                     "explanation_version": "1.0",
                     "context_preserved": True,
-                    "transparency_guaranteed": True
-                }
+                    "transparency_guaranteed": True,
+                },
             }
 
             logger.info(
@@ -872,7 +827,7 @@ class WorkflowOrchestrator:
                 step="request_structured",
                 explainable_elements_count=len(explainable_elements),
                 narrative_components=len(xil_request["narrative_structure"]),
-                narrative="XIL explanation request structured with narrative framework"
+                narrative="XIL explanation request structured with narrative framework",
             )
 
             # Phase 4: Generate step-by-step explanation workflow
@@ -881,35 +836,35 @@ class WorkflowOrchestrator:
                     {
                         "step_id": "context_establishment",
                         "description": "Establish decision context and objectives",
-                        "explanation_focus": "Why this decision was necessary"
+                        "explanation_focus": "Why this decision was necessary",
                     },
                     {
                         "step_id": "methodology_explanation",
                         "description": "Explain decision-making methodology",
-                        "explanation_focus": "How the system approached the problem"
+                        "explanation_focus": "How the system approached the problem",
                     },
                     {
                         "step_id": "option_evaluation",
                         "description": "Evaluate alternative options considered",
-                        "explanation_focus": "What options were available and why others were rejected"
+                        "explanation_focus": "What options were available and why others were rejected",
                     },
                     {
                         "step_id": "decision_rationale",
                         "description": "Provide detailed decision rationale",
-                        "explanation_focus": "The specific reasoning behind the final decision"
+                        "explanation_focus": "The specific reasoning behind the final decision",
                     },
                     {
                         "step_id": "confidence_assessment",
                         "description": "Assess confidence and limitations",
-                        "explanation_focus": "How reliable this decision is and what could change"
-                    }
+                        "explanation_focus": "How reliable this decision is and what could change",
+                    },
                 ],
                 "transparency_checkpoints": [
                     "ethical_compliance_verified",
                     "privacy_constraints_respected",
                     "human_interpretability_confirmed",
-                    "accuracy_validated"
-                ]
+                    "accuracy_validated",
+                ],
             }
 
             xil_request["explanation_workflow"] = explanation_workflow
@@ -922,8 +877,8 @@ class WorkflowOrchestrator:
                         "explanation_id": explanation_id,
                         "request_id": request.request_id,
                         "xil_request": xil_request,
-                        "workflow_step": "explanation_generation_pending"
-                    }
+                        "workflow_step": "explanation_generation_pending",
+                    },
                 )
 
             # Phase 6: Return orchestrated explanation request
@@ -935,7 +890,7 @@ class WorkflowOrchestrator:
                 step="orchestration_complete",
                 processing_time_ms=processing_time,
                 workflow_steps_count=len(explanation_workflow["steps"]),
-                narrative="XIL explanation orchestration workflow completed with transparency framework"
+                narrative="XIL explanation orchestration workflow completed with transparency framework",
             )
 
             return xil_request
@@ -946,7 +901,7 @@ class WorkflowOrchestrator:
                 explanation_id=explanation_id,
                 request_id=request.request_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Return error explanation structure for workflow continuity
             return {
@@ -955,7 +910,7 @@ class WorkflowOrchestrator:
                 "explanation_type": "explanation_generation_error",
                 "error": str(e),
                 "workflow_state": "error",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _create_hitlo_decision_context(
@@ -975,7 +930,7 @@ class WorkflowOrchestrator:
             request_id=request.request_id,
             hitlo_context_id=hitlo_context_id,
             step="initiated",
-            narrative="Starting HITLO human oversight context orchestration workflow"
+            narrative="Starting HITLO human oversight context orchestration workflow",
         )
 
         try:
@@ -986,7 +941,7 @@ class WorkflowOrchestrator:
                 "ethical_sensitivity": self._assess_ethical_sensitivity(request),
                 "regulatory_requirements": self._check_regulatory_requirements(request),
                 "stakeholder_impact_level": self._assess_stakeholder_impact(request),
-                "time_sensitivity": request.metadata.get("time_sensitivity", "normal")
+                "time_sensitivity": request.metadata.get("time_sensitivity", "normal"),
             }
 
             logger.info(
@@ -995,7 +950,7 @@ class WorkflowOrchestrator:
                 step="requirements_analyzed",
                 risk_level=oversight_requirements["risk_level"],
                 ethical_sensitivity=oversight_requirements["ethical_sensitivity"],
-                narrative="Analyzed human oversight requirements for appropriate HITLO engagement"
+                narrative="Analyzed human oversight requirements for appropriate HITLO engagement",
             )
 
             # Phase 2: Create human-readable decision context
@@ -1004,20 +959,20 @@ class WorkflowOrchestrator:
                     "primary_objective": self._extract_primary_objective(request),
                     "key_decisions_made": self._extract_key_decisions(results),
                     "confidence_levels": self._extract_confidence_levels(results),
-                    "potential_impact": self._assess_potential_impact(request, results)
+                    "potential_impact": self._assess_potential_impact(request, results),
                 },
                 "human_review_focus": {
                     "critical_decision_points": self._identify_critical_decisions(results),
                     "ethical_considerations": self._extract_ethical_considerations(results),
                     "risk_factors": self._identify_risk_factors(results),
-                    "alternative_approaches": self._suggest_alternatives(results)
+                    "alternative_approaches": self._suggest_alternatives(results),
                 },
                 "context_for_review": {
                     "background_information": self._compile_background_context(request),
                     "previous_similar_cases": self._find_similar_cases(request),
                     "relevant_policies": self._identify_relevant_policies(request),
-                    "subject_matter_expertise_needed": self._identify_expertise_needed(request)
-                }
+                    "subject_matter_expertise_needed": self._identify_expertise_needed(request),
+                },
             }
 
             # Phase 3: Create HITLO context structure
@@ -1035,36 +990,42 @@ class WorkflowOrchestrator:
                         "comparative_analysis",
                         "risk_assessment_matrix",
                         "ethical_framework_checklist",
-                        "impact_visualization"
+                        "impact_visualization",
                     ],
-                    "expected_review_time_minutes": self._estimate_review_time(oversight_requirements)
+                    "expected_review_time_minutes": self._estimate_review_time(
+                        oversight_requirements
+                    ),
                 },
                 "escalation_pathways": {
                     "immediate_escalation_triggers": [
                         "high_risk_detected",
                         "ethical_violation_potential",
                         "regulatory_non_compliance",
-                        "stakeholder_harm_risk"
+                        "stakeholder_harm_risk",
                     ],
                     "escalation_hierarchy": self._define_escalation_hierarchy(request),
-                    "timeout_escalation_minutes": 30
+                    "timeout_escalation_minutes": 30,
                 },
                 "workflow_state": "pending_human_review",
                 "orchestration_metadata": {
                     "created_by": "ExecutiveDecisionIntegrator",
                     "context_version": "1.0",
                     "human_accessible": True,
-                    "context_preserved": True
-                }
+                    "context_preserved": True,
+                },
             }
 
             logger.info(
                 "ΛTRACE_HITLO_CONTEXT_STRUCTURED",
                 hitlo_context_id=hitlo_context_id,
                 step="context_structured",
-                critical_decisions_count=len(decision_context["human_review_focus"]["critical_decision_points"]),
-                escalation_triggers_count=len(hitlo_context["escalation_pathways"]["immediate_escalation_triggers"]),
-                narrative="HITLO context structured with human-accessible decision framework"
+                critical_decisions_count=len(
+                    decision_context["human_review_focus"]["critical_decision_points"]
+                ),
+                escalation_triggers_count=len(
+                    hitlo_context["escalation_pathways"]["immediate_escalation_triggers"]
+                ),
+                narrative="HITLO context structured with human-accessible decision framework",
             )
 
             # Phase 4: Create human notification and engagement workflow
@@ -1073,30 +1034,30 @@ class WorkflowOrchestrator:
                     {
                         "step": "initial_notification",
                         "description": "Notify designated human reviewers",
-                        "timeline_minutes": 2
+                        "timeline_minutes": 2,
                     },
                     {
                         "step": "context_presentation",
                         "description": "Present decision context and options",
-                        "timeline_minutes": 5
+                        "timeline_minutes": 5,
                     },
                     {
                         "step": "guided_review",
                         "description": "Guide human through structured review process",
-                        "timeline_minutes": 20
+                        "timeline_minutes": 20,
                     },
                     {
                         "step": "decision_capture",
                         "description": "Capture human decisions and rationale",
-                        "timeline_minutes": 3
-                    }
+                        "timeline_minutes": 3,
+                    },
                 ],
                 "quality_assurance": {
                     "decision_completeness_check": True,
                     "rationale_documentation_required": True,
                     "consistency_validation": True,
-                    "audit_trail_generation": True
-                }
+                    "audit_trail_generation": True,
+                },
             }
 
             hitlo_context["engagement_workflow"] = engagement_workflow
@@ -1110,8 +1071,8 @@ class WorkflowOrchestrator:
                         "request_id": request.request_id,
                         "hitlo_context": hitlo_context,
                         "workflow_step": "human_review_pending",
-                        "urgency_level": oversight_requirements.get("risk_level", "normal")
-                    }
+                        "urgency_level": oversight_requirements.get("risk_level", "normal"),
+                    },
                 )
 
             # Phase 6: Return orchestrated HITLO context
@@ -1122,8 +1083,10 @@ class WorkflowOrchestrator:
                 hitlo_context_id=hitlo_context_id,
                 step="orchestration_complete",
                 processing_time_ms=processing_time,
-                estimated_review_time_minutes=hitlo_context["human_interface"]["expected_review_time_minutes"],
-                narrative="HITLO context orchestration workflow completed with human engagement framework"
+                estimated_review_time_minutes=hitlo_context["human_interface"][
+                    "expected_review_time_minutes"
+                ],
+                narrative="HITLO context orchestration workflow completed with human engagement framework",
             )
 
             return hitlo_context
@@ -1134,7 +1097,7 @@ class WorkflowOrchestrator:
                 hitlo_context_id=hitlo_context_id,
                 request_id=request.request_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Return error context structure for workflow continuity
             return {
@@ -1143,7 +1106,7 @@ class WorkflowOrchestrator:
                 "context_type": "hitlo_context_generation_error",
                 "error": str(e),
                 "workflow_state": "error",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _create_ethical_decision_from_causal_analysis(
@@ -1156,14 +1119,16 @@ class WorkflowOrchestrator:
         chains into ethical decision frameworks with transparency and accountability.
         """
         start_time = datetime.now(timezone.utc)
-        causal_ethical_id = f"causal_eth_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        causal_ethical_id = (
+            f"causal_eth_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        )
 
         logger.info(
             "ΛTRACE_CAUSAL_ETHICAL_ORCHESTRATION",
             request_id=request.request_id,
             causal_ethical_id=causal_ethical_id,
             step="initiated",
-            narrative="Starting causal-to-ethical decision mapping orchestration workflow"
+            narrative="Starting causal-to-ethical decision mapping orchestration workflow",
         )
 
         try:
@@ -1173,7 +1138,7 @@ class WorkflowOrchestrator:
                 "cause_effect_relationships": self._identify_cause_effects(results),
                 "intervention_points": self._identify_interventions(results),
                 "uncertainty_factors": self._extract_uncertainties(results),
-                "temporal_dependencies": self._extract_temporal_deps(results)
+                "temporal_dependencies": self._extract_temporal_deps(results),
             }
 
             logger.info(
@@ -1182,7 +1147,7 @@ class WorkflowOrchestrator:
                 step="causal_analysis_extracted",
                 causal_chains_count=len(causal_analysis["causal_chains"]),
                 intervention_points_count=len(causal_analysis["intervention_points"]),
-                narrative="Extracted causal analysis components for ethical mapping"
+                narrative="Extracted causal analysis components for ethical mapping",
             )
 
             # Phase 2: Map causal elements to ethical considerations
@@ -1196,14 +1161,14 @@ class WorkflowOrchestrator:
                     "stakeholder_impact": self._assess_chain_stakeholder_impact(chain),
                     "autonomy_considerations": self._assess_chain_autonomy_impact(chain),
                     "justice_fairness": self._assess_chain_justice_implications(chain),
-                    "long_term_consequences": self._assess_chain_long_term_effects(chain)
+                    "long_term_consequences": self._assess_chain_long_term_effects(chain),
                 }
 
                 ethical_mapping[f"causal_chain_{i}"] = {
                     "original_chain": chain,
                     "ethical_implications": ethical_implications,
                     "ethical_weight": self._calculate_ethical_weight(ethical_implications),
-                    "risk_level": self._assess_chain_risk_level(ethical_implications)
+                    "risk_level": self._assess_chain_risk_level(ethical_implications),
                 }
 
             logger.info(
@@ -1211,7 +1176,7 @@ class WorkflowOrchestrator:
                 causal_ethical_id=causal_ethical_id,
                 step="ethical_mapping_completed",
                 mapped_chains_count=len(ethical_mapping),
-                narrative="Completed causal-to-ethical mapping for decision framework"
+                narrative="Completed causal-to-ethical mapping for decision framework",
             )
 
             # Phase 3: Create ethical decision structure from mapped analysis
@@ -1225,44 +1190,52 @@ class WorkflowOrchestrator:
                     "results_metadata": {
                         "analysis_confidence": results.get("confidence", 0.0),
                         "data_quality": results.get("data_quality", "unknown"),
-                        "analysis_method": results.get("method", "unspecified")
-                    }
+                        "analysis_method": results.get("method", "unspecified"),
+                    },
                 },
                 "ethical_framework": {
                     "mapping_methodology": "causal_chain_ethical_analysis",
                     "ethical_principles_applied": [
-                        "beneficence", "non_maleficence", "autonomy",
-                        "justice", "explicability", "accountability"
+                        "beneficence",
+                        "non_maleficence",
+                        "autonomy",
+                        "justice",
+                        "explicability",
+                        "accountability",
                     ],
                     "mapping_confidence": self._calculate_mapping_confidence(ethical_mapping),
-                    "ethical_coherence_score": self._assess_ethical_coherence(ethical_mapping)
+                    "ethical_coherence_score": self._assess_ethical_coherence(ethical_mapping),
                 },
                 "ethical_assessment": {
                     "overall_ethical_verdict": self._determine_overall_verdict(ethical_mapping),
                     "critical_ethical_issues": self._identify_critical_issues(ethical_mapping),
                     "ethical_trade_offs": self._identify_trade_offs(ethical_mapping),
                     "recommended_safeguards": self._recommend_safeguards(ethical_mapping),
-                    "monitoring_requirements": self._define_monitoring_requirements(ethical_mapping)
+                    "monitoring_requirements": self._define_monitoring_requirements(
+                        ethical_mapping
+                    ),
                 },
                 "decision_pathway": {
                     "recommended_action": self._determine_recommended_action(ethical_mapping),
                     "alternative_pathways": self._identify_alternative_pathways(ethical_mapping),
                     "escalation_criteria": self._define_escalation_criteria(ethical_mapping),
-                    "approval_requirements": self._determine_approval_requirements(ethical_mapping)
+                    "approval_requirements": self._determine_approval_requirements(ethical_mapping),
                 },
                 "transparency_documentation": {
                     "decision_rationale": self._generate_decision_rationale(ethical_mapping),
                     "ethical_reasoning_chain": self._document_ethical_reasoning(ethical_mapping),
-                    "stakeholder_communication": self._prepare_stakeholder_communication(ethical_mapping),
-                    "audit_trail": self._create_audit_trail(ethical_mapping)
+                    "stakeholder_communication": self._prepare_stakeholder_communication(
+                        ethical_mapping
+                    ),
+                    "audit_trail": self._create_audit_trail(ethical_mapping),
                 },
                 "workflow_state": "pending_ethical_review",
                 "orchestration_metadata": {
                     "created_by": "ExecutiveDecisionIntegrator",
                     "mapping_version": "1.0",
                     "causal_ethical_integration": True,
-                    "context_preserved": True
-                }
+                    "context_preserved": True,
+                },
             }
 
             logger.info(
@@ -1270,8 +1243,10 @@ class WorkflowOrchestrator:
                 causal_ethical_id=causal_ethical_id,
                 step="ethical_decision_structured",
                 overall_verdict=ethical_decision["ethical_assessment"]["overall_ethical_verdict"],
-                critical_issues_count=len(ethical_decision["ethical_assessment"]["critical_ethical_issues"]),
-                narrative="Ethical decision structured from causal analysis with comprehensive framework"
+                critical_issues_count=len(
+                    ethical_decision["ethical_assessment"]["critical_ethical_issues"]
+                ),
+                narrative="Ethical decision structured from causal analysis with comprehensive framework",
             )
 
             # Phase 4: Integrate with LUKHAS event system for orchestration
@@ -1283,8 +1258,10 @@ class WorkflowOrchestrator:
                         "request_id": request.request_id,
                         "ethical_decision": ethical_decision,
                         "workflow_step": "causal_ethical_integration_complete",
-                        "ethical_verdict": ethical_decision["ethical_assessment"]["overall_ethical_verdict"]
-                    }
+                        "ethical_verdict": ethical_decision["ethical_assessment"][
+                            "overall_ethical_verdict"
+                        ],
+                    },
                 )
 
             # Phase 5: Return orchestrated causal-ethical decision
@@ -1295,8 +1272,10 @@ class WorkflowOrchestrator:
                 causal_ethical_id=causal_ethical_id,
                 step="orchestration_complete",
                 processing_time_ms=processing_time,
-                ethical_coherence_score=ethical_decision["ethical_framework"]["ethical_coherence_score"],
-                narrative="Causal-to-ethical decision mapping orchestration workflow completed successfully"
+                ethical_coherence_score=ethical_decision["ethical_framework"][
+                    "ethical_coherence_score"
+                ],
+                narrative="Causal-to-ethical decision mapping orchestration workflow completed successfully",
             )
 
             return ethical_decision
@@ -1307,7 +1286,7 @@ class WorkflowOrchestrator:
                 causal_ethical_id=causal_ethical_id,
                 request_id=request.request_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Return error decision structure for workflow continuity
             return {
@@ -1316,7 +1295,7 @@ class WorkflowOrchestrator:
                 "decision_type": "causal_ethical_mapping_error",
                 "error": str(e),
                 "workflow_state": "error",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _create_privacy_decision_context(
@@ -1329,14 +1308,16 @@ class WorkflowOrchestrator:
         with comprehensive data protection and compliance frameworks.
         """
         start_time = datetime.now(timezone.utc)
-        privacy_context_id = f"privacy_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        privacy_context_id = (
+            f"privacy_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        )
 
         logger.info(
             "ΛTRACE_PRIVACY_CONTEXT_ORCHESTRATION",
             request_id=request.request_id,
             privacy_context_id=privacy_context_id,
             step="initiated",
-            narrative="Starting privacy decision context orchestration workflow"
+            narrative="Starting privacy decision context orchestration workflow",
         )
 
         try:
@@ -1347,7 +1328,7 @@ class WorkflowOrchestrator:
                 "data_sensitivity_levels": self._assess_data_sensitivity(request, results),
                 "cross_border_transfers": self._identify_cross_border_data(request),
                 "data_retention_requirements": self._assess_retention_needs(request),
-                "third_party_sharing": self._identify_third_party_sharing(request, results)
+                "third_party_sharing": self._identify_third_party_sharing(request, results),
             }
 
             logger.info(
@@ -1355,18 +1336,24 @@ class WorkflowOrchestrator:
                 privacy_context_id=privacy_context_id,
                 step="privacy_analysis_completed",
                 data_types_count=len(privacy_analysis["data_types_involved"]),
-                sensitivity_level=max(privacy_analysis["data_sensitivity_levels"]) if privacy_analysis["data_sensitivity_levels"] else "unknown",
-                narrative="Completed privacy analysis for decision context framework"
+                sensitivity_level=max(privacy_analysis["data_sensitivity_levels"])
+                if privacy_analysis["data_sensitivity_levels"]
+                else "unknown",
+                narrative="Completed privacy analysis for decision context framework",
             )
 
             # Phase 2: Assess regulatory compliance requirements
             compliance_assessment = {
-                "applicable_regulations": self._identify_applicable_regulations(request, privacy_analysis),
+                "applicable_regulations": self._identify_applicable_regulations(
+                    request, privacy_analysis
+                ),
                 "gdpr_assessment": self._assess_gdpr_compliance(request, privacy_analysis),
                 "ccpa_assessment": self._assess_ccpa_compliance(request, privacy_analysis),
-                "sector_specific_requirements": self._assess_sector_requirements(request, privacy_analysis),
+                "sector_specific_requirements": self._assess_sector_requirements(
+                    request, privacy_analysis
+                ),
                 "consent_requirements": self._assess_consent_needs(request, privacy_analysis),
-                "lawful_basis_analysis": self._determine_lawful_basis(request, privacy_analysis)
+                "lawful_basis_analysis": self._determine_lawful_basis(request, privacy_analysis),
             }
 
             # Phase 3: Create privacy protection framework
@@ -1374,20 +1361,26 @@ class WorkflowOrchestrator:
                 "data_minimization": {
                     "principle_applied": True,
                     "data_reduction_opportunities": self._identify_data_reduction(privacy_analysis),
-                    "purpose_limitation_compliance": self._assess_purpose_limitation(request)
+                    "purpose_limitation_compliance": self._assess_purpose_limitation(request),
                 },
                 "technical_safeguards": {
                     "encryption_requirements": self._determine_encryption_needs(privacy_analysis),
-                    "anonymization_opportunities": self._identify_anonymization_options(privacy_analysis),
+                    "anonymization_opportunities": self._identify_anonymization_options(
+                        privacy_analysis
+                    ),
                     "access_controls": self._define_access_controls(request, privacy_analysis),
-                    "audit_logging": self._define_audit_requirements(privacy_analysis)
+                    "audit_logging": self._define_audit_requirements(privacy_analysis),
                 },
                 "organizational_measures": {
                     "privacy_by_design": self._assess_privacy_by_design(request),
-                    "data_protection_impact_assessment": self._assess_dpia_requirements(privacy_analysis),
+                    "data_protection_impact_assessment": self._assess_dpia_requirements(
+                        privacy_analysis
+                    ),
                     "staff_training_requirements": self._identify_training_needs(privacy_analysis),
-                    "incident_response_procedures": self._define_incident_procedures(privacy_analysis)
-                }
+                    "incident_response_procedures": self._define_incident_procedures(
+                        privacy_analysis
+                    ),
+                },
             }
 
             # Phase 4: Create privacy decision context structure
@@ -1400,32 +1393,42 @@ class WorkflowOrchestrator:
                 "compliance_assessment": compliance_assessment,
                 "privacy_protection": privacy_protection,
                 "risk_assessment": {
-                    "privacy_risk_level": self._calculate_privacy_risk_level(privacy_analysis, compliance_assessment),
+                    "privacy_risk_level": self._calculate_privacy_risk_level(
+                        privacy_analysis, compliance_assessment
+                    ),
                     "breach_potential": self._assess_breach_potential(privacy_analysis),
                     "regulatory_risk": self._assess_regulatory_risk(compliance_assessment),
                     "reputational_risk": self._assess_reputational_risk(privacy_analysis),
-                    "mitigation_strategies": self._define_mitigation_strategies(privacy_analysis, compliance_assessment)
+                    "mitigation_strategies": self._define_mitigation_strategies(
+                        privacy_analysis, compliance_assessment
+                    ),
                 },
                 "decision_framework": {
-                    "privacy_preserving_alternatives": self._identify_privacy_alternatives(request, results),
+                    "privacy_preserving_alternatives": self._identify_privacy_alternatives(
+                        request, results
+                    ),
                     "privacy_trade_offs": self._identify_privacy_trade_offs(request, results),
                     "consent_management": self._define_consent_management(compliance_assessment),
                     "data_subject_rights": self._define_data_subject_rights(compliance_assessment),
-                    "privacy_monitoring": self._define_privacy_monitoring(privacy_analysis)
+                    "privacy_monitoring": self._define_privacy_monitoring(privacy_analysis),
                 },
                 "transparency_requirements": {
                     "privacy_notice_updates": self._determine_notice_updates(privacy_analysis),
-                    "data_subject_communication": self._prepare_subject_communication(privacy_analysis),
-                    "regulatory_notifications": self._identify_regulatory_notifications(compliance_assessment),
-                    "internal_documentation": self._define_internal_documentation(privacy_analysis)
+                    "data_subject_communication": self._prepare_subject_communication(
+                        privacy_analysis
+                    ),
+                    "regulatory_notifications": self._identify_regulatory_notifications(
+                        compliance_assessment
+                    ),
+                    "internal_documentation": self._define_internal_documentation(privacy_analysis),
                 },
                 "workflow_state": "pending_privacy_review",
                 "orchestration_metadata": {
                     "created_by": "ExecutiveDecisionIntegrator",
                     "privacy_version": "1.0",
                     "privacy_by_design_applied": True,
-                    "context_preserved": True
-                }
+                    "context_preserved": True,
+                },
             }
 
             logger.info(
@@ -1434,7 +1437,7 @@ class WorkflowOrchestrator:
                 step="privacy_context_structured",
                 privacy_risk_level=privacy_context["risk_assessment"]["privacy_risk_level"],
                 applicable_regulations_count=len(compliance_assessment["applicable_regulations"]),
-                narrative="Privacy decision context structured with comprehensive protection framework"
+                narrative="Privacy decision context structured with comprehensive protection framework",
             )
 
             # Phase 5: Create privacy workflow with stakeholder engagement
@@ -1443,30 +1446,30 @@ class WorkflowOrchestrator:
                     {
                         "step": "data_mapping_verification",
                         "description": "Verify data mapping accuracy and completeness",
-                        "stakeholders": ["data_protection_officer", "technical_team"]
+                        "stakeholders": ["data_protection_officer", "technical_team"],
                     },
                     {
                         "step": "compliance_validation",
                         "description": "Validate regulatory compliance assessments",
-                        "stakeholders": ["legal_team", "compliance_officer"]
+                        "stakeholders": ["legal_team", "compliance_officer"],
                     },
                     {
                         "step": "technical_safeguards_review",
                         "description": "Review technical privacy safeguards implementation",
-                        "stakeholders": ["security_team", "engineering_team"]
+                        "stakeholders": ["security_team", "engineering_team"],
                     },
                     {
                         "step": "stakeholder_notification",
                         "description": "Execute required stakeholder notifications",
-                        "stakeholders": ["communications_team", "data_subjects"]
-                    }
+                        "stakeholders": ["communications_team", "data_subjects"],
+                    },
                 ],
                 "escalation_criteria": {
                     "high_risk_privacy_decisions": "immediate_dpo_review",
                     "cross_border_transfers": "legal_team_approval",
                     "new_purposes": "privacy_impact_assessment",
-                    "consent_changes": "stakeholder_consultation"
-                }
+                    "consent_changes": "stakeholder_consultation",
+                },
             }
 
             privacy_context["privacy_workflow"] = privacy_workflow
@@ -1480,8 +1483,10 @@ class WorkflowOrchestrator:
                         "request_id": request.request_id,
                         "privacy_context": privacy_context,
                         "workflow_step": "privacy_review_pending",
-                        "privacy_risk_level": privacy_context["risk_assessment"]["privacy_risk_level"]
-                    }
+                        "privacy_risk_level": privacy_context["risk_assessment"][
+                            "privacy_risk_level"
+                        ],
+                    },
                 )
 
             # Phase 7: Return orchestrated privacy context
@@ -1492,8 +1497,9 @@ class WorkflowOrchestrator:
                 privacy_context_id=privacy_context_id,
                 step="orchestration_complete",
                 processing_time_ms=processing_time,
-                privacy_safeguards_count=len(privacy_protection["technical_safeguards"]) + len(privacy_protection["organizational_measures"]),
-                narrative="Privacy decision context orchestration workflow completed with comprehensive protection framework"
+                privacy_safeguards_count=len(privacy_protection["technical_safeguards"])
+                + len(privacy_protection["organizational_measures"]),
+                narrative="Privacy decision context orchestration workflow completed with comprehensive protection framework",
             )
 
             return privacy_context
@@ -1504,7 +1510,7 @@ class WorkflowOrchestrator:
                 privacy_context_id=privacy_context_id,
                 request_id=request.request_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Return error context structure for workflow continuity
             return {
@@ -1513,7 +1519,7 @@ class WorkflowOrchestrator:
                 "context_type": "privacy_context_generation_error",
                 "error": str(e),
                 "workflow_state": "error",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
 
@@ -1643,17 +1649,13 @@ class CEOAttitudeIntegrationHub:
                 self.logger.warning("ΛTRACE_DMB_INIT_ERROR", error=str(e))
 
             try:
-                self.emotional_memory = EmotionalMemory(
-                    self.config.get("emotional_memory", {})
-                )
+                self.emotional_memory = EmotionalMemory(self.config.get("emotional_memory", {}))
                 self.logger.info("ΛTRACE_EMOTIONAL_MEMORY_INITIALIZED")
             except Exception as e:
                 self.logger.warning("ΛTRACE_EMOTIONAL_MEMORY_INIT_ERROR", error=str(e))
 
             try:
-                self.symbolic_engine = SymbolicEngine(
-                    self.config.get("symbolic_engine", {})
-                )
+                self.symbolic_engine = SymbolicEngine(self.config.get("symbolic_engine", {}))
                 self.logger.info("ΛTRACE_SYMBOLIC_ENGINE_INITIALIZED")
             except Exception as e:
                 self.logger.warning("ΛTRACE_SYMBOLIC_ENGINE_INIT_ERROR", error=str(e))
@@ -1697,9 +1699,7 @@ class CEOAttitudeIntegrationHub:
 
         self.logger.info("ΛTRACE_HUB_STOPPED")
 
-    async def execute_integrated_workflow(
-        self, request: IntegrationRequest
-    ) -> IntegrationResponse:
+    async def execute_integrated_workflow(self, request: IntegrationRequest) -> IntegrationResponse:
         """Execute an integrated workflow across CEO Attitude modules."""
         request_logger = self.logger.bind(
             request_id=request.request_id,
@@ -1716,9 +1716,7 @@ class CEOAttitudeIntegrationHub:
             response = await self.workflow_orchestrator.execute_workflow(request)
 
             # Calculate performance metrics
-            total_time = (
-                datetime.now(timezone.utc) - start_time
-            ).total_seconds() * 1000
+            total_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             response.performance_metrics["total_time_ms"] = total_time
 
             # Update success metrics
@@ -1796,9 +1794,7 @@ class CEOAttitudeIntegrationHub:
                 # ΛSTUB: Implement actual health check methods for each module
                 health_status = True  # Assume healthy for now
 
-                response_time = (
-                    datetime.now(timezone.utc) - start_time
-                ).total_seconds() * 1000
+                response_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                 self.module_health[module_name] = ModuleHealth(
                     module_name=module_name,
@@ -1831,8 +1827,7 @@ class CEOAttitudeIntegrationHub:
                 # Calculate integration efficiency
                 if self.metrics["total_requests"] > 0:
                     success_rate = (
-                        self.metrics["successful_workflows"]
-                        / self.metrics["total_requests"]
+                        self.metrics["successful_workflows"] / self.metrics["total_requests"]
                     )
                     availability = self.metrics["module_availability"]
                     response_time_factor = min(
@@ -1841,9 +1836,7 @@ class CEOAttitudeIntegrationHub:
                     )
 
                     self.metrics["integration_efficiency"] = (
-                        success_rate * 0.5
-                        + availability * 0.3
-                        + response_time_factor * 0.2
+                        success_rate * 0.5 + availability * 0.3 + response_time_factor * 0.2
                     )
 
                 await asyncio.sleep(300)  # Update every 5 minutes
@@ -1871,9 +1864,7 @@ class CEOAttitudeIntegrationHub:
             "available_workflows": [wf.value for wf in WorkflowType],
             "system_uptime_hours": (
                 datetime.now(timezone.utc)
-                - datetime.now(timezone.utc).replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
+                - datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             ).total_seconds()
             / 3600,
         }

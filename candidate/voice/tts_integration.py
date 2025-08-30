@@ -30,6 +30,7 @@ logger = get_logger(__name__)
 
 class TTSProviderType(Enum):
     """TTS provider types"""
+
     ELEVENLABS = "elevenlabs"
     EDGE_TTS = "edge_tts"
     COQUI = "coqui"
@@ -41,6 +42,7 @@ class TTSProviderType(Enum):
 
 class TTSQuality(Enum):
     """TTS quality levels"""
+
     DRAFT = "draft"
     STANDARD = "standard"
     HIGH = "high"
@@ -50,6 +52,7 @@ class TTSQuality(Enum):
 @dataclass
 class TTSRequest:
     """TTS request structure"""
+
     text: str
     voice_id: Optional[str] = None
     emotion: Optional[str] = None
@@ -79,19 +82,22 @@ class TTSRequest:
             "pitch": self.pitch,
             "volume": self.volume,
             "quality": self.quality.value,
-            "provider_preference": self.provider_preference.value if self.provider_preference else None,
+            "provider_preference": self.provider_preference.value
+            if self.provider_preference
+            else None,
             "user_id": self.user_id,
             "session_id": self.session_id,
             "context": self.context,
             "apply_audio_processing": self.apply_audio_processing,
             "audio_processing_quality": self.audio_processing_quality.value,
-            "modulation_mode": self.modulation_mode.value if self.modulation_mode else None
+            "modulation_mode": self.modulation_mode.value if self.modulation_mode else None,
         }
 
 
 @dataclass
 class TTSResponse:
     """TTS response structure"""
+
     success: bool
     audio_data: Optional[bytes] = None
     format: str = "wav"
@@ -133,7 +139,7 @@ class TTSResponse:
             "quality_metrics": self.quality_metrics,
             "error_message": self.error_message,
             "error_code": self.error_code,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -175,18 +181,11 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
 
         try:
             # Convert request to legacy format
-            params = {
-                "speed": request.speed,
-                "pitch": request.pitch,
-                "volume": request.volume
-            }
+            params = {"speed": request.speed, "pitch": request.pitch, "volume": request.volume}
 
             # Call legacy provider
             result = self.provider.synthesize(
-                text=request.text,
-                voice_id=request.voice_id,
-                emotion=request.emotion,
-                params=params
+                text=request.text, voice_id=request.voice_id, emotion=request.emotion, params=params
             )
 
             processing_time = (time.time() - start_time) * 1000
@@ -213,23 +212,23 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
                     provider_used=self.provider_type.value,
                     voice_id_used=result.get("voice_id"),
                     processing_time_ms=processing_time,
-                    metadata=result
+                    metadata=result,
                 )
             else:
                 return TTSResponse(
                     success=False,
                     error_message=result.get("error", "Unknown error"),
                     provider_used=self.provider_type.value,
-                    processing_time_ms=processing_time
+                    processing_time_ms=processing_time,
                 )
 
         except Exception as e:
-            self.logger.error(f"Legacy provider synthesis failed: {str(e)}")
+            self.logger.error(f"Legacy provider synthesis failed: {e!s}")
             return TTSResponse(
                 success=False,
                 error_message=str(e),
                 provider_used=self.provider_type.value,
-                processing_time_ms=(time.time() - start_time) * 1000
+                processing_time_ms=(time.time() - start_time) * 1000,
             )
 
     def is_available(self) -> bool:
@@ -244,7 +243,7 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
             else:
                 return []
         except Exception as e:
-            self.logger.error(f"Failed to get voices: {str(e)}")
+            self.logger.error(f"Failed to get voices: {e!s}")
             return []
 
     def get_provider_type(self) -> TTSProviderType:
@@ -267,7 +266,7 @@ class OpenAITTSAdapter(TTSProviderAdapter):
             "fable": "fable",
             "onyx": "onyx",
             "nova": "nova",
-            "shimmer": "shimmer"
+            "shimmer": "shimmer",
         }
 
     async def synthesize(self, request: TTSRequest) -> TTSResponse:
@@ -296,7 +295,7 @@ class OpenAITTSAdapter(TTSProviderAdapter):
                 voice=voice,
                 input=request.text,
                 response_format="wav",
-                speed=request.speed
+                speed=request.speed,
             )
 
             audio_data = response.content
@@ -313,16 +312,16 @@ class OpenAITTSAdapter(TTSProviderAdapter):
                 provider_used="openai",
                 voice_id_used=voice,
                 processing_time_ms=processing_time,
-                metadata={"model": model}
+                metadata={"model": model},
             )
 
         except Exception as e:
-            self.logger.error(f"OpenAI TTS failed: {str(e)}")
+            self.logger.error(f"OpenAI TTS failed: {e!s}")
             return TTSResponse(
                 success=False,
                 error_message=str(e),
                 provider_used="openai",
-                processing_time_ms=(time.time() - start_time) * 1000
+                processing_time_ms=(time.time() - start_time) * 1000,
             )
 
     def is_available(self) -> bool:
@@ -337,7 +336,7 @@ class OpenAITTSAdapter(TTSProviderAdapter):
             {"voice_id": "fable", "name": "Fable", "gender": "neutral"},
             {"voice_id": "onyx", "name": "Onyx", "gender": "male"},
             {"voice_id": "nova", "name": "Nova", "gender": "female"},
-            {"voice_id": "shimmer", "name": "Shimmer", "gender": "female"}
+            {"voice_id": "shimmer", "name": "Shimmer", "gender": "female"},
         ]
 
     def get_provider_type(self) -> TTSProviderType:
@@ -361,7 +360,7 @@ class TTSProviderManager:
             TTSProviderType.ELEVENLABS,
             TTSProviderType.OPENAI,
             TTSProviderType.EDGE_TTS,
-            TTSProviderType.COQUI
+            TTSProviderType.COQUI,
         ]
 
     def _initialize_providers(self):
@@ -455,7 +454,7 @@ class LUKHASTTSService:
             "requests_failed": 0,
             "average_processing_time": 0.0,
             "providers_used": {},
-            "start_time": time.time()
+            "start_time": time.time(),
         }
 
         # Cache for recent results (simple in-memory cache)
@@ -479,17 +478,19 @@ class LUKHASTTSService:
 
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "tts_synthesis",
-                "text_length": len(request.text),
-                "request": request.to_dict()
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "tts_synthesis",
+                    "text_length": len(request.text),
+                    "request": request.to_dict(),
+                }
+            )
 
             if not validation_result.get("approved", False):
                 return TTSResponse(
                     success=False,
                     error_message=f"Guardian rejected TTS request: {validation_result.get('reason')}",
-                    error_code="GUARDIAN_REJECTED"
+                    error_code="GUARDIAN_REJECTED",
                 )
 
             # Check cache first
@@ -505,7 +506,7 @@ class LUKHASTTSService:
                 return TTSResponse(
                     success=False,
                     error_message="No available TTS providers",
-                    error_code="NO_PROVIDERS"
+                    error_code="NO_PROVIDERS",
                 )
 
             # Synthesize speech
@@ -519,9 +520,7 @@ class LUKHASTTSService:
             if request.modulation_mode and tts_response.audio_data:
                 try:
                     modulated_audio, mod_metadata = await self.voice_modulator.modulate(
-                        tts_response.audio_data,
-                        request.modulation_mode,
-                        request.context
+                        tts_response.audio_data, request.modulation_mode, request.context
                     )
 
                     if mod_metadata.get("success", False):
@@ -530,7 +529,7 @@ class LUKHASTTSService:
                         tts_response.metadata["modulation"] = mod_metadata
 
                 except Exception as e:
-                    self.logger.warning(f"Voice modulation failed: {str(e)}")
+                    self.logger.warning(f"Voice modulation failed: {e!s}")
                     # Continue without modulation
 
             # Apply audio processing if requested
@@ -541,7 +540,7 @@ class LUKHASTTSService:
                         tts_response.sample_rate,
                         1,  # Assume mono for now
                         quality=request.audio_processing_quality,
-                        context=request.context
+                        context=request.context,
                     )
 
                     if proc_metadata.get("success", False):
@@ -550,7 +549,7 @@ class LUKHASTTSService:
                         tts_response.metadata["audio_processing"] = proc_metadata
 
                 except Exception as e:
-                    self.logger.warning(f"Audio processing failed: {str(e)}")
+                    self.logger.warning(f"Audio processing failed: {e!s}")
                     # Continue without processing
 
             # Update processing time
@@ -560,44 +559,48 @@ class LUKHASTTSService:
             # Update statistics
             self.stats["requests_successful"] += 1
             provider_type = provider.get_provider_type().value
-            self.stats["providers_used"][provider_type] = self.stats["providers_used"].get(provider_type, 0) + 1
+            self.stats["providers_used"][provider_type] = (
+                self.stats["providers_used"].get(provider_type, 0) + 1
+            )
 
             # Update average processing time
             self.stats["average_processing_time"] = (
-                (self.stats["average_processing_time"] * (self.stats["requests_successful"] - 1) + total_time) /
-                self.stats["requests_successful"]
-            )
+                self.stats["average_processing_time"] * (self.stats["requests_successful"] - 1)
+                + total_time
+            ) / self.stats["requests_successful"]
 
             # Cache response
             if len(self.response_cache) < self.cache_max_size:
                 self.response_cache[cache_key] = tts_response
 
             # Emit GLYPH event
-            await GLYPH.emit("tts.synthesis.completed", {
-                "provider": provider_type,
-                "processing_time_ms": total_time,
-                "text_length": len(request.text),
-                "audio_duration": tts_response.duration_seconds,
-                "modulation_applied": tts_response.modulation_applied,
-                "audio_processing_applied": tts_response.audio_processing_applied
-            })
+            await GLYPH.emit(
+                "tts.synthesis.completed",
+                {
+                    "provider": provider_type,
+                    "processing_time_ms": total_time,
+                    "text_length": len(request.text),
+                    "audio_duration": tts_response.duration_seconds,
+                    "modulation_applied": tts_response.modulation_applied,
+                    "audio_processing_applied": tts_response.audio_processing_applied,
+                },
+            )
 
             return tts_response
 
         except Exception as e:
-            self.logger.error(f"TTS synthesis failed: {str(e)}")
+            self.logger.error(f"TTS synthesis failed: {e!s}")
             self.stats["requests_failed"] += 1
 
-            await GLYPH.emit("tts.synthesis.error", {
-                "error": str(e),
-                "text_length": len(request.text)
-            })
+            await GLYPH.emit(
+                "tts.synthesis.error", {"error": str(e), "text_length": len(request.text)}
+            )
 
             return TTSResponse(
                 success=False,
                 error_message=str(e),
                 error_code="SYNTHESIS_ERROR",
-                processing_time_ms=(time.time() - start_time) * 1000
+                processing_time_ms=(time.time() - start_time) * 1000,
             )
 
     def _generate_cache_key(self, request: TTSRequest) -> str:
@@ -611,7 +614,7 @@ class LUKHASTTSService:
             "pitch": request.pitch,
             "volume": request.volume,
             "quality": request.quality.value,
-            "provider": request.provider_preference.value if request.provider_preference else None
+            "provider": request.provider_preference.value if request.provider_preference else None,
         }
         return str(hash(json.dumps(key_params, sort_keys=True)))
 
@@ -628,7 +631,7 @@ class LUKHASTTSService:
             "available_providers": [p.value for p in available_providers],
             "total_providers": len(self.provider_manager.providers),
             "stats": self.stats.copy(),
-            "uptime_seconds": time.time() - self.stats["start_time"]
+            "uptime_seconds": time.time() - self.stats["start_time"],
         }
 
     def clear_cache(self):
@@ -647,7 +650,9 @@ class LUKHASTTSService:
                     provider = self.provider_manager.providers[provider_type]
                     if provider.is_available():
                         voices = provider.get_supported_voices()
-                        self.logger.info(f"Preloaded {len(voices)} voices from {provider_type.value}")
+                        self.logger.info(
+                            f"Preloaded {len(voices)} voices from {provider_type.value}"
+                        )
                 except Exception as e:
                     self.logger.error(f"Failed to preload voices from {provider_type.value}: {e}")
 
@@ -658,7 +663,7 @@ async def text_to_speech(
     voice_id: Optional[str] = None,
     emotion: Optional[str] = None,
     quality: TTSQuality = TTSQuality.STANDARD,
-    provider: Optional[TTSProviderType] = None
+    provider: Optional[TTSProviderType] = None,
 ) -> TTSResponse:
     """
     Simple text-to-speech conversion
@@ -677,11 +682,7 @@ async def text_to_speech(
     service = LUKHASTTSService()
 
     request = TTSRequest(
-        text=text,
-        voice_id=voice_id,
-        emotion=emotion,
-        quality=quality,
-        provider_preference=provider
+        text=text, voice_id=voice_id, emotion=emotion, quality=quality, provider_preference=provider
     )
 
     return await service.synthesize_speech(request)
@@ -690,11 +691,11 @@ async def text_to_speech(
 # Export main classes
 __all__ = [
     "LUKHASTTSService",
-    "TTSRequest",
-    "TTSResponse",
-    "TTSProviderType",
-    "TTSQuality",
     "TTSProviderAdapter",
     "TTSProviderManager",
-    "text_to_speech"
+    "TTSProviderType",
+    "TTSQuality",
+    "TTSRequest",
+    "TTSResponse",
+    "text_to_speech",
 ]

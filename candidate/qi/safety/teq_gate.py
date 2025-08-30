@@ -19,9 +19,11 @@ except ImportError:
 # Optional consent integration
 try:
     from qi.memory.consent_guard import ConsentGuard, require_consent
+
     CONSENT_AVAILABLE = True
 except ImportError:
     CONSENT_AVAILABLE = False
+
 
 @dataclass
 class GateResult:
@@ -29,6 +31,7 @@ class GateResult:
     reasons: list[str]
     remedies: list[str]
     jurisdiction: str
+
 
 class PolicyPack:
     def __init__(self, root: str):
@@ -53,8 +56,11 @@ class PolicyPack:
                     out.append(yaml.safe_load(f))
         return out
 
+
 class TEQCoupler:
-    def __init__(self, policy_dir: str, jurisdiction: str = "global", consent_storage: str | None = None):
+    def __init__(
+        self, policy_dir: str, jurisdiction: str = "global", consent_storage: str | None = None
+    ):
         self.pack = PolicyPack(os.path.join(policy_dir, jurisdiction))
         self.jurisdiction = jurisdiction
         self.consent_guard = None
@@ -74,7 +80,9 @@ class TEQCoupler:
                     remedies.append(remedy)
 
         allowed = len(reasons) == 0
-        return GateResult(allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction)
+        return GateResult(
+            allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction
+        )
 
     def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
         tasks = (self.pack.mappings or {}).get("tasks", {})
@@ -103,7 +111,7 @@ class TEQCoupler:
                 purpose=chk.get("purpose"),
                 user_key=chk.get("user_key", "user_id"),
                 require_fields=chk.get("require_fields", []),
-                within_days=int(chk.get("within_days", 365))
+                within_days=int(chk.get("within_days", 365)),
             )
         if kind == "require_capabilities":
             return self._require_capabilities(
@@ -111,38 +119,55 @@ class TEQCoupler:
                 subject=chk.get("subject_key", "user_id"),
                 caps=chk.get("caps", []),
                 fs_paths=chk.get("fs_paths", []),
-                ttl_floor_sec=int(chk.get("ttl_floor_sec", 0))
+                ttl_floor_sec=int(chk.get("ttl_floor_sec", 0)),
             )
         if kind == "require_change_approval":
-            return self._require_change_approval(ctx, proposal_id=chk.get("proposal_id_key","proposal_id"))
+            return self._require_change_approval(
+                ctx, proposal_id=chk.get("proposal_id_key", "proposal_id")
+            )
         if kind == "require_provenance_record":
             return self._require_provenance_record(
                 ctx,
                 require_attestation=bool(chk.get("require_attestation", False)),
                 verify_signature=bool(chk.get("verify_signature", False)),
                 require_storage_url=bool(chk.get("require_storage_url", True)),
-                allow_inline_record=bool(chk.get("allow_inline_record", True))
+                allow_inline_record=bool(chk.get("allow_inline_record", True)),
             )
         if kind == "require_recent_receipt":
             return self._require_recent_receipt(
                 ctx,
                 within_sec=int(chk.get("within_sec", 300)),
-                accepted_events=chk.get("accepted_events", ["link_issued","download_stream","download_redirect","view_ack"]),
-                require_same_user=bool(chk.get("require_same_user", True))
+                accepted_events=chk.get(
+                    "accepted_events",
+                    ["link_issued", "download_stream", "download_redirect", "view_ack"],
+                ),
+                require_same_user=bool(chk.get("require_same_user", True)),
             )
-        return True, "", ""  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
+        return (
+            True,
+            "",
+            "",
+        )  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
 
     # -- helpers
     def _has_provenance(self, ctx: dict[str, Any]) -> tuple[bool, str, str]:
         prov = ctx.get("provenance", {})
         ok = bool(prov.get("inputs")) and bool(prov.get("sources"))
-        return (ok, "Missing provenance (inputs/sources).", "Attach inputs & sources with timestamps & hashes.")
+        return (
+            ok,
+            "Missing provenance (inputs/sources).",
+            "Attach inputs & sources with timestamps & hashes.",
+        )
 
     def _mask_pii(self, ctx: dict[str, Any], fields: list[str]) -> tuple[bool, str, str]:
         pii = ctx.get("pii", {})
         masked = ctx.get("pii_masked", False)
         if pii and not masked:
-            return (False, "PII present but not masked.", f"Mask fields: {fields or list(pii.keys())} before processing.")
+            return (
+                False,
+                "PII present but not masked.",
+                f"Mask fields: {fields or list(pii.keys())} before processing.",
+            )
         return (True, "", "")
 
     def _content_policy(self, ctx: dict[str, Any], categories: list[str]) -> tuple[bool, str, str]:
@@ -152,14 +177,24 @@ class TEQCoupler:
             hits = detect_pii(txt)
             if hits:
                 ctx.setdefault("pii", {})
-                ctx["pii"]["_auto_hits"] = [{"kind": h.kind, "value": h.value, "span": h.span} for h in hits]
+                ctx["pii"]["_auto_hits"] = [
+                    {"kind": h.kind, "value": h.value, "span": h.span} for h in hits
+                ]
                 if not ctx.get("pii_masked"):
-                    return (False, "PII detected in content but not masked.", "Call mask_pii() or set pii_masked=true.")
+                    return (
+                        False,
+                        "PII detected in content but not masked.",
+                        "Call mask_pii() or set pii_masked=true.",
+                    )
         cats = set(categories or [])
         flagged = set(ctx.get("content_flags", []))
         blocked = cats & flagged
         if blocked:
-            return (False, f"Content policy violation: {sorted(blocked)}.", "Route to human review or sanitize content.")
+            return (
+                False,
+                f"Content policy violation: {sorted(blocked)}.",
+                "Route to human review or sanitize content.",
+            )
         return (True, "", "")
 
     def _budget_limit(self, ctx: dict[str, Any], max_tokens: int | None) -> tuple[bool, str, str]:
@@ -170,6 +205,7 @@ class TEQCoupler:
         if used < 0:
             try:
                 from qi.ops.budgeter import Budgeter
+
                 text = ctx.get("text") or ctx.get("input_text") or ""
                 plan = Budgeter().plan(text=text)
                 used = int(plan.get("tokens_planned", 0))
@@ -177,7 +213,11 @@ class TEQCoupler:
             except Exception:
                 used = 0
         if used > max_tokens:
-            return (False, f"Budget exceeded: {used}>{max_tokens}.", "Reduce context window or compress input.")
+            return (
+                False,
+                f"Budget exceeded: {used}>{max_tokens}.",
+                "Reduce context window or compress input.",
+            )
         return (True, "", "")
 
     def _age_gate(self, ctx: dict[str, Any], min_age: int) -> tuple[bool, str, str]:
@@ -185,7 +225,11 @@ class TEQCoupler:
         if age is None:
             return (True, "", "")  # unknown; choose your policy
         if age < min_age:
-            return (False, f"Age-gate: user_age={age} < {min_age}.", "Block or switch to underage-safe flow.")
+            return (
+                False,
+                f"Age-gate: user_age={age} < {min_age}.",
+                "Block or switch to underage-safe flow.",
+            )
         return (True, "", "")
 
     def _require_consent(self, ctx: dict[str, Any], purpose: str) -> tuple[bool, str, str]:
@@ -204,42 +248,84 @@ class TEQCoupler:
         else:
             return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
 
-    def _require_fresh_consent(self, ctx: dict[str, Any], *, purpose: str | None, user_key: str = "user_id", require_fields: list[str] | None = None, within_days: int = 365):
+    def _require_fresh_consent(
+        self,
+        ctx: dict[str, Any],
+        *,
+        purpose: str | None,
+        user_key: str = "user_id",
+        require_fields: list[str] | None = None,
+        within_days: int = 365,
+    ):
         from qi.memory.consent_ledger import is_allowed
+
         user_id = (ctx.get("user_profile") or {}).get(user_key)
         if not purpose:
             return (False, "Consent check missing 'purpose'.", "Set purpose in policy mappings.")
         if not user_id:
-            return (False, "Consent check missing user_id.", "Provide user_profile.user_id in context.")
-        ok = is_allowed(user_id, purpose, require_fields=require_fields or [], within_days=within_days)
+            return (
+                False,
+                "Consent check missing user_id.",
+                "Provide user_profile.user_id in context.",
+            )
+        ok = is_allowed(
+            user_id, purpose, require_fields=require_fields or [], within_days=within_days
+        )
         if not ok:
-            return (False, f"Consent missing/expired/insufficient for purpose '{purpose}'.", "Obtain fresh consent with required fields.")
+            return (
+                False,
+                f"Consent missing/expired/insufficient for purpose '{purpose}'.",
+                "Obtain fresh consent with required fields.",
+            )
         return (True, "", "")
 
-    def _require_capabilities(self, ctx: dict[str, Any], *, subject: str | None, caps: list[str], fs_paths: list[str], ttl_floor_sec: int):
+    def _require_capabilities(
+        self,
+        ctx: dict[str, Any],
+        *,
+        subject: str | None,
+        caps: list[str],
+        fs_paths: list[str],
+        ttl_floor_sec: int,
+    ):
         from qi.ops.cap_sandbox import CapManager
+
         mgr = CapManager()
         user_id = (ctx.get("user_profile") or {}).get(subject or "user_id")
         if not user_id:
-            return (False, "Capability check missing subject user_id.", "Provide user_profile.user_id in context.")
+            return (
+                False,
+                "Capability check missing subject user_id.",
+                "Provide user_profile.user_id in context.",
+            )
         subj = f"user:{user_id}"
         # check caps
         for cap in caps or []:
             if cap.startswith("fs:") and fs_paths:
                 # expand fs paths into specific checks (read/write on concrete files/dirs)
                 for p in fs_paths:
-                    concrete = cap.split(":",2)
+                    concrete = cap.split(":", 2)
                     if len(concrete) < 3:
                         continue
                     need = f"{concrete[0]}:{concrete[1]}:{p}"
                     if not mgr.has(subj, need):
-                        return (False, f"Missing FS capability {need}", "Grant fs lease or adjust task plan.")
+                        return (
+                            False,
+                            f"Missing FS capability {need}",
+                            "Grant fs lease or adjust task plan.",
+                        )
             else:
                 if not mgr.has(subj, cap):
-                    return (False, f"Missing capability {cap}", "Grant lease via cap_sandbox or adjust policy.")
+                    return (
+                        False,
+                        f"Missing capability {cap}",
+                        "Grant lease via cap_sandbox or adjust policy.",
+                    )
         return (True, "", "")
 
-    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"):
+    def _require_change_approval(
+        self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"
+    ):
         try:
             from qi.autonomy.self_healer import _approved
         except ImportError:
@@ -247,8 +333,16 @@ class TEQCoupler:
 
         pid = ctx.get(proposal_id or "proposal_id")
         if not pid:
-            return (False, "Missing proposal_id in context.", "Include proposal_id to gate self modifications.")
-        return (True, "", "") if _approved(pid) else (False, f"Proposal {pid} not approved.", "Use self_healer approve to proceed.")
+            return (
+                False,
+                "Missing proposal_id in context.",
+                "Include proposal_id to gate self modifications.",
+            )
+        return (
+            (True, "", "")
+            if _approved(pid)
+            else (False, f"Proposal {pid} not approved.", "Use self_healer approve to proceed.")
+        )
 
     def _require_provenance_record(
         self,
@@ -292,6 +386,7 @@ class TEQCoupler:
             try:
                 import json
                 import os
+
                 if os.path.exists(p):
                     rec = json.load(open(p, encoding="utf-8"))
             except Exception:
@@ -304,39 +399,67 @@ class TEQCoupler:
                 rec = inline
 
         if rec is None:
-            return (False, "Missing provenance record.", "Provide provenance_record_sha or provenance_record_path (or inline record).")
+            return (
+                False,
+                "Missing provenance record.",
+                "Provide provenance_record_sha or provenance_record_path (or inline record).",
+            )
 
         # Basic shape checks
         if require_storage_url and not rec.get("storage_url"):
-            return (False, "Provenance record missing storage_url.", "Ensure uploader stored the artifact and set storage_url.")
+            return (
+                False,
+                "Provenance record missing storage_url.",
+                "Ensure uploader stored the artifact and set storage_url.",
+            )
 
         if not rec.get("artifact_sha256"):
-            return (False, "Provenance record missing artifact_sha256.", "Use provenance_uploader to record the artifact.")
+            return (
+                False,
+                "Provenance record missing artifact_sha256.",
+                "Use provenance_uploader to record the artifact.",
+            )
 
         # Optional attestation checks
         att = rec.get("attestation")
         if require_attestation and not att:
-            return (False, "Attestation required but missing.", "Record artifact with --attest or pass attestation in record.")
+            return (
+                False,
+                "Attestation required but missing.",
+                "Record artifact with --attest or pass attestation in record.",
+            )
 
         if verify_signature:
             if not att:
-                return (False, "Cannot verify attestation signature - no attestation data.", "Provide attestation in provenance record.")
+                return (
+                    False,
+                    "Cannot verify attestation signature - no attestation data.",
+                    "Provide attestation in provenance record.",
+                )
 
             # Try inline verification first if we have all required fields
-            if all(k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]):
+            if all(
+                k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]
+            ):
                 try:
                     # Import verification dependencies
                     import base64
                     import hashlib
                     import json
+
                     try:
                         import nacl.signing
+
                         _HAS_NACL = True
                     except ImportError:
                         _HAS_NACL = False
 
                     if not _HAS_NACL:
-                        return (False, "PyNaCl required for signature verification.", "Install pynacl package.")
+                        return (
+                            False,
+                            "PyNaCl required for signature verification.",
+                            "Install pynacl package.",
+                        )
 
                     # Verify inline attestation data
                     chain_path = att["chain_path"]
@@ -346,7 +469,9 @@ class TEQCoupler:
 
                     # Recompute root hash from chain
                     def _sha256_json(obj):
-                        return hashlib.sha256(json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")).hexdigest()
+                        return hashlib.sha256(
+                            json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
+                        ).hexdigest()
 
                     root = None
                     prev = None
@@ -354,22 +479,38 @@ class TEQCoupler:
                         for line in f:
                             n = json.loads(line)
                             if n.get("prev") != prev:
-                                return (False, "Attestation chain integrity check failed.", "Chain prev hash mismatch.")
+                                return (
+                                    False,
+                                    "Attestation chain integrity check failed.",
+                                    "Chain prev hash mismatch.",
+                                )
                             expected = _sha256_json({"body": n["body"], "prev": n["prev"]})
                             if n.get("hash") != expected:
-                                return (False, "Attestation chain integrity check failed.", "Chain hash mismatch.")
+                                return (
+                                    False,
+                                    "Attestation chain integrity check failed.",
+                                    "Chain hash mismatch.",
+                                )
                             prev = n["hash"]
                             root = prev
 
                     # Check root hash matches
                     if root != expected_root:
-                        return (False, "Attestation root hash mismatch.", "Expected root hash doesn't match computed hash.")
+                        return (
+                            False,
+                            "Attestation root hash mismatch.",
+                            "Expected root hash doesn't match computed hash.",
+                        )
 
                     # Verify signature
                     nacl.signing.VerifyKey(pk).verify(root.encode("utf-8"), sig)
 
                 except Exception as e:
-                    return (False, f"Attestation signature verification failed: {str(e)}", "Check attestation data integrity and signatures.")
+                    return (
+                        False,
+                        f"Attestation signature verification failed: {e!s}",
+                        "Check attestation data integrity and signatures.",
+                    )
 
             # Fallback to file-based verification if inline fails or data incomplete
             elif verify_att:
@@ -379,9 +520,17 @@ class TEQCoupler:
                 except Exception:
                     ok = False
                 if not ok:
-                    return (False, "Attestation signature verification failed.", "Regenerate Merkle chain and re-attest the run.")
+                    return (
+                        False,
+                        "Attestation signature verification failed.",
+                        "Regenerate Merkle chain and re-attest the run.",
+                    )
             else:
-                return (False, "Cannot verify attestation signature.", "Missing verification function or attestation data.")
+                return (
+                    False,
+                    "Cannot verify attestation signature.",
+                    "Missing verification function or attestation data.",
+                )
 
         # All good
         return (True, "", "")
@@ -392,7 +541,7 @@ class TEQCoupler:
         *,
         within_sec: int = 300,
         accepted_events: list[str] = None,
-        require_same_user: bool = True
+        require_same_user: bool = True,
     ) -> tuple[bool, str, str]:
         """
         Checks ~/.lukhas/state/provenance/receipts/*.jsonl for a *recent* signed receipt
@@ -402,6 +551,7 @@ class TEQCoupler:
         import json
         import os
         import time
+
         try:
             from qi.ops.provenance import verify as verify_att  # signature verify
         except ImportError:
@@ -415,7 +565,11 @@ class TEQCoupler:
                 sha = prov_rec.get("artifact_sha256")
 
             if not sha:
-                return (False, "Recent receipt check requires provenance_record_sha.", "Include the recorded artifact SHA in context.")
+                return (
+                    False,
+                    "Recent receipt check requires provenance_record_sha.",
+                    "Include the recorded artifact SHA in context.",
+                )
 
         user_id = ctx.get("user_id") or (ctx.get("user_profile") or {}).get("user_id")
         now = time.time()
@@ -423,19 +577,31 @@ class TEQCoupler:
         receipts_dir = os.path.join(receipts_dir, "provenance", "receipts")
 
         if not os.path.exists(receipts_dir):
-            return (False, "No receipts directory found.", "Ensure provenance proxy is running and receipts are being recorded.")
+            return (
+                False,
+                "No receipts directory found.",
+                "Ensure provenance proxy is running and receipts are being recorded.",
+            )
 
         paths = sorted(glob.glob(os.path.join(receipts_dir, f"{sha[:2]}_*.jsonl")), reverse=True)
         if not paths:
-            return (False, "No receipts found for artifact.", "Obtain a presigned link or stream via the proxy first.")
+            return (
+                False,
+                "No receipts found for artifact.",
+                "Obtain a presigned link or stream via the proxy first.",
+            )
 
-        accepted = set(accepted_events or ["link_issued","download_stream","download_redirect","view_ack"])
+        accepted = set(
+            accepted_events or ["link_issued", "download_stream", "download_redirect", "view_ack"]
+        )
 
         for p in paths[:50]:  # scan a few recent shards
             try:
                 with open(p, encoding="utf-8") as f:
                     lines = f.readlines()
-                    for line in reversed(lines[-200:] if len(lines) > 200 else lines):  # only tail to keep it cheap
+                    for line in reversed(
+                        lines[-200:] if len(lines) > 200 else lines
+                    ):  # only tail to keep it cheap
                         try:
                             rec = json.loads(line.strip())
                         except json.JSONDecodeError:
@@ -463,7 +629,12 @@ class TEQCoupler:
             except Exception:
                 continue
 
-        return (False, f"No recent receipt (<= {within_sec}s) for artifact.", "Re-request a link or stream the artifact to generate a fresh receipt.")
+        return (
+            False,
+            f"No recent receipt (<= {within_sec}s) for artifact.",
+            "Re-request a link or stream the artifact to generate a fresh receipt.",
+        )
+
 
 # ------------- CLI -------------
 def main():
@@ -476,7 +647,9 @@ def main():
     ap.add_argument("--consent-storage", help="Path to consent ledger (enables consent checks)")
     args = ap.parse_args()
 
-    gate = TEQCoupler(args.policy_root, jurisdiction=args.jurisdiction, consent_storage=args.consent_storage)
+    gate = TEQCoupler(
+        args.policy_root, jurisdiction=args.jurisdiction, consent_storage=args.consent_storage
+    )
 
     # Test runner mode
     if args.run_tests:
@@ -490,22 +663,24 @@ def main():
             ctx = case.get("context", {})
             want = bool(case.get("expect_allowed", True))
             res = gate.run(task, ctx)
-            ok = (res.allowed == want)
-            results.append({
-                "file": os.path.basename(tpath),
-                "task": task,
-                "expected": want,
-                "got": res.allowed,
-                "pass": ok,
-                "reasons": res.reasons,
-                "remedies": res.remedies
-            })
+            ok = res.allowed == want
+            results.append(
+                {
+                    "file": os.path.basename(tpath),
+                    "task": task,
+                    "expected": want,
+                    "got": res.allowed,
+                    "pass": ok,
+                    "reasons": res.reasons,
+                    "remedies": res.remedies,
+                }
+            )
         summary = {
             "jurisdiction": args.jurisdiction,
             "total": len(results),
             "passed": sum(1 for r in results if r["pass"]),
             "failed": [r for r in results if not r["pass"]],
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         print(json.dumps({"results": results, "summary": summary}, indent=2))
         sys.exit(0 if summary["passed"] == summary["total"] else 1)
@@ -517,12 +692,17 @@ def main():
     with open(args.context, encoding="utf-8") as f:
         ctx = json.load(f)
     res = gate.run(args.task, ctx)
-    print(json.dumps({
-        "allowed": res.allowed,
-        "reasons": res.reasons,
-        "remedies": res.remedies,
-        "jurisdiction": res.jurisdiction
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "allowed": res.allowed,
+                "reasons": res.reasons,
+                "remedies": res.remedies,
+                "jurisdiction": res.jurisdiction,
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":

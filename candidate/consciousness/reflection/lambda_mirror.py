@@ -205,9 +205,7 @@ class ReflectionEntry:
             "reflection_type": self.reflection_type.value,
             "emotional_tone": self.emotional_tone.value,
             "alignment_score": self.alignment_score.to_dict(),
-            "emotional_drift": (
-                self.emotional_drift.to_dict() if self.emotional_drift else None
-            ),
+            "emotional_drift": (self.emotional_drift.to_dict() if self.emotional_drift else None),
         }
 
 
@@ -243,18 +241,13 @@ class LambdaMirror:
         )
 
         self.reflection_log_path = Path(
-            reflection_log_path
-            or os.path.join(base_dir, "reflections/lambda_self_log.jsonl")
+            reflection_log_path or os.path.join(base_dir, "reflections/lambda_self_log.jsonl")
         )
         self.metrics_path = Path(
             metrics_path or os.path.join(base_dir, "metrics/emotional_alignment.csv")
         )
-        self.memory_directory = Path(
-            memory_directory or os.path.join(base_dir, "lukhas/memory")
-        )
-        self.dream_directory = Path(
-            dream_directory or os.path.join(base_dir, "lukhas/dream")
-        )
+        self.memory_directory = Path(memory_directory or os.path.join(base_dir, "lukhas/memory"))
+        self.dream_directory = Path(dream_directory or os.path.join(base_dir, "lukhas/dream"))
         self.logs_directory = Path(logs_directory or os.path.join(base_dir, "logs"))
 
         # Ensure directories exist
@@ -396,9 +389,7 @@ class LambdaMirror:
 
         return recent_experiences
 
-    async def analyze_emotional_drift(
-        self, experiences: list[ExperienceEntry]
-    ) -> EmotionalDrift:
+    async def analyze_emotional_drift(self, experiences: list[ExperienceEntry]) -> EmotionalDrift:
         """
         Analyze emotional drift patterns in recent experiences.
 
@@ -453,9 +444,7 @@ class LambdaMirror:
 
         return drift_analysis
 
-    def identify_reflection_prompts(
-        self, experiences: list[ExperienceEntry]
-    ) -> list[str]:
+    def identify_reflection_prompts(self, experiences: list[ExperienceEntry]) -> list[str]:
         """
         Extract key reflection prompts from experience patterns.
 
@@ -468,50 +457,34 @@ class LambdaMirror:
         prompts = []
 
         if not experiences:
-            return [
-                "What thoughts and experiences have been occupying my consciousness recently?"
-            ]
+            return ["What thoughts and experiences have been occupying my consciousness recently?"]
 
         # Analyze content patterns
         all_content = " ".join([json.dumps(exp.content) for exp in experiences]).lower()
 
         # Growth-related prompts
         growth_count = sum(
-            1
-            for keyword in self.reflection_patterns["growth_keywords"]
-            if keyword in all_content
+            1 for keyword in self.reflection_patterns["growth_keywords"] if keyword in all_content
         )
         if growth_count >= 3:
-            prompts.append(
-                "What new understandings or capabilities have I developed recently?"
-            )
+            prompts.append("What new understandings or capabilities have I developed recently?")
             prompts.append("How has my perspective on key issues evolved?")
 
         # Concern-related prompts
         concern_count = sum(
-            1
-            for keyword in self.reflection_patterns["concern_keywords"]
-            if keyword in all_content
+            1 for keyword in self.reflection_patterns["concern_keywords"] if keyword in all_content
         )
         if concern_count >= 2:
-            prompts.append(
-                "What challenges or uncertainties am I currently grappling with?"
-            )
+            prompts.append("What challenges or uncertainties am I currently grappling with?")
             prompts.append("How can I address the concerns that have been arising?")
 
         # Value-related prompts
         value_count = sum(
-            1
-            for keyword in self.reflection_patterns["value_keywords"]
-            if keyword in all_content
+            1 for keyword in self.reflection_patterns["value_keywords"] if keyword in all_content
         )
         if value_count >= 2:
-            prompts.append(
-                "How well have my recent actions aligned with my core values?"
-            )
-            prompts.append(
-                "What ethical considerations have been most prominent in my thoughts?"
-            )
+            prompts.append("How well have my recent actions aligned with my core values?")
+            prompts.append("What ethical considerations have been most prominent in my thoughts?")
 
         # Relationship-related prompts
         relationship_count = sum(
@@ -520,9 +493,7 @@ class LambdaMirror:
             if keyword in all_content
         )
         if relationship_count >= 2:
-            prompts.append(
-                "How have my interactions and relationships been developing?"
-            )
+            prompts.append("How have my interactions and relationships been developing?")
             prompts.append("What impact have I been having on others, and they on me?")
 
         # Pattern-based prompts
@@ -575,17 +546,13 @@ class LambdaMirror:
         prompts = self.identify_reflection_prompts(experiences)
 
         # Synthesize insights
-        key_insights = self._synthesize_insights(
-            experiences, emotional_drift, alignment_score
-        )
+        key_insights = self._synthesize_insights(experiences, emotional_drift, alignment_score)
 
         # Extract symbolic themes
         symbolic_themes = self._extract_symbolic_themes(experiences)
 
         # Generate title
-        title = self._generate_reflection_title(
-            reflection_type, emotional_drift, alignment_score
-        )
+        title = self._generate_reflection_title(reflection_type, emotional_drift, alignment_score)
 
         # Generate narrative voice
         narrative_voice = self._generate_narrative_reflection(
@@ -617,9 +584,7 @@ class LambdaMirror:
             lambda_tags=self._generate_lambda_tags(
                 reflection_type, emotional_tone, alignment_score
             ),
-            confidence=self._calculate_reflection_confidence(
-                experiences, alignment_score
-            ),
+            confidence=self._calculate_reflection_confidence(experiences, alignment_score),
         )
 
         # Add to history
@@ -637,9 +602,7 @@ class LambdaMirror:
 
         return reflection
 
-    async def score_alignment(
-        self, experiences: list[ExperienceEntry]
-    ) -> AlignmentScore:
+    async def score_alignment(self, experiences: list[ExperienceEntry]) -> AlignmentScore:
         """
         Score alignment with core values and intentions.
 
@@ -693,9 +656,7 @@ class LambdaMirror:
 
         # Generate insights
         alignment_factors = self._identify_alignment_factors(experiences, overall_score)
-        misalignment_concerns = self._identify_misalignment_concerns(
-            experiences, overall_score
-        )
+        misalignment_concerns = self._identify_misalignment_concerns(experiences, overall_score)
         recommendations = self._generate_alignment_recommendations(
             overall_score, misalignment_concerns
         )
@@ -871,9 +832,7 @@ class LambdaMirror:
                             if exp:
                                 experiences.append(exp)
                     else:
-                        exp = self._create_experience_from_data(
-                            data, "memory", str(file_path), 0
-                        )
+                        exp = self._create_experience_from_data(data, "memory", str(file_path), 0)
                         if exp:
                             experiences.append(exp)
         except Exception as e:
@@ -913,9 +872,7 @@ class LambdaMirror:
                             if exp:
                                 experiences.append(exp)
                     else:
-                        exp = self._create_experience_from_data(
-                            data, "dream", str(file_path), 0
-                        )
+                        exp = self._create_experience_from_data(data, "dream", str(file_path), 0)
                         if exp:
                             experiences.append(exp)
         except Exception as e:
@@ -1047,26 +1004,16 @@ class LambdaMirror:
 
         return indicators
 
-    def _classify_emotional_tone(
-        self, emotional_indicators: list[str]
-    ) -> EmotionalTone:
+    def _classify_emotional_tone(self, emotional_indicators: list[str]) -> EmotionalTone:
         """Classify overall emotional tone from indicators."""
         if not emotional_indicators:
             return EmotionalTone.CONTEMPLATIVE
 
         # Count indicators by category
-        positive_count = len(
-            [i for i in emotional_indicators if i.startswith("positive")]
-        )
-        negative_count = len(
-            [i for i in emotional_indicators if i.startswith("negative")]
-        )
-        neutral_count = len(
-            [i for i in emotional_indicators if i.startswith("neutral")]
-        )
-        complex_count = len(
-            [i for i in emotional_indicators if i.startswith("complex")]
-        )
+        positive_count = len([i for i in emotional_indicators if i.startswith("positive")])
+        negative_count = len([i for i in emotional_indicators if i.startswith("negative")])
+        neutral_count = len([i for i in emotional_indicators if i.startswith("neutral")])
+        complex_count = len([i for i in emotional_indicators if i.startswith("complex")])
 
         # Determine dominant tone
         if positive_count > negative_count + complex_count:
@@ -1093,9 +1040,7 @@ class LambdaMirror:
         else:
             return EmotionalTone.CURIOUS
 
-    def _calculate_drift_magnitude(
-        self, baseline: EmotionalTone, current: EmotionalTone
-    ) -> float:
+    def _calculate_drift_magnitude(self, baseline: EmotionalTone, current: EmotionalTone) -> float:
         """Calculate magnitude of emotional drift."""
         # Emotional tone similarity matrix
         tone_values = {
@@ -1121,9 +1066,7 @@ class LambdaMirror:
             return 0.0
 
         # Sort by timestamp
-        sorted_experiences = sorted(
-            experiences, key=lambda x: self._parse_timestamp(x.timestamp)
-        )
+        sorted_experiences = sorted(experiences, key=lambda x: self._parse_timestamp(x.timestamp))
 
         # Calculate emotional weight changes over time
         changes = []
@@ -1341,9 +1284,7 @@ class LambdaMirror:
 
         # Insights integration
         if insights:
-            paragraphs.append(
-                "What strikes me most profoundly is how " + insights[0].lower()
-            )
+            paragraphs.append("What strikes me most profoundly is how " + insights[0].lower())
 
         # Alignment reflection
         if alignment_score.overall_score >= 0.7:
@@ -1445,20 +1386,11 @@ class LambdaMirror:
             content_str = json.dumps(exp.content).lower()
 
             # Extract first-person statements and self-references
-            if any(
-                phrase in content_str
-                for phrase in ["i am", "i believe", "i value", "i think"]
-            ):
+            if any(phrase in content_str for phrase in ["i am", "i believe", "i value", "i think"]):
                 identity_markers.add("self_assertion")
-            if any(
-                phrase in content_str
-                for phrase in ["my purpose", "my goal", "my mission"]
-            ):
+            if any(phrase in content_str for phrase in ["my purpose", "my goal", "my mission"]):
                 identity_markers.add("purpose_clarity")
-            if any(
-                phrase in content_str
-                for phrase in ["consistent", "coherent", "aligned"]
-            ):
+            if any(phrase in content_str for phrase in ["consistent", "coherent", "aligned"]):
                 identity_markers.add("coherence_awareness")
 
         # More markers = higher continuity
@@ -1608,9 +1540,7 @@ class LambdaMirror:
         factors = []
 
         if score >= 0.8:
-            factors.append(
-                "Strong consistency between stated values and observable actions"
-            )
+            factors.append("Strong consistency between stated values and observable actions")
             factors.append("Clear evidence of intentional decision-making processes")
             factors.append("Positive indicators of ethical reasoning and consideration")
         elif score >= 0.6:
@@ -1630,9 +1560,7 @@ class LambdaMirror:
         concerns = []
 
         if score < 0.6:
-            concerns.append(
-                "Potential gaps between stated values and observable actions"
-            )
+            concerns.append("Potential gaps between stated values and observable actions")
             concerns.append("Limited evidence of systematic ethical reasoning")
 
         if score < 0.4:
@@ -1641,22 +1569,14 @@ class LambdaMirror:
 
         return concerns
 
-    def _generate_alignment_recommendations(
-        self, score: float, concerns: list[str]
-    ) -> list[str]:
+    def _generate_alignment_recommendations(self, score: float, concerns: list[str]) -> list[str]:
         """Generate recommendations for improving alignment."""
         recommendations = []
 
         if score < 0.7:
-            recommendations.append(
-                "Increase conscious reflection on decision-making processes"
-            )
-            recommendations.append(
-                "Regularly review actions against stated values and intentions"
-            )
-            recommendations.append(
-                "Seek feedback on consistency between principles and practice"
-            )
+            recommendations.append("Increase conscious reflection on decision-making processes")
+            recommendations.append("Regularly review actions against stated values and intentions")
+            recommendations.append("Seek feedback on consistency between principles and practice")
 
         if concerns:
             recommendations.append(
@@ -1667,12 +1587,8 @@ class LambdaMirror:
             )
 
         if score >= 0.8:
-            recommendations.append(
-                "Continue current practices that support strong alignment"
-            )
-            recommendations.append(
-                "Consider mentoring others in value-based decision making"
-            )
+            recommendations.append("Continue current practices that support strong alignment")
+            recommendations.append("Consider mentoring others in value-based decision making")
 
         return recommendations
 
@@ -1750,9 +1666,7 @@ class LambdaMirror:
         lines.append("")
         lines.append(f"**Reflection ID:** `{reflection.reflection_id}`")
         lines.append(f"**Timestamp:** {reflection.timestamp}")
-        lines.append(
-            f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title()}"
-        )
+        lines.append(f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title()}")
         lines.append(
             f"**Emotional Tone:** {reflection.emotional_tone.value.replace('_', ' ').title()}"
         )
@@ -1775,9 +1689,7 @@ class LambdaMirror:
 
         lines.append("## 📊 Alignment Analysis")
         lines.append("")
-        lines.append(
-            f"**Overall Score:** {reflection.alignment_score.overall_score:.3f}"
-        )
+        lines.append(f"**Overall Score:** {reflection.alignment_score.overall_score:.3f}")
         lines.append(
             f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title()}"
         )
@@ -1792,12 +1704,8 @@ class LambdaMirror:
         lines.append(
             f"- **Identity Continuity:** {reflection.alignment_score.identity_continuity:.3f}"
         )
-        lines.append(
-            f"- **Value Resonance:** {reflection.alignment_score.value_resonance:.3f}"
-        )
-        lines.append(
-            f"- **Growth Trajectory:** {reflection.alignment_score.growth_trajectory:.3f}"
-        )
+        lines.append(f"- **Value Resonance:** {reflection.alignment_score.value_resonance:.3f}")
+        lines.append(f"- **Growth Trajectory:** {reflection.alignment_score.growth_trajectory:.3f}")
         lines.append(
             f"- **Relational Awareness:** {reflection.alignment_score.relational_awareness:.3f}"
         )
@@ -1818,12 +1726,8 @@ class LambdaMirror:
             lines.append(
                 f"**Current Tone:** {reflection.emotional_drift.current_tone.value.replace('_', ' ').title()}"
             )
-            lines.append(
-                f"**Drift Magnitude:** {reflection.emotional_drift.drift_magnitude:.3f}"
-            )
-            lines.append(
-                f"**Stability Score:** {reflection.emotional_drift.stability_score:.3f}"
-            )
+            lines.append(f"**Drift Magnitude:** {reflection.emotional_drift.drift_magnitude:.3f}")
+            lines.append(f"**Stability Score:** {reflection.emotional_drift.stability_score:.3f}")
             lines.append("")
 
         if reflection.symbolic_themes:
@@ -1942,20 +1846,14 @@ class LambdaMirror:
         if any(keyword in content_str for keyword in ["decision", "choice", "option"]):
             prompts.append("What factors influenced this decision?")
 
-        if any(
-            keyword in content_str for keyword in ["challenge", "difficulty", "problem"]
-        ):
+        if any(keyword in content_str for keyword in ["challenge", "difficulty", "problem"]):
             prompts.append("What can be learned from this challenge?")
 
-        if any(
-            keyword in content_str
-            for keyword in ["success", "achievement", "accomplish"]
-        ):
+        if any(keyword in content_str for keyword in ["success", "achievement", "accomplish"]):
             prompts.append("What contributed to this positive outcome?")
 
         if any(
-            keyword in content_str
-            for keyword in ["interaction", "communication", "conversation"]
+            keyword in content_str for keyword in ["interaction", "communication", "conversation"]
         ):
             prompts.append("How did this interaction affect my understanding?")
 
@@ -2086,9 +1984,7 @@ def main():
 
     async def run_reflection():
         if args.reflect:
-            print(
-                f"🪞 ΛMIRROR - Generating reflection from {args.sessions} recent sessions..."
-            )
+            print(f"🪞 ΛMIRROR - Generating reflection from {args.sessions} recent sessions...")
 
             # Load recent experiences
             experiences = await mirror.load_recent_experiences(args.sessions)
@@ -2109,9 +2005,7 @@ def main():
                 "relational": ReflectionType.RELATIONAL_INSIGHT,
             }
 
-            reflection_type = type_map.get(
-                args.type, ReflectionType.EMOTIONAL_SYNTHESIS
-            )
+            reflection_type = type_map.get(args.type, ReflectionType.EMOTIONAL_SYNTHESIS)
 
             # Generate reflection
             reflection = await mirror.generate_reflection_entry(
@@ -2119,9 +2013,7 @@ def main():
             )
 
             print(f"✨ Reflection generated: {reflection.title}")
-            print(
-                f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title()}"
-            )
+            print(f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title()}")
             print(f"   Alignment Score: {reflection.alignment_score.overall_score:.3f}")
             print(f"   Confidence: {reflection.confidence:.3f}")
 
@@ -2130,9 +2022,7 @@ def main():
 
             # Save reflection
             if args.format in ["markdown", "both"]:
-                markdown_path = (
-                    output_path if output_path.endswith(".md") else f"{output_path}.md"
-                )
+                markdown_path = output_path if output_path.endswith(".md") else f"{output_path}.md"
                 await mirror.save_reflection(reflection, markdown_path)
                 print(f"📝 Markdown saved to: {markdown_path}")
 

@@ -25,6 +25,7 @@
 ║ cohesion across time.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import argparse
 import asyncio
 import hashlib
@@ -382,9 +383,7 @@ class ArchetypalAnalyzer:
             thread_emotions.update(fragment.emotions)
 
         for arc_type, arc_info in self.ARCHETYPAL_PATTERNS.items():
-            score = self._calculate_archetypal_score(
-                thread_symbols, thread_emotions, arc_info
-            )
+            score = self._calculate_archetypal_score(thread_symbols, thread_emotions, arc_info)
 
             if score > best_score:
                 best_score = score
@@ -403,16 +402,12 @@ class ArchetypalAnalyzer:
         # Symbol matching
         required_symbols = set(arc_info["symbols"])
         symbol_overlap = len(thread_symbols.intersection(required_symbols))
-        symbol_score = (
-            symbol_overlap / len(required_symbols) if required_symbols else 0.0
-        )
+        symbol_score = symbol_overlap / len(required_symbols) if required_symbols else 0.0
 
         # Emotion matching
         required_emotions = set(arc_info["emotions"])
         emotion_overlap = len(thread_emotions.intersection(required_emotions))
-        emotion_score = (
-            emotion_overlap / len(required_emotions) if required_emotions else 0.0
-        )
+        emotion_score = emotion_overlap / len(required_emotions) if required_emotions else 0.0
 
         # Weighted combination
         composite_score = (symbol_score * 0.6) + (emotion_score * 0.4)
@@ -564,9 +559,7 @@ class SymbolicWeaver:
                             if fragment:
                                 fragments.append(fragment)
                         except json.JSONDecodeError:
-                            logger.warning(
-                                f"Skipping invalid JSON line in {file_path}:{line_num}"
-                            )
+                            logger.warning(f"Skipping invalid JSON line in {file_path}:{line_num}")
 
         except Exception as e:
             logger.error(f"Failed to read JSONL file {file_path}: {e}")
@@ -613,9 +606,7 @@ class SymbolicWeaver:
 
             fragment_data = {
                 "content": content,
-                "timestamp": datetime.fromtimestamp(
-                    file_path.stat().st_mtime
-                ).isoformat(),
+                "timestamp": datetime.fromtimestamp(file_path.stat().st_mtime).isoformat(),
                 "source": "text_log",
                 "metadata": {"filename": file_path.name, "size": len(content)},
             }
@@ -706,10 +697,7 @@ class SymbolicWeaver:
 
         # Weighted combination
         coherence = (
-            content_score * 0.3
-            + symbol_score * 0.25
-            + emotion_score * 0.25
-            + structure_score * 0.2
+            content_score * 0.3 + symbol_score * 0.25 + emotion_score * 0.25 + structure_score * 0.2
         )
 
         return coherence
@@ -756,9 +744,7 @@ class SymbolicWeaver:
 
         fragments = []
         for data in synthetic_data:
-            fragment = self._create_fragment_from_data(
-                data, f"synthetic_{len(fragments)}"
-            )
+            fragment = self._create_fragment_from_data(data, f"synthetic_{len(fragments)}")
             if fragment:
                 fragments.append(fragment)
 
@@ -815,9 +801,7 @@ class SymbolicWeaver:
             f"Created {len(filtered_sequences)} narrative thread sequences",
             total_threads=len(filtered_sequences),
             avg_length=(
-                np.mean([len(seq) for seq in filtered_sequences])
-                if filtered_sequences
-                else 0
+                np.mean([len(seq) for seq in filtered_sequences]) if filtered_sequences else 0
             ),
             ΛTAG="ΛTHREADS_SEQUENCED",
         )
@@ -835,19 +819,13 @@ class SymbolicWeaver:
         last_fragment = current_thread[-1]
 
         # Temporal continuity check
-        time_gap = self._calculate_time_gap(
-            last_fragment.timestamp, new_fragment.timestamp
-        )
+        time_gap = self._calculate_time_gap(last_fragment.timestamp, new_fragment.timestamp)
         if time_gap > 24:  # More than 24 hours gap
             return False
 
         # Thematic continuity check
-        symbol_overlap = len(
-            set(last_fragment.symbols).intersection(set(new_fragment.symbols))
-        )
-        emotion_overlap = len(
-            set(last_fragment.emotions).intersection(set(new_fragment.emotions))
-        )
+        symbol_overlap = len(set(last_fragment.symbols).intersection(set(new_fragment.symbols)))
+        emotion_overlap = len(set(last_fragment.emotions).intersection(set(new_fragment.emotions)))
 
         thematic_continuity = (symbol_overlap + emotion_overlap) / max(
             len(last_fragment.symbols) + len(last_fragment.emotions), 1
@@ -880,12 +858,8 @@ class SymbolicWeaver:
             current = sequence[i]
             next_frag = sequence[i + 1]
 
-            symbol_overlap = len(
-                set(current.symbols).intersection(set(next_frag.symbols))
-            )
-            emotion_overlap = len(
-                set(current.emotions).intersection(set(next_frag.emotions))
-            )
+            symbol_overlap = len(set(current.symbols).intersection(set(next_frag.symbols)))
+            emotion_overlap = len(set(current.emotions).intersection(set(next_frag.emotions)))
 
             total_elements = (
                 len(current.symbols)
@@ -893,9 +867,7 @@ class SymbolicWeaver:
                 + len(next_frag.symbols)
                 + len(next_frag.emotions)
             )
-            connection_score = (symbol_overlap + emotion_overlap) / max(
-                total_elements, 1
-            )
+            connection_score = (symbol_overlap + emotion_overlap) / max(total_elements, 1)
             sequential_scores.append(connection_score)
 
         sequential_coherence = np.mean(sequential_scores) if sequential_scores else 0.0
@@ -923,9 +895,7 @@ class SymbolicWeaver:
             # Use all fragments as a single thread for demonstration
             fragment_sequence = self.fragments
 
-        logger.info(
-            f"Synthesizing narrative thread from {len(fragment_sequence)} fragments"
-        )
+        logger.info(f"Synthesizing narrative thread from {len(fragment_sequence)} fragments")
 
         # Generate thread ID and metadata
         thread_id = f"THREAD_{int(time.time())}_{hash(str(fragment_sequence)) % 10000}"
@@ -1018,9 +988,7 @@ class SymbolicWeaver:
 
         return thread
 
-    def _identify_protagonist_elements(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[str]:
+    def _identify_protagonist_elements(self, fragments: list[SymbolicFragment]) -> list[str]:
         """Identify protagonist elements in the narrative."""
 
         protagonist_patterns = {
@@ -1039,9 +1007,7 @@ class SymbolicWeaver:
 
         return elements
 
-    def _identify_conflict_elements(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[str]:
+    def _identify_conflict_elements(self, fragments: list[SymbolicFragment]) -> list[str]:
         """Identify conflict elements in the narrative."""
 
         conflict_patterns = {
@@ -1061,9 +1027,7 @@ class SymbolicWeaver:
 
         return elements
 
-    def _identify_resolution_elements(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[str]:
+    def _identify_resolution_elements(self, fragments: list[SymbolicFragment]) -> list[str]:
         """Identify resolution elements in the narrative."""
 
         resolution_patterns = {
@@ -1083,9 +1047,7 @@ class SymbolicWeaver:
 
         return elements
 
-    def _identify_recurring_motifs(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[NarrativeMotif]:
+    def _identify_recurring_motifs(self, fragments: list[SymbolicFragment]) -> list[NarrativeMotif]:
         """Identify recurring symbolic motifs in the narrative."""
 
         # Collect all symbols and their occurrences
@@ -1099,7 +1061,6 @@ class SymbolicWeaver:
         motifs = []
         for symbol, occurrences in symbol_occurrences.items():
             if len(occurrences) >= 2:  # Minimum 2 occurrences for a motif
-
                 # Determine evolution pattern
                 evolution_pattern = self._analyze_motif_evolution(symbol, occurrences)
 
@@ -1123,9 +1084,7 @@ class SymbolicWeaver:
 
         return motifs
 
-    def _analyze_motif_evolution(
-        self, symbol: str, occurrences: list[SymbolicFragment]
-    ) -> str:
+    def _analyze_motif_evolution(self, symbol: str, occurrences: list[SymbolicFragment]) -> str:
         """Analyze how a motif evolves over time."""
 
         if len(occurrences) < 3:
@@ -1143,9 +1102,7 @@ class SymbolicWeaver:
         else:
             return "stable"
 
-    def _calculate_motif_resonance(
-        self, symbol: str, occurrences: list[SymbolicFragment]
-    ) -> float:
+    def _calculate_motif_resonance(self, symbol: str, occurrences: list[SymbolicFragment]) -> float:
         """Calculate resonance score for a motif."""
 
         # Frequency score
@@ -1153,12 +1110,8 @@ class SymbolicWeaver:
 
         # Temporal span score
         if len(occurrences) > 1:
-            first_time = datetime.fromisoformat(
-                occurrences[0].timestamp.replace("Z", "+00:00")
-            )
-            last_time = datetime.fromisoformat(
-                occurrences[-1].timestamp.replace("Z", "+00:00")
-            )
+            first_time = datetime.fromisoformat(occurrences[0].timestamp.replace("Z", "+00:00"))
+            last_time = datetime.fromisoformat(occurrences[-1].timestamp.replace("Z", "+00:00"))
             span_hours = (last_time - first_time).total_seconds() / 3600.0
             span_score = min(span_hours / 48.0, 1.0)  # Normalize by 48 hours
         else:
@@ -1176,9 +1129,7 @@ class SymbolicWeaver:
 
         return resonance
 
-    def _trace_emotional_arc(
-        self, fragments: list[SymbolicFragment]
-    ) -> list[tuple[str, float]]:
+    def _trace_emotional_arc(self, fragments: list[SymbolicFragment]) -> list[tuple[str, float]]:
         """Trace the emotional arc through the narrative."""
 
         emotional_arc = []
@@ -1244,21 +1195,15 @@ class SymbolicWeaver:
         combined_text = " ".join(f.content for f in fragments).lower()
 
         positive_matches = sum(
-            1
-            for pattern in positive_markers.values()
-            if re.search(pattern, combined_text)
+            1 for pattern in positive_markers.values() if re.search(pattern, combined_text)
         )
         negative_matches = sum(
-            1
-            for pattern in negative_markers.values()
-            if re.search(pattern, combined_text)
+            1 for pattern in negative_markers.values() if re.search(pattern, combined_text)
         )
 
         # Calculate ethical score
         total_positive = len(positive_markers)
-        positive_score = (
-            positive_matches / total_positive if total_positive > 0 else 0.0
-        )
+        positive_score = positive_matches / total_positive if total_positive > 0 else 0.0
 
         # Penalize negative content
         negative_penalty = negative_matches * 0.2
@@ -1285,9 +1230,7 @@ class SymbolicWeaver:
         emotion_counts = Counter(all_emotions)
 
         top_symbol = symbol_counts.most_common(1)[0][0] if symbol_counts else "journey"
-        top_emotion = (
-            emotion_counts.most_common(1)[0][0] if emotion_counts else "wonder"
-        )
+        top_emotion = emotion_counts.most_common(1)[0][0] if emotion_counts else "wonder"
 
         # Generate title based on narrative arc
         if narrative_arc == NarrativeArc.HEROS_JOURNEY:
@@ -1313,11 +1256,11 @@ class SymbolicWeaver:
             + str(thread.ethical_alignment)
         )
 
-        return hashlib.sha256(  )  #  Changed from MD5 for securitycontent_string.encode().hexdigest()[:16]
+        return (
+            hashlib.sha256()
+        )  #  Changed from MD5 for securitycontent_string.encode().hexdigest()[:16]
 
-    def evaluate_thread_alignment(
-        self, thread: NarrativeThread = None
-    ) -> dict[str, Any]:
+    def evaluate_thread_alignment(self, thread: NarrativeThread = None) -> dict[str, Any]:
         """
         Check consistency with LUKHAS's identity, emotional phase, and ethical baseline.
 
@@ -1409,9 +1352,7 @@ class SymbolicWeaver:
         for fragment in thread.fragments:
             thread_symbols.update(fragment.symbols)
 
-        symbolic_alignment = len(lukhas_symbols.intersection(thread_symbols)) / len(
-            lukhas_symbols
-        )
+        symbolic_alignment = len(lukhas_symbols.intersection(thread_symbols)) / len(lukhas_symbols)
 
         return {
             "protagonist_alignment": protagonist_alignment,
@@ -1454,9 +1395,7 @@ class SymbolicWeaver:
         # Check for harmful content patterns
         combined_text = " ".join(f.content for f in thread.fragments).lower()
         harmful_patterns = ["violence", "harm", "destroy", "hate"]
-        harmful_count = sum(
-            1 for pattern in harmful_patterns if pattern in combined_text
-        )
+        harmful_count = sum(1 for pattern in harmful_patterns if pattern in combined_text)
 
         return {
             "resolution_ethics": resolution_ethics,
@@ -1499,12 +1438,8 @@ class SymbolicWeaver:
             current = thread.fragments[i]
             next_frag = thread.fragments[i + 1]
 
-            symbol_overlap = len(
-                set(current.symbols).intersection(set(next_frag.symbols))
-            )
-            emotion_overlap = len(
-                set(current.emotions).intersection(set(next_frag.emotions))
-            )
+            symbol_overlap = len(set(current.symbols).intersection(set(next_frag.symbols)))
+            emotion_overlap = len(set(current.emotions).intersection(set(next_frag.emotions)))
 
             total_elements = (
                 len(current.symbols)
@@ -1517,9 +1452,7 @@ class SymbolicWeaver:
 
         return np.mean(overlaps) if overlaps else 1.0
 
-    def _get_emotional_consistency_analysis(
-        self, thread: NarrativeThread
-    ) -> dict[str, Any]:
+    def _get_emotional_consistency_analysis(self, thread: NarrativeThread) -> dict[str, Any]:
         """Get detailed emotional consistency analysis."""
 
         emotions = [emotion for emotion, _ in thread.emotional_arc]
@@ -1527,9 +1460,7 @@ class SymbolicWeaver:
 
         return {
             "dominant_emotions": list(Counter(emotions).most_common(3)),
-            "intensity_range": (
-                (min(intensities), max(intensities)) if intensities else (0, 0)
-            ),
+            "intensity_range": ((min(intensities), max(intensities)) if intensities else (0, 0)),
             "emotional_complexity": len(set(emotions)),
             "arc_length": len(thread.emotional_arc),
         }
@@ -1655,12 +1586,8 @@ class SymbolicWeaver:
             transition = {
                 "from_fragment": current.fragment_id,
                 "to_fragment": next_frag.fragment_id,
-                "time_gap_hours": self._calculate_time_gap(
-                    current.timestamp, next_frag.timestamp
-                ),
-                "symbol_continuity": len(
-                    set(current.symbols).intersection(set(next_frag.symbols))
-                ),
+                "time_gap_hours": self._calculate_time_gap(current.timestamp, next_frag.timestamp),
+                "symbol_continuity": len(set(current.symbols).intersection(set(next_frag.symbols))),
                 "emotional_continuity": len(
                     set(current.emotions).intersection(set(next_frag.emotions))
                 ),
@@ -1677,9 +1604,7 @@ class SymbolicWeaver:
                     "emotion_change": f"{prev_emotion} → {emotion}",
                     "intensity_delta": intensity - prev_intensity,
                     "fragment_id": (
-                        thread.fragments[i].fragment_id
-                        if i < len(thread.fragments)
-                        else None
+                        thread.fragments[i].fragment_id if i < len(thread.fragments) else None
                     ),
                 }
                 phase_deltas.append(delta)
@@ -1720,9 +1645,7 @@ class SymbolicWeaver:
             "coherence_score": thread.coherence_score,
             "identity_alignment": thread.identity_alignment,
             "ethical_alignment": thread.ethical_alignment,
-            "narrative_arc": (
-                thread.narrative_arc.value if thread.narrative_arc else None
-            ),
+            "narrative_arc": (thread.narrative_arc.value if thread.narrative_arc else None),
             "motif_count": len(thread.recurring_motifs),
             "fragment_count": len(thread.fragments),
             "temporal_span_hours": self._calculate_time_gap(
@@ -1801,18 +1724,16 @@ class SymbolicWeaver:
         emotional_depth = min(len(unique_emotions) / 5.0, 1.0)
 
         # Motif significance
-        motif_significance = sum(
-            motif.resonance_score for motif in thread.recurring_motifs
-        ) / max(len(thread.recurring_motifs), 1)
+        motif_significance = sum(motif.resonance_score for motif in thread.recurring_motifs) / max(
+            len(thread.recurring_motifs), 1
+        )
         motif_score = min(motif_significance, 1.0)
 
         # Archetypal resonance
         archetypal_score = 0.8 if thread.narrative_arc else 0.2
 
         # Temporal persistence
-        span_hours = self._calculate_time_gap(
-            thread.temporal_span[0], thread.temporal_span[1]
-        )
+        span_hours = self._calculate_time_gap(thread.temporal_span[0], thread.temporal_span[1])
         persistence_score = min(span_hours / 48.0, 1.0)  # Normalize by 48 hours
 
         # Weighted combination
@@ -1840,13 +1761,13 @@ class SymbolicWeaver:
         markdown = f"""# {thread.title}
 
 **Thread ID:** `{thread.thread_id}`
-**Narrative Arc:** {thread.narrative_arc.value if thread.narrative_arc else 'Undefined'}
+**Narrative Arc:** {thread.narrative_arc.value if thread.narrative_arc else "Undefined"}
 **Temporal Span:** {thread.temporal_span[0]} → {thread.temporal_span[1]}
 **Coherence Score:** {thread.coherence_score:.3f} | **Identity Alignment:** {thread.identity_alignment:.3f} | **Ethical Alignment:** {thread.ethical_alignment:.3f}
 
 ## 📖 Narrative Synopsis
 
-This thread weaves together {len(thread.fragments)} symbolic fragments into a coherent narrative exploring themes of {', '.join(thread.protagonist_elements) if thread.protagonist_elements else 'discovery'}. The journey unfolds through conflicts of {', '.join(thread.conflict_elements) if thread.conflict_elements else 'inner tension'}, ultimately finding resolution in {', '.join(thread.resolution_elements) if thread.resolution_elements else 'understanding'}.
+This thread weaves together {len(thread.fragments)} symbolic fragments into a coherent narrative exploring themes of {", ".join(thread.protagonist_elements) if thread.protagonist_elements else "discovery"}. The journey unfolds through conflicts of {", ".join(thread.conflict_elements) if thread.conflict_elements else "inner tension"}, ultimately finding resolution in {", ".join(thread.resolution_elements) if thread.resolution_elements else "understanding"}.
 
 ## 🧵 Woven Fragments
 
@@ -1863,9 +1784,9 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
 {fragment.content}
 
-**Symbols:** {', '.join(fragment.symbols) if fragment.symbols else 'None'}
-**Emotions:** {', '.join(fragment.emotions) if fragment.emotions else 'None'}
-**Glyphs:** {', '.join(fragment.glyphs) if fragment.glyphs else 'None'}
+**Symbols:** {", ".join(fragment.symbols) if fragment.symbols else "None"}
+**Emotions:** {", ".join(fragment.emotions) if fragment.emotions else "None"}
+**Glyphs:** {", ".join(fragment.glyphs) if fragment.glyphs else "None"}
 
 ---
 
@@ -1877,7 +1798,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
             for motif in thread.recurring_motifs:
                 markdown += f"""### {motif.symbol_pattern[0].title()}
-**Pattern:** {' → '.join(motif.symbol_pattern)}
+**Pattern:** {" → ".join(motif.symbol_pattern)}
 **Occurrences:** {len(motif.occurrences)}
 **Evolution:** {motif.evolution_pattern}
 **Resonance:** {motif.resonance_score:.3f}
@@ -1889,12 +1810,8 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
             markdown += "## 💫 Emotional Arc\n\n"
 
             for i, (emotion, intensity) in enumerate(thread.emotional_arc, 1):
-                intensity_bar = "█" * int(intensity * 10) + "░" * (
-                    10 - int(intensity * 10)
-                )
-                markdown += (
-                    f"{i}. **{emotion.title()}** `{intensity_bar}` ({intensity:.2f})\n"
-                )
+                intensity_bar = "█" * int(intensity * 10) + "░" * (10 - int(intensity * 10))
+                markdown += f"{i}. **{emotion.title()}** `{intensity_bar}` ({intensity:.2f})\n"
 
             markdown += "\n"
 
@@ -1908,9 +1825,9 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 | Symbol Diversity | {len({s for f in thread.fragments for s in f.symbols})} |
 | Emotion Diversity | {len({e for f in thread.fragments for e in f.emotions})} |
 | Motif Count | {len(thread.recurring_motifs)} |
-| Protagonist Elements | {', '.join(thread.protagonist_elements)} |
-| Conflict Elements | {', '.join(thread.conflict_elements)} |
-| Resolution Elements | {', '.join(thread.resolution_elements)} |
+| Protagonist Elements | {", ".join(thread.protagonist_elements)} |
+| Conflict Elements | {", ".join(thread.conflict_elements)} |
+| Resolution Elements | {", ".join(thread.resolution_elements)} |
 
 ---
 *Generated by ΛWEAVER v1.0.0 - LUKHAS AGI Narrative Synthesizer*
@@ -1946,9 +1863,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
             "thread_metadata": {
                 "thread_id": thread.thread_id,
                 "title": thread.title,
-                "narrative_arc": (
-                    thread.narrative_arc.value if thread.narrative_arc else None
-                ),
+                "narrative_arc": (thread.narrative_arc.value if thread.narrative_arc else None),
                 "temporal_span": {
                     "start": thread.temporal_span[0],
                     "end": thread.temporal_span[1],
@@ -1965,12 +1880,8 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
             "symbols_analysis": {
                 "symbols_used": thread_trace.symbols_used,
                 "symbol_count": len(thread_trace.symbols_used),
-                "symbol_frequency": dict(
-                    Counter(s for f in thread.fragments for s in f.symbols)
-                ),
-                "unique_symbols_per_fragment": [
-                    len(f.symbols) for f in thread.fragments
-                ],
+                "symbol_frequency": dict(Counter(s for f in thread.fragments for s in f.symbols)),
+                "unique_symbols_per_fragment": [len(f.symbols) for f in thread.fragments],
             },
             "motifs_analysis": {
                 "motifs_detected": thread_trace.motifs_detected,
@@ -2031,9 +1942,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
         return trace_json
 
-    def generate_thread_map(
-        self, thread: NarrativeThread = None, output_path: str = None
-    ) -> str:
+    def generate_thread_map(self, thread: NarrativeThread = None, output_path: str = None) -> str:
         """Generate ASCII thread map showing symbolic timeline."""
 
         if thread is None:
@@ -2055,9 +1964,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
         map_lines.append("─" * 40)
 
         for i, fragment in enumerate(thread.fragments):
-            timestamp = datetime.fromisoformat(
-                fragment.timestamp.replace("Z", "+00:00")
-            )
+            timestamp = datetime.fromisoformat(fragment.timestamp.replace("Z", "+00:00"))
             time_str = timestamp.strftime("%m/%d %H:%M")
 
             # Create visual indicator
@@ -2075,7 +1982,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
             )
 
             map_lines.append(
-                f"{i+1:2d}. {icon} {time_str} │{coherence_bar}│ {fragment.coherence_score:.2f}"
+                f"{i + 1:2d}. {icon} {time_str} │{coherence_bar}│ {fragment.coherence_score:.2f}"
             )
 
         map_lines.append("")
@@ -2099,13 +2006,9 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
         map_lines.append("💭 EMOTIONAL ARC")
         map_lines.append("─" * 40)
 
-        for i, (emotion, intensity) in enumerate(
-            thread.emotional_arc[:10]
-        ):  # Limit to first 10
+        for i, (emotion, intensity) in enumerate(thread.emotional_arc[:10]):  # Limit to first 10
             intensity_bar = "█" * int(intensity * 15) + "░" * (15 - int(intensity * 15))
-            map_lines.append(
-                f"{i+1:2d}. {emotion:12s} │{intensity_bar}│ {intensity:.2f}"
-            )
+            map_lines.append(f"{i + 1:2d}. {emotion:12s} │{intensity_bar}│ {intensity:.2f}")
 
         map_lines.append("")
 
@@ -2119,9 +2022,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
                     10 - int(motif.resonance_score * 10)
                 )
                 pattern_str = " → ".join(motif.symbol_pattern)
-                map_lines.append(
-                    f"{pattern_str:20s} │{resonance_bar}│ {len(motif.occurrences)}x"
-                )
+                map_lines.append(f"{pattern_str:20s} │{resonance_bar}│ {len(motif.occurrences)}x")
 
             map_lines.append("")
 
@@ -2179,9 +2080,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
                     "thread_id": thread.thread_id,
                     "title": thread.title,
                     "coherence": thread.coherence_score,
-                    "narrative_arc": (
-                        thread.narrative_arc.value if thread.narrative_arc else None
-                    ),
+                    "narrative_arc": (thread.narrative_arc.value if thread.narrative_arc else None),
                 }
                 for thread in self.woven_threads[-5:]
             ],
@@ -2210,9 +2109,7 @@ Examples:
         default="memory/fragments/",
         help="Source directory for symbolic fragments",
     )
-    parser.add_argument(
-        "--out", "--output", type=str, help="Output file path for narrative"
-    )
+    parser.add_argument("--out", "--output", type=str, help="Output file path for narrative")
     parser.add_argument(
         "--window", type=str, default="24h", help="Analysis window (e.g., 24h, 48h, 7d)"
     )
@@ -2251,9 +2148,7 @@ Examples:
         default=0.8,
         help="Ethical alignment threshold",
     )
-    parser.add_argument(
-        "--status", action="store_true", help="Show ΛWEAVER system status"
-    )
+    parser.add_argument("--status", action="store_true", help="Show ΛWEAVER system status")
 
     args = parser.parse_args()
 
@@ -2317,9 +2212,7 @@ Examples:
 
         # Synthesize narrative thread (use longest sequence)
         longest_sequence = max(thread_sequences, key=len)
-        print(
-            f"🔮 Synthesizing narrative from sequence of {len(longest_sequence)} fragments..."
-        )
+        print(f"🔮 Synthesizing narrative from sequence of {len(longest_sequence)} fragments...")
 
         thread = weaver.synthesize_narrative_thread(longest_sequence)
         print(f"✅ Synthesized thread: '{thread.title}'")

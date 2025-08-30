@@ -41,7 +41,6 @@ class DreamPhase(Enum):
 
 
 class DreamNarrationType(Enum):
-
     REAL_TIME = "real_time"
     POST_DREAM_SUMMARY = "post_dream_summary"
     SYMBOLIC_INTERPRETATION = "symbolic_interpretation"
@@ -52,7 +51,6 @@ class DreamNarrationType(Enum):
 
 @dataclass
 class DreamElement:
-
     element_id: str
     type: str  # symbol, memory, emotion, concept, entity
     content: str
@@ -257,9 +255,7 @@ class DreamNarrator:
                 logger.error("Error in dream monitoring: %s", str(e))
                 await asyncio.sleep(1.0)
 
-    async def start_dream_sequence(
-        self, phase: DreamPhase = DreamPhase.PRE_DREAM
-    ) -> str:
+    async def start_dream_sequence(self, phase: DreamPhase = DreamPhase.PRE_DREAM) -> str:
         """Start a new dream sequence"""
         sequence_id = f"dream_{int(time.time())}_{random.randint(1000, 9999)}"
 
@@ -308,9 +304,7 @@ class DreamNarrator:
         if self.narration_enabled:
             await self._narrate_phase_transition(old_phase, new_phase)
 
-        logger.info(
-            "Dream phase transition: %s -> %s", old_phase.value, new_phase.value
-        )
+        logger.info("Dream phase transition: %s -> %s", old_phase.value, new_phase.value)
 
     async def end_dream_sequence(self) -> Optional[DreamSequence]:
         """End current dream sequence"""
@@ -354,9 +348,7 @@ class DreamNarrator:
         for i in range(1, len(elements)):
             prev_element = elements[i - 1]
             curr_element = elements[i]
-            coherence = await self._calculate_element_coherence(
-                prev_element, curr_element
-            )
+            coherence = await self._calculate_element_coherence(prev_element, curr_element)
             coherence_scores.append(coherence)
 
         self.current_dream_sequence.narrative_coherence = (
@@ -368,13 +360,9 @@ class DreamNarrator:
         self.current_dream_sequence.symbolic_density = total_symbols / len(elements)
 
         # Update emotional flow
-        self.current_dream_sequence.emotional_flow = [
-            elem.emotional_resonance for elem in elements
-        ]
+        self.current_dream_sequence.emotional_flow = [elem.emotional_resonance for elem in elements]
 
-    async def _calculate_element_coherence(
-        self, elem1: DreamElement, elem2: DreamElement
-    ) -> float:
+    async def _calculate_element_coherence(self, elem1: DreamElement, elem2: DreamElement) -> float:
         """Calculate coherence between two dream elements"""
         # Thematic coherence
         thematic_similarity = 1.0 if elem1.type == elem2.type else 0.5
@@ -427,17 +415,13 @@ class DreamNarrator:
         )
 
         # Extract symbolic elements
-        symbolic_elements = await self._extract_symbolic_elements(
-            narrative_text, narrative_context
-        )
+        symbolic_elements = await self._extract_symbolic_elements(narrative_text, narrative_context)
 
         # Determine emotional tone
         emotional_tone = await self._determine_emotional_tone(narrative_context)
 
         # Calculate consciousness level
-        consciousness_level = await self._calculate_consciousness_level(
-            narrative_context
-        )
+        consciousness_level = await self._calculate_consciousness_level(narrative_context)
 
         # Estimate narration duration
         estimated_duration = await self._estimate_narration_duration(
@@ -475,12 +459,8 @@ class DreamNarrator:
             recent_elements = self.current_dream_sequence.elements[-3:]
             base_context.update(
                 {
-                    "recent_symbols": [
-                        elem.symbolic_signature for elem in recent_elements
-                    ],
-                    "recent_emotions": [
-                        elem.emotional_resonance for elem in recent_elements
-                    ],
+                    "recent_symbols": [elem.symbolic_signature for elem in recent_elements],
+                    "recent_emotions": [elem.emotional_resonance for elem in recent_elements],
                     "recent_content": [elem.content for elem in recent_elements],
                 }
             )
@@ -508,9 +488,7 @@ class DreamNarrator:
             symbol_counts[symbol] = symbol_counts.get(symbol, 0) + 1
 
         # Find dominant symbols
-        dominant_symbols = sorted(
-            symbol_counts.items(), key=lambda x: x[1], reverse=True
-        )[:3]
+        dominant_symbols = sorted(symbol_counts.items(), key=lambda x: x[1], reverse=True)[:3]
 
         # Generate interpretations
         interpretations = []
@@ -544,16 +522,9 @@ class DreamNarrator:
             curr_symbol = symbols[i]
             next_symbol = symbols[i + 1]
 
-            if (
-                curr_symbol in self.symbolic_vocabulary
-                and next_symbol in self.symbolic_vocabulary
-            ):
-                curr_resonance = self.symbolic_vocabulary[curr_symbol][
-                    "emotional_resonance"
-                ]
-                next_resonance = self.symbolic_vocabulary[next_symbol][
-                    "emotional_resonance"
-                ]
+            if curr_symbol in self.symbolic_vocabulary and next_symbol in self.symbolic_vocabulary:
+                curr_resonance = self.symbolic_vocabulary[curr_symbol]["emotional_resonance"]
+                next_resonance = self.symbolic_vocabulary[next_symbol]["emotional_resonance"]
 
                 # Higher coherence for similar resonance values
                 pair_coherence = 1.0 - abs(curr_resonance - next_resonance)
@@ -573,9 +544,7 @@ class DreamNarrator:
             placeholder = f"{{{key}}}"
             if placeholder in narrative:
                 if isinstance(value, list):
-                    value_str = ", ".join(
-                        str(v) for v in value[:3]
-                    )  # Limit to first 3 items
+                    value_str = ", ".join(str(v) for v in value[:3])  # Limit to first 3 items
                 else:
                     value_str = str(value)
                 narrative = narrative.replace(placeholder, value_str)
@@ -585,9 +554,7 @@ class DreamNarrator:
 
         remaining_placeholders = re.findall(r"\{([^}]+)\}", narrative)
         for placeholder in remaining_placeholders:
-            narrative = narrative.replace(
-                f"{{{placeholder}}}", "the depths of consciousness"
-            )
+            narrative = narrative.replace(f"{{{placeholder}}}", "the depths of consciousness")
 
         return narrative
 
@@ -663,10 +630,8 @@ class DreamNarrator:
 
     async def _determine_emotional_tone(self, context: dict[str, Any]) -> str:
         """Determine emotional tone for narration"""
-        if "recent_emotions" in context and context["recent_emotions"]:
-            avg_emotion = sum(context["recent_emotions"]) / len(
-                context["recent_emotions"]
-            )
+        if context.get("recent_emotions"):
+            avg_emotion = sum(context["recent_emotions"]) / len(context["recent_emotions"])
 
             if avg_emotion > 0.8:
                 return "transcendent_bliss"
@@ -721,9 +686,7 @@ class DreamNarrator:
         # Slower for dream narration
         dream_factor = 0.8
 
-        adjusted_duration = (
-            base_duration / speed_factor * dream_factor * (1 + temporal_distortion)
-        )
+        adjusted_duration = base_duration / speed_factor * dream_factor * (1 + temporal_distortion)
 
         return max(1.0, adjusted_duration)  # Minimum 1 second
 
@@ -731,9 +694,7 @@ class DreamNarrator:
     async def _narrate_dream_beginning(self, phase: DreamPhase):
         """Generate narration for dream beginning"""
         context = {"dream_phase": phase.value, "transition": "beginning"}
-        narration = await self.generate_dream_narration(
-            DreamNarrationType.REAL_TIME, context
-        )
+        narration = await self.generate_dream_narration(DreamNarrationType.REAL_TIME, context)
         await self._emit_narration(narration)
 
     async def _narrate_dream_element(self, element: DreamElement):
@@ -744,30 +705,22 @@ class DreamNarrator:
             "symbolic_signature": element.symbolic_signature,
             "emotional_resonance": element.emotional_resonance,
         }
-        narration = await self.generate_dream_narration(
-            DreamNarrationType.REAL_TIME, context
-        )
+        narration = await self.generate_dream_narration(DreamNarrationType.REAL_TIME, context)
         await self._emit_narration(narration)
 
-    async def _narrate_phase_transition(
-        self, old_phase: DreamPhase, new_phase: DreamPhase
-    ):
+    async def _narrate_phase_transition(self, old_phase: DreamPhase, new_phase: DreamPhase):
         """Generate narration for phase transition"""
         context = {
             "old_phase": old_phase.value,
             "new_phase": new_phase.value,
             "transition": "phase_change",
         }
-        narration = await self.generate_dream_narration(
-            DreamNarrationType.REAL_TIME, context
-        )
+        narration = await self.generate_dream_narration(DreamNarrationType.REAL_TIME, context)
         await self._emit_narration(narration)
 
     async def _narrate_dream_ending(self):
         """Generate narration for dream ending"""
-        narration = await self.generate_dream_narration(
-            DreamNarrationType.POST_DREAM_SUMMARY
-        )
+        narration = await self.generate_dream_narration(DreamNarrationType.POST_DREAM_SUMMARY)
         await self._emit_narration(narration)
 
     async def _generate_real_time_narration(self):
@@ -780,9 +733,7 @@ class DreamNarrator:
         time_since_last = time.time() - last_element.timestamp
 
         if time_since_last > 10.0:  # Narrate every 10 seconds minimum
-            narration = await self.generate_dream_narration(
-                DreamNarrationType.REAL_TIME
-            )
+            narration = await self.generate_dream_narration(DreamNarrationType.REAL_TIME)
             await self._emit_narration(narration)
 
     async def _monitor_dream_phases(self):
@@ -890,12 +841,12 @@ class DreamNarrator:
 
 # Export main classes
 __all__ = [
-    "DreamNarrator",
-    "DreamSequence",
     "DreamElement",
     "DreamNarration",
-    "DreamPhase",
     "DreamNarrationType",
+    "DreamNarrator",
+    "DreamPhase",
+    "DreamSequence",
 ]
 
 

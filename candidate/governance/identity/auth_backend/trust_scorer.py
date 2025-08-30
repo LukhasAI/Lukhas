@@ -133,9 +133,7 @@ class LukhasTrustScorer:
         else:
             freshness_penalty = 0.0
 
-        entropy_score = (
-            (level_score * quality_multiplier) + source_modifier + freshness_penalty
-        )
+        entropy_score = (level_score * quality_multiplier) + source_modifier + freshness_penalty
 
         # Ensure within bounds
         entropy_score = max(0, min(30, entropy_score))
@@ -148,9 +146,7 @@ class LukhasTrustScorer:
 
         return entropy_score
 
-    def calculate_behavioral_score(
-        self, user_id: str, behavioral_data: dict[str, Any]
-    ) -> float:
+    def calculate_behavioral_score(self, user_id: str, behavioral_data: dict[str, Any]) -> float:
         """
         Calculate trust score based on behavioral patterns and anomaly detection.
 
@@ -273,8 +269,7 @@ class LukhasTrustScorer:
 
                 # Simplified distance check (in production, use proper geolocation)
                 if (
-                    last_location["country"] != location.get("country")
-                    and time_diff < 2
+                    last_location["country"] != location.get("country") and time_diff < 2
                 ):  # Different country within 2 hours
                     score -= 8.0
                     patterns["anomaly_count"] += 1
@@ -408,9 +403,7 @@ class LukhasTrustScorer:
 
         return device_score
 
-    def calculate_contextual_score(
-        self, context_data: dict[str, Any], user_id: str
-    ) -> float:
+    def calculate_contextual_score(self, context_data: dict[str, Any], user_id: str) -> float:
         """
         Calculate trust score based on contextual factors and environmental data.
 
@@ -598,7 +591,7 @@ class LukhasTrustScorer:
             return result
 
         except Exception as e:
-            self.logger.error(f"Trust score calculation failed for {user_id}: {str(e)}")
+            self.logger.error(f"Trust score calculation failed for {user_id}: {e!s}")
             self.audit_logger.log_security_event(
                 "trust_calculation_error", {"user_id": user_id, "error": str(e)}
             )
@@ -667,9 +660,7 @@ class LukhasTrustScorer:
             "critical": self.thresholds["high_security"],
         }
 
-        return operation_thresholds.get(
-            operation_type, self.thresholds["medium_security"]
-        )
+        return operation_thresholds.get(operation_type, self.thresholds["medium_security"])
 
     def cleanup_expired_data(self):
         """Remove expired risk factors and old behavioral data."""
@@ -687,9 +678,7 @@ class LukhasTrustScorer:
 
         # Clean old behavioral patterns (keep only recent data)
         for user_id, patterns in self.behavioral_patterns.items():
-            if current_time - patterns.get("last_update", current_time) > timedelta(
-                days=30
-            ):
+            if current_time - patterns.get("last_update", current_time) > timedelta(days=30):
                 # Keep only essential data for inactive users
                 patterns["login_times"] = patterns["login_times"][-10:]
                 patterns["device_patterns"] = patterns["device_patterns"][-5:]

@@ -113,8 +113,7 @@ def import_folds(
         spec_version = header.get("spec", "unknown")
         if spec_version not in SUPPORTED_SPECS:
             raise LKFPackVersionError(
-                f"Unsupported spec version: {spec_version} "
-                f"(supported: {SUPPORTED_SPECS})"
+                f"Unsupported spec version: {spec_version} (supported: {SUPPORTED_SPECS})"
             )
 
         # Extract metadata
@@ -145,8 +144,7 @@ def import_folds(
             calculated_crc = binascii.crc32(payload) & 0xFFFFFFFF
             if calculated_crc != crc_given:
                 raise LKFPackIntegrityError(
-                    f"CRC mismatch - expected: {crc_given}, "
-                    f"calculated: {calculated_crc}"
+                    f"CRC mismatch - expected: {crc_given}, calculated: {calculated_crc}"
                 )
 
             # Also verify against header CRC if present
@@ -195,9 +193,7 @@ def import_folds(
 
         # Verify entry count
         if entries_read != expected_entries:
-            logger.warning(
-                "Entry count mismatch", expected=expected_entries, actual=entries_read
-            )
+            logger.warning("Entry count mismatch", expected=expected_entries, actual=entries_read)
 
         logger.info("LKF-Pack import completed", entries_read=entries_read, codec=codec)
 
@@ -307,7 +303,8 @@ def verify_lkf_pack(path: Path) -> dict[str, Any]:
 
 
 def import_from_stream(
-    stream, chunk_size: int = 1024 * 1024  # 1MB chunks
+    stream,
+    chunk_size: int = 1024 * 1024,  # 1MB chunks
 ) -> Generator[dict[str, Any], None, None]:
     """
     Import memory folds from a streaming source.
@@ -359,8 +356,6 @@ def create_memory_importer(verify_crc: bool = True, validate_schema: bool = True
                 **kwargs,
             )
         else:
-            return import_folds(
-                path, verify_crc=kwargs.get("verify_crc", verify_crc), **kwargs
-            )
+            return import_folds(path, verify_crc=kwargs.get("verify_crc", verify_crc), **kwargs)
 
     return importer

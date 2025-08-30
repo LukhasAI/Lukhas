@@ -244,7 +244,10 @@ class ContinuousLearningEngine:
         self.max_weight = 10.0
 
     def update_tag_importance(
-        self, tag: str, feedback: float, context: dict[str, Any]  # -1 to 1
+        self,
+        tag: str,
+        feedback: float,
+        context: dict[str, Any],  # -1 to 1
     ):
         """Update tag weight based on feedback"""
         current_weight = self.tag_weights[tag]
@@ -459,9 +462,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     for tag_memory, _ in tag_results:
                         # Check if already in results
                         if not any(m[0].item_id == tag_memory.item_id for m in results):
-                            results.append(
-                                (tag_memory, 0.5)
-                            )  # Lower score for tag-only match
+                            results.append((tag_memory, 0.5))  # Lower score for tag-only match
 
         # Sort by score and return top-k
         results.sort(key=lambda x: x[1], reverse=True)
@@ -494,9 +495,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             {"id": cause_id, "strength": strength, "evidence": evidence or []}
         )
 
-        logger.info(
-            "Causal link added", cause=cause_id, effect=effect_id, strength=strength
-        )
+        logger.info("Causal link added", cause=cause_id, effect=effect_id, strength=strength)
 
     async def trace_causal_chain(
         self, memory_id: str, direction: str = "backward", max_depth: int = 5
@@ -520,11 +519,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
             # Get connections
             connections = self.causal_graph[current_id]
-            links = (
-                connections["causes"]
-                if direction == "backward"
-                else connections["effects"]
-            )
+            links = connections["causes"] if direction == "backward" else connections["effects"]
 
             if not links:
                 # Reached end of chain
@@ -541,9 +536,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                         continue
 
                     new_path = path + [(next_id, cumulative_strength * strength)]
-                    trace_recursive(
-                        next_id, new_path, cumulative_strength * strength, depth + 1
-                    )
+                    trace_recursive(next_id, new_path, cumulative_strength * strength, depth + 1)
 
         # Start tracing
         trace_recursive(memory_id, [(memory_id, 1.0)], 1.0, 0)
@@ -685,12 +678,8 @@ class HybridMemoryFold(MemoryFoldSystem):
 
         # Add causal statistics
         base_stats["causal_stats"] = {
-            "memories_with_causes": sum(
-                1 for m in self.causal_graph.values() if m["causes"]
-            ),
-            "memories_with_effects": sum(
-                1 for m in self.causal_graph.values() if m["effects"]
-            ),
+            "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
+            "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
             "total_causal_links": sum(
                 len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
             )

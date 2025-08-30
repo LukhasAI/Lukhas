@@ -19,9 +19,7 @@ class TaskIntelligence:
         self.learning_patterns: dict[str, Any] = {}
         self.task_embeddings: dict[str, list[float]] = {}
 
-    def analyze_task_complexity(
-        self, task_description: str, context: dict
-    ) -> dict[str, Any]:
+    def analyze_task_complexity(self, task_description: str, context: dict) -> dict[str, Any]:
         """Analyze task complexity using AI patterns"""
         complexity_indicators = {
             "simple": ["fix", "update", "change", "quick"],
@@ -72,9 +70,7 @@ class TaskIntelligence:
         risks = []
         description_lower = description.lower()
 
-        if any(
-            word in description_lower for word in ["database", "migration", "schema"]
-        ):
+        if any(word in description_lower for word in ["database", "migration", "schema"]):
             risks.append("Data integrity risk")
         if any(word in description_lower for word in ["api", "breaking", "change"]):
             risks.append("Backward compatibility risk")
@@ -142,18 +138,13 @@ class PriorityOptimizer:
             "critical",
             "production",
         ]
-        if any(
-            keyword in task.get("description", "").lower()
-            for keyword in impact_keywords
-        ):
+        if any(keyword in task.get("description", "").lower() for keyword in impact_keywords):
             base_score += 2.0
 
         # Effort vs impact ratio
         complexity = task.get("complexity_score", 5.0)
         if complexity > 0:
-            efficiency_bonus = min(
-                2.0, 10.0 / complexity
-            )  # Favor high-impact, low-effort tasks
+            efficiency_bonus = min(2.0, 10.0 / complexity)  # Favor high-impact, low-effort tasks
             base_score += efficiency_bonus
 
         # Dependencies factor
@@ -179,10 +170,7 @@ class PriorityOptimizer:
                 explanations.append("Due within 24 hours")
 
         impact_keywords = ["revenue", "customer", "security", "critical"]
-        if any(
-            keyword in task.get("description", "").lower()
-            for keyword in impact_keywords
-        ):
+        if any(keyword in task.get("description", "").lower() for keyword in impact_keywords):
             explanations.append("High business impact")
 
         if task.get("dependencies", []):
@@ -253,9 +241,7 @@ class ContextTracker:
 
         if context.get("repo"):
             insights["context_type"] = "development"
-            insights["recommendations"].append(
-                "Ensure development environment is ready"
-            )
+            insights["recommendations"].append("Ensure development environment is ready")
             insights["resource_needs"].append("Code editor, terminal access")
 
         if context.get("urgency") == "high":
@@ -366,9 +352,7 @@ class SymbolicReasoner:
         reasoning_result["inferences"].extend(priority_inferences)
 
         # Calculate confidence based on number of matching patterns
-        reasoning_result["confidence_score"] = min(
-            1.0, len(reasoning_result["inferences"]) * 0.3
-        )
+        reasoning_result["confidence_score"] = min(1.0, len(reasoning_result["inferences"]) * 0.3)
 
         return reasoning_result
 
@@ -423,9 +407,7 @@ class WorkflowAnalyzer:
         self.workflow_patterns: dict[str, Any] = {}
         self.performance_metrics: dict[str, list[float]] = {}
 
-    def analyze_workflow(
-        self, tasks: list[dict], timeframe_days: int = 7
-    ) -> dict[str, Any]:
+    def analyze_workflow(self, tasks: list[dict], timeframe_days: int = 7) -> dict[str, Any]:
         """Analyze workflow patterns and performance"""
         analysis = {
             "efficiency_score": 0.0,
@@ -463,9 +445,7 @@ class WorkflowAnalyzer:
 
         # Tasks stuck in progress
         stuck_tasks = [
-            t
-            for t in tasks
-            if t.get("status") == "in_progress" and self._task_age_days(t) > 3
+            t for t in tasks if t.get("status") == "in_progress" and self._task_age_days(t) > 3
         ]
         if stuck_tasks:
             bottlenecks.append(
@@ -493,8 +473,7 @@ class WorkflowAnalyzer:
         high_priority_pending = [
             t
             for t in tasks
-            if t.get("priority") in ["critical", "high"]
-            and t.get("status") == "pending"
+            if t.get("priority") in ["critical", "high"] and t.get("status") == "pending"
         ]
         if len(high_priority_pending) > 5:
             bottlenecks.append(
@@ -533,9 +512,9 @@ class WorkflowAnalyzer:
 
         completed_tasks = [t for t in tasks if t.get("status") == "completed"]
         if len(completed_tasks) > 0:
-            avg_completion_time = sum(
-                self._task_age_days(t) for t in completed_tasks
-            ) / len(completed_tasks)
+            avg_completion_time = sum(self._task_age_days(t) for t in completed_tasks) / len(
+                completed_tasks
+            )
             if avg_completion_time > 5:
                 suggestions.append("Focus on reducing task cycle time")
 
@@ -564,9 +543,7 @@ class WorkflowAnalyzer:
         for status in status_distribution:
             status_tasks = [t for t in tasks if t.get("status") == status]
             if status_tasks:
-                avg_age = sum(self._task_age_days(t) for t in status_tasks) / len(
-                    status_tasks
-                )
+                avg_age = sum(self._task_age_days(t) for t in status_tasks) / len(status_tasks)
                 avg_age_by_status[status] = round(avg_age, 1)
         insights["avg_age_by_status"] = avg_age_by_status
 

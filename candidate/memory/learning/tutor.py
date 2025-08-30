@@ -151,7 +151,7 @@ class TutorEngine:
             related = self.skg.get_neighborhood(node.id)
 
             # Create objectives based on node type and difficulty
-            obj_id = f"obj_{len(objectives)+1}"
+            obj_id = f"obj_{len(objectives) + 1}"
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",
@@ -163,9 +163,7 @@ class TutorEngine:
 
         return objectives
 
-    def _estimate_learning_time(
-        self, node: SKGNode, difficulty: DifficultyLevel
-    ) -> int:
+    def _estimate_learning_time(self, node: SKGNode, difficulty: DifficultyLevel) -> int:
         """Estimate time needed to learn a concept."""
         base_time = 15  # Base time in minutes
 
@@ -209,9 +207,7 @@ class TutorEngine:
             voice_style={"emotion": "welcoming", "pace": "moderate"},
         )
 
-    async def handle_user_response(
-        self, session_id: str, response: str
-    ) -> list[TutorMessage]:
+    async def handle_user_response(self, session_id: str, response: str) -> list[TutorMessage]:
         """Handle user's response and provide appropriate feedback."""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -279,9 +275,7 @@ class TutorEngine:
         responses = []
 
         # Analyze response using SKG
-        understanding_level = self._analyze_understanding(
-            user_response, current_objective
-        )
+        understanding_level = self._analyze_understanding(user_response, current_objective)
 
         if understanding_level > 0.8:
             # User demonstrates good understanding
@@ -330,9 +324,7 @@ class TutorEngine:
 
         return responses
 
-    def _analyze_understanding(
-        self, response: str, objective: LearningObjective
-    ) -> float:
+    def _analyze_understanding(self, response: str, objective: LearningObjective) -> float:
         """
         Analyze user's understanding level using the SKG.
         Returns a score between 0 and 1.

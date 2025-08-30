@@ -56,6 +56,7 @@
 ║ - Stress Response Systems (Sapolsky, 2004)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import contextlib
 import logging
@@ -219,9 +220,7 @@ class BioSimulationController:
 
             # Legacy compatibility: affect modulation
             if self.affect_delta > 0.5:
-                self.hormones[HormoneType.DOPAMINE.value].update_level(
-                    self.affect_delta * 0.1
-                )
+                self.hormones[HormoneType.DOPAMINE.value].update_level(self.affect_delta * 0.1)
             elif self.affect_delta < -0.5:
                 self.hormones[HormoneType.SEROTONIN.value].update_level(
                     abs(self.affect_delta) * 0.1
@@ -268,9 +267,7 @@ class BioSimulationController:
         """
         oscillator.driftScore = 0.0
         oscillator.affect_delta = 0.0
-        oscillator.target_frequency = oscillator._get_default_frequency(
-            OscillationType.ALPHA
-        )
+        oscillator.target_frequency = oscillator._get_default_frequency(OscillationType.ALPHA)
         asyncio.create_task(oscillator._synchronize())
 
     def _initialize_default_hormones(self):
@@ -370,9 +367,7 @@ class BioSimulationController:
         )
 
         # Dopamine enhances acetylcholine (focus)
-        self.interactions.append(
-            HormoneInteraction("dopamine", "acetylcholine", 0.2, 0.4)
-        )
+        self.interactions.append(HormoneInteraction("dopamine", "acetylcholine", 0.2, 0.4))
 
         # Serotonin enhances GABA (stability)
         self.interactions.append(HormoneInteraction("serotonin", "gaba", 0.15, 0.5))
@@ -399,9 +394,7 @@ class BioSimulationController:
     def _apply_circadian_effects(self):
         """Apply circadian rhythm effects to hormone production."""
         # Melatonin peaks at night (phase 22-6)
-        night_factor = (
-            1.0 if self.current_phase >= 22 or self.current_phase < 6 else 0.0
-        )
+        night_factor = 1.0 if self.current_phase >= 22 or self.current_phase < 6 else 0.0
         day_factor = 1.0 - night_factor
 
         for hormone in self.hormones.values():
@@ -421,9 +414,7 @@ class BioSimulationController:
 
             if source_hormone and target_hormone:
                 if source_hormone.level >= interaction.threshold:
-                    effect = interaction.effect * (
-                        source_hormone.level - interaction.threshold
-                    )
+                    effect = interaction.effect * (source_hormone.level - interaction.threshold)
                     target_hormone.update_level(effect * 0.05)
 
     def _check_system_states(self):
@@ -453,12 +444,7 @@ class BioSimulationController:
             self._trigger_callbacks("rest_needed")
 
         # Optimal performance
-        if (
-            0.2 < cortisol < 0.5
-            and dopamine > 0.6
-            and serotonin > 0.5
-            and acetylcholine > 0.6
-        ):
+        if 0.2 < cortisol < 0.5 and dopamine > 0.6 and serotonin > 0.5 and acetylcholine > 0.6:
             self._trigger_callbacks("optimal_performance")
 
     def _trigger_callbacks(self, state: str):
@@ -579,9 +565,7 @@ class BioSimulationController:
 
         return {
             "current_state": state["overall_state"],
-            "suggestions": sorted(
-                suggestions, key=lambda x: x["priority"], reverse=True
-            ),
+            "suggestions": sorted(suggestions, key=lambda x: x["priority"], reverse=True),
         }
 
 

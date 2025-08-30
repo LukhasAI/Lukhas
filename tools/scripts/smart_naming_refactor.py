@@ -14,13 +14,10 @@ from pathlib import Path
 
 
 class SmartNamingRefactor:
-
     def __init__(self, dry_run: bool = True):
         self.dry_run = dry_run
         self.changes_made = []
-        self.backup_dir = Path(".naming_backup") / datetime.now().strftime(
-            "%Y%m%d_%H%M%S"
-        )
+        self.backup_dir = Path(".naming_backup") / datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Load LUKHAS concepts from our conventions
         self.lukhas_concepts = {
@@ -106,9 +103,7 @@ class SmartNamingRefactor:
                     with open(file_path, "w") as f:
                         f.write(new_content)
 
-                self.changes_made.append(
-                    {"file": str(file_path), "changes": transformer.changes}
-                )
+                self.changes_made.append({"file": str(file_path), "changes": transformer.changes})
                 return True
 
         except Exception as e:
@@ -194,9 +189,7 @@ class SmartNamingRefactor:
         python_files = [
             f
             for f in python_files
-            if not any(
-                skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            )
+            if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
         print(f"Found {len(python_files)} Python files to process")
@@ -217,9 +210,7 @@ class SmartNamingRefactor:
         print("\n✅ Refactoring complete!")
         print(f"   Files processed: {len(python_files)}")
         print(f"   Files changed: {refactored_count}")
-        print(
-            f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made)}"
-        )
+        print(f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made)}")
 
         if self.dry_run:
             print("\n⚠️  This was a DRY RUN. No files were actually modified.")
@@ -233,9 +224,7 @@ class SmartNamingRefactor:
             "changes": self.changes_made,
             "summary": {
                 "files_changed": len(self.changes_made),
-                "total_changes": sum(
-                    len(c.get("changes", [])) for c in self.changes_made
-                ),
+                "total_changes": sum(len(c.get("changes", [])) for c in self.changes_made),
             },
         }
 
@@ -307,19 +296,13 @@ class LUKHASNameTransformer(ast.NodeTransformer):
         # Handle acronyms
         for acronym in ["lukhas", "", "sgi", "agi"]:
             if acronym in name.lower():
-                name = re.sub(
-                    f"\\b{acronym}\\b", acronym.upper(), name, flags=re.IGNORECASE
-                )
+                name = re.sub(f"\\b{acronym}\\b", acronym.upper(), name, flags=re.IGNORECASE)
 
         # Convert to PascalCase
         if "_" in name:
             parts = name.split("_")
             return "".join(
-                (
-                    part.capitalize()
-                    if part.lower() not in ["", "SGI", "AGI", "LUKHAS"]
-                    else part
-                )
+                (part.capitalize() if part.lower() not in ["", "SGI", "AGI", "LUKHAS"] else part)
                 for part in parts
             )
         else:
@@ -344,12 +327,8 @@ class LUKHASNameTransformer(ast.NodeTransformer):
 
 def main():
     parser = argparse.ArgumentParser(description="LUKHAS Smart Naming Refactor")
-    parser.add_argument(
-        "--apply", action="store_true", help="Apply changes (default is dry run)"
-    )
-    parser.add_argument(
-        "--path", default=".", help="Path to refactor (default: current directory)"
-    )
+    parser.add_argument("--apply", action="store_true", help="Apply changes (default is dry run)")
+    parser.add_argument("--path", default=".", help="Path to refactor (default: current directory)")
 
     args = parser.parse_args()
 

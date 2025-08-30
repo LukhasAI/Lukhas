@@ -28,13 +28,11 @@ import torch.nn as nn
 
 
 class QITunnelFilter(nn.Module):
-
     def forward(self, x):
         return x * torch.tanh(x)  # placeholder quantum filter
 
 
 class CristaGate(nn.Module):
-
     def __init__(self, ethical_threshold=0.7):
         super().__init__()
         self.ethical_layer = nn.Linear(512, 256)
@@ -53,25 +51,21 @@ class CristaGate(nn.Module):
 
 
 class VivoxAttention(nn.Module):  # Placeholder
-
     def forward(self, x):
         return x
 
 
 class OxintusReasoner(nn.Module):  # Placeholder
-
     def forward(self, x):
         return x
 
 
 class MAELayer(nn.Module):  # Placeholder
-
     def forward(self, x):
         return x
 
 
 class RespiModule(nn.Module):
-
     def __init__(self):
         super().__init__()
         self.complex_I = VivoxAttention()
@@ -90,7 +84,6 @@ class RespiModule(nn.Module):
 
 
 class ATPAllocator:
-
     def __init__(self):
         self.rotor_angle = 0.0
         self.binding_sites = [False] * 12
@@ -119,8 +112,7 @@ def generate_cl_signature(system_state):
         hashlib.shake_128(str(random.getrandbits(256)).encode()).digest(4),
     ]
     signature = b"".join(
-        bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)])
-        for i in range(4)
+        bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)]) for i in range(4)
     )
     return signature.hex()
 
@@ -131,25 +123,21 @@ def generate_cl_signature(system_state):
 
 
 class VivoxSection:
-
     def play(self, x):
         return x
 
 
 class OxintusBrass:
-
     def play(self, x):
         return x
 
 
 class MAEPercussion:
-
     def play(self, x):
         return x
 
 
 class MitochondrialConductor:
-
     def __init__(self):
         self.instruments = {
             "vivox": VivoxSection(),
@@ -168,9 +156,7 @@ class MitochondrialConductor:
 
     def perform(self, input_score):
         topology = self._calculate_cristae_topology(input_score)
-        return self._synchronize(
-            [self._route_to_instrument(n).play(n) for n in topology]
-        )
+        return self._synchronize([self._route_to_instrument(n).play(n) for n in topology])
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -179,7 +165,6 @@ class MitochondrialConductor:
 
 
 class CristaOptimizer:
-
     def __init__(self, network):
         self.network = network
         self.remodeling_rate = 0.42

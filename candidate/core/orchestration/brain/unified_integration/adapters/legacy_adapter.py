@@ -4,6 +4,7 @@ Original: legacy_adapter.py
 Advanced: legacy_adapter.py
 Integration Date: 2025-05-31T07:55:29.984497
 """
+
 import logging
 import time
 import uuid
@@ -41,9 +42,7 @@ class LegacyComponentAdapter:
         self.component_type = component_type
 
         # Register with integration layer
-        self.integration.register_component(
-            component_id, component_type, self._handle_message
-        )
+        self.integration.register_component(component_id, component_type, self._handle_message)
 
         logger.info(f"Legacy adapter initialized for {component_id}")
 
@@ -80,9 +79,7 @@ class LegacyComponentAdapter:
             timestamp=time.time(),
         )
 
-    async def send_message(
-        self, message: dict[str, Any], target: Optional[str] = None
-    ) -> str:
+    async def send_message(self, message: dict[str, Any], target: Optional[str] = None) -> str:
         """Send a legacy message through the new integration layer
 
         Args:
@@ -144,12 +141,8 @@ class LUKHASCoreAdapter(LegacyComponentAdapter):
         super().__init__(integration_layer, "lukhas_core", ComponentType.CORE)
 
         # Subscribe to core message types
-        self.integration.subscribe(
-            self.component_id, MessageType.COMMAND, self._handle_message
-        )
-        self.integration.subscribe(
-            self.component_id, MessageType.EVENT, self._handle_message
-        )
+        self.integration.subscribe(self.component_id, MessageType.COMMAND, self._handle_message)
+        self.integration.subscribe(self.component_id, MessageType.EVENT, self._handle_message)
 
 
 class BrainIntegrationAdapter(LegacyComponentAdapter):
@@ -160,9 +153,7 @@ class BrainIntegrationAdapter(LegacyComponentAdapter):
         super().__init__(integration_layer, "brain_integration", ComponentType.AGI)
 
         # Subscribe to relevant message types
-        self.integration.subscribe(
-            self.component_id, MessageType.COMMAND, self._handle_message
-        )
+        self.integration.subscribe(self.component_id, MessageType.COMMAND, self._handle_message)
 
     async def process_brain_message(
         self,
@@ -178,6 +169,4 @@ class BrainIntegrationAdapter(LegacyComponentAdapter):
         Returns:
             str: Message ID
         """
-        return await self.send_message(
-            message, metadata=metadata or {"subsystem": "brain"}
-        )
+        return await self.send_message(message, metadata=metadata or {"subsystem": "brain"})

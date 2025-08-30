@@ -110,9 +110,7 @@ class EndocrineAwareModule:
 
         return {"success": False, "error": "Unknown operation"}
 
-    async def _handle_endocrine_state(
-        self, operation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_endocrine_state(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Handle endocrine state notifications"""
         state = operation.get("state")
         action = operation.get("action")
@@ -152,15 +150,11 @@ class EndocrineAwareModule:
 
                 # Calculate actual processing delay
                 base_delay = 1.0  # 1 second base
-                actual_delay = base_delay / (
-                    self.processing_multiplier * speed_modulation
-                )
+                actual_delay = base_delay / (self.processing_multiplier * speed_modulation)
 
                 # Process task if available
                 try:
-                    task = await asyncio.wait_for(
-                        self.task_queue.get(), timeout=actual_delay
-                    )
+                    task = await asyncio.wait_for(self.task_queue.get(), timeout=actual_delay)
 
                     # Simulate processing
                     await self._process_single_task(task)
@@ -171,9 +165,7 @@ class EndocrineAwareModule:
 
                 # Update stress based on queue size
                 queue_size = self.task_queue.qsize()
-                self.stress_level = min(
-                    1.0, queue_size / 100
-                )  # Stress increases with queue
+                self.stress_level = min(1.0, queue_size / 100)  # Stress increases with queue
 
                 # Simulate occasional errors based on stress
                 if random.random() < self.stress_level * 0.1:

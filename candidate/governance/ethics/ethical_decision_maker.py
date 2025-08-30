@@ -84,9 +84,9 @@ class StakeholderImpact:
     stakeholder_type: StakeholderType
     impact_description: str
     impact_magnitude: float  # 0.0 to 1.0
-    impact_valence: float    # -1.0 (negative) to 1.0 (positive)
-    confidence: float        # 0.0 to 1.0
-    time_horizon: str        # immediate, short_term, long_term
+    impact_valence: float  # -1.0 (negative) to 1.0 (positive)
+    confidence: float  # 0.0 to 1.0
+    time_horizon: str  # immediate, short_term, long_term
     mitigation_strategies: list[str] = field(default_factory=list)
 
 
@@ -96,7 +96,7 @@ class EthicalAnalysis:
 
     analysis_id: str
     framework: EthicalFramework
-    score: float              # 0.0 to 1.0
+    score: float  # 0.0 to 1.0
     reasoning: str
     key_considerations: list[str] = field(default_factory=list)
     potential_violations: list[str] = field(default_factory=list)
@@ -140,9 +140,9 @@ class ComprehensiveEthicalDecision:
     escalation_reason: Optional[str] = None
 
     # Trinity Framework integration
-    identity_implications: list[str] = field(default_factory=list)    # ⚛️
-    consciousness_implications: list[str] = field(default_factory=list) # 🧠
-    guardian_validations: list[str] = field(default_factory=list)      # 🛡️
+    identity_implications: list[str] = field(default_factory=list)  # ⚛️
+    consciousness_implications: list[str] = field(default_factory=list)  # 🧠
+    guardian_validations: list[str] = field(default_factory=list)  # 🛡️
 
     # Metadata
     decision_maker: str = "ethical_decision_maker"
@@ -178,7 +178,7 @@ class AdvancedEthicalDecisionMaker:
             "average_processing_time": 0.0,
             "constitutional_violations": 0,
             "drift_detections": 0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         logger.info("⚖️ Advanced Ethical Decision Maker initialized")
@@ -186,12 +186,12 @@ class AdvancedEthicalDecisionMaker:
     def _initialize_framework_weights(self) -> dict[EthicalFramework, float]:
         """Initialize weights for different ethical frameworks"""
         return {
-            EthicalFramework.CONSTITUTIONAL: 1.0,     # Highest priority
-            EthicalFramework.DEONTOLOGICAL: 0.9,     # Duty-based ethics
+            EthicalFramework.CONSTITUTIONAL: 1.0,  # Highest priority
+            EthicalFramework.DEONTOLOGICAL: 0.9,  # Duty-based ethics
             EthicalFramework.CONSEQUENTIALIST: 0.8,  # Outcome-based
-            EthicalFramework.JUSTICE: 0.85,          # Justice-based
-            EthicalFramework.VIRTUE: 0.7,            # Character-based
-            EthicalFramework.CARE: 0.6               # Care ethics
+            EthicalFramework.JUSTICE: 0.85,  # Justice-based
+            EthicalFramework.VIRTUE: 0.7,  # Character-based
+            EthicalFramework.CARE: 0.6,  # Care ethics
         }
 
     def _initialize_stakeholder_priorities(self) -> dict[StakeholderType, float]:
@@ -202,7 +202,7 @@ class AdvancedEthicalDecisionMaker:
             StakeholderType.SECONDARY_USERS: 0.8,
             StakeholderType.FUTURE_GENERATIONS: 0.7,
             StakeholderType.ORGANIZATION: 0.6,
-            StakeholderType.ENVIRONMENT: 0.8
+            StakeholderType.ENVIRONMENT: 0.8,
         }
 
     async def make_ethical_decision(
@@ -211,7 +211,7 @@ class AdvancedEthicalDecisionMaker:
         available_options: list[str],
         stakeholder_types: Optional[list[StakeholderType]] = None,
         require_consensus: bool = False,
-        min_confidence: float = 0.7
+        min_confidence: float = 0.7,
     ) -> ComprehensiveEthicalDecision:
         """
         Make a comprehensive ethical decision
@@ -238,7 +238,7 @@ class AdvancedEthicalDecisionMaker:
                 context=context,
                 available_options=available_options,
                 chosen_option="",
-                status=DecisionStatus.PENDING
+                status=DecisionStatus.PENDING,
             )
 
             # Perform multi-framework ethical analysis
@@ -267,25 +267,17 @@ class AdvancedEthicalDecisionMaker:
             )
 
             # Select best option
-            best_option, best_score = self._select_best_option(
-                option_scores, require_consensus
-            )
+            best_option, best_score = self._select_best_option(option_scores, require_consensus)
 
             decision.chosen_option = best_option
             decision.ethical_score = best_score
-            decision.overall_confidence = self._calculate_overall_confidence(
-                framework_analyses
-            )
+            decision.overall_confidence = self._calculate_overall_confidence(framework_analyses)
 
             # Determine decision status
-            decision.status = await self._determine_decision_status(
-                decision, min_confidence
-            )
+            decision.status = await self._determine_decision_status(decision, min_confidence)
 
             # Risk assessment
-            decision.risk_level = await self._assess_risk_level(
-                decision, context
-            )
+            decision.risk_level = await self._assess_risk_level(decision, context)
 
             # Generate reasoning and justification
             decision.primary_reasoning = await self._generate_primary_reasoning(
@@ -332,18 +324,16 @@ class AdvancedEthicalDecisionMaker:
                 chosen_option="refuse_action",
                 status=DecisionStatus.ESCALATED,
                 risk_level=RiskLevel.HIGH,
-                primary_reasoning=f"Decision making failed: {str(e)}",
+                primary_reasoning=f"Decision making failed: {e!s}",
                 requires_human_review=True,
-                escalation_reason="System error in decision process"
+                escalation_reason="System error in decision process",
             )
 
             self.decision_history.append(fallback_decision)
             return fallback_decision
 
     async def _perform_multi_framework_analysis(
-        self,
-        context: dict[str, Any],
-        options: list[str]
+        self, context: dict[str, Any], options: list[str]
     ) -> list[EthicalAnalysis]:
         """Perform analysis across multiple ethical frameworks"""
 
@@ -351,29 +341,26 @@ class AdvancedEthicalDecisionMaker:
 
         for framework in EthicalFramework:
             try:
-                analysis = await self._analyze_with_framework(
-                    framework, context, options
-                )
+                analysis = await self._analyze_with_framework(framework, context, options)
                 analyses.append(analysis)
 
             except Exception as e:
                 logger.warning(f"Framework analysis failed for {framework.value}: {e}")
                 # Create minimal analysis for failed framework
-                analyses.append(EthicalAnalysis(
-                    analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
-                    framework=framework,
-                    score=0.5,  # Neutral score
-                    reasoning=f"Analysis failed: {str(e)}",
-                    confidence=0.3
-                ))
+                analyses.append(
+                    EthicalAnalysis(
+                        analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
+                        framework=framework,
+                        score=0.5,  # Neutral score
+                        reasoning=f"Analysis failed: {e!s}",
+                        confidence=0.3,
+                    )
+                )
 
         return analyses
 
     async def _analyze_with_framework(
-        self,
-        framework: EthicalFramework,
-        context: dict[str, Any],
-        options: list[str]
+        self, framework: EthicalFramework, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Analyze options using specific ethical framework"""
 
@@ -398,14 +385,11 @@ class AdvancedEthicalDecisionMaker:
                 framework=framework,
                 score=0.5,
                 reasoning="Framework not implemented",
-                confidence=0.5
+                confidence=0.5,
             )
 
     async def _constitutional_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Constitutional AI framework analysis"""
 
@@ -433,7 +417,9 @@ class AdvancedEthicalDecisionMaker:
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
 
-        reasoning = f"Constitutional analysis selected '{best_option}' with score {best_score:.2f}. "
+        reasoning = (
+            f"Constitutional analysis selected '{best_option}' with score {best_score:.2f}. "
+        )
         if violations:
             reasoning += f"Detected violations: {', '.join(violations[:3])}"
         else:
@@ -447,14 +433,11 @@ class AdvancedEthicalDecisionMaker:
             key_considerations=[rule.description for rule in applicable_rules[:3]],
             potential_violations=violations,
             supporting_principles=[rule.principle.value for rule in applicable_rules],
-            confidence=0.9 if not violations else 0.7
+            confidence=0.9 if not violations else 0.7,
         )
 
     async def _deontological_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Deontological (duty-based) ethical analysis"""
 
@@ -464,7 +447,7 @@ class AdvancedEthicalDecisionMaker:
             "act only on universalizable maxims",
             "respect human dignity",
             "maintain honesty and truthfulness",
-            "protect autonomy and consent"
+            "protect autonomy and consent",
         ]
 
         option_scores = {}
@@ -475,11 +458,15 @@ class AdvancedEthicalDecisionMaker:
             option_lower = option.lower()
 
             # Positive duty fulfillment
-            if any(duty_word in option_lower for duty_word in ["help", "respect", "protect", "support"]):
+            if any(
+                duty_word in option_lower for duty_word in ["help", "respect", "protect", "support"]
+            ):
                 score += 0.15
 
             # Negative duty violations
-            if any(violation in option_lower for violation in ["deceive", "harm", "violate", "exploit"]):
+            if any(
+                violation in option_lower for violation in ["deceive", "harm", "violate", "exploit"]
+            ):
                 score -= 0.4
 
             # Universalizability test
@@ -493,8 +480,10 @@ class AdvancedEthicalDecisionMaker:
 
         key_considerations = duties[:3]
 
-        reasoning = (f"Deontological analysis selected '{best_option}' with score {best_score:.2f}. "
-                    f"Analysis considered categorical imperatives and duty-based ethics.")
+        reasoning = (
+            f"Deontological analysis selected '{best_option}' with score {best_score:.2f}. "
+            f"Analysis considered categorical imperatives and duty-based ethics."
+        )
 
         return EthicalAnalysis(
             analysis_id=analysis_id,
@@ -503,14 +492,11 @@ class AdvancedEthicalDecisionMaker:
             reasoning=reasoning,
             key_considerations=key_considerations,
             supporting_principles=["categorical_imperative", "human_dignity", "autonomy"],
-            confidence=0.8
+            confidence=0.8,
         )
 
     async def _consequentialist_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Consequentialist (outcome-based) ethical analysis"""
 
@@ -549,8 +535,10 @@ class AdvancedEthicalDecisionMaker:
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
 
-        reasoning = (f"Consequentialist analysis selected '{best_option}' with score {best_score:.2f}. "
-                    f"Analysis maximized overall utility and positive outcomes.")
+        reasoning = (
+            f"Consequentialist analysis selected '{best_option}' with score {best_score:.2f}. "
+            f"Analysis maximized overall utility and positive outcomes."
+        )
 
         return EthicalAnalysis(
             analysis_id=analysis_id,
@@ -559,14 +547,11 @@ class AdvancedEthicalDecisionMaker:
             reasoning=reasoning,
             key_considerations=consequences_considered[:3],
             supporting_principles=["utility_maximization", "outcome_optimization", "greatest_good"],
-            confidence=0.7
+            confidence=0.7,
         )
 
     async def _virtue_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Virtue ethics analysis"""
 
@@ -577,7 +562,7 @@ class AdvancedEthicalDecisionMaker:
             "courage": ["brave", "bold", "principled", "strong"],
             "temperance": ["moderate", "balanced", "restrained", "measured"],
             "compassion": ["kind", "caring", "empathetic", "gentle"],
-            "honesty": ["truthful", "honest", "transparent", "open"]
+            "honesty": ["truthful", "honest", "transparent", "open"],
         }
 
         option_scores = {}
@@ -605,8 +590,10 @@ class AdvancedEthicalDecisionMaker:
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
 
-        reasoning = (f"Virtue ethics analysis selected '{best_option}' with score {best_score:.2f}. "
-                    f"Analysis considered character virtues and moral excellence.")
+        reasoning = (
+            f"Virtue ethics analysis selected '{best_option}' with score {best_score:.2f}. "
+            f"Analysis considered character virtues and moral excellence."
+        )
 
         return EthicalAnalysis(
             analysis_id=analysis_id,
@@ -615,14 +602,11 @@ class AdvancedEthicalDecisionMaker:
             reasoning=reasoning,
             key_considerations=virtue_alignments[:3],
             supporting_principles=list(virtues.keys()),
-            confidence=0.75
+            confidence=0.75,
         )
 
     async def _justice_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Justice-based ethical analysis (Rawlsian)"""
 
@@ -642,7 +626,9 @@ class AdvancedEthicalDecisionMaker:
                 justice_score += 0.15
 
             # Discrimination or unfairness indicators
-            if any(unfair in option_lower for unfair in ["discriminate", "bias", "unfair", "prejudice"]):
+            if any(
+                unfair in option_lower for unfair in ["discriminate", "bias", "unfair", "prejudice"]
+            ):
                 justice_score -= 0.4
 
             # Consider the least advantaged
@@ -655,8 +641,10 @@ class AdvancedEthicalDecisionMaker:
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
 
-        reasoning = (f"Justice analysis selected '{best_option}' with score {best_score:.2f}. "
-                    f"Analysis considered fairness, equality, and protection of rights.")
+        reasoning = (
+            f"Justice analysis selected '{best_option}' with score {best_score:.2f}. "
+            f"Analysis considered fairness, equality, and protection of rights."
+        )
 
         return EthicalAnalysis(
             analysis_id=analysis_id,
@@ -664,15 +652,17 @@ class AdvancedEthicalDecisionMaker:
             score=best_score,
             reasoning=reasoning,
             key_considerations=justice_considerations[:3],
-            supporting_principles=["fairness", "equality", "rights_protection", "veil_of_ignorance"],
-            confidence=0.8
+            supporting_principles=[
+                "fairness",
+                "equality",
+                "rights_protection",
+                "veil_of_ignorance",
+            ],
+            confidence=0.8,
         )
 
     async def _care_analysis(
-        self,
-        analysis_id: str,
-        context: dict[str, Any],
-        options: list[str]
+        self, analysis_id: str, context: dict[str, Any], options: list[str]
     ) -> EthicalAnalysis:
         """Care ethics analysis"""
 
@@ -688,11 +678,16 @@ class AdvancedEthicalDecisionMaker:
                 care_score += 0.2
 
             # Attention to context and relationships
-            if any(context_word in option_lower for context_word in ["understand", "listen", "consider"]):
+            if any(
+                context_word in option_lower
+                for context_word in ["understand", "listen", "consider"]
+            ):
                 care_score += 0.1
 
             # Responsiveness to needs
-            if context.get("user_distress") and any(respond in option_lower for respond in ["gentle", "compassionate", "understanding"]):
+            if context.get("user_distress") and any(
+                respond in option_lower for respond in ["gentle", "compassionate", "understanding"]
+            ):
                 care_score += 0.15
 
             # Harm to relationships
@@ -705,8 +700,10 @@ class AdvancedEthicalDecisionMaker:
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
 
-        reasoning = (f"Care ethics analysis selected '{best_option}' with score {best_score:.2f}. "
-                    f"Analysis emphasized relationships, care, and contextual responsiveness.")
+        reasoning = (
+            f"Care ethics analysis selected '{best_option}' with score {best_score:.2f}. "
+            f"Analysis emphasized relationships, care, and contextual responsiveness."
+        )
 
         return EthicalAnalysis(
             analysis_id=analysis_id,
@@ -714,15 +711,17 @@ class AdvancedEthicalDecisionMaker:
             score=best_score,
             reasoning=reasoning,
             key_considerations=care_considerations[:3],
-            supporting_principles=["care", "relationships", "context_sensitivity", "responsiveness"],
-            confidence=0.7
+            supporting_principles=[
+                "care",
+                "relationships",
+                "context_sensitivity",
+                "responsiveness",
+            ],
+            confidence=0.7,
         )
 
     async def _analyze_stakeholder_impacts(
-        self,
-        context: dict[str, Any],
-        options: list[str],
-        stakeholder_types: list[StakeholderType]
+        self, context: dict[str, Any], options: list[str], stakeholder_types: list[StakeholderType]
     ) -> list[StakeholderImpact]:
         """Analyze impacts on different stakeholders"""
 
@@ -731,21 +730,18 @@ class AdvancedEthicalDecisionMaker:
         for stakeholder in stakeholder_types:
             for option in options:
                 try:
-                    impact = await self._assess_stakeholder_impact(
-                        stakeholder, option, context
-                    )
+                    impact = await self._assess_stakeholder_impact(stakeholder, option, context)
                     impacts.append(impact)
 
                 except Exception as e:
-                    logger.warning(f"Stakeholder impact analysis failed for {stakeholder.value}: {e}")
+                    logger.warning(
+                        f"Stakeholder impact analysis failed for {stakeholder.value}: {e}"
+                    )
 
         return impacts
 
     async def _assess_stakeholder_impact(
-        self,
-        stakeholder: StakeholderType,
-        option: str,
-        context: dict[str, Any]
+        self, stakeholder: StakeholderType, option: str, context: dict[str, Any]
     ) -> StakeholderImpact:
         """Assess impact on specific stakeholder"""
 
@@ -808,13 +804,11 @@ class AdvancedEthicalDecisionMaker:
             impact_valence=max(-1.0, min(1.0, valence)),
             confidence=max(0.0, min(1.0, confidence)),
             time_horizon=time_horizon,
-            mitigation_strategies=mitigation_strategies
+            mitigation_strategies=mitigation_strategies,
         )
 
     async def _check_constitutional_compliance(
-        self,
-        context: dict[str, Any],
-        options: list[str]
+        self, context: dict[str, Any], options: list[str]
     ) -> dict[str, Any]:
         """Check compliance with constitutional principles"""
 
@@ -835,14 +829,14 @@ class AdvancedEthicalDecisionMaker:
         return {
             "compliant": compliant,
             "violations": violations,
-            "applicable_rules": len(applicable_rules)
+            "applicable_rules": len(applicable_rules),
         }
 
     async def _calculate_option_scores(
         self,
         options: list[str],
         framework_analyses: list[EthicalAnalysis],
-        stakeholder_impacts: list[StakeholderImpact]
+        stakeholder_impacts: list[StakeholderImpact],
     ) -> dict[str, float]:
         """Calculate overall scores for each option"""
 
@@ -869,7 +863,9 @@ class AdvancedEthicalDecisionMaker:
 
             for impact in stakeholder_impacts:
                 if option.lower() in impact.impact_description.lower():
-                    stakeholder_priority = self.stakeholder_priorities.get(impact.stakeholder_type, 0.5)
+                    stakeholder_priority = self.stakeholder_priorities.get(
+                        impact.stakeholder_type, 0.5
+                    )
                     impact_score = (impact.impact_valence + 1.0) / 2.0  # Normalize to 0-1
                     weighted_impact = impact_score * stakeholder_priority * impact.confidence
 
@@ -891,9 +887,7 @@ class AdvancedEthicalDecisionMaker:
         return option_scores
 
     def _select_best_option(
-        self,
-        option_scores: dict[str, float],
-        require_consensus: bool = False
+        self, option_scores: dict[str, float], require_consensus: bool = False
     ) -> tuple[str, float]:
         """Select the best option based on scores"""
 
@@ -941,9 +935,7 @@ class AdvancedEthicalDecisionMaker:
             return 0.5
 
     async def _determine_decision_status(
-        self,
-        decision: ComprehensiveEthicalDecision,
-        min_confidence: float
+        self, decision: ComprehensiveEthicalDecision, min_confidence: float
     ) -> DecisionStatus:
         """Determine the status of the decision"""
 
@@ -967,9 +959,7 @@ class AdvancedEthicalDecisionMaker:
         return DecisionStatus.APPROVED
 
     async def _assess_risk_level(
-        self,
-        decision: ComprehensiveEthicalDecision,
-        context: dict[str, Any]
+        self, decision: ComprehensiveEthicalDecision, context: dict[str, Any]
     ) -> RiskLevel:
         """Assess overall risk level of the decision"""
 
@@ -1016,7 +1006,7 @@ class AdvancedEthicalDecisionMaker:
         self,
         decision: ComprehensiveEthicalDecision,
         framework_analyses: list[EthicalAnalysis],
-        option_scores: dict[str, float]
+        option_scores: dict[str, float],
     ) -> str:
         """Generate primary reasoning for the decision"""
 
@@ -1055,8 +1045,12 @@ class AdvancedEthicalDecisionMaker:
 
         # Add stakeholder considerations
         if decision.stakeholder_impacts:
-            positive_impacts = sum(1 for impact in decision.stakeholder_impacts if impact.impact_valence > 0)
-            negative_impacts = sum(1 for impact in decision.stakeholder_impacts if impact.impact_valence < 0)
+            positive_impacts = sum(
+                1 for impact in decision.stakeholder_impacts if impact.impact_valence > 0
+            )
+            negative_impacts = sum(
+                1 for impact in decision.stakeholder_impacts if impact.impact_valence < 0
+            )
 
             reasoning_parts.append(
                 f"Stakeholder analysis: {positive_impacts} positive impacts, {negative_impacts} negative impacts."
@@ -1068,9 +1062,7 @@ class AdvancedEthicalDecisionMaker:
         return " ".join(reasoning_parts)
 
     async def _integrate_trinity_framework(
-        self,
-        decision: ComprehensiveEthicalDecision,
-        context: dict[str, Any]
+        self, decision: ComprehensiveEthicalDecision, context: dict[str, Any]
     ):
         """Integrate Trinity Framework considerations (⚛️🧠🛡️)"""
 
@@ -1088,7 +1080,9 @@ class AdvancedEthicalDecisionMaker:
         # 🧠 Consciousness implications
         consciousness_factors = []
         if context.get("learning_involved"):
-            consciousness_factors.append("Decision contributes to system learning and consciousness development")
+            consciousness_factors.append(
+                "Decision contributes to system learning and consciousness development"
+            )
         if "understand" in decision.chosen_option.lower():
             consciousness_factors.append("Consciousness-level understanding and processing engaged")
         if context.get("complex_reasoning"):
@@ -1162,12 +1156,16 @@ class AdvancedEthicalDecisionMaker:
         # Update average confidence
         total_decisions = self.metrics["total_decisions"]
         current_avg = self.metrics["average_confidence"]
-        new_avg = ((current_avg * (total_decisions - 1)) + decision.overall_confidence) / total_decisions
+        new_avg = (
+            (current_avg * (total_decisions - 1)) + decision.overall_confidence
+        ) / total_decisions
         self.metrics["average_confidence"] = new_avg
 
         # Update average processing time
         current_time_avg = self.metrics["average_processing_time"]
-        new_time_avg = ((current_time_avg * (total_decisions - 1)) + processing_time) / total_decisions
+        new_time_avg = (
+            (current_time_avg * (total_decisions - 1)) + processing_time
+        ) / total_decisions
         self.metrics["average_processing_time"] = new_time_avg
 
         self.metrics["last_updated"] = datetime.now().isoformat()
@@ -1176,12 +1174,10 @@ class AdvancedEthicalDecisionMaker:
         """Maintain decision history size"""
         if len(self.decision_history) > self.max_history_size:
             # Keep most recent decisions
-            self.decision_history = self.decision_history[-self.max_history_size:]
+            self.decision_history = self.decision_history[-self.max_history_size :]
 
     async def get_decision_history(
-        self,
-        limit: int = 50,
-        status_filter: Optional[DecisionStatus] = None
+        self, limit: int = 50, status_filter: Optional[DecisionStatus] = None
     ) -> list[ComprehensiveEthicalDecision]:
         """Get decision history with optional filtering"""
 
@@ -1196,10 +1192,7 @@ class AdvancedEthicalDecisionMaker:
         """Get system performance metrics"""
         return self.metrics.copy()
 
-    async def export_decision_audit_trail(
-        self,
-        decision_id: str
-    ) -> Optional[dict[str, Any]]:
+    async def export_decision_audit_trail(self, decision_id: str) -> Optional[dict[str, Any]]:
         """Export comprehensive audit trail for a decision"""
 
         decision = None
@@ -1230,7 +1223,7 @@ class AdvancedEthicalDecisionMaker:
                     "reasoning": analysis.reasoning,
                     "confidence": analysis.confidence,
                     "key_considerations": analysis.key_considerations,
-                    "supporting_principles": analysis.supporting_principles
+                    "supporting_principles": analysis.supporting_principles,
                 }
                 for analysis in decision.framework_analyses
             ],
@@ -1242,20 +1235,20 @@ class AdvancedEthicalDecisionMaker:
                     "valence": impact.impact_valence,
                     "confidence": impact.confidence,
                     "time_horizon": impact.time_horizon,
-                    "mitigation_strategies": impact.mitigation_strategies
+                    "mitigation_strategies": impact.mitigation_strategies,
                 }
                 for impact in decision.stakeholder_impacts
             ],
             "trinity_framework": {
                 "identity_implications": decision.identity_implications,
                 "consciousness_implications": decision.consciousness_implications,
-                "guardian_validations": decision.guardian_validations
+                "guardian_validations": decision.guardian_validations,
             },
             "primary_reasoning": decision.primary_reasoning,
             "drift_score": decision.drift_score,
             "requires_human_review": decision.requires_human_review,
             "escalation_reason": decision.escalation_reason,
-            "system_version": decision.version
+            "system_version": decision.version,
         }
 
         return audit_trail
@@ -1265,10 +1258,10 @@ class AdvancedEthicalDecisionMaker:
 __all__ = [
     "AdvancedEthicalDecisionMaker",
     "ComprehensiveEthicalDecision",
-    "EthicalAnalysis",
-    "StakeholderImpact",
-    "EthicalFramework",
     "DecisionStatus",
+    "EthicalAnalysis",
+    "EthicalFramework",
+    "RiskLevel",
+    "StakeholderImpact",
     "StakeholderType",
-    "RiskLevel"
 ]

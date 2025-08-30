@@ -11,9 +11,7 @@ def consolidate_consciousness_unification():
     """Consolidate consciousness_unification into unified system"""
 
     print("🔧 Consolidating consciousness_unification...")
-    print(
-        "   Vision: Single consciousness core with reflection, awareness, and decision-making"
-    )
+    print("   Vision: Single consciousness core with reflection, awareness, and decision-making")
 
     # Target directory
     target_dir = Path("consciousness/unification")

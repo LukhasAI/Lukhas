@@ -81,9 +81,7 @@ class NIASABASAdapter:
         # Registered users for ABAS
         self.registered_users = set()
 
-        logger.info(
-            f"NIΛS-ΛBAS adapter initialized (ABAS available: {self.abas_available})"
-        )
+        logger.info(f"NIΛS-ΛBAS adapter initialized (ABAS available: {self.abas_available})")
 
     def _initialize_state_mapping(self) -> dict[str, str]:
         """Map ABAS attention states to NIAS emotional states"""
@@ -110,9 +108,7 @@ class NIASABASAdapter:
             "feedback_request": 0.3,
         }
 
-    async def register_user(
-        self, user_id: str, initial_metrics: Optional[dict] = None
-    ) -> bool:
+    async def register_user(self, user_id: str, initial_metrics: Optional[dict] = None) -> bool:
         """Register user with ABAS for attention tracking"""
         if not self.abas_available or not self.abas_instance:
             logger.debug(f"ABAS not available, skipping user registration: {user_id}")
@@ -127,12 +123,8 @@ class NIASABASAdapter:
 
                 # Update initial attention metrics if provided
                 if initial_metrics:
-                    attention_metrics = self._convert_to_attention_metrics(
-                        initial_metrics
-                    )
-                    await self.abas_instance.update_attention_metrics(
-                        user_id, attention_metrics
-                    )
+                    attention_metrics = self._convert_to_attention_metrics(initial_metrics)
+                    await self.abas_instance.update_attention_metrics(user_id, attention_metrics)
 
                 logger.info(f"User {user_id} registered with ΛBAS")
 
@@ -174,27 +166,21 @@ class NIASABASAdapter:
             attention_request = self._create_attention_request(message, user_context)
 
             # Get ABAS decision
-            decision = await self.abas_instance.request_attention(
-                user_id, attention_request
-            )
+            decision = await self.abas_instance.request_attention(user_id, attention_request)
 
             # Get current attention state for mapping
             attention_status = await self.abas_instance.get_attention_status(user_id)
             attention_state = attention_status.get("attention_state", "available")
 
             # Map to emotional state for NIAS compatibility
-            emotional_state = self.attention_to_emotional_mapping.get(
-                attention_state, "neutral"
-            )
+            emotional_state = self.attention_to_emotional_mapping.get(attention_state, "neutral")
 
             # Format response for NIAS
             response = {
                 "approved": decision.decision == "allow",
                 "attention_state": attention_state,
                 "emotional_state": emotional_state,
-                "defer_until": (
-                    decision.defer_until.isoformat() if decision.defer_until else None
-                ),
+                "defer_until": (decision.defer_until.isoformat() if decision.defer_until else None),
                 "reason": " ".join(decision.reasoning),
                 "confidence": decision.confidence,
                 "lambda_trace": decision.lambda_trace,
@@ -208,9 +194,7 @@ class NIASABASAdapter:
 
         except Exception as e:
             logger.error(f"ΛBAS attention check failed for {user_id}: {e}")
-            return self._fallback_attention_check(
-                user_id, message, user_context, error=str(e)
-            )
+            return self._fallback_attention_check(user_id, message, user_context, error=str(e))
 
     def _create_attention_request(
         self, message: dict[str, Any], user_context: dict[str, Any]
@@ -252,9 +236,7 @@ class NIASABASAdapter:
             context_tags.append("urgent")
 
         return AttentionRequest(
-            id=message.get(
-                "message_id", f"nias_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-            ),
+            id=message.get("message_id", f"nias_{datetime.now().strftime('%Y%m%d_%H%M%S')}"),
             source="nias_message_delivery",
             urgency=urgency,
             cognitive_cost=cognitive_cost,
@@ -284,15 +266,11 @@ class NIASABASAdapter:
         # Adjust based on content length
         description_length = len(message.get("description", ""))
         if description_length > 100:
-            base_duration += (
-                description_length - 100
-            ) / 200.0  # +0.5 min per 100 chars
+            base_duration += (description_length - 100) / 200.0  # +0.5 min per 100 chars
 
         return min(10.0, base_duration)  # Cap at 10 minutes
 
-    def _calculate_interruptibility(
-        self, message: dict[str, Any], urgency: float
-    ) -> float:
+    def _calculate_interruptibility(self, message: dict[str, Any], urgency: float) -> float:
         """Calculate how acceptable it is to interrupt for this message"""
 
         # Base interruptibility inversely related to cognitive cost
@@ -331,9 +309,7 @@ class NIASABASAdapter:
             reason = "High interaction volume detected"
         elif 9 <= current_hour <= 17:
             emotional_state = "focused"
-            approved = (
-                message.get("priority", 1) >= 4
-            )  # Only high priority during work hours
+            approved = message.get("priority", 1) >= 4  # Only high priority during work hours
             reason = "Work hours - only high priority messages"
         elif 20 <= current_hour <= 22:
             emotional_state = "relaxed"
@@ -358,9 +334,7 @@ class NIASABASAdapter:
             "abas_decision": "fallback",
         }
 
-    def _convert_to_attention_metrics(
-        self, metrics_dict: dict[str, Any]
-    ) -> AttentionMetrics:
+    def _convert_to_attention_metrics(self, metrics_dict: dict[str, Any]) -> AttentionMetrics:
         """Convert dictionary metrics to ABAS AttentionMetrics object"""
         if not self.abas_available:
             return None
@@ -376,18 +350,14 @@ class NIASABASAdapter:
             last_updated=datetime.now(),
         )
 
-    async def update_user_attention_metrics(
-        self, user_id: str, metrics: dict[str, Any]
-    ) -> bool:
+    async def update_user_attention_metrics(self, user_id: str, metrics: dict[str, Any]) -> bool:
         """Update user attention metrics in ABAS"""
         if not self.abas_available or not self.abas_instance:
             return True  # Fallback: pretend success
 
         try:
             attention_metrics = self._convert_to_attention_metrics(metrics)
-            success = await self.abas_instance.update_attention_metrics(
-                user_id, attention_metrics
-            )
+            success = await self.abas_instance.update_attention_metrics(user_id, attention_metrics)
 
             if success:
                 logger.debug(f"Updated attention metrics for user {user_id}")

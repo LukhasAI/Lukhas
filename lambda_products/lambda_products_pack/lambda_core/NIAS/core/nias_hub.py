@@ -225,9 +225,7 @@ class NIASHub:
             tier_manager = self.get_service("tier_manager")
             if tier_manager:
                 processing_config = await tier_manager.get_processing_config(user_tier)
-                message = await tier_manager.apply_tier_filters(
-                    message, processing_config
-                )
+                message = await tier_manager.apply_tier_filters(message, processing_config)
 
             # Step 4: Generate widget/delivery method
             widget_engine = self.get_service("widget_engine")
@@ -282,9 +280,7 @@ class NIASHub:
         except Exception as e:
             logger.warning(f"Could not register with Lambda Products: {e}")
 
-    async def _update_user_metrics(
-        self, user_id: str, interaction_type: str, payload: dict
-    ):
+    async def _update_user_metrics(self, user_id: str, interaction_type: str, payload: dict):
         """Update user engagement and interaction metrics"""
         # This would integrate with analytics service
         logger.debug(f"Updating metrics for {user_id}: {interaction_type}")

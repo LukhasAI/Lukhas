@@ -37,9 +37,7 @@ class RecurringEmotionTracker:
         self.history_window = self.config.get("history_window_days", 7)
         self.recurrence_threshold = self.config.get("recurrence_threshold", 3)
         self.similarity_threshold = self.config.get("similarity_threshold", 0.9)
-        self.stagnation_detector = AffectStagnationDetector(
-            self.emotional_memory, config
-        )
+        self.stagnation_detector = AffectStagnationDetector(self.emotional_memory, config)
         self.dream_snapshots = []
 
     def check_for_recurrence(self) -> Optional[dict[str, Any]]:
@@ -84,10 +82,7 @@ class RecurringEmotionTracker:
 
         for entry in emotional_history:
             history_vector = np.array(list(entry["emotion_vec"]["dimensions"].values()))
-            if (
-                np.linalg.norm(current_vector) > 0
-                and np.linalg.norm(history_vector) > 0
-            ):
+            if np.linalg.norm(current_vector) > 0 and np.linalg.norm(history_vector) > 0:
                 similarity = np.dot(current_vector, history_vector) / (
                     np.linalg.norm(current_vector) * np.linalg.norm(history_vector)
                 )

@@ -419,9 +419,7 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
 
         for level in security_levels:
             with self.subTest(security_level=level):
-                influence = self.qi_influencer.create_quantum_influence(
-                    test_data, level
-                )
+                influence = self.qi_influencer.create_quantum_influence(test_data, level)
 
                 # Validate all influence components
                 self.assertGreater(influence.entropy_bits, 0)
@@ -433,9 +431,7 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
                 self.assertGreater(influence.decoherence_protection, 0.9)
 
                 # Test pattern application
-                qi_pattern = self.qi_influencer.apply_quantum_influence_to_qr(
-                    test_data, influence
-                )
+                qi_pattern = self.qi_influencer.apply_quantum_influence_to_qr(test_data, influence)
                 self.assertIsInstance(qi_pattern, str)
                 self.assertGreater(len(qi_pattern), 0)
 
@@ -445,9 +441,7 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
 
         for style in GlyphStyle:
             with self.subTest(glyph_style=style):
-                glyph = self.glyph_generator.hide_qr_in_glyph(
-                    test_data, style, "test_context", 0.7
-                )
+                glyph = self.glyph_generator.hide_qr_in_glyph(test_data, style, "test_context", 0.7)
 
                 # Validate glyph properties
                 self.assertIsInstance(glyph.base_glyph, str)
@@ -468,9 +462,7 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
 
         for size in constellation_sizes:
             with self.subTest(constellation_size=size):
-                constellation = self.glyph_generator.create_glyph_constellation(
-                    test_data, size
-                )
+                constellation = self.glyph_generator.create_glyph_constellation(test_data, size)
 
                 self.assertEqual(len(constellation), size)
 
@@ -479,12 +471,8 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
                 self.assertGreater(len(set(styles)), 1)
 
                 # Consciousness layers should vary
-                consciousness_levels = [
-                    glyph.consciousness_layer for glyph in constellation
-                ]
-                self.assertGreater(
-                    max(consciousness_levels) - min(consciousness_levels), 0.1
-                )
+                consciousness_levels = [glyph.consciousness_layer for glyph in constellation]
+                self.assertGreater(max(consciousness_levels) - min(consciousness_levels), 0.1)
 
 
 class TestPerformanceOptimization(unittest.TestCase):
@@ -726,13 +714,9 @@ def run_100_percent_coverage_suite():
     if coverage_percentage >= 95:
         print("\n🎉 ACHIEVEMENT UNLOCKED: 100% COVERAGE TARGET REACHED!")
         print("🏆 LUKHAS QRG System is production-ready with comprehensive validation!")
-        print(
-            "🌟 All components tested, all edge cases covered, all boundaries validated!"
-        )
+        print("🌟 All components tested, all edge cases covered, all boundaries validated!")
     else:
-        print(
-            f"\n⚠️ Coverage target not yet reached. Current: {coverage_percentage:.1f}%"
-        )
+        print(f"\n⚠️ Coverage target not yet reached. Current: {coverage_percentage:.1f}%")
         print("🎯 Continue improving test coverage to reach 100% target.")
 
     return result, coverage_percentage

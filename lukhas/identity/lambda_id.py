@@ -90,9 +90,7 @@ def verify_passkey(
 
 
 @instrument("AWARENESS", label="auth:list", capability="identity:list")
-def list_credentials(
-    user_id: str, *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+def list_credentials(user_id: str, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """List WebAuthn credentials for a user"""
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
         result = _webauthn_manager.get_user_credentials(user_id)

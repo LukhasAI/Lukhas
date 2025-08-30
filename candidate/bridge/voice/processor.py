@@ -61,9 +61,7 @@ class VoiceProcessor:
                 self.engine.setProperty("voice", voice.id)
                 break
 
-    async def text_to_speech(
-        self, text: str, output_path: Optional[str] = None
-    ) -> bool:
+    async def text_to_speech(self, text: str, output_path: Optional[str] = None) -> bool:
         """Convert text to speech
 
         Args:

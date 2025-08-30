@@ -28,7 +28,7 @@ class VoiceBioAdapter:
                     "instance": module_instance,
                     "active": True,
                     "registered_at": datetime.now().isoformat(),
-                    "status": "ready"
+                    "status": "ready",
                 }
 
         # Initialize default bio-inspired voice modules
@@ -36,7 +36,7 @@ class VoiceBioAdapter:
             "vocal_tract_simulator",
             "breath_pattern_analyzer",
             "emotional_resonance_modulator",
-            "harmonic_bio_adapter"
+            "harmonic_bio_adapter",
         ]
 
         for module in default_modules:
@@ -45,7 +45,7 @@ class VoiceBioAdapter:
                     "instance": None,  # Stub implementation
                     "active": False,
                     "registered_at": datetime.now().isoformat(),
-                    "status": "stub"
+                    "status": "stub",
                 }
 
         return list(self._registered_modules.keys())
@@ -61,7 +61,7 @@ class VoiceBioAdapter:
                 "chunk_size": chunk_size,
                 "bio_enhancement": bio_enhancement,
                 "timestamp": datetime.now().isoformat(),
-                "input_length": len(audio_data) if hasattr(audio_data, "__len__") else 0
+                "input_length": len(audio_data) if hasattr(audio_data, "__len__") else 0,
             }
 
             # Bio-inspired processing stages
@@ -91,7 +91,7 @@ class VoiceBioAdapter:
                 "status": "processed",
                 "processed_data": processed_data,
                 "context": processing_context,
-                "bio_enhanced": bio_enhancement
+                "bio_enhanced": bio_enhancement,
             }
 
         except Exception as e:
@@ -99,7 +99,7 @@ class VoiceBioAdapter:
                 "status": "error",
                 "error": str(e),
                 "error_type": type(e).__name__,
-                "processed_data": None
+                "processed_data": None,
             }
 
     def optimize_for_realtime(self, target_latency_ms=50, quality_level="balanced"):
@@ -107,32 +107,38 @@ class VoiceBioAdapter:
         optimization_config = {
             "target_latency_ms": target_latency_ms,
             "quality_level": quality_level,  # 'fast', 'balanced', 'quality'
-            "optimization_timestamp": datetime.now().isoformat()
+            "optimization_timestamp": datetime.now().isoformat(),
         }
 
         # Configure processing based on quality level
         if quality_level == "fast":
-            optimization_config.update({
-                "chunk_size": 512,
-                "bio_enhancement": False,
-                "skip_modules": ["emotional_resonance_modulator", "harmonic_bio_adapter"],
-                "processing_threads": 1
-            })
+            optimization_config.update(
+                {
+                    "chunk_size": 512,
+                    "bio_enhancement": False,
+                    "skip_modules": ["emotional_resonance_modulator", "harmonic_bio_adapter"],
+                    "processing_threads": 1,
+                }
+            )
         elif quality_level == "balanced":
-            optimization_config.update({
-                "chunk_size": 1024,
-                "bio_enhancement": True,
-                "skip_modules": [],
-                "processing_threads": 2
-            })
+            optimization_config.update(
+                {
+                    "chunk_size": 1024,
+                    "bio_enhancement": True,
+                    "skip_modules": [],
+                    "processing_threads": 2,
+                }
+            )
         elif quality_level == "quality":
-            optimization_config.update({
-                "chunk_size": 2048,
-                "bio_enhancement": True,
-                "skip_modules": [],
-                "processing_threads": 4,
-                "enable_advanced_bio_processing": True
-            })
+            optimization_config.update(
+                {
+                    "chunk_size": 2048,
+                    "bio_enhancement": True,
+                    "skip_modules": [],
+                    "processing_threads": 4,
+                    "enable_advanced_bio_processing": True,
+                }
+            )
 
         # Store optimization settings
         if not hasattr(self, "_optimization_config"):
@@ -148,11 +154,12 @@ class VoiceBioAdapter:
             "timestamp": datetime.now().isoformat(),
             "registered_modules": len(getattr(self, "_registered_modules", {})),
             "active_modules": sum(
-                1 for m in getattr(self, "_registered_modules", {}).values()
+                1
+                for m in getattr(self, "_registered_modules", {}).values()
                 if m.get("active", False)
             ),
             "optimization_active": hasattr(self, "_optimization_config"),
-            "processing_history": getattr(self, "_processing_count", 0)
+            "processing_history": getattr(self, "_processing_count", 0),
         }
 
         # Module status breakdown
@@ -162,7 +169,7 @@ class VoiceBioAdapter:
                 metrics["module_status"][name] = {
                     "active": info.get("active", False),
                     "status": info.get("status", "unknown"),
-                    "type": "implemented" if info.get("instance") else "stub"
+                    "type": "implemented" if info.get("instance") else "stub",
                 }
 
         # Performance metrics
@@ -186,7 +193,7 @@ class VoiceBioAdapter:
             "breath_detected": True,
             "pattern_type": "normal",
             "rhythm_stability": 0.8,
-            "depth_variation": 0.3
+            "depth_variation": 0.3,
         }
 
     def _simulate_vocal_tract(self, audio_data):
@@ -194,7 +201,7 @@ class VoiceBioAdapter:
         return {
             "vocal_tract_length": 17.5,  # cm, average adult
             "formant_frequencies": [730, 1090, 2440],  # Hz, example formants
-            "articulation_mode": "normal"
+            "articulation_mode": "normal",
         }
 
     def _modulate_emotional_resonance(self, audio_data):
@@ -202,7 +209,7 @@ class VoiceBioAdapter:
         return {
             "emotional_state": "neutral",
             "resonance_frequency": 440.0,  # Hz
-            "modulation_depth": 0.1
+            "modulation_depth": 0.1,
         }
 
     def _adapt_harmonics(self, audio_data):
@@ -210,5 +217,5 @@ class VoiceBioAdapter:
         return {
             "fundamental_frequency": 200.0,  # Hz
             "harmonic_series": [200, 400, 600, 800],
-            "adaptation_strength": 0.5
+            "adaptation_strength": 0.5,
         }

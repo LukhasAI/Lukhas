@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class AdvancedConsensusMethod(Enum):
     """Advanced consensus methods"""
+
     QUANTUM_SUPERPOSITION = "qi_superposition"
     SWARM_INTELLIGENCE = "swarm_intelligence"
     GENETIC_EVOLUTION = "genetic_evolution"
@@ -55,6 +56,7 @@ class AdvancedConsensusMethod(Enum):
 @dataclass
 class QIVote:
     """Quantum superposition vote"""
+
     agent_id: str
     amplitudes: dict[VoteType, complex]  # Quantum amplitudes for each vote type
     entangled_with: list[str] = field(default_factory=list)  # Entangled agent IDs
@@ -74,7 +76,7 @@ class QIVote:
 
         # Normalize probabilities
         if total_prob > 0:
-            probabilities = {k: v/total_prob for k, v in probabilities.items()}
+            probabilities = {k: v / total_prob for k, v in probabilities.items()}
 
         # Collapse based on probabilities
         rand = random.random()
@@ -92,6 +94,7 @@ class QIVote:
 @dataclass
 class SwarmParticle:
     """Particle in swarm intelligence consensus"""
+
     agent_id: str
     position: np.ndarray  # Current position in decision space
     velocity: np.ndarray  # Current velocity
@@ -104,6 +107,7 @@ class SwarmParticle:
 @dataclass
 class GeneticVote:
     """Vote with genetic evolution properties"""
+
     agent_id: str
     genome: list[float]  # Genetic encoding of vote
     fitness: float = 0.0
@@ -165,7 +169,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         proposal_id: str,
         agent_id: str,
         amplitudes: dict[VoteType, complex],
-        entangle_with: Optional[list[str]] = None
+        entangle_with: Optional[list[str]] = None,
     ) -> bool:
         """
         Cast a quantum superposition vote
@@ -174,11 +178,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
             return False
 
         # Create quantum vote
-        qvote = QIVote(
-            agent_id=agent_id,
-            amplitudes=amplitudes,
-            entangled_with=entangle_with or []
-        )
+        qvote = QIVote(agent_id=agent_id, amplitudes=amplitudes, entangled_with=entangle_with or [])
 
         # Add to quantum votes
         self.qi_votes[proposal_id].append(qvote)
@@ -193,9 +193,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         return True
 
     async def _quantum_consensus(
-        self,
-        proposal: ConsensusProposal,
-        qi_votes: list[QIVote]
+        self, proposal: ConsensusProposal, qi_votes: list[QIVote]
     ) -> ConsensusOutcome:
         """
         Quantum superposition consensus mechanism
@@ -228,22 +226,26 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
                 # Create classical votes for cluster
                 for agent_id in cluster:
-                    collapsed_votes.append(AgentVote(
-                        agent_id=agent_id,
-                        vote=collapsed_type,
-                        confidence=abs(combined_amplitudes[collapsed_type]) ** 2,
-                        reasoning="Quantum entangled vote"
-                    ))
+                    collapsed_votes.append(
+                        AgentVote(
+                            agent_id=agent_id,
+                            vote=collapsed_type,
+                            confidence=abs(combined_amplitudes[collapsed_type]) ** 2,
+                            reasoning="Quantum entangled vote",
+                        )
+                    )
                     processed.add(agent_id)
             else:
                 # Collapse individual vote
                 collapsed_type = qvote.collapse()
-                collapsed_votes.append(AgentVote(
-                    agent_id=qvote.agent_id,
-                    vote=collapsed_type,
-                    confidence=abs(qvote.amplitudes[collapsed_type]) ** 2,
-                    reasoning="Quantum superposition vote"
-                ))
+                collapsed_votes.append(
+                    AgentVote(
+                        agent_id=qvote.agent_id,
+                        vote=collapsed_type,
+                        confidence=abs(qvote.amplitudes[collapsed_type]) ** 2,
+                        reasoning="Quantum superposition vote",
+                    )
+                )
                 processed.add(qvote.agent_id)
 
         # Use weighted consensus on collapsed votes
@@ -293,7 +295,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
             return VoteType.ABSTAIN
 
         # Normalize and select
-        probabilities = {k: v/total_prob for k, v in probabilities.items()}
+        probabilities = {k: v / total_prob for k, v in probabilities.items()}
 
         rand = random.random()
         cumulative = 0
@@ -306,9 +308,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         return VoteType.ABSTAIN
 
     async def _swarm_intelligence_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Swarm intelligence consensus using particle swarm optimization
@@ -332,7 +332,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                     position=position,
                     velocity=np.random.randn(num_dimensions) * 0.1,
                     personal_best=position.copy(),
-                    personal_best_score=self._evaluate_position(position)
+                    personal_best_score=self._evaluate_position(position),
                 )
                 self.swarm_particles[vote.agent_id] = particle
 
@@ -341,17 +341,19 @@ class AdvancedColonyConsensus(ColonyConsensus):
         for _iteration in range(max_iterations):
             for particle in self.swarm_particles.values():
                 # Update velocity
-                cognitive_component = 2.0 * random.random() * (particle.personal_best - particle.position)
+                cognitive_component = (
+                    2.0 * random.random() * (particle.personal_best - particle.position)
+                )
 
                 if self.global_best_position is not None:
-                    social_component = 2.0 * random.random() * (self.global_best_position - particle.position)
+                    social_component = (
+                        2.0 * random.random() * (self.global_best_position - particle.position)
+                    )
                 else:
                     social_component = np.zeros(num_dimensions)
 
                 particle.velocity = (
-                    particle.inertia * particle.velocity +
-                    cognitive_component +
-                    social_component
+                    particle.inertia * particle.velocity + cognitive_component + social_component
                 )
 
                 # Update position
@@ -383,12 +385,14 @@ class AdvancedColonyConsensus(ColonyConsensus):
             else:
                 vote_type = VoteType.ABSTAIN
 
-            final_votes.append(AgentVote(
-                agent_id=particle.agent_id,
-                vote=vote_type,
-                confidence=particle.position[max_idx],
-                reasoning=f"Swarm consensus (score: {particle.personal_best_score:.3f})"
-            ))
+            final_votes.append(
+                AgentVote(
+                    agent_id=particle.agent_id,
+                    vote=vote_type,
+                    confidence=particle.position[max_idx],
+                    reasoning=f"Swarm consensus (score: {particle.personal_best_score:.3f})",
+                )
+            )
 
         outcome = await self._weighted_vote_consensus(proposal, final_votes)
         outcome.method_used = ConsensusMethod.EMERGENT  # Update to swarm method
@@ -411,9 +415,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         return decision_clarity + consensus_score
 
     async def _genetic_evolution_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Genetic evolution consensus mechanism
@@ -426,7 +428,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         for i in range(population_size):
             vote = GeneticVote(
                 agent_id=f"genetic_{i}",
-                genome=[random.uniform(-1, 1) for _ in range(genome_length)]
+                genome=[random.uniform(-1, 1) for _ in range(genome_length)],
             )
             population.append(vote)
 
@@ -439,7 +441,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
             # Selection
             population.sort(key=lambda x: x.fitness, reverse=True)
-            survivors = population[:population_size // 2]
+            survivors = population[: population_size // 2]
 
             # Crossover and mutation
             new_population = survivors.copy()
@@ -454,7 +456,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 child = GeneticVote(
                     agent_id=f"genetic_{len(new_population)}",
                     genome=child_genome,
-                    generation=generation + 1
+                    generation=generation + 1,
                 )
 
                 # Mutation
@@ -464,11 +466,13 @@ class AdvancedColonyConsensus(ColonyConsensus):
             population = new_population
 
             # Track evolution
-            self.evolution_history.append({
-                "generation": generation,
-                "best_fitness": population[0].fitness,
-                "avg_fitness": np.mean([ind.fitness for ind in population])
-            })
+            self.evolution_history.append(
+                {
+                    "generation": generation,
+                    "best_fitness": population[0].fitness,
+                    "avg_fitness": np.mean([ind.fitness for ind in population]),
+                }
+            )
 
         # Convert best genome to vote
         best_individual = max(population, key=lambda x: x.fitness)
@@ -481,7 +485,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
             confidence=best_individual.fitness,
             participation_rate=len(votes) / max(1, len(self.agents)),
             votes=votes,
-            method_used=ConsensusMethod.EMERGENT  # Update to genetic method
+            method_used=ConsensusMethod.EMERGENT,  # Update to genetic method
         )
 
         outcome.metadata["evolution_generations"] = num_generations
@@ -524,9 +528,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
             return VoteType.ABSTAIN
 
     async def _liquid_democracy_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Liquid democracy with transitive delegations
@@ -563,7 +565,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 agent_id=agent_id,
                 vote=vote.vote,
                 confidence=vote.confidence * (1 + delegation_power[agent_id]),
-                reasoning=f"Liquid democracy (delegated power: {delegation_power[agent_id]:.2f})"
+                reasoning=f"Liquid democracy (delegated power: {delegation_power[agent_id]:.2f})",
             )
             weighted_votes.append(weighted_vote)
 
@@ -575,9 +577,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         return outcome
 
     async def _conviction_voting_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Conviction voting where votes gain strength over time
@@ -598,8 +598,9 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 self.conviction_scores[agent_id][proposal_id] -= vote.confidence * 0.1
 
             # Cap conviction
-            self.conviction_scores[agent_id][proposal_id] = max(-1, min(1,
-                self.conviction_scores[agent_id][proposal_id]))
+            self.conviction_scores[agent_id][proposal_id] = max(
+                -1, min(1, self.conviction_scores[agent_id][proposal_id])
+            )
 
         # Calculate outcome based on conviction
         total_conviction = 0
@@ -616,12 +617,14 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 else:
                     vote_type = VoteType.ABSTAIN
 
-                conviction_votes.append(AgentVote(
-                    agent_id=agent_id,
-                    vote=vote_type,
-                    confidence=abs(conviction),
-                    reasoning=f"Conviction voting (conviction: {conviction:.3f})"
-                ))
+                conviction_votes.append(
+                    AgentVote(
+                        agent_id=agent_id,
+                        vote=vote_type,
+                        confidence=abs(conviction),
+                        reasoning=f"Conviction voting (conviction: {conviction:.3f})",
+                    )
+                )
 
                 total_conviction += abs(conviction)
 
@@ -633,9 +636,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         return outcome
 
     async def _quadratic_voting_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Quadratic voting where cost increases quadratically with vote strength
@@ -651,7 +652,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
             # Calculate vote strength based on confidence
             desired_strength = vote.confidence * 10  # Scale to 0-10
-            vote_cost = desired_strength ** 2  # Quadratic cost
+            vote_cost = desired_strength**2  # Quadratic cost
 
             # Check if agent has enough credits
             if voting_credits[agent_id] >= vote_cost:
@@ -662,23 +663,25 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 actual_strength = np.sqrt(voting_credits[agent_id])
                 voting_credits[agent_id] = 0
 
-            quadratic_votes.append(AgentVote(
-                agent_id=agent_id,
-                vote=vote.vote,
-                confidence=actual_strength / 10,  # Normalize back to 0-1
-                reasoning=f"Quadratic vote (cost: {vote_cost:.1f}, remaining credits: {voting_credits[agent_id]:.1f})"
-            ))
+            quadratic_votes.append(
+                AgentVote(
+                    agent_id=agent_id,
+                    vote=vote.vote,
+                    confidence=actual_strength / 10,  # Normalize back to 0-1
+                    reasoning=f"Quadratic vote (cost: {vote_cost:.1f}, remaining credits: {voting_credits[agent_id]:.1f})",
+                )
+            )
 
         outcome = await self._weighted_vote_consensus(proposal, quadratic_votes)
         outcome.method_used = ConsensusMethod.WEIGHTED_VOTE  # Update to quadratic method
-        outcome.metadata["total_credits_used"] = sum(100 - credits for credits in voting_credits.values())
+        outcome.metadata["total_credits_used"] = sum(
+            100 - credits for credits in voting_credits.values()
+        )
 
         return outcome
 
     async def _holographic_consensus(
-        self,
-        proposal: ConsensusProposal,
-        votes: list[AgentVote]
+        self, proposal: ConsensusProposal, votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Holographic consensus with fractal decision structure
@@ -695,7 +698,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
             # Group votes
             group_size = 3
             for i in range(0, len(prev_layer), group_size):
-                group = prev_layer[i:i+group_size]
+                group = prev_layer[i : i + group_size]
                 if not group:
                     continue
 
@@ -709,10 +712,10 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 group_confidence = vote_counts[group_decision] / max(1, sum(vote_counts.values()))
 
                 meta_vote = AgentVote(
-                    agent_id=f"layer_{layer}_group_{i//group_size}",
+                    agent_id=f"layer_{layer}_group_{i // group_size}",
                     vote=group_decision,
                     confidence=group_confidence,
-                    reasoning=f"Holographic layer {layer} aggregation"
+                    reasoning=f"Holographic layer {layer} aggregation",
                 )
                 new_layer.append(meta_vote)
 
@@ -739,26 +742,30 @@ class AdvancedColonyConsensus(ColonyConsensus):
         self.reputation_scores[agent_id] = (1 - alpha) * current_rep + alpha * outcome_quality
 
         # Track history
-        self.reputation_history.append({
-            "agent_id": agent_id,
-            "timestamp": time.time(),
-            "reputation": self.reputation_scores[agent_id],
-            "quality": outcome_quality
-        })
+        self.reputation_history.append(
+            {
+                "agent_id": agent_id,
+                "timestamp": time.time(),
+                "reputation": self.reputation_scores[agent_id],
+                "quality": outcome_quality,
+            }
+        )
 
     def learn_from_outcome(self, outcome: ConsensusOutcome):
         """
         Learn from consensus outcomes to improve future decisions
         """
         # Store in memory
-        self.consensus_memory.append({
-            "proposal_id": outcome.proposal_id,
-            "method": outcome.method_used,
-            "confidence": outcome.confidence,
-            "participation": outcome.participation_rate,
-            "convergence_time": outcome.convergence_time,
-            "timestamp": time.time()
-        })
+        self.consensus_memory.append(
+            {
+                "proposal_id": outcome.proposal_id,
+                "method": outcome.method_used,
+                "confidence": outcome.confidence,
+                "participation": outcome.participation_rate,
+                "convergence_time": outcome.convergence_time,
+                "timestamp": time.time(),
+            }
+        )
 
         # Update method preferences based on success
         if outcome.confidence > 0.8:  # High confidence outcome
@@ -768,7 +775,9 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         # Adjust learning parameters
         if len(self.consensus_memory) > 10:
-            recent_confidence = np.mean([m["confidence"] for m in list(self.consensus_memory)[-10:]])
+            recent_confidence = np.mean(
+                [m["confidence"] for m in list(self.consensus_memory)[-10:]]
+            )
             if recent_confidence < 0.6:
                 # Low confidence - increase exploration
                 self.learning_rate = min(0.1, self.learning_rate * 1.1)
@@ -777,9 +786,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 self.learning_rate = max(0.001, self.learning_rate * 0.95)
 
     async def multi_stage_consensus(
-        self,
-        proposal: ConsensusProposal,
-        stages: list[ConsensusMethod]
+        self, proposal: ConsensusProposal, stages: list[ConsensusMethod]
     ) -> ConsensusOutcome:
         """
         Run multi-stage consensus pipeline
@@ -788,7 +795,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         stage_outcomes = []
 
         for i, method in enumerate(stages):
-            logger.info(f"Running consensus stage {i+1}/{len(stages)}: {method.value}")
+            logger.info(f"Running consensus stage {i + 1}/{len(stages)}: {method.value}")
 
             # Set proposal method
             proposal.method = method
@@ -812,7 +819,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                         agent_id=f"stage_{i}_aggregate",
                         vote=outcome.decision,
                         confidence=outcome.confidence,
-                        reasoning=f"Stage {i+1} outcome"
+                        reasoning=f"Stage {i + 1} outcome",
                     )
                 ]
 
@@ -846,7 +853,7 @@ async def demo_advanced_consensus():
     proposal_id = await consensus.propose(
         content="Adopt quantum communication protocol",
         proposer="qi_coordinator",
-        method=ConsensusMethod.BYZANTINE  # Will be overridden
+        method=ConsensusMethod.BYZANTINE,  # Will be overridden
     )
 
     # Cast quantum votes
@@ -855,22 +862,17 @@ async def demo_advanced_consensus():
         amplitudes = {
             VoteType.APPROVE: complex(random.random(), random.random()),
             VoteType.REJECT: complex(random.random(), random.random()),
-            VoteType.ABSTAIN: complex(0.1, 0.1)
+            VoteType.ABSTAIN: complex(0.1, 0.1),
         }
 
         # Normalize amplitudes
-        total = sum(abs(a)**2 for a in amplitudes.values())
-        amplitudes = {k: v/np.sqrt(total) for k, v in amplitudes.items()}
+        total = sum(abs(a) ** 2 for a in amplitudes.values())
+        amplitudes = {k: v / np.sqrt(total) for k, v in amplitudes.items()}
 
         # Entangle some agents
         entangle_with = random.sample(agents[:5], k=random.randint(0, 2))
 
-        await consensus.qi_superposition_vote(
-            proposal_id,
-            agent_id,
-            amplitudes,
-            entangle_with
-        )
+        await consensus.qi_superposition_vote(proposal_id, agent_id, amplitudes, entangle_with)
 
     # Add regular votes for remaining agents
     for agent_id in agents[5:]:
@@ -881,10 +883,7 @@ async def demo_advanced_consensus():
     qi_votes = consensus.qi_votes[proposal_id]
     consensus.votes[proposal_id]
 
-    outcome = await consensus._quantum_consensus(
-        consensus.active_proposals[proposal_id],
-        qi_votes
-    )
+    outcome = await consensus._quantum_consensus(consensus.active_proposals[proposal_id], qi_votes)
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
@@ -897,8 +896,7 @@ async def demo_advanced_consensus():
     print("\n2️⃣ Swarm Intelligence Consensus:")
 
     proposal_id = await consensus.propose(
-        content="Migrate to new server cluster",
-        proposer="swarm_coordinator"
+        content="Migrate to new server cluster", proposer="swarm_coordinator"
     )
 
     # Create diverse initial votes
@@ -908,8 +906,7 @@ async def demo_advanced_consensus():
         await consensus.vote(proposal_id, agent_id, vote_type, confidence)
 
     outcome = await consensus._swarm_intelligence_consensus(
-        consensus.active_proposals[proposal_id],
-        consensus.votes[proposal_id]
+        consensus.active_proposals[proposal_id], consensus.votes[proposal_id]
     )
 
     print(f"   Decision: {outcome.decision.value}")
@@ -924,8 +921,7 @@ async def demo_advanced_consensus():
     print("\n3️⃣ Genetic Evolution Consensus:")
 
     proposal_id = await consensus.propose(
-        content="Evolve new AI capabilities",
-        proposer="evolution_coordinator"
+        content="Evolve new AI capabilities", proposer="evolution_coordinator"
     )
 
     for agent_id in agents:
@@ -933,8 +929,7 @@ async def demo_advanced_consensus():
         await consensus.vote(proposal_id, agent_id, vote_type, random.random())
 
     outcome = await consensus._genetic_evolution_consensus(
-        consensus.active_proposals[proposal_id],
-        consensus.votes[proposal_id]
+        consensus.active_proposals[proposal_id], consensus.votes[proposal_id]
     )
 
     print(f"   Decision: {outcome.decision.value}")
@@ -949,12 +944,11 @@ async def demo_advanced_consensus():
         "agent_0": "agent_1",
         "agent_2": "agent_1",
         "agent_3": "agent_4",
-        "agent_5": "agent_4"
+        "agent_5": "agent_4",
     }
 
     proposal_id = await consensus.propose(
-        content="Implement liquid governance",
-        proposer="liquid_coordinator"
+        content="Implement liquid governance", proposer="liquid_coordinator"
     )
 
     # Only delegates vote
@@ -963,8 +957,7 @@ async def demo_advanced_consensus():
         await consensus.vote(proposal_id, agent_id, vote_type, 0.8)
 
     outcome = await consensus._liquid_democracy_consensus(
-        consensus.active_proposals[proposal_id],
-        consensus.votes[proposal_id]
+        consensus.active_proposals[proposal_id], consensus.votes[proposal_id]
     )
 
     print(f"   Decision: {outcome.decision.value}")
@@ -975,8 +968,7 @@ async def demo_advanced_consensus():
     print("\n5️⃣ Multi-Stage Consensus Pipeline:")
 
     proposal_id = await consensus.propose(
-        content="Complex multi-phase decision",
-        proposer="pipeline_coordinator"
+        content="Complex multi-phase decision", proposer="pipeline_coordinator"
     )
 
     for agent_id in agents:
@@ -986,14 +978,11 @@ async def demo_advanced_consensus():
     # Run 3-stage pipeline
     stages = [
         ConsensusMethod.BYZANTINE,  # Filter faulty votes
-        ConsensusMethod.HORMONE,     # Apply emotional modulation
-        ConsensusMethod.EMERGENT     # Final convergence
+        ConsensusMethod.HORMONE,  # Apply emotional modulation
+        ConsensusMethod.EMERGENT,  # Final convergence
     ]
 
-    outcome = await consensus.multi_stage_consensus(
-        consensus.active_proposals[proposal_id],
-        stages
-    )
+    outcome = await consensus.multi_stage_consensus(consensus.active_proposals[proposal_id], stages)
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Final confidence: {outcome.confidence:.3f}")

@@ -17,13 +17,13 @@ from .consent_chain_validator import (
 )
 
 __all__ = [
-    "ConsentChainValidator",
-    "ConsentType",
-    "ConsentSymbol",
-    "ConsentValidity",
-    "ConsentNode",
     "ConsentChain",
+    "ConsentChainValidator",
     "ConsentDecision",
+    "ConsentNode",
+    "ConsentSymbol",
+    "ConsentType",
+    "ConsentValidity",
     "TrustHelixNode",
     "validate_stargate_consent",
 ]

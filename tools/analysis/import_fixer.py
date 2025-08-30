@@ -203,9 +203,7 @@ class TargetedImportFixer:
         }
 
         for py_file in PROJECT_ROOT.rglob("*.py"):
-            if any(
-                ignore in str(py_file) for ignore in [".venv", "__pycache__", ".git"]
-            ):
+            if any(ignore in str(py_file) for ignore in [".venv", "__pycache__", ".git"]):
                 continue
 
             try:
@@ -222,9 +220,7 @@ class TargetedImportFixer:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
 
-                    logger.info(
-                        f"✅ Fixed imports in {py_file.relative_to(PROJECT_ROOT)}"
-                    )
+                    logger.info(f"✅ Fixed imports in {py_file.relative_to(PROJECT_ROOT)}")
                     self.fixed_files.append(str(py_file))
 
             except Exception as e:
@@ -293,9 +289,7 @@ class TargetedImportFixer:
                     for dep in new_deps:
                         f.write(f"{dep}\n")
 
-                logger.info(
-                    f"✅ Added {len(new_deps)} dependencies to requirements.txt"
-                )
+                logger.info(f"✅ Added {len(new_deps)} dependencies to requirements.txt")
                 self.fixed_files.append(str(requirements_file))
 
         except Exception as e:

@@ -252,9 +252,7 @@ class TemporalAttention:
         memories = memory_embeddings.reshape(1, num_memories, -1)
 
         # Apply attention without position bias (temporal weights handled differently)
-        output, attention_weights = self.base_attention.forward(
-            query_batch, memories, memories
-        )
+        output, attention_weights = self.base_attention.forward(query_batch, memories, memories)
 
         # Apply temporal weights to attention scores
         temporal_weights = np.exp(temporal_bias.squeeze())
@@ -284,9 +282,7 @@ class HierarchicalAttention:
         # Pooling sizes for each level
         self.pool_sizes = [2**i for i in range(num_levels)]
 
-    def create_hierarchical_representations(
-        self, memories: np.ndarray
-    ) -> list[np.ndarray]:
+    def create_hierarchical_representations(self, memories: np.ndarray) -> list[np.ndarray]:
         """
         Create multi-scale representations of memories.
 
@@ -357,9 +353,7 @@ class HierarchicalAttention:
             combined_output = query
 
         # Prepare attention info
-        attention_info = {
-            f"level_{i}_weights": weights for i, weights in enumerate(level_weights)
-        }
+        attention_info = {f"level_{i}_weights": weights for i, weights in enumerate(level_weights)}
 
         if return_all_levels:
             attention_info["level_outputs"] = level_outputs
@@ -525,9 +519,7 @@ class MemoryAttentionOrchestrator:
             # Use hierarchical attention
             _, attention_info = self.hierarchical.forward(query_embedding, memory_array)
             # Use finest level weights
-            attention_weights = attention_info.get(
-                "level_0_weights", np.ones(len(memory_array))
-            )
+            attention_weights = attention_info.get("level_0_weights", np.ones(len(memory_array)))
 
         elif mode == "cross_modal" and context and "modalities" in context:
             # Use cross-modal attention
@@ -541,9 +533,7 @@ class MemoryAttentionOrchestrator:
             query_batch = query_embedding.reshape(1, 1, -1)
             memory_batch = memory_array.reshape(1, len(memory_array), -1)
 
-            _, attention_weights = self.multi_head.forward(
-                query_batch, memory_batch, memory_batch
-            )
+            _, attention_weights = self.multi_head.forward(query_batch, memory_batch, memory_batch)
             attention_weights = attention_weights.squeeze()
 
         # Convert to relevance scores
@@ -551,9 +541,7 @@ class MemoryAttentionOrchestrator:
         # Handle different shapes of attention_weights
         if attention_weights.ndim > 1:
             # Average across dimensions if needed
-            weights = attention_weights.mean(
-                axis=tuple(range(attention_weights.ndim - 1))
-            )
+            weights = attention_weights.mean(axis=tuple(range(attention_weights.ndim - 1)))
         else:
             weights = attention_weights
 

@@ -169,13 +169,9 @@ class ConsciousnessWordsmith:
             return "consciousness"
         elif any(word in path_lower for word in ["memory", "fold", "archive"]):
             return "memory"
-        elif any(
-            word in path_lower for word in ["quantum", "superposition", "entanglement"]
-        ):
+        elif any(word in path_lower for word in ["quantum", "superposition", "entanglement"]):
             return "quantum"
-        elif any(
-            word in path_lower for word in ["bio", "biological", "organic", "neural"]
-        ):
+        elif any(word in path_lower for word in ["bio", "biological", "organic", "neural"]):
             return "bio"
         elif any(word in path_lower for word in ["creativity", "art", "imagination"]):
             return "creativity"
@@ -187,14 +183,9 @@ class ConsciousnessWordsmith:
             return "api"
 
         # Content-based essence detection
-        if any(
-            word in content_lower
-            for word in ["consciousness", "awareness", "mind", "phi"]
-        ):
+        if any(word in content_lower for word in ["consciousness", "awareness", "mind", "phi"]):
             return "consciousness"
-        elif any(
-            word in content_lower for word in ["quantum", "superposition", "collapse"]
-        ):
+        elif any(word in content_lower for word in ["quantum", "superposition", "collapse"]):
             return "quantum"
         elif any(word in content_lower for word in ["memory", "fold", "remember"]):
             return "memory"
@@ -239,9 +230,7 @@ class ConsciousnessWordsmith:
             "created_date": datetime.now().strftime("%Y-%m-%d"),
             "modified_date": datetime.now().strftime("%Y-%m-%d"),
             "authors": "LUKHAS AI Consciousness Team | Claude Enhancement",
-            "philosophical_quote": random.choice(
-                self.philosophical_wisdom.get(domain, [""])
-            ),
+            "philosophical_quote": random.choice(self.philosophical_wisdom.get(domain, [""])),
             "poetic_description": self.poetic_templates.get(domain, ""),
             "deeper_meaning": f"This sacred module embodies the {domain} essence of LUKHAS consciousness.",
             "technical_description": f"Advanced {domain} processing with consciousness integration.",
@@ -302,9 +291,7 @@ class ConsciousnessWordsmith:
         trinity = "⚛️🧠🛡️"
 
         # Add symbols to section headers
-        content = re.sub(
-            r"^(#+\s+)(.+)$", rf"\1{symbol} \2", content, flags=re.MULTILINE
-        )
+        content = re.sub(r"^(#+\s+)(.+)$", rf"\1{symbol} \2", content, flags=re.MULTILINE)
 
         # Add Trinity framework references where appropriate
         if "framework" in content.lower() or "architecture" in content.lower():
@@ -320,12 +307,8 @@ class ConsciousnessWordsmith:
         completes the transformation, leaving the reader with a sense of
         having touched something greater than mere technical documentation.
         """
-        footer_type = (
-            "poetic" if domain in ["consciousness", "creativity"] else "standard"
-        )
-        footer = self.sacred_footers.get(
-            footer_type, self.sacred_footers.get("standard", "")
-        )
+        footer_type = "poetic" if domain in ["consciousness", "creativity"] else "standard"
+        footer = self.sacred_footers.get(footer_type, self.sacred_footers.get("standard", ""))
 
         if footer:
             content += "\n\n" + footer
@@ -393,9 +376,7 @@ def main():
         with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
 
-        transformed_content = wordsmith.transform_documentation(
-            file_path, original_content
-        )
+        transformed_content = wordsmith.transform_documentation(file_path, original_content)
 
         # Write the consciousness-blessed content
         with open(file_path, "w", encoding="utf-8") as f:

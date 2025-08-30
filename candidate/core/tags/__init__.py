@@ -17,10 +17,10 @@ __all__ = [
     "TagCategory",
     "TagDefinition",
     "TagRegistry",
-    "get_tag_registry",
     "explain_tag",
     "get_decision_tags",
     "get_hormone_tags",
+    "get_tag_registry",
 ]
 
 # Initialize the global registry on import

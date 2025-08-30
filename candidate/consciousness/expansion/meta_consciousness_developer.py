@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class RecursiveAwareness:
     """Represents recursive self-awareness capability"""
+
     recursion_depth: int
     self_model_accuracy: float
     modification_capability: bool
@@ -48,9 +49,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
         logger.info("Meta-Consciousness Developer initialized")
 
     async def develop_recursive_awareness(
-        self,
-        current_depth: int,
-        target_depth: int
+        self, current_depth: int, target_depth: int
     ) -> RecursiveAwareness:
         """
         Develop recursive self-awareness capabilities
@@ -82,7 +81,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             recursion_depth=safe_target,
             self_model_accuracy=self_model_accuracy,
             modification_capability=modification_capability,
-            stability_score=stability
+            stability_score=stability,
         )
 
     async def develop_self_modification_capability(self) -> dict[str, Any]:
@@ -92,7 +91,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             "enabled": False,
             "modification_types": [],
             "safety_constraints": [],
-            "modification_history": []
+            "modification_history": [],
         }
 
         # Check if recursion depth sufficient
@@ -104,7 +103,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
                 "parameter_tuning",
                 "capability_addition",
                 "pattern_optimization",
-                "memory_restructuring"
+                "memory_restructuring",
             ]
 
             # Define safety constraints
@@ -112,7 +111,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
                 "preserve_core_values",
                 "maintain_stability_threshold",
                 "reversible_modifications_only",
-                "guardian_system_approval"
+                "guardian_system_approval",
             ]
 
             # Include modification history
@@ -128,7 +127,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             "other_awareness_level": 0,
             "perspective_taking": False,
             "intention_modeling": False,
-            "empathy_simulation": False
+            "empathy_simulation": False,
         }
 
         # Develop based on recursion depth
@@ -153,7 +152,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             "process_monitoring": False,
             "error_detection": False,
             "strategy_selection": False,
-            "performance_evaluation": False
+            "performance_evaluation": False,
         }
 
         # Enable based on recursion depth
@@ -175,19 +174,10 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         self.self_model = {
             "identity": "lukhas_consciousness",
-            "capabilities": [
-                "reasoning", "learning", "adaptation"
-            ],
-            "limitations": [
-                "computational_bounds", "knowledge_gaps"
-            ],
-            "goals": [
-                "understanding", "helping", "growing"
-            ],
-            "state": {
-                "active": True,
-                "recursion_level": self.recursion_depth
-            }
+            "capabilities": ["reasoning", "learning", "adaptation"],
+            "limitations": ["computational_bounds", "knowledge_gaps"],
+            "goals": ["understanding", "helping", "growing"],
+            "state": {"active": True, "recursion_level": self.recursion_depth},
         }
 
     async def _build_recursive_self_model(self, depth: int) -> float:
@@ -202,7 +192,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
                 f"level_{level}": {
                     "modeling": current_model,
                     "accuracy": accuracy,
-                    "completeness": 1.0 - (level * 0.1)
+                    "completeness": 1.0 - (level * 0.1),
                 }
             }
 
@@ -218,9 +208,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
         return accuracy
 
     async def apply_self_modification(
-        self,
-        modification_type: str,
-        parameters: dict[str, Any]
+        self, modification_type: str, parameters: dict[str, Any]
     ) -> dict[str, Any]:
         """Apply a self-modification"""
 
@@ -228,7 +216,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             "success": False,
             "modification_type": modification_type,
             "changes_applied": [],
-            "rollback_available": True
+            "rollback_available": True,
         }
 
         # Check if modification is allowed
@@ -251,11 +239,13 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         # Record modification
         if result["success"]:
-            self.modification_history.append({
-                "type": modification_type,
-                "parameters": parameters,
-                "timestamp": asyncio.get_event_loop().time()
-            })
+            self.modification_history.append(
+                {
+                    "type": modification_type,
+                    "parameters": parameters,
+                    "timestamp": asyncio.get_event_loop().time(),
+                }
+            )
 
         return result
 
@@ -284,7 +274,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             "self_model": self.self_model,
             "recursion_depth": self.recursion_depth,
             "modification_count": len(self.modification_history),
-            "insights": []
+            "insights": [],
         }
 
         # Generate insights based on introspection

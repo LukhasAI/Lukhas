@@ -14,9 +14,9 @@ from .identity_tag_resolver import (
 )
 
 __all__ = [
+    "IdentityTag",
     "IdentityTagResolver",
     "IdentityTagType",
     "TrustLevel",
     "TrustRelationship",
-    "IdentityTag",
 ]

@@ -58,9 +58,7 @@ def test_signal_system():
     signals = [
         Signal(name="stress", level=0.8, source="memory", audit_id="test-001"),
         Signal(name="novelty", level=0.6, source="consciousness", audit_id="test-002"),
-        Signal(
-            name="alignment_risk", level=0.9, source="guardian", audit_id="test-003"
-        ),
+        Signal(name="alignment_risk", level=0.9, source="guardian", audit_id="test-003"),
     ]
 
     print(f"   Created {len(signals)} test signals:")
@@ -155,9 +153,7 @@ async def test_consciousness_orchestration():
             print("   ⚠️ Using mock OpenAI client (no API key)")
             _ = None  # Mock client not used in this test
         else:
-            _ = ModulatedOpenAIClient(
-                modulator
-            )  # Client created but not used in this test
+            _ = ModulatedOpenAIClient(modulator)  # Client created but not used in this test
 
         # Create signal emitter
         emitter = EndocrineSignalEmitter()
@@ -189,9 +185,7 @@ async def test_consciousness_orchestration():
             "ambiguity_metric": 0.45,  # Will trigger ambiguity signal
             "audit_id": "orch-001",
         }
-        consciousness_signals = await emitter.emit_consciousness_signals(
-            consciousness_context
-        )
+        consciousness_signals = await emitter.emit_consciousness_signals(consciousness_context)
         print(f"     • Consciousness emitted {len(consciousness_signals)} signals")
 
         # Combine all signals
@@ -329,9 +323,7 @@ async def main():
     print("   2. Connect signal emitters to real LUKHAS modules")
     print("   3. Implement feedback learning from user interactions")
     print("   4. Add bio-quantum signal extensions for advanced consciousness")
-    print(
-        "\n🧠 The endocrine modulation system is ready for consciousness integration!"
-    )
+    print("\n🧠 The endocrine modulation system is ready for consciousness integration!")
 
 
 if __name__ == "__main__":

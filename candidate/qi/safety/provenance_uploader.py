@@ -24,11 +24,12 @@ GCS_PREFIX = os.environ.get("PROV_GCS_PREFIX", "lukhas/provenance/")
 #  Integrate with signed attestation from qi.ops.provenance
 _HAVE_ATTEST = False
 try:
-    from qi.ops.provenance import attest as _attest
-    from qi.ops.provenance import merkle_chain
+    from qi.ops.provenance import attest as _attest, merkle_chain
+
     _HAVE_ATTEST = True
 except Exception:
     _HAVE_ATTEST = False
+
 
 # --------- hashing helpers ---------
 def sha256_file(path: str) -> str:
@@ -38,39 +39,45 @@ def sha256_file(path: str) -> str:
             h.update(chunk)
     return h.hexdigest()
 
+
 def sha256_bytes(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
+
 
 def guess_mime(path: str) -> str:
     m, _ = mimetypes.guess_type(path)
     return m or "application/octet-stream"
 
+
 # --------- data classes ---------
 @dataclass
 class ProvenanceRecord:
     # Artifact identity
-    artifact_path: str                # local absolute path (for source-of-truth copy)
+    artifact_path: str  # local absolute path (for source-of-truth copy)
     artifact_sha256: str
     size_bytes: int
     mime_type: str
 
     # Storage info
-    storage_backend: str              # local | s3 | gcs
-    storage_url: str                  # file://..., s3://bucket/key, gs://bucket/key
+    storage_backend: str  # local | s3 | gcs
+    storage_url: str  # file://..., s3://bucket/key, gs://bucket/key
 
     # Context
-    created_at: float                 # epoch seconds
+    created_at: float  # epoch seconds
     model_id: str | None = None
     prompt_hash: str | None = None
     parameters: dict[str, Any] | None = None
     metadata: dict[str, Any] | None = None
 
     # Links (optional)
-    attestation: dict[str, Any] | None = None      # from qi.ops.provenance.attest()
-    extra_attachments: list[dict[str, Any]] | None = None  # e.g., list of {"path","sha256","storage_url"}
+    attestation: dict[str, Any] | None = None  # from qi.ops.provenance.attest()
+    extra_attachments: list[dict[str, Any]] | None = (
+        None  # e.g., list of {"path","sha256","storage_url"}
+    )
 
     # Versioning
     schema_version: str = "1.0.0"
+
 
 # --------- upload backends ----------
 class Uploader:
@@ -78,10 +85,12 @@ class Uploader:
         """Return (storage_url, sha256)."""
         raise NotImplementedError
 
+
 class LocalUploader(Uploader):
     def __init__(self, base_dir: str = LOCAL_DIR):
         self.base = base_dir
         os.makedirs(self.base, exist_ok=True)
+
     def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
@@ -98,6 +107,7 @@ class LocalUploader(Uploader):
                         d.write(chunk)
         return ("file://" + dst, sha)
 
+
 class S3Uploader(Uploader):
     def __init__(self, bucket: str, prefix: str = S3_PREFIX):
         try:
@@ -107,6 +117,7 @@ class S3Uploader(Uploader):
         self.s3 = boto3.client("s3")
         self.bucket = bucket
         self.prefix = prefix.rstrip("/") + "/"
+
     def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
@@ -115,15 +126,19 @@ class S3Uploader(Uploader):
         self.s3.upload_file(local_path, self.bucket, key, ExtraArgs=extra_args)
         return (f"s3://{self.bucket}/{key}", sha)
 
+
 class GCSUploader(Uploader):
     def __init__(self, bucket: str, prefix: str = GCS_PREFIX):
         try:
             from google.cloud import storage  # type: ignore
         except Exception as e:
-            raise RuntimeError("GCSUploader requires google-cloud-storage: pip install google-cloud-storage") from e
+            raise RuntimeError(
+                "GCSUploader requires google-cloud-storage: pip install google-cloud-storage"
+            ) from e
         self.client = storage.Client()
         self.bucket = self.client.bucket(bucket)
         self.prefix = prefix.rstrip("/") + "/"
+
     def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
@@ -131,6 +146,7 @@ class GCSUploader(Uploader):
         blob = self.bucket.blob(key)
         blob.upload_from_filename(local_path, content_type=guess_mime(local_path))
         return (f"gs://{self.bucket.name}/{key}", sha)
+
 
 def resolve_uploader() -> Uploader:
     if BACKEND == "local":
@@ -144,6 +160,7 @@ def resolve_uploader() -> Uploader:
             raise RuntimeError("Set PROV_GCS_BUCKET for GCS backend.")
         return GCSUploader(GCS_BUCKET, GCS_PREFIX)
     raise RuntimeError(f"Unknown PROV_BACKEND {BACKEND}")
+
 
 # --------- core API ----------
 def record_artifact(
@@ -214,6 +231,7 @@ def record_artifact(
 
     return rec
 
+
 def load_record_by_sha(sha: str) -> dict[str, Any]:
     """Load a local JSON record by artifact SHA."""
     path = os.path.join(LOCAL_DIR, "records", sha[:2], f"{sha}.json")
@@ -221,12 +239,13 @@ def load_record_by_sha(sha: str) -> dict[str, Any]:
         raise FileNotFoundError(f"Record not found: {path}")
     return json.load(open(path, encoding="utf-8"))
 
+
 def verify_artifact(local_path: str, record: dict[str, Any]) -> dict[str, Any]:
     """Verify local file hash matches the recorded hash. Returns dict with 'ok' and details."""
     if not os.path.exists(local_path):
         return {"ok": False, "reason": "local_file_missing"}
     local_sha = sha256_file(local_path)
-    ok = (local_sha == record.get("artifact_sha256"))
+    ok = local_sha == record.get("artifact_sha256")
     return {
         "ok": ok,
         "local_sha256": local_sha,
@@ -234,6 +253,7 @@ def verify_artifact(local_path: str, record: dict[str, Any]) -> dict[str, Any]:
         "storage_url": record.get("storage_url"),
         "backend": record.get("storage_backend"),
     }
+
 
 # --------- CLI ----------
 def _cli_record(args):
@@ -261,6 +281,7 @@ def _cli_record(args):
     )
     print(json.dumps(asdict(rec), indent=2))
 
+
 def _cli_verify(args):
     if args.sha:
         rec = load_record_by_sha(args.sha)
@@ -271,9 +292,11 @@ def _cli_verify(args):
     if not v["ok"]:
         raise SystemExit(2)
 
+
 def _cli_show(args):
     rec = load_record_by_sha(args.sha)
     print(json.dumps(rec, indent=2))
+
 
 def main():
     ap = argparse.ArgumentParser(description="Lukhas Provenance Attachments Uploader")
@@ -286,7 +309,11 @@ def main():
     p1.add_argument("--parameters", help="JSON dict of model/route params", default=None)
     p1.add_argument("--metadata", help="JSON dict of misc metadata", default=None)
     p1.add_argument("--attach", nargs="*", help="Extra files to upload and link")
-    p1.add_argument("--attest", action="store_true", help="Also write a signed Merkle attestation (requires pynacl)")
+    p1.add_argument(
+        "--attest",
+        action="store_true",
+        help="Also write a signed Merkle attestation (requires pynacl)",
+    )
     p1.set_defaults(func=_cli_record)
 
     p2 = sub.add_parser("verify", help="Verify local file against a record")
@@ -302,6 +329,7 @@ def main():
 
     args = ap.parse_args()
     args.func(args)
+
 
 if __name__ == "__main__":
     main()

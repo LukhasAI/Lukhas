@@ -12,12 +12,17 @@ from production_main import LUKHASProduction
 
 
 class TestProductionMain(unittest.TestCase):
-
     @patch("production_main.initialize_branding")
     @patch("production_main.get_system_signature")
     @patch("production_main.get_trinity_context")
     @patch("production_main.uvicorn")
-    def test_initialization(self, mock_uvicorn, mock_get_trinity_context, mock_get_system_signature, mock_initialize_branding):
+    def test_initialization(
+        self,
+        mock_uvicorn,
+        mock_get_trinity_context,
+        mock_get_system_signature,
+        mock_initialize_branding,
+    ):
         """Test that the LUKHASProduction class can be initialized."""
         # Arrange
         mock_initialize_branding.return_value = asyncio.Future()
@@ -53,10 +58,12 @@ class TestProductionMain(unittest.TestCase):
             # We need to run the main function in a way that it doesn't block forever.
             # We can patch the start_api_server to not run indefinitely.
             from production_main import main
+
             exit_code = asyncio.run(main())
             self.assertEqual(exit_code, 0)
         except Exception as e:
             self.fail(f"main() raised an exception: {e}")
+
 
 if __name__ == "__main__":
     unittest.main()

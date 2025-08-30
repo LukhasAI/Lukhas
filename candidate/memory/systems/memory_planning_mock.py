@@ -69,9 +69,7 @@ class MemoryPlanner:
                     return True
         return False
 
-    def allocate_tensor(
-        self, tensor_id: str, size: int, pool_name: str = "default"
-    ) -> bool:
+    def allocate_tensor(self, tensor_id: str, size: int, pool_name: str = "default") -> bool:
         """Allocate memory for a tensor"""
         if pool_name not in self.allocation_pools:
             logger.error(f"Pool {pool_name} not found")

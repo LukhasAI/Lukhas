@@ -48,11 +48,11 @@ logger = get_logger(__name__)
 class AccessTier(Enum):
     """Access tier levels (T1-T5)"""
 
-    T1_BASIC = 1        # Basic access - read-only, limited capabilities
-    T2_USER = 2         # Standard user - normal operations
-    T3_ADVANCED = 3     # Advanced user - enhanced capabilities
-    T4_PRIVILEGED = 4   # Privileged user - administrative functions
-    T5_SYSTEM = 5       # System level - full control
+    T1_BASIC = 1  # Basic access - read-only, limited capabilities
+    T2_USER = 2  # Standard user - normal operations
+    T3_ADVANCED = 3  # Advanced user - enhanced capabilities
+    T4_PRIVILEGED = 4  # Privileged user - administrative functions
+    T5_SYSTEM = 5  # System level - full control
 
 
 class AccessType(Enum):
@@ -70,11 +70,11 @@ class AuthenticationMethod(Enum):
     """Authentication methods"""
 
     PASSWORD = "password"  # nosec B105
-    MFA = "mfa"                    # Multi-factor authentication
-    BIOMETRIC = "biometric"        # Biometric authentication
-    TOKEN = "token"                # Token-based
-    CERTIFICATE = "certificate"    # Certificate-based
-    FEDERATED = "federated"       # Federated identity
+    MFA = "mfa"  # Multi-factor authentication
+    BIOMETRIC = "biometric"  # Biometric authentication
+    TOKEN = "token"  # Token-based
+    CERTIFICATE = "certificate"  # Certificate-based
+    FEDERATED = "federated"  # Federated identity
 
 
 class SessionStatus(Enum):
@@ -92,9 +92,9 @@ class AccessDecision(Enum):
 
     ALLOW = "allow"
     DENY = "deny"
-    CHALLENGE = "challenge"       # Require additional authentication
-    ESCALATE = "escalate"         # Require higher tier approval
-    MONITOR = "monitor"           # Allow but monitor closely
+    CHALLENGE = "challenge"  # Require additional authentication
+    ESCALATE = "escalate"  # Require higher tier approval
+    MONITOR = "monitor"  # Allow but monitor closely
 
 
 @dataclass
@@ -156,9 +156,9 @@ class User:
     access_restrictions: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework integration
-    identity_verified: bool = False      # ⚛️ Identity system verification
-    consciousness_level: int = 1         # 🧠 Consciousness interaction level
-    guardian_cleared: bool = True        # 🛡️ Guardian system clearance
+    identity_verified: bool = False  # ⚛️ Identity system verification
+    consciousness_level: int = 1  # 🧠 Consciousness interaction level
+    guardian_cleared: bool = True  # 🛡️ Guardian system clearance
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.now)
@@ -244,82 +244,109 @@ class PermissionManager:
         """Initialize standard system permissions"""
 
         # Basic permissions (T1)
-        self.add_permission(Permission(
-            permission_id="basic_read",
-            name="Basic Read Access",
-            description="Basic read-only access to public resources",
-            resource_type="public",
-            access_types={AccessType.READ},
-            required_tier=AccessTier.T1_BASIC
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="basic_read",
+                name="Basic Read Access",
+                description="Basic read-only access to public resources",
+                resource_type="public",
+                access_types={AccessType.READ},
+                required_tier=AccessTier.T1_BASIC,
+            )
+        )
 
         # User permissions (T2)
-        self.add_permission(Permission(
-            permission_id="user_profile",
-            name="User Profile Management",
-            description="Manage own user profile and settings",
-            resource_type="user_profile",
-            access_types={AccessType.READ, AccessType.WRITE},
-            required_tier=AccessTier.T2_USER
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="user_profile",
+                name="User Profile Management",
+                description="Manage own user profile and settings",
+                resource_type="user_profile",
+                access_types={AccessType.READ, AccessType.WRITE},
+                required_tier=AccessTier.T2_USER,
+            )
+        )
 
-        self.add_permission(Permission(
-            permission_id="data_access",
-            name="Personal Data Access",
-            description="Access personal data and AI interactions",
-            resource_type="personal_data",
-            access_types={AccessType.READ, AccessType.WRITE},
-            required_tier=AccessTier.T2_USER
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="data_access",
+                name="Personal Data Access",
+                description="Access personal data and AI interactions",
+                resource_type="personal_data",
+                access_types={AccessType.READ, AccessType.WRITE},
+                required_tier=AccessTier.T2_USER,
+            )
+        )
 
         # Advanced permissions (T3)
-        self.add_permission(Permission(
-            permission_id="ai_advanced",
-            name="Advanced AI Features",
-            description="Access to advanced AI capabilities and models",
-            resource_type="ai_advanced",
-            access_types={AccessType.READ, AccessType.WRITE, AccessType.EXECUTE},
-            required_tier=AccessTier.T3_ADVANCED
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="ai_advanced",
+                name="Advanced AI Features",
+                description="Access to advanced AI capabilities and models",
+                resource_type="ai_advanced",
+                access_types={AccessType.READ, AccessType.WRITE, AccessType.EXECUTE},
+                required_tier=AccessTier.T3_ADVANCED,
+            )
+        )
 
-        self.add_permission(Permission(
-            permission_id="system_integration",
-            name="System Integration",
-            description="Integration with external systems and APIs",
-            resource_type="integrations",
-            access_types={AccessType.READ, AccessType.WRITE, AccessType.EXECUTE},
-            required_tier=AccessTier.T3_ADVANCED
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="system_integration",
+                name="System Integration",
+                description="Integration with external systems and APIs",
+                resource_type="integrations",
+                access_types={AccessType.READ, AccessType.WRITE, AccessType.EXECUTE},
+                required_tier=AccessTier.T3_ADVANCED,
+            )
+        )
 
         # Privileged permissions (T4)
-        self.add_permission(Permission(
-            permission_id="user_management",
-            name="User Management",
-            description="Manage other users and their access",
-            resource_type="users",
-            access_types={AccessType.READ, AccessType.WRITE, AccessType.DELETE, AccessType.ADMIN},
-            required_tier=AccessTier.T4_PRIVILEGED
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="user_management",
+                name="User Management",
+                description="Manage other users and their access",
+                resource_type="users",
+                access_types={
+                    AccessType.READ,
+                    AccessType.WRITE,
+                    AccessType.DELETE,
+                    AccessType.ADMIN,
+                },
+                required_tier=AccessTier.T4_PRIVILEGED,
+            )
+        )
 
-        self.add_permission(Permission(
-            permission_id="system_config",
-            name="System Configuration",
-            description="Configure system settings and parameters",
-            resource_type="system_config",
-            access_types={AccessType.READ, AccessType.WRITE, AccessType.ADMIN},
-            required_tier=AccessTier.T4_PRIVILEGED
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="system_config",
+                name="System Configuration",
+                description="Configure system settings and parameters",
+                resource_type="system_config",
+                access_types={AccessType.READ, AccessType.WRITE, AccessType.ADMIN},
+                required_tier=AccessTier.T4_PRIVILEGED,
+            )
+        )
 
         # System permissions (T5)
-        self.add_permission(Permission(
-            permission_id="system_admin",
-            name="System Administration",
-            description="Full system administrative access",
-            resource_type="system",
-            access_types={AccessType.READ, AccessType.WRITE, AccessType.DELETE,
-                         AccessType.EXECUTE, AccessType.ADMIN, AccessType.SYSTEM},
-            required_tier=AccessTier.T5_SYSTEM
-        ))
+        self.add_permission(
+            Permission(
+                permission_id="system_admin",
+                name="System Administration",
+                description="Full system administrative access",
+                resource_type="system",
+                access_types={
+                    AccessType.READ,
+                    AccessType.WRITE,
+                    AccessType.DELETE,
+                    AccessType.EXECUTE,
+                    AccessType.ADMIN,
+                    AccessType.SYSTEM,
+                },
+                required_tier=AccessTier.T5_SYSTEM,
+            )
+        )
 
         logger.info(f"✅ Initialized {len(self.permissions)} standard permissions")
 
@@ -327,55 +354,86 @@ class PermissionManager:
         """Initialize standard system roles"""
 
         # T1 Basic Role
-        self.add_role(Role(
-            role_id="basic_user",
-            name="Basic User",
-            description="Basic read-only access",
-            tier=AccessTier.T1_BASIC,
-            permissions={"basic_read"}
-        ))
+        self.add_role(
+            Role(
+                role_id="basic_user",
+                name="Basic User",
+                description="Basic read-only access",
+                tier=AccessTier.T1_BASIC,
+                permissions={"basic_read"},
+            )
+        )
 
         # T2 Standard User Role
-        self.add_role(Role(
-            role_id="standard_user",
-            name="Standard User",
-            description="Standard user with personal data access",
-            tier=AccessTier.T2_USER,
-            permissions={"basic_read", "user_profile", "data_access"},
-            inherits_from={"basic_user"}
-        ))
+        self.add_role(
+            Role(
+                role_id="standard_user",
+                name="Standard User",
+                description="Standard user with personal data access",
+                tier=AccessTier.T2_USER,
+                permissions={"basic_read", "user_profile", "data_access"},
+                inherits_from={"basic_user"},
+            )
+        )
 
         # T3 Advanced User Role
-        self.add_role(Role(
-            role_id="advanced_user",
-            name="Advanced User",
-            description="Advanced user with AI capabilities",
-            tier=AccessTier.T3_ADVANCED,
-            permissions={"basic_read", "user_profile", "data_access", "ai_advanced", "system_integration"},
-            inherits_from={"standard_user"}
-        ))
+        self.add_role(
+            Role(
+                role_id="advanced_user",
+                name="Advanced User",
+                description="Advanced user with AI capabilities",
+                tier=AccessTier.T3_ADVANCED,
+                permissions={
+                    "basic_read",
+                    "user_profile",
+                    "data_access",
+                    "ai_advanced",
+                    "system_integration",
+                },
+                inherits_from={"standard_user"},
+            )
+        )
 
         # T4 Administrator Role
-        self.add_role(Role(
-            role_id="administrator",
-            name="Administrator",
-            description="System administrator with user management",
-            tier=AccessTier.T4_PRIVILEGED,
-            permissions={"basic_read", "user_profile", "data_access", "ai_advanced",
-                        "system_integration", "user_management", "system_config"},
-            inherits_from={"advanced_user"}
-        ))
+        self.add_role(
+            Role(
+                role_id="administrator",
+                name="Administrator",
+                description="System administrator with user management",
+                tier=AccessTier.T4_PRIVILEGED,
+                permissions={
+                    "basic_read",
+                    "user_profile",
+                    "data_access",
+                    "ai_advanced",
+                    "system_integration",
+                    "user_management",
+                    "system_config",
+                },
+                inherits_from={"advanced_user"},
+            )
+        )
 
         # T5 System Administrator Role
-        self.add_role(Role(
-            role_id="system_admin",
-            name="System Administrator",
-            description="Full system administrative access",
-            tier=AccessTier.T5_SYSTEM,
-            permissions={"basic_read", "user_profile", "data_access", "ai_advanced",
-                        "system_integration", "user_management", "system_config", "system_admin"},
-            inherits_from={"administrator"}
-        ))
+        self.add_role(
+            Role(
+                role_id="system_admin",
+                name="System Administrator",
+                description="Full system administrative access",
+                tier=AccessTier.T5_SYSTEM,
+                permissions={
+                    "basic_read",
+                    "user_profile",
+                    "data_access",
+                    "ai_advanced",
+                    "system_integration",
+                    "user_management",
+                    "system_config",
+                    "system_admin",
+                },
+                inherits_from={"administrator"},
+            )
+        )
 
         logger.info(f"✅ Initialized {len(self.roles)} standard roles")
 
@@ -448,7 +506,7 @@ class SessionManager:
         auth_method: AuthenticationMethod,
         source_ip: Optional[str] = None,
         user_agent: Optional[str] = None,
-        mfa_verified: bool = False
+        mfa_verified: bool = False,
     ) -> AccessSession:
         """Create a new access session"""
 
@@ -463,7 +521,7 @@ class SessionManager:
             auth_method=auth_method,
             source_ip=source_ip,
             user_agent=user_agent,
-            mfa_verified=mfa_verified
+            mfa_verified=mfa_verified,
         )
 
         # Calculate risk score
@@ -473,7 +531,7 @@ class SessionManager:
         session.trinity_context = {
             "identity_verified": user.identity_verified,
             "consciousness_level": user.consciousness_level,
-            "guardian_cleared": user.guardian_cleared
+            "guardian_cleared": user.guardian_cleared,
         }
 
         self.active_sessions[session_id] = session
@@ -481,14 +539,13 @@ class SessionManager:
         # Update user last login
         user.last_login = datetime.now()
 
-        logger.info(f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})")
+        logger.info(
+            f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})"
+        )
         return session
 
     async def _calculate_session_risk(
-        self,
-        user: User,
-        source_ip: Optional[str],
-        user_agent: Optional[str]
+        self, user: User, source_ip: Optional[str], user_agent: Optional[str]
     ) -> float:
         """Calculate risk score for session"""
 
@@ -576,8 +633,7 @@ class SessionManager:
                 expired_sessions = []
 
                 for session_id, session in self.active_sessions.items():
-                    if (current_time > session.expires_at or
-                        session.status != SessionStatus.ACTIVE):
+                    if current_time > session.expires_at or session.status != SessionStatus.ACTIVE:
                         expired_sessions.append(session_id)
 
                 for session_id in expired_sessions:
@@ -623,7 +679,7 @@ class AccessControlEngine:
             "active_sessions": 0,
             "failed_authentications": 0,
             "security_incidents": 0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         self._initialize_system_users()
@@ -644,7 +700,7 @@ class AccessControlEngine:
             active=True,
             identity_verified=True,
             consciousness_level=5,
-            guardian_cleared=True
+            guardian_cleared=True,
         )
 
         self.users["system_admin"] = system_admin
@@ -657,7 +713,7 @@ class AccessControlEngine:
         password: str,
         mfa_token: Optional[str] = None,
         source_ip: Optional[str] = None,
-        user_agent: Optional[str] = None
+        user_agent: Optional[str] = None,
     ) -> tuple[bool, Optional[AccessSession], str]:
         """
         Authenticate user and create session
@@ -675,14 +731,24 @@ class AccessControlEngine:
                     break
 
             if not user:
-                await self._audit_event("authentication_failed", None, None,
-                                      reason="User not found", source_ip=source_ip)
+                await self._audit_event(
+                    "authentication_failed",
+                    None,
+                    None,
+                    reason="User not found",
+                    source_ip=source_ip,
+                )
                 return False, None, "Authentication failed"
 
             # Check if account is locked
             if user.locked:
-                await self._audit_event("authentication_failed", user.user_id, None,
-                                      reason="Account locked", source_ip=source_ip)
+                await self._audit_event(
+                    "authentication_failed",
+                    user.user_id,
+                    None,
+                    reason="Account locked",
+                    source_ip=source_ip,
+                )
                 return False, None, "Account is locked"
 
             # Verify password
@@ -692,22 +758,37 @@ class AccessControlEngine:
                 # Lock account if too many failures
                 if user.failed_attempts >= self.max_failed_attempts:
                     user.locked = True
-                    await self._audit_event("account_locked", user.user_id, None,
-                                          reason="Too many failed attempts", source_ip=source_ip)
+                    await self._audit_event(
+                        "account_locked",
+                        user.user_id,
+                        None,
+                        reason="Too many failed attempts",
+                        source_ip=source_ip,
+                    )
                     logger.warning(f"🔒 Account locked for user {username}")
 
-                await self._audit_event("authentication_failed", user.user_id, None,
-                                      reason="Invalid password", source_ip=source_ip)
+                await self._audit_event(
+                    "authentication_failed",
+                    user.user_id,
+                    None,
+                    reason="Invalid password",
+                    source_ip=source_ip,
+                )
                 return False, None, "Authentication failed"
 
             # Check MFA if required
             auth_method = AuthenticationMethod.PASSWORD
             mfa_verified = False
 
-            if (user.mfa_enabled or user.current_tier.value >= self.mfa_required_tier.value):
+            if user.mfa_enabled or user.current_tier.value >= self.mfa_required_tier.value:
                 if not mfa_token or not self._verify_mfa(user.mfa_secret, mfa_token):
-                    await self._audit_event("authentication_failed", user.user_id, None,
-                                          reason="MFA verification failed", source_ip=source_ip)
+                    await self._audit_event(
+                        "authentication_failed",
+                        user.user_id,
+                        None,
+                        reason="MFA verification failed",
+                        source_ip=source_ip,
+                    )
                     return False, None, "MFA verification required"
 
                 auth_method = AuthenticationMethod.MFA
@@ -715,8 +796,13 @@ class AccessControlEngine:
 
             # Trinity Framework validation
             if not await self._validate_trinity_authentication(user):
-                await self._audit_event("authentication_failed", user.user_id, None,
-                                      reason="Trinity Framework validation failed", source_ip=source_ip)
+                await self._audit_event(
+                    "authentication_failed",
+                    user.user_id,
+                    None,
+                    reason="Trinity Framework validation failed",
+                    source_ip=source_ip,
+                )
                 return False, None, "Additional validation required"
 
             # Reset failed attempts on successful auth
@@ -729,20 +815,34 @@ class AccessControlEngine:
             )
 
             # Audit successful authentication
-            await self._audit_event("authentication_success", user.user_id, session.session_id,
-                                  reason="Successful authentication", source_ip=source_ip)
+            await self._audit_event(
+                "authentication_success",
+                user.user_id,
+                session.session_id,
+                reason="Successful authentication",
+                source_ip=source_ip,
+            )
 
             # Update metrics
-            self.metrics["active_users"] = len({s.user_id for s in self.session_manager.active_sessions.values()})
+            self.metrics["active_users"] = len(
+                {s.user_id for s in self.session_manager.active_sessions.values()}
+            )
             self.metrics["active_sessions"] = len(self.session_manager.active_sessions)
 
-            logger.info(f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})")
+            logger.info(
+                f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})"
+            )
             return True, session, "Authentication successful"
 
         except Exception as e:
             logger.error(f"Authentication error for user {username}: {e}")
-            await self._audit_event("authentication_error", None, None,
-                                  reason=f"System error: {str(e)}", source_ip=source_ip)
+            await self._audit_event(
+                "authentication_error",
+                None,
+                None,
+                reason=f"System error: {e!s}",
+                source_ip=source_ip,
+            )
             return False, None, "Authentication system error"
 
     async def _validate_trinity_authentication(self, user: User) -> bool:
@@ -785,7 +885,7 @@ class AccessControlEngine:
         session_id: str,
         resource: str,
         access_type: AccessType,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[AccessDecision, str]:
         """
         Check if user has access to resource
@@ -801,17 +901,31 @@ class AccessControlEngine:
             # Get session
             session = self.session_manager.get_session(session_id)
             if not session:
-                await self._audit_access_request(request_id, "unknown", session_id,
-                                               resource, access_type, AccessDecision.DENY,
-                                               "Invalid or expired session", context)
+                await self._audit_access_request(
+                    request_id,
+                    "unknown",
+                    session_id,
+                    resource,
+                    access_type,
+                    AccessDecision.DENY,
+                    "Invalid or expired session",
+                    context,
+                )
                 return AccessDecision.DENY, "Invalid or expired session"
 
             # Get user
             user = self.users.get(session.user_id)
             if not user or not user.active:
-                await self._audit_access_request(request_id, session.user_id, session_id,
-                                               resource, access_type, AccessDecision.DENY,
-                                               "User not found or inactive", context)
+                await self._audit_access_request(
+                    request_id,
+                    session.user_id,
+                    session_id,
+                    resource,
+                    access_type,
+                    AccessDecision.DENY,
+                    "User not found or inactive",
+                    context,
+                )
                 return AccessDecision.DENY, "User not found or inactive"
 
             # Get user permissions
@@ -840,8 +954,16 @@ class AccessControlEngine:
                 reason += " | High risk session - monitoring enabled"
 
             # Audit the access request
-            await self._audit_access_request(request_id, user.user_id, session_id,
-                                           resource, access_type, decision, reason, context)
+            await self._audit_access_request(
+                request_id,
+                user.user_id,
+                session_id,
+                resource,
+                access_type,
+                decision,
+                reason,
+                context,
+            )
 
             # Update metrics
             self.metrics["total_requests"] += 1
@@ -857,9 +979,16 @@ class AccessControlEngine:
 
         except Exception as e:
             logger.error(f"Access check error: {e}")
-            await self._audit_access_request(request_id, "unknown", session_id,
-                                           resource, access_type, AccessDecision.DENY,
-                                           f"System error: {str(e)}", context)
+            await self._audit_access_request(
+                request_id,
+                "unknown",
+                session_id,
+                resource,
+                access_type,
+                AccessDecision.DENY,
+                f"System error: {e!s}",
+                context,
+            )
             return AccessDecision.DENY, "Access control system error"
 
     async def _evaluate_access_permission(
@@ -868,7 +997,7 @@ class AccessControlEngine:
         user_permissions: set[str],
         resource: str,
         access_type: AccessType,
-        context: dict[str, Any]
+        context: dict[str, Any],
     ) -> tuple[AccessDecision, str]:
         """Evaluate if user has required permission"""
 
@@ -892,9 +1021,15 @@ class AccessControlEngine:
                     if self._check_context_conditions(permission, context):
                         return AccessDecision.ALLOW, f"Permission granted: {permission.name}"
                     else:
-                        return AccessDecision.DENY, f"Context conditions not met for: {permission.name}"
+                        return (
+                            AccessDecision.DENY,
+                            f"Context conditions not met for: {permission.name}",
+                        )
                 else:
-                    return AccessDecision.ESCALATE, f"Insufficient tier for: {permission.name} (requires T{permission.required_tier.value})"
+                    return (
+                        AccessDecision.ESCALATE,
+                        f"Insufficient tier for: {permission.name} (requires T{permission.required_tier.value})",
+                    )
 
         return AccessDecision.DENY, f"No permission allows {access_type.value} access to {resource}"
 
@@ -922,7 +1057,7 @@ class AccessControlEngine:
         access_type: AccessType,
         context: dict[str, Any],
         current_decision: AccessDecision,
-        current_reason: str
+        current_reason: str,
     ) -> tuple[AccessDecision, str]:
         """Apply additional security policies"""
 
@@ -930,12 +1065,18 @@ class AccessControlEngine:
         current_hour = datetime.now().hour
         if current_hour < 6 or current_hour > 22:  # Outside business hours
             if user.current_tier.value < 4:  # Non-privileged users
-                return AccessDecision.CHALLENGE, "Outside business hours - additional verification required"
+                return (
+                    AccessDecision.CHALLENGE,
+                    "Outside business hours - additional verification required",
+                )
 
         # Sensitive operations
         if access_type in [AccessType.DELETE, AccessType.ADMIN, AccessType.SYSTEM]:
             if not session.mfa_verified:
-                return AccessDecision.CHALLENGE, "MFA verification required for sensitive operations"
+                return (
+                    AccessDecision.CHALLENGE,
+                    "MFA verification required for sensitive operations",
+                )
 
         # Rate limiting (simplified)
         # In production, implement proper rate limiting
@@ -950,7 +1091,7 @@ class AccessControlEngine:
         access_type: AccessType,
         context: dict[str, Any],
         current_decision: AccessDecision,
-        current_reason: str
+        current_reason: str,
     ) -> tuple[AccessDecision, str]:
         """Validate access against Trinity Framework"""
 
@@ -976,7 +1117,10 @@ class AccessControlEngine:
             trinity_issues.append(f"High drift score detected: {drift_score:.3f}")
 
         if trinity_issues:
-            return AccessDecision.ESCALATE, f"Trinity validation failed: {'; '.join(trinity_issues)}"
+            return (
+                AccessDecision.ESCALATE,
+                f"Trinity validation failed: {'; '.join(trinity_issues)}",
+            )
 
         return current_decision, current_reason
 
@@ -987,7 +1131,7 @@ class AccessControlEngine:
         session_id: Optional[str],
         reason: str = "",
         source_ip: Optional[str] = None,
-        risk_factors: Optional[list[str]] = None
+        risk_factors: Optional[list[str]] = None,
     ):
         """Audit access control event"""
 
@@ -998,7 +1142,7 @@ class AccessControlEngine:
             session_id=session_id,
             reason=reason,
             source_ip=source_ip,
-            risk_factors=risk_factors or []
+            risk_factors=risk_factors or [],
         )
 
         self.audit_trail.append(audit_entry)
@@ -1018,7 +1162,7 @@ class AccessControlEngine:
         access_type: AccessType,
         decision: AccessDecision,
         reason: str,
-        context: dict[str, Any]
+        context: dict[str, Any],
     ):
         """Audit access control request"""
 
@@ -1026,7 +1170,7 @@ class AccessControlEngine:
             event_type="access_request",
             user_id=user_id,
             session_id=session_id,
-            reason=f"Resource: {resource}, Type: {access_type.value}, Decision: {decision.value}, Reason: {reason}"
+            reason=f"Resource: {resource}, Type: {access_type.value}, Decision: {decision.value}, Reason: {reason}",
         )
 
     async def create_user(
@@ -1035,7 +1179,7 @@ class AccessControlEngine:
         email: str,
         password: str,
         tier: AccessTier = AccessTier.T2_USER,
-        roles: Optional[set[str]] = None
+        roles: Optional[set[str]] = None,
     ) -> tuple[bool, Optional[str], str]:
         """
         Create a new user
@@ -1080,20 +1224,21 @@ class AccessControlEngine:
                 max_tier=tier,
                 roles=roles,
                 password_hash=password_hash,
-                auth_methods={AuthenticationMethod.PASSWORD}
+                auth_methods={AuthenticationMethod.PASSWORD},
             )
 
             self.users[user_id] = user
 
-            await self._audit_event("user_created", user_id, None,
-                                  f"Created user: {username} with tier T{tier.value}")
+            await self._audit_event(
+                "user_created", user_id, None, f"Created user: {username} with tier T{tier.value}"
+            )
 
             logger.info(f"✅ Created user: {username} (T{tier.value})")
             return True, user_id, "User created successfully"
 
         except Exception as e:
             logger.error(f"Failed to create user {username}: {e}")
-            return False, None, f"User creation failed: {str(e)}"
+            return False, None, f"User creation failed: {e!s}"
 
     async def update_user_tier(self, user_id: str, new_tier: AccessTier) -> tuple[bool, str]:
         """Update user's access tier"""
@@ -1104,7 +1249,10 @@ class AccessControlEngine:
                 return False, "User not found"
 
             if new_tier.value > user.max_tier.value:
-                return False, f"Tier T{new_tier.value} exceeds maximum allowed tier T{user.max_tier.value}"
+                return (
+                    False,
+                    f"Tier T{new_tier.value} exceeds maximum allowed tier T{user.max_tier.value}",
+                )
 
             old_tier = user.current_tier
             user.current_tier = new_tier
@@ -1113,15 +1261,21 @@ class AccessControlEngine:
             # Update roles based on new tier
             # This is simplified - in practice might need more sophisticated role management
 
-            await self._audit_event("tier_updated", user_id, None,
-                                  f"Tier changed from T{old_tier.value} to T{new_tier.value}")
+            await self._audit_event(
+                "tier_updated",
+                user_id,
+                None,
+                f"Tier changed from T{old_tier.value} to T{new_tier.value}",
+            )
 
-            logger.info(f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}")
+            logger.info(
+                f"✅ Updated user {user.username} tier: T{old_tier.value} -> T{new_tier.value}"
+            )
             return True, f"Tier updated to T{new_tier.value}"
 
         except Exception as e:
             logger.error(f"Failed to update user tier: {e}")
-            return False, f"Tier update failed: {str(e)}"
+            return False, f"Tier update failed: {e!s}"
 
     async def get_access_status(self) -> dict[str, Any]:
         """Get current access control system status"""
@@ -1137,7 +1291,7 @@ class AccessControlEngine:
             "tier_distribution": {
                 f"T{tier.value}": len([u for u in self.users.values() if u.current_tier == tier])
                 for tier in AccessTier
-            }
+            },
         }
 
     async def generate_access_report(self) -> dict[str, Any]:
@@ -1152,16 +1306,20 @@ class AccessControlEngine:
                     "event": entry.event_type,
                     "user": entry.user_id,
                     "timestamp": entry.timestamp.isoformat(),
-                    "reason": entry.reason
+                    "reason": entry.reason,
                 }
                 for entry in self.audit_trail[-100:]  # Last 100 events
             ],
             "security_summary": {
-                "failed_authentications": len([e for e in self.audit_trail if e.event_type == "authentication_failed"]),
+                "failed_authentications": len(
+                    [e for e in self.audit_trail if e.event_type == "authentication_failed"]
+                ),
                 "locked_accounts": len([u for u in self.users.values() if u.locked]),
-                "high_risk_sessions": len([s for s in self.session_manager.active_sessions.values() if s.risk_score > 0.5]),
-                "mfa_enabled_users": len([u for u in self.users.values() if u.mfa_enabled])
-            }
+                "high_risk_sessions": len(
+                    [s for s in self.session_manager.active_sessions.values() if s.risk_score > 0.5]
+                ),
+                "mfa_enabled_users": len([u for u in self.users.values() if u.mfa_enabled]),
+            },
         }
 
         return report
@@ -1170,15 +1328,15 @@ class AccessControlEngine:
 # Export main classes and functions
 __all__ = [
     "AccessControlEngine",
-    "PermissionManager",
-    "SessionManager",
-    "User",
-    "Role",
-    "Permission",
+    "AccessDecision",
     "AccessSession",
     "AccessTier",
     "AccessType",
     "AuthenticationMethod",
-    "AccessDecision",
-    "SessionStatus"
+    "Permission",
+    "PermissionManager",
+    "Role",
+    "SessionManager",
+    "SessionStatus",
+    "User",
 ]

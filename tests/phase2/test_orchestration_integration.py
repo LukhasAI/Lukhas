@@ -111,9 +111,7 @@ class TestMultiModelOrchestration:
         assert "model" in result
 
         # Performance target: sub-100ms for single model
-        assert (
-            execution_time < 0.1
-        ), f"Single model execution too slow: {execution_time}s"
+        assert execution_time < 0.1, f"Single model execution too slow: {execution_time}s"
 
         # Verify bridge was called correctly
         mock_bridges["anthropic"].generate_response.assert_called_once()
@@ -208,9 +206,7 @@ class TestHighPerformanceContextBus:
         avg_per_message = routing_time / len(messages)
 
         # Performance target: sub-1ms per message routing
-        assert (
-            avg_per_message < 0.001
-        ), f"Message routing too slow: {avg_per_message}s per message"
+        assert avg_per_message < 0.001, f"Message routing too slow: {avg_per_message}s per message"
 
     @pytest.mark.asyncio
     async def test_context_handoff_latency(self, context_bus):
@@ -327,9 +323,7 @@ class TestPerformanceValidation:
         )
 
         validation_time = time.time() - start_time
-        assert (
-            validation_time < 0.25
-        ), f"Guardian validation too slow: {validation_time}s"
+        assert validation_time < 0.25, f"Guardian validation too slow: {validation_time}s"
 
     @pytest.mark.asyncio
     async def test_memory_operations_performance(self):
@@ -393,9 +387,7 @@ class TestSystemIntegration:
         prevention_rate = 1 - cascade_rate
 
         # Target: 99.7% cascade prevention
-        assert (
-            prevention_rate >= 0.997
-        ), f"Cascade prevention too low: {prevention_rate:.3f}"
+        assert prevention_rate >= 0.997, f"Cascade prevention too low: {prevention_rate:.3f}"
 
 
 if __name__ == "__main__":

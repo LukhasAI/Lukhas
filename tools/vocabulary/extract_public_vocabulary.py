@@ -8,7 +8,9 @@ import re
 from pathlib import Path
 
 
-def extract_public_vocabulary(lexicon_path="LUKHAS_LEXICON.md", output_path="vocabularies/LUKHAS_VOCABULARY_PUBLIC.md"):
+def extract_public_vocabulary(
+    lexicon_path="LUKHAS_LEXICON.md", output_path="vocabularies/LUKHAS_VOCABULARY_PUBLIC.md"
+):
     """Extract only public sections from the dual-stream lexicon."""
 
     with open(lexicon_path) as f:

@@ -20,7 +20,7 @@ class MemoryMatrizAdapter:
         node_type: str,
         state: dict[str, float],
         labels: Optional[list[str]] = None,
-        provenance_extra: Optional[dict] = None
+        provenance_extra: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for memory events"""
 
@@ -33,19 +33,17 @@ class MemoryMatrizAdapter:
                 "salience": state.get("salience", 0.7),
                 "urgency": state.get("urgency", 0.3),
                 "novelty": state.get("novelty", 0.5),
-                **state
+                **state,
             },
-            "timestamps": {
-                "created_ts": int(time.time() * 1000)
-            },
+            "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.memory",
                 "capabilities": ["memory:fold", "memory:recall", "memory:cascade"],
                 "tenant": "system",
                 "trace_id": f"LT-MEM-{int(time.time())}",
                 "consent_scopes": ["system:memory"],
-                **(provenance_extra or {})
-            }
+                **(provenance_extra or {}),
+            },
         }
 
         if labels:
@@ -55,10 +53,7 @@ class MemoryMatrizAdapter:
 
     @staticmethod
     def emit_fold_creation(
-        fold_id: str,
-        fold_type: str,
-        depth: int,
-        emotional_valence: float = 0.0
+        fold_id: str, fold_type: str, depth: int, emotional_valence: float = 0.0
     ) -> dict[str, Any]:
         """Emit a memory fold creation event"""
 
@@ -70,22 +65,14 @@ class MemoryMatrizAdapter:
                 "urgency": 0.2,
                 "novelty": 0.6,
                 "depth": float(depth),
-                "emotional_valence": emotional_valence
+                "emotional_valence": emotional_valence,
             },
-            labels=[
-                f"fold:{fold_id}",
-                f"type:{fold_type}",
-                f"depth:{depth}",
-                "memory:fold"
-            ]
+            labels=[f"fold:{fold_id}", f"type:{fold_type}", f"depth:{depth}", "memory:fold"],
         )
 
     @staticmethod
     def emit_recall_event(
-        memory_id: str,
-        recall_accuracy: float,
-        latency_ms: int,
-        fold_count: int
+        memory_id: str, recall_accuracy: float, latency_ms: int, fold_count: int
     ) -> dict[str, Any]:
         """Emit a memory recall event"""
 
@@ -98,20 +85,14 @@ class MemoryMatrizAdapter:
                 "novelty": 0.2,
                 "accuracy": recall_accuracy,
                 "latency_ms": float(latency_ms),
-                "fold_count": float(fold_count)
+                "fold_count": float(fold_count),
             },
-            labels=[
-                f"memory:{memory_id[:8]}",
-                f"folds:{fold_count}",
-                "memory:recall"
-            ]
+            labels=[f"memory:{memory_id[:8]}", f"folds:{fold_count}", "memory:recall"],
         )
 
     @staticmethod
     def emit_cascade_prevention(
-        cascade_id: str,
-        prevention_success: bool,
-        affected_folds: int
+        cascade_id: str, prevention_success: bool, affected_folds: int
     ) -> dict[str, Any]:
         """Emit a cascade prevention event (99.7% success rate)"""
 
@@ -125,22 +106,19 @@ class MemoryMatrizAdapter:
                 "urgency": urgency,
                 "novelty": 0.3,
                 "prevented": 1.0 if prevention_success else 0.0,
-                "affected_folds": float(affected_folds)
+                "affected_folds": float(affected_folds),
             },
             labels=[
                 f"cascade:{cascade_id}",
                 "status:prevented" if prevention_success else "status:cascaded",
                 f"folds_affected:{affected_folds}",
-                "memory:cascade"
-            ]
+                "memory:cascade",
+            ],
         )
 
     @staticmethod
     def emit_dream_state(
-        dream_id: str,
-        coherence: float,
-        memory_integration: float,
-        fold_depth: int
+        dream_id: str, coherence: float, memory_integration: float, fold_depth: int
     ) -> dict[str, Any]:
         """Emit a dream state memory consolidation event"""
 
@@ -153,20 +131,14 @@ class MemoryMatrizAdapter:
                 "novelty": 0.7,
                 "coherence": coherence,
                 "integration": memory_integration,
-                "fold_depth": float(fold_depth)
+                "fold_depth": float(fold_depth),
             },
-            labels=[
-                f"dream:{dream_id}",
-                f"coherence:{coherence:.2f}",
-                "memory:dream"
-            ]
+            labels=[f"dream:{dream_id}", f"coherence:{coherence:.2f}", "memory:dream"],
         )
 
     @staticmethod
     def emit_memory_consolidation(
-        consolidation_id: str,
-        memories_merged: int,
-        compression_ratio: float
+        consolidation_id: str, memories_merged: int, compression_ratio: float
     ) -> dict[str, Any]:
         """Emit a memory consolidation event"""
 
@@ -178,13 +150,13 @@ class MemoryMatrizAdapter:
                 "urgency": 0.2,
                 "novelty": 0.4,
                 "memories_merged": float(memories_merged),
-                "compression_ratio": compression_ratio
+                "compression_ratio": compression_ratio,
             },
             labels=[
                 f"consolidation:{consolidation_id}",
                 f"merged:{memories_merged}",
-                "memory:consolidation"
-            ]
+                "memory:consolidation",
+            ],
         )
 
     @staticmethod

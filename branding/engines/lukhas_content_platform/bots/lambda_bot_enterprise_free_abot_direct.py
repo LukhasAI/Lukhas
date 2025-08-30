@@ -9,6 +9,7 @@ import time
 
 sys.path.append("/Users/A_G_I/Λ")
 
+
 def run_free_abot_direct():
     """Run LUKHAS AI ΛBot directly without router to avoid the cost calculation bug"""
     print("🤖 FREE LUKHAS AI ΛBot DIRECT MODE")
@@ -19,7 +20,7 @@ def run_free_abot_direct():
         "Analyze the security of the current API key management system and suggest improvements.",
         "What documentation is missing that would be most valuable for users?",
         "Evaluate the current LUKHAS AI ΛBot CLI interface - what features would add the most value?",
-        "Create a brief development roadmap for the next sprint."
+        "Create a brief development roadmap for the next sprint.",
     ]
 
     for i, task in enumerate(tasks, 1):
@@ -28,8 +29,11 @@ def run_free_abot_direct():
 
         try:
             # Use OpenAI directly instead of router to avoid cost calculation bug
-            result = subprocess.run([
-                "python3", "-c", f"""
+            result = subprocess.run(
+                [
+                    "python3",
+                    "-c",
+                    f"""
 import sys
 sys.path.append("/Users/A_G_I/Λ")
 from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
@@ -51,8 +55,13 @@ if result.get("response"):
     print(f"💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
     print("❌ Task failed:", result.get("error", "Unknown error"))
-"""
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=60)
+""",
+                ],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+                timeout=60,
+            )
 
             if result.stdout:
                 print(result.stdout)
@@ -64,17 +73,23 @@ else:
 
         # Check budget after each task
         try:
-            budget_result = subprocess.run([
-                "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
-            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ")
+            budget_result = subprocess.run(
+                ["python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"],
+                capture_output=True,
+                text=True,
+                cwd="/Users/A_G_I/Λ",
+            )
 
             if "Balance:" in budget_result.stdout:
-                balance_line = [line for line in budget_result.stdout.split("\n") if "Balance:" in line][0]
+                balance_line = [
+                    line for line in budget_result.stdout.split("\n") if "Balance:" in line
+                ][0]
                 print(f"💰 {balance_line.strip()}")
         except:
             pass
 
         time.sleep(5)  # Brief pause between tasks
+
 
 if __name__ == "__main__":
     print("🚀 Letting LUKHAS AI ΛBot work freely with direct API access...")

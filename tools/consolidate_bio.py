@@ -95,9 +95,7 @@ class BioConsolidator:
                                 for base in node.bases
                             ],
                             "methods": [
-                                n.name
-                                for n in node.body
-                                if isinstance(n, ast.FunctionDef)
+                                n.name for n in node.body if isinstance(n, ast.FunctionDef)
                             ],
                         }
                     )
@@ -215,7 +213,9 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
                         content += "        pass\n\n"
                     else:
                         content += f"    def {method}(self, *args, **kwargs):\n"
-                        content += "        raise NotImplementedError('Bio consolidation in progress')\n\n"
+                        content += (
+                            "        raise NotImplementedError('Bio consolidation in progress')\n\n"
+                        )
             else:
                 content += "    pass\n\n"
 
@@ -224,9 +224,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
             args = ", ".join(func["args"]) if func["args"] else ""
             content += f"\ndef {func['name']}({args}):\n"
             content += f'    """Bio {category_name} function - {func["name"]}"""\n'
-            content += (
-                "    raise NotImplementedError('Bio consolidation in progress')\n\n"
-            )
+            content += "    raise NotImplementedError('Bio consolidation in progress')\n\n"
 
         # Write consolidated module
         target_file.write_text(content)

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.040" timestamp="2025-08-29T17:56:38.292354+01:00" hostname="g.local"><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-tests/matriz/test_orchestrator_schema.py:8: in &lt;module&gt;
-    from matriz.core.orchestrator import CognitiveOrchestrator
-E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase></testsuite></testsuites>

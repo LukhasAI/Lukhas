@@ -147,9 +147,7 @@ class PostQuantumCryptoEngine:
             session_id=self._generate_session_id(),
             cipher=cipher,
             signing_key=session_keys.signing_key,
-            key_rotation_schedule=self.key_rotation_scheduler.create_schedule(
-                session_requirements
-            ),
+            key_rotation_schedule=self.key_rotation_scheduler.create_schedule(session_requirements),
             security_level=negotiated_algorithms.security_level,
         )
 
@@ -170,9 +168,7 @@ class PostQuantumCryptoEngine:
             data_to_sign = data
 
         # 2. Apply domain separation
-        domain_separated = self._apply_domain_separation(
-            data_to_sign, domain="bio_symbolic_agi_v1"
-        )
+        domain_separated = self._apply_domain_separation(data_to_sign, domain="bio_symbolic_agi_v1")
 
         # 3. Generate signature with primary algorithm
         primary_signature = await self.signature_algorithms["primary"].sign(
@@ -184,9 +180,7 @@ class PostQuantumCryptoEngine:
             classical_signature = await self._classical_sign(
                 domain_separated, signing_key.classical_key
             )
-            signature_data = self._combine_signatures(
-                primary_signature, classical_signature
-            )
+            signature_data = self._combine_signatures(primary_signature, classical_signature)
         else:
             signature_data = primary_signature
 
@@ -213,15 +207,14 @@ class PostQuantumCryptoEngine:
         """
         # Verify the timestamp if provided
         if timestamp:
-            timestamp_valid = self.timestamp_service.verify_timestamp(
-                timestamp, qi_resistant=True
-            )
+            timestamp_valid = self.timestamp_service.verify_timestamp(timestamp, qi_resistant=True)
             if not timestamp_valid:
                 return False, {"error": "Invalid or expired timestamp"}
 
         # Verify the zero-knowledge identity proof
         zkp_valid = self.zkp_system.verify_proof(
-            proof=identity_proof, constant_time=True  # Side-channel resistance
+            proof=identity_proof,
+            constant_time=True,  # Side-channel resistance
         )
 
         if not zkp_valid:
@@ -340,7 +333,8 @@ class PostQuantumCryptoEngine:
         Perform secure cleanup of old keys and sensitive data
         """
         self.secure_memory.clear_all(
-            constant_time=True, verification=True  # Verify memory is actually cleared
+            constant_time=True,
+            verification=True,  # Verify memory is actually cleared
         )
 
 

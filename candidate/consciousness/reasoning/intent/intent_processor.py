@@ -4,6 +4,7 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
+
 import logging
 from typing import Any, Union
 
@@ -34,9 +35,7 @@ class IntentNode:
         # Simple intent detection
         if any(q in text_lower for q in ["what", "who", "when", "where", "why", "how"]):
             intent_type = "query"
-        elif any(
-            cmd in text_lower for cmd in ["do", "create", "make", "build", "execute"]
-        ):
+        elif any(cmd in text_lower for cmd in ["do", "create", "make", "build", "execute"]):
             intent_type = "task"
         else:
             intent_type = "dialogue"
@@ -76,9 +75,7 @@ class IntentNode:
                 "type": "query",
                 "query_type": "informational",
                 "parameters": {
-                    "text": (
-                        input_data if isinstance(input_data, str) else str(input_data)
-                    )
+                    "text": (input_data if isinstance(input_data, str) else str(input_data))
                 },
             }
         elif intent_type == "task":
@@ -86,9 +83,7 @@ class IntentNode:
                 "type": "task",
                 "task_type": "general",
                 "parameters": {
-                    "instruction": (
-                        input_data if isinstance(input_data, str) else str(input_data)
-                    )
+                    "instruction": (input_data if isinstance(input_data, str) else str(input_data))
                 },
             }
         else:  # dialogue
@@ -96,8 +91,6 @@ class IntentNode:
                 "type": "dialogue",
                 "dialogue_type": "conversational",
                 "parameters": {
-                    "context": (
-                        input_data if isinstance(input_data, str) else str(input_data)
-                    )
+                    "context": (input_data if isinstance(input_data, str) else str(input_data))
                 },
             }

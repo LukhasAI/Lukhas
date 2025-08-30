@@ -150,9 +150,7 @@ class MemoryProtein:
     catalytic_efficiency: float = 0.0
 
     # Modifications
-    modifications: dict[PostTranslationalModification, list[Any]] = field(
-        default_factory=dict
-    )
+    modifications: dict[PostTranslationalModification, list[Any]] = field(default_factory=dict)
 
     # Interaction data
     interaction_partners: set[str] = field(default_factory=set)
@@ -211,9 +209,7 @@ class ProteinComplex:
 
         # Average stability of members
         stabilities = [
-            proteins[pid].calculate_stability()
-            for pid in self.member_proteins
-            if pid in proteins
+            proteins[pid].calculate_stability() for pid in self.member_proteins if pid in proteins
         ]
 
         if not stabilities:
@@ -222,11 +218,7 @@ class ProteinComplex:
         avg_stability = sum(stabilities) / len(stabilities)
 
         # Synergy increases with stability and size
-        synergy = (
-            avg_stability
-            * math.log(len(self.member_proteins) + 1)
-            * self.activity_multiplier
-        )
+        synergy = avg_stability * math.log(len(self.member_proteins) + 1) * self.activity_multiplier
 
         return max(1.0, synergy)
 
@@ -386,9 +378,7 @@ class SymbolicProteome:
 
         # If running synchronously, process immediately
         if not self._running:
-            return await self._synthesize_protein(
-                memory_id, memory_content, protein_type
-            )
+            return await self._synthesize_protein(memory_id, memory_content, protein_type)
 
         return f"translation_pending_{memory_id}"
 
@@ -459,9 +449,9 @@ class SymbolicProteome:
             return None
 
         # Calculate formation energy
-        formation_energy = sum(
-            self.proteins[pid].folding_energy for pid in valid_proteins
-        ) / len(valid_proteins)
+        formation_energy = sum(self.proteins[pid].folding_energy for pid in valid_proteins) / len(
+            valid_proteins
+        )
 
         # Create complex
         complex = ProteinComplex(
@@ -472,9 +462,7 @@ class SymbolicProteome:
         )
 
         # Calculate activity multiplier based on compatibility
-        complex.activity_multiplier = self._calculate_complex_compatibility(
-            valid_proteins
-        )
+        complex.activity_multiplier = self._calculate_complex_compatibility(valid_proteins)
 
         self.protein_complexes[complex.complex_id] = complex
 
@@ -553,9 +541,7 @@ class SymbolicProteome:
 
         # Calculate collective expression
         total_activity = sum(p.activity_level for p in active_proteins)
-        avg_stability = sum(p.calculate_stability() for p in active_proteins) / len(
-            active_proteins
-        )
+        avg_stability = sum(p.calculate_stability() for p in active_proteins) / len(active_proteins)
 
         # Check for complex formation
         complex_boost = 1.0
@@ -563,9 +549,7 @@ class SymbolicProteome:
             for complex_id in protein.complex_memberships:
                 if complex_id in self.protein_complexes:
                     complex = self.protein_complexes[complex_id]
-                    complex_boost = max(
-                        complex_boost, complex.calculate_synergy(self.proteins)
-                    )
+                    complex_boost = max(complex_boost, complex.calculate_synergy(self.proteins))
 
         expression_result = {
             "memory_id": memory_id,
@@ -573,12 +557,8 @@ class SymbolicProteome:
             "total_activity": total_activity * complex_boost,
             "stability": avg_stability,
             "protein_types": list({p.protein_type.value for p in active_proteins}),
-            "modifications": list(
-                {mod.value for p in active_proteins for mod in p.modifications}
-            ),
-            "functional_output": self._generate_functional_output(
-                active_proteins, context
-            ),
+            "modifications": list({mod.value for p in active_proteins for mod in p.modifications}),
+            "functional_output": self._generate_functional_output(active_proteins, context),
         }
 
         logger.info(
@@ -608,9 +588,7 @@ class SymbolicProteome:
 
         return {
             "total_proteins": len(self.proteins),
-            "functional_proteins": sum(
-                1 for p in self.proteins.values() if p.is_functional()
-            ),
+            "functional_proteins": sum(1 for p in self.proteins.values() if p.is_functional()),
             "protein_complexes": len(self.protein_complexes),
             "total_synthesized": self.total_synthesized,
             "total_degraded": self.total_degraded,
@@ -621,9 +599,7 @@ class SymbolicProteome:
             "degradation_queue": len(self.degradation_queue),
             "state_distribution": state_dist,
             "type_distribution": type_dist,
-            "chaperone_assists": sum(
-                c.assisted_folds for c in self.chaperones.values()
-            ),
+            "chaperone_assists": sum(c.assisted_folds for c in self.chaperones.values()),
         }
 
     # Private methods
@@ -635,9 +611,7 @@ class SymbolicProteome:
 
         # Convert memory to codons (simplified)
         content_str = (
-            json.dumps(memory_content)
-            if isinstance(memory_content, dict)
-            else str(memory_content)
+            json.dumps(memory_content) if isinstance(memory_content, dict) else str(memory_content)
         )
 
         # Split into fragments and create codons
@@ -790,9 +764,7 @@ class SymbolicProteome:
 
                     # Check modification compatibility
                     mod_compat = 1.0
-                    shared_mods = set(p1.modifications.keys()) & set(
-                        p2.modifications.keys()
-                    )
+                    shared_mods = set(p1.modifications.keys()) & set(p2.modifications.keys())
                     if shared_mods:
                         mod_compat = 1.0 + 0.1 * len(shared_mods)
 
@@ -822,9 +794,7 @@ class SymbolicProteome:
                 )
 
             elif protein.protein_type == ProteinType.RECEPTOR:
-                output["binding_capacity"] += (
-                    len(protein.binding_sites) * protein.activity_level
-                )
+                output["binding_capacity"] += len(protein.binding_sites) * protein.activity_level
 
             elif protein.protein_type == ProteinType.REGULATORY:
                 output["signal_strength"] += protein.activity_level
@@ -854,9 +824,7 @@ class SymbolicProteome:
         for protein in candidates[:degrade_count]:
             self.degradation_queue.add(protein.protein_id)
 
-        logger.info(
-            f"Autophagy triggered, marked {degrade_count} proteins for degradation"
-        )
+        logger.info(f"Autophagy triggered, marked {degrade_count} proteins for degradation")
 
     # Background process loops
 
@@ -912,9 +880,9 @@ class SymbolicProteome:
                             # Remove from complexes
                             for complex_id in protein.complex_memberships:
                                 if complex_id in self.protein_complexes:
-                                    self.protein_complexes[
-                                        complex_id
-                                    ].member_proteins.discard(protein_id)
+                                    self.protein_complexes[complex_id].member_proteins.discard(
+                                        protein_id
+                                    )
 
                             # Remove protein
                             del self.proteins[protein_id]
@@ -935,9 +903,7 @@ class SymbolicProteome:
         while self._running:
             # Find proteins that could interact
             functional_proteins = [
-                p
-                for p in self.proteins.values()
-                if p.is_functional() and len(p.binding_sites) > 0
+                p for p in self.proteins.values() if p.is_functional() and len(p.binding_sites) > 0
             ]
 
             # Random sampling for efficiency
@@ -958,10 +924,7 @@ class SymbolicProteome:
                         p2.interaction_partners.add(p1.protein_id)
 
                         # May form complex
-                        if (
-                            len(p1.interaction_partners) > 2
-                            and len(p2.interaction_partners) > 2
-                        ):
+                        if len(p1.interaction_partners) > 2 and len(p2.interaction_partners) > 2:
                             await self.form_complex(
                                 [p1.protein_id, p2.protein_id],
                                 "interaction_complex",
@@ -996,9 +959,7 @@ async def demonstrate_symbolic_proteome():
     """Demonstrate Symbolic Proteome capabilities"""
 
     # Initialize proteome
-    proteome = SymbolicProteome(
-        max_proteins=1000, folding_temperature=37.0, enable_chaperones=True
-    )
+    proteome = SymbolicProteome(max_proteins=1000, folding_temperature=37.0, enable_chaperones=True)
 
     await proteome.start()
 
@@ -1035,9 +996,7 @@ async def demonstrate_symbolic_proteome():
 
     protein_ids = []
     for mem in memories:
-        pid = await proteome.translate_memory(
-            mem["id"], mem["content"], mem["expected_type"]
-        )
+        pid = await proteome.translate_memory(mem["id"], mem["content"], mem["expected_type"])
         protein_ids.append(pid)
         print(f"Translated {mem['id']} -> {mem['expected_type'].value} protein")
 
@@ -1081,7 +1040,8 @@ async def demonstrate_symbolic_proteome():
     print("\n--- Expressing Memory Functions ---")
     for mem_id in ["mem_1", "mem_2"]:
         result = await proteome.express_memory_function(
-            mem_id, context={"enzymatic_activity": 1.2}  # Boost enzymatic activity
+            mem_id,
+            context={"enzymatic_activity": 1.2},  # Boost enzymatic activity
         )
         if "error" not in result:
             print(f"\nMemory {mem_id} expression:")

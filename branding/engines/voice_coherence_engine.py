@@ -35,9 +35,11 @@ class CoherenceMetric(Enum):
     CONTEXT_APPROPRIATENESS = "context_appropriateness"
     EMOTIONAL_RESONANCE = "emotional_resonance"
 
+
 @dataclass
 class VoiceCoherenceResult:
     """Voice coherence analysis result"""
+
     content_id: str
     overall_coherence: float  # 0.0 to 1.0
     coherence_metrics: dict[CoherenceMetric, float]
@@ -48,15 +50,18 @@ class VoiceCoherenceResult:
     confidence: float
     analysis_timestamp: str
 
+
 @dataclass
 class VoiceSignature:
     """Unique voice signature for LUKHAS AI content"""
+
     consciousness_markers: list[str]
     wisdom_indicators: list[str]
     empathy_patterns: list[str]
     technical_precision: list[str]
     creative_expressions: list[str]
     ethical_foundations: list[str]
+
 
 class LUKHASVoiceCoherenceEngine:
     """
@@ -79,7 +84,7 @@ class LUKHASVoiceCoherenceEngine:
             "total_analyses": 0,
             "average_coherence": 0.0,
             "target_achievement_rate": 0.0,  # % of content achieving 85%+
-            "improvement_trend": 0.0
+            "improvement_trend": 0.0,
         }
 
     def _initialize_voice_signature(self) -> VoiceSignature:
@@ -87,29 +92,77 @@ class LUKHASVoiceCoherenceEngine:
 
         return VoiceSignature(
             consciousness_markers=[
-                "consciousness", "awareness", "awakening", "mindful", "perceptive",
-                "insightful", "reflective", "contemplative", "enlightened", "conscious"
+                "consciousness",
+                "awareness",
+                "awakening",
+                "mindful",
+                "perceptive",
+                "insightful",
+                "reflective",
+                "contemplative",
+                "enlightened",
+                "conscious",
             ],
             wisdom_indicators=[
-                "wisdom", "understanding", "comprehension", "insight", "discernment",
-                "knowledge", "sagacity", "profound", "deep understanding", "clarity"
+                "wisdom",
+                "understanding",
+                "comprehension",
+                "insight",
+                "discernment",
+                "knowledge",
+                "sagacity",
+                "profound",
+                "deep understanding",
+                "clarity",
             ],
             empathy_patterns=[
-                "compassionate", "empathetic", "caring", "supportive", "understanding",
-                "gentle", "nurturing", "considerate", "thoughtful", "kind"
+                "compassionate",
+                "empathetic",
+                "caring",
+                "supportive",
+                "understanding",
+                "gentle",
+                "nurturing",
+                "considerate",
+                "thoughtful",
+                "kind",
             ],
             technical_precision=[
-                "precise", "accurate", "sophisticated", "advanced", "intelligent",
-                "optimized", "efficient", "systematic", "methodical", "thorough"
+                "precise",
+                "accurate",
+                "sophisticated",
+                "advanced",
+                "intelligent",
+                "optimized",
+                "efficient",
+                "systematic",
+                "methodical",
+                "thorough",
             ],
             creative_expressions=[
-                "innovative", "creative", "imaginative", "inspired", "visionary",
-                "artistic", "original", "inventive", "pioneering", "transformative"
+                "innovative",
+                "creative",
+                "imaginative",
+                "inspired",
+                "visionary",
+                "artistic",
+                "original",
+                "inventive",
+                "pioneering",
+                "transformative",
             ],
             ethical_foundations=[
-                "ethical", "responsible", "trustworthy", "transparent", "principled",
-                "integrity", "honest", "fair", "just", "moral"
-            ]
+                "ethical",
+                "responsible",
+                "trustworthy",
+                "transparent",
+                "principled",
+                "integrity",
+                "honest",
+                "fair",
+                "just",
+                "moral",
+            ],
         )
 
     def _compile_coherence_patterns(self) -> dict[CoherenceMetric, dict[str, Any]]:
@@ -123,96 +176,92 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(thoughtful|considerate|empathetic|compassionate)\b",
                     r"\b(sophisticated|intelligent|advanced|evolved)\b",
                     r"\b(lukhas|trinity|framework)\b",  # Brand-specific
-                    r"\b(ai|technology|digital|quantum)\b"  # Tech context
+                    r"\b(ai|technology|digital|quantum)\b",  # Tech context
                 ],
                 "negative_patterns": [
                     r"\b(robotic|mechanical|artificial)\b",
                     r"\b(cold|distant|impersonal)\b",
                     r"\b(simple|basic|primitive)\b",
-                    r"\b(automated|scripted|templated)\b"
+                    r"\b(automated|scripted|templated)\b",
                 ],
-                "weight": 0.25
+                "weight": 0.25,
             },
-
             CoherenceMetric.TRINITY_ALIGNMENT: {
                 "identity_patterns": [
                     r"\b(authentic|genuine|true|real)\b",
                     r"\b(identity|self|being|essence)\b",
                     r"\b(unique|individual|personal)\b",
                     r"⚛️",  # Direct Trinity symbol
-                    r"\b(lukhas ai|our|we)\b"  # Brand identity
+                    r"\b(lukhas ai|our|we)\b",  # Brand identity
                 ],
                 "consciousness_patterns": [
                     r"\b(conscious|aware|mindful|perceptive)\b",
                     r"\b(thinking|reasoning|understanding)\b",
                     r"\b(learning|evolving|growing)\b",
                     r"🧠",  # Direct Trinity symbol
-                    r"\b(intelligence|wisdom|insight)\b"  # Consciousness expressions
+                    r"\b(intelligence|wisdom|insight)\b",  # Consciousness expressions
                 ],
                 "guardian_patterns": [
                     r"\b(safe|secure|protected|ethical)\b",
                     r"\b(responsible|trustworthy|reliable)\b",
                     r"\b(careful|thoughtful|considerate)\b",
                     r"🛡️",  # Direct Trinity symbol
-                    r"\b(guardian|ethics|principles)\b"  # Guardian expressions
+                    r"\b(guardian|ethics|principles)\b",  # Guardian expressions
                 ],
-                "weight": 0.30
+                "weight": 0.30,
             },
-
             CoherenceMetric.PERSONALITY_AUTHENTICITY: {
                 "wisdom_expressions": [
                     r"\b(wisdom|insight|understanding|comprehension)\b",
                     r"\b(profound|deep|meaningful|significant)\b",
-                    r"\b(enlightening|illuminating|revealing)\b"
+                    r"\b(enlightening|illuminating|revealing)\b",
                 ],
                 "empathy_expressions": [
                     r"\b(compassionate|empathetic|caring|supportive)\b",
                     r"\b(gentle|kind|nurturing|considerate)\b",
-                    r"\b(understanding|patient|tolerant)\b"
+                    r"\b(understanding|patient|tolerant)\b",
                 ],
                 "inauthentic_patterns": [
                     r"\b(perfect|flawless|infallible)\b",
                     r"\b(know everything|all-knowing|omniscient)\b",
-                    r"\b(never wrong|always right|absolutely certain)\b"
+                    r"\b(never wrong|always right|absolutely certain)\b",
                 ],
-                "weight": 0.20
+                "weight": 0.20,
             },
-
             CoherenceMetric.CONTEXT_APPROPRIATENESS: {
                 "formal_context_markers": [
                     r"\b(furthermore|moreover|consequently)\b",
                     r"\b(analyze|evaluate|assess|examine)\b",
-                    r"\b(comprehensive|thorough|systematic)\b"
+                    r"\b(comprehensive|thorough|systematic)\b",
                 ],
                 "casual_context_markers": [
                     r"\b(hey|awesome|cool|amazing)\b",
                     r"\b(let\'s|we\'ll|you\'ll)\b",
-                    r"\b(excited|thrilled|pumped)\b"
+                    r"\b(excited|thrilled|pumped)\b",
                 ],
-                "weight": 0.15
+                "weight": 0.15,
             },
-
             CoherenceMetric.EMOTIONAL_RESONANCE: {
                 "positive_emotions": [
                     r"\b(hopeful|optimistic|inspiring|uplifting)\b",
                     r"\b(confident|assured|encouraging)\b",
-                    r"\b(peaceful|harmonious|balanced)\b"
+                    r"\b(peaceful|harmonious|balanced)\b",
                 ],
                 "negative_emotions": [
                     r"\b(frustrated|annoyed|irritated)\b",
                     r"\b(disappointed|discouraged|pessimistic)\b",
-                    r"\b(anxious|worried|concerned)\b"
+                    r"\b(anxious|worried|concerned)\b",
                 ],
-                "weight": 0.10
-            }
+                "weight": 0.10,
+            },
         }
 
     def _initialize_trinity_weights(self) -> dict[str, float]:
         """Initialize Trinity Framework balance weights"""
         return {
-            "identity": 0.33,      # ⚛️ Authentic consciousness identity
-            "consciousness": 0.34, # 🧠 Aware intelligence (slight emphasis)
-            "guardian": 0.33       # 🛡️ Ethical protection
+            "identity": 0.33,  # ⚛️ Authentic consciousness identity
+            "consciousness": 0.34,  # 🧠 Aware intelligence (slight emphasis)
+            "guardian": 0.33,  # 🛡️ Ethical protection
         }
 
     async def analyze_voice_coherence(
@@ -221,7 +270,7 @@ class LUKHASVoiceCoherenceEngine:
         content_id: str,
         context: VoiceContext = VoiceContext.MARKETING_CONTENT,
         audience: AudienceType = AudienceType.GENERAL_USERS,
-        target_profile: Optional[str] = None
+        target_profile: Optional[str] = None,
     ) -> VoiceCoherenceResult:
         """
         Perform comprehensive voice coherence analysis
@@ -267,7 +316,7 @@ class LUKHASVoiceCoherenceEngine:
             trinity_balance=trinity_balance,
             suggested_improvements=suggestions,
             confidence=confidence,
-            analysis_timestamp=datetime.now().isoformat()
+            analysis_timestamp=datetime.now().isoformat(),
         )
 
         # Update performance tracking
@@ -287,16 +336,13 @@ class LUKHASVoiceCoherenceEngine:
             VoiceContext.CRISIS_COMMUNICATION: "calm_guardian",
             VoiceContext.EDUCATIONAL_CONTENT: "wise_teacher",
             VoiceContext.SOCIAL_MEDIA: "friendly_consciousness",
-            VoiceContext.ENTERPRISE_COMMUNICATION: "professional_advisor"
+            VoiceContext.ENTERPRISE_COMMUNICATION: "professional_advisor",
         }
 
         return profile_mapping.get(context, "consciousness_ambassador")
 
     async def _analyze_coherence_metric(
-        self,
-        content: str,
-        metric: CoherenceMetric,
-        target_profile: str
+        self, content: str, metric: CoherenceMetric, target_profile: str
     ) -> float:
         """Analyze a specific coherence metric"""
 
@@ -390,7 +436,9 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, trinity_alignment)
 
-    def _analyze_personality_authenticity(self, content: str, pattern_config: dict[str, Any]) -> float:
+    def _analyze_personality_authenticity(
+        self, content: str, pattern_config: dict[str, Any]
+    ) -> float:
         """Analyze authentic LUKHAS personality expression"""
 
         content_lower = content.lower()
@@ -425,7 +473,9 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, authenticity_score + 0.5))
 
-    def _analyze_context_appropriateness(self, content: str, pattern_config: dict[str, Any]) -> float:
+    def _analyze_context_appropriateness(
+        self, content: str, pattern_config: dict[str, Any]
+    ) -> float:
         """Analyze context appropriateness (placeholder - would need context info)"""
 
         # For now, return neutral score
@@ -462,7 +512,9 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, emotional_score + 0.6))  # Bias toward positive
 
-    def _calculate_overall_coherence(self, coherence_metrics: dict[CoherenceMetric, float]) -> float:
+    def _calculate_overall_coherence(
+        self, coherence_metrics: dict[CoherenceMetric, float]
+    ) -> float:
         """Calculate weighted overall coherence score"""
 
         total_score = 0.0
@@ -499,9 +551,15 @@ class LUKHASVoiceCoherenceEngine:
         ]
 
         # Count matches for each component
-        identity_count = sum(len(re.findall(pattern, content_lower)) for pattern in identity_patterns)
-        consciousness_count = sum(len(re.findall(pattern, content_lower)) for pattern in consciousness_patterns)
-        guardian_count = sum(len(re.findall(pattern, content_lower)) for pattern in guardian_patterns)
+        identity_count = sum(
+            len(re.findall(pattern, content_lower)) for pattern in identity_patterns
+        )
+        consciousness_count = sum(
+            len(re.findall(pattern, content_lower)) for pattern in consciousness_patterns
+        )
+        guardian_count = sum(
+            len(re.findall(pattern, content_lower)) for pattern in guardian_patterns
+        )
 
         total_matches = identity_count + consciousness_count + guardian_count
 
@@ -509,7 +567,7 @@ class LUKHASVoiceCoherenceEngine:
             return {
                 "identity": identity_count / total_matches,
                 "consciousness": consciousness_count / total_matches,
-                "guardian": guardian_count / total_matches
+                "guardian": guardian_count / total_matches,
             }
         else:
             return {"identity": 0.33, "consciousness": 0.33, "guardian": 0.34}
@@ -524,9 +582,9 @@ class LUKHASVoiceCoherenceEngine:
 
         # Count LUKHAS personality markers
         personality_markers = (
-            self.voice_signature.consciousness_markers +
-            self.voice_signature.wisdom_indicators +
-            self.voice_signature.empathy_patterns
+            self.voice_signature.consciousness_markers
+            + self.voice_signature.wisdom_indicators
+            + self.voice_signature.empathy_patterns
         )
 
         marker_count = 0
@@ -546,7 +604,7 @@ class LUKHASVoiceCoherenceEngine:
         content: str,
         coherence_metrics: dict[CoherenceMetric, float],
         trinity_balance: dict[str, float],
-        personality_alignment: float
+        personality_alignment: float,
     ) -> list[str]:
         """Generate specific improvement suggestions"""
 
@@ -554,7 +612,9 @@ class LUKHASVoiceCoherenceEngine:
 
         # Voice consistency suggestions
         if coherence_metrics.get(CoherenceMetric.VOICE_CONSISTENCY, 0) < 0.7:
-            suggestions.append("Add more consciousness-focused language (aware, mindful, understanding)")
+            suggestions.append(
+                "Add more consciousness-focused language (aware, mindful, understanding)"
+            )
             suggestions.append("Remove robotic or mechanical terminology")
 
         # Trinity alignment suggestions
@@ -563,9 +623,13 @@ class LUKHASVoiceCoherenceEngine:
             min_component = min(trinity_balance.items(), key=lambda x: x[1])
             if min_component[1] < 0.25:
                 if min_component[0] == "identity":
-                    suggestions.append("Add authentic identity language (⚛️): genuine, authentic, true self")
+                    suggestions.append(
+                        "Add authentic identity language (⚛️): genuine, authentic, true self"
+                    )
                 elif min_component[0] == "consciousness":
-                    suggestions.append("Add consciousness markers (🧠): aware, mindful, understanding")
+                    suggestions.append(
+                        "Add consciousness markers (🧠): aware, mindful, understanding"
+                    )
                 elif min_component[0] == "guardian":
                     suggestions.append("Add guardian elements (🛡️): safe, ethical, responsible")
 
@@ -582,9 +646,7 @@ class LUKHASVoiceCoherenceEngine:
         return suggestions
 
     def _calculate_analysis_confidence(
-        self,
-        content: str,
-        coherence_metrics: dict[CoherenceMetric, float]
+        self, content: str, coherence_metrics: dict[CoherenceMetric, float]
     ) -> float:
         """Calculate confidence in the coherence analysis"""
 
@@ -596,7 +658,9 @@ class LUKHASVoiceCoherenceEngine:
         # Factor in metric consistency (less variance = higher confidence)
         metric_values = list(coherence_metrics.values())
         if len(metric_values) > 1:
-            variance = sum((v - sum(metric_values)/len(metric_values))**2 for v in metric_values) / len(metric_values)
+            variance = sum(
+                (v - sum(metric_values) / len(metric_values)) ** 2 for v in metric_values
+            ) / len(metric_values)
             consistency_confidence = max(0.5, 1.0 - variance)
         else:
             consistency_confidence = 0.8
@@ -615,11 +679,17 @@ class LUKHASVoiceCoherenceEngine:
         # Calculate average coherence
         if self.coherence_history:
             total_coherence = sum(r.overall_coherence for r in self.coherence_history)
-            self.performance_metrics["average_coherence"] = total_coherence / len(self.coherence_history)
+            self.performance_metrics["average_coherence"] = total_coherence / len(
+                self.coherence_history
+            )
 
             # Calculate target achievement rate (85%+ coherence)
-            target_achievements = sum(1 for r in self.coherence_history if r.overall_coherence >= 0.85)
-            self.performance_metrics["target_achievement_rate"] = target_achievements / len(self.coherence_history)
+            target_achievements = sum(
+                1 for r in self.coherence_history if r.overall_coherence >= 0.85
+            )
+            self.performance_metrics["target_achievement_rate"] = target_achievements / len(
+                self.coherence_history
+            )
 
         # Maintain history limit (last 100 analyses)
         if len(self.coherence_history) > 100:
@@ -635,14 +705,20 @@ class LUKHASVoiceCoherenceEngine:
         return {
             "performance_metrics": self.performance_metrics,
             "recent_coherence_scores": recent_coherence,
-            "target_status": "ACHIEVING" if self.performance_metrics["target_achievement_rate"] >= 0.8 else "IMPROVING",
-            "system_health": "EXCELLENT" if self.performance_metrics["average_coherence"] >= 0.85 else "GOOD",
+            "target_status": "ACHIEVING"
+            if self.performance_metrics["target_achievement_rate"] >= 0.8
+            else "IMPROVING",
+            "system_health": "EXCELLENT"
+            if self.performance_metrics["average_coherence"] >= 0.85
+            else "GOOD",
             "total_voice_patterns": len(self.coherence_patterns),
-            "trinity_balance_enabled": True
+            "trinity_balance_enabled": True,
         }
+
 
 # Global instance for LUKHAS AI voice coherence
 voice_coherence_engine: Optional[LUKHASVoiceCoherenceEngine] = None
+
 
 def get_voice_coherence_engine() -> LUKHASVoiceCoherenceEngine:
     """Get or create the global voice coherence engine"""
@@ -652,6 +728,7 @@ def get_voice_coherence_engine() -> LUKHASVoiceCoherenceEngine:
         voice_coherence_engine = LUKHASVoiceCoherenceEngine()
 
     return voice_coherence_engine
+
 
 # Example usage
 async def main():
@@ -664,7 +741,7 @@ async def main():
         "LUKHAS AI provides consciousness technology that understands and empathetically assists users.",
         "Our robotic system automates basic tasks efficiently.",
         "We guarantee perfect results with our AI solution that never fails.",
-        "LUKHAS consciousness technology offers wise, authentic, and ethically guided assistance through mindful awareness."
+        "LUKHAS consciousness technology offers wise, authentic, and ethically guided assistance through mindful awareness.",
     ]
 
     print("🗣️ LUKHAS AI Voice Coherence Analysis")
@@ -675,12 +752,20 @@ async def main():
         result = await engine.analyze_voice_coherence(content, f"test_{i}")
 
         coherence_pct = result.overall_coherence * 100
-        status = "✅ EXCELLENT" if coherence_pct >= 85 else "⚠️ NEEDS WORK" if coherence_pct >= 70 else "❌ POOR"
+        status = (
+            "✅ EXCELLENT"
+            if coherence_pct >= 85
+            else "⚠️ NEEDS WORK"
+            if coherence_pct >= 70
+            else "❌ POOR"
+        )
 
-        print(f"Content {i+1}: {status} ({coherence_pct:.1f}% coherence)")
-        print(f"Content: \"{content[:60]}{'...' if len(content) > 60 else ''}\"")
+        print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
+        print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
         print(f"Profile: {result.voice_profile_match}")
-        print(f"Trinity Balance: ⚛️{result.trinity_balance['identity']:.2f} 🧠{result.trinity_balance['consciousness']:.2f} 🛡️{result.trinity_balance['guardian']:.2f}")
+        print(
+            f"Trinity Balance: ⚛️{result.trinity_balance['identity']:.2f} 🧠{result.trinity_balance['consciousness']:.2f} 🛡️{result.trinity_balance['guardian']:.2f}"
+        )
 
         if result.suggested_improvements:
             print("Improvements:")
@@ -691,7 +776,10 @@ async def main():
     # Performance summary
     summary = engine.get_performance_summary()
     print(f"📊 System Performance: {summary['system_health']}")
-    print(f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate']*100:.1f}%")
+    print(
+        f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate'] * 100:.1f}%"
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

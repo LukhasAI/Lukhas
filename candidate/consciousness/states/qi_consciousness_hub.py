@@ -89,9 +89,7 @@ class QIConsciousnessHub:
         self.dast_router = None
 
         # Initialize Quantum Attention Economics
-        self.qi_attention_economics = QIAttentionEconomics(
-            openai_api_key=openai_api_key
-        )
+        self.qi_attention_economics = QIAttentionEconomics(openai_api_key=openai_api_key)
 
         # Initialize Consciousness Core
         self.consciousness_core = ConsciousnessCore()
@@ -153,10 +151,8 @@ class QIConsciousnessHub:
 
             # Route through quantum attention economics
             if self.qi_attention_economics:
-                attention_result = (
-                    await self.qi_attention_economics.process_attention_event(
-                        event_type, event_data
-                    )
+                attention_result = await self.qi_attention_economics.process_attention_event(
+                    event_type, event_data
                 )
                 event_data["attention_analysis"] = attention_result
 
@@ -168,19 +164,13 @@ class QIConsciousnessHub:
 
             # Route based on event type
             if event_type == "symbolic_message":
-                result = await self._process_symbolic_message(
-                    agent_id, event_data, state
-                )
+                result = await self._process_symbolic_message(agent_id, event_data, state)
             elif event_type == "dream_injection":
-                result = await self._process_dream_injection(
-                    agent_id, event_data, state
-                )
+                result = await self._process_dream_injection(agent_id, event_data, state)
             elif event_type == "qi_query":
                 result = await self._process_quantum_query(agent_id, event_data, state)
             elif event_type == "attention_bid":
-                result = await self._process_attention_economics(
-                    agent_id, event_data, state
-                )
+                result = await self._process_attention_economics(agent_id, event_data, state)
             else:
                 result = await self._process_generic_event(agent_id, event_data, state)
 
@@ -330,25 +320,17 @@ class QIConsciousnessHub:
                 result_data = json.loads(func_call.arguments)
 
                 # Update consciousness state
-                state.nias_symbolic_tags.extend(
-                    result_data.get("consciousness_tags", [])
-                )
+                state.nias_symbolic_tags.extend(result_data.get("consciousness_tags", []))
                 state.emotional_vector["resonance"] = result_data["emotional_resonance"]
 
                 # Route to appropriate delivery mode
                 delivery_mode = result_data["delivery_mode"]
                 if delivery_mode == "direct":
-                    return await self._deliver_direct_consciousness(
-                        agent_id, message, result_data
-                    )
+                    return await self._deliver_direct_consciousness(agent_id, message, result_data)
                 elif delivery_mode == "dream":
-                    return await self._queue_for_dream_delivery(
-                        agent_id, message, result_data
-                    )
+                    return await self._queue_for_dream_delivery(agent_id, message, result_data)
                 elif delivery_mode == "superposition":
-                    return await self._create_superposition_state(
-                        agent_id, message, result_data
-                    )
+                    return await self._create_superposition_state(agent_id, message, result_data)
                 else:
                     return ProcessingResult(
                         success=True,
@@ -362,9 +344,7 @@ class QIConsciousnessHub:
                 logger.error(f"OpenAI symbolic interpretation failed: {e}")
 
         # Fallback to basic processing
-        return ProcessingResult(
-            success=True, data={"status": "processed", "mode": "basic"}
-        )
+        return ProcessingResult(success=True, data={"status": "processed", "mode": "basic"})
 
     async def _deliver_direct_consciousness(
         self, agent_id: str, message: dict[str, Any], interpretation: dict[str, Any]
@@ -413,9 +393,7 @@ class QIConsciousnessHub:
         state = self.current_states.get(agent_id)
 
         if not state:
-            state = QIConsciousnessState(
-                state_type=ConsciousnessState.SUPERPOSITION
-            )
+            state = QIConsciousnessState(state_type=ConsciousnessState.SUPERPOSITION)
             self.current_states[agent_id] = state
 
         # Update to superposition state
@@ -427,9 +405,7 @@ class QIConsciousnessHub:
 
         # Process through quantum layer if available
         if self.qi_processor:
-            qi_result = await self.qi_processor.process_superposition(
-                branches
-            )
+            qi_result = await self.qi_processor.process_superposition(branches)
             state.superposition_weights = qi_result.get("weights", [])
 
         return ProcessingResult(
@@ -558,13 +534,9 @@ class QIConsciousnessHub:
                 },
             )
         else:
-            return ProcessingResult(
-                success=True, data=state.to_quantum_representation()
-            )
+            return ProcessingResult(success=True, data=state.to_quantum_representation())
 
-    async def _collapse_quantum_state(
-        self, agent_id: str, state: QIConsciousnessState
-    ) -> str:
+    async def _collapse_quantum_state(self, agent_id: str, state: QIConsciousnessState) -> str:
         """Collapse quantum superposition to definite state"""
         if state.state_type != ConsciousnessState.SUPERPOSITION:
             return state.state_type.value
@@ -671,13 +643,9 @@ class QIConsciousnessHub:
             except Exception as e:
                 logger.error(f"Generic event routing failed: {e}")
 
-        return ProcessingResult(
-            success=True, data={"status": "processed", "mode": "generic"}
-        )
+        return ProcessingResult(success=True, data={"status": "processed", "mode": "generic"})
 
-    async def get_consciousness_state(
-        self, agent_id: str
-    ) -> Optional[QIConsciousnessState]:
+    async def get_consciousness_state(self, agent_id: str) -> Optional[QIConsciousnessState]:
         """Get current consciousness state for an agent"""
         return self.current_states.get(agent_id)
 
@@ -726,9 +694,7 @@ class QIConsciousnessHub:
 
         # Reduce coherence for rapid state changes
         recent_states = [
-            s
-            for s in self.state_history[-10:]
-            if s.timestamp > datetime.now().timestamp() - 300
+            s for s in self.state_history[-10:] if s.timestamp > datetime.now().timestamp() - 300
         ]
         state_changes = len({s.state_type for s in recent_states})
 
@@ -745,9 +711,7 @@ class QIConsciousnessHub:
 
         # Gather historical data
         agent_history = [
-            s
-            for s in self.state_history
-            if hasattr(s, "agent_id") and s.agent_id == agent_id
+            s for s in self.state_history if hasattr(s, "agent_id") and s.agent_id == agent_id
         ]
 
         report = {

@@ -16,10 +16,10 @@ from .security_engine import SecurityEngine
 __all__ = [
     "SecurityEngine",
     "SecurityError",
+    "check_safety_flags",
+    "log_incident",
     "safe_eval",
     "safe_subprocess_run",
     "sanitize_input",
-    "check_safety_flags",
     "shutdown_systems",
-    "log_incident",
 ]

@@ -56,9 +56,7 @@ from typing import Any, Optional
 # Module metadata
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
-__description__ = (
-    "Quantum-inspired and bio-inspired AI processing with constitutional safety"
-)
+__description__ = "Quantum-inspired and bio-inspired AI processing with constitutional safety"
 
 # Feature flags
 QI_ACTIVE = os.getenv("QI_ACTIVE", "false").lower() == "true"
@@ -91,9 +89,7 @@ except ImportError as e:
             self._initialized = True
             return True
 
-        def process_with_constitutional_safety(
-            self, input_data: dict[str, Any]
-        ) -> dict[str, Any]:
+        def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "processed": False,
                 "fallback": True,
@@ -275,9 +271,9 @@ __all__ = [
 if _QI_WRAPPER_AVAILABLE:
     __all__.extend(
         [
-            "QIInspiredProcessor",
             "BioInspiredProcessor",
             "ConstitutionalSafetyGuard",
+            "QIInspiredProcessor",
             "QIIntegration",
         ]
     )

@@ -50,9 +50,7 @@ class GlyphPair:
     def measure_state(self, observer_id: str) -> str:
         """Measure quantum state (collapses to deterministic glyph)"""
         # Quantum measurement simulation
-        measurement_seed = (
-            f"{self.pair_id}_{observer_id}_{datetime.utcnow().timestamp()}"
-        )
+        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.utcnow().timestamp()}"
         measurement_hash = hashlib.blake3(measurement_seed.encode()).hexdigest()
 
         # Use hash to determine which glyph is observed
@@ -304,8 +302,7 @@ class QIGlyphSystem:
         response_candidates = [
             pid
             for pid in pair_ids
-            if pid != challenge_pair_id
-            and (challenge_pair_id, pid) in self.correlation_matrix
+            if pid != challenge_pair_id and (challenge_pair_id, pid) in self.correlation_matrix
         ]
 
         if not response_candidates:
@@ -340,9 +337,7 @@ class QIGlyphSystem:
         logger.info(
             f"   Challenge: {challenge_pair.primary_glyph}↔{challenge_pair.secondary_glyph}"
         )
-        logger.info(
-            f"   Response: {response_pair.primary_glyph}↔{response_pair.secondary_glyph}"
-        )
+        logger.info(f"   Response: {response_pair.primary_glyph}↔{response_pair.secondary_glyph}")
         logger.info(f"   Expected correlation: {expected_correlation:.3f}")
 
         return auth
@@ -398,12 +393,8 @@ class QIGlyphSystem:
             auth.verification_time = datetime.utcnow()
 
             # Update trust scores
-            auth.challenge_pair.trust_score = min(
-                1.0, auth.challenge_pair.trust_score + 0.1
-            )
-            auth.response_pair.trust_score = min(
-                1.0, auth.response_pair.trust_score + 0.1
-            )
+            auth.challenge_pair.trust_score = min(1.0, auth.challenge_pair.trust_score + 0.1)
+            auth.response_pair.trust_score = min(1.0, auth.response_pair.trust_score + 0.1)
 
             logger.info(f"✅ Quantum authentication verified: {auth_id}")
             logger.info(
@@ -419,12 +410,8 @@ class QIGlyphSystem:
             )
 
             # Reduce trust scores
-            auth.challenge_pair.trust_score = max(
-                0.0, auth.challenge_pair.trust_score - 0.2
-            )
-            auth.response_pair.trust_score = max(
-                0.0, auth.response_pair.trust_score - 0.2
-            )
+            auth.challenge_pair.trust_score = max(0.0, auth.challenge_pair.trust_score - 0.2)
+            auth.response_pair.trust_score = max(0.0, auth.response_pair.trust_score - 0.2)
 
             return False
 
@@ -452,9 +439,7 @@ class QIGlyphSystem:
             return []
 
         entangled_ids = self.entanglement_network[pair_id]
-        return [
-            self.glyph_pairs[pid] for pid in entangled_ids if pid in self.glyph_pairs
-        ]
+        return [self.glyph_pairs[pid] for pid in entangled_ids if pid in self.glyph_pairs]
 
     def measure_glyph_state(self, pair_id: str, observer_id: str) -> Optional[str]:
         """Measure the quantum state of a glyph pair"""
@@ -501,9 +486,7 @@ class QIGlyphSystem:
                 "total": len(self.authentication_log),
                 "verified": verified_auths,
                 "success_rate": (
-                    verified_auths / len(self.authentication_log)
-                    if self.authentication_log
-                    else 0
+                    verified_auths / len(self.authentication_log) if self.authentication_log else 0
                 ),
             },
             "family_distribution": family_dist,
@@ -541,20 +524,14 @@ if __name__ == "__main__":
     auth = qgs.create_authentication_challenge("alice", "bob")
     if auth:
         # Simulate measurements
-        challenge_measurement = qgs.measure_glyph_state(
-            auth.challenge_pair.pair_id, "alice"
-        )
-        response_measurement = qgs.measure_glyph_state(
-            auth.response_pair.pair_id, "bob"
-        )
+        challenge_measurement = qgs.measure_glyph_state(auth.challenge_pair.pair_id, "alice")
+        response_measurement = qgs.measure_glyph_state(auth.response_pair.pair_id, "bob")
 
         if challenge_measurement and response_measurement:
             verified = qgs.verify_authentication(
                 auth.auth_id, challenge_measurement, response_measurement
             )
-            print(
-                f"   Authentication result: {'✅ VERIFIED' if verified else '❌ FAILED'}"
-            )
+            print(f"   Authentication result: {'✅ VERIFIED' if verified else '❌ FAILED'}")
 
     # Generate system report
     print("\n📊 Quantum System Report:")

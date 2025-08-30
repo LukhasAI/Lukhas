@@ -202,9 +202,7 @@ class CircuitBreaker:
 
         if self.failure_count >= self.failure_threshold:
             self.state = "open"
-            logger.warning(
-                f"Circuit breaker opened after {self.failure_count} failures"
-            )
+            logger.warning(f"Circuit breaker opened after {self.failure_count} failures")
 
     def can_proceed(self) -> bool:
         """Check if operation can proceed"""
@@ -277,9 +275,7 @@ class SupervisorActor(Actor):
 
         try:
             # Create the child actor
-            child_ref = await super().create_child(
-                child_class, child_id, *args, **kwargs
-            )
+            child_ref = await super().create_child(child_class, child_id, *args, **kwargs)
 
             # Store metadata for supervision
             self.child_metadata[child_id] = {
@@ -329,10 +325,7 @@ class SupervisorActor(Actor):
         # Get supervision directive
         directive = await self.supervision_decider.decide(failure)
 
-        logger.info(
-            f"Supervisor {self.actor_id} handling failure of {child_id}: "
-            f"{directive.value}"
-        )
+        logger.info(f"Supervisor {self.actor_id} handling failure of {child_id}: {directive.value}")
 
         if self.enable_self_repair:
             try:
@@ -380,10 +373,7 @@ class SupervisorActor(Actor):
             restart_count = metadata.get("restart_count", 1)
             delay = self.supervision_strategy.calculate_restart_delay(restart_count)
 
-            logger.info(
-                f"Restarting child {child_id} after {delay:.2f}s "
-                f"(attempt {restart_count})"
-            )
+            logger.info(f"Restarting child {child_id} after {delay:.2f}s (attempt {restart_count})")
 
             # Stop the old instance
             if child_id in self.children:
@@ -560,7 +550,6 @@ async def demo_supervision():
     # Create a middle-tier supervisor with OneForOne strategy
 
     class DepartmentSupervisor(SupervisorActor):
-
         def __init__(self, actor_id: str, department: str):
             super().__init__(
                 actor_id,
@@ -569,9 +558,7 @@ async def demo_supervision():
                     within_time_window=60.0,
                     restart_policy=RestartPolicy.ON_FAILURE,
                 ),
-                supervision_decider=OneForOneStrategy(
-                    SupervisionStrategy(max_failures=3)
-                ),
+                supervision_decider=OneForOneStrategy(SupervisionStrategy(max_failures=3)),
             )
             self.department = department
 

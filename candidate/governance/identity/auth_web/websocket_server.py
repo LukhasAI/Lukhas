@@ -279,9 +279,7 @@ class DashboardWebSocketServer:
             StreamType.PREDICTIONS: self._handle_predictions_stream,
         }
 
-        self.logger.info(
-            "Stream handlers configured", handlers=len(self.stream_handlers)
-        )
+        self.logger.info("Stream handlers configured", handlers=len(self.stream_handlers))
 
     async def _start_background_tasks(self):
         """Start background tasks for data streaming."""
@@ -292,9 +290,7 @@ class DashboardWebSocketServer:
         # Data collection tasks for each stream type
         for stream_type in StreamType:
             if stream_type != StreamType.ALL_STREAMS:
-                self.background_tasks.append(
-                    asyncio.create_task(self._data_collector(stream_type))
-                )
+                self.background_tasks.append(asyncio.create_task(self._data_collector(stream_type)))
 
         # Client cleanup task
         self.background_tasks.append(asyncio.create_task(self._client_cleanup_task()))
@@ -312,9 +308,7 @@ class DashboardWebSocketServer:
             try:
                 requested_stream = StreamType(stream_type)
             except ValueError:
-                await websocket.close(
-                    code=4000, reason=f"Invalid stream type: {stream_type}"
-                )
+                await websocket.close(code=4000, reason=f"Invalid stream type: {stream_type}")
                 return
 
             # Accept connection
@@ -382,9 +376,7 @@ class DashboardWebSocketServer:
             "type": "welcome",
             "client_id": client.client_id,
             "server_id": self.server_id,
-            "subscribed_streams": [
-                stream.value for stream in client.subscribed_streams
-            ],
+            "subscribed_streams": [stream.value for stream in client.subscribed_streams],
             "server_capabilities": [stream.value for stream in StreamType],
             "timestamp": datetime.now().isoformat(),
         }
@@ -443,9 +435,7 @@ class DashboardWebSocketServer:
                 error=str(e),
             )
 
-    async def _handle_dashboard_interaction(
-        self, client: StreamClient, data: dict[str, Any]
-    ):
+    async def _handle_dashboard_interaction(self, client: StreamClient, data: dict[str, Any]):
         """Handle dashboard interaction events from clients."""
 
         interaction_type = data.get("interaction_type", "")
@@ -589,14 +579,10 @@ class DashboardWebSocketServer:
                     # Remove inactive clients
                     for client_id in clients_to_remove:
                         del self.clients[client_id]
-                        self.logger.info(
-                            "Cleaned up inactive client", client_id=client_id
-                        )
+                        self.logger.info("Cleaned up inactive client", client_id=client_id)
 
                     if clients_to_remove:
-                        self.performance_metrics["clients_connected"] = len(
-                            self.clients
-                        )
+                        self.performance_metrics["clients_connected"] = len(self.clients)
 
                 await asyncio.sleep(60)  # Run cleanup every minute
 
@@ -737,12 +723,8 @@ class DashboardWebSocketServer:
         """Get system health summary for metrics endpoint."""
         summary = {
             "dashboard": "operational" if self.dashboard else "unavailable",
-            "oracle_integration": (
-                "operational" if self.oracle_nervous_system else "unavailable"
-            ),
-            "ethics_integration": (
-                "operational" if self.ethics_swarm else "unavailable"
-            ),
+            "oracle_integration": ("operational" if self.oracle_nervous_system else "unavailable"),
+            "ethics_integration": ("operational" if self.ethics_swarm else "unavailable"),
             "colony_agents": len(self.colony_agents),
             "active_streams": len(self.stream_handlers),
         }
@@ -760,9 +742,7 @@ class DashboardWebSocketServer:
         await self.initialize()
 
         # Start FastAPI server
-        config = uvicorn.Config(
-            app=self.app, host=self.host, port=self.port, log_level="info"
-        )
+        config = uvicorn.Config(app=self.app, host=self.host, port=self.port, log_level="info")
         server = uvicorn.Server(config)
         await server.serve()
 

@@ -134,9 +134,7 @@ class FactNode(CognitiveNode):
             # Create success state
             state = NodeState(
                 confidence=confidence,
-                salience=min(
-                    0.9, 0.4 + confidence * 0.5
-                ),  # Higher confidence = higher salience
+                salience=min(0.9, 0.4 + confidence * 0.5),  # Higher confidence = higher salience
                 valence=0.7,  # Positive - found answer
                 utility=0.8,  # High utility for factual information
                 novelty=max(0.1, 1.0 - confidence),  # Lower confidence = higher novelty
@@ -334,10 +332,8 @@ class FactNode(CognitiveNode):
 
             # Validate provenance
             provenance = matriz_node.get("provenance", {})
-            if (
-                "producer" not in provenance
-                or "factual_knowledge_retrieval"
-                not in provenance.get("capabilities", [])
+            if "producer" not in provenance or "factual_knowledge_retrieval" not in provenance.get(
+                "capabilities", []
             ):
                 return False
 
@@ -581,9 +577,7 @@ class FactNode(CognitiveNode):
         for kb_question, kb_data in self.knowledge_base.items():
             # Calculate similarity scores
             exact_match = question == kb_question
-            similarity_score = difflib.SequenceMatcher(
-                None, question, kb_question
-            ).ratio()
+            similarity_score = difflib.SequenceMatcher(None, question, kb_question).ratio()
 
             # Check keyword matches
             question_words = set(question.split())
@@ -592,9 +586,7 @@ class FactNode(CognitiveNode):
                 for keyword in kb_data["keywords"]
                 if any(keyword in word or word in keyword for word in question_words)
             )
-            keyword_ratio = (
-                keyword_matches / len(kb_data["keywords"]) if kb_data["keywords"] else 0
-            )
+            keyword_ratio = keyword_matches / len(kb_data["keywords"]) if kb_data["keywords"] else 0
 
             # Combine similarity scores with better weighting
             # Only use keyword matching if there's some baseline similarity
@@ -606,34 +598,22 @@ class FactNode(CognitiveNode):
             # Determine match type and confidence
             if exact_match:
                 match_type = "exact_match"
-                confidence = (
-                    self.confidence_weights["exact_match"] * kb_data["certainty"]
-                )
+                confidence = self.confidence_weights["exact_match"] * kb_data["certainty"]
             elif combined_score >= 0.7:
                 match_type = "high_similarity"
-                confidence = (
-                    self.confidence_weights["high_similarity"] * kb_data["certainty"]
-                )
+                confidence = self.confidence_weights["high_similarity"] * kb_data["certainty"]
             elif combined_score >= 0.5:
                 match_type = "medium_similarity"
-                confidence = (
-                    self.confidence_weights["medium_similarity"] * kb_data["certainty"]
-                )
+                confidence = self.confidence_weights["medium_similarity"] * kb_data["certainty"]
             elif combined_score >= self.match_threshold:
                 match_type = "low_similarity"
-                confidence = (
-                    self.confidence_weights["low_similarity"] * kb_data["certainty"]
-                )
+                confidence = self.confidence_weights["low_similarity"] * kb_data["certainty"]
             else:
                 continue  # Below threshold, skip
 
             # Apply fuzzy penalty if not exact match (but less aggressive)
             if not exact_match:
-                confidence -= (
-                    self.confidence_weights["fuzzy_penalty"]
-                    * (1 - combined_score)
-                    * 0.5
-                )
+                confidence -= self.confidence_weights["fuzzy_penalty"] * (1 - combined_score) * 0.5
 
             # Ensure confidence is in valid range
             confidence = max(0.1, min(1.0, confidence))
@@ -797,9 +777,7 @@ if __name__ == "__main__":
 
         try:
             # Process the question
-            result = fact_node.process(
-                {"question": question, "context": {"test_case": i}}
-            )
+            result = fact_node.process({"question": question, "context": {"test_case": i}})
 
             # Validate output
             is_valid = fact_node.validate_output(result)
@@ -825,9 +803,7 @@ if __name__ == "__main__":
                 actual_type = "low_confidence"
 
             type_matches = actual_type == expected_type
-            print(
-                f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}"
-            )
+            print(f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}")
 
             # Show MATRIZ node details
             matriz_node = result["matriz_node"]
@@ -860,11 +836,11 @@ if __name__ == "__main__":
                 print("✗ FAIL")
 
         except Exception as e:
-            print(f"✗ EXCEPTION: {str(e)}")
+            print(f"✗ EXCEPTION: {e!s}")
 
     print("\n" + "=" * 55)
     print(
-        f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)"
+        f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)"
     )
     print(f"Processing History: {len(fact_node.get_trace())} MATRIZ nodes created")
     print(f"Knowledge Base Size: {len(fact_node.knowledge_base)} facts")

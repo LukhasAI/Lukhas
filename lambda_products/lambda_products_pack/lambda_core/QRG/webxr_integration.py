@@ -231,18 +231,12 @@ class WebXRIntegration:
         for platform in XRPlatform:
             if WEBXR_LIBS_AVAILABLE:
                 # In production, would initialize actual platform interfaces
-                self.platform_interfaces[platform] = self._create_platform_interface(
-                    platform
-                )
+                self.platform_interfaces[platform] = self._create_platform_interface(platform)
             else:
                 # Mock interfaces for development
-                self.platform_interfaces[platform] = (
-                    self._create_mock_platform_interface(platform)
-                )
+                self.platform_interfaces[platform] = self._create_mock_platform_interface(platform)
 
-        logger.info(
-            f"🔧 Initialized {len(self.platform_interfaces)} XR platform interfaces"
-        )
+        logger.info(f"🔧 Initialized {len(self.platform_interfaces)} XR platform interfaces")
 
     def create_holographic_glyph(
         self,
@@ -305,9 +299,7 @@ class WebXRIntegration:
         )
 
         # Create interaction zones
-        interaction_zones = self._create_interaction_zones(
-            spatial_origin, mode, target_platform
-        )
+        interaction_zones = self._create_interaction_zones(spatial_origin, mode, target_platform)
 
         # Apply consciousness adaptations
         consciousness_adaptations = {}
@@ -548,9 +540,7 @@ class WebXRIntegration:
             center_x, center_y = width // 2, height // 2
 
             for angle in range(0, 360, 30):  # 12 orbital elements
-                rad = math.radians(
-                    angle + orbital_number * 30
-                )  # Offset by orbital number
+                rad = math.radians(angle + orbital_number * 30)  # Offset by orbital number
                 orbit_radius = min(width, height) // 4
 
                 x = int(center_x + orbit_radius * math.cos(rad))
@@ -603,9 +593,7 @@ class WebXRIntegration:
 
                     # Portal spiral effect
                     angle = math.atan2(y - center_y, x - center_x)
-                    spiral_effect = (
-                        np.sin(angle * 3 + depth_factor * 10 + time.time()) * 0.5 + 0.5
-                    )
+                    spiral_effect = np.sin(angle * 3 + depth_factor * 10 + time.time()) * 0.5 + 0.5
 
                     if distance < min(width, height) // 3:  # Within portal radius
                         portal_intensity = spiral_effect * (
@@ -930,9 +918,7 @@ class WebXRIntegration:
         spatial_transforms = self._calculate_spatial_transforms(glyph, user_position)
 
         # Render holographic layers
-        rendered_layers = self._render_layers(
-            glyph, spatial_transforms, consciousness_state
-        )
+        rendered_layers = self._render_layers(glyph, spatial_transforms, consciousness_state)
 
         # Process interaction zones
         active_zones = self._process_interaction_zones(glyph, user_position)
@@ -1007,9 +993,7 @@ class WebXRIntegration:
             # Apply consciousness adaptations to layer
             layer_opacity = layer.opacity
             if consciousness_state and self.enable_consciousness_adaptation:
-                consciousness_factor = consciousness_state.get(
-                    "consciousness_coherence", 1.0
-                )
+                consciousness_factor = consciousness_state.get("consciousness_coherence", 1.0)
                 layer_opacity *= layer.consciousness_weight * consciousness_factor
 
             # Apply spatial transformations
@@ -1094,17 +1078,11 @@ class WebXRIntegration:
             "current_time": current_time,
             "base_speed": base_speed,
             "breathing_phase": math.sin(current_time * breathing_freq * 2 * math.pi),
-            "rotation_angle": (
-                current_time * temporal_dynamics.get("rotation_speed", 0)
-            )
-            % 360,
+            "rotation_angle": (current_time * temporal_dynamics.get("rotation_speed", 0)) % 360,
             "float_offset": temporal_dynamics.get("float_amplitude", 0.0)
             * math.sin(current_time * 2),
             "pulse_intensity": 0.5
-            + 0.5
-            * math.sin(
-                current_time * temporal_dynamics.get("pulse_rate", 1.0) * 2 * math.pi
-            ),
+            + 0.5 * math.sin(current_time * temporal_dynamics.get("pulse_rate", 1.0) * 2 * math.pi),
         }
 
         # Mode-specific animations
@@ -1189,9 +1167,7 @@ class WebXRIntegration:
                         "opacity": layer["effective_opacity"],
                     },
                     "position": [0, 0, layer["transformed_depth"]],
-                    "animation": {
-                        "rotation_speed": animation_data.get("rotation_angle", 0)
-                    },
+                    "animation": {"rotation_speed": animation_data.get("rotation_angle", 0)},
                 }
                 commands.append(command)
 
@@ -1246,9 +1222,7 @@ class WebXRIntegration:
                 logger.info(f"🎭 Mock rendering for {self.platform_name}")
                 return True
 
-            def handle_interaction(
-                self, interaction_data: dict[str, Any]
-            ) -> dict[str, Any]:
+            def handle_interaction(self, interaction_data: dict[str, Any]) -> dict[str, Any]:
                 return {"status": "handled", "platform": self.platform_name}
 
         return MockPlatformInterface(platform.value)

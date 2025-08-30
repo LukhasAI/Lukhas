@@ -24,8 +24,8 @@ except ImportError as e:
     Integrator = None
 
 __all__ = [
-    "TokenMap",
     "Integrator",
+    "TokenMap",
 ]
 
 # Filter out None values from __all__ if imports failed

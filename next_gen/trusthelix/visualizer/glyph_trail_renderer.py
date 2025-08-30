@@ -86,9 +86,7 @@ class GlyphTrailRenderer:
     ):
         """Track a single glyph mutation"""
         # Determine glyph category
-        category = self._get_glyph_category(from_glyph) or self._get_glyph_category(
-            to_glyph
-        )
+        category = self._get_glyph_category(from_glyph) or self._get_glyph_category(to_glyph)
 
         if not category:
             logger.warning(f"Unknown glyph category for {from_glyph} → {to_glyph}")
@@ -151,11 +149,7 @@ class GlyphTrailRenderer:
         for pattern in self.REVERSAL_PATTERNS.values():
             # Check if current sequence matches a reversal pattern
             for i in range(len(pattern) - 1):
-                if (
-                    len(trail) >= 1
-                    and trail[-1] == pattern[i]
-                    and new_glyph == pattern[i + 1]
-                ):
+                if len(trail) >= 1 and trail[-1] == pattern[i] and new_glyph == pattern[i + 1]:
                     return True
 
         return False
@@ -234,9 +228,7 @@ class GlyphTrailRenderer:
             return {
                 "total_reversals": reversal_count,
                 "reversal_rate": (
-                    reversal_count / len(self.global_patterns)
-                    if self.global_patterns
-                    else 0
+                    reversal_count / len(self.global_patterns) if self.global_patterns else 0
                 ),
                 "common_reversals": self._get_common_reversals(),
             }
@@ -251,14 +243,9 @@ class GlyphTrailRenderer:
                 reversal_counts[key] = reversal_counts.get(key, 0) + 1
 
         # Sort by frequency
-        sorted_reversals = sorted(
-            reversal_counts.items(), key=lambda x: x[1], reverse=True
-        )
+        sorted_reversals = sorted(reversal_counts.items(), key=lambda x: x[1], reverse=True)
 
-        return [
-            {"pattern": pattern, "count": count}
-            for pattern, count in sorted_reversals[:5]
-        ]
+        return [{"pattern": pattern, "count": count} for pattern, count in sorted_reversals[:5]]
 
     def export_visual_manifest(self) -> dict:
         """Export complete visual manifest"""
@@ -302,13 +289,10 @@ class GlyphTrailRenderer:
             mutation_counts[key] = mutation_counts.get(key, 0) + 1
 
         # Sort by frequency
-        sorted_mutations = sorted(
-            mutation_counts.items(), key=lambda x: x[1], reverse=True
-        )
+        sorted_mutations = sorted(mutation_counts.items(), key=lambda x: x[1], reverse=True)
 
         return [
-            {"mutation": mutation, "frequency": count}
-            for mutation, count in sorted_mutations[:10]
+            {"mutation": mutation, "frequency": count} for mutation, count in sorted_mutations[:10]
         ]
 
     def render_symbolic_reversal(self, glyph_sequence: list[str]) -> str:
@@ -366,18 +350,14 @@ if __name__ == "__main__":
     print("\n⟲ Reversal Report:")
     print(f"   Total reversals: {reversal_report['reversals']}")
     for detail in reversal_report["details"]:
-        print(
-            f"   - {detail['category']}: position {detail['at_position']} ({detail['glyph']})"
-        )
+        print(f"   - {detail['category']}: position {detail['at_position']} ({detail['glyph']})")
 
     # Export manifest
     manifest = renderer.export_visual_manifest()
     print("\n📋 Visual Manifest Summary:")
     print(f"   Total users: {manifest['total_users']}")
     print(f"   Total mutations: {manifest['total_mutations']}")
-    print(
-        f"   Category distribution: {manifest['statistics']['category_distribution']}"
-    )
+    print(f"   Category distribution: {manifest['statistics']['category_distribution']}")
 
     # Show symbolic reversal
     reversal_seq = ["🌸", "🪷", "🥀", "🌫️"]

@@ -27,11 +27,11 @@ except ImportError:
     # Neural integrator not available due to torch dependency
     pass
 __all__ = [
+    "AdaptiveNeuralNetwork",
+    "NeuralArchitectureType",
+    "NeuralContext",
     "NeuralIntegrator",
     "NeuralMode",
-    "NeuralArchitectureType",
     "NeuralPattern",
-    "NeuralContext",
-    "AdaptiveNeuralNetwork",
     "get_neural_integrator",
 ]

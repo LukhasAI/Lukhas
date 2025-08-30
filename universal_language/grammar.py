@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class SyntaxType(Enum):
     """Types of syntactic structures"""
+
     STATEMENT = "statement"  # Declarative statement
     QUESTION = "question"  # Interrogative
     COMMAND = "command"  # Imperative
@@ -31,6 +32,7 @@ class SyntaxType(Enum):
 
 class GrammaticalRole(Enum):
     """Grammatical roles for symbols/concepts"""
+
     SUBJECT = "subject"  # Actor/agent
     VERB = "verb"  # Action/process
     OBJECT = "object"  # Target/patient
@@ -48,6 +50,7 @@ class SyntaxRule:
 
     Based on patterns from the missing LUKHAS Grammar.
     """
+
     rule_id: str
     name: str
     pattern: str  # Pattern using grammatical roles
@@ -90,6 +93,7 @@ class SyntaxRule:
 @dataclass
 class ParsedStructure:
     """Result of parsing a sequence of symbols/concepts"""
+
     syntax_type: SyntaxType
     elements: list[Union[Symbol, Concept]]
     roles: list[GrammaticalRole]
@@ -106,13 +110,12 @@ class ParsedStructure:
         """Convert to dictionary representation"""
         return {
             "syntax_type": self.syntax_type.value,
-            "elements": [e.to_dict() if hasattr(e, "to_dict") else str(e)
-                        for e in self.elements],
+            "elements": [e.to_dict() if hasattr(e, "to_dict") else str(e) for e in self.elements],
             "roles": [r.value for r in self.roles],
             "rule": self.rule_applied.name if self.rule_applied else None,
             "confidence": self.confidence,
             "violations": self.violations,
-            "valid": self.is_valid()
+            "valid": self.is_valid(),
         }
 
 
@@ -134,9 +137,8 @@ class GrammarValidator:
             pattern="subject verb object",
             syntax_type=SyntaxType.STATEMENT,
             domains=[SymbolicDomain.ACTION],
-            required_roles=[GrammaticalRole.SUBJECT, GrammaticalRole.VERB,
-                          GrammaticalRole.OBJECT],
-            priority=100
+            required_roles=[GrammaticalRole.SUBJECT, GrammaticalRole.VERB, GrammaticalRole.OBJECT],
+            priority=100,
         )
         self.rules.append(svo_rule)
 
@@ -148,7 +150,7 @@ class GrammarValidator:
             syntax_type=SyntaxType.STATEMENT,
             domains=[SymbolicDomain.ACTION, SymbolicDomain.STATE],
             required_roles=[GrammaticalRole.SUBJECT, GrammaticalRole.VERB],
-            priority=90
+            priority=90,
         )
         self.rules.append(sv_rule)
 
@@ -161,7 +163,7 @@ class GrammarValidator:
             domains=[SymbolicDomain.CONTEXT],
             required_roles=[GrammaticalRole.VERB, GrammaticalRole.SUBJECT],
             optional_roles=[GrammaticalRole.OBJECT],
-            priority=80
+            priority=80,
         )
         self.rules.append(question_rule)
 
@@ -172,9 +174,12 @@ class GrammarValidator:
             pattern="connector subject verb object connector subject verb object",
             syntax_type=SyntaxType.CONDITIONAL,
             domains=[SymbolicDomain.CONTEXT, SymbolicDomain.ACTION],
-            required_roles=[GrammaticalRole.CONNECTOR, GrammaticalRole.SUBJECT,
-                          GrammaticalRole.VERB],
-            priority=70
+            required_roles=[
+                GrammaticalRole.CONNECTOR,
+                GrammaticalRole.SUBJECT,
+                GrammaticalRole.VERB,
+            ],
+            priority=70,
         )
         self.rules.append(conditional_rule)
 
@@ -183,8 +188,9 @@ class GrammarValidator:
         self.rules.append(rule)
         logger.info(f"Added grammar rule: {rule.name}")
 
-    def validate(self, elements: list[Union[Symbol, Concept]],
-                roles: list[GrammaticalRole]) -> tuple[bool, list[str]]:
+    def validate(
+        self, elements: list[Union[Symbol, Concept]], roles: list[GrammaticalRole]
+    ) -> tuple[bool, list[str]]:
         """Validate a sequence against all rules"""
         violations = []
 
@@ -236,21 +242,16 @@ class LanguageParser:
         return {
             # Subjects (entities, actors)
             r"^(agent|actor|entity|self|user|system)": GrammaticalRole.SUBJECT,
-
             # Verbs (actions, processes)
             r"^(create|destroy|modify|process|think|feel|do|be|have)": GrammaticalRole.VERB,
-
             # Objects (targets, patients)
             r"^(target|goal|object|data|result|output)": GrammaticalRole.OBJECT,
-
             # Modifiers
             r"^(very|much|little|fast|slow|good|bad)": GrammaticalRole.MODIFIER,
-
             # Connectors
             r"^(and|or|but|if|then|when|while)": GrammaticalRole.CONNECTOR,
-
             # Quantifiers
-            r"^(all|some|none|many|few|one|two|three)": GrammaticalRole.QUANTIFIER
+            r"^(all|some|none|many|few|one|two|three)": GrammaticalRole.QUANTIFIER,
         }
 
     def detect_role(self, element: Union[Symbol, Concept]) -> GrammaticalRole:
@@ -278,7 +279,7 @@ class LanguageParser:
             SymbolicDomain.STATE: GrammaticalRole.MODIFIER,
             SymbolicDomain.EMOTION: GrammaticalRole.MODIFIER,
             SymbolicDomain.ETHICS: GrammaticalRole.CONTEXT,
-            SymbolicDomain.CONTEXT: GrammaticalRole.CONTEXT
+            SymbolicDomain.CONTEXT: GrammaticalRole.CONTEXT,
         }
 
         return domain_defaults.get(domain, GrammaticalRole.CONTEXT)
@@ -312,7 +313,7 @@ class LanguageParser:
             roles=roles,
             rule_applied=matching_rules[0] if matching_rules else None,
             confidence=confidence,
-            violations=violations
+            violations=violations,
         )
 
         return parsed
@@ -339,10 +340,7 @@ class LanguageParser:
         if GrammaticalRole.SUBJECT not in parsed.roles:
             # Insert default subject at beginning
             default_subject = Symbol(
-                id="DEFAULT_SUBJECT",
-                domain=SymbolicDomain.CONTEXT,
-                name="system",
-                value="system"
+                id="DEFAULT_SUBJECT", domain=SymbolicDomain.CONTEXT, name="system", value="system"
             )
             corrected_elements = [default_subject] + parsed.elements
             corrected_roles = [GrammaticalRole.SUBJECT] + parsed.roles
@@ -352,33 +350,31 @@ class LanguageParser:
         if GrammaticalRole.VERB not in parsed.roles:
             # Insert default verb after subject
             default_verb = Symbol(
-                id="DEFAULT_VERB",
-                domain=SymbolicDomain.ACTION,
-                name="process",
-                value="process"
+                id="DEFAULT_VERB", domain=SymbolicDomain.ACTION, name="process", value="process"
             )
             # Find subject position
             if GrammaticalRole.SUBJECT in parsed.roles:
                 subject_idx = parsed.roles.index(GrammaticalRole.SUBJECT)
-                corrected_elements = (parsed.elements[:subject_idx+1] +
-                                    [default_verb] +
-                                    parsed.elements[subject_idx+1:])
-                corrected_roles = (parsed.roles[:subject_idx+1] +
-                                 [GrammaticalRole.VERB] +
-                                 parsed.roles[subject_idx+1:])
+                corrected_elements = (
+                    parsed.elements[: subject_idx + 1]
+                    + [default_verb]
+                    + parsed.elements[subject_idx + 1 :]
+                )
+                corrected_roles = (
+                    parsed.roles[: subject_idx + 1]
+                    + [GrammaticalRole.VERB]
+                    + parsed.roles[subject_idx + 1 :]
+                )
                 corrections.append((corrected_elements, corrected_roles))
 
         # Try each correction
         for corrected_elements, corrected_roles in corrections:
             corrected_parsed = ParsedStructure(
-                syntax_type=parsed.syntax_type,
-                elements=corrected_elements,
-                roles=corrected_roles
+                syntax_type=parsed.syntax_type, elements=corrected_elements, roles=corrected_roles
             )
 
             # Validate correction
-            is_valid, violations = self.validator.validate(corrected_elements,
-                                                          corrected_roles)
+            is_valid, violations = self.validator.validate(corrected_elements, corrected_roles)
             if is_valid:
                 corrected_parsed.violations = []
                 corrected_parsed.confidence = 0.7  # Lower confidence for corrections
@@ -419,8 +415,9 @@ class GrammarEngine:
         # Validate
         return self.validator.validate(elements, roles)
 
-    def parse_sequence(self, elements: list[Union[Symbol, Concept]],
-                      auto_correct: bool = False) -> ParsedStructure:
+    def parse_sequence(
+        self, elements: list[Union[Symbol, Concept]], auto_correct: bool = False
+    ) -> ParsedStructure:
         """Parse a sequence of elements"""
         if auto_correct:
             return self.parser.parse_with_correction(elements)
@@ -445,11 +442,10 @@ class GrammarEngine:
             "core_rules": len(self.validator.rules),
             "custom_rules": len(self.custom_rules),
             "syntax_types": {
-                st.value: len([r for r in all_rules if r.syntax_type == st])
-                for st in SyntaxType
+                st.value: len([r for r in all_rules if r.syntax_type == st]) for st in SyntaxType
             },
             "active_rules": len([r for r in all_rules if r.active]),
-            "inactive_rules": len([r for r in all_rules if not r.active])
+            "inactive_rules": len([r for r in all_rules if not r.active]),
         }
 
 

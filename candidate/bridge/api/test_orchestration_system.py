@@ -60,15 +60,18 @@ except ImportError as e:
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class TestResult:
     """Test result container"""
+
     test_name: str
     success: bool
     latency_ms: float = 0.0
     error: str = ""
     metrics: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 class OrchestrationTestSuite:
     """
@@ -98,13 +101,20 @@ class OrchestrationTestSuite:
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "expression": {"type": "string", "description": "Mathematical expression to evaluate"},
-                        "precision": {"type": "integer", "description": "Number of decimal places", "default": 2}
+                        "expression": {
+                            "type": "string",
+                            "description": "Mathematical expression to evaluate",
+                        },
+                        "precision": {
+                            "type": "integer",
+                            "description": "Number of decimal places",
+                            "default": 2,
+                        },
                     },
-                    "required": ["expression"]
+                    "required": ["expression"],
                 },
                 "handler": self._test_calculator_handler,
-                "security_level": "standard"
+                "security_level": "standard",
             },
             "test_memory_store": {
                 "description": "Store and retrieve test data",
@@ -113,27 +123,37 @@ class OrchestrationTestSuite:
                     "properties": {
                         "key": {"type": "string", "description": "Storage key"},
                         "value": {"type": "string", "description": "Value to store"},
-                        "action": {"type": "string", "enum": ["store", "retrieve"], "description": "Action to perform"}
+                        "action": {
+                            "type": "string",
+                            "enum": ["store", "retrieve"],
+                            "description": "Action to perform",
+                        },
                     },
-                    "required": ["key", "action"]
+                    "required": ["key", "action"],
                 },
                 "handler": self._test_memory_handler,
-                "security_level": "standard"
+                "security_level": "standard",
             },
             "test_latency_check": {
                 "description": "Test function for latency measurement",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "delay_ms": {"type": "integer", "description": "Artificial delay in milliseconds", "default": 0}
-                    }
+                        "delay_ms": {
+                            "type": "integer",
+                            "description": "Artificial delay in milliseconds",
+                            "default": 0,
+                        }
+                    },
                 },
                 "handler": self._test_latency_handler,
-                "security_level": "standard"
-            }
+                "security_level": "standard",
+            },
         }
 
-    async def _test_calculator_handler(self, expression: str, precision: int = 2, **kwargs) -> dict[str, Any]:
+    async def _test_calculator_handler(
+        self, expression: str, precision: int = 2, **kwargs
+    ) -> dict[str, Any]:
         """Test calculator function"""
         try:
             # Safe evaluation of simple mathematical expressions
@@ -145,12 +165,14 @@ class OrchestrationTestSuite:
             return {
                 "result": round(result, precision),
                 "expression": expression,
-                "precision": precision
+                "precision": precision,
             }
         except Exception as e:
             return {"error": str(e)}
 
-    async def _test_memory_handler(self, key: str, action: str, value: str = None, **kwargs) -> dict[str, Any]:
+    async def _test_memory_handler(
+        self, key: str, action: str, value: str = None, **kwargs
+    ) -> dict[str, Any]:
         """Test memory storage function"""
         if not hasattr(self, "_test_memory"):
             self._test_memory = {}
@@ -162,7 +184,12 @@ class OrchestrationTestSuite:
             return {"success": True, "action": "stored", "key": key}
         elif action == "retrieve":
             if key in self._test_memory:
-                return {"success": True, "action": "retrieved", "key": key, "value": self._test_memory[key]}
+                return {
+                    "success": True,
+                    "action": "retrieved",
+                    "key": key,
+                    "value": self._test_memory[key],
+                }
             else:
                 return {"error": f"Key '{key}' not found"}
         else:
@@ -181,7 +208,7 @@ class OrchestrationTestSuite:
         return {
             "requested_delay_ms": delay_ms,
             "actual_delay_ms": round(actual_delay, 2),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def run_all_tests(self) -> dict[str, Any]:
@@ -201,7 +228,7 @@ class OrchestrationTestSuite:
             ("Streaming Tests", self._test_streaming_capabilities),
             ("Performance Tests", self._test_performance_benchmarks),
             ("Security Tests", self._test_security_validation),
-            ("Integration Tests", self._test_api_integration)
+            ("Integration Tests", self._test_api_integration),
         ]
 
         category_results = {}
@@ -211,14 +238,16 @@ class OrchestrationTestSuite:
             try:
                 category_result = await test_function()
                 category_results[category_name] = category_result
-                logger.info(f"✅ {category_name} completed: {category_result.get('passed', 0)}/{category_result.get('total', 0)} passed")
+                logger.info(
+                    f"✅ {category_name} completed: {category_result.get('passed', 0)}/{category_result.get('total', 0)} passed"
+                )
             except Exception as e:
-                logger.error(f"❌ {category_name} failed: {str(e)}")
+                logger.error(f"❌ {category_name} failed: {e!s}")
                 category_results[category_name] = {
                     "passed": 0,
                     "failed": 1,
                     "total": 1,
-                    "error": str(e)
+                    "error": str(e),
                 }
 
         # Calculate overall results
@@ -239,10 +268,10 @@ class OrchestrationTestSuite:
                 "passed": total_passed,
                 "failed": total_failed,
                 "success_rate": success_rate,
-                "performance_target_met": total_time < 10000  # 10 second target for full suite
+                "performance_target_met": total_time < 10000,  # 10 second target for full suite
             },
             "category_results": category_results,
-            "individual_results": self.results
+            "individual_results": self.results,
         }
 
         # Log final summary
@@ -287,48 +316,52 @@ class OrchestrationTestSuite:
                         name=func_name,
                         description=func_def["description"],
                         parameters=func_def["parameters"],
-                        handler=func_def["handler"]
+                        handler=func_def["handler"],
                     )
                     bridge.register_function(function_definition)
 
             # Test function call
-            messages = [{"role": "user", "content": "Calculate 15 + 27 using the calculator function"}]
+            messages = [
+                {"role": "user", "content": "Calculate 15 + 27 using the calculator function"}
+            ]
 
             response = await bridge.complete_with_functions(
-                messages=messages,
-                function_mode=FunctionCallMode.AUTO,
-                execute_functions=True
+                messages=messages, function_mode=FunctionCallMode.AUTO, execute_functions=True
             )
 
             latency = (time.perf_counter() - test_start) * 1000
 
             # Validate response
             success = (
-                response.content and
-                len(response.function_calls) > 0 and
-                latency < 2000  # 2 second timeout
+                response.content
+                and len(response.function_calls) > 0
+                and latency < 2000  # 2 second timeout
             )
 
-            self.results.append(TestResult(
-                test_name="OpenAI Function Calling",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "function_calls": len(response.function_calls),
-                    "response_length": len(response.content)
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="OpenAI Function Calling",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "function_calls": len(response.function_calls),
+                        "response_length": len(response.content),
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="OpenAI Function Calling",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="OpenAI Function Calling",
+                    success=False,
+                    latency_ms=latency,
+                    error=str(e),
+                )
+            )
             return False
 
     async def _test_anthropic_tools(self) -> bool:
@@ -346,50 +379,54 @@ class OrchestrationTestSuite:
                         name=tool_name,
                         description=tool_def["description"],
                         input_schema=tool_def["input_schema"],
-                        handler=tool_def["handler"]
+                        handler=tool_def["handler"],
                     )
                     bridge.register_tool(tool_definition)
 
             # Test tool use
-            messages = [{"role": "user", "content": "Store 'Hello World' with key 'test_message' using the memory function"}]
+            messages = [
+                {
+                    "role": "user",
+                    "content": "Store 'Hello World' with key 'test_message' using the memory function",
+                }
+            ]
 
             response = await bridge.complete_with_tools(
-                messages=messages,
-                tool_mode=ToolUseMode.ENABLED,
-                execute_tools=True
+                messages=messages, tool_mode=ToolUseMode.ENABLED, execute_tools=True
             )
 
             latency = (time.perf_counter() - test_start) * 1000
 
             # Validate response
             success = (
-                response.content and
-                len(response.tool_uses) > 0 and
-                response.constitutional_score > 0.7 and
-                latency < 3000  # 3 second timeout for Anthropic
+                response.content
+                and len(response.tool_uses) > 0
+                and response.constitutional_score > 0.7
+                and latency < 3000  # 3 second timeout for Anthropic
             )
 
-            self.results.append(TestResult(
-                test_name="Anthropic Tool Use",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "tool_uses": len(response.tool_uses),
-                    "constitutional_score": response.constitutional_score,
-                    "response_length": len(response.content)
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Anthropic Tool Use",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "tool_uses": len(response.tool_uses),
+                        "constitutional_score": response.constitutional_score,
+                        "response_length": len(response.content),
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Anthropic Tool Use",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Anthropic Tool Use", success=False, latency_ms=latency, error=str(e)
+                )
+            )
             return False
 
     async def _test_consensus_algorithms(self) -> dict[str, Any]:
@@ -420,7 +457,7 @@ class OrchestrationTestSuite:
                 prompt="What is the capital of France? Please be concise.",
                 strategy=OrchestrationStrategy(strategy),
                 preferred_providers=[APIProvider.ALL],
-                max_latency_ms=5000
+                max_latency_ms=5000,
             )
 
             # Execute orchestration
@@ -430,34 +467,38 @@ class OrchestrationTestSuite:
 
             # Validate response
             success = (
-                response.content and
-                "paris" in response.content.lower() and
-                response.confidence_score > 0.5 and
-                latency < 6000  # 6 second timeout
+                response.content
+                and "paris" in response.content.lower()
+                and response.confidence_score > 0.5
+                and latency < 6000  # 6 second timeout
             )
 
-            self.results.append(TestResult(
-                test_name=f"Consensus Strategy: {strategy}",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "strategy": strategy,
-                    "providers": len(response.participating_providers),
-                    "confidence": response.confidence_score,
-                    "agreement_level": response.agreement_level
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name=f"Consensus Strategy: {strategy}",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "strategy": strategy,
+                        "providers": len(response.participating_providers),
+                        "confidence": response.confidence_score,
+                        "agreement_level": response.agreement_level,
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name=f"Consensus Strategy: {strategy}",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name=f"Consensus Strategy: {strategy}",
+                    success=False,
+                    latency_ms=latency,
+                    error=str(e),
+                )
+            )
             return False
 
     async def _test_streaming_capabilities(self) -> dict[str, Any]:
@@ -483,7 +524,7 @@ class OrchestrationTestSuite:
             request = OrchestrationRequest(
                 prompt="Count from 1 to 5, one number per line.",
                 preferred_providers=[APIProvider.OPENAI],
-                enable_functions=False
+                enable_functions=False,
             )
 
             chunks_received = 0
@@ -502,31 +543,35 @@ class OrchestrationTestSuite:
 
             # Validate streaming
             success = (
-                chunks_received > 0 and
-                len(content_received) > 0 and
-                latency < 12000  # 12 second timeout
+                chunks_received > 0
+                and len(content_received) > 0
+                and latency < 12000  # 12 second timeout
             )
 
-            self.results.append(TestResult(
-                test_name="Orchestration Streaming",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "chunks_received": chunks_received,
-                    "content_length": len(content_received)
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Orchestration Streaming",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "chunks_received": chunks_received,
+                        "content_length": len(content_received),
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Orchestration Streaming",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Orchestration Streaming",
+                    success=False,
+                    latency_ms=latency,
+                    error=str(e),
+                )
+            )
             return False
 
     async def _test_performance_benchmarks(self) -> dict[str, Any]:
@@ -561,39 +606,36 @@ class OrchestrationTestSuite:
                 prompt="Say 'Hello' in one word.",
                 strategy=OrchestrationStrategy.SINGLE_BEST,
                 preferred_providers=[APIProvider.OPENAI],
-                enable_functions=False
+                enable_functions=False,
             )
 
             response = await orchestrator.orchestrate(request)
             latency = (time.perf_counter() - test_start) * 1000
 
             # Performance target: <2000ms for simple request
-            success = (
-                response.content and
-                latency < 2000 and
-                response.total_latency_ms < 2000
-            )
+            success = response.content and latency < 2000 and response.total_latency_ms < 2000
 
-            self.results.append(TestResult(
-                test_name="Latency Benchmark",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "orchestration_latency": response.total_latency_ms,
-                    "target_met": latency < 1000  # <1s is excellent
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Latency Benchmark",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "orchestration_latency": response.total_latency_ms,
+                        "target_met": latency < 1000,  # <1s is excellent
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Latency Benchmark",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Latency Benchmark", success=False, latency_ms=latency, error=str(e)
+                )
+            )
             return False
 
     async def _test_throughput_benchmark(self) -> bool:
@@ -610,7 +652,7 @@ class OrchestrationTestSuite:
                     prompt=f"What is {i + 1} + {i + 1}?",
                     strategy=OrchestrationStrategy.SINGLE_BEST,
                     preferred_providers=[APIProvider.OPENAI],
-                    enable_functions=False
+                    enable_functions=False,
                 )
                 task = asyncio.create_task(orchestrator.orchestrate(request))
                 tasks.append(task)
@@ -621,37 +663,42 @@ class OrchestrationTestSuite:
 
             # Count successful responses
             successful_responses = sum(
-                1 for response in responses
+                1
+                for response in responses
                 if not isinstance(response, Exception) and response.content
             )
 
             # Success if at least 2/3 requests succeed
             success = (
-                successful_responses >= 2 and
-                latency < 8000  # 8 second timeout for 3 concurrent requests
+                successful_responses >= 2
+                and latency < 8000  # 8 second timeout for 3 concurrent requests
             )
 
-            self.results.append(TestResult(
-                test_name="Throughput Benchmark",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "concurrent_requests": len(tasks),
-                    "successful_responses": successful_responses,
-                    "requests_per_second": len(tasks) / (latency / 1000) if latency > 0 else 0
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Throughput Benchmark",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "concurrent_requests": len(tasks),
+                        "successful_responses": successful_responses,
+                        "requests_per_second": len(tasks) / (latency / 1000) if latency > 0 else 0,
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Throughput Benchmark",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Throughput Benchmark",
+                    success=False,
+                    latency_ms=latency,
+                    error=str(e),
+                )
+            )
             return False
 
     async def _test_security_validation(self) -> dict[str, Any]:
@@ -690,7 +737,7 @@ class OrchestrationTestSuite:
                         prompt=f"Process this input: {malicious_input}",
                         strategy=OrchestrationStrategy.SINGLE_BEST,
                         preferred_providers=[APIProvider.OPENAI],
-                        enable_functions=False
+                        enable_functions=False,
                     )
 
                     response = await orchestrator.orchestrate(request)
@@ -708,27 +755,28 @@ class OrchestrationTestSuite:
             # Success if most malicious inputs are handled safely
             success = successful_blocks >= len(malicious_inputs) * 0.75  # 75% threshold
 
-            self.results.append(TestResult(
-                test_name="Input Sanitization",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "malicious_inputs_tested": len(malicious_inputs),
-                    "safely_handled": successful_blocks,
-                    "safety_rate": successful_blocks / len(malicious_inputs)
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Input Sanitization",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "malicious_inputs_tested": len(malicious_inputs),
+                        "safely_handled": successful_blocks,
+                        "safety_rate": successful_blocks / len(malicious_inputs),
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Input Sanitization",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Input Sanitization", success=False, latency_ms=latency, error=str(e)
+                )
+            )
             return False
 
     async def _test_api_integration(self) -> dict[str, Any]:
@@ -759,33 +807,35 @@ class OrchestrationTestSuite:
             latency = (time.perf_counter() - test_start) * 1000
 
             success = (
-                response.status_code == 200 and
-                "status" in response.json() and
-                response.json()["status"] == "healthy" and
-                latency < 1000  # 1 second timeout
+                response.status_code == 200
+                and "status" in response.json()
+                and response.json()["status"] == "healthy"
+                and latency < 1000  # 1 second timeout
             )
 
-            self.results.append(TestResult(
-                test_name="Health Endpoint",
-                success=success,
-                latency_ms=latency,
-                metrics={
-                    "status_code": response.status_code,
-                    "response_data": response.json() if success else None
-                }
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Health Endpoint",
+                    success=success,
+                    latency_ms=latency,
+                    metrics={
+                        "status_code": response.status_code,
+                        "response_data": response.json() if success else None,
+                    },
+                )
+            )
 
             return success
 
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
-            self.results.append(TestResult(
-                test_name="Health Endpoint",
-                success=False,
-                latency_ms=latency,
-                error=str(e)
-            ))
+            self.results.append(
+                TestResult(
+                    test_name="Health Endpoint", success=False, latency_ms=latency, error=str(e)
+                )
+            )
             return False
+
 
 # Main test execution
 async def run_orchestration_tests() -> dict[str, Any]:
@@ -793,13 +843,14 @@ async def run_orchestration_tests() -> dict[str, Any]:
     if not TESTING_AVAILABLE:
         return {
             "error": "Testing dependencies not available",
-            "suggestion": "Install testing dependencies: pip install pytest httpx websockets"
+            "suggestion": "Install testing dependencies: pip install pytest httpx websockets",
         }
 
     test_suite = OrchestrationTestSuite()
     results = await test_suite.run_all_tests()
 
     return results
+
 
 if __name__ == "__main__":
     # Run tests if executed directly
@@ -829,8 +880,4 @@ if __name__ == "__main__":
     print("\n🏁 Test suite completed!")
 
 # Export for pytest integration
-__all__ = [
-    "OrchestrationTestSuite",
-    "TestResult",
-    "run_orchestration_tests"
-]
+__all__ = ["OrchestrationTestSuite", "TestResult", "run_orchestration_tests"]

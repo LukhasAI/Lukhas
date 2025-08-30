@@ -30,7 +30,9 @@ class Orchestrator:
         self.trinity_branding = "⚛️🧠🛡️ LUKHAS AI Trinity Framework"
 
         # Log orchestrator initialization
-        db.log_system_activity("orchestrator", "system_init", "System orchestrator initialized", 1.0)
+        db.log_system_activity(
+            "orchestrator", "system_init", "System orchestrator initialized", 1.0
+        )
 
     def create_complete_content_workflow(self, topic: str, content_type: str = "blog_post") -> dict:
         """
@@ -54,10 +56,7 @@ Generated through our integrated platform with real database integration.
 """
 
         content_id = self.content_platform.generate_content(
-            content_type=content_type,
-            title=topic,
-            content=initial_content,
-            voice_coherence=75.0
+            content_type=content_type, title=topic, content=initial_content, voice_coherence=75.0
         )
 
         print(f"✅ Content generated and saved (ID: {content_id})")
@@ -67,7 +66,7 @@ Generated through our integrated platform with real database integration.
             doc_type="enhanced_" + content_type,
             content=initial_content + "\n\nEnhanced with knowledge base integration.",
             title=f"Enhanced {topic}",
-            tone="professional"
+            tone="professional",
         )
 
         print(f"✅ Enhanced document created (ID: {doc_result['id']})")
@@ -90,12 +89,16 @@ Generated through our integrated platform with real database integration.
             "voice_coherence": doc_result["voice_coherence"],
             "trinity_integration": True,
             "systems_interconnected": True,
-            "workflow_completed": datetime.now().isoformat()
+            "workflow_completed": datetime.now().isoformat(),
         }
 
         # Log workflow completion
-        db.log_system_activity("orchestrator", "workflow_completed",
-                              f"Complete workflow for: {topic}", doc_result["voice_coherence"])
+        db.log_system_activity(
+            "orchestrator",
+            "workflow_completed",
+            f"Complete workflow for: {topic}",
+            doc_result["voice_coherence"],
+        )
 
         return workflow_result
 
@@ -122,23 +125,22 @@ Generated through our integrated platform with real database integration.
                 "average_voice_coherence": avg_coherence,
                 "recent_activity": len(system_analytics),
                 "specialist_bots": len(self.content_platform.get_specialist_bots()),
-                "document_formats": len(self.doc_engine.get_available_formats())
+                "document_formats": len(self.doc_engine.get_available_formats()),
             },
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         return dashboard
 
     def demonstrate_integration(self):
         """Demonstrate that all systems are truly interconnected"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🎯 LUKHAS AI System Integration Demonstration")
-        print("="*60)
+        print("=" * 60)
 
         # Test workflow
         result = self.create_complete_content_workflow(
-            "Consciousness Technology Innovation",
-            "technical_documentation"
+            "Consciousness Technology Innovation", "technical_documentation"
         )
 
         print("\n📊 Workflow Results:")
@@ -158,6 +160,7 @@ Generated through our integrated platform with real database integration.
 
         print("\n✅ ALL SYSTEMS FULLY INTERCONNECTED AND ACTIVE")
         return dashboard
+
 
 if __name__ == "__main__":
     orchestrator = Orchestrator()

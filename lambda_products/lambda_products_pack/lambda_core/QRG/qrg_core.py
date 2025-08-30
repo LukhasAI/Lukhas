@@ -157,9 +157,7 @@ class QIResonanceGlyph:
         context = consciousness_context or ConsciousnessContext()
 
         # Step 1: Generate quantum signature
-        qi_signature = self._generate_quantum_signature(
-            user_identity, security_tier
-        )
+        qi_signature = self._generate_quantum_signature(user_identity, security_tier)
 
         # Step 2: Create consciousness fingerprint
         consciousness_fingerprint = self._create_consciousness_fingerprint(context)
@@ -173,15 +171,11 @@ class QIResonanceGlyph:
         adapted_matrix = self._apply_consciousness_adaptation(visual_matrix, context)
 
         # Step 5: Generate animation frames
-        animation_frames = self._generate_animation_frames(
-            adapted_matrix, animation_type, context
-        )
+        animation_frames = self._generate_animation_frames(adapted_matrix, animation_type, context)
 
         # Step 6: Create glyph object
         glyph = QIGlyph(
-            glyph_id=hashlib.sha256(
-                f"{user_identity}{qi_signature}".encode()
-            ).hexdigest()[:16],
+            glyph_id=hashlib.sha256(f"{user_identity}{qi_signature}".encode()).hexdigest()[:16],
             visual_matrix=adapted_matrix,
             animation_frames=animation_frames,
             qi_signature=qi_signature,
@@ -250,10 +244,7 @@ class QIResonanceGlyph:
                     # Data-dependent pattern
                     pattern_value = (
                         int.from_bytes(
-                            data_hash[
-                                (i * j) % len(data_hash) : ((i * j) % len(data_hash))
-                                + 1
-                            ],
+                            data_hash[(i * j) % len(data_hash) : ((i * j) % len(data_hash)) + 1],
                             "big",
                         )
                         / 255.0
@@ -399,9 +390,7 @@ class QIResonanceGlyph:
         # Create new glyph with embedded data
         embedded_glyph = QIGlyph(
             glyph_id=glyph.glyph_id + "_embedded",
-            visual_matrix=self._embed_data_in_matrix(
-                glyph.visual_matrix, hidden_payload
-            ),
+            visual_matrix=self._embed_data_in_matrix(glyph.visual_matrix, hidden_payload),
             animation_frames=glyph.animation_frames,
             qi_signature=glyph.qi_signature,
             consciousness_fingerprint=glyph.consciousness_fingerprint,
@@ -412,9 +401,7 @@ class QIResonanceGlyph:
         logger.info("✅ Hidden data embedded successfully")
         return embedded_glyph
 
-    def _embed_data_in_matrix(
-        self, matrix: np.ndarray, payload: dict[str, Any]
-    ) -> np.ndarray:
+    def _embed_data_in_matrix(self, matrix: np.ndarray, payload: dict[str, Any]) -> np.ndarray:
         """Embed data in visual matrix using LSB steganography"""
         embedded_matrix = matrix.copy()
 
@@ -432,16 +419,12 @@ class QIResonanceGlyph:
                         # Modify LSB of pixel
                         byte_val = payload_bytes[data_index]
                         bit_val = (byte_val >> (data_index % 8)) & 1
-                        embedded_matrix[i, j, c] = (
-                            embedded_matrix[i, j, c] & 0xFE
-                        ) | bit_val
+                        embedded_matrix[i, j, c] = (embedded_matrix[i, j, c] & 0xFE) | bit_val
                         data_index += 1
 
         return embedded_matrix
 
-    def verify_glyph_authenticity(
-        self, glyph: QIGlyph, user_identity: str
-    ) -> dict[str, Any]:
+    def verify_glyph_authenticity(self, glyph: QIGlyph, user_identity: str) -> dict[str, Any]:
         """
         Verify glyph authenticity and extract information
 
@@ -468,18 +451,14 @@ class QIResonanceGlyph:
 
         # Verify quantum signature (simplified)
         expected_signature = self._generate_quantum_signature(user_identity, 3)
-        verification_result["qi_verified"] = (
-            glyph.qi_signature == expected_signature
-        )
+        verification_result["qi_verified"] = glyph.qi_signature == expected_signature
 
         # Calculate overall confidence
         confidence_factors = [
             verification_result["temporal_valid"],
             verification_result["qi_verified"],
         ]
-        verification_result["confidence_score"] = sum(confidence_factors) / len(
-            confidence_factors
-        )
+        verification_result["confidence_score"] = sum(confidence_factors) / len(confidence_factors)
         verification_result["authentic"] = verification_result["confidence_score"] > 0.8
 
         logger.info(

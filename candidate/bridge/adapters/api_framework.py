@@ -31,6 +31,7 @@ logger = logging.getLogger("ΛTRACE.bridge.adapters.api_framework")
 # Type variables for generic responses
 T = TypeVar("T")
 
+
 # Mock metrics (imports unavailable)
 class Counter:
     def __init__(self, name, desc, labels=None):
@@ -40,6 +41,7 @@ class Counter:
     def inc(self):
         pass
 
+
 class Histogram:
     def __init__(self, name, desc, labels=None):
         self.name = name
@@ -48,8 +50,10 @@ class Histogram:
     def observe(self, val):
         pass
 
+
 def generate_latest():
     return ""
+
 
 CONTENT_TYPE_LATEST = "text/plain"
 
@@ -237,9 +241,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
 
         # Calculate duration
-        duration_ms = (
-            datetime.utcnow() - request.state.start_time
-        ).total_seconds() * 1000
+        duration_ms = (datetime.utcnow() - request.state.start_time).total_seconds() * 1000
 
         # Add headers
         response.headers["X-Request-ID"] = request_id
@@ -256,9 +258,7 @@ class RequestTracingMiddleware(BaseHTTPMiddleware):
         # Update metrics
         endpoint = request.url.path.split("/")
         version = (
-            endpoint[2]
-            if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"]
-            else "unknown"
+            endpoint[2] if len(endpoint) > 2 and endpoint[2] in ["v1", "v2", "v3"] else "unknown"
         )
 
         request_count.labels(
@@ -315,9 +315,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
             # Add rate limit headers
             response.headers["X-RateLimit-Limit"] = str(self.default_limit)
-            response.headers["X-RateLimit-Remaining"] = str(
-                max(0, self.default_limit - current)
-            )
+            response.headers["X-RateLimit-Remaining"] = str(max(0, self.default_limit - current))
 
             return response
 
@@ -347,10 +345,7 @@ async def verify_token(
     jwt_algorithm = os.getenv("LUKHAS_JWT_ALGORITHM", "HS256")
 
     if not token:
-        raise HTTPException(
-            status_code=401,
-            detail="Missing authentication token"
-        )
+        raise HTTPException(status_code=401, detail="Missing authentication token")
 
     try:
         # Decode and verify JWT token
@@ -358,7 +353,7 @@ async def verify_token(
             token,
             jwt_secret,
             algorithms=[jwt_algorithm],
-            options={"verify_exp": True, "verify_iat": True}
+            options={"verify_exp": True, "verify_iat": True},
         )
 
         # Extract user information from payload
@@ -372,24 +367,18 @@ async def verify_token(
             "BASIC": TierLevel.BASIC,
             "ADVANCED": TierLevel.ADVANCED,
             "PREMIUM": TierLevel.PREMIUM,
-            "ELITE": TierLevel.ELITE
+            "ELITE": TierLevel.ELITE,
         }
         tier_level = tier_mapping.get(tier_level_str, TierLevel.BASIC)
 
         # Validate required fields
         if not user_id:
-            raise HTTPException(
-                status_code=401,
-                detail="Invalid token: missing user_id"
-            )
+            raise HTTPException(status_code=401, detail="Invalid token: missing user_id")
 
         # Check token expiration
         exp = payload.get("exp")
         if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
-            raise HTTPException(
-                status_code=401,
-                detail="Token has expired"
-            )
+            raise HTTPException(status_code=401, detail="Token has expired")
 
         logger.info(f"Token verified successfully for user: {user_id}")
 
@@ -397,27 +386,18 @@ async def verify_token(
             "user_id": user_id,
             "tier_level": tier_level,
             "permissions": permissions,
-            "token_payload": payload
+            "token_payload": payload,
         }
 
     except jwt.ExpiredSignatureError:
         logger.warning("JWT token has expired")
-        raise HTTPException(
-            status_code=401,
-            detail="Token has expired"
-        )
+        raise HTTPException(status_code=401, detail="Token has expired")
     except jwt.InvalidTokenError as e:
-        logger.warning(f"Invalid JWT token: {str(e)}")
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid authentication token"
-        )
+        logger.warning(f"Invalid JWT token: {e!s}")
+        raise HTTPException(status_code=401, detail="Invalid authentication token")
     except Exception as e:
-        logger.error(f"Error verifying JWT token: {str(e)}")
-        raise HTTPException(
-            status_code=401,
-            detail="Authentication failed"
-        )
+        logger.error(f"Error verifying JWT token: {e!s}")
+        raise HTTPException(status_code=401, detail="Authentication failed")
 
 
 async def get_current_user(
@@ -518,9 +498,7 @@ async def detailed_health_check(
     except Exception:
         checks["redis"] = "unhealthy"
 
-    overall_status = (
-        "healthy" if all(v == "healthy" for v in checks.values()) else "degraded"
-    )
+    overall_status = "healthy" if all(v == "healthy" for v in checks.values()) else "degraded"
 
     return {
         "status": overall_status,
@@ -573,8 +551,7 @@ async def fold_memory_v1(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v1",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds()
-            * 1000,
+            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -612,9 +589,7 @@ async def fold_memory_v2(
     fold_id = str(uuid.uuid4())
 
     # Add background task for async processing
-    background_tasks.add_task(
-        process_fold_async, fold_id, request.data, request.emotional_context
-    )
+    background_tasks.add_task(process_fold_async, fold_id, request.data, request.emotional_context)
 
     response = MemoryFoldResponse(
         fold_id=fold_id,
@@ -633,8 +608,7 @@ async def fold_memory_v2(
         metadata=ResponseMetadata(
             request_id=req.state.request_id,
             version="v2",
-            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds()
-            * 1000,
+            duration_ms=(datetime.utcnow() - req.state.start_time).total_seconds() * 1000,
         ),
     )
 
@@ -662,9 +636,7 @@ async def get_fold_status(
 
     return APIResponse(
         data=response,
-        metadata=ResponseMetadata(
-            request_id=req.state.request_id, version="v2", duration_ms=10.5
-        ),
+        metadata=ResponseMetadata(request_id=req.state.request_id, version="v2", duration_ms=10.5),
     )
 
 
@@ -691,9 +663,7 @@ async def get_consciousness_state(
 
     return APIResponse(
         data=state,
-        metadata=ResponseMetadata(
-            request_id=req.state.request_id, version="v2", duration_ms=5.2
-        ),
+        metadata=ResponseMetadata(request_id=req.state.request_id, version="v2", duration_ms=5.2),
     )
 
 
@@ -755,9 +725,7 @@ def generate_emotional_signature(state: EmotionalState) -> str:
     return hashlib.sha256(data.encode()).hexdigest()[:8]
 
 
-async def process_fold_async(
-    fold_id: str, data: dict[str, Any], emotional_context: EmotionalState
-):
+async def process_fold_async(fold_id: str, data: dict[str, Any], emotional_context: EmotionalState):
     """Process fold asynchronously"""
     # Mock async processing
     logger.info("processing_fold_async", fold_id=fold_id)

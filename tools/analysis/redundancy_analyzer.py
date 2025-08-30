@@ -126,9 +126,7 @@ class RedundancyAnalyzer:
                             )
 
                     elif isinstance(node, ast.ClassDef):
-                        methods = [
-                            n.name for n in node.body if isinstance(n, ast.FunctionDef)
-                        ]
+                        methods = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
                         self.classes_by_name[node.name].append(
                             {
                                 "file": str(relative_path),
@@ -140,9 +138,7 @@ class RedundancyAnalyzer:
                     elif isinstance(node, (ast.Import, ast.ImportFrom)):
                         import_stmt = ast.get_source_segment(content, node)
                         if import_stmt:
-                            self.imports_by_statement[import_stmt].append(
-                                str(relative_path)
-                            )
+                            self.imports_by_statement[import_stmt].append(str(relative_path))
 
             except Exception as e:
                 logger.warning(f"   Error parsing {relative_path}: {e}")
@@ -233,9 +229,7 @@ class RedundancyAnalyzer:
                     method_key = ",".join(sorted(occ["methods"]))
                     method_groups[method_key].append(occ["file"])
 
-                similarity_groups = [
-                    files for files in method_groups.values() if len(files) > 1
-                ]
+                similarity_groups = [files for files in method_groups.values() if len(files) > 1]
 
                 if similarity_groups:
                     self.redundant_patterns.append(
@@ -335,18 +329,10 @@ class RedundancyAnalyzer:
                     [p for p in self.redundant_patterns if p["type"] == "common_import"]
                 ),
                 "duplicate_classes": len(
-                    [
-                        p
-                        for p in self.redundant_patterns
-                        if p["type"] == "duplicate_class"
-                    ]
+                    [p for p in self.redundant_patterns if p["type"] == "duplicate_class"]
                 ),
                 "common_patterns": len(
-                    [
-                        p
-                        for p in self.redundant_patterns
-                        if p["type"] == "common_pattern"
-                    ]
+                    [p for p in self.redundant_patterns if p["type"] == "common_pattern"]
                 ),
             },
             "duplications": [
@@ -391,9 +377,7 @@ class RedundancyAnalyzer:
 
         # Recommendation for common imports
         common_imports = [
-            p
-            for p in self.redundant_patterns
-            if p["type"] == "common_import" and p["count"] > 10
+            p for p in self.redundant_patterns if p["type"] == "common_import" and p["count"] > 10
         ]
         if common_imports:
             recommendations.append(
@@ -407,9 +391,7 @@ class RedundancyAnalyzer:
             )
 
         # Recommendation for duplicate classes
-        dup_classes = [
-            p for p in self.redundant_patterns if p["type"] == "duplicate_class"
-        ]
+        dup_classes = [p for p in self.redundant_patterns if p["type"] == "duplicate_class"]
         if dup_classes:
             recommendations.append(
                 {
@@ -425,9 +407,7 @@ class RedundancyAnalyzer:
             )
 
         # Recommendation for common patterns
-        common_patterns = [
-            p for p in self.redundant_patterns if p["type"] == "common_pattern"
-        ]
+        common_patterns = [p for p in self.redundant_patterns if p["type"] == "common_pattern"]
         if common_patterns:
             recommendations.append(
                 {
@@ -436,8 +416,7 @@ class RedundancyAnalyzer:
                     "description": "Create utility functions for common code patterns",
                     "impact": "Improve consistency and reduce boilerplate",
                     "patterns": [
-                        f"{p['pattern']}: {p['total_count']} occurrences"
-                        for p in common_patterns
+                        f"{p['pattern']}: {p['total_count']} occurrences" for p in common_patterns
                     ],
                 }
             )

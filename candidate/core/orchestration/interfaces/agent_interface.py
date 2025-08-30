@@ -126,9 +126,7 @@ class AgentInterface(ABC):
             "pre_shutdown": [],
             "post_shutdown": [],
         }
-        self._logger = logging.getLogger(
-            f"{self.__class__.__name__}.{self.metadata.agent_id[:8]}"
-        )
+        self._logger = logging.getLogger(f"{self.__class__.__name__}.{self.metadata.agent_id[:8]}")
 
     # Abstract methods that must be implemented
 
@@ -250,15 +248,11 @@ class AgentInterface(ABC):
 
         if self.context and self.context.message_queue:
             await self.context.message_queue.put(message)
-            self._logger.debug(
-                f"Sent message {message.message_id} to {recipient_id or 'all'}"
-            )
+            self._logger.debug(f"Sent message {message.message_id} to {recipient_id or 'all'}")
 
         return message.message_id
 
-    async def broadcast(
-        self, content: Any, message_type: str = "info", priority: int = 0
-    ) -> str:
+    async def broadcast(self, content: Any, message_type: str = "info", priority: int = 0) -> str:
         """Broadcast a message to all agents"""
         return await self.send_message(None, content, message_type, priority)
 
@@ -317,9 +311,7 @@ class SimpleAgent(AgentInterface):
     """
 
     def __init__(self, name: str = "SimpleAgent"):
-        metadata = AgentMetadata(
-            name=name, description="A simple example agent", version="1.0.0"
-        )
+        metadata = AgentMetadata(name=name, description="A simple example agent", version="1.0.0")
         super().__init__(metadata)
 
         # Register basic capabilities

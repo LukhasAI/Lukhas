@@ -236,10 +236,7 @@ How do we prevent this in the future?
             emotions["concern"] += 0.2
             emotions["confidence"] -= 0.1
 
-        if (
-            "experiment" in decision.title.lower()
-            or "try" in decision.rationale.lower()
-        ):
+        if "experiment" in decision.title.lower() or "try" in decision.rationale.lower():
             emotions["curiosity"] += 0.3
             emotions["excitement"] += 0.2
 
@@ -290,9 +287,7 @@ How do we prevent this in the future?
 
         # Look for "because" or "to" for rationale
         rationale_match = re.search(r"(because|to|for)\s+(.+)", message, re.IGNORECASE)
-        rationale = (
-            rationale_match.group(2) if rationale_match else "See commit message"
-        )
+        rationale = rationale_match.group(2) if rationale_match else "See commit message"
 
         return self.track_decision(
             title=title,
@@ -304,9 +299,7 @@ How do we prevent this in the future?
             ),
         )
 
-    def track_outcome(
-        self, decision_id: str, outcome: str, lessons_learned: Optional[str] = None
-    ):
+    def track_outcome(self, decision_id: str, outcome: str, lessons_learned: Optional[str] = None):
         """Track the outcome of a previous decision"""
         # Find the decision
         decision_entry = None
@@ -328,7 +321,7 @@ How do we prevent this in the future?
 
             # Create outcome entry
             content = f"""
-## Outcome for: {decision.title if decision else 'Previous Decision'}
+## Outcome for: {decision.title if decision else "Previous Decision"}
 
 ### What Actually Happened
 {outcome}
@@ -359,16 +352,12 @@ Was this the right decision? Why or why not?
 
         # Positive indicators
         if any(
-            word in outcome_lower
-            for word in ["success", "worked", "great", "perfect", "solved"]
+            word in outcome_lower for word in ["success", "worked", "great", "perfect", "solved"]
         ):
             emotions["satisfaction"] += 0.3
 
         # Negative indicators
-        if any(
-            word in outcome_lower
-            for word in ["failed", "broke", "wrong", "issue", "problem"]
-        ):
+        if any(word in outcome_lower for word in ["failed", "broke", "wrong", "issue", "problem"]):
             emotions["satisfaction"] -= 0.3
             emotions["learning"] += 0.2
 
@@ -389,9 +378,7 @@ Was this the right decision? Why or why not?
         """Analyze patterns in recent decisions"""
         # Get recent decisions
         start_date = datetime.now() - timedelta(days=days)
-        decisions = self.journal.search(
-            type="decision", date_range=(start_date, datetime.now())
-        )
+        decisions = self.journal.search(type="decision", date_range=(start_date, datetime.now()))
 
         analysis = {
             "total_decisions": len(decisions),

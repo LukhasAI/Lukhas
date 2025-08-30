@@ -193,9 +193,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
         report_lines.append("")
 
         for todo in todos[:10]:  # Limit to first 10
-            report_lines.append(
-                f"- `{todo['file']}:{todo['line']}` - {todo['message']}"
-            )
+            report_lines.append(f"- `{todo['file']}:{todo['line']}` - {todo['message']}")
 
         if len(todos) > 10:
             report_lines.append(f"- ... and {len(todos) - 10} more")
@@ -209,9 +207,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="T4 TODO Marker - Annotate TODO items with suggestions"
     )
-    parser.add_argument(
-        "paths", nargs="*", default=["."], help="Paths to scan for TODOs"
-    )
+    parser.add_argument("paths", nargs="*", default=["."], help="Paths to scan for TODOs")
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -251,9 +247,7 @@ def main():
                 dirs[:] = [
                     d
                     for d in dirs
-                    if not any(
-                        pattern in os.path.join(root, d) for pattern in deny_patterns
-                    )
+                    if not any(pattern in os.path.join(root, d) for pattern in deny_patterns)
                 ]
 
                 for file in files:
@@ -264,9 +258,7 @@ def main():
                         # Check if file is allowed
                         allowed = False
                         if allow_patterns:
-                            allowed = any(
-                                pattern in rel_path for pattern in allow_patterns
-                            )
+                            allowed = any(pattern in rel_path for pattern in allow_patterns)
                         else:
                             allowed = True
 

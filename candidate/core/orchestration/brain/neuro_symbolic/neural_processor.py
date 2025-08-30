@@ -58,7 +58,7 @@ class NeuralProcessor:
             self.weights = {"loaded": True, "path": path}
             return True
         except Exception as e:
-            logger.error(f"Failed to load model: {str(e)}")
+            logger.error(f"Failed to load model: {e!s}")
             return False
 
     def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
@@ -71,9 +71,7 @@ class NeuralProcessor:
         Returns:
             Dict: Results of neural processing
         """
-        logger.debug(
-            f"Processing input through neural pathways: {str(input_data)[:100]}..."
-        )
+        logger.debug(f"Processing input through neural pathways: {str(input_data)[:100]}...")
 
         # Extract text if present
         text = input_data.get("text", "")
@@ -160,9 +158,7 @@ class NeuralProcessor:
         # Placeholder for confidence calculation
         return 0.85
 
-    def train(
-        self, training_data: list[dict[str, Any]], epochs: int = 5
-    ) -> dict[str, Any]:
+    def train(self, training_data: list[dict[str, Any]], epochs: int = 5) -> dict[str, Any]:
         """
         Train the neural processor on the provided data.
 
@@ -182,7 +178,5 @@ class NeuralProcessor:
 
         metrics = {"loss": 0.05, "accuracy": 0.92, "epochs_completed": epochs}
 
-        logger.info(
-            f"Training complete: Loss={metrics['loss']}, Accuracy={metrics['accuracy']}"
-        )
+        logger.info(f"Training complete: Loss={metrics['loss']}, Accuracy={metrics['accuracy']}")
         return metrics

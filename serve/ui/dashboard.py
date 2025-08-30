@@ -685,9 +685,7 @@ async def get_feedback_summary():
     return {
         "average_rating": sum(ratings) / len(ratings),
         "total_feedback": len(feedback_storage),
-        "recent_comments": [
-            f["comment"] for f in feedback_storage[-5:] if f.get("comment")
-        ],
+        "recent_comments": [f["comment"] for f in feedback_storage[-5:] if f.get("comment")],
     }
 
 
@@ -727,9 +725,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 @app.get("/logout")
 async def logout():
     """Logout endpoint"""
-    return HTMLResponse(
-        content="<script>localStorage.clear(); location.href='/';</script>"
-    )
+    return HTMLResponse(content="<script>localStorage.clear(); location.href='/';</script>")
 
 
 # Privacy Dashboard Extension

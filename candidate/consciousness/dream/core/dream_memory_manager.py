@@ -61,9 +61,7 @@ class DreamMemoryManager(BaseMemoryManager):
     - Lucidity level monitoring
     """
 
-    def __init__(
-        self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None
-    ):
+    def __init__(self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None):
         """Initialize dream memory manager."""
         super().__init__(config, base_path)
 
@@ -107,9 +105,7 @@ class DreamMemoryManager(BaseMemoryManager):
             "journey": ["life_path", "progress", "discovery"],
         }
 
-        self.logger.info(
-            "DreamMemoryManager initialized", dream_config=self.dream_config
-        )
+        self.logger.info("DreamMemoryManager initialized", dream_config=self.dream_config)
 
     async def store(
         self,
@@ -190,9 +186,7 @@ class DreamMemoryManager(BaseMemoryManager):
             }
 
         except Exception as e:
-            self.logger.error(
-                "Failed to store dream memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to store dream memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def retrieve(
@@ -251,9 +245,7 @@ class DreamMemoryManager(BaseMemoryManager):
             self.logger.error("Memory not found", memory_id=memory_id)
             return {"status": "error", "error": f"Memory not found: {memory_id}"}
         except Exception as e:
-            self.logger.error(
-                "Failed to retrieve dream memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to retrieve dream memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def update(
@@ -270,9 +262,7 @@ class DreamMemoryManager(BaseMemoryManager):
             updated_data = {**current["data"], **updates} if merge else updates
 
             # Re-analyze dream content
-            new_dream_state = self._analyze_dream_content(
-                updated_data, current["metadata"]
-            )
+            new_dream_state = self._analyze_dream_content(updated_data, current["metadata"])
 
             # Update symbols
             new_symbols = self._extract_dream_symbols(updated_data)
@@ -296,18 +286,14 @@ class DreamMemoryManager(BaseMemoryManager):
                 "Dream memory updated",
                 memory_id=memory_id,
                 symbol_change=len(
-                    new_symbols.symmetric_difference(
-                        self.dream_symbols.get(memory_id, set())
-                    )
+                    new_symbols.symmetric_difference(self.dream_symbols.get(memory_id, set()))
                 ),
             )
 
             return result
 
         except Exception as e:
-            self.logger.error(
-                "Failed to update dream memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to update dream memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
@@ -355,16 +341,12 @@ class DreamMemoryManager(BaseMemoryManager):
                     del self._memory_index[memory_id]
                     self._save_index()
 
-            self.logger.info(
-                "Dream memory deleted", memory_id=memory_id, soft_delete=soft_delete
-            )
+            self.logger.info("Dream memory deleted", memory_id=memory_id, soft_delete=soft_delete)
 
             return {"status": "success"}
 
         except Exception as e:
-            self.logger.error(
-                "Failed to delete dream memory", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to delete dream memory", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     async def search(
@@ -404,9 +386,7 @@ class DreamMemoryManager(BaseMemoryManager):
                     continue
 
             # Check sequence
-            if sequence_id and memory_id not in self.dream_sequences.get(
-                sequence_id, []
-            ):
+            if sequence_id and memory_id not in self.dream_sequences.get(sequence_id, []):
                 continue
 
             # Load and check other criteria
@@ -529,9 +509,7 @@ class DreamMemoryManager(BaseMemoryManager):
             current_lucidity = self.lucidity_scores.get(memory_id, 0.5)
 
             # Enhance lucidity (up to threshold)
-            new_lucidity = min(
-                current_lucidity * 1.2, self.dream_config["lucidity_threshold"]
-            )
+            new_lucidity = min(current_lucidity * 1.2, self.dream_config["lucidity_threshold"])
 
             self.lucidity_scores[memory_id] = new_lucidity
 
@@ -557,9 +535,7 @@ class DreamMemoryManager(BaseMemoryManager):
             }
 
         except Exception as e:
-            self.logger.error(
-                "Failed to enhance lucidity", memory_id=memory_id, error=str(e)
-            )
+            self.logger.error("Failed to enhance lucidity", memory_id=memory_id, error=str(e))
             return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     # === Private helper methods ===
@@ -664,9 +640,7 @@ class DreamMemoryManager(BaseMemoryManager):
             "understand",
         ]
 
-        indicator_count = sum(
-            1 for indicator in lucidity_indicators if indicator in content_str
-        )
+        indicator_count = sum(1 for indicator in lucidity_indicators if indicator in content_str)
         base_lucidity += min(indicator_count * 0.05, 0.2)
 
         return min(base_lucidity, 1.0)
@@ -687,18 +661,13 @@ class DreamMemoryManager(BaseMemoryManager):
 
             # Calculate symbol overlap
             if sequence_symbols:
-                overlap = len(symbols.intersection(sequence_symbols)) / len(
-                    sequence_symbols
-                )
+                overlap = len(symbols.intersection(sequence_symbols)) / len(sequence_symbols)
                 if overlap > 0.6:  # 60% symbol overlap
                     return seq_id
 
         # Create new sequence if recurring indicators found
         content_str = str(memory_data).lower()
-        if any(
-            word in content_str
-            for word in ["recurring", "again", "repeat", "same dream"]
-        ):
+        if any(word in content_str for word in ["recurring", "again", "repeat", "same dream"]):
             return f"seq_{datetime.now().timestamp()}"
 
         return None
@@ -733,9 +702,7 @@ class DreamMemoryManager(BaseMemoryManager):
 
             # Calculate fade factor
             hours_elapsed = elapsed.total_seconds() / 3600
-            fade_factor = max(
-                0, 1 - (hours_elapsed * self.dream_config["dream_fade_rate"] / 24)
-            )
+            fade_factor = max(0, 1 - (hours_elapsed * self.dream_config["dream_fade_rate"] / 24))
 
             if fade_factor < 1.0:
                 # Apply fade by adding metadata

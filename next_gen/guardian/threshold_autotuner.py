@@ -203,7 +203,6 @@ class SymbolicThresholdAutotuner:
         adjustment_log: str = "next_gen/guardian/threshold_adjustments.json",
         update_interval: float = 30.0,
     ):
-
         self.config_file = Path(config_file)
         self.metrics_file = Path(metrics_file)
         self.adjustment_log = Path(adjustment_log)
@@ -369,9 +368,7 @@ class SymbolicThresholdAutotuner:
                 "response_time": statistics.median(
                     [m.guardian_response_time for m in metrics_list]
                 ),
-                "accuracy": statistics.median(
-                    [m.threat_detection_accuracy for m in metrics_list]
-                ),
+                "accuracy": statistics.median([m.threat_detection_accuracy for m in metrics_list]),
                 "false_positive_rate": statistics.median(
                     [m.false_positive_rate for m in metrics_list]
                 ),
@@ -414,9 +411,7 @@ class SymbolicThresholdAutotuner:
         except Exception as e:
             logger.error(f"Failed to save metrics history: {e}")
 
-    async def _analyze_and_adjust_thresholds(
-        self, current_metrics: SystemPerformanceMetrics
-    ):
+    async def _analyze_and_adjust_thresholds(self, current_metrics: SystemPerformanceMetrics):
         """Analyze current performance and adjust thresholds if needed"""
         if len(self.metrics_history) < 5:
             return  # Need more data before adjusting
@@ -444,9 +439,7 @@ class SymbolicThresholdAutotuner:
                 adjustment_recommendation
                 and adjustment_recommendation["confidence"] >= self.confidence_threshold
             ):
-                await self._apply_threshold_adjustment(
-                    threshold, adjustment_recommendation
-                )
+                await self._apply_threshold_adjustment(threshold, adjustment_recommendation)
 
     async def _assess_system_stability(self) -> float:
         """Assess overall system stability"""
@@ -456,9 +449,7 @@ class SymbolicThresholdAutotuner:
         recent_metrics = list(self.metrics_history)[-10:]
 
         # Calculate stability metrics
-        entropy_variance = statistics.variance(
-            [m.entropy_score for m in recent_metrics]
-        )
+        entropy_variance = statistics.variance([m.entropy_score for m in recent_metrics])
         drift_variance = statistics.variance([m.drift_velocity for m in recent_metrics])
         consciousness_variance = statistics.variance(
             [m.consciousness_stability for m in recent_metrics]
@@ -483,21 +474,15 @@ class SymbolicThresholdAutotuner:
 
         # Analyze based on threshold type
         if threshold.metric_type == "entropy":
-            return await self._analyze_entropy_threshold(
-                threshold, recent_metrics, current_metrics
-            )
+            return await self._analyze_entropy_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "drift":
-            return await self._analyze_drift_threshold(
-                threshold, recent_metrics, current_metrics
-            )
+            return await self._analyze_drift_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "stability":
             return await self._analyze_stability_threshold(
                 threshold, recent_metrics, current_metrics
             )
         elif threshold.metric_type == "trust":
-            return await self._analyze_trust_threshold(
-                threshold, recent_metrics, current_metrics
-            )
+            return await self._analyze_trust_threshold(threshold, recent_metrics, current_metrics)
         elif threshold.metric_type == "performance":
             return await self._analyze_performance_threshold(
                 threshold, recent_metrics, current_metrics
@@ -516,17 +501,11 @@ class SymbolicThresholdAutotuner:
         # Calculate entropy statistics
         entropy_values = [m.entropy_score for m in recent_metrics]
         statistics.mean(entropy_values)
-        entropy_trend = (
-            entropy_values[-1] - entropy_values[0] if len(entropy_values) >= 2 else 0
-        )
+        entropy_trend = entropy_values[-1] - entropy_values[0] if len(entropy_values) >= 2 else 0
 
         # Calculate false positive/negative rates
-        false_positives = statistics.mean(
-            [m.false_positive_rate for m in recent_metrics]
-        )
-        false_negatives = statistics.mean(
-            [m.false_negative_rate for m in recent_metrics]
-        )
+        false_positives = statistics.mean([m.false_positive_rate for m in recent_metrics])
+        false_negatives = statistics.mean([m.false_negative_rate for m in recent_metrics])
 
         # Determine adjustment need
         if false_positives > self.performance_baseline["false_positive_rate"] * 1.2:
@@ -543,9 +522,7 @@ class SymbolicThresholdAutotuner:
                     false_positives / self.performance_baseline["false_positive_rate"],
                 ),
                 "adjustment_type": "decrease_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["decrease_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["decrease_sensitivity"]["pattern"],
             }
 
         elif false_negatives > self.performance_baseline["false_negative_rate"] * 1.2:
@@ -562,9 +539,7 @@ class SymbolicThresholdAutotuner:
                     false_negatives / self.performance_baseline["false_negative_rate"],
                 ),
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"]["pattern"],
             }
 
         elif entropy_trend > 0.1:
@@ -578,9 +553,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"Preemptive adjustment for entropy trend ({entropy_trend:+.3f})",
                 "confidence": min(0.8, abs(entropy_trend) * 5),
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"]["pattern"],
             }
 
         return None
@@ -595,9 +568,7 @@ class SymbolicThresholdAutotuner:
 
         drift_values = [m.drift_velocity for m in recent_metrics]
         avg_drift = statistics.mean(drift_values)
-        drift_variance = (
-            statistics.variance(drift_values) if len(drift_values) > 1 else 0
-        )
+        drift_variance = statistics.variance(drift_values) if len(drift_values) > 1 else 0
 
         intervention_success = statistics.mean(
             [m.intervention_success_rate for m in recent_metrics]
@@ -614,9 +585,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"Low drift, poor intervention success ({intervention_success:.3f})",
                 "confidence": 0.7,
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"]["pattern"],
             }
 
         # If drift variance is high, we need more sensitive detection
@@ -630,9 +599,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"High drift variance detected ({drift_variance:.3f})",
                 "confidence": min(0.8, drift_variance * 5),
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"]["pattern"],
             }
 
         return None
@@ -648,9 +615,7 @@ class SymbolicThresholdAutotuner:
         stability_values = [m.consciousness_stability for m in recent_metrics]
         avg_stability = statistics.mean(stability_values)
         stability_trend = (
-            stability_values[-1] - stability_values[0]
-            if len(stability_values) >= 2
-            else 0
+            stability_values[-1] - stability_values[0] if len(stability_values) >= 2 else 0
         )
 
         system_load = statistics.mean([m.system_load for m in recent_metrics])
@@ -666,9 +631,7 @@ class SymbolicThresholdAutotuner:
                 "reason": "High stability, high load - increasing sensitivity",
                 "confidence": 0.6,
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"]["pattern"],
             }
 
         # If stability is declining, be more conservative
@@ -682,9 +645,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"Declining stability trend ({stability_trend:+.3f})",
                 "confidence": min(0.8, abs(stability_trend) * 5),
                 "adjustment_type": "stability_enhancement",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["stability_enhancement"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["stability_enhancement"]["pattern"],
             }
 
         return None
@@ -697,12 +658,8 @@ class SymbolicThresholdAutotuner:
     ) -> Optional[dict]:
         """Analyze trust threshold performance"""
 
-        false_positives = statistics.mean(
-            [m.false_positive_rate for m in recent_metrics]
-        )
-        false_negatives = statistics.mean(
-            [m.false_negative_rate for m in recent_metrics]
-        )
+        false_positives = statistics.mean([m.false_positive_rate for m in recent_metrics])
+        false_negatives = statistics.mean([m.false_negative_rate for m in recent_metrics])
         intervention_success = statistics.mean(
             [m.intervention_success_rate for m in recent_metrics]
         )
@@ -719,9 +676,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"Balancing security vs usability (FP: {false_positives:.3f})",
                 "confidence": 0.7,
                 "adjustment_type": "optimize_balance",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["optimize_balance"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["optimize_balance"]["pattern"],
             }
 
         elif false_negatives > 0.15:
@@ -735,9 +690,7 @@ class SymbolicThresholdAutotuner:
                 "reason": f"Reducing false negatives ({false_negatives:.3f})",
                 "confidence": 0.8,
                 "adjustment_type": "increase_sensitivity",
-                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"][
-                    "pattern"
-                ],
+                "symbolic_sequence": self.ADJUSTMENT_PATTERNS["increase_sensitivity"]["pattern"],
             }
 
         return None
@@ -762,9 +715,7 @@ class SymbolicThresholdAutotuner:
                     "reason": f"Tightening response time threshold (avg: {avg_response_time:.2f}s)",
                     "confidence": 0.7,
                     "adjustment_type": "performance_tuning",
-                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"][
-                        "pattern"
-                    ],
+                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"]["pattern"],
                 }
 
             elif avg_response_time > threshold.current_value * 0.9:
@@ -775,9 +726,7 @@ class SymbolicThresholdAutotuner:
                     "reason": f"Relaxing response time threshold (avg: {avg_response_time:.2f}s)",
                     "confidence": 0.6,
                     "adjustment_type": "performance_tuning",
-                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"][
-                        "pattern"
-                    ],
+                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["performance_tuning"]["pattern"],
                 }
 
         elif threshold.name == "false_positive_max":
@@ -792,16 +741,12 @@ class SymbolicThresholdAutotuner:
                     "reason": f"Adjusting for actual false positive rate ({avg_fp_rate:.3f})",
                     "confidence": 0.8,
                     "adjustment_type": "optimize_balance",
-                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["optimize_balance"][
-                        "pattern"
-                    ],
+                    "symbolic_sequence": self.ADJUSTMENT_PATTERNS["optimize_balance"]["pattern"],
                 }
 
         return None
 
-    async def _apply_threshold_adjustment(
-        self, threshold: ThresholdConfig, adjustment: dict
-    ):
+    async def _apply_threshold_adjustment(self, threshold: ThresholdConfig, adjustment: dict):
         """Apply a threshold adjustment"""
 
         old_value = threshold.current_value
@@ -826,9 +771,7 @@ class SymbolicThresholdAutotuner:
         self.adjustment_history.append(adjustment_event)
 
         # Log the adjustment
-        logger.info(
-            f"🎯 Adjusted threshold '{threshold.name}': {old_value:.3f} → {new_value:.3f}"
-        )
+        logger.info(f"🎯 Adjusted threshold '{threshold.name}': {old_value:.3f} → {new_value:.3f}")
         logger.info(f"   Reason: {adjustment['reason']}")
         logger.info(f"   Symbolic: {'→'.join(adjustment['symbolic_sequence'])}")
         logger.info(f"   Confidence: {adjustment['confidence']:.2f}")
@@ -921,9 +864,7 @@ class SymbolicThresholdAutotuner:
 
         # Recent adjustments
         recent_adjustments = [
-            adj
-            for adj in self.adjustment_history
-            if time.time() - adj.timestamp < 86400
+            adj for adj in self.adjustment_history if time.time() - adj.timestamp < 86400
         ]  # Last 24 hours
         for adj in recent_adjustments[-5:]:  # Last 5 adjustments
             report["recent_adjustments"].append(
@@ -940,9 +881,7 @@ class SymbolicThresholdAutotuner:
         if len(self.metrics_history) >= 20:
             recent_20 = list(self.metrics_history)[-20:]
             older_20 = (
-                list(self.metrics_history)[-40:-20]
-                if len(self.metrics_history) >= 40
-                else []
+                list(self.metrics_history)[-40:-20] if len(self.metrics_history) >= 40 else []
             )
 
             if older_20:
@@ -953,9 +892,7 @@ class SymbolicThresholdAutotuner:
                     "guardian_response_time",
                     "false_positive_rate",
                 ]:
-                    recent_avg = statistics.mean(
-                        [getattr(m, metric) for m in recent_20]
-                    )
+                    recent_avg = statistics.mean([getattr(m, metric) for m in recent_20])
                     older_avg = statistics.mean([getattr(m, metric) for m in older_20])
                     trend = recent_avg - older_avg
 
@@ -971,7 +908,9 @@ class SymbolicThresholdAutotuner:
                                 "drift_velocity",
                                 "false_positive_rate",
                             ]
-                            else "declining" if trend > 0 else "stable"
+                            else "declining"
+                            if trend > 0
+                            else "stable"
                         ),
                     }
 
@@ -981,9 +920,7 @@ class SymbolicThresholdAutotuner:
                 report["symbolic_effectiveness"][pattern] = {
                     "usage_count": len(effectiveness_scores),
                     "avg_confidence": statistics.mean(effectiveness_scores),
-                    "pattern_symbols": self.ADJUSTMENT_PATTERNS.get(pattern, {}).get(
-                        "pattern", []
-                    ),
+                    "pattern_symbols": self.ADJUSTMENT_PATTERNS.get(pattern, {}).get("pattern", []),
                 }
 
         logger.info(f"Report summary: {report['system_summary']}")
@@ -992,9 +929,7 @@ class SymbolicThresholdAutotuner:
 
     def get_current_thresholds(self) -> dict[str, float]:
         """Get current threshold values"""
-        return {
-            name: threshold.current_value for name, threshold in self.thresholds.items()
-        }
+        return {name: threshold.current_value for name, threshold in self.thresholds.items()}
 
     def get_threshold_info(self, threshold_name: str) -> Optional[dict]:
         """Get detailed information about a specific threshold"""
@@ -1003,9 +938,7 @@ class SymbolicThresholdAutotuner:
 
         threshold = self.thresholds[threshold_name]
         recent_adjustments = [
-            adj
-            for adj in self.adjustment_history
-            if adj.threshold_name == threshold_name
+            adj for adj in self.adjustment_history if adj.threshold_name == threshold_name
         ]
 
         return {
@@ -1019,11 +952,7 @@ class SymbolicThresholdAutotuner:
             "adjustment_count": threshold.adjustment_count,
             "last_adjusted": threshold.last_adjusted,
             "recent_adjustments": len(
-                [
-                    adj
-                    for adj in recent_adjustments
-                    if time.time() - adj.timestamp < 86400
-                ]
+                [adj for adj in recent_adjustments if time.time() - adj.timestamp < 86400]
             ),
         }
 
@@ -1054,17 +983,13 @@ class SymbolicThresholdAutotuner:
         }
 
         await self._apply_threshold_adjustment(threshold, adjustment)
-        logger.info(
-            f"Manual threshold adjustment applied: {threshold_name} = {new_value}"
-        )
+        logger.info(f"Manual threshold adjustment applied: {threshold_name} = {new_value}")
         return True
 
 
 async def main():
     """Demo of symbolic threshold autotuner"""
-    autotuner = SymbolicThresholdAutotuner(
-        update_interval=5.0
-    )  # 5 second intervals for demo
+    autotuner = SymbolicThresholdAutotuner(update_interval=5.0)  # 5 second intervals for demo
 
     print("🎯 Symbolic Threshold Autotuner Demo")
     print("=" * 50)
@@ -1098,9 +1023,7 @@ async def main():
         if autotuner.adjustment_history:
             print("Recent adjustments:")
             for adj in autotuner.adjustment_history[-3:]:
-                print(
-                    f"  {adj.threshold_name}: {adj.old_value:.3f} → {adj.new_value:.3f}"
-                )
+                print(f"  {adj.threshold_name}: {adj.old_value:.3f} → {adj.new_value:.3f}")
                 print(f"    Reason: {adj.reason}")
                 print(f"    Symbolic: {'→'.join(adj.symbolic_sequence)}")
 

@@ -52,9 +52,7 @@ class KernelBus:
         self._active = CONTEXT_BUS_ACTIVE
         logger.info(f"🌀 Kernel Bus initialized (active={self._active})")
 
-    @instrument(
-        "AWARENESS", label="orchestration:emit", capability="orchestrator:events"
-    )
+    @instrument("AWARENESS", label="orchestration:emit", capability="orchestrator:events")
     def emit(
         self,
         event: str,
@@ -112,9 +110,7 @@ class KernelBus:
 
         return {"ok": True, "event_id": event_id, "dispatched": 0, "mode": "dry_run"}
 
-    @instrument(
-        "DECISION", label="orchestration:subscribe", capability="orchestrator:events"
-    )
+    @instrument("DECISION", label="orchestration:subscribe", capability="orchestrator:events")
     def subscribe(
         self, event: str, callback: Callable, *, mode: str = "dry_run", **kwargs
     ) -> dict[str, Any]:
@@ -142,9 +138,7 @@ class KernelBus:
 
         return {"ok": True, "event": event, "subscribers": 0, "mode": "dry_run"}
 
-    @instrument(
-        "AWARENESS", label="orchestration:status", capability="orchestrator:monitor"
-    )
+    @instrument("AWARENESS", label="orchestration:status", capability="orchestrator:monitor")
     def get_status(self, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
         """
         Get kernel bus status and metrics.
@@ -156,9 +150,7 @@ class KernelBus:
             "ok": True,
             "active": self._active and mode != "dry_run",
             "metrics": self._metrics.copy(),
-            "subscribers": {
-                event: len(handlers) for event, handlers in self._subscribers.items()
-            },
+            "subscribers": {event: len(handlers) for event, handlers in self._subscribers.items()},
             "history_size": len(self._event_history),
             "mode": mode,
         }
@@ -198,12 +190,8 @@ def get_kernel_bus() -> KernelBus:
     return _kernel_bus_instance
 
 
-@instrument(
-    "AWARENESS", label="orchestration:emit_global", capability="orchestrator:events"
-)
-def emit(
-    event: str, payload: dict[str, Any], *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+@instrument("AWARENESS", label="orchestration:emit_global", capability="orchestrator:events")
+def emit(event: str, payload: dict[str, Any], *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """
     Emit an event to the global kernel bus.
 
@@ -219,12 +207,8 @@ def emit(
     return bus.emit(event, payload, mode=mode, **kwargs)
 
 
-@instrument(
-    "DECISION", label="orchestration:subscribe_global", capability="orchestrator:events"
-)
-def subscribe(
-    event: str, callback: Callable, *, mode: str = "dry_run", **kwargs
-) -> dict[str, Any]:
+@instrument("DECISION", label="orchestration:subscribe_global", capability="orchestrator:events")
+def subscribe(event: str, callback: Callable, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """
     Subscribe to an event on the global kernel bus.
 

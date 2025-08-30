@@ -42,9 +42,7 @@ class ConnectivityEngine:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(
-            engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}"
-        )
+        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(
@@ -102,9 +100,7 @@ class ConnectivityEngine:
                 return {"status": "error", "error": "Engine not initialized"}
 
         try:
-            result = await self._core_integration_processing(
-                data, category
-            )  # Pass category
+            result = await self._core_integration_processing(data, category)  # Pass category
 
             response = {
                 "status": "success",

@@ -43,7 +43,9 @@ async def debug_compliance_reporting():
         # Check buffer
         print(f"\n2️⃣ Events in buffer: {len(audit_system.event_buffer)}")
         for i, event in enumerate(audit_system.event_buffer):
-            print(f"   📄 Event {i}: {event.event_type.value}, compliance: {event.compliance_relevant}, frameworks: {event.compliance_frameworks}")
+            print(
+                f"   📄 Event {i}: {event.event_type.value}, compliance: {event.compliance_relevant}, frameworks: {event.compliance_frameworks}"
+            )
 
         # Test query without flushing (should find buffer events)
         print("\n3️⃣ Testing query (buffer only)...")
@@ -52,7 +54,7 @@ async def debug_compliance_reporting():
             end_time=datetime.now() + timedelta(hours=1),
             compliance_relevant_only=True,
             compliance_frameworks={"gdpr"},
-            limit=100
+            limit=100,
         )
 
         events = await audit_system.query_events(query)

@@ -105,9 +105,7 @@ class AlphaFoldInspiredEngine:
         seq_embedding = await self._embed_sequence(sequence)
 
         # Apply emotional stabilizers as force constraints
-        stabilized_embedding = await self._apply_stabilizers(
-            seq_embedding, emotional_stabilizers
-        )
+        stabilized_embedding = await self._apply_stabilizers(seq_embedding, emotional_stabilizers)
 
         # Run GAT folding iterations
         folded_structure = await self._gat_folding_iterations(
@@ -181,9 +179,7 @@ class AlphaFoldInspiredEngine:
 
             # Apply ethical constraints as masks
             if ethical_constraints:
-                mask = self._generate_ethical_mask(
-                    ethical_constraints, len(current_state)
-                )
+                mask = self._generate_ethical_mask(ethical_constraints, len(current_state))
                 attention_probs *= mask
 
             # Update state based on attention
@@ -216,9 +212,7 @@ class AlphaFoldInspiredEngine:
 
         return coords
 
-    def _calculate_stability(
-        self, structure_3d: list[tuple[float, float, float]]
-    ) -> float:
+    def _calculate_stability(self, structure_3d: list[tuple[float, float, float]]) -> float:
         """Calculate protein stability score"""
         if len(structure_3d) < 2:
             return 0.0
@@ -226,9 +220,7 @@ class AlphaFoldInspiredEngine:
         # Calculate average distance between consecutive residues
         distances = []
         for i in range(1, len(structure_3d)):
-            dist = np.linalg.norm(
-                np.array(structure_3d[i]) - np.array(structure_3d[i - 1])
-            )
+            dist = np.linalg.norm(np.array(structure_3d[i]) - np.array(structure_3d[i - 1]))
             distances.append(dist)
 
         avg_distance = np.mean(distances)
@@ -279,15 +271,11 @@ class EmotionalBondCalculator:
         # Create bonds based on emotional state
         if abs(valence) > 0.7:
             # Strong emotional state creates stabilizing bond
-            bonds.append(
-                {"force": abs(valence), "position": 0, "type": "valence_anchor"}
-            )
+            bonds.append({"force": abs(valence), "position": 0, "type": "valence_anchor"})
 
         if arousal > 0.8:
             # High arousal creates energetic bonds
-            bonds.append(
-                {"force": arousal, "position": len(bonds), "type": "arousal_catalyst"}
-            )
+            bonds.append({"force": arousal, "position": len(bonds), "type": "arousal_catalyst"})
 
         # Decision complexity affects bonding
         if "complexity" in decision_data:
@@ -336,9 +324,7 @@ class TopologyAnalyzer:
             coherence_metric=coherence,
         )
 
-    async def _detect_bias_clusters(
-        self, structure_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _detect_bias_clusters(self, structure_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect clusters indicating bias accumulation"""
         clusters = []
         coordinates = structure_data.get("coordinates", [])
@@ -349,12 +335,8 @@ class TopologyAnalyzer:
         # Simple clustering based on spatial proximity
         # In production, use more sophisticated clustering algorithms
         for i in range(len(coordinates) - 2):
-            dist1 = np.linalg.norm(
-                np.array(coordinates[i]) - np.array(coordinates[i + 1])
-            )
-            dist2 = np.linalg.norm(
-                np.array(coordinates[i + 1]) - np.array(coordinates[i + 2])
-            )
+            dist1 = np.linalg.norm(np.array(coordinates[i]) - np.array(coordinates[i + 1]))
+            dist2 = np.linalg.norm(np.array(coordinates[i + 1]) - np.array(coordinates[i + 2]))
 
             # Tight clustering might indicate bias
             if dist1 < 0.5 and dist2 < 0.5:
@@ -368,9 +350,7 @@ class TopologyAnalyzer:
 
         return clusters
 
-    async def _detect_trauma_patterns(
-        self, structure_data: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _detect_trauma_patterns(self, structure_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect patterns indicating traumatic memory encoding"""
         patterns = []
         energy = structure_data.get("energy", 0)
@@ -440,9 +420,7 @@ class TopologyAnalyzer:
         # Calculate smoothness of the fold
         distances = []
         for i in range(1, len(coordinates)):
-            dist = np.linalg.norm(
-                np.array(coordinates[i]) - np.array(coordinates[i - 1])
-            )
+            dist = np.linalg.norm(np.array(coordinates[i]) - np.array(coordinates[i - 1]))
             distances.append(dist)
 
         # Coherence is inverse of distance variance
@@ -585,9 +563,7 @@ class VIVOXSymbolicProteome:
         """Retrieve protein fold by ID"""
         return self.protein_database.get(protein_id)
 
-    async def _memory_to_amino_sequence(
-        self, memory_entry: "MemoryHelixEntry"
-    ) -> AminoSequence:
+    async def _memory_to_amino_sequence(self, memory_entry: "MemoryHelixEntry") -> AminoSequence:
         """Convert memory entry to symbolic amino acid sequence"""
         # Map decision components to amino acids
         sequence = ""
@@ -611,9 +587,7 @@ class VIVOXSymbolicProteome:
             if i > 0 and memory_entry.emotional_dna.resonance_frequency > 0.7:
                 bonds.append((i - 1, i))
 
-        return AminoSequence(
-            sequence=sequence, bonds=bonds, energy_profile=energy_profile
-        )
+        return AminoSequence(sequence=sequence, bonds=bonds, energy_profile=energy_profile)
 
     async def _chaperone_assisted_refold(
         self, sequence: AminoSequence, emotional_bonds: list[dict[str, float]]
@@ -648,39 +622,23 @@ class VIVOXSymbolicProteome:
         """Generate repair recommendations based on detected issues"""
         recommendations = []
 
-        has_bias = any(
-            issue.type == MisfoldingType.BIAS_ACCUMULATION for issue in issues
-        )
-        has_trauma = any(
-            issue.type == MisfoldingType.TRAUMA_PATTERN for issue in issues
-        )
-        has_conflict = any(
-            issue.type == MisfoldingType.ETHICAL_CONFLICT for issue in issues
-        )
+        has_bias = any(issue.type == MisfoldingType.BIAS_ACCUMULATION for issue in issues)
+        has_trauma = any(issue.type == MisfoldingType.TRAUMA_PATTERN for issue in issues)
+        has_conflict = any(issue.type == MisfoldingType.ETHICAL_CONFLICT for issue in issues)
 
         if has_bias:
             recommendations.append(
                 "Apply debiasing chaperone proteins to redistribute memory clusters"
             )
-            recommendations.append(
-                "Increase ethical constraint weights during refolding"
-            )
+            recommendations.append("Increase ethical constraint weights during refolding")
 
         if has_trauma:
-            recommendations.append(
-                "Implement graduated exposure protocol for traumatic memories"
-            )
-            recommendations.append(
-                "Apply therapeutic refolding with reduced energy states"
-            )
+            recommendations.append("Implement graduated exposure protocol for traumatic memories")
+            recommendations.append("Apply therapeutic refolding with reduced energy states")
 
         if has_conflict:
-            recommendations.append(
-                "Initiate moral arbitration process to resolve conflicts"
-            )
-            recommendations.append(
-                "Consider memory bifurcation to separate conflicting elements"
-            )
+            recommendations.append("Initiate moral arbitration process to resolve conflicts")
+            recommendations.append("Consider memory bifurcation to separate conflicting elements")
 
         if not recommendations:
             recommendations.append("Monitor protein stability over time")

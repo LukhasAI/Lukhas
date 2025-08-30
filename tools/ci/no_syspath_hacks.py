@@ -95,9 +95,7 @@ def main(argv: list[str]) -> int:
     if total:
         print()
         print("❌ Fragile import patterns detected.")
-        print(
-            "   - Replace sys.path hacks with proper package imports (run as module)."
-        )
+        print("   - Replace sys.path hacks with proper package imports (run as module).")
         print("   - Replace 'from X import *' with explicit imports.")
         return 1
 

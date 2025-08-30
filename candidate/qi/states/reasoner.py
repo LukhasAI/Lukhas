@@ -160,9 +160,7 @@ class QICollapseEngine:
             collapse_type = self._determine_collapse_type(
                 contradictions, reasoning_branches, context
             )
-            method_logger.info(
-                "Collapse type determined", collapse_type=collapse_type.value
-            )
+            method_logger.info("Collapse type determined", collapse_type=collapse_type.value)
 
             # Evaluate all branches for stability and viability
             evaluated_branches = []
@@ -183,9 +181,7 @@ class QICollapseEngine:
             resolution_strategy = self._select_resolution_strategy(
                 collapse_type, evaluated_branches, contradictions, context
             )
-            method_logger.info(
-                "Resolution strategy selected", strategy=resolution_strategy.value
-            )
+            method_logger.info("Resolution strategy selected", strategy=resolution_strategy.value)
 
             # Apply resolution strategy to select dominant branch
             resolved_chain = self._apply_resolution_strategy(
@@ -194,13 +190,9 @@ class QICollapseEngine:
 
             # Calculate final metrics
             eliminated_chains = [
-                b.chain_id
-                for b in evaluated_branches
-                if b.chain_id != resolved_chain.chain_id
+                b.chain_id for b in evaluated_branches if b.chain_id != resolved_chain.chain_id
             ]
-            entropy_delta = self._calculate_entropy_delta(
-                reasoning_branches, resolved_chain
-            )
+            entropy_delta = self._calculate_entropy_delta(reasoning_branches, resolved_chain)
             confidence_score = self._calculate_final_confidence(resolved_chain, context)
 
             # Create collapse result
@@ -488,9 +480,7 @@ class QICollapseEngine:
             return CollapseType.ETHICAL_CONFLICT
 
         # Check for stability issues
-        unstable_branches = sum(
-            1 for b in branches if b.glyph_stability < self.stability_threshold
-        )
+        unstable_branches = sum(1 for b in branches if b.glyph_stability < self.stability_threshold)
         if unstable_branches / len(branches) > 0.5:
             return CollapseType.STABILITY_THRESHOLD
 
@@ -547,14 +537,10 @@ class QICollapseEngine:
         if not original_branches:
             return 0.0
 
-        original_entropy = sum(b.entropy for b in original_branches) / len(
-            original_branches
-        )
+        original_entropy = sum(b.entropy for b in original_branches) / len(original_branches)
         return original_entropy - resolved.entropy
 
-    def _calculate_final_confidence(
-        self, resolved_chain: ReasoningChain, context: dict
-    ) -> float:
+    def _calculate_final_confidence(self, resolved_chain: ReasoningChain, context: dict) -> float:
         """Calculates final confidence score for the resolved chain."""
         base_confidence = resolved_chain.confidence
 
@@ -567,9 +553,7 @@ class QICollapseEngine:
         # Ethical alignment boost
         ethical_boost = resolved_chain.ethical_score * 0.05
 
-        return min(
-            1.0, base_confidence + context_boost + stability_boost + ethical_boost
-        )
+        return min(1.0, base_confidence + context_boost + stability_boost + ethical_boost)
 
     def _calculate_symbolic_coherence(self, elements: list[dict[str, Any]]) -> float:
         """Calculates symbolic coherence between elements."""
@@ -625,12 +609,9 @@ class QICollapseEngine:
         return {
             "total_collapses": len(self.collapse_history),
             "threshold_breaches": len(self.threshold_events),
-            "recent_collapse_types": [
-                c.collapse_type.value for c in self.collapse_history[-10:]
-            ],
+            "recent_collapse_types": [c.collapse_type.value for c in self.collapse_history[-10:]],
             "average_confidence": (
-                sum(c.confidence_score for c in self.collapse_history)
-                / len(self.collapse_history)
+                sum(c.confidence_score for c in self.collapse_history) / len(self.collapse_history)
                 if self.collapse_history
                 else 0.0
             ),
@@ -644,10 +625,10 @@ class QICollapseEngine:
 
 # Export main classes
 __all__ = [
-    "QICollapseEngine",
     "CollapseResult",
-    "ReasoningChain",
     "CollapseType",
+    "QICollapseEngine",
+    "ReasoningChain",
     "ResolutionStrategy",
 ]
 

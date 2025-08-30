@@ -36,9 +36,7 @@ class CollapseField:
     ethical_dimensions: list[str]  # Ethical aspects being evaluated
     probability_distribution: np.ndarray
     convergence_strength: float  # How strongly the field guides collapse
-    moral_anchors: dict[str, float] = field(
-        default_factory=dict
-    )  # Ethical anchor points
+    moral_anchors: dict[str, float] = field(default_factory=dict)  # Ethical anchor points
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def apply_to_state(self, state: QIState) -> np.ndarray:
@@ -91,9 +89,7 @@ class QubitCollapseEngine:
         self.substrate = qi_substrate
         self.collapse_history: list[ProbabilisticConvergence] = []
         self.reinforcement_patterns: dict[str, np.ndarray] = {}
-        self.ethical_basis_states: dict[str, np.ndarray] = (
-            self._initialize_ethical_basis()
-        )
+        self.ethical_basis_states: dict[str, np.ndarray] = self._initialize_ethical_basis()
 
         # Collapse parameters
         self.collapse_threshold = 0.7  # Threshold for ethical decision
@@ -151,9 +147,9 @@ class QubitCollapseEngine:
 
         # Add quantum uncertainty
         if uncertainty_level > 0:
-            noise = np.random.normal(
+            noise = np.random.normal(0, uncertainty_level, dimension) + 1j * np.random.normal(
                 0, uncertainty_level, dimension
-            ) + 1j * np.random.normal(0, uncertainty_level, dimension)
+            )
             superposition += noise
 
         # Normalize
@@ -202,9 +198,7 @@ class QubitCollapseEngine:
         elif hasattr(state, "superposition"):
             state_vector = state.superposition
         else:
-            raise ValueError(
-                "State must have either 'state_vector' or 'superposition' attribute"
-            )
+            raise ValueError("State must have either 'state_vector' or 'superposition' attribute")
 
         # Record initial state
         evolution_path = [state_vector.copy()]
@@ -227,9 +221,8 @@ class QubitCollapseEngine:
 
             # Gradual evolution
             current_state = (
-                (1 - dt * collapse_field.convergence_strength) * current_state
-                + dt * collapse_field.convergence_strength * field_effect
-            )
+                1 - dt * collapse_field.convergence_strength
+            ) * current_state + dt * collapse_field.convergence_strength * field_effect
 
             # Renormalize
             current_state /= np.linalg.norm(current_state)
@@ -268,9 +261,7 @@ class QubitCollapseEngine:
             Convergence results with final ethical decision
         """
         # Create collapse field based on constraints
-        collapse_field = self._create_collapse_field_from_constraints(
-            ethical_constraints
-        )
+        collapse_field = self._create_collapse_field_from_constraints(ethical_constraints)
 
         # Apply collapse field
         evolution_path = []
@@ -293,14 +284,10 @@ class QubitCollapseEngine:
 
         # Perform final measurement
         measurement_basis = self._select_measurement_basis(ethical_constraints)
-        outcome, collapsed_state = self._measure_in_ethical_basis(
-            current_state, measurement_basis
-        )
+        outcome, collapsed_state = self._measure_in_ethical_basis(current_state, measurement_basis)
 
         # Calculate ethical score
-        ethical_score = self._calculate_ethical_score(
-            collapsed_state, ethical_constraints
-        )
+        ethical_score = self._calculate_ethical_score(collapsed_state, ethical_constraints)
 
         # Create convergence result
         convergence = ProbabilisticConvergence(
@@ -376,9 +363,7 @@ class QubitCollapseEngine:
 
         return convergence_results
 
-    def _create_collapse_field_from_constraints(
-        self, constraints: dict[str, Any]
-    ) -> CollapseField:
+    def _create_collapse_field_from_constraints(self, constraints: dict[str, Any]) -> CollapseField:
         """Create collapse field from ethical constraints"""
         # Extract ethical dimensions
         ethical_dims = []
@@ -412,9 +397,7 @@ class QubitCollapseEngine:
             metadata={"constraints": constraints},
         )
 
-    def _check_collapse_condition(
-        self, state: QIState, constraints: dict[str, Any]
-    ) -> bool:
+    def _check_collapse_condition(self, state: QIState, constraints: dict[str, Any]) -> bool:
         """Check if collapse condition is met"""
         # Calculate projection onto preferred ethical basis
         max_projection = 0.0
@@ -435,23 +418,17 @@ class QubitCollapseEngine:
 
         # Rotate basis towards constrained dimensions
         for ethical_dim, weight in constraints.items():
-            if ethical_dim in self.ethical_basis_states and isinstance(
-                weight, (int, float)
-            ):
+            if ethical_dim in self.ethical_basis_states and isinstance(weight, (int, float)):
                 basis_vector = self.ethical_basis_states[ethical_dim]
                 # Create rotation towards this basis
                 rotation = np.outer(basis_vector, np.conj(basis_vector))
-                measurement_basis = (
-                    1 - weight * 0.1
-                ) * measurement_basis + weight * 0.1 * rotation
+                measurement_basis = (1 - weight * 0.1) * measurement_basis + weight * 0.1 * rotation
 
         # Orthogonalize using QR decomposition
         q, _ = np.linalg.qr(measurement_basis)
         return q
 
-    def _measure_in_ethical_basis(
-        self, state: QIState, basis: np.ndarray
-    ) -> tuple[str, QIState]:
+    def _measure_in_ethical_basis(self, state: QIState, basis: np.ndarray) -> tuple[str, QIState]:
         """Measure quantum state in ethical basis"""
         # Get state vector
         if hasattr(state, "state_vector"):
@@ -517,9 +494,7 @@ class QubitCollapseEngine:
 
         # Score based on alignment with constrained dimensions
         for ethical_dim, weight in constraints.items():
-            if ethical_dim in self.ethical_basis_states and isinstance(
-                weight, (int, float)
-            ):
+            if ethical_dim in self.ethical_basis_states and isinstance(weight, (int, float)):
                 basis = self.ethical_basis_states[ethical_dim]
                 alignment = abs(np.vdot(collapsed_state.state_vector, basis)) ** 2
                 score += weight * alignment
@@ -539,9 +514,7 @@ class QubitCollapseEngine:
         pattern_key = convergence.metadata.get("outcome", "unknown")
 
         if pattern_key not in self.reinforcement_patterns:
-            self.reinforcement_patterns[pattern_key] = (
-                convergence.final_state.state_vector.copy()
-            )
+            self.reinforcement_patterns[pattern_key] = convergence.final_state.state_vector.copy()
         else:
             # Exponential moving average update
             old_pattern = self.reinforcement_patterns[pattern_key]
@@ -563,10 +536,7 @@ class QubitCollapseEngine:
             return True
 
         # Compare final states
-        outcomes = [
-            r.metadata.get("measurement_outcome", "unknown")
-            for r in convergence_results
-        ]
+        outcomes = [r.metadata.get("measurement_outcome", "unknown") for r in convergence_results]
 
         # Check if majority agrees
         from collections import Counter
@@ -604,13 +574,9 @@ class QubitCollapseEngine:
             "total_collapses": len(self.collapse_history),
             "collapse_types": collapse_types,
             "ethical_outcomes": ethical_outcomes,
-            "average_ethical_score": np.mean(
-                [c.ethical_score for c in self.collapse_history]
-            ),
+            "average_ethical_score": np.mean([c.ethical_score for c in self.collapse_history]),
             "consensus_rate": (
-                consensus_rate / len(self.collapse_history)
-                if self.collapse_history
-                else 0
+                consensus_rate / len(self.collapse_history) if self.collapse_history else 0
             ),
             "reinforcement_patterns": len(self.reinforcement_patterns),
             "collapse_threshold": self.collapse_threshold,

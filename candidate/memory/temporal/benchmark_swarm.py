@@ -58,7 +58,7 @@ async def run_benchmark(num_actors=1000, num_messages=10000):
 
     print(f"Actors: {num_actors}, Messages: {num_messages}")
     print(f"Processed: {total_processed}, Time: {elapsed:.2f}s")
-    print(f"Throughput: {total_processed/elapsed:.2f} messages/sec")
+    print(f"Throughput: {total_processed / elapsed:.2f} messages/sec")
 
 
 if __name__ == "__main__":

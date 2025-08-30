@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MarketOpportunity:
     """Represents a trillion-dollar market opportunity"""
+
     domain: str
     market_size: float
     time_horizon_years: int
@@ -35,6 +36,7 @@ class MarketOpportunity:
 @dataclass
 class CompetitiveAnalysis:
     """Competitive landscape analysis result"""
+
     competitor: str
     innovation_patterns: dict[str, Any]
     intervention_opportunities: list[dict[str, Any]]
@@ -84,12 +86,14 @@ class EconomicRealityManipulator(CoreInterface):
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
             from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
         except:
             from lukhas.governance.guardian_system import GuardianSystem
+
             self.guardian = GuardianSystem()
 
         # Initialize sub-components
@@ -101,10 +105,7 @@ class EconomicRealityManipulator(CoreInterface):
         self._initialized = True
         logger.info("Economic Reality Manipulator initialized with LUKHAS integration")
 
-    async def create_trillion_dollar_markets(
-        self,
-        innovation_domains: list[str]
-    ) -> dict[str, Any]:
+    async def create_trillion_dollar_markets(self, innovation_domains: list[str]) -> dict[str, Any]:
         """
         Identify and create new trillion-dollar markets through AI innovation
 
@@ -118,18 +119,20 @@ class EconomicRealityManipulator(CoreInterface):
 
         # Emit market exploration event
         if self.kernel_bus:
-            await self.kernel_bus.emit(SymbolicEvent(
-                type=SymbolicEffect.DISCOVERY,
-                source="economic_reality_manipulator",
-                data={"action": "market_exploration", "domains": innovation_domains}
-            ))
+            await self.kernel_bus.emit(
+                SymbolicEvent(
+                    type=SymbolicEffect.DISCOVERY,
+                    source="economic_reality_manipulator",
+                    data={"action": "market_exploration", "domains": innovation_domains},
+                )
+            )
 
         # Scan global markets for $1T+ opportunities
         market_opportunities = await self.market_intelligence_engine.scan_global_opportunities(
             domains=innovation_domains,
             min_market_size=1_000_000_000_000,  # $1T minimum
             time_horizon_years=10,
-            disruption_potential_threshold=0.9
+            disruption_potential_threshold=0.9,
         )
 
         created_markets = []
@@ -137,8 +140,7 @@ class EconomicRealityManipulator(CoreInterface):
             # Validate with Guardian System
             if self.guardian:
                 ethics_check = await self.guardian.validate_action(
-                    action_type="market_creation",
-                    parameters={"opportunity": opportunity.__dict__}
+                    action_type="market_creation", parameters={"opportunity": opportunity.__dict__}
                 )
                 if not ethics_check.get("approved", False):
                     logger.warning(f"Market opportunity rejected by Guardian: {opportunity.domain}")
@@ -157,22 +159,26 @@ class EconomicRealityManipulator(CoreInterface):
 
             # Emit market creation success event
             if self.kernel_bus:
-                await self.kernel_bus.emit(SymbolicEvent(
-                    type=SymbolicEffect.TRANSFORMATION,
-                    source="economic_reality_manipulator",
-                    data={"market_created": opportunity.domain, "value": opportunity.market_size}
-                ))
+                await self.kernel_bus.emit(
+                    SymbolicEvent(
+                        type=SymbolicEffect.TRANSFORMATION,
+                        source="economic_reality_manipulator",
+                        data={
+                            "market_created": opportunity.domain,
+                            "value": opportunity.market_size,
+                        },
+                    )
+                )
 
         return {
             "markets_created": created_markets,
             "total_market_value": sum(m.get("projected_value", 0) for m in created_markets),
             "competitive_advantages": await self.calculate_competitive_advantages(created_markets),
-            "strategic_positioning": await self.analyze_strategic_positioning(created_markets)
+            "strategic_positioning": await self.analyze_strategic_positioning(created_markets),
         }
 
     async def manipulate_competitive_landscape(
-        self,
-        target_competitors: list[str]
+        self, target_competitors: list[str]
     ) -> dict[str, Any]:
         """
         Strategic competitive positioning through innovation timing
@@ -205,8 +211,7 @@ class EconomicRealityManipulator(CoreInterface):
             if self.guardian:
                 for strategy in counter_strategies:
                     ethics_check = await self.guardian.validate_action(
-                        action_type="competitive_strategy",
-                        parameters={"strategy": strategy}
+                        action_type="competitive_strategy", parameters={"strategy": strategy}
                     )
                     if not ethics_check.get("approved", False):
                         counter_strategies.remove(strategy)
@@ -216,7 +221,7 @@ class EconomicRealityManipulator(CoreInterface):
                 innovation_patterns=innovation_patterns,
                 intervention_opportunities=intervention_opportunities,
                 counter_strategies=counter_strategies,
-                estimated_market_impact=await self.estimate_competitive_impact(counter_strategies)
+                estimated_market_impact=await self.estimate_competitive_impact(counter_strategies),
             )
 
         return {
@@ -226,26 +231,22 @@ class EconomicRealityManipulator(CoreInterface):
             ),
             "strategic_recommendations": await self.generate_strategic_recommendations(
                 competitor_analysis
-            )
+            ),
         }
 
-    async def design_market_architecture(
-        self,
-        opportunity: MarketOpportunity
-    ) -> dict[str, Any]:
+    async def design_market_architecture(self, opportunity: MarketOpportunity) -> dict[str, Any]:
         """Design the architecture for a new market"""
 
         # Use value creation synthesizer to design market structure
         market_structure = await self.value_creation_synthesizer.synthesize_value_structure(
             domain=opportunity.domain,
             market_size=opportunity.market_size,
-            time_horizon=opportunity.time_horizon_years
+            time_horizon=opportunity.time_horizon_years,
         )
 
         # Analyze economic causality chains
         causality_chains = await self.economic_causality_analyzer.analyze_causality_chains(
-            market_structure=market_structure,
-            disruption_potential=opportunity.disruption_potential
+            market_structure=market_structure, disruption_potential=opportunity.disruption_potential
         )
 
         return {
@@ -254,27 +255,23 @@ class EconomicRealityManipulator(CoreInterface):
             "causality_chains": causality_chains,
             "implementation_phases": await self.generate_implementation_phases(
                 market_structure, causality_chains
-            )
+            ),
         }
 
-    async def implement_market_creation(
-        self,
-        market_design: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def implement_market_creation(self, market_design: dict[str, Any]) -> dict[str, Any]:
         """Execute market creation strategy"""
 
         implementation_results = {
             "phases_completed": [],
             "market_penetration": 0.0,
             "value_captured": 0.0,
-            "strategic_assets": []
+            "strategic_assets": [],
         }
 
         for phase in market_design.get("implementation_phases", []):
             # Execute phase with competitive landscape controller
             phase_result = await self.competitive_landscape_controller.execute_market_phase(
-                phase=phase,
-                market_design=market_design
+                phase=phase, market_design=market_design
             )
 
             implementation_results["phases_completed"].append(phase_result)
@@ -286,17 +283,18 @@ class EconomicRealityManipulator(CoreInterface):
 
             # Emit phase completion event
             if self.kernel_bus:
-                await self.kernel_bus.emit(SymbolicEvent(
-                    type=SymbolicEffect.COMPLETION,
-                    source="economic_reality_manipulator",
-                    data={"phase": phase.get("name"), "result": phase_result}
-                ))
+                await self.kernel_bus.emit(
+                    SymbolicEvent(
+                        type=SymbolicEffect.COMPLETION,
+                        source="economic_reality_manipulator",
+                        data={"phase": phase.get("name"), "result": phase_result},
+                    )
+                )
 
         return implementation_results
 
     async def optimize_market_dynamics(
-        self,
-        market_implementation: dict[str, Any]
+        self, market_implementation: dict[str, Any]
     ) -> dict[str, Any]:
         """Optimize market dynamics for maximum value capture"""
 
@@ -311,53 +309,40 @@ class EconomicRealityManipulator(CoreInterface):
             target_metrics={
                 "market_share": 0.3,  # 30% market share target
                 "profit_margin": 0.4,  # 40% profit margin target
-                "growth_rate": 2.0    # 2x annual growth target
-            }
+                "growth_rate": 2.0,  # 2x annual growth target
+            },
         )
 
         # Apply optimizations
         optimized_market = market_implementation.copy()
         for strategy in optimization_strategies:
-            optimized_market = await self.apply_optimization_strategy(
-                optimized_market, strategy
-            )
+            optimized_market = await self.apply_optimization_strategy(optimized_market, strategy)
 
         optimized_market["optimization_applied"] = True
-        optimized_market["projected_value"] = await self.calculate_projected_value(
-            optimized_market
-        )
+        optimized_market["projected_value"] = await self.calculate_projected_value(optimized_market)
 
         return optimized_market
 
-    async def analyze_competitor_innovation_patterns(
-        self,
-        competitor: str
-    ) -> dict[str, Any]:
+    async def analyze_competitor_innovation_patterns(self, competitor: str) -> dict[str, Any]:
         """Analyze a competitor's innovation patterns"""
 
         return await self.market_intelligence_engine.analyze_competitor_patterns(
-            competitor=competitor,
-            analysis_depth="comprehensive",
-            time_window_years=5
+            competitor=competitor, analysis_depth="comprehensive", time_window_years=5
         )
 
     async def identify_intervention_opportunities(
-        self,
-        competitor: str,
-        innovation_patterns: dict[str, Any]
+        self, competitor: str, innovation_patterns: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify strategic intervention points in competitor's innovation cycle"""
 
         return await self.competitive_landscape_controller.identify_interventions(
             competitor=competitor,
             patterns=innovation_patterns,
-            intervention_types=["preemptive", "disruptive", "complementary", "defensive"]
+            intervention_types=["preemptive", "disruptive", "complementary", "defensive"],
         )
 
     async def generate_competitive_counter_strategies(
-        self,
-        competitor: str,
-        intervention_opportunities: list[dict[str, Any]]
+        self, competitor: str, intervention_opportunities: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """Generate counter-strategies for competitive positioning"""
 
@@ -366,16 +351,13 @@ class EconomicRealityManipulator(CoreInterface):
             strategy = await self.competitive_landscape_controller.generate_counter_strategy(
                 competitor=competitor,
                 opportunity=opportunity,
-                strategy_type=opportunity.get("type", "disruptive")
+                strategy_type=opportunity.get("type", "disruptive"),
             )
             strategies.append(strategy)
 
         return strategies
 
-    async def estimate_competitive_impact(
-        self,
-        counter_strategies: list[dict[str, Any]]
-    ) -> float:
+    async def estimate_competitive_impact(self, counter_strategies: list[dict[str, Any]]) -> float:
         """Estimate the market impact of competitive counter-strategies"""
 
         total_impact = 0.0
@@ -385,16 +367,15 @@ class EconomicRealityManipulator(CoreInterface):
                 market_factors={
                     "market_size": strategy.get("target_market_size", 1e9),
                     "time_horizon": strategy.get("time_horizon", 5),
-                    "success_probability": strategy.get("success_probability", 0.7)
-                }
+                    "success_probability": strategy.get("success_probability", 0.7),
+                },
             )
             total_impact += impact
 
         return total_impact
 
     async def calculate_competitive_advantages(
-        self,
-        created_markets: list[dict[str, Any]]
+        self, created_markets: list[dict[str, Any]]
     ) -> list[dict[str, str]]:
         """Calculate competitive advantages from created markets"""
 
@@ -402,27 +383,29 @@ class EconomicRealityManipulator(CoreInterface):
         for market in created_markets:
             market_advantages = await self.value_creation_synthesizer.identify_advantages(
                 market=market,
-                advantage_types=["technological", "network_effects", "data", "ecosystem"]
+                advantage_types=["technological", "network_effects", "data", "ecosystem"],
             )
             advantages.extend(market_advantages)
 
         return advantages
 
     async def analyze_strategic_positioning(
-        self,
-        created_markets: list[dict[str, Any]]
+        self, created_markets: list[dict[str, Any]]
     ) -> dict[str, Any]:
         """Analyze overall strategic positioning from market creation"""
 
         return await self.competitive_landscape_controller.analyze_positioning(
             markets=created_markets,
-            analysis_dimensions=["market_dominance", "innovation_leadership",
-                               "ecosystem_control", "value_chain_position"]
+            analysis_dimensions=[
+                "market_dominance",
+                "innovation_leadership",
+                "ecosystem_control",
+                "value_chain_position",
+            ],
         )
 
     async def generate_strategic_recommendations(
-        self,
-        competitor_analysis: dict[str, CompetitiveAnalysis]
+        self, competitor_analysis: dict[str, CompetitiveAnalysis]
     ) -> list[dict[str, Any]]:
         """Generate strategic recommendations based on competitive analysis"""
 
@@ -431,59 +414,75 @@ class EconomicRealityManipulator(CoreInterface):
             recs = await self.competitive_landscape_controller.generate_recommendations(
                 competitor=competitor,
                 analysis=analysis,
-                recommendation_types=["offensive", "defensive", "collaborative"]
+                recommendation_types=["offensive", "defensive", "collaborative"],
             )
             recommendations.extend(recs)
 
         return sorted(recommendations, key=lambda x: x.get("priority", 0), reverse=True)
 
     async def generate_implementation_phases(
-        self,
-        market_structure: dict[str, Any],
-        causality_chains: dict[str, Any]
+        self, market_structure: dict[str, Any], causality_chains: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Generate implementation phases for market creation"""
 
         phases = []
 
         # Phase 1: Foundation
-        phases.append({
-            "name": "Foundation",
-            "duration_months": 6,
-            "objectives": ["establish_infrastructure", "build_capabilities", "secure_resources"],
-            "critical_paths": causality_chains.get("foundation_paths", [])
-        })
+        phases.append(
+            {
+                "name": "Foundation",
+                "duration_months": 6,
+                "objectives": [
+                    "establish_infrastructure",
+                    "build_capabilities",
+                    "secure_resources",
+                ],
+                "critical_paths": causality_chains.get("foundation_paths", []),
+            }
+        )
 
         # Phase 2: Market Entry
-        phases.append({
-            "name": "Market Entry",
-            "duration_months": 12,
-            "objectives": ["launch_initial_offerings", "acquire_customers", "establish_presence"],
-            "critical_paths": causality_chains.get("entry_paths", [])
-        })
+        phases.append(
+            {
+                "name": "Market Entry",
+                "duration_months": 12,
+                "objectives": [
+                    "launch_initial_offerings",
+                    "acquire_customers",
+                    "establish_presence",
+                ],
+                "critical_paths": causality_chains.get("entry_paths", []),
+            }
+        )
 
         # Phase 3: Expansion
-        phases.append({
-            "name": "Expansion",
-            "duration_months": 24,
-            "objectives": ["scale_operations", "capture_market_share", "build_moat"],
-            "critical_paths": causality_chains.get("expansion_paths", [])
-        })
+        phases.append(
+            {
+                "name": "Expansion",
+                "duration_months": 24,
+                "objectives": ["scale_operations", "capture_market_share", "build_moat"],
+                "critical_paths": causality_chains.get("expansion_paths", []),
+            }
+        )
 
         # Phase 4: Dominance
-        phases.append({
-            "name": "Dominance",
-            "duration_months": 36,
-            "objectives": ["achieve_market_leadership", "maximize_value_capture", "strategic_control"],
-            "critical_paths": causality_chains.get("dominance_paths", [])
-        })
+        phases.append(
+            {
+                "name": "Dominance",
+                "duration_months": 36,
+                "objectives": [
+                    "achieve_market_leadership",
+                    "maximize_value_capture",
+                    "strategic_control",
+                ],
+                "critical_paths": causality_chains.get("dominance_paths", []),
+            }
+        )
 
         return phases
 
     async def apply_optimization_strategy(
-        self,
-        market: dict[str, Any],
-        strategy: dict[str, Any]
+        self, market: dict[str, Any], strategy: dict[str, Any]
     ) -> dict[str, Any]:
         """Apply an optimization strategy to a market"""
 
@@ -499,18 +498,17 @@ class EconomicRealityManipulator(CoreInterface):
 
         # Update metrics
         optimized["optimization_history"] = optimized.get("optimization_history", [])
-        optimized["optimization_history"].append({
-            "strategy": strategy.get("name"),
-            "timestamp": datetime.now().isoformat(),
-            "impact": strategy.get("expected_impact")
-        })
+        optimized["optimization_history"].append(
+            {
+                "strategy": strategy.get("name"),
+                "timestamp": datetime.now().isoformat(),
+                "impact": strategy.get("expected_impact"),
+            }
+        )
 
         return optimized
 
-    async def calculate_projected_value(
-        self,
-        market: dict[str, Any]
-    ) -> float:
+    async def calculate_projected_value(self, market: dict[str, Any]) -> float:
         """Calculate the projected value of a market"""
 
         base_value = market.get("value_captured", 0)

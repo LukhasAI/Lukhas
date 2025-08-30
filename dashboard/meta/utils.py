@@ -98,9 +98,7 @@ def calculate_drift_trends(
 
     for snap in snapshots:
         try:
-            timestamp = datetime.fromisoformat(
-                snap.get("timestamp", "").replace("Z", "+00:00")
-            )
+            timestamp = datetime.fromisoformat(snap.get("timestamp", "").replace("Z", "+00:00"))
             if timestamp > cutoff_time:
                 recent_snapshots.append(snap)
         except BaseException:
@@ -110,9 +108,7 @@ def calculate_drift_trends(
         recent_snapshots = snapshots[-10:]  # Use last 10 if no recent data
 
     # Extract drift scores
-    drift_scores = [
-        s.get("drift_score", 0.0) for s in recent_snapshots if "drift_score" in s
-    ]
+    drift_scores = [s.get("drift_score", 0.0) for s in recent_snapshots if "drift_score" in s]
 
     if not drift_scores:
         return {
@@ -193,9 +189,7 @@ def format_persona_distribution(distribution: dict[str, int]) -> list[dict[str, 
         return []
 
     formatted = []
-    for persona, count in sorted(
-        distribution.items(), key=lambda x: x[1], reverse=True
-    ):
+    for persona, count in sorted(distribution.items(), key=lambda x: x[1], reverse=True):
         formatted.append(
             {
                 "name": persona,

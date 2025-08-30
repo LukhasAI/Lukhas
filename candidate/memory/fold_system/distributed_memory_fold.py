@@ -217,9 +217,7 @@ class ConsensusProtocol:
         # Start HTTP server for node communication
         await self._start_http_server()
 
-        logger.info(
-            "Distributed memory node started", node_id=self.node_id, port=self.port
-        )
+        logger.info("Distributed memory node started", node_id=self.node_id, port=self.port)
 
     async def _start_http_server(self):
         """Start HTTP server for inter-node communication"""
@@ -272,9 +270,7 @@ class ConsensusProtocol:
     async def _start_election(self):
         """Start leader election process"""
 
-        logger.info(
-            "Starting leader election", node_id=self.node_id, term=self.current_term + 1
-        )
+        logger.info("Starting leader election", node_id=self.node_id, term=self.current_term + 1)
 
         # Transition to candidate state
         self.state = NodeState.CANDIDATE
@@ -361,9 +357,7 @@ class ConsensusProtocol:
                     node_info.last_heartbeat = datetime.now()
 
         except Exception as e:
-            logger.warning(
-                f"Failed to send heartbeat to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to send heartbeat to {node_info.node_id}", error=str(e))
 
     async def _send_vote_request(self, node_info: NodeInfo):
         """Send vote request to specific node"""
@@ -390,9 +384,7 @@ class ConsensusProtocol:
                         self.nodes[self.node_id].vote_count += 1
 
         except Exception as e:
-            logger.warning(
-                f"Failed to send vote request to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to send vote request to {node_info.node_id}", error=str(e))
 
     async def _handle_heartbeat(self, request):
         """Handle incoming heartbeat message"""
@@ -415,9 +407,7 @@ class ConsensusProtocol:
 
             # Update leader's consciousness level
             if leader_id in self.nodes:
-                self.nodes[leader_id].consciousness_level = data.get(
-                    "consciousness_level", 0.0
-                )
+                self.nodes[leader_id].consciousness_level = data.get("consciousness_level", 0.0)
 
         return aiohttp.web.json_response({"success": True, "term": self.current_term})
 
@@ -443,15 +433,12 @@ class ConsensusProtocol:
             and (self.voted_for is None or self.voted_for == candidate_id)
             and candidate_consciousness >= self.consciousness_threshold
         ):
-
             self.voted_for = candidate_id
             vote_granted = True
 
             logger.debug("Vote granted", candidate=candidate_id, term=term)
 
-        return aiohttp.web.json_response(
-            {"vote_granted": vote_granted, "term": self.current_term}
-        )
+        return aiohttp.web.json_response({"vote_granted": vote_granted, "term": self.current_term})
 
     async def _handle_vote_response(self, request):
         """Handle vote response (not typically called directly)"""
@@ -593,9 +580,7 @@ class DistributedMemoryFold:
         self._session: Optional[aiohttp.ClientSession] = None
 
         # Initialize consensus protocol
-        self.consensus = ConsensusProtocol(
-            node_id=node_id, port=port, consciousness_threshold=0.7
-        )
+        self.consensus = ConsensusProtocol(node_id=node_id, port=port, consciousness_threshold=0.7)
 
         # Memory storage
         self.local_memories: dict[str, Any] = {}
@@ -736,9 +721,7 @@ class DistributedMemoryFold:
             content_hash=hashlib.sha256(memory_data).hexdigest(),
             memory_data=memory_data,
             embedding_hash=(
-                hashlib.sha256(embedding.tobytes()).hexdigest()
-                if embedding is not None
-                else ""
+                hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""
             ),
             node_id=self.node_id,
             timestamp=datetime.now(),
@@ -793,9 +776,7 @@ class DistributedMemoryFold:
                     total_nodes=total_nodes,
                 )
 
-    async def _send_memory_sync(
-        self, node_info: NodeInfo, entry: DistributedMemoryEntry
-    ) -> bool:
+    async def _send_memory_sync(self, node_info: NodeInfo, entry: DistributedMemoryEntry) -> bool:
         """Send memory sync to specific node"""
 
         try:
@@ -814,9 +795,7 @@ class DistributedMemoryFold:
             return False
 
         except Exception as e:
-            logger.warning(
-                f"Failed to sync memory to {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to sync memory to {node_info.node_id}", error=str(e))
             return False
 
     async def query_memory(
@@ -861,21 +840,15 @@ class DistributedMemoryFold:
         results.sort(key=lambda x: x.get("score", 0), reverse=True)
         return results[:top_k]
 
-    async def _query_distributed_memories(
-        self, query: str, top_k: int
-    ) -> list[dict[str, Any]]:
+    async def _query_distributed_memories(self, query: str, top_k: int) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
 
         query_tasks = []
-        query_id = hashlib.sha256(
-            f"{query}{datetime.now().isoformat()}".encode()
-        ).hexdigest()[:8]
+        query_id = hashlib.sha256(f"{query}{datetime.now().isoformat()}".encode()).hexdigest()[:8]
 
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():
-                task = asyncio.create_task(
-                    self._send_memory_query(node_info, query, query_id)
-                )
+                task = asyncio.create_task(self._send_memory_query(node_info, query, query_id))
                 query_tasks.append(task)
 
         if not query_tasks:
@@ -920,17 +893,13 @@ class DistributedMemoryFold:
             return []
 
         except Exception as e:
-            logger.warning(
-                f"Failed to query memory from {node_info.node_id}", error=str(e)
-            )
+            logger.warning(f"Failed to query memory from {node_info.node_id}", error=str(e))
             return []
 
     def get_network_status(self) -> dict[str, Any]:
         """Get status of the distributed network"""
 
-        alive_nodes = [
-            node for node in self.consensus.nodes.values() if node.is_alive()
-        ]
+        alive_nodes = [node for node in self.consensus.nodes.values() if node.is_alive()]
 
         return {
             "node_id": self.node_id,
@@ -942,15 +911,11 @@ class DistributedMemoryFold:
             "local_memories": len(self.local_memories),
             "distributed_memories": len(self.distributed_memories),
             "consensus_memories": sum(
-                1
-                for entry in self.distributed_memories.values()
-                if entry.consensus_achieved
+                1 for entry in self.distributed_memories.values() if entry.consensus_achieved
             ),
             "consciousness_level": self.consciousness_level,
             "network_health": (
-                len(alive_nodes) / len(self.consensus.nodes)
-                if self.consensus.nodes
-                else 0.0
+                len(alive_nodes) / len(self.consensus.nodes) if self.consensus.nodes else 0.0
             ),
         }
 

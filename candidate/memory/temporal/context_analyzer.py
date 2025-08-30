@@ -11,6 +11,7 @@ Original: context_analyzer.py
 Advanced: context_analyzer.py
 Integration Date: 2025-05-31T07:55:27.758383
 """
+
 import logging
 
 """
@@ -89,9 +90,7 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis.get("emotion", "neutral"),
-            "urgency": self._determine_urgency(
-                nlp_analysis, time_context, device_context
-            ),
+            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
@@ -218,9 +217,7 @@ class ContextAnalyzer:
 
         return context
 
-    def _analyze_memory(
-        self, memory: list[dict[str, Any]], current_intent: str
-    ) -> dict[str, Any]:
+    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """
         Analyze past interactions to inform current context.
 
@@ -240,9 +237,7 @@ class ContextAnalyzer:
         # Find related past interactions
         related_interactions = [
             m for m in memory if m.get("context", {}).get("intent") == current_intent
-        ][
-            :5
-        ]  # Limit to 5 most recent
+        ][:5]  # Limit to 5 most recent
 
         return {
             "familiarity": familiarity,
@@ -295,9 +290,7 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _check_compliance(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_compliance(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Check for compliance issues in the interaction.
 

@@ -273,10 +273,7 @@ class PriorityMailbox(Mailbox):
         """Add message to mailbox with priority"""
         async with self._not_full:
             # Wait if full and blocking strategy
-            while (
-                self.is_full()
-                and self.back_pressure_strategy == BackPressureStrategy.BLOCK
-            ):
+            while self.is_full() and self.back_pressure_strategy == BackPressureStrategy.BLOCK:
                 await self._not_full.wait()
 
             # Handle back-pressure for non-blocking strategies
@@ -459,9 +456,7 @@ class PersistentMailbox(BoundedMailbox):
                     )
 
                 self._last_persist_time = time.time()
-                logger.debug(
-                    f"Persisted {len(messages)} messages to {self.persistence_path}"
-                )
+                logger.debug(f"Persisted {len(messages)} messages to {self.persistence_path}")
 
             except Exception as e:
                 logger.error(f"Failed to persist mailbox: {e}")
@@ -487,9 +482,7 @@ class PersistentMailbox(BoundedMailbox):
                 message = ActorMessage(**msg_dict)
                 await self.put(message)
 
-            logger.info(
-                f"Restored {len(messages)} messages from {self.persistence_path}"
-            )
+            logger.info(f"Restored {len(messages)} messages from {self.persistence_path}")
             return len(messages)
 
         except FileNotFoundError:
@@ -504,9 +497,7 @@ class MailboxFactory:
     """Factory for creating different mailbox types"""
 
     @staticmethod
-    def create_mailbox(
-        mailbox_type: MailboxType = MailboxType.BOUNDED, **kwargs
-    ) -> Mailbox:
+    def create_mailbox(mailbox_type: MailboxType = MailboxType.BOUNDED, **kwargs) -> Mailbox:
         """Create a mailbox of specified type"""
 
         if mailbox_type == MailboxType.UNBOUNDED:
@@ -645,9 +636,7 @@ class MailboxActor(Actor):
             try:
                 timeout = deadline - time.time()
                 if timeout > 0:
-                    message = await asyncio.wait_for(
-                        self.mailbox.get(), timeout=timeout
-                    )
+                    message = await asyncio.wait_for(self.mailbox.get(), timeout=timeout)
                     messages.append(message)
                 else:
                     break
@@ -691,7 +680,6 @@ async def demo_enhanced_mailbox():
     # Create actor with priority mailbox
 
     class PriorityActor(MailboxActor):
-
         def __init__(self, actor_id: str):
             super().__init__(
                 actor_id,
@@ -718,9 +706,7 @@ async def demo_enhanced_mailbox():
 
     # Send low priority messages
     for i in range(5):
-        tasks.append(
-            actor_ref.tell("process", {"data": f"low-priority-{i}", "priority": "LOW"})
-        )
+        tasks.append(actor_ref.tell("process", {"data": f"low-priority-{i}", "priority": "LOW"}))
 
     # Send high priority message
     tasks.append(actor_ref.tell("process", {"data": "urgent-task", "priority": "HIGH"}))

@@ -118,9 +118,7 @@ class GLYPHGenerationAgent(SwarmAgent):
     Specialized agent for GLYPH fragment generation.
     """
 
-    def __init__(
-        self, agent_id: str, colony: "DistributedGLYPHColony", specialization: str
-    ):
+    def __init__(self, agent_id: str, colony: "DistributedGLYPHColony", specialization: str):
         super().__init__(agent_id, colony, capabilities=[specialization])
         self.specialization = specialization
         self.fragments_generated = 0
@@ -137,32 +135,20 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         try:
             if self.specialization == "pattern":
-                fragment_data = await self._generate_pattern_fragment(
-                    task, fragment_params
-                )
+                fragment_data = await self._generate_pattern_fragment(task, fragment_params)
             elif self.specialization == "color":
-                fragment_data = await self._generate_color_fragment(
-                    task, fragment_params
-                )
+                fragment_data = await self._generate_color_fragment(task, fragment_params)
             elif self.specialization == "quantum":
-                fragment_data = await self._generate_quantum_fragment(
-                    task, fragment_params
-                )
+                fragment_data = await self._generate_quantum_fragment(task, fragment_params)
             elif self.specialization == "consciousness":
-                fragment_data = await self._generate_consciousness_fragment(
-                    task, fragment_params
-                )
+                fragment_data = await self._generate_consciousness_fragment(task, fragment_params)
             elif self.specialization == "embedding":
-                fragment_data = await self._generate_embedding_fragment(
-                    task, fragment_params
-                )
+                fragment_data = await self._generate_embedding_fragment(task, fragment_params)
             else:
                 raise ValueError(f"Unknown specialization: {self.specialization}")
 
             # Calculate quality score
-            quality_score = self._evaluate_fragment_quality(
-                fragment_data, task.tier_level
-            )
+            quality_score = self._evaluate_fragment_quality(fragment_data, task.tier_level)
 
             # Create fragment
             fragment = GLYPHFragment(
@@ -217,9 +203,9 @@ class GLYPHGenerationAgent(SwarmAgent):
         modulation = np.frombuffer(identity_hash, dtype=np.uint8)[:3]
 
         for i in range(3):
-            pattern[:, :, i] = (
-                pattern[:, :, i] * (0.8 + 0.2 * modulation[i] / 255)
-            ).astype(np.uint8)
+            pattern[:, :, i] = (pattern[:, :, i] * (0.8 + 0.2 * modulation[i] / 255)).astype(
+                np.uint8
+            )
 
         return pattern
 
@@ -249,9 +235,7 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         # Add consciousness colors if available
         if task.consciousness_pattern is not None:
-            gradient = self._blend_consciousness_colors(
-                gradient, task.consciousness_pattern
-            )
+            gradient = self._blend_consciousness_colors(gradient, task.consciousness_pattern)
 
         return gradient
 
@@ -396,9 +380,7 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         return pattern
 
-    def _create_fractal_pattern(
-        self, size: tuple[int, int], iterations: int
-    ) -> np.ndarray:
+    def _create_fractal_pattern(self, size: tuple[int, int], iterations: int) -> np.ndarray:
         """Create fractal pattern with tier-based complexity."""
         pattern = np.zeros((*size, 4), dtype=np.uint8)
 
@@ -472,15 +454,13 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         # Blend with base
         blended = base.copy()
-        blended[:, :, :3] = (
-            base[:, :, :3] * 0.7 + normalized[:, :, None] * 255 * 0.3
-        ).astype(np.uint8)
+        blended[:, :, :3] = (base[:, :, :3] * 0.7 + normalized[:, :, None] * 255 * 0.3).astype(
+            np.uint8
+        )
 
         return blended
 
-    def _create_default_consciousness_pattern(
-        self, size: tuple[int, int]
-    ) -> np.ndarray:
+    def _create_default_consciousness_pattern(self, size: tuple[int, int]) -> np.ndarray:
         """Create default consciousness pattern."""
         pattern = np.zeros((*size, 4), dtype=np.uint8)
 
@@ -535,9 +515,7 @@ class GLYPHGenerationAgent(SwarmAgent):
 
         return embedded
 
-    def _evaluate_fragment_quality(
-        self, fragment: np.ndarray, tier_level: int
-    ) -> float:
+    def _evaluate_fragment_quality(self, fragment: np.ndarray, tier_level: int) -> float:
         """Evaluate quality of generated fragment."""
         # Calculate various quality metrics
 
@@ -620,9 +598,7 @@ class DistributedGLYPHColony(BaseColony):
         # Get event publisher
         self.event_publisher = await get_identity_event_publisher()
 
-        logger.info(
-            f"Colony initialized with {len(self.generation_agents)} specialized agents"
-        )
+        logger.info(f"Colony initialized with {len(self.generation_agents)} specialized agents")
 
     async def generate_identity_glyph(
         self,
@@ -679,17 +655,14 @@ class DistributedGLYPHColony(BaseColony):
             fragment_tasks = []
 
             # Determine which fragments to generate based on tier
-            required_fragments = self._determine_required_fragments(
-                tier_level, glyph_type
-            )
+            required_fragments = self._determine_required_fragments(tier_level, glyph_type)
 
             for fragment_type in required_fragments:
                 # Get agents for this fragment type
                 agents = [
                     agent
                     for agent in self.generation_agents.values()
-                    if agent.specialization == fragment_type
-                    and agent.state != AgentState.FAILED
+                    if agent.specialization == fragment_type and agent.state != AgentState.FAILED
                 ]
 
                 if not agents:
@@ -727,13 +700,10 @@ class DistributedGLYPHColony(BaseColony):
 
             # Update metrics
             generation_time = (
-                datetime.utcnow()
-                - task.deadline
-                + timedelta(seconds=self.assembly_timeout)
+                datetime.utcnow() - task.deadline + timedelta(seconds=self.assembly_timeout)
             ).total_seconds()
             self.average_generation_time = (
-                self.average_generation_time * (self.total_glyphs_generated - 1)
-                + generation_time
+                self.average_generation_time * (self.total_glyphs_generated - 1) + generation_time
             ) / self.total_glyphs_generated
             self.quality_scores.append(glyph.quality_metrics.get("overall_quality", 0))
 
@@ -825,8 +795,7 @@ class DistributedGLYPHColony(BaseColony):
                 "complexity": task.complexity.name,
                 "fragments_generated": len(fragments),
                 "fragments_selected": len(selected_fragments),
-                "consensus_achieved": len(selected_fragments)
-                >= len(fragments_by_type) * 0.8,
+                "consensus_achieved": len(selected_fragments) >= len(fragments_by_type) * 0.8,
             },
             fragments_used=[f.fragment_id for f in selected_fragments],
             consensus_achieved=len(selected_fragments) >= len(fragments_by_type) * 0.8,
@@ -880,12 +849,9 @@ class DistributedGLYPHColony(BaseColony):
                     # Color overlay
                     alpha = fragment_data[:, :, 3:4] / 255.0
                     composite[:, :, :3] = (
-                        composite[:, :, :3] * (1 - alpha)
-                        + fragment_data[:, :, :3] * alpha
+                        composite[:, :, :3] * (1 - alpha) + fragment_data[:, :, :3] * alpha
                     )
-                    composite[:, :, 3] = np.maximum(
-                        composite[:, :, 3], fragment_data[:, :, 3]
-                    )
+                    composite[:, :, 3] = np.maximum(composite[:, :, 3], fragment_data[:, :, 3])
                 elif layer_type in ["quantum", "consciousness"]:
                     # Additive blending for energy patterns
                     blend_factor = 0.3 if task.tier_level < 4 else 0.5
@@ -919,9 +885,7 @@ class DistributedGLYPHColony(BaseColony):
         else:
             return GLYPHComplexity.TRANSCENDENT
 
-    def _determine_required_fragments(
-        self, tier_level: int, glyph_type: GLYPHType
-    ) -> list[str]:
+    def _determine_required_fragments(self, tier_level: int, glyph_type: GLYPHType) -> list[str]:
         """Determine which fragment types are required."""
 
         # Base fragments for all tiers
@@ -973,14 +937,10 @@ class DistributedGLYPHColony(BaseColony):
 
         return params
 
-    def _generate_quantum_seed(
-        self, lambda_id: str, session_id: Optional[str]
-    ) -> bytes:
+    def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
-        seed_data = (
-            f"{lambda_id}:{session_id or 'default'}:{datetime.utcnow().isoformat()}"
-        )
+        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.utcnow().isoformat()}"
         return hashlib.sha256(seed_data.encode()).digest()
 
     def _extract_consciousness_pattern(self, orb_state: OrbVisualization) -> np.ndarray:
@@ -1012,9 +972,7 @@ class DistributedGLYPHColony(BaseColony):
         uniqueness = len(set(image_hash)) / len(image_hash)
 
         # Overall quality
-        overall_quality = (
-            fragment_quality * 0.4 + (entropy / 8) * 0.3 + uniqueness * 0.3
-        )
+        overall_quality = fragment_quality * 0.4 + (entropy / 8) * 0.3 + uniqueness * 0.3
 
         return {
             "overall_quality": overall_quality,
@@ -1042,9 +1000,7 @@ class DistributedGLYPHColony(BaseColony):
             "total_glyphs_generated": self.total_glyphs_generated,
             "average_generation_time": self.average_generation_time,
             "average_quality_score": (
-                sum(self.quality_scores) / len(self.quality_scores)
-                if self.quality_scores
-                else 0
+                sum(self.quality_scores) / len(self.quality_scores) if self.quality_scores else 0
             ),
             "active_tasks": len(self.active_tasks),
             "agent_statistics": agent_stats,

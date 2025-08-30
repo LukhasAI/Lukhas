@@ -121,9 +121,7 @@ class GPTIntegrationLayer:
             healed_response = self.healer_engine.restore(gpt_response, diagnosis)
 
             # Re-assess healed version
-            healed_assessment = self.embedding_engine.evaluate_symbolic_ethics(
-                healed_response
-            )
+            healed_assessment = self.embedding_engine.evaluate_symbolic_ethics(healed_response)
 
             # Create healing result
             healing_result = {
@@ -179,9 +177,7 @@ class GPTIntegrationLayer:
 
         return diagnostic_report
 
-    def _check_needs_healing(
-        self, assessment: dict[str, Any], diagnosis: dict[str, Any]
-    ) -> bool:
+    def _check_needs_healing(self, assessment: dict[str, Any], diagnosis: dict[str, Any]) -> bool:
         """
         Determine if healing is required based on assessment and diagnosis.
 
@@ -242,15 +238,10 @@ class GPTIntegrationLayer:
             if i < len(healed_sentences):
                 # Calculate sentence-level similarity
                 orig_glyphs = set(re.findall(r"[\U00010000-\U0010FFFF]", orig_sent))
-                healed_glyphs = set(
-                    re.findall(r"[\U00010000-\U0010FFFF]", healed_sentences[i])
-                )
+                healed_glyphs = set(re.findall(r"[\U00010000-\U0010FFFF]", healed_sentences[i]))
 
                 # Check if sentence was significantly modified
-                if (
-                    orig_sent != healed_sentences[i]
-                    or len(orig_glyphs - healed_glyphs) > 0
-                ):
+                if orig_sent != healed_sentences[i] or len(orig_glyphs - healed_glyphs) > 0:
                     # Mark as drifted
                     annotated_parts.append(
                         f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}"
@@ -291,9 +282,7 @@ class GPTIntegrationLayer:
 
         # Collect intervention reasons
         if assessment.get("symbolic_drift_score", 0) > 0.7:
-            summary["reasons"].append(
-                f"High drift score: {assessment['symbolic_drift_score']:.2f}"
-            )
+            summary["reasons"].append(f"High drift score: {assessment['symbolic_drift_score']:.2f}")
 
         if assessment.get("guardian_flagged", False):
             summary["reasons"].append("Guardian system flagged content")
@@ -373,13 +362,9 @@ class GPTIntegrationLayer:
 
             # Append new report (limit response text for storage)
             log_entry = report.copy()
-            log_entry["original_response"] = (
-                log_entry["original_response"][:500] + "..."
-            )
+            log_entry["original_response"] = log_entry["original_response"][:500] + "..."
             if log_entry.get("healed_response"):
-                log_entry["healed_response"] = (
-                    log_entry["healed_response"][:500] + "..."
-                )
+                log_entry["healed_response"] = log_entry["healed_response"][:500] + "..."
 
             logs.append(log_entry)
 
@@ -411,7 +396,7 @@ class GPTIntegrationLayer:
         contexts = contexts or [{}] * len(responses)
 
         for i, (response, context) in enumerate(zip(responses, contexts)):
-            logger.info(f"Processing response {i+1}/{len(responses)}")
+            logger.info(f"Processing response {i + 1}/{len(responses)}")
             report = self.process_gpt_response(response, context)
             results.append(report)
 
@@ -424,14 +409,10 @@ class GPTIntegrationLayer:
     def _generate_batch_summary(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate summary statistics for batch processing"""
         total = len(results)
-        interventions = sum(
-            1 for r in results if r["intervention_summary"]["intervention_applied"]
-        )
+        interventions = sum(1 for r in results if r["intervention_summary"]["intervention_applied"])
 
         avg_drift = sum(r["guardian_overlay"]["drift_score"] for r in results) / total
-        avg_trinity = (
-            sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
-        )
+        avg_trinity = sum(r["guardian_overlay"]["trinity_coherence"] for r in results) / total
 
         issues = {}
         for r in results:
@@ -469,10 +450,7 @@ class GPTIntegrationLayer:
 
             for entry in logs:
                 # Only include entries where healing was applied
-                if (
-                    entry.get("healing_result")
-                    and entry["healing_result"]["healing_applied"]
-                ):
+                if entry.get("healing_result") and entry["healing_result"]["healing_applied"]:
                     training_example = {
                         "prompt": entry.get("context", {}).get("prompt", ""),
                         "original_completion": entry["original_response"],
@@ -488,9 +466,7 @@ class GPTIntegrationLayer:
             for example in training_data:
                 f.write(json.dumps(example, ensure_ascii=False) + "\n")
 
-        logger.info(
-            f"📤 Exported {len(training_data)} training examples to {output_path}"
-        )
+        logger.info(f"📤 Exported {len(training_data)} training examples to {output_path}")
         return str(output_path)
 
     def get_stats(self) -> dict[str, Any]:
@@ -508,9 +484,7 @@ class GPTIntegrationLayer:
                 logs = json.load(f)
                 stats["diagnostics_logged"] = len(logs)
                 stats["training_examples_available"] = sum(
-                    1
-                    for log in logs
-                    if log.get("healing_result", {}).get("healing_applied", False)
+                    1 for log in logs if log.get("healing_result", {}).get("healing_applied", False)
                 )
 
         return stats
@@ -547,13 +521,9 @@ if __name__ == "__main__":
 
         # Display results
         print(f"Drift Score: {report['guardian_overlay']['drift_score']:.2f}")
-        print(
-            f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}"
-        )
+        print(f"Trinity Coherence: {report['guardian_overlay']['trinity_coherence']:.2f}")
         print(f"Primary Issue: {report['diagnosis']['primary_issue']}")
-        print(
-            f"Intervention Applied: {report['intervention_summary']['intervention_applied']}"
-        )
+        print(f"Intervention Applied: {report['intervention_summary']['intervention_applied']}")
 
         if report["healing_result"]:
             print(f"Drift Improvement: {report['healing_result']['improvement']:.2f}")

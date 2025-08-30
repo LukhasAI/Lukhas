@@ -104,9 +104,7 @@ class VoiceProfile:
             if key not in self.parameters:
                 self.parameters[key] = value
 
-    def get_parameters_for_emotion(
-        self, emotion: Optional[str] = None
-    ) -> dict[str, Any]:
+    def get_parameters_for_emotion(self, emotion: Optional[str] = None) -> dict[str, Any]:
         """Get parameters adjusted for a specific emotion."""
         # Start with base parameters
         result = copy.deepcopy(self.parameters)
@@ -170,9 +168,7 @@ class VoiceProfile:
 
         if direction == "auto":
             # Use feedback to determine direction
-            recent_feedback = (
-                self.feedback_history[-5:] if self.feedback_history else []
-            )
+            recent_feedback = self.feedback_history[-5:] if self.feedback_history else []
             avg_score = sum(f.get("score", 0) for f in recent_feedback) / max(
                 len(recent_feedback), 1
             )
@@ -188,12 +184,8 @@ class VoiceProfile:
         # Apply changes based on direction
         if direction == "warmer":
             self.parameters["warmth"] = min(1.0, self.parameters["warmth"] + 0.1)
-            self.parameters["breathiness"] = min(
-                1.0, self.parameters["breathiness"] + 0.05
-            )
-            self.parameters["base_pitch"] = max(
-                -1.0, self.parameters["base_pitch"] - 0.05
-            )
+            self.parameters["breathiness"] = min(1.0, self.parameters["breathiness"] + 0.05)
+            self.parameters["base_pitch"] = max(-1.0, self.parameters["base_pitch"] - 0.05)
             changes = {
                 "warmth": "+0.1",
                 "breathiness": "+0.05",
@@ -201,18 +193,12 @@ class VoiceProfile:
             }
 
         elif direction == "clearer":
-            self.parameters["articulation"] = min(
-                1.0, self.parameters["articulation"] + 0.1
-            )
-            self.parameters["breathiness"] = max(
-                0.0, self.parameters["breathiness"] - 0.05
-            )
+            self.parameters["articulation"] = min(1.0, self.parameters["articulation"] + 0.1)
+            self.parameters["breathiness"] = max(0.0, self.parameters["breathiness"] - 0.05)
             changes = {"articulation": "+0.1", "breathiness": "-0.05"}
 
         elif direction == "expressive":
-            self.parameters["expressiveness"] = min(
-                1.0, self.parameters["expressiveness"] + 0.1
-            )
+            self.parameters["expressiveness"] = min(1.0, self.parameters["expressiveness"] + 0.1)
             self.parameters["timbre_brightness"] = min(
                 1.0, self.parameters["timbre_brightness"] + 0.05
             )
@@ -320,7 +306,7 @@ class VoiceProfileManager:
                         profile = VoiceProfile.from_dict(data)
                         self.profiles[profile.id] = profile
                 except (json.JSONDecodeError, FileNotFoundError) as e:
-                    self.logger.error(f"Error loading profile {filename}: {str(e)}")
+                    self.logger.error(f"Error loading profile {filename}: {e!s}")
 
         self.logger.info(f"Loaded {len(self.profiles)} voice profiles")
 
@@ -332,7 +318,7 @@ class VoiceProfileManager:
                 json.dump(profile.to_dict(), file, indent=2)
             return True
         except Exception as e:
-            self.logger.error(f"Error saving profile {profile.id}: {str(e)}")
+            self.logger.error(f"Error saving profile {profile.id}: {e!s}")
             return False
 
     def create_profile(self, name: str, parameters: dict[str, Any] = None) -> str:
@@ -389,9 +375,7 @@ class VoiceProfileManager:
         if context_type == "notification":
             # Find a clear, articulate voice for notifications
             candidates = [
-                p
-                for p in self.profiles.values()
-                if p.parameters.get("articulation", 0) > 0.7
+                p for p in self.profiles.values() if p.parameters.get("articulation", 0) > 0.7
             ]
         elif context_type == "conversation":
             # Find a warm, expressive voice for conversations
@@ -448,9 +432,7 @@ class VoiceProfileManager:
         profile.record_usage(context)
         return self._save_profile(profile)
 
-    def provide_feedback(
-        self, profile_id: str, feedback: dict[str, Any]
-    ) -> dict[str, Any]:
+    def provide_feedback(self, profile_id: str, feedback: dict[str, Any]) -> dict[str, Any]:
         """
         Provide feedback on a profile and evolve it if appropriate.
 
@@ -471,9 +453,7 @@ class VoiceProfileManager:
         profile.add_feedback(feedback)
 
         # Evolve profile if we have enough feedback
-        should_evolve = (
-            len(profile.feedback_history) % 5
-        ) == 0  # Every 5 feedback entries
+        should_evolve = (len(profile.feedback_history) % 5) == 0  # Every 5 feedback entries
         changes = {}
 
         if should_evolve:
@@ -501,7 +481,7 @@ class VoiceProfileManager:
             os.remove(os.path.join(self.profiles_dir, f"{profile_id}.json"))
             return True
         except Exception as e:
-            self.logger.error(f"Error deleting profile {profile_id}: {str(e)}")
+            self.logger.error(f"Error deleting profile {profile_id}: {e!s}")
             return False
 
     async def integrate_with_voice_system(

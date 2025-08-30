@@ -30,8 +30,10 @@ except ImportError:
         class AuditLogger:
             def __init__(self, config):
                 pass
+
             def log_access(self, **kwargs):
                 pass
+
             def log_security_event(self, **kwargs):
                 pass
 
@@ -62,13 +64,7 @@ class AXAInterface(EHRInterface):
 
     def _validate_config(self):
         """Validate AXA-specific configuration"""
-        required_fields = [
-            "provider_id",
-            "client_id",
-            "client_secret",
-            "region",
-            "product_line"
-        ]
+        required_fields = ["provider_id", "client_id", "client_secret", "region", "product_line"]
         for field in required_fields:
             if field not in self.config:
                 raise ValueError(f"Missing required AXA configuration: {field}")
@@ -81,9 +77,9 @@ class AXAInterface(EHRInterface):
         # - Verify API access
         pass
 
-    async def get_patient_record(self,
-                               patient_id: str,
-                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
+    async def get_patient_record(
+        self, patient_id: str, record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve patient records from AXA
 
@@ -92,17 +88,14 @@ class AXAInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config["provider_id"],
-            action="get_patient_record",
-            resource_id=patient_id
+            user_id=self.config["provider_id"], action="get_patient_record", resource_id=patient_id
         )
         # Implement AXA-specific record retrieval
         pass
 
-    async def verify_insurance_coverage(self,
-                                     member_id: str,
-                                     service_code: str,
-                                     provider_id: str) -> dict[str, Any]:
+    async def verify_insurance_coverage(
+        self, member_id: str, service_code: str, provider_id: str
+    ) -> dict[str, Any]:
         """
         Verify insurance coverage for specific service
 
@@ -115,26 +108,23 @@ class AXAInterface(EHRInterface):
             user_id=self.config["provider_id"],
             action="verify_coverage",
             resource_id=member_id,
-            details={"service_code": service_code}
+            details={"service_code": service_code},
         )
         # Implement coverage verification
         pass
 
-    async def submit_claim(self,
-                         member_id: str,
-                         claim_data: dict[str, Any]) -> str:
+    async def submit_claim(self, member_id: str, claim_data: dict[str, Any]) -> str:
         """Submit insurance claim to AXA"""
         self.audit.log_access(
             user_id=self.config["provider_id"],
             action="submit_claim",
             resource_id=member_id,
-            details={"claim_type": claim_data.get("type")}
+            details={"claim_type": claim_data.get("type")},
         )
         # Implement claim submission
         pass
 
-    async def get_claim_status(self,
-                             claim_id: str) -> dict[str, Any]:
+    async def get_claim_status(self, claim_id: str) -> dict[str, Any]:
         """Get status of submitted claim"""
         # Implement claim status retrieval
         pass
@@ -142,8 +132,6 @@ class AXAInterface(EHRInterface):
     async def handle_error(self, error: Exception) -> None:
         """Handle AXA-specific errors"""
         self.audit.log_security_event(
-            event_type="error",
-            severity="error",
-            details={"error": str(error)}
+            event_type="error", severity="error", details={"error": str(error)}
         )
         # Implement AXA-specific error handling

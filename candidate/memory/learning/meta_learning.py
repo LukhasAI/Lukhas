@@ -52,9 +52,9 @@ class MetaLearningSystem:
         # ΛNOTE: Initializes storage for federated models, symbolic knowledge, and performance metrics.
         # ΛDRIFT_POINT: Federated models can drift over time due to new data from
         # clients.
-        self.federated_models: dict[str, Any] = (
-            {}
-        )  # Stores aggregated models from federated learning
+        self.federated_models: dict[
+            str, Any
+        ] = {}  # Stores aggregated models from federated learning
         # ΛDRIFT_POINT: The symbolic DB can drift as new, potentially incorrect,
         # rules are added.
         self.symbolic_db: dict[str, dict[str, Any]] = defaultdict(
@@ -97,9 +97,7 @@ class MetaLearningSystem:
 
         learning_plan = self._generate_learning_plan(strategy, enhanced_data)
         # ΛTRACE: Learning plan generated
-        logger.debug(
-            "learning_plan_generated_meta", plan_keys=list(learning_plan.keys())
-        )
+        logger.debug("learning_plan_generated_meta", plan_keys=list(learning_plan.keys()))
 
         self._update_metrics(
             learning_plan
@@ -119,9 +117,7 @@ class MetaLearningSystem:
         """Process and incorporate feedback into learning system"""
         # ΛDREAM_LOOP: Incorporating feedback is a crucial part of the adaptive learning cycle.
         # ΛTRACE: Incorporating feedback
-        logger.info(
-            "incorporate_feedback_start_meta", feedback_keys=list(feedback_data.keys())
-        )
+        logger.info("incorporate_feedback_start_meta", feedback_keys=list(feedback_data.keys()))
 
         self._update_federated_models(feedback_data)
         self._update_symbolic_db(feedback_data)
@@ -168,9 +164,7 @@ class MetaLearningSystem:
         return data
 
     # # Placeholder: Generate concrete learning plan
-    def _generate_learning_plan(
-        self, strategy: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _generate_learning_plan(self, strategy: str, data: dict[str, Any]) -> dict[str, Any]:
         """Generate concrete learning plan"""
         # ΛNOTE: Placeholder for generating a sequence of learning steps.
         # ΛCAUTION: Mock implementation. Real plan generation depends on strategy and data.
@@ -186,7 +180,7 @@ class MetaLearningSystem:
             ],
             "expected_outcome_metric": "accuracy > 0.85",
             "data_subset_ratio": 1.0,  # Use all enhanced data
-            "summary": f"Plan for {strategy} on data with {len(data.get('features',[]))} features.",
+            "summary": f"Plan for {strategy} on data with {len(data.get('features', []))} features.",
         }
 
     # # Placeholder: Update learning performance metrics
@@ -204,9 +198,7 @@ class MetaLearningSystem:
         self.performance_metrics.insights_gained += (
             random.randint(1, 5) if __import__("random") else 2
         )
-        self.performance_metrics.adaptations_made += (
-            1  # One adaptation per plan generation for now
-        )
+        self.performance_metrics.adaptations_made += 1  # One adaptation per plan generation for now
         logger.info(
             "performance_metrics_updated_meta",
             metrics=self.performance_metrics.__dict__,
@@ -219,9 +211,7 @@ class MetaLearningSystem:
         # ΛDREAM_LOOP: Feedback drives updates to federated models, part of a distributed learning cycle.
         # ΛCAUTION: Mock implementation. Real federated updates involve aggregation, privacy.
         # ΛTRACE: Updating federated models (stub)
-        logger.debug(
-            "update_federated_models_stub_meta", num_models=len(self.federated_models)
-        )
+        logger.debug("update_federated_models_stub_meta", num_models=len(self.federated_models))
         model_id_to_update = feedback.get("target_model_id", "general_model")
         if model_id_to_update not in self.federated_models:
             self.federated_models[model_id_to_update] = {
@@ -245,9 +235,7 @@ class MetaLearningSystem:
         # ΛCAUTION: Mock implementation. Neural-symbolic integration is a research area.
         # ΛTRACE: Updating symbolic DB (stub)
         logger.debug("update_symbolic_db_stub_meta")
-        if "new_symbolic_rules" in feedback and isinstance(
-            feedback["new_symbolic_rules"], list
-        ):
+        if "new_symbolic_rules" in feedback and isinstance(feedback["new_symbolic_rules"], list):
             for rule in feedback["new_symbolic_rules"]:
                 if isinstance(rule, dict) and "id" in rule:
                     self.symbolic_db[rule["id"]].update(rule)  # Add/update rule

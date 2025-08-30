@@ -27,7 +27,6 @@ except ImportError:
     # Fallback classes for testing
 
     class Fernet:
-
         def __init__(self, key):
             self.key = key
 
@@ -38,7 +37,6 @@ except ImportError:
             return data.replace(b"fernet_encrypted_", b"")
 
     class AESGCM:
-
         def __init__(self, key):
             self.key = key
 
@@ -49,7 +47,6 @@ except ImportError:
             return data.replace(b"aes_encrypted_", b"")
 
     class ChaCha20Poly1305:
-
         def __init__(self, key):
             self.key = key
 
@@ -62,7 +59,6 @@ except ImportError:
     # Mock classes
 
     class PBKDF2HMAC:
-
         def __init__(self, algorithm, length, salt, iterations, backend=None):
             self.salt = salt
 
@@ -70,7 +66,6 @@ except ImportError:
             return hashlib.pbkdf2_hmac("sha256", password, self.salt, 100000)[:32]
 
     class Scrypt:
-
         def __init__(self, salt, length, n, r, p, backend=None):
             self.salt = salt
 
@@ -79,7 +74,6 @@ except ImportError:
             return hashlib.pbkdf2_hmac("sha256", password, self.salt, 100000)[:32]
 
     class hashes:
-
         class SHA256:
             pass
 
@@ -147,9 +141,7 @@ class EnhancedEncryptionManager:
         """Generate cryptographically secure key"""
         return secrets.token_bytes(length)
 
-    def _create_key(
-        self, purpose: str, algorithm: str = "AES-256-GCM"
-    ) -> EncryptionKey:
+    def _create_key(self, purpose: str, algorithm: str = "AES-256-GCM") -> EncryptionKey:
         """Create new encryption key"""
         key_id = f"{purpose}_{secrets.token_hex(8)}"
         key_material = self._generate_key(32)  # 256 bits
@@ -318,9 +310,7 @@ class EnhancedEncryptionManager:
 
     # Key derivation functions
 
-    def derive_key_pbkdf2(
-        self, password: str, salt: bytes, iterations: int = 100000
-    ) -> bytes:
+    def derive_key_pbkdf2(self, password: str, salt: bytes, iterations: int = 100000) -> bytes:
         """Derive key from password using PBKDF2"""
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
@@ -353,9 +343,7 @@ class EnhancedEncryptionManager:
         """Constant-time comparison to prevent timing attacks"""
         return secrets.compare_digest(a, b)
 
-    async def encrypt_json(
-        self, data: dict[str, Any], purpose: str = "data"
-    ) -> tuple[str, str]:
+    async def encrypt_json(self, data: dict[str, Any], purpose: str = "data") -> tuple[str, str]:
         """Encrypt JSON data"""
         json_bytes = json.dumps(data).encode("utf-8")
         ciphertext, key_id = await self.encrypt(json_bytes, purpose)

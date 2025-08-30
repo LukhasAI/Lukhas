@@ -181,9 +181,7 @@ class LUKHASBootstrap:
         if self.event_bus:
             self.kernel_bus.subscribe(MemoryFoldCreated, on_memory_created)
             self.kernel_bus.subscribe(DreamGenerated, on_dream_generated)
-            self.kernel_bus.subscribe(
-                ConsciousnessStateChanged, on_consciousness_changed
-            )
+            self.kernel_bus.subscribe(ConsciousnessStateChanged, on_consciousness_changed)
             self.kernel_bus.subscribe(QIStateCreated, on_quantum_state)
 
             logger.info("  ✓ Event subscriptions configured")
@@ -211,18 +209,14 @@ class LUKHASBootstrap:
 
         # Overall health assessment
         healthy_count = sum(
-            1
-            for h in health_report["services"].values()
-            if h.get("status") == "healthy"
+            1 for h in health_report["services"].values() if h.get("status") == "healthy"
         )
         total_count = len(health_report["services"])
 
         health_report["overall"] = {
             "healthy_services": healthy_count,
             "total_services": total_count,
-            "health_percentage": (
-                (healthy_count / total_count * 100) if total_count > 0 else 0
-            ),
+            "health_percentage": ((healthy_count / total_count * 100) if total_count > 0 else 0),
             "status": ("healthy" if healthy_count == total_count else "degraded"),
         }
 
@@ -257,17 +251,11 @@ class LUKHASBootstrap:
         status = await self.unified_orchestrator.get_system_status()
 
         logger.info("\n📊 SYSTEM STATUS:")
-        logger.info(
-            f"   • Active Symbols: {status['cognitive_state']['active_symbols']}"
-        )
+        logger.info(f"   • Active Symbols: {status['cognitive_state']['active_symbols']}")
         logger.info(f"   • Memory Folds: {status['memory']['total_folds']}")
         logger.info(f"   • Cache Hit Rate: {status['memory']['cache_hit_rate']:.1%}")
-        logger.info(
-            f"   • Quantum Coherence: {status['cognitive_state']['qi_coherence']:.3f}"
-        )
-        logger.info(
-            f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}"
-        )
+        logger.info(f"   • Quantum Coherence: {status['cognitive_state']['qi_coherence']:.3f}")
+        logger.info(f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}")
 
         logger.info("\n✅ Integration demonstration complete!")
 
@@ -354,9 +342,7 @@ class LUKHASBootstrap:
                 ethics_result = await governance.check_ethics(
                     action="bootstrap_demo", context={"purpose": "testing"}
                 )
-                logger.info(
-                    f"  ✓ Ethics check: {'Permitted' if ethics_result else 'Denied'}"
-                )
+                logger.info(f"  ✓ Ethics check: {'Permitted' if ethics_result else 'Denied'}")
 
             logger.info("✅ Integration demonstration complete")
 

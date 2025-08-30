@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class CompositionRule(Enum):
     """Rules for symbol composition"""
+
     CONCATENATION = "concatenation"  # A + B = AB
     BLENDING = "blending"  # A + B = (A∩B) + unique
     HIERARCHICAL = "hierarchical"  # A contains B
@@ -35,6 +36,7 @@ class CompositionRule(Enum):
 @dataclass
 class CompositionTemplate:
     """Template for generating composed symbols"""
+
     template_id: str
     name: str
     input_types: list[str]  # Types of symbols that can be inputs
@@ -92,57 +94,64 @@ class SymbolComposer:
         """Initialize composition templates"""
 
         # Emotion blending template
-        self.add_template(CompositionTemplate(
-            template_id="EMOTION_BLEND",
-            name="Emotion Blending",
-            input_types=["emotion", "emotion"],
-            output_type="emotion",
-            composition_rule=CompositionRule.BLENDING,
-            transformer=self._blend_emotions,
-            examples=[
-                {"inputs": ["joy", "surprise"], "output": "delight"},
-                {"inputs": ["fear", "anger"], "output": "panic"}
-            ]
-        ))
+        self.add_template(
+            CompositionTemplate(
+                template_id="EMOTION_BLEND",
+                name="Emotion Blending",
+                input_types=["emotion", "emotion"],
+                output_type="emotion",
+                composition_rule=CompositionRule.BLENDING,
+                transformer=self._blend_emotions,
+                examples=[
+                    {"inputs": ["joy", "surprise"], "output": "delight"},
+                    {"inputs": ["fear", "anger"], "output": "panic"},
+                ],
+            )
+        )
 
         # Action sequence template
-        self.add_template(CompositionTemplate(
-            template_id="ACTION_SEQUENCE",
-            name="Action Sequencing",
-            input_types=["action", "action"],
-            output_type="procedure",
-            composition_rule=CompositionRule.SEQUENTIAL,
-            transformer=self._sequence_actions,
-            constraints={"order_matters": True}
-        ))
+        self.add_template(
+            CompositionTemplate(
+                template_id="ACTION_SEQUENCE",
+                name="Action Sequencing",
+                input_types=["action", "action"],
+                output_type="procedure",
+                composition_rule=CompositionRule.SEQUENTIAL,
+                transformer=self._sequence_actions,
+                constraints={"order_matters": True},
+            )
+        )
 
         # Concept hierarchy template
-        self.add_template(CompositionTemplate(
-            template_id="CONCEPT_HIERARCHY",
-            name="Hierarchical Concept",
-            input_types=["any", "any"],
-            output_type="composite",
-            composition_rule=CompositionRule.HIERARCHICAL,
-            transformer=self._create_hierarchy
-        ))
+        self.add_template(
+            CompositionTemplate(
+                template_id="CONCEPT_HIERARCHY",
+                name="Hierarchical Concept",
+                input_types=["any", "any"],
+                output_type="composite",
+                composition_rule=CompositionRule.HIERARCHICAL,
+                transformer=self._create_hierarchy,
+            )
+        )
 
         # Emergent property template
-        self.add_template(CompositionTemplate(
-            template_id="EMERGENT",
-            name="Emergent Properties",
-            input_types=["any", "any", "any"],
-            output_type="emergent",
-            composition_rule=CompositionRule.EMERGENT,
-            transformer=self._generate_emergent,
-            constraints={"min_entropy": 50}
-        ))
+        self.add_template(
+            CompositionTemplate(
+                template_id="EMERGENT",
+                name="Emergent Properties",
+                input_types=["any", "any", "any"],
+                output_type="emergent",
+                composition_rule=CompositionRule.EMERGENT,
+                transformer=self._generate_emergent,
+                constraints={"min_entropy": 50},
+            )
+        )
 
     def add_template(self, template: CompositionTemplate):
         """Add a composition template"""
         self.templates[template.template_id] = template
 
-    def compose(self, symbols: list[Symbol],
-               template_id: Optional[str] = None) -> Optional[Symbol]:
+    def compose(self, symbols: list[Symbol], template_id: Optional[str] = None) -> Optional[Symbol]:
         """
         Compose symbols to create a new one.
 
@@ -175,7 +184,7 @@ class SymbolComposer:
                     name=composed.name,
                     domain=composed.domain,
                     value=composed.value,
-                    **composed.attributes
+                    **composed.attributes,
                 )
                 if safe_symbol:
                     self.composition_cache[cache_key] = safe_symbol
@@ -211,7 +220,7 @@ class SymbolComposer:
                     id=f"COMPONENT_{hashlib.sha256(part.encode()).hexdigest()[:8]}",
                     domain=symbol.domain,
                     name=part.strip(),
-                    value=part.strip()
+                    value=part.strip(),
                 )
                 components.append(component)
 
@@ -242,7 +251,7 @@ class SymbolComposer:
         combined_attrs["composition"] = {
             "type": "generic",
             "components": symbols,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         return Symbol(
@@ -251,7 +260,7 @@ class SymbolComposer:
             name=combined_name,
             value=combined_name,
             attributes=combined_attrs,
-            entropy_bits=sum(s.entropy_bits for s in symbols)
+            entropy_bits=sum(s.entropy_bits for s in symbols),
         )
 
     def _blend_emotions(self, symbols: list[Symbol]) -> Symbol:
@@ -284,11 +293,8 @@ class SymbolComposer:
             attributes={
                 "valence": blended_valence,
                 "arousal": blended_arousal,
-                "composition": {
-                    "type": "blend",
-                    "components": symbols
-                }
-            }
+                "composition": {"type": "blend", "components": symbols},
+            },
         )
 
     def _sequence_actions(self, symbols: list[Symbol]) -> Symbol:
@@ -303,11 +309,8 @@ class SymbolComposer:
             attributes={
                 "type": "sequence",
                 "steps": [s.name for s in symbols],
-                "composition": {
-                    "type": "sequential",
-                    "components": symbols
-                }
-            }
+                "composition": {"type": "sequential", "components": symbols},
+            },
         )
 
     def _create_hierarchy(self, symbols: list[Symbol]) -> Symbol:
@@ -323,11 +326,8 @@ class SymbolComposer:
             attributes={
                 "parent": parent.name,
                 "children": [c.name for c in children],
-                "composition": {
-                    "type": "hierarchical",
-                    "components": symbols
-                }
-            }
+                "composition": {"type": "hierarchical", "components": symbols},
+            },
         )
 
     def _generate_emergent(self, symbols: list[Symbol]) -> Symbol:
@@ -336,7 +336,7 @@ class SymbolComposer:
         emergent_properties = {
             "complexity": len(symbols),
             "synergy": sum(s.entropy_bits for s in symbols) * 1.5,
-            "novel": True
+            "novel": True,
         }
 
         name = f"emergent({','.join(s.name[:3] for s in symbols)})"
@@ -348,15 +348,11 @@ class SymbolComposer:
             value=name,
             attributes={
                 **emergent_properties,
-                "composition": {
-                    "type": "emergent",
-                    "components": symbols
-                }
-            }
+                "composition": {"type": "emergent", "components": symbols},
+            },
         )
 
-    def _compute_cache_key(self, symbols: list[Symbol],
-                          template_id: Optional[str]) -> str:
+    def _compute_cache_key(self, symbols: list[Symbol], template_id: Optional[str]) -> str:
         """Compute cache key for composition"""
         symbol_ids = sorted([s.id for s in symbols])
         key_parts = symbol_ids + [template_id or "auto"]
@@ -366,6 +362,7 @@ class SymbolComposer:
 @dataclass
 class SymbolProgram:
     """A program composed of symbol operations"""
+
     program_id: str
     name: str
     code: str  # Program in symbolic language
@@ -382,7 +379,7 @@ class SymbolProgram:
             "inputs": self.inputs,
             "outputs": self.outputs,
             "operations": self.operations,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -410,7 +407,7 @@ class SymbolProgramSynthesizer:
             "conditional": lambda c, t, f: f"if({c},{t},{f})",
             "loop": lambda s, n: f"loop({s},{n})",
             "bind": lambda s, v: f"bind({s},{v})",
-            "extract": lambda s, k: f"extract({s},{k})"
+            "extract": lambda s, k: f"extract({s},{k})",
         }
 
     def synthesize_from_examples(self, examples: list[dict[str, Any]]) -> Optional[SymbolProgram]:
@@ -437,7 +434,9 @@ class SymbolProgramSynthesizer:
         # Try generic synthesis
         return self._generic_synthesis(examples)
 
-    def synthesize_from_trace(self, symbol_trace: list[tuple[str, Symbol]]) -> Optional[SymbolProgram]:
+    def synthesize_from_trace(
+        self, symbol_trace: list[tuple[str, Symbol]]
+    ) -> Optional[SymbolProgram]:
         """
         Synthesize program from execution trace.
 
@@ -455,11 +454,7 @@ class SymbolProgramSynthesizer:
                 inputs.append(symbol.name)
 
             if operation in self.operation_library:
-                operations.append({
-                    "op": operation,
-                    "symbol": symbol.name,
-                    "position": i
-                })
+                operations.append({"op": operation, "symbol": symbol.name, "position": i})
 
             if i == len(symbol_trace) - 1:
                 outputs.append(symbol.name)
@@ -477,25 +472,22 @@ class SymbolProgramSynthesizer:
             code="\n".join(code_lines),
             inputs=inputs,
             outputs=outputs,
-            operations=operations
+            operations=operations,
         )
 
         self.programs[program.program_id] = program
         return program
 
-    def execute_program(self, program: SymbolProgram,
-                       input_symbols: dict[str, Symbol]) -> dict[str, Symbol]:
+    def execute_program(
+        self, program: SymbolProgram, input_symbols: dict[str, Symbol]
+    ) -> dict[str, Symbol]:
         """
         Execute a symbol program.
 
         Returns output symbols.
         """
         # Create execution environment
-        env = {
-            "symbols": input_symbols.copy(),
-            "operations": self.operation_library,
-            "results": {}
-        }
+        env = {"symbols": input_symbols.copy(), "operations": self.operation_library, "results": {}}
 
         # Parse and execute program
         try:
@@ -548,7 +540,7 @@ class SymbolProgramSynthesizer:
                 merged = {
                     "op": current["op"],
                     "symbols": [optimized_ops[k].get("symbol") for k in range(i, j)],
-                    "position": current["position"]
+                    "position": current["position"],
                 }
                 merged_ops.append(merged)
                 i = j
@@ -564,7 +556,7 @@ class SymbolProgramSynthesizer:
             inputs=program.inputs,
             outputs=program.outputs,
             operations=merged_ops,
-            metadata={**program.metadata, "optimized": True}
+            metadata={**program.metadata, "optimized": True},
         )
 
         return optimized
@@ -578,20 +570,18 @@ class SymbolProgramSynthesizer:
             # All examples transform single input to output
             patterns["transformation"] = {
                 "type": "unary",
-                "consistent": self._check_consistency(examples)
+                "consistent": self._check_consistency(examples),
             }
 
         # Check for composition pattern
         if all("inputs" in ex and len(ex["inputs"]) > 1 for ex in examples):
-            patterns["composition"] = {
-                "type": "n-ary",
-                "arity": len(examples[0]["inputs"])
-            }
+            patterns["composition"] = {"type": "n-ary", "arity": len(examples[0]["inputs"])}
 
         return patterns
 
-    def _synthesize_transformation(self, examples: list[dict[str, Any]],
-                                  pattern_data: dict[str, Any]) -> SymbolProgram:
+    def _synthesize_transformation(
+        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
+    ) -> SymbolProgram:
         """Synthesize transformation program"""
         # Infer transformation function
         transform_ops = []
@@ -618,11 +608,12 @@ class SymbolProgramSynthesizer:
             code=code,
             inputs=["input"],
             outputs=["output"],
-            operations=[{"op": "transform", "function": transform_ops[0]}]
+            operations=[{"op": "transform", "function": transform_ops[0]}],
         )
 
-    def _synthesize_composition(self, examples: list[dict[str, Any]],
-                               pattern_data: dict[str, Any]) -> SymbolProgram:
+    def _synthesize_composition(
+        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
+    ) -> SymbolProgram:
         """Synthesize composition program"""
         arity = pattern_data["arity"]
 
@@ -636,11 +627,12 @@ class SymbolProgramSynthesizer:
             code=code,
             inputs=input_vars,
             outputs=["output"],
-            operations=[{"op": "compose", "arity": arity}]
+            operations=[{"op": "compose", "arity": arity}],
         )
 
-    def _synthesize_filter(self, examples: list[dict[str, Any]],
-                          pattern_data: dict[str, Any]) -> SymbolProgram:
+    def _synthesize_filter(
+        self, examples: list[dict[str, Any]], pattern_data: dict[str, Any]
+    ) -> SymbolProgram:
         """Synthesize filtering program"""
         # Infer filter condition
         code = "filter(input, condition)"
@@ -651,7 +643,7 @@ class SymbolProgramSynthesizer:
             code=code,
             inputs=["input"],
             outputs=["filtered"],
-            operations=[{"op": "filter"}]
+            operations=[{"op": "filter"}],
         )
 
     def _generic_synthesis(self, examples: list[dict[str, Any]]) -> SymbolProgram:
@@ -665,7 +657,7 @@ class SymbolProgramSynthesizer:
             code=code,
             inputs=["input"],
             outputs=["output"],
-            operations=[{"op": "sequence"}]
+            operations=[{"op": "sequence"}],
         )
 
     def _execute_line(self, line: str, env: dict[str, Any]):

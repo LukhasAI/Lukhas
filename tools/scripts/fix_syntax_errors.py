@@ -69,9 +69,9 @@ def fix_eol_string_literal(file_path):
                 if line_no < len(lines):
                     next_line = lines[line_no]
                     # If next line is a continuation, merge it
-                    if not next_line.strip().startswith(
-                        '"'
-                    ) and not next_line.strip().startswith("}"):
+                    if not next_line.strip().startswith('"') and not next_line.strip().startswith(
+                        "}"
+                    ):
                         lines[line_no - 1] = (
                             problem_line.rstrip() + " " + next_line.strip() + '",\n'
                         )
@@ -100,14 +100,10 @@ def main():
             else:
                 error_info = find_syntax_error_line(full_path)
                 if error_info:
-                    print(
-                        f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}"
-                    )
+                    print(f"  ✗ Error in {file_path} at line {error_info[0]}: {error_info[1]}")
                     error_count += 1
 
-    print(
-        f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors"
-    )
+    print(f"\nSummary: Fixed {fixed_count} files, {error_count} files still have errors")
 
 
 if __name__ == "__main__":

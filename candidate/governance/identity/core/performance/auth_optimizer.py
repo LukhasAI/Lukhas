@@ -51,9 +51,7 @@ class PerformanceMetrics:
             )
             # Keep only last 1000 samples
             if len(self.metrics["latency_samples"]) > 1000:
-                self.metrics["latency_samples"] = self.metrics["latency_samples"][
-                    -1000:
-                ]
+                self.metrics["latency_samples"] = self.metrics["latency_samples"][-1000:]
 
     def record_cache_hit(self):
         """Record cache hit"""
@@ -71,9 +69,7 @@ class PerformanceMetrics:
             if not self.metrics["latency_samples"]:
                 return 0.0
 
-            latencies = [
-                sample["latency_ms"] for sample in self.metrics["latency_samples"]
-            ]
+            latencies = [sample["latency_ms"] for sample in self.metrics["latency_samples"]]
             latencies.sort()
             p95_index = int(len(latencies) * 0.95)
             return latencies[p95_index] if p95_index < len(latencies) else latencies[-1]
@@ -146,9 +142,7 @@ class HighPerformanceCache:
         with self.cache_lock:
             current_time = time.time()
             expired_keys = [
-                key
-                for key, expiry_time in self.ttl_expiry.items()
-                if current_time > expiry_time
+                key for key, expiry_time in self.ttl_expiry.items() if current_time > expiry_time
             ]
 
             for key in expired_keys:
@@ -161,16 +155,9 @@ class HighPerformanceCache:
         with self.cache_lock:
             return {
                 "total_entries": len(self.memory_cache),
-                "memory_usage_percentage": (
-                    len(self.memory_cache) / self.max_memory_entries
-                )
-                * 100,
-                "oldest_access": (
-                    min(self.access_times.values()) if self.access_times else 0
-                ),
-                "newest_access": (
-                    max(self.access_times.values()) if self.access_times else 0
-                ),
+                "memory_usage_percentage": (len(self.memory_cache) / self.max_memory_entries) * 100,
+                "oldest_access": (min(self.access_times.values()) if self.access_times else 0),
+                "newest_access": (max(self.access_times.values()) if self.access_times else 0),
             }
 
 
@@ -189,9 +176,7 @@ class AsyncAuthProcessor:
         async def process_single_validation(task_id: str, validation_func, *args):
             async with self.semaphore:
                 loop = asyncio.get_event_loop()
-                result = await loop.run_in_executor(
-                    self.executor, validation_func, *args
-                )
+                result = await loop.run_in_executor(self.executor, validation_func, *args)
                 return task_id, result
 
         tasks = [
@@ -202,9 +187,7 @@ class AsyncAuthProcessor:
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         return {
-            task_id: (
-                result if not isinstance(result, Exception) else {"error": str(result)}
-            )
+            task_id: (result if not isinstance(result, Exception) else {"error": str(result)})
             for task_id, result in results
         }
 
@@ -215,23 +198,15 @@ class AuthenticationOptimizer:
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.metrics = PerformanceMetrics()
-        self.cache = HighPerformanceCache(
-            max_memory_entries=self.config.get("cache_size", 10000)
-        )
-        self.async_processor = AsyncAuthProcessor(
-            max_workers=self.config.get("max_workers", 10)
-        )
+        self.cache = HighPerformanceCache(max_memory_entries=self.config.get("cache_size", 10000))
+        self.async_processor = AsyncAuthProcessor(max_workers=self.config.get("max_workers", 10))
 
         # Performance targets
         self.target_p95_latency = self.config.get("target_p95_latency", 100.0)  # 100ms
-        self.target_cache_hit_rate = self.config.get(
-            "target_cache_hit_rate", 0.85
-        )  # 85%
+        self.target_cache_hit_rate = self.config.get("target_cache_hit_rate", 0.85)  # 85%
 
         # Optimization strategies
-        self.enable_predictive_caching = self.config.get(
-            "enable_predictive_caching", True
-        )
+        self.enable_predictive_caching = self.config.get("enable_predictive_caching", True)
         self.enable_batch_processing = self.config.get("enable_batch_processing", True)
         self.enable_async_operations = self.config.get("enable_async_operations", True)
 
@@ -316,9 +291,7 @@ class AuthenticationOptimizer:
         return result
 
     @performance_measure("tier_validation")
-    def optimize_tier_validation(
-        self, user_id: str, required_tier: int
-    ) -> dict[str, Any]:
+    def optimize_tier_validation(self, user_id: str, required_tier: int) -> dict[str, Any]:
         """Optimized tier validation with predictive caching"""
         cache_key = f"tier_validation:{user_id}:{required_tier}"
 
@@ -444,9 +417,7 @@ class AuthenticationOptimizer:
                 )
 
         # Process in parallel
-        results = await self.async_processor.process_parallel_validations(
-            validation_tasks
-        )
+        results = await self.async_processor.process_parallel_validations(validation_tasks)
 
         # Calculate overall success
         all_valid = all(
@@ -466,9 +437,7 @@ class AuthenticationOptimizer:
             "operations_count": len(auth_operations),
         }
 
-    def _sequential_auth_processing(
-        self, auth_operations: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _sequential_auth_processing(self, auth_operations: list[dict[str, Any]]) -> dict[str, Any]:
         """Fallback sequential processing"""
         start_time = time.time()
         results = {}
@@ -538,9 +507,7 @@ class AuthenticationOptimizer:
                     # Auto-adjust cache size if performance is poor
                     if p95_latency > self.target_p95_latency * 1.2:  # 20% over target
                         current_size = self.cache.max_memory_entries
-                        new_size = min(
-                            current_size * 1.2, 50000
-                        )  # Increase cache by 20%
+                        new_size = min(current_size * 1.2, 50000)  # Increase cache by 20%
                         self.cache.max_memory_entries = int(new_size)
 
                     # Sleep for 60 seconds before next check
@@ -612,14 +579,10 @@ class AuthenticationOptimizer:
             )
 
         if not self.enable_predictive_caching:
-            recommendations.append(
-                "Enable predictive caching to improve cache hit rates."
-            )
+            recommendations.append("Enable predictive caching to improve cache hit rates.")
 
         if not recommendations:
-            recommendations.append(
-                "Performance targets are being met. System is optimized."
-            )
+            recommendations.append("Performance targets are being met. System is optimized.")
 
         return recommendations
 
@@ -663,8 +626,8 @@ class AuthenticationOptimizer:
 
 # Export main class
 __all__ = [
-    "AuthenticationOptimizer",
-    "PerformanceMetrics",
-    "HighPerformanceCache",
     "AsyncAuthProcessor",
+    "AuthenticationOptimizer",
+    "HighPerformanceCache",
+    "PerformanceMetrics",
 ]

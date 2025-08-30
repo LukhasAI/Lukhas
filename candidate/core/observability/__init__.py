@@ -61,6 +61,7 @@ logger = logging.getLogger(__name__)
 # Import legacy collector
 try:
     from .collector import Collector
+
     logger.debug("Imported Collector from .collector")
 except ImportError as e:
     logger.warning(f"Could not import Collector: {e}")
@@ -78,6 +79,7 @@ try:
         UnifiedMonitoringDashboard,
         ViewType,
     )
+
     UNIFIED_DASHBOARD_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Unified dashboard not available: {e}")
@@ -86,19 +88,16 @@ except ImportError as e:
 try:
     from candidate.governance.guardian.monitoring_dashboard import (
         AlertSeverity as GuardianAlertSeverity,
-    )
-    from candidate.governance.guardian.monitoring_dashboard import (
         ComplianceViolation,
         GuardianMonitoringDashboard,
         MonitoringMetric,
         MonitoringReport,
         MonitoringScope,
+        SystemHealthStatus as GuardianHealthStatus,
         ThreatDetection,
         ThreatLevel,
     )
-    from candidate.governance.guardian.monitoring_dashboard import (
-        SystemHealthStatus as GuardianHealthStatus,
-    )
+
     GUARDIAN_MONITORING_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Guardian monitoring not available: {e}")
@@ -116,6 +115,7 @@ try:
         ConsciousnessInsight,
         ConsciousnessState,
     )
+
     CONSCIOUSNESS_MONITORING_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Consciousness monitoring not available: {e}")
@@ -132,6 +132,7 @@ try:
         SystemHealthMonitor,
         SystemHealthSnapshot,
     )
+
     HEALTH_MONITORING_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Health monitoring not available: {e}")
@@ -151,6 +152,7 @@ try:
         NotificationChannel,
         NotificationConfig,
     )
+
     ALERTING_SYSTEM_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Alerting system not available: {e}")
@@ -168,6 +170,7 @@ try:
         TrinityInteraction,
         TrinityReport,
     )
+
     TRINITY_MONITORING_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Trinity monitoring not available: {e}")
@@ -240,9 +243,7 @@ class ObservabilityManager:
 
             # Initialize system health monitoring
             if HEALTH_MONITORING_AVAILABLE:
-                self.health_monitor = SystemHealthMonitor(
-                    self.config.get("health_monitoring", {})
-                )
+                self.health_monitor = SystemHealthMonitor(self.config.get("health_monitoring", {}))
                 initialization_results["health_monitoring"] = True
                 logger.info("✅ System health monitoring initialized")
             else:
@@ -251,9 +252,7 @@ class ObservabilityManager:
 
             # Initialize alerting system
             if ALERTING_SYSTEM_AVAILABLE:
-                self.alerting_system = ComprehensiveAlertingSystem(
-                    self.config.get("alerting", {})
-                )
+                self.alerting_system = ComprehensiveAlertingSystem(self.config.get("alerting", {}))
                 initialization_results["alerting_system"] = True
                 logger.info("✅ Alerting system initialized")
             else:
@@ -277,7 +276,9 @@ class ObservabilityManager:
             successful_systems = sum(1 for success in initialization_results.values() if success)
             total_systems = len(initialization_results)
 
-            logger.info(f"🔍 Observability initialization complete: {successful_systems}/{total_systems} systems active")
+            logger.info(
+                f"🔍 Observability initialization complete: {successful_systems}/{total_systems} systems active"
+            )
 
             return initialization_results
 
@@ -295,10 +296,12 @@ class ObservabilityManager:
             "systems_status": {
                 "unified_dashboard": "active" if self.unified_dashboard else "not_available",
                 "guardian_monitor": "active" if self.guardian_monitor else "not_available",
-                "consciousness_monitor": "active" if self.consciousness_monitor else "not_available",
+                "consciousness_monitor": "active"
+                if self.consciousness_monitor
+                else "not_available",
                 "health_monitor": "active" if self.health_monitor else "not_available",
                 "alerting_system": "active" if self.alerting_system else "not_available",
-                "trinity_monitor": "active" if self.trinity_monitor else "not_available"
+                "trinity_monitor": "active" if self.trinity_monitor else "not_available",
             },
             "availability": {
                 "unified_dashboard": UNIFIED_DASHBOARD_AVAILABLE,
@@ -306,8 +309,8 @@ class ObservabilityManager:
                 "consciousness_monitoring": CONSCIOUSNESS_MONITORING_AVAILABLE,
                 "health_monitoring": HEALTH_MONITORING_AVAILABLE,
                 "alerting_system": ALERTING_SYSTEM_AVAILABLE,
-                "trinity_monitoring": TRINITY_MONITORING_AVAILABLE
-            }
+                "trinity_monitoring": TRINITY_MONITORING_AVAILABLE,
+            },
         }
 
 
@@ -318,11 +321,9 @@ default_observability_manager = ObservabilityManager()
 __all__ = [
     # Legacy collector
     "Collector",
-
     # Manager
     "ObservabilityManager",
     "default_observability_manager",
-
     # Availability flags
     "UNIFIED_DASHBOARD_AVAILABLE",
     "GUARDIAN_MONITORING_AVAILABLE",
@@ -334,84 +335,98 @@ __all__ = [
 
 # Conditionally export available components
 if UNIFIED_DASHBOARD_AVAILABLE:
-    __all__.extend([
-        "UnifiedMonitoringDashboard",
-        "DashboardConfig",
-        "DashboardSession",
-        "UnifiedAlert",
-        "DashboardData",
-        "DashboardMode",
-        "ViewType",
-        "AlertPriority"
-    ])
+    __all__.extend(
+        [
+            "AlertPriority",
+            "DashboardConfig",
+            "DashboardData",
+            "DashboardMode",
+            "DashboardSession",
+            "UnifiedAlert",
+            "UnifiedMonitoringDashboard",
+            "ViewType",
+        ]
+    )
 
 if GUARDIAN_MONITORING_AVAILABLE:
-    __all__.extend([
-        "GuardianMonitoringDashboard",
-        "MonitoringMetric",
-        "ThreatDetection",
-        "ComplianceViolation",
-        "GuardianHealthStatus",
-        "MonitoringReport",
-        "MonitoringScope",
-        "GuardianAlertSeverity",
-        "ThreatLevel"
-    ])
+    __all__.extend(
+        [
+            "ComplianceViolation",
+            "GuardianAlertSeverity",
+            "GuardianHealthStatus",
+            "GuardianMonitoringDashboard",
+            "MonitoringMetric",
+            "MonitoringReport",
+            "MonitoringScope",
+            "ThreatDetection",
+            "ThreatLevel",
+        ]
+    )
 
 if CONSCIOUSNESS_MONITORING_AVAILABLE:
-    __all__.extend([
-        "AwarenessMonitoringSystem",
-        "AwarenessSnapshot",
-        "AttentionPattern",
-        "ConsciousnessInsight",
-        "AwarenessReport",
-        "AwarenessLevel",
-        "AttentionMode",
-        "ConsciousnessState",
-        "CognitiveLoadLevel"
-    ])
+    __all__.extend(
+        [
+            "AttentionMode",
+            "AttentionPattern",
+            "AwarenessLevel",
+            "AwarenessMonitoringSystem",
+            "AwarenessReport",
+            "AwarenessSnapshot",
+            "CognitiveLoadLevel",
+            "ConsciousnessInsight",
+            "ConsciousnessState",
+        ]
+    )
 
 if HEALTH_MONITORING_AVAILABLE:
-    __all__.extend([
-        "SystemHealthMonitor",
-        "HealthMetric",
-        "ComponentHealth",
-        "SystemHealthSnapshot",
-        "HealthReport",
-        "HealthStatus",
-        "ComponentType",
-        "MetricType"
-    ])
+    __all__.extend(
+        [
+            "ComponentHealth",
+            "ComponentType",
+            "HealthMetric",
+            "HealthReport",
+            "HealthStatus",
+            "MetricType",
+            "SystemHealthMonitor",
+            "SystemHealthSnapshot",
+        ]
+    )
 
 if ALERTING_SYSTEM_AVAILABLE:
-    __all__.extend([
-        "ComprehensiveAlertingSystem",
-        "Alert",
-        "AlertRule",
-        "ComplianceAuditEntry",
-        "NotificationConfig",
-        "AlertingMetrics",
-        "AlertSeverity",
-        "AlertCategory",
-        "AlertStatus",
-        "NotificationChannel",
-        "ComplianceRegulation"
-    ])
+    __all__.extend(
+        [
+            "Alert",
+            "AlertCategory",
+            "AlertRule",
+            "AlertSeverity",
+            "AlertStatus",
+            "AlertingMetrics",
+            "ComplianceAuditEntry",
+            "ComplianceRegulation",
+            "ComprehensiveAlertingSystem",
+            "NotificationChannel",
+            "NotificationConfig",
+        ]
+    )
 
 if TRINITY_MONITORING_AVAILABLE:
-    __all__.extend([
-        "TrinityFrameworkMonitor",
-        "TrinityInteraction",
-        "AuthenticationEvent",
-        "APIPerformanceMetric",
-        "TrinityHealthStatus",
-        "TrinityReport",
-        "TrinityComponent",
-        "InteractionType",
-        "PerformanceMetric"
-    ])
+    __all__.extend(
+        [
+            "APIPerformanceMetric",
+            "AuthenticationEvent",
+            "InteractionType",
+            "PerformanceMetric",
+            "TrinityComponent",
+            "TrinityFrameworkMonitor",
+            "TrinityHealthStatus",
+            "TrinityInteraction",
+            "TrinityReport",
+        ]
+    )
 
 # Filter out None values from __all__ if imports failed
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
-logger.info(f"🔍 LUKHAS AI Observability module loaded - {len([x for x in [UNIFIED_DASHBOARD_AVAILABLE, GUARDIAN_MONITORING_AVAILABLE, CONSCIOUSNESS_MONITORING_AVAILABLE, HEALTH_MONITORING_AVAILABLE, ALERTING_SYSTEM_AVAILABLE, TRINITY_MONITORING_AVAILABLE] if x])}/6 systems available")
+logger.info(
+    f"🔍 LUKHAS AI Observability module loaded - {len([x for x in [UNIFIED_DASHBOARD_AVAILABLE, GUARDIAN_MONITORING_AVAILABLE, CONSCIOUSNESS_MONITORING_AVAILABLE, HEALTH_MONITORING_AVAILABLE, ALERTING_SYSTEM_AVAILABLE, TRINITY_MONITORING_AVAILABLE] if x])}/6 systems available"
+)

@@ -29,9 +29,7 @@ app = Flask(__name__)
 audit_logger = AuditLogger()
 
 # Flask-Limiter for API rate limiting
-limiter = Limiter(
-    get_remote_address, app=app, default_limits=["100 per minute", "1000 per hour"]
-)
+limiter = Limiter(get_remote_address, app=app, default_limits=["100 per minute", "1000 per hour"])
 
 # Flask-SocketIO for real-time dashboard updates
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -56,9 +54,7 @@ def get_entropy_status():
         return jsonify({"entropy_pools": entropy_pools})
     except Exception as e:
         logger.error(f"Exception in get_entropy_status: {e}")
-        audit_logger.log_event(
-            f"Exception in get_entropy_status: {e}", severity="error"
-        )
+        audit_logger.log_event(f"Exception in get_entropy_status: {e}", severity="error")
         return jsonify({"error": str(e)}), 500
 
 
@@ -105,16 +101,12 @@ def get_trust_score_session(session_id):
         )
         session = sessions.get(session_id)
         if not session:
-            audit_logger.log_event(
-                f"Session not found: {session_id}", severity="warning"
-            )
+            audit_logger.log_event(f"Session not found: {session_id}", severity="warning")
             return jsonify({"error": "Session not found"}), 404
         return jsonify({session_id: session["trust_score"]})
     except Exception as e:
         logger.error(f"Exception in get_trust_score_session: {e}")
-        audit_logger.log_event(
-            f"Exception in get_trust_score_session: {e}", severity="error"
-        )
+        audit_logger.log_event(f"Exception in get_trust_score_session: {e}", severity="error")
         return jsonify({"error": str(e)}), 500
 
 
@@ -185,18 +177,14 @@ def handle_health_snapshot_request():
             },
             "session_health": {
                 "total": len(sessions),
-                "average_trust": sum(
-                    s.get("trust_score", 0.0) for s in sessions.values()
-                )
+                "average_trust": sum(s.get("trust_score", 0.0) for s in sessions.values())
                 / max(len(sessions), 1),
             },
             "system_status": "operational",
             "snapshot_time": int(time.time()),
         }
         emit("health_snapshot", snapshot)
-        audit_logger.log_event(
-            "Health snapshot requested and sent", constitutional_tag=True
-        )
+        audit_logger.log_event("Health snapshot requested and sent", constitutional_tag=True)
     except Exception as e:
         logger.error(f"Health snapshot error: {e}")
         emit("error", {"message": "Failed to generate health snapshot"})

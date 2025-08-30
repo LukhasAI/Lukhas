@@ -249,9 +249,7 @@ class VIVOXEndocrineIntegration:
 
         try:
             # Analyze emotional state
-            emotional_pattern = self._analyze_emotional_pattern(
-                regulation_response.original_state
-            )
+            emotional_pattern = self._analyze_emotional_pattern(regulation_response.original_state)
 
             # Calculate hormone triggers from emotional state
             emotional_triggers = await self._calculate_emotional_hormone_triggers(
@@ -270,17 +268,13 @@ class VIVOXEndocrineIntegration:
 
             # Apply hormone feedback mechanisms
             if self.hormone_feedback_enabled:
-                combined_triggers = await self._apply_hormone_feedback(
-                    combined_triggers
-                )
+                combined_triggers = await self._apply_hormone_feedback(combined_triggers)
 
             # Execute hormone releases
             await self._execute_hormone_releases(combined_triggers, context)
 
             # Record for learning and analysis
-            await self._record_hormone_release(
-                combined_triggers, regulation_response, context
-            )
+            await self._record_hormone_release(combined_triggers, regulation_response, context)
 
             return combined_triggers
 
@@ -294,11 +288,7 @@ class VIVOXEndocrineIntegration:
         # High arousal + negative valence = stress/anxiety
         if emotional_state.arousal > 0.5 and emotional_state.valence < -0.3:
             if emotional_state.arousal > 0.7:
-                return (
-                    "high_stress"
-                    if emotional_state.dominance < 0
-                    else "anger_frustration"
-                )
+                return "high_stress" if emotional_state.dominance < 0 else "anger_frustration"
             else:
                 return "anxiety_fear"
 
@@ -432,9 +422,7 @@ class VIVOXEndocrineIntegration:
 
         return modulated
 
-    async def _apply_hormone_feedback(
-        self, triggers: dict[str, float]
-    ) -> dict[str, float]:
+    async def _apply_hormone_feedback(self, triggers: dict[str, float]) -> dict[str, float]:
         """Apply feedback mechanisms based on current hormone levels"""
 
         if not ENDOCRINE_AVAILABLE:
@@ -447,9 +435,7 @@ class VIVOXEndocrineIntegration:
             adjusted_triggers = triggers.copy()
 
             for hormone, trigger_amount in triggers.items():
-                current_level = current_levels.get(
-                    hormone, self.baseline_levels.get(hormone, 0.5)
-                )
+                current_level = current_levels.get(hormone, self.baseline_levels.get(hormone, 0.5))
                 baseline = self.baseline_levels.get(hormone, 0.5)
 
                 # Calculate feedback adjustment
@@ -471,9 +457,7 @@ class VIVOXEndocrineIntegration:
             logger.error(f"Error applying hormone feedback: {e}")
             return triggers
 
-    async def _execute_hormone_releases(
-        self, triggers: dict[str, float], context: dict[str, Any]
-    ):
+    async def _execute_hormone_releases(self, triggers: dict[str, float], context: dict[str, Any]):
         """Execute actual hormone releases through endocrine system"""
 
         if not ENDOCRINE_AVAILABLE:
@@ -482,7 +466,6 @@ class VIVOXEndocrineIntegration:
         try:
             for hormone, amount in triggers.items():
                 if abs(amount) > 0.01:  # Only release significant amounts
-
                     # Determine duration based on hormone type and amount
                     duration = self._calculate_release_duration(hormone, amount)
 
@@ -634,10 +617,7 @@ class VIVOXEndocrineIntegration:
             "hormone_release_patterns": hormone_totals,
             "strategy_effectiveness": strategy_effectiveness,
             "most_active_hormones": sorted(
-                [
-                    (h, data["positive"] + data["negative"])
-                    for h, data in hormone_totals.items()
-                ],
+                [(h, data["positive"] + data["negative"]) for h, data in hormone_totals.items()],
                 key=lambda x: x[1],
                 reverse=True,
             )[:5],
@@ -645,9 +625,9 @@ class VIVOXEndocrineIntegration:
                 "cortisol_releases": hormone_totals.get(HormoneType.CORTISOL, {}).get(
                     "positive", 0
                 ),
-                "adrenaline_releases": hormone_totals.get(
-                    HormoneType.ADRENALINE, {}
-                ).get("positive", 0),
+                "adrenaline_releases": hormone_totals.get(HormoneType.ADRENALINE, {}).get(
+                    "positive", 0
+                ),
                 "stress_regulation_success": sum(
                     1
                     for r in relevant_records

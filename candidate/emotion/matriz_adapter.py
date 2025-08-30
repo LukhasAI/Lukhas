@@ -20,7 +20,7 @@ class EmotionMatrizAdapter:
         node_type: str,
         state: dict[str, float],
         labels: Optional[list[str]] = None,
-        provenance_extra: Optional[dict] = None
+        provenance_extra: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for emotion events"""
 
@@ -33,19 +33,17 @@ class EmotionMatrizAdapter:
                 "salience": state.get("salience", 0.6),
                 "urgency": state.get("urgency", 0.3),
                 "novelty": state.get("novelty", 0.4),
-                **state
+                **state,
             },
-            "timestamps": {
-                "created_ts": int(time.time() * 1000)
-            },
+            "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.emotion",
                 "capabilities": ["emotion:detect", "emotion:regulate", "emotion:vad"],
                 "tenant": "system",
                 "trace_id": f"LT-EMO-{int(time.time())}",
                 "consent_scopes": ["system:emotion"],
-                **(provenance_extra or {})
-            }
+                **(provenance_extra or {}),
+            },
         }
 
         if labels:
@@ -55,10 +53,7 @@ class EmotionMatrizAdapter:
 
     @staticmethod
     def emit_emotion_state(
-        valence: float,
-        arousal: float,
-        dominance: float,
-        emotion_label: Optional[str] = None
+        valence: float, arousal: float, dominance: float, emotion_label: Optional[str] = None
     ) -> dict[str, Any]:
         """Emit a VAD emotion state node"""
 
@@ -79,16 +74,14 @@ class EmotionMatrizAdapter:
                 "novelty": 0.3,
                 "valence": valence,
                 "arousal": arousal,
-                "dominance": dominance
+                "dominance": dominance,
             },
-            labels=labels
+            labels=labels,
         )
 
     @staticmethod
     def emit_mood_drift(
-        current_mood: dict[str, float],
-        target_mood: dict[str, float],
-        drift_score: float
+        current_mood: dict[str, float], target_mood: dict[str, float], drift_score: float
     ) -> dict[str, Any]:
         """Emit a mood drift detection node"""
 
@@ -103,19 +96,14 @@ class EmotionMatrizAdapter:
                 "current_valence": current_mood.get("valence", 0),
                 "current_arousal": current_mood.get("arousal", 0),
                 "target_valence": target_mood.get("valence", 0),
-                "target_arousal": target_mood.get("arousal", 0)
+                "target_arousal": target_mood.get("arousal", 0),
             },
-            labels=[
-                "emotion:mood_drift",
-                f"drift:{drift_score:.2f}"
-            ]
+            labels=["emotion:mood_drift", f"drift:{drift_score:.2f}"],
         )
 
     @staticmethod
     def emit_emotion_intent(
-        intent: str,
-        confidence: float,
-        context: Optional[dict] = None
+        intent: str, confidence: float, context: Optional[dict] = None
     ) -> dict[str, Any]:
         """Emit an emotion-intent mapping node"""
 
@@ -126,19 +114,14 @@ class EmotionMatrizAdapter:
                 "salience": 0.7,
                 "urgency": 0.4,
                 "novelty": 0.3,
-                **(context or {})
+                **(context or {}),
             },
-            labels=[
-                f"intent:{intent}",
-                "emotion:intent_mapping"
-            ]
+            labels=[f"intent:{intent}", "emotion:intent_mapping"],
         )
 
     @staticmethod
     def emit_stagnation_detection(
-        emotion: str,
-        duration_ms: int,
-        threshold_ms: int = 5000
+        emotion: str, duration_ms: int, threshold_ms: int = 5000
     ) -> dict[str, Any]:
         """Emit an affect stagnation detection node"""
 
@@ -152,13 +135,13 @@ class EmotionMatrizAdapter:
                 "urgency": min(1.0, stagnation_ratio * 0.7),
                 "novelty": 0.1,
                 "duration_ms": duration_ms,
-                "threshold_ms": threshold_ms
+                "threshold_ms": threshold_ms,
             },
             labels=[
                 f"emotion:{emotion}",
                 "emotion:stagnation",
-                "alert:stagnation" if duration_ms > threshold_ms else "status:normal"
-            ]
+                "alert:stagnation" if duration_ms > threshold_ms else "status:normal",
+            ],
         )
 
     @staticmethod
@@ -194,17 +177,21 @@ class EmotionMatrizAdapter:
 # Decorator functions for existing emotion code
 def wrap_vad_detection(original_func):
     """Decorator to add MATRIZ emission to VAD detection"""
+
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
 
-        if isinstance(result, dict) and all(k in result for k in ["valence", "arousal", "dominance"]):
+        if isinstance(result, dict) and all(
+            k in result for k in ["valence", "arousal", "dominance"]
+        ):
             node = EmotionMatrizAdapter.emit_emotion_state(
                 valence=result["valence"],
                 arousal=result["arousal"],
                 dominance=result["dominance"],
-                emotion_label=result.get("emotion")
+                emotion_label=result.get("emotion"),
             )
             EmotionMatrizAdapter.save_node(node)
 
         return result
+
     return wrapper

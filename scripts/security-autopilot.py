@@ -19,9 +19,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -112,9 +110,7 @@ class SecurityAutopilot:
         """Run a shell command"""
         try:
             if capture:
-                result = subprocess.run(
-                    cmd, capture_output=True, text=True, cwd=self.project_root
-                )
+                result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.project_root)
                 return result.returncode, result.stdout, result.stderr
             else:
                 result = subprocess.run(cmd, cwd=self.project_root)
@@ -127,9 +123,7 @@ class SecurityAutopilot:
         """Scan with safety"""
         logger.info("🔍 Scanning with Safety...")
 
-        code, stdout, _ = self.run_command(
-            ["python3", "-m", "safety", "check", "--json"]
-        )
+        code, stdout, _ = self.run_command(["python3", "-m", "safety", "check", "--json"])
 
         vulnerabilities = []
         if stdout:
@@ -156,9 +150,7 @@ class SecurityAutopilot:
         """Scan with pip-audit"""
         logger.info("🔍 Scanning with pip-audit...")
 
-        code, stdout, _ = self.run_command(
-            ["python3", "-m", "pip_audit", "--format", "json"]
-        )
+        code, stdout, _ = self.run_command(["python3", "-m", "pip_audit", "--format", "json"])
 
         vulnerabilities = []
         if stdout:
@@ -196,9 +188,7 @@ class SecurityAutopilot:
                 data = json.loads(stdout)
                 high_issues = data.get("metrics", {}).get("SEVERITY.HIGH", 0)
                 if high_issues > 0:
-                    logger.warning(
-                        f"⚠️ Bandit found {high_issues} high-severity code issues"
-                    )
+                    logger.warning(f"⚠️ Bandit found {high_issues} high-severity code issues")
             except:
                 pass
 
@@ -262,9 +252,7 @@ class SecurityAutopilot:
                 unique_vulns[key] = vuln
 
         # Count total packages
-        code, stdout, _ = self.run_command(
-            ["python3", "-m", "pip", "list", "--format", "json"]
-        )
+        code, stdout, _ = self.run_command(["python3", "-m", "pip", "list", "--format", "json"])
         total_packages = len(json.loads(stdout)) if stdout else 0
 
         report = SecurityReport(
@@ -277,15 +265,12 @@ class SecurityAutopilot:
 
         # Save report
         report_file = (
-            self.reports_dir
-            / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+            self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
         )
         with open(report_file, "w") as f:
             f.write(report.to_json())
 
-        logger.info(
-            f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found"
-        )
+        logger.info(f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found")
 
         return report
 
@@ -333,9 +318,7 @@ class SecurityAutopilot:
                 continue
 
             # Parse package name
-            package_name = (
-                line.split(">=")[0].split("==")[0].split("[")[0].strip().lower()
-            )
+            package_name = line.split(">=")[0].split("==")[0].split("[")[0].strip().lower()
 
             if package_name in vuln_map:
                 vuln = vuln_map[package_name]
@@ -351,9 +334,7 @@ class SecurityAutopilot:
                 else:
                     # Update to latest version
                     updated_lines.append(f"{package_name}\n")
-                    fixed_packages.append(
-                        f"{package_name}: {vuln.current_version} → latest"
-                    )
+                    fixed_packages.append(f"{package_name}: {vuln.current_version} → latest")
                     logger.info(f"  ✅ Updated {package_name} to latest")
             else:
                 updated_lines.append(line)
@@ -441,9 +422,7 @@ Automated security fix by LUKHAS Security Autopilot
 
         return False
 
-    def send_notification(
-        self, report: SecurityReport, fixed: bool, fixed_packages: list[str]
-    ):
+    def send_notification(self, report: SecurityReport, fixed: bool, fixed_packages: list[str]):
         """Send notification about security status"""
         if not self.config["notification_webhook"]:
             return
@@ -479,9 +458,7 @@ Automated security fix by LUKHAS Security Autopilot
                     ]
 
                     if vulns_to_fix and self.config["auto_fix"]:
-                        logger.info(
-                            f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities..."
-                        )
+                        logger.info(f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities...")
 
                         # Create filtered report
                         fix_report = SecurityReport(
@@ -507,9 +484,7 @@ Automated security fix by LUKHAS Security Autopilot
                                     f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities"
                                 )
                             else:
-                                logger.warning(
-                                    "⚠️ Tests failed after fixes, manual review needed"
-                                )
+                                logger.warning("⚠️ Tests failed after fixes, manual review needed")
 
                         # Send notification
                         self.send_notification(report, success, fixed_packages)
@@ -550,19 +525,13 @@ Automated security fix by LUKHAS Security Autopilot
             latest_report = json.load(f)
 
         return {
-            "status": "secure"
-            if not latest_report["vulnerabilities"]
-            else "vulnerable",
+            "status": "secure" if not latest_report["vulnerabilities"] else "vulnerable",
             "last_scan": latest_report["timestamp"],
             "vulnerabilities_count": len(latest_report["vulnerabilities"]),
             "scanners_used": latest_report["scanners_used"],
             "scan_duration": latest_report["scan_duration"],
             "critical_count": len(
-                [
-                    v
-                    for v in latest_report["vulnerabilities"]
-                    if v["severity"] == "critical"
-                ]
+                [v for v in latest_report["vulnerabilities"] if v["severity"] == "critical"]
             ),
             "high_count": len(
                 [v for v in latest_report["vulnerabilities"] if v["severity"] == "high"]
@@ -589,12 +558,8 @@ def main():
         default=3600,
         help="Scan interval in seconds (default: 3600)",
     )
-    parser.add_argument(
-        "--auto-fix", action="store_true", help="Automatically fix vulnerabilities"
-    )
-    parser.add_argument(
-        "--no-tests", action="store_true", help="Skip running tests after fixes"
-    )
+    parser.add_argument("--auto-fix", action="store_true", help="Automatically fix vulnerabilities")
+    parser.add_argument("--no-tests", action="store_true", help="Skip running tests after fixes")
 
     args = parser.parse_args()
 

@@ -114,9 +114,7 @@ class ModuleUsageAnalyzer:
 
         # Try as a direct file
         py_file = (
-            Path(*parts[:-1]) / f"{parts[-1]}.py"
-            if len(parts) > 1
-            else Path(f"{parts[0]}.py")
+            Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
         )
         if (self.root_path / py_file).exists():
             possible_files.append(str(py_file))
@@ -132,9 +130,7 @@ class ModuleUsageAnalyzer:
                 possible_files.append(str(init_file))
 
             py_file = (
-                Path(*parts[:-1]) / f"{parts[-1]}.py"
-                if len(parts) > 1
-                else Path(f"{parts[0]}.py")
+                Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
             )
             if (self.root_path / py_file).exists():
                 possible_files.append(str(py_file))
@@ -170,10 +166,7 @@ class ModuleUsageAnalyzer:
             for import_name in self.file_imports.get(current, set()):
                 resolved_files = self.resolve_import_to_file(import_name)
                 for resolved_file in resolved_files:
-                    if (
-                        resolved_file not in reachable
-                        and resolved_file in self.all_python_files
-                    ):
+                    if resolved_file not in reachable and resolved_file in self.all_python_files:
                         to_visit.append(resolved_file)
 
             # Also check test files that test this module
@@ -211,10 +204,7 @@ class ModuleUsageAnalyzer:
                 continue
 
             # Check if file is imported by anyone
-            if (
-                py_file not in self.imported_modules
-                and py_file not in self.entry_points
-            ):
+            if py_file not in self.imported_modules and py_file not in self.entry_points:
                 never_imported.add(py_file)
 
         # Files not reachable from entry points
@@ -267,9 +257,7 @@ class ModuleUsageAnalyzer:
             if not module_path.exists():
                 continue
 
-            module_files = [
-                f for f in self.all_python_files if f.startswith(f"{module}/")
-            ]
+            module_files = [f for f in self.all_python_files if f.startswith(f"{module}/")]
 
             imported_files = [f for f in module_files if f in self.imported_modules]
 
@@ -280,9 +268,7 @@ class ModuleUsageAnalyzer:
                 "imported_files": len(imported_files),
                 "orphaned_files": len(orphaned),
                 "usage_percentage": (
-                    (len(imported_files) / len(module_files) * 100)
-                    if module_files
-                    else 0
+                    (len(imported_files) / len(module_files) * 100) if module_files else 0
                 ),
                 "orphaned_list": sorted(orphaned)[:10],  # Top 10 orphaned files
             }
@@ -306,9 +292,7 @@ class ModuleUsageAnalyzer:
                 "total_python_files": total_files,
                 "imported_files": imported_files,
                 "orphaned_files": orphaned_count,
-                "usage_percentage": (
-                    (imported_files / total_files * 100) if total_files else 0
-                ),
+                "usage_percentage": ((imported_files / total_files * 100) if total_files else 0),
                 "entry_points": list(self.entry_points),
             },
             "module_statistics": module_stats,
@@ -382,9 +366,7 @@ def main():
 
     # Return exit code based on orphaned files
     if report["summary"]["orphaned_files"] > 100:
-        print(
-            f"\n⚠️  Warning: {report['summary']['orphaned_files']} orphaned files found!"
-        )
+        print(f"\n⚠️  Warning: {report['summary']['orphaned_files']} orphaned files found!")
         return 1
     return 0
 

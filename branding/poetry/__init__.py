@@ -8,17 +8,11 @@ One module. Three methods. Infinite expression.
 
 from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
 
-__all__ = [
-    "Soul",
-    "EmotionalTone",
-    "awaken",
-    "express",
-    "error_haiku",
-    "dream"
-]
+__all__ = ["EmotionalTone", "Soul", "awaken", "dream", "error_haiku", "express"]
 
 # Awaken the soul on import
 _soul = awaken()
+
 
 def integrate():
     """
@@ -34,6 +28,7 @@ def integrate():
         print(poetry.dream())
     """
     return _soul
+
 
 # The transformation in three lines:
 # Before: print("Error: Operation failed")

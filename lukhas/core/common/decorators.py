@@ -58,7 +58,7 @@ def retry(
 
                         logger.warning(
                             f"Retry {attempt + 1}/{max_attempts} for {func.__name__} "
-                            f"after {type(e).__name__}: {str(e)}"
+                            f"after {type(e).__name__}: {e!s}"
                         )
 
                         # Add secure jitter to prevent thundering herd
@@ -67,9 +67,7 @@ def retry(
                         await asyncio.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
-                        logger.error(
-                            f"Max retries ({max_attempts}) exceeded for {func.__name__}"
-                        )
+                        logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
 
             raise last_exception
 
@@ -90,7 +88,7 @@ def retry(
 
                         logger.warning(
                             f"Retry {attempt + 1}/{max_attempts} for {func.__name__} "
-                            f"after {type(e).__name__}: {str(e)}"
+                            f"after {type(e).__name__}: {e!s}"
                         )
 
                         # Add secure jitter
@@ -99,9 +97,7 @@ def retry(
                         time.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
-                        logger.error(
-                            f"Max retries ({max_attempts}) exceeded for {func.__name__}"
-                        )
+                        logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
 
             raise last_exception
 
@@ -150,9 +146,7 @@ def with_timeout(timeout: float, error_message: Optional[str] = None) -> Callabl
     return decorator
 
 
-def lukhas_tier_required(
-    tier: Union[int, str], fallback: Optional[Callable] = None
-) -> Callable:
+def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = None) -> Callable:
     """
     Require specific LUKHAS tier for function access.
 
@@ -248,9 +242,7 @@ def _get_current_tier_sync(args, kwargs) -> int:
     return 1
 
 
-def cached(
-    ttl: Optional[float] = None, key_func: Optional[Callable] = None
-) -> Callable:
+def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> Callable:
     """
     Simple caching decorator with TTL support.
 
@@ -363,8 +355,7 @@ def log_execution(
             except Exception as e:
                 duration = time.time() - start_time
                 logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: "
-                    f"{type(e).__name__}: {str(e)}"
+                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
                 )
                 raise
 
@@ -398,8 +389,7 @@ def log_execution(
             except Exception as e:
                 duration = time.time() - start_time
                 logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: "
-                    f"{type(e).__name__}: {str(e)}"
+                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
                 )
                 raise
 

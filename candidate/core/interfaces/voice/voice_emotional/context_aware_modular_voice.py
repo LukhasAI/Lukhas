@@ -6,7 +6,6 @@ from typing import Any
 
 
 class NLPEngine:
-
     def analyze(self, text: str) -> dict:
         # Mock implementation
         return {
@@ -19,28 +18,24 @@ class NLPEngine:
 
 
 class LocationAnalyzer:
-
     def analyze(self, location: dict) -> dict:
         # Mock implementation
         return {}
 
 
 class TimeAnalyzer:
-
     def analyze(self, timestamp: float, timezone: str) -> dict:
         # Mock implementation
         return {"is_late_night": False}
 
 
 class DeviceAnalyzer:
-
     def analyze(self, device_info: dict) -> dict:
         # Mock implementation
         return {}
 
 
 class ContextAnalyzer:
-
     def __init__(self):
         self.nlp_engine = NLPEngine()
         self.location_analyzer = LocationAnalyzer()
@@ -81,9 +76,7 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis["emotion"],
-            "urgency": self._determine_urgency(
-                nlp_analysis, time_context, device_context
-            ),
+            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
@@ -94,9 +87,7 @@ class ContextAnalyzer:
 
         return combined_context
 
-    def _analyze_memory(
-        self, memory: list[dict[str, Any]], current_intent: str
-    ) -> dict[str, Any]:
+    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """Analyze past interactions to inform current context"""
         if not memory:
             return {"familiarity": 0.1, "patterns": {}}
@@ -178,7 +169,6 @@ class ContextAnalyzer:
 
 
 class VoiceModulator:
-
     def __init__(self, settings: dict[str, Any]):
         self.default_voice = settings.get("default_voice", "neutral")
         self.emotion_mapping = settings.get(
@@ -234,7 +224,6 @@ class VoiceModulator:
 
 
 class MemoryManager:
-
     def __init__(self, max_memories: int = 1000):
         self.memories = {}  # User ID -> list of memories
         self.max_memories = max_memories
@@ -271,9 +260,7 @@ class MemoryManager:
                 reverse=True,
             )[: self.max_memories]
 
-    def get_relevant_memories(
-        self, user_id: str, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -307,7 +294,6 @@ class MemoryManager:
 
 
 class ComplianceEngine:
-
     def __init__(self, gdpr_enabled: bool = True, data_retention_days: int = 30):
         self.gdpr_enabled = gdpr_enabled
         self.data_retention_days = data_retention_days
@@ -363,7 +349,6 @@ class ComplianceEngine:
 
 
 class SafetyGuard:
-
     def __init__(self):
         self.ethical_guidelines = self._load_ethical_guidelines()
 
@@ -411,9 +396,7 @@ class SafetyGuard:
 
         return response
 
-    def _log_ethical_concerns(
-        self, issues: list[dict[str, Any]], context: dict[str, Any]
-    ) -> None:
+    def _log_ethical_concerns(self, issues: list[dict[str, Any]], context: dict[str, Any]) -> None:
         """Log ethical concerns for review"""
         # Implementation would log issues for human review
 
@@ -424,7 +407,6 @@ class SafetyGuard:
 
 
 class LucasVoiceSystem:
-
     def __init__(self, config: dict[str, Any]):
         self.logger = logging.getLogger("LucasVoiceSystem")
         self.context_analyzer = ContextAnalyzer()
@@ -436,9 +418,7 @@ class LucasVoiceSystem:
         )
         self.safety_guard = SafetyGuard()
 
-    async def process_input(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_input(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """Process user input and generate appropriate voice response"""
         # Log the interaction with privacy safeguards
         self.logger.info(

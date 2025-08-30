@@ -22,9 +22,7 @@ from pathlib import Path
 from typing import Any
 
 # Add project root to Python path
-project_root = os.environ.get(
-    "LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-)
+project_root = os.environ.get("LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
 sys.path.insert(0, project_root)
 
 try:
@@ -460,9 +458,7 @@ class LukhosConsciousnessServer:
 
         return validation_results
 
-    async def _analyze_consciousness_impact(
-        self, args: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _analyze_consciousness_impact(self, args: dict[str, Any]) -> dict[str, Any]:
         """Analyze consciousness impact of proposed changes"""
         args.get("proposed_changes", "")
         affected_modules = args.get("affected_modules", [])
@@ -659,9 +655,7 @@ class LukhosConsciousnessServer:
 
 async def main():
     """Main MCP server entry point"""
-    project_root = os.environ.get(
-        "LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-    )
+    project_root = os.environ.get("LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     # Initialize the consciousness server
     consciousness_server = LukhosConsciousnessServer(project_root)

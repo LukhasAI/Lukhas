@@ -54,12 +54,8 @@ class ConsciousnessState:
         if include_biometrics and self.biometric_hints:
             # Apply privacy masking
             data["biometric_hints"] = {
-                "heart_coherence": self.biometric_hints.get(
-                    "heart_coherence", "unknown"
-                ),
-                "attention_score": round(
-                    self.biometric_hints.get("attention_score", 0), 2
-                ),
+                "heart_coherence": self.biometric_hints.get("heart_coherence", "unknown"),
+                "attention_score": round(self.biometric_hints.get("attention_score", 0), 2),
                 "stress_level": self.biometric_hints.get("stress_level", "unknown"),
             }
 
@@ -128,9 +124,7 @@ class ConsciousnessBroadcaster:
                 timestamp=datetime.fromisoformat(data["timestamp"]),
                 confidence=data["confidence"],
                 previous_state=data.get("transitions", {}).get("previous"),
-                transition_duration_ms=data.get("transitions", {}).get(
-                    "duration_ms", 0
-                ),
+                transition_duration_ms=data.get("transitions", {}).get("duration_ms", 0),
                 biometric_hints=data.get("biometric_hints", {}),
                 symbolic_representation=data.get("symbolic_representation", ""),
                 privacy_mask=data.get("privacy_mask", ""),
@@ -182,9 +176,7 @@ class ConsciousnessBroadcaster:
 
         # Create privacy mask
         mask_content = f"{new_state}_{datetime.utcnow().isoformat()}_{random.random()}"
-        privacy_mask = (
-            f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
-        )
+        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
 
         return ConsciousnessState(
             current_state=new_state,
@@ -225,9 +217,7 @@ class ConsciousnessBroadcaster:
             if client_id in self.gdpr_consent:
                 del self.gdpr_consent[client_id]
 
-    async def _handle_client_message(
-        self, websocket: WebSocketServerProtocol, message: str
-    ):
+    async def _handle_client_message(self, websocket: WebSocketServerProtocol, message: str):
         """Handle messages from clients"""
         try:
             data = json.loads(message)
@@ -235,9 +225,7 @@ class ConsciousnessBroadcaster:
 
             if msg_type == "gdpr_consent":
                 # Handle GDPR consent
-                client_id = (
-                    f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
-                )
+                client_id = f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
                 self.gdpr_consent[client_id] = {
                     "authorized": data.get("authorized", False),
                     "include_biometrics": data.get("include_biometrics", False),
@@ -249,9 +237,7 @@ class ConsciousnessBroadcaster:
                     json.dumps(
                         {
                             "type": "consent_acknowledged",
-                            "status": (
-                                "accepted" if data.get("authorized") else "rejected"
-                            ),
+                            "status": ("accepted" if data.get("authorized") else "rejected"),
                         }
                     )
                 )
@@ -284,16 +270,12 @@ class ConsciousnessBroadcaster:
                     for client in self.connected_clients:
                         try:
                             # Check client's GDPR consent
-                            client_id = (
-                                f"{client.remote_address[0]}:{client.remote_address[1]}"
-                            )
+                            client_id = f"{client.remote_address[0]}:{client.remote_address[1]}"
                             consent = self.gdpr_consent.get(client_id, {})
                             include_bio = consent.get("include_biometrics", False)
 
                             # Send update
-                            await client.send(
-                                self.current_state.to_broadcast_json(include_bio)
-                            )
+                            await client.send(self.current_state.to_broadcast_json(include_bio))
                         except websockets.exceptions.ConnectionClosed:
                             disconnected.add(client)
 
@@ -332,15 +314,9 @@ async def main():
 
     parser = argparse.ArgumentParser(description="LUKHΛS Consciousness Broadcaster")
     parser.add_argument("--port", type=int, default=8765, help="WebSocket port")
-    parser.add_argument(
-        "--throttle", type=int, default=5000, help="Throttle rate in ms"
-    )
-    parser.add_argument(
-        "--simulation", action="store_true", help="Enable simulation mode"
-    )
-    parser.add_argument(
-        "--state-file", default="consciousness_state.json", help="State file path"
-    )
+    parser.add_argument("--throttle", type=int, default=5000, help="Throttle rate in ms")
+    parser.add_argument("--simulation", action="store_true", help="Enable simulation mode")
+    parser.add_argument("--state-file", default="consciousness_state.json", help="State file path")
 
     args = parser.parse_args()
 

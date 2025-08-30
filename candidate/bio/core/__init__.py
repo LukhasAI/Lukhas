@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 # The core.py file is in the parent bio directory
 try:
     from ..core import BioEngine
+
     __all__ = ["BioEngine"]
 except ImportError as e:
     logger.warning(f"Could not import BioEngine: {e}")

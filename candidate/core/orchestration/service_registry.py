@@ -204,7 +204,6 @@ if __name__ == "__main__":
     # Register a mock service
 
     class MockLearningService:
-
         def learn_from_data(self, user_id: str, data: dict[str, Any]) -> dict[str, Any]:
             return {"success": True, "message": "Mock learning completed"}
 

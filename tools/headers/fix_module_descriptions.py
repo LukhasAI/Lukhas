@@ -133,9 +133,7 @@ def fix_description(filepath: Path) -> bool:
         proper_description = PROPER_DESCRIPTIONS[filename]
 
         # Replace verbose description with concise one
-        new_content = VERBOSE_DESCRIPTION_PATTERN.sub(
-            r"\1" + proper_description, content
-        )
+        new_content = VERBOSE_DESCRIPTION_PATTERN.sub(r"\1" + proper_description, content)
 
         if new_content != content:
             with open(filepath, "w", encoding="utf-8") as f:

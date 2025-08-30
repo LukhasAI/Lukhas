@@ -51,7 +51,6 @@ class ConsciousnessState(Enum):
 
 
 class ConsciousnessIntensity(Enum):
-
     MINIMAL = 0.1
     LOW = 0.3
     MODERATE = 0.5
@@ -62,7 +61,6 @@ class ConsciousnessIntensity(Enum):
 
 @dataclass
 class ConsciousnessProfile:
-
     state: ConsciousnessState
     intensity: float
     symbolic_resonance: float
@@ -112,15 +110,9 @@ class ConsciousnessMapper:
         self.update_frequency = self.config.get("update_frequency", 0.1)  # seconds
 
         # Mapping parameters
-        self.consciousness_sensitivity = self.config.get(
-            "consciousness_sensitivity", 0.8
-        )
-        self.symbolic_resonance_factor = self.config.get(
-            "symbolic_resonance_factor", 0.7
-        )
-        self.emotional_coherence_threshold = self.config.get(
-            "emotional_coherence_threshold", 0.6
-        )
+        self.consciousness_sensitivity = self.config.get("consciousness_sensitivity", 0.8)
+        self.symbolic_resonance_factor = self.config.get("symbolic_resonance_factor", 0.7)
+        self.emotional_coherence_threshold = self.config.get("emotional_coherence_threshold", 0.6)
 
         logger.info("ConsciousnessMapper initialized")
 
@@ -359,9 +351,7 @@ class ConsciousnessMapper:
         # Placeholder for consciousness detection logic
         # This would interface with lukhas core systems
 
-    async def update_consciousness_state(
-        self, consciousness_profile: ConsciousnessProfile
-    ):
+    async def update_consciousness_state(self, consciousness_profile: ConsciousnessProfile):
         """Update current consciousness state"""
         self.current_consciousness = consciousness_profile
 
@@ -370,9 +360,7 @@ class ConsciousnessMapper:
 
         # Maintain history limit
         if len(self.consciousness_history) > self.history_limit:
-            self.consciousness_history = self.consciousness_history[
-                -self.history_limit :
-            ]
+            self.consciousness_history = self.consciousness_history[-self.history_limit :]
 
         logger.info(
             "Consciousness state updated to: %s (intensity: %.2f)",
@@ -455,9 +443,7 @@ class ConsciousnessMapper:
                 effect = pattern["effect"]
                 effect_counts[effect] = effect_counts.get(effect, 0) + 1
 
-        analysis["total_resonance"] = (
-            total_resonance / len(signature) if signature else 0.0
-        )
+        analysis["total_resonance"] = total_resonance / len(signature) if signature else 0.0
 
         # Find dominant effects
         if effect_counts:
@@ -470,8 +456,7 @@ class ConsciousnessMapper:
         if self.current_consciousness:
             analysis["consciousness_alignment"] = min(
                 1.0,
-                analysis["total_resonance"]
-                * self.current_consciousness.symbolic_resonance,
+                analysis["total_resonance"] * self.current_consciousness.symbolic_resonance,
             )
 
         return analysis
@@ -547,17 +532,13 @@ class ConsciousnessMapper:
 
         return parameters
 
-    async def get_consciousness_trends(
-        self, timespan_seconds: float = 60.0
-    ) -> dict[str, Any]:
+    async def get_consciousness_trends(self, timespan_seconds: float = 60.0) -> dict[str, Any]:
         """Analyze consciousness trends over time"""
         current_time = time.time()
         cutoff_time = current_time - timespan_seconds
 
         # Filter recent consciousness history
-        recent_history = [
-            c for c in self.consciousness_history if c.timestamp >= cutoff_time
-        ]
+        recent_history = [c for c in self.consciousness_history if c.timestamp >= cutoff_time]
 
         if not recent_history:
             return {"trend": "stable", "average_intensity": 0.5, "state_changes": 0}
@@ -602,10 +583,10 @@ class ConsciousnessMapper:
 
 # Export main classes
 __all__ = [
+    "ConsciousnessIntensity",
     "ConsciousnessMapper",
     "ConsciousnessProfile",
     "ConsciousnessState",
-    "ConsciousnessIntensity",
     "VoiceConsciousnessMapping",
 ]
 

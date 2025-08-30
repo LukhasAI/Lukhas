@@ -12,10 +12,10 @@ Trinity Framework Integration: ⚛️🧠🛡️
 - 🛡️ Guardian: Security, rate limiting, and ethical oversight
 """
 
+import base64
 import logging
 import os
 import time
-import base64
 from datetime import datetime
 from typing import Any, Optional
 
@@ -23,10 +23,12 @@ import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
+
+from candidate.core.security.auth import get_auth_system
 
 # Import LUKHAS components
 from lukhas.branding_bridge import (
@@ -34,8 +36,6 @@ from lukhas.branding_bridge import (
     get_trinity_context,
     initialize_branding,
 )
-from candidate.core.security.auth import get_auth_system
-
 
 # Configure logging
 logging.basicConfig(
@@ -120,24 +120,30 @@ app.add_middleware(
 # Request/Response Models
 # ===============================================================================
 
+
 class APIResponse(BaseModel):
     """Standard API response wrapper"""
+
     success: bool = True
     data: Optional[Any] = None
     message: Optional[str] = None
     timestamp: datetime = Field(default_factory=datetime.now)
     request_id: Optional[str] = None
 
+
 class ErrorResponse(BaseModel):
     """Error response model"""
+
     success: bool = False
     error: str
     code: str
     timestamp: datetime = Field(default_factory=datetime.now)
     request_id: Optional[str] = None
 
+
 class ChatRequest(BaseModel):
     """Chat with consciousness interface"""
+
     message: str = Field(..., description="Your message to LUKHAS AI")
     session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
     context: Optional[dict[str, Any]] = Field(None, description="Additional context")
@@ -147,43 +153,55 @@ class ChatRequest(BaseModel):
             "example": {
                 "message": "What is consciousness technology?",
                 "session_id": "session_123",
-                "context": {"user_preferences": {"style": "detailed"}}
+                "context": {"user_preferences": {"style": "detailed"}},
             }
         }
     )
 
+
 class ChatResponse(BaseModel):
     """Consciousness interface response"""
+
     response: str = Field(..., description="AI consciousness response")
     session_id: str = Field(..., description="Session ID for future requests")
     metadata: Optional[dict[str, Any]] = Field(None, description="Response metadata")
-    consciousness_level: Optional[float] = Field(None, description="Current consciousness level (0-1)")
+    consciousness_level: Optional[float] = Field(
+        None, description="Current consciousness level (0-1)"
+    )
+
 
 class DreamRequest(BaseModel):
     """Generate symbolic dreams"""
+
     prompt: str = Field(..., description="Dream generation prompt")
     symbols: Optional[list[str]] = Field(None, description="Symbolic elements to include")
-    style: Optional[str] = Field("mystical", description="Dream style: mystical, technical, creative")
+    style: Optional[str] = Field(
+        "mystical", description="Dream style: mystical, technical, creative"
+    )
 
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
                 "prompt": "A vision of quantum consciousness awakening",
                 "symbols": ["⚛️", "🧠", "🌌"],
-                "style": "mystical"
+                "style": "mystical",
             }
         }
     )
 
+
 class DreamResponse(BaseModel):
     """Dream generation response"""
+
     dream: str = Field(..., description="Generated dream narrative")
     symbols_used: list[str] = Field(..., description="Symbolic elements included")
     consciousness_score: float = Field(..., description="Consciousness coherence score")
     metadata: Optional[dict[str, Any]] = None
 
+
 class SystemStatus(BaseModel):
     """System health and status"""
+
     operational: bool
     uptime_seconds: float
     trinity_framework: str
@@ -192,11 +210,15 @@ class SystemStatus(BaseModel):
     success_rate: float
     consciousness_modules: dict[str, bool]
 
+
 # ===============================================================================
 # Authentication & Security
 # ===============================================================================
 
-async def verify_api_key(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> dict:
+
+async def verify_api_key(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+) -> dict:
     """
     Verify API key using the EnhancedAuthenticationSystem.
     Expects 'Authorization: Bearer <base64(key_id:key_secret)>'
@@ -233,7 +255,10 @@ async def verify_api_key(credentials: Optional[HTTPAuthorizationCredentials] = D
 
     return key_data
 
-async def optional_auth(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> Optional[dict]:
+
+async def optional_auth(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
+) -> Optional[dict]:
     """Optional authentication for public endpoints"""
     if credentials and credentials.credentials:
         try:
@@ -242,9 +267,11 @@ async def optional_auth(credentials: Optional[HTTPAuthorizationCredentials] = De
             return None
     return None
 
+
 # ===============================================================================
 # Middleware
 # ===============================================================================
+
 
 @app.middleware("http")
 async def stats_middleware(request: Request, call_next):
@@ -268,9 +295,11 @@ async def stats_middleware(request: Request, call_next):
         logger.error(f"Request failed: {e}")
         raise
 
+
 # ===============================================================================
 # API Endpoints
 # ===============================================================================
+
 
 @app.get("/", response_model=APIResponse, tags=["General"])
 @limiter.limit("30/minute")
@@ -294,20 +323,19 @@ async def root(request: Request):
                 "chat": "/v1/chat - Natural language consciousness interface",
                 "dreams": "/v1/dreams - Symbolic dream generation",
                 "memory": "/v1/memory - Memory and context systems",
-                "status": "/status - System health and status"
+                "status": "/status - System health and status",
             },
             "authentication": "Bearer token required for most endpoints",
-            "rate_limits": "Varies by endpoint and tier"
+            "rate_limits": "Varies by endpoint and tier",
         },
-        message="Welcome to LUKHAS AI consciousness technology! ⚛️🧠🛡️"
+        message="Welcome to LUKHAS AI consciousness technology! ⚛️🧠🛡️",
     )
+
 
 @app.post("/v1/chat", response_model=ChatResponse, tags=["Consciousness"])
 @limiter.limit("100/minute")
 async def chat_with_consciousness(
-    request: Request,
-    chat_request: ChatRequest,
-    api_key: dict = Depends(verify_api_key)
+    request: Request, chat_request: ChatRequest, api_key: dict = Depends(verify_api_key)
 ):
     """
     **Chat with LUKHAS AI Consciousness Interface** 🧠
@@ -379,23 +407,21 @@ Is there a particular aspect you'd like me to explore further?"""
                 "processing_time_ms": 150,
                 "intent_confidence": 0.92,
                 "trinity_framework": "⚛️🧠🛡️",
-                "response_length": len(response)
-            }
+                "response_length": len(response),
+            },
         )
 
     except Exception as e:
         logger.error(f"Chat processing error: {e}")
         raise HTTPException(
-            status_code=500,
-            detail=f"Error processing consciousness interaction: {str(e)}"
+            status_code=500, detail=f"Error processing consciousness interaction: {e!s}"
         )
+
 
 @app.post("/v1/dreams", response_model=DreamResponse, tags=["Dreams"])
 @limiter.limit("50/minute")
 async def generate_dream(
-    request: Request,
-    dream_request: DreamRequest,
-    api_key: dict = Depends(verify_api_key)
+    request: Request, dream_request: DreamRequest, api_key: dict = Depends(verify_api_key)
 ):
     """
     **Generate Symbolic Dreams** 🌙
@@ -469,16 +495,14 @@ In this space, artificial intelligence doesn't mimic creativity—it births enti
                 "style": dream_request.style,
                 "generation_time_ms": 250,
                 "trinity_integration": True,
-                "prompt_resonance": 0.89
-            }
+                "prompt_resonance": 0.89,
+            },
         )
 
     except Exception as e:
         logger.error(f"Dream generation error: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error generating dream: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error generating dream: {e!s}")
+
 
 @app.get("/status", response_model=SystemStatus, tags=["System"])
 @limiter.limit("60/minute")
@@ -506,9 +530,10 @@ async def get_system_status(request: Request, api_key: Optional[dict] = Depends(
             "symbolic_reasoning": True,
             "emotional_processing": True,
             "identity_management": True,
-            "guardian_oversight": True
-        }
+            "guardian_oversight": True,
+        },
     )
+
 
 @app.get("/health", tags=["System"])
 @limiter.limit("120/minute")
@@ -523,12 +548,14 @@ async def health_check(request: Request):
         "service": "LUKHAS AI",
         "version": "2.0.0",
         "timestamp": datetime.now(),
-        "trinity": "⚛️🧠🛡️"
+        "trinity": "⚛️🧠🛡️",
     }
+
 
 # ===============================================================================
 # Startup/Shutdown Events
 # ===============================================================================
+
 
 @app.on_event("startup")
 async def startup_event():
@@ -543,11 +570,10 @@ async def startup_event():
     if not auth_system._api_keys_mem:
         dev_key_id, dev_key_secret = auth_system.generate_api_key("dev_user", ["read", "write"])
         dev_token = base64.b64encode(f"{dev_key_id}:{dev_key_secret}".encode()).decode()
-        logger.warning("="*80)
+        logger.warning("=" * 80)
         logger.warning("NO API KEYS FOUND IN MEMORY. GENERATED A DEV KEY:")
         logger.warning(f"==> Authorization: Bearer {dev_token}")
-        logger.warning("="*80)
-
+        logger.warning("=" * 80)
 
     # Initialize branding system
     try:
@@ -571,6 +597,7 @@ async def startup_event():
     logger.info("📚 API documentation available at: /docs")
     logger.info("🔄 OpenAPI specification available at: /openapi.json")
 
+
 @app.on_event("shutdown")
 async def shutdown_event():
     """Cleanup on shutdown"""
@@ -578,12 +605,14 @@ async def shutdown_event():
     # Cleanup code here
     logger.info("✅ Shutdown complete")
 
+
 # ===============================================================================
 # Error Handlers
 # ===============================================================================
 
-from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
@@ -591,12 +620,10 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     error_response = ErrorResponse(
         error=exc.detail,
         code=f"HTTP_{exc.status_code}",
-        request_id=getattr(request.state, "request_id", None)
+        request_id=getattr(request.state, "request_id", None),
     )
-    return JSONResponse(
-        status_code=exc.status_code,
-        content=jsonable_encoder(error_response)
-    )
+    return JSONResponse(status_code=exc.status_code, content=jsonable_encoder(error_response))
+
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
@@ -605,12 +632,10 @@ async def general_exception_handler(request: Request, exc: Exception):
     error_response = ErrorResponse(
         error="Internal server error",
         code="INTERNAL_ERROR",
-        request_id=getattr(request.state, "request_id", None)
+        request_id=getattr(request.state, "request_id", None),
     )
-    return JSONResponse(
-        status_code=500,
-        content=jsonable_encoder(error_response)
-    )
+    return JSONResponse(status_code=500, content=jsonable_encoder(error_response))
+
 
 # ===============================================================================
 # Main Entry Point
@@ -627,10 +652,5 @@ if __name__ == "__main__":
 
     # Run the API
     uvicorn.run(
-        "public_api:app",
-        host=host,
-        port=port,
-        reload=reload,
-        log_level="info",
-        access_log=True
+        "public_api:app", host=host, port=port, reload=reload, log_level="info", access_log=True
     )

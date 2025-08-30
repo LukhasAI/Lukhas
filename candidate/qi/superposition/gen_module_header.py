@@ -55,9 +55,9 @@ def generate_module_header():
 # ──────────────────────────────────────────────────────────────
 
 # 💾 HOW TO USE
-# - import with: from backend.app.{module_name.replace('.py', '')} import function_1
+# - import with: from backend.app.{module_name.replace(".py", "")} import function_1
 # - run:         python3 {module_name}
-# - test:        pytest tests/test_{module_name.replace('.py', '')}.py
+# - test:        pytest tests/test_{module_name.replace(".py", "")}.py
 
 # 🔐 GDPR & EU AI ACT COMPLIANCE
 # - Complies with GDPR (Articles 5, 6, 15, 17, 20)

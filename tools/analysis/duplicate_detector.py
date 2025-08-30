@@ -11,7 +11,6 @@ from collections import defaultdict
 
 
 class DuplicateDetector:
-
     def __init__(self, root_path="."):
         self.root_path = root_path
         self.function_signatures = defaultdict(list)

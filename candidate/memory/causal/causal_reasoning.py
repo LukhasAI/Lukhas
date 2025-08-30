@@ -75,9 +75,7 @@ class CausalReasoningModule:
     """
 
     # Initializes the CausalReasoningModule with configuration parameters.
-    def __init__(
-        self, confidence_threshold: float = 0.7, history_limit: int = 100
-    ) -> None:
+    def __init__(self, confidence_threshold: float = 0.7, history_limit: int = 100) -> None:
         """
         # ΛNOTE: Initialization sets up the foundational parameters for symbolic evaluation,
         # including the confidence threshold for accepting a causal link and the memory
@@ -102,14 +100,14 @@ class CausalReasoningModule:
         # ΛNOTE: The causal_graph acts as a persistent symbolic memory of identified causal relationships.
         # It stores validated causal chains and their observed
         # frequencies/confidences over time.
-        self.causal_graph: dict[str, Any] = (
-            {}
-        )  # Stores persistent causal relationships (chain_id -> chain_data)
+        self.causal_graph: dict[
+            str, Any
+        ] = {}  # Stores persistent causal relationships (chain_id -> chain_data)
         # ΛNOTE: The causal_history logs summaries of reasoning sessions, enabling
         # meta-analysis and trend detection.
-        self.causal_history: list[dict[str, Any]] = (
-            []
-        )  # Stores summaries of recent reasoning sessions
+        self.causal_history: list[
+            dict[str, Any]
+        ] = []  # Stores summaries of recent reasoning sessions
         self.confidence_threshold: float = confidence_threshold
         self.history_limit: int = history_limit
         self.logger.debug("ΛTRACE: CausalReasoningModule instance fully initialized.")
@@ -142,9 +140,7 @@ class CausalReasoningModule:
                             - "error" (str, optional): Error message if processing failed.
         """
         # Generate a unique request ID using UTC timestamp for better traceability.
-        processing_request_id = (
-            f"reason_causal_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}"
-        )
+        processing_request_id = f"reason_causal_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}"
         reason_logger = self.logger.bind(
             request_id=processing_request_id
         )  # Bind request_id for all logs in this method
@@ -209,17 +205,13 @@ class CausalReasoningModule:
                 "all_valid_causal_chains": valid_causal_chains,
                 "extracted_reasoning_path_summary": reasoning_path_summary,
                 "primary_cause_confidence_score": (
-                    primary_cause_details["confidence_score"]
-                    if primary_cause_details
-                    else 0.0
+                    primary_cause_details["confidence_score"] if primary_cause_details else 0.0
                 ),
                 "reasoning_timestamp_utc": datetime.utcnow().isoformat(),  # Use UTC
                 "processing_request_id": processing_request_id,
             }
 
-            self._add_to_reasoning_history(
-                final_reasoning_results, parent_logger=reason_logger
-            )
+            self._add_to_reasoning_history(final_reasoning_results, parent_logger=reason_logger)
             reason_logger.info(
                 "ΛTRACE: Causal reasoning process completed successfully.",
                 primary_cause_summary=(
@@ -242,7 +234,7 @@ class CausalReasoningModule:
                 "extracted_reasoning_path_summary": [],
                 "primary_cause_confidence_score": 0.0,
                 "reasoning_timestamp_utc": datetime.utcnow().isoformat(),
-                "error": f"Causal reasoning process failed: {str(e)}",
+                "error": f"Causal reasoning process failed: {e!s}",
                 "processing_request_id": processing_request_id,
             }
 
@@ -308,9 +300,7 @@ class CausalReasoningModule:
                     # Some patterns might return tuples if they have multiple capture
                     # groups.
                     relevant_match_text = ""
-                    if isinstance(
-                        match_tuple_or_str, tuple
-                    ):  # Handle multiple capture groups
+                    if isinstance(match_tuple_or_str, tuple):  # Handle multiple capture groups
                         relevant_match_text = next(
                             (g for g in match_tuple_or_str if g), ""
                         ).strip()  # First non-empty group
@@ -355,7 +345,7 @@ class CausalReasoningModule:
                     context_element_confidence = 0.60
                     identified_element = {
                         "element_type": "contextual_factor",
-                        "element_content": f"Context: {context_key} = {str(context_value)}",
+                        "element_content": f"Context: {context_key} = {context_value!s}",
                         "context_source_key": context_key,
                         "base_confidence_score": context_element_confidence,
                     }
@@ -408,7 +398,7 @@ class CausalReasoningModule:
         for i, current_element_data in enumerate(causal_elements_list):
             # Generate a unique ID for each potential chain start.
             # Using time.time() for microsecond precision in ID for demo purposes.
-            chain_unique_id = f"chain_{i}_{int(time.time()*1000000)}"
+            chain_unique_id = f"chain_{i}_{int(time.time() * 1000000)}"
 
             current_chain_details = {
                 "chain_elements_data": [current_element_data],  # Renamed key
@@ -435,23 +425,17 @@ class CausalReasoningModule:
                     # Limit chain length to prevent overly long, potentially weak
                     # chains.
                     if len(current_chain_details["chain_elements_data"]) < 5:
-                        current_chain_details["chain_elements_data"].append(
-                            other_element_data
-                        )
+                        current_chain_details["chain_elements_data"].append(other_element_data)
                         # Update chain confidence: simple average for this heuristic.
                         new_confidence = (
                             current_chain_details["chain_base_confidence_score"]
                             + other_element_data["base_confidence_score"]
                         ) / 2.0
-                        current_chain_details["chain_base_confidence_score"] = (
-                            new_confidence
-                        )
+                        current_chain_details["chain_base_confidence_score"] = new_confidence
                         chain_logger.debug(
                             "ΛTRACE: Linked element to chain.",
                             chain_id=chain_unique_id,
-                            linked_element_content=other_element_data[
-                                "element_content"
-                            ][:30],
+                            linked_element_content=other_element_data["element_content"][:30],
                             new_chain_confidence=round(new_confidence, 2),
                         )
 
@@ -482,9 +466,7 @@ class CausalReasoningModule:
         Returns:
             Dict[str, Any]: Dictionary of causal chains with updated confidence scores and summaries.
         """
-        confidence_logger = parent_logger.bind(
-            method_name="_calculate_causal_confidences"
-        )
+        confidence_logger = parent_logger.bind(method_name="_calculate_causal_confidences")
         confidence_logger.debug(
             "ΛTRACE: Calculating refined confidences for causal chains.",
             num_chains_to_process=len(potential_causal_chains),
@@ -515,9 +497,7 @@ class CausalReasoningModule:
             # Calculate final confidence, capping at 0.99.
             calculated_final_confidence = min(
                 0.99,
-                initial_base_confidence
-                + length_adjustment_factor
-                + diversity_adjustment_factor,
+                initial_base_confidence + length_adjustment_factor + diversity_adjustment_factor,
             )
 
             final_weighted_chains[chain_id_key] = {
@@ -557,16 +537,12 @@ class CausalReasoningModule:
         """
         summary_logger = parent_logger.bind(method_name="_summarize_causal_chain")
         if not chain_elements_data:
-            summary_logger.debug(
-                "ΛTRACE: Attempted to summarize an empty causal chain."
-            )
+            summary_logger.debug("ΛTRACE: Attempted to summarize an empty causal chain.")
             return "[Empty Causal Chain]"
 
         # Simple summary: join the content of each element.
         # More sophisticated NLP summarization could be employed here for longer chains.
-        element_contents = [
-            el.get("element_content", "N/A_CONTENT") for el in chain_elements_data
-        ]
+        element_contents = [el.get("element_content", "N/A_CONTENT") for el in chain_elements_data]
         # Join with a clear separator indicating sequence or linkage.
         chain_summary_text = (
             " -> CAUSES/LEADS_TO -> ".join(element_contents)
@@ -611,9 +587,7 @@ class CausalReasoningModule:
                 self.causal_graph[chain_id_key] = {
                     "first_observed_utc": current_utc_timestamp_iso,  # Renamed
                     "observation_count": 1,  # Renamed
-                    "historical_confidence_scores": [
-                        chain_data_obj["confidence_score"]
-                    ],  # Renamed
+                    "historical_confidence_scores": [chain_data_obj["confidence_score"]],  # Renamed
                     "chain_summary_text": chain_data_obj["chain_summary_text"],
                 }
                 num_new_graph_entries += 1
@@ -624,14 +598,12 @@ class CausalReasoningModule:
                     chain_data_obj["confidence_score"]
                 )
                 # Keep a limited history of confidence scores (e.g., last 10-20).
-                self.causal_graph[chain_id_key][
-                    "historical_confidence_scores"
-                ] = self.causal_graph[chain_id_key]["historical_confidence_scores"][
-                    -20:
-                ]  # Example limit
-                self.causal_graph[chain_id_key][
-                    "last_observed_utc"
-                ] = current_utc_timestamp_iso  # Renamed
+                self.causal_graph[chain_id_key]["historical_confidence_scores"] = self.causal_graph[
+                    chain_id_key
+                ]["historical_confidence_scores"][-20:]  # Example limit
+                self.causal_graph[chain_id_key]["last_observed_utc"] = (
+                    current_utc_timestamp_iso  # Renamed
+                )
                 num_updated_graph_entries += 1
 
         graph_logger.info(
@@ -685,12 +657,8 @@ class CausalReasoningModule:
 
         primary_cause_output = {
             "causal_chain_id": primary_cause_chain_id_key,  # Renamed
-            "chain_summary_text": primary_cause_chain_data[
-                "chain_summary_text"
-            ],  # Renamed
-            "confidence_score": primary_cause_chain_data[
-                "confidence_score"
-            ],  # Standardized
+            "chain_summary_text": primary_cause_chain_data["chain_summary_text"],  # Renamed
+            "confidence_score": primary_cause_chain_data["confidence_score"],  # Standardized
             "contributing_elements_data": primary_cause_chain_data[
                 "chain_elements_data"
             ],  # Renamed
@@ -723,9 +691,7 @@ class CausalReasoningModule:
         Returns:
             List[Dict[str, Any]]: A list of dictionaries, each representing a step in the reasoning path.
         """
-        path_logger = parent_logger.bind(
-            method_name="_extract_simplified_reasoning_path"
-        )
+        path_logger = parent_logger.bind(method_name="_extract_simplified_reasoning_path")
         path_logger.debug(
             "ΛTRACE: Extracting simplified reasoning path.",
             num_valid_chains=len(valid_causal_chains_map),
@@ -734,9 +700,7 @@ class CausalReasoningModule:
         all_reasoning_steps: list[dict[str, Any]] = []
         # Aggregate all elements from all valid chains, tagging them with chain info.
         for chain_id_key, chain_data_obj in valid_causal_chains_map.items():
-            for idx, element_item_data in enumerate(
-                chain_data_obj["chain_elements_data"]
-            ):
+            for idx, element_item_data in enumerate(chain_data_obj["chain_elements_data"]):
                 all_reasoning_steps.append(
                     {
                         "step_order_in_chain": idx + 1,
@@ -808,9 +772,7 @@ class CausalReasoningModule:
             "count_of_valid_causal_chains": len(
                 reasoning_session_results.get("all_valid_causal_chains", {})
             ),
-            "session_request_id": reasoning_session_results.get(
-                "processing_request_id"
-            ),
+            "session_request_id": reasoning_session_results.get("processing_request_id"),
         }
         self.causal_history.append(history_log_entry)
 
@@ -867,8 +829,7 @@ class CausalReasoningModule:
         recent_primary_confidences = [
             entry["primary_cause_final_confidence"]
             for entry in recent_history_entries
-            if entry.get("primary_cause_final_confidence")
-            is not None  # Check for None explicitly
+            if entry.get("primary_cause_final_confidence") is not None  # Check for None explicitly
         ]
 
         average_recent_confidence_score = (
@@ -879,25 +840,15 @@ class CausalReasoningModule:
 
         # Basic trend analysis for confidence scores (if enough data points).
         confidence_trend_description = "stable"
-        if (
-            len(recent_primary_confidences) >= 10
-        ):  # Need at least 10 points for a very basic trend
-            first_half_points = recent_primary_confidences[
-                : len(recent_primary_confidences) // 2
-            ]
-            second_half_points = recent_primary_confidences[
-                len(recent_primary_confidences) // 2 :
-            ]
+        if len(recent_primary_confidences) >= 10:  # Need at least 10 points for a very basic trend
+            first_half_points = recent_primary_confidences[: len(recent_primary_confidences) // 2]
+            second_half_points = recent_primary_confidences[len(recent_primary_confidences) // 2 :]
 
             avg_first_half = (
-                sum(first_half_points) / len(first_half_points)
-                if first_half_points
-                else 0
+                sum(first_half_points) / len(first_half_points) if first_half_points else 0
             )
             avg_second_half = (
-                sum(second_half_points) / len(second_half_points)
-                if second_half_points
-                else 0
+                sum(second_half_points) / len(second_half_points) if second_half_points else 0
             )
 
             if avg_second_half > avg_first_half * 1.05:  # More than 5% increase
@@ -926,9 +877,7 @@ class CausalReasoningModule:
 # Defines the public export of this module for `from
 # reasoning.causal_reasoning import *`
 __all__ = ["CausalReasoningModule"]
-logger.debug(
-    "ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_symbols=__all__
-)
+logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_symbols=__all__)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Causal Reasoning Module

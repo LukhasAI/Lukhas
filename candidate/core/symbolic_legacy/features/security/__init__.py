@@ -5,6 +5,7 @@
 # ΛUDIT: Added missing __init__
 
 """Security utilities for symbolic glyph handling."""
+
 from .glyph_redactor_engine import GlyphRedactorEngine
 
 __all__ = ["GlyphRedactorEngine"]

@@ -104,9 +104,7 @@ class MemoryVisualizer:
     def add_memory_fold(self, fold: MemoryFold) -> None:
         """Add a memory fold to the visualization system"""
         self.folds[fold.fold_id] = fold
-        self.logger.debug(
-            f"Added memory fold: {fold.fold_id} with {len(fold.nodes)} nodes"
-        )
+        self.logger.debug(f"Added memory fold: {fold.fold_id} with {len(fold.nodes)} nodes")
 
         # Update dashboard if available
         if self.dashboard:
@@ -136,9 +134,7 @@ class MemoryVisualizer:
             # Add some random connections
             if i > 0:
                 num_connections = random.randint(0, min(3, i))
-                connections = random.sample(
-                    [f"node_{j}" for j in range(i)], num_connections
-                )
+                connections = random.sample([f"node_{j}" for j in range(i)], num_connections)
                 node.connections = connections
 
             nodes.append(node)
@@ -153,9 +149,7 @@ class MemoryVisualizer:
 
         return fold
 
-    def visualize_fold_2d(
-        self, fold_id: str, save_path: Optional[str] = None
-    ) -> Optional[str]:
+    def visualize_fold_2d(self, fold_id: str, save_path: Optional[str] = None) -> Optional[str]:
         """Create 2D visualization of a memory fold"""
         if fold_id not in self.folds:
             self.logger.error(f"Fold {fold_id} not found")
@@ -174,9 +168,7 @@ class MemoryVisualizer:
         # Fallback to ASCII art
         return self._visualize_fold_ascii(fold, save_path)
 
-    def visualize_fold_3d(
-        self, fold_id: str, save_path: Optional[str] = None
-    ) -> Optional[str]:
+    def visualize_fold_3d(self, fold_id: str, save_path: Optional[str] = None) -> Optional[str]:
         """Create 3D visualization of a memory fold"""
         if fold_id not in self.folds:
             self.logger.error(f"Fold {fold_id} not found")
@@ -211,8 +203,7 @@ class MemoryVisualizer:
         fold_sizes = [len(fold.nodes) for fold in self.folds.values()]
         if fold_sizes:
             chart_data = [
-                {"fold": f"Fold {i+1}", "nodes": size}
-                for i, size in enumerate(fold_sizes)
+                {"fold": f"Fold {i + 1}", "nodes": size} for i, size in enumerate(fold_sizes)
             ]
             self.dashboard.add_chart(
                 "fold_distribution",
@@ -243,9 +234,7 @@ class MemoryVisualizer:
             self.logger.error(f"Unsupported export format: {format}")
             return None
 
-    def _visualize_fold_matplotlib(
-        self, fold: MemoryFold, save_path: Optional[str] = None
-    ) -> str:
+    def _visualize_fold_matplotlib(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create matplotlib visualization"""
         fig, ax = plt.subplots(figsize=(12, 8))
 
@@ -291,9 +280,7 @@ class MemoryVisualizer:
         self.logger.info(f"Saved matplotlib visualization: {output_path}")
         return str(output_path)
 
-    def _visualize_fold_plotly(
-        self, fold: MemoryFold, save_path: Optional[str] = None
-    ) -> str:
+    def _visualize_fold_plotly(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create plotly visualization"""
         fig = go.Figure()
 
@@ -350,9 +337,7 @@ class MemoryVisualizer:
         self.logger.info(f"Saved plotly visualization: {output_path}")
         return str(output_path)
 
-    def _visualize_fold_plotly_3d(
-        self, fold: MemoryFold, save_path: Optional[str] = None
-    ) -> str:
+    def _visualize_fold_plotly_3d(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create 3D plotly visualization"""
         fig = go.Figure()
 
@@ -422,9 +407,7 @@ class MemoryVisualizer:
 
         # Plot 3D nodes
         for node in fold.nodes:
-            ax.scatter(
-                node.x, node.y, node.z, s=node.size * 100, c=node.color, alpha=0.7
-            )
+            ax.scatter(node.x, node.y, node.z, s=node.size * 100, c=node.color, alpha=0.7)
 
         # Plot 3D connections
         for node in fold.nodes:
@@ -457,9 +440,7 @@ class MemoryVisualizer:
         self.logger.info(f"Saved 3D matplotlib visualization: {output_path}")
         return str(output_path)
 
-    def _visualize_fold_ascii(
-        self, fold: MemoryFold, save_path: Optional[str] = None
-    ) -> str:
+    def _visualize_fold_ascii(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create ASCII art visualization"""
         # Create simple ASCII representation
         width, height = 60, 20
@@ -591,12 +572,12 @@ def create_demo_visualization(output_dir: str = "demo_visualizations") -> str:
 
 # Export key components
 __all__ = [
-    "MemoryVisualizer",
-    "MemoryNode",
-    "MemoryFold",
-    "create_demo_visualization",
     "MATPLOTLIB_AVAILABLE",
     "PLOTLY_AVAILABLE",
+    "MemoryFold",
+    "MemoryNode",
+    "MemoryVisualizer",
+    "create_demo_visualization",
 ]
 
 

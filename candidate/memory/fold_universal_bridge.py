@@ -30,6 +30,7 @@
 ║ Symbolic Tags: {ΛBRIDGE}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛUNIVERSAL}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
@@ -126,9 +127,7 @@ class BridgeConfiguration:
 
     # Integration parameters
     hormone_memory_threshold: float = 0.7  # Hormone level to trigger memory creation
-    qi_entanglement_distance: float = (
-        0.3  # Max emotional distance for entanglement
-    )
+    qi_entanglement_distance: float = 0.3  # Max emotional distance for entanglement
     ethical_memory_risk_threshold: float = 0.8  # Risk level requiring ethics review
     echo_loop_threshold: int = 3  # Repetitions before loop detection
     narrative_synthesis_interval: timedelta = timedelta(hours=6)
@@ -268,9 +267,7 @@ class MemoryFoldUniversalBridge:
         if "ethics" in self.active_bridges:
             ethics_review = await self._integrate_ethics_pre_creation(emotion, context)
             if not ethics_review["approved"]:
-                logger.warning(
-                    f"Memory creation blocked by ethics: {ethics_review['reason']}"
-                )
+                logger.warning(f"Memory creation blocked by ethics: {ethics_review['reason']}")
                 return {
                     "error": "Ethics review failed",
                     "reason": ethics_review["reason"],
@@ -309,9 +306,7 @@ class MemoryFoldUniversalBridge:
             "active_bridges": list(self.active_bridges),
         }
 
-    async def bridge_dream_to_memory(
-        self, dream_snapshot: DreamSnapshot
-    ) -> dict[str, Any]:
+    async def bridge_dream_to_memory(self, dream_snapshot: DreamSnapshot) -> dict[str, Any]:
         """
         Bridge a dream snapshot into the main memory system.
 
@@ -352,15 +347,11 @@ class MemoryFoldUniversalBridge:
 
         # Special entanglement-like correlation for dreams
         if "quantum" in self.active_bridges and "memory_fold" in result:
-            await self._create_dream_quantum_bridge(
-                result["memory_fold"], dream_snapshot
-            )
+            await self._create_dream_quantum_bridge(result["memory_fold"], dream_snapshot)
 
         return result
 
-    async def _integrate_consciousness(
-        self, emotion: str, context: str
-    ) -> dict[str, Any]:
+    async def _integrate_consciousness(self, emotion: str, context: str) -> dict[str, Any]:
         """Integrate with consciousness systems for reflection."""
         try:
             # Generate ΛMIRROR reflection
@@ -416,9 +407,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Bio-simulation integration failed: {e}")
             return {"error": str(e)}
 
-    async def _integrate_quantum(
-        self, memory_fold: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    async def _integrate_quantum(self, memory_fold: dict[str, Any]) -> list[dict[str, Any]]:
         """Create entanglement-like correlations with similar memories."""
         try:
             # Find emotionally similar memories
@@ -446,9 +435,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Quantum integration failed: {e}")
             return []
 
-    async def _integrate_ethics_pre_creation(
-        self, emotion: str, context: str
-    ) -> dict[str, Any]:
+    async def _integrate_ethics_pre_creation(self, emotion: str, context: str) -> dict[str, Any]:
         """Run ethical review before memory creation."""
         try:
             # Check for potentially harmful content
@@ -516,9 +503,7 @@ class MemoryFoldUniversalBridge:
             logger.error(f"Echo detection integration failed: {e}")
             return {"error": str(e)}
 
-    async def _integrate_orchestration(
-        self, memory_fold: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _integrate_orchestration(self, memory_fold: dict[str, Any]) -> dict[str, Any]:
         """Notify orchestration system of new memory."""
         try:
             # Create orchestration event
@@ -773,15 +758,11 @@ class MemoryFoldUniversalBridge:
         for bridge in self.active_bridges:
             try:
                 if bridge == "consciousness" and hasattr(self, "lambda_mirror"):
-                    status["bridge_health"][
-                        bridge
-                    ] = await self.lambda_mirror.get_status()
+                    status["bridge_health"][bridge] = await self.lambda_mirror.get_status()
                 elif bridge == "bio_simulation" and hasattr(self, "bio_sim"):
                     status["bridge_health"][bridge] = self.bio_sim.get_system_status()
                 elif bridge == "quantum" and hasattr(self, "qi_engine"):
-                    status["bridge_health"][
-                        bridge
-                    ] = await self.qi_engine.get_health()
+                    status["bridge_health"][bridge] = await self.qi_engine.get_health()
                 else:
                     status["bridge_health"][bridge] = {"status": "active"}
             except Exception as e:

@@ -105,9 +105,7 @@ class QIIntegrationHub:
 
             # Register quantum enhancement services if voice hub supports it
             if hasattr(voice_hub, "register_service"):
-                voice_hub.register_service(
-                    "qi_voice_security", self.qi_security
-                )
+                voice_hub.register_service("qi_voice_security", self.qi_security)
 
             logger.info("qi_voice_integration_connected")
 
@@ -129,18 +127,12 @@ class QIIntegrationHub:
         try:
             results = {}
 
-            if (
-                request_type == "bio_optimization"
-                and "bio_optimization" in self.services
-            ):
+            if request_type == "bio_optimization" and "bio_optimization" in self.services:
                 bio_service = self.services["bio_optimization"]
                 if hasattr(bio_service, "optimize"):
                     results["bio_result"] = await bio_service.optimize(data)
 
-            if (
-                request_type == "qi_security"
-                and "qi_security" in self.services
-            ):
+            if request_type == "qi_security" and "qi_security" in self.services:
                 security_service = self.services["qi_security"]
                 if hasattr(security_service, "encrypt"):
                     results["security_result"] = await security_service.encrypt(data)

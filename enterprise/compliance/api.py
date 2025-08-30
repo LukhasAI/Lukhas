@@ -17,12 +17,15 @@ class ProtectRequest(BaseModel):
     policy_id: str
     context: Optional[dict[str, Any]] = None
 
+
 class UnprotectRequest(BaseModel):
     data: Any
     context: Optional[dict[str, Any]] = None
 
+
 # Global data protection service instance
 data_protection_service: Optional[DataProtectionService] = None
+
 
 async def get_data_protection_service() -> DataProtectionService:
     """Dependency to get data protection service instance"""
@@ -32,13 +35,15 @@ async def get_data_protection_service() -> DataProtectionService:
         await data_protection_service.initialize()
     return data_protection_service
 
+
 router = APIRouter(prefix="/protection", tags=["Data Protection"])
 user_router = APIRouter(prefix="/users", tags=["User Data"])
+
 
 @router.post("/protect")
 async def protect_data(
     request_data: ProtectRequest,
-    service: DataProtectionService = Depends(get_data_protection_service)
+    service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Protect data based on a policy."""
     try:
@@ -49,40 +54,39 @@ async def protect_data(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Protection failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Protection failed: {e!s}")
+
 
 @router.post("/unprotect")
 async def unprotect_data(
     request_data: UnprotectRequest,
-    service: DataProtectionService = Depends(get_data_protection_service)
+    service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Unprotect data."""
     try:
-        unprotected_data = await service.unprotect_data(
-            request_data.data, request_data.context
-        )
+        unprotected_data = await service.unprotect_data(request_data.data, request_data.context)
         return {"unprotected_data": unprotected_data}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Unprotection failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Unprotection failed: {e!s}")
+
 
 from consent.api import get_consent_service
 from consent.service import ConsentService
 
 
 @router.get("/policies", response_model=list[ProtectionPolicy])
-async def list_policies(
-    service: DataProtectionService = Depends(get_data_protection_service)
-):
+async def list_policies(service: DataProtectionService = Depends(get_data_protection_service)):
     """List all protection policies."""
     return list(service.protection_policies.values())
+
 
 @user_router.get("/{user_lid}/export")
 async def export_user_data(
     user_lid: str,
     consent_service: ConsentService = Depends(get_consent_service),
-    data_protection_service: DataProtectionService = Depends(get_data_protection_service)
+    data_protection_service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Export all data for a user."""
     consent_grants = await consent_service.get_all_user_consent_grants(user_lid)
@@ -94,11 +98,12 @@ async def export_user_data(
         "protected_data": protected_data,
     }
 
+
 @user_router.delete("/{user_lid}")
 async def delete_user_data(
     user_lid: str,
     consent_service: ConsentService = Depends(get_consent_service),
-    data_protection_service: DataProtectionService = Depends(get_data_protection_service)
+    data_protection_service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Delete all data for a user."""
     deleted_grants = await consent_service.delete_user_consent_grants(user_lid)
@@ -110,12 +115,13 @@ async def delete_user_data(
         "deleted_protected_data_entries": deleted_data,
     }
 
+
 @user_router.put("/{user_lid}")
 async def update_user_data(
     user_lid: str,
     updates: dict,
     consent_service: ConsentService = Depends(get_consent_service),
-    data_protection_service: DataProtectionService = Depends(get_data_protection_service)
+    data_protection_service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Update user data."""
     # This is a simplified implementation. In a real system, we would need to
@@ -128,13 +134,15 @@ async def update_user_data(
         "updated_consent_grants": updated_grants,
         "updated_protected_data_entries": updated_data,
     }
+
+
 from .data_protection_service import DataProcessingActivity, GDPRAssessment
 
 
 @router.post("/assessment", response_model=GDPRAssessment)
 async def assess_processing_activity(
     activity: DataProcessingActivity,
-    service: DataProtectionService = Depends(get_data_protection_service)
+    service: DataProtectionService = Depends(get_data_protection_service),
 ):
     """Assess the compliance of a data processing activity."""
     return await service.assess_processing_activity(activity)
@@ -145,10 +153,10 @@ async def assess_processing_activity(
         "updated_protected_data_entries": updated_data,
     }
 
+
 @router.get("/users/{user_lid}/audit_trail")
 async def get_user_audit_trail(
-    user_lid: str,
-    consent_service: ConsentService = Depends(get_consent_service)
+    user_lid: str, consent_service: ConsentService = Depends(get_consent_service)
 ):
     """Get the audit trail for a user."""
     audit_trail = await consent_service.get_user_audit_trail(user_lid)

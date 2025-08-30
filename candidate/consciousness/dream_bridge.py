@@ -3,6 +3,7 @@
 Dream-Consciousness Bridge
 Implements the critical connection between dream synthesis and consciousness.
 """
+
 from typing import Any
 
 from consciousness.bridge import ConsciousnessBridge
@@ -23,9 +24,7 @@ class DreamConsciousnessBridge:
         self.dream_engine = DreamEngine()
         self.memory = MemoryCore()
 
-    async def process_dream_to_consciousness(
-        self, dream_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_dream_to_consciousness(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Process dream data through consciousness."""
         # Store dream in memory
         await self.memory.store_dream(dream_data)

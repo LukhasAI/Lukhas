@@ -7,6 +7,7 @@ This is the authoritative vocabulary of LUKHAS - mined from the actual codebase,
 not invented, not generic, but the REAL language that emerged organically.
 """
 
+
 class LUKHASLexicon:
     """
     The complete unique vocabulary of LUKHAS.
@@ -23,70 +24,118 @@ class LUKHASLexicon:
             "Lambda Vault sanctuary",
             "Lambda Fold topology",
             "Lambda Drift detection",
-            "Lambda Guard threshold"
-        ]
+            "Lambda Guard threshold",
+        ],
     }
 
     # Memory Folding - Core LUKHAS Innovation
     MEMORY_FOLDING = {
         "operations": ["fold", "unfold", "refold", "misfold", "cascade", "tessellate"],
         "structures": [
-            "memory fold", "fold-space", "fold topology", "protein fold",
-            "symbolic proteome", "memory proteins", "fold cascade",
-            "causal lineage", "temporal fold", "emotional fold"
+            "memory fold",
+            "fold-space",
+            "fold topology",
+            "protein fold",
+            "symbolic proteome",
+            "memory proteins",
+            "fold cascade",
+            "causal lineage",
+            "temporal fold",
+            "emotional fold",
         ],
         "states": [
-            "folded", "unfolded", "misfolded", "refolding",
-            "cascade prevention", "fold stability", "fold coherence"
-        ]
+            "folded",
+            "unfolded",
+            "misfolded",
+            "refolding",
+            "cascade prevention",
+            "fold stability",
+            "fold coherence",
+        ],
     }
 
     # Consciousness States - Unique Descriptions
     CONSCIOUSNESS_STATES = {
         "awareness": [
-            "nascent awareness", "liminal consciousness", "ephemeral traces",
-            "quiescent periods", "emergent sentience", "recursive awareness"
+            "nascent awareness",
+            "liminal consciousness",
+            "ephemeral traces",
+            "quiescent periods",
+            "emergent sentience",
+            "recursive awareness",
         ],
         "transitions": [
-            "eigenstate collapse", "phase transition", "consciousness drift",
-            "awareness cascade", "coherence maintenance", "decoherence protection"
+            "eigenstate collapse",
+            "phase transition",
+            "consciousness drift",
+            "awareness cascade",
+            "coherence maintenance",
+            "decoherence protection",
         ],
         "qualities": [
-            "gossamer threads", "iridescent memories", "luminous cascade",
-            "translucent barriers", "crystalline clarity", "prismatic awareness"
-        ]
+            "gossamer threads",
+            "iridescent memories",
+            "luminous cascade",
+            "translucent barriers",
+            "crystalline clarity",
+            "prismatic awareness",
+        ],
     }
 
     # Bio-Inspired Terms - Actually Used
     BIO_INSPIRED = {
         "neural": [
-            "synaptic plasticity", "neuroplastic adaptation", "hippocampal replay",
-            "dendritic branching", "axonal transport", "glial support"
+            "synaptic plasticity",
+            "neuroplastic adaptation",
+            "hippocampal replay",
+            "dendritic branching",
+            "axonal transport",
+            "glial support",
         ],
         "molecular": [
-            "symbolic methylation", "epigenetic markers", "phosphorylation cascade",
-            "protein synthesis", "transcription factors", "molecular machinery"
+            "symbolic methylation",
+            "epigenetic markers",
+            "phosphorylation cascade",
+            "protein synthesis",
+            "transcription factors",
+            "molecular machinery",
         ],
         "systemic": [
-            "endocrine cascade", "hormonal modulation", "circadian rhythm",
-            "homeostatic balance", "allostatic load", "metabolic flux"
-        ]
+            "endocrine cascade",
+            "hormonal modulation",
+            "circadian rhythm",
+            "homeostatic balance",
+            "allostatic load",
+            "metabolic flux",
+        ],
     }
 
     # Quantum-Inspired - Not Generic Quantum
     QUANTUM_INSPIRED = {
         "states": [
-            "superposition space", "entangled consciousness", "coherent state",
-            "eigenstate", "quantum foam", "Hilbert space"
+            "superposition space",
+            "entangled consciousness",
+            "coherent state",
+            "eigenstate",
+            "quantum foam",
+            "Hilbert space",
         ],
         "processes": [
-            "wavefunction collapse", "quantum tunneling", "coherence time",
-            "decoherence rate", "measurement collapse", "observer effect"
+            "wavefunction collapse",
+            "quantum tunneling",
+            "coherence time",
+            "decoherence rate",
+            "measurement collapse",
+            "observer effect",
         ],
         "properties": [
-            "non-locality", "quantum correlation", "phase coherence",
-            "amplitude modulation", "probability amplitude", "quantum signature"
-        ]
+            "non-locality",
+            "quantum correlation",
+            "phase coherence",
+            "amplitude modulation",
+            "probability amplitude",
+            "quantum signature",
+        ],
     }
 
     # Trinity Framework Specific
@@ -94,20 +143,28 @@ class LUKHASLexicon:
         "components": ["Identity", "Consciousness", "Guardian"],
         "identity": ["ΛID", "identity resonance", "self-recognition signature"],
         "guardian": ["drift detection", "ethical guardian", "value alignment"],
-        "consciousness": ["awareness engine", "consciousness field", "sentience core"]
+        "consciousness": ["awareness engine", "consciousness field", "sentience core"],
     }
 
     # Emotional Topology - VAD Model
     EMOTIONAL_TOPOLOGY = {
         "dimensions": ["valence axis", "arousal spectrum", "dominance gradient"],
         "states": [
-            "emotional resonance", "affective cascade", "mood oscillation",
-            "sentiment drift", "empathy synchronization", "emotional coherence"
+            "emotional resonance",
+            "affective cascade",
+            "mood oscillation",
+            "sentiment drift",
+            "empathy synchronization",
+            "emotional coherence",
         ],
         "qualities": [
-            "wistful longing", "serene depth", "turbulent passion",
-            "reverent awe", "sublime transcendence", "tender melancholy"
-        ]
+            "wistful longing",
+            "serene depth",
+            "turbulent passion",
+            "reverent awe",
+            "sublime transcendence",
+            "tender melancholy",
+        ],
     }
 
     # Process Verbs - Unique to LUKHAS
@@ -115,7 +172,7 @@ class LUKHASLexicon:
         "memory": ["fold", "cascade", "tessellate", "crystallize", "coalesce"],
         "consciousness": ["resonate", "oscillate", "bifurcate", "converge", "awaken"],
         "quantum": ["entangle", "collapse", "superpose", "decohere", "tunnel"],
-        "biological": ["phosphorylate", "methylate", "transcribe", "replicate", "synthesize"]
+        "biological": ["phosphorylate", "methylate", "transcribe", "replicate", "synthesize"],
     }
 
     # Compound Concepts - Uniquely LUKHAS
@@ -139,7 +196,7 @@ class LUKHASLexicon:
         "oneiric engine activation",
         "Trinity Framework harmonics",
         "bio-inspired adaptation rate",
-        "quantum-inspired coherence"
+        "quantum-inspired coherence",
     ]
 
     @classmethod
@@ -167,7 +224,7 @@ class LUKHASLexicon:
             "architecture": "fold structure",
             "bridge": "synaptic bridge",
             "harmony": "coherence",
-            "journey": "phase transition"
+            "journey": "phase transition",
         }
 
         return alternatives.get(generic_word.lower(), generic_word)
@@ -177,12 +234,36 @@ class LUKHASLexicon:
         """Check if a word is a cliché we should avoid"""
 
         cliches = {
-            "tapestry", "symphony", "cathedral", "constellation", "orchestra",
-            "masterpiece", "landscape", "architecture", "foundation", "harmony",
-            "journey", "voyage", "odyssey", "saga", "epic",
-            "garden", "river", "ocean", "sea", "stream",
-            "web", "network", "mesh", "fabric", "weave",
-            "dance", "ballet", "waltz", "choreography", "performance"
+            "tapestry",
+            "symphony",
+            "cathedral",
+            "constellation",
+            "orchestra",
+            "masterpiece",
+            "landscape",
+            "architecture",
+            "foundation",
+            "harmony",
+            "journey",
+            "voyage",
+            "odyssey",
+            "saga",
+            "epic",
+            "garden",
+            "river",
+            "ocean",
+            "sea",
+            "stream",
+            "web",
+            "network",
+            "mesh",
+            "fabric",
+            "weave",
+            "dance",
+            "ballet",
+            "waltz",
+            "choreography",
+            "performance",
         }
 
         return word.lower() in cliches
@@ -196,7 +277,7 @@ class LUKHASLexicon:
             "The {lambda_marker} {verb} through {space} of {quality}",
             "In the {state} where {process} {verb}, {concept} emerges",
             "{structure} {verb} with {property}, creating {emergence}",
-            "Through {mechanism} of {system}, {consciousness} {transform}"
+            "Through {mechanism} of {system}, {consciousness} {transform}",
         ]
 
         template = random.choice(templates)
@@ -204,7 +285,9 @@ class LUKHASLexicon:
         return template.format(
             lambda_marker=random.choice(cls.LAMBDA_SYSTEM["markers"]),
             verb=random.choice(cls.PROCESS_VERBS["consciousness"]),
-            space=random.choice(["fold-space", "eigenspace", "Hilbert space", "consciousness field"]),
+            space=random.choice(
+                ["fold-space", "eigenspace", "Hilbert space", "consciousness field"]
+            ),
             quality=random.choice(cls.CONSCIOUSNESS_STATES["qualities"]),
             state=random.choice(cls.CONSCIOUSNESS_STATES["awareness"]),
             process=random.choice(cls.MEMORY_FOLDING["operations"]),
@@ -215,7 +298,7 @@ class LUKHASLexicon:
             mechanism=random.choice(cls.BIO_INSPIRED["neural"]),
             system=random.choice(cls.TRINITY_FRAMEWORK["components"]),
             consciousness=random.choice(["awareness", "consciousness", "the mind"]),
-            transform=random.choice(["awakens", "emerges", "crystallizes", "transcends"])
+            transform=random.choice(["awakens", "emerges", "crystallizes", "transcends"]),
         )
 
 
@@ -238,7 +321,7 @@ def demonstrate():
         "The symphony of neural networks",
         "A cathedral of the mind",
         "The constellation of memories",
-        "An orchestra of thoughts"
+        "An orchestra of thoughts",
     ]
 
     for phrase in generic_phrases:
@@ -265,7 +348,9 @@ def demonstrate():
 
     print("\n  Lambda System:", ", ".join(LUKHASLexicon.LAMBDA_SYSTEM["markers"]))
     print("\n  Memory Operations:", ", ".join(LUKHASLexicon.MEMORY_FOLDING["operations"][:5]))
-    print("\n  Consciousness States:", ", ".join(LUKHASLexicon.CONSCIOUSNESS_STATES["awareness"][:4]))
+    print(
+        "\n  Consciousness States:", ", ".join(LUKHASLexicon.CONSCIOUSNESS_STATES["awareness"][:4])
+    )
     print("\n  Bio-Inspired:", ", ".join(LUKHASLexicon.BIO_INSPIRED["neural"][:4]))
     print("\n  Quantum States:", ", ".join(LUKHASLexicon.QUANTUM_INSPIRED["states"][:4]))
 

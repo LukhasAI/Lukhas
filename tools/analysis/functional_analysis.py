@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class FunctionalAnalyzer:
-
     def __init__(self):
         self.functional_systems = {}
         self.broken_dependencies = {}
@@ -45,9 +44,7 @@ class FunctionalAnalyzer:
 
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
-                    methods = [
-                        n.name for n in node.body if isinstance(n, ast.FunctionDef)
-                    ]
+                    methods = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
                     analysis["classes"].append(
                         {
                             "name": node.name,
@@ -87,9 +84,7 @@ class FunctionalAnalyzer:
                     analysis["main_block"] = True
 
             # Determine functionality
-            has_substantial_classes = any(
-                c["method_count"] > 2 for c in analysis["classes"]
-            )
+            has_substantial_classes = any(c["method_count"] > 2 for c in analysis["classes"])
             has_substantial_functions = len(analysis["functions"]) > 1
             has_main = analysis["main_block"]
 
@@ -229,23 +224,16 @@ class FunctionalAnalyzer:
                 functional_files += 1
 
                 # Check for capability keywords in file name and content
-                file_content = py_file.read_text(
-                    encoding="utf-8", errors="ignore"
-                ).lower()
+                file_content = py_file.read_text(encoding="utf-8", errors="ignore").lower()
                 file_name = py_file.name.lower()
 
                 for keyword in capability_keywords:
-                    if (
-                        keyword in file_name
-                        or len(re.findall(rf"\b{keyword}\b", file_content)) > 2
-                    ):
+                    if keyword in file_name or len(re.findall(rf"\b{keyword}\b", file_content)) > 2:
                         capabilities.append(
                             {
                                 "capability": keyword,
                                 "file": str(py_file),
-                                "confidence": (
-                                    "high" if keyword in file_name else "medium"
-                                ),
+                                "confidence": ("high" if keyword in file_name else "medium"),
                             }
                         )
 
@@ -254,9 +242,7 @@ class FunctionalAnalyzer:
             "files_scanned": files_scanned,
             "functional_files": functional_files,
             "capabilities": capabilities,
-            "functionality_ratio": (
-                functional_files / files_scanned if files_scanned > 0 else 0
-            ),
+            "functionality_ratio": (functional_files / files_scanned if files_scanned > 0 else 0),
         }
 
     def find_entry_points(self):
@@ -331,9 +317,7 @@ def main():
                 [s for s in capabilities.values() if s["status"] == "functional"]
             ),
             "total_systems": len(capabilities),
-            "executable_entry_points": len(
-                [e for e in entry_points.values() if e["functional"]]
-            ),
+            "executable_entry_points": len([e for e in entry_points.values() if e["functional"]]),
             "total_entry_points": len(entry_points),
         },
     }
@@ -350,9 +334,7 @@ def main():
     print("\n📊 SYSTEM STATUS:")
     for system, data in capabilities.items():
         status_emoji = (
-            "✅"
-            if data["status"] == "functional"
-            else "❌" if data["status"] == "missing" else "⚠️"
+            "✅" if data["status"] == "functional" else "❌" if data["status"] == "missing" else "⚠️"
         )
         if data["status"] != "missing":
             ratio = f" ({data['functionality_ratio']:.1%} functional)"

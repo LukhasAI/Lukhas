@@ -452,9 +452,7 @@ class OptimizedFoldEngine:
         # Split folds into chunks
         all_keys = list(self.index.by_key.keys())
         chunk_size = max(1, len(all_keys) // 4)
-        chunks = [
-            all_keys[i : i + chunk_size] for i in range(0, len(all_keys), chunk_size)
-        ]
+        chunks = [all_keys[i : i + chunk_size] for i in range(0, len(all_keys), chunk_size)]
 
         async def search_chunk(keys: list[str]) -> list[OptimizedMemoryFold]:
             chunk_results = []
@@ -474,8 +472,7 @@ class OptimizedFoldEngine:
             return asyncio.run(search_chunk(keys))
 
         tasks = [
-            loop.run_in_executor(self.thread_pool, _search_chunk_sync, chunk)
-            for chunk in chunks
+            loop.run_in_executor(self.thread_pool, _search_chunk_sync, chunk) for chunk in chunks
         ]
 
         chunk_results = await asyncio.gather(*tasks)
@@ -619,7 +616,9 @@ async def demo_optimized_folds():
     print("=" * 60)
 
     engine = OptimizedFoldEngine(
-        max_memory_mb=100, cache_size=50, enable_mmap=False  # Disable for demo
+        max_memory_mb=100,
+        cache_size=50,
+        enable_mmap=False,  # Disable for demo
     )
 
     # 1. Create folds with compression
@@ -638,7 +637,7 @@ async def demo_optimized_folds():
         }
 
         fold = engine.create_fold(
-            key=f"fold_{i}", content=content, tags=["test", f"batch_{i//10}"]
+            key=f"fold_{i}", content=content, tags=["test", f"batch_{i // 10}"]
         )
         folds.append(fold)
 
@@ -679,9 +678,7 @@ async def demo_optimized_folds():
     duplicate_content = {"duplicate": True, "data": "same"}
 
     for i in range(10):
-        engine.create_fold(
-            key=f"dup_{i}", content=duplicate_content, tags=["duplicate"]
-        )
+        engine.create_fold(key=f"dup_{i}", content=duplicate_content, tags=["duplicate"])
 
     before_dedup = len(engine.index.by_key)
     removed = engine.deduplicate()
@@ -702,7 +699,7 @@ async def demo_optimized_folds():
 
     print(f"   Created {len(batch_folds)} folds in parallel")
     print(f"   Time: {batch_time:.3f}s")
-    print(f"   Rate: {len(batch_folds)/batch_time:.1f} folds/sec")
+    print(f"   Rate: {len(batch_folds) / batch_time:.1f} folds/sec")
 
     # 5. Parallel search
     print("\n5️⃣ Parallel Search:")

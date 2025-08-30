@@ -46,9 +46,7 @@ class WebAuthnCredential:
         self.sign_count = credential_data.get("sign_count", 0)
         self.user_id = credential_data.get("user_id", "")
         self.authenticator_data = credential_data.get("authenticator_data", {})
-        self.created_at = credential_data.get(
-            "created_at", datetime.utcnow().isoformat()
-        )
+        self.created_at = credential_data.get("created_at", datetime.utcnow().isoformat())
         self.last_used = credential_data.get("last_used")
         self.tier_level = credential_data.get("tier_level", 0)
         self.device_type = credential_data.get("device_type", "unknown")
@@ -132,9 +130,7 @@ class WebAuthnManager:
                 "challenge": challenge_b64,
                 "rp": {"name": self.rp_name, "id": self.rp_id},
                 "user": {
-                    "id": base64.urlsafe_b64encode(user_id.encode())
-                    .decode()
-                    .rstrip("="),
+                    "id": base64.urlsafe_b64encode(user_id.encode()).decode().rstrip("="),
                     "name": user_name,
                     "displayName": user_display_name,
                 },
@@ -146,18 +142,12 @@ class WebAuthnManager:
                     {"alg": -257, "type": "public-key"},  # RS256
                 ],
                 "authenticatorSelection": {
-                    "authenticatorAttachment": tier_reqs.get(
-                        "platform_attachment", "any"
-                    ),
+                    "authenticatorAttachment": tier_reqs.get("platform_attachment", "any"),
                     "userVerification": (
-                        "required"
-                        if tier_reqs.get("user_verification", False)
-                        else "preferred"
+                        "required" if tier_reqs.get("user_verification", False) else "preferred"
                     ),
                     "residentKey": (
-                        "required"
-                        if tier_reqs.get("resident_key", False)
-                        else "preferred"
+                        "required" if tier_reqs.get("resident_key", False) else "preferred"
                     ),
                 },
                 "attestation": "direct" if user_tier >= 3 else "none",
@@ -181,9 +171,7 @@ class WebAuthnManager:
             }
 
             # 🧠 Update consciousness patterns
-            self._update_consciousness_patterns(
-                user_id, "webauthn_registration_initiated"
-            )
+            self._update_consciousness_patterns(user_id, "webauthn_registration_initiated")
 
             # Performance tracking
             generation_time = (time.time() - start_time) * 1000
@@ -201,7 +189,7 @@ class WebAuthnManager:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Registration options generation failed: {str(e)}",
+                "error": f"Registration options generation failed: {e!s}",
                 "generation_time_ms": (
                     (time.time() - start_time) * 1000 if "start_time" in locals() else 0
                 ),
@@ -239,9 +227,7 @@ class WebAuthnManager:
                 attestation_object = attestation_response.get("attestationObject", "")
 
                 # Decode client data
-                client_data = json.loads(
-                    base64.urlsafe_b64decode(client_data_json + "===")
-                )
+                client_data = json.loads(base64.urlsafe_b64decode(client_data_json + "==="))
 
                 # Verify challenge
                 response_challenge = client_data.get("challenge", "")
@@ -279,9 +265,7 @@ class WebAuthnManager:
                 del self.pending_registrations[registration_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(
-                    user_id, "webauthn_credential_registered"
-                )
+                self._update_consciousness_patterns(user_id, "webauthn_credential_registered")
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
@@ -298,12 +282,12 @@ class WebAuthnManager:
                 }
 
             except (json.JSONDecodeError, ValueError) as e:
-                return {"success": False, "error": f"Invalid response format: {str(e)}"}
+                return {"success": False, "error": f"Invalid response format: {e!s}"}
 
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Registration verification failed: {str(e)}",
+                "error": f"Registration verification failed: {e!s}",
                 "verification_time_ms": (
                     (time.time() - start_time) * 1000 if "start_time" in locals() else 0
                 ),
@@ -330,14 +314,11 @@ class WebAuthnManager:
                         "transports": cred.authenticator_data.get("transports", []),
                     }
                     for cred in self.credentials[user_id]
-                    if cred.tier_level
-                    >= tier_level  # Only credentials at or above required tier
+                    if cred.tier_level >= tier_level  # Only credentials at or above required tier
                 ]
 
             # Get tier requirements
-            tier_reqs = self.tier_requirements.get(
-                tier_level, self.tier_requirements[0]
-            )
+            tier_reqs = self.tier_requirements.get(tier_level, self.tier_requirements[0])
 
             # Generate authentication options
             auth_options = {
@@ -345,9 +326,7 @@ class WebAuthnManager:
                 "rpId": self.rp_id,
                 "allowCredentials": allowed_credentials,
                 "userVerification": (
-                    "required"
-                    if tier_reqs.get("user_verification", False)
-                    else "preferred"
+                    "required" if tier_reqs.get("user_verification", False) else "preferred"
                 ),
                 "timeout": 60000,  # 60 seconds
                 "extensions": {
@@ -369,9 +348,7 @@ class WebAuthnManager:
 
             # 🧠 Update consciousness patterns
             if user_id:
-                self._update_consciousness_patterns(
-                    user_id, "webauthn_authentication_initiated"
-                )
+                self._update_consciousness_patterns(user_id, "webauthn_authentication_initiated")
 
             # Performance tracking
             generation_time = (time.time() - start_time) * 1000
@@ -389,7 +366,7 @@ class WebAuthnManager:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Authentication options generation failed: {str(e)}",
+                "error": f"Authentication options generation failed: {e!s}",
                 "generation_time_ms": (
                     (time.time() - start_time) * 1000 if "start_time" in locals() else 0
                 ),
@@ -437,9 +414,7 @@ class WebAuthnManager:
                 return {"success": False, "error": "User ID mismatch"}
 
             # 🛡️ Guardian validation
-            if not self._constitutional_validation(
-                user_id, "webauthn_authentication", response
-            ):
+            if not self._constitutional_validation(user_id, "webauthn_authentication", response):
                 return {"success": False, "error": "Guardian validation failed"}
 
             # Extract and validate response components
@@ -450,9 +425,7 @@ class WebAuthnManager:
                 signature = auth_response.get("signature", "")
 
                 # Decode client data
-                client_data = json.loads(
-                    base64.urlsafe_b64decode(client_data_json + "===")
-                )
+                client_data = json.loads(base64.urlsafe_b64decode(client_data_json + "==="))
 
                 # Verify challenge
                 response_challenge = client_data.get("challenge", "")
@@ -471,9 +444,7 @@ class WebAuthnManager:
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(
-                    user_id, "webauthn_authentication_successful"
-                )
+                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
@@ -492,12 +463,12 @@ class WebAuthnManager:
                 }
 
             except (json.JSONDecodeError, ValueError) as e:
-                return {"success": False, "error": f"Invalid response format: {str(e)}"}
+                return {"success": False, "error": f"Invalid response format: {e!s}"}
 
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Authentication verification failed: {str(e)}",
+                "error": f"Authentication verification failed: {e!s}",
                 "verification_time_ms": (
                     (time.time() - start_time) * 1000 if "start_time" in locals() else 0
                 ),
@@ -520,8 +491,7 @@ class WebAuthnManager:
             for cred in user_creds:
                 credentials_info.append(
                     {
-                        "credential_id": cred.credential_id[:16]
-                        + "...",  # Truncate for security
+                        "credential_id": cred.credential_id[:16] + "...",  # Truncate for security
                         "created_at": cred.created_at,
                         "last_used": cred.last_used,
                         "tier_level": cred.tier_level,
@@ -540,7 +510,7 @@ class WebAuthnManager:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Failed to get credentials: {str(e)}",
+                "error": f"Failed to get credentials: {e!s}",
                 "credentials": [],
             }
 
@@ -575,7 +545,7 @@ class WebAuthnManager:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Credential revocation failed: {str(e)}",
+                "error": f"Credential revocation failed: {e!s}",
             }
 
     # Helper methods
@@ -595,9 +565,7 @@ class WebAuthnManager:
         else:
             return "unknown_authenticator"
 
-    def _constitutional_validation(
-        self, user_id: str, operation: str, data: Any
-    ) -> bool:
+    def _constitutional_validation(self, user_id: str, operation: str, data: Any) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
@@ -614,10 +582,7 @@ class WebAuthnManager:
 
             # Check for suspicious patterns
             data_str = str(data)
-            if any(
-                pattern in data_str.lower()
-                for pattern in ["script", "eval", "javascript:"]
-            ):
+            if any(pattern in data_str.lower() for pattern in ["script", "eval", "javascript:"]):
                 return False
 
             # ⚛️ Identity integrity check
@@ -690,9 +655,7 @@ class WebAuthnManager:
             }
 
         except Exception as e:
-            return {
-                "webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}
-            }
+            return {"webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}}
 
     def _get_tier_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by tier level"""
@@ -718,4 +681,4 @@ PasskeyRegistration = WebAuthnCredential
 PasskeyAuthentication = WebAuthnCredential
 
 # Export main class
-__all__ = ["WebAuthnManager", "WebAuthnCredential", "PasskeyRegistration", "PasskeyAuthentication"]
+__all__ = ["PasskeyAuthentication", "PasskeyRegistration", "WebAuthnCredential", "WebAuthnManager"]

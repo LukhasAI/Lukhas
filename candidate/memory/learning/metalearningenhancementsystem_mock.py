@@ -98,7 +98,6 @@ class MetaLearningEnhancementsystem:
         enable_federation: bool = False,
         federation_strategy: Any = None,
     ):
-
         self.node_id = node_id
         self.enhancement_mode = enhancement_mode
         self.enable_federation = enable_federation
@@ -123,9 +122,7 @@ class MetaLearningEnhancementsystem:
 
         self.enhancement_history = []
 
-        logger.info(
-            f"Mock MetaLearningEnhancementsystem initialized for node {node_id}"
-        )
+        logger.info(f"Mock MetaLearningEnhancementsystem initialized for node {node_id}")
 
     async def discover_and_enhance_meta_learning_systems(
         self, search_paths: Optional[list[str]] = None
@@ -216,9 +213,7 @@ class MetaLearningEnhancementWrapper:
             "federated_nodes": 0,
         }
 
-        logger.info(
-            f"Mock MetaLearningEnhancementWrapper initialized for node: {node_id}"
-        )
+        logger.info(f"Mock MetaLearningEnhancementWrapper initialized for node: {node_id}")
 
     async def initialize(self):
         """Initialize mock wrapper"""
@@ -230,32 +225,21 @@ class MetaLearningEnhancementWrapper:
             discovery_results.get("enhancement_results", [])
         )
         self.integration_stats["successful_enhancements"] = sum(
-            1
-            for r in discovery_results.get("enhancement_results", [])
-            if r.get("success", False)
+            1 for r in discovery_results.get("enhancement_results", []) if r.get("success", False)
         )
 
         return True
 
-    async def enhance_learning_process(
-        self, learning_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def enhance_learning_process(self, learning_context: dict[str, Any]) -> dict[str, Any]:
         """Mock enhance learning process"""
         try:
-            enhanced_config = (
-                await self.enhancement_system.create_enhanced_learning_config(
-                    learning_context
-                )
+            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(
+                learning_context
             )
 
-            if (
-                self.enhancement_system.enhancement_mode
-                == Enhancementmode.OPTIMIZATION_ACTIVE
-            ):
-                optimization_result = (
-                    await self.enhancement_system.apply_dynamic_optimization(
-                        enhanced_config, learning_context
-                    )
+            if self.enhancement_system.enhancement_mode == Enhancementmode.OPTIMIZATION_ACTIVE:
+                optimization_result = await self.enhancement_system.apply_dynamic_optimization(
+                    enhanced_config, learning_context
                 )
                 enhanced_config["optimization"] = optimization_result
                 self.integration_stats["optimization_events"] += 1
@@ -281,13 +265,9 @@ class MetaLearningEnhancementWrapper:
         """Get mock learning metrics"""
         return await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
 
-    async def apply_symbolic_feedback(
-        self, feedback_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_symbolic_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         """Apply mock symbolic feedback"""
-        return await self.enhancement_system.symbolic_feedback.process_feedback(
-            feedback_data
-        )
+        return await self.enhancement_system.symbolic_feedback.process_feedback(feedback_data)
 
     async def enable_federation(self, federation_config: dict[str, Any]) -> bool:
         """Enable mock federation"""

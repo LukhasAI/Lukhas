@@ -20,7 +20,7 @@ class BridgeMatrizAdapter:
         node_type: str,
         state: dict[str, float],
         labels: Optional[list[str]] = None,
-        provenance_extra: Optional[dict] = None
+        provenance_extra: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for bridge events"""
 
@@ -33,19 +33,17 @@ class BridgeMatrizAdapter:
                 "salience": state.get("salience", 0.6),
                 "urgency": state.get("urgency", 0.3),
                 "novelty": state.get("novelty", 0.4),
-                **state
+                **state,
             },
-            "timestamps": {
-                "created_ts": int(time.time() * 1000)
-            },
+            "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
                 "producer": "lukhas.bridge",
                 "capabilities": ["bridge:api", "bridge:llm", "bridge:orchestrate"],
                 "tenant": "system",
                 "trace_id": f"LT-BRDG-{int(time.time())}",
                 "consent_scopes": ["system:bridge"],
-                **(provenance_extra or {})
-            }
+                **(provenance_extra or {}),
+            },
         }
 
         if labels:
@@ -55,11 +53,7 @@ class BridgeMatrizAdapter:
 
     @staticmethod
     def emit_api_call(
-        api_id: str,
-        provider: str,
-        endpoint: str,
-        latency_ms: int,
-        success: bool
+        api_id: str, provider: str, endpoint: str, latency_ms: int, success: bool
     ) -> dict[str, Any]:
         """Emit an external API call event"""
 
@@ -73,23 +67,20 @@ class BridgeMatrizAdapter:
                 "urgency": urgency,
                 "novelty": 0.2,
                 "latency_ms": float(latency_ms),
-                "success": 1.0 if success else 0.0
+                "success": 1.0 if success else 0.0,
             },
             labels=[
                 f"api:{api_id}",
                 f"provider:{provider}",
                 f"endpoint:{endpoint}",
                 "status:success" if success else "status:failed",
-                "bridge:api"
-            ]
+                "bridge:api",
+            ],
         )
 
     @staticmethod
     def emit_llm_interaction(
-        llm_id: str,
-        model: str,
-        tokens_used: int,
-        response_quality: float
+        llm_id: str, model: str, tokens_used: int, response_quality: float
     ) -> dict[str, Any]:
         """Emit an LLM interaction event"""
 
@@ -101,22 +92,14 @@ class BridgeMatrizAdapter:
                 "urgency": 0.3,
                 "novelty": 0.5,
                 "tokens": float(tokens_used),
-                "quality": response_quality
+                "quality": response_quality,
             },
-            labels=[
-                f"llm:{llm_id}",
-                f"model:{model}",
-                f"tokens:{tokens_used}",
-                "bridge:llm"
-            ]
+            labels=[f"llm:{llm_id}", f"model:{model}", f"tokens:{tokens_used}", "bridge:llm"],
         )
 
     @staticmethod
     def emit_orchestration_event(
-        orchestration_id: str,
-        services: list[str],
-        coordination_type: str,
-        success_rate: float
+        orchestration_id: str, services: list[str], coordination_type: str, success_rate: float
     ) -> dict[str, Any]:
         """Emit a multi-service orchestration event"""
 
@@ -128,22 +111,20 @@ class BridgeMatrizAdapter:
                 "urgency": 0.4,
                 "novelty": 0.3,
                 "service_count": float(len(services)),
-                "success_rate": success_rate
+                "success_rate": success_rate,
             },
             labels=[
                 f"orchestration:{orchestration_id}",
                 f"type:{coordination_type}",
                 f"services:{len(services)}",
-                "bridge:orchestrate"
-            ] + [f"service:{s}" for s in services[:3]]
+                "bridge:orchestrate",
+            ]
+            + [f"service:{s}" for s in services[:3]],
         )
 
     @staticmethod
     def emit_consensus_event(
-        consensus_id: str,
-        models: list[str],
-        agreement_score: float,
-        final_decision: str
+        consensus_id: str, models: list[str], agreement_score: float, final_decision: str
     ) -> dict[str, Any]:
         """Emit a multi-model consensus event"""
 
@@ -155,14 +136,14 @@ class BridgeMatrizAdapter:
                 "urgency": 0.3,
                 "novelty": 0.4,
                 "model_count": float(len(models)),
-                "agreement": agreement_score
+                "agreement": agreement_score,
             },
             labels=[
                 f"consensus:{consensus_id}",
                 f"decision:{final_decision}",
                 f"models:{len(models)}",
-                "bridge:consensus"
-            ]
+                "bridge:consensus",
+            ],
         )
 
     @staticmethod

@@ -69,9 +69,7 @@ class ConversationContext:
     memory_refs: list[str] = field(default_factory=list)
     active_intent: Optional[ConversationIntent] = None
 
-    def add_turn(
-        self, user_input: str, system_response: str, intent: ConversationIntent
-    ):
+    def add_turn(self, user_input: str, system_response: str, intent: ConversationIntent):
         """Add a conversation turn"""
         self.turns.append(
             {
@@ -124,7 +122,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             trinity_emphasis="consciousness",
             compliance_level="standard",
             creative_mode=self.config.get("creative_mode", False),
-            terminology_enforcement=True
+            terminology_enforcement=True,
         )
 
         # Conversation management
@@ -318,9 +316,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return response
 
-    async def _understand_input(
-        self, user_input: str, context: ConversationContext
-    ) -> NLUResult:
+    async def _understand_input(self, user_input: str, context: ConversationContext) -> NLUResult:
         """Understand user input and extract intent/entities"""
         # Detect intent
         intent = self._detect_intent(user_input)
@@ -376,9 +372,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return ConversationIntent.UNKNOWN
 
-    def _extract_entities(
-        self, user_input: str, intent: ConversationIntent
-    ) -> dict[str, Any]:
+    def _extract_entities(self, user_input: str, intent: ConversationIntent) -> dict[str, Any]:
         """Extract relevant entities from user input"""
         entities = {}
 
@@ -404,9 +398,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         elif intent == ConversationIntent.DREAM_REQUEST:
             # Extract dream topic
-            topic_match = re.search(
-                r"(?:dream about|imagine) (.+?)(?:\.|$)", user_input, re.I
-            )
+            topic_match = re.search(r"(?:dream about|imagine) (.+?)(?:\.|$)", user_input, re.I)
             if topic_match:
                 entities["dream_topic"] = topic_match.group(1)
 
@@ -464,9 +456,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
         # Merge results, preferring the stronger signal per emotion
         emotions = dict.fromkeys(fallback.keys(), 0.0)
         for k in emotions:
-            emotions[k] = max(
-                float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0))
-            )
+            emotions[k] = max(float(service_scores.get(k, 0.0)), float(fallback.get(k, 0.0)))
 
         # Clamp to [0, 1] without normalizing (avoid diluting a clear primary emotion like joy)
         for k, v in list(emotions.items()):
@@ -560,9 +550,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             return await self._process_thought_explanation(context)
 
         else:
-            return {
-                "response": "I'm not sure how to help with that. Could you rephrase?"
-            }
+            return {"response": "I'm not sure how to help with that. Could you rephrase?"}
 
     async def _process_awareness_query(self) -> dict[str, Any]:
         """Process awareness level query"""
@@ -608,9 +596,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             logger.error(f"Error processing awareness query: {e}")
             return {"error": "Unable to assess awareness"}
 
-    async def _process_decision_request(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_decision_request(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process decision-making request"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
@@ -648,9 +634,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             logger.error(f"Error processing decision: {e}")
             return {"error": "Unable to process decision"}
 
-    async def _process_reflection_request(
-        self, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_reflection_request(self, context: ConversationContext) -> dict[str, Any]:
         """Process reflection request"""
         # Use recent conversation as reflection topic if no specific topic
         recent_topics = context.topics[-3:] if context.topics else ["our conversation"]
@@ -674,9 +658,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "reflection_summary": f"Key insights on {topic}: {insights[0]}",
         }
 
-    async def _process_memory_exploration(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_memory_exploration(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process memory exploration request"""
         if not self.memory_service:
             return {
@@ -777,9 +759,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "dream_result": f"Creative exploration of {topic} reveals hidden possibilities",
         }
 
-    async def _process_reality_exploration(
-        self, entities: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_reality_exploration(self, entities: dict[str, Any]) -> dict[str, Any]:
         """Process alternative reality exploration"""
         if self.reality_simulator:
             try:
@@ -791,7 +771,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
                 branches = simulation.branches[:3]
                 branch_desc = [
-                    f"Reality {i+1}: {b.divergence_point.get('summary', 'alternative path')}"
+                    f"Reality {i + 1}: {b.divergence_point.get('summary', 'alternative path')}"
                     for i, b in enumerate(branches)
                 ]
 
@@ -810,9 +790,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "reality_analysis": "Each possibility has its own merits and challenges",
         }
 
-    async def _process_thought_explanation(
-        self, context: ConversationContext
-    ) -> dict[str, Any]:
+    async def _process_thought_explanation(self, context: ConversationContext) -> dict[str, Any]:
         """Process request to explain thinking"""
         # Use last intent as basis for explanation
 
@@ -822,7 +800,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             "Finally, I synthesized the response based on context",
         ]
 
-        explanation = "My processing involves pattern recognition, context analysis, and response generation"
+        explanation = (
+            "My processing involves pattern recognition, context analysis, and response generation"
+        )
 
         chain = "Input → Intent Recognition → Context Retrieval → Response Synthesis"
 
@@ -901,9 +881,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         elif tone == EmotionalTone.SUPPORTIVE:
             # Add supportive elements
-            if not any(
-                word in response.lower() for word in ["help", "support", "assist"]
-            ):
+            if not any(word in response.lower() for word in ["help", "support", "assist"]):
                 response += " How else can I help?"
 
         return response
@@ -920,7 +898,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     trinity_emphasis="consciousness",
                     compliance_level="standard",
                     creative_mode=True,
-                    terminology_enforcement=True
+                    terminology_enforcement=True,
                 )
 
             # Apply brand voice through the bridge
@@ -939,7 +917,9 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             if not validation["valid"]:
                 logger.warning(f"Brand compliance issues: {validation['issues']}")
                 # Apply corrections if needed
-                branded_response = self.branding_bridge.normalize_output(branded_response, brand_context)
+                branded_response = self.branding_bridge.normalize_output(
+                    branded_response, brand_context
+                )
 
             return branded_response
 
@@ -960,8 +940,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return {
             "response": response,
-            "session_id": session_id
-            or f"session_{datetime.now(timezone.utc).timestamp()}",
+            "session_id": session_id or f"session_{datetime.now(timezone.utc).timestamp()}",
         }
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -1003,8 +982,8 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                 "system_signature": self.branding_bridge.get_system_signature(),
                 "voice_profile": self.brand_context.voice_profile,
                 "trinity_emphasis": self.brand_context.trinity_emphasis,
-                "brand_status": self.branding_bridge.get_brand_status()
-            }
+                "brand_status": self.branding_bridge.get_brand_status(),
+            },
         }
 
 
@@ -1019,9 +998,7 @@ class ConversationManager:
 
     async def create_session(self, user_id: Optional[str] = None) -> str:
         """Create new conversation session"""
-        session_id = (
-            f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
-        )
+        session_id = f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
         return session_id
 
     async def continue_conversation(self, session_id: str, user_input: str) -> str:

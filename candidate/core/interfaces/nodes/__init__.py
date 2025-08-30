@@ -13,6 +13,6 @@ from .voice_node import VoiceNode
 
 __all__ = [
     "IntentNode",
-    "VoiceNode",
     "NodeManager",
+    "VoiceNode",
 ]

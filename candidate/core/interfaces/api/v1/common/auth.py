@@ -26,6 +26,7 @@ _rate_limit_store: dict[str, list] = {}
 
 class SecurityValidationError(Exception):
     """Custom exception for security validation failures."""
+
     pass
 
 
@@ -92,11 +93,9 @@ def _verify_key_signature(api_key: str) -> bool:
 
         # Create expected signature from base components
         message = f"{prefix}_{env}_{base_key}"
-        expected_sig = hmac.new(
-            HMAC_SECRET.encode(),
-            message.encode(),
-            hashlib.sha256
-        ).hexdigest()[:16]
+        expected_sig = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[
+            :16
+        ]
 
         return hmac.compare_digest(expected_sig, provided_sig)
     except Exception as e:
@@ -115,7 +114,8 @@ def _check_rate_limit(api_key: str) -> bool:
 
     # Clean old requests outside the window
     _rate_limit_store[api_key] = [
-        req_time for req_time in _rate_limit_store[api_key]
+        req_time
+        for req_time in _rate_limit_store[api_key]
         if current_time - req_time < RATE_LIMIT_WINDOW
     ]
 
@@ -133,13 +133,15 @@ def _audit_auth_attempt(api_key: str, success: bool, request: Optional[Request] 
     Log authentication attempts for security monitoring.
     """
     # Mask key for logging (show only first 8 chars)
-    masked_key = api_key[:12] + "*" * (len(api_key) - 12) if len(api_key) > 12 else "*" * len(api_key)
+    masked_key = (
+        api_key[:12] + "*" * (len(api_key) - 12) if len(api_key) > 12 else "*" * len(api_key)
+    )
 
     log_data = {
         "masked_api_key": masked_key,
         "success": success,
         "timestamp": time.time(),
-        "ip_address": getattr(request, "client", {}).get("host") if request else "unknown"
+        "ip_address": getattr(request, "client", {}).get("host") if request else "unknown",
     }
 
     if success:
@@ -186,9 +188,11 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
         # Log successful authentication
         _audit_auth_attempt(api_key, True, request)
 
-        logger.info("API key validation successful",
-                   key_prefix=api_key[:12],
-                   client_ip=getattr(request, "client", {}).get("host") if request else "unknown")
+        logger.info(
+            "API key validation successful",
+            key_prefix=api_key[:12],
+            client_ip=getattr(request, "client", {}).get("host") if request else "unknown",
+        )
 
     except HTTPException:
         # Re-raise HTTP exceptions
@@ -220,17 +224,11 @@ def generate_api_key(environment: str = "dev") -> str:
     message = f"luk_{environment}_{key_base}"
 
     # Generate signature
-    signature = hmac.new(
-        HMAC_SECRET.encode(),
-        message.encode(),
-        hashlib.sha256
-    ).hexdigest()[:16]
+    signature = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[:16]
 
     # Combine into final key
     api_key = f"luk_{environment}_{key_base}{signature}"
 
-    logger.info("Generated new API key",
-               environment=environment,
-               key_prefix=api_key[:12])
+    logger.info("Generated new API key", environment=environment, key_prefix=api_key[:12])
 
     return api_key

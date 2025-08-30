@@ -50,9 +50,7 @@ class BioSymbolicIntegrationHub:
         self.bio_engine.register_optimizer = lambda optimizer: None  # Placeholder
 
         # Mitochondria model provides energy calculations
-        self.bio_engine.register_energy_calculator = (
-            lambda calculator: None
-        )  # Placeholder
+        self.bio_engine.register_energy_calculator = lambda calculator: None  # Placeholder
 
     async def process_bio_symbolic_request(
         self, request_type: str, data: dict[str, Any]

@@ -11,5 +11,5 @@ __all__ = [
     "EHRInterface",
     "ProviderNotificationInterface",
     "TelemedicineInterface",
-    "TelemedicineSecurityHandler"
+    "TelemedicineSecurityHandler",
 ]

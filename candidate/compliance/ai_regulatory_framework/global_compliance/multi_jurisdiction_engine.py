@@ -146,18 +146,14 @@ class GlobalComplianceEngine:
 
             # Assess each jurisdiction
             for jurisdiction in profile.jurisdictions:
-                jurisdiction_compliance[jurisdiction] = (
-                    await self._assess_jurisdiction_compliance(
-                        jurisdiction, profile, system_profile, data_activity, metrics
-                    )
+                jurisdiction_compliance[jurisdiction] = await self._assess_jurisdiction_compliance(
+                    jurisdiction, profile, system_profile, data_activity, metrics
                 )
 
             # Assess each framework
             for framework in profile.frameworks:
-                framework_compliance[framework] = (
-                    await self._assess_framework_compliance(
-                        framework, profile, system_profile, data_activity, metrics
-                    )
+                framework_compliance[framework] = await self._assess_framework_compliance(
+                    framework, profile, system_profile, data_activity, metrics
                 )
 
             # Identify cross-jurisdiction issues
@@ -166,10 +162,8 @@ class GlobalComplianceEngine:
             )
 
             # Generate harmonization recommendations
-            harmonization_recommendations = (
-                await self._generate_harmonization_recommendations(
-                    framework_compliance, cross_jurisdiction_issues
-                )
+            harmonization_recommendations = await self._generate_harmonization_recommendations(
+                framework_compliance, cross_jurisdiction_issues
             )
 
             # Calculate overall status
@@ -185,15 +179,11 @@ class GlobalComplianceEngine:
                 framework_compliance=framework_compliance,
                 cross_jurisdiction_issues=cross_jurisdiction_issues,
                 harmonization_recommendations=harmonization_recommendations,
-                next_assessment_date=self._calculate_next_assessment_date(
-                    overall_status
-                ),
+                next_assessment_date=self._calculate_next_assessment_date(overall_status),
             )
 
         except Exception as e:
-            logger.error(
-                f"Global compliance assessment failed for {profile.system_id}: {e}"
-            )
+            logger.error(f"Global compliance assessment failed for {profile.system_id}: {e}")
             raise
 
     async def _assess_jurisdiction_compliance(
@@ -211,10 +201,8 @@ class GlobalComplianceEngine:
 
         for framework in required_frameworks:
             if framework in profile.frameworks:
-                compliance_results[framework.value] = (
-                    await self._assess_framework_compliance(
-                        framework, profile, system_profile, data_activity, metrics
-                    )
+                compliance_results[framework.value] = await self._assess_framework_compliance(
+                    framework, profile, system_profile, data_activity, metrics
                 )
             else:
                 compliance_results[framework.value] = {
@@ -255,9 +243,7 @@ class GlobalComplianceEngine:
 
         try:
             if framework == ComplianceFramework.EU_AI_ACT and system_profile:
-                assessment = await self.eu_ai_act_validator.assess_system_compliance(
-                    system_profile
-                )
+                assessment = await self.eu_ai_act_validator.assess_system_compliance(system_profile)
                 return {
                     "framework": framework.value,
                     "status": assessment.compliance_status.value,
@@ -268,9 +254,7 @@ class GlobalComplianceEngine:
                 }
 
             elif framework == ComplianceFramework.GDPR and data_activity:
-                assessment = await self.gdpr_validator.assess_gdpr_compliance(
-                    data_activity
-                )
+                assessment = await self.gdpr_validator.assess_gdpr_compliance(data_activity)
                 return {
                     "framework": framework.value,
                     "status": assessment.compliance_status,
@@ -384,9 +368,7 @@ class GlobalComplianceEngine:
         # Framework conflicts
         framework_scores = {}
         for _jurisdiction, compliance in jurisdiction_compliance.items():
-            for framework_name, framework_result in compliance.get(
-                "frameworks", {}
-            ).items():
+            for framework_name, framework_result in compliance.get("frameworks", {}).items():
                 if isinstance(framework_result, dict) and "score" in framework_result:
                     if framework_name not in framework_scores:
                         framework_scores[framework_name] = []
@@ -403,9 +385,7 @@ class GlobalComplianceEngine:
 
         # Regulatory notification conflicts
         if len(profile.regulatory_notifications) > 1:
-            issues.append(
-                "Multiple regulatory notifications may have conflicting requirements"
-            )
+            issues.append("Multiple regulatory notifications may have conflicting requirements")
 
         return issues
 
@@ -550,9 +530,7 @@ class GlobalComplianceEngine:
         else:
             return datetime.now() + timedelta(days=180)  # Semi-annually
 
-    async def generate_compliance_dashboard(
-        self, report: GlobalComplianceReport
-    ) -> dict[str, Any]:
+    async def generate_compliance_dashboard(self, report: GlobalComplianceReport) -> dict[str, Any]:
         """Generate compliance dashboard data"""
 
         dashboard = {
@@ -590,9 +568,7 @@ class GlobalComplianceEngine:
 
         return dashboard
 
-    async def _generate_action_items(
-        self, report: GlobalComplianceReport
-    ) -> list[dict[str, Any]]:
+    async def _generate_action_items(self, report: GlobalComplianceReport) -> list[dict[str, Any]]:
         """Generate prioritized action items"""
         action_items = []
 
@@ -635,9 +611,9 @@ class GlobalComplianceEngine:
 
 # Export the main global compliance engine
 __all__ = [
+    "ComplianceFramework",
     "GlobalComplianceEngine",
     "GlobalComplianceProfile",
     "GlobalComplianceReport",
     "Jurisdiction",
-    "ComplianceFramework",
 ]

@@ -17,10 +17,13 @@ class T4SLAMetrics:
     security_incidents: int
     timestamp: datetime
 
+
 class T4DatadogMonitoring:
     def __init__(self):
         self.enabled = False
+
     def get_current_sla_status(self):
         return {"monitoring_status": "OPERATIONAL"}
+
     def submit_sla_metrics(self, metrics: T4SLAMetrics) -> bool:
         return True

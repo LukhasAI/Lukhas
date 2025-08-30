@@ -730,9 +730,7 @@ class EmotionalPreferenceLearner(QuantumCreativeComponent):
     async def initialize(self) -> None:
         self.preference_model = {}
 
-    async def process(
-        self, interactions: list[CreativeInteraction]
-    ) -> dict[str, float]:
+    async def process(self, interactions: list[CreativeInteraction]) -> dict[str, float]:
         return {"emotional_weights": {}}
 
 
@@ -784,9 +782,7 @@ class NeuroHaikuGenerator(QuantumCreativeComponent):
 
     async def process(self, context: str) -> QuantumHaiku:
         haiku_text = self.generate_haiku()
-        return QuantumHaiku(
-            content=haiku_text, modality="haiku", lines=haiku_text.split("\n")
-        )
+        return QuantumHaiku(content=haiku_text, modality="haiku", lines=haiku_text.split("\n"))
 
 
 # Module validation and health

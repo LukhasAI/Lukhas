@@ -161,9 +161,7 @@ class ToolAnalytics:
             "completed_calls": len(self.completed_calls),
             "tool_distribution": tool_counts,
             "total_duration_ms": total_duration,
-            "average_duration_ms": (
-                total_duration // len(all_calls) if all_calls else 0
-            ),
+            "average_duration_ms": (total_duration // len(all_calls) if all_calls else 0),
             "failed_calls": failed_count,
             "incidents_count": len(self.incidents),
             "tools_used": list(tool_counts.keys()),

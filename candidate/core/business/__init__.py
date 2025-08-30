@@ -17,7 +17,7 @@ from .revenue_tracker import RevenueTracker
 __all__ = [
     "APIBudgetManager",
     "ConsciousnessCacheManager",
-    "RevenueTracker",
     "GuardianIntegratedPlatform",
-    "GuardianSystemAdapter"
+    "GuardianSystemAdapter",
+    "RevenueTracker",
 ]

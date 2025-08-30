@@ -17,50 +17,58 @@ from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.DΛST")
 
+
 class SymbolCategory(Enum):
     """Categories of symbolic tags"""
-    ACTIVITY = "activity"           # Current activities (work, rest, create)
-    CONTEXT = "context"            # Environmental context (home, office, travel)
-    MOOD = "mood"                  # Emotional/mental state
-    FOCUS = "focus"                # Focus areas (project, learning, problem)
-    GOAL = "goal"                  # Current goals and intentions
-    RELATIONSHIP = "relationship"   # Social context
-    TEMPORAL = "temporal"          # Time-based context (morning, deadline)
-    CREATIVE = "creative"          # Creative activities and inspiration
-    LEARNING = "learning"          # Knowledge acquisition activities
-    WELLNESS = "wellness"          # Health and wellbeing activities
+
+    ACTIVITY = "activity"  # Current activities (work, rest, create)
+    CONTEXT = "context"  # Environmental context (home, office, travel)
+    MOOD = "mood"  # Emotional/mental state
+    FOCUS = "focus"  # Focus areas (project, learning, problem)
+    GOAL = "goal"  # Current goals and intentions
+    RELATIONSHIP = "relationship"  # Social context
+    TEMPORAL = "temporal"  # Time-based context (morning, deadline)
+    CREATIVE = "creative"  # Creative activities and inspiration
+    LEARNING = "learning"  # Knowledge acquisition activities
+    WELLNESS = "wellness"  # Health and wellbeing activities
+
 
 class SymbolSource(Enum):
     """Sources of symbolic information"""
-    USER_EXPLICIT = "user_explicit"        # Manually set by user
-    CALENDAR = "calendar"                  # Calendar integration
+
+    USER_EXPLICIT = "user_explicit"  # Manually set by user
+    CALENDAR = "calendar"  # Calendar integration
     ACTIVITY_TRACKER = "activity_tracker"  # Device/app activity
-    LOCATION = "location"                  # GPS/location services
-    BIOMETRIC = "biometric"               # Wearables/health devices
-    APP_INTEGRATION = "app_integration"    # Third-party app data
-    AI_INFERENCE = "ai_inference"         # ML-derived insights
-    SOCIAL = "social"                     # Social media/communication
-    ENVIRONMENTAL = "environmental"        # IoT/environmental sensors
+    LOCATION = "location"  # GPS/location services
+    BIOMETRIC = "biometric"  # Wearables/health devices
+    APP_INTEGRATION = "app_integration"  # Third-party app data
+    AI_INFERENCE = "ai_inference"  # ML-derived insights
+    SOCIAL = "social"  # Social media/communication
+    ENVIRONMENTAL = "environmental"  # IoT/environmental sensors
+
 
 class SymbolConfidence(Enum):
     """Confidence levels for symbolic information"""
-    EXPLICIT = "explicit"      # 1.0 - User explicitly set
-    HIGH = "high"             # 0.8-0.9 - Strong evidence
-    MEDIUM = "medium"         # 0.5-0.7 - Moderate evidence
-    LOW = "low"              # 0.2-0.4 - Weak evidence
-    INFERRED = "inferred"     # 0.1-0.3 - AI guess
+
+    EXPLICIT = "explicit"  # 1.0 - User explicitly set
+    HIGH = "high"  # 0.8-0.9 - Strong evidence
+    MEDIUM = "medium"  # 0.5-0.7 - Moderate evidence
+    LOW = "low"  # 0.2-0.4 - Weak evidence
+    INFERRED = "inferred"  # 0.1-0.3 - AI guess
+
 
 @dataclass
 class SymbolicTag:
     """Individual symbolic tag with metadata"""
-    symbol: str                        # The symbolic tag itself
-    category: SymbolCategory          # Category of symbol
-    source: SymbolSource             # Where it came from
-    confidence: float                # Confidence level (0.0-1.0)
-    weight: float = 1.0              # Importance weight
+
+    symbol: str  # The symbolic tag itself
+    category: SymbolCategory  # Category of symbol
+    source: SymbolSource  # Where it came from
+    confidence: float  # Confidence level (0.0-1.0)
+    weight: float = 1.0  # Importance weight
     expires_at: Optional[datetime] = None  # When tag becomes invalid
     metadata: dict[str, Any] = None  # Additional context
-    lambda_signature: str = None     # Λ authenticity signature
+    lambda_signature: str = None  # Λ authenticity signature
     created_at: datetime = None
     last_updated: datetime = None
 
@@ -72,7 +80,9 @@ class SymbolicTag:
         if self.last_updated is None:
             self.last_updated = datetime.now()
         if self.lambda_signature is None:
-            tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[:8]
+            tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[
+                :8
+            ]
             self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper()}"
 
     def is_valid(self) -> bool:
@@ -89,16 +99,18 @@ class SymbolicTag:
         self.confidence = min(1.0, max(0.0, self.confidence))
         self.last_updated = datetime.now()
 
+
 @dataclass
 class ContextSnapshot:
     """Complete symbolic context at a point in time"""
+
     user_id: str
     tags: list[SymbolicTag]
     primary_activity: Optional[str] = None
-    focus_score: float = 0.5           # How focused the context is (0.0-1.0)
-    coherence_score: float = 0.5       # How coherent the tags are together
-    stability_score: float = 0.5       # How stable this context is
-    lambda_fingerprint: str = None     # Unique identifier for this context
+    focus_score: float = 0.5  # How focused the context is (0.0-1.0)
+    coherence_score: float = 0.5  # How coherent the tags are together
+    stability_score: float = 0.5  # How stable this context is
+    lambda_fingerprint: str = None  # Unique identifier for this context
     timestamp: datetime = None
 
     def __post_init__(self):
@@ -109,16 +121,19 @@ class ContextSnapshot:
             context_hash = hashlib.sha256(context_data.encode()).hexdigest()[:12]
             self.lambda_fingerprint = f"Λ-CTX-{context_hash.upper()}"
 
+
 @dataclass
 class SymbolRule:
     """Rules for symbolic tag management"""
+
     id: str
-    condition: str                     # Rule condition (e.g., "if location:office")
-    action: str                       # Action to take (e.g., "add work")
-    target_symbol: str                # Symbol to add/remove/modify
-    priority: int = 0                 # Rule priority (higher = more important)
+    condition: str  # Rule condition (e.g., "if location:office")
+    action: str  # Action to take (e.g., "add work")
+    target_symbol: str  # Symbol to add/remove/modify
+    priority: int = 0  # Rule priority (higher = more important)
     enabled: bool = True
     lambda_signature: str = None
+
 
 class DΛST:
     """
@@ -149,12 +164,14 @@ class DΛST:
             "calendar": False,
             "location": False,
             "activity_tracker": False,
-            "biometric": False
+            "biometric": False,
         }
 
         # Symbol analysis
         self.symbol_relationships: dict[str, dict[str, float]] = {}  # Symbol co-occurrence
-        self.temporal_patterns: dict[str, list[tuple[int, list[str]]]] = {}  # Hour -> common symbols
+        self.temporal_patterns: dict[
+            str, list[tuple[int, list[str]]]
+        ] = {}  # Hour -> common symbols
 
         logger.info("DΛST system initialized with symbolic consciousness")
 
@@ -170,7 +187,7 @@ class DΛST:
             "pattern_learning": True,
             "temporal_analysis": True,
             "coherence_analysis": True,
-            "privacy_mode": True
+            "privacy_mode": True,
         }
 
     async def register_user(self, user_id: str, initial_tags: Optional[list[str]] = None) -> bool:
@@ -185,14 +202,15 @@ class DΛST:
                     symbol=tag,
                     category=SymbolCategory.ACTIVITY,
                     source=SymbolSource.USER_EXPLICIT,
-                    confidence=1.0
-                ) for tag in initial_tags
+                    confidence=1.0,
+                )
+                for tag in initial_tags
             ]
 
             context = ContextSnapshot(
                 user_id=user_id,
                 tags=symbolic_tags,
-                primary_activity=initial_tags[0] if initial_tags else None
+                primary_activity=initial_tags[0] if initial_tags else None,
             )
 
             self.user_contexts[user_id] = context
@@ -218,29 +236,29 @@ class DΛST:
                 condition="time >= 06:00 AND time <= 10:00",
                 action="add",
                 target_symbol="morning-energy",
-                priority=1
+                priority=1,
             ),
             SymbolRule(
                 id="evening-wind-down",
                 condition="time >= 18:00 AND time <= 22:00",
                 action="add",
                 target_symbol="evening",
-                priority=1
+                priority=1,
             ),
             SymbolRule(
                 id="focus-coherence",
                 condition="focus_score >= 0.8",
                 action="add",
                 target_symbol="deep-focus",
-                priority=2
+                priority=2,
             ),
             SymbolRule(
                 id="activity-cleanup",
                 condition="symbol_age >= 4 hours AND confidence <= 0.3",
                 action="remove",
                 target_symbol="*",  # Any symbol matching condition
-                priority=0
-            )
+                priority=0,
+            ),
         ]
 
         for rule in default_rules:
@@ -249,10 +267,16 @@ class DΛST:
 
         self.symbol_rules[user_id] = default_rules
 
-    async def add_symbol(self, user_id: str, symbol: str, category: SymbolCategory,
-                        source: SymbolSource = SymbolSource.USER_EXPLICIT,
-                        confidence: float = 1.0, metadata: Optional[dict] = None,
-                        expires_in_hours: Optional[int] = None) -> bool:
+    async def add_symbol(
+        self,
+        user_id: str,
+        symbol: str,
+        category: SymbolCategory,
+        source: SymbolSource = SymbolSource.USER_EXPLICIT,
+        confidence: float = 1.0,
+        metadata: Optional[dict] = None,
+        expires_in_hours: Optional[int] = None,
+    ) -> bool:
         """Add a symbolic tag to user's context"""
         if user_id not in self.user_contexts:
             logger.error(f"User not registered: {user_id}")
@@ -271,7 +295,7 @@ class DΛST:
                 source=source,
                 confidence=confidence,
                 metadata=metadata or {},
-                expires_at=expires_at
+                expires_at=expires_at,
             )
 
             # Get current context
@@ -291,7 +315,7 @@ class DΛST:
                     SymbolSource.CALENDAR: 0.9,
                     SymbolSource.ACTIVITY_TRACKER: 0.8,
                     SymbolSource.BIOMETRIC: 0.7,
-                    SymbolSource.AI_INFERENCE: 0.5
+                    SymbolSource.AI_INFERENCE: 0.5,
                 }
 
                 weight = source_weights.get(source, 0.6)
@@ -300,7 +324,9 @@ class DΛST:
                 # Update metadata
                 existing_tag.metadata.update(tag.metadata)
 
-                if expires_at and (not existing_tag.expires_at or expires_at > existing_tag.expires_at):
+                if expires_at and (
+                    not existing_tag.expires_at or expires_at > existing_tag.expires_at
+                ):
                     existing_tag.expires_at = expires_at
 
             else:
@@ -310,12 +336,15 @@ class DΛST:
                 # Limit number of active symbols
                 if len(context.tags) > self.config["max_active_symbols"]:
                     # Remove lowest confidence, expired, or oldest symbols
-                    context.tags.sort(key=lambda t: (
-                        t.is_valid(),  # Valid first
-                        t.confidence,  # Higher confidence first
-                        t.last_updated  # More recent first
-                    ), reverse=True)
-                    context.tags = context.tags[:self.config["max_active_symbols"]]
+                    context.tags.sort(
+                        key=lambda t: (
+                            t.is_valid(),  # Valid first
+                            t.confidence,  # Higher confidence first
+                            t.last_updated,  # More recent first
+                        ),
+                        reverse=True,
+                    )
+                    context.tags = context.tags[: self.config["max_active_symbols"]]
 
             # Update context analysis
             await self._update_context_analysis(user_id)
@@ -331,8 +360,9 @@ class DΛST:
             logger.error(f"Error adding symbol: {e}")
             return False
 
-    async def remove_symbol(self, user_id: str, symbol: str,
-                           category: Optional[SymbolCategory] = None) -> bool:
+    async def remove_symbol(
+        self, user_id: str, symbol: str, category: Optional[SymbolCategory] = None
+    ) -> bool:
         """Remove a symbolic tag from user's context"""
         if user_id not in self.user_contexts:
             return False
@@ -343,9 +373,9 @@ class DΛST:
 
             # Remove matching symbols
             context.tags = [
-                tag for tag in context.tags
-                if not (tag.symbol == symbol and
-                       (category is None or tag.category == category))
+                tag
+                for tag in context.tags
+                if not (tag.symbol == symbol and (category is None or tag.category == category))
             ]
 
             removed = len(context.tags) < original_count
@@ -360,9 +390,12 @@ class DΛST:
             logger.error(f"Error removing symbol: {e}")
             return False
 
-    async def get_current_tags(self, user_id: str,
-                              category_filter: Optional[SymbolCategory] = None,
-                              confidence_threshold: Optional[float] = None) -> list[str]:
+    async def get_current_tags(
+        self,
+        user_id: str,
+        category_filter: Optional[SymbolCategory] = None,
+        confidence_threshold: Optional[float] = None,
+    ) -> list[str]:
         """Get current symbolic tags for a user (primary API for integrations)"""
         if user_id not in self.user_contexts:
             return []
@@ -373,10 +406,13 @@ class DΛST:
 
             # Filter valid, high-confidence tags
             filtered_tags = [
-                tag for tag in context.tags
-                if (tag.is_valid() and
-                    tag.confidence >= threshold and
-                    (category_filter is None or tag.category == category_filter))
+                tag
+                for tag in context.tags
+                if (
+                    tag.is_valid()
+                    and tag.confidence >= threshold
+                    and (category_filter is None or tag.category == category_filter)
+                )
             ]
 
             # Sort by confidence and weight
@@ -437,7 +473,7 @@ class DΛST:
         coherence_count = 0
 
         for i, tag1 in enumerate(valid_tags):
-            for tag2 in valid_tags[i+1:]:
+            for tag2 in valid_tags[i + 1 :]:
                 relationship_key = f"{tag1.symbol}:{tag2.symbol}"
                 reverse_key = f"{tag2.symbol}:{tag1.symbol}"
 
@@ -458,7 +494,7 @@ class DΛST:
             context.coherence_score = 1.0  # Single symbol is perfectly coherent
 
         # Calculate stability score (how much context has changed recently)
-        if user_id in self.symbol_histories and self.symbol_histories[user_id]:
+        if self.symbol_histories.get(user_id):
             recent_history = self.symbol_histories[user_id][-3:]  # Last 3 snapshots
             if len(recent_history) > 1:
                 current_symbols = {tag.symbol for tag in valid_tags}
@@ -535,7 +571,7 @@ class DΛST:
                         source=SymbolSource.CALENDAR,
                         confidence=0.8,
                         metadata={"event_title": event.get("title"), "event_type": event_type},
-                        expires_in_hours=event.get("duration_hours", 2)
+                        expires_in_hours=event.get("duration_hours", 2),
                     )
 
             return True
@@ -568,7 +604,7 @@ class DΛST:
                             category=category,
                             source=SymbolSource.ACTIVITY_TRACKER,
                             confidence=confidence,
-                            expires_in_hours=2
+                            expires_in_hours=2,
                         )
 
             # Location-based symbols
@@ -581,7 +617,7 @@ class DΛST:
                         category=category,
                         source=SymbolSource.LOCATION,
                         confidence=0.8,
-                        expires_in_hours=8  # Location symbols last longer
+                        expires_in_hours=8,  # Location symbols last longer
                     )
 
             return True
@@ -595,12 +631,27 @@ class DΛST:
         app_mappings = {
             "code": [("coding", SymbolCategory.ACTIVITY), ("focus", SymbolCategory.FOCUS)],
             "vscode": [("coding", SymbolCategory.ACTIVITY), ("development", SymbolCategory.FOCUS)],
-            "slack": [("communication", SymbolCategory.ACTIVITY), ("team-work", SymbolCategory.RELATIONSHIP)],
-            "zoom": [("meeting", SymbolCategory.ACTIVITY), ("video-call", SymbolCategory.RELATIONSHIP)],
+            "slack": [
+                ("communication", SymbolCategory.ACTIVITY),
+                ("team-work", SymbolCategory.RELATIONSHIP),
+            ],
+            "zoom": [
+                ("meeting", SymbolCategory.ACTIVITY),
+                ("video-call", SymbolCategory.RELATIONSHIP),
+            ],
             "spotify": [("music", SymbolCategory.MOOD), ("creative", SymbolCategory.CREATIVE)],
-            "notion": [("planning", SymbolCategory.ACTIVITY), ("documentation", SymbolCategory.FOCUS)],
-            "browser": [("research", SymbolCategory.LEARNING), ("browsing", SymbolCategory.ACTIVITY)],
-            "figma": [("design", SymbolCategory.CREATIVE), ("visual-work", SymbolCategory.ACTIVITY)]
+            "notion": [
+                ("planning", SymbolCategory.ACTIVITY),
+                ("documentation", SymbolCategory.FOCUS),
+            ],
+            "browser": [
+                ("research", SymbolCategory.LEARNING),
+                ("browsing", SymbolCategory.ACTIVITY),
+            ],
+            "figma": [
+                ("design", SymbolCategory.CREATIVE),
+                ("visual-work", SymbolCategory.ACTIVITY),
+            ],
         }
 
         app_lower = app_name.lower()
@@ -643,9 +694,9 @@ class DΛST:
             if await self._evaluate_rule_condition(rule, context, current_time):
                 await self._execute_rule_action(rule, user_id)
 
-    async def _evaluate_rule_condition(self, rule: SymbolRule,
-                                     context: ContextSnapshot,
-                                     current_time: datetime) -> bool:
+    async def _evaluate_rule_condition(
+        self, rule: SymbolRule, context: ContextSnapshot, current_time: datetime
+    ) -> bool:
         """Evaluate if a rule condition is met"""
         condition = rule.condition.lower()
 
@@ -654,6 +705,7 @@ class DΛST:
         if "time >=" in condition and "time <=" in condition:
             # Parse time range (simplified)
             import re
+
             times = re.findall(r"time [><=]+ (\d{2}):(\d{2})", condition)
             if len(times) >= 2:
                 start_hour, start_min = map(int, times[0])
@@ -684,8 +736,7 @@ class DΛST:
                 # Check if any symbols meet this condition
                 cutoff_time = current_time - timedelta(hours=age_threshold_hours)
                 for tag in context.tags:
-                    if (tag.last_updated < cutoff_time and
-                        tag.confidence <= conf_threshold):
+                    if tag.last_updated < cutoff_time and tag.confidence <= conf_threshold:
                         return True
 
         return False
@@ -709,7 +760,7 @@ class DΛST:
                 category=category,
                 source=SymbolSource.AI_INFERENCE,
                 confidence=0.6,
-                metadata={"rule_id": rule.id}
+                metadata={"rule_id": rule.id},
             )
 
         elif action == "remove":
@@ -729,9 +780,11 @@ class DΛST:
                         cutoff_time = current_time - timedelta(hours=age_threshold_hours)
 
                         context.tags = [
-                            tag for tag in context.tags
-                            if not (tag.last_updated < cutoff_time and
-                                   tag.confidence <= conf_threshold)
+                            tag
+                            for tag in context.tags
+                            if not (
+                                tag.last_updated < cutoff_time and tag.confidence <= conf_threshold
+                            )
                         ]
             else:
                 await self.remove_symbol(user_id, target)
@@ -743,7 +796,8 @@ class DΛST:
 
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_history = [
-            (timestamp, tags) for timestamp, tags in self.symbol_histories[user_id]
+            (timestamp, tags)
+            for timestamp, tags in self.symbol_histories[user_id]
             if timestamp > cutoff_time
         ]
 
@@ -787,8 +841,10 @@ class DΛST:
                 "focus_score": current_context.focus_score if current_context else 0,
                 "coherence_score": current_context.coherence_score if current_context else 0,
                 "stability_score": current_context.stability_score if current_context else 0,
-                "primary_activity": current_context.primary_activity if current_context else None
-            } if current_context else None
+                "primary_activity": current_context.primary_activity if current_context else None,
+            }
+            if current_context
+            else None,
         }
 
     def get_system_metrics(self) -> dict[str, Any]:
@@ -819,13 +875,14 @@ class DΛST:
                 "max_symbols_per_user": self.config["max_active_symbols"],
                 "auto_inference": self.config["auto_inference"],
                 "pattern_learning": self.config["pattern_learning"],
-                "privacy_mode": self.config["privacy_mode"]
-            }
+                "privacy_mode": self.config["privacy_mode"],
+            },
         }
 
 
 # Demo and testing
 if __name__ == "__main__":
+
     async def demo():
         print("🔮 DΛST - Dynamic Lambda Symbol Tracker Demo")
         print("=" * 60)
@@ -839,12 +896,13 @@ if __name__ == "__main__":
         print(f"   Initial tags: {await dast.get_current_tags('alice')}")
 
         # Add some symbols from different sources
-        await dast.add_symbol("alice", "coding", SymbolCategory.ACTIVITY,
-                             SymbolSource.ACTIVITY_TRACKER, 0.8)
-        await dast.add_symbol("alice", "creative-flow", SymbolCategory.CREATIVE,
-                             SymbolSource.AI_INFERENCE, 0.6)
-        await dast.add_symbol("alice", "office", SymbolCategory.CONTEXT,
-                             SymbolSource.LOCATION, 0.9)
+        await dast.add_symbol(
+            "alice", "coding", SymbolCategory.ACTIVITY, SymbolSource.ACTIVITY_TRACKER, 0.8
+        )
+        await dast.add_symbol(
+            "alice", "creative-flow", SymbolCategory.CREATIVE, SymbolSource.AI_INFERENCE, 0.6
+        )
+        await dast.add_symbol("alice", "office", SymbolCategory.CONTEXT, SymbolSource.LOCATION, 0.9)
 
         print(f"\n📊 Updated tags: {await dast.get_current_tags('alice')}")
 
@@ -861,7 +919,7 @@ if __name__ == "__main__":
         # Simulate activity tracker update
         activity_data = {
             "app_usage": {"vscode": 45, "slack": 10, "browser": 15},
-            "location": "home office"
+            "location": "home office",
         }
 
         # Enable activity tracker integration for demo

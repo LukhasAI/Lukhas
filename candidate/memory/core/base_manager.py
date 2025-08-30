@@ -82,11 +82,13 @@ try:
     import structlog
 except ImportError:
     import logging
+
     structlog = None
 
 # GLYPH system integration for LUKHAS agent workflows
 try:
     from candidate.core.glyph.glyph_engine import GlyphEngine
+
     GLYPH_AVAILABLE = True
 except ImportError:
     GLYPH_AVAILABLE = False
@@ -129,9 +131,11 @@ class BaseMemoryManager(ABC):
                 self.logger = structlog.get_logger(f"LUKHAS.Memory.{self.__class__.__name__}")
             else:
                 self.logger = get_logger(f"LUKHAS.Memory.{self.__class__.__name__}", "MEMORY")
-            self.logger.info("🧠 Trinity Memory Manager initializing",
-                           manager_type=self.__class__.__name__,
-                           trinity_mode="⚛️🧠🛡️")
+            self.logger.info(
+                "🧠 Trinity Memory Manager initializing",
+                manager_type=self.__class__.__name__,
+                trinity_mode="⚛️🧠🛡️",
+            )
         except Exception as e:
             # Fallback logging if get_logger fails
             self.logger = logging.getLogger(f"LUKHAS.Memory.{self.__class__.__name__}")
@@ -148,8 +152,9 @@ class BaseMemoryManager(ABC):
             self.base_path.mkdir(parents=True, exist_ok=True)
             self.logger.info("Storage path initialized", path=str(self.base_path))
         except Exception as e:
-            self.logger.error("Failed to create storage path",
-                              path=str(self.base_path), error=str(e))
+            self.logger.error(
+                "Failed to create storage path", path=str(self.base_path), error=str(e)
+            )
             raise
 
         # Memory index for quick lookups with Λ-trace support
@@ -160,20 +165,24 @@ class BaseMemoryManager(ABC):
         # Initialize index with enhanced error handling
         try:
             self._load_index()
-            self.logger.info("🧠 Memory index loaded successfully",
-                           indexed_memories=len(self._memory_index))
+            self.logger.info(
+                "🧠 Memory index loaded successfully", indexed_memories=len(self._memory_index)
+            )
         except Exception as e:
-            self.logger.error("❌ Failed to load memory index",
-                            error=str(e),
-                            fallback="empty_index")
+            self.logger.error(
+                "❌ Failed to load memory index", error=str(e), fallback="empty_index"
+            )
             self._memory_index = {}
 
     # === Core Abstract Methods ===
 
     @abstractmethod
-    async def store(self, memory_data: dict[str, Any],
-                    memory_id: Optional[str] = None,
-                    metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def store(
+        self,
+        memory_data: dict[str, Any],
+        memory_id: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Store memory data.
 
@@ -188,8 +197,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def retrieve(self, memory_id: str,
-                       context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def retrieve(
+        self, memory_id: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve memory data.
 
@@ -203,9 +213,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def update(self, memory_id: str,
-                     updates: dict[str, Any],
-                     merge: bool = True) -> dict[str, Any]:
+    async def update(
+        self, memory_id: str, updates: dict[str, Any], merge: bool = True
+    ) -> dict[str, Any]:
         """
         Update existing memory.
 
@@ -220,8 +230,7 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def delete(self, memory_id: str,
-                     soft_delete: bool = True) -> dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> dict[str, Any]:
         """
         Delete memory.
 
@@ -235,8 +244,9 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def search(self, criteria: dict[str, Any],
-                     limit: Optional[int] = None) -> list[dict[str, Any]]:
+    async def search(
+        self, criteria: dict[str, Any], limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """
         Search for memories matching criteria.
 
@@ -254,8 +264,7 @@ class BaseMemoryManager(ABC):
     def generate_memory_id(self, prefix: Optional[str] = None) -> str:
         """Generate unique memory ID with Λ-trace signature."""
         try:
-            timestamp = datetime.now(timezone.utc).isoformat().replace(
-                ":", "-").replace("+", "_")
+            timestamp = datetime.now(timezone.utc).isoformat().replace(":", "-").replace("+", "_")
             prefix = prefix or "mem"
 
             # Add Λ-trace signature for enhanced tracking
@@ -265,10 +274,12 @@ class BaseMemoryManager(ABC):
 
             memory_id = f"{prefix}_{timestamp}_Λ{lambda_signature}"
 
-            self.logger.debug("🆔 Generated Λ-trace memory ID",
-                            memory_id=memory_id,
-                            prefix=prefix,
-                            trinity_component="⚛️")
+            self.logger.debug(
+                "🆔 Generated Λ-trace memory ID",
+                memory_id=memory_id,
+                prefix=prefix,
+                trinity_component="⚛️",
+            )
             return memory_id
         except Exception as e:
             self.logger.error("❌ Failed to generate memory ID", error=str(e))
@@ -281,8 +292,7 @@ class BaseMemoryManager(ABC):
             return list(self._memory_index.keys())
         else:
             return [
-                mid for mid, meta in self._memory_index.items()
-                if not meta.get("deleted", False)
+                mid for mid, meta in self._memory_index.items() if not meta.get("deleted", False)
             ]
 
     def _save_to_disk(self, memory_id: str, data: dict[str, Any]) -> None:
@@ -293,8 +303,7 @@ class BaseMemoryManager(ABC):
                 json.dump(data, f, indent=2)
             self.logger.debug("Memory saved to disk", memory_id=memory_id)
         except Exception as e:
-            self.logger.error("Failed to save memory",
-                              memory_id=memory_id, error=str(e))
+            self.logger.error("Failed to save memory", memory_id=memory_id, error=str(e))
             raise
 
     def _load_from_disk(self, memory_id: str) -> dict[str, Any]:
@@ -307,8 +316,7 @@ class BaseMemoryManager(ABC):
             with open(file_path) as f:
                 return json.load(f)
         except Exception as e:
-            self.logger.error("Failed to load memory",
-                              memory_id=memory_id, error=str(e))
+            self.logger.error("Failed to load memory", memory_id=memory_id, error=str(e))
             raise
 
     def _load_index(self) -> None:
@@ -318,8 +326,7 @@ class BaseMemoryManager(ABC):
             try:
                 with open(index_path) as f:
                     self._memory_index = json.load(f)
-                self.logger.info("Memory index loaded",
-                                 count=len(self._memory_index))
+                self.logger.info("Memory index loaded", count=len(self._memory_index))
             except Exception as e:
                 self.logger.error("Failed to load memory index", error=str(e))
                 self._memory_index = {}
@@ -343,7 +350,7 @@ class BaseMemoryManager(ABC):
                 "manager_type": self.__class__.__name__,
                 "trinity_identity": self._extract_identity_context(metadata),
                 "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
-                "guardian_validation": self._validate_guardian_compliance(metadata)
+                "guardian_validation": self._validate_guardian_compliance(metadata),
             }
 
             self._memory_index[memory_id] = enhanced_metadata
@@ -361,14 +368,14 @@ class BaseMemoryManager(ABC):
 
             self._save_index()
 
-            self.logger.debug("🧠 Memory index updated",
-                            memory_id=memory_id,
-                            trinity_compliance="✅",
-                            consciousness_detected=memory_id in self._consciousness_patterns)
+            self.logger.debug(
+                "🧠 Memory index updated",
+                memory_id=memory_id,
+                trinity_compliance="✅",
+                consciousness_detected=memory_id in self._consciousness_patterns,
+            )
         except Exception as e:
-            self.logger.error("❌ Failed to update memory index",
-                            memory_id=memory_id,
-                            error=str(e))
+            self.logger.error("❌ Failed to update memory index", memory_id=memory_id, error=str(e))
             raise
 
     # === Optional Advanced Methods ===
@@ -380,29 +387,31 @@ class BaseMemoryManager(ABC):
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support memory entanglement"
+            "message": f"{self.__class__.__name__} does not support memory entanglement",
         }
 
-    async def visualize(self, memory_id: str,
-                        options: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def visualize(
+        self, memory_id: str, options: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Create visualization of memory.
         Default implementation returns not supported.
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support visualization"
+            "message": f"{self.__class__.__name__} does not support visualization",
         }
 
-    async def analyze(self, memory_ids: list[str],
-                      analysis_type: str = "pattern") -> dict[str, Any]:
+    async def analyze(
+        self, memory_ids: list[str], analysis_type: str = "pattern"
+    ) -> dict[str, Any]:
         """
         Analyze memory patterns.
         Default implementation returns not supported.
         """
         return {
             "status": "not_supported",
-            "message": f"{self.__class__.__name__} does not support analysis"
+            "message": f"{self.__class__.__name__} does not support analysis",
         }
 
     async def get_statistics(self) -> dict[str, Any]:
@@ -410,20 +419,19 @@ class BaseMemoryManager(ABC):
         try:
             total_memories = len(self._memory_index)
             deleted_memories = sum(
-                1 for meta in self._memory_index.values()
-                if meta.get("deleted", False)
+                1 for meta in self._memory_index.values() if meta.get("deleted", False)
             )
 
             # Trinity Framework specific metrics
             identity_contexts = {
-                meta.get("trinity_identity", "⚛️anonymous")
-                for meta in self._memory_index.values()
+                meta.get("trinity_identity", "⚛️anonymous") for meta in self._memory_index.values()
             }
 
             consciousness_patterns = len(self._consciousness_patterns)
 
             guardian_compliant = sum(
-                1 for meta in self._memory_index.values()
+                1
+                for meta in self._memory_index.values()
                 if meta.get("guardian_validation", "").startswith("🛡️verified")
             )
 
@@ -438,7 +446,9 @@ class BaseMemoryManager(ABC):
                 "storage_path": str(self.base_path),
                 "manager_type": self.__class__.__name__,
                 "trinity_framework": "⚛️🧠🛡️",
-                "memory_efficiency": round((total_memories - deleted_memories) / max(total_memories, 1) * 100, 2)
+                "memory_efficiency": round(
+                    (total_memories - deleted_memories) / max(total_memories, 1) * 100, 2
+                ),
             }
 
             self.logger.info("📊 Memory statistics generated", **stats)
@@ -448,7 +458,7 @@ class BaseMemoryManager(ABC):
             return {
                 "error": str(e),
                 "manager_type": self.__class__.__name__,
-                "trinity_framework": "⚛️🧠🛡️"
+                "trinity_framework": "⚛️🧠🛡️",
             }
 
     def _extract_identity_context(self, metadata: dict[str, Any]) -> str:
@@ -479,13 +489,15 @@ class BaseMemoryManager(ABC):
     def _is_consciousness_related(self, metadata: dict[str, Any]) -> bool:
         """Determine if memory is consciousness-related."""
         consciousness_indicators = [
-            "consciousness", "awareness", "learning", "adaptation",
-            "dream", "reflection", "meta_cognition"
+            "consciousness",
+            "awareness",
+            "learning",
+            "adaptation",
+            "dream",
+            "reflection",
+            "meta_cognition",
         ]
-        return any(
-            indicator in str(metadata).lower()
-            for indicator in consciousness_indicators
-        )
+        return any(indicator in str(metadata).lower() for indicator in consciousness_indicators)
 
     def get_lambda_traces(self, memory_id: str) -> list[str]:
         """Get Λ-trace history for a memory."""
@@ -496,7 +508,9 @@ class BaseMemoryManager(ABC):
         return self._consciousness_patterns.copy()
 
     def __repr__(self) -> str:
-        return (f"{self.__class__.__name__}(path={self.base_path}, "
-                f"memories={len(self._memory_index)}, "
-                f"consciousness_patterns={len(self._consciousness_patterns)}, "
-                f"trinity_mode=⚛️🧠🛡️)")
+        return (
+            f"{self.__class__.__name__}(path={self.base_path}, "
+            f"memories={len(self._memory_index)}, "
+            f"consciousness_patterns={len(self._consciousness_patterns)}, "
+            f"trinity_mode=⚛️🧠🛡️)"
+        )

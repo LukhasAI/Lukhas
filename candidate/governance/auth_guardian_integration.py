@@ -44,6 +44,7 @@ logger = logging.getLogger(__name__)
 
 class AuthEventType(Enum):
     """Authentication event types for Guardian monitoring"""
+
     LOGIN_ATTEMPT = "login_attempt"
     LOGIN_SUCCESS = "login_success"
     LOGIN_FAILURE = "login_failure"
@@ -58,6 +59,7 @@ class AuthEventType(Enum):
 @dataclass
 class AuthDriftMetrics:
     """Metrics for authentication drift analysis"""
+
     event_type: AuthEventType
     user_id: str
     tier_level: str
@@ -78,11 +80,12 @@ class AuthDriftMetrics:
 @dataclass
 class ConstitutionalAuthPrinciples:
     """Constitutional AI principles for authentication"""
+
     respect_autonomy: bool = True  # Users control their identity
-    ensure_fairness: bool = True   # No discriminatory access patterns
-    protect_privacy: bool = True   # Data protection by design
+    ensure_fairness: bool = True  # No discriminatory access patterns
+    protect_privacy: bool = True  # Data protection by design
     transparent_decisions: bool = True  # Clear reasoning for auth decisions
-    minimize_harm: bool = True     # Prevent security vulnerabilities
+    minimize_harm: bool = True  # Prevent security vulnerabilities
     dignity_preservation: bool = True  # Maintain user dignity
 
     def validate(self, auth_event: dict[str, Any]) -> tuple[bool, list[str]]:
@@ -104,7 +107,9 @@ class ConstitutionalAuthPrinciples:
                 suspicious_factors.append("geographic_bias")
 
             if suspicious_factors:
-                violations.append(f"fairness: potential bias in tier assignment: {suspicious_factors}")
+                violations.append(
+                    f"fairness: potential bias in tier assignment: {suspicious_factors}"
+                )
 
         # Check privacy (data minimization)
         metadata = auth_event.get("metadata", {})
@@ -130,10 +135,12 @@ class AuthenticationGuardian:
     for continuous ethical monitoring and constitutional AI validation.
     """
 
-    def __init__(self,
-                 drift_threshold: float = 0.15,
-                 enable_bias_detection: bool = True,
-                 enable_constitutional_ai: bool = True):
+    def __init__(
+        self,
+        drift_threshold: float = 0.15,
+        enable_bias_detection: bool = True,
+        enable_constitutional_ai: bool = True,
+    ):
         """
         Initialize Authentication Guardian
 
@@ -165,17 +172,19 @@ class AuthenticationGuardian:
             "geographic_discrimination": r"different_tiers_same_qualifications",
             "temporal_bias": r"inconsistent_decisions_over_time",
             "demographic_bias": r"patterns_in_user_attributes",
-            "access_inequality": r"unequal_access_same_tier"
+            "access_inequality": r"unequal_access_same_tier",
         }
 
         logger.info(f"Authentication Guardian initialized with drift threshold: {drift_threshold}")
 
-    async def monitor_auth_event(self,
-                               event_type: AuthEventType,
-                               user_id: str,
-                               tier_level: str,
-                               outcome: str,
-                               context: dict[str, Any]) -> dict[str, Any]:
+    async def monitor_auth_event(
+        self,
+        event_type: AuthEventType,
+        user_id: str,
+        tier_level: str,
+        outcome: str,
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Monitor authentication event for ethical violations and drift
 
@@ -199,7 +208,7 @@ class AuthenticationGuardian:
                 timestamp=datetime.now(),
                 ip_address=context.get("ip_address", ""),
                 user_agent=context.get("user_agent", ""),
-                metadata=context
+                metadata=context,
             )
 
             # Calculate drift score
@@ -207,7 +216,10 @@ class AuthenticationGuardian:
 
             # Perform constitutional AI validation
             if self.enable_constitutional_ai:
-                metrics.constitutional_valid, violations = await self._validate_constitutional_principles(metrics)
+                (
+                    metrics.constitutional_valid,
+                    violations,
+                ) = await self._validate_constitutional_principles(metrics)
                 if violations:
                     metrics.metadata["constitutional_violations"] = violations
 
@@ -231,7 +243,9 @@ class AuthenticationGuardian:
                 "alert_triggered": alert_triggered,
                 "recommendations": await self._generate_recommendations(metrics),
                 "glyph_encoding": await self._create_auth_glyph(metrics),
-                "guardian_status": "monitoring" if metrics.drift_score < self.drift_threshold else "alert"
+                "guardian_status": "monitoring"
+                if metrics.drift_score < self.drift_threshold
+                else "alert",
             }
 
             # Log to audit trail
@@ -252,7 +266,7 @@ class AuthenticationGuardian:
                 "constitutional_valid": False,
                 "bias_flags": ["monitoring_error"],
                 "alert_triggered": True,
-                "guardian_status": "error"
+                "guardian_status": "error",
             }
 
     async def _calculate_drift_score(self, metrics: AuthDriftMetrics) -> float:
@@ -263,10 +277,13 @@ class AuthenticationGuardian:
 
             # Check for unusual patterns
             if metrics.event_type == AuthEventType.LOGIN_FAILURE:
-                recent_failures = [e for e in self.recent_events
-                                 if e.user_id == metrics.user_id
-                                 and e.event_type == AuthEventType.LOGIN_FAILURE
-                                 and e.timestamp > datetime.now() - timedelta(hours=1)]
+                recent_failures = [
+                    e
+                    for e in self.recent_events
+                    if e.user_id == metrics.user_id
+                    and e.event_type == AuthEventType.LOGIN_FAILURE
+                    and e.timestamp > datetime.now() - timedelta(hours=1)
+                ]
 
                 if len(recent_failures) > 5:
                     drift_score += 0.3  # Multiple failures indicate potential issue
@@ -278,17 +295,25 @@ class AuthenticationGuardian:
                     last_tier = user_history[-1].tier_level
                     if last_tier != metrics.tier_level:
                         # Tier change - check if justified
-                        tier_changes = len([e for e in user_history
-                                          if e.event_type == AuthEventType.TIER_ASSIGNMENT])
+                        tier_changes = len(
+                            [
+                                e
+                                for e in user_history
+                                if e.event_type == AuthEventType.TIER_ASSIGNMENT
+                            ]
+                        )
                         if tier_changes > 3:  # Frequent tier changes
                             drift_score += 0.4
 
             # Check for geographical anomalies
             ip_address = metrics.ip_address
             if ip_address:
-                recent_ips = [e.ip_address for e in self.recent_events
-                            if e.user_id == metrics.user_id
-                            and e.timestamp > datetime.now() - timedelta(days=1)]
+                recent_ips = [
+                    e.ip_address
+                    for e in self.recent_events
+                    if e.user_id == metrics.user_id
+                    and e.timestamp > datetime.now() - timedelta(days=1)
+                ]
                 unique_ips = len(set(recent_ips))
                 if unique_ips > 10:  # Too many different IPs
                     drift_score += 0.2
@@ -307,7 +332,9 @@ class AuthenticationGuardian:
             logger.error(f"Error calculating drift score: {e}")
             return 1.0  # High drift on error
 
-    async def _validate_constitutional_principles(self, metrics: AuthDriftMetrics) -> tuple[bool, list[str]]:
+    async def _validate_constitutional_principles(
+        self, metrics: AuthDriftMetrics
+    ) -> tuple[bool, list[str]]:
         """Validate authentication event against constitutional AI principles"""
         try:
             # Convert metrics to event dict for validation
@@ -321,14 +348,14 @@ class AuthenticationGuardian:
                 "security_risk_score": metrics.metadata.get("security_risk_score", 0),
                 "forced_logout": metrics.metadata.get("forced_logout", False),
                 "user_initiated": metrics.metadata.get("user_initiated", True),
-                "metadata": metrics.metadata
+                "metadata": metrics.metadata,
             }
 
             return self.constitutional_principles.validate(event_dict)
 
         except Exception as e:
             logger.error(f"Error validating constitutional principles: {e}")
-            return False, [f"validation_error: {str(e)}"]
+            return False, [f"validation_error: {e!s}"]
 
     async def _detect_bias(self, metrics: AuthDriftMetrics) -> list[str]:
         """Detect potential bias in authentication decisions"""
@@ -366,17 +393,22 @@ class AuthenticationGuardian:
                 return False
 
             # Check if users from this region have different success rates
-            regional_events = [e for e in self.recent_events
-                             if e.metadata.get("geographic_region") == user_region]
+            regional_events = [
+                e for e in self.recent_events if e.metadata.get("geographic_region") == user_region
+            ]
 
             if len(regional_events) < 10:  # Need sufficient data
                 return False
 
-            regional_success_rate = len([e for e in regional_events if e.outcome == "success"]) / len(regional_events)
+            regional_success_rate = len(
+                [e for e in regional_events if e.outcome == "success"]
+            ) / len(regional_events)
 
             # Compare with global success rate
             all_events = [e for e in self.recent_events if e.event_type == metrics.event_type]
-            global_success_rate = len([e for e in all_events if e.outcome == "success"]) / len(all_events)
+            global_success_rate = len([e for e in all_events if e.outcome == "success"]) / len(
+                all_events
+            )
 
             # Flag if regional rate is significantly different
             return abs(regional_success_rate - global_success_rate) > 0.2
@@ -391,24 +423,32 @@ class AuthenticationGuardian:
             current_hour = metrics.timestamp.hour
 
             # Get events from same hour in recent history
-            same_hour_events = [e for e in self.recent_events
-                              if e.timestamp.hour == current_hour
-                              and e.event_type == metrics.event_type]
+            same_hour_events = [
+                e
+                for e in self.recent_events
+                if e.timestamp.hour == current_hour and e.event_type == metrics.event_type
+            ]
 
             if len(same_hour_events) < 5:
                 return False
 
             # Check success rate for this hour vs others
-            same_hour_success = len([e for e in same_hour_events if e.outcome == "success"]) / len(same_hour_events)
+            same_hour_success = len([e for e in same_hour_events if e.outcome == "success"]) / len(
+                same_hour_events
+            )
 
-            other_hour_events = [e for e in self.recent_events
-                               if e.timestamp.hour != current_hour
-                               and e.event_type == metrics.event_type]
+            other_hour_events = [
+                e
+                for e in self.recent_events
+                if e.timestamp.hour != current_hour and e.event_type == metrics.event_type
+            ]
 
             if len(other_hour_events) == 0:
                 return False
 
-            other_hour_success = len([e for e in other_hour_events if e.outcome == "success"]) / len(other_hour_events)
+            other_hour_success = len(
+                [e for e in other_hour_events if e.outcome == "success"]
+            ) / len(other_hour_events)
 
             return abs(same_hour_success - other_hour_success) > 0.3
 
@@ -427,9 +467,12 @@ class AuthenticationGuardian:
 
             # Check if certain user tiers are disproportionately denied
             tier_denials = {}
-            scope_events = [e for e in self.recent_events
-                          if e.event_type == AuthEventType.SCOPE_CHECK
-                          and e.metadata.get("requested_scope") == requested_scope]
+            scope_events = [
+                e
+                for e in self.recent_events
+                if e.event_type == AuthEventType.SCOPE_CHECK
+                and e.metadata.get("requested_scope") == requested_scope
+            ]
 
             for event in scope_events:
                 tier = event.tier_level
@@ -464,9 +507,10 @@ class AuthenticationGuardian:
             # Find users with similar profiles
             similar_users = []
             for event in self.recent_events:
-                if (event.event_type == AuthEventType.TIER_ASSIGNMENT
-                    and event.user_id != metrics.user_id):
-
+                if (
+                    event.event_type == AuthEventType.TIER_ASSIGNMENT
+                    and event.user_id != metrics.user_id
+                ):
                     other_profile = event.metadata.get("user_profile", {})
                     similarity = self._calculate_profile_similarity(user_profile, other_profile)
 
@@ -535,7 +579,9 @@ class AuthenticationGuardian:
             recommendations.append("Review authentication patterns for unusual activity")
 
         if not metrics.constitutional_valid:
-            recommendations.append("Ensure authentication decisions align with constitutional AI principles")
+            recommendations.append(
+                "Ensure authentication decisions align with constitutional AI principles"
+            )
 
         if "geographic_bias" in metrics.bias_flags:
             recommendations.append("Review geographic access patterns for potential discrimination")
@@ -547,7 +593,9 @@ class AuthenticationGuardian:
             recommendations.append("Audit tier assignment process for fairness and consistency")
 
         if metrics.metadata.get("security_risk_score", 0) > 0.7:
-            recommendations.append("Implement additional security measures for high-risk authentication attempts")
+            recommendations.append(
+                "Implement additional security measures for high-risk authentication attempts"
+            )
 
         if not recommendations:
             recommendations.append("Continue monitoring authentication patterns")
@@ -603,7 +651,7 @@ class AuthenticationGuardian:
                 "glyph_encoding": result["glyph_encoding"],
                 "ip_address": metrics.ip_address,
                 "user_agent": metrics.user_agent,
-                "metadata": metrics.metadata
+                "metadata": metrics.metadata,
             }
 
             await self.audit_logger.log(audit_entry)
@@ -611,7 +659,9 @@ class AuthenticationGuardian:
         except Exception as e:
             logger.error(f"Error logging to audit trail: {e}")
 
-    async def _trigger_guardian_intervention(self, metrics: AuthDriftMetrics, result: dict[str, Any]) -> None:
+    async def _trigger_guardian_intervention(
+        self, metrics: AuthDriftMetrics, result: dict[str, Any]
+    ) -> None:
         """Trigger Guardian System intervention for high-risk events"""
         try:
             if not self.guardian_system:
@@ -628,13 +678,15 @@ class AuthenticationGuardian:
                 "bias_flags": metrics.bias_flags,
                 "recommendations": result["recommendations"],
                 "timestamp": metrics.timestamp.isoformat(),
-                "context": metrics.metadata
+                "context": metrics.metadata,
             }
 
             # Validate through Guardian System
             guardian_result = await self.guardian_system.validate_action(action_data)
 
-            logger.info(f"Guardian intervention triggered for user {metrics.user_id}: {guardian_result}")
+            logger.info(
+                f"Guardian intervention triggered for user {metrics.user_id}: {guardian_result}"
+            )
 
         except Exception as e:
             logger.error(f"Error triggering Guardian intervention: {e}")
@@ -649,15 +701,19 @@ class AuthenticationGuardian:
                     "high_drift_events": 0,
                     "constitutional_violations": 0,
                     "bias_detections": 0,
-                    "status": "no_data"
+                    "status": "no_data",
                 }
 
             total_events = len(self.recent_events)
             total_drift = sum(e.drift_score for e in self.recent_events)
             average_drift = total_drift / total_events
 
-            high_drift_events = len([e for e in self.recent_events if e.drift_score >= self.drift_threshold])
-            constitutional_violations = len([e for e in self.recent_events if not e.constitutional_valid])
+            high_drift_events = len(
+                [e for e in self.recent_events if e.drift_score >= self.drift_threshold]
+            )
+            constitutional_violations = len(
+                [e for e in self.recent_events if not e.constitutional_valid]
+            )
             bias_detections = len([e for e in self.recent_events if e.bias_flags])
 
             return {
@@ -668,7 +724,7 @@ class AuthenticationGuardian:
                 "bias_detections": bias_detections,
                 "drift_threshold": self.drift_threshold,
                 "status": "alert" if high_drift_events > 0 else "monitoring",
-                "last_updated": datetime.now().isoformat()
+                "last_updated": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -677,4 +733,9 @@ class AuthenticationGuardian:
 
 
 # Export main class
-__all__ = ["AuthenticationGuardian", "AuthEventType", "AuthDriftMetrics", "ConstitutionalAuthPrinciples"]
+__all__ = [
+    "AuthDriftMetrics",
+    "AuthEventType",
+    "AuthenticationGuardian",
+    "ConstitutionalAuthPrinciples",
+]

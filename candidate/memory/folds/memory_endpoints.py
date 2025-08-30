@@ -76,9 +76,7 @@ class MemorySearchRequest(BaseModel):
     query: dict[str, Any] = Field(..., description="Query for similarity search")
     context: Optional[dict[str, Any]] = Field(None, description="Search context")
     top_k: int = Field(5, ge=1, le=100, description="Number of results")
-    threshold: Optional[float] = Field(
-        None, ge=0.0, le=1.0, description="Similarity threshold"
-    )
+    threshold: Optional[float] = Field(None, ge=0.0, le=1.0, description="Similarity threshold")
     agent_id: str = Field(..., description="ID of the agent searching")
 
 
@@ -170,7 +168,7 @@ async def fold_memory(request: MemoryFoldRequest):
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Memory fold failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Memory fold failed: {e!s}")
 
 
 @router.get("/fold/{memory_id}")
@@ -200,9 +198,7 @@ async def get_memory(memory_id: str, agent_id: str = Query(...)):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Memory retrieval failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Memory retrieval failed: {e!s}")
 
 
 @router.post("/search", response_model=list[MemorySearchResult])
@@ -242,7 +238,7 @@ async def search_memories(request: MemorySearchRequest):
         return search_results
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Memory search failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Memory search failed: {e!s}")
 
 
 @router.get("/drift/{memory_id}", response_model=DriftAnalysis)
@@ -277,7 +273,7 @@ async def analyze_drift(memory_id: str, agent_id: str = Query(...)):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Drift analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Drift analysis failed: {e!s}")
 
 
 @router.get("/lineage/{memory_id}", response_model=LineageTrace)
@@ -298,9 +294,7 @@ async def get_lineage(memory_id: str, agent_id: str = Query(...)):
         return LineageTrace(
             memory_id=memory_id,
             lineage_depth=3,
-            ancestors=[
-                {"memory_id": f"ancestor_{i}", "generation": i} for i in range(3)
-            ],
+            ancestors=[{"memory_id": f"ancestor_{i}", "generation": i} for i in range(3)],
             collapse_events=[
                 {
                     "event_id": "collapse_001",
@@ -315,7 +309,7 @@ async def get_lineage(memory_id: str, agent_id: str = Query(...)):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Lineage trace failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Lineage trace failed: {e!s}")
 
 
 @router.post("/collapse")
@@ -332,9 +326,7 @@ async def force_collapse(request: CollapseRequest):
         # Validate all memories exist
         for memory_id in request.memory_ids:
             if memory_id not in memory_system.memories:
-                raise HTTPException(
-                    status_code=404, detail=f"Memory {memory_id} not found"
-                )
+                raise HTTPException(status_code=404, detail=f"Memory {memory_id} not found")
 
         # Mock collapse operation
         collapse_id = f"collapse_{uuid.uuid4().hex[:8]}"
@@ -351,9 +343,7 @@ async def force_collapse(request: CollapseRequest):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Collapse operation failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Collapse operation failed: {e!s}")
 
 
 @router.get("/stats/{agent_id}")
@@ -374,21 +364,18 @@ async def get_memory_stats(agent_id: str):
             "vector_dimension": memory_system.embedding_dim,
             "features_enabled": {
                 "attention": getattr(memory_system, "enable_attention", False),
-                "continuous_learning": getattr(
-                    memory_system, "enable_continuous_learning", False
-                ),
+                "continuous_learning": getattr(memory_system, "enable_continuous_learning", False),
                 "drift_tracking": True,
             },
             "performance_metrics": {
                 "avg_search_time_ms": 5.2,
                 "avg_fold_time_ms": 3.1,
-                "memory_usage_mb": len(memory_system.memories)
-                * 0.002,  # Rough estimate
+                "memory_usage_mb": len(memory_system.memories) * 0.002,  # Rough estimate
             },
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {e!s}")
 
 
 # Health check endpoint

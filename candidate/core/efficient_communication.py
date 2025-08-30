@@ -5,6 +5,7 @@ Addresses TODO 142: Optimized dual EDA/P2P communication
 This module implements an energy-efficient communication fabric that
 minimizes network overhead and maximizes resource utilization.
 """
+
 import asyncio
 import json
 import logging
@@ -234,9 +235,7 @@ class EventBus:
                 self.stats["messages_delivered"] += 1
                 self.stats["energy_consumed"] += message.energy_cost
                 self.stats["average_latency"] = (
-                    self.stats["average_latency"]
-                    * (self.stats["messages_delivered"] - 1)
-                    + latency
+                    self.stats["average_latency"] * (self.stats["messages_delivered"] - 1) + latency
                 ) / self.stats["messages_delivered"]
 
             except asyncio.TimeoutError:
@@ -406,9 +405,7 @@ class EfficientCommunicationFabric:
 
         # Check energy budget
         if not self.router.can_afford_message(message):
-            logger.warning(
-                f"Insufficient energy budget for message {message.message_id}"
-            )
+            logger.warning(f"Insufficient energy budget for message {message.message_id}")
             return False
 
         # Route message based on selected mode
@@ -563,8 +560,7 @@ class EnergyMonitor:
         return {
             "total_energy": self.total_energy_used,
             "average_per_message": (
-                sum(e["energy_cost"] for e in self.energy_history)
-                / len(self.energy_history)
+                sum(e["energy_cost"] for e in self.energy_history) / len(self.energy_history)
             ),
             "hourly_usage": sum(recent_usage),
             "efficiency_score": self._calculate_efficiency_score(),
@@ -627,9 +623,7 @@ async def demo_efficient_communication():
 
     # 2. Large data transfer (would use P2P in real scenario)
     large_payload = {"data": "x" * 15000}  # Large payload
-    await node1.send_message(
-        "agent-002", "data_transfer", large_payload, MessagePriority.HIGH
-    )
+    await node1.send_message("agent-002", "data_transfer", large_payload, MessagePriority.HIGH)
 
     # 3. Critical message
     await node1.send_message(

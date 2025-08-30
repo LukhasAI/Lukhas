@@ -7,7 +7,6 @@ Integration Date: 2025-05-31T07:55:28.250611
 
 
 class EthicalProtestModule:
-
     def __init__(self, federated_model: FederatedModel):
         self.legal_db = self._load_eu_protest_regulations()
         self.ethics_engine = ProtestEthicsValidator()
@@ -55,9 +54,7 @@ class ProtestEthicsValidator:
             "metrics": ["gender", "ethnicity"],
         },
         "transparency": {"disclosure_level": 0.8},
-        "accountability": {
-            "contact_requirements": ["organizer_id", "legal_representative"]
-        },
+        "accountability": {"contact_requirements": ["organizer_id", "legal_representative"]},
     }
 
     def validate(self, protest_plan: dict) -> dict:

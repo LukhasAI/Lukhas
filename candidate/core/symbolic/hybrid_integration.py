@@ -66,22 +66,16 @@ class NeuroSymbolicIntegrator:
         logger.info("Processing input with neuro-symbolic integration")
 
         # Process through symbolic reasoning engine
-        symbolic_results = await self._process_symbolic(
-            input_data, symbolic_engine, context
-        )
+        symbolic_results = await self._process_symbolic(input_data, symbolic_engine, context)
 
         # Process through neural engine
         neural_results = await self._process_neural(input_data, neural_engine, context)
 
         # Integrate results
-        integrated_results = self._integrate_results(
-            symbolic_results, neural_results, context
-        )
+        integrated_results = self._integrate_results(symbolic_results, neural_results, context)
 
         # Update processing history
-        self._update_history(
-            input_data, symbolic_results, neural_results, integrated_results
-        )
+        self._update_history(input_data, symbolic_results, neural_results, integrated_results)
 
         return integrated_results
 
@@ -112,7 +106,7 @@ class NeuroSymbolicIntegrator:
                 "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
-            logger.error(f"Error in symbolic processing: {str(e)}")
+            logger.error(f"Error in symbolic processing: {e!s}")
             return {
                 "type": "symbolic",
                 "results": None,
@@ -148,7 +142,7 @@ class NeuroSymbolicIntegrator:
                 "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
-            logger.error(f"Error in neural processing: {str(e)}")
+            logger.error(f"Error in neural processing: {e!s}")
             return {
                 "type": "neural",
                 "results": None,
@@ -402,7 +396,6 @@ class NeuroSymbolicIntegrator:
             and symbolic_results["results"]
             and "reasoning_path" in symbolic_results["results"]
         ):
-
             symbolic_path = symbolic_results["results"]["reasoning_path"]
             if symbolic_path:
                 for step in symbolic_path:
@@ -424,7 +417,6 @@ class NeuroSymbolicIntegrator:
             and "primary_conclusion" in symbolic_results["results"]
             and symbolic_results["results"]["primary_conclusion"]
         ):
-
             primary_conclusion = symbolic_results["results"]["primary_conclusion"]
             reasoning_trace.append(
                 {
@@ -441,10 +433,7 @@ class NeuroSymbolicIntegrator:
             neural_results_data = neural_results["results"]
 
             # If neural results contain reasoning steps
-            if (
-                isinstance(neural_results_data, dict)
-                and "reasoning_steps" in neural_results_data
-            ):
+            if isinstance(neural_results_data, dict) and "reasoning_steps" in neural_results_data:
                 for step in neural_results_data["reasoning_steps"]:
                     reasoning_trace.append(
                         {
@@ -460,10 +449,7 @@ class NeuroSymbolicIntegrator:
                     )
 
             # Include relevant insights from neural processing
-            if (
-                isinstance(neural_results_data, dict)
-                and "insights" in neural_results_data
-            ):
+            if isinstance(neural_results_data, dict) and "insights" in neural_results_data:
                 insights = neural_results_data["insights"]
                 if isinstance(insights, list):
                     for insight in insights:
@@ -472,11 +458,7 @@ class NeuroSymbolicIntegrator:
                                 "source": "neural",
                                 "step": len(reasoning_trace) + 1,
                                 "type": "insight",
-                                "content": (
-                                    insight
-                                    if isinstance(insight, str)
-                                    else str(insight)
-                                ),
+                                "content": (insight if isinstance(insight, str) else str(insight)),
                                 "confidence": neural_results.get("confidence", 0.0),
                             }
                         )
@@ -508,9 +490,7 @@ class NeuroSymbolicIntegrator:
             "input_type": input_data.get("type", "unknown"),
             "symbolic_confidence": symbolic_results.get("confidence", 0.0),
             "neural_confidence": neural_results.get("confidence", 0.0),
-            "integrated_confidence": integrated_results.get(
-                "integrated_confidence", 0.0
-            ),
+            "integrated_confidence": integrated_results.get("integrated_confidence", 0.0),
             "primary_source": integrated_results.get("primary_source", "unknown"),
         }
 

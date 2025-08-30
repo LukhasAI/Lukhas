@@ -33,6 +33,7 @@ try:
     from fastapi.middleware.gzip import GZipMiddleware
     from fastapi.responses import JSONResponse, RedirectResponse
     from fastapi.staticfiles import StaticFiles
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
@@ -47,12 +48,14 @@ try:
     from candidate.bridge.api.orchestration_endpoints import app as orchestration_app
     from candidate.bridge.api.security import get_security_manager
     from candidate.bridge.api.validation import get_validator, run_validation_tests
+
     BRIDGE_MODULES_AVAILABLE = True
 except ImportError as e:
     logging.error(f"Bridge module import error: {e}")
     BRIDGE_MODULES_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
+
 
 # Application lifecycle management
 @asynccontextmanager
@@ -96,6 +99,7 @@ async def lifespan(app: FastAPI):
     logger.info("🛑 LUKHAS AI API Bridge shutting down...")
     logger.info("✅ Shutdown complete")
 
+
 # Create FastAPI application
 if FASTAPI_AVAILABLE:
     app = FastAPI(
@@ -110,29 +114,26 @@ if FASTAPI_AVAILABLE:
         openapi_tags=[
             {
                 "name": "orchestration",
-                "description": "Multi-model AI orchestration endpoints with advanced consensus algorithms"
+                "description": "Multi-model AI orchestration endpoints with advanced consensus algorithms",
             },
             {
                 "name": "healthcare",
-                "description": "HIPAA-compliant healthcare AI endpoints with audit trails"
+                "description": "HIPAA-compliant healthcare AI endpoints with audit trails",
             },
             {
                 "name": "streaming",
-                "description": "Real-time streaming endpoints with SSE and WebSocket support"
+                "description": "Real-time streaming endpoints with SSE and WebSocket support",
             },
             {
                 "name": "onboarding",
-                "description": "User onboarding with intelligent tier assignment and consent management"
+                "description": "User onboarding with intelligent tier assignment and consent management",
             },
             {
                 "name": "monitoring",
-                "description": "API health monitoring, metrics, and performance analytics"
+                "description": "API health monitoring, metrics, and performance analytics",
             },
-            {
-                "name": "security",
-                "description": "Security management, API keys, and audit trails"
-            }
-        ]
+            {"name": "security", "description": "Security management, API keys, and audit trails"},
+        ],
     )
 
     # Middleware configuration
@@ -158,7 +159,7 @@ if FASTAPI_AVAILABLE:
             logger.error(f"Request processing error: {e}")
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                content={"error": "Internal server error", "request_id": str(time.time())}
+                content={"error": "Internal server error", "request_id": str(time.time())},
             )
 
         # Calculate processing time
@@ -189,10 +190,10 @@ if FASTAPI_AVAILABLE:
                     "/health - API health check",
                     "/api/v1/orchestrate - Multi-model orchestration",
                     "/api/v1/stream - Real-time streaming",
-                    "/api/v2/onboarding - User onboarding"
+                    "/api/v2/onboarding - User onboarding",
                 ],
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         )
 
     @app.exception_handler(500)
@@ -208,8 +209,8 @@ if FASTAPI_AVAILABLE:
                 "error_id": error_id,
                 "message": "An unexpected error occurred. Please try again later.",
                 "support": "Contact support@lukhas.ai with error ID for assistance",
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         )
 
     # Root endpoint
@@ -229,14 +230,14 @@ if FASTAPI_AVAILABLE:
                 "Healthcare compliance (HIPAA)",
                 "Enterprise security",
                 "Comprehensive validation",
-                "User onboarding system"
+                "User onboarding system",
             ],
             "trinity_framework": {
                 "identity": "⚛️ Secure authentication and user management",
                 "consciousness": "🧠 Intelligent orchestration and decision-making",
-                "guardian": "🛡️ Security, validation, and compliance protection"
+                "guardian": "🛡️ Security, validation, and compliance protection",
             },
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Redirect /api to documentation
@@ -259,8 +260,8 @@ if FASTAPI_AVAILABLE:
                 "validation_system": BRIDGE_MODULES_AVAILABLE,
                 "security_manager": BRIDGE_MODULES_AVAILABLE,
                 "orchestration": BRIDGE_MODULES_AVAILABLE,
-                "onboarding": BRIDGE_MODULES_AVAILABLE
-            }
+                "onboarding": BRIDGE_MODULES_AVAILABLE,
+            },
         }
 
         if BRIDGE_MODULES_AVAILABLE:
@@ -273,23 +274,25 @@ if FASTAPI_AVAILABLE:
                 validation_metrics = validator.get_validation_metrics() if validator else {}
                 security_metrics = security.get_security_metrics() if security else {}
 
-                health_data.update({
-                    "validation_metrics": {
-                        "total_validations": validation_metrics.get("total_validations", 0),
-                        "success_rate": validation_metrics.get("success_rate", 0.0),
-                        "average_latency_ms": validation_metrics.get("average_latency_ms", 0.0)
-                    },
-                    "security_metrics": {
-                        "total_api_keys": security_metrics.get("total_api_keys", 0),
-                        "security_events_24h": security_metrics.get("security_events_24h", 0),
-                        "blocked_ips": security_metrics.get("blocked_ips", 0)
-                    },
-                    "performance": {
-                        "target_latency_ms": 100,
-                        "validation_latency_target_ms": 10,
-                        "security_latency_target_ms": 5
+                health_data.update(
+                    {
+                        "validation_metrics": {
+                            "total_validations": validation_metrics.get("total_validations", 0),
+                            "success_rate": validation_metrics.get("success_rate", 0.0),
+                            "average_latency_ms": validation_metrics.get("average_latency_ms", 0.0),
+                        },
+                        "security_metrics": {
+                            "total_api_keys": security_metrics.get("total_api_keys", 0),
+                            "security_events_24h": security_metrics.get("security_events_24h", 0),
+                            "blocked_ips": security_metrics.get("blocked_ips", 0),
+                        },
+                        "performance": {
+                            "target_latency_ms": 100,
+                            "validation_latency_target_ms": 10,
+                            "security_latency_target_ms": 5,
+                        },
                     }
-                })
+                )
 
             except Exception as e:
                 logger.error(f"Health check component error: {e}")
@@ -321,8 +324,8 @@ if FASTAPI_AVAILABLE:
                 "system_info": {
                     "python_version": os.sys.version,
                     "platform": os.name,
-                    "process_id": os.getpid()
-                }
+                    "process_id": os.getpid(),
+                },
             }
 
             return metrics
@@ -331,7 +334,7 @@ if FASTAPI_AVAILABLE:
             logger.error(f"Metrics error: {e}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Failed to retrieve metrics: {str(e)}"
+                detail=f"Failed to retrieve metrics: {e!s}",
             )
 
     # Status endpoint for monitoring systems
@@ -342,7 +345,7 @@ if FASTAPI_AVAILABLE:
             "status": "ok",
             "service": "lukhas-api-bridge",
             "version": "2.0.0",
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Include sub-applications and routers
@@ -382,7 +385,7 @@ if __name__ == "__main__":
             "reload": True,
             "reload_dirs": ["candidate/bridge/api"],
             "log_level": "info",
-            "access_log": True
+            "access_log": True,
         }
 
         print("🚀 Starting LUKHAS AI API Bridge development server...")

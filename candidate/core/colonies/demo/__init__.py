@@ -3,6 +3,7 @@ Colony Demo Scripts
 Moved from main modules to prevent import side-effects
 """
 
+
 def run_governance_demo():
     """Run governance colony demo"""
     import asyncio
@@ -13,11 +14,13 @@ def run_governance_demo():
 
     async def demo():
         # Demo ethical decision
-        decision = await colony.validate_decision({
-            "action": "generate_response",
-            "content": "test content",
-            "context": {"user_tier": "basic"}
-        })
+        decision = await colony.validate_decision(
+            {
+                "action": "generate_response",
+                "content": "test content",
+                "context": {"user_tier": "basic"},
+            }
+        )
         print(f"Decision validated: {decision}")
 
     asyncio.run(demo())
@@ -32,10 +35,7 @@ def run_reasoning_demo():
     colony = ReasoningColony()
 
     async def demo():
-        result = await colony.reason({
-            "query": "What is consciousness?",
-            "depth": 3
-        })
+        result = await colony.reason({"query": "What is consciousness?", "depth": 3})
         print(f"Reasoning result: {result}")
 
     asyncio.run(demo())
@@ -51,10 +51,7 @@ def run_memory_demo():
 
     async def demo():
         # Store memory
-        memory_id = await colony.store({
-            "content": "Test memory",
-            "importance": 0.8
-        })
+        memory_id = await colony.store({"content": "Test memory", "importance": 0.8})
         print(f"Stored memory: {memory_id}")
 
         # Recall memory
@@ -70,7 +67,7 @@ if __name__ == "__main__":
     demos = {
         "governance": run_governance_demo,
         "reasoning": run_reasoning_demo,
-        "memory": run_memory_demo
+        "memory": run_memory_demo,
     }
 
     if len(sys.argv) > 1 and sys.argv[1] in demos:

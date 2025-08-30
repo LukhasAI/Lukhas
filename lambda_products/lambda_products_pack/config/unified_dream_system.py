@@ -278,11 +278,8 @@ class UnifiedDreamSystem:
 
         # Generate seeds based on scenarios
         for scenario in scenarios[:2]:  # Limit seeds based on tier
-            if (
-                self.tier_level == "T1"
-                and len(seeds) >= 1
-                or self.tier_level == "T2"
-                and len(seeds) >= 3
+            if (self.tier_level == "T1" and len(seeds) >= 1) or (
+                self.tier_level == "T2" and len(seeds) >= 3
             ):
                 break
 
@@ -365,9 +362,7 @@ class UnifiedDreamSystem:
         # Calculate total causation
         total_strength = sum(s.causality_strength for s in scenarios)
         total_strength += sum(s.resonance_score for s in seeds)
-        causality_map["total_causation_strength"] = total_strength / (
-            len(scenarios) + len(seeds)
-        )
+        causality_map["total_causation_strength"] = total_strength / (len(scenarios) + len(seeds))
 
         # Store causality event
         self.causality_events.append(
@@ -376,9 +371,7 @@ class UnifiedDreamSystem:
 
         return causality_map
 
-    def _calculate_token_cost(
-        self, scenarios: list[DreamScenario], seeds: list[DreamSeed]
-    ) -> int:
+    def _calculate_token_cost(self, scenarios: list[DreamScenario], seeds: list[DreamSeed]) -> int:
         """Calculate total token cost for dream processing"""
         scenario_cost = sum(s.token_cost for s in scenarios)
         seed_cost = len(seeds) * 50  # Estimated cost per seed
@@ -411,9 +404,7 @@ class UnifiedDreamSystem:
         total_dreams = len(self.dream_history)
         total_scenarios = sum(len(d.scenarios) for d in self.dream_history)
         total_seeds = sum(len(d.seeds) for d in self.dream_history)
-        avg_processing_time = (
-            sum(d.processing_time_ms for d in self.dream_history) / total_dreams
-        )
+        avg_processing_time = sum(d.processing_time_ms for d in self.dream_history) / total_dreams
 
         return {
             "total_dreams": total_dreams,
@@ -421,12 +412,9 @@ class UnifiedDreamSystem:
             "total_seeds": total_seeds,
             "total_tokens_consumed": self.total_tokens_consumed,
             "avg_processing_time_ms": avg_processing_time,
-            "token_usage_percent": (self.total_tokens_consumed / self.token_budget)
-            * 100,
+            "token_usage_percent": (self.total_tokens_consumed / self.token_budget) * 100,
             "dream_types": {
-                dream_type.value: sum(
-                    1 for d in self.dream_history if d.dream_type == dream_type
-                )
+                dream_type.value: sum(1 for d in self.dream_history if d.dream_type == dream_type)
                 for dream_type in DreamType
             },
             "causality_events": len(self.causality_events),
@@ -440,8 +428,7 @@ class UnifiedDreamSystem:
             "causality_events": self.causality_events,
             "enterprise_compliance": {
                 "causality_fully_traced": True,
-                "token_budget_respected": self.total_tokens_consumed
-                <= self.token_budget,
+                "token_budget_respected": self.total_tokens_consumed <= self.token_budget,
                 "consent_verified": all(
                     all(s.consent_verified for s in d.seeds) for d in self.dream_history
                 ),
@@ -452,9 +439,9 @@ class UnifiedDreamSystem:
 
 # Export main class
 __all__ = [
-    "UnifiedDreamSystem",
-    "DreamType",
     "DreamScenario",
     "DreamSeed",
+    "DreamType",
     "UnifiedDream",
+    "UnifiedDreamSystem",
 ]

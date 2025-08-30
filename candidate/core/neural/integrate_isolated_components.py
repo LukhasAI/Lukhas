@@ -16,7 +16,6 @@ from pathlib import Path
 
 
 class ComponentIntegrator:
-
     def __init__(self):
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.integration_log = []
@@ -205,9 +204,7 @@ except ImportError as e:
             with open(memory_init, "a") as f:
                 f.write("\n" + memory_init_addition)
 
-            self.integration_log.append(
-                "Updated memory __init__.py with isolated components"
-            )
+            self.integration_log.append("Updated memory __init__.py with isolated components")
 
     def integrate_api_components(self):
         """Fix and integrate API components"""
@@ -458,9 +455,7 @@ def get_neural_network():
                 with open(main_py, "w") as f:
                     f.write(content)
 
-                self.integration_log.append(
-                    "Updated main.py with neural network integration"
-                )
+                self.integration_log.append("Updated main.py with neural network integration")
 
     def generate_report(self):
         """Generate integration report"""

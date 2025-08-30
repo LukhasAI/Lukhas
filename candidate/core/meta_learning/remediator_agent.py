@@ -106,12 +106,10 @@ except ImportError as e:
         return 0.1
 
     class QIMemoryManager:
-
         def consolidate_memories(self):
             return True
 
     class AdvancedMemoryManager:
-
         def optimize_performance(self):
             return True
 
@@ -122,12 +120,10 @@ except ImportError as e:
         return True
 
     class LUKHASReplayer:
-
         def replay_memories(self, count, filter_type):
             return True
 
     class GlyphIDHasher:
-
         def generate_hash(self, data):
             return hashlib.sha256(data.encode()).hexdigest()[:10]
 
@@ -156,14 +152,10 @@ except ImportError:
     META_LEARNING_COMPONENTS_AVAILABLE = False
 
     class MetaLearningMonitorDashboard:
-
         def update_remediation_status(self, data):
-            logger.debug(
-                "mock_dashboard_update_remediation_status", data=data
-            )  # Mock method
+            logger.debug("mock_dashboard_update_remediation_status", data=data)  # Mock method
 
     class DynamicLearningRateModulator:
-
         def adjust_for_drift(self, drift_score):
             logger.debug(
                 "mock_rate_modulator_adjust_for_drift", drift_score=drift_score
@@ -248,20 +240,14 @@ class RemediatorAgent:  # Corrected class name
 
         self.thresholds = self._initialize_thresholds()
         self.event_history: list[RemediationEvent] = []
-        self.active_remediations: dict[str, RemediationEvent] = (
-            {}
-        )  # Tracks ongoing remediations
+        self.active_remediations: dict[str, RemediationEvent] = {}  # Tracks ongoing remediations
         self.qi_hasher = (
-            GlyphIDHasher()
-            if LUKHAS_INFRA_AVAILABLE and "GlyphIDHasher" in globals()
-            else None
+            GlyphIDHasher() if LUKHAS_INFRA_AVAILABLE and "GlyphIDHasher" in globals() else None
         )
 
         # ΛNOTE: Conditional initialization of LUKHAS components based on availability.
         self.qi_memory = (
-            QIMemoryManager()
-            if LUKHAS_INFRA_AVAILABLE and "QIMemoryManager" in globals()
-            else None
+            QIMemoryManager() if LUKHAS_INFRA_AVAILABLE and "QIMemoryManager" in globals() else None
         )
         self.enhanced_memory = (
             AdvancedMemoryManager()
@@ -269,14 +255,11 @@ class RemediatorAgent:  # Corrected class name
             else None
         )
         self.lukhas_replayer = (
-            LUKHASReplayer()
-            if LUKHAS_INFRA_AVAILABLE and "LUKHASReplayer" in globals()
-            else None
+            LUKHASReplayer() if LUKHAS_INFRA_AVAILABLE and "LUKHASReplayer" in globals() else None
         )  # ΛNOTE: "lukhas" might be legacy.
         self.dashboard = (
             MetaLearningMonitorDashboard()
-            if META_LEARNING_COMPONENTS_AVAILABLE
-            and "MetaLearningMonitorDashboard" in globals()
+            if META_LEARNING_COMPONENTS_AVAILABLE and "MetaLearningMonitorDashboard" in globals()
             else None
         )
         self.rate_modulator = (
@@ -292,13 +275,9 @@ class RemediatorAgent:  # Corrected class name
             maxlen=self.config.get("entropy_buffer_size", 100)
         )  # Use deque
         self.compliance_state: str = "COMPLIANT"  # Overall compliance status
-        self.last_health_check_ts = datetime.now(
-            timezone.utc
-        )  # Renamed last_health_check
+        self.last_health_check_ts = datetime.now(timezone.utc)  # Renamed last_health_check
 
-        self.sub_agents: dict[str, dict[str, Any]] = (
-            {}
-        )  # Registry for spawned sub-agents
+        self.sub_agents: dict[str, dict[str, Any]] = {}  # Registry for spawned sub-agents
         self.spawn_count = 0
 
         self._setup_logging_structlog()  # Use structlog
@@ -424,9 +403,7 @@ class RemediatorAgent:  # Corrected class name
         """Setup structlog logging system for the agent."""
         # Logger is already bound at module level, this can be for agent-specific configuration if needed
         # For instance, adding agent_id to all logs from this instance
-        self.logger = logger.bind(
-            agent_id=self.agent_id
-        )  # Bind agent_id to instance logger
+        self.logger = logger.bind(agent_id=self.agent_id)  # Bind agent_id to instance logger
         self.logger.info("structlog_configured_for_remediator_agent_instance")
 
     # # Log agent startup details
@@ -461,13 +438,9 @@ class RemediatorAgent:  # Corrected class name
             # Fallback to SHA-256 with timestamp if specific LUKHAS hasher not available
             # Use json.dumps for dicts
             data_str = f"{json.dumps(data_to_sign, sort_keys=True, default=str)}_{time.time_ns()}"
-            return hashlib.sha256(data_str.encode()).hexdigest()[
-                :24
-            ]  # Longer signature
+            return hashlib.sha256(data_str.encode()).hexdigest()[:24]  # Longer signature
         except Exception as e:
-            self.logger.warn(
-                "qi_signature_generation_failed_remediator", error=str(e)
-            )
+            self.logger.warn("qi_signature_generation_failed_remediator", error=str(e))
             return f"FALLBACK_SIG_{int(time.time_ns())}"  # Use time_ns
 
     # # Calculate drift score using LUKHAS cosine similarity method (or fallback)
@@ -507,9 +480,7 @@ class RemediatorAgent:  # Corrected class name
 
     # # Calculate entropy measure for stability assessment
 
-    def calculate_entropy_measure(
-        self, data_seq: list[float]
-    ) -> float:  # Renamed data_sequence
+    def calculate_entropy_measure(self, data_seq: list[float]) -> float:  # Renamed data_sequence
         """Calculate entropy measure for stability assessment"""
         # ΛNOTE: Entropy can indicate system stability or predictability.
         # ΛCAUTION: Simplified entropy approximation.
@@ -569,19 +540,13 @@ class RemediatorAgent:  # Corrected class name
         compliance_deviation = 1.0 - compliance  # Renamed compliance_drift
         if compliance_deviation >= self.thresholds["compliance_issue_severe"]:
             max_sev = max(max_sev, RemediationLevel.CRITICAL)
-            detected_issues.append(
-                f"CRITICAL_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}"
-            )
+            detected_issues.append(f"CRITICAL_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}")
         elif compliance_deviation >= self.thresholds["compliance_issue_major"]:
             max_sev = max(max_sev, RemediationLevel.WARNING)
-            detected_issues.append(
-                f"WARNING_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}"
-            )
+            detected_issues.append(f"WARNING_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}")
         elif compliance_deviation >= self.thresholds["compliance_issue_minor"]:
             max_sev = max(max_sev, RemediationLevel.CAUTION)
-            detected_issues.append(
-                f"CAUTION_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}"
-            )
+            detected_issues.append(f"CAUTION_COMPLIANCE_DEVIATION:{compliance_deviation:.3f}")
 
         # Assess performance (assuming performance_score 1.0 is perfect, lower is worse)
         if performance <= self.thresholds["performance_level_critical"]:
@@ -692,9 +657,7 @@ class RemediatorAgent:  # Corrected class name
             return ""
 
         # Renamed sub_agent_id
-        sub_agent_id_val = (
-            f"{self.agent_id}_SUBAGENT_{sub_agent_type.upper()}_{self.spawn_count}"
-        )
+        sub_agent_id_val = f"{self.agent_id}_SUBAGENT_{sub_agent_type.upper()}_{self.spawn_count}"
         self.spawn_count += 1
         self.sub_agents[sub_agent_id_val] = {
             "parent_agent_id": self.agent_id,
@@ -735,9 +698,7 @@ class RemediatorAgent:  # Corrected class name
             }  # Use asdict, add agent_id
             # Ensure timestamp is string for JSON serializable if dashboard expects it
             if isinstance(dashboard_payload.get("timestamp"), datetime):
-                dashboard_payload["timestamp"] = dashboard_payload[
-                    "timestamp"
-                ].isoformat()
+                dashboard_payload["timestamp"] = dashboard_payload["timestamp"].isoformat()
 
             self.dashboard.update_remediation_status(
                 dashboard_payload
@@ -774,9 +735,7 @@ class RemediatorAgent:  # Corrected class name
             RemediationLevel.EMERGENCY: "Emergency Condition:",
         }  # Renamed severity_prefixes
         # Renamed voice_message
-        full_voice_message = (
-            f"{severity_map.get(severity_level, 'Alert:')} {alert_message}"
-        )
+        full_voice_message = f"{severity_map.get(severity_level, 'Alert:')} {alert_message}"
         # ΛCAUTION: Actual voice synthesis integration needed.
         logger.info(
             "simulated_voice_alert_emitted",
@@ -787,9 +746,7 @@ class RemediatorAgent:  # Corrected class name
     # # Execute remediation actions based on event type and severity
     # ΛEXPOSE: Core logic for taking corrective actions.
 
-    def execute_remediation(
-        self, event_to_remediate: RemediationEvent
-    ) -> bool:  # Renamed event
+    def execute_remediation(self, event_to_remediate: RemediationEvent) -> bool:  # Renamed event
         """Execute remediation actions based on event type and severity"""
         # ΛDREAM_LOOP: The execution of remediation actions is a direct response to learned system state, forming an adaptive loop.
         # ΛTRACE: Executing remediation actions
@@ -806,20 +763,12 @@ class RemediatorAgent:  # Corrected class name
             # Each block represents a conceptual remediation strategy.
             if event_to_remediate.event_type == RemediationType.DRIFT_CORRECTION:
                 if self.trigger_dream_replay("drift_correction_replay"):
-                    actions_performed.append(
-                        "triggered_dream_replay_for_drift"
-                    )  # Renamed
-                if self.rate_modulator and hasattr(
-                    self.rate_modulator, "adjust_for_drift"
-                ):
+                    actions_performed.append("triggered_dream_replay_for_drift")  # Renamed
+                if self.rate_modulator and hasattr(self.rate_modulator, "adjust_for_drift"):
                     self.rate_modulator.adjust_for_drift(event_to_remediate.drift_score)
-                    actions_performed.append(
-                        "learning_rate_modulation_for_drift"
-                    )  # Renamed
+                    actions_performed.append("learning_rate_modulation_for_drift")  # Renamed
                 remediation_succeeded = True
-            elif (
-                event_to_remediate.event_type == RemediationType.COMPLIANCE_ENFORCEMENT
-            ):
+            elif event_to_remediate.event_type == RemediationType.COMPLIANCE_ENFORCEMENT:
                 log_payload = {
                     "violation_category": "symbolic_drift_related_compliance",
                     "severity": event_to_remediate.severity.value,
@@ -827,9 +776,7 @@ class RemediatorAgent:  # Corrected class name
                     "timestamp_iso": event_to_remediate.timestamp.isoformat(),
                 }  # Renamed
                 sig = self._generate_quantum_signature(log_payload)
-                actions_performed.append(
-                    f"compliance_violation_logged_sig_{sig[:8]}"
-                )  # Renamed
+                actions_performed.append(f"compliance_violation_logged_sig_{sig[:8]}")  # Renamed
                 self.logger.warn(
                     "compliance_violation_event_logged_remediator",
                     signature_prefix=sig[:8],
@@ -843,9 +790,7 @@ class RemediatorAgent:  # Corrected class name
                         "framework_eu_ai_act_v1",
                         {"violation_details": log_payload},
                     )
-                    actions_performed.append(
-                        f"sub_agent_compliance_spawned:{sub_id}"
-                    )  # Renamed
+                    actions_performed.append(f"sub_agent_compliance_spawned:{sub_id}")  # Renamed
                 remediation_succeeded = True
             # ... other remediation types similar to original, ensuring variable renames and logger usage ...
             elif event_to_remediate.event_type == RemediationType.EMERGENCY_SHUTDOWN:
@@ -962,9 +907,7 @@ class RemediatorAgent:  # Corrected class name
         )  # Renamed severity, issues
 
         # Determine remediation type based on primary issue or severity
-        remediation_cat = (
-            RemediationType.DRIFT_CORRECTION
-        )  # Default, Renamed remediation_type
+        remediation_cat = RemediationType.DRIFT_CORRECTION  # Default, Renamed remediation_type
         if any("emergency" in issue.lower() for issue in issues_list):
             remediation_cat = RemediationType.EMERGENCY_SHUTDOWN
         elif any("compliance" in issue.lower() for issue in issues_list):
@@ -998,9 +941,7 @@ class RemediatorAgent:  # Corrected class name
             issues_count=len(issues_list),
         )
         if severity_level == RemediationLevel.NORMAL:
-            self.baseline_vectors["symbolic"] = (
-                current_sym_vector  # Update baseline if normal
-            )
+            self.baseline_vectors["symbolic"] = current_sym_vector  # Update baseline if normal
         self.last_health_check_ts = current_ts
         return event_obj
 
@@ -1017,9 +958,7 @@ class RemediatorAgent:  # Corrected class name
         try:
             event_data = self.check_system_health(system_metrics_input)  # Renamed event
             self.event_history.append(event_data)
-            if len(self.event_history) > self.config.get(
-                "max_event_history_size", 1000
-            ):
+            if len(self.event_history) > self.config.get("max_event_history_size", 1000):
                 self.event_history.pop(0)  # Manage history size, use .get
 
             if event_data.severity != RemediationLevel.NORMAL:
@@ -1070,13 +1009,9 @@ class RemediatorAgent:  # Corrected class name
         # ΛDREAM_LOOP: Continuous autonomous monitoring and remediation.
         # ΛTRACE: Starting autonomous monitoring loop
         logger.info("start_autonomous_monitoring_loop")
-        monitoring_interval_sec = self.config.get(
-            "drift_monitoring_interval_sec", 5.0
-        )  # Renamed
+        monitoring_interval_sec = self.config.get("drift_monitoring_interval_sec", 5.0)  # Renamed
         try:
-            async for (
-                current_sys_metrics
-            ) in metrics_async_generator:  # Renamed system_metrics
+            async for current_sys_metrics in metrics_async_generator:  # Renamed system_metrics
                 is_system_stable = self.run_monitoring_cycle(
                     current_sys_metrics
                 )  # Renamed system_stable
@@ -1093,9 +1028,7 @@ class RemediatorAgent:  # Corrected class name
         except KeyboardInterrupt:
             logger.info("autonomous_monitoring_stopped_by_user_interrupt")
         except Exception as e:
-            logger.error(
-                "autonomous_monitoring_loop_error", error=str(e), exc_info=True
-            )
+            logger.error("autonomous_monitoring_loop_error", error=str(e), exc_info=True)
         finally:
             logger.info("autonomous_monitoring_loop_ended")
 
@@ -1157,9 +1090,7 @@ class RemediatorAgent:  # Corrected class name
             "total_sub_agents_spawned": self.spawn_count,
             "final_system_compliance_state": self.compliance_state,
         }  # Renamed keys
-        final_signature = self._generate_quantum_signature(
-            final_shutdown_data
-        )  # Renamed signature
+        final_signature = self._generate_quantum_signature(final_shutdown_data)  # Renamed signature
         self.logger.info(
             "remediator_agent_shutdown_complete_final_log",
             uptime_str=str(uptime_val),
@@ -1234,9 +1165,7 @@ if __name__ == "__main__":
         print(f"Initial cycle system stable: {is_stable}")
         print("\n📋 Agent Status After Initial Cycle:")
         status_report = remediator.get_agent_status()
-        logger.info(
-            "demo_agent_status_after_initial_cycle", status=status_report
-        )  # Renamed status
+        logger.info("demo_agent_status_after_initial_cycle", status=status_report)  # Renamed status
         # for key, value in status_report.items(): print(f"  {key}: {value}") #
         # Optional print for CLI
 
@@ -1245,9 +1174,7 @@ if __name__ == "__main__":
         monitoring_task = asyncio.create_task(
             remediator.start_autonomous_monitoring(generate_test_metrics_async())
         )
-        await asyncio.sleep(
-            3.5
-        )  # Let it run for a few cycles (e.g., 3 cycles if interval is 1s)
+        await asyncio.sleep(3.5)  # Let it run for a few cycles (e.g., 3 cycles if interval is 1s)
         remediator.config["drift_monitoring_interval_sec"] = (
             1000  # Effectively stop it for shutdown
         )
@@ -1268,9 +1195,7 @@ if __name__ == "__main__":
             try:
                 await monitoring_task
             except asyncio.CancelledError:
-                logger.info(
-                    "Autonomous monitoring task cancelled as part of demo shutdown."
-                )
+                logger.info("Autonomous monitoring task cancelled as part of demo shutdown.")
 
         print("\n✅ Async Demo completed")
         logger.info("remediator_agent_async_demo_end")

@@ -18,7 +18,9 @@ import os
 
 
 class ComplianceMonitor:
-    def __init__(self, drift_thresholds=None, log_dir="lucas_governance/logs", moving_average_window=20):
+    def __init__(
+        self, drift_thresholds=None, log_dir="lucas_governance/logs", moving_average_window=20
+    ):
         self.drift_score = 0.0
         self.drift_thresholds = drift_thresholds or {
             "default": {"recalibrate": 0.3, "escalate": 0.6},
@@ -49,14 +51,10 @@ class ComplianceMonitor:
         if len(self.compliance_history) > self.moving_average_window:
             self.compliance_history.pop(0)
 
-        thresholds = self.drift_thresholds.get(
-            subsystem, self.drift_thresholds["default"]
-        )
+        thresholds = self.drift_thresholds.get(subsystem, self.drift_thresholds["default"])
 
         # Logging the evaluation
-        self._log_decision(
-            decision_id, compliance_score, drift_increment, subsystem, lucas_id
-        )
+        self._log_decision(decision_id, compliance_score, drift_increment, subsystem, lucas_id)
 
         # Early entropy warning
         if drift_increment >= 0.25:
@@ -72,22 +70,14 @@ class ComplianceMonitor:
             self.recalibrate(subsystem)
 
     def recalibrate(self, subsystem):
-        self._log_event(
-            "⚠️ Drift threshold exceeded. Initiating recalibration...", subsystem
-        )
+        self._log_event("⚠️ Drift threshold exceeded. Initiating recalibration...", subsystem)
         self.drift_score *= 0.5  # Basic recalibration (micro-collapse after correction)
-        self._log_event(
-            f"Drift score after recalibration: {self.drift_score:.3f}", subsystem
-        )
+        self._log_event(f"Drift score after recalibration: {self.drift_score:.3f}", subsystem)
 
     def escalate_to_human(self, subsystem):
-        self._log_event(
-            "🚨 Critical drift detected! Escalating to human oversight.", subsystem
-        )
+        self._log_event("🚨 Critical drift detected! Escalating to human oversight.", subsystem)
 
-    def _log_decision(
-        self, decision_id, compliance, drift_increment, subsystem, lucas_id
-    ):
+    def _log_decision(self, decision_id, compliance, drift_increment, subsystem, lucas_id):
         timestamp = datetime.datetime.now().isoformat()
         log_text = (
             f"{timestamp} | Subsystem: {subsystem} | Lucas_ID: {lucas_id} | "

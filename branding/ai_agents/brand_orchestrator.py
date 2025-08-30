@@ -84,8 +84,10 @@ except ImportError as e:
 
             return ValidationResult()
 
+
 class BrandOrchestrationTask:
     """Represents a brand orchestration task"""
+
     def __init__(self, task_id: str, task_type: str, priority: int, data: dict[str, Any]):
         self.task_id = task_id
         self.task_type = task_type
@@ -94,6 +96,7 @@ class BrandOrchestrationTask:
         self.created_at = datetime.now()
         self.status = "pending"
         self.result = None
+
 
 class BrandOrchestratorAgent:
     """
@@ -119,7 +122,7 @@ class BrandOrchestratorAgent:
             "tasks_processed": 0,
             "successful_orchestrations": 0,
             "brand_consistency_score": 0.95,
-            "average_response_time": 0.0
+            "average_response_time": 0.0,
         }
 
         # Configuration
@@ -139,26 +142,26 @@ class BrandOrchestratorAgent:
                 "brand_monitoring": 3,
                 "sentiment_analysis": 3,
                 "intelligence_gathering": 2,
-                "trend_analysis": 1
+                "trend_analysis": 1,
             },
             "orchestration_intervals": {
                 "real_time_check": 30,  # seconds
                 "brand_health_check": 300,  # 5 minutes
                 "intelligence_update": 900,  # 15 minutes
-                "strategy_review": 3600  # 1 hour
+                "strategy_review": 3600,  # 1 hour
             },
             "quality_thresholds": {
                 "minimum_brand_consistency": 0.85,
                 "minimum_sentiment_score": 0.6,
                 "maximum_response_time": 2000,  # milliseconds
-                "minimum_validation_confidence": 0.8
+                "minimum_validation_confidence": 0.8,
             },
             "auto_escalation_rules": {
                 "critical_brand_violations": True,
                 "low_sentiment_trends": True,
                 "performance_degradation": True,
-                "consistency_drops": True
-            }
+                "consistency_drops": True,
+            },
         }
 
     def _load_brand_strategy(self) -> dict[str, Any]:
@@ -170,34 +173,34 @@ class BrandOrchestratorAgent:
                     "Maintain Trinity Framework coherence across all communications",
                     "Ensure ethical AI representation in all content",
                     "Build trust through transparency and authenticity",
-                    "Enhance accessibility while maintaining technical depth"
-                ]
+                    "Enhance accessibility while maintaining technical depth",
+                ],
             },
             "target_brand_metrics": {
                 "brand_consistency_score": 0.95,
                 "sentiment_positivity": 0.80,
                 "trinity_alignment": 0.90,
                 "user_engagement": 0.75,
-                "trust_indicators": 0.85
+                "trust_indicators": 0.85,
             },
             "brand_personality_priorities": {
                 "consciousness_awareness": 0.95,
                 "ethical_foundation": 0.90,
                 "innovation_leadership": 0.85,
                 "human_empathy": 0.80,
-                "technical_competence": 0.85
+                "technical_competence": 0.85,
             },
             "communication_strategy": {
                 "tone_distribution_targets": {
                     "poetic": 0.25,
                     "user_friendly": 0.50,
-                    "academic": 0.25
+                    "academic": 0.25,
                 },
                 "voice_consistency_requirements": {
                     "cross_platform": 0.90,
                     "cross_context": 0.85,
-                    "temporal_stability": 0.88
-                }
+                    "temporal_stability": 0.88,
+                },
             },
             "crisis_management": {
                 "sentiment_drop_threshold": -0.15,
@@ -205,9 +208,9 @@ class BrandOrchestratorAgent:
                 "escalation_protocols": {
                     "immediate": ["critical_brand_violations", "severe_sentiment_drops"],
                     "urgent": ["consistency_degradation", "trust_issues"],
-                    "standard": ["minor_violations", "trend_monitoring"]
-                }
-            }
+                    "standard": ["minor_violations", "trend_monitoring"],
+                },
+            },
         }
 
     async def start_orchestration(self) -> None:
@@ -220,7 +223,7 @@ class BrandOrchestratorAgent:
             self._brand_health_monitoring_loop(),
             self._intelligence_coordination_loop(),
             self._strategic_review_loop(),
-            self._task_processing_loop()
+            self._task_processing_loop(),
         )
 
     async def stop_orchestration(self) -> None:
@@ -238,7 +241,9 @@ class BrandOrchestratorAgent:
                 await self._process_high_priority_tasks()
 
                 # Wait for next cycle
-                await asyncio.sleep(self.orchestration_config["orchestration_intervals"]["real_time_check"])
+                await asyncio.sleep(
+                    self.orchestration_config["orchestration_intervals"]["real_time_check"]
+                )
 
             except Exception as e:
                 print(f"Error in real-time orchestration: {e}")
@@ -262,7 +267,9 @@ class BrandOrchestratorAgent:
                 self._update_orchestration_metrics(brand_health)
 
                 # Wait for next cycle
-                await asyncio.sleep(self.orchestration_config["orchestration_intervals"]["brand_health_check"])
+                await asyncio.sleep(
+                    self.orchestration_config["orchestration_intervals"]["brand_health_check"]
+                )
 
             except Exception as e:
                 print(f"Error in brand health monitoring: {e}")
@@ -286,7 +293,9 @@ class BrandOrchestratorAgent:
                     await self._update_brand_strategy(strategic_insights)
 
                 # Wait for next cycle
-                await asyncio.sleep(self.orchestration_config["orchestration_intervals"]["intelligence_update"])
+                await asyncio.sleep(
+                    self.orchestration_config["orchestration_intervals"]["intelligence_update"]
+                )
 
             except Exception as e:
                 print(f"Error in intelligence coordination: {e}")
@@ -303,13 +312,17 @@ class BrandOrchestratorAgent:
                 self._optimize_orchestration_parameters(strategy_review)
 
                 # Generate strategic recommendations
-                strategic_recommendations = self._generate_strategic_recommendations(strategy_review)
+                strategic_recommendations = self._generate_strategic_recommendations(
+                    strategy_review
+                )
 
                 # Store review results
                 await self._store_strategic_review(strategy_review, strategic_recommendations)
 
                 # Wait for next cycle
-                await asyncio.sleep(self.orchestration_config["orchestration_intervals"]["strategy_review"])
+                await asyncio.sleep(
+                    self.orchestration_config["orchestration_intervals"]["strategy_review"]
+                )
 
             except Exception as e:
                 print(f"Error in strategic review: {e}")
@@ -338,7 +351,7 @@ class BrandOrchestratorAgent:
         self,
         content_request: dict[str, Any],
         context: str = "general",
-        quality_requirements: Optional[dict[str, float]] = None
+        quality_requirements: Optional[dict[str, float]] = None,
     ) -> dict[str, Any]:
         """
         Orchestrate comprehensive content creation with brand consistency
@@ -355,7 +368,7 @@ class BrandOrchestratorAgent:
         creativity_result = self.creativity_adapter.generate_brand_creative_content(
             prompt=content_request.get("prompt", ""),
             tone_layer=content_request.get("tone_layer", "user_friendly"),
-            creative_style=content_request.get("creative_style", "consciousness_inspired")
+            creative_style=content_request.get("creative_style", "consciousness_inspired"),
         )
 
         # Step 2: Apply brand voice using voice adapter
@@ -363,7 +376,7 @@ class BrandOrchestratorAgent:
             content=creativity_result["content"],
             tone_layer=content_request.get("tone_layer", "user_friendly"),
             emotional_context=content_request.get("emotional_context", "neutral"),
-            audience_context=context
+            audience_context=context,
         )
 
         # Step 3: Express through brand personality
@@ -371,7 +384,7 @@ class BrandOrchestratorAgent:
             content=voice_result["voice_output"],
             personality_profile=content_request.get("personality_profile", "lukhas_consciousness"),
             tone_layer=content_request.get("tone_layer", "user_friendly"),
-            context=context
+            context=context,
         )
 
         # Step 4: Validate brand compliance
@@ -379,7 +392,7 @@ class BrandOrchestratorAgent:
             content=personality_result["personality_expression"],
             content_id=orchestration_id,
             content_type=context,
-            auto_correct=True
+            auto_correct=True,
         )
 
         # Step 5: Apply auto-corrections if needed
@@ -391,15 +404,18 @@ class BrandOrchestratorAgent:
 
         # Step 6: Analyze sentiment
         sentiment_result = self.sentiment_engine.analyze_sentiment(
-            text=final_content,
-            context=context
+            text=final_content, context=context
         )
 
         # Step 7: Final quality assessment
         quality_assessment = self._assess_content_quality(
-            final_content, creativity_result, voice_result,
-            personality_result, validation_result, sentiment_result,
-            quality_requirements
+            final_content,
+            creativity_result,
+            voice_result,
+            personality_result,
+            validation_result,
+            sentiment_result,
+            quality_requirements,
         )
 
         # Step 8: Generate orchestration report
@@ -414,9 +430,12 @@ class BrandOrchestratorAgent:
             "quality_assessment": quality_assessment,
             "orchestration_performance": {
                 "total_time_ms": orchestration_time,
-                "meets_quality_requirements": quality_assessment["overall_quality"] >= quality_requirements.get("minimum_brand_consistency", 0.85),
-                "brand_consistency_score": quality_assessment["quality_factors"]["brand_consistency"],
-                "sentiment_score": sentiment_result.overall_sentiment
+                "meets_quality_requirements": quality_assessment["overall_quality"]
+                >= quality_requirements.get("minimum_brand_consistency", 0.85),
+                "brand_consistency_score": quality_assessment["quality_factors"][
+                    "brand_consistency"
+                ],
+                "sentiment_score": sentiment_result.overall_sentiment,
             },
             "component_results": {
                 "creativity": creativity_result,
@@ -424,22 +443,32 @@ class BrandOrchestratorAgent:
                 "personality": personality_result,
                 "validation": {
                     "is_compliant": validation_result.is_compliant,
-                    "severity": validation_result.severity.value if hasattr(validation_result.severity, "value") else str(validation_result.severity),
+                    "severity": validation_result.severity.value
+                    if hasattr(validation_result.severity, "value")
+                    else str(validation_result.severity),
                     "issues_count": len(validation_result.issues),
-                    "auto_corrections_applied": len(validation_result.auto_corrections) if validation_result.auto_corrections else 0
+                    "auto_corrections_applied": len(validation_result.auto_corrections)
+                    if validation_result.auto_corrections
+                    else 0,
                 },
                 "sentiment": {
                     "overall_sentiment": sentiment_result.overall_sentiment,
-                    "polarity": sentiment_result.polarity.value if hasattr(sentiment_result.polarity, "value") else str(sentiment_result.polarity),
-                    "confidence": sentiment_result.confidence
-                }
+                    "polarity": sentiment_result.polarity.value
+                    if hasattr(sentiment_result.polarity, "value")
+                    else str(sentiment_result.polarity),
+                    "confidence": sentiment_result.confidence,
+                },
             },
-            "recommendations": self._generate_content_recommendations(quality_assessment, validation_result, sentiment_result)
+            "recommendations": self._generate_content_recommendations(
+                quality_assessment, validation_result, sentiment_result
+            ),
         }
 
         # Update metrics
         self.orchestration_metrics["tasks_processed"] += 1
-        if quality_assessment["overall_quality"] >= quality_requirements.get("minimum_brand_consistency", 0.85):
+        if quality_assessment["overall_quality"] >= quality_requirements.get(
+            "minimum_brand_consistency", 0.85
+        ):
             self.orchestration_metrics["successful_orchestrations"] += 1
 
         # Store orchestration result
@@ -451,10 +480,7 @@ class BrandOrchestratorAgent:
         return orchestration_result
 
     async def orchestrate_brand_crisis_response(
-        self,
-        crisis_type: str,
-        crisis_data: dict[str, Any],
-        urgency_level: str = "high"
+        self, crisis_type: str, crisis_data: dict[str, Any], urgency_level: str = "high"
     ) -> dict[str, Any]:
         """
         Orchestrate response to brand crisis situations
@@ -466,7 +492,9 @@ class BrandOrchestratorAgent:
         crisis_assessment = self._assess_crisis_severity(crisis_type, crisis_data)
 
         # Step 2: Generate immediate response strategy
-        response_strategy = self._generate_crisis_response_strategy(crisis_assessment, urgency_level)
+        response_strategy = self._generate_crisis_response_strategy(
+            crisis_assessment, urgency_level
+        )
 
         # Step 3: Coordinate immediate actions
         immediate_actions = await self._execute_immediate_crisis_actions(response_strategy)
@@ -477,7 +505,9 @@ class BrandOrchestratorAgent:
             corrective_content = await self.orchestrate_content_creation(
                 content_request=response_strategy["content_request"],
                 context="crisis_response",
-                quality_requirements={"minimum_brand_consistency": 0.95}  # Higher standards for crisis
+                quality_requirements={
+                    "minimum_brand_consistency": 0.95
+                },  # Higher standards for crisis
             )
 
         # Step 5: Monitor crisis resolution
@@ -492,7 +522,7 @@ class BrandOrchestratorAgent:
             "immediate_actions": immediate_actions,
             "corrective_content": corrective_content,
             "monitoring_plan": monitoring_plan,
-            "resolution_status": "in_progress"
+            "resolution_status": "in_progress",
         }
 
         # Store crisis response
@@ -511,7 +541,7 @@ class BrandOrchestratorAgent:
         personality_result: dict[str, Any],
         validation_result: Any,
         sentiment_result: Any,
-        quality_requirements: dict[str, float]
+        quality_requirements: dict[str, float],
     ) -> dict[str, Any]:
         """Assess overall content quality against brand standards"""
 
@@ -520,9 +550,9 @@ class BrandOrchestratorAgent:
 
         # Trinity alignment from components
         trinity_alignment = (
-            creativity_result.get("trinity_aligned", False) * 0.4 +
-            personality_result.get("trinity_coherent", False) * 0.4 +
-            voice_result.get("trinity_aligned", False) * 0.2
+            creativity_result.get("trinity_aligned", False) * 0.4
+            + personality_result.get("trinity_coherent", False) * 0.4
+            + voice_result.get("trinity_aligned", False) * 0.2
         )
 
         # Sentiment quality
@@ -532,7 +562,9 @@ class BrandOrchestratorAgent:
         voice_consistency = voice_result.get("voice_metadata", {}).get("brand_alignment_score", 0.8)
 
         # Personality coherence
-        personality_coherence = personality_result.get("personality_metrics", {}).get("brand_authenticity_score", 0.8)
+        personality_coherence = personality_result.get("personality_metrics", {}).get(
+            "brand_authenticity_score", 0.8
+        )
 
         # Calculate overall quality
         quality_factors = {
@@ -540,28 +572,35 @@ class BrandOrchestratorAgent:
             "trinity_alignment": trinity_alignment,
             "sentiment_quality": sentiment_quality,
             "voice_consistency": voice_consistency,
-            "personality_coherence": personality_coherence
+            "personality_coherence": personality_coherence,
         }
 
         # Weighted overall quality
-        weights = {"brand_consistency": 0.3, "trinity_alignment": 0.25, "sentiment_quality": 0.2, "voice_consistency": 0.15, "personality_coherence": 0.1}
-        overall_quality = sum(quality_factors[factor] * weights[factor] for factor in quality_factors)
+        weights = {
+            "brand_consistency": 0.3,
+            "trinity_alignment": 0.25,
+            "sentiment_quality": 0.2,
+            "voice_consistency": 0.15,
+            "personality_coherence": 0.1,
+        }
+        overall_quality = sum(
+            quality_factors[factor] * weights[factor] for factor in quality_factors
+        )
 
         return {
             "overall_quality": overall_quality,
             "quality_factors": quality_factors,
-            "meets_requirements": overall_quality >= quality_requirements.get("minimum_brand_consistency", 0.85),
+            "meets_requirements": overall_quality
+            >= quality_requirements.get("minimum_brand_consistency", 0.85),
             "improvement_areas": [
-                factor for factor, score in quality_factors.items()
+                factor
+                for factor, score in quality_factors.items()
                 if score < quality_requirements.get("minimum_brand_consistency", 0.85)
-            ]
+            ],
         }
 
     def _generate_content_recommendations(
-        self,
-        quality_assessment: dict[str, Any],
-        validation_result: Any,
-        sentiment_result: Any
+        self, quality_assessment: dict[str, Any], validation_result: Any, sentiment_result: Any
     ) -> list[str]:
         """Generate recommendations for content improvement"""
 
@@ -599,27 +638,26 @@ class BrandOrchestratorAgent:
         health_indicators = {
             "validation_compliance": 0.95,
             "sentiment_trend": 0.78,
-            "consistency_score": 0.92
+            "consistency_score": 0.92,
         }
 
         # Check for issues requiring immediate attention
         for indicator, value in health_indicators.items():
-            threshold = self.orchestration_config["quality_thresholds"].get(f"minimum_{indicator.split('_')[0]}", 0.8)
+            threshold = self.orchestration_config["quality_thresholds"].get(
+                f"minimum_{indicator.split('_')[0]}", 0.8
+            )
             if value < threshold:
-                await self._add_orchestration_task("immediate_attention", {
-                    "indicator": indicator,
-                    "value": value,
-                    "threshold": threshold
-                }, priority=5)
+                await self._add_orchestration_task(
+                    "immediate_attention",
+                    {"indicator": indicator, "value": value, "threshold": threshold},
+                    priority=5,
+                )
 
     async def _process_high_priority_tasks(self) -> None:
         """Process high-priority orchestration tasks"""
 
         # Get high-priority tasks from active tasks
-        high_priority_tasks = [
-            task for task in self.active_tasks.values()
-            if task.priority >= 4
-        ]
+        high_priority_tasks = [task for task in self.active_tasks.values() if task.priority >= 4]
 
         # Process each high-priority task
         for task in high_priority_tasks:
@@ -632,7 +670,7 @@ class BrandOrchestratorAgent:
         brand_metrics = self.monitoring_adapter.collect_brand_metrics(
             metric_categories=["brand_consistency", "brand_performance", "brand_intelligence"],
             time_range="last_hour",
-            include_intelligence=True
+            include_intelligence=True,
         )
 
         # Get recent sentiment trends
@@ -642,7 +680,7 @@ class BrandOrchestratorAgent:
         intelligence_status = {
             "monitoring_active": True,  # Would check actual status
             "recent_consistency": 0.92,
-            "trend_direction": "stable"
+            "trend_direction": "stable",
         }
 
         return {
@@ -650,7 +688,9 @@ class BrandOrchestratorAgent:
             "brand_metrics": brand_metrics,
             "sentiment_trends": sentiment_trends,
             "intelligence_status": intelligence_status,
-            "overall_health_score": self._calculate_overall_health_score(brand_metrics, sentiment_trends, intelligence_status)
+            "overall_health_score": self._calculate_overall_health_score(
+                brand_metrics, sentiment_trends, intelligence_status
+            ),
         }
 
     def _assess_strategy_alignment(self, brand_health: dict[str, Any]) -> dict[str, Any]:
@@ -671,7 +711,7 @@ class BrandOrchestratorAgent:
                 "target": target,
                 "current": current_value,
                 "alignment": current_value / target if target > 0 else 1.0,
-                "meets_target": current_value >= target
+                "meets_target": current_value >= target,
             }
 
             if current_value < target * 0.9:  # 90% of target threshold
@@ -680,7 +720,8 @@ class BrandOrchestratorAgent:
         return {
             "alignment_scores": alignment_scores,
             "needs_attention": needs_attention,
-            "overall_alignment": sum(score["alignment"] for score in alignment_scores.values()) / len(alignment_scores)
+            "overall_alignment": sum(score["alignment"] for score in alignment_scores.values())
+            / len(alignment_scores),
         }
 
     async def _generate_improvement_tasks(self, strategy_alignment: dict[str, Any]) -> None:
@@ -688,12 +729,16 @@ class BrandOrchestratorAgent:
 
         for metric, alignment_data in strategy_alignment["alignment_scores"].items():
             if not alignment_data["meets_target"]:
-                await self._add_orchestration_task("improvement", {
-                    "metric": metric,
-                    "current": alignment_data["current"],
-                    "target": alignment_data["target"],
-                    "improvement_needed": alignment_data["target"] - alignment_data["current"]
-                }, priority=3)
+                await self._add_orchestration_task(
+                    "improvement",
+                    {
+                        "metric": metric,
+                        "current": alignment_data["current"],
+                        "target": alignment_data["target"],
+                        "improvement_needed": alignment_data["target"] - alignment_data["current"],
+                    },
+                    priority=3,
+                )
 
     def _update_orchestration_metrics(self, brand_health: dict[str, Any]) -> None:
         """Update orchestration performance metrics"""
@@ -711,25 +756,27 @@ class BrandOrchestratorAgent:
         self,
         brand_metrics: dict[str, Any],
         sentiment_trends: dict[str, Any],
-        intelligence_status: dict[str, Any]
+        intelligence_status: dict[str, Any],
     ) -> float:
         """Calculate overall brand health score"""
 
         # Extract key metrics
         brand_score = brand_metrics.get("overall_brand_health", {}).get("overall_score", 0.8)
-        sentiment_score = sentiment_trends.get("overall_sentiment", {}).get("average", 0.7) if "error" not in sentiment_trends else 0.7
+        sentiment_score = (
+            sentiment_trends.get("overall_sentiment", {}).get("average", 0.7)
+            if "error" not in sentiment_trends
+            else 0.7
+        )
         intelligence_score = intelligence_status.get("recent_consistency", 0.9)
 
         # Weighted combination
-        overall_score = (
-            brand_score * 0.5 +
-            sentiment_score * 0.3 +
-            intelligence_score * 0.2
-        )
+        overall_score = brand_score * 0.5 + sentiment_score * 0.3 + intelligence_score * 0.2
 
         return min(1.0, max(0.0, overall_score))
 
-    async def _add_orchestration_task(self, task_type: str, data: dict[str, Any], priority: int = 3) -> None:
+    async def _add_orchestration_task(
+        self, task_type: str, data: dict[str, Any], priority: int = 3
+    ) -> None:
         """Add a task to the orchestration queue"""
 
         task_id = f"task_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
@@ -789,7 +836,7 @@ class BrandOrchestratorAgent:
             "status": "completed",
             "action_taken": action,
             "indicator": indicator,
-            "improvement_needed": threshold - value
+            "improvement_needed": threshold - value,
         }
 
     async def _handle_improvement_task(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -804,22 +851,15 @@ class BrandOrchestratorAgent:
             "improvement_target": improvement_needed,
             "recommended_actions": self._get_improvement_actions(metric),
             "timeline": "7_days",
-            "monitoring_frequency": "daily"
+            "monitoring_frequency": "daily",
         }
 
-        return {
-            "status": "completed",
-            "improvement_plan": improvement_plan
-        }
+        return {"status": "completed", "improvement_plan": improvement_plan}
 
     async def _handle_monitoring_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Handle monitoring tasks"""
 
-        return {
-            "status": "completed",
-            "monitoring_result": "monitoring_executed",
-            "data": data
-        }
+        return {"status": "completed", "monitoring_result": "monitoring_executed", "data": data}
 
     def _get_improvement_actions(self, metric: str) -> list[str]:
         """Get improvement actions for specific metrics"""
@@ -828,23 +868,23 @@ class BrandOrchestratorAgent:
             "brand_consistency_score": [
                 "Review and update brand guidelines",
                 "Increase validation frequency",
-                "Enhance team training on brand standards"
+                "Enhance team training on brand standards",
             ],
             "sentiment_positivity": [
                 "Improve user interaction quality",
                 "Enhance empathetic communication",
-                "Address user pain points proactively"
+                "Address user pain points proactively",
             ],
             "trinity_alignment": [
                 "Strengthen Trinity Framework integration",
                 "Increase Trinity symbol usage",
-                "Align content with Identity-Consciousness-Guardian themes"
+                "Align content with Identity-Consciousness-Guardian themes",
             ],
             "user_engagement": [
                 "Improve content accessibility",
                 "Enhance interactive elements",
-                "Optimize user experience flows"
-            ]
+                "Optimize user experience flows",
+            ],
         }
 
         return improvement_actions.get(metric, ["General brand enhancement measures"])
@@ -879,8 +919,10 @@ class BrandOrchestratorAgent:
             "active_tasks": len(self.active_tasks),
             "completed_tasks": len(self.completed_tasks),
             "task_queue_size": self.task_queue.qsize(),
-            "system_health": "excellent" if self.orchestration_metrics["brand_consistency_score"] > 0.9 else "good",
-            "recent_performance": self._get_recent_performance_summary()
+            "system_health": "excellent"
+            if self.orchestration_metrics["brand_consistency_score"] > 0.9
+            else "good",
+            "recent_performance": self._get_recent_performance_summary(),
         }
 
     def _get_recent_performance_summary(self) -> dict[str, Any]:
@@ -898,18 +940,36 @@ class BrandOrchestratorAgent:
         return {
             "recent_tasks_count": len(recent_tasks),
             "success_rate": success_rate,
-            "performance_trend": "improving" if success_rate > 0.9 else "stable" if success_rate > 0.7 else "needs_attention"
+            "performance_trend": "improving"
+            if success_rate > 0.9
+            else "stable"
+            if success_rate > 0.7
+            else "needs_attention",
         }
 
     # Additional helper methods for crisis management and strategic operations
-    def _assess_crisis_severity(self, crisis_type: str, crisis_data: dict[str, Any]) -> dict[str, Any]:
+    def _assess_crisis_severity(
+        self, crisis_type: str, crisis_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess the severity of a brand crisis"""
 
         severity_matrix = {
-            "sentiment_drop": {"base_severity": 3, "multipliers": {"magnitude": 1.5, "duration": 1.2}},
-            "consistency_violation": {"base_severity": 2, "multipliers": {"frequency": 1.3, "scope": 1.4}},
-            "trust_erosion": {"base_severity": 4, "multipliers": {"public_visibility": 2.0, "stakeholder_impact": 1.5}},
-            "technical_failure": {"base_severity": 2, "multipliers": {"user_impact": 1.6, "duration": 1.3}}
+            "sentiment_drop": {
+                "base_severity": 3,
+                "multipliers": {"magnitude": 1.5, "duration": 1.2},
+            },
+            "consistency_violation": {
+                "base_severity": 2,
+                "multipliers": {"frequency": 1.3, "scope": 1.4},
+            },
+            "trust_erosion": {
+                "base_severity": 4,
+                "multipliers": {"public_visibility": 2.0, "stakeholder_impact": 1.5},
+            },
+            "technical_failure": {
+                "base_severity": 2,
+                "multipliers": {"user_impact": 1.6, "duration": 1.3},
+            },
         }
 
         crisis_config = severity_matrix.get(crisis_type, {"base_severity": 3, "multipliers": {}})
@@ -929,29 +989,44 @@ class BrandOrchestratorAgent:
             "base_severity": base_severity,
             "severity_modifiers": severity_modifiers,
             "final_severity": final_severity,
-            "severity_level": "critical" if final_severity >= 4 else "high" if final_severity >= 3 else "medium",
-            "requires_immediate_action": final_severity >= 3
+            "severity_level": "critical"
+            if final_severity >= 4
+            else "high"
+            if final_severity >= 3
+            else "medium",
+            "requires_immediate_action": final_severity >= 3,
         }
 
-    def _generate_crisis_response_strategy(self, crisis_assessment: dict[str, Any], urgency_level: str) -> dict[str, Any]:
+    def _generate_crisis_response_strategy(
+        self, crisis_assessment: dict[str, Any], urgency_level: str
+    ) -> dict[str, Any]:
         """Generate crisis response strategy"""
 
         return {
-            "response_priority": "immediate" if crisis_assessment["requires_immediate_action"] else "urgent",
+            "response_priority": "immediate"
+            if crisis_assessment["requires_immediate_action"]
+            else "urgent",
             "communication_strategy": "transparent_acknowledgment",
-            "corrective_actions": ["immediate_validation_enhancement", "sentiment_monitoring_increase"],
+            "corrective_actions": [
+                "immediate_validation_enhancement",
+                "sentiment_monitoring_increase",
+            ],
             "requires_content_response": crisis_assessment["final_severity"] >= 3,
             "content_request": {
                 "prompt": "Generate crisis response communication emphasizing LUKHAS commitment to quality and improvement",
                 "tone_layer": "user_friendly",
                 "personality_profile": "lukhas_consciousness",
-                "emotional_context": "reassuring"
-            } if crisis_assessment["final_severity"] >= 3 else None,
+                "emotional_context": "reassuring",
+            }
+            if crisis_assessment["final_severity"] >= 3
+            else None,
             "monitoring_enhancement": "increase_frequency_by_50_percent",
-            "escalation_timeline": "immediate" if urgency_level == "critical" else "1_hour"
+            "escalation_timeline": "immediate" if urgency_level == "critical" else "1_hour",
         }
 
-    async def _execute_immediate_crisis_actions(self, response_strategy: dict[str, Any]) -> dict[str, Any]:
+    async def _execute_immediate_crisis_actions(
+        self, response_strategy: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute immediate crisis response actions"""
 
         actions_taken = []
@@ -967,7 +1042,7 @@ class BrandOrchestratorAgent:
         return {
             "actions_executed": actions_taken,
             "execution_timestamp": datetime.now().isoformat(),
-            "response_effectiveness": "monitoring_initiated"
+            "response_effectiveness": "monitoring_initiated",
         }
 
     def _create_crisis_monitoring_plan(self, crisis_assessment: dict[str, Any]) -> dict[str, Any]:
@@ -978,7 +1053,7 @@ class BrandOrchestratorAgent:
         monitoring_intervals = {
             "critical": {"frequency": "every_5_minutes", "duration": "24_hours"},
             "high": {"frequency": "every_15_minutes", "duration": "12_hours"},
-            "medium": {"frequency": "every_30_minutes", "duration": "6_hours"}
+            "medium": {"frequency": "every_30_minutes", "duration": "6_hours"},
         }
 
         plan = monitoring_intervals.get(severity_level, monitoring_intervals["medium"])
@@ -989,12 +1064,9 @@ class BrandOrchestratorAgent:
             "success_criteria": {
                 "sentiment_recovery": 0.1,  # 10% improvement
                 "consistency_restoration": 0.95,
-                "stability_period": "2_hours"
+                "stability_period": "2_hours",
             },
-            "escalation_triggers": {
-                "no_improvement_in": "1_hour",
-                "further_degradation": True
-            }
+            "escalation_triggers": {"no_improvement_in": "1_hour", "further_degradation": True},
         }
 
     async def _store_crisis_response(self, crisis_response: dict[str, Any]) -> None:
@@ -1028,17 +1100,22 @@ class BrandOrchestratorAgent:
         """Optimize orchestration parameters"""
         return {"optimization_applied": True, "parameters_updated": []}
 
-    def _generate_strategic_recommendations(self, strategy_review: dict[str, Any]) -> list[dict[str, str]]:
+    def _generate_strategic_recommendations(
+        self, strategy_review: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Generate strategic recommendations"""
         return [{"category": "optimization", "recommendation": "maintain_current_approach"}]
 
-    async def _store_strategic_review(self, strategy_review: dict[str, Any], recommendations: list[dict[str, str]]) -> None:
+    async def _store_strategic_review(
+        self, strategy_review: dict[str, Any], recommendations: list[dict[str, str]]
+    ) -> None:
         """Store strategic review results"""
         print(f"Storing strategic review: {len(recommendations)} recommendations")
 
 
 # Example usage and testing
 if __name__ == "__main__":
+
     async def test_brand_orchestrator():
         orchestrator = BrandOrchestratorAgent()
 
@@ -1050,28 +1127,31 @@ if __name__ == "__main__":
             "tone_layer": "user_friendly",
             "creative_style": "consciousness_inspired",
             "personality_profile": "lukhas_consciousness",
-            "emotional_context": "welcoming"
+            "emotional_context": "welcoming",
         }
 
         print("Testing content orchestration...")
         result = await orchestrator.orchestrate_content_creation(
-            content_request=content_request,
-            context="user_onboarding"
+            content_request=content_request, context="user_onboarding"
         )
 
         print(f"Orchestration ID: {result['orchestration_id']}")
         print(f"Final Content: {result['final_content'][:100]}...")
         print(f"Quality Score: {result['quality_assessment']['overall_quality']:.3f}")
-        print(f"Brand Consistency: {result['quality_assessment']['quality_factors']['brand_consistency']:.3f}")
+        print(
+            f"Brand Consistency: {result['quality_assessment']['quality_factors']['brand_consistency']:.3f}"
+        )
         print(f"Orchestration Time: {result['orchestration_performance']['total_time_ms']:.2f}ms")
-        print(f"Meets Requirements: {result['orchestration_performance']['meets_quality_requirements']}")
+        print(
+            f"Meets Requirements: {result['orchestration_performance']['meets_quality_requirements']}"
+        )
 
         if result["recommendations"]:
             print("Recommendations:")
             for rec in result["recommendations"][:3]:
                 print(f"  - {rec}")
 
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
 
         # Test orchestration status
         print("Getting orchestration status...")
@@ -1080,17 +1160,19 @@ if __name__ == "__main__":
         print(f"Active Orchestration: {status['active_orchestration']}")
         print(f"Tasks Processed: {status['orchestration_metrics']['tasks_processed']}")
         print(f"Success Rate: {status['orchestration_metrics'].get('success_rate', 'N/A')}")
-        print(f"Brand Consistency Score: {status['orchestration_metrics']['brand_consistency_score']:.3f}")
+        print(
+            f"Brand Consistency Score: {status['orchestration_metrics']['brand_consistency_score']:.3f}"
+        )
         print(f"System Health: {status['system_health']}")
 
         # Test crisis response
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("Testing crisis response orchestration...")
 
         crisis_response = await orchestrator.orchestrate_brand_crisis_response(
             crisis_type="sentiment_drop",
             crisis_data={"magnitude": 0.2, "duration": "2_hours"},
-            urgency_level="high"
+            urgency_level="high",
         )
 
         print(f"Crisis ID: {crisis_response['crisis_id']}")

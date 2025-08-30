@@ -18,13 +18,13 @@ from .steganographic_id import (
 )
 
 __all__ = [
-    "GLYPHPipeline",
-    "GLYPHType",
-    "GLYPHGenerationResult",
-    "SteganographicIdentityEmbedder",
-    "IdentityEmbedData",
     "DistributedGLYPHColony",
     "GLYPHComplexity",
-    "GeneratedGLYPH",
+    "GLYPHGenerationResult",
     "GLYPHGenerationTask",
+    "GLYPHPipeline",
+    "GLYPHType",
+    "GeneratedGLYPH",
+    "IdentityEmbedData",
+    "SteganographicIdentityEmbedder",
 ]

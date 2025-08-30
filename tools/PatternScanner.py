@@ -239,9 +239,7 @@ class FunctionScanner:
                 content = f.read()
 
             # Look for function definitions
-            function_matches = re.finditer(
-                r"^(def|class|async def)\s+(\w+)", content, re.MULTILINE
-            )
+            function_matches = re.finditer(r"^(def|class|async def)\s+(\w+)", content, re.MULTILINE)
 
             for match in function_matches:
                 func_name = match.group(2)
@@ -259,13 +257,10 @@ class FunctionScanner:
                         if re.search(pattern, func_name, re.IGNORECASE) or re.search(
                             pattern, context, re.IGNORECASE
                         ):
-
                             self.matches[pattern_type].append(
                                 FunctionMatch(
                                     name=func_name,
-                                    file_path=str(
-                                        file_path.relative_to(self.project_root)
-                                    ),
+                                    file_path=str(file_path.relative_to(self.project_root)),
                                     pattern_type=pattern_type,
                                     context=context.strip(),
                                 )
@@ -289,34 +284,24 @@ class FunctionScanner:
 
         print("📊 Discovery Overview:")
         print(f"   Total Specialized Function Patterns: {total_functions}")
-        print(
-            f"   Components with Functions Found: {components_with_functions}/{total_components}"
-        )
-        print(
-            f"   Component Coverage: {(components_with_functions/total_components*100):.1f}%"
-        )
+        print(f"   Components with Functions Found: {components_with_functions}/{total_components}")
+        print(f"   Component Coverage: {(components_with_functions / total_components * 100):.1f}%")
 
         print("\n🎯 Specialized Component Findings:")
 
         # Sort by number of functions found
-        sorted_components = sorted(
-            self.matches.items(), key=lambda x: len(x[1]), reverse=True
-        )
+        sorted_components = sorted(self.matches.items(), key=lambda x: len(x[1]), reverse=True)
 
         for component_type, matches in sorted_components:
             if matches:
                 status = "✅"
-                print(
-                    f"   {status} {component_type:20} | {len(matches):3} functions found"
-                )
+                print(f"   {status} {component_type:20} | {len(matches):3} functions found")
 
                 # Show sample functions and files
                 unique_files = {match.file_path for match in matches}
                 sample_functions = [match.name for match in matches[:3]]
 
-                print(
-                    f"      Files: {len(unique_files)} | Samples: {', '.join(sample_functions)}"
-                )
+                print(f"      Files: {len(unique_files)} | Samples: {', '.join(sample_functions)}")
                 if len(unique_files) <= 3:
                     for file_path in list(unique_files)[:3]:
                         print(f"        📄 {file_path}")
@@ -334,9 +319,7 @@ class FunctionScanner:
 
         if file_function_count:
             print("\n📁 Top Files with Specialized Functions:")
-            sorted_files = sorted(
-                file_function_count.items(), key=lambda x: x[1], reverse=True
-            )
+            sorted_files = sorted(file_function_count.items(), key=lambda x: x[1], reverse=True)
             for file_path, count in sorted_files[:10]:
                 print(f"   {count:2} functions | {file_path}")
 

@@ -2,6 +2,7 @@
 Meta-Learning Enhancement System Wrapper
 Integration wrapper for meta-learning enhancement system
 """
+
 import logging
 from typing import Any, Optional
 
@@ -24,8 +25,6 @@ except ImportError as e:
         from .metalearningenhancementsystem_mock import (
             EnhancementMode,
             MetaLearningEnhancementsystem,
-        )
-        from .metalearningenhancementsystem_mock import (
             get_meta_learning_enhancement as get_mock_enhancement,
         )
 
@@ -94,35 +93,28 @@ class MetaLearningEnhancementWrapper:
             logger.error(f"Failed to initialize meta-learning enhancement: {e}")
             return False
 
-    async def enhance_learning_process(
-        self, learning_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def enhance_learning_process(self, learning_context: dict[str, Any]) -> dict[str, Any]:
         """Enhance a learning process with monitoring and optimization"""
         try:
             # Create enhanced learning configuration
-            enhanced_config = (
-                await self.enhancement_system.create_enhanced_learning_config(
-                    learning_context
-                )
+            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(
+                learning_context
             )
 
             # Apply dynamic optimization if enabled
-            if (
-                self.enhancement_system.enhancement_mode
-                == EnhancementMode.OPTIMIZATION_ACTIVE
-            ):
-                optimization_result = (
-                    await self.enhancement_system.apply_dynamic_optimization(
-                        enhanced_config, learning_context
-                    )
+            if self.enhancement_system.enhancement_mode == EnhancementMode.OPTIMIZATION_ACTIVE:
+                optimization_result = await self.enhancement_system.apply_dynamic_optimization(
+                    enhanced_config, learning_context
                 )
                 enhanced_config["optimization"] = optimization_result
                 self.integration_stats["optimization_events"] += 1
 
             # Start monitoring if not already active
             if hasattr(self.enhancement_system, "monitor_dashboard"):
-                monitor_id = await self.enhancement_system.monitor_dashboard.start_monitoring_session(
-                    {"context": learning_context, "config": enhanced_config}
+                monitor_id = (
+                    await self.enhancement_system.monitor_dashboard.start_monitoring_session(
+                        {"context": learning_context, "config": enhanced_config}
+                    )
                 )
                 enhanced_config["monitor_id"] = monitor_id
                 self.integration_stats["active_monitors"] += 1
@@ -143,19 +135,13 @@ class MetaLearningEnhancementWrapper:
     async def get_learning_metrics(self) -> dict[str, Any]:
         """Get current learning metrics from monitor dashboard"""
         if hasattr(self.enhancement_system, "monitor_dashboard"):
-            return (
-                await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
-            )
+            return await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
         return {}
 
-    async def apply_symbolic_feedback(
-        self, feedback_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def apply_symbolic_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         """Apply symbolic feedback to learning process"""
         if hasattr(self.enhancement_system, "symbolic_feedback"):
-            return await self.enhancement_system.symbolic_feedback.process_feedback(
-                feedback_data
-            )
+            return await self.enhancement_system.symbolic_feedback.process_feedback(feedback_data)
         return {"error": "Symbolic feedback not available"}
 
     async def enable_federation(self, federation_config: dict[str, Any]) -> bool:
@@ -168,11 +154,9 @@ class MetaLearningEnhancementWrapper:
                     FederationStrategy,
                 )
 
-                self.enhancement_system.federated_integration = (
-                    FederatedLearningIntegration(
-                        node_id=self.enhancement_system.node_id,
-                        federation_strategy=FederationStrategy.BALANCED_HYBRID,
-                    )
+                self.enhancement_system.federated_integration = FederatedLearningIntegration(
+                    node_id=self.enhancement_system.node_id,
+                    federation_strategy=FederationStrategy.BALANCED_HYBRID,
                 )
 
                 # Connect with other components

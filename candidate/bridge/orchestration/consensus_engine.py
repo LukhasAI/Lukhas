@@ -55,6 +55,7 @@ MODULE_NAME = "consensus_engine"
 
 class ConsensusMethod(Enum):
     """Available consensus methods"""
+
     MAJORITY_VOTE = "majority_vote"
     WEIGHTED_CONFIDENCE = "weighted_confidence"
     SIMILARITY_CLUSTERING = "similarity_clustering"
@@ -65,6 +66,7 @@ class ConsensusMethod(Enum):
 @dataclass
 class ConsensusResult:
     """Result of consensus processing"""
+
     final_response: str
     confidence_score: float
     consensus_method: str
@@ -87,28 +89,21 @@ class ConsensusEngine:
         self.config = config or {}
 
         # Configuration parameters
-        self.default_method = ConsensusMethod(
-            self.config.get("default_method", "hybrid_synthesis")
-        )
+        self.default_method = ConsensusMethod(self.config.get("default_method", "hybrid_synthesis"))
         self.confidence_threshold = self.config.get("confidence_threshold", 0.7)
         self.similarity_threshold = self.config.get("similarity_threshold", 0.6)
         self.max_processing_time_ms = self.config.get("max_processing_time_ms", 500)
 
         # Quality scoring weights
-        self.quality_weights = self.config.get("quality_weights", {
-            "length": 0.2,
-            "coherence": 0.3,
-            "confidence": 0.3,
-            "uniqueness": 0.2
-        })
+        self.quality_weights = self.config.get(
+            "quality_weights",
+            {"length": 0.2, "coherence": 0.3, "confidence": 0.3, "uniqueness": 0.2},
+        )
 
         logger.info("Consensus Engine initialized with method: %s", self.default_method.value)
 
     async def process_consensus(
-        self,
-        responses: list[Any],
-        task_type=None,
-        method: Optional[ConsensusMethod] = None
+        self, responses: list[Any], task_type=None, method: Optional[ConsensusMethod] = None
     ) -> ConsensusResult:
         """
         Process consensus from multiple AI responses
@@ -135,14 +130,15 @@ class ConsensusEngine:
                 consensus_method="single_response",
                 participating_models=1,
                 processing_time_ms=(time.time() - start_time) * 1000,
-                individual_responses=responses
+                individual_responses=responses,
             )
 
         # Select consensus method
         consensus_method = method or self.default_method
 
-        logger.info("Processing consensus for %d responses using %s",
-                   len(responses), consensus_method.value)
+        logger.info(
+            "Processing consensus for %d responses using %s", len(responses), consensus_method.value
+        )
 
         try:
             # Apply the selected consensus method
@@ -169,8 +165,11 @@ class ConsensusEngine:
                 result.final_response, responses
             )
 
-            logger.info("Consensus completed in %.2fms with confidence %.3f",
-                       processing_time, result.confidence_score)
+            logger.info(
+                "Consensus completed in %.2fms with confidence %.3f",
+                processing_time,
+                result.confidence_score,
+            )
 
             return result
 
@@ -204,8 +203,8 @@ class ConsensusEngine:
             confidence_score=min(consensus_confidence, 1.0),
             consensus_method="majority_vote",
             participating_models=0,  # Will be set by caller
-            processing_time_ms=0,    # Will be set by caller
-            individual_responses=[]  # Will be set by caller
+            processing_time_ms=0,  # Will be set by caller
+            individual_responses=[],  # Will be set by caller
         )
 
     async def _weighted_confidence_consensus(self, responses: list[Any]) -> ConsensusResult:
@@ -220,7 +219,7 @@ class ConsensusEngine:
 
         for i, response in enumerate(sorted_responses):
             # Exponential decay weight (top responses get more weight)
-            weight = response.confidence * (0.8 ** i)
+            weight = response.confidence * (0.8**i)
             total_weight += weight
 
             # Score this response
@@ -228,8 +227,9 @@ class ConsensusEngine:
             weighted_content_scores.append((response, weight, content_score))
 
         # Select the best weighted response
-        best_response = max(weighted_content_scores,
-                          key=lambda x: x[1] * x[2])  # weight * content_score
+        best_response = max(
+            weighted_content_scores, key=lambda x: x[1] * x[2]
+        )  # weight * content_score
 
         # Calculate consensus confidence
         consensus_confidence = min(best_response[1] / total_weight * 2, 1.0)
@@ -240,7 +240,7 @@ class ConsensusEngine:
             consensus_method="weighted_confidence",
             participating_models=0,
             processing_time_ms=0,
-            individual_responses=[]
+            individual_responses=[],
         )
 
     async def _similarity_clustering_consensus(self, responses: list[Any]) -> ConsensusResult:
@@ -273,7 +273,7 @@ class ConsensusEngine:
             participating_models=0,
             processing_time_ms=0,
             individual_responses=[],
-            similarity_matrix=similarity_matrix
+            similarity_matrix=similarity_matrix,
         )
 
     async def _hybrid_synthesis_consensus(self, responses: list[Any]) -> ConsensusResult:
@@ -294,8 +294,9 @@ class ConsensusEngine:
 
             if clusters:
                 # Select best cluster and synthesize
-                best_cluster = max(clusters,
-                                 key=lambda c: len(c) * sum(self._score_response_quality(r) for r in c))
+                best_cluster = max(
+                    clusters, key=lambda c: len(c) * sum(self._score_response_quality(r) for r in c)
+                )
                 synthesized_response = self._synthesize_cluster_response(best_cluster)
 
                 # Calculate hybrid confidence
@@ -311,7 +312,7 @@ class ConsensusEngine:
                     participating_models=0,
                     processing_time_ms=0,
                     individual_responses=[],
-                    similarity_matrix=similarity_matrix
+                    similarity_matrix=similarity_matrix,
                 )
 
         # Fallback to best single response
@@ -322,10 +323,12 @@ class ConsensusEngine:
             consensus_method="hybrid_synthesis_fallback",
             participating_models=0,
             processing_time_ms=0,
-            individual_responses=[]
+            individual_responses=[],
         )
 
-    async def _best_response_consensus(self, responses: list[Any], error: Optional[str] = None) -> ConsensusResult:
+    async def _best_response_consensus(
+        self, responses: list[Any], error: Optional[str] = None
+    ) -> ConsensusResult:
         """Simple best response selection (fallback method)"""
 
         # Score all responses and select the best
@@ -339,7 +342,7 @@ class ConsensusEngine:
             participating_models=0,
             processing_time_ms=0,
             individual_responses=[],
-            error_info=error
+            error_info=error,
         )
 
     def _group_similar_responses(self, responses: list[Any]) -> list[list[Any]]:
@@ -353,7 +356,10 @@ class ConsensusEngine:
 
             for group in groups:
                 # Check similarity with group representative (first item)
-                if self._calculate_text_similarity(response.content, group[0].content) > self.similarity_threshold:
+                if (
+                    self._calculate_text_similarity(response.content, group[0].content)
+                    > self.similarity_threshold
+                ):
                     group.append(response)
                     added_to_group = True
                     break
@@ -374,8 +380,7 @@ class ConsensusEngine:
                     similarity = 1.0
                 else:
                     similarity = self._calculate_text_similarity(
-                        responses[i].content,
-                        responses[j].content
+                        responses[i].content, responses[j].content
                     )
 
                 matrix[i][j] = similarity
@@ -407,7 +412,9 @@ class ConsensusEngine:
         # Combined similarity
         return (jaccard * 0.8) + (length_ratio * 0.2)
 
-    def _find_response_clusters(self, responses: list[Any], similarity_matrix: list[list[float]]) -> list[list[Any]]:
+    def _find_response_clusters(
+        self, responses: list[Any], similarity_matrix: list[list[float]]
+    ) -> list[list[Any]]:
         """Find clusters of similar responses using similarity matrix"""
         n = len(responses)
         visited = [False] * n
@@ -460,10 +467,10 @@ class ConsensusEngine:
 
         # Combine scores using configured weights
         quality_score = (
-            base_score * self.quality_weights["confidence"] +
-            length_score * self.quality_weights["length"] +
-            coherence_score * self.quality_weights["coherence"] +
-            0.5 * self.quality_weights["uniqueness"]  # Base uniqueness
+            base_score * self.quality_weights["confidence"]
+            + length_score * self.quality_weights["length"]
+            + coherence_score * self.quality_weights["coherence"]
+            + 0.5 * self.quality_weights["uniqueness"]  # Base uniqueness
         )
 
         return min(quality_score, 1.0)
@@ -488,7 +495,9 @@ class ConsensusEngine:
 
         return length_score
 
-    def _calculate_quality_metrics(self, final_response: str, responses: list[Any]) -> dict[str, float]:
+    def _calculate_quality_metrics(
+        self, final_response: str, responses: list[Any]
+    ) -> dict[str, float]:
         """Calculate quality metrics for the consensus result"""
         if not responses:
             return {}
@@ -512,7 +521,7 @@ class ConsensusEngine:
             "average_confidence": avg_confidence,
             "average_length": avg_length,
             "final_response_quality": final_quality,
-            "consensus_stability": min(avg_confidence + diversity, 1.0)
+            "consensus_stability": min(avg_confidence + diversity, 1.0),
         }
 
     async def health_check(self) -> dict[str, Any]:
@@ -523,7 +532,7 @@ class ConsensusEngine:
             "default_method": self.default_method.value,
             "confidence_threshold": self.confidence_threshold,
             "similarity_threshold": self.similarity_threshold,
-            "max_processing_time_ms": self.max_processing_time_ms
+            "max_processing_time_ms": self.max_processing_time_ms,
         }
 
 

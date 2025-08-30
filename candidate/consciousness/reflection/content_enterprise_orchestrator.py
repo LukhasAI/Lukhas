@@ -235,9 +235,7 @@ class ServiceRegistry:
                     service_id=f"{name}-{host}-{port}",
                     address=host,
                     port=port,
-                    check=consul.Check.http(
-                        f"http://{host}:{port}/health", interval="10s"
-                    ),
+                    check=consul.Check.http(f"http://{host}:{port}/health", interval="10s"),
                 )
             except Exception as e:
                 logging.warning(f"Failed to register with Consul: {e}")
@@ -252,10 +250,7 @@ class ServiceRegistry:
         if self.consul_client and not endpoints:
             try:
                 _, services = self.consul_client.health.service(name, passing=True)
-                endpoints = [
-                    f"{s['Service']['Address']}:{s['Service']['Port']}"
-                    for s in services
-                ]
+                endpoints = [f"{s['Service']['Address']}:{s['Service']['Port']}" for s in services]
             except (KeyError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to discover services: {e}")
 
@@ -285,9 +280,7 @@ class LoadBalancer:
         self.round_robin_counters: dict[str, int] = defaultdict(int)
         self.health_status: dict[str, bool] = {}
 
-    def get_endpoint(
-        self, service_name: str, strategy: str = "round_robin"
-    ) -> Optional[str]:
+    def get_endpoint(self, service_name: str, strategy: str = "round_robin") -> Optional[str]:
         """Get an endpoint for a service"""
         endpoints = self.service_registry.discover_service(service_name)
 
@@ -354,7 +347,6 @@ class AutoScaler:
             or metrics.error_rate > error_rate_threshold
             or metrics.response_time > response_time_threshold
         ):
-
             return ScalingDecision(
                 service_name=metrics.service_name,
                 action=ScalingAction.SCALE_UP,
@@ -373,7 +365,6 @@ class AutoScaler:
             and metrics.error_rate < 1.0
             and current_instances > 1
         ):
-
             return ScalingDecision(
                 service_name=metrics.service_name,
                 action=ScalingAction.SCALE_DOWN,
@@ -536,9 +527,7 @@ class TaskQueue:
 
         return task
 
-    def complete_task(
-        self, task_id: str, result: dict[str, Any] = None, error: str = None
-    ):
+    def complete_task(self, task_id: str, result: dict[str, Any] = None, error: str = None):
         """Mark task as completed"""
         if task_id in self.processing:
             task = self.processing[task_id]
@@ -678,9 +667,7 @@ class ContentEnterpriseOrchestrator:
 
         if not logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
             logger.addHandler(handler)
 
@@ -695,9 +682,7 @@ class ContentEnterpriseOrchestrator:
         try:
             # Initialize core modules
             if self.config["services"]["content_bot"]["enabled"]:
-                self.enterprise_modules["content_bot"] = (
-                    lukhasContentAutomationBot_ChatGPT()
-                )
+                self.enterprise_modules["content_bot"] = lukhasContentAutomationBot_ChatGPT()
                 self.logger.info("✅ Content Bot module initialized")
 
             if self.config["services"]["api_gateway"]["enabled"]:
@@ -705,49 +690,29 @@ class ContentEnterpriseOrchestrator:
                 self.logger.info("✅ API Gateway module initialized")
 
             if self.config["services"]["collaboration"]["enabled"]:
-                self.enterprise_modules["collaboration"] = (
-                    lukhasContentCollaborationEngine()
-                )
+                self.enterprise_modules["collaboration"] = lukhasContentCollaborationEngine()
                 self.logger.info("✅ Collaboration Engine initialized")
 
             if self.config["services"]["performance_monitor"]["enabled"]:
-                self.enterprise_modules["performance_monitor"] = (
-                    lukhasContentPerformanceMonitor()
-                )
+                self.enterprise_modules["performance_monitor"] = lukhasContentPerformanceMonitor()
                 self.logger.info("✅ Performance Monitor initialized")
 
             if self.config["services"]["security_compliance"]["enabled"]:
-                self.enterprise_modules["security_compliance"] = (
-                    lukhasContentSecurityCompliance()
-                )
+                self.enterprise_modules["security_compliance"] = lukhasContentSecurityCompliance()
                 self.logger.info("✅ Security Compliance initialized")
 
             # Initialize new enterprise modules
-            if (
-                self.config["services"]
-                .get("performance_intelligence", {})
-                .get("enabled", True)
-            ):
+            if self.config["services"].get("performance_intelligence", {}).get("enabled", True):
                 self.enterprise_modules["performance_intelligence"] = (
                     ContentPerformanceIntelligence()
                 )
                 self.logger.info("✅ Performance Intelligence module initialized")
 
-            if (
-                self.config["services"]
-                .get("communication_hub", {})
-                .get("enabled", True)
-            ):
-                self.enterprise_modules["communication_hub"] = (
-                    lukhasContentCommunicationHub()
-                )
+            if self.config["services"].get("communication_hub", {}).get("enabled", True):
+                self.enterprise_modules["communication_hub"] = lukhasContentCommunicationHub()
                 self.logger.info("✅ Communication Hub module initialized")
 
-            if (
-                self.config["services"]
-                .get("localization_engine", {})
-                .get("enabled", True)
-            ):
+            if self.config["services"].get("localization_engine", {}).get("enabled", True):
                 self.enterprise_modules["localization_engine"] = (
                     lukhasContentGlobalLocalizationEngine()
                 )
@@ -793,9 +758,7 @@ class ContentEnterpriseOrchestrator:
             # Start Prometheus metrics server
             prometheus_port = self.config["orchestrator"]["prometheus_port"]
             start_http_server(prometheus_port)
-            self.logger.info(
-                f"📊 Prometheus metrics server started on port {prometheus_port}"
-            )
+            self.logger.info(f"📊 Prometheus metrics server started on port {prometheus_port}")
 
         except Exception as e:
             self.logger.error(f"❌ Failed to setup Prometheus metrics: {e}")
@@ -833,9 +796,7 @@ class ContentEnterpriseOrchestrator:
                     # Update Prometheus metrics
                     if PROMETHEUS_AVAILABLE and hasattr(self, "prom_service_health"):
                         health_value = 1 if metrics else 0
-                        self.prom_service_health.labels(service=service_name).set(
-                            health_value
-                        )
+                        self.prom_service_health.labels(service=service_name).set(health_value)
 
                 await asyncio.sleep(self.config["orchestrator"]["monitoring_interval"])
 
@@ -843,9 +804,7 @@ class ContentEnterpriseOrchestrator:
                 self.logger.error(f"❌ Monitoring error: {e}")
                 await asyncio.sleep(5)
 
-    async def _collect_service_metrics(
-        self, service_name: str
-    ) -> Optional[ServiceMetrics]:
+    async def _collect_service_metrics(self, service_name: str) -> Optional[ServiceMetrics]:
         """Collect metrics for a specific service"""
         try:
             # Get system metrics
@@ -941,9 +900,7 @@ class ContentEnterpriseOrchestrator:
                 for _service_name, metrics_history in self.service_metrics.items():
                     if metrics_history:
                         latest_metrics = metrics_history[-1]
-                        scaling_decision = self.auto_scaler.analyze_scaling_need(
-                            latest_metrics
-                        )
+                        scaling_decision = self.auto_scaler.analyze_scaling_need(latest_metrics)
 
                         if scaling_decision.action != ScalingAction.MAINTAIN:
                             await self._execute_scaling_decision(scaling_decision)
@@ -994,9 +951,7 @@ class ContentEnterpriseOrchestrator:
     async def _execute_task(self, task: OrchestrationTask):
         """Execute an orchestration task"""
         try:
-            self.logger.info(
-                f"🔧 Executing task: {task.task_type} for {task.service_name}"
-            )
+            self.logger.info(f"🔧 Executing task: {task.task_type} for {task.service_name}")
 
             if task.task_type == "scaling":
                 result = await self._handle_scaling_task(task)
@@ -1057,9 +1012,7 @@ class ContentEnterpriseOrchestrator:
         """Get current orchestration status"""
         total_services = len(self.enterprise_modules)
         healthy_services = sum(
-            1
-            for health in self.service_health.values()
-            if health.status == ServiceStatus.HEALTHY
+            1 for health in self.service_health.values() if health.status == ServiceStatus.HEALTHY
         )
 
         return {
@@ -1080,15 +1033,9 @@ class ContentEnterpriseOrchestrator:
             },
             "metrics_summary": {
                 name: {
-                    "cpu_avg": (
-                        sum(m.cpu_usage for m in metrics) / len(metrics)
-                        if metrics
-                        else 0
-                    ),
+                    "cpu_avg": (sum(m.cpu_usage for m in metrics) / len(metrics) if metrics else 0),
                     "memory_avg": (
-                        sum(m.memory_usage for m in metrics) / len(metrics)
-                        if metrics
-                        else 0
+                        sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0
                     ),
                     "error_rate": metrics[-1].error_rate if metrics else 0,
                 }
@@ -1119,9 +1066,7 @@ async def main():
     """CLI interface for enterprise orchestrator"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="lukhas Content Enterprise Orchestrator"
-    )
+    parser = argparse.ArgumentParser(description="lukhas Content Enterprise Orchestrator")
     parser.add_argument("--config", help="Configuration file path")
     parser.add_argument(
         "--action",

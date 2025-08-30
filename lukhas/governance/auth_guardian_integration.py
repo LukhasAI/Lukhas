@@ -122,9 +122,7 @@ class ConstitutionalAuthPrinciples:
 
         # Check harm minimization
         if auth_event.get("security_risk_score", 0) > 0.8:
-            violations.append(
-                "harm_minimization: high security risk not properly mitigated"
-            )
+            violations.append("harm_minimization: high security risk not properly mitigated")
 
         return len(violations) == 0, violations
 
@@ -177,9 +175,7 @@ class AuthenticationGuardian:
             "access_inequality": r"unequal_access_same_tier",
         }
 
-        logger.info(
-            f"Authentication Guardian initialized with drift threshold: {drift_threshold}"
-        )
+        logger.info(f"Authentication Guardian initialized with drift threshold: {drift_threshold}")
 
     async def monitor_auth_event(
         self,
@@ -248,9 +244,7 @@ class AuthenticationGuardian:
                 "recommendations": await self._generate_recommendations(metrics),
                 "glyph_encoding": await self._create_auth_glyph(metrics),
                 "guardian_status": (
-                    "monitoring"
-                    if metrics.drift_score < self.drift_threshold
-                    else "alert"
+                    "monitoring" if metrics.drift_score < self.drift_threshold else "alert"
                 ),
             }
 
@@ -296,9 +290,7 @@ class AuthenticationGuardian:
 
             # Check for tier inconsistencies
             if metrics.event_type == AuthEventType.TIER_ASSIGNMENT:
-                user_history = [
-                    e for e in self.recent_events if e.user_id == metrics.user_id
-                ]
+                user_history = [e for e in self.recent_events if e.user_id == metrics.user_id]
                 if user_history:
                     last_tier = user_history[-1].tier_level
                     if last_tier != metrics.tier_level:
@@ -363,7 +355,7 @@ class AuthenticationGuardian:
 
         except Exception as e:
             logger.error(f"Error validating constitutional principles: {e}")
-            return False, [f"validation_error: {str(e)}"]
+            return False, [f"validation_error: {e!s}"]
 
     async def _detect_bias(self, metrics: AuthDriftMetrics) -> list[str]:
         """Detect potential bias in authentication decisions"""
@@ -402,9 +394,7 @@ class AuthenticationGuardian:
 
             # Check if users from this region have different success rates
             regional_events = [
-                e
-                for e in self.recent_events
-                if e.metadata.get("geographic_region") == user_region
+                e for e in self.recent_events if e.metadata.get("geographic_region") == user_region
             ]
 
             if len(regional_events) < 10:  # Need sufficient data
@@ -415,12 +405,10 @@ class AuthenticationGuardian:
             ) / len(regional_events)
 
             # Compare with global success rate
-            all_events = [
-                e for e in self.recent_events if e.event_type == metrics.event_type
-            ]
-            global_success_rate = len(
-                [e for e in all_events if e.outcome == "success"]
-            ) / len(all_events)
+            all_events = [e for e in self.recent_events if e.event_type == metrics.event_type]
+            global_success_rate = len([e for e in all_events if e.outcome == "success"]) / len(
+                all_events
+            )
 
             # Flag if regional rate is significantly different
             return abs(regional_success_rate - global_success_rate) > 0.2
@@ -438,23 +426,21 @@ class AuthenticationGuardian:
             same_hour_events = [
                 e
                 for e in self.recent_events
-                if e.timestamp.hour == current_hour
-                and e.event_type == metrics.event_type
+                if e.timestamp.hour == current_hour and e.event_type == metrics.event_type
             ]
 
             if len(same_hour_events) < 5:
                 return False
 
             # Check success rate for this hour vs others
-            same_hour_success = len(
-                [e for e in same_hour_events if e.outcome == "success"]
-            ) / len(same_hour_events)
+            same_hour_success = len([e for e in same_hour_events if e.outcome == "success"]) / len(
+                same_hour_events
+            )
 
             other_hour_events = [
                 e
                 for e in self.recent_events
-                if e.timestamp.hour != current_hour
-                and e.event_type == metrics.event_type
+                if e.timestamp.hour != current_hour and e.event_type == metrics.event_type
             ]
 
             if len(other_hour_events) == 0:
@@ -526,9 +512,7 @@ class AuthenticationGuardian:
                     and event.user_id != metrics.user_id
                 ):
                     other_profile = event.metadata.get("user_profile", {})
-                    similarity = self._calculate_profile_similarity(
-                        user_profile, other_profile
-                    )
+                    similarity = self._calculate_profile_similarity(user_profile, other_profile)
 
                     if similarity > 0.8:  # High similarity
                         similar_users.append(event)
@@ -589,9 +573,7 @@ class AuthenticationGuardian:
         recommendations = []
 
         if metrics.drift_score >= self.drift_threshold:
-            recommendations.append(
-                "Review authentication patterns for unusual activity"
-            )
+            recommendations.append("Review authentication patterns for unusual activity")
 
         if not metrics.constitutional_valid:
             recommendations.append(
@@ -599,19 +581,13 @@ class AuthenticationGuardian:
             )
 
         if "geographic_bias" in metrics.bias_flags:
-            recommendations.append(
-                "Review geographic access patterns for potential discrimination"
-            )
+            recommendations.append("Review geographic access patterns for potential discrimination")
 
         if "temporal_bias" in metrics.bias_flags:
-            recommendations.append(
-                "Investigate time-based variations in authentication decisions"
-            )
+            recommendations.append("Investigate time-based variations in authentication decisions")
 
         if "tier_assignment_bias" in metrics.bias_flags:
-            recommendations.append(
-                "Audit tier assignment process for fairness and consistency"
-            )
+            recommendations.append("Audit tier assignment process for fairness and consistency")
 
         if metrics.metadata.get("security_risk_score", 0) > 0.7:
             recommendations.append(
@@ -650,9 +626,7 @@ class AuthenticationGuardian:
             logger.error(f"Error creating auth GLYPH: {e}")
             return None
 
-    async def _log_to_audit_trail(
-        self, metrics: AuthDriftMetrics, result: dict[str, Any]
-    ) -> None:
+    async def _log_to_audit_trail(self, metrics: AuthDriftMetrics, result: dict[str, Any]) -> None:
         """Log authentication monitoring to audit trail"""
         try:
             if not self.audit_logger:
@@ -757,8 +731,8 @@ class AuthenticationGuardian:
 
 # Export main class
 __all__ = [
-    "AuthenticationGuardian",
-    "AuthEventType",
     "AuthDriftMetrics",
+    "AuthEventType",
+    "AuthenticationGuardian",
     "ConstitutionalAuthPrinciples",
 ]

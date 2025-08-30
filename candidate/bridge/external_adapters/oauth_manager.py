@@ -60,6 +60,7 @@ MODULE_NAME = "oauth_manager"
 
 class OAuthProvider(Enum):
     """Supported OAuth providers"""
+
     GOOGLE = "google"
     DROPBOX = "dropbox"
     MICROSOFT = "microsoft"
@@ -68,6 +69,7 @@ class OAuthProvider(Enum):
 
 class TokenStatus(Enum):
     """OAuth token status"""
+
     ACTIVE = "active"
     EXPIRED = "expired"
     REVOKED = "revoked"
@@ -117,9 +119,7 @@ class OAuthManager:
 
             # Create HMAC for integrity
             signature = hmac.new(
-                self.encryption_key,
-                encoded_data.encode(),
-                hashlib.sha256
+                self.encryption_key, encoded_data.encode(), hashlib.sha256
             ).hexdigest()
 
             return f"{encoded_data}.{signature}"
@@ -140,9 +140,7 @@ class OAuthManager:
 
             # Verify HMAC
             expected_signature = hmac.new(
-                self.encryption_key,
-                encoded_data.encode(),
-                hashlib.sha256
+                self.encryption_key, encoded_data.encode(), hashlib.sha256
             ).hexdigest()
 
             if not hmac.compare_digest(signature, expected_signature):
@@ -175,7 +173,7 @@ class OAuthManager:
             "user_id": user_id,
             "provider": provider.value,
             "created_at": datetime.utcnow(),
-            "expires_at": datetime.utcnow() + timedelta(minutes=15)  # 15 minute expiry
+            "expires_at": datetime.utcnow() + timedelta(minutes=15),  # 15 minute expiry
         }
 
         logger.debug("Generated auth state for user %s, provider %s", user_id, provider.value)
@@ -206,8 +204,7 @@ class OAuthManager:
                 return False
 
             # Validate user and provider
-            if (state_data["user_id"] != user_id or
-                state_data["provider"] != provider.value):
+            if state_data["user_id"] != user_id or state_data["provider"] != provider.value:
                 logger.warning("State parameter mismatch")
                 return False
 
@@ -222,10 +219,7 @@ class OAuthManager:
             return False
 
     async def store_credentials(
-        self,
-        user_id: str,
-        provider: OAuthProvider,
-        credentials: dict[str, Any]
+        self, user_id: str, provider: OAuthProvider, credentials: dict[str, Any]
     ) -> bool:
         """
         Store OAuth credentials securely
@@ -249,8 +243,10 @@ class OAuthManager:
                 "provider": provider.value,
                 "credentials": credentials,
                 "stored_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(hours=self.token_ttl_hours)).isoformat(),
-                "status": TokenStatus.ACTIVE.value
+                "expires_at": (
+                    datetime.utcnow() + timedelta(hours=self.token_ttl_hours)
+                ).isoformat(),
+                "status": TokenStatus.ACTIVE.value,
             }
 
             # Encrypt and store
@@ -261,7 +257,7 @@ class OAuthManager:
                 "user_id": user_id,
                 "provider": provider.value,
                 "stored_at": datetime.utcnow(),
-                "last_accessed": None
+                "last_accessed": None,
             }
 
             logger.info("Stored credentials for user %s, provider %s", user_id, provider.value)
@@ -271,7 +267,9 @@ class OAuthManager:
             logger.error("Failed to store credentials: %s", str(e))
             return False
 
-    async def get_credentials(self, user_id: str, provider: OAuthProvider) -> Optional[dict[str, Any]]:
+    async def get_credentials(
+        self, user_id: str, provider: OAuthProvider
+    ) -> Optional[dict[str, Any]]:
         """
         Get stored OAuth credentials
 
@@ -287,7 +285,9 @@ class OAuthManager:
             stored_data = self.token_store.get(storage_key)
 
             if not stored_data:
-                logger.debug("No credentials found for user %s, provider %s", user_id, provider.value)
+                logger.debug(
+                    "No credentials found for user %s, provider %s", user_id, provider.value
+                )
                 return None
 
             # Decrypt credential data
@@ -311,10 +311,7 @@ class OAuthManager:
             return None
 
     async def refresh_credentials(
-        self,
-        user_id: str,
-        provider: OAuthProvider,
-        refresh_token: str
+        self, user_id: str, provider: OAuthProvider, refresh_token: str
     ) -> Optional[dict[str, Any]]:
         """
         Refresh OAuth credentials using refresh token
@@ -339,7 +336,7 @@ class OAuthManager:
                 "access_token": f"refreshed_token_{secrets.token_urlsafe(16)}",
                 "refresh_token": refresh_token,  # May or may not change
                 "expires_in": 3600,
-                "token_type": "Bearer"
+                "token_type": "Bearer",
             }
 
             # Store refreshed credentials
@@ -371,7 +368,9 @@ class OAuthManager:
                 logger.info("Revoked credentials for user %s, provider %s", user_id, provider.value)
                 return True
             else:
-                logger.debug("No credentials to revoke for user %s, provider %s", user_id, provider.value)
+                logger.debug(
+                    "No credentials to revoke for user %s, provider %s", user_id, provider.value
+                )
                 return True  # Consider it successful if nothing to revoke
 
         except Exception as e:
@@ -389,8 +388,7 @@ class OAuthManager:
 
         # Remove old attempts
         self.auth_attempts[user_id] = [
-            attempt for attempt in self.auth_attempts[user_id]
-            if attempt > one_hour_ago
+            attempt for attempt in self.auth_attempts[user_id] if attempt > one_hour_ago
         ]
 
         # Check rate limit
@@ -408,7 +406,8 @@ class OAuthManager:
 
             # Clean up expired states
             expired_states = [
-                state for state, data in self.state_store.items()
+                state
+                for state, data in self.state_store.items()
                 if current_time > data["expires_at"]
             ]
 
@@ -490,17 +489,11 @@ class OAuthManager:
                 "expired_tokens": expired_tokens,
                 "active_auth_states": len(self.state_store),
                 "supported_providers": [p.value for p in OAuthProvider],
-                "rate_limit_config": {
-                    "max_attempts_per_hour": self.max_attempts_per_hour
-                }
+                "rate_limit_config": {"max_attempts_per_hour": self.max_attempts_per_hour},
             }
 
         except Exception as e:
-            return {
-                "status": "error",
-                "error": str(e),
-                "version": MODULE_VERSION
-            }
+            return {"status": "error", "error": str(e), "version": MODULE_VERSION}
 
 
 """

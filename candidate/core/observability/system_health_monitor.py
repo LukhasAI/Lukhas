@@ -42,16 +42,18 @@ logger = logging.getLogger(__name__)
 
 class HealthStatus(Enum):
     """System health status levels"""
-    EXCELLENT = "excellent"       # 0.95-1.0
-    GOOD = "good"                # 0.85-0.95
-    FAIR = "fair"                # 0.70-0.85
-    POOR = "poor"                # 0.50-0.70
-    CRITICAL = "critical"        # 0.30-0.50
-    FAILING = "failing"          # 0.0-0.30
+
+    EXCELLENT = "excellent"  # 0.95-1.0
+    GOOD = "good"  # 0.85-0.95
+    FAIR = "fair"  # 0.70-0.85
+    POOR = "poor"  # 0.50-0.70
+    CRITICAL = "critical"  # 0.30-0.50
+    FAILING = "failing"  # 0.0-0.30
 
 
 class ComponentType(Enum):
     """System component types"""
+
     GUARDIAN = "guardian"
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
@@ -68,6 +70,7 @@ class ComponentType(Enum):
 
 class MetricType(Enum):
     """Health metric types"""
+
     PERFORMANCE = "performance"
     RESOURCE = "resource"
     AVAILABILITY = "availability"
@@ -113,9 +116,9 @@ class HealthMetric:
     metadata: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework impact
-    identity_impact: Optional[float] = None      # ⚛️
-    consciousness_impact: Optional[float] = None # 🧠
-    guardian_priority: str = "normal"            # 🛡️
+    identity_impact: Optional[float] = None  # ⚛️
+    consciousness_impact: Optional[float] = None  # 🧠
+    guardian_priority: str = "normal"  # 🛡️
 
 
 @dataclass
@@ -191,9 +194,9 @@ class SystemHealthSnapshot:
     fold_health_score: float = 1.0
 
     # Trinity Framework health
-    identity_system_health: float = 1.0      # ⚛️
-    consciousness_system_health: float = 1.0 # 🧠
-    guardian_system_health: float = 1.0      # 🛡️
+    identity_system_health: float = 1.0  # ⚛️
+    consciousness_system_health: float = 1.0  # 🧠
+    guardian_system_health: float = 1.0  # 🛡️
 
     # Critical indicators
     active_alerts: int = 0
@@ -269,7 +272,7 @@ class SystemHealthMonitor:
             "error_rate_warning": 1.0,  # %
             "error_rate_critical": 5.0,  # %
             "cascade_risk_warning": 0.1,
-            "cascade_risk_critical": 0.3
+            "cascade_risk_critical": 0.3,
         }
 
         # Data storage
@@ -294,7 +297,7 @@ class SystemHealthMonitor:
             "average_system_health": 1.0,
             "uptime_percentage": 100.0,
             "last_critical_issue": None,
-            "monitoring_start_time": datetime.now().isoformat()
+            "monitoring_start_time": datetime.now().isoformat(),
         }
 
         # System start time for uptime calculation
@@ -315,33 +318,37 @@ class SystemHealthMonitor:
             ComponentType.GUARDIAN: {
                 "critical_metrics": ["drift_score", "threat_level", "compliance_score"],
                 "performance_weight": 0.9,  # High importance
-                "reliability_threshold": 0.95
+                "reliability_threshold": 0.95,
             },
             ComponentType.CONSCIOUSNESS: {
                 "critical_metrics": ["awareness_score", "cognitive_load", "decision_accuracy"],
                 "performance_weight": 0.85,
-                "reliability_threshold": 0.90
+                "reliability_threshold": 0.90,
             },
             ComponentType.IDENTITY: {
                 "critical_metrics": ["auth_success_rate", "identity_coherence", "access_control"],
                 "performance_weight": 0.8,
-                "reliability_threshold": 0.95
+                "reliability_threshold": 0.95,
             },
             ComponentType.MEMORY: {
                 "critical_metrics": ["fold_health", "cascade_risk", "retention_rate"],
                 "performance_weight": 0.85,
-                "reliability_threshold": 0.997  # 99.7% target
+                "reliability_threshold": 0.997,  # 99.7% target
             },
             ComponentType.API: {
                 "critical_metrics": ["response_time", "throughput", "error_rate"],
                 "performance_weight": 0.7,
-                "reliability_threshold": 0.99
+                "reliability_threshold": 0.99,
             },
             ComponentType.ORCHESTRATION: {
-                "critical_metrics": ["coordination_efficiency", "resource_allocation", "load_balance"],
+                "critical_metrics": [
+                    "coordination_efficiency",
+                    "resource_allocation",
+                    "load_balance",
+                ],
                 "performance_weight": 0.8,
-                "reliability_threshold": 0.90
-            }
+                "reliability_threshold": 0.90,
+            },
         }
 
     async def _initialize_health_monitoring(self):
@@ -376,7 +383,7 @@ class SystemHealthMonitor:
                 timestamp=datetime.now(),
                 overall_health=1.0,
                 health_status=HealthStatus.EXCELLENT,
-                is_operational=True
+                is_operational=True,
             )
 
     async def _system_health_loop(self):
@@ -452,7 +459,11 @@ class SystemHealthMonitor:
             # Calculate overall health
             overall_health = await self._calculate_overall_health()
             system_status = self._determine_health_status(overall_health)
-            is_healthy = system_status in [HealthStatus.EXCELLENT, HealthStatus.GOOD, HealthStatus.FAIR]
+            is_healthy = system_status in [
+                HealthStatus.EXCELLENT,
+                HealthStatus.GOOD,
+                HealthStatus.FAIR,
+            ]
 
             # Create health snapshot
             snapshot = SystemHealthSnapshot(
@@ -461,7 +472,7 @@ class SystemHealthMonitor:
                 overall_health=overall_health,
                 system_status=system_status,
                 is_healthy=is_healthy,
-                component_health=self.component_states.copy()
+                component_health=self.component_states.copy(),
             )
 
             # Add system metrics
@@ -483,9 +494,15 @@ class SystemHealthMonitor:
             snapshot.fold_health_score = cascade_metrics["fold_health"]
 
             # Trinity Framework health
-            snapshot.identity_system_health = self.component_states[ComponentType.IDENTITY].overall_health
-            snapshot.consciousness_system_health = self.component_states[ComponentType.CONSCIOUSNESS].overall_health
-            snapshot.guardian_system_health = self.component_states[ComponentType.GUARDIAN].overall_health
+            snapshot.identity_system_health = self.component_states[
+                ComponentType.IDENTITY
+            ].overall_health
+            snapshot.consciousness_system_health = self.component_states[
+                ComponentType.CONSCIOUSNESS
+            ].overall_health
+            snapshot.guardian_system_health = self.component_states[
+                ComponentType.GUARDIAN
+            ].overall_health
 
             # Critical indicators
             snapshot.active_alerts = await self._count_active_alerts()
@@ -530,7 +547,7 @@ class SystemHealthMonitor:
                 "cpu_percent": cpu_percent,
                 "memory_percent": memory_percent,
                 "disk_percent": disk_percent,
-                "network_io": float(network_io)
+                "network_io": float(network_io),
             }
 
         except Exception as e:
@@ -539,7 +556,7 @@ class SystemHealthMonitor:
                 "cpu_percent": 0.0,
                 "memory_percent": 0.0,
                 "disk_percent": 0.0,
-                "network_io": 0.0
+                "network_io": 0.0,
             }
 
     async def _calculate_overall_health(self) -> float:
@@ -614,12 +631,14 @@ class SystemHealthMonitor:
         await self._update_component_specific_metrics(component_type, component)
 
         # Store in history
-        self.component_health_history[component_type].append({
-            "timestamp": component.timestamp,
-            "health": component.overall_health,
-            "status": component.health_status.value,
-            "operational": component.is_operational
-        })
+        self.component_health_history[component_type].append(
+            {
+                "timestamp": component.timestamp,
+                "health": component.overall_health,
+                "status": component.health_status.value,
+                "operational": component.is_operational,
+            }
+        )
 
     async def _get_component_health_variation(self, component_type: ComponentType) -> float:
         """Get health variation for component (simulation)"""
@@ -630,13 +649,15 @@ class SystemHealthMonitor:
         if component_type == ComponentType.GUARDIAN:
             return random.uniform(-0.05, 0.05)  # Very stable
         elif component_type == ComponentType.MEMORY:
-            return random.uniform(-0.1, 0.05)   # Can degrade
+            return random.uniform(-0.1, 0.05)  # Can degrade
         elif component_type == ComponentType.API:
-            return random.uniform(-0.15, 0.1)   # More variable
+            return random.uniform(-0.15, 0.1)  # More variable
         else:
-            return random.uniform(-0.1, 0.1)    # Default variation
+            return random.uniform(-0.1, 0.1)  # Default variation
 
-    async def _update_component_specific_metrics(self, component_type: ComponentType, component: ComponentHealth):
+    async def _update_component_specific_metrics(
+        self, component_type: ComponentType, component: ComponentHealth
+    ):
         """Update component-specific metrics"""
 
         if component_type == ComponentType.GUARDIAN:
@@ -649,7 +670,7 @@ class SystemHealthMonitor:
 
         elif component_type == ComponentType.API:
             component.response_time = 150.0  # ms
-            component.throughput = 1000.0    # requests/sec
+            component.throughput = 1000.0  # requests/sec
             component.performance_score = 0.88
 
         elif component_type == ComponentType.CONSCIOUSNESS:
@@ -658,6 +679,7 @@ class SystemHealthMonitor:
 
         # Update resource utilization (simulated)
         import random
+
         component.cpu_usage = random.uniform(10.0, 70.0)
         component.memory_usage = random.uniform(30.0, 80.0)
 
@@ -678,7 +700,9 @@ class SystemHealthMonitor:
                 # Cascade prevention impacts memory health
                 if prevention_score < self.cascade_prevention_target:
                     health_penalty = (self.cascade_prevention_target - prevention_score) * 2
-                    memory_component.overall_health = max(0.0, memory_component.overall_health - health_penalty)
+                    memory_component.overall_health = max(
+                        0.0, memory_component.overall_health - health_penalty
+                    )
 
                 # Update cascade-specific indicators
                 if cascade_risk > 0.1:
@@ -701,6 +725,7 @@ class SystemHealthMonitor:
 
         # Simulate cascade risk calculation
         import random
+
         base_risk = 0.03  # 3% base risk
         risk_variation = random.uniform(-0.02, 0.05)
 
@@ -718,7 +743,7 @@ class SystemHealthMonitor:
         return {
             "cascade_risk": cascade_risk,
             "prevention_score": prevention_score,
-            "fold_health": fold_health
+            "fold_health": fold_health,
         }
 
     async def _calculate_avg_response_time(self) -> float:
@@ -748,6 +773,7 @@ class SystemHealthMonitor:
 
         # Simulate error rate calculation
         import random
+
         return random.uniform(0.1, 2.0)  # 0.1% to 2% error rate
 
     async def _calculate_uptime(self) -> float:
@@ -813,7 +839,10 @@ class SystemHealthMonitor:
             return True
 
         # Check cascade prevention
-        if self.current_health and self.current_health.cascade_prevention_score < self.cascade_prevention_target:
+        if (
+            self.current_health
+            and self.current_health.cascade_prevention_score < self.cascade_prevention_target
+        ):
             return True
 
         return False
@@ -877,12 +906,14 @@ class SystemHealthMonitor:
                     time_to_failure = timedelta(hours=24)  # Predict failure in 24h
                     component.time_to_failure = time_to_failure
                     component.predicted_issues.append("potential_failure_24h")
-                    predictions.append({
-                        "component": component_type.value,
-                        "prediction": "failure",
-                        "confidence": 0.7,
-                        "time_to_failure": time_to_failure
-                    })
+                    predictions.append(
+                        {
+                            "component": component_type.value,
+                            "prediction": "failure",
+                            "confidence": 0.7,
+                            "time_to_failure": time_to_failure,
+                        }
+                    )
 
         # Store predictions in system metrics
         if predictions:
@@ -898,7 +929,9 @@ class SystemHealthMonitor:
                 recommendations.append(f"Immediate attention required for {component_type.value}")
 
             if component.overall_health < 0.8:
-                recommendations.append(f"Preventive maintenance recommended for {component_type.value}")
+                recommendations.append(
+                    f"Preventive maintenance recommended for {component_type.value}"
+                )
 
             if component.predicted_issues:
                 recommendations.append(f"Proactive maintenance needed for {component_type.value}")
@@ -926,7 +959,10 @@ class SystemHealthMonitor:
         # Clean component history
         for component_type in self.component_health_history:
             history = self.component_health_history[component_type]
-            while history and datetime.fromisoformat(history[0]["timestamp"].isoformat()) < cutoff_time:
+            while (
+                history
+                and datetime.fromisoformat(history[0]["timestamp"].isoformat()) < cutoff_time
+            ):
                 history.popleft()
 
         # Clean metrics history
@@ -941,7 +977,7 @@ class SystemHealthMonitor:
         component: ComponentType,
         metric_type: MetricType,
         source: str = "external",
-        optimal_range: Optional[tuple[float, float]] = None
+        optimal_range: Optional[tuple[float, float]] = None,
     ) -> HealthMetric:
         """Record a custom health metric"""
 
@@ -975,7 +1011,7 @@ class SystemHealthMonitor:
             status=status,
             is_healthy=is_healthy,
             optimal_range=optimal_range,
-            source=source
+            source=source,
         )
 
         # Store metric
@@ -1008,7 +1044,6 @@ class SystemHealthMonitor:
             "overall_health": self.current_health.overall_health,
             "system_status": self.current_health.system_status.value,
             "is_healthy": self.current_health.is_healthy,
-
             # System metrics
             "system_metrics": {
                 "cpu_usage": self.current_health.total_cpu_usage,
@@ -1016,47 +1051,44 @@ class SystemHealthMonitor:
                 "disk_usage": self.current_health.disk_usage,
                 "avg_response_time": self.current_health.avg_response_time,
                 "error_rate": self.current_health.error_rate,
-                "uptime": self.current_health.uptime
+                "uptime": self.current_health.uptime,
             },
-
             # Trinity Framework health
             "trinity_health": {
                 "identity": self.current_health.identity_system_health,
                 "consciousness": self.current_health.consciousness_system_health,
-                "guardian": self.current_health.guardian_system_health
+                "guardian": self.current_health.guardian_system_health,
             },
-
             # Cascade prevention
             "cascade_prevention": {
                 "cascade_risk": self.current_health.memory_cascade_risk,
                 "prevention_score": self.current_health.cascade_prevention_score,
                 "fold_health": self.current_health.fold_health_score,
-                "target_met": self.current_health.cascade_prevention_score >= self.cascade_prevention_target
+                "target_met": self.current_health.cascade_prevention_score
+                >= self.cascade_prevention_target,
             },
-
             # Component health summary
             "components": {
                 component_type.value: {
                     "health": component.overall_health,
                     "status": component.health_status.value,
                     "operational": component.is_operational,
-                    "issues": len(component.critical_indicators) + len(component.warning_indicators)
+                    "issues": len(component.critical_indicators)
+                    + len(component.warning_indicators),
                 }
                 for component_type, component in self.current_health.component_health.items()
             },
-
             # Critical indicators
             "alerts": {
                 "active": self.current_health.active_alerts,
                 "critical": self.current_health.critical_issues,
                 "warnings": self.current_health.system_warnings,
-                "maintenance_required": self.current_health.maintenance_required
-            }
+                "maintenance_required": self.current_health.maintenance_required,
+            },
         }
 
     async def get_health_report(
-        self,
-        time_period: Optional[tuple[datetime, datetime]] = None
+        self, time_period: Optional[tuple[datetime, datetime]] = None
     ) -> HealthReport:
         """Generate comprehensive health report"""
 
@@ -1067,8 +1099,7 @@ class SystemHealthMonitor:
 
         # Filter snapshots for time period
         period_snapshots = [
-            s for s in self.health_snapshots
-            if time_period[0] <= s.timestamp <= time_period[1]
+            s for s in self.health_snapshots if time_period[0] <= s.timestamp <= time_period[1]
         ]
 
         if not period_snapshots:
@@ -1078,7 +1109,7 @@ class SystemHealthMonitor:
                 time_period=time_period,
                 overall_system_health=1.0,
                 health_trend="stable",
-                critical_issues_count=0
+                critical_issues_count=0,
             )
 
         # Calculate report metrics
@@ -1109,7 +1140,7 @@ class SystemHealthMonitor:
             time_period=time_period,
             overall_system_health=overall_system_health,
             health_trend=health_trend,
-            critical_issues_count=critical_issues_count
+            critical_issues_count=critical_issues_count,
         )
 
         # Add component analysis
@@ -1125,7 +1156,7 @@ class SystemHealthMonitor:
                     "average_health": statistics.mean(component_healths),
                     "min_health": min(component_healths),
                     "max_health": max(component_healths),
-                    "trend": "stable"  # Simplified
+                    "trend": "stable",  # Simplified
                 }
 
         # Add cascade prevention analysis
@@ -1135,13 +1166,18 @@ class SystemHealthMonitor:
         report.cascade_prevention_analysis = {
             "average_prevention_score": statistics.mean(cascade_scores),
             "average_cascade_risk": statistics.mean(cascade_risks),
-            "target_compliance": sum(1 for s in cascade_scores if s >= self.cascade_prevention_target) / len(cascade_scores),
-            "max_risk_event": max(cascade_risks) if cascade_risks else 0.0
+            "target_compliance": sum(
+                1 for s in cascade_scores if s >= self.cascade_prevention_target
+            )
+            / len(cascade_scores),
+            "max_risk_event": max(cascade_risks) if cascade_risks else 0.0,
         }
 
         # Add recommendations
         if overall_system_health < 0.7:
-            report.immediate_actions.append("System health below acceptable level - immediate investigation required")
+            report.immediate_actions.append(
+                "System health below acceptable level - immediate investigation required"
+            )
 
         if critical_issues_count > 0:
             report.immediate_actions.append(f"Address {critical_issues_count} critical issues")
@@ -1167,12 +1203,12 @@ class SystemHealthMonitor:
 
 # Export main classes
 __all__ = [
-    "SystemHealthMonitor",
-    "HealthMetric",
     "ComponentHealth",
-    "SystemHealthSnapshot",
+    "ComponentType",
+    "HealthMetric",
     "HealthReport",
     "HealthStatus",
-    "ComponentType",
-    "MetricType"
+    "MetricType",
+    "SystemHealthMonitor",
+    "SystemHealthSnapshot",
 ]

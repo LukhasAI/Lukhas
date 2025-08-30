@@ -18,9 +18,7 @@ class InterColonyBridge:
         self.colony_registry[colony.colony_id] = colony
         self.message_bus.subscribe(
             f"colony.{colony.colony_id}.*",
-            lambda msg: asyncio.create_task(
-                self._route_to_colony(colony.colony_id, msg)
-            ),
+            lambda msg: asyncio.create_task(self._route_to_colony(colony.colony_id, msg)),
         )
         self._register_protocol_handlers(colony)
 

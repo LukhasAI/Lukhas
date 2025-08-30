@@ -122,9 +122,7 @@ class MemorySpindle:
 
         # Determine spin speed based on entropy
         speed_range = self.ENTROPY_SPIN_MAP[dominant_class]
-        avg_entropy = sum(m["entropy_score"] for m in self.memory_window) / len(
-            self.memory_window
-        )
+        avg_entropy = sum(m["entropy_score"] for m in self.memory_window) / len(self.memory_window)
         spin_speed = speed_range[0] + (speed_range[1] - speed_range[0]) * avg_entropy
 
         # Detect patterns
@@ -172,12 +170,12 @@ class MemorySpindle:
 
         # Check 2-glyph sequences
         for i in range(len(self.glyph_history) - 1):
-            seq = f"{self.glyph_history[i]}→{self.glyph_history[i+1]}"
+            seq = f"{self.glyph_history[i]}→{self.glyph_history[i + 1]}"
             self.recurring_sequences[seq] = self.recurring_sequences.get(seq, 0) + 1
 
         # Check 3-glyph sequences
         for i in range(len(self.glyph_history) - 2):
-            seq = f"{self.glyph_history[i]}→{self.glyph_history[i+1]}→{self.glyph_history[i+2]}"
+            seq = f"{self.glyph_history[i]}→{self.glyph_history[i + 1]}→{self.glyph_history[i + 2]}"
             self.recurring_sequences[seq] = self.recurring_sequences.get(seq, 0) + 1
 
         # Find significant patterns

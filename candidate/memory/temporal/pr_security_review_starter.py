@@ -33,14 +33,10 @@ def run_security_review():
 
     try:
         # Run the script
-        result = subprocess.run(
-            [sys.executable, script_path], capture_output=True, text=True
-        )
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True)
 
         if result.returncode == 0:
-            print(
-                f"[{datetime.now().isoformat()}] PR Security Review completed successfully"
-            )
+            print(f"[{datetime.now().isoformat()}] PR Security Review completed successfully")
             print(result.stdout)
         else:
             print(

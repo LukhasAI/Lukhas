@@ -22,9 +22,15 @@ except ImportError:
         from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
     except ImportError:
         # Create fallback bootstrap functions
-        def get_bootstrap(): return {"status": "fallback"}
-        def initialize_lukhas(): return True
-        def shutdown_lukhas(): return True
+        def get_bootstrap():
+            return {"status": "fallback"}
+
+        def initialize_lukhas():
+            return True
+
+        def shutdown_lukhas():
+            return True
+
 
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -33,15 +39,21 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Import branding bridge with fallback handling
 try:
     from candidate.branding_bridge import get_system_signature, initialize_branding
+
     BRANDING_AVAILABLE = True
 except ImportError:
     try:
         from lukhas.branding_bridge import get_system_signature, initialize_branding
+
         BRANDING_AVAILABLE = True
     except ImportError:
         BRANDING_AVAILABLE = False
-        def initialize_branding(): return True
-        def get_system_signature(): return "LUKHAS AI System"
+
+        def initialize_branding():
+            return True
+
+        def get_system_signature():
+            return "LUKHAS AI System"
 
 # Import bootstrap
 
@@ -121,9 +133,7 @@ class LUKHAS:
 
                 return True
             else:
-                logger.error(
-                    "❌ Architecture initialization failed: %s", result.get("error")
-                )
+                logger.error("❌ Architecture initialization failed: %s", result.get("error"))
                 return False
 
         except (ImportError, AttributeError, RuntimeError) as e:
@@ -163,9 +173,7 @@ class LUKHAS:
 
             logger.info("\n📊 Startup Summary:")
             logger.info("  - Services loaded: %d", len(self.bootstrap.services))
-            logger.info(
-                "  - Healthy services: %s", health_report["overall"]["healthy_services"]
-            )
+            logger.info("  - Healthy services: %s", health_report["overall"]["healthy_services"])
             logger.info(
                 "  - Health percentage: %.1f%%",
                 health_report["overall"]["health_percentage"],
@@ -238,9 +246,7 @@ Available commands:
         print(f"Uptime: {(datetime.now() - self.startup_time).total_seconds():.1f}s")
 
         if self.bootstrap:
-            health = (
-                await self.bootstrap.check_system_health()
-            )  # Remove protected member access
+            health = await self.bootstrap.check_system_health()  # Remove protected member access
             print("\nServices:")
             for name, health_info in health["services"].items():
                 status = health_info.get("status", "unknown")
@@ -256,9 +262,7 @@ Available commands:
 
         if self.bootstrap:
             print("\n📊 Service Health Details:")
-            health = (
-                await self.bootstrap.check_system_health()
-            )  # Remove protected member access
+            health = await self.bootstrap.check_system_health()  # Remove protected member access
             for name, info in health["services"].items():
                 print(f"\n{name}:")
                 for key, value in info.items():

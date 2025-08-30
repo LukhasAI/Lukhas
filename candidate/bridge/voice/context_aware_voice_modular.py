@@ -268,9 +268,7 @@ class ContextAnalyzer:
             "connectivity": device_info.get("connectivity", "good"),
         }
 
-    def _analyze_memory(
-        self, memory: list[dict[str, Any]], current_intent: str
-    ) -> dict[str, Any]:
+    def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """Analyze historical interaction patterns"""
         if not memory:
             return {
@@ -520,9 +518,7 @@ class MemoryManager:
             importance=memory["importance"],
         )
 
-    def get_relevant_memories(
-        self, user_id: str, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -586,9 +582,7 @@ class ContextAwareVoiceSystem:
             enable_adaptation=self.enable_adaptation,
         )
 
-    async def process_input(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_input(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         """
         Process user input and generate context-aware voice response
 
@@ -652,9 +646,7 @@ class ContextAwareVoiceSystem:
 
         return result
 
-    async def _generate_response(
-        self, user_input: str, context: ContextAnalysis
-    ) -> str:
+    async def _generate_response(self, user_input: str, context: ContextAnalysis) -> str:
         """Generate response content based on input and context"""
         # Placeholder implementation - in production would use LLM
         if context.intent == "help_request":

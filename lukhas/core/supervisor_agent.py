@@ -158,8 +158,7 @@ class SupervisorAgent:
 
         # Calculate risk distribution
         risk_levels = [
-            e.get("review_result", {}).get("risk_level", "unknown")
-            for e in self.escalation_history
+            e.get("review_result", {}).get("risk_level", "unknown") for e in self.escalation_history
         ]
         risk_counts = {level: risk_levels.count(level) for level in set(risk_levels)}
 
@@ -175,9 +174,7 @@ class SupervisorAgent:
         """Get list of currently active escalations."""
         return list(self.active_escalations.values())
 
-    def get_escalation_history(
-        self, limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    def get_escalation_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Get escalation history.
 
@@ -202,7 +199,7 @@ _supervisor_agent = None
 
 def get_supervisor_agent() -> SupervisorAgent:
     """Get or create the global supervisor agent."""
-    global _supervisor_agent  # noqa: PLW0603
+    global _supervisor_agent
     if _supervisor_agent is None:
         _supervisor_agent = SupervisorAgent()
     return _supervisor_agent

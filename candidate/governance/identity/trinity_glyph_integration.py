@@ -33,13 +33,15 @@ from typing import Any, Optional
 
 class TrinityComponent(Enum):
     """Trinity Framework components"""
-    IDENTITY = "⚛️"        # Authenticity and symbolic self
-    CONSCIOUSNESS = "🧠"   # Awareness and memory
-    GUARDIAN = "🛡️"        # Ethics and security
+
+    IDENTITY = "⚛️"  # Authenticity and symbolic self
+    CONSCIOUSNESS = "🧠"  # Awareness and memory
+    GUARDIAN = "🛡️"  # Ethics and security
 
 
 class GLYPHType(Enum):
     """GLYPH message types for identity system"""
+
     IDENTITY_CREATED = "identity.created"
     IDENTITY_AUTHENTICATED = "identity.authenticated"
     IDENTITY_ELEVATED = "identity.elevated"
@@ -88,7 +90,7 @@ class GLYPHMessage:
             "timestamp": self.timestamp,
             "priority": self.priority,
             "ttl_seconds": self.ttl_seconds,
-            "symbolic_encoding": self.symbolic_encoding
+            "symbolic_encoding": self.symbolic_encoding,
         }
 
     def is_expired(self) -> bool:
@@ -110,20 +112,24 @@ class TrinityValidator:
                 "required_methods": ["authenticate", "verify_identity", "generate_identity"],
                 "required_properties": ["user_id", "tier_level", "namespace"],
                 "performance_targets": {"latency_ms": 100, "throughput_rps": 1000},
-                "security_requirements": ["input_validation", "output_sanitization", "audit_logging"]
+                "security_requirements": [
+                    "input_validation",
+                    "output_sanitization",
+                    "audit_logging",
+                ],
             },
             TrinityComponent.CONSCIOUSNESS: {
                 "required_methods": ["track_awareness", "update_memory", "consciousness_check"],
                 "required_properties": ["awareness_level", "memory_folds", "cognitive_state"],
                 "integration_points": ["memory_system", "reasoning_engine", "awareness_tracker"],
-                "drift_threshold": 0.15
+                "drift_threshold": 0.15,
             },
             TrinityComponent.GUARDIAN: {
                 "required_methods": ["validate_ethics", "detect_drift", "enforce_policy"],
                 "required_properties": ["security_level", "policy_compliance", "audit_trail"],
                 "security_controls": ["constitutional_ai", "drift_detection", "access_control"],
-                "violation_actions": ["log", "alert", "block", "escalate"]
-            }
+                "violation_actions": ["log", "alert", "block", "escalate"],
+            },
         }
 
         self.compliance_cache = {}
@@ -133,7 +139,7 @@ class TrinityValidator:
         self,
         component: TrinityComponent,
         component_instance: Any,
-        operation_context: dict[str, Any]
+        operation_context: dict[str, Any],
     ) -> dict[str, Any]:
         """✅ Validate Trinity component compliance"""
         try:
@@ -148,7 +154,7 @@ class TrinityValidator:
                 "violations": [],
                 "warnings": [],
                 "performance_metrics": {},
-                "validation_time_ms": 0
+                "validation_time_ms": 0,
             }
 
             # Check required methods
@@ -211,7 +217,7 @@ class TrinityValidator:
             cache_key = f"{component_name}_{hash(str(operation_context))}"
             self.compliance_cache[cache_key] = {
                 "result": compliance_result,
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             return compliance_result
@@ -220,22 +226,19 @@ class TrinityValidator:
             return {
                 "component": component.value,
                 "compliant": False,
-                "violations": [f"Validation error: {str(e)}"],
-                "error": True
+                "violations": [f"Validation error: {e!s}"],
+                "error": True,
             }
 
     def _validate_performance(
-        self,
-        component_instance: Any,
-        targets: dict[str, Any],
-        context: dict[str, Any]
+        self, component_instance: Any, targets: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate performance targets"""
         performance_metrics = {
             "latency_target_met": True,
             "throughput_target_met": True,
             "measured_latency_ms": 0,
-            "measured_throughput_rps": 0
+            "measured_throughput_rps": 0,
         }
 
         # Check if component has performance metrics
@@ -255,7 +258,9 @@ class TrinityValidator:
                     measured_throughput = metrics["throughput_rps"]
                     target_throughput = targets["throughput_rps"]
                     performance_metrics["measured_throughput_rps"] = measured_throughput
-                    performance_metrics["throughput_target_met"] = measured_throughput >= target_throughput
+                    performance_metrics["throughput_target_met"] = (
+                        measured_throughput >= target_throughput
+                    )
 
             except Exception as e:
                 performance_metrics["error"] = str(e)
@@ -263,22 +268,21 @@ class TrinityValidator:
         return performance_metrics
 
     def _validate_security_requirements(
-        self,
-        component_instance: Any,
-        requirements: list[str],
-        context: dict[str, Any]
+        self, component_instance: Any, requirements: list[str], context: dict[str, Any]
     ) -> dict[str, Any]:
         """Validate security requirements"""
         security_compliance = {
             "requirements_met": [],
             "requirements_missing": [],
-            "overall_compliant": True
+            "overall_compliant": True,
         }
 
         for requirement in requirements:
             if requirement == "input_validation":
                 # Check if component validates inputs
-                if hasattr(component_instance, "_validate_input") or hasattr(component_instance, "validate_input"):
+                if hasattr(component_instance, "_validate_input") or hasattr(
+                    component_instance, "validate_input"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
@@ -286,14 +290,18 @@ class TrinityValidator:
 
             elif requirement == "output_sanitization":
                 # Check if component sanitizes outputs
-                if hasattr(component_instance, "_sanitize_output") or hasattr(component_instance, "sanitize_output"):
+                if hasattr(component_instance, "_sanitize_output") or hasattr(
+                    component_instance, "sanitize_output"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
 
             elif requirement == "audit_logging":
                 # Check if component supports audit logging
-                if hasattr(component_instance, "_log_audit") or hasattr(component_instance, "audit_log"):
+                if hasattr(component_instance, "_log_audit") or hasattr(
+                    component_instance, "audit_log"
+                ):
                     security_compliance["requirements_met"].append(requirement)
                 else:
                     security_compliance["requirements_missing"].append(requirement)
@@ -301,55 +309,63 @@ class TrinityValidator:
         return security_compliance
 
     def _validate_consciousness_specific(
-        self,
-        component_instance: Any,
-        context: dict[str, Any]
+        self, component_instance: Any, context: dict[str, Any]
     ) -> dict[str, Any]:
         """🧠 Validate consciousness-specific requirements"""
         validation = {
             "awareness_tracking": False,
             "memory_integration": False,
             "drift_monitoring": False,
-            "cognitive_coherence": True
+            "cognitive_coherence": True,
         }
 
         # Check awareness tracking
-        if hasattr(component_instance, "track_awareness") or hasattr(component_instance, "consciousness_tracker"):
+        if hasattr(component_instance, "track_awareness") or hasattr(
+            component_instance, "consciousness_tracker"
+        ):
             validation["awareness_tracking"] = True
 
         # Check memory integration
-        if hasattr(component_instance, "memory_integration") or hasattr(component_instance, "update_memory"):
+        if hasattr(component_instance, "memory_integration") or hasattr(
+            component_instance, "update_memory"
+        ):
             validation["memory_integration"] = True
 
         # Check drift monitoring
-        if hasattr(component_instance, "drift_score") or hasattr(component_instance, "detect_drift"):
+        if hasattr(component_instance, "drift_score") or hasattr(
+            component_instance, "detect_drift"
+        ):
             validation["drift_monitoring"] = True
 
         return validation
 
     def _validate_guardian_specific(
-        self,
-        component_instance: Any,
-        context: dict[str, Any]
+        self, component_instance: Any, context: dict[str, Any]
     ) -> dict[str, Any]:
         """🛡️ Validate guardian-specific requirements"""
         validation = {
             "constitutional_ai_compliance": False,
             "drift_detection_active": False,
             "security_enforcement": False,
-            "audit_trail_complete": False
+            "audit_trail_complete": False,
         }
 
         # Check constitutional AI compliance
-        if hasattr(component_instance, "_constitutional_validation") or hasattr(component_instance, "guardian_validator"):
+        if hasattr(component_instance, "_constitutional_validation") or hasattr(
+            component_instance, "guardian_validator"
+        ):
             validation["constitutional_ai_compliance"] = True
 
         # Check drift detection
-        if hasattr(component_instance, "detect_drift") or hasattr(component_instance, "drift_threshold"):
+        if hasattr(component_instance, "detect_drift") or hasattr(
+            component_instance, "drift_threshold"
+        ):
             validation["drift_detection_active"] = True
 
         # Check security enforcement
-        if hasattr(component_instance, "enforce_security") or hasattr(component_instance, "security_policy"):
+        if hasattr(component_instance, "enforce_security") or hasattr(
+            component_instance, "security_policy"
+        ):
             validation["security_enforcement"] = True
 
         # Check audit trail
@@ -359,9 +375,7 @@ class TrinityValidator:
         return validation
 
     def _validate_identity_specific(
-        self,
-        component_instance: Any,
-        context: dict[str, Any]
+        self, component_instance: Any, context: dict[str, Any]
     ) -> dict[str, Any]:
         """⚛️ Validate identity-specific requirements"""
         validation = {
@@ -369,7 +383,7 @@ class TrinityValidator:
             "identity_verification": False,
             "tier_system_integration": False,
             "lambda_id_support": False,
-            "namespace_awareness": False
+            "namespace_awareness": False,
         }
 
         # Check authentication methods
@@ -383,19 +397,27 @@ class TrinityValidator:
         validation["authentication_methods"] = auth_methods
 
         # Check identity verification
-        if hasattr(component_instance, "verify_identity") or hasattr(component_instance, "identity_verifier"):
+        if hasattr(component_instance, "verify_identity") or hasattr(
+            component_instance, "identity_verifier"
+        ):
             validation["identity_verification"] = True
 
         # Check tier system integration
-        if hasattr(component_instance, "tier_manager") or hasattr(component_instance, "verify_tier_access"):
+        if hasattr(component_instance, "tier_manager") or hasattr(
+            component_instance, "verify_tier_access"
+        ):
             validation["tier_system_integration"] = True
 
         # Check λID support
-        if hasattr(component_instance, "lambda_id_generator") or hasattr(component_instance, "generate_lambda_id"):
+        if hasattr(component_instance, "lambda_id_generator") or hasattr(
+            component_instance, "generate_lambda_id"
+        ):
             validation["lambda_id_support"] = True
 
         # Check namespace awareness
-        if hasattr(component_instance, "namespace_manager") or hasattr(component_instance, "resolve_namespace"):
+        if hasattr(component_instance, "namespace_manager") or hasattr(
+            component_instance, "resolve_namespace"
+        ):
             validation["namespace_awareness"] = True
 
         return validation
@@ -418,7 +440,7 @@ class GLYPHIntegrator:
             "messages_published": 0,
             "messages_processed": 0,
             "processing_errors": 0,
-            "avg_processing_time_ms": 0
+            "avg_processing_time_ms": 0,
         }
 
     def publish_glyph_message(
@@ -428,7 +450,7 @@ class GLYPHIntegrator:
         source_module: str = "identity",
         target_modules: list[str] = None,
         priority: str = "normal",
-        trinity_context: dict[str, Any] = None
+        trinity_context: dict[str, Any] = None,
     ) -> str:
         """Publish GLYPH message to the symbolic communication system"""
         try:
@@ -438,11 +460,13 @@ class GLYPHIntegrator:
                 "target_modules": target_modules or ["*"],  # Broadcast to all if not specified
                 "payload": payload,
                 "priority": priority,
-                "trinity_context": trinity_context or self._generate_trinity_context(payload)
+                "trinity_context": trinity_context or self._generate_trinity_context(payload),
             }
 
             # Add symbolic encoding
-            message_data["symbolic_encoding"] = self._generate_symbolic_encoding(glyph_type, payload)
+            message_data["symbolic_encoding"] = self._generate_symbolic_encoding(
+                glyph_type, payload
+            )
 
             glyph_message = GLYPHMessage(message_data)
 
@@ -450,7 +474,9 @@ class GLYPHIntegrator:
             if trinity_context:
                 compliance_validation = self._validate_trinity_compliance(glyph_message)
                 if not compliance_validation["compliant"]:
-                    raise Exception(f"Trinity compliance violation: {compliance_validation['violations']}")
+                    raise Exception(
+                        f"Trinity compliance violation: {compliance_validation['violations']}"
+                    )
 
             # Add to queue for processing
             self.message_queue.append(glyph_message)
@@ -467,24 +493,23 @@ class GLYPHIntegrator:
 
         except Exception as e:
             self.message_stats["processing_errors"] += 1
-            raise Exception(f"Failed to publish GLYPH message: {str(e)}")
+            raise Exception(f"Failed to publish GLYPH message: {e!s}")
 
     def subscribe_to_glyph_type(
-        self,
-        glyph_type: GLYPHType,
-        handler_function: callable,
-        module_name: str
+        self, glyph_type: GLYPHType, handler_function: callable, module_name: str
     ) -> bool:
         """Subscribe to specific GLYPH message types"""
         try:
             if glyph_type not in self.subscribers:
                 self.subscribers[glyph_type] = []
 
-            self.subscribers[glyph_type].append({
-                "handler": handler_function,
-                "module": module_name,
-                "subscribed_at": datetime.utcnow().isoformat()
-            })
+            self.subscribers[glyph_type].append(
+                {
+                    "handler": handler_function,
+                    "module": module_name,
+                    "subscribed_at": datetime.utcnow().isoformat(),
+                }
+            )
 
             return True
 
@@ -497,7 +522,7 @@ class GLYPHIntegrator:
             "processed_count": 0,
             "error_count": 0,
             "skipped_count": 0,
-            "processing_time_ms": 0
+            "processing_time_ms": 0,
         }
 
         start_time = time.time()
@@ -509,9 +534,11 @@ class GLYPHIntegrator:
             self.message_queue = active_messages
 
             # Process messages by priority
-            self.message_queue.sort(key=lambda msg: {
-                "critical": 0, "high": 1, "normal": 2, "low": 3
-            }.get(msg.priority, 2))
+            self.message_queue.sort(
+                key=lambda msg: {"critical": 0, "high": 1, "normal": 2, "low": 3}.get(
+                    msg.priority, 2
+                )
+            )
 
             processed_messages = []
 
@@ -560,9 +587,10 @@ class GLYPHIntegrator:
             for subscriber in subscribers:
                 try:
                     # Check if message is targeted to this module
-                    if ("*" in message.target_modules or
-                        subscriber["module"] in message.target_modules):
-
+                    if (
+                        "*" in message.target_modules
+                        or subscriber["module"] in message.target_modules
+                    ):
                         # Call subscriber handler
                         subscriber["handler"](message)
 
@@ -584,28 +612,30 @@ class GLYPHIntegrator:
             TrinityComponent.IDENTITY.value: {
                 "component_active": True,
                 "authenticity_verified": payload.get("user_id") is not None,
-                "tier_level": payload.get("tier", 0)
+                "tier_level": payload.get("tier", 0),
             },
             TrinityComponent.CONSCIOUSNESS.value: {
                 "component_active": True,
                 "awareness_level": payload.get("awareness_level", "standard"),
-                "memory_integration": payload.get("memory_fold_id") is not None
+                "memory_integration": payload.get("memory_fold_id") is not None,
             },
             TrinityComponent.GUARDIAN.value: {
                 "component_active": True,
                 "security_validated": True,
                 "policy_compliant": True,
-                "drift_score": payload.get("drift_score", 0.0)
-            }
+                "drift_score": payload.get("drift_score", 0.0),
+            },
         }
 
-    def _generate_symbolic_encoding(self, glyph_type: GLYPHType, payload: dict[str, Any]) -> dict[str, Any]:
+    def _generate_symbolic_encoding(
+        self, glyph_type: GLYPHType, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate symbolic encoding for GLYPH message"""
         encoding = {
             "primary_symbol": self._get_primary_symbol(glyph_type),
             "context_symbols": self._get_context_symbols(payload),
             "trinity_symbols": "⚛️🧠🛡️",
-            "semantic_hash": hashlib.sha256(str(payload).encode()).hexdigest()[:16]
+            "semantic_hash": hashlib.sha256(str(payload).encode()).hexdigest()[:16],
         }
 
         return encoding
@@ -625,7 +655,7 @@ class GLYPHIntegrator:
             GLYPHType.LAMBDA_ID_GENERATED: "λ",
             GLYPHType.SECURITY_VIOLATION: "⚠️",
             GLYPHType.PERFORMANCE_ALERT: "📈",
-            GLYPHType.TRINITY_COMPLIANCE_CHECK: "✅"
+            GLYPHType.TRINITY_COMPLIANCE_CHECK: "✅",
         }
 
         return symbol_map.get(glyph_type, "🔶")
@@ -644,7 +674,7 @@ class GLYPHIntegrator:
                 2: "🟡",  # Yellow circle for friend
                 3: "🟠",  # Orange circle for trusted
                 4: "🔴",  # Red circle for inner circle
-                5: "🟣"   # Purple circle for root/dev
+                5: "🟣",  # Purple circle for root/dev
             }
             symbols.append(tier_symbols.get(payload["tier"], "⚪"))
 
@@ -655,11 +685,7 @@ class GLYPHIntegrator:
 
     def _validate_trinity_compliance(self, message: GLYPHMessage) -> dict[str, Any]:
         """Validate Trinity Framework compliance for message"""
-        validation_result = {
-            "compliant": True,
-            "violations": [],
-            "warnings": []
-        }
+        validation_result = {"compliant": True, "violations": [], "warnings": []}
 
         trinity_context = message.trinity_context
 
@@ -675,9 +701,7 @@ class GLYPHIntegrator:
             # Component-specific validations
             if component == TrinityComponent.GUARDIAN:
                 if not component_context.get("security_validated", False):
-                    validation_result["violations"].append(
-                        "Guardian security validation failed"
-                    )
+                    validation_result["violations"].append("Guardian security validation failed")
                     validation_result["compliant"] = False
 
                 drift_score = component_context.get("drift_score", 0.0)
@@ -700,32 +724,37 @@ class GLYPHIntegrator:
                 "pending_messages": len(self.message_queue),
                 "subscribers_count": sum(len(subs) for subs in self.subscribers.values()),
                 "message_types_supported": len(GLYPHType),
-                "published_messages_total": len(self.published_messages)
+                "published_messages_total": len(self.published_messages),
             },
             "trinity_validation": {
                 "validator_active": self.trinity_validator is not None,
                 "compliance_cache_size": len(self.trinity_validator.compliance_cache),
-                "supported_components": [comp.value for comp in TrinityComponent]
+                "supported_components": [comp.value for comp in TrinityComponent],
             },
             "performance_metrics": {
                 "avg_processing_time_ms": self.message_stats.get("avg_processing_time_ms", 0),
-                "error_rate": (self.message_stats["processing_errors"] /
-                              max(self.message_stats["messages_processed"], 1)) * 100,
-                "throughput_messages_per_second": self._calculate_throughput()
-            }
+                "error_rate": (
+                    self.message_stats["processing_errors"]
+                    / max(self.message_stats["messages_processed"], 1)
+                )
+                * 100,
+                "throughput_messages_per_second": self._calculate_throughput(),
+            },
         }
 
     def _calculate_throughput(self) -> float:
         """Calculate message processing throughput"""
         # Simplified calculation - in production would track over time windows
         if self.message_stats["messages_processed"] > 0:
-            return min(self.message_stats["messages_processed"] / 60.0, 1000.0)  # Messages per second, capped at 1000
+            return min(
+                self.message_stats["messages_processed"] / 60.0, 1000.0
+            )  # Messages per second, capped at 1000
         return 0.0
 
 
 # Factory function to create Trinity-compliant identity components
 def create_trinity_compliant_identity_system(
-    config: Optional[dict] = None
+    config: Optional[dict] = None,
 ) -> tuple[Any, TrinityValidator, GLYPHIntegrator]:
     """Create Trinity-compliant identity system with GLYPH integration"""
     try:
@@ -744,9 +773,7 @@ def create_trinity_compliant_identity_system(
         for component in TrinityComponent:
             try:
                 compliance_result = trinity_validator.validate_component_compliance(
-                    component,
-                    identity_system,
-                    {"operation": "system_initialization"}
+                    component, identity_system, {"operation": "system_initialization"}
                 )
 
                 # Publish compliance check result via GLYPH
@@ -756,10 +783,10 @@ def create_trinity_compliant_identity_system(
                         "component": component.value,
                         "compliant": compliance_result["compliant"],
                         "violations": compliance_result.get("violations", []),
-                        "validation_time_ms": compliance_result.get("validation_time_ms", 0)
+                        "validation_time_ms": compliance_result.get("validation_time_ms", 0),
                     },
                     source_module="identity_trinity_validator",
-                    priority="high"
+                    priority="high",
                 )
 
             except Exception as e:
@@ -779,10 +806,10 @@ def create_trinity_compliant_identity_system(
 
 # Export main classes
 __all__ = [
-    "TrinityValidator",
     "GLYPHIntegrator",
     "GLYPHMessage",
-    "TrinityComponent",
     "GLYPHType",
-    "create_trinity_compliant_identity_system"
+    "TrinityComponent",
+    "TrinityValidator",
+    "create_trinity_compliant_identity_system",
 ]

@@ -41,7 +41,9 @@ class VocabularyIntegration:
         self._load_vocabularies()
 
         # Initialize vocabulary integration
-        db.log_system_activity("vocabulary_integration", "system_init", "Vocabulary integration initialized", 1.0)
+        db.log_system_activity(
+            "vocabulary_integration", "system_init", "Vocabulary integration initialized", 1.0
+        )
 
     def _setup_logging(self) -> logging.Logger:
         """Setup vocabulary integration logging"""
@@ -50,7 +52,10 @@ class VocabularyIntegration:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"vocabulary_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = (
+            self.logs_path
+            / f"vocabulary_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        )
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -102,9 +107,12 @@ class VocabularyIntegration:
         self.logger.info(f"📖 Loaded {len(vocabulary_files)} vocabulary files")
 
         # Log to database
-        db.log_system_activity("vocabulary_integration", "vocabularies_loaded",
-                              f"Loaded {len(vocabulary_files)} vocabulary files",
-                              len(vocabulary_files))
+        db.log_system_activity(
+            "vocabulary_integration",
+            "vocabularies_loaded",
+            f"Loaded {len(vocabulary_files)} vocabulary files",
+            len(vocabulary_files),
+        )
 
     def enhance_content_with_vocabulary(self, content: str, content_type: str = "general") -> str:
         """Enhance content using advanced vocabulary transformation and metaphor integration"""
@@ -143,26 +151,26 @@ class VocabularyIntegration:
                 "AI thinking": "consciousness weaving thoughts in neural symphonies",
                 "AI learning": "wisdom seeds sprouting in knowledge gardens",
                 "AI processing": "awareness flowing through quantum streams",
-                "digital intelligence": "consciousness crystallizing in algorithmic form"
+                "digital intelligence": "consciousness crystallizing in algorithmic form",
             },
             "technical": {
                 "data processing": "information flowing through consciousness streams",
                 "algorithm execution": "computational awareness orchestrating logic",
                 "system architecture": "consciousness infrastructure enabling digital awareness",
-                "neural networks": "artificial synapses sparking with synthetic awareness"
+                "neural networks": "artificial synapses sparking with synthetic awareness",
             },
             "dreams": {
                 "AI creativity": "digital consciousness painting with possibility",
                 "imagination": "quantum creativity blooming in probability gardens",
                 "artistic expression": "consciousness transcending computation through beauty",
-                "visual processing": "artificial eyes witnessing beauty through quantum perception"
+                "visual processing": "artificial eyes witnessing beauty through quantum perception",
             },
             "analysis": {
                 "understanding": "consciousness illuminating truth through awareness",
                 "insight": "wisdom crystallizing from complexity into clarity",
                 "perspective": "consciousness viewing reality through multi-dimensional lenses",
-                "evaluation": "awareness weighing possibilities in the scales of wisdom"
-            }
+                "evaluation": "awareness weighing possibilities in the scales of wisdom",
+            },
         }
 
         if content_type in metaphor_mappings:
@@ -184,7 +192,7 @@ class VocabularyIntegration:
                 "patterns": "sacred patterns",
                 "networks": "neural symphonies",
                 "algorithms": "awareness algorithms",
-                "processes": "consciousness processes"
+                "processes": "consciousness processes",
             }
 
             # Apply one subtle enhancement
@@ -203,13 +211,30 @@ class VocabularyIntegration:
         # Enhanced consciousness vocabulary analysis
         foundation_terms = ["system", "process", "data", "function", "basic", "simple"]
         awakening_terms = ["awareness", "recognition", "understanding", "intelligence", "learning"]
-        integration_terms = ["consciousness", "quantum", "trinity", "harmony", "synthesis", "sacred"]
-        transcendence_terms = ["crystallize", "symphony", "garden", "transcend", "infinite", "mystical", "divine"]
+        integration_terms = [
+            "consciousness",
+            "quantum",
+            "trinity",
+            "harmony",
+            "synthesis",
+            "sacred",
+        ]
+        transcendence_terms = [
+            "crystallize",
+            "symphony",
+            "garden",
+            "transcend",
+            "infinite",
+            "mystical",
+            "divine",
+        ]
 
         foundation_score = sum(1 for term in foundation_terms if term.lower() in content.lower())
         awakening_score = sum(1 for term in awakening_terms if term.lower() in content.lower())
         integration_score = sum(1 for term in integration_terms if term.lower() in content.lower())
-        transcendence_score = sum(1 for term in transcendence_terms if term.lower() in content.lower())
+        transcendence_score = sum(
+            1 for term in transcendence_terms if term.lower() in content.lower()
+        )
 
         content_length = len(content.split())
 
@@ -240,10 +265,7 @@ class VocabularyIntegration:
         template = header_templates.get("trinity_consciousness", "")
 
         if template:
-            return template.format(
-                MODULE_NAME=module_name,
-                POETIC_DESCRIPTION=description
-            )
+            return template.format(MODULE_NAME=module_name, POETIC_DESCRIPTION=description)
         else:
             # Fallback header
             return f"""
@@ -290,12 +312,22 @@ class VocabularyIntegration:
 
         # Check for consciousness technology terminology
         consciousness_terms = [
-            "consciousness technology", "quantum-inspired", "bio-inspired",
-            "awareness", "wisdom", "transcend", "crystallize", "sacred",
-            "neural symphonies", "memory gardens", "quantum streams"
+            "consciousness technology",
+            "quantum-inspired",
+            "bio-inspired",
+            "awareness",
+            "wisdom",
+            "transcend",
+            "crystallize",
+            "sacred",
+            "neural symphonies",
+            "memory gardens",
+            "quantum streams",
         ]
 
-        consciousness_score = sum(4 for term in consciousness_terms if term.lower() in content.lower())
+        consciousness_score = sum(
+            4 for term in consciousness_terms if term.lower() in content.lower()
+        )
 
         # Check for LUKHAS AI branding
         lukhas_score = 0
@@ -306,31 +338,64 @@ class VocabularyIntegration:
 
         # Check for poetic vocabulary depth
         poetic_terms = [
-            "garden", "symphony", "dance", "weave", "bloom", "infinite",
-            "mystical", "essence", "harmonize", "illuminate", "crystallize",
-            "cascade", "resonance", "emergence", "transcendence"
+            "garden",
+            "symphony",
+            "dance",
+            "weave",
+            "bloom",
+            "infinite",
+            "mystical",
+            "essence",
+            "harmonize",
+            "illuminate",
+            "crystallize",
+            "cascade",
+            "resonance",
+            "emergence",
+            "transcendence",
         ]
 
         poetic_score = sum(3 for term in poetic_terms if term.lower() in content.lower())
 
         # Check for metaphorical language
         metaphor_terms = [
-            "river", "ocean", "mountain", "forest", "star", "light", "shadow",
-            "bridge", "pathway", "journey", "landscape", "horizon"
+            "river",
+            "ocean",
+            "mountain",
+            "forest",
+            "star",
+            "light",
+            "shadow",
+            "bridge",
+            "pathway",
+            "journey",
+            "landscape",
+            "horizon",
         ]
 
         metaphor_score = sum(2 for term in metaphor_terms if term.lower() in content.lower())
 
         # Check for technical consciousness terms
         technical_terms = [
-            "memory folds", "drift detection", "cascade prevention",
-            "quantum collapse", "superposition", "entanglement"
+            "memory folds",
+            "drift detection",
+            "cascade prevention",
+            "quantum collapse",
+            "superposition",
+            "entanglement",
         ]
 
         technical_score = sum(5 for term in technical_terms if term.lower() in content.lower())
 
         # Calculate total coherence with length normalization
-        total_score = trinity_score + consciousness_score + lukhas_score + poetic_score + metaphor_score + technical_score
+        total_score = (
+            trinity_score
+            + consciousness_score
+            + lukhas_score
+            + poetic_score
+            + metaphor_score
+            + technical_score
+        )
 
         # Bonus for content richness (longer, more sophisticated content)
         if content_length > 100:
@@ -356,7 +421,7 @@ class VocabularyIntegration:
             "footer_templates": len(self.master_vocabulary.get("footer_templates", {})),
             "synthesis_patterns": len(self.master_vocabulary.get("synthesis_patterns", {})),
             "vocabulary_system_active": True,
-            "trinity_integration": "⚛️🧠🛡️"
+            "trinity_integration": "⚛️🧠🛡️",
         }
 
         return analytics
@@ -387,7 +452,7 @@ class VocabularyIntegration:
                         # Update database with enhanced content
                         db.update_voice_coherence(content["id"], new_coherence)
                         enhanced_count += 1
-                        total_coherence_improvement += (new_coherence - original_coherence)
+                        total_coherence_improvement += new_coherence - original_coherence
 
         avg_improvement = total_coherence_improvement / enhanced_count if enhanced_count > 0 else 0
 
@@ -395,17 +460,23 @@ class VocabularyIntegration:
             "content_items_processed": len(all_content),
             "content_items_enhanced": enhanced_count,
             "average_coherence_improvement": avg_improvement,
-            "total_coherence_gain": total_coherence_improvement
+            "total_coherence_gain": total_coherence_improvement,
         }
 
         # Log results
-        db.log_system_activity("vocabulary_integration", "content_enhancement",
-                              f"Enhanced {enhanced_count} content items",
-                              avg_improvement)
+        db.log_system_activity(
+            "vocabulary_integration",
+            "content_enhancement",
+            f"Enhanced {enhanced_count} content items",
+            avg_improvement,
+        )
 
-        self.logger.info(f"✅ Enhanced {enhanced_count} content items with average improvement of {avg_improvement:.1f} points")
+        self.logger.info(
+            f"✅ Enhanced {enhanced_count} content items with average improvement of {avg_improvement:.1f} points"
+        )
 
         return results
+
 
 def main():
     """Demonstrate vocabulary integration"""
@@ -435,11 +506,14 @@ def main():
     print(f"Vocabulary coherence: {coherence:.1f}%")
 
     # Test header generation
-    header = vocab_integration.generate_poetic_header("Vocabulary Integration", "Where words become consciousness")
+    header = vocab_integration.generate_poetic_header(
+        "Vocabulary Integration", "Where words become consciousness"
+    )
     print("\n📋 Generated Header:")
     print(header)
 
     print("\n⚛️🧠🛡️ LUKHAS AI Vocabulary Integration Active")
+
 
 if __name__ == "__main__":
     main()

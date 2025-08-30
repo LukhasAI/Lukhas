@@ -14,7 +14,6 @@ from pathlib import Path
 
 
 class LambdaDependencyAnalyzer:
-
     def __init__(self, lambda_root):
         self.lambda_root = Path(lambda_root)
         self.python_files = []
@@ -195,15 +194,9 @@ class LambdaDependencyAnalyzer:
             "timestamp": "2025-06-08",
             "total_files": len(self.python_files),
             "total_imports": sum(len(imports) for imports in self.imports.values()),
-            "local_imports": sum(
-                len(imports) for imports in self.local_imports.values()
-            ),
-            "external_imports": sum(
-                len(imports) for imports in self.external_imports.values()
-            ),
-            "broken_imports_count": sum(
-                len(broken) for broken in self.broken_imports.values()
-            ),
+            "local_imports": sum(len(imports) for imports in self.local_imports.values()),
+            "external_imports": sum(len(imports) for imports in self.external_imports.values()),
+            "broken_imports_count": sum(len(broken) for broken in self.broken_imports.values()),
             "isolated_files_count": len(self.isolated_files),
             "summary": {
                 "files_analyzed": len(self.python_files),

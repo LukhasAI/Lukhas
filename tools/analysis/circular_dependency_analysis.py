@@ -211,9 +211,7 @@ class DependencyAnalyzer:
                     {
                         "action": "extract_interface",
                         "description": "Extract shared interface to separate module",
-                        "modules_to_create": [
-                            f"interfaces.{self._suggest_interface_name(cycle)}"
-                        ],
+                        "modules_to_create": [f"interfaces.{self._suggest_interface_name(cycle)}"],
                     }
                 )
 
@@ -250,9 +248,7 @@ class DependencyAnalyzer:
 
         # Medium severity for service modules
         service_modules = {"api", "bridge", "security"}
-        if any(
-            any(service in module for service in service_modules) for module in cycle
-        ):
+        if any(any(service in module for service in service_modules) for module in cycle):
             return "medium"
 
         return "low"
@@ -298,9 +294,7 @@ class DependencyAnalyzer:
             return "common_interface"
 
 
-def generate_interface_modules(
-    suggestions: list[dict[str, Any]], root_path: Path
-) -> None:
+def generate_interface_modules(suggestions: list[dict[str, Any]], root_path: Path) -> None:
     """Generate interface module files"""
     interfaces_dir = root_path / "core" / "interfaces"
     interfaces_dir.mkdir(parents=True, exist_ok=True)
@@ -308,9 +302,7 @@ def generate_interface_modules(
     # Create __init__.py
     init_file = interfaces_dir / "__init__.py"
     if not init_file.exists():
-        init_file.write_text(
-            '"""Core module interfaces to break circular dependencies"""\n'
-        )
+        init_file.write_text('"""Core module interfaces to break circular dependencies"""\n')
 
     created_interfaces = []
 
@@ -328,19 +320,19 @@ def generate_interface_modules(
                         if not interface_file.exists():
                             # Generate interface template
                             content = f'''"""
-🔌 {interface_name.replace('_', ' ').title()}
-{'=' * (len(interface_name) + 4)}
+🔌 {interface_name.replace("_", " ").title()}
+{"=" * (len(interface_name) + 4)}
 
 Interface module to break circular dependencies between:
-{' <-> '.join(suggestion['cycle'])}
+{" <-> ".join(suggestion["cycle"])}
 """
 
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
 from lukhas.core.common import GLYPHToken
 
-class {interface_name.replace('_interface', '').title()}Interface(ABC):
-    """Abstract interface for {interface_name.replace('_interface', '')} modules"""
+class {interface_name.replace("_interface", "").title()}Interface(ABC):
+    """Abstract interface for {interface_name.replace("_interface", "")} modules"""
 
     @abstractmethod
     async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
@@ -358,22 +350,20 @@ class {interface_name.replace('_interface', '').title()}Interface(ABC):
         pass
 
 # Module registry for dependency injection
-_module_registry: Dict[str, {interface_name.replace('_interface', '').title()}Interface] = {{}}
+_module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}}
 
-def register_module(name: str, module: {interface_name.replace('_interface',
-    '').title()}Interface) -> None:
+def register_module(name: str, module: {
+                                interface_name.replace("_interface", "").title()
+                            }Interface) -> None:
     """Register module implementation"""
     _module_registry[name] = module
 
-def get_module(name: str) -> Optional[{interface_name.replace('_interface',
-    '').title()}Interface]:
+def get_module(name: str) -> Optional[{interface_name.replace("_interface", "").title()}Interface]:
     """Get registered module"""
     return _module_registry.get(name)
 '''
                             interface_file.write_text(content)
-                            created_interfaces.append(
-                                str(interface_file.relative_to(root_path))
-                            )
+                            created_interfaces.append(str(interface_file.relative_to(root_path)))
 
     return created_interfaces
 
@@ -465,11 +455,7 @@ def main():
     }
 
     report_path = (
-        PROJECT_ROOT
-        / "docs"
-        / "reports"
-        / "analysis"
-        / "_CIRCULAR_DEPENDENCY_REPORT.json"
+        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_CIRCULAR_DEPENDENCY_REPORT.json"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 

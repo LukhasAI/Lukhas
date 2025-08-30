@@ -49,11 +49,7 @@ except ImportError:
         if token.startswith("mock_jwt_token_"):
             timestamp = token.replace("mock_jwt_token_", "")
             user_id = f"test_{timestamp}" if timestamp.isdigit() else "test_user"
-            email = (
-                f"test_{timestamp}@lukhas.ai"
-                if timestamp.isdigit()
-                else "test@lukhas.ai"
-            )
+            email = f"test_{timestamp}@lukhas.ai" if timestamp.isdigit() else "test@lukhas.ai"
         else:
             user_id = "mock_user"
             email = "test@lukhas.ai"

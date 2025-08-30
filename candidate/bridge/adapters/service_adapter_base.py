@@ -70,14 +70,16 @@ except ImportError:
 
 class AdapterState(Enum):
     """Circuit breaker states"""
+
     CLOSED = "closed"  # Normal operation
-    OPEN = "open"      # Failing, reject requests
+    OPEN = "open"  # Failing, reject requests
     HALF_OPEN = "half_open"  # Testing recovery
 
 
 @dataclass
 class CapabilityToken:
     """Capability token per global schema"""
+
     token_id: str
     lid: str
     scope: list[str]
@@ -101,8 +103,7 @@ class CapabilityToken:
 class ResilienceManager:
     """Circuit breakers and retry logic"""
 
-    def __init__(self, failure_threshold: int = 5,
-                 recovery_timeout: int = 60):
+    def __init__(self, failure_threshold: int = 5, recovery_timeout: int = 60):
         self.failure_threshold = failure_threshold
         self.recovery_timeout = recovery_timeout
         self.failure_count = 0
@@ -164,14 +165,21 @@ class TelemetryCollector:
             "security_events": [],
             "dangerous_operations": 0,
             "consent_denials": 0,
-            "rate_limit_hits": 0
+            "rate_limit_hits": 0,
         }
         self.ledger = ConsentLedgerV1() if ConsentLedgerV1 else None
         self.audit_trail = []  # In-memory audit trail
 
-    def record_request(self, lid: str, action: str, resource: str,
-                      capability_token: Optional[CapabilityToken],
-                      latency_ms: float, success: bool, context: Optional[dict] = None):
+    def record_request(
+        self,
+        lid: str,
+        action: str,
+        resource: str,
+        capability_token: Optional[CapabilityToken],
+        latency_ms: float,
+        success: bool,
+        context: Optional[dict] = None,
+    ):
         """Enhanced request recording with comprehensive audit trail and Λ-trace integration"""
 
         # Update basic metrics
@@ -186,23 +194,27 @@ class TelemetryCollector:
         if context:
             if context.get("denial_type"):
                 self.metrics["consent_denials"] += 1
-                self.metrics["security_events"].append({
-                    "type": "consent_denial",
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "lid": lid,
-                    "action": action,
-                    "reason": context.get("reason", "Unknown")
-                })
+                self.metrics["security_events"].append(
+                    {
+                        "type": "consent_denial",
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "lid": lid,
+                        "action": action,
+                        "reason": context.get("reason", "Unknown"),
+                    }
+                )
 
             if "dangerous_operation" in context.get("approval_type", ""):
                 self.metrics["dangerous_operations"] += 1
-                self.metrics["security_events"].append({
-                    "type": "dangerous_operation",
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "lid": lid,
-                    "action": action,
-                    "confirmed": context.get("confirmed", False)
-                })
+                self.metrics["security_events"].append(
+                    {
+                        "type": "dangerous_operation",
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                        "lid": lid,
+                        "action": action,
+                        "confirmed": context.get("confirmed", False),
+                    }
+                )
 
             if context.get("reason") == "rate_limit_exceeded":
                 self.metrics["rate_limit_hits"] += 1
@@ -221,7 +233,7 @@ class TelemetryCollector:
             "latency_ms": latency_ms,
             "capability_token_id": capability_token.token_id if capability_token else None,
             "context": context or {},
-            "trace_id": None  # Will be filled by Λ-trace
+            "trace_id": None,  # Will be filled by Λ-trace
         }
 
         # Emit Λ-trace if ledger available - Enhanced Trinity Framework integration
@@ -232,7 +244,7 @@ class TelemetryCollector:
                 "success": success,
                 "trinity_framework": "⚛️🧠🛡️",
                 "audit_entry_id": len(self.audit_trail),
-                "security_level": self._assess_security_level(action, context)
+                "security_level": self._assess_security_level(action, context),
             }
             if context:
                 trace_context.update(context)
@@ -244,7 +256,7 @@ class TelemetryCollector:
                 purpose="adapter_operation",
                 verdict=PolicyVerdict.ALLOW if success else PolicyVerdict.DENY,
                 capability_token_id=capability_token.token_id if capability_token else None,
-                context=trace_context
+                context=trace_context,
             )
             self.metrics["last_trace_id"] = trace.trace_id
             audit_entry["trace_id"] = trace.trace_id
@@ -269,28 +281,24 @@ class TelemetryCollector:
 
     def get_metrics(self) -> dict:
         """Get current metrics"""
-        avg_latency = (self.metrics["total_latency_ms"] /
-                      max(self.metrics["request_count"], 1))
+        avg_latency = self.metrics["total_latency_ms"] / max(self.metrics["request_count"], 1)
 
         return {
             "adapter": self.adapter_name,
             "requests": self.metrics["request_count"],
-            "success_rate": (self.metrics["success_count"] /
-                           max(self.metrics["request_count"], 1)),
+            "success_rate": (self.metrics["success_count"] / max(self.metrics["request_count"], 1)),
             "avg_latency_ms": avg_latency,
-            "unique_tokens": len(set(self.metrics["capability_tokens_used"]))
+            "unique_tokens": len(set(self.metrics["capability_tokens_used"])),
         }
 
 
 def with_resilience(func):
     """Decorator for resilient adapter methods"""
+
     @wraps(func)
     async def wrapper(self, *args, **kwargs):
         if not self.resilience.can_attempt_request():
-            return {
-                "error": "service_unavailable",
-                "circuit_state": self.resilience.get_state()
-            }
+            return {"error": "service_unavailable", "circuit_state": self.resilience.get_state()}
 
         max_retries = 3
         backoff = 1
@@ -311,9 +319,7 @@ def with_resilience(func):
                     resource = kwargs.get("resource", "unknown")
                     token = kwargs.get("capability_token")
 
-                    self.telemetry.record_request(
-                        lid, action, resource, token, latency_ms, True
-                    )
+                    self.telemetry.record_request(lid, action, resource, token, latency_ms, True)
 
                 return result
 
@@ -331,7 +337,7 @@ def with_resilience(func):
                             kwargs.get("resource", "unknown"),
                             kwargs.get("capability_token"),
                             0,
-                            False
+                            False,
                         )
                     raise e
 
@@ -398,7 +404,7 @@ class BaseServiceAdapter(ABC):
             "list": "List available resources",
             "execute": "Execute operations",
             "monitor": "Monitor service health and metrics",
-            "configure": "Configure service settings"
+            "configure": "Configure service settings",
         }
 
     def _initialize_consciousness_integration(self):
@@ -406,11 +412,14 @@ class BaseServiceAdapter(ABC):
         if self.kernel_bus:
             try:
                 # Register adapter with consciousness system
-                self.kernel_bus.register_service(f"adapter.{self.service_name}", {
-                    "type": "service_adapter",
-                    "capabilities": list(self.supported_scopes.keys()),
-                    "trinity_integration": True
-                })
+                self.kernel_bus.register_service(
+                    f"adapter.{self.service_name}",
+                    {
+                        "type": "service_adapter",
+                        "capabilities": list(self.supported_scopes.keys()),
+                        "trinity_integration": True,
+                    },
+                )
                 self.consciousness_active = True
             except Exception:
                 # Fallback gracefully if consciousness not available
@@ -420,8 +429,7 @@ class BaseServiceAdapter(ABC):
         """Enable/disable dry-run mode"""
         self.dry_run_mode = enabled
 
-    def validate_capability_token(self, token: CapabilityToken,
-                                 required_scope: str) -> bool:
+    def validate_capability_token(self, token: CapabilityToken, required_scope: str) -> bool:
         """Validate capability token"""
         if not token.is_valid():
             return False
@@ -441,10 +449,7 @@ class BaseServiceAdapter(ABC):
         if self.guardian:
             try:
                 guardian_check = await self.guardian.validate_operation(
-                    lid=lid,
-                    service=self.service_name,
-                    action=action,
-                    context=context or {}
+                    lid=lid, service=self.service_name, action=action, context=context or {}
                 )
                 if not guardian_check.get("allowed", False):
                     return False
@@ -457,9 +462,7 @@ class BaseServiceAdapter(ABC):
             return True  # Allow if ledger not available (testing)
 
         consent_check = self.ledger.check_consent(
-            lid=lid,
-            resource_type=self.service_name,
-            action=action
+            lid=lid, resource_type=self.service_name, action=action
         )
         return consent_check["allowed"]
 
@@ -469,9 +472,7 @@ class BaseServiceAdapter(ABC):
             try:
                 # Use LUKHAS AI identity system for authentication
                 identity_result = await self.identity_core.authenticate(
-                    lid=lid,
-                    service=self.service_name,
-                    credentials=credentials
+                    lid=lid, service=self.service_name, credentials=credentials
                 )
                 return identity_result
             except Exception as e:
@@ -484,12 +485,14 @@ class BaseServiceAdapter(ABC):
         """🧠 Notify consciousness system of important events"""
         if self.kernel_bus and self.consciousness_active:
             try:
-                await self.kernel_bus.emit_event({
-                    "type": f"adapter.{event_type}",
-                    "service": self.service_name,
-                    "data": data,
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                })
+                await self.kernel_bus.emit_event(
+                    {
+                        "type": f"adapter.{event_type}",
+                        "service": self.service_name,
+                        "data": data,
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
             except Exception:
                 # Graceful degradation if consciousness not available
                 pass
@@ -500,8 +503,9 @@ class BaseServiceAdapter(ABC):
         pass
 
     @abstractmethod
-    async def fetch_resource(self, lid: str, resource_id: str,
-                           capability_token: CapabilityToken) -> dict:
+    async def fetch_resource(
+        self, lid: str, resource_id: str, capability_token: CapabilityToken
+    ) -> dict:
         """Fetch resource from external service"""
         pass
 
@@ -517,14 +521,16 @@ class BaseServiceAdapter(ABC):
                 "consciousness_active": self.consciousness_active,
                 "guardian_active": self.guardian is not None,
                 "memory_active": self.memory_service is not None,
-                "consent_ledger_active": self.ledger is not None
-            }
+                "consent_ledger_active": self.ledger is not None,
+            },
         }
 
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
             with contextlib.suppress(Exception):
-                status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
+                status["consciousness_status"] = self.kernel_bus.get_service_status(
+                    f"adapter.{self.service_name}"
+                )
 
         return status
 
@@ -533,8 +539,7 @@ class BaseServiceAdapter(ABC):
         if self.memory_service:
             try:
                 await self.memory_service.store_adapter_state(
-                    adapter_name=self.service_name,
-                    state=state_data
+                    adapter_name=self.service_name, state=state_data
                 )
                 return True
             except Exception:
@@ -558,7 +563,7 @@ class BaseServiceAdapter(ABC):
             "temporal_anomalies": [],
             "behavioral_anomalies": [],
             "pattern_anomalies": [],
-            "risk_score": 0.0
+            "risk_score": 0.0,
         }
 
         # Check for temporal anomalies (unusual timing)
@@ -583,7 +588,7 @@ class BaseServiceAdapter(ABC):
             "emergency": 0.7,
             "forced": 0.6,
             "under_threat": 0.9,
-            "not_me": 0.5
+            "not_me": 0.5,
         }
 
         for pattern, score in duress_patterns.items():
@@ -601,22 +606,29 @@ class BaseServiceAdapter(ABC):
 
         if is_duress:
             # Log duress detection
-            await self._log_denial(lid, "duress_detected", "security_threat",
-                                 f"Duress signals detected: {duress_indicators}")
+            await self._log_denial(
+                lid,
+                "duress_detected",
+                "security_threat",
+                f"Duress signals detected: {duress_indicators}",
+            )
 
             # Notify security systems
-            await self.notify_consciousness("duress_detected", {
-                "lid": lid,
-                "indicators": duress_indicators,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "requires_investigation": True
-            })
+            await self.notify_consciousness(
+                "duress_detected",
+                {
+                    "lid": lid,
+                    "indicators": duress_indicators,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "requires_investigation": True,
+                },
+            )
 
         return {
             "duress_detected": is_duress,
             "risk_score": duress_indicators["risk_score"],
             "indicators": duress_indicators,
-            "recommended_action": "block_and_investigate" if is_duress else "allow"
+            "recommended_action": "block_and_investigate" if is_duress else "allow",
         }
 
 
@@ -633,7 +645,7 @@ class DryRunPlanner:
             "params": params,
             "estimated_time_ms": self._estimate_time(operation),
             "required_scopes": self._get_required_scopes(operation),
-            "potential_errors": self._predict_errors(operation, params)
+            "potential_errors": self._predict_errors(operation, params),
         }
 
         self.planned_operations.append(plan)
@@ -641,13 +653,7 @@ class DryRunPlanner:
 
     def _estimate_time(self, operation: str) -> int:
         """Estimate operation time"""
-        estimates = {
-            "list": 200,
-            "fetch": 500,
-            "upload": 1000,
-            "delete": 300,
-            "search": 800
-        }
+        estimates = {"list": 200, "fetch": 500, "upload": 1000, "delete": 300, "search": 800}
         return estimates.get(operation, 500)
 
     def _get_required_scopes(self, operation: str) -> list[str]:
@@ -657,7 +663,7 @@ class DryRunPlanner:
             "fetch": ["read"],
             "upload": ["write"],
             "delete": ["delete"],
-            "search": ["read", "list"]
+            "search": ["read", "list"],
         }
         return scope_map.get(operation, ["read"])
 
@@ -678,6 +684,7 @@ class DryRunPlanner:
 # Critical fix: Add ServiceAdapterBase alias for backward compatibility
 ServiceAdapterBase = BaseServiceAdapter
 
+
 # Rate limiting implementation
 class RateLimiter:
     """🚦 Rate limiter for adapter operations (Canary Pack 5)"""
@@ -697,8 +704,7 @@ class RateLimiter:
 
         # Clean old requests outside window
         self.requests[lid] = [
-            (ts, act) for ts, act in self.requests[lid]
-            if now - ts < self.window_seconds
+            (ts, act) for ts, act in self.requests[lid] if now - ts < self.window_seconds
         ]
 
         # Check if over limit
@@ -711,7 +717,7 @@ class RateLimiter:
                 "current_count": current_count,
                 "max_requests": self.max_requests,
                 "window_seconds": self.window_seconds,
-                "retry_after": self.window_seconds
+                "retry_after": self.window_seconds,
             }
 
         # Record this request
@@ -720,19 +726,19 @@ class RateLimiter:
         return {
             "allowed": True,
             "current_count": current_count + 1,
-            "remaining": self.max_requests - current_count - 1
+            "remaining": self.max_requests - current_count - 1,
         }
 
 
 # Export list for proper module imports
 __all__ = [
-    "BaseServiceAdapter",
-    "ServiceAdapterBase",  # Alias for backward compatibility
     "AdapterState",
+    "BaseServiceAdapter",
     "CapabilityToken",
-    "ResilienceManager",
-    "TelemetryCollector",
     "DryRunPlanner",
     "RateLimiter",
-    "with_resilience"
+    "ResilienceManager",
+    "ServiceAdapterBase",  # Alias for backward compatibility
+    "TelemetryCollector",
+    "with_resilience",
 ]

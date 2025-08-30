@@ -2,6 +2,7 @@
 Mock dream_log module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
+
 import logging
 from datetime import datetime
 

@@ -43,12 +43,8 @@ def main():
 
     # Check agents
     print("\n🤖 Agent Framework:")
-    results.append(
-        check_component("Autonomous Framework", "agents.autonomous_agent_framework")
-    )
-    results.append(
-        check_component("Workforce Agents", "agents.lambda_workforce_agents")
-    )
+    results.append(check_component("Autonomous Framework", "agents.autonomous_agent_framework"))
+    results.append(check_component("Workforce Agents", "agents.lambda_workforce_agents"))
 
     # Check integrations
     print("\n🔗 Integrations:")
@@ -91,7 +87,7 @@ def main():
     print(f"\nTotal Checks: {total}")
     print(f"✅ Passed: {passed}")
     print(f"❌ Failed: {failed}")
-    print(f"Success Rate: {(passed/total)*100:.1f}%")
+    print(f"Success Rate: {(passed / total) * 100:.1f}%")
 
     if passed == total:
         print("\n🎉 ALL CHECKS PASSED!")

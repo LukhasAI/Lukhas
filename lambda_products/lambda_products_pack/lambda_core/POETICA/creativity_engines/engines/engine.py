@@ -118,9 +118,7 @@ class LukhasCreateEngine:
         logger.info(f"✅ Content created: {create_request.type.value}")
         return response
 
-    def _parse_request(
-        self, request: str, context: dict[str, Any], **kwargs
-    ) -> CreateRequest:
+    def _parse_request(self, request: str, context: dict[str, Any], **kwargs) -> CreateRequest:
         """Parse natural language request into structured format"""
         return CreateRequest(
             prompt=request,
@@ -215,9 +213,7 @@ class LukhasCreateEngine:
         """Generate content using appropriate creator module"""
 
         # Select appropriate creator
-        creator = self.capabilities.get(
-            request.type.value, self.capabilities["text_content"]
-        )
+        creator = self.capabilities.get(request.type.value, self.capabilities["text_content"])
 
         # Generate base content
         content = await creator.create(request, context)
@@ -245,9 +241,7 @@ class LukhasCreateEngine:
             suggestions=suggestions,
         )
 
-    async def _generate_alternatives(
-        self, request: CreateRequest, content: str
-    ) -> list[str]:
+    async def _generate_alternatives(self, request: CreateRequest, content: str) -> list[str]:
         """Generate alternative versions of the content"""
         # Placeholder for alternative generation logic
         return [
@@ -319,9 +313,7 @@ This content addresses the request with a focus on {request.style} style and {re
 The content provides comprehensive coverage of the requested topic with appropriate depth and clarity.
 """
 
-    def _generate_main_content(
-        self, request: CreateRequest, context: dict[str, Any]
-    ) -> str:
+    def _generate_main_content(self, request: CreateRequest, context: dict[str, Any]) -> str:
         """Generate the main content section"""
         return f"""
 Based on your request "{request.prompt}", here is comprehensive content that addresses your needs:
@@ -438,9 +430,7 @@ class CreativeWritingCreator:
 - Emotional resonance
 """
 
-    def _generate_creative_content(
-        self, request: CreateRequest, context: dict[str, Any]
-    ) -> str:
+    def _generate_creative_content(self, request: CreateRequest, context: dict[str, Any]) -> str:
         """Generate creative narrative content"""
         return f"""
 The story begins with an intriguing premise that captures the imagination and draws the reader into a world where {request.prompt} becomes the central focus of an extraordinary journey.

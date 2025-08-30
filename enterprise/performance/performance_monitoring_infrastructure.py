@@ -36,6 +36,7 @@ import psutil
 # Performance Monitoring Classes
 class MetricType(Enum):
     """Types of performance metrics we track"""
+
     LATENCY = "latency"
     THROUGHPUT = "throughput"
     MEMORY = "memory"
@@ -47,25 +48,31 @@ class MetricType(Enum):
     ERROR_RATE = "error_rate"
     QUEUE_DEPTH = "queue_depth"
 
+
 class AlertSeverity(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
     CRITICAL = "critical"
 
+
 @dataclass
 class PerformanceMetric:
     """Individual performance metric data point"""
+
     timestamp: datetime
     metric_type: MetricType
     value: float
     labels: dict[str, str] = field(default_factory=dict)
     tags: list[str] = field(default_factory=list)
 
+
 @dataclass
 class PerformanceAlert:
     """Performance alert with context and recommendations"""
+
     id: str
     severity: AlertSeverity
     title: str
@@ -78,9 +85,11 @@ class PerformanceAlert:
     consciousness_impact: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 @dataclass
 class LoadTestResult:
     """Load test execution results"""
+
     test_id: str
     concurrent_users: int
     duration_seconds: int
@@ -95,6 +104,7 @@ class LoadTestResult:
     resource_usage: dict[str, float]
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 class EnterprisePerformanceMonitor:
     """
     Enterprise-grade performance monitoring system for LUKHAS AI.
@@ -103,12 +113,14 @@ class EnterprisePerformanceMonitor:
     Supports 10K+ concurrent users with 1000+ RPS throughput.
     """
 
-    def __init__(self,
-                 monitoring_interval: float = 1.0,
-                 metrics_retention_hours: int = 168,  # 7 days
-                 enable_predictive_scaling: bool = True,
-                 enable_trinity_monitoring: bool = True,
-                 enable_consciousness_monitoring: bool = True):
+    def __init__(
+        self,
+        monitoring_interval: float = 1.0,
+        metrics_retention_hours: int = 168,  # 7 days
+        enable_predictive_scaling: bool = True,
+        enable_trinity_monitoring: bool = True,
+        enable_consciousness_monitoring: bool = True,
+    ):
         """Initialize enterprise performance monitor"""
 
         self.logger = logging.getLogger(__name__)
@@ -128,43 +140,40 @@ class EnterprisePerformanceMonitor:
         self.performance_thresholds = {
             # API Performance Thresholds
             MetricType.LATENCY: {
-                "p50": 12.5,    # 12.5ms P50 (2x better than 25ms industry standard)
-                "p95": 25.0,    # 25ms P95 (2x better than 50ms industry standard)
-                "p99": 50.0     # 50ms P99 (2x better than 100ms industry standard)
+                "p50": 12.5,  # 12.5ms P50 (2x better than 25ms industry standard)
+                "p95": 25.0,  # 25ms P95 (2x better than 50ms industry standard)
+                "p99": 50.0,  # 50ms P99 (2x better than 100ms industry standard)
             },
             MetricType.THROUGHPUT: {
                 "minimum": 1000.0,  # 1000+ RPS
-                "target": 2000.0,   # 2000 RPS target
-                "maximum": 5000.0   # 5000 RPS peak capacity
+                "target": 2000.0,  # 2000 RPS target
+                "maximum": 5000.0,  # 5000 RPS peak capacity
             },
             MetricType.ERROR_RATE: {
-                "warning": 0.001,   # 0.1% warning threshold
-                "critical": 0.01    # 1% critical threshold
+                "warning": 0.001,  # 0.1% warning threshold
+                "critical": 0.01,  # 1% critical threshold
             },
-
             # Resource Utilization Thresholds
             MetricType.CPU: {
-                "warning": 70.0,    # 70% CPU warning
-                "critical": 85.0    # 85% CPU critical
+                "warning": 70.0,  # 70% CPU warning
+                "critical": 85.0,  # 85% CPU critical
             },
             MetricType.MEMORY: {
-                "warning": 75.0,    # 75% memory warning
-                "critical": 90.0    # 90% memory critical
+                "warning": 75.0,  # 75% memory warning
+                "critical": 90.0,  # 90% memory critical
             },
-
             # Trinity Framework Thresholds
             MetricType.TRINITY: {
-                "identity_min": 0.85,      # 85% minimum identity performance
+                "identity_min": 0.85,  # 85% minimum identity performance
                 "consciousness_min": 0.88,  # 88% minimum consciousness performance
-                "guardian_min": 0.90       # 90% minimum guardian performance
+                "guardian_min": 0.90,  # 90% minimum guardian performance
             },
-
             # Consciousness Monitoring Thresholds
             MetricType.CONSCIOUSNESS: {
-                "awareness_level_min": 0.85,    # 85% minimum awareness level
-                "coherence_min": 0.80,          # 80% minimum coherence
-                "response_quality_min": 0.82    # 82% minimum response quality
-            }
+                "awareness_level_min": 0.85,  # 85% minimum awareness level
+                "coherence_min": 0.80,  # 80% minimum coherence
+                "response_quality_min": 0.82,  # 82% minimum response quality
+            },
         }
 
         # Monitoring state
@@ -187,8 +196,12 @@ class EnterprisePerformanceMonitor:
 
         self.logger.info("🚀 Enterprise Performance Monitor initialized")
         self.logger.info(f"   Monitoring interval: {monitoring_interval}s")
-        self.logger.info(f"   P95 latency target: {self.performance_thresholds[MetricType.LATENCY]['p95']}ms")
-        self.logger.info(f"   Throughput target: {self.performance_thresholds[MetricType.THROUGHPUT]['target']} RPS")
+        self.logger.info(
+            f"   P95 latency target: {self.performance_thresholds[MetricType.LATENCY]['p95']}ms"
+        )
+        self.logger.info(
+            f"   Throughput target: {self.performance_thresholds[MetricType.THROUGHPUT]['target']} RPS"
+        )
         self.logger.info(f"   Concurrent users target: {self.concurrent_users_target:,}")
 
     async def start_monitoring(self) -> dict[str, Any]:
@@ -233,8 +246,8 @@ class EnterprisePerformanceMonitor:
                     "trinity_monitoring": self.enable_trinity_monitoring,
                     "consciousness_monitoring": self.enable_consciousness_monitoring,
                     "predictive_scaling": self.enable_predictive_scaling,
-                    "regression_detection": self.regression_detection_enabled
-                }
+                    "regression_detection": self.regression_detection_enabled,
+                },
             }
 
         except Exception as e:
@@ -262,18 +275,22 @@ class EnterprisePerformanceMonitor:
                 "success": True,
                 "final_metrics": self.get_performance_summary(),
                 "alerts_processed": len(self.active_alerts),
-                "uptime_seconds": time.time() - self.start_time if hasattr(self, "start_time") else 0
+                "uptime_seconds": time.time() - self.start_time
+                if hasattr(self, "start_time")
+                else 0,
             }
 
         except Exception as e:
             self.logger.error(f"❌ Failed to stop monitoring: {e}")
             return {"success": False, "error": str(e)}
 
-    async def run_load_test(self,
-                           concurrent_users: int = 1000,
-                           duration_seconds: int = 300,
-                           target_endpoint: str = "/api/v1/orchestrate",
-                           ramp_up_seconds: int = 60) -> LoadTestResult:
+    async def run_load_test(
+        self,
+        concurrent_users: int = 1000,
+        duration_seconds: int = 300,
+        target_endpoint: str = "/api/v1/orchestrate",
+        ramp_up_seconds: int = 60,
+    ) -> LoadTestResult:
         """
         Run comprehensive load test for enterprise scale validation.
 
@@ -319,12 +336,16 @@ class EnterprisePerformanceMonitor:
                 # Simulate success/failure rate
                 error_rate = min(0.05, load_factor * 0.02)  # Max 5% error rate
                 second_failures = int(second_requests * error_rate)
-                successful_requests += (second_requests - second_failures)
+                successful_requests += second_requests - second_failures
                 failed_requests += second_failures
 
                 # Record latencies
-                latencies.extend([max(1.0, simulated_latency + np.random.normal(0, 2))
-                                for _ in range(second_requests - second_failures)])
+                latencies.extend(
+                    [
+                        max(1.0, simulated_latency + np.random.normal(0, 2))
+                        for _ in range(second_requests - second_failures)
+                    ]
+                )
 
                 # Small delay to prevent overwhelming
                 await asyncio.sleep(0.1)
@@ -339,7 +360,9 @@ class EnterprisePerformanceMonitor:
             else:
                 average_latency = p95_latency = p99_latency = 0.0
 
-            throughput_rps = total_requests / test_duration_actual if test_duration_actual > 0 else 0
+            throughput_rps = (
+                total_requests / test_duration_actual if test_duration_actual > 0 else 0
+            )
             final_error_rate = failed_requests / max(total_requests, 1)
 
             # Get resource usage during test
@@ -347,7 +370,7 @@ class EnterprisePerformanceMonitor:
                 "cpu_percent": psutil.cpu_percent(),
                 "memory_percent": psutil.virtual_memory().percent,
                 "disk_usage_percent": psutil.disk_usage("/").percent,
-                "network_connections": len(psutil.net_connections())
+                "network_connections": len(psutil.net_connections()),
             }
 
             # Create load test result
@@ -363,7 +386,7 @@ class EnterprisePerformanceMonitor:
                 p99_latency_ms=p99_latency,
                 throughput_rps=throughput_rps,
                 error_rate=final_error_rate,
-                resource_usage=resource_usage
+                resource_usage=resource_usage,
             )
 
             # Store result
@@ -373,9 +396,15 @@ class EnterprisePerformanceMonitor:
             self._analyze_load_test_performance(result)
 
             self.logger.info(f"✅ Load test completed: {test_id}")
-            self.logger.info(f"   P95 latency: {p95_latency:.2f}ms (target: {self.performance_thresholds[MetricType.LATENCY]['p95']}ms)")
-            self.logger.info(f"   Throughput: {throughput_rps:.1f} RPS (target: {self.performance_thresholds[MetricType.THROUGHPUT]['target']} RPS)")
-            self.logger.info(f"   Error rate: {final_error_rate:.4f} (target: <{self.performance_thresholds[MetricType.ERROR_RATE]['warning']})")
+            self.logger.info(
+                f"   P95 latency: {p95_latency:.2f}ms (target: {self.performance_thresholds[MetricType.LATENCY]['p95']}ms)"
+            )
+            self.logger.info(
+                f"   Throughput: {throughput_rps:.1f} RPS (target: {self.performance_thresholds[MetricType.THROUGHPUT]['target']} RPS)"
+            )
+            self.logger.info(
+                f"   Error rate: {final_error_rate:.4f} (target: <{self.performance_thresholds[MetricType.ERROR_RATE]['warning']})"
+            )
 
             return result
 
@@ -395,7 +424,7 @@ class EnterprisePerformanceMonitor:
                 p99_latency_ms=0.0,
                 throughput_rps=0.0,
                 error_rate=1.0,
-                resource_usage={}
+                resource_usage={},
             )
 
     def get_performance_summary(self) -> dict[str, Any]:
@@ -409,10 +438,14 @@ class EnterprisePerformanceMonitor:
                 "monitoring_active": self.monitoring_active,
                 "performance_targets": {
                     "p95_latency_target_ms": self.performance_thresholds[MetricType.LATENCY]["p95"],
-                    "throughput_target_rps": self.performance_thresholds[MetricType.THROUGHPUT]["target"],
+                    "throughput_target_rps": self.performance_thresholds[MetricType.THROUGHPUT][
+                        "target"
+                    ],
                     "concurrent_users_target": self.concurrent_users_target,
-                    "error_rate_max": self.performance_thresholds[MetricType.ERROR_RATE]["critical"]
-                }
+                    "error_rate_max": self.performance_thresholds[MetricType.ERROR_RATE][
+                        "critical"
+                    ],
+                },
             }
 
             # Current metrics
@@ -420,11 +453,17 @@ class EnterprisePerformanceMonitor:
                 current_metrics = {}
                 for metric_type, metric_deque in self.metrics.items():
                     if metric_deque:
-                        recent_values = [m.value for m in list(metric_deque)[-10:]]  # Last 10 values
+                        recent_values = [
+                            m.value for m in list(metric_deque)[-10:]
+                        ]  # Last 10 values
                         current_metrics[metric_type.value] = {
                             "current": recent_values[-1] if recent_values else 0,
                             "average_10": np.mean(recent_values),
-                            "p95_10": np.percentile(recent_values, 95) if len(recent_values) > 1 else recent_values[0] if recent_values else 0
+                            "p95_10": np.percentile(recent_values, 95)
+                            if len(recent_values) > 1
+                            else recent_values[0]
+                            if recent_values
+                            else 0,
                         }
 
                 summary["current_performance"] = current_metrics
@@ -432,17 +471,19 @@ class EnterprisePerformanceMonitor:
             # Alert summary
             summary["alerts"] = {
                 "active_count": len(self.active_alerts),
-                "critical_count": len([a for a in self.active_alerts if a.severity == AlertSeverity.CRITICAL]),
+                "critical_count": len(
+                    [a for a in self.active_alerts if a.severity == AlertSeverity.CRITICAL]
+                ),
                 "recent_alerts": [
                     {
                         "severity": alert.severity.value,
                         "title": alert.title,
                         "metric_type": alert.metric_type.value,
                         "current_value": alert.current_value,
-                        "threshold": alert.threshold
+                        "threshold": alert.threshold,
                     }
                     for alert in self.active_alerts[-5:]  # Last 5 alerts
-                ]
+                ],
             }
 
             # Load test summary
@@ -450,10 +491,12 @@ class EnterprisePerformanceMonitor:
                 latest_load_test = self.load_test_results[-1]
                 summary["load_testing"] = {
                     "latest_test_id": latest_load_test.test_id,
-                    "max_concurrent_users_tested": max(lt.concurrent_users for lt in self.load_test_results),
+                    "max_concurrent_users_tested": max(
+                        lt.concurrent_users for lt in self.load_test_results
+                    ),
                     "best_p95_latency_ms": min(lt.p95_latency_ms for lt in self.load_test_results),
                     "max_throughput_rps": max(lt.throughput_rps for lt in self.load_test_results),
-                    "average_error_rate": np.mean([lt.error_rate for lt in self.load_test_results])
+                    "average_error_rate": np.mean([lt.error_rate for lt in self.load_test_results]),
                 }
 
             # Performance score calculation
@@ -467,10 +510,7 @@ class EnterprisePerformanceMonitor:
 
         except Exception as e:
             self.logger.error(f"❌ Error generating performance summary: {e}")
-            return {
-                "error": str(e),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def _core_metrics_collector(self):
         """Core metrics collection loop"""
@@ -484,9 +524,15 @@ class EnterprisePerformanceMonitor:
                 disk_info = psutil.disk_usage("/")
 
                 # Store metrics
-                self.metrics[MetricType.CPU].append(PerformanceMetric(timestamp, MetricType.CPU, cpu_percent))
-                self.metrics[MetricType.MEMORY].append(PerformanceMetric(timestamp, MetricType.MEMORY, memory_info.percent))
-                self.metrics[MetricType.DISK_IO].append(PerformanceMetric(timestamp, MetricType.DISK_IO, disk_info.percent))
+                self.metrics[MetricType.CPU].append(
+                    PerformanceMetric(timestamp, MetricType.CPU, cpu_percent)
+                )
+                self.metrics[MetricType.MEMORY].append(
+                    PerformanceMetric(timestamp, MetricType.MEMORY, memory_info.percent)
+                )
+                self.metrics[MetricType.DISK_IO].append(
+                    PerformanceMetric(timestamp, MetricType.DISK_IO, disk_info.percent)
+                )
 
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -506,16 +552,28 @@ class EnterprisePerformanceMonitor:
                 load_factor = 1 + (current_load / 100) * 0.5  # Up to 50% increase under load
 
                 simulated_latency = base_latency * load_factor
-                simulated_throughput = max(500, 2000 - (current_load * 10))  # Throughput decreases with load
-                simulated_error_rate = min(0.05, current_load / 2000)  # Error rate increases with load
+                simulated_throughput = max(
+                    500, 2000 - (current_load * 10)
+                )  # Throughput decreases with load
+                simulated_error_rate = min(
+                    0.05, current_load / 2000
+                )  # Error rate increases with load
 
                 # Store API metrics
-                self.metrics[MetricType.LATENCY].append(PerformanceMetric(timestamp, MetricType.LATENCY, simulated_latency))
-                self.metrics[MetricType.THROUGHPUT].append(PerformanceMetric(timestamp, MetricType.THROUGHPUT, simulated_throughput))
-                self.metrics[MetricType.ERROR_RATE].append(PerformanceMetric(timestamp, MetricType.ERROR_RATE, simulated_error_rate))
+                self.metrics[MetricType.LATENCY].append(
+                    PerformanceMetric(timestamp, MetricType.LATENCY, simulated_latency)
+                )
+                self.metrics[MetricType.THROUGHPUT].append(
+                    PerformanceMetric(timestamp, MetricType.THROUGHPUT, simulated_throughput)
+                )
+                self.metrics[MetricType.ERROR_RATE].append(
+                    PerformanceMetric(timestamp, MetricType.ERROR_RATE, simulated_error_rate)
+                )
 
                 # Check for threshold violations
-                await self._check_api_thresholds(simulated_latency, simulated_throughput, simulated_error_rate)
+                await self._check_api_thresholds(
+                    simulated_latency, simulated_throughput, simulated_error_rate
+                )
 
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -531,7 +589,9 @@ class EnterprisePerformanceMonitor:
 
                 # Simulate Trinity Framework component performance
                 identity_performance = 0.90 + np.random.normal(0, 0.05)  # 90% base with variation
-                consciousness_performance = 0.88 + np.random.normal(0, 0.04)  # 88% base with variation
+                consciousness_performance = 0.88 + np.random.normal(
+                    0, 0.04
+                )  # 88% base with variation
                 guardian_performance = 0.92 + np.random.normal(0, 0.03)  # 92% base with variation
 
                 # Normalize to 0-1 range
@@ -540,21 +600,35 @@ class EnterprisePerformanceMonitor:
                 guardian_performance = max(0, min(1, guardian_performance))
 
                 # Store Trinity metrics
-                self.metrics[MetricType.TRINITY].append(PerformanceMetric(
-                    timestamp, MetricType.TRINITY, identity_performance,
-                    labels={"component": "identity"}
-                ))
-                self.metrics[MetricType.TRINITY].append(PerformanceMetric(
-                    timestamp, MetricType.TRINITY, consciousness_performance,
-                    labels={"component": "consciousness"}
-                ))
-                self.metrics[MetricType.TRINITY].append(PerformanceMetric(
-                    timestamp, MetricType.TRINITY, guardian_performance,
-                    labels={"component": "guardian"}
-                ))
+                self.metrics[MetricType.TRINITY].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.TRINITY,
+                        identity_performance,
+                        labels={"component": "identity"},
+                    )
+                )
+                self.metrics[MetricType.TRINITY].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.TRINITY,
+                        consciousness_performance,
+                        labels={"component": "consciousness"},
+                    )
+                )
+                self.metrics[MetricType.TRINITY].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.TRINITY,
+                        guardian_performance,
+                        labels={"component": "guardian"},
+                    )
+                )
 
                 # Check Trinity thresholds
-                await self._check_trinity_thresholds(identity_performance, consciousness_performance, guardian_performance)
+                await self._check_trinity_thresholds(
+                    identity_performance, consciousness_performance, guardian_performance
+                )
 
                 await asyncio.sleep(self.monitoring_interval * 2)  # Check every 2 intervals
 
@@ -579,21 +653,35 @@ class EnterprisePerformanceMonitor:
                 response_quality = max(0, min(1, response_quality))
 
                 # Store consciousness metrics
-                self.metrics[MetricType.CONSCIOUSNESS].append(PerformanceMetric(
-                    timestamp, MetricType.CONSCIOUSNESS, awareness_level,
-                    labels={"aspect": "awareness"}
-                ))
-                self.metrics[MetricType.CONSCIOUSNESS].append(PerformanceMetric(
-                    timestamp, MetricType.CONSCIOUSNESS, coherence,
-                    labels={"aspect": "coherence"}
-                ))
-                self.metrics[MetricType.CONSCIOUSNESS].append(PerformanceMetric(
-                    timestamp, MetricType.CONSCIOUSNESS, response_quality,
-                    labels={"aspect": "quality"}
-                ))
+                self.metrics[MetricType.CONSCIOUSNESS].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.CONSCIOUSNESS,
+                        awareness_level,
+                        labels={"aspect": "awareness"},
+                    )
+                )
+                self.metrics[MetricType.CONSCIOUSNESS].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.CONSCIOUSNESS,
+                        coherence,
+                        labels={"aspect": "coherence"},
+                    )
+                )
+                self.metrics[MetricType.CONSCIOUSNESS].append(
+                    PerformanceMetric(
+                        timestamp,
+                        MetricType.CONSCIOUSNESS,
+                        response_quality,
+                        labels={"aspect": "quality"},
+                    )
+                )
 
                 # Check consciousness thresholds
-                await self._check_consciousness_thresholds(awareness_level, coherence, response_quality)
+                await self._check_consciousness_thresholds(
+                    awareness_level, coherence, response_quality
+                )
 
                 await asyncio.sleep(self.monitoring_interval * 3)  # Check every 3 intervals
 
@@ -622,7 +710,7 @@ class EnterprisePerformanceMonitor:
                         MetricType.CPU,
                         cpu_percent,
                         self.performance_thresholds[MetricType.CPU]["critical"],
-                        "Consider scaling up CPU resources or optimizing CPU-intensive operations"
+                        "Consider scaling up CPU resources or optimizing CPU-intensive operations",
                     )
 
                 if memory_percent > self.performance_thresholds[MetricType.MEMORY]["critical"]:
@@ -633,7 +721,7 @@ class EnterprisePerformanceMonitor:
                         MetricType.MEMORY,
                         memory_percent,
                         self.performance_thresholds[MetricType.MEMORY]["critical"],
-                        "Consider scaling up memory resources or implementing memory optimization"
+                        "Consider scaling up memory resources or implementing memory optimization",
                     )
 
                 await asyncio.sleep(self.monitoring_interval * 5)  # Check every 5 intervals
@@ -649,7 +737,8 @@ class EnterprisePerformanceMonitor:
                 # Clean up old alerts (older than 1 hour)
                 current_time = datetime.now(timezone.utc)
                 self.active_alerts = [
-                    alert for alert in self.active_alerts
+                    alert
+                    for alert in self.active_alerts
                     if (current_time - alert.timestamp).total_seconds() < 3600
                 ]
 
@@ -673,14 +762,25 @@ class EnterprisePerformanceMonitor:
             try:
                 # Analyze load patterns for predictive scaling
                 if len(self.metrics[MetricType.THROUGHPUT]) >= 10:
-                    recent_throughput = [m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-10:]]
-                    throughput_trend = np.polyfit(range(len(recent_throughput)), recent_throughput, 1)[0]
+                    recent_throughput = [
+                        m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-10:]
+                    ]
+                    throughput_trend = np.polyfit(
+                        range(len(recent_throughput)), recent_throughput, 1
+                    )[0]
 
                     # Predict scaling needs
                     if throughput_trend > 100:  # Increasing load
-                        predicted_peak = recent_throughput[-1] + (throughput_trend * 10)  # 10 intervals ahead
-                        if predicted_peak > self.performance_thresholds[MetricType.THROUGHPUT]["target"] * 0.8:
-                            self.logger.info(f"📈 Predictive scaling: Load increasing, predicted peak: {predicted_peak:.0f} RPS")
+                        predicted_peak = recent_throughput[-1] + (
+                            throughput_trend * 10
+                        )  # 10 intervals ahead
+                        if (
+                            predicted_peak
+                            > self.performance_thresholds[MetricType.THROUGHPUT]["target"] * 0.8
+                        ):
+                            self.logger.info(
+                                f"📈 Predictive scaling: Load increasing, predicted peak: {predicted_peak:.0f} RPS"
+                            )
                             # Trigger scaling recommendation
                             await self._trigger_scaling_recommendation("scale_up", predicted_peak)
 
@@ -703,7 +803,7 @@ class EnterprisePerformanceMonitor:
                     latency,
                     self.performance_thresholds[MetricType.LATENCY]["p95"],
                     "Investigate API endpoint performance, consider caching, database optimization, or horizontal scaling",
-                    consciousness_impact="High - Affects real-time user experience and Trinity Framework responsiveness"
+                    consciousness_impact="High - Affects real-time user experience and Trinity Framework responsiveness",
                 )
 
             # Check throughput threshold
@@ -715,7 +815,7 @@ class EnterprisePerformanceMonitor:
                     MetricType.THROUGHPUT,
                     throughput,
                     self.performance_thresholds[MetricType.THROUGHPUT]["minimum"],
-                    "Check for bottlenecks in API processing, database queries, or external service calls"
+                    "Check for bottlenecks in API processing, database queries, or external service calls",
                 )
 
             # Check error rate threshold
@@ -728,13 +828,15 @@ class EnterprisePerformanceMonitor:
                     error_rate,
                     self.performance_thresholds[MetricType.ERROR_RATE]["critical"],
                     "Immediate investigation required - check logs for error patterns, validate external service health",
-                    consciousness_impact="Critical - May affect consciousness system stability and user trust"
+                    consciousness_impact="Critical - May affect consciousness system stability and user trust",
                 )
 
         except Exception as e:
             self.logger.error(f"❌ API threshold check error: {e}")
 
-    async def _check_trinity_thresholds(self, identity_perf: float, consciousness_perf: float, guardian_perf: float):
+    async def _check_trinity_thresholds(
+        self, identity_perf: float, consciousness_perf: float, guardian_perf: float
+    ):
         """Check Trinity Framework performance thresholds"""
         try:
             thresholds = self.performance_thresholds[MetricType.TRINITY]
@@ -748,7 +850,7 @@ class EnterprisePerformanceMonitor:
                     identity_perf,
                     thresholds["identity_min"],
                     "Check identity processing systems, symbolic computations, and persona adaptation mechanisms",
-                    trinity_component="⚛️ Identity"
+                    trinity_component="⚛️ Identity",
                 )
 
             if consciousness_perf < thresholds["consciousness_min"]:
@@ -760,7 +862,7 @@ class EnterprisePerformanceMonitor:
                     consciousness_perf,
                     thresholds["consciousness_min"],
                     "Investigate memory fold processing, awareness algorithms, and neural pathway efficiency",
-                    trinity_component="🧠 Consciousness"
+                    trinity_component="🧠 Consciousness",
                 )
 
             if guardian_perf < thresholds["guardian_min"]:
@@ -772,13 +874,15 @@ class EnterprisePerformanceMonitor:
                     guardian_perf,
                     thresholds["guardian_min"],
                     "Critical - Guardian system performance affects safety. Check ethical oversight and safety mechanisms",
-                    trinity_component="🛡️ Guardian"
+                    trinity_component="🛡️ Guardian",
                 )
 
         except Exception as e:
             self.logger.error(f"❌ Trinity threshold check error: {e}")
 
-    async def _check_consciousness_thresholds(self, awareness: float, coherence: float, quality: float):
+    async def _check_consciousness_thresholds(
+        self, awareness: float, coherence: float, quality: float
+    ):
         """Check consciousness system performance thresholds"""
         try:
             thresholds = self.performance_thresholds[MetricType.CONSCIOUSNESS]
@@ -791,7 +895,7 @@ class EnterprisePerformanceMonitor:
                     MetricType.CONSCIOUSNESS,
                     awareness,
                     thresholds["awareness_level_min"],
-                    "Check consciousness algorithms, memory integration, and sensory processing systems"
+                    "Check consciousness algorithms, memory integration, and sensory processing systems",
                 )
 
             if coherence < thresholds["coherence_min"]:
@@ -802,7 +906,7 @@ class EnterprisePerformanceMonitor:
                     MetricType.CONSCIOUSNESS,
                     coherence,
                     thresholds["coherence_min"],
-                    "Investigate neural pathway synchronization and memory fold consistency"
+                    "Investigate neural pathway synchronization and memory fold consistency",
                 )
 
             if quality < thresholds["response_quality_min"]:
@@ -813,22 +917,24 @@ class EnterprisePerformanceMonitor:
                     MetricType.CONSCIOUSNESS,
                     quality,
                     thresholds["response_quality_min"],
-                    "Check response generation algorithms and contextual awareness systems"
+                    "Check response generation algorithms and contextual awareness systems",
                 )
 
         except Exception as e:
             self.logger.error(f"❌ Consciousness threshold check error: {e}")
 
-    async def _trigger_alert(self,
-                           severity: AlertSeverity,
-                           title: str,
-                           description: str,
-                           metric_type: MetricType,
-                           current_value: float,
-                           threshold: float,
-                           recommendation: str,
-                           trinity_component: Optional[str] = None,
-                           consciousness_impact: Optional[str] = None):
+    async def _trigger_alert(
+        self,
+        severity: AlertSeverity,
+        title: str,
+        description: str,
+        metric_type: MetricType,
+        current_value: float,
+        threshold: float,
+        recommendation: str,
+        trinity_component: Optional[str] = None,
+        consciousness_impact: Optional[str] = None,
+    ):
         """Trigger a performance alert"""
         try:
             alert = PerformanceAlert(
@@ -841,7 +947,7 @@ class EnterprisePerformanceMonitor:
                 threshold=threshold,
                 recommendation=recommendation,
                 trinity_component=trinity_component,
-                consciousness_impact=consciousness_impact
+                consciousness_impact=consciousness_impact,
             )
 
             self.active_alerts.append(alert)
@@ -851,7 +957,7 @@ class EnterprisePerformanceMonitor:
                 AlertSeverity.INFO: self.logger.info,
                 AlertSeverity.WARNING: self.logger.warning,
                 AlertSeverity.ERROR: self.logger.error,
-                AlertSeverity.CRITICAL: self.logger.critical
+                AlertSeverity.CRITICAL: self.logger.critical,
             }.get(severity, self.logger.info)
 
             log_level(f"🚨 {severity.value.upper()}: {title} - {description}")
@@ -869,7 +975,7 @@ class EnterprisePerformanceMonitor:
                 MetricType.THROUGHPUT,
                 predicted_load,
                 self.performance_thresholds[MetricType.THROUGHPUT]["target"],
-                f"Consider implementing {action} to maintain performance targets under predicted load"
+                f"Consider implementing {action} to maintain performance targets under predicted load",
             )
         except Exception as e:
             self.logger.error(f"❌ Error triggering scaling recommendation: {e}")
@@ -878,17 +984,24 @@ class EnterprisePerformanceMonitor:
         """Analyze load test results against performance targets"""
         try:
             analysis = {
-                "meets_latency_target": result.p95_latency_ms <= self.performance_thresholds[MetricType.LATENCY]["p95"],
-                "meets_throughput_target": result.throughput_rps >= self.performance_thresholds[MetricType.THROUGHPUT]["minimum"],
-                "meets_error_rate_target": result.error_rate <= self.performance_thresholds[MetricType.ERROR_RATE]["critical"],
-                "scalability_score": min(1.0, result.concurrent_users / self.concurrent_users_target),
-                "performance_score": self._calculate_load_test_score(result)
+                "meets_latency_target": result.p95_latency_ms
+                <= self.performance_thresholds[MetricType.LATENCY]["p95"],
+                "meets_throughput_target": result.throughput_rps
+                >= self.performance_thresholds[MetricType.THROUGHPUT]["minimum"],
+                "meets_error_rate_target": result.error_rate
+                <= self.performance_thresholds[MetricType.ERROR_RATE]["critical"],
+                "scalability_score": min(
+                    1.0, result.concurrent_users / self.concurrent_users_target
+                ),
+                "performance_score": self._calculate_load_test_score(result),
             }
 
             # Overall assessment
-            if (analysis["meets_latency_target"] and
-                analysis["meets_throughput_target"] and
-                analysis["meets_error_rate_target"]):
+            if (
+                analysis["meets_latency_target"]
+                and analysis["meets_throughput_target"]
+                and analysis["meets_error_rate_target"]
+            ):
                 analysis["overall_assessment"] = "PASS"
             else:
                 analysis["overall_assessment"] = "FAIL"
@@ -896,9 +1009,13 @@ class EnterprisePerformanceMonitor:
             # Performance recommendations
             recommendations = []
             if not analysis["meets_latency_target"]:
-                recommendations.append("Optimize API response time through caching, database indexing, or code optimization")
+                recommendations.append(
+                    "Optimize API response time through caching, database indexing, or code optimization"
+                )
             if not analysis["meets_throughput_target"]:
-                recommendations.append("Implement horizontal scaling or optimize bottleneck operations")
+                recommendations.append(
+                    "Implement horizontal scaling or optimize bottleneck operations"
+                )
             if not analysis["meets_error_rate_target"]:
                 recommendations.append("Investigate and fix error sources to improve reliability")
 
@@ -930,10 +1047,10 @@ class EnterprisePerformanceMonitor:
 
             # Weighted overall score
             overall_score = (
-                latency_score * 0.35 +      # 35% - Latency is critical
-                throughput_score * 0.25 +   # 25% - Throughput is important
-                error_score * 0.25 +        # 25% - Reliability is important
-                scalability_score * 0.15    # 15% - Scalability is bonus
+                latency_score * 0.35  # 35% - Latency is critical
+                + throughput_score * 0.25  # 25% - Throughput is important
+                + error_score * 0.25  # 25% - Reliability is important
+                + scalability_score * 0.15  # 15% - Scalability is bonus
             )
 
             return overall_score
@@ -951,20 +1068,35 @@ class EnterprisePerformanceMonitor:
             if self.metrics[MetricType.LATENCY]:
                 recent_latencies = [m.value for m in list(self.metrics[MetricType.LATENCY])[-10:]]
                 avg_latency = np.mean(recent_latencies)
-                p95_latency = np.percentile(recent_latencies, 95) if len(recent_latencies) > 1 else avg_latency
+                p95_latency = (
+                    np.percentile(recent_latencies, 95)
+                    if len(recent_latencies) > 1
+                    else avg_latency
+                )
 
                 # Score based on P95 latency target
-                latency_score = max(0, min(1, self.performance_thresholds[MetricType.LATENCY]["p95"] / max(p95_latency, 1)))
+                latency_score = max(
+                    0,
+                    min(
+                        1,
+                        self.performance_thresholds[MetricType.LATENCY]["p95"]
+                        / max(p95_latency, 1),
+                    ),
+                )
                 score_components["api_latency"] = latency_score
             else:
                 score_components["api_latency"] = 0.5
 
             # Throughput Score (25%)
             if self.metrics[MetricType.THROUGHPUT]:
-                recent_throughput = [m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-10:]]
+                recent_throughput = [
+                    m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-10:]
+                ]
                 avg_throughput = np.mean(recent_throughput)
 
-                throughput_score = min(1, avg_throughput / self.performance_thresholds[MetricType.THROUGHPUT]["target"])
+                throughput_score = min(
+                    1, avg_throughput / self.performance_thresholds[MetricType.THROUGHPUT]["target"]
+                )
                 score_components["throughput"] = throughput_score
             else:
                 score_components["throughput"] = 0.5
@@ -974,7 +1106,14 @@ class EnterprisePerformanceMonitor:
                 recent_errors = [m.value for m in list(self.metrics[MetricType.ERROR_RATE])[-10:]]
                 avg_error_rate = np.mean(recent_errors)
 
-                error_score = max(0, 1 - (avg_error_rate / self.performance_thresholds[MetricType.ERROR_RATE]["critical"]))
+                error_score = max(
+                    0,
+                    1
+                    - (
+                        avg_error_rate
+                        / self.performance_thresholds[MetricType.ERROR_RATE]["critical"]
+                    ),
+                )
                 score_components["reliability"] = error_score
             else:
                 score_components["reliability"] = 0.8  # Assume good if no errors tracked
@@ -998,7 +1137,9 @@ class EnterprisePerformanceMonitor:
 
             # Trinity Framework Score (5%)
             if self.metrics[MetricType.TRINITY]:
-                trinity_metrics = list(self.metrics[MetricType.TRINITY])[-6:]  # Last 6 values (2 per component)
+                trinity_metrics = list(self.metrics[MetricType.TRINITY])[
+                    -6:
+                ]  # Last 6 values (2 per component)
                 if trinity_metrics:
                     trinity_scores = [m.value for m in trinity_metrics]
                     trinity_score = np.mean(trinity_scores)
@@ -1014,11 +1155,12 @@ class EnterprisePerformanceMonitor:
                 "throughput": 0.25,
                 "reliability": 0.20,
                 "resource_efficiency": 0.10,
-                "trinity_framework": 0.05
+                "trinity_framework": 0.05,
             }
 
-            overall_score = sum(score_components[component] * weights[component]
-                              for component in score_components)
+            overall_score = sum(
+                score_components[component] * weights[component] for component in score_components
+            )
 
             # Performance grade
             if overall_score >= 0.90:
@@ -1037,16 +1179,12 @@ class EnterprisePerformanceMonitor:
                 "grade": grade,
                 "components": score_components,
                 "sam_altman_standard_met": overall_score >= 0.85,  # 85% for 2x better than industry
-                "enterprise_ready": overall_score >= 0.90
+                "enterprise_ready": overall_score >= 0.90,
             }
 
         except Exception as e:
             self.logger.error(f"❌ Enterprise performance score calculation error: {e}")
-            return {
-                "overall_score": 0.0,
-                "grade": "Error",
-                "error": str(e)
-            }
+            return {"overall_score": 0.0, "grade": "Error", "error": str(e)}
 
     def _generate_performance_recommendations(self) -> list[str]:
         """Generate performance optimization recommendations"""
@@ -1065,10 +1203,15 @@ class EnterprisePerformanceMonitor:
                     )
 
             if self.metrics[MetricType.THROUGHPUT]:
-                recent_throughput = [m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-5:]]
+                recent_throughput = [
+                    m.value for m in list(self.metrics[MetricType.THROUGHPUT])[-5:]
+                ]
                 avg_throughput = np.mean(recent_throughput)
 
-                if avg_throughput < self.performance_thresholds[MetricType.THROUGHPUT]["target"] * 1.2:
+                if (
+                    avg_throughput
+                    < self.performance_thresholds[MetricType.THROUGHPUT]["target"] * 1.2
+                ):
                     recommendations.append(
                         f"📈 Scale throughput capacity: Current {avg_throughput:.0f} RPS below optimal target of "
                         f"{self.performance_thresholds[MetricType.THROUGHPUT]['target'] * 1.2:.0f} RPS"
@@ -1098,19 +1241,23 @@ class EnterprisePerformanceMonitor:
                     )
 
             # Alert-based recommendations
-            critical_alerts = [a for a in self.active_alerts if a.severity == AlertSeverity.CRITICAL]
+            critical_alerts = [
+                a for a in self.active_alerts if a.severity == AlertSeverity.CRITICAL
+            ]
             if critical_alerts:
                 recommendations.append(
                     f"🚨 Address {len(critical_alerts)} critical performance alerts immediately"
                 )
 
             # General enterprise recommendations
-            recommendations.extend([
-                "🔍 Implement continuous performance profiling for production workloads",
-                "📊 Set up automated performance regression detection",
-                "🏗️ Design auto-scaling policies based on predicted load patterns",
-                "🛡️ Validate Trinity Framework performance under enterprise load conditions"
-            ])
+            recommendations.extend(
+                [
+                    "🔍 Implement continuous performance profiling for production workloads",
+                    "📊 Set up automated performance regression detection",
+                    "🏗️ Design auto-scaling policies based on predicted load patterns",
+                    "🛡️ Validate Trinity Framework performance under enterprise load conditions",
+                ]
+            )
 
             return recommendations[:10]  # Top 10 recommendations
 
@@ -1132,7 +1279,7 @@ class EnterprisePerformanceMonitor:
                 "p95_latency_ms": result.p95_latency_ms,
                 "throughput_rps": result.throughput_rps,
                 "error_rate": result.error_rate,
-                "timestamp": result.timestamp.isoformat()
+                "timestamp": result.timestamp.isoformat(),
             }
             for result in self.load_test_results
         ]
@@ -1148,7 +1295,7 @@ class EnterprisePerformanceMonitor:
                 # Filter out old metrics
                 self.metrics[metric_type] = deque(
                     [m for m in self.metrics[metric_type] if m.timestamp > cutoff_time],
-                    maxlen=10000
+                    maxlen=10000,
                 )
 
                 cleared_count = original_count - len(self.metrics[metric_type])
@@ -1158,8 +1305,10 @@ class EnterprisePerformanceMonitor:
         except Exception as e:
             self.logger.error(f"❌ Error clearing metrics history: {e}")
 
+
 # Global enterprise performance monitor instance
 enterprise_monitor = None
+
 
 def get_enterprise_monitor() -> EnterprisePerformanceMonitor:
     """Get global enterprise performance monitor instance"""
@@ -1168,32 +1317,38 @@ def get_enterprise_monitor() -> EnterprisePerformanceMonitor:
         enterprise_monitor = EnterprisePerformanceMonitor()
     return enterprise_monitor
 
+
 # Convenience functions for easy integration
 async def start_enterprise_monitoring() -> dict[str, Any]:
     """Start enterprise performance monitoring"""
     monitor = get_enterprise_monitor()
     return await monitor.start_monitoring()
 
-async def run_enterprise_load_test(concurrent_users: int = 1000, duration_seconds: int = 300) -> LoadTestResult:
+
+async def run_enterprise_load_test(
+    concurrent_users: int = 1000, duration_seconds: int = 300
+) -> LoadTestResult:
     """Run enterprise-scale load test"""
     monitor = get_enterprise_monitor()
     return await monitor.run_load_test(concurrent_users, duration_seconds)
+
 
 def get_enterprise_performance_summary() -> dict[str, Any]:
     """Get comprehensive enterprise performance summary"""
     monitor = get_enterprise_monitor()
     return monitor.get_performance_summary()
 
+
 # Export main components
 __all__ = [
+    "AlertSeverity",
     "EnterprisePerformanceMonitor",
-    "PerformanceMetric",
-    "PerformanceAlert",
     "LoadTestResult",
     "MetricType",
-    "AlertSeverity",
+    "PerformanceAlert",
+    "PerformanceMetric",
     "get_enterprise_monitor",
-    "start_enterprise_monitoring",
+    "get_enterprise_performance_summary",
     "run_enterprise_load_test",
-    "get_enterprise_performance_summary"
+    "start_enterprise_monitoring",
 ]

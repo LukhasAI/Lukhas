@@ -8,6 +8,7 @@ Design inspired by:
 - Apple's privacy-focused approach to personal data
 - OpenAI's sophisticated vector-based memory architectures
 """
+
 import hashlib
 import logging
 import time
@@ -97,11 +98,7 @@ class MemoryNode:
         # Create the memory entry
         memory_entry = {
             "id": memory_id,
-            "data": (
-                self._encrypt_data(data)
-                if encrypt and self.encryption_enabled
-                else data
-            ),
+            "data": (self._encrypt_data(data) if encrypt and self.encryption_enabled else data),
             "metadata": metadata,
             "importance": importance,
             "access_count": 0,
@@ -116,9 +113,7 @@ class MemoryNode:
             self.long_term_memory.append(memory_entry)
             # In a real implementation, we would compute embeddings here
             embedding = self._generate_embedding(data)
-            self.memory_embeddings.append(
-                {"memory_id": memory_id, "embedding": embedding}
-            )
+            self.memory_embeddings.append({"memory_id": memory_id, "embedding": embedding})
 
         # Update stats
         self.stats["total_memories"] += 1
@@ -186,9 +181,7 @@ class MemoryNode:
 
         return [self._prepare_memory_for_return(memory) for memory in recent]
 
-    def retrieve_by_type(
-        self, memory_type: str, limit: int = 10
-    ) -> list[dict[str, Any]]:
+    def retrieve_by_type(self, memory_type: str, limit: int = 10) -> list[dict[str, Any]]:
         """
         Retrieve memories of a specific type
 
@@ -246,9 +239,7 @@ class MemoryNode:
         # Calculate similarity with all memory embeddings
         similarities = []
         for _idx, embedding_data in enumerate(self.memory_embeddings):
-            similarity = self._calculate_similarity(
-                query_embedding, embedding_data["embedding"]
-            )
+            similarity = self._calculate_similarity(query_embedding, embedding_data["embedding"])
             similarities.append((similarity, embedding_data["memory_id"]))
 
         # Sort by similarity (descending)
@@ -290,9 +281,7 @@ class MemoryNode:
 
         # Check and remove from long-term memory
         long_term_before = len(self.long_term_memory)
-        self.long_term_memory = [
-            m for m in self.long_term_memory if m["id"] != memory_id
-        ]
+        self.long_term_memory = [m for m in self.long_term_memory if m["id"] != memory_id]
         if long_term_before > len(self.long_term_memory):
             removed = True
 
@@ -386,9 +375,7 @@ class MemoryNode:
         # Update fields
         if data is not None:
             memory["data"] = (
-                self._encrypt_data(data)
-                if memory["metadata"].get("encrypted", False)
-                else data
+                self._encrypt_data(data) if memory["metadata"].get("encrypted", False) else data
             )
 
         if metadata is not None:
@@ -409,14 +396,10 @@ class MemoryNode:
                     if memory["metadata"].get("encrypted", False)
                     else memory["data"]
                 )
-                self.memory_embeddings.append(
-                    {"memory_id": memory_id, "embedding": embedding}
-                )
+                self.memory_embeddings.append({"memory_id": memory_id, "embedding": embedding})
             elif importance <= 0.7 and in_long_term:
                 # Remove from long-term memory
-                self.long_term_memory = [
-                    m for m in self.long_term_memory if m["id"] != memory_id
-                ]
+                self.long_term_memory = [m for m in self.long_term_memory if m["id"] != memory_id]
                 self.memory_embeddings = [
                     e for e in self.memory_embeddings if e["memory_id"] != memory_id
                 ]
@@ -448,9 +431,7 @@ class MemoryNode:
             "encryption_enabled": self.encryption_enabled,
         }
 
-    def _calculate_importance(
-        self, data: dict[str, Any], metadata: dict[str, Any]
-    ) -> float:
+    def _calculate_importance(self, data: dict[str, Any], metadata: dict[str, Any]) -> float:
         """
         Calculate the importance of a memory for long-term storage
 
@@ -515,9 +496,7 @@ class MemoryNode:
 
         return embedding
 
-    def _calculate_similarity(
-        self, embedding1: np.ndarray, embedding2: np.ndarray
-    ) -> float:
+    def _calculate_similarity(self, embedding1: np.ndarray, embedding2: np.ndarray) -> float:
         """
         Calculate cosine similarity between two embeddings
 
@@ -585,9 +564,7 @@ class MemoryNode:
                 # Extract original value from the encrypted data
                 encrypted_str = value.get("data", "")
                 if encrypted_str.startswith("ENCRYPTED:"):
-                    decrypted_data[key] = encrypted_str[
-                        10:
-                    ]  # Remove "ENCRYPTED:" prefix
+                    decrypted_data[key] = encrypted_str[10:]  # Remove "ENCRYPTED:" prefix
                 else:
                     decrypted_data[key] = encrypted_str
             else:

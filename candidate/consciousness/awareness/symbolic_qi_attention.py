@@ -64,9 +64,7 @@ class QIInspiredAttention:
             "coherence": 1.0,  # Starts fully coherent
         }
 
-        logger.info(
-            f"Quantum-inspired attention initialized with dimension {dimension}"
-        )
+        logger.info(f"Quantum-inspired attention initialized with dimension {dimension}")
 
     def _initialize_quantum_matrices(self):
         """Initialize the quantum-inspired matrices used for attention processing"""
@@ -77,29 +75,21 @@ class QIInspiredAttention:
         )
 
         # Make it symmetric (Hermitian-like) for quantum properties
-        self.superposition_matrix = (
-            self.superposition_matrix + self.superposition_matrix.T
-        ) / 2
+        self.superposition_matrix = (self.superposition_matrix + self.superposition_matrix.T) / 2
 
         # Initialize diagonal with stronger weights (1.0 + small noise)
-        np.fill_diagonal(
-            self.superposition_matrix, 1.0 + np.random.normal(0, 0.01, self.dimension)
-        )
+        np.fill_diagonal(self.superposition_matrix, 1.0 + np.random.normal(0, 0.01, self.dimension))
 
         # Normalize to ensure stability
         spectral_radius = np.max(np.abs(np.linalg.eigvals(self.superposition_matrix)))
         self.superposition_matrix = self.superposition_matrix / (spectral_radius + 1e-8)
 
         # Initialize phase factors (for coherent superposition)
-        self.phase_factors = np.exp(
-            1j * np.random.uniform(0, 2 * np.pi, self.dimension)
-        )
+        self.phase_factors = np.exp(1j * np.random.uniform(0, 2 * np.pi, self.dimension))
 
         # Initialize tunneling barrier matrix
         # Controls likelihood of attention "tunneling" to different tokens
-        self.barrier_matrix = (
-            np.ones((self.dimension, self.dimension)) * self.barrier_height
-        )
+        self.barrier_matrix = np.ones((self.dimension, self.dimension)) * self.barrier_height
         np.fill_diagonal(self.barrier_matrix, 0)  # Zero barrier for self-attention
 
     def process(
@@ -117,18 +107,13 @@ class QIInspiredAttention:
             Enhanced attention distribution after quantum-inspired processing
         """
         # Validate input
-        if (
-            attention_distribution.ndim != 1
-            or len(attention_distribution) != self.dimension
-        ):
+        if attention_distribution.ndim != 1 or len(attention_distribution) != self.dimension:
             # Handle dimension mismatch (truncate or pad)
             if len(attention_distribution) > self.dimension:
                 attention_distribution = attention_distribution[: self.dimension]
             else:
                 padding = np.zeros(self.dimension - len(attention_distribution))
-                attention_distribution = np.concatenate(
-                    [attention_distribution, padding]
-                )
+                attention_distribution = np.concatenate([attention_distribution, padding])
 
             logger.warning(
                 f"Attention dimension mismatch. Expected {self.dimension}, "
@@ -137,9 +122,7 @@ class QIInspiredAttention:
 
         # Normalize input (ensure it's a probability distribution)
         if np.sum(attention_distribution) > 0:
-            attention_distribution = attention_distribution / np.sum(
-                attention_distribution
-            )
+            attention_distribution = attention_distribution / np.sum(attention_distribution)
 
         # Apply quantum-inspired processing steps
         result = self._apply_superposition(attention_distribution)
@@ -153,10 +136,7 @@ class QIInspiredAttention:
         self.attention_stats["coherence"] *= 1.0 - self.coherence_decay
 
         # If coherence is very low, reinitialize matrices (mimicking biological renewal)
-        if (
-            self.attention_stats["coherence"] < 0.3
-            and self.attention_stats["calls"] > 100
-        ):
+        if self.attention_stats["coherence"] < 0.3 and self.attention_stats["calls"] > 100:
             logger.info("Reinitializing quantum matrices due to low coherence")
             self._initialize_quantum_matrices()
             self.attention_stats["coherence"] = 1.0
@@ -174,9 +154,7 @@ class QIInspiredAttention:
 
         # Apply tunneling coefficients based on electron tunneling principles
         # (exponential decay with distance/energy barrier)
-        tunnel_coefficients = np.exp(
-            -self.barrier_height * np.abs(attention_distribution)
-        )
+        tunnel_coefficients = np.exp(-self.barrier_height * np.abs(attention_distribution))
         tunnel_adjusted = result * tunnel_coefficients
 
         # Normalize to maintain probability distribution
@@ -198,14 +176,10 @@ class QIInspiredAttention:
         tunneling_probs = np.exp(-self.barrier_matrix * (1.0 - attention_matrix))
 
         # Apply tunneling effect to redistribute some attention
-        tunneling_effect = (
-            np.mean(tunneling_probs, axis=1) * self.superposition_strength
-        )
+        tunneling_effect = np.mean(tunneling_probs, axis=1) * self.superposition_strength
 
         # Combine original attention with tunneling effect
-        result = (
-            1.0 - self.superposition_strength
-        ) * attention_distribution + tunneling_effect
+        result = (1.0 - self.superposition_strength) * attention_distribution + tunneling_effect
 
         # Re-normalize
         if np.sum(result) > 0:
@@ -253,9 +227,7 @@ class QIInspiredAttention:
 
         return attention_distribution
 
-    def _update_stats(
-        self, input_distribution: np.ndarray, output_distribution: np.ndarray
-    ):
+    def _update_stats(self, input_distribution: np.ndarray, output_distribution: np.ndarray):
         """Update attention statistics for adaptive tuning"""
         self.attention_stats["calls"] += 1
 
@@ -379,9 +351,7 @@ class QIAttentionEnsemble:
             )
             self.attention_modules.append(module)
 
-        logger.info(
-            f"Initialized quantum attention ensemble with {ensemble_size} modules"
-        )
+        logger.info(f"Initialized quantum attention ensemble with {ensemble_size} modules")
 
     def process(
         self,
@@ -433,9 +403,7 @@ class QIAttentionEnsemble:
 
     def get_diagnostics(self) -> dict[str, Any]:
         """Get diagnostic information about the ensemble"""
-        module_diagnostics = [
-            module.get_diagnostics() for module in self.attention_modules
-        ]
+        module_diagnostics = [module.get_diagnostics() for module in self.attention_modules]
 
         return {
             "ensemble_size": self.ensemble_size,
@@ -480,9 +448,7 @@ use_ensemble = True  # Set to False for single module
 
 if use_ensemble:
     # Register ensemble for better stability
-    qi_attn = QIAttentionEnsemble(
-        dimension=CONFIG.embedding_size, ensemble_size=3
-    )
+    qi_attn = QIAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)
     bio_orchestrator.register_module(
         "qi_attention",
         qi_attn,

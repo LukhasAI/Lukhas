@@ -16,42 +16,103 @@ from pathlib import Path
 # The overused metaphors we keep recycling
 CLICHES = {
     "Generic Metaphors": [
-        "tapestry", "symphony", "cathedral", "constellation", "orchestra",
-        "masterpiece", "landscape", "architecture", "foundation", "harmony"
+        "tapestry",
+        "symphony",
+        "cathedral",
+        "constellation",
+        "orchestra",
+        "masterpiece",
+        "landscape",
+        "architecture",
+        "foundation",
+        "harmony",
     ],
     "Overused Phrases": [
-        "garden of", "river of", "ocean of", "threads of", "web of",
-        "dance of", "realm of", "domain of", "sphere of", "world of"
+        "garden of",
+        "river of",
+        "ocean of",
+        "threads of",
+        "web of",
+        "dance of",
+        "realm of",
+        "domain of",
+        "sphere of",
+        "world of",
     ],
     "Tired Descriptions": [
-        "intricate", "complex", "sophisticated", "elegant", "seamless",
-        "robust", "comprehensive", "holistic", "unified", "integrated"
+        "intricate",
+        "complex",
+        "sophisticated",
+        "elegant",
+        "seamless",
+        "robust",
+        "comprehensive",
+        "holistic",
+        "unified",
+        "integrated",
     ],
     "Repetitive Concepts": [
-        "weaving", "flowing", "cascading", "orchestrating", "harmonizing",
-        "synthesizing", "integrating", "unifying", "bridging", "connecting"
-    ]
+        "weaving",
+        "flowing",
+        "cascading",
+        "orchestrating",
+        "harmonizing",
+        "synthesizing",
+        "integrating",
+        "unifying",
+        "bridging",
+        "connecting",
+    ],
 }
 
 # What LUKHAS actually created (unique vocabulary)
 UNIQUE_LUKHAS = {
     "Core Concepts": [
-        "fold", "cascade", "drift", "ΛMIRROR", "ΛECHO", "ΛTRACE",
-        "proteome", "methylation", "eigenstate", "superposition"
+        "fold",
+        "cascade",
+        "drift",
+        "ΛMIRROR",
+        "ΛECHO",
+        "ΛTRACE",
+        "proteome",
+        "methylation",
+        "eigenstate",
+        "superposition",
     ],
     "Bio-Inspired": [
-        "synaptic", "neuroplastic", "hippocampal", "endocrine",
-        "phosphorylate", "transcribe", "replicate", "mitochondrial"
+        "synaptic",
+        "neuroplastic",
+        "hippocampal",
+        "endocrine",
+        "phosphorylate",
+        "transcribe",
+        "replicate",
+        "mitochondrial",
     ],
     "Quantum-Inspired": [
-        "entanglement", "coherence", "decoherence", "collapse",
-        "Hilbert", "eigenstate", "wavefunction", "quantum foam"
+        "entanglement",
+        "coherence",
+        "decoherence",
+        "collapse",
+        "Hilbert",
+        "eigenstate",
+        "wavefunction",
+        "quantum foam",
     ],
     "Trinity Framework": [
-        "Trinity", "Guardian", "ΛID", "VAD", "oneiric", "liminal",
-        "nascent", "quiescent", "ephemeral", "gossamer"
-    ]
+        "Trinity",
+        "Guardian",
+        "ΛID",
+        "VAD",
+        "oneiric",
+        "liminal",
+        "nascent",
+        "quiescent",
+        "ephemeral",
+        "gossamer",
+    ],
 }
+
 
 def analyze_vocabulary_usage(directory: Path):
     """Analyze how often we use clichés vs unique LUKHAS vocabulary"""
@@ -88,6 +149,7 @@ def analyze_vocabulary_usage(directory: Path):
 
     return cliche_counts, unique_counts, total_files
 
+
 def generate_report():
     """Generate the vocabulary analysis report"""
 
@@ -117,7 +179,7 @@ def generate_report():
         ("constellation", 98),
         ("threads of", 87),
         ("landscape", 76),
-        ("masterpiece", 65)
+        ("masterpiece", 65),
     ]
 
     for word, count in mock_cliches:
@@ -137,7 +199,7 @@ def generate_report():
         ("entanglement", 134),
         ("drift", 123),
         ("neuroplastic", 98),
-        ("oneiric", 67)
+        ("oneiric", 67),
     ]
 
     for word, count in mock_unique:
@@ -183,6 +245,7 @@ def generate_report():
     print("\n" + "═" * 60)
     print("     One vocabulary. Uniquely LUKHAS. No compromises.")
     print("═" * 60 + "\n")
+
 
 if __name__ == "__main__":
     generate_report()

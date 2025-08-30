@@ -63,14 +63,14 @@ class CVSHealthInterface(BaseHealthcareProvider):
             region="US",
             environment=config.get("environment", "production"),
             api_version=config.get("api_version", "1.0"),
-            compliance_mode="strict"
+            compliance_mode="strict",
         )
         security_config = SecurityConfig(
             encryption_algorithm="AES-256-GCM",
             key_rotation_days=90,
             session_timeout_minutes=30,
             mfa_required=True,
-            audit_retention_days=2555  # 7 years
+            audit_retention_days=2555,  # 7 years
         )
         super().__init__(provider_config, security_config)
         self.config = config
@@ -84,13 +84,13 @@ class CVSHealthInterface(BaseHealthcareProvider):
             "pharmacy_ncpdp",
             "minuteclinic_id",
             "api_credentials",
-            "pbm_connection"
+            "pbm_connection",
         ]
         self.validate_data(self.config, required_fields)
 
-    async def check_prescription_status(self,
-                                     rx_number: str,
-                                     store_id: Optional[str] = None) -> dict[str, Any]:
+    async def check_prescription_status(
+        self, rx_number: str, store_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """Check status of a prescription"""
         store = store_id or self.config["store_id"]
         self.log_audit_event(
@@ -98,73 +98,71 @@ class CVSHealthInterface(BaseHealthcareProvider):
             user_id=self.config["npi_number"],
             resource_id=rx_number,
             action="status_check",
-            details={"store_id": store}
+            details={"store_id": store},
         )
         # Implement prescription status check
         pass
 
-    async def verify_insurance(self,
-                             patient_id: str,
-                             insurance_data: dict[str, Any]) -> dict[str, Any]:
+    async def verify_insurance(
+        self, patient_id: str, insurance_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Verify insurance coverage for pharmacy services"""
         self.log_audit_event(
             event_type="insurance_verification",
             user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
-            action="verify_coverage"
+            action="verify_coverage",
         )
         # Implement insurance verification
         pass
 
-    async def schedule_minuteclinic(self,
-                                  patient_id: str,
-                                  service_type: str,
-                                  appointment_time: datetime) -> str:
+    async def schedule_minuteclinic(
+        self, patient_id: str, service_type: str, appointment_time: datetime
+    ) -> str:
         """Schedule MinuteClinic appointment"""
         self.log_audit_event(
             event_type="appointment_scheduling",
             user_id=self.config["minuteclinic_id"],
             resource_id=patient_id,
             action="create_appointment",
-            details={"service_type": service_type}
+            details={"service_type": service_type},
         )
         # Implement MinuteClinic scheduling
         pass
 
-    async def submit_prescription_to_insurance(self,
-                                            rx_data: dict[str, Any]) -> str:
+    async def submit_prescription_to_insurance(self, rx_data: dict[str, Any]) -> str:
         """Submit prescription claim to insurance"""
         self.log_audit_event(
             event_type="prescription_claim",
             user_id=self.config["pharmacy_ncpdp"],
             resource_id=rx_data.get("patient_id"),
-            action="submit_claim"
+            action="submit_claim",
         )
         # Implement prescription claim submission
         pass
 
-    async def check_drug_interactions(self,
-                                   patient_id: str,
-                                   drug_codes: list[str]) -> list[dict[str, Any]]:
+    async def check_drug_interactions(
+        self, patient_id: str, drug_codes: list[str]
+    ) -> list[dict[str, Any]]:
         """Check for drug interactions"""
         self.log_audit_event(
             event_type="drug_interaction_check",
             user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
-            action="interaction_check"
+            action="interaction_check",
         )
         # Implement drug interaction check
         pass
 
-    async def get_medication_history(self,
-                                  patient_id: str,
-                                  start_date: Optional[datetime] = None) -> list[dict[str, Any]]:
+    async def get_medication_history(
+        self, patient_id: str, start_date: Optional[datetime] = None
+    ) -> list[dict[str, Any]]:
         """Retrieve patient's medication history"""
         self.log_audit_event(
             event_type="medication_history",
             user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
-            action="get_history"
+            action="get_history",
         )
         # Implement medication history retrieval
         pass

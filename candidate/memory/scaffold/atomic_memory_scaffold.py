@@ -161,9 +161,7 @@ class AtomicNucleus:
         rule = AtomicRule(
             content=content,
             category=category,
-            qi_signature=(
-                self._generate_quantum_signature() if self.qi_state else None
-            ),
+            qi_signature=(self._generate_quantum_signature() if self.qi_state else None),
         )
 
         self.rules[rule.rule_id] = rule
@@ -233,9 +231,9 @@ class AtomicNucleus:
 
         # Placeholder for quantum signature generation
         # In real implementation, this would interface with quantum systems
-        return hashlib.sha256(
-            f"quantum:{time.time()}:{id(self.qi_state)}".encode()
-        ).hexdigest()[:32]
+        return hashlib.sha256(f"quantum:{time.time()}:{id(self.qi_state)}".encode()).hexdigest()[
+            :32
+        ]
 
     def _update_integrity_chain(self, new_hash: str):
         """Update the integrity hash chain"""
@@ -365,9 +363,7 @@ class FlexibleCoilSystem:
         finally:
             self.active_repairs.remove(coil_id)
 
-    def assess_trauma_impact(
-        self, coil_id: str, trauma_intensity: float
-    ) -> dict[str, Any]:
+    def assess_trauma_impact(self, coil_id: str, trauma_intensity: float) -> dict[str, Any]:
         """Assess impact of trauma on a coil"""
         if coil_id not in self.coils:
             return {"error": "Coil not found"}
@@ -535,9 +531,9 @@ class AtomicMemoryScaffold:
         avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(
             total_coils, 1
         )
-        avg_resilience = sum(
-            c.resilience_score for c in self.coil_system.coils.values()
-        ) / max(total_coils, 1)
+        avg_resilience = sum(c.resilience_score for c in self.coil_system.coils.values()) / max(
+            total_coils, 1
+        )
 
         return {
             "nucleus": {

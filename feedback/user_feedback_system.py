@@ -165,9 +165,7 @@ class UserFeedbackSystem(CoreInterface):
         # Feedback storage
         self.feedback_items: dict[str, FeedbackItem] = {}
         self.user_profiles: dict[str, UserFeedbackProfile] = {}
-        self.action_feedback: dict[str, list[str]] = defaultdict(
-            list
-        )  # action_id -> feedback_ids
+        self.action_feedback: dict[str, list[str]] = defaultdict(list)  # action_id -> feedback_ids
         # Rate limiting clocks
         # Per-user last feedback timestamp (global across actions)
         self._last_feedback_by_user: dict[str, datetime] = {}
@@ -182,9 +180,7 @@ class UserFeedbackSystem(CoreInterface):
         self.feedback_summaries: dict[str, FeedbackSummary] = {}
 
         # Configuration
-        self.min_feedback_interval = self.config.get(
-            "min_feedback_interval", 30
-        )  # seconds
+        self.min_feedback_interval = self.config.get("min_feedback_interval", 30)  # seconds
         self.enable_emoji_feedback = self.config.get("enable_emoji", True)
         self.enable_voice_feedback = self.config.get("enable_voice", False)
 
@@ -348,9 +344,7 @@ class UserFeedbackSystem(CoreInterface):
         self.metrics["total_feedback"] += 1
         self.metrics["feedback_by_type"][feedback_type.value] += 1
 
-        logger.info(
-            f"Collected {feedback_type.value} feedback {feedback_id} from user {user_id}"
-        )
+        logger.info(f"Collected {feedback_type.value} feedback {feedback_id} from user {user_id}")
 
         return feedback_id
 
@@ -380,9 +374,7 @@ class UserFeedbackSystem(CoreInterface):
         profile = self.user_profiles[user_id]
         return profile.consent_given
 
-    async def _check_rate_limit(
-        self, user_id: str, action_id: Optional[str] = None
-    ) -> bool:
+    async def _check_rate_limit(self, user_id: str, action_id: Optional[str] = None) -> bool:
         """Check if user is within rate limits.
 
         Policy: prevent ultra-rapid duplicate submissions (<0.1s) globally.
@@ -604,9 +596,7 @@ class UserFeedbackSystem(CoreInterface):
         logger.info(f"User {user_id} deleted feedback {feedback_id}")
         return True
 
-    async def get_user_feedback_history(
-        self, user_id: str, limit: int = 50
-    ) -> list[FeedbackItem]:
+    async def get_user_feedback_history(self, user_id: str, limit: int = 50) -> list[FeedbackItem]:
         """Get user's feedback history"""
         user_feedback = []
 
@@ -898,9 +888,7 @@ class UserFeedbackSystem(CoreInterface):
                 feedback.compliance_region,
                 self.compliance_rules[ComplianceRegion.GLOBAL],
             )
-            retention_days = rules.get(
-                "data_retention_days", self.default_retention_days
-            )
+            retention_days = rules.get("data_retention_days", self.default_retention_days)
 
             # Check if feedback is too old
             if (current_time - feedback.timestamp).days > retention_days:
@@ -1075,9 +1063,7 @@ async def demo_feedback_system():
         session_id=session_id,
         action_id=action_id,
         feedback_type=FeedbackType.TEXT,
-        content={
-            "text": "Great recommendation! This really helped me make a decision."
-        },
+        content={"text": "Great recommendation! This really helped me make a decision."},
         context={"action_type": "decision", "decision": "Recommended option A"},
     )
     print(f"Collected text feedback: {feedback_id3}")

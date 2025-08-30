@@ -38,7 +38,7 @@ class GKVInterface(EHRInterface):
             "kv_bezirk",
             "versicherten_status",
             "api_credentials",
-            "telematik_id"
+            "telematik_id",
         ]
         for field in required_fields:
             if field not in self.config:
@@ -52,9 +52,9 @@ class GKVInterface(EHRInterface):
         # - Verify healthcare provider card (HBA)
         pass
 
-    async def get_patient_record(self,
-                               patient_id: str,
-                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
+    async def get_patient_record(
+        self, patient_id: str, record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve patient records from GKV
 
@@ -65,14 +65,14 @@ class GKVInterface(EHRInterface):
         self.audit.log_access(
             user_id=self.config["betriebsnummer"],
             action="get_patient_record",
-            resource_id=patient_id
+            resource_id=patient_id,
         )
         # Implement GKV-specific record retrieval
         pass
 
-    async def verify_insurance_status(self,
-                                   versichertennummer: str,
-                                   leistungsart: str) -> dict[str, Any]:
+    async def verify_insurance_status(
+        self, versichertennummer: str, leistungsart: str
+    ) -> dict[str, Any]:
         """
         Verify insurance status and coverage
 
@@ -83,37 +83,30 @@ class GKVInterface(EHRInterface):
         self.audit.log_access(
             user_id=self.config["betriebsnummer"],
             action="verify_insurance",
-            resource_id=versichertennummer
+            resource_id=versichertennummer,
         )
         # Implement insurance verification
         pass
 
-    async def submit_kvdt_data(self,
-                             patient_id: str,
-                             kvdt_data: dict[str, Any]) -> str:
+    async def submit_kvdt_data(self, patient_id: str, kvdt_data: dict[str, Any]) -> str:
         """Submit KV billing data"""
         self.audit.log_access(
-            user_id=self.config["betriebsnummer"],
-            action="submit_kvdt",
-            resource_id=patient_id
+            user_id=self.config["betriebsnummer"], action="submit_kvdt", resource_id=patient_id
         )
         # Implement KVDT submission
         pass
 
-    async def get_referral_info(self,
-                              referral_id: str) -> dict[str, Any]:
+    async def get_referral_info(self, referral_id: str) -> dict[str, Any]:
         """Get information about a referral (Überweisung)"""
         # Implement referral retrieval
         pass
 
-    async def create_prescription(self,
-                                patient_id: str,
-                                prescription_data: dict[str, Any]) -> str:
+    async def create_prescription(self, patient_id: str, prescription_data: dict[str, Any]) -> str:
         """Create e-prescription in Telematik infrastructure"""
         self.audit.log_access(
             user_id=self.config["betriebsnummer"],
             action="create_prescription",
-            resource_id=patient_id
+            resource_id=patient_id,
         )
         # Implement e-prescription creation
         pass
@@ -121,8 +114,6 @@ class GKVInterface(EHRInterface):
     async def handle_error(self, error: Exception) -> None:
         """Handle GKV-specific errors"""
         self.audit.log_security_event(
-            event_type="error",
-            severity="error",
-            details={"error": str(error)}
+            event_type="error", severity="error", details={"error": str(error)}
         )
         # Implement GKV-specific error handling

@@ -77,17 +77,13 @@ class LambdaVaultMemory:
             "timestamp": self.timestamp.isoformat(),
             "access_layer": self.access_layer.value,
         }
-        return hashlib.sha256(
-            json.dumps(hash_data, sort_keys=True).encode()
-        ).hexdigest()[:16]
+        return hashlib.sha256(json.dumps(hash_data, sort_keys=True).encode()).hexdigest()[:16]
 
 
 class LambdaVaultCore:
     """Lambda-enhanced secure vault system with symbolic identity rooting"""
 
-    def __init__(
-        self, lambda_id: str, vault_type: LambdaVaultType = LambdaVaultType.PERSONAL
-    ):
+    def __init__(self, lambda_id: str, vault_type: LambdaVaultType = LambdaVaultType.PERSONAL):
         self.lambda_id = lambda_id
         self.vault_type = vault_type
         self.vault_id = f"λ-vault-{uuid.uuid4().hex[:8]}"
@@ -146,9 +142,7 @@ class LambdaVaultCore:
             context={"trigger_id": trigger_id, "qi_secure": qi_secure},
         )
 
-        logger.info(
-            f"ΛVault registered environmental trigger {trigger_id} for {self.lambda_id}"
-        )
+        logger.info(f"ΛVault registered environmental trigger {trigger_id} for {self.lambda_id}")
         return trigger_id
 
     def verify_lambda_access(
@@ -249,7 +243,7 @@ class LambdaVaultCore:
         except Exception as e:
             self._log_security_event(
                 event_type="lambda_seed_storage_failed",
-                description=f"ΛFailed to store seed: {str(e)}",
+                description=f"ΛFailed to store seed: {e!s}",
                 severity="error",
                 context={"seed_id": seed_id, "error": str(e)},
             )
@@ -311,9 +305,7 @@ class LambdaVaultCore:
             "λ_lambda_signature": self.lambda_signature,
             "λ_quantum_secured": self.qi_secured,
             "λ_guardian_protected": self.guardian_protected,
-            "λ_symbolic_verification": self._create_lambda_symbolic_verification(
-                symbolic_phrase
-            ),
+            "λ_symbolic_verification": self._create_lambda_symbolic_verification(symbolic_phrase),
         }
 
         if include_quantum_state and self.qi_secured:
@@ -328,9 +320,7 @@ class LambdaVaultCore:
 
         return backup_data
 
-    def restore_from_lambda_backup(
-        self, backup_data: dict[str, Any], symbolic_phrase: str
-    ) -> bool:
+    def restore_from_lambda_backup(self, backup_data: dict[str, Any], symbolic_phrase: str) -> bool:
         """Restore Lambda vault from symbolic backup"""
         try:
             # Verify Lambda symbolic phrase
@@ -354,9 +344,7 @@ class LambdaVaultCore:
             self.guardian_protected = backup_data.get("λ_guardian_protected", False)
 
             # Restore quantum entanglements
-            self.qi_entanglements = set(
-                backup_data.get("λ_quantum_entanglements", [])
-            )
+            self.qi_entanglements = set(backup_data.get("λ_quantum_entanglements", []))
 
             self._log_security_event(
                 event_type="lambda_vault_restored",
@@ -365,15 +353,13 @@ class LambdaVaultCore:
                 context={"backup_timestamp": backup_data["λ_backup_timestamp"]},
             )
 
-            logger.info(
-                f"ΛVault {self.vault_id} restored for Lambda ID {self.lambda_id}"
-            )
+            logger.info(f"ΛVault {self.vault_id} restored for Lambda ID {self.lambda_id}")
             return True
 
         except Exception as e:
             self._log_security_event(
                 event_type="lambda_restore_error",
-                description=f"ΛFailed to restore vault: {str(e)}",
+                description=f"ΛFailed to restore vault: {e!s}",
                 severity="error",
                 context={"error": str(e)},
             )
@@ -392,15 +378,13 @@ class LambdaVaultCore:
                 context={"target_vault": target_vault_id},
             )
 
-            logger.info(
-                f"ΛVault {self.vault_id} quantum entangled with {target_vault_id}"
-            )
+            logger.info(f"ΛVault {self.vault_id} quantum entangled with {target_vault_id}")
             return True
 
         except Exception as e:
             self._log_security_event(
                 event_type="lambda_quantum_entanglement_failed",
-                description=f"ΛQuantum entanglement failed: {str(e)}",
+                description=f"ΛQuantum entanglement failed: {e!s}",
                 severity="error",
                 context={"target_vault": target_vault_id, "error": str(e)},
             )
@@ -415,9 +399,7 @@ class LambdaVaultCore:
             "λ_vault_id": self.vault_id,
             "λ_timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        return hashlib.sha256(
-            json.dumps(lambda_enhanced_data, sort_keys=True).encode()
-        ).hexdigest()
+        return hashlib.sha256(json.dumps(lambda_enhanced_data, sort_keys=True).encode()).hexdigest()
 
     def _get_current_lambda_anchors(self) -> dict[str, Any]:
         """Get current Lambda environmental anchors"""
@@ -452,9 +434,7 @@ class LambdaVaultCore:
 
     def _verify_symbolic_2fa(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda symbolic 2FA for enhanced access"""
-        return (
-            "emoji_sequence" in verification_data or "λ_emoji" in verification_data
-        ) and (
+        return ("emoji_sequence" in verification_data or "λ_emoji" in verification_data) and (
             "behavior_pattern" in verification_data or "λ_behavior" in verification_data
         )
 
@@ -468,9 +448,7 @@ class LambdaVaultCore:
 
     def _verify_guardian_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda Guardian layer access for vault administration"""
-        return (
-            "guardian_key" in verification_data or "λ_guardian" in verification_data
-        ) and (
+        return ("guardian_key" in verification_data or "λ_guardian" in verification_data) and (
             "ethics_approval" in verification_data or "λ_ethics" in verification_data
         )
 
@@ -478,22 +456,15 @@ class LambdaVaultCore:
         """Verify Lambda Quantum layer for maximum security operations"""
         return (
             ("qi_key" in verification_data or "λ_quantum" in verification_data)
-            and (
-                "lambda_signature" in verification_data
-                or "λ_signature" in verification_data
-            )
+            and ("lambda_signature" in verification_data or "λ_signature" in verification_data)
             and self.qi_secured
         )
 
     def _create_lambda_symbolic_verification(self, phrase: str) -> str:
         """Create Lambda symbolic verification hash"""
-        return hashlib.sha256(
-            f"Λ{self.lambda_id}:{phrase}:{self.vault_id}".encode()
-        ).hexdigest()
+        return hashlib.sha256(f"Λ{self.lambda_id}:{phrase}:{self.vault_id}".encode()).hexdigest()
 
-    def _verify_lambda_symbolic_verification(
-        self, stored_hash: Optional[str], phrase: str
-    ) -> bool:
+    def _verify_lambda_symbolic_verification(self, stored_hash: Optional[str], phrase: str) -> bool:
         """Verify Lambda symbolic phrase against stored hash"""
         if not stored_hash:
             return False
@@ -552,9 +523,7 @@ class LambdaVaultCore:
             "λ_lambda_id": self.lambda_id,
             "λ_vault_type": self.vault_type.name,
             "λ_current_layer": self.current_layer.name,
-            "λ_access_layer_name": self.access_layers.get(
-                self.current_layer.value, "unknown"
-            ),
+            "λ_access_layer_name": self.access_layers.get(self.current_layer.value, "unknown"),
             "λ_environmental_triggers_count": len(self.environmental_triggers),
             "λ_vault_memories_count": len(self.vault_memories),
             "λ_lambda_seeds_count": len(self.lambda_seeds),
@@ -583,9 +552,7 @@ class LambdaVaultCore:
             "λ_total_access_attempts": len(self.access_log),
             "λ_recent_security_events": len(recent_events),
             "λ_environmental_triggers_active": sum(
-                1
-                for trigger in self.environmental_triggers.values()
-                if trigger.confidence > 0.8
+                1 for trigger in self.environmental_triggers.values() if trigger.confidence > 0.8
             ),
             "λ_quantum_entanglements_active": len(self.qi_entanglements),
             "λ_vault_integrity_score": 0.95,  # Calculated based on various factors
@@ -596,9 +563,9 @@ class LambdaVaultCore:
 
 # Export the main Lambda vault classes
 __all__ = [
+    "LambdaEnvironmentalTrigger",
     "LambdaVaultCore",
+    "LambdaVaultMemory",
     "LambdaVaultTier",
     "LambdaVaultType",
-    "LambdaEnvironmentalTrigger",
-    "LambdaVaultMemory",
 ]

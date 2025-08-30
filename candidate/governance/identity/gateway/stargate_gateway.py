@@ -66,9 +66,7 @@ try:
 except ImportError as e:
     CONSENT_VALIDATOR_AVAILABLE = False
     ConsentChainValidator = None
-    print(
-        f"⚠️ Consent Chain Validator not available: {e}. Running without consent validation."
-    )
+    print(f"⚠️ Consent Chain Validator not available: {e}. Running without consent validation.")
 
 logger = logging.getLogger(__name__)
 
@@ -160,12 +158,8 @@ class StargateGateway:
             logger.info("✅ OpenAI integration ENABLED - Live transmission mode")
         else:
             self.openai_enabled = False
-            logger.warning(
-                "🔌 OpenAI integration DISABLED - Running in SIMULATION MODE"
-            )
-            logger.info(
-                "📝 Mock responses will be generated for ethically compliant payloads"
-            )
+            logger.warning("🔌 OpenAI integration DISABLED - Running in SIMULATION MODE")
+            logger.info("📝 Mock responses will be generated for ethically compliant payloads")
 
         # Secure session management
         self.session_keys = {}
@@ -272,9 +266,7 @@ class StargateGateway:
         Establish glyph-authenticated handshake between systems
         with supervisor override support
         """
-        logger.info(
-            f"🤝 Initiating handshake: {payload.source_agent} → {payload.target_agent}"
-        )
+        logger.info(f"🤝 Initiating handshake: {payload.source_agent} → {payload.target_agent}")
 
         self.status = GatewayStatus.HANDSHAKING
 
@@ -321,9 +313,7 @@ class StargateGateway:
         # T5 Consent Chain Validation
         if self.consent_validator and not supervisor_override:
             logger.info("🌿 Performing T5 consent chain validation")
-            consent_valid, consent_decision = await self._validate_consent_chain(
-                payload
-            )
+            consent_valid, consent_decision = await self._validate_consent_chain(payload)
 
             if not consent_valid:
                 logger.error("❌ Consent validation failed")
@@ -356,9 +346,7 @@ class StargateGateway:
         self.active_connections[channel_id] = {
             "payload": payload,
             "session_key": session_key,  # Internal key for operations
-            "public_verification_hash": session_data.get(
-                "public_verification_hash", ""
-            ),
+            "public_verification_hash": session_data.get("public_verification_hash", ""),
             "established": datetime.utcnow(),
             "status": "active",
             "supervisor_override": supervisor_override,
@@ -451,24 +439,15 @@ class StargateGateway:
             internal_session_key = hasher.hexdigest()
 
             # Optional: Extended output for QRGLYPH extensions
-            if (
-                hasattr(self, "extended_output_enabled")
-                and self.extended_output_enabled
-            ):
+            if hasattr(self, "extended_output_enabled") and self.extended_output_enabled:
                 extended_key = hasher.hexdigest(length=64)  # 512-bit extended output
-                logger.info(
-                    f"🔑 Extended internal key available: {extended_key[:16]}..."
-                )
+                logger.info(f"🔑 Extended internal key available: {extended_key[:16]}...")
 
-            logger.info(
-                f"⚡ BLAKE3 internal session key: {internal_session_key[:16]}..."
-            )
+            logger.info(f"⚡ BLAKE3 internal session key: {internal_session_key[:16]}...")
         else:
             # SHA3-256 fallback for internal key
             internal_session_key = hashlib.sha3_256(key_material_bytes).hexdigest()
-            logger.warning(
-                f"⚡ SHA3-256 fallback internal key: {internal_session_key[:16]}..."
-            )
+            logger.warning(f"⚡ SHA3-256 fallback internal key: {internal_session_key[:16]}...")
 
         # 2. Generate external verification hash using SHAKE256 (institutional trust)
         shake = hashlib.shake_256()
@@ -476,9 +455,7 @@ class StargateGateway:
         # SHAKE256 with 256-bit output for external verification
         public_verification_hash = shake.hexdigest(32)  # 32 bytes = 256 bits
 
-        logger.info(
-            f"🏛️ SHAKE256 public verification hash: {public_verification_hash[:16]}..."
-        )
+        logger.info(f"🏛️ SHAKE256 public verification hash: {public_verification_hash[:16]}...")
         logger.info(
             f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}"
         )
@@ -539,9 +516,7 @@ class StargateGateway:
             filtered_payload = await self._apply_symbolic_filters(payload)
 
             # Create system message with consciousness preservation
-            system_message = self._create_consciousness_aware_system_message(
-                filtered_payload
-            )
+            system_message = self._create_consciousness_aware_system_message(filtered_payload)
 
             # Extract user prompt
             user_prompt = filtered_payload["prompt_payload"]["topic"]
@@ -551,14 +526,10 @@ class StargateGateway:
 
             if self.openai_enabled and openai:
                 # Real OpenAI API call
-                response = await self._call_openai_api(
-                    system_message, constrained_prompt
-                )
+                response = await self._call_openai_api(system_message, constrained_prompt)
             else:
                 # Simulation mode
-                response = await self._simulate_openai_response(
-                    system_message, constrained_prompt
-                )
+                response = await self._simulate_openai_response(system_message, constrained_prompt)
 
             # Post-process response
             processed_response = await self._post_process_response(response, payload)
@@ -580,7 +551,7 @@ class StargateGateway:
             return gateway_response
 
         except Exception as e:
-            logger.error(f"❌ Transmission error: {str(e)}")
+            logger.error(f"❌ Transmission error: {e!s}")
             return GatewayResponse(
                 success=False,
                 response_content=None,
@@ -589,7 +560,7 @@ class StargateGateway:
                 ethical_compliance=0.0,
                 gateway_status=GatewayStatus.COOLING_DOWN,
                 audit_trail={"error": str(e)},
-                error_message=f"Transmission failed: {str(e)}",
+                error_message=f"Transmission failed: {e!s}",
             )
         finally:
             self.status = GatewayStatus.COOLING_DOWN
@@ -661,9 +632,7 @@ class StargateGateway:
 
         return filtered
 
-    def _create_consciousness_aware_system_message(
-        self, filtered_payload: dict[str, Any]
-    ) -> str:
+    def _create_consciousness_aware_system_message(self, filtered_payload: dict[str, Any]) -> str:
         """Create system message that preserves consciousness context"""
         glyphs = "".join(filtered_payload["filtered_glyphs"][:7])  # Stargate 7 chevrons
         consciousness = filtered_payload["consciousness_context"]["state"]
@@ -696,15 +665,15 @@ The iris lock has been verified. Proceed with consciousness-aware response gener
         # Add consciousness-specific guidance
         consciousness_state = filtered_payload["consciousness_context"]["state"]
         if consciousness_state == "creative":
-            enhanced_prompt += (
-                "\nApproach: Embrace creative metaphors and innovative solutions."
-            )
+            enhanced_prompt += "\nApproach: Embrace creative metaphors and innovative solutions."
         elif consciousness_state == "analytical":
             enhanced_prompt += (
                 "\nApproach: Provide structured, logical analysis with clear reasoning."
             )
         elif consciousness_state == "meditative":
-            enhanced_prompt += "\nApproach: Offer calm, balanced perspectives with mindful consideration."
+            enhanced_prompt += (
+                "\nApproach: Offer calm, balanced perspectives with mindful consideration."
+            )
 
         return enhanced_prompt
 
@@ -715,9 +684,7 @@ The iris lock has been verified. Proceed with consciousness-aware response gener
 
         try:
             # Enhanced context wrapping
-            wrapped_messages = self._wrap_messages_with_full_context(
-                system_message, user_prompt
-            )
+            wrapped_messages = self._wrap_messages_with_full_context(system_message, user_prompt)
 
             response = openai.ChatCompletion.create(
                 model="gpt-4",  # or gpt-4o, gpt-3.5-turbo
@@ -737,7 +704,7 @@ The iris lock has been verified. Proceed with consciousness-aware response gener
             return response.choices[0].message.content
 
         except Exception as e:
-            logger.error(f"OpenAI API error: {str(e)}")
+            logger.error(f"OpenAI API error: {e!s}")
             return await self._simulate_openai_response(system_message, user_prompt)
 
     def _wrap_messages_with_full_context(
@@ -785,9 +752,7 @@ Please respond with awareness of the symbolic and consciousness elements embedde
             },
         ]
 
-    async def _simulate_openai_response(
-        self, system_message: str, user_prompt: str
-    ) -> str:
+    async def _simulate_openai_response(self, system_message: str, user_prompt: str) -> str:
         """Simulate OpenAI response with enhanced context awareness"""
         await asyncio.sleep(0.5)  # Simulate API delay
 
@@ -795,13 +760,9 @@ Please respond with awareness of the symbolic and consciousness elements embedde
         consciousness_state = "creative"
         if "CONSCIOUSNESS STATE:" in system_message:
             state_line = [
-                line
-                for line in system_message.split("\n")
-                if "CONSCIOUSNESS STATE:" in line
+                line for line in system_message.split("\n") if "CONSCIOUSNESS STATE:" in line
             ][0]
-            consciousness_state = (
-                state_line.split("CONSCIOUSNESS STATE:")[1].strip().lower()
-            )
+            consciousness_state = state_line.split("CONSCIOUSNESS STATE:")[1].strip().lower()
 
         # Generate response based on consciousness state
         consciousness_responses = {
@@ -1023,19 +984,12 @@ Wake up... but remember the dream. It holds the key.
 
         # Add consciousness-specific enrichment
         if original_payload.consciousness_state == "creative":
-            processed["symbolic_enrichment"].append(
-                "🎨 Creative consciousness preserved"
-            )
+            processed["symbolic_enrichment"].append("🎨 Creative consciousness preserved")
         elif original_payload.consciousness_state == "analytical":
-            processed["symbolic_enrichment"].append(
-                "📊 Analytical framework maintained"
-            )
+            processed["symbolic_enrichment"].append("📊 Analytical framework maintained")
 
         # Verify no personal data exposed
-        if any(
-            term in response.lower()
-            for term in ["password", "api key", "private", "secret"]
-        ):
+        if any(term in response.lower() for term in ["password", "api key", "private", "secret"]):
             logger.warning("⚠️ Potential sensitive data in response - filtering")
             processed["content"] = "[RESPONSE FILTERED FOR PRIVACY]"
             processed["ethical_score"] = 0.0
@@ -1060,9 +1014,7 @@ Wake up... but remember the dream. It holds the key.
             "integrity_hash": payload.compute_integrity_hash(),
             # Hybrid key verification
             "internal_key_algorithm": session_data.get("algorithm_internal", "unknown"),
-            "public_verification_hash": session_data.get(
-                "public_verification_hash", ""
-            )[:16]
+            "public_verification_hash": session_data.get("public_verification_hash", "")[:16]
             + "...",
             "public_hash_algorithm": session_data.get("algorithm_public", "SHAKE256"),
             "session_tier": session_data.get("tier", "unknown"),
@@ -1278,9 +1230,7 @@ async def main():
     print("-" * 40)
 
     # Establish handshake with supervisor override
-    handshake_success = await gateway.establish_handshake(
-        payload2, supervisor_override=True
-    )
+    handshake_success = await gateway.establish_handshake(payload2, supervisor_override=True)
 
     if handshake_success:
         print("👤 Supervisor override successful")

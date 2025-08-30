@@ -100,9 +100,9 @@ class SystemValidator:
         required = DeploymentConfig.REQUIRED_PYTHON_VERSION
 
         if version[:2] >= required:
-            results["details"][
-                "python_version"
-            ] = f"{version.major}.{version.minor}.{version.micro}"
+            results["details"]["python_version"] = (
+                f"{version.major}.{version.minor}.{version.micro}"
+            )
         else:
             results["status"] = "FAIL"
             results["errors"].append(
@@ -124,9 +124,7 @@ class SystemValidator:
         results["details"]["missing_modules"] = missing_modules
 
         if missing_modules:
-            print(
-                f"   ⚠️ Some modules missing but mocks will be used: {missing_modules}"
-            )
+            print(f"   ⚠️ Some modules missing but mocks will be used: {missing_modules}")
 
         return results
 
@@ -230,13 +228,9 @@ class SystemValidator:
         validation_start = time.time()
 
         # Run all validations
-        self.validation_results["python_environment"] = (
-            self.validate_python_environment()
-        )
+        self.validation_results["python_environment"] = self.validate_python_environment()
         self.validation_results["file_structure"] = self.validate_file_structure()
-        self.validation_results["module_functionality"] = (
-            self.validate_module_functionality()
-        )
+        self.validation_results["module_functionality"] = self.validate_module_functionality()
 
         validation_duration = time.time() - validation_start
 
@@ -416,7 +410,7 @@ class TestOrchestrator:
             # Simple mock generation
             import hashlib
 
-            hashlib.sha256(  )  #  Changed from MD5 for securitydata.encode().hexdigest()
+            hashlib.sha256()  #  Changed from MD5 for securitydata.encode().hexdigest()
             pattern = "█▀▀█ ▀█▀ █▀▀█"  # Mock pattern
             return len(pattern) > 0
         except Exception:
@@ -638,9 +632,7 @@ class DeploymentChecker:
         base_path = os.path.dirname(os.path.abspath(__file__))
         docs = ["README.md", "ARCHITECTURE.md"]
 
-        existing_docs = [
-            doc for doc in docs if os.path.exists(os.path.join(base_path, doc))
-        ]
+        existing_docs = [doc for doc in docs if os.path.exists(os.path.join(base_path, doc))]
 
         if len(existing_docs) == len(docs):
             return {
@@ -738,9 +730,7 @@ class DeploymentPackage:
             print("=" * 70)
             print(f"⏱️ Total Duration: {total_duration:.2f} seconds")
             print(f"✅ System Validation: {validation_result['status']}")
-            print(
-                f"🚀 Deployment Readiness: {deployment_result['readiness_score']:.1f}%"
-            )
+            print(f"🚀 Deployment Readiness: {deployment_result['readiness_score']:.1f}%")
             print(f"📊 Status: {deployment_result['status']}")
             print()
             print("🌟 LUKHAS Authentication System Deployment Package Complete!")

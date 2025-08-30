@@ -66,13 +66,11 @@ class T4CoreBatchProcessor:
 
             # Check for unused imports (simplified)
             import ast
+
             tree = ast.parse(content)
             imports = []
             for node in ast.walk(tree):
-                if isinstance(node, ast.Import):
-                    for alias in node.names:
-                        imports.append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
+                if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
                     for alias in node.names:
                         imports.append(alias.name)
 
@@ -107,11 +105,9 @@ class T4CoreBatchProcessor:
             # Apply black formatting if available
             black_path = self.workspace / ".venv_test" / "bin" / "black"
             if black_path.exists():
-                result = subprocess.run([
-                    str(black_path),
-                    "--quiet",
-                    str(full_path)
-                ], capture_output=True, text=True)
+                result = subprocess.run(
+                    [str(black_path), "--quiet", str(full_path)], capture_output=True, text=True
+                )
 
                 if result.returncode == 0:
                     fixes_applied.append("BLACK_FORMATTING")
@@ -128,10 +124,13 @@ class T4CoreBatchProcessor:
                     "original_hash": original_hash,
                     "new_hash": new_hash,
                     "fixes_applied": fixes_applied,
-                    "t4_framework": "Constitutional Safety validation"
+                    "t4_framework": "Constitutional Safety validation",
                 }
 
-                verification_file = self.verification_dir / f"fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+                verification_file = (
+                    self.verification_dir
+                    / f"fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+                )
                 with open(verification_file, "w") as f:
                     json.dump(verification, f, indent=2)
             else:
@@ -161,14 +160,16 @@ class T4CoreBatchProcessor:
 
         # Take exactly 10 files for this batch
         start_idx = (batch_num - 1) * self.batch_size
-        batch_files = core_files[start_idx:start_idx + self.batch_size]
+        batch_files = core_files[start_idx : start_idx + self.batch_size]
 
         if not batch_files:
             print(f"✅ All batches complete! Total files: {len(core_files)}")
             return
 
         print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files")
-        print(f"📊 Range: {start_idx+1}-{start_idx+len(batch_files)} of {len(core_files)} total")
+        print(
+            f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total"
+        )
         print("")
 
         # Process each file
@@ -209,6 +210,7 @@ class T4CoreBatchProcessor:
 
         return len(batch_files) == self.batch_size  # True if more batches available
 
+
 def main():
     processor = T4CoreBatchProcessor()
 
@@ -226,6 +228,7 @@ def main():
     if has_more:
         print("💡 To process next batch, run:")
         print("python t4_core_batch_processor.py --batch 2")
+
 
 if __name__ == "__main__":
     main()

@@ -73,18 +73,18 @@ def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
 
 # Export main interface
 __all__ = [
-    "LucasDASTEngine",
-    "TaskIntelligence",
-    "PriorityOptimizer",
-    "ContextTracker",
-    "SymbolicReasoner",
-    "WorkflowAnalyzer",
-    "TaskProcessor",
-    "TagProcessor",
     "AttentionProcessor",
-    "SolutionProcessor",
+    "ContextTracker",
     "DASTAdapter",
     "LucasDASTAPI",
-    "track",
+    "LucasDASTEngine",
+    "PriorityOptimizer",
+    "SolutionProcessor",
+    "SymbolicReasoner",
+    "TagProcessor",
+    "TaskIntelligence",
+    "TaskProcessor",
+    "WorkflowAnalyzer",
     "optimize_workflow",
+    "track",
 ]

@@ -31,15 +31,14 @@ class BreakthroughSynthesisEngine(CoreInterface):
             "convergence": "Multiple innovations pointing to same breakthrough",
             "emergence": "New breakthrough from combining innovations",
             "amplification": "Innovations reinforcing each other",
-            "transcendence": "Breakthrough beyond individual innovations"
+            "transcendence": "Breakthrough beyond individual innovations",
         }
 
         self._initialized = True
         logger.info("Breakthrough Synthesis Engine initialized")
 
     async def synthesize_breakthroughs(
-        self,
-        innovation_results: list[dict[str, Any]]
+        self, innovation_results: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """
         Synthesize breakthroughs from innovation results
@@ -67,9 +66,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         for innovation_type, group in grouped.items():
             if len(group) > 1:
                 # Multiple innovations of same type - convergence pattern
-                breakthrough = await self._synthesize_convergence(
-                    innovation_type, group
-                )
+                breakthrough = await self._synthesize_convergence(innovation_type, group)
                 if breakthrough:
                     breakthroughs.append(breakthrough)
             else:
@@ -91,9 +88,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         return breakthroughs
 
     async def _synthesize_convergence(
-        self,
-        innovation_type: str,
-        innovations: list[dict[str, Any]]
+        self, innovation_type: str, innovations: list[dict[str, Any]]
     ) -> Optional[dict[str, Any]]:
         """Synthesize breakthrough from converging innovations"""
 
@@ -103,7 +98,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
             "pattern": "convergence",
             "source_count": len(innovations),
             "impact_score": 0.0,
-            "confidence": 0.0
+            "confidence": 0.0,
         }
 
         # Aggregate scores
@@ -117,7 +112,9 @@ class BreakthroughSynthesisEngine(CoreInterface):
                 total_impact += 0.5
 
         breakthrough["impact_score"] = min(1.0, total_impact / len(innovations) * 1.2)
-        breakthrough["confidence"] = min(1.0, len(innovations) / 5)  # More sources = higher confidence
+        breakthrough["confidence"] = min(
+            1.0, len(innovations) / 5
+        )  # More sources = higher confidence
 
         # Extract key features
         if innovation_type == "consciousness_evolution":
@@ -134,8 +131,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         return breakthrough if breakthrough["impact_score"] > 0.5 else None
 
     async def _convert_to_breakthrough(
-        self,
-        innovation: dict[str, Any]
+        self, innovation: dict[str, Any]
     ) -> Optional[dict[str, Any]]:
         """Convert single innovation to breakthrough format"""
 
@@ -146,7 +142,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
             "source_count": 1,
             "impact_score": 0.5,
             "confidence": 0.6,
-            "details": innovation
+            "details": innovation,
         }
 
         # Adjust scores based on type
@@ -165,8 +161,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
         return breakthrough if breakthrough["impact_score"] > 0.3 else None
 
     async def _synthesize_emergence(
-        self,
-        grouped: dict[str, list[dict[str, Any]]]
+        self, grouped: dict[str, list[dict[str, Any]]]
     ) -> Optional[dict[str, Any]]:
         """Detect emergent breakthroughs from diverse innovations"""
 
@@ -179,7 +174,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
                 "source_types": ["consciousness_evolution", "market_disruption"],
                 "impact_score": 0.95,
                 "confidence": 0.7,
-                "description": "Consciousness-driven economic transformation"
+                "description": "Consciousness-driven economic transformation",
             }
 
         # Check for paradigm + consciousness combination
@@ -191,14 +186,13 @@ class BreakthroughSynthesisEngine(CoreInterface):
                 "source_types": ["paradigm_shift", "consciousness_evolution"],
                 "impact_score": 1.0,
                 "confidence": 0.8,
-                "description": "Reality-transcending paradigm shift"
+                "description": "Reality-transcending paradigm shift",
             }
 
         return None
 
     async def _detect_amplifications(
-        self,
-        breakthroughs: list[dict[str, Any]]
+        self, breakthroughs: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """Detect amplification patterns in breakthroughs"""
 
@@ -206,7 +200,7 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         # Check for reinforcing breakthroughs
         for i, b1 in enumerate(breakthroughs):
-            for b2 in breakthroughs[i+1:]:
+            for b2 in breakthroughs[i + 1 :]:
                 if self._are_reinforcing(b1, b2):
                     amplification = {
                         "id": str(uuid.uuid4()),
@@ -215,17 +209,13 @@ class BreakthroughSynthesisEngine(CoreInterface):
                         "source_breakthroughs": [b1["id"], b2["id"]],
                         "impact_score": min(1.0, b1["impact_score"] + b2["impact_score"]),
                         "confidence": (b1["confidence"] + b2["confidence"]) / 2,
-                        "amplification_factor": 1.5
+                        "amplification_factor": 1.5,
                     }
                     amplifications.append(amplification)
 
         return amplifications
 
-    def _are_reinforcing(
-        self,
-        b1: dict[str, Any],
-        b2: dict[str, Any]
-    ) -> bool:
+    def _are_reinforcing(self, b1: dict[str, Any], b2: dict[str, Any]) -> bool:
         """Check if two breakthroughs reinforce each other"""
 
         # Same type breakthroughs reinforce
@@ -233,8 +223,9 @@ class BreakthroughSynthesisEngine(CoreInterface):
             return True
 
         # Consciousness and paradigm shifts reinforce
-        if ("consciousness" in b1.get("type", "") and "paradigm" in b2.get("type", "")) or \
-           ("paradigm" in b1.get("type", "") and "consciousness" in b2.get("type", "")):
+        if ("consciousness" in b1.get("type", "") and "paradigm" in b2.get("type", "")) or (
+            "paradigm" in b1.get("type", "") and "consciousness" in b2.get("type", "")
+        ):
             return True
 
         return False

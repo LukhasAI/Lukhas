@@ -203,9 +203,7 @@ class AutonomousInnovationCore(CoreInterface):
             if opp.market_size >= market_threshold:
                 opportunities.append(opp)
 
-        logger.info(
-            f"📊 Identified {len(opportunities)} opportunities in {domain.value}"
-        )
+        logger.info(f"📊 Identified {len(opportunities)} opportunities in {domain.value}")
         return opportunities
 
     async def generate_breakthrough_hypotheses(
@@ -318,9 +316,7 @@ class AutonomousInnovationCore(CoreInterface):
         self.metrics["realities_explored"] += reality_count
         self.metrics["hypotheses_tested"] += 1
 
-        logger.info(
-            f"🌌 Explored {reality_count} realities, {len(results)} showed promise"
-        )
+        logger.info(f"🌌 Explored {reality_count} realities, {len(results)} showed promise")
         return results
 
     async def validate_and_synthesize_innovation(
@@ -345,15 +341,13 @@ class AutonomousInnovationCore(CoreInterface):
         )
 
         if not safety_check["is_safe"]:
-            logger.warning(
-                f"⚠️ Innovation failed safety check: {safety_check['reason']}"
-            )
+            logger.warning(f"⚠️ Innovation failed safety check: {safety_check['reason']}")
             return None
 
         # Calculate aggregate scores
-        breakthrough_score = sum(
-            r["breakthrough_score"] for r in reality_results
-        ) / len(reality_results)
+        breakthrough_score = sum(r["breakthrough_score"] for r in reality_results) / len(
+            reality_results
+        )
 
         if breakthrough_score < 0.9:
             return None
@@ -368,23 +362,17 @@ class AutonomousInnovationCore(CoreInterface):
             impact_assessment={
                 "economic": sum(r.get("economic_impact", 0) for r in reality_results)
                 / len(reality_results),
-                "scientific": sum(
-                    r.get("scientific_impact", 0) for r in reality_results
-                )
+                "scientific": sum(r.get("scientific_impact", 0) for r in reality_results)
                 / len(reality_results),
                 "social": sum(r.get("social_impact", 0) for r in reality_results)
                 / len(reality_results),
             },
             implementation_plan={
-                "phases": self._generate_implementation_phases(
-                    hypothesis, reality_results
-                ),
+                "phases": self._generate_implementation_phases(hypothesis, reality_results),
                 "timeline": self._estimate_timeline(reality_results),
                 "resources": self._estimate_resources(reality_results),
             },
-            patent_potential=self._identify_patent_opportunities(
-                hypothesis, reality_results
-            ),
+            patent_potential=self._identify_patent_opportunities(hypothesis, reality_results),
             validated_in_realities=[r["branch_id"] for r in reality_results],
         )
 
@@ -417,10 +405,8 @@ class AutonomousInnovationCore(CoreInterface):
 
                         # 3. Test hypotheses in parallel realities
                         for hypothesis in hypotheses[:10]:  # Test top 10 hypotheses
-                            reality_results = (
-                                await self.explore_innovation_in_parallel_realities(
-                                    hypothesis, reality_count=50, exploration_depth=10
-                                )
+                            reality_results = await self.explore_innovation_in_parallel_realities(
+                                hypothesis, reality_count=50, exploration_depth=10
                             )
 
                             # 4. Validate and synthesize innovations
@@ -430,9 +416,7 @@ class AutonomousInnovationCore(CoreInterface):
 
                             if innovation:
                                 # 5. Trigger downstream processes
-                                await self._trigger_innovation_implementation(
-                                    innovation
-                                )
+                                await self._trigger_innovation_implementation(innovation)
                                 self.metrics["innovations_generated"] += 1
 
                 # Meta-learning: Improve innovation process
@@ -460,10 +444,8 @@ class AutonomousInnovationCore(CoreInterface):
             "branch_id": branch.branch_id,
             "hypothesis_id": hypothesis.hypothesis_id,
             "success_probability": branch.probability * hypothesis.feasibility_score,
-            "breakthrough_score": hypothesis.breakthrough_potential
-            * branch.probability,
-            "economic_impact": hypothesis.impact_magnitude
-            * 10_000_000_000,  # $10B scale
+            "breakthrough_score": hypothesis.breakthrough_potential * branch.probability,
+            "economic_impact": hypothesis.impact_magnitude * 10_000_000_000,  # $10B scale
             "scientific_impact": hypothesis.breakthrough_potential,
             "social_impact": 0.8,
             "exploration_depth": depth,
@@ -527,9 +509,7 @@ class AutonomousInnovationCore(CoreInterface):
 
         self.pattern_library[innovation.domain.value].append(pattern)
 
-    async def _trigger_innovation_implementation(
-        self, innovation: BreakthroughInnovation
-    ) -> None:
+    async def _trigger_innovation_implementation(self, innovation: BreakthroughInnovation) -> None:
         """Trigger downstream processes for innovation implementation"""
         # Emit innovation event through LUKHAS event system
         GLYPHToken(
@@ -543,9 +523,7 @@ class AutonomousInnovationCore(CoreInterface):
         )
 
         # In production, would emit through kernel bus
-        logger.info(
-            f"🎯 Triggered implementation for innovation: {innovation.innovation_id}"
-        )
+        logger.info(f"🎯 Triggered implementation for innovation: {innovation.innovation_id}")
 
     async def _improve_innovation_process(self) -> None:
         """Meta-learning: Continuously improve the innovation process itself"""
@@ -553,9 +531,7 @@ class AutonomousInnovationCore(CoreInterface):
             return
 
         # Analyze success patterns
-        successful_patterns = [
-            i for i in self.innovation_memory if i.breakthrough_score > 0.95
-        ]
+        successful_patterns = [i for i in self.innovation_memory if i.breakthrough_score > 0.95]
 
         if successful_patterns:
             # Update domain engines based on success patterns
@@ -563,11 +539,7 @@ class AutonomousInnovationCore(CoreInterface):
                 domain_engine = self.domain_engines.get(innovation.domain)
                 if domain_engine:
                     domain_engine["success_rate"] = len(
-                        [
-                            i
-                            for i in successful_patterns
-                            if i.domain == innovation.domain
-                        ]
+                        [i for i in successful_patterns if i.domain == innovation.domain]
                     ) / len(self.innovation_memory)
 
         logger.info("🧠 Meta-learning: Innovation process improved")
@@ -597,9 +569,7 @@ class AutonomousInnovationCore(CoreInterface):
         if token.symbol == GLYPHSymbol.INNOVATION:
             # Process innovation-related GLYPH
             result = await self.process(token.value)
-            return GLYPHToken(
-                symbol=GLYPHSymbol.INNOVATION, value=result, metadata=token.metadata
-            )
+            return GLYPHToken(symbol=GLYPHSymbol.INNOVATION, value=result, metadata=token.metadata)
         return token
 
 

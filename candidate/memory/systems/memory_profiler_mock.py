@@ -88,9 +88,7 @@ class MemoryProfiler:
         self.current_memory_usage += size
         self.peak_memory_usage = max(self.peak_memory_usage, self.current_memory_usage)
 
-        logger.debug(
-            f"Recorded allocation: {tensor_id} ({size} bytes, {category.name})"
-        )
+        logger.debug(f"Recorded allocation: {tensor_id} ({size} bytes, {category.name})")
 
     def record_deallocation(self, tensor_id: str) -> None:
         """Record a memory deallocation event"""
@@ -121,9 +119,7 @@ class MemoryProfiler:
 
     def get_memory_usage_by_category(self) -> dict[str, dict[str, Any]]:
         """Get memory usage statistics by category"""
-        total_current = sum(
-            stats["current_size"] for stats in self.category_stats.values()
-        )
+        total_current = sum(stats["current_size"] for stats in self.category_stats.values())
 
         return {
             cat.name: {
@@ -131,9 +127,7 @@ class MemoryProfiler:
                 "total_allocated_mb": stats["total_size"] / (1024 * 1024),
                 "current_size_mb": stats["current_size"] / (1024 * 1024),
                 "percentage": (
-                    (stats["current_size"] / total_current * 100)
-                    if total_current > 0
-                    else 0
+                    (stats["current_size"] / total_current * 100) if total_current > 0 else 0
                 ),
             }
             for cat, stats in self.category_stats.items()
@@ -160,9 +154,7 @@ class MemoryProfiler:
             tensor_id: {
                 "size_mb": info["size"] / (1024 * 1024),
                 "category": info["category"].name,
-                "lifetime_seconds": (
-                    datetime.now() - info["allocated_at"]
-                ).total_seconds(),
+                "lifetime_seconds": (datetime.now() - info["allocated_at"]).total_seconds(),
             }
             for tensor_id, info in self.tensor_registry.items()
         }
@@ -170,12 +162,8 @@ class MemoryProfiler:
     def analyze_memory_patterns(self) -> dict[str, Any]:
         """Analyze memory usage patterns"""
         analysis = {
-            "total_allocations": sum(
-                1 for e in self.memory_events if e.action == Action.CREATE
-            ),
-            "total_deallocations": sum(
-                1 for e in self.memory_events if e.action == Action.DELETE
-            ),
+            "total_allocations": sum(1 for e in self.memory_events if e.action == Action.CREATE),
+            "total_deallocations": sum(1 for e in self.memory_events if e.action == Action.DELETE),
             "active_tensors": len(self.tensor_registry),
             "current_memory_usage_mb": self.current_memory_usage / (1024 * 1024),
             "peak_memory_usage_mb": self.peak_memory_usage / (1024 * 1024),

@@ -104,9 +104,7 @@ class CoherencePatchValidator:
         self.log_dir = Path("lukhas/logs")
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
-    async def validate_coherence(
-        self, reasoning_trace: dict[str, Any]
-    ) -> CoherenceMetrics:
+    async def validate_coherence(self, reasoning_trace: dict[str, Any]) -> CoherenceMetrics:
         """
         Validate the coherence of a reasoning trace
 
@@ -194,9 +192,7 @@ class CoherencePatchValidator:
         metrics_after = await self.validate_coherence(patched_trace)
 
         # Calculate patch effectiveness
-        effectiveness = self._calculate_patch_effectiveness(
-            metrics_before, metrics_after
-        )
+        effectiveness = self._calculate_patch_effectiveness(metrics_before, metrics_after)
 
         for patch in patches_applied:
             patch.effectiveness = effectiveness
@@ -364,25 +360,19 @@ class CoherencePatchValidator:
         for step in path:
             if "timestamp" in step:
                 try:
-                    ts = datetime.fromisoformat(
-                        step["timestamp"].replace("Z", "+00:00")
-                    )
+                    ts = datetime.fromisoformat(step["timestamp"].replace("Z", "+00:00"))
                     timestamps.append(ts)
                 except BaseException:
                     pass
 
         if len(timestamps) > 1:
             # Check for proper ordering
-            is_ordered = all(
-                timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1)
-            )
+            is_ordered = all(timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1))
             return 1.0 if is_ordered else 0.5
 
         return 0.8  # Default if no timestamps
 
-    def _identify_coherence_issues(
-        self, metrics: CoherenceMetrics
-    ) -> list[dict[str, Any]]:
+    def _identify_coherence_issues(self, metrics: CoherenceMetrics) -> list[dict[str, Any]]:
         """Identify specific coherence issues based on metrics"""
         issues = []
 
@@ -485,9 +475,7 @@ class CoherencePatchValidator:
 
         return patches
 
-    async def _apply_patch(
-        self, trace: dict[str, Any], patch: CoherencePatch
-    ) -> dict[str, Any]:
+    async def _apply_patch(self, trace: dict[str, Any], patch: CoherencePatch) -> dict[str, Any]:
         """Apply a coherence patch to a trace"""
         patched_trace = trace.copy()
 
@@ -544,10 +532,8 @@ class CoherencePatchValidator:
             "trace_id": trace_before.get("id", "unknown"),
             "metrics_before": metrics_before.to_dict(),
             "metrics_after": metrics_after.to_dict(),
-            "coherence_delta": metrics_after.coherence_score
-            - metrics_before.coherence_score,
-            "stability_delta": metrics_after.stability_score
-            - metrics_before.stability_score,
+            "coherence_delta": metrics_after.coherence_score - metrics_before.coherence_score,
+            "stability_delta": metrics_after.stability_score - metrics_before.stability_score,
             "drift_delta": metrics_after.drift_score - metrics_before.drift_score,
             "patches_applied": [p.to_dict() for p in patches_applied],
             "overall_improvement": self._calculate_patch_effectiveness(
@@ -608,12 +594,8 @@ def validate_harmonization(
     asyncio.set_event_loop(loop)
 
     try:
-        metrics_before = loop.run_until_complete(
-            validator.validate_coherence(trace_before)
-        )
-        metrics_after = loop.run_until_complete(
-            validator.validate_coherence(trace_after)
-        )
+        metrics_before = loop.run_until_complete(validator.validate_coherence(trace_before))
+        metrics_after = loop.run_until_complete(validator.validate_coherence(trace_after))
 
         # Calculate deltas
         coherence_delta = metrics_after.coherence_score - metrics_before.coherence_score

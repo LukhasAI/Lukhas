@@ -9,4 +9,4 @@ from .qsync_events import (
     SyncType,
 )
 
-__all__ = ["QSyncEvent", "QISynchronizer", "EntanglementBridge", "SyncType"]
+__all__ = ["EntanglementBridge", "QISynchronizer", "QSyncEvent", "SyncType"]

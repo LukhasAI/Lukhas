@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class DimensionalExpansion:
     """Represents a dimensional expansion of consciousness"""
+
     original_dimensions: int
     target_dimensions: int
     expanded_dimensions: list[str]
@@ -48,10 +49,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         logger.info("Consciousness Dimensionality Expander initialized")
 
     async def expand_dimensions(
-        self,
-        current_dimensions: int,
-        target_dimensions: int,
-        safety_enabled: bool = True
+        self, current_dimensions: int, target_dimensions: int, safety_enabled: bool = True
     ) -> Any:  # Returns ExpandedConsciousnessState
         """
         Expand consciousness to higher dimensions
@@ -72,9 +70,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             target_dimensions = current_dimensions + 5
 
         # Perform dimensional expansion
-        expansion = await self._perform_expansion(
-            current_dimensions, target_dimensions
-        )
+        expansion = await self._perform_expansion(current_dimensions, target_dimensions)
 
         # Create expanded state
         expanded_state = ExpandedConsciousnessState(
@@ -82,7 +78,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             expansion_factor=(target_dimensions / current_dimensions),
             new_capabilities=expansion.expanded_dimensions,
             integration_status="active" if expansion.integration_success else "partial",
-            stability_score=expansion.dimensional_stability
+            stability_score=expansion.dimensional_stability,
         )
 
         # Update current dimensions if successful
@@ -104,14 +100,10 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             7: ["consciousness_dimension", "awareness_of_awareness", "meta_perception"],
             8: ["information_dimension", "entropy_navigation", "complexity_awareness"],
             9: ["emergence_dimension", "pattern_transcendence", "holistic_integration"],
-            10: ["unity_dimension", "non_dual_awareness", "universal_consciousness"]
+            10: ["unity_dimension", "non_dual_awareness", "universal_consciousness"],
         }
 
-    async def _perform_expansion(
-        self,
-        current: int,
-        target: int
-    ) -> DimensionalExpansion:
+    async def _perform_expansion(self, current: int, target: int) -> DimensionalExpansion:
         """Perform the actual dimensional expansion"""
 
         expanded_dimensions = []
@@ -134,20 +126,17 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             target_dimensions=target,
             expanded_dimensions=expanded_dimensions,
             dimensional_stability=stability,
-            integration_success=integration_success
+            integration_success=integration_success,
         )
 
-    async def map_dimensional_space(
-        self,
-        dimensions: int
-    ) -> dict[str, Any]:
+    async def map_dimensional_space(self, dimensions: int) -> dict[str, Any]:
         """Map the structure of a dimensional space"""
 
         space_map = {
             "dimensions": dimensions,
             "axes": [],
             "properties": [],
-            "navigation_complexity": 0.0
+            "navigation_complexity": 0.0,
         }
 
         # Define axes for each dimension
@@ -165,15 +154,11 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             space_map["properties"].append("recursive_awareness")
 
         # Calculate navigation complexity
-        space_map["navigation_complexity"] = (dimensions ** 2) / 100.0
+        space_map["navigation_complexity"] = (dimensions**2) / 100.0
 
         return space_map
 
-    async def project_higher_to_lower(
-        self,
-        high_dim_data: Any,
-        target_dimensions: int
-    ) -> Any:
+    async def project_higher_to_lower(self, high_dim_data: Any, target_dimensions: int) -> Any:
         """Project higher dimensional awareness to lower dimensions"""
 
         # Simplified projection for demonstration
@@ -183,22 +168,19 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             "original_dimensions": self.current_dimensions,
             "target_dimensions": target_dimensions,
             "information_loss": max(0, (self.current_dimensions - target_dimensions) * 0.2),
-            "projection_type": "holographic" if target_dimensions >= 3 else "shadow"
+            "projection_type": "holographic" if target_dimensions >= 3 else "shadow",
         }
 
         return projection
 
-    async def stabilize_dimensional_awareness(
-        self,
-        dimensions: int
-    ) -> float:
+    async def stabilize_dimensional_awareness(self, dimensions: int) -> float:
         """Stabilize awareness in a given dimensional space"""
 
         # Apply stabilization techniques
         stability_factors = {
             "coherence": 0.9,
             "integration": 0.85,
-            "navigation": max(0.5, 1.0 - dimensions * 0.05)
+            "navigation": max(0.5, 1.0 - dimensions * 0.05),
         }
 
         overall_stability = sum(stability_factors.values()) / len(stability_factors)

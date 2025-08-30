@@ -37,25 +37,19 @@ class LukhasToneValidator:
 
         self.trinity_symbols = ["⚛️", "🧠", "🛡️"]
 
-    def validate_content(
-        self, content: str, filepath: str = ""
-    ) -> tuple[bool, list[str]]:
+    def validate_content(self, content: str, filepath: str = "") -> tuple[bool, list[str]]:
         """Validate content against LUKHAS tone requirements"""
         issues = []
 
         # Check for deprecated terminology
         for deprecated, replacement in self.deprecated_terms.items():
             if deprecated.lower() in content.lower():
-                issues.append(
-                    f"Deprecated term '{deprecated}' found. Consider '{replacement}'"
-                )
+                issues.append(f"Deprecated term '{deprecated}' found. Consider '{replacement}'")
 
         # Basic Trinity Framework check
         has_trinity = any(symbol in content for symbol in self.trinity_symbols)
         if filepath.endswith(".md") and len(content) > 1000 and not has_trinity:
-            issues.append(
-                "Large documentation file missing Trinity Framework symbols (⚛️🧠🛡️)"
-            )
+            issues.append("Large documentation file missing Trinity Framework symbols (⚛️🧠🛡️)")
 
         # Success if no critical issues
         return len(issues) == 0, issues
@@ -143,9 +137,7 @@ def main():
     # For git hooks, we'll be permissive during transition
     # Only fail on critical issues (none defined yet)
     if results["failed"] > 0:
-        print(
-            "\n⚡ Note: Issues found but allowing commit during PWM transition period"
-        )
+        print("\n⚡ Note: Issues found but allowing commit during PWM transition period")
 
     print("✅ Tone validation complete")
     sys.exit(0)  # Always pass for now

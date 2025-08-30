@@ -13,9 +13,9 @@ __version__ = "1.0.0"
 __author__ = "LUKHAS Learning System"
 
 __all__ = [
-    "JournalEngine",
     "DecisionTracker",
     "InsightAnalyzer",
-    "PatternDetector",
+    "JournalEngine",
     "LearningAssistant",
+    "PatternDetector",
 ]

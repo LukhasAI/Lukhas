@@ -137,9 +137,7 @@ def evaluate_resonance(symbolic_vector: Sequence[float]) -> float:
     correlations = []
 
     for lag in range(1, max_lag + 1):
-        correlation = sum(
-            normalized[i] * normalized[i - lag] for i in range(lag, n)
-        ) / (n - lag)
+        correlation = sum(normalized[i] * normalized[i - lag] for i in range(lag, n)) / (n - lag)
         correlations.append(abs(correlation / variance))
 
     # Resonance score is the maximum correlation found
@@ -195,9 +193,7 @@ def detect_attractors(
 
             # Calculate average return time
             if len(positions) > 1:
-                intervals = [
-                    positions[i + 1] - positions[i] for i in range(len(positions) - 1)
-                ]
+                intervals = [positions[i + 1] - positions[i] for i in range(len(positions) - 1)]
                 avg_return_time = sum(intervals) / len(intervals)
             else:
                 avg_return_time = 0
@@ -207,9 +203,9 @@ def detect_attractors(
 
             # Calculate stability (how consistent the return intervals are)
             if len(intervals) > 1:
-                interval_variance = sum(
-                    (x - avg_return_time) ** 2 for x in intervals
-                ) / len(intervals)
+                interval_variance = sum((x - avg_return_time) ** 2 for x in intervals) / len(
+                    intervals
+                )
                 stability = 1 / (1 + interval_variance)
             else:
                 stability = 0.5

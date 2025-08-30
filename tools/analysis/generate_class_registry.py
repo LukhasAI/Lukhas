@@ -13,7 +13,6 @@ from typing import Any
 
 
 class ClassRegistryGenerator:
-
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.registry = defaultdict(dict)
@@ -35,10 +34,7 @@ class ClassRegistryGenerator:
                 print(f"  Progress: {i}/{total_files} files...")
 
             # Skip archive directories
-            if any(
-                skip in str(file_path)
-                for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            ):
+            if any(skip in str(file_path) for skip in ["._cleanup_archive", "__pycache__", ".git"]):
                 continue
 
             classes_found = self._extract_classes(file_path)
@@ -102,9 +98,7 @@ class ClassRegistryGenerator:
         for item in node.body:
             if isinstance(item, ast.FunctionDef):
                 # Check decorators
-                decorators = [
-                    d.id for d in item.decorator_list if isinstance(d, ast.Name)
-                ]
+                decorators = [d.id for d in item.decorator_list if isinstance(d, ast.Name)]
 
                 if "property" in decorators:
                     properties.append(item.name)
@@ -130,9 +124,7 @@ class ClassRegistryGenerator:
             "static_methods": static_methods,
             "has_init": "__init__" in methods,
             "docstring": (
-                docstring[:100] + "..."
-                if docstring and len(docstring) > 100
-                else docstring
+                docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring
             ),
         }
 

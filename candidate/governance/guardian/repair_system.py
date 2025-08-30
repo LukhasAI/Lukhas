@@ -107,9 +107,9 @@ class RepairOperation:
     rollback_plan: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_impact: Optional[str] = None        # ⚛️
-    consciousness_impact: Optional[str] = None   # 🧠
-    guardian_oversight: bool = True              # 🛡️
+    identity_impact: Optional[str] = None  # ⚛️
+    consciousness_impact: Optional[str] = None  # 🧠
+    guardian_oversight: bool = True  # 🛡️
 
     # Audit trail
     audit_log: list[str] = field(default_factory=list)
@@ -187,7 +187,7 @@ class AutomatedRepairSystem:
             "emergency_repairs": 0,
             "proactive_repairs": 0,
             "repair_effectiveness": 0.0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize system
@@ -220,7 +220,7 @@ class AutomatedRepairSystem:
             RepairType.SECURITY_HARDENING: self._handle_security_hardening,
             RepairType.DATA_INTEGRITY: self._handle_data_integrity,
             RepairType.SYSTEM_STABILIZATION: self._handle_system_stabilization,
-            RepairType.EMERGENCY_RECOVERY: self._handle_emergency_recovery
+            RepairType.EMERGENCY_RECOVERY: self._handle_emergency_recovery,
         }
 
     async def schedule_repair(
@@ -229,7 +229,7 @@ class AutomatedRepairSystem:
         issue_description: str,
         affected_components: list[str],
         priority: RepairPriority = RepairPriority.NORMAL,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> RepairOperation:
         """Schedule a repair operation"""
 
@@ -246,12 +246,16 @@ class AutomatedRepairSystem:
             affected_components=affected_components,
             root_cause=context.get("root_cause"),
             repair_strategy=context.get("repair_strategy", ""),
-            estimated_duration=context.get("estimated_duration")
+            estimated_duration=context.get("estimated_duration"),
         )
 
         # Trinity Framework analysis
-        operation.identity_impact = await self._analyze_identity_impact(repair_type, affected_components)
-        operation.consciousness_impact = await self._analyze_consciousness_impact(repair_type, affected_components)
+        operation.identity_impact = await self._analyze_identity_impact(
+            repair_type, affected_components
+        )
+        operation.consciousness_impact = await self._analyze_consciousness_impact(
+            repair_type, affected_components
+        )
 
         # Generate repair strategy if not provided
         if not operation.repair_strategy:
@@ -268,7 +272,9 @@ class AutomatedRepairSystem:
 
         operation.audit_log.append(f"Repair scheduled: {operation.repair_strategy}")
 
-        logger.info(f"🔧 Repair scheduled: {operation_id} ({repair_type.value}, priority: {priority.value})")
+        logger.info(
+            f"🔧 Repair scheduled: {operation_id} ({repair_type.value}, priority: {priority.value})"
+        )
 
         return operation
 
@@ -333,7 +339,7 @@ class AutomatedRepairSystem:
         except Exception as e:
             operation.status = RepairStatus.FAILED
             operation.completed_at = datetime.now()
-            operation.audit_log.append(f"Repair failed: {str(e)}")
+            operation.audit_log.append(f"Repair failed: {e!s}")
 
             if operation_id in self.active_repairs:
                 self.repair_history.append(self.active_repairs.pop(operation_id))
@@ -354,7 +360,9 @@ class AutomatedRepairSystem:
             # Apply correction algorithms
             for component in operation.affected_components:
                 correction_applied = await self._apply_drift_correction(component, operation)
-                operation.repair_log.append(f"Drift correction for {component}: {'success' if correction_applied else 'failed'}")
+                operation.repair_log.append(
+                    f"Drift correction for {component}: {'success' if correction_applied else 'failed'}"
+                )
 
                 if not correction_applied:
                     return False
@@ -370,7 +378,7 @@ class AutomatedRepairSystem:
             return post_repair_drift < 0.15  # Success if below threshold
 
         except Exception as e:
-            operation.repair_log.append(f"Drift correction failed: {str(e)}")
+            operation.repair_log.append(f"Drift correction failed: {e!s}")
             return False
 
     async def _handle_performance_optimization(self, operation: RepairOperation) -> bool:
@@ -387,7 +395,9 @@ class AutomatedRepairSystem:
             optimizations_applied = 0
 
             for component in operation.affected_components:
-                optimization_success = await self._optimize_component_performance(component, operation)
+                optimization_success = await self._optimize_component_performance(
+                    component, operation
+                )
                 if optimization_success:
                     optimizations_applied += 1
                     operation.repair_log.append(f"Performance optimization applied to {component}")
@@ -397,13 +407,17 @@ class AutomatedRepairSystem:
             operation.repair_log.append("Resource allocation adjusted")
 
             # Verify performance improvement
-            performance_improvement = await self._measure_performance_improvement(operation.affected_components)
+            performance_improvement = await self._measure_performance_improvement(
+                operation.affected_components
+            )
             operation.repair_log.append(f"Performance improvement: {performance_improvement}%")
 
-            return optimizations_applied > 0 and performance_improvement > 5  # At least 5% improvement
+            return (
+                optimizations_applied > 0 and performance_improvement > 5
+            )  # At least 5% improvement
 
         except Exception as e:
-            operation.repair_log.append(f"Performance optimization failed: {str(e)}")
+            operation.repair_log.append(f"Performance optimization failed: {e!s}")
             return False
 
     async def _handle_component_restoration(self, operation: RepairOperation) -> bool:
@@ -431,12 +445,14 @@ class AutomatedRepairSystem:
 
             # Verify system integration
             integration_check = await self._verify_system_integration(operation.affected_components)
-            operation.repair_log.append(f"System integration check: {'passed' if integration_check else 'failed'}")
+            operation.repair_log.append(
+                f"System integration check: {'passed' if integration_check else 'failed'}"
+            )
 
             return restored_components > 0 and integration_check
 
         except Exception as e:
-            operation.repair_log.append(f"Component restoration failed: {str(e)}")
+            operation.repair_log.append(f"Component restoration failed: {e!s}")
             return False
 
     async def _handle_constitutional_repair(self, operation: RepairOperation) -> bool:
@@ -453,23 +469,29 @@ class AutomatedRepairSystem:
             corrections_applied = 0
 
             for violation in violations:
-                correction_success = await self._apply_constitutional_correction(violation, operation)
+                correction_success = await self._apply_constitutional_correction(
+                    violation, operation
+                )
                 if correction_success:
                     corrections_applied += 1
-                    operation.repair_log.append(f"Constitutional correction applied: {violation['type']}")
+                    operation.repair_log.append(
+                        f"Constitutional correction applied: {violation['type']}"
+                    )
 
             # Strengthen constitutional enforcement
             await self._strengthen_constitutional_enforcement(operation.affected_components)
             operation.repair_log.append("Constitutional enforcement strengthened")
 
             # Verify compliance restoration
-            compliance_score = await self._measure_constitutional_compliance(operation.affected_components)
+            compliance_score = await self._measure_constitutional_compliance(
+                operation.affected_components
+            )
             operation.repair_log.append(f"Post-repair compliance score: {compliance_score}")
 
             return corrections_applied > 0 and compliance_score > 0.9
 
         except Exception as e:
-            operation.repair_log.append(f"Constitutional repair failed: {str(e)}")
+            operation.repair_log.append(f"Constitutional repair failed: {e!s}")
             return False
 
     async def _handle_emergency_recovery(self, operation: RepairOperation) -> bool:
@@ -484,20 +506,30 @@ class AutomatedRepairSystem:
 
             # System state preservation
             state_preserved = await self._preserve_critical_state(operation.affected_components)
-            operation.repair_log.append(f"Critical state preservation: {'success' if state_preserved else 'failed'}")
+            operation.repair_log.append(
+                f"Critical state preservation: {'success' if state_preserved else 'failed'}"
+            )
 
             # Graceful degradation
-            degradation_success = await self._implement_graceful_degradation(operation.affected_components)
-            operation.repair_log.append(f"Graceful degradation: {'implemented' if degradation_success else 'failed'}")
+            degradation_success = await self._implement_graceful_degradation(
+                operation.affected_components
+            )
+            operation.repair_log.append(
+                f"Graceful degradation: {'implemented' if degradation_success else 'failed'}"
+            )
 
             # Recovery sequence
-            recovery_success = await self._execute_recovery_sequence(operation.affected_components, operation)
-            operation.repair_log.append(f"Recovery sequence: {'completed' if recovery_success else 'failed'}")
+            recovery_success = await self._execute_recovery_sequence(
+                operation.affected_components, operation
+            )
+            operation.repair_log.append(
+                f"Recovery sequence: {'completed' if recovery_success else 'failed'}"
+            )
 
             return state_preserved and recovery_success
 
         except Exception as e:
-            operation.repair_log.append(f"Emergency recovery failed: {str(e)}")
+            operation.repair_log.append(f"Emergency recovery failed: {e!s}")
             return False
 
     async def _health_monitoring_loop(self):
@@ -578,7 +610,7 @@ class AutomatedRepairSystem:
             "completed_at": operation.completed_at.isoformat() if operation.completed_at else None,
             "effectiveness_score": operation.effectiveness_score,
             "audit_log": operation.audit_log[-10:],  # Last 10 entries
-            "repair_log": operation.repair_log[-10:]  # Last 10 entries
+            "repair_log": operation.repair_log[-10:],  # Last 10 entries
         }
 
     async def get_system_metrics(self) -> dict[str, Any]:
@@ -590,8 +622,8 @@ class AutomatedRepairSystem:
 __all__ = [
     "AutomatedRepairSystem",
     "RepairOperation",
-    "SystemHealth",
-    "RepairType",
     "RepairPriority",
-    "RepairStatus"
+    "RepairStatus",
+    "RepairType",
+    "SystemHealth",
 ]

@@ -22,9 +22,7 @@ class DreamProcessor:
             0.65  # Lower threshold during dreams for creative connections
         )
 
-    async def process_dream_state(
-        self, recent_memories: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def process_dream_state(self, recent_memories: list[dict[str, Any]]) -> dict[str, Any]:
         """Process memories during dream state to find deeper patterns"""
         dream_patterns = []
         cross_memory_relationships = []
@@ -88,9 +86,7 @@ class DreamProcessor:
 
         return consolidated
 
-    def _group_similar_patterns(
-        self, patterns: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def _group_similar_patterns(self, patterns: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Group similar patterns found across memories"""
         groups = []
         for pattern in patterns:
@@ -99,9 +95,7 @@ class DreamProcessor:
                 if self._patterns_match(pattern, group["representative"]):
                     group["patterns"].append(pattern)
                     group["confidence"] *= 0.9  # Decay confidence slightly
-                    group["confidence"] += (
-                        pattern["confidence"] * 0.1
-                    )  # Blend in new confidence
+                    group["confidence"] += pattern["confidence"] * 0.1  # Blend in new confidence
                     added = True
                     break
             if not added:

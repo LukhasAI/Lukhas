@@ -253,9 +253,7 @@ class IdentityHealthMonitor:
             "performance_baseline": {},
         }
 
-        logger.info(
-            f"Registered component {component_id} of type {component_type.value}"
-        )
+        logger.info(f"Registered component {component_id} of type {component_type.value}")
 
     async def report_component_metrics(
         self, component_id: str, metrics: dict[HealthMetric, float], tier_level: int = 0
@@ -369,9 +367,8 @@ class IdentityHealthMonitor:
             return
 
         # Check healing cooldown
-        if (
-            component.last_healing
-            and datetime.utcnow() - component.last_healing < timedelta(minutes=5)
+        if component.last_healing and datetime.utcnow() - component.last_healing < timedelta(
+            minutes=5
         ):
             logger.info(f"Component {component_id} in healing cooldown")
             return
@@ -390,14 +387,10 @@ class IdentityHealthMonitor:
 
         # Add healing steps based on component type
         if component.component_type in self.healing_strategies:
-            for i, strategy_func in enumerate(
-                self.healing_strategies[component.component_type]
-            ):
+            for i, strategy_func in enumerate(self.healing_strategies[component.component_type]):
                 steps = await strategy_func(component, tier_level)
                 for step in steps:
-                    plan.add_step(
-                        step["action"], step["params"], i * 10 + step.get("order", 0)
-                    )
+                    plan.add_step(step["action"], step["params"], i * 10 + step.get("order", 0))
 
         # Add to active plans
         self.active_healing_plans[plan.plan_id] = plan
@@ -700,9 +693,7 @@ class IdentityHealthMonitor:
             try:
                 # Get system metrics
                 self.system_metrics["cpu_usage"] = psutil.cpu_percent() / 100
-                self.system_metrics["memory_usage"] = (
-                    psutil.virtual_memory().percent / 100
-                )
+                self.system_metrics["memory_usage"] = psutil.virtual_memory().percent / 100
                 self.system_metrics["disk_usage"] = psutil.disk_usage("/").percent / 100
 
                 # Calculate network latency (simulated)
@@ -766,9 +757,7 @@ class IdentityHealthMonitor:
                     # Group by component
                     component_trends = defaultdict(list)
                     for entry in recent_history:
-                        component_trends[entry["component_id"]].append(
-                            entry["health_score"]
-                        )
+                        component_trends[entry["component_id"]].append(entry["health_score"])
 
                     # Detect declining trends
                     for component_id, scores in component_trends.items():
@@ -837,9 +826,7 @@ class IdentityHealthMonitor:
 
         # Calculate overall system health
         component_scores = [c.health_score for c in self.component_health.values()]
-        overall_health = (
-            sum(component_scores) / len(component_scores) if component_scores else 0
-        )
+        overall_health = sum(component_scores) / len(component_scores) if component_scores else 0
 
         # Count components by status
         status_counts = defaultdict(int)
@@ -853,8 +840,7 @@ class IdentityHealthMonitor:
                 "component": plan.component_id,
                 "strategy": plan.strategy.value,
                 "progress": (
-                    sum(1 for s in plan.steps if s["status"] == "completed")
-                    / len(plan.steps)
+                    sum(1 for s in plan.steps if s["status"] == "completed") / len(plan.steps)
                     if plan.steps
                     else 0
                 ),
@@ -872,14 +858,10 @@ class IdentityHealthMonitor:
             "total_healing_attempts": sum(
                 c.healing_attempts for c in self.component_health.values()
             ),
-            "recent_errors": sum(
-                len(c.error_history) for c in self.component_health.values()
-            ),
+            "recent_errors": sum(len(c.error_history) for c in self.component_health.values()),
         }
 
-    def get_component_health_details(
-        self, component_id: str
-    ) -> Optional[dict[str, Any]]:
+    def get_component_health_details(self, component_id: str) -> Optional[dict[str, Any]]:
         """Get detailed health information for a component."""
         component = self.component_health.get(component_id)
         if not component:

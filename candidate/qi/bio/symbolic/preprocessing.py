@@ -71,9 +71,7 @@ class BioPreprocessingColony(BaseColony):
 
         logger.info(f"🧬 BioPreprocessingColony '{colony_id}' initialized")
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Execute preprocessing task on bio-symbolic data.
 
@@ -132,7 +130,7 @@ class BioPreprocessingColony(BaseColony):
             return result
 
         except Exception as e:
-            logger.warning(f"Preprocessing failed, activating fallback: {str(e)}")
+            logger.warning(f"Preprocessing failed, activating fallback: {e!s}")
             return await fallback_manager.handle_component_failure(
                 "preprocessing", e, task_data, task_id
             )
@@ -210,9 +208,7 @@ class BioPreprocessingColony(BaseColony):
                 # Z-score for outlier detection
                 if std > 0:
                     z_score = abs((value - mean) / std)
-                    outlier_scores[signal] = min(
-                        z_score / 3.0, 1.0
-                    )  # Normalize to [0,1]
+                    outlier_scores[signal] = min(z_score / 3.0, 1.0)  # Normalize to [0,1]
                 else:
                     outlier_scores[signal] = 0.0
             else:
@@ -261,9 +257,9 @@ class BioPreprocessingColony(BaseColony):
 
         if "cortisol" in data and "energy_level" in data:
             # Stress-energy index
-            enhanced["stress_energy_index"] = (
-                1 - data.get("cortisol", 0.5)
-            ) * data.get("energy_level", 0.5)
+            enhanced["stress_energy_index"] = (1 - data.get("cortisol", 0.5)) * data.get(
+                "energy_level", 0.5
+            )
 
         return enhanced
 
@@ -275,9 +271,7 @@ class BioPreprocessingColony(BaseColony):
 
         # Factor 1: Data completeness
         expected_signals = ["heart_rate", "temperature", "energy_level"]
-        completeness = sum(1 for sig in expected_signals if sig in data) / len(
-            expected_signals
-        )
+        completeness = sum(1 for sig in expected_signals if sig in data) / len(expected_signals)
         quality_factors.append(completeness)
 
         # Factor 2: Outlier score (inverted)

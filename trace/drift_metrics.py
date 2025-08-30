@@ -30,9 +30,7 @@ class DriftTracker:
         self.window_size = window_size
         self.measurements: deque = deque(maxlen=window_size)
         self.timestamps: deque = deque(maxlen=window_size)
-        self.categories: dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=window_size)
-        )
+        self.categories: dict[str, deque] = defaultdict(lambda: deque(maxlen=window_size))
 
     def record(
         self, value: float, category: str = "general", metadata: Optional[dict] = None

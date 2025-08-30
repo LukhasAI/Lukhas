@@ -173,9 +173,9 @@ class FeatureFlagContext:
 
 # Convenience exports
 __all__ = [
+    "FeatureFlagContext",
     "get_flags",
+    "is_enabled",
     "require_feature",
     "when_enabled",
-    "is_enabled",
-    "FeatureFlagContext",
 ]

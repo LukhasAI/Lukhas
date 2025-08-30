@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class StrategyType(Enum):
     """Types of competitive strategies"""
+
     OFFENSIVE = "offensive"
     DEFENSIVE = "defensive"
     COLLABORATIVE = "collaborative"
@@ -27,6 +28,7 @@ class StrategyType(Enum):
 @dataclass
 class CompetitiveStrategy:
     """Represents a competitive strategy"""
+
     type: StrategyType
     target: str
     actions: list[str]
@@ -66,9 +68,7 @@ class CompetitiveLandscapeController(CoreInterface):
         logger.info("Competitive Landscape Controller initialized")
 
     async def execute_market_phase(
-        self,
-        phase: dict[str, Any],
-        market_design: dict[str, Any]
+        self, phase: dict[str, Any], market_design: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Execute a market creation phase
@@ -85,22 +85,18 @@ class CompetitiveLandscapeController(CoreInterface):
             "objectives_completed": [],
             "penetration": 0.0,
             "value": 0.0,
-            "assets_acquired": []
+            "assets_acquired": [],
         }
 
         # Execute each objective
         for objective in phase.get("objectives", []):
-            objective_result = await self._execute_objective(
-                objective, market_design
-            )
+            objective_result = await self._execute_objective(objective, market_design)
 
             if objective_result["success"]:
                 result["objectives_completed"].append(objective)
                 result["penetration"] += objective_result.get("penetration", 0)
                 result["value"] += objective_result.get("value", 0)
-                result["assets_acquired"].extend(
-                    objective_result.get("assets", [])
-                )
+                result["assets_acquired"].extend(objective_result.get("assets", []))
 
         # Calculate phase success metrics
         total_objectives = len(phase.get("objectives", []))
@@ -112,10 +108,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return result
 
     async def identify_interventions(
-        self,
-        competitor: str,
-        patterns: dict[str, Any],
-        intervention_types: list[str]
+        self, competitor: str, patterns: dict[str, Any], intervention_types: list[str]
     ) -> list[dict[str, Any]]:
         """
         Identify intervention opportunities in competitor patterns
@@ -132,15 +125,11 @@ class CompetitiveLandscapeController(CoreInterface):
 
         for int_type in intervention_types:
             if int_type == "preemptive":
-                preemptive = await self._identify_preemptive_opportunities(
-                    competitor, patterns
-                )
+                preemptive = await self._identify_preemptive_opportunities(competitor, patterns)
                 interventions.extend(preemptive)
 
             elif int_type == "disruptive":
-                disruptive = await self._identify_disruptive_opportunities(
-                    competitor, patterns
-                )
+                disruptive = await self._identify_disruptive_opportunities(competitor, patterns)
                 interventions.extend(disruptive)
 
             elif int_type == "complementary":
@@ -150,18 +139,13 @@ class CompetitiveLandscapeController(CoreInterface):
                 interventions.extend(complementary)
 
             elif int_type == "defensive":
-                defensive = await self._identify_defensive_opportunities(
-                    competitor, patterns
-                )
+                defensive = await self._identify_defensive_opportunities(competitor, patterns)
                 interventions.extend(defensive)
 
         return interventions
 
     async def generate_counter_strategy(
-        self,
-        competitor: str,
-        opportunity: dict[str, Any],
-        strategy_type: str
+        self, competitor: str, opportunity: dict[str, Any], strategy_type: str
     ) -> dict[str, Any]:
         """
         Generate a counter-strategy for a competitive opportunity
@@ -182,7 +166,7 @@ class CompetitiveLandscapeController(CoreInterface):
             "timeline_months": 12,
             "resources_required": 1e8,
             "success_probability": 0.7,
-            "expected_roi": 3.0
+            "expected_roi": 3.0,
         }
 
         # Generate strategy-specific actions
@@ -191,7 +175,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 "launch_breakthrough_innovation",
                 "redefine_market_category",
                 "shift_value_proposition",
-                "capture_new_segments"
+                "capture_new_segments",
             ]
             strategy["resources_required"] = 5e8
             strategy["expected_roi"] = 5.0
@@ -201,7 +185,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 "accelerate_product_launch",
                 "secure_key_partnerships",
                 "lock_in_customers",
-                "establish_standards"
+                "establish_standards",
             ]
             strategy["timeline_months"] = 6
             strategy["success_probability"] = 0.8
@@ -211,7 +195,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 "develop_integration",
                 "create_joint_value",
                 "expand_ecosystem",
-                "share_market_development"
+                "share_market_development",
             ]
             strategy["resources_required"] = 1e8
             strategy["success_probability"] = 0.85
@@ -221,7 +205,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 "strengthen_moats",
                 "increase_switching_costs",
                 "deepen_customer_relationships",
-                "protect_key_assets"
+                "protect_key_assets",
             ]
             strategy["resources_required"] = 2e8
             strategy["expected_roi"] = 2.0
@@ -232,9 +216,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return strategy
 
     async def analyze_positioning(
-        self,
-        markets: list[dict[str, Any]],
-        analysis_dimensions: list[str]
+        self, markets: list[dict[str, Any]], analysis_dimensions: list[str]
     ) -> dict[str, Any]:
         """
         Analyze strategic positioning across markets
@@ -250,7 +232,7 @@ class CompetitiveLandscapeController(CoreInterface):
             "overall_strength": 0.0,
             "dimension_scores": {},
             "competitive_advantages": [],
-            "vulnerabilities": []
+            "vulnerabilities": [],
         }
 
         for dimension in analysis_dimensions:
@@ -278,7 +260,7 @@ class CompetitiveLandscapeController(CoreInterface):
         self,
         competitor: str,
         analysis: Any,  # CompetitiveAnalysis type
-        recommendation_types: list[str]
+        recommendation_types: list[str],
     ) -> list[dict[str, Any]]:
         """
         Generate strategic recommendations based on competitive analysis
@@ -331,8 +313,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 "Microsoft": 0.22,
                 "Amazon": 0.18,
                 "Apple": 0.15,
-                "Others": 0.20
-            }
+                "Others": 0.20,
+            },
         }
 
     async def _load_strategy_playbook(self) -> None:
@@ -342,18 +324,18 @@ class CompetitiveLandscapeController(CoreInterface):
             "disrupt_incumbent": {
                 "target": "market_leader",
                 "tactics": ["innovation_leap", "new_category", "unbundling"],
-                "success_factors": ["technology_advantage", "speed", "focus"]
+                "success_factors": ["technology_advantage", "speed", "focus"],
             },
             "fast_follower": {
                 "target": "innovator",
                 "tactics": ["rapid_imitation", "improvement", "scale"],
-                "success_factors": ["execution", "resources", "distribution"]
+                "success_factors": ["execution", "resources", "distribution"],
             },
             "ecosystem_play": {
                 "target": "platform",
                 "tactics": ["integration", "complementary_services", "lock_in"],
-                "success_factors": ["partnerships", "standards", "network_effects"]
-            }
+                "success_factors": ["partnerships", "standards", "network_effects"],
+            },
         }
 
     async def _initialize_market_positions(self) -> None:
@@ -364,29 +346,22 @@ class CompetitiveLandscapeController(CoreInterface):
                 "our_position": "challenger",
                 "market_share": 0.05,
                 "growth_trajectory": "accelerating",
-                "competitive_intensity": "high"
+                "competitive_intensity": "high",
             },
             "qi_computing": {
                 "our_position": "early_entrant",
                 "market_share": 0.02,
                 "growth_trajectory": "emerging",
-                "competitive_intensity": "moderate"
-            }
+                "competitive_intensity": "moderate",
+            },
         }
 
     async def _execute_objective(
-        self,
-        objective: str,
-        market_design: dict[str, Any]
+        self, objective: str, market_design: dict[str, Any]
     ) -> dict[str, Any]:
         """Execute a single market objective"""
 
-        result = {
-            "success": False,
-            "penetration": 0.0,
-            "value": 0.0,
-            "assets": []
-        }
+        result = {"success": False, "penetration": 0.0, "value": 0.0, "assets": []}
 
         # Simulate objective execution
         success_probability = 0.7  # Base success rate
@@ -400,6 +375,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         # Determine success
         import random
+
         if random.random() < success_probability:
             result["success"] = True
 
@@ -426,9 +402,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return result
 
     async def _identify_preemptive_opportunities(
-        self,
-        competitor: str,
-        patterns: dict[str, Any]
+        self, competitor: str, patterns: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify preemptive intervention opportunities"""
 
@@ -442,32 +416,34 @@ class CompetitiveLandscapeController(CoreInterface):
             ) / len(innovation_cycles)
 
             if avg_cycle_duration > 18:  # Slow innovation cycle
-                opportunities.append({
-                    "type": "preemptive",
-                    "name": "innovation_acceleration",
-                    "description": "Launch innovation before competitor's next cycle",
-                    "window_months": 6,
-                    "impact_potential": 0.8
-                })
+                opportunities.append(
+                    {
+                        "type": "preemptive",
+                        "name": "innovation_acceleration",
+                        "description": "Launch innovation before competitor's next cycle",
+                        "window_months": 6,
+                        "impact_potential": 0.8,
+                    }
+                )
 
         # Check for market entry patterns
         market_entries = patterns.get("market_entry_patterns", [])
         for entry in market_entries:
             if entry.get("timing") == "mature":
-                opportunities.append({
-                    "type": "preemptive",
-                    "name": f"early_entry_{entry.get('market')}",
-                    "description": f"Enter {entry.get('market')} before competitor",
-                    "window_months": 12,
-                    "impact_potential": 0.7
-                })
+                opportunities.append(
+                    {
+                        "type": "preemptive",
+                        "name": f"early_entry_{entry.get('market')}",
+                        "description": f"Enter {entry.get('market')} before competitor",
+                        "window_months": 12,
+                        "impact_potential": 0.7,
+                    }
+                )
 
         return opportunities
 
     async def _identify_disruptive_opportunities(
-        self,
-        competitor: str,
-        patterns: dict[str, Any]
+        self, competitor: str, patterns: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify disruptive intervention opportunities"""
 
@@ -477,40 +453,44 @@ class CompetitiveLandscapeController(CoreInterface):
         weaknesses = patterns.get("weakness_indicators", [])
 
         if "legacy_system_debt" in weaknesses:
-            opportunities.append({
-                "type": "disruptive",
-                "name": "cloud_native_disruption",
-                "description": "Disrupt with cloud-native architecture",
-                "window_months": 18,
-                "impact_potential": 0.9
-            })
+            opportunities.append(
+                {
+                    "type": "disruptive",
+                    "name": "cloud_native_disruption",
+                    "description": "Disrupt with cloud-native architecture",
+                    "window_months": 18,
+                    "impact_potential": 0.9,
+                }
+            )
 
         if "slow_innovation_pace" in weaknesses:
-            opportunities.append({
-                "type": "disruptive",
-                "name": "innovation_disruption",
-                "description": "Disrupt with breakthrough innovation",
-                "window_months": 12,
-                "impact_potential": 0.85
-            })
+            opportunities.append(
+                {
+                    "type": "disruptive",
+                    "name": "innovation_disruption",
+                    "description": "Disrupt with breakthrough innovation",
+                    "window_months": 12,
+                    "impact_potential": 0.85,
+                }
+            )
 
         # Check technology focus for gaps
         tech_focus = patterns.get("technology_focus_areas", [])
         if "ai" not in tech_focus:
-            opportunities.append({
-                "type": "disruptive",
-                "name": "ai_transformation",
-                "description": "Disrupt with AI-first approach",
-                "window_months": 24,
-                "impact_potential": 0.95
-            })
+            opportunities.append(
+                {
+                    "type": "disruptive",
+                    "name": "ai_transformation",
+                    "description": "Disrupt with AI-first approach",
+                    "window_months": 24,
+                    "impact_potential": 0.95,
+                }
+            )
 
         return opportunities
 
     async def _identify_complementary_opportunities(
-        self,
-        competitor: str,
-        patterns: dict[str, Any]
+        self, competitor: str, patterns: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify complementary collaboration opportunities"""
 
@@ -521,30 +501,32 @@ class CompetitiveLandscapeController(CoreInterface):
 
         for partnership in partnerships:
             if partnership.get("type") == "technology":
-                opportunities.append({
-                    "type": "complementary",
-                    "name": f"tech_integration_{partnership.get('focus')}",
-                    "description": f"Integrate with {partnership.get('focus')} technology",
-                    "window_months": 6,
-                    "impact_potential": 0.6
-                })
+                opportunities.append(
+                    {
+                        "type": "complementary",
+                        "name": f"tech_integration_{partnership.get('focus')}",
+                        "description": f"Integrate with {partnership.get('focus')} technology",
+                        "window_months": 6,
+                        "impact_potential": 0.6,
+                    }
+                )
 
         # Check for ecosystem opportunities
         if patterns.get("investment_patterns", {}).get("focus_areas"):
-            opportunities.append({
-                "type": "complementary",
-                "name": "ecosystem_expansion",
-                "description": "Expand ecosystem through complementary services",
-                "window_months": 12,
-                "impact_potential": 0.7
-            })
+            opportunities.append(
+                {
+                    "type": "complementary",
+                    "name": "ecosystem_expansion",
+                    "description": "Expand ecosystem through complementary services",
+                    "window_months": 12,
+                    "impact_potential": 0.7,
+                }
+            )
 
         return opportunities
 
     async def _identify_defensive_opportunities(
-        self,
-        competitor: str,
-        patterns: dict[str, Any]
+        self, competitor: str, patterns: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Identify defensive strategy opportunities"""
 
@@ -554,32 +536,34 @@ class CompetitiveLandscapeController(CoreInterface):
         tech_focus = patterns.get("technology_focus_areas", [])
 
         for tech in tech_focus:
-            opportunities.append({
-                "type": "defensive",
-                "name": f"defend_against_{tech}",
-                "description": f"Build defenses against {tech} competition",
-                "window_months": 9,
-                "impact_potential": 0.5
-            })
+            opportunities.append(
+                {
+                    "type": "defensive",
+                    "name": f"defend_against_{tech}",
+                    "description": f"Build defenses against {tech} competition",
+                    "window_months": 9,
+                    "impact_potential": 0.5,
+                }
+            )
 
         # Protect key markets
         market_entries = patterns.get("market_entry_patterns", [])
         for entry in market_entries:
             if entry.get("success_rate", 0) > 0.7:
-                opportunities.append({
-                    "type": "defensive",
-                    "name": f"protect_{entry.get('market')}",
-                    "description": f"Protect position in {entry.get('market')}",
-                    "window_months": 6,
-                    "impact_potential": 0.6
-                })
+                opportunities.append(
+                    {
+                        "type": "defensive",
+                        "name": f"protect_{entry.get('market')}",
+                        "description": f"Protect position in {entry.get('market')}",
+                        "window_months": 6,
+                        "impact_potential": 0.6,
+                    }
+                )
 
         return opportunities
 
     async def _adjust_strategy_for_market(
-        self,
-        strategy: dict[str, Any],
-        competitor: str
+        self, strategy: dict[str, Any], competitor: str
     ) -> dict[str, Any]:
         """Adjust strategy based on market conditions"""
 
@@ -601,11 +585,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
         return strategy
 
-    async def _analyze_dimension(
-        self,
-        markets: list[dict[str, Any]],
-        dimension: str
-    ) -> float:
+    async def _analyze_dimension(self, markets: list[dict[str, Any]], dimension: str) -> float:
         """Analyze a specific positioning dimension"""
 
         score = 0.0
@@ -643,8 +623,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return score
 
     async def _identify_positioning_advantages(
-        self,
-        dimension_scores: dict[str, float]
+        self, dimension_scores: dict[str, float]
     ) -> list[str]:
         """Identify advantages from positioning scores"""
 
@@ -659,8 +638,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return advantages
 
     async def _identify_positioning_vulnerabilities(
-        self,
-        dimension_scores: dict[str, float]
+        self, dimension_scores: dict[str, float]
     ) -> list[str]:
         """Identify vulnerabilities from positioning scores"""
 
@@ -675,9 +653,7 @@ class CompetitiveLandscapeController(CoreInterface):
         return vulnerabilities
 
     async def _generate_offensive_recommendations(
-        self,
-        competitor: str,
-        analysis: Any
+        self, competitor: str, analysis: Any
     ) -> list[dict[str, Any]]:
         """Generate offensive strategy recommendations"""
 
@@ -685,20 +661,20 @@ class CompetitiveLandscapeController(CoreInterface):
 
         # Exploit weaknesses
         for weakness in analysis.weakness_indicators:
-            recommendations.append({
-                "type": "offensive",
-                "action": f"exploit_{weakness}",
-                "description": f"Launch offensive to exploit {weakness}",
-                "resources": 3e8,
-                "timeline_months": 9
-            })
+            recommendations.append(
+                {
+                    "type": "offensive",
+                    "action": f"exploit_{weakness}",
+                    "description": f"Launch offensive to exploit {weakness}",
+                    "resources": 3e8,
+                    "timeline_months": 9,
+                }
+            )
 
         return recommendations[:2]  # Limit to top 2
 
     async def _generate_defensive_recommendations(
-        self,
-        competitor: str,
-        analysis: Any
+        self, competitor: str, analysis: Any
     ) -> list[dict[str, Any]]:
         """Generate defensive strategy recommendations"""
 
@@ -706,20 +682,20 @@ class CompetitiveLandscapeController(CoreInterface):
 
         # Defend against competitor strengths
         for tech in analysis.technology_focus_areas[:2]:
-            recommendations.append({
-                "type": "defensive",
-                "action": f"defend_{tech}",
-                "description": f"Build defenses against {tech} competition",
-                "resources": 2e8,
-                "timeline_months": 6
-            })
+            recommendations.append(
+                {
+                    "type": "defensive",
+                    "action": f"defend_{tech}",
+                    "description": f"Build defenses against {tech} competition",
+                    "resources": 2e8,
+                    "timeline_months": 6,
+                }
+            )
 
         return recommendations
 
     async def _generate_collaborative_recommendations(
-        self,
-        competitor: str,
-        analysis: Any
+        self, competitor: str, analysis: Any
     ) -> list[dict[str, Any]]:
         """Generate collaborative strategy recommendations"""
 
@@ -727,28 +703,23 @@ class CompetitiveLandscapeController(CoreInterface):
 
         # Identify collaboration opportunities
         if analysis.partnership_strategies:
-            recommendations.append({
-                "type": "collaborative",
-                "action": "strategic_partnership",
-                "description": f"Form strategic partnership with {competitor}",
-                "resources": 1e8,
-                "timeline_months": 3
-            })
+            recommendations.append(
+                {
+                    "type": "collaborative",
+                    "action": "strategic_partnership",
+                    "description": f"Form strategic partnership with {competitor}",
+                    "resources": 1e8,
+                    "timeline_months": 3,
+                }
+            )
 
         return recommendations
 
-    async def _calculate_recommendation_priority(
-        self,
-        recommendation: dict[str, Any]
-    ) -> float:
+    async def _calculate_recommendation_priority(self, recommendation: dict[str, Any]) -> float:
         """Calculate priority score for a recommendation"""
 
         # Base priority on type
-        type_priority = {
-            "offensive": 0.8,
-            "defensive": 0.6,
-            "collaborative": 0.7
-        }
+        type_priority = {"offensive": 0.8, "defensive": 0.6, "collaborative": 0.7}
 
         base_priority = type_priority.get(recommendation.get("type"), 0.5)
 

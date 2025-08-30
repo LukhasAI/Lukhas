@@ -117,12 +117,8 @@ class MitochondrialQIBridge:
     """
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
-        self.qi_oscillator: QIOscillator = (
-            qi_oscillator or QIOscillator()
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
 
         self.complex_states: dict[str, np.ndarray] = {
             "complex_i_nadh_dehydrogenase": np.zeros(4, dtype=float),
@@ -160,9 +156,7 @@ class MitochondrialQIBridge:
         )
         try:
             modulated_input = self.qi_oscillator.qi_modulate(input_signal)
-            electron_transport_state = await self._simulate_electron_transport(
-                modulated_input
-            )
+            electron_transport_state = await self._simulate_electron_transport(modulated_input)
             simulated_proton_gradient = self._simulate_proton_gradient_generation(
                 electron_transport_state
             )
@@ -202,9 +196,7 @@ class MitochondrialQIBridge:
             return error_output, error_metadata
 
     @lukhas_tier_required(3)
-    async def _simulate_electron_transport(
-        self, input_signal: np.ndarray
-    ) -> np.ndarray:
+    async def _simulate_electron_transport(self, input_signal: np.ndarray) -> np.ndarray:
         """Simulates a quantum-enhanced electron transport chain process."""
         self.log.debug(
             "Simulating electron transport chain.",
@@ -213,33 +205,25 @@ class MitochondrialQIBridge:
         )  # type: ignore
         current_state = input_signal
 
-        def _prepare_for_concat(
-            arr: np.ndarray, target_len_before_bias: int
-        ) -> np.ndarray:
+        def _prepare_for_concat(arr: np.ndarray, target_len_before_bias: int) -> np.ndarray:
             if len(arr) >= target_len_before_bias:
                 return arr[:target_len_before_bias]
-            return np.pad(
-                arr, (0, target_len_before_bias - len(arr)), "constant"
-            )  # type: ignore
+            return np.pad(arr, (0, target_len_before_bias - len(arr)), "constant")  # type: ignore
 
         state_c1_input = _prepare_for_concat(current_state, 3)
-        self.complex_states["complex_i_nadh_dehydrogenase"] = (
-            self.qi_oscillator.qi_modulate(
-                np.concatenate([state_c1_input, [1.0]])
-            )
+        self.complex_states["complex_i_nadh_dehydrogenase"] = self.qi_oscillator.qi_modulate(
+            np.concatenate([state_c1_input, [1.0]])
         )
         current_state = self.complex_states["complex_i_nadh_dehydrogenase"][:3]
 
         state_c3_input = _prepare_for_concat(current_state, 3)
-        self.complex_states["complex_iii_cytochrome_bc1"] = (
-            self.qi_oscillator.qi_modulate(
-                np.concatenate([state_c3_input, [0.8]])
-            )
+        self.complex_states["complex_iii_cytochrome_bc1"] = self.qi_oscillator.qi_modulate(
+            np.concatenate([state_c3_input, [0.8]])
         )
         current_state = self.complex_states["complex_iii_cytochrome_bc1"][:3]
 
-        self.complex_states["complex_iv_cytochrome_c_oxidase"] = (
-            self.qi_oscillator.qi_modulate(current_state[:3])
+        self.complex_states["complex_iv_cytochrome_c_oxidase"] = self.qi_oscillator.qi_modulate(
+            current_state[:3]
         )
 
         self.log.debug(
@@ -255,9 +239,7 @@ class MitochondrialQIBridge:
     ) -> np.ndarray:
         """Simulates generation of a quantum-enhanced proton gradient."""
         gradient_strength = (
-            np.mean(electron_transport_state).item()
-            if electron_transport_state.size > 0
-            else 0.0
+            np.mean(electron_transport_state).item() if electron_transport_state.size > 0 else 0.0
         )  # type: ignore
         self.log.debug(
             "Simulating proton gradient generation.",
@@ -284,29 +266,19 @@ class MitochondrialQIBridge:
             simulated_proton_gradient,
             (0, max(0, 3 - len(simulated_proton_gradient))),
             "constant",
-        )[
-            :3
-        ]  # type: ignore
-        self.complex_states["complex_v_atp_synthase"] = (
-            self.qi_oscillator.qi_modulate(
-                np.concatenate([padded_gradient, [1.0, 0.7]])
-            )
+        )[:3]  # type: ignore
+        self.complex_states["complex_v_atp_synthase"] = self.qi_oscillator.qi_modulate(
+            np.concatenate([padded_gradient, [1.0, 0.7]])
         )
 
         coherence_values = [
-            np.linalg.norm(state).item()
-            for state in self.complex_states.values()
-            if state.size > 0
+            np.linalg.norm(state).item() for state in self.complex_states.values() if state.size > 0
         ]  # type: ignore
-        overall_coherence = (
-            np.mean(coherence_values).item() if coherence_values else 0.0
-        )  # type: ignore
+        overall_coherence = np.mean(coherence_values).item() if coherence_values else 0.0  # type: ignore
 
         metadata = {
             "coherence": overall_coherence,
-            "simulated_complex_states": {
-                k: v.tolist() for k, v in self.complex_states.items()
-            },
+            "simulated_complex_states": {k: v.tolist() for k, v in self.complex_states.items()},
             "applied_coherence_thresholds": self.coherence_thresholds,
         }
         return self.complex_states["complex_v_atp_synthase"], metadata
@@ -320,12 +292,8 @@ class QISynapticGate:
     """
 
     def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
-        self.bio_oscillator: QIBioOscillator = (
-            bio_oscillator or QIBioOscillator()
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.bio_oscillator: QIBioOscillator = bio_oscillator or QIBioOscillator()
         self.internal_quantum_like_state = np.zeros(5, dtype=float)
         self.log.info(
             "QISynapticGate initialized.",
@@ -438,9 +406,7 @@ class QISynapticGate:
         return interference
 
     @lukhas_tier_required(3)
-    def _generate_quantum_enhanced_output(
-        self, interference_pattern: np.ndarray
-    ) -> np.ndarray:
+    def _generate_quantum_enhanced_output(self, interference_pattern: np.ndarray) -> np.ndarray:
         """Generates a quantum-enhanced output signal based on the interference pattern."""
         self.log.debug(
             "Generating quantum enhanced output from interference pattern.",
@@ -458,12 +424,8 @@ class NeuroplasticityModulator:
     """
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.log = log.bind(
-            component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
-        )
-        self.qi_oscillator: QIOscillator = (
-            qi_oscillator or QIOscillator()
-        )
+        self.log = log.bind(component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.qi_oscillator: QIOscillator = qi_oscillator or QIOscillator()
         self.plasticity_state_vector = np.zeros(4, dtype=float)
         self.simulated_learning_rate = 0.1
         self.log.info(
@@ -487,12 +449,8 @@ class NeuroplasticityModulator:
         current_timestamp = datetime.now(timezone.utc).isoformat()
         self.log.debug(
             "Modulating neuroplasticity.",
-            current_state_norm=np.linalg.norm(
-                current_neural_state
-            ).item(),  # type: ignore
-            target_state_norm=np.linalg.norm(
-                target_neural_state
-            ).item(),  # type: ignore
+            current_state_norm=np.linalg.norm(current_neural_state).item(),  # type: ignore
+            target_state_norm=np.linalg.norm(target_neural_state).item(),  # type: ignore
             context_keys=list(context.keys()) if context else [],
             timestamp=current_timestamp,
         )
@@ -500,9 +458,7 @@ class NeuroplasticityModulator:
             plasticity_delta_signal = self._calculate_plasticity_delta_signal(
                 current_neural_state, target_neural_state
             )
-            qi_modulated_delta = self.qi_oscillator.qi_modulate(
-                plasticity_delta_signal
-            )
+            qi_modulated_delta = self.qi_oscillator.qi_modulate(plasticity_delta_signal)
 
             # SYNTAX_ERROR_FIXED:             self.plasticity_state_vector =
             # self.plasticity_state_vector * (1 - self.simulated_learning_rate) + " +

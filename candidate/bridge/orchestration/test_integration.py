@@ -29,6 +29,7 @@ def test_orchestration_components():
             TaskType,
         )
         from .performance_monitor import PerformanceMonitor
+
         # Ensure imported names are referenced to satisfy linters
         _ = (AIProvider, OrchestrationRequest, TaskType)
 
@@ -37,10 +38,7 @@ def test_orchestration_components():
         # Test basic initialization
         print("\n🔧 Testing component initialization...")
 
-        config = {
-            "target_latency_ms": 250,
-            "max_parallel_requests": 4
-        }
+        config = {"target_latency_ms": 250, "max_parallel_requests": 4}
 
         orchestrator = MultiAIOrchestrator(config)
         print("✅ MultiAIOrchestrator initialized")
@@ -113,11 +111,7 @@ def test_api_gateway():
     try:
         from ..api_gateway import UnifiedAPIGateway
 
-        config = {
-            "host": "127.0.0.1",
-            "port": 8080,
-            "target_latency_ms": 100
-        }
+        config = {"host": "127.0.0.1", "port": 8080, "target_latency_ms": 100}
 
         gateway = UnifiedAPIGateway(config)
         app = gateway.get_app()
@@ -245,13 +239,13 @@ def main():
         ("API Gateway", test_api_gateway),
         ("External Adapters", test_external_adapters),
         ("Workflow System", test_workflow_orchestration),
-        ("Performance", performance_benchmark)
+        ("Performance", performance_benchmark),
     ]
 
     results = []
 
     for test_name, test_func in tests:
-        print(f"\n{'='*20} {test_name} {'='*20}")
+        print(f"\n{'=' * 20} {test_name} {'=' * 20}")
         try:
             result = test_func()
             results.append((test_name, result))
@@ -259,9 +253,9 @@ def main():
             print(f"❌ {test_name} test crashed: {e}")
             results.append((test_name, False))
 
-    print("\n" + "="*70)
+    print("\n" + "=" * 70)
     print("📋 INTEGRATION TEST SUMMARY")
-    print("="*70)
+    print("=" * 70)
 
     passed = 0
     total = len(results)
@@ -272,8 +266,8 @@ def main():
         if result:
             passed += 1
 
-    print("-"*70)
-    print(f"TOTAL: {passed}/{total} tests passed ({passed/total*100:.1f}%)")
+    print("-" * 70)
+    print(f"TOTAL: {passed}/{total} tests passed ({passed / total * 100:.1f}%)")
 
     if passed == total:
         print("\n🎉 ALL TESTS PASSED!")

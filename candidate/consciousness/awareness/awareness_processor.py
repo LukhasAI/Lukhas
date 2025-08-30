@@ -22,9 +22,7 @@ from typing import (  # List not used in signatures but kept
 )
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger(
-    "ΛTRACE.consciousness.core_consciousness.awareness_processor"
-)
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor")
 logger.info("ΛTRACE: Initializing awareness_processor module.")
 
 
@@ -233,16 +231,12 @@ class AwarenessProcessor:
             self.instance_logger.debug(
                 f"ΛTRACE: No specific handler for category '{category}'. Using generic data processing."
             )
-            return await self._process_generic_awareness_data(
-                data
-            )  # Renamed for clarity
+            return await self._process_generic_awareness_data(data)  # Renamed for clarity
 
     # Specific processing method placeholders, to be implemented based on
     # AwarenessProcessor's actual role.
     async def _process_sensor_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Processing sensor data (placeholder)."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Processing sensor data (placeholder).")
         return {"sensor_data_processed": True, "fusion_quality": "high_placeholder"}
 
     async def _process_internal_state_data(self, data: Any) -> dict[str, Any]:
@@ -310,7 +304,7 @@ class AwarenessProcessor:
         monitoring_checks = [
             await self._validate_awareness_monitoring(),
             await self._validate_consciousness_metrics(),
-            await self._validate_alerting_system()
+            await self._validate_alerting_system(),
         ]
         return all(monitoring_checks)
 
@@ -344,12 +338,12 @@ class AwarenessProcessor:
         # Initialize awareness metrics tracking
         self.awareness_metrics = {
             "consciousness_coherence": 0.0,
-            "identity_stability": 0.0,      # ⚛️ Identity tracking
-            "cognitive_load": 0.0,          # 🧠 Consciousness tracking
-            "guardian_compliance": 0.0,     # 🛡️ Guardian tracking
+            "identity_stability": 0.0,  # ⚛️ Identity tracking
+            "cognitive_load": 0.0,  # 🧠 Consciousness tracking
+            "guardian_compliance": 0.0,  # 🛡️ Guardian tracking
             "response_latency": 0.0,
             "error_rate": 0.0,
-            "last_updated": datetime.utcnow().isoformat()
+            "last_updated": datetime.utcnow().isoformat(),
         }
 
         # Initialize alerting thresholds
@@ -359,7 +353,7 @@ class AwarenessProcessor:
             "cognitive_load": {"max": 0.8, "critical": 0.9},
             "guardian_compliance": {"min": 0.95, "critical": 0.85},
             "response_latency": {"max": 1000.0, "critical": 2000.0},  # milliseconds
-            "error_rate": {"max": 5.0, "critical": 10.0}  # percentage
+            "error_rate": {"max": 5.0, "critical": 10.0},  # percentage
         }
 
         self.instance_logger.info("ΛTRACE: Awareness monitoring system initialized")
@@ -370,21 +364,21 @@ class AwarenessProcessor:
 
         # Consciousness state tracking
         self.consciousness_state = {
-            "awareness_level": 0.0,      # 0.0 to 1.0 awareness intensity
-            "attention_focus": 0.0,      # Attention concentration level
-            "memory_coherence": 0.0,     # Memory system stability
+            "awareness_level": 0.0,  # 0.0 to 1.0 awareness intensity
+            "attention_focus": 0.0,  # Attention concentration level
+            "memory_coherence": 0.0,  # Memory system stability
             "decision_confidence": 0.0,  # Decision-making confidence
-            "emotional_state": 0.0,      # Emotional processing stability
-            "symbolic_coherence": 0.0,   # GLYPH system coherence
-            "temporal_consistency": 0.0, # Time perception stability
-            "last_consciousness_update": datetime.utcnow().isoformat()
+            "emotional_state": 0.0,  # Emotional processing stability
+            "symbolic_coherence": 0.0,  # GLYPH system coherence
+            "temporal_consistency": 0.0,  # Time perception stability
+            "last_consciousness_update": datetime.utcnow().isoformat(),
         }
 
         # Trinity Framework monitoring
         self.trinity_metrics = {
-            "identity_coherence": 0.0,      # ⚛️ Identity system health
-            "consciousness_depth": 0.0,    # 🧠 Consciousness processing depth
-            "guardian_protection": 0.0     # 🛡️ Guardian system effectiveness
+            "identity_coherence": 0.0,  # ⚛️ Identity system health
+            "consciousness_depth": 0.0,  # 🧠 Consciousness processing depth
+            "guardian_protection": 0.0,  # 🛡️ Guardian system effectiveness
         }
 
         self.instance_logger.info("ΛTRACE: Consciousness metrics system initialized")
@@ -399,19 +393,14 @@ class AwarenessProcessor:
         self.alert_retention_limit = 100
 
         # Alert severity levels
-        self.alert_severities = {
-            "INFO": 0,
-            "WARNING": 1,
-            "CRITICAL": 2,
-            "EMERGENCY": 3
-        }
+        self.alert_severities = {"INFO": 0, "WARNING": 1, "CRITICAL": 2, "EMERGENCY": 3}
 
         # Monitoring intervals (seconds)
         self.monitoring_intervals = {
             "awareness_check": 1.0,
             "consciousness_check": 5.0,
             "trinity_check": 10.0,
-            "health_summary": 30.0
+            "health_summary": 30.0,
         }
 
         self.instance_logger.info("ΛTRACE: Alerting system initialized")
@@ -510,7 +499,9 @@ class AwarenessProcessor:
             self.instance_logger.error(f"ΛTRACE: Failed to update awareness metrics: {e}")
             return False
 
-    async def _check_metric_threshold(self, metric_name: str, current_value: float, previous_value: float):
+    async def _check_metric_threshold(
+        self, metric_name: str, current_value: float, previous_value: float
+    ):
         """Check if metric exceeds thresholds and generate alerts."""
         if not hasattr(self, "monitoring_thresholds"):
             return
@@ -530,7 +521,9 @@ class AwarenessProcessor:
 
         if "critical" in thresholds and current_value < thresholds["critical"]:
             alert_severity = "CRITICAL"
-            alert_message = f"{metric_name} critically low: {current_value} < {thresholds['critical']}"
+            alert_message = (
+                f"{metric_name} critically low: {current_value} < {thresholds['critical']}"
+            )
 
         # Check maximum thresholds
         if "max" in thresholds and current_value > thresholds["max"]:
@@ -539,7 +532,9 @@ class AwarenessProcessor:
 
         if "critical" in thresholds and current_value > thresholds["critical"]:
             alert_severity = "CRITICAL"
-            alert_message = f"{metric_name} critically high: {current_value} > {thresholds['critical']}"
+            alert_message = (
+                f"{metric_name} critically high: {current_value} > {thresholds['critical']}"
+            )
 
         # Generate alert if threshold violated
         if alert_severity and alert_message:
@@ -557,7 +552,7 @@ class AwarenessProcessor:
             "message": message,
             "metric_value": metric_value,
             "user_context": self.user_id_context,
-            "resolved": False
+            "resolved": False,
         }
 
         # Store active alert
@@ -573,14 +568,19 @@ class AwarenessProcessor:
         self.alert_history.append(alert)
 
         # Maintain history limit
-        if hasattr(self, "alert_retention_limit") and len(self.alert_history) > self.alert_retention_limit:
-            self.alert_history = self.alert_history[-self.alert_retention_limit:]
+        if (
+            hasattr(self, "alert_retention_limit")
+            and len(self.alert_history) > self.alert_retention_limit
+        ):
+            self.alert_history = self.alert_history[-self.alert_retention_limit :]
 
         # Log alert based on severity
         if severity == "CRITICAL" or severity == "EMERGENCY":
             self.instance_logger.error(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
         elif severity == "WARNING":
-            self.instance_logger.warning(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
+            self.instance_logger.warning(
+                f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}"
+            )
         else:
             self.instance_logger.info(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
 
@@ -589,7 +589,7 @@ class AwarenessProcessor:
         status = {
             "component_name": self.__class__.__name__,
             "monitoring_active": hasattr(self, "awareness_metrics"),
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         # Add awareness metrics if available
@@ -608,7 +608,7 @@ class AwarenessProcessor:
         if hasattr(self, "active_alerts"):
             status["alerts"] = {
                 "active_count": len(self.active_alerts),
-                "recent_alerts": list(self.active_alerts.values())[-5:]  # Last 5 alerts
+                "recent_alerts": list(self.active_alerts.values())[-5:],  # Last 5 alerts
             }
 
         # Add thresholds
@@ -650,9 +650,7 @@ def create_awareness_processor(
     Returns:
         AwarenessProcessor: A new instance of the AwarenessProcessor.
     """
-    logger.info(
-        f"ΛTRACE: Factory create_awareness_processor called by user '{user_id}'."
-    )
+    logger.info(f"ΛTRACE: Factory create_awareness_processor called by user '{user_id}'.")
     return AwarenessProcessor(config, user_id_context=user_id)
 
 
@@ -674,9 +672,7 @@ async def create_and_initialize_awareness_processor(
         f"ΛTRACE: Factory create_and_initialize_awareness_processor called by user '{user_id}'."
     )
     component = AwarenessProcessor(config, user_id_context=user_id)
-    await component.initialize(
-        user_id=user_id
-    )  # Pass user_id for initialize's tier check
+    await component.initialize(user_id=user_id)  # Pass user_id for initialize's tier check
     return component
 
 
@@ -688,16 +684,12 @@ if __name__ == "__main__":
             format="%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s",
         )
 
-    logger.info(
-        "ΛTRACE: awareness_processor.py executed as __main__ for demonstration."
-    )
+    logger.info("ΛTRACE: awareness_processor.py executed as __main__ for demonstration.")
 
     async def demo_main_processor():  # Renamed
         logger.info("ΛTRACE: --- AwarenessProcessor Demo Starting ---")
         test_user = "demo_user_processor"
-        awareness_proc = await create_and_initialize_awareness_processor(
-            user_id=test_user
-        )
+        awareness_proc = await create_and_initialize_awareness_processor(user_id=test_user)
 
         print(
             f"ΛTRACE Demo - Initialization: {'success' if awareness_proc.is_initialized else 'failed'}"
@@ -709,16 +701,12 @@ if __name__ == "__main__":
                 "payload": "simulated sensor data array",
             }
             logger.info(f"ΛTRACE: Demo: Processing test data: {test_data_proc}")
-            proc_result = await awareness_proc.process(
-                test_data_proc, user_id=test_user
-            )
+            proc_result = await awareness_proc.process(test_data_proc, user_id=test_user)
             print(f"ΛTRACE Demo - Processing result: {proc_result}")
 
             logger.info("ΛTRACE: Demo: Validating component.")
             is_valid_proc = await awareness_proc.validate(user_id=test_user)
-            print(
-                f"ΛTRACE Demo - Validation: {'passed' if is_valid_proc else 'failed'}"
-            )
+            print(f"ΛTRACE Demo - Validation: {'passed' if is_valid_proc else 'failed'}")
 
             logger.info("ΛTRACE: Demo: Getting component status.")
             proc_status = awareness_proc.get_status(user_id=test_user)

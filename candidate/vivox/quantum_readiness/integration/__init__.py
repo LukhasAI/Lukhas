@@ -4,4 +4,4 @@ VIVOX.QREADY Integration Components
 
 from .vivox_bridge import QIBridgeEvent, VIVOXQIBridge
 
-__all__ = ["VIVOXQIBridge", "QIBridgeEvent"]
+__all__ = ["QIBridgeEvent", "VIVOXQIBridge"]

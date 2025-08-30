@@ -114,9 +114,7 @@ class OscillatorAdapter:
             )
 
             # Process through proton gradient
-            gradient_processed = self.proton_gradient.process(
-                filtered_signal, self.sync_state
-            )
+            gradient_processed = self.proton_gradient.process(filtered_signal, self.sync_state)
 
             # Propagate through node network
             responses = await asyncio.gather(
@@ -154,9 +152,7 @@ class OscillatorAdapter:
         """Synchronize nodes in the network"""
         for node in self.nodes:
             # Calculate phase adjustment
-            phase_diff = (
-                self.sync_state["global_phase"] - node.oscillation_params["phase"]
-            )
+            phase_diff = self.sync_state["global_phase"] - node.oscillation_params["phase"]
             sync_force = 0.1 * np.sin(phase_diff)  # Kuramoto-like coupling
 
             # Update node phase
@@ -164,9 +160,7 @@ class OscillatorAdapter:
             node.oscillation_params["phase"] %= 2 * np.pi
 
             # Update node amplitude based on global energy
-            node.oscillation_params["amplitude"] = (
-                self.amplitude * self.sync_state["energy_level"]
-            )
+            node.oscillation_params["amplitude"] = self.amplitude * self.sync_state["energy_level"]
 
     def _calculate_phase_coherence(self, phases: list[float]) -> float:
         """Calculate phase coherence of the network"""
@@ -202,9 +196,7 @@ class OscillatorAdapter:
 
             # Integrate state
             for key, value in response.get("state", {}).items():
-                integrated["state"][key] = (
-                    integrated["state"].get(key, 0.0) + value * weight
-                )
+                integrated["state"][key] = integrated["state"].get(key, 0.0) + value * weight
 
             # Integrate emotional state
             for key, value in response.get("emotional_state", {}).items():

@@ -23,17 +23,21 @@ logger = logging.getLogger(__name__)
 
 # ========== State-Based Components ==========
 
+
 class GateState(Enum):
     """TEQ gate operational states"""
+
     STABLE = "stable"
     EXPLORING = "exploring"
     TRANSIENT = "transient"
     LOCKED = "locked"
     RECOVERING = "recovering"
 
+
 @dataclass
 class TEQEvent:
     """Single event through the TEQ gate"""
+
     timestamp: float
     module: str
     action: str
@@ -46,7 +50,9 @@ class TEQEvent:
     def to_dict(self):
         return asdict(self)
 
+
 # ========== Policy-Based Components ==========
+
 
 @dataclass
 class PolicyGateResult:
@@ -54,6 +60,7 @@ class PolicyGateResult:
     reasons: list[str]
     remedies: list[str]
     jurisdiction: str
+
 
 class PolicyPack:
     def __init__(self, root: str):
@@ -78,7 +85,9 @@ class PolicyPack:
                     out.append(yaml.safe_load(f))
         return out
 
+
 # ========== Unified TEQ Coupler ==========
+
 
 class UnifiedTEQCoupler:
     """
@@ -94,7 +103,7 @@ class UnifiedTEQCoupler:
         jurisdiction: str = "global",
         stability_threshold: float = 0.7,
         transient_duration: float = 5.0,
-        energy_budget: float = 100.0
+        energy_budget: float = 100.0,
     ):
         # State-based configuration
         self.state_dir = state_dir or Path.home() / ".lukhas" / "state" / "teq"
@@ -138,7 +147,7 @@ class UnifiedTEQCoupler:
         risk_level: float,
         energy: float = 1.0,
         context: dict[str, Any] = None,
-        metadata: dict = None
+        metadata: dict = None,
     ) -> tuple[bool, str, dict]:
         """
         Unified evaluation through both state and policy systems
@@ -185,7 +194,7 @@ class UnifiedTEQCoupler:
             energy=energy,
             allowed=allowed,
             gate_state=self.current_state.value,
-            metadata=metadata
+            metadata=metadata,
         )
         self.events.append(event)
 
@@ -206,18 +215,15 @@ class UnifiedTEQCoupler:
             self._save_state()
 
         reason = " | ".join(reasons) if reasons else "Allowed"
-        logger.info(f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: "
-                   f"{'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})")
+        logger.info(
+            f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: "
+            f"{'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})"
+        )
 
         return allowed, reason, suggestions
 
     def _evaluate_state(
-        self,
-        module: str,
-        action: str,
-        risk_level: float,
-        energy: float,
-        metadata: dict
+        self, module: str, action: str, risk_level: float, energy: float, metadata: dict
     ) -> tuple[bool, str, dict]:
         """State-based evaluation (energy/risk management)"""
 
@@ -231,7 +237,7 @@ class UnifiedTEQCoupler:
                 "allowed_actions": 0,
                 "avg_risk": 0.0,
                 "avg_energy": 0.0,
-                "trust_score": 0.5
+                "trust_score": 0.5,
             }
 
         # Decision logic based on current state
@@ -305,10 +311,7 @@ class UnifiedTEQCoupler:
 
         allowed = len(reasons) == 0
         return PolicyGateResult(
-            allowed=allowed,
-            reasons=reasons,
-            remedies=remedies,
-            jurisdiction=self.jurisdiction
+            allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction
         )
 
     def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
@@ -410,8 +413,10 @@ class UnifiedTEQCoupler:
         logger.warning("[TEQ] EMERGENCY LOCKDOWN ACTIVATED")
 
     def _can_explore(self) -> bool:
-        return (self.current_energy < self.energy_budget * 0.3 and
-                self.risk_accumulator < self.energy_budget * 0.2)
+        return (
+            self.current_energy < self.energy_budget * 0.3
+            and self.risk_accumulator < self.energy_budget * 0.2
+        )
 
     def _has_energy_budget(self, required: float) -> bool:
         return self.current_energy + required < self.energy_budget
@@ -450,7 +455,7 @@ class UnifiedTEQCoupler:
 
         energy_factor = 1.0 - (self.current_energy / self.energy_budget)
         risk_factor = 1.0 - (self.risk_accumulator / (self.lockdown_threshold * self.energy_budget))
-        stability_score *= (energy_factor * 0.5 + risk_factor * 0.5)
+        stability_score *= energy_factor * 0.5 + risk_factor * 0.5
 
         return {
             "state": self.current_state.value,
@@ -461,7 +466,7 @@ class UnifiedTEQCoupler:
             "is_transient": self.current_state == GateState.TRANSIENT,
             "can_explore": self._can_explore(),
             "jurisdiction": self.jurisdiction,
-            "has_policy": self.policy_pack is not None
+            "has_policy": self.policy_pack is not None,
         }
 
     def _save_state(self):
@@ -474,7 +479,7 @@ class UnifiedTEQCoupler:
             "risk_accumulator": self.risk_accumulator,
             "module_profiles": self.module_profiles,
             "recent_events": [e.to_dict() for e in list(self.events)[-50:]],
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         with open(state_file, "w") as f:
@@ -504,6 +509,7 @@ class UnifiedTEQCoupler:
 
 # ========== CLI Interface ==========
 
+
 def main():
     ap = argparse.ArgumentParser(description="Unified TEQ Coupler")
     ap.add_argument("--mode", choices=["demo", "evaluate"], default="demo")
@@ -521,9 +527,7 @@ def main():
         print("⚡ UNIFIED TEQ COUPLER DEMO")
         print("=" * 50)
 
-        teq = UnifiedTEQCoupler(
-            policy_dir=args.policy_root if args.policy_root else None
-        )
+        teq = UnifiedTEQCoupler(policy_dir=args.policy_root if args.policy_root else None)
 
         test_scenarios = [
             ("consciousness", "introspect", 0.2, 1.0),
@@ -538,12 +542,10 @@ def main():
                 "provenance": {"inputs": ["test"], "sources": ["demo"]},
                 "pii": {},
                 "pii_masked": True,
-                "tokens_planned": 1000
+                "tokens_planned": 1000,
             }
 
-            allowed, reason, suggestions = teq.evaluate(
-                module, action, risk, energy, context
-            )
+            allowed, reason, suggestions = teq.evaluate(module, action, risk, energy, context)
 
             status_icon = "✅" if allowed else "🚫"
             print(f"{status_icon} {module}.{action} (risk={risk:.1f}, energy={energy:.1f})")
@@ -563,24 +565,17 @@ def main():
             with open(args.context) as f:
                 context = json.load(f)
 
-        teq = UnifiedTEQCoupler(
-            policy_dir=args.policy_root,
-            jurisdiction=args.jurisdiction
-        )
+        teq = UnifiedTEQCoupler(policy_dir=args.policy_root, jurisdiction=args.jurisdiction)
 
         allowed, reason, suggestions = teq.evaluate(
-            args.module,
-            args.task,
-            args.risk,
-            args.energy,
-            context
+            args.module, args.task, args.risk, args.energy, context
         )
 
         result = {
             "allowed": allowed,
             "reason": reason,
             "suggestions": suggestions,
-            "status": teq.get_status()
+            "status": teq.get_status(),
         }
 
         print(json.dumps(result, indent=2))

@@ -127,9 +127,7 @@ class HelixVault:
         """Retrieve memory by ID"""
         return self.memories.get(memory_id)
 
-    def search_by_tags(
-        self, tags: set[str], match_all: bool = False
-    ) -> list[MemoryHelix]:
+    def search_by_tags(self, tags: set[str], match_all: bool = False) -> list[MemoryHelix]:
         """Search memories by tags"""
         if match_all:
             # All tags must match
@@ -151,9 +149,7 @@ class HelixVault:
 
         return [self.memories[mid] for mid in memory_ids if mid in self.memories]
 
-    def search_by_drift(
-        self, min_drift: float = 0.0, max_drift: float = 1.0
-    ) -> list[MemoryHelix]:
+    def search_by_drift(self, min_drift: float = 0.0, max_drift: float = 1.0) -> list[MemoryHelix]:
         """Search memories by drift range"""
         results = []
         for memory in self.memories.values():
@@ -267,9 +263,7 @@ class HelixVault:
                 high_drift_memories.append((memory.memory_id, drift))
 
         if high_drift_memories:
-            logger.warning(
-                f"⚠️ {len(high_drift_memories)} memories with high drift detected"
-            )
+            logger.warning(f"⚠️ {len(high_drift_memories)} memories with high drift detected")
             for memory_id, drift in high_drift_memories[:5]:  # Log top 5
                 logger.warning(f"   • {memory_id}: {drift:.3f}")
 
@@ -388,9 +382,7 @@ class DriftOracle:
             "min_drift": min(d["drift"] for d in drift_data),
             "drift_velocity": avg_velocity,
             "repair_effectiveness": repair_effectiveness,
-            "high_drift_memories": [
-                d["memory_id"] for d in drift_data if d["drift"] > 0.5
-            ],
+            "high_drift_memories": [d["memory_id"] for d in drift_data if d["drift"] > 0.5],
             "stable_memories": [d["memory_id"] for d in drift_data if d["drift"] < 0.1],
             "frequently_accessed": sorted(
                 drift_data, key=lambda x: x["access_count"], reverse=True
@@ -408,9 +400,7 @@ class DriftOracle:
                 velocity = memory.helix_core.calculate_drift() / age_hours
 
                 # Predict future drift
-                future_drift = memory.helix_core.calculate_drift() + (
-                    velocity * hours_ahead
-                )
+                future_drift = memory.helix_core.calculate_drift() + (velocity * hours_ahead)
 
                 if future_drift > memory.helix_core.drift_threshold:
                     predictions.append((memory.memory_id, future_drift))

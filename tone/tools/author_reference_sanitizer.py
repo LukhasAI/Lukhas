@@ -20,10 +20,8 @@ REPLACEMENTS = {
     r"\bRick Rubin\b": "contemporary creative practice",
     r"\bNachmanovitch\b": "improvisational arts",
     r"\bJulia Cameron\b": "creative coaching",
-
     # Additional patterns for common phrases
-    r"\bKeats['']?\s*(concept|notion|idea|principle)\s*of\s*Negative\s*Capability\b":
-        "concept of negative capability",
+    r"\bKeats['']?\s*(concept|notion|idea|principle)\s*of\s*Negative\s*Capability\b": "concept of negative capability",
     r"\bFollowing\s*Keats\b": "Following the principle of",
     r"\bAs\s*Keats\s*(said|wrote|noted)\b": "As the saying goes",
     r"\bKeats['']?\s*(letter|writing)\b": "historical correspondence",
@@ -31,7 +29,7 @@ REPLACEMENTS = {
     r"\bFreudian\s*(analysis|approach|method)\b": "depth-psychology \\1",
     r"\bEinsteinian\s*(wonder|curiosity)\b": "cosmic \\1",
     r"\bZen\s*(tradition|practice|teaching)\b": "contemplative \\1",
-    r"\bTaoist\s*(principle|wisdom|approach)\b": "flow-oriented \\1"
+    r"\bTaoist\s*(principle|wisdom|approach)\b": "flow-oriented \\1",
 }
 
 
@@ -53,10 +51,10 @@ def sanitize_file(file_path: str) -> tuple[str, int]:
 
         # Count replacements by comparing original vs sanitized
         replacement_count = 0
-        for pattern in REPLACEMENTS.keys():
+        for pattern in REPLACEMENTS:
             original_matches = len(re.findall(pattern, original_content, re.IGNORECASE))
             sanitized_matches = len(re.findall(pattern, sanitized_content, re.IGNORECASE))
-            replacement_count += (original_matches - sanitized_matches)
+            replacement_count += original_matches - sanitized_matches
 
         return sanitized_content, replacement_count
 
@@ -88,10 +86,10 @@ def main():
 
         # Count replacements
         replacement_count = 0
-        for pattern in REPLACEMENTS.keys():
+        for pattern in REPLACEMENTS:
             original_matches = len(re.findall(pattern, original_content, re.IGNORECASE))
             sanitized_matches = len(re.findall(pattern, content, re.IGNORECASE))
-            replacement_count += (original_matches - sanitized_matches)
+            replacement_count += original_matches - sanitized_matches
 
     # Write output
     if args.in_place and args.input_file:
@@ -103,7 +101,9 @@ def main():
         with open(args.output, "w", encoding="utf-8") as f:
             f.write(content)
         if args.report:
-            print(f"✅ Sanitized content written to {args.output}: {replacement_count} replacements made")
+            print(
+                f"✅ Sanitized content written to {args.output}: {replacement_count} replacements made"
+            )
     else:
         print(content)
         if args.report:

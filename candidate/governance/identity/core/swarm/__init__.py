@@ -11,4 +11,4 @@ from .tier_aware_swarm_hub import (
     VerificationDepth,
 )
 
-__all__ = ["TierAwareSwarmHub", "IdentitySwarmTask", "VerificationDepth"]
+__all__ = ["IdentitySwarmTask", "TierAwareSwarmHub", "VerificationDepth"]

@@ -183,9 +183,7 @@ class QICoherenceEnhancer:
         enhancement_factor = 1 + (z_value * self.qi_boost_factor)
 
         # Apply enhancement with cap
-        enhanced_coherence = min(
-            current_coherence * enhancement_factor, self.coherence_cap
-        )
+        enhanced_coherence = min(current_coherence * enhancement_factor, self.coherence_cap)
 
         # Calculate drift if we have history
         drift_score = 0.0
@@ -225,7 +223,7 @@ class QICoherenceEnhancer:
             "Coherence enhanced via quantum collapse",
             original=f"{current_coherence:.2%}",
             enhanced=f"{enhanced_coherence:.2%}",
-            improvement=f"{(enhanced_coherence/current_coherence - 1)*100:.1f}%",
+            improvement=f"{(enhanced_coherence / current_coherence - 1) * 100:.1f}%",
             z_value=z_value,
             drift_score=drift_score,
         )
@@ -247,9 +245,7 @@ class QICoherenceEnhancer:
         temp_normalized = 1.0 - abs(temperature - 37.0) / 2.0  # Deviation from normal
 
         # Combine with weights
-        amplitude = 0.7 * np.clip(hr_normalized, 0, 1) + 0.3 * np.clip(
-            temp_normalized, 0, 1
-        )
+        amplitude = 0.7 * np.clip(hr_normalized, 0, 1) + 0.3 * np.clip(temp_normalized, 0, 1)
 
         return amplitude
 
@@ -340,9 +336,7 @@ class QICoherenceEnhancer:
         ]
 
         coherences = [e["enhanced_coherence"] for e in self.enhancement_history]
-        drifts = [
-            e["drift_score"] for e in self.enhancement_history if e["drift_score"] > 0
-        ]
+        drifts = [e["drift_score"] for e in self.enhancement_history if e["drift_score"] > 0]
 
         return {
             "total_enhancements": len(self.enhancement_history),
@@ -352,7 +346,8 @@ class QICoherenceEnhancer:
             "average_coherence": np.mean(coherences),
             "average_drift": np.mean(drifts) if drifts else 0.0,
             "phase_alignments": [
-                e["phase_alignment"] for e in self.enhancement_history[-10:]  # Last 10
+                e["phase_alignment"]
+                for e in self.enhancement_history[-10:]  # Last 10
             ],
         }
 

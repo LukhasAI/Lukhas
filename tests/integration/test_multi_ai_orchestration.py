@@ -25,6 +25,7 @@ try:
         TaskType,
     )
     from candidate.bridge.workflow import WorkflowOrchestrator
+
     ORCHESTRATION_AVAILABLE = True
 except ImportError:
     ORCHESTRATION_AVAILABLE = False
@@ -36,18 +37,9 @@ def orchestrator_config():
     return {
         "target_latency_ms": 250,
         "max_parallel_requests": 4,
-        "consensus": {
-            "default_method": "hybrid_synthesis",
-            "confidence_threshold": 0.7
-        },
-        "context": {
-            "max_context_entries": 100,
-            "handoff_target_ms": 250
-        },
-        "performance": {
-            "metrics_retention_hours": 1,
-            "circuit_breaker_threshold": 0.5
-        }
+        "consensus": {"default_method": "hybrid_synthesis", "confidence_threshold": 0.7},
+        "context": {"max_context_entries": 100, "handoff_target_ms": 250},
+        "performance": {"metrics_retention_hours": 1, "circuit_breaker_threshold": 0.5},
     }
 
 
@@ -75,7 +67,7 @@ async def api_gateway(orchestrator_config):
         "port": 8081,  # Different port for testing
         "debug": True,
         "target_latency_ms": 100,
-        "cors_origins": ["http://localhost:3000"]
+        "cors_origins": ["http://localhost:3000"],
     }
 
     gateway = UnifiedAPIGateway(gateway_config)
@@ -103,7 +95,10 @@ class TestMultiAIOrchestration:
 
         # Test health check
         health_status = await orchestrator.health_check()
-        assert health_status["orchestrator"] in ["healthy", "degraded"]  # May be degraded without real AI APIs
+        assert health_status["orchestrator"] in [
+            "healthy",
+            "degraded",
+        ]  # May be degraded without real AI APIs
 
     async def test_simple_orchestration_request(self, multi_ai_orchestrator):
         """Test basic orchestration request processing"""
@@ -114,7 +109,7 @@ class TestMultiAIOrchestration:
             task_type=TaskType.CONVERSATION,
             providers=[],  # Use default providers
             consensus_required=False,  # Simplify for testing
-            max_latency_ms=5000
+            max_latency_ms=5000,
         )
 
         try:
@@ -130,7 +125,11 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # If no AI providers are available, we expect specific errors
-            assert "No valid responses" in str(e) or "not available" in str(e) or "not initialized" in str(e)
+            assert (
+                "No valid responses" in str(e)
+                or "not available" in str(e)
+                or "not initialized" in str(e)
+            )
 
     async def test_consensus_orchestration(self, multi_ai_orchestrator):
         """Test consensus orchestration with multiple providers"""
@@ -142,7 +141,7 @@ class TestMultiAIOrchestration:
             providers=[AIProvider.OPENAI, AIProvider.ANTHROPIC, AIProvider.GEMINI],
             consensus_required=True,
             max_latency_ms=10000,
-            parallel_execution=True
+            parallel_execution=True,
         )
 
         try:
@@ -152,7 +151,14 @@ class TestMultiAIOrchestration:
 
             # Validate consensus result
             assert isinstance(result, ConsensusResult)
-            assert result.consensus_method in ["majority_vote", "weighted_confidence", "similarity_clustering", "hybrid_synthesis", "fallback", "single_response"]
+            assert result.consensus_method in [
+                "majority_vote",
+                "weighted_confidence",
+                "similarity_clustering",
+                "hybrid_synthesis",
+                "fallback",
+                "single_response",
+            ]
             assert execution_time < 15000  # Should complete within 15 seconds
 
             # If consensus was achieved, validate quality
@@ -162,7 +168,11 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # Expected if AI providers aren't configured
-            assert "No valid responses" in str(e) or "not available" in str(e) or "Failed to initialize" in str(e)
+            assert (
+                "No valid responses" in str(e)
+                or "not available" in str(e)
+                or "Failed to initialize" in str(e)
+            )
 
     async def test_context_preservation(self, multi_ai_orchestrator):
         """Test context preservation across requests"""
@@ -176,7 +186,7 @@ class TestMultiAIOrchestration:
             providers=[],
             consensus_required=False,
             context_id=context_id,
-            max_latency_ms=5000
+            max_latency_ms=5000,
         )
 
         try:
@@ -190,7 +200,7 @@ class TestMultiAIOrchestration:
                 providers=[],
                 consensus_required=False,
                 context_id=context_id,
-                max_latency_ms=5000
+                max_latency_ms=5000,
             )
 
             result2 = await orchestrator.orchestrate(request2)
@@ -202,7 +212,11 @@ class TestMultiAIOrchestration:
 
         except Exception as e:
             # Expected if AI providers aren't configured
-            assert "No valid responses" in str(e) or "not available" in str(e) or "not initialized" in str(e)
+            assert (
+                "No valid responses" in str(e)
+                or "not available" in str(e)
+                or "not initialized" in str(e)
+            )
 
     async def test_performance_monitoring(self, multi_ai_orchestrator):
         """Test performance monitoring and metrics collection"""
@@ -215,7 +229,7 @@ class TestMultiAIOrchestration:
                 task_type=TaskType.CONVERSATION,
                 providers=[],
                 consensus_required=False,
-                max_latency_ms=3000
+                max_latency_ms=3000,
             )
 
             try:
@@ -241,7 +255,9 @@ class TestMultiAIOrchestration:
         orchestrator = multi_ai_orchestrator
 
         # Test circuit breaker status
-        provider_score = orchestrator.performance_monitor.get_provider_score(AIProvider.OPENAI, TaskType.CONVERSATION)
+        provider_score = orchestrator.performance_monitor.get_provider_score(
+            AIProvider.OPENAI, TaskType.CONVERSATION
+        )
         assert 0.0 <= provider_score <= 1.0
 
         # Check circuit breaker health
@@ -284,10 +300,7 @@ class TestMultiAIOrchestration:
 
         # Create initial context
         await orchestrator.context_manager.update_context(
-            context_id,
-            "Initial context",
-            "Response",
-            {"test": True}
+            context_id, "Initial context", "Response", {"test": True}
         )
 
         # Measure context retrieval time
@@ -312,7 +325,7 @@ class TestMultiAIOrchestration:
             prompt="",  # Empty prompt
             task_type=TaskType.CONVERSATION,
             providers=[],
-            max_latency_ms=0  # Invalid timeout
+            max_latency_ms=0,  # Invalid timeout
         )
 
         try:
@@ -320,7 +333,11 @@ class TestMultiAIOrchestration:
             assert False, "Should have raised an exception for invalid request"
         except Exception as e:
             # Should handle invalid requests gracefully
-            assert "timeout" in str(e).lower() or "invalid" in str(e).lower() or "no valid responses" in str(e).lower()
+            assert (
+                "timeout" in str(e).lower()
+                or "invalid" in str(e).lower()
+                or "no valid responses" in str(e).lower()
+            )
 
     async def test_concurrent_orchestration_requests(self, multi_ai_orchestrator):
         """Test concurrent request handling"""
@@ -334,7 +351,7 @@ class TestMultiAIOrchestration:
                 task_type=TaskType.CONVERSATION,
                 providers=[],
                 consensus_required=False,
-                max_latency_ms=5000
+                max_latency_ms=5000,
             )
             requests.append(orchestrator.orchestrate(request))
 
@@ -348,9 +365,11 @@ class TestMultiAIOrchestration:
             for result in results:
                 if isinstance(result, Exception):
                     # Expected if no AI providers available
-                    assert ("No valid responses" in str(result) or
-                           "not available" in str(result) or
-                           "not initialized" in str(result))
+                    assert (
+                        "No valid responses" in str(result)
+                        or "not available" in str(result)
+                        or "not initialized" in str(result)
+                    )
                 else:
                     assert isinstance(result, ConsensusResult)
 
@@ -374,7 +393,7 @@ class TestMultiAIOrchestration:
                 task_type=TaskType.CONVERSATION,
                 providers=[],
                 consensus_required=False,
-                max_latency_ms=2000
+                max_latency_ms=2000,
             )
             tasks.append(orchestrator.orchestrate(request))
 
@@ -382,7 +401,7 @@ class TestMultiAIOrchestration:
         try:
             results = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=True),
-                timeout=30.0  # 30 second timeout
+                timeout=30.0,  # 30 second timeout
             )
 
             execution_time = time.time() - start_time
@@ -421,7 +440,7 @@ class TestEndToEndWorkflow:
             "Analyze the concept of artificial intelligence",
             "Explain machine learning basics",
             "Describe neural networks",
-            "Summarize the key points"
+            "Summarize the key points",
         ]
 
         context_id = "workflow_test"
@@ -435,7 +454,7 @@ class TestEndToEndWorkflow:
                 consensus_required=i == len(workflow_steps) - 1,  # Consensus for final summary
                 context_id=context_id,
                 max_latency_ms=5000,
-                metadata={"step": i + 1, "total_steps": len(workflow_steps)}
+                metadata={"step": i + 1, "total_steps": len(workflow_steps)},
             )
 
             try:
@@ -475,7 +494,7 @@ class TestPerformanceBenchmarks:
                 task_type=TaskType.CONVERSATION,
                 providers=[],
                 consensus_required=False,
-                max_latency_ms=3000
+                max_latency_ms=3000,
             )
 
             start_time = time.time()

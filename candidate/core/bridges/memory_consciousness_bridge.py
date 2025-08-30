@@ -58,9 +58,7 @@ class MemoryConsciousnessBridge:
             mapped_event = self.event_mappings.get(event_type, event_type)
             transformed = self.transform_memory_to_consciousness(data)
             if self.consciousness_hub:
-                return await self.consciousness_hub.process_event(
-                    mapped_event, transformed
-                )
+                return await self.consciousness_hub.process_event(mapped_event, transformed)
             return {"error": "consciousness hub not available"}
         except Exception as e:
             logger.error(f"Error forwarding from Memory to Consciousness: {e}")

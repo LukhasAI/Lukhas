@@ -30,12 +30,15 @@ class CommonInterface(ABC):
         """Get module status"""
         pass
 
+
 # Module registry for dependency injection
 _module_registry: dict[str, CommonInterface] = {}
+
 
 def register_module(name: str, module: CommonInterface) -> None:
     """Register module implementation"""
     _module_registry[name] = module
+
 
 def get_module(name: str) -> Optional[CommonInterface]:
     """Get registered module"""

@@ -30,6 +30,7 @@ from .. import (
 
 class DriveFileMetadata(ResourceMetadata):
     """Extended metadata for Google Drive files"""
+
     shared_with_me: bool = False
     shared_publicly: bool = False
     folder_path: str = "/"
@@ -75,10 +76,7 @@ class DriveAdapter(ServiceAdapter):
         await self._log_operation("initialize", success=True)
 
     async def verify_capability_token(
-        self,
-        token: str,
-        required_scopes: list[str],
-        resource_id: Optional[str] = None
+        self, token: str, required_scopes: list[str], resource_id: Optional[str] = None
     ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
@@ -92,7 +90,7 @@ class DriveAdapter(ServiceAdapter):
                     "lid": "gonzo",
                     "service": "drive",
                     "scopes": required_scopes,
-                    "valid": True
+                    "valid": True,
                 }
             else:
                 raise ValueError("Invalid capability token")
@@ -102,7 +100,7 @@ class DriveAdapter(ServiceAdapter):
         capability_token: str,
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> list[DriveFileMetadata]:
         """
         List Drive files/folders with metadata only.
@@ -122,7 +120,7 @@ class DriveAdapter(ServiceAdapter):
             await self._log_operation(
                 "list_resources",
                 success=True,
-                metadata={"count": len(files), "parent_id": parent_id}
+                metadata={"count": len(files), "parent_id": parent_id},
             )
 
             return files
@@ -132,9 +130,7 @@ class DriveAdapter(ServiceAdapter):
             raise
 
     async def get_resource_metadata(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> DriveFileMetadata:
         """
         Get detailed file metadata.
@@ -152,26 +148,19 @@ class DriveAdapter(ServiceAdapter):
                 file_metadata = await self._fetch_drive_file_metadata(resource_id)
 
             await self._log_operation(
-                "get_resource_metadata",
-                resource_id=resource_id,
-                success=True
+                "get_resource_metadata", resource_id=resource_id, success=True
             )
 
             return file_metadata
 
         except Exception as e:
             await self._log_operation(
-                "get_resource_metadata",
-                resource_id=resource_id,
-                success=False,
-                error=str(e)
+                "get_resource_metadata", resource_id=resource_id, success=False, error=str(e)
             )
             raise
 
     async def get_resource_content(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> ResourceContent:
         """
         Download actual file content.
@@ -192,17 +181,14 @@ class DriveAdapter(ServiceAdapter):
                 "get_resource_content",
                 resource_id=resource_id,
                 success=True,
-                metadata={"content_size": len(content.content)}
+                metadata={"content_size": len(content.content)},
             )
 
             return content
 
         except Exception as e:
             await self._log_operation(
-                "get_resource_content",
-                resource_id=resource_id,
-                success=False,
-                error=str(e)
+                "get_resource_content", resource_id=resource_id, success=False, error=str(e)
             )
             raise
 
@@ -212,7 +198,7 @@ class DriveAdapter(ServiceAdapter):
         parent_id: Optional[str],
         name: str,
         content: bytes,
-        content_type: str
+        content_type: str,
     ) -> OperationResult:
         """
         Upload or update file.
@@ -233,21 +219,16 @@ class DriveAdapter(ServiceAdapter):
                 "put_resource",
                 resource_id=file_id,
                 success=True,
-                metadata={"name": name, "size": len(content)}
+                metadata={"name": name, "size": len(content)},
             )
 
             return OperationResult(
-                success=True,
-                resource_id=file_id,
-                message=f"File '{name}' uploaded successfully"
+                success=True, resource_id=file_id, message=f"File '{name}' uploaded successfully"
             )
 
         except Exception as e:
             await self._log_operation(
-                "put_resource",
-                success=False,
-                error=str(e),
-                metadata={"name": name}
+                "put_resource", success=False, error=str(e), metadata={"name": name}
             )
             raise
 
@@ -256,7 +237,7 @@ class DriveAdapter(ServiceAdapter):
         capability_token: str,
         resource_id: str,
         new_parent_id: str,
-        new_name: Optional[str] = None
+        new_name: Optional[str] = None,
     ) -> OperationResult:
         """
         Move file to different folder.
@@ -277,24 +258,19 @@ class DriveAdapter(ServiceAdapter):
                 "move_resource",
                 resource_id=resource_id,
                 success=True,
-                metadata={"new_parent": new_parent_id, "new_name": new_name}
+                metadata={"new_parent": new_parent_id, "new_name": new_name},
             )
 
             return result
 
         except Exception as e:
             await self._log_operation(
-                "move_resource",
-                resource_id=resource_id,
-                success=False,
-                error=str(e)
+                "move_resource", resource_id=resource_id, success=False, error=str(e)
             )
             raise
 
     async def search_resources(
-        self,
-        capability_token: str,
-        query: SearchQuery
+        self, capability_token: str, query: SearchQuery
     ) -> list[DriveFileMetadata]:
         """
         Search Drive files by name, content, or metadata.
@@ -314,7 +290,7 @@ class DriveAdapter(ServiceAdapter):
             await self._log_operation(
                 "search_resources",
                 success=True,
-                metadata={"query": query.query, "results": len(results)}
+                metadata={"query": query.query, "results": len(results)},
             )
 
             return results
@@ -323,11 +299,7 @@ class DriveAdapter(ServiceAdapter):
             await self._log_operation("search_resources", success=False, error=str(e))
             raise
 
-    async def watch_resources(
-        self,
-        capability_token: str,
-        watch_request: WatchRequest
-    ) -> str:
+    async def watch_resources(self, capability_token: str, watch_request: WatchRequest) -> str:
         """
         Set up Drive change notifications.
 
@@ -346,7 +318,7 @@ class DriveAdapter(ServiceAdapter):
             await self._log_operation(
                 "watch_resources",
                 success=True,
-                metadata={"watch_id": watch_id, "webhook": watch_request.webhook_url}
+                metadata={"watch_id": watch_id, "webhook": watch_request.webhook_url},
             )
 
             return watch_id
@@ -355,11 +327,7 @@ class DriveAdapter(ServiceAdapter):
             await self._log_operation("watch_resources", success=False, error=str(e))
             raise
 
-    async def unwatch_resources(
-        self,
-        capability_token: str,
-        watch_id: str
-    ) -> OperationResult:
+    async def unwatch_resources(self, capability_token: str, watch_id: str) -> OperationResult:
         """
         Remove Drive watch channel.
 
@@ -376,15 +344,10 @@ class DriveAdapter(ServiceAdapter):
                 success = await self._stop_drive_watch(watch_id)
 
             await self._log_operation(
-                "unwatch_resources",
-                success=success,
-                metadata={"watch_id": watch_id}
+                "unwatch_resources", success=success, metadata={"watch_id": watch_id}
             )
 
-            return OperationResult(
-                success=success,
-                message=f"Watch {watch_id} removed"
-            )
+            return OperationResult(success=success, message=f"Watch {watch_id} removed")
 
         except Exception as e:
             await self._log_operation("unwatch_resources", success=False, error=str(e))
@@ -393,49 +356,62 @@ class DriveAdapter(ServiceAdapter):
     # Private helper methods for mock data generation
 
     def _generate_mock_drive_files(
-        self,
-        limit: int,
-        parent_id: Optional[str],
-        resource_type: Optional[str]
+        self, limit: int, parent_id: Optional[str], resource_type: Optional[str]
     ) -> list[DriveFileMetadata]:
         """Generate mock Drive file listings"""
         mock_files = []
 
         file_types = [
-            ("document.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", False),
-            ("spreadsheet.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", False),
-            ("presentation.pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", False),
+            (
+                "document.docx",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                False,
+            ),
+            (
+                "spreadsheet.xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                False,
+            ),
+            (
+                "presentation.pptx",
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                False,
+            ),
             ("image.jpg", "image/jpeg", False),
             ("Projects", "application/vnd.google-apps.folder", True),
             ("Archive", "application/vnd.google-apps.folder", True),
             ("notes.txt", "text/plain", False),
-            ("budget.pdf", "application/pdf", False)
+            ("budget.pdf", "application/pdf", False),
         ]
 
         for i in range(min(limit, len(file_types))):
             name, mime_type, is_folder = file_types[i]
 
-            mock_files.append(DriveFileMetadata(
-                id=f"drive_file_{i+1:03d}",
-                name=f"{i+1:02d}_{name}",
-                type="folder" if is_folder else "file",
-                size=None if is_folder else 1024 + i * 2048,
-                mime_type=mime_type,
-                created_at=datetime.now(timezone.utc) - timedelta(days=i),
-                modified_at=datetime.now(timezone.utc) - timedelta(hours=i),
-                owner="gonzo@lukhas.com",
-                parent_id=parent_id or "root",
-                shared_with_me=i % 3 == 0,
-                shared_publicly=i % 5 == 0,
-                folder_path="/My Drive/" + (f"{parent_id}/" if parent_id else ""),
-                is_folder=is_folder,
-                permissions=[
-                    {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
-                    {"type": "user", "role": "reader", "email": "alice@example.com"}
-                ] if i % 3 == 0 else [],
-                version=1 + i,
-                last_viewed_at=datetime.now(timezone.utc) - timedelta(hours=i*2)
-            ))
+            mock_files.append(
+                DriveFileMetadata(
+                    id=f"drive_file_{i + 1:03d}",
+                    name=f"{i + 1:02d}_{name}",
+                    type="folder" if is_folder else "file",
+                    size=None if is_folder else 1024 + i * 2048,
+                    mime_type=mime_type,
+                    created_at=datetime.now(timezone.utc) - timedelta(days=i),
+                    modified_at=datetime.now(timezone.utc) - timedelta(hours=i),
+                    owner="gonzo@lukhas.com",
+                    parent_id=parent_id or "root",
+                    shared_with_me=i % 3 == 0,
+                    shared_publicly=i % 5 == 0,
+                    folder_path="/My Drive/" + (f"{parent_id}/" if parent_id else ""),
+                    is_folder=is_folder,
+                    permissions=[
+                        {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
+                        {"type": "user", "role": "reader", "email": "alice@example.com"},
+                    ]
+                    if i % 3 == 0
+                    else [],
+                    version=1 + i,
+                    last_viewed_at=datetime.now(timezone.utc) - timedelta(hours=i * 2),
+                )
+            )
 
         # Filter by resource type if specified
         if resource_type:
@@ -465,12 +441,12 @@ class DriveAdapter(ServiceAdapter):
             permissions=[
                 {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
                 {"type": "user", "role": "writer", "email": "alice@example.com"},
-                {"type": "user", "role": "commenter", "email": "bob@company.com"}
+                {"type": "user", "role": "commenter", "email": "bob@company.com"},
             ],
             version=3,
             download_url=f"https://drive.google.com/file/d/{file_id}/export?format=docx",
             thumbnail_url=f"https://drive.google.com/thumbnail?id={file_id}&sz=w200",
-            last_viewed_at=datetime.now(timezone.utc) - timedelta(hours=1)
+            last_viewed_at=datetime.now(timezone.utc) - timedelta(hours=1),
         )
 
     def _generate_mock_file_content(self, file_id: str) -> ResourceContent:
@@ -481,7 +457,7 @@ class DriveAdapter(ServiceAdapter):
         document_content = f"""Project Proposal - LUKHAS Integration
 =====================================
 
-Date: {datetime.now().strftime('%Y-%m-%d')}
+Date: {datetime.now().strftime("%Y-%m-%d")}
 Author: Gonzo
 File ID: {file_id}
 
@@ -516,15 +492,11 @@ File size: {metadata.size} bytes
             metadata=metadata,
             content=document_content.encode("utf-8"),
             encoding="utf-8",
-            content_type="text/plain"
+            content_type="text/plain",
         )
 
     def _mock_upload_file(
-        self,
-        parent_id: Optional[str],
-        name: str,
-        content: bytes,
-        content_type: str
+        self, parent_id: Optional[str], name: str, content: bytes, content_type: str
     ) -> str:
         """Mock file upload"""
         # Generate mock file ID based on content hash
@@ -533,16 +505,11 @@ File size: {metadata.size} bytes
         return file_id
 
     def _mock_move_file(
-        self,
-        file_id: str,
-        new_parent_id: str,
-        new_name: Optional[str]
+        self, file_id: str, new_parent_id: str, new_name: Optional[str]
     ) -> OperationResult:
         """Mock file move operation"""
         return OperationResult(
-            success=True,
-            resource_id=file_id,
-            message=f"File moved to folder {new_parent_id}"
+            success=True, resource_id=file_id, message=f"File moved to folder {new_parent_id}"
         )
 
     def _mock_search_files(self, query: SearchQuery) -> list[DriveFileMetadata]:
@@ -553,13 +520,15 @@ File size: {metadata.size} bytes
             # Simple name-based filtering
             search_term = query.query.lower()
             filtered = [f for f in all_files if search_term in f.name.lower()]
-            return filtered[:query.limit]
+            return filtered[: query.limit]
 
-        return all_files[:query.limit]
+        return all_files[: query.limit]
 
 
 # Factory function
-async def create_drive_adapter(consent_service: ConsentService = None, config: dict[str, Any] = None) -> DriveAdapter:
+async def create_drive_adapter(
+    consent_service: ConsentService = None, config: dict[str, Any] = None
+) -> DriveAdapter:
     """Create and initialize Google Drive adapter"""
     adapter = DriveAdapter(consent_service)
     await adapter.initialize(config or {"mock_mode": True})

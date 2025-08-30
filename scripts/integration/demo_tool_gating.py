@@ -54,7 +54,7 @@ def lukhas_completion_with_gating(
     openai_tools = build_tools_from_allowlist(tool_allowlist)
 
     # Create audit bundle before completion
-    audit_id = f"A-{int(time.time()*1000)}"
+    audit_id = f"A-{int(time.time() * 1000)}"
 
     # Call OpenAI with gated tools
     completion = client.create(

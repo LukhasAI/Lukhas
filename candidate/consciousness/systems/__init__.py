@@ -87,16 +87,16 @@ except ImportError as e:
 
 # Human-readable comment: Defines the public API of the 'core_consciousness' package.
 __all__ = [
+    "AlignmentStatus",
+    "ConsciousnessEvent",
     "ConsciousnessIntegrator",
     "ConsciousnessState",
-    "IntegrationPriority",
-    "ConsciousnessEvent",
+    "EmotionalTone",
     "IntegrationContext",
-    "get_consciousness_integrator",
+    "IntegrationPriority",
     "LambdaMirror",
     "ReflectionType",
-    "EmotionalTone",
-    "AlignmentStatus",
+    "get_consciousness_integrator",
 ]
 # Filter out None values from __all__ if imports failed, to prevent
 # runtime errors on `import *`

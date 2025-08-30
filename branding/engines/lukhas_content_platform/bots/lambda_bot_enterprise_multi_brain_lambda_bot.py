@@ -121,9 +121,7 @@ class MultiBrainΛBot:
             ),
         }
 
-        logger.info(
-            f"🧠 Initialized {len(self.specialized_brains)} specialized brain cores"
-        )
+        logger.info(f"🧠 Initialized {len(self.specialized_brains)} specialized brain cores")
 
     async def initialize_brain_symphony(self):
         """Initialize and synchronize all brain cores"""
@@ -169,9 +167,7 @@ class MultiBrainΛBot:
         self.sync_state.last_sync = datetime.now()
         logger.info("🎵 Bio-rhythmic synchronization active")
 
-    async def coordinate_agent_analysis(
-        self, analysis_request: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def coordinate_agent_analysis(self, analysis_request: dict[str, Any]) -> dict[str, Any]:
         """
         Coordinate multi-agent analysis using bio-rhythmic synchronization
         """
@@ -244,9 +240,7 @@ class MultiBrainΛBot:
             "bio_sync_quality": 0.88,
         }
 
-        logger.info(
-            f"🔍 CODEX brain analysis: {result['findings']['complexity_hotspots']}"
-        )
+        logger.info(f"🔍 CODEX brain analysis: {result['findings']['complexity_hotspots']}")
         return result
 
     async def _coordinate_jules_brain(self, request: dict[str, Any]) -> dict[str, Any]:
@@ -273,9 +267,7 @@ class MultiBrainΛBot:
             "bio_sync_quality": 0.91,
         }
 
-        logger.info(
-            f"🏗️ JULES brain planning: {result['findings']['module_boundaries']}"
-        )
+        logger.info(f"🏗️ JULES brain planning: {result['findings']['module_boundaries']}")
         return result
 
     async def _coordinate_lambda_brain(self, request: dict[str, Any]) -> dict[str, Any]:

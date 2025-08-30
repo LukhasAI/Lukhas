@@ -72,7 +72,9 @@ from .symbolism import (
 # Version and module info
 __version__ = "2.0.0"
 __module_name__ = "core"
-__description__ = "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Trinity Framework"
+__description__ = (
+    "LUKHAS AI foundational systems - GLYPH engine, symbolic processing, Trinity Framework"
+)
 
 # Trinity Framework symbols
 TRINITY_SYMBOLS = {

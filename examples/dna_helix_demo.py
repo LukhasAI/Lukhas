@@ -313,13 +313,13 @@ async def demonstrate_repair_loop():
         current = list(helix.current.sequence)
         if i == 0:
             current[1] = "CHAOTIC"
-            print(f"   Drift {i+1}: THOUGHT → CHAOTIC")
+            print(f"   Drift {i + 1}: THOUGHT → CHAOTIC")
         elif i == 1:
             current[3] = "SCATTERED"
-            print(f"   Drift {i+1}: FOCUSED → SCATTERED")
+            print(f"   Drift {i + 1}: FOCUSED → SCATTERED")
         else:
             current[5] = "EMOTIONAL"
-            print(f"   Drift {i+1}: LOGICAL → EMOTIONAL")
+            print(f"   Drift {i + 1}: LOGICAL → EMOTIONAL")
 
         helix.current = SymbolicStrand(current)
         drift = helix.calculate_drift()
@@ -336,9 +336,7 @@ async def demonstrate_repair_loop():
     # Show repair history
     print(f"\n📜 Repair History ({len(helix.repair_history)} repairs):")
     for i, repair in enumerate(helix.repair_history):
-        print(
-            f"   {i+1}. {repair.timestamp.strftime('%H:%M:%S')} - {repair.repair_method.value}"
-        )
+        print(f"   {i + 1}. {repair.timestamp.strftime('%H:%M:%S')} - {repair.repair_method.value}")
         print(f"      Drift: {repair.drift_before:.3f} → {repair.drift_after:.3f}")
 
 

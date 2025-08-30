@@ -46,9 +46,7 @@ class EthicalReasoningIntegration:
         self.ethical_system = EthicalReasoningSystem(self.config)
         self.is_initialized = False
 
-        logger.info(
-            "EthicalReasoningIntegration initialized with config: %s", self.config
-        )
+        logger.info("EthicalReasoningIntegration initialized with config: %s", self.config)
 
     async def initialize(self):
         """Initialize the ethical reasoning system and its components"""
@@ -192,9 +190,7 @@ class EthicalReasoningIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return (
-            await self.ethical_system.value_alignment_system.assess_current_alignment()
-        )
+        return await self.ethical_system.value_alignment_system.assess_current_alignment()
 
     async def get_ethical_constraints(
         self, category: Optional[str] = None

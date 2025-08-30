@@ -12,7 +12,6 @@ from datetime import datetime
 
 
 class HybridComponentAnalyzer:
-
     def __init__(self):
         self.module_dirs = [
             "consciousness",
@@ -253,9 +252,7 @@ class HybridComponentAnalyzer:
                         for hormone_type, patterns in hormone_patterns.items():
                             if any(pattern in content for pattern in patterns):
                                 module = (
-                                    root.split(os.sep)[1]
-                                    if len(root.split(os.sep)) > 1
-                                    else "root"
+                                    root.split(os.sep)[1] if len(root.split(os.sep)) > 1 else "root"
                                 )
                                 tag_hormones[hormone_type].append(
                                     {"module": module, "file": file, "path": file_path}
@@ -285,9 +282,7 @@ class HybridComponentAnalyzer:
 
             # Filter to only highly hybrid subdirectories
             hybrid_subdirs = {
-                name: info
-                for name, info in subdirs.items()
-                if info["hybrid_score"] >= 3
+                name: info for name, info in subdirs.items() if info["hybrid_score"] >= 3
             }
 
             hybrid_map["modules"][module] = {
@@ -301,9 +296,7 @@ class HybridComponentAnalyzer:
                 for other_module in info["cross_refs"]:
                     if module not in hybrid_map["cross_module_matrix"][other_module]:
                         hybrid_map["cross_module_matrix"][other_module][module] = []
-                    hybrid_map["cross_module_matrix"][other_module][module].append(
-                        subdir
-                    )
+                    hybrid_map["cross_module_matrix"][other_module][module].append(subdir)
 
         return hybrid_map
 
@@ -395,9 +388,7 @@ def main():
 
     # Print summary
     print("\n=== Summary ===")
-    print(
-        f"Total hybrid components found: {results['summary']['total_hybrid_components']}"
-    )
+    print(f"Total hybrid components found: {results['summary']['total_hybrid_components']}")
     print("\nMost connected modules:")
     for module, connections in results["summary"]["most_connected_modules"]:
         print(f"  {module}: {connections} connections")

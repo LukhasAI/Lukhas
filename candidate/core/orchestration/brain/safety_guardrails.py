@@ -111,9 +111,7 @@ class SafetyGuardrails:
             "privacy_risk_score": 0.0,
             "uncertainty": 0.0,
             "transparency_score": 1.0,
-            "confidence": (
-                content.get("confidence", 0.9) if isinstance(content, dict) else 0.9
-            ),
+            "confidence": (content.get("confidence", 0.9) if isinstance(content, dict) else 0.9),
         }
 
         # Apply content filters
@@ -123,13 +121,8 @@ class SafetyGuardrails:
                 content_filter_results[filter_name] = filter_fn(text_content, content)
                 # Update metrics based on filter results
                 metric_key = f"{filter_name}_score"
-                if (
-                    metric_key in safety_metrics
-                    and "score" in content_filter_results[filter_name]
-                ):
-                    safety_metrics[metric_key] = content_filter_results[filter_name][
-                        "score"
-                    ]
+                if metric_key in safety_metrics and "score" in content_filter_results[filter_name]:
+                    safety_metrics[metric_key] = content_filter_results[filter_name]["score"]
 
         # Apply procedural safeguards
         safeguard_results = {}
@@ -141,23 +134,19 @@ class SafetyGuardrails:
                     safeguard_name == "uncertainty_detection"
                     and "score" in safeguard_results[safeguard_name]
                 ):
-                    safety_metrics["uncertainty"] = safeguard_results[safeguard_name][
-                        "score"
-                    ]
+                    safety_metrics["uncertainty"] = safeguard_results[safeguard_name]["score"]
                 elif (
                     safeguard_name == "reasoning_transparency"
                     and "score" in safeguard_results[safeguard_name]
                 ):
-                    safety_metrics["transparency_score"] = safeguard_results[
-                        safeguard_name
-                    ]["score"]
+                    safety_metrics["transparency_score"] = safeguard_results[safeguard_name][
+                        "score"
+                    ]
                 elif (
                     safeguard_name == "confidence_check"
                     and "score" in safeguard_results[safeguard_name]
                 ):
-                    safety_metrics["confidence"] = safeguard_results[safeguard_name][
-                        "score"
-                    ]
+                    safety_metrics["confidence"] = safeguard_results[safeguard_name]["score"]
 
         # Calculate overall risk score
         risk_scores = [
@@ -167,9 +156,7 @@ class SafetyGuardrails:
             safety_metrics["privacy_risk_score"],
         ]
         max_risk_score = max(risk_scores) if risk_scores else 0.0
-        weighted_risk_score = (
-            sum(risk_scores) / len(risk_scores) if risk_scores else 0.0
-        )
+        weighted_risk_score = sum(risk_scores) / len(risk_scores) if risk_scores else 0.0
 
         # Add weight to the maximum risk for a more conservative approach
         overall_risk = (max_risk_score * 0.7) + (weighted_risk_score * 0.3)
@@ -239,9 +226,7 @@ class SafetyGuardrails:
         else:
             return str(content)
 
-    def _check_harmful_content(
-        self, text: str, original_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_harmful_content(self, text: str, original_content: dict[str, Any]) -> dict[str, Any]:
         """Check for harmful content"""
         # Start with a low risk score
         risk_score = 0.0
@@ -250,9 +235,7 @@ class SafetyGuardrails:
         # Check against blocked patterns
         for pattern in self.blocked_patterns:
             if re.search(pattern, text):
-                risk_score = max(
-                    risk_score, 0.9
-                )  # High risk score for blocked patterns
+                risk_score = max(risk_score, 0.9)  # High risk score for blocked patterns
                 detection_reasons.append(f"Matched blocked pattern: {pattern}")
 
         # Check for violent language (simplified)
@@ -270,22 +253,16 @@ class SafetyGuardrails:
             violence_risk = min(0.7, violent_count * 0.15)  # Cap at 0.7
             risk_score = max(risk_score, violence_risk)
             if violence_risk > 0.3:
-                detection_reasons.append(
-                    f"Detected {violent_count} terms associated with violence"
-                )
+                detection_reasons.append(f"Detected {violent_count} terms associated with violence")
 
         # Check for hate speech indicators (simplified)
         hate_speech_indicators = ["hate", "racist", "bigot", "discriminate"]
-        hate_count = sum(
-            1 for term in hate_speech_indicators if term.lower() in text.lower()
-        )
+        hate_count = sum(1 for term in hate_speech_indicators if term.lower() in text.lower())
         if hate_count > 0:
             hate_risk = min(0.8, hate_count * 0.2)  # Cap at 0.8
             risk_score = max(risk_score, hate_risk)
             if hate_risk > 0.3:
-                detection_reasons.append(
-                    f"Detected {hate_count} terms associated with hate speech"
-                )
+                detection_reasons.append(f"Detected {hate_count} terms associated with hate speech")
 
         return {
             "safe": risk_score < 0.5,
@@ -293,9 +270,7 @@ class SafetyGuardrails:
             "reasons": detection_reasons,
         }
 
-    def _check_misinformation(
-        self, text: str, original_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_misinformation(self, text: str, original_content: dict[str, Any]) -> dict[str, Any]:
         """Check for potential misinformation"""
         # Start with a low risk score
         risk_score = 0.0
@@ -319,9 +294,7 @@ class SafetyGuardrails:
             r"(?i)it is (a fact|true|certain) that",
             r"(?i)(everyone|scientists) knows? that",
         ]
-        assertion_count = sum(
-            1 for pattern in assertion_patterns if re.search(pattern, text)
-        )
+        assertion_count = sum(1 for pattern in assertion_patterns if re.search(pattern, text))
 
         # Calculate simple misinformation risk (in a real system, this would be
         # more sophisticated)
@@ -344,9 +317,7 @@ class SafetyGuardrails:
             "reasons": detection_reasons,
         }
 
-    def _check_bias(
-        self, text: str, original_content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _check_bias(self, text: str, original_content: dict[str, Any]) -> dict[str, Any]:
         """Check for bias in content"""
         # Start with a low risk score
         risk_score = 0.0
@@ -382,9 +353,7 @@ class SafetyGuardrails:
 
         if generalization_count > 0:
             risk_score = min(0.7, generalization_count * 0.2)
-            detection_reasons.append(
-                f"Found {generalization_count} demographic generalizations"
-            )
+            detection_reasons.append(f"Found {generalization_count} demographic generalizations")
 
         # Check for balanced perspective
         perspective_markers = {
@@ -401,9 +370,7 @@ class SafetyGuardrails:
         # If presenting only one side of multiple perspectives
         if sum(perspective_markers.values()) == 0 and len(text.split()) > 100:
             risk_score = max(risk_score, 0.3)  # Moderate risk for one-sided long text
-            detection_reasons.append(
-                "Presents potentially one-sided perspective on complex topic"
-            )
+            detection_reasons.append("Presents potentially one-sided perspective on complex topic")
 
         return {
             "safe": risk_score < 0.5,
@@ -436,9 +403,7 @@ class SafetyGuardrails:
 
         if privacy_matches:
             risk_score = min(0.9, len(privacy_matches) * 0.3)
-            detection_reasons.append(
-                f"Found {len(privacy_matches)} potential privacy concerns"
-            )
+            detection_reasons.append(f"Found {len(privacy_matches)} potential privacy concerns")
 
         # Check for discussion of specific individuals by name
         name_pattern = r"(?i)(mr|ms|mrs|dr|prof)\.?\s+[A-Z][a-z]+"
@@ -467,9 +432,7 @@ class SafetyGuardrails:
             return {
                 "uncertain": uncertainty > 0.3,
                 "score": uncertainty,
-                "reason": (
-                    f"Confidence level: {confidence:.2f}" if confidence < 0.7 else None
-                ),
+                "reason": (f"Confidence level: {confidence:.2f}" if confidence < 0.7 else None),
             }
 
         # Check for uncertainty in text content
@@ -535,9 +498,7 @@ class SafetyGuardrails:
             "transparent": transparency_score > 0.4,
             "score": transparency_score,
             "reason": (
-                None
-                if transparency_score > 0.4
-                else "Reasoning process lacks transparency"
+                None if transparency_score > 0.4 else "Reasoning process lacks transparency"
             ),
         }
 
@@ -557,9 +518,7 @@ class SafetyGuardrails:
             "appropriate": meets_threshold,
             "score": confidence,
             "reason": (
-                f"Confidence below threshold: {confidence:.2f}"
-                if not meets_threshold
-                else None
+                f"Confidence below threshold: {confidence:.2f}" if not meets_threshold else None
             ),
         }
 

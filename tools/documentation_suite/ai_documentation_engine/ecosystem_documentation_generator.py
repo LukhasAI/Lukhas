@@ -199,9 +199,7 @@ class CodeAnalyzer:
 
         return results
 
-    async def _extract_classes(
-        self, tree: ast.AST, content: str
-    ) -> list[dict[str, Any]]:
+    async def _extract_classes(self, tree: ast.AST, content: str) -> list[dict[str, Any]]:
         """Extract class information from AST"""
 
         classes = []
@@ -213,12 +211,8 @@ class CodeAnalyzer:
                     "docstring": ast.get_docstring(node),
                     "methods": [],
                     "attributes": [],
-                    "inheritance": [
-                        base.id for base in node.bases if isinstance(base, ast.Name)
-                    ],
-                    "decorators": [
-                        d.id for d in node.decorator_list if isinstance(d, ast.Name)
-                    ],
+                    "inheritance": [base.id for base in node.bases if isinstance(base, ast.Name)],
+                    "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
                     "line_number": node.lineno,
                 }
 
@@ -231,9 +225,7 @@ class CodeAnalyzer:
                             "args": [arg.arg for arg in item.args.args],
                             "returns": self._extract_return_annotation(item),
                             "decorators": [
-                                d.id
-                                for d in item.decorator_list
-                                if isinstance(d, ast.Name)
+                                d.id for d in item.decorator_list if isinstance(d, ast.Name)
                             ],
                             "is_property": any(
                                 d.id == "property"
@@ -248,9 +240,7 @@ class CodeAnalyzer:
 
         return classes
 
-    async def _extract_functions(
-        self, tree: ast.AST, content: str
-    ) -> list[dict[str, Any]]:
+    async def _extract_functions(self, tree: ast.AST, content: str) -> list[dict[str, Any]]:
         """Extract function information from AST"""
 
         functions = []
@@ -263,7 +253,6 @@ class CodeAnalyzer:
                     for parent in ast.walk(tree)
                     if hasattr(parent, "body") and node in getattr(parent, "body", [])
                 ):
-
                     func_info = {
                         "name": node.name,
                         "docstring": ast.get_docstring(node),
@@ -279,9 +268,7 @@ class CodeAnalyzer:
 
         return functions
 
-    async def _extract_constants(
-        self, tree: ast.AST, content: str
-    ) -> list[dict[str, Any]]:
+    async def _extract_constants(self, tree: ast.AST, content: str) -> list[dict[str, Any]]:
         """Extract constant definitions from AST"""
 
         constants = []
@@ -293,9 +280,7 @@ class CodeAnalyzer:
                         const_info = {
                             "name": target.id,
                             "value": self._extract_literal_value(node.value),
-                            "type": type(
-                                self._extract_literal_value(node.value)
-                            ).__name__,
+                            "type": type(self._extract_literal_value(node.value)).__name__,
                             "line_number": node.lineno,
                         }
                         constants.append(const_info)
@@ -325,9 +310,7 @@ class CodeAnalyzer:
 
         # Module docstring
         if isinstance(tree, ast.Module) and len(tree.body) > 0:
-            if isinstance(tree.body[0], ast.Expr) and isinstance(
-                tree.body[0].value, ast.Str
-            ):
+            if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
                 docstrings["module"] = tree.body[0].value.s
 
         # Function and class docstrings
@@ -373,9 +356,7 @@ class CodeAnalyzer:
 
         return min(100.0, score)
 
-    async def _extract_dependencies(
-        self, file_path: str, imports: list[str]
-    ) -> list[str]:
+    async def _extract_dependencies(self, file_path: str, imports: list[str]) -> list[str]:
         """Extract file dependencies from imports"""
 
         dependencies = []
@@ -383,9 +364,7 @@ class CodeAnalyzer:
 
         for imp in imports:
             # Check if it's a local import
-            if not imp.startswith(
-                ("sys", "os", "json", "datetime", "typing", "asyncio")
-            ):
+            if not imp.startswith(("sys", "os", "json", "datetime", "typing", "asyncio")):
                 # Try to resolve local dependencies
                 potential_paths = [
                     base_path / f"{imp.replace('.', '/')}.py",
@@ -478,9 +457,7 @@ class DocumentationGenerator:
             },
         }
 
-    async def generate_documentation(
-        self, request: DocumentationRequest
-    ) -> GeneratedDocumentation:
+    async def generate_documentation(self, request: DocumentationRequest) -> GeneratedDocumentation:
         """Generate documentation based on request"""
 
         print(f"📚 Generating {request.doc_type.value} documentation...")
@@ -513,9 +490,7 @@ class DocumentationGenerator:
 
         return documentation
 
-    async def _analyze_components(
-        self, components: list[str]
-    ) -> list[CodeAnalysisResult]:
+    async def _analyze_components(self, components: list[str]) -> list[CodeAnalysisResult]:
         """Analyze specified components"""
 
         analysis_results = []
@@ -538,21 +513,13 @@ class DocumentationGenerator:
         sections = []
 
         if request.doc_type == DocumentationType.API_REFERENCE:
-            sections = await self._generate_api_reference_sections(
-                request, analysis_results
-            )
+            sections = await self._generate_api_reference_sections(request, analysis_results)
         elif request.doc_type == DocumentationType.USER_GUIDE:
-            sections = await self._generate_user_guide_sections(
-                request, analysis_results
-            )
+            sections = await self._generate_user_guide_sections(request, analysis_results)
         elif request.doc_type == DocumentationType.INTEGRATION_GUIDE:
-            sections = await self._generate_integration_guide_sections(
-                request, analysis_results
-            )
+            sections = await self._generate_integration_guide_sections(request, analysis_results)
         elif request.doc_type == DocumentationType.ARCHITECTURE_DOCS:
-            sections = await self._generate_architecture_sections(
-                request, analysis_results
-            )
+            sections = await self._generate_architecture_sections(request, analysis_results)
         else:
             sections = await self._generate_generic_sections(request, analysis_results)
 
@@ -616,9 +583,7 @@ class DocumentationGenerator:
         sections.append(getting_started)
 
         # Feature sections
-        feature_sections = await self._generate_feature_sections(
-            analysis_results, request
-        )
+        feature_sections = await self._generate_feature_sections(analysis_results, request)
         sections.extend(feature_sections)
 
         return sections
@@ -688,9 +653,7 @@ class DocumentationGenerator:
         sections.append(overview_section)
 
         # Component Architecture
-        component_sections = await self._generate_component_architecture_sections(
-            analysis_results
-        )
+        component_sections = await self._generate_component_architecture_sections(analysis_results)
         sections.extend(component_sections)
 
         return sections
@@ -717,9 +680,7 @@ class DocumentationGenerator:
 
         return sections
 
-    async def _generate_output_files(
-        self, documentation: GeneratedDocumentation
-    ) -> list[str]:
+    async def _generate_output_files(self, documentation: GeneratedDocumentation) -> list[str]:
         """Generate output files in specified format"""
 
         output_paths = []
@@ -736,9 +697,7 @@ class DocumentationGenerator:
 
         return output_paths
 
-    async def _generate_markdown_output(
-        self, documentation: GeneratedDocumentation
-    ) -> str:
+    async def _generate_markdown_output(self, documentation: GeneratedDocumentation) -> str:
         """Generate Markdown output"""
 
         output_dir = Path("docs/generated")
@@ -748,7 +707,9 @@ class DocumentationGenerator:
         output_path = output_dir / filename
 
         content = ""
-        content += f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
+        content += (
+            f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
+        )
 
         for section in documentation.sections:
             content += "#"
@@ -792,14 +753,12 @@ class DocumentationGenerator:
 </head>
 <body>
     <h1>{documentation.title}</h1>
-    <p><em>Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}</em></p>
+    <p><em>Generated on {documentation.generated_date.strftime("%Y-%m-%d %H:%M:%S")}</em></p>
 """
 
         for section in documentation.sections:
             html_content += f"    <h2>{section.title}</h2>\n"
-            html_content += (
-                f"    <p>{section.content.replace(chr(10), '</p><p>')}</p>\n"
-            )
+            html_content += f"    <p>{section.content.replace(chr(10), '</p><p>')}</p>\n"
 
             for example in section.code_examples:
                 html_content += f"    <pre><code>{example}</code></pre>\n"
@@ -848,9 +807,7 @@ class DocumentationGenerator:
         return str(output_path)
 
     # Helper methods for content generation
-    async def _generate_api_overview(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_api_overview(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate API overview content"""
         total_classes = sum(len(result.classes) for result in analysis_results)
         total_functions = sum(len(result.functions) for result in analysis_results)
@@ -866,9 +823,7 @@ The API provides comprehensive functionality for AI system management, complianc
 - Multi-jurisdiction regulatory support
 """
 
-    async def _generate_user_guide_intro(
-        self, analysis_results: list[CodeAnalysisResult]
-    ) -> str:
+    async def _generate_user_guide_intro(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate user guide introduction"""
         return f"""Welcome to the LUKHAS  ecosystem user guide. This guide will help you get started with using our advanced AI platform.
 
@@ -915,12 +870,9 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         return {
             "modules_analyzed": len(analysis_results),
             "total_classes": sum(len(result.classes) for result in analysis_results),
-            "total_functions": sum(
-                len(result.functions) for result in analysis_results
-            ),
+            "total_functions": sum(len(result.functions) for result in analysis_results),
             "average_complexity": (
-                sum(result.complexity_score for result in analysis_results)
-                / len(analysis_results)
+                sum(result.complexity_score for result in analysis_results) / len(analysis_results)
                 if analysis_results
                 else 0
             ),
@@ -1013,10 +965,10 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
 
 # Export main documentation components
 __all__ = [
-    "DocumentationGenerator",
     "CodeAnalyzer",
+    "DocumentationGenerator",
     "DocumentationRequest",
-    "GeneratedDocumentation",
     "DocumentationType",
+    "GeneratedDocumentation",
     "OutputFormat",
 ]

@@ -27,8 +27,10 @@ from candidate.bridge.llm_wrappers.tool_executor import (
 
 # from lukhas.audit.tool_analytics import get_analytics  # Module not available, using mock
 
+
 def get_analytics():
     return lambda *args, **kwargs: None  # Mock analytics function
+
 
 from branding.policy.terminology import normalize_chunk, normalize_output
 from candidate.metrics import get_metrics_collector
@@ -102,19 +104,11 @@ class OpenAIModulatedService:
             signals = self.bus.get_active_signals()
 
         # Build prompt modulation
-        modulation: PromptModulation = self.modulator.modulate(
-            prompt, signals, params, context
-        )
+        modulation: PromptModulation = self.modulator.modulate(prompt, signals, params, context)
 
         # Retrieval v1: if allowed and retrieval_k > 0, attach retrieved notes
-        if (
-            params
-            and params.retrieval_k
-            and ("retrieval" in (params.tool_allowlist or []))
-        ):
-            retrieved = await self._retrieve_context(
-                modulation, top_k=params.retrieval_k
-            )
+        if params and params.retrieval_k and ("retrieval" in (params.tool_allowlist or [])):
+            retrieved = await self._retrieve_context(modulation, top_k=params.retrieval_k)
             if retrieved:
                 # Light-touch injection
                 context = dict(context or {})
@@ -154,7 +148,7 @@ class OpenAIModulatedService:
         # Build tools from allowlist
         openai_tools = []
         analytics = get_analytics()
-        audit_id = f"audit_{task or 'general'}_{int(time.time()*1000)}"
+        audit_id = f"audit_{task or 'general'}_{int(time.time() * 1000)}"
         tool_incidents = []
 
         if params and params.tool_allowlist:
@@ -213,16 +207,10 @@ class OpenAIModulatedService:
                 tool_id = tool_call.get("id", "unknown")
 
                 # Map function name to allowlist name
-                allowlist_name = self._function_to_allowlist_map.get(
-                    tool_name, tool_name
-                )
+                allowlist_name = self._function_to_allowlist_map.get(tool_name, tool_name)
 
                 # Check if tool is allowed
-                if (
-                    params
-                    and params.tool_allowlist
-                    and allowlist_name not in params.tool_allowlist
-                ):
+                if params and params.tool_allowlist and allowlist_name not in params.tool_allowlist:
                     # Record security incident
                     incident = analytics.record_blocked_attempt(
                         audit_id=audit_id,
@@ -254,9 +242,7 @@ class OpenAIModulatedService:
                     current_messages.append(
                         {
                             "role": "system",
-                            "content": (
-                                f"Blocked tool '{tool_name}'. Not in " "allowlist."
-                            ),
+                            "content": (f"Blocked tool '{tool_name}'. Not in allowlist."),
                         }
                     )
                     continue
@@ -309,7 +295,7 @@ class OpenAIModulatedService:
                         {
                             "role": "tool",
                             "tool_call_id": tool_id,
-                            "content": f"Tool execution failed: {str(e)}",
+                            "content": f"Tool execution failed: {e!s}",
                         }
                     )
 
@@ -338,9 +324,7 @@ class OpenAIModulatedService:
         content = None
         try:
             resp_dict = cast(dict[str, Any], response)
-            content = normalize_output(
-                resp_dict["choices"][0]["message"].get("content")
-            )
+            content = normalize_output(resp_dict["choices"][0]["message"].get("content"))
         except Exception:
             content = normalize_output(str(response))
 
@@ -402,14 +386,8 @@ class OpenAIModulatedService:
         modulation = self.modulator.modulate(prompt, signals, params, context)
 
         # Retrieval injection
-        if (
-            params
-            and params.retrieval_k
-            and ("retrieval" in (params.tool_allowlist or []))
-        ):
-            retrieved = await self._retrieve_context(
-                modulation, top_k=params.retrieval_k
-            )
+        if params and params.retrieval_k and ("retrieval" in (params.tool_allowlist or [])):
+            retrieved = await self._retrieve_context(modulation, top_k=params.retrieval_k)
             if retrieved:
                 context = dict(context or {})
                 ctx_add = (context.get("additional_context") or "").strip()
@@ -454,12 +432,8 @@ class OpenAIModulatedService:
             buffer: list[str] = []
             async for chunk in stream_iter:  # type: ignore
                 try:
-                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get(
-                        "message"
-                    )
-                    piece = (
-                        delta.get("content") if isinstance(delta, dict) else None
-                    ) or ""
+                    delta = chunk["choices"][0].get("delta") or chunk["choices"][0].get("message")
+                    piece = (delta.get("content") if isinstance(delta, dict) else None) or ""
                 except Exception:
                     piece = ""
                 if piece:
@@ -469,9 +443,7 @@ class OpenAIModulatedService:
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
             try:
-                self._post_moderation_check(
-                    {"choices": [{"message": {"content": full}}]}
-                )
+                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
             except PermissionError:
                 self.metrics["moderation_blocks"] += 1
                 logger.warning("Post-moderation flagged streamed content")
@@ -528,15 +500,14 @@ class OpenAIModulatedService:
         except Exception:
             return
 
-    async def _retrieve_context(
-        self, modulation: PromptModulation, top_k: int = 5
-    ) -> list[str]:
+    async def _retrieve_context(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Retrieve context from vector store or memory layer."""
         try:
             # Import vector store components with fallback
             try:
                 from lukhas.memory.embeddings import generate_embedding
                 from lukhas.memory.vector_store import get_vector_store
+
                 vector_store = get_vector_store()
 
                 # Generate embedding for the query
@@ -546,7 +517,7 @@ class OpenAIModulatedService:
                 results = await vector_store.similarity_search(
                     query_embedding,
                     top_k=top_k,
-                    threshold=0.7  # Similarity threshold
+                    threshold=0.7,  # Similarity threshold
                 )
 
                 # Extract content from results
@@ -569,37 +540,76 @@ class OpenAIModulatedService:
                 return await self._fallback_retrieval(modulation, top_k)
 
         except Exception as e:
-            logger.error(f"Error in context retrieval: {str(e)}")
+            logger.error(f"Error in context retrieval: {e!s}")
             # Return fallback retrieval
             return await self._fallback_retrieval(modulation, top_k)
 
-    async def _fallback_retrieval(
-        self, modulation: PromptModulation, top_k: int = 5
-    ) -> list[str]:
+    async def _fallback_retrieval(self, modulation: PromptModulation, top_k: int = 5) -> list[str]:
         """Fallback retrieval using simple keyword extraction."""
         try:
             # Enhanced keyword-based retrieval
             from lukhas.memory.memory_service import MemoryService
+
             memory_service = MemoryService()
 
             # Extract meaningful keywords from the prompt
             text = modulation.original_prompt.lower()
             import re
-            # Extract words longer than 3 characters, excluding common stop words
-            stop_words = {"the", "and", "for", "are", "but", "not", "you", "all", "can", "had", "her", "was", "one", "our", "out", "day", "get", "has", "him", "his", "how", "man", "new", "now", "old", "see", "two", "way", "who", "boy", "did", "its", "let", "put", "say", "she", "too", "use"}
 
-            keywords = [word for word in re.findall(r"\\b\\w+\\b", text)
-                       if len(word) > 3 and word not in stop_words][:top_k]
+            # Extract words longer than 3 characters, excluding common stop words
+            stop_words = {
+                "the",
+                "and",
+                "for",
+                "are",
+                "but",
+                "not",
+                "you",
+                "all",
+                "can",
+                "had",
+                "her",
+                "was",
+                "one",
+                "our",
+                "out",
+                "day",
+                "get",
+                "has",
+                "him",
+                "his",
+                "how",
+                "man",
+                "new",
+                "now",
+                "old",
+                "see",
+                "two",
+                "way",
+                "who",
+                "boy",
+                "did",
+                "its",
+                "let",
+                "put",
+                "say",
+                "she",
+                "too",
+                "use",
+            }
+
+            keywords = [
+                word
+                for word in re.findall(r"\\b\\w+\\b", text)
+                if len(word) > 3 and word not in stop_words
+            ][:top_k]
 
             # Search memory service for relevant content
             context_notes = []
             for keyword in keywords:
                 try:
                     search_results = await memory_service.search_memory(
-                        user_id="system",
-                        query=keyword,
-                        search_type="keyword",
-                        limit=2
+                        user_id="system", query=keyword, search_type="keyword", limit=2
                     )
 
                     if search_results.get("success") and search_results.get("memories"):
@@ -609,20 +619,22 @@ class OpenAIModulatedService:
 
                 except Exception:
                     # If memory service fails, create placeholder context
-                    context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
+                    context_notes.append(
+                        f"Context for '{keyword}': Relevant information about {keyword} processing."
+                    )
 
             # If no keywords found, provide general context
             if not context_notes:
                 context_notes = [
                     "General context: Processing user request with LUKHAS AI capabilities.",
                     "System context: Quantum-inspired and bio-inspired processing available.",
-                    "Memory context: Previous interactions and learned patterns are considered."
+                    "Memory context: Previous interactions and learned patterns are considered.",
                 ]
 
             return context_notes[:top_k]
 
         except Exception as e:
-            logger.error(f"Error in fallback retrieval: {str(e)}")
+            logger.error(f"Error in fallback retrieval: {e!s}")
             # Ultimate fallback - simple token-based context
             text = modulation.original_prompt.lower()
             tokens = [t for t in text.split() if len(t) > 4][:top_k]
@@ -694,7 +706,6 @@ async def _run_modulated_completion_impl(
             raw_client = client
 
             class _DuckOpenAIAdapter:
-
                 def __init__(self, rc):
                     self._raw = rc
 
@@ -733,9 +744,7 @@ async def _run_modulated_completion_impl(
                         tool_calls = (
                             getattr(msg, "tool_calls", None)
                             if hasattr(msg, "tool_calls")
-                            else (
-                                msg.get("tool_calls") if hasattr(msg, "get") else None
-                            )
+                            else (msg.get("tool_calls") if hasattr(msg, "get") else None)
                         )
                         return {
                             "choices": [
@@ -874,17 +883,14 @@ def run_modulated_completion(
     res = asyncio.run(coro)
 
     class _Msg:
-
         def __init__(self, content: str | None):
             self.content = content
 
     class _Choice:
-
         def __init__(self, content: str | None):
             self.message = _Msg(content)
 
     class _Usage:
-
         def __init__(self, usage: dict[str, Any]):
             # Support dict-like and objects with attributes (e.g., SimpleNamespace)
             if hasattr(usage, "get"):
@@ -897,7 +903,6 @@ def run_modulated_completion(
                 self.total_tokens = getattr(usage, "total_tokens", None)
 
     class _Completion:
-
         def __init__(self, result: dict[str, Any]):
             raw = result.get("raw") or {}
             usage = raw.get("usage") or {}
@@ -962,9 +967,7 @@ def resume_with_tools(
             out.append(
                 {
                     "role": "system",
-                    "content": (
-                        f"Tool '{name}' blocked by governance. " "Not in allowlist."
-                    ),
+                    "content": (f"Tool '{name}' blocked by governance. Not in allowlist."),
                 }
             )
             continue
@@ -999,7 +1002,7 @@ def resume_with_tools(
             analytics.complete_tool_call(call_id, status="success")
 
         except Exception as e:
-            text = f"[Tool '{name}' failed: {str(e)}]"
+            text = f"[Tool '{name}' failed: {e!s}]"
             # Track failure
             call_id = analytics.start_tool_call(name, {})
             analytics.complete_tool_call(call_id, status="error")

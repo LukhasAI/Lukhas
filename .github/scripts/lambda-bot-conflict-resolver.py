@@ -42,15 +42,10 @@ def resolve_documentation_conflicts(file_path):
                     # Keep symbolic tags from both
                     resolved_lines.extend(our_lines)
                     resolved_lines.extend(
-                        [
-                            line_item
-                            for line_item in their_lines
-                            if line_item not in our_lines
-                        ]
+                        [line_item for line_item in their_lines if line_item not in our_lines]
                     )
                 elif any(
-                    "security" in line_item.lower()
-                    or "vulnerability" in line_item.lower()
+                    "security" in line_item.lower() or "vulnerability" in line_item.lower()
                     for line_item in our_lines
                 ):
                     # Keep security-related content
@@ -114,11 +109,7 @@ def resolve_python_conflicts(file_path):
                     # Keep symbolic headers
                     resolved_lines.extend(our_lines)
                     resolved_lines.extend(
-                        [
-                            line_item
-                            for line_item in their_lines
-                            if line_item not in our_lines
-                        ]
+                        [line_item for line_item in their_lines if line_item not in our_lines]
                     )
                 else:
                     # Default: keep our version
@@ -166,9 +157,7 @@ def resolve_file_conflicts(file_path):
 def main():
     parser = argparse.ArgumentParser(description="ΛBot Intelligent Conflict Resolution")
     parser.add_argument("files", nargs="+", help="Files to resolve conflicts in")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Show what would be done"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be done")
 
     args = parser.parse_args()
 
@@ -184,12 +173,7 @@ def main():
             success_count += 1
 
     if not args.dry_run:
-        print(
-            (
-                "\n🎯 Resolution Summary: "
-                f"{success_count}/{total_files} files resolved successfully"
-            )
-        )
+        print(f"\n🎯 Resolution Summary: {success_count}/{total_files} files resolved successfully")
 
         if success_count == total_files:
             print("✅ All conflicts resolved successfully!")

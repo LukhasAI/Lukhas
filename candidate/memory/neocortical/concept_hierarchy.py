@@ -275,9 +275,7 @@ class ConceptHierarchy:
 
         return activations
 
-    def find_common_ancestor(
-        self, concept1_name: str, concept2_name: str
-    ) -> Optional[ConceptNode]:
+    def find_common_ancestor(self, concept1_name: str, concept2_name: str) -> Optional[ConceptNode]:
         """Find lowest common ancestor of two concepts"""
 
         concept1 = self.find_concept(concept1_name)
@@ -405,26 +403,19 @@ class ConceptHierarchy:
 
         return best_parent
 
-    def _calculate_match_score(
-        self, concept: ConceptNode, parent_candidate: ConceptNode
-    ) -> float:
+    def _calculate_match_score(self, concept: ConceptNode, parent_candidate: ConceptNode) -> float:
         """Calculate how well concept fits under parent"""
 
         score = 0.0
 
         # Attribute overlap
         if concept.attributes and parent_candidate.attributes:
-            common_attrs = set(concept.attributes.keys()) & set(
-                parent_candidate.attributes.keys()
-            )
+            common_attrs = set(concept.attributes.keys()) & set(parent_candidate.attributes.keys())
             if common_attrs:
                 score += len(common_attrs) / len(concept.attributes.keys())
 
         # Name similarity (simple)
-        if (
-            concept.name in parent_candidate.name
-            or parent_candidate.name in concept.name
-        ):
+        if concept.name in parent_candidate.name or parent_candidate.name in concept.name:
             score += 0.5
 
         # Check examples
@@ -542,9 +533,7 @@ class ConceptHierarchy:
 
         # Find most accessed concepts
         accessed_concepts = [
-            (c.name, c.access_count)
-            for c in self.concepts.values()
-            if c.access_count > 0
+            (c.name, c.access_count) for c in self.concepts.values() if c.access_count > 0
         ]
         accessed_concepts.sort(key=lambda x: x[1], reverse=True)
 
@@ -569,12 +558,8 @@ if __name__ == "__main__":
     # Add concepts
     hierarchy.add_concept("Animal")
     hierarchy.add_concept("Mammal", parent_name="Animal")
-    hierarchy.add_concept(
-        "Dog", parent_name="Mammal", attributes={"legs": 4, "sound": "bark"}
-    )
-    hierarchy.add_concept(
-        "Cat", parent_name="Mammal", attributes={"legs": 4, "sound": "meow"}
-    )
+    hierarchy.add_concept("Dog", parent_name="Mammal", attributes={"legs": 4, "sound": "bark"})
+    hierarchy.add_concept("Cat", parent_name="Mammal", attributes={"legs": 4, "sound": "meow"})
     hierarchy.add_concept("Bird", parent_name="Animal")
     hierarchy.add_concept("Eagle", parent_name="Bird", attributes={"can_fly": True})
 
@@ -599,13 +584,9 @@ if __name__ == "__main__":
 
     # Test activation spreading
     print("\n--- Activation Test ---")
-    activations = hierarchy.activate_concept(
-        "Dog", activation_strength=0.8, spread=True
-    )
+    activations = hierarchy.activate_concept("Dog", activation_strength=0.8, spread=True)
     print("Activated concepts:")
-    for concept, activation in sorted(
-        activations.items(), key=lambda x: x[1], reverse=True
-    ):
+    for concept, activation in sorted(activations.items(), key=lambda x: x[1], reverse=True):
         print(f"  {concept}: {activation:.2f}")
 
     # Test semantic distance

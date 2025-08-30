@@ -152,9 +152,7 @@ class CristaOptimizerAdapter:
                 raw_optimizer_state = self._simulate_crista_optimizer_state()
 
             self.current_cristae_state.density = float(
-                raw_optimizer_state.get(
-                    "cristae_density", self.current_cristae_state.density
-                )
+                raw_optimizer_state.get("cristae_density", self.current_cristae_state.density)
             )
             self.current_cristae_state.membrane_potential_mv = float(
                 raw_optimizer_state.get(
@@ -197,9 +195,7 @@ class CristaOptimizerAdapter:
             self.current_cristae_state.overall_efficiency_score = (
                 self._calculate_overall_efficiency_score()
             )
-            self.current_cristae_state.last_updated_utc_iso = datetime.now(
-                timezone.utc
-            ).isoformat()
+            self.current_cristae_state.last_updated_utc_iso = datetime.now(timezone.utc).isoformat()
 
             self.log.info(
                 "Current cristae state updated.",
@@ -243,9 +239,7 @@ class CristaOptimizerAdapter:
 
             optimizer_results: dict[str, Any]
             if optimization_target_metric == "atp_efficiency":
-                optimizer_results = await self._optimize_for_atp_efficiency(
-                    optimization_parameters
-                )
+                optimizer_results = await self._optimize_for_atp_efficiency(optimization_parameters)
             elif optimization_target_metric == "membrane_stability":
                 optimizer_results = await self._optimize_for_membrane_stability(
                     optimization_parameters
@@ -295,9 +289,7 @@ class CristaOptimizerAdapter:
             }
 
     @lukhas_tier_required(3)
-    async def _optimize_for_atp_efficiency(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _optimize_for_atp_efficiency(self, params: dict[str, Any]) -> dict[str, Any]:
         self.log.debug("Optimizing for ATP efficiency.", **params)
         if hasattr(self.crista_optimizer, "optimize_atp_production"):
             # type: ignore
@@ -322,9 +314,7 @@ class CristaOptimizerAdapter:
         }
 
     @lukhas_tier_required(3)
-    async def _optimize_for_membrane_stability(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _optimize_for_membrane_stability(self, params: dict[str, Any]) -> dict[str, Any]:
         self.log.debug("Optimizing for membrane stability.", **params)
         if hasattr(self.crista_optimizer, "maximize_membrane_stability"):
             # type: ignore
@@ -343,12 +333,8 @@ class CristaOptimizerAdapter:
         }
 
     @lukhas_tier_required(3)
-    async def _optimize_for_dynamic_balance(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
-        self.log.debug(
-            "Optimizing for dynamic balance (efficiency & stability).", **params
-        )
+    async def _optimize_for_dynamic_balance(self, params: dict[str, Any]) -> dict[str, Any]:
+        self.log.debug("Optimizing for dynamic balance (efficiency & stability).", **params)
         if hasattr(self.crista_optimizer, "find_dynamic_balance"):
             # type: ignore
             return await self.crista_optimizer.find_dynamic_balance(params)
@@ -370,9 +356,7 @@ class CristaOptimizerAdapter:
         }
 
     @lukhas_tier_required(3)
-    async def _optimize_for_general_performance(
-        self, params: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _optimize_for_general_performance(self, params: dict[str, Any]) -> dict[str, Any]:
         self.log.debug("Optimizing for general performance.", **params)
         if hasattr(self.crista_optimizer, "apply_general_optimization"):
             # type: ignore
@@ -397,9 +381,7 @@ class CristaOptimizerAdapter:
         )
         try:
             coherence = float(qi_derived_features.get("coherence_level", 0.5))
-            entanglement = float(
-                qi_derived_features.get("entanglement_strength", 0.3)
-            )
+            entanglement = float(qi_derived_features.get("entanglement_strength", 0.3))
 
             target_density_q_influenced = np.clip(
                 0.5 + (coherence * 0.4) + (entanglement * 0.2) - 0.3, 0.1, 0.9
@@ -456,12 +438,8 @@ class CristaOptimizerAdapter:
     async def get_performance_metrics(self) -> dict[str, Any]:
         """Retrieves comprehensive performance metrics of the adapter and underlying system."""
         self.log.debug("Fetching performance metrics.")
-        current_total_ops = self.adapter_performance_metrics[
-            "total_optimizations_requested"
-        ]
-        current_successful_ops = self.adapter_performance_metrics[
-            "successful_optimizations_count"
-        ]
+        current_total_ops = self.adapter_performance_metrics["total_optimizations_requested"]
+        current_successful_ops = self.adapter_performance_metrics["successful_optimizations_count"]
         success_rate = (current_successful_ops / max(current_total_ops, 1)) * 100.0
         avg_gain = (
             self.adapter_performance_metrics["cumulative_efficiency_gain"]
@@ -474,9 +452,7 @@ class CristaOptimizerAdapter:
             "total_optimizations_processed_by_adapter": current_total_ops,
             "adapter_success_rate_percent": success_rate,
             "adapter_avg_efficiency_gain_achieved": avg_gain,
-            "adapter_current_stability_score": self.adapter_performance_metrics[
-                "stability_score"
-            ],
+            "adapter_current_stability_score": self.adapter_performance_metrics["stability_score"],
             "underlying_cristae_state": asdict(self.current_cristae_state),
             "optimization_history_log_count": len(self.optimization_history_log),
             "report_timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
@@ -498,17 +474,13 @@ class CristaOptimizerAdapter:
                     parameters.get("target_density", self.current_cristae_state.density)
                 )
                 return await self._set_cristae_density_target(target_density)
-            elif (
-                action_name == "stabilize_membrane_potential"
-            ):  # Renamed for consistency
+            elif action_name == "stabilize_membrane_potential":  # Renamed for consistency
                 stability_target = float(parameters.get("stability_target_norm", 0.9))
                 return await self._stabilize_membrane_potential_sim(
                     stability_target
                 )  # Changed to sim version
             elif action_name == "balance_cristae_topology":  # Renamed
-                return (
-                    await self._balance_cristae_topology_sim()
-                )  # Changed to sim version
+                return await self._balance_cristae_topology_sim()  # Changed to sim version
             else:
                 self.log.warning(
                     "Unknown optimization action requested.", unknown_action=action_name
@@ -528,21 +500,15 @@ class CristaOptimizerAdapter:
     @lukhas_tier_required(3)
     def _calculate_overall_efficiency_score(self) -> float:
         """Calculates an overall efficiency score based on the current cristae state."""
-        density_eff = np.clip(
-            self.current_cristae_state.density * 1.1, 0, 1
-        ).item()  # type: ignore
+        density_eff = np.clip(self.current_cristae_state.density * 1.1, 0, 1).item()  # type: ignore
         potential_eff = np.clip(
             1 - (abs(self.current_cristae_state.membrane_potential_mv + 70.0) / 30.0),
             0,
             1,
         ).item()  # type: ignore
-        atp_eff = np.clip(
-            self.current_cristae_state.atp_production_rate_au / 100.0, 0, 1
-        ).item()  # type: ignore
+        atp_eff = np.clip(self.current_cristae_state.atp_production_rate_au / 100.0, 0, 1).item()  # type: ignore
         w_density, w_potential, w_atp = 0.4, 0.3, 0.3
-        efficiency = (
-            density_eff * w_density + potential_eff * w_potential + atp_eff * w_atp
-        )
+        efficiency = density_eff * w_density + potential_eff * w_potential + atp_eff * w_atp
         return max(0.0, min(1.0, efficiency))
 
     @lukhas_tier_required(3)
@@ -551,8 +517,7 @@ class CristaOptimizerAdapter:
     ) -> float:
         """Simulates calculation of optimal cristae density for a target ATP efficiency."""
         density_adjustment = (
-            target_atp_efficiency
-            - self._calculate_simulated_atp_efficiency(current_density)
+            target_atp_efficiency - self._calculate_simulated_atp_efficiency(current_density)
         ) * 0.4
         optimal_density = current_density + density_adjustment
         return np.clip(optimal_density, 0.1, 0.9).item()  # type: ignore
@@ -572,9 +537,7 @@ class CristaOptimizerAdapter:
         return base_potential_mv - density_effect_mv
 
     @lukhas_tier_required(3)
-    def _calculate_optimal_cardiolipin_for_stability(
-        self, stability_target_norm: float
-    ) -> float:
+    def _calculate_optimal_cardiolipin_for_stability(self, stability_target_norm: float) -> float:
         """Simulates optimal cardiolipin concentration for a given stability target."""
         return np.clip(stability_target_norm * 0.85, 0.1, 0.8).item()  # type: ignore
 
@@ -595,12 +558,8 @@ class CristaOptimizerAdapter:
         potential_stability_factor = np.clip(
             1.0 - (abs(membrane_potential_mv + 70.0) / 35.0), 0, 1
         ).item()  # type: ignore
-        cardiolipin_factor = np.clip(
-            cardiolipin_norm / 0.8, 0, 1
-        ).item()  # type: ignore
-        return np.clip(
-            (potential_stability_factor * 0.6 + cardiolipin_factor * 0.4), 0, 1
-        ).item()  # type: ignore
+        cardiolipin_factor = np.clip(cardiolipin_norm / 0.8, 0, 1).item()  # type: ignore
+        return np.clip((potential_stability_factor * 0.6 + cardiolipin_factor * 0.4), 0, 1).item()  # type: ignore
 
     @lukhas_tier_required(3)
     def _find_simulated_balanced_density(
@@ -648,16 +607,12 @@ class CristaOptimizerAdapter:
         await asyncio.sleep(0.001)
 
     @lukhas_tier_required(3)
-    async def _stabilize_membrane_sim(
-        self, cardiolipin_norm: float, proton_gradient_norm: float
-    ):
+    async def _stabilize_membrane_sim(self, cardiolipin_norm: float, proton_gradient_norm: float):
         """Simulates membrane stabilization with given parameters."""
         self.current_cristae_state.cardiolipin_concentration_norm = cardiolipin_norm
         self.current_cristae_state.proton_gradient_strength_norm = proton_gradient_norm
         self.current_cristae_state.membrane_potential_mv = (
-            self._calculate_simulated_membrane_potential(
-                self.current_cristae_state.density
-            )
+            self._calculate_simulated_membrane_potential(self.current_cristae_state.density)
         )
         self.log.debug(
             "Membrane stabilization parameters applied (simulated).",
@@ -676,45 +631,31 @@ class CristaOptimizerAdapter:
             target_density=target_density,
             new_type=new_topology_type.value,
         )
-        self.current_cristae_state.density = np.clip(
-            target_density, 0.05, 0.95
-        ).item()  # type: ignore
+        self.current_cristae_state.density = np.clip(target_density, 0.05, 0.95).item()  # type: ignore
         self.current_cristae_state.topology_type = new_topology_type
         self.current_cristae_state.overall_efficiency_score = (
             self._calculate_overall_efficiency_score()
         )
-        self.current_cristae_state.last_updated_utc_iso = datetime.now(
-            timezone.utc
-        ).isoformat()
+        self.current_cristae_state.last_updated_utc_iso = datetime.now(timezone.utc).isoformat()
         await asyncio.sleep(0.001)
 
     @lukhas_tier_required(3)
-    async def _set_cristae_density_target(
-        self, target_density: float
-    ) -> dict[str, Any]:
+    async def _set_cristae_density_target(self, target_density: float) -> dict[str, Any]:
         """Sets cristae density towards a target value, simulating fusion/fission."""
         old_density = self.current_cristae_state.density
         density_change = target_density - old_density
 
         if abs(density_change) > 0.01:
             if density_change > 0:
-                await self._execute_fusion_fission_ops_sim(
-                    "fusion", int(abs(density_change) * 20)
-                )
+                await self._execute_fusion_fission_ops_sim("fusion", int(abs(density_change) * 20))
             else:
-                await self._execute_fusion_fission_ops_sim(
-                    "fission", int(abs(density_change) * 20)
-                )
+                await self._execute_fusion_fission_ops_sim("fission", int(abs(density_change) * 20))
 
-        self.current_cristae_state.density = np.clip(
-            target_density, 0.05, 0.95
-        ).item()  # type: ignore
+        self.current_cristae_state.density = np.clip(target_density, 0.05, 0.95).item()  # type: ignore
         self.current_cristae_state.overall_efficiency_score = (
             self._calculate_overall_efficiency_score()
         )
-        self.current_cristae_state.last_updated_utc_iso = datetime.now(
-            timezone.utc
-        ).isoformat()
+        self.current_cristae_state.last_updated_utc_iso = datetime.now(timezone.utc).isoformat()
         return {
             "success": True,
             "old_density": old_density,
@@ -738,9 +679,7 @@ class CristaOptimizerAdapter:
         achieved_stability_score = self._calculate_simulated_membrane_stability(
             optimal_cardiolipin, self.current_cristae_state.membrane_potential_mv
         )
-        self.current_cristae_state.last_updated_utc_iso = datetime.now(
-            timezone.utc
-        ).isoformat()
+        self.current_cristae_state.last_updated_utc_iso = datetime.now(timezone.utc).isoformat()
         return {
             "success": True,
             "stability_target_norm": stability_target_norm,
@@ -762,9 +701,7 @@ class CristaOptimizerAdapter:
         self.current_cristae_state.overall_efficiency_score = (
             self._calculate_overall_efficiency_score()
         )
-        self.current_cristae_state.last_updated_utc_iso = datetime.now(
-            timezone.utc
-        ).isoformat()
+        self.current_cristae_state.last_updated_utc_iso = datetime.now(timezone.utc).isoformat()
         return {
             "success": True,
             "old_density": old_density,
@@ -795,9 +732,7 @@ class CristaOptimizerAdapter:
     @lukhas_tier_required(3)
     def _get_default_cristae_state(self) -> CristaeState:
         """Returns a default CristaeState object, typically used in error scenarios."""
-        self.log.warning(
-            "Returning default cristae state due to an error or unavailability."
-        )
+        self.log.warning("Returning default cristae state due to an error or unavailability.")
         return CristaeState()
 
 

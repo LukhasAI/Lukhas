@@ -26,9 +26,7 @@ except ImportError:
 
 
 # Module-level convenience functions
-def create_fold(
-    content: Any, causal_chain: Optional[list[str]] = None, **kwargs
-) -> Optional[Any]:
+def create_fold(content: Any, causal_chain: Optional[list[str]] = None, **kwargs) -> Optional[Any]:
     """Create a memory fold (dry-run by default)"""
     if not MEMORY_AVAILABLE:
         return None
@@ -109,14 +107,14 @@ def dump_state(output_path: str) -> dict[str, Any]:
 
 
 __all__ = [
-    "MemoryWrapper",
-    "MemoryFold",
-    "FoldManager",
-    "MemoryMatrizAdapter",
-    "create_fold",
-    "consolidate_memory",
-    "access_memory",
-    "get_memory_manager",
-    "dump_state",
     "MEMORY_AVAILABLE",
+    "FoldManager",
+    "MemoryFold",
+    "MemoryMatrizAdapter",
+    "MemoryWrapper",
+    "access_memory",
+    "consolidate_memory",
+    "create_fold",
+    "dump_state",
+    "get_memory_manager",
 ]

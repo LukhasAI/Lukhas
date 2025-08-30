@@ -69,6 +69,7 @@ except ImportError:
                 LucasPluginManifest,
             )
             from .plugin_loader import PluginLoader
+
             # Try to import core components from common locations
             try:
                 from candidate.core.registry import core_registry
@@ -92,7 +93,6 @@ if not LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE:
     # functionality will be broken.
 
     class BaseLucasModule:
-
         def __init__(self, *args, **kwargs):
             self.is_running = False
             self.log = log.bind(module_type="BaseLucasModule_Fallback")
@@ -110,7 +110,6 @@ if not LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE:
         pass
 
     class LucasPluginManifest:
-
         def __init__(
             self,
             name="fallback_manifest",
@@ -172,7 +171,6 @@ if not LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE:
 
 
 def lukhas_tier_required(level: int):  # Placeholder
-
     def decorator(func):
         func._lukhas_tier = level
         return func
@@ -216,9 +214,7 @@ class PluginModuleAdapter(BaseLucasModule):
             "capabilities": manifest.capabilities,
             "adapter_class": self.__class__.__name__,
         }
-        self.log.info(
-            "PluginModuleAdapter initialized.", plugin_name=self.manifest.name
-        )
+        self.log.info("PluginModuleAdapter initialized.", plugin_name=self.manifest.name)
 
     @lukhas_tier_required(1)
     async def startup(self) -> None:
@@ -255,9 +251,7 @@ class PluginModuleAdapter(BaseLucasModule):
             plugin_name=self.manifest.name,
         )
         try:
-            if hasattr(self.plugin, "cleanup") and asyncio.iscoroutinefunction(
-                self.plugin.cleanup
-            ):
+            if hasattr(self.plugin, "cleanup") and asyncio.iscoroutinefunction(self.plugin.cleanup):
                 await self.plugin.cleanup()
             elif hasattr(self.plugin, "cleanup"):
                 self.plugin.cleanup()  # For non-async cleanup
@@ -291,9 +285,7 @@ class PluginModuleAdapter(BaseLucasModule):
                 else:
                     plugin_health = self.plugin.get_health()  # type: ignore
 
-            base_status = (
-                "healthy" if plugin_health.get("status") == "ok" else "unhealthy"
-            )
+            base_status = "healthy" if plugin_health.get("status") == "ok" else "unhealthy"
             if not plugin_health:  # If get_health doesn't exist or returns empty
                 base_status = "healthy" if self.is_running else "stopped"
 
@@ -321,9 +313,7 @@ class PluginModuleAdapter(BaseLucasModule):
             }
 
     @lukhas_tier_required(1)
-    async def process_symbolic_input(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_symbolic_input(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Processes symbolic input by routing it to the plugin's 'process_symbolic' or 'process' method.
         Args:
@@ -426,9 +416,7 @@ class IntegrationBridge:
         registration_results: dict[str, bool] = {}
 
         try:
-            loaded_plugins_map = await self.plugin_loader.load_plugins(
-                plugins_directory_path
-            )
+            loaded_plugins_map = await self.plugin_loader.load_plugins(plugins_directory_path)
             self.log.info(
                 f"PluginLoader found {len(loaded_plugins_map)} potential plugins.",
                 count=len(loaded_plugins_map),
@@ -514,9 +502,7 @@ class IntegrationBridge:
         try:
             await adapter_to_unload.shutdown()  # Gracefully shutdown the plugin first
 
-            unregistration_successful = await core_registry.unregister(
-                module_registry_id
-            )
+            unregistration_successful = await core_registry.unregister(module_registry_id)
             if unregistration_successful:
                 del self.plugin_adapters[plugin_name]
                 self.log.info(
@@ -571,10 +557,8 @@ class IntegrationBridge:
                     exc_info=True,
                 )
                 statuses[plugin_name] = {
-                    "error_message": f"Failed to retrieve status: {str(e)}",
-                    "is_adapter_marked_running": (
-                        adapter.is_running if adapter else "unknown"
-                    ),
+                    "error_message": f"Failed to retrieve status: {e!s}",
+                    "is_adapter_marked_running": (adapter.is_running if adapter else "unknown"),
                     "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
         return statuses
@@ -746,9 +730,7 @@ class IntegrationBridge:
             capability=capability_name,
         )
 
-        call_result = await self.send_to_plugin(
-            selected_plugin_name, method_name, *args, **kwargs
-        )
+        call_result = await self.send_to_plugin(selected_plugin_name, method_name, *args, **kwargs)
 
         # Enhance the result with routing information
         call_result["routed_to_plugin"] = selected_plugin_name
@@ -761,9 +743,7 @@ class IntegrationBridge:
 #        Consider if this should be managed/accessed via a central service locator
 #        or dependency injection in a larger application context.
 integration_bridge = IntegrationBridge()
-log.info(
-    "Global IntegrationBridge instance created and available as 'integration_bridge'."
-)
+log.info("Global IntegrationBridge instance created and available as 'integration_bridge'.")
 
 # --- LUKHΛS AI Standard Footer ---
 # File Origin: LUKHΛS Integration Framework - Core Components

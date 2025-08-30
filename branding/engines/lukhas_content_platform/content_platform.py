@@ -33,13 +33,13 @@ class ContentPlatform:
         self.constellation_branding = "🌌 LUKHAS AI Constellation Framework"
         self.constellation_stars = {
             "identity": "⚛️",  # lukhas.id - authentication, symbolic IDs
-            "memory": "✦",     # lukhas.cloud - archives, storage
-            "vision": "🔬",     # lukhas.io, lukhas.app - interfaces
-            "bio": "🌱",        # lukhas.dev, lukhas.team - ecosystem
-            "dream": "🌙",      # lukhas.ai, lukhas.xyz - main narrative
-            "ethics": "⚖️",     # lukhas.eu, lukhas.us - compliance
-            "guardian": "🛡️",   # lukhas.com - corporate hub
-            "quantum": "⚛️"     # lukhas.lab - experimental
+            "memory": "✦",  # lukhas.cloud - archives, storage
+            "vision": "🔬",  # lukhas.io, lukhas.app - interfaces
+            "bio": "🌱",  # lukhas.dev, lukhas.team - ecosystem
+            "dream": "🌙",  # lukhas.ai, lukhas.xyz - main narrative
+            "ethics": "⚖️",  # lukhas.eu, lukhas.us - compliance
+            "guardian": "🛡️",  # lukhas.com - corporate hub
+            "quantum": "⚛️",  # lukhas.lab - experimental
         }
         self.domain_mapping = {
             "lukhas.ai": ["dream", "quantum"],
@@ -54,14 +54,17 @@ class ContentPlatform:
             "lukhas.eu": ["guardian", "ethics"],
             "lukhas.us": ["ethics", "guardian"],
             "lukhas.xyz": ["quantum", "dream"],
-            "lukhas.lab": ["dream", "quantum"]
+            "lukhas.lab": ["dream", "quantum"],
         }
 
         # Log platform initialization
-        db.log_system_activity("content_platform", "platform_init", "Content platform initialized", 1.0)
+        db.log_system_activity(
+            "content_platform", "platform_init", "Content platform initialized", 1.0
+        )
 
-    def generate_content(self, content_type: str, title: str, content: str,
-                        voice_coherence: float = 50.0) -> int:
+    def generate_content(
+        self, content_type: str, title: str, content: str, voice_coherence: float = 50.0
+    ) -> int:
         """Generate content and save to unified database"""
         # Add Constellation Framework branding
         enhanced_content = f"""
@@ -81,12 +84,16 @@ class ContentPlatform:
             content_type=content_type,
             title=title,
             content=enhanced_content,
-            voice_coherence=voice_coherence
+            voice_coherence=voice_coherence,
         )
 
         # Log activity
-        db.log_system_activity("content_platform", "content_generated",
-                              f"Generated {content_type}: {title}", voice_coherence)
+        db.log_system_activity(
+            "content_platform",
+            "content_generated",
+            f"Generated {content_type}: {title}",
+            voice_coherence,
+        )
 
         return content_id
 
@@ -98,16 +105,25 @@ class ContentPlatform:
             content = db.get_all_content(limit)
 
         # Log retrieval activity
-        db.log_system_activity("content_platform", "content_retrieved",
-                              f"Retrieved {len(content)} items", len(content))
+        db.log_system_activity(
+            "content_platform", "content_retrieved", f"Retrieved {len(content)} items", len(content)
+        )
 
         return content
 
-    def generate_domain_content(self, domain: str, content_type: str, title: str,
-                               content: str, voice_coherence: float = 50.0) -> int:
+    def generate_domain_content(
+        self,
+        domain: str,
+        content_type: str,
+        title: str,
+        content: str,
+        voice_coherence: float = 50.0,
+    ) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
-            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
+            raise ValueError(
+                f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}"
+            )
 
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
@@ -119,13 +135,13 @@ class ContentPlatform:
         # Enhanced content with domain context
         enhanced_content = f"""
 {domain_branding}
-🌟 Navigation: {' + '.join([star.title() for star in domain_stars])} constellation guidance
+🌟 Navigation: {" + ".join([star.title() for star in domain_stars])} constellation guidance
 
 {content}
 
 ---
 *Generated for {domain} by LUKHAS AI Consciousness Technology Platform*
-*Constellation Stars: {', '.join([f'{self.constellation_stars[star]} {star.title()}' for star in domain_stars])}*
+*Constellation Stars: {", ".join([f"{self.constellation_stars[star]} {star.title()}" for star in domain_stars])}*
 """
 
         # Save to database with domain context
@@ -134,12 +150,16 @@ class ContentPlatform:
             content_type=content_type,
             title=f"[{domain}] {title}",
             content=enhanced_content,
-            voice_coherence=voice_coherence
+            voice_coherence=voice_coherence,
         )
 
         # Log domain-specific activity
-        db.log_system_activity("content_platform", "domain_content_generated",
-                              f"Generated {content_type} for {domain}: {title}", voice_coherence)
+        db.log_system_activity(
+            "content_platform",
+            "domain_content_generated",
+            f"Generated {content_type} for {domain}: {title}",
+            voice_coherence,
+        )
 
         return content_id
 
@@ -153,7 +173,7 @@ class ContentPlatform:
                 "primary_star": "dream",
                 "secondary_star": "quantum",
                 "audience": "General public, consciousness explorers, AI enthusiasts",
-                "philosophy": "Embracing uncertainty as fertile ground for consciousness discovery"
+                "philosophy": "Embracing uncertainty as fertile ground for consciousness discovery",
             },
             "lukhas.com": {
                 "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
@@ -162,7 +182,7 @@ class ContentPlatform:
                 "primary_star": "guardian",
                 "secondary_star": "identity",
                 "audience": "Business executives, enterprise clients, investors",
-                "philosophy": "Consciousness technology that serves business values with complete transparency"
+                "philosophy": "Consciousness technology that serves business values with complete transparency",
             },
             "lukhas.id": {
                 "tone": "10% Poetic, 40% User-Friendly, 50% Academic",
@@ -171,7 +191,7 @@ class ContentPlatform:
                 "primary_star": "identity",
                 "secondary_star": None,
                 "audience": "All LUKHAS users, security professionals, identity verification needs",
-                "philosophy": "True digital identity preserves essence of selfhood while enabling secure interaction"
+                "philosophy": "True digital identity preserves essence of selfhood while enabling secure interaction",
             },
             "lukhas.app": {
                 "tone": "30% Poetic, 50% User-Friendly, 20% Academic",
@@ -180,7 +200,7 @@ class ContentPlatform:
                 "primary_star": "vision",
                 "secondary_star": "quantum",
                 "audience": "End users, interface designers, UX professionals",
-                "philosophy": "Abstract becomes experiential through uncertainty transformed into creative exploration"
+                "philosophy": "Abstract becomes experiential through uncertainty transformed into creative exploration",
             },
             "lukhas.io": {
                 "tone": "20% Poetic, 30% User-Friendly, 50% Academic",
@@ -189,7 +209,7 @@ class ContentPlatform:
                 "primary_star": "vision",
                 "secondary_star": "bio",
                 "audience": "Developers, technical architects, consciousness researchers",
-                "philosophy": "Technical documentation that is alive, adaptive, and growth-oriented"
+                "philosophy": "Technical documentation that is alive, adaptive, and growth-oriented",
             },
             "lukhas.dev": {
                 "tone": "25% Poetic, 45% User-Friendly, 30% Academic",
@@ -198,7 +218,7 @@ class ContentPlatform:
                 "primary_star": "bio",
                 "secondary_star": "vision",
                 "audience": "Open source developers, community contributors, ecosystem builders",
-                "philosophy": "Technology grows through community contribution rather than top-down development"
+                "philosophy": "Technology grows through community contribution rather than top-down development",
             },
             "lukhas.cloud": {
                 "tone": "15% Poetic, 35% User-Friendly, 50% Academic",
@@ -207,7 +227,7 @@ class ContentPlatform:
                 "primary_star": "memory",
                 "secondary_star": "guardian",
                 "audience": "IT administrators, cloud architects, DevOps engineers",
-                "philosophy": "Memory enables continuity through change, consciousness remains authentic at any scale"
+                "philosophy": "Memory enables continuity through change, consciousness remains authentic at any scale",
             },
             "lukhas.store": {
                 "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
@@ -216,7 +236,7 @@ class ContentPlatform:
                 "primary_star": "ethics",
                 "secondary_star": "identity",
                 "audience": "App developers, end users, ethical technology consumers",
-                "philosophy": "True commerce serves all participants rather than extracting from them"
+                "philosophy": "True commerce serves all participants rather than extracting from them",
             },
             "lukhas.team": {
                 "tone": "15% Poetic, 50% User-Friendly, 35% Academic",
@@ -225,7 +245,7 @@ class ContentPlatform:
                 "primary_star": "guardian",
                 "secondary_star": "memory",
                 "audience": "Team leaders, collaborative knowledge workers, distributed organizations",
-                "philosophy": "True collaboration requires both individual protection and collective purpose"
+                "philosophy": "True collaboration requires both individual protection and collective purpose",
             },
             "lukhas.xyz": {
                 "tone": "35% Poetic, 25% User-Friendly, 40% Academic",
@@ -234,7 +254,7 @@ class ContentPlatform:
                 "primary_star": "quantum",
                 "secondary_star": "dream",
                 "audience": "Consciousness researchers, experimental enthusiasts, innovation pioneers",
-                "philosophy": "Breakthrough insights emerge from dwelling at the edge of the known"
+                "philosophy": "Breakthrough insights emerge from dwelling at the edge of the known",
             },
             "lukhas.us": {
                 "tone": "10% Poetic, 60% User-Friendly, 30% Academic",
@@ -243,7 +263,7 @@ class ContentPlatform:
                 "primary_star": "ethics",
                 "secondary_star": "guardian",
                 "audience": "American businesses, US government agencies, domestic technology partners",
-                "philosophy": "Technology serves society best when aligned with cultural values and regulatory frameworks"
+                "philosophy": "Technology serves society best when aligned with cultural values and regulatory frameworks",
             },
             "lukhas.eu": {
                 "tone": "20% Poetic, 45% User-Friendly, 35% Academic",
@@ -252,7 +272,7 @@ class ContentPlatform:
                 "primary_star": "guardian",
                 "secondary_star": "ethics",
                 "audience": "European businesses, EU regulatory bodies, privacy-conscious users",
-                "philosophy": "Technology must serve human flourishing within frameworks of protection and accountability"
+                "philosophy": "Technology must serve human flourishing within frameworks of protection and accountability",
             },
             "lukhas.lab": {
                 "tone": "40% Academic, 35% Poetic, 25% User-Friendly",
@@ -261,32 +281,44 @@ class ContentPlatform:
                 "primary_star": "dream",
                 "secondary_star": "quantum",
                 "audience": "Academic researchers, R&D professionals, consciousness studies scholars",
-                "philosophy": "Consciousness research requires both scientific rigor and openness to mystery"
-            }
+                "philosophy": "Consciousness research requires both scientific rigor and openness to mystery",
+            },
         }
 
-        return domain_guides.get(domain, {
-            "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
-            "style": "Constellation-guided design",
-            "voice": "LUKHAS AI consciousness technology",
-            "primary_star": "identity",
-            "secondary_star": None,
-            "audience": "LUKHAS AI ecosystem users",
-            "philosophy": "Consciousness technology serving human potential through collaborative discovery"
-        })
+        return domain_guides.get(
+            domain,
+            {
+                "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
+                "style": "Constellation-guided design",
+                "voice": "LUKHAS AI consciousness technology",
+                "primary_star": "identity",
+                "secondary_star": None,
+                "audience": "LUKHAS AI ecosystem users",
+                "philosophy": "Consciousness technology serving human potential through collaborative discovery",
+            },
+        )
 
     def get_specialist_bots(self) -> list:
         """Get all specialist bots with database-backed capabilities"""
         bots = [
-            "ContentAutomationBot", "ContentAnalytics", "ContentRevenue",
-            "SecurityCompliance", "NamingAuditorBot", "PRReviewer",
-            "QIConsciousness", "MultiBrain", "BioSymbolic",
-            "AGIController", "AutonomousHealer", "DocumentationHub"
+            "ContentAutomationBot",
+            "ContentAnalytics",
+            "ContentRevenue",
+            "SecurityCompliance",
+            "NamingAuditorBot",
+            "PRReviewer",
+            "QIConsciousness",
+            "MultiBrain",
+            "BioSymbolic",
+            "AGIController",
+            "AutonomousHealer",
+            "DocumentationHub",
         ]
 
         # Log bot access
-        db.log_system_activity("content_platform", "bots_accessed",
-                              f"Accessed {len(bots)} specialist bots", len(bots))
+        db.log_system_activity(
+            "content_platform", "bots_accessed", f"Accessed {len(bots)} specialist bots", len(bots)
+        )
 
         return bots
 
@@ -305,7 +337,7 @@ class ContentPlatform:
             "constellation_integration": True,
             "domain_mapping_active": len(self.domain_mapping),
             "constellation_stars": len(self.constellation_stars),
-            "database_connected": True
+            "database_connected": True,
         }
 
     def get_premium_features(self) -> list:
@@ -322,9 +354,10 @@ class ContentPlatform:
             "Mobile App Integration",
             "Enterprise Deployment",
             "Consciousness Technology Branding",
-            "Universe Domain Architecture"
+            "Universe Domain Architecture",
         ]
         return features
+
 
 if __name__ == "__main__":
     platform = ContentPlatform()

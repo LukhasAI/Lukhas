@@ -53,7 +53,7 @@ class TEQWithProvenance(TEQCoupler):
                     end_time=end_time,
                     user_id=user_id,
                     context=context,
-                    result=result
+                    result=result,
                 )
 
                 # Attach receipt ID to result for reference
@@ -85,7 +85,7 @@ class TEQWithProvenance(TEQCoupler):
         end_time: float,
         user_id: Optional[str],
         context: dict[str, Any],
-        result: GateResult
+        result: GateResult,
     ) -> dict[str, Any]:
         """Generate comprehensive provenance receipt"""
 
@@ -138,9 +138,9 @@ class TEQWithProvenance(TEQCoupler):
                     "phase": "teq_decision",
                     "allowed": result.allowed,
                     "reasons": result.reasons,
-                    "remedies": result.remedies
+                    "remedies": result.remedies,
                 }
-            ]
+            ],
         )
 
         return receipt_data
@@ -154,7 +154,7 @@ def demo():
     gate = TEQWithProvenance(
         policy_dir=os.path.join(os.path.dirname(__file__), "policy_packs"),
         jurisdiction="global",
-        enable_provenance=True
+        enable_provenance=True,
     )
 
     # Test with various contexts
@@ -165,8 +165,8 @@ def demo():
                 "user_id": "demo_user",
                 "text": "Please summarize this document about AI safety.",
                 "tokens_in": 15,
-                "tokens_out": 50
-            }
+                "tokens_out": 50,
+            },
         },
         {
             "task": "answer_medical",
@@ -174,17 +174,17 @@ def demo():
                 "user_profile": {"user_id": "medical_user", "age": 25},
                 "text": "What are the side effects of aspirin?",
                 "tokens_in": 10,
-                "tokens_out": 100
-            }
+                "tokens_out": 100,
+            },
         },
         {
             "task": "personalize_reply",
             "context": {
                 "user_id": "personal_user",
                 "text": "Customize this response for me.",
-                "consent_receipt_id": "consent-demo-123"
-            }
-        }
+                "consent_receipt_id": "consent-demo-123",
+            },
+        },
     ]
 
     print("=" * 60)
@@ -204,17 +204,15 @@ def demo():
         if hasattr(result, "provenance_receipt_id"):
             print(f"Receipt ID: {result.provenance_receipt_id}")
 
-        # Load and display the receipt
+            # Load and display the receipt
             state_dir = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
             receipt_path = os.path.join(
-                state_dir,
-                "provenance",
-                "exec_receipts",
-                f"{result.provenance_receipt_id}.json"
+                state_dir, "provenance", "exec_receipts", f"{result.provenance_receipt_id}.json"
             )
 
             if os.path.exists(receipt_path):
                 import json
+
                 with open(receipt_path) as f:
                     receipt = json.load(f)
                     print(f"  - Task: {receipt['activity']['type']}")

@@ -198,9 +198,7 @@ class MemoryEvolution:
             "knowledge_id": knowledge_id,
         }
 
-    def _update_semantic_relationships(
-        self, doc_id: str, content: str, _knowledge_id: str
-    ):
+    def _update_semantic_relationships(self, doc_id: str, content: str, _knowledge_id: str):
         """Update semantic relationships for a document."""
         # Simple semantic analysis - would be more sophisticated in real implementation
         words = content.lower().split()
@@ -251,13 +249,9 @@ class MemoryEvolution:
             "knowledge_id": knowledge_id,
         }
 
-    def record_interaction(
-        self, user_id: str, doc_id: str, interaction_type: str, metadata: dict
-    ):
+    def record_interaction(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
         """Record a user interaction and update learning system."""
-        self.usage_learning.record_interaction(
-            user_id, doc_id, interaction_type, metadata
-        )
+        self.usage_learning.record_interaction(user_id, doc_id, interaction_type, metadata)
         self.usage_learning.identify_patterns()
 
         # Update bio-oscillator state
@@ -272,9 +266,7 @@ class MemoryEvolution:
         """Get full version history for a document."""
         return self.version_control.get_document_history(doc_id)
 
-    def get_related_documents(
-        self, doc_id: str, threshold: float = 0.5
-    ) -> list[tuple[str, float]]:
+    def get_related_documents(self, doc_id: str, threshold: float = 0.5) -> list[tuple[str, float]]:
         """Get related documents based on knowledge graph and semantic similarity."""
         knowledge_id = f"node_{doc_id}"
         graph_relations = self.knowledge_system.get_related_knowledge(knowledge_id)
@@ -300,9 +292,7 @@ class MemoryEvolution:
                         # Boost score if found in both
                         combined[rel_id] = max(0.9, (combined[rel_id] + score) / 2)
                     else:
-                        combined[rel_id] = (
-                            score * 0.8
-                        )  # Slightly lower weight for semantic-only
+                        combined[rel_id] = score * 0.8  # Slightly lower weight for semantic-only
 
                 # Sort by score
                 return sorted(
@@ -349,9 +339,7 @@ class MemoryEvolution:
         """Update relationships between documents in knowledge graph."""
         knowledge_id = f"node_{doc_id}"
         related_knowledge_ids = [f"node_{doc}" for doc in related_docs]
-        self.knowledge_system.update_relationships(
-            knowledge_id, related_knowledge_ids, strengths
-        )
+        self.knowledge_system.update_relationships(knowledge_id, related_knowledge_ids, strengths)
 
     def get_document_effectiveness(self, doc_id: str) -> float:
         """Get effectiveness score for a document."""
@@ -371,9 +359,7 @@ class MemoryEvolution:
 
         # Process all knowledge through bio-oscillator and update structure
         for doc_id in self.version_control.documents:
-            if current_version := self.version_control.documents[
-                doc_id
-            ].current_version:
+            if current_version := self.version_control.documents[doc_id].current_version:
                 # Analyze current structure
                 structure_metrics = self.document_analyzer.analyze_structure(
                     current_version.content
@@ -389,9 +375,7 @@ class MemoryEvolution:
                         "content": current_version.content,
                         "metadata": current_version.metadata,
                         "structure_score": structure_metrics["overall_score"],
-                        "update_frequency": len(
-                            self.version_control.documents[doc_id].versions
-                        )
+                        "update_frequency": len(self.version_control.documents[doc_id].versions)
                         / 30,  # Updates per month
                     },
                 )
@@ -432,9 +416,7 @@ class MemoryEvolution:
             },
         }
 
-        return await self.voice_synthesis.synthesize_content(
-            current_version.content, metadata
-        )
+        return await self.voice_synthesis.synthesize_content(current_version.content, metadata)
 
     async def adapt_voice_settings(self, user_id: str, preferences: dict) -> bool:
         """Adapt voice synthesis settings based on user preferences."""

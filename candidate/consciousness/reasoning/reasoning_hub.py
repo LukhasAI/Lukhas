@@ -87,8 +87,8 @@ async def initialize_reasoning_system() -> ReasoningHub:
 
 __all__ = [
     "ReasoningHub",
-    "get_reasoning_hub",
-    "initialize_reasoning_system",
     "ΛBotAdvancedReasoningOrchestrator",
     "create_ethical_reasoning_integration",
+    "get_reasoning_hub",
+    "initialize_reasoning_system",
 ]

@@ -114,9 +114,7 @@ class LambdaIDGenerator:
         hash_obj = hashlib.sha256(timestamp.encode())
         return hash_obj.hexdigest()[:4].upper()
 
-    def _select_symbolic_element(
-        self, tier: TierLevel, preference: Optional[str] = None
-    ) -> str:
+    def _select_symbolic_element(self, tier: TierLevel, preference: Optional[str] = None) -> str:
         """
         Select appropriate symbolic character based on tier and preference.
 
@@ -130,9 +128,7 @@ class LambdaIDGenerator:
         # Random selection from tier-appropriate symbols
         return secrets.choice(tier_symbols) if tier_symbols else "◊"
 
-    def _generate_entropy_hash(
-        self, tier: TierLevel, user_context: Optional[dict] = None
-    ) -> str:
+    def _generate_entropy_hash(self, tier: TierLevel, user_context: Optional[dict] = None) -> str:
         """Generate 4-character entropy hash with tier-specific complexity"""
         # Base entropy from secure random
         base_entropy = secrets.token_hex(16)
@@ -221,6 +217,7 @@ class LambdaIDGenerator:
 # Alias for compatibility
 LambdIDGenerator = LambdaIDGenerator
 
+
 # Validator class
 class LambdIDValidator:
     """Lambda ID validator"""
@@ -243,8 +240,9 @@ class LambdIDValidator:
 
         return True
 
+
 # Export main classes
-__all__ = ["LambdaIDGenerator", "LambdIDGenerator", "LambdIDValidator", "TierLevel", "UserContext"]
+__all__ = ["LambdIDGenerator", "LambdIDValidator", "LambdaIDGenerator", "TierLevel", "UserContext"]
 
 # Example usage and testing
 if __name__ == "__main__":

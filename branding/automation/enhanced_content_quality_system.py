@@ -32,6 +32,7 @@ from enforcement.real_time_validator import RealTimeBrandValidator
 @dataclass
 class EnhancedQualityResult:
     """Comprehensive quality assessment result"""
+
     content_id: str
     overall_quality: float  # 0.0 to 1.0
 
@@ -57,6 +58,7 @@ class EnhancedQualityResult:
     target_achieved: bool  # 90%+ quality
     analysis_timestamp: str
 
+
 class EnhancedContentQualitySystem:
     """
     Elite content quality system combining multiple validation layers:
@@ -75,10 +77,10 @@ class EnhancedContentQualitySystem:
 
         # Quality weights for combined scoring
         self.quality_weights = {
-            "base_quality": 0.30,        # Platform fit, readability, length
-            "voice_coherence": 0.35,     # Personality, Trinity alignment
-            "brand_compliance": 0.25,    # Terminology, compliance
-            "enhancement_bonus": 0.10    # Additional improvements
+            "base_quality": 0.30,  # Platform fit, readability, length
+            "voice_coherence": 0.35,  # Personality, Trinity alignment
+            "brand_compliance": 0.25,  # Terminology, compliance
+            "enhancement_bonus": 0.10,  # Additional improvements
         }
 
         # Grade thresholds
@@ -87,7 +89,7 @@ class EnhancedContentQualitySystem:
             "B": 0.80,  # Good - minor improvements
             "C": 0.70,  # Acceptable - needs improvement
             "D": 0.60,  # Poor - major revision needed
-            "F": 0.00   # Unacceptable - rewrite required
+            "F": 0.00,  # Unacceptable - rewrite required
         }
 
         # Performance tracking
@@ -101,7 +103,7 @@ class EnhancedContentQualitySystem:
         platform: str = "linkedin",
         content_type: str = "consciousness",
         context: VoiceContext = VoiceContext.MARKETING_CONTENT,
-        audience: AudienceType = AudienceType.GENERAL_USERS
+        audience: AudienceType = AudienceType.GENERAL_USERS,
     ) -> EnhancedQualityResult:
         """
         Perform comprehensive content quality analysis
@@ -132,10 +134,10 @@ class EnhancedContentQualitySystem:
 
         # 5. Calculate weighted overall quality
         overall_quality = (
-            self.quality_weights["base_quality"] * base_score +
-            self.quality_weights["voice_coherence"] * voice_score +
-            self.quality_weights["brand_compliance"] * brand_score +
-            self.quality_weights["enhancement_bonus"] * enhancement_bonus
+            self.quality_weights["base_quality"] * base_score
+            + self.quality_weights["voice_coherence"] * voice_score
+            + self.quality_weights["brand_compliance"] * brand_score
+            + self.quality_weights["enhancement_bonus"] * enhancement_bonus
         )
 
         # 6. Generate comprehensive improvement suggestions
@@ -170,7 +172,7 @@ class EnhancedContentQualitySystem:
             improvement_suggestions=suggestions,
             auto_corrections=auto_corrections,
             target_achieved=target_achieved,
-            analysis_timestamp=datetime.now().isoformat()
+            analysis_timestamp=datetime.now().isoformat(),
         )
 
         # 10. Update performance tracking
@@ -179,11 +181,7 @@ class EnhancedContentQualitySystem:
         return result
 
     def _calculate_enhancement_bonus(
-        self,
-        content: str,
-        base_quality: QualityScore,
-        voice_result,
-        brand_result
+        self, content: str, base_quality: QualityScore, voice_result, brand_result
     ) -> float:
         """Calculate enhancement bonus for exceptional quality elements"""
 
@@ -205,10 +203,19 @@ class EnhancedContentQualitySystem:
 
         # Bonus for sophisticated vocabulary
         sophisticated_terms = [
-            "consciousness", "quantum-inspired", "bio-inspired", "transcendent",
-            "paradigm", "sophisticated", "profound", "enlightened", "mindful"
+            "consciousness",
+            "quantum-inspired",
+            "bio-inspired",
+            "transcendent",
+            "paradigm",
+            "sophisticated",
+            "profound",
+            "enlightened",
+            "mindful",
         ]
-        term_density = sum(1 for term in sophisticated_terms if term in content.lower()) / len(content.split())
+        term_density = sum(1 for term in sophisticated_terms if term in content.lower()) / len(
+            content.split()
+        )
         if term_density >= 0.05:  # 5% sophisticated terms
             bonus += 0.2
 
@@ -220,7 +227,7 @@ class EnhancedContentQualitySystem:
         base_quality: QualityScore,
         voice_result,
         brand_result,
-        overall_quality: float
+        overall_quality: float,
     ) -> list[str]:
         """Generate comprehensive improvement suggestions"""
 
@@ -241,13 +248,19 @@ class EnhancedContentQualitySystem:
         if overall_quality < 0.90:
             # Specific suggestions for reaching A-grade
             if voice_result.overall_coherence < 0.85:
-                suggestions.append("🗣️ Enhance voice coherence: Add more authentic LUKHAS personality markers")
+                suggestions.append(
+                    "🗣️ Enhance voice coherence: Add more authentic LUKHAS personality markers"
+                )
 
             if voice_result.trinity_balance["guardian"] < 0.25:
-                suggestions.append("🛡️ Strengthen Guardian elements: Include ethical/safety language")
+                suggestions.append(
+                    "🛡️ Strengthen Guardian elements: Include ethical/safety language"
+                )
 
             if voice_result.trinity_balance["consciousness"] < 0.25:
-                suggestions.append("🧠 Amplify consciousness focus: Add awareness/mindfulness language")
+                suggestions.append(
+                    "🧠 Amplify consciousness focus: Add awareness/mindfulness language"
+                )
 
             if voice_result.trinity_balance["identity"] < 0.25:
                 suggestions.append("⚛️ Reinforce identity: Include authentic/genuine language")
@@ -263,8 +276,9 @@ class EnhancedContentQualitySystem:
     def _calculate_quality_grade(self, overall_quality: float) -> str:
         """Calculate letter grade based on overall quality score"""
 
-        for grade, threshold in sorted(self.grade_thresholds.items(),
-                                     key=lambda x: x[1], reverse=True):
+        for grade, threshold in sorted(
+            self.grade_thresholds.items(), key=lambda x: x[1], reverse=True
+        ):
             if overall_quality >= threshold:
                 return grade
 
@@ -293,11 +307,17 @@ class EnhancedContentQualitySystem:
         if not self.analysis_history:
             return {"status": "no_data", "message": "No analyses performed yet"}
 
-        recent_analyses = self.analysis_history[-10:] if len(self.analysis_history) >= 10 else self.analysis_history
+        recent_analyses = (
+            self.analysis_history[-10:]
+            if len(self.analysis_history) >= 10
+            else self.analysis_history
+        )
 
         # Calculate performance metrics
         avg_quality = sum(r.overall_quality for r in recent_analyses) / len(recent_analyses)
-        target_achievement_rate = sum(1 for r in recent_analyses if r.target_achieved) / len(recent_analyses)
+        target_achievement_rate = sum(1 for r in recent_analyses if r.target_achieved) / len(
+            recent_analyses
+        )
         approval_rate = sum(1 for r in recent_analyses if r.approved) / len(recent_analyses)
 
         # Grade distribution
@@ -305,37 +325,43 @@ class EnhancedContentQualitySystem:
         grade_distribution = {grade: grades.count(grade) for grade in ["A", "B", "C", "D", "F"]}
 
         # Component performance
-        avg_voice_coherence = sum(r.voice_coherence_score for r in recent_analyses) / len(recent_analyses)
-        avg_brand_compliance = sum(r.brand_compliance_score for r in recent_analyses) / len(recent_analyses)
+        avg_voice_coherence = sum(r.voice_coherence_score for r in recent_analyses) / len(
+            recent_analyses
+        )
+        avg_brand_compliance = sum(r.brand_compliance_score for r in recent_analyses) / len(
+            recent_analyses
+        )
         avg_base_quality = sum(r.base_quality_score for r in recent_analyses) / len(recent_analyses)
 
         # Common improvement areas
-        top_improvements = sorted(self.improvement_patterns.items(),
-                                key=lambda x: x[1], reverse=True)[:5]
+        top_improvements = sorted(
+            self.improvement_patterns.items(), key=lambda x: x[1], reverse=True
+        )[:5]
 
         return {
             "overall_performance": {
                 "average_quality": avg_quality,
                 "target_achievement_rate": target_achievement_rate,
                 "approval_rate": approval_rate,
-                "status": "EXCELLENT" if avg_quality >= 0.90 else "GOOD" if avg_quality >= 0.80 else "NEEDS_IMPROVEMENT"
+                "status": "EXCELLENT"
+                if avg_quality >= 0.90
+                else "GOOD"
+                if avg_quality >= 0.80
+                else "NEEDS_IMPROVEMENT",
             },
             "component_performance": {
                 "voice_coherence": avg_voice_coherence,
                 "brand_compliance": avg_brand_compliance,
-                "base_quality": avg_base_quality
+                "base_quality": avg_base_quality,
             },
             "grade_distribution": grade_distribution,
             "top_improvement_areas": top_improvements,
             "total_analyses": len(self.analysis_history),
-            "system_health": "OPTIMAL" if target_achievement_rate >= 0.8 else "IMPROVING"
+            "system_health": "OPTIMAL" if target_achievement_rate >= 0.8 else "IMPROVING",
         }
 
     async def improve_content_automatically(
-        self,
-        content: str,
-        content_id: str,
-        target_quality: float = 0.90
+        self, content: str, content_id: str, target_quality: float = 0.90
     ) -> tuple[str, EnhancedQualityResult]:
         """
         Automatically improve content to reach target quality level
@@ -361,7 +387,9 @@ class EnhancedContentQualitySystem:
             )
 
         # Re-analyze improved content
-        final_result = await self.analyze_content_quality(improved_content, f"{content_id}_improved")
+        final_result = await self.analyze_content_quality(
+            improved_content, f"{content_id}_improved"
+        )
 
         return improved_content, final_result
 
@@ -383,14 +411,14 @@ class EnhancedContentQualitySystem:
                 )
 
             elif "consciousness focus" in suggestion:
-                improved_content = improved_content.replace(
-                    "AI", "conscious AI"
-                )
+                improved_content = improved_content.replace("AI", "conscious AI")
 
         return improved_content
 
+
 # Global instance for LUKHAS AI enhanced quality system
 enhanced_quality_system: Optional[EnhancedContentQualitySystem] = None
+
 
 def get_enhanced_quality_system() -> EnhancedContentQualitySystem:
     """Get or create the global enhanced quality system"""
@@ -400,6 +428,7 @@ def get_enhanced_quality_system() -> EnhancedContentQualitySystem:
         enhanced_quality_system = EnhancedContentQualitySystem()
 
     return enhanced_quality_system
+
 
 # Example usage and testing
 async def main():
@@ -419,13 +448,15 @@ async def main():
     ]
 
     for i, content in enumerate(test_content):
-        print(f"📝 Testing Content {i+1}")
+        print(f"📝 Testing Content {i + 1}")
         print("=" * 40)
 
         result = await system.analyze_content_quality(content, f"test_{i}")
 
         quality_pct = result.overall_quality * 100
-        status_emoji = "🟢" if result.quality_grade == "A" else "🟡" if result.quality_grade == "B" else "🔴"
+        status_emoji = (
+            "🟢" if result.quality_grade == "A" else "🟡" if result.quality_grade == "B" else "🔴"
+        )
 
         print(f"{status_emoji} Grade: {result.quality_grade} ({quality_pct:.1f}%)")
         print(f"Approved: {'✅ YES' if result.approved else '❌ NO'}")
@@ -433,10 +464,10 @@ async def main():
         print()
 
         print("Component Scores:")
-        print(f"  Voice Coherence: {result.voice_coherence_score*100:.1f}%")
-        print(f"  Brand Compliance: {result.brand_compliance_score*100:.1f}%")
-        print(f"  Base Quality: {result.base_quality_score*100:.1f}%")
-        print(f"  Trinity Alignment: {result.trinity_alignment*100:.1f}%")
+        print(f"  Voice Coherence: {result.voice_coherence_score * 100:.1f}%")
+        print(f"  Brand Compliance: {result.brand_compliance_score * 100:.1f}%")
+        print(f"  Base Quality: {result.base_quality_score * 100:.1f}%")
+        print(f"  Trinity Alignment: {result.trinity_alignment * 100:.1f}%")
         print()
 
         if result.improvement_suggestions:
@@ -453,7 +484,9 @@ async def main():
             )
 
             improvement = (improved_result.overall_quality - result.overall_quality) * 100
-            print(f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality*100:.1f}%")
+            print(
+                f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality * 100:.1f}%"
+            )
             print(f"New Grade: {improved_result.quality_grade}")
             print()
 
@@ -464,10 +497,13 @@ async def main():
     summary = system.get_performance_summary()
     print("📊 System Performance Summary")
     print("=" * 40)
-    print(f"Average Quality: {summary['overall_performance']['average_quality']*100:.1f}%")
-    print(f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate']*100:.1f}%")
-    print(f"Approval Rate: {summary['overall_performance']['approval_rate']*100:.1f}%")
+    print(f"Average Quality: {summary['overall_performance']['average_quality'] * 100:.1f}%")
+    print(
+        f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate'] * 100:.1f}%"
+    )
+    print(f"Approval Rate: {summary['overall_performance']['approval_rate'] * 100:.1f}%")
     print(f"System Status: {summary['overall_performance']['status']}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

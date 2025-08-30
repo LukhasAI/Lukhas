@@ -138,9 +138,7 @@ class LucasAnalyzeEngine:
         self.config = (
             config
             if config is not None
-            else (
-                LucasConfig.get_default() if hasattr(LucasConfig, "get_default") else {}
-            )
+            else (LucasConfig.get_default() if hasattr(LucasConfig, "get_default") else {})
         )
 
         try:
@@ -249,11 +247,9 @@ class LucasAnalyzeEngine:
                 quality_score=data_profile.get("quality_score"),
             )
         except ValueError as e_prep:
-            self.logger.error(
-                "Data preparation failed.", error=str(e_prep), exc_info=True
-            )
+            self.logger.error("Data preparation failed.", error=str(e_prep), exc_info=True)
             return self._format_response(
-                {"error": f"Data preparation error: {str(e_prep)}"},
+                {"error": f"Data preparation error: {e_prep!s}"},
                 time.time() - _start_time,
                 error_state=True,
             )
@@ -264,7 +260,7 @@ class LucasAnalyzeEngine:
                 exc_info=True,
             )
             return self._format_response(
-                {"error": f"Unexpected data preparation error: {str(e_prep_other)}"},
+                {"error": f"Unexpected data preparation error: {e_prep_other!s}"},
                 time.time() - _start_time,
                 error_state=True,
             )
@@ -275,9 +271,7 @@ class LucasAnalyzeEngine:
             request.analysis_type = await self._detect_analysis_type(
                 processed_data, request.question, data_profile
             )
-            self.logger.info(
-                "Analysis type detected.", detected_type=request.analysis_type.value
-            )
+            self.logger.info("Analysis type detected.", detected_type=request.analysis_type.value)
 
         # ΛPHASE_NODE: Access Control Check
         # AIDENTITY: Access control check based on user_id and data size.
@@ -286,9 +280,7 @@ class LucasAnalyzeEngine:
             user_id=request.user_id,
             data_size=len(processed_data),
         )
-        if not self.access_controller.can_analyze(
-            request.user_id, len(processed_data)
-        ):  # type: ignore
+        if not self.access_controller.can_analyze(request.user_id, len(processed_data)):  # type: ignore
             self.logger.warning(
                 "Analysis permission denied.",
                 user_id=request.user_id,
@@ -307,9 +299,7 @@ class LucasAnalyzeEngine:
         if cached_result:
             self.logger.info("Analysis result found in cache.", cache_key=cache_key)
             # ΛPHASE_NODE: Analysis End (Cache Hit)
-            return self._format_response(
-                cached_result, time.time() - _start_time, from_cache=True
-            )
+            return self._format_response(cached_result, time.time() - _start_time, from_cache=True)
         self.logger.debug(
             "Analysis result not found in cache. Proceeding with full analysis.",
             cache_key=cache_key,
@@ -322,12 +312,8 @@ class LucasAnalyzeEngine:
 
         # ΛPHASE_NODE: Visualization Generation
         self.logger.debug("Creating visualizations.")
-        visualizations = await self._create_visualizations(
-            processed_data, insights, request
-        )
-        self.logger.info(
-            "Visualizations created.", num_visualizations=len(visualizations)
-        )
+        visualizations = await self._create_visualizations(processed_data, insights, request)
+        self.logger.info("Visualizations created.", num_visualizations=len(visualizations))
 
         # ΛPHASE_NODE: Summary Generation
         self.logger.debug("Generating summary.")
@@ -342,9 +328,7 @@ class LucasAnalyzeEngine:
             "recommendations": await self._generate_recommendations(
                 insights, request
             ),  # Internal logging
-            "confidence_scores": await self._calculate_confidence(
-                insights
-            ),  # Internal logging
+            "confidence_scores": await self._calculate_confidence(insights),  # Internal logging
         }
 
         # ΛPHASE_NODE: Caching and Memory Storage
@@ -375,9 +359,7 @@ class LucasAnalyzeEngine:
             # ΛCAUTION: pd.read_csv/json/excel can be slow for large files/URLs and
             # might block if not handled carefully in async context (though pandas
             # itself is mostly sync).
-            if data_input.lower().startswith(
-                ("http://", "https://")
-            ):  # Basic URL check
+            if data_input.lower().startswith(("http://", "https://")):  # Basic URL check
                 # For URLs, pandas might handle them directly depending on the function
                 # Consider using aiohttp for true async fetching if this becomes a
                 # bottleneck
@@ -392,9 +374,7 @@ class LucasAnalyzeEngine:
                 try:
                     return pd.read_csv(io.StringIO(data_input))
                 except Exception as e_strio:
-                    self.logger.error(
-                        "Failed to parse input string as CSV.", error=str(e_strio)
-                    )
+                    self.logger.error("Failed to parse input string as CSV.", error=str(e_strio))
                     raise ValueError(
                         f"Input string could not be parsed as CSV and is not a valid file/URL: {data_input[:100]}..."
                     ) from e_strio
@@ -444,15 +424,11 @@ class LucasAnalyzeEngine:
         profile = {
             "shape": df.shape,
             "columns": list(df.columns),
-            "dtypes": {
-                col: str(dtype) for col, dtype in df.dtypes.items()
-            },  # Ensure serializable
+            "dtypes": {col: str(dtype) for col, dtype in df.dtypes.items()},  # Ensure serializable
             "missing_values": {
                 col: int(val) for col, val in df.isnull().sum().items()
             },  # Ensure serializable
-            "memory_usage_bytes": int(
-                df.memory_usage(deep=True).sum()
-            ),  # Ensure serializable
+            "memory_usage_bytes": int(df.memory_usage(deep=True).sum()),  # Ensure serializable
             "column_details": {},  # Changed from data_types and patterns to a nested structure
             "quality_score": 0.0,  # Will be calculated
         }
@@ -460,12 +436,8 @@ class LucasAnalyzeEngine:
         for col in df.columns:
             col_data = df[col]
             profile["column_details"][col] = {
-                "dtype_detected": await self._classify_column_type(
-                    col_data
-                ),  # This is a string
-                "patterns_detected": await self._detect_column_patterns(
-                    col_data
-                ),  # This is a dict
+                "dtype_detected": await self._classify_column_type(col_data),  # This is a string
+                "patterns_detected": await self._detect_column_patterns(col_data),  # This is a dict
                 "nunique": int(col_data.nunique()),
                 "missing_percentage": float(col_data.isnull().mean() * 100),
             }
@@ -491,19 +463,16 @@ class LucasAnalyzeEngine:
                 and series.nunique() / len(series) < 0.05
                 and pd.api.types.is_integer_dtype(series)
             ):  # More specific for categorical int
-                return (
-                    DataType.CATEGORICAL.value
-                )  # Treat as categorical if few unique int values
+                return DataType.CATEGORICAL.value  # Treat as categorical if few unique int values
             return DataType.NUMERICAL.value
-        elif pd.api.types.is_datetime64_any_dtype(
+        elif pd.api.types.is_datetime64_any_dtype(series) or pd.api.types.is_timedelta64_dtype(
             series
-        ) or pd.api.types.is_timedelta64_dtype(series):
+        ):
             return DataType.TIME_SERIES.value  # Broadly time-related
         # Check for boolean type explicitly before categorical, as boolean is
         # often a distinct category
         elif pd.api.types.is_bool_dtype(series) or (
-            series.nunique() == 2
-            and series.dropna().isin([0, 1, "0", "1", True, False]).all()
+            series.nunique() == 2 and series.dropna().isin([0, 1, "0", "1", True, False]).all()
         ):
             return DataType.CATEGORICAL.value  # Treat boolean as categorical
         # Heuristic for categorical: low cardinality relative to length, or
@@ -513,13 +482,9 @@ class LucasAnalyzeEngine:
             and series.nunique() / len(series) < 0.5
             and series.nunique() < 0.1 * len(series)
         ):
-            if (
-                series.nunique() <= 20
-            ):  # Arbitrary threshold for "few" unique string values
+            if series.nunique() <= 20:  # Arbitrary threshold for "few" unique string values
                 return DataType.CATEGORICAL.value
-        elif (
-            series.nunique() / len(series) < 0.05
-        ):  # General low cardinality suggests categorical
+        elif series.nunique() / len(series) < 0.05:  # General low cardinality suggests categorical
             return DataType.CATEGORICAL.value
 
         # If mostly text, consider text
@@ -530,9 +495,7 @@ class LucasAnalyzeEngine:
                 and series.str.len().mean() > 10
             ):
                 return DataType.TEXT.value
-        except (
-            AttributeError
-        ):  # If .str accessor fails (e.g. mixed types not caught above)
+        except AttributeError:  # If .str accessor fails (e.g. mixed types not caught above)
             pass
 
         self.logger.debug(
@@ -558,15 +521,9 @@ class LucasAnalyzeEngine:
         if pd.api.types.is_numeric_dtype(series) and not series.empty:
             try:
                 # Trend (very basic for non-timeseries numeric)
-                if (
-                    hasattr(series, "is_monotonic_increasing")
-                    and series.is_monotonic_increasing
-                ):
+                if hasattr(series, "is_monotonic_increasing") and series.is_monotonic_increasing:
                     patterns["trend"] = "increasing"
-                elif (
-                    hasattr(series, "is_monotonic_decreasing")
-                    and series.is_monotonic_decreasing
-                ):
+                elif hasattr(series, "is_monotonic_decreasing") and series.is_monotonic_decreasing:
                     patterns["trend"] = "decreasing"
                 else:
                     patterns["trend"] = "non-monotonic"
@@ -605,9 +562,7 @@ class LucasAnalyzeEngine:
 
     # AINFER: Calculates a data quality score based on completeness,
     # consistency, uniqueness.
-    async def _calculate_data_quality(
-        self, df: pd.DataFrame, profile: dict[str, Any]
-    ) -> float:
+    async def _calculate_data_quality(self, df: pd.DataFrame, profile: dict[str, Any]) -> float:
         """Calculate overall data quality score."""
         self.logger.debug("Calculating data quality score.")
         scores: list[float] = []
@@ -628,8 +583,7 @@ class LucasAnalyzeEngine:
             well_typed_cols = sum(
                 1
                 for cd in profile["column_details"].values()
-                if cd["dtype_detected"]
-                not in [DataType.MIXED.value, DataType.TEXT.value]
+                if cd["dtype_detected"] not in [DataType.MIXED.value, DataType.TEXT.value]
             )  # TEXT can be noisy
             consistency = well_typed_cols / num_cols
             scores.append(consistency)
@@ -645,13 +599,9 @@ class LucasAnalyzeEngine:
         if not df.empty:
             uniqueness = 1.0 - (df.duplicated().sum() / len(df))
             scores.append(uniqueness)
-            self.logger.debug(
-                "Data quality - uniqueness (non-duplicate rows)", score=uniqueness
-            )
+            self.logger.debug("Data quality - uniqueness (non-duplicate rows)", score=uniqueness)
         else:
-            scores.append(
-                0.0
-            )  # No rows, perfect uniqueness or 0? Let's say 0 for no data.
+            scores.append(0.0)  # No rows, perfect uniqueness or 0? Let's say 0 for no data.
 
         # ΛNOTE: Data quality score is a simple average of sub-scores.
         final_quality_score = float(np.mean(scores)) if scores else 0.0
@@ -680,7 +630,8 @@ class LucasAnalyzeEngine:
         if self.symbolic_processor and question:  # Check if processor available
             try:
                 intent_analysis = await self.symbolic_processor.analyze_analysis_intent(  # type: ignore
-                    question=question, data_profile=profile  # Pass full profile
+                    question=question,
+                    data_profile=profile,  # Pass full profile
                 )
                 detected_type_str = intent_analysis.get("determined_analysis_type")
                 if detected_type_str:
@@ -703,9 +654,7 @@ class LucasAnalyzeEngine:
                 )
                 # Fall through to keyword/profile based detection
 
-        self.logger.debug(
-            "Falling back to keyword/profile based analysis type detection."
-        )
+        self.logger.debug("Falling back to keyword/profile based analysis type detection.")
         if question:
             question_lower = question.lower()
             if any(
@@ -766,8 +715,7 @@ class LucasAnalyzeEngine:
         ):
             return AnalysisType.PREDICTIVE
         if (
-            profile.get("shape", (0, 0))[1] > 10
-            and profile.get("shape", (0, 0))[0] > 50
+            profile.get("shape", (0, 0))[1] > 10 and profile.get("shape", (0, 0))[0] > 50
         ):  # Many columns and rows
             return AnalysisType.EXPLORATORY
 
@@ -784,28 +732,18 @@ class LucasAnalyzeEngine:
         #ΛNOTE: Insight generation is currently rule-based and statistical.
         #       Symbolic AI integration for deeper insights is a future goal.
         """
-        self.logger.debug(
-            "Generating insights.", analysis_type=request.analysis_type.value
-        )
+        self.logger.debug("Generating insights.", analysis_type=request.analysis_type.value)
         insights: list[dict[str, Any]] = []
 
         insights.extend(await self._generate_statistical_insights(df, profile))
-        insights.extend(
-            await self._generate_pattern_insights(df, profile)
-        )  # Uses data profile now
+        insights.extend(await self._generate_pattern_insights(df, profile))  # Uses data profile now
         if request.question and self.symbolic_processor:
-            insights.extend(
-                await self._generate_question_insights(df, request.question)
-            )
+            insights.extend(await self._generate_question_insights(df, request.question))
         insights.extend(
-            await self._generate_type_specific_insights(
-                df, request.analysis_type, profile
-            )
+            await self._generate_type_specific_insights(df, request.analysis_type, profile)
         )  # Pass profile
 
-        ranked_insights = await self._rank_insights(
-            insights, request
-        )  # Internal logging
+        ranked_insights = await self._rank_insights(insights, request)  # Internal logging
         self.logger.info("Insights generated and ranked.", count=len(ranked_insights))
         return ranked_insights[:10]  # Return top 10
 
@@ -820,9 +758,7 @@ class LucasAnalyzeEngine:
             if col_detail["dtype_detected"] == DataType.NUMERICAL.value:
                 series = df[col_name]
                 mean_val, std_val = series.mean(), series.std()
-                if (
-                    std_val > mean_val * 0.5 and mean_val != 0
-                ):  # Check for non-zero mean
+                if std_val > mean_val * 0.5 and mean_val != 0:  # Check for non-zero mean
                     cv = std_val / mean_val if mean_val != 0 else float("inf")
                     insights.append(
                         {
@@ -834,9 +770,7 @@ class LucasAnalyzeEngine:
                         }
                     )
 
-                outliers_count = col_detail.get("patterns_detected", {}).get(
-                    "outliers_detected", 0
-                )
+                outliers_count = col_detail.get("patterns_detected", {}).get("outliers_detected", 0)
                 if outliers_count > 0:
                     outlier_percentage = (outliers_count / profile["shape"][0]) * 100
                     insights.append(
@@ -890,13 +824,9 @@ class LucasAnalyzeEngine:
         self, df: pd.DataFrame, question: str
     ) -> list[dict[str, Any]]:
         """Generate insights specific to user question using symbolic AI (conceptual)."""
-        self.logger.debug(
-            "Generating question-specific insights.", question_preview=question[:100]
-        )
+        self.logger.debug("Generating question-specific insights.", question_preview=question[:100])
         if not self.symbolic_processor:
-            self.logger.warning(
-                "SymbolicProcessor not available for question-specific insights."
-            )
+            self.logger.warning("SymbolicProcessor not available for question-specific insights.")
             return []
         try:
             question_analysis = await self.symbolic_processor.analyze_data_question(  # type: ignore
@@ -918,7 +848,7 @@ class LucasAnalyzeEngine:
             return [
                 {
                     "type": "error",
-                    "message": f"Failed to process question with symbolic AI: {str(e_sym_q)}",
+                    "message": f"Failed to process question with symbolic AI: {e_sym_q!s}",
                     "importance": 0.5,
                 }
             ]
@@ -927,9 +857,7 @@ class LucasAnalyzeEngine:
         self, df: pd.DataFrame, analysis_type: AnalysisType, profile: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Generate insights specific to analysis type."""
-        self.logger.debug(
-            "Generating type-specific insights.", analysis_type=analysis_type.value
-        )
+        self.logger.debug("Generating type-specific insights.", analysis_type=analysis_type.value)
         insights: list[dict[str, Any]] = []
 
         if analysis_type == AnalysisType.PREDICTIVE:
@@ -990,9 +918,7 @@ class LucasAnalyzeEngine:
         # More advanced ranking could consider question relevance, context, user
         # profile.
         ranked = sorted(insights, key=lambda x: x.get("importance", 0.0), reverse=True)
-        self.logger.info(
-            "Insights ranked.", original_count=len(insights), ranked_count=len(ranked)
-        )
+        self.logger.info("Insights ranked.", original_count=len(insights), ranked_count=len(ranked))
         return ranked
 
     # ΛNOTE: Visualization creation is placeholder and would use libraries
@@ -1021,15 +947,11 @@ class LucasAnalyzeEngine:
                 "config": {
                     "chart_type": "table",
                     "data_head": df.head().to_html(),
-                    "profile_summary": request.context.get(
-                        "data_profile_summary_for_viz", "N/A"
-                    ),
+                    "profile_summary": request.context.get("data_profile_summary_for_viz", "N/A"),
                 },
             }
         )
-        self.logger.info(
-            "Visualizations created (placeholders).", count=len(visualizations)
-        )
+        self.logger.info("Visualizations created (placeholders).", count=len(visualizations))
         return visualizations
 
     # AINFER: Generates a natural language summary of the key insights.
@@ -1051,13 +973,9 @@ class LucasAnalyzeEngine:
             f"Key findings from the analysis ({len(insights)} insights identified):"
         )
         for i, insight in enumerate(insights[:3], 1):  # Top 3
-            summary_parts.append(
-                f"{i}. {insight.get('message', 'An insight was found.')}"
-            )
+            summary_parts.append(f"{i}. {insight.get('message', 'An insight was found.')}")
         if len(insights) > 3:
-            summary_parts.append(
-                f"...and {len(insights) - 3} more detailed insights available."
-            )
+            summary_parts.append(f"...and {len(insights) - 3} more detailed insights available.")
 
         final_summary = "\n".join(summary_parts)
         self.logger.info("Analysis summary generated.", length=len(final_summary))
@@ -1076,15 +994,11 @@ class LucasAnalyzeEngine:
         # Example: If high variability & outliers, suggest data cleaning or robust stats.
         # If strong correlation, suggest feature engineering or multicollinearity
         # check.
-        self.logger.info(
-            "Recommendations generated (placeholders).", count=len(recommendations)
-        )
+        self.logger.info("Recommendations generated (placeholders).", count=len(recommendations))
         return recommendations[:5]
 
     # AINFER: Calculates confidence scores for the overall analysis.
-    async def _calculate_confidence(
-        self, insights: list[dict[str, Any]]
-    ) -> dict[str, float]:
+    async def _calculate_confidence(self, insights: list[dict[str, Any]]) -> dict[str, float]:
         """Calculate confidence scores for insights (placeholder)."""
         self.logger.debug("Calculating confidence scores.", num_insights=len(insights))
         # ΛNOTE: Confidence calculation is placeholder.
@@ -1096,15 +1010,11 @@ class LucasAnalyzeEngine:
             else 0.0
         )
         conf_scores = {
-            "overall_analysis_confidence": min(
-                1.0, max(0.0, overall_conf * 0.8 + 0.1)
-            ),  # Scaled
+            "overall_analysis_confidence": min(1.0, max(0.0, overall_conf * 0.8 + 0.1)),  # Scaled
             "data_quality_component": 0.8,  # Placeholder
             "insight_reliability_estimate": 0.75,  # Placeholder
         }
-        self.logger.info(
-            "Confidence scores calculated (placeholders).", scores=conf_scores
-        )
+        self.logger.info("Confidence scores calculated (placeholders).", scores=conf_scores)
         return conf_scores
 
     def _generate_cache_key(self, df: pd.DataFrame, request: AnalysisRequest) -> str:
@@ -1142,9 +1052,7 @@ class LucasAnalyzeEngine:
         self.logger.debug("Checking analysis cache for key.", cache_key=cache_key)
         return self.analysis_cache.get(cache_key)
 
-    async def _store_analysis_cache(
-        self, cache_key: str, result: dict[str, Any]
-    ):  # Param types
+    async def _store_analysis_cache(self, cache_key: str, result: dict[str, Any]):  # Param types
         """Store analysis result in cache."""
         self.logger.debug("Storing analysis result in cache.", cache_key=cache_key)
         self.analysis_cache[cache_key] = result
@@ -1175,25 +1083,19 @@ class LucasAnalyzeEngine:
             request_type=request.analysis_type.value,
         )
         if not self.memory:
-            self.logger.warning(
-                "AnalyticsMemory not available, skipping storing analysis memory."
-            )
+            self.logger.warning("AnalyticsMemory not available, skipping storing analysis memory.")
             return
 
         memory_entry = {
             "request_type": request.analysis_type.value,
             "question": request.question,
-            "data_profile_summary": result.get("data_profile", {}).get(
-                "shape"
-            ),  # Example summary
+            "data_profile_summary": result.get("data_profile", {}).get("shape"),  # Example summary
             "key_insights_count": len(result.get("insights", [])),
             "summary_length": len(result.get("summary", "")),
             "timestamp": time.time(),  # Already float
             "user_id": request.user_id,  # AIDENTITY
             "session_id": request.session_id,  # AIDENTITY
-            "engine_version": self.config.get(
-                "version", "1.0.0"
-            ),  # Example from config
+            "engine_version": self.config.get("version", "1.0.0"),  # Example from config
         }
         try:
             await self.memory.store_analysis_memory(memory_entry)  # type: ignore
@@ -1235,9 +1137,7 @@ class LucasAnalyzeEngine:
             "metadata": {
                 "response_time_seconds": float(f"{response_time_secs:.3f}"),
                 "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                "engine_version": self.config.get(
-                    "version", "1.0.0"
-                ),  # Get from config
+                "engine_version": self.config.get("version", "1.0.0"),  # Get from config
                 "from_cache": from_cache,
                 "performance_target_met": target_met,
                 "cache_optimization_score": (
@@ -1272,9 +1172,7 @@ class LucasAnalyzeEngine:
             "core_capabilities": {
                 "intelligent_type_detection": True,
                 "automatic_visualization_placeholders": True,  # Placeholders exist
-                "natural_language_queries_via_symbolic_processor": bool(
-                    self.symbolic_processor
-                ),
+                "natural_language_queries_via_symbolic_processor": bool(self.symbolic_processor),
                 "pattern_recognition_basic": True,
                 "predictive_analytics_basic_trend": True,
                 "intelligent_caching": True,

@@ -31,7 +31,9 @@ import time
 import schedule
 
 # Adjust this to the full path of your lukhas_reflection_gpt.py
-REFLECTION_SCRIPT = "/Users/grdm_admin/Downloads/oxn/symbolic_ai/personas/lukhas/lukhas_reflection_gpt.py"
+REFLECTION_SCRIPT = (
+    "/Users/grdm_admin/Downloads/oxn/symbolic_ai/personas/lukhas/lukhas_reflection_gpt.py"
+)
 
 
 def run_reflection():

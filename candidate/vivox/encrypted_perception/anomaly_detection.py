@@ -237,14 +237,10 @@ class AnomalyDetector:
 
         # Apply adaptive thresholds
         if self.adaptive_learning:
-            detected_anomalies = self._apply_adaptive_filtering(
-                detected_anomalies, context
-            )
+            detected_anomalies = self._apply_adaptive_filtering(detected_anomalies, context)
 
         # Sort by significance and confidence
-        detected_anomalies.sort(
-            key=lambda a: (a.significance.value, a.confidence), reverse=True
-        )
+        detected_anomalies.sort(key=lambda a: (a.significance.value, a.confidence), reverse=True)
 
         # Update detection history
         self._update_detection_history(detected_anomalies)
@@ -354,9 +350,7 @@ class AnomalyDetector:
                 # Average features across vectors in modality
                 avg_features = {}
                 for feature_name in features_list[0]:
-                    values = [
-                        f[feature_name] for f in features_list if feature_name in f
-                    ]
+                    values = [f[feature_name] for f in features_list if feature_name in f]
                     avg_features[feature_name] = np.mean(values) if values else 0.0
                 modality_features[modality] = avg_features
 
@@ -423,9 +417,7 @@ class AnomalyDetector:
         features["dominant_frequency"] = float(np.argmax(np.abs(fft[: len(fft) // 2])))
 
         # Pattern features
-        features["zero_crossings"] = float(
-            np.sum(np.diff(np.sign(encrypted_data)) != 0)
-        )
+        features["zero_crossings"] = float(np.sum(np.diff(np.sign(encrypted_data)) != 0))
         features["peak_count"] = float(self._count_peaks(encrypted_data))
         features["regularity"] = float(self._compute_regularity(encrypted_data))
 
@@ -530,9 +522,7 @@ class AnomalyDetector:
                 }
 
             threshold_info = self.adaptive_thresholds[anomaly_type]
-            adjusted_threshold = (
-                threshold_info["base_threshold"] + threshold_info["adjustment"]
-            )
+            adjusted_threshold = threshold_info["base_threshold"] + threshold_info["adjustment"]
 
             if anomaly.confidence >= adjusted_threshold:
                 filtered.append(anomaly)
@@ -606,23 +596,17 @@ class AnomalyDetector:
 
         for anomaly in self.detection_history:
             # Type counts
-            type_counts[anomaly.anomaly_type] = (
-                type_counts.get(anomaly.anomaly_type, 0) + 1
-            )
+            type_counts[anomaly.anomaly_type] = type_counts.get(anomaly.anomaly_type, 0) + 1
 
             # Significance distribution
             sig_level = anomaly.significance.value
-            significance_distribution[sig_level] = (
-                significance_distribution.get(sig_level, 0) + 1
-            )
+            significance_distribution[sig_level] = significance_distribution.get(sig_level, 0) + 1
 
         # Average confidence by type
         avg_confidence_by_type = {}
         for anomaly_type, stats in self.pattern_statistics.items():
             if stats["count"] > 0:
-                avg_confidence_by_type[anomaly_type] = (
-                    stats["total_confidence"] / stats["count"]
-                )
+                avg_confidence_by_type[anomaly_type] = stats["total_confidence"] / stats["count"]
 
         return {
             "total_anomalies_detected": total_detections,
@@ -718,9 +702,7 @@ class SignificanceAnalyzer:
             # Consider upgrading
             if current_significance == EthicalSignificance.LOW and modifier >= 1.2:
                 current_significance = EthicalSignificance.MODERATE
-            elif (
-                current_significance == EthicalSignificance.MODERATE and modifier >= 1.3
-            ):
+            elif current_significance == EthicalSignificance.MODERATE and modifier >= 1.3:
                 current_significance = EthicalSignificance.HIGH
             elif current_significance == EthicalSignificance.HIGH and modifier >= 1.5:
                 current_significance = EthicalSignificance.CRITICAL
@@ -736,9 +718,7 @@ class SignificanceAnalyzer:
             ],
             "context_modifier": modifier,
             "confidence_factor": anomaly.confidence,
-            "final_assessment": self._generate_assessment_text(
-                current_significance, anomaly
-            ),
+            "final_assessment": self._generate_assessment_text(current_significance, anomaly),
         }
 
         return current_significance, analysis

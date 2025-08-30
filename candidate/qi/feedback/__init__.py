@@ -18,15 +18,15 @@ from qi.feedback.store import FeedbackStore, get_store
 from qi.feedback.triage import FeedbackTriage, get_triage
 
 __all__ = [
+    "ChangeProposal",
     "FeedbackCard",
+    "FeedbackCluster",
     "FeedbackContext",
     "FeedbackData",
-    "PolicySafePatch",
-    "ChangeProposal",
-    "FeedbackCluster",
-    "get_store",
     "FeedbackStore",
-    "get_triage",
     "FeedbackTriage",
-    "ProposalMapper"
+    "PolicySafePatch",
+    "ProposalMapper",
+    "get_store",
+    "get_triage",
 ]

@@ -11,7 +11,6 @@ from datetime import datetime
 
 
 class DirectoryReorganizer:
-
     def __init__(self):
         # Directory mappings from audit
         self.moves = {
@@ -72,7 +71,7 @@ class DirectoryReorganizer:
                 print(f"  ⚠️  Source not found: {source}")
                 return False
         except Exception as e:
-            self.errors.append(f"Failed to move {source}: {str(e)}")
+            self.errors.append(f"Failed to move {source}: {e!s}")
             print(f"  ❌ Error moving {source}: {e}")
             return False
 
@@ -103,7 +102,7 @@ class DirectoryReorganizer:
                 print(f"  ⚠️  Directory not found: {directory}")
                 return False
         except Exception as e:
-            self.errors.append(f"Failed to archive {directory}: {str(e)}")
+            self.errors.append(f"Failed to archive {directory}: {e!s}")
             print(f"  ❌ Error archiving {directory}: {e}")
             return False
 
@@ -234,9 +233,7 @@ grep -r "from \\(api\\|architectures\\|bio\\|creativity\\|dream\\|ethics\\|ident
 
         # Update manifests
         for module in modules_updated:
-            integrated = [
-                d.split("/")[-1] for s, d in self.moves.items() if d.startswith(module)
-            ]
+            integrated = [d.split("/")[-1] for s, d in self.moves.items() if d.startswith(module)]
             self.update_module_manifest(module, integrated)
 
         # Step 2: Archive directories
@@ -274,9 +271,7 @@ grep -r "from \\(api\\|architectures\\|bio\\|creativity\\|dream\\|ethics\\|ident
             "directories_moved": self.moved_count,
             "directories_archived": self.archived_count,
             "errors": self.errors,
-            "moves_completed": {
-                k: v for k, v in self.moves.items() if not os.path.exists(k)
-            },
+            "moves_completed": {k: v for k, v in self.moves.items() if not os.path.exists(k)},
             "archives_completed": [d for d in self.archive if not os.path.exists(d)],
             "next_steps": [
                 "Update imports using IMPORT_MIGRATION_GUIDE.md",

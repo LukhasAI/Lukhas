@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class ValidationMethod(Enum):
     """Identity validation methods"""
+
     BIOMETRIC = "biometric"
     BEHAVIORAL = "behavioral"
     CREDENTIAL = "credential"
@@ -49,6 +50,7 @@ class ValidationMethod(Enum):
 
 class IdentityRisk(Enum):
     """Identity risk levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -58,6 +60,7 @@ class IdentityRisk(Enum):
 @dataclass
 class IdentityValidation:
     """Identity validation result"""
+
     validation_id: str
     user_id: str
     validation_method: ValidationMethod
@@ -81,14 +84,15 @@ class IdentityValidation:
     location_context: Optional[dict] = None
 
     # Trinity Framework integration
-    identity_coherence: float = 1.0        # ⚛️
-    consciousness_alignment: float = 1.0   # 🧠
-    guardian_clearance: bool = True        # 🛡️
+    identity_coherence: float = 1.0  # ⚛️
+    consciousness_alignment: float = 1.0  # 🧠
+    guardian_clearance: bool = True  # 🛡️
 
 
 @dataclass
 class BiometricProfile:
     """User biometric profile"""
+
     user_id: str
     profile_id: str
     created_at: datetime
@@ -125,7 +129,7 @@ class AdvancedIdentityValidator:
             "low_risk": 0.2,
             "medium_risk": 0.5,
             "high_risk": 0.8,
-            "critical_risk": 0.95
+            "critical_risk": 0.95,
         }
 
         # Performance metrics
@@ -140,7 +144,7 @@ class AdvancedIdentityValidator:
             "false_positive_rate": 0.02,
             "false_negative_rate": 0.01,
             "risk_detection_accuracy": 0.96,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Validation thresholds
@@ -148,7 +152,7 @@ class AdvancedIdentityValidator:
             "biometric_threshold": 0.9,
             "behavioral_threshold": 0.8,
             "combined_threshold": 0.85,
-            "continuous_threshold": 0.7
+            "continuous_threshold": 0.7,
         }
 
         asyncio.create_task(self._initialize_validator())
@@ -164,7 +168,7 @@ class AdvancedIdentityValidator:
         user_id: str,
         validation_method: ValidationMethod,
         identity_data: dict[str, Any],
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> IdentityValidation:
         """
         Validate user identity using specified method
@@ -192,7 +196,7 @@ class AdvancedIdentityValidator:
                 confidence_score=0.0,
                 risk_level=IdentityRisk.MEDIUM,
                 validation_timestamp=start_time,
-                validation_context=context
+                validation_context=context,
             )
 
             # Perform validation based on method
@@ -208,7 +212,9 @@ class AdvancedIdentityValidator:
                 await self._validate_continuous(validation, identity_data)
 
             # Risk assessment
-            validation.risk_level = await self._assess_identity_risk(validation, identity_data, context)
+            validation.risk_level = await self._assess_identity_risk(
+                validation, identity_data, context
+            )
 
             # Trinity Framework integration
             await self._integrate_trinity_framework(validation, identity_data, context)
@@ -243,13 +249,11 @@ class AdvancedIdentityValidator:
                 confidence_score=0.0,
                 risk_level=IdentityRisk.HIGH,
                 validation_timestamp=start_time,
-                risk_factors=[f"Validation error: {str(e)}"]
+                risk_factors=[f"Validation error: {e!s}"],
             )
 
     async def _validate_biometric(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any]
     ):
         """Validate biometric identity data"""
 
@@ -294,9 +298,7 @@ class AdvancedIdentityValidator:
             validation.risk_factors.append("no_biometric_data_available")
 
     async def _validate_behavioral(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any]
     ):
         """Validate behavioral patterns"""
 
@@ -348,9 +350,7 @@ class AdvancedIdentityValidator:
             validation.risk_factors.append("insufficient_behavioral_data")
 
     async def _validate_credential(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any]
     ):
         """Validate credentials"""
 
@@ -365,9 +365,7 @@ class AdvancedIdentityValidator:
 
         # Token validation
         if "token" in identity_data:
-            token_valid = await self._validate_token(
-                validation.user_id, identity_data["token"]
-            )
+            token_valid = await self._validate_token(validation.user_id, identity_data["token"])
             credential_checks.append(token_valid)
 
         # Certificate validation
@@ -387,9 +385,7 @@ class AdvancedIdentityValidator:
             validation.risk_factors.append("no_credentials_provided")
 
     async def _validate_multi_factor(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any]
     ):
         """Validate using multiple factors"""
 
@@ -423,10 +419,7 @@ class AdvancedIdentityValidator:
             validation.risk_factors.append("insufficient_authentication_factors")
 
     async def _assess_identity_risk(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any],
-        context: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any], context: dict[str, Any]
     ) -> IdentityRisk:
         """Assess identity-related risks"""
 
@@ -456,12 +449,15 @@ class AdvancedIdentityValidator:
             risk_score += len(validation.anomalies_detected) * 0.1
 
         # Historical risk factors
-        recent_failures = len([
-            v for v in self.validation_history
-            if v.user_id == validation.user_id and
-            not v.is_valid and
-            (datetime.now() - v.validation_timestamp).total_seconds() < 3600
-        ])
+        recent_failures = len(
+            [
+                v
+                for v in self.validation_history
+                if v.user_id == validation.user_id
+                and not v.is_valid
+                and (datetime.now() - v.validation_timestamp).total_seconds() < 3600
+            ]
+        )
 
         if recent_failures > 3:
             risk_score += 0.3
@@ -478,10 +474,7 @@ class AdvancedIdentityValidator:
             return IdentityRisk.LOW
 
     async def _integrate_trinity_framework(
-        self,
-        validation: IdentityValidation,
-        identity_data: dict[str, Any],
-        context: dict[str, Any]
+        self, validation: IdentityValidation, identity_data: dict[str, Any], context: dict[str, Any]
     ):
         """Integrate Trinity Framework considerations"""
 
@@ -513,7 +506,7 @@ class AdvancedIdentityValidator:
             ValidationMethod.BIOMETRIC: self.validation_thresholds["biometric_threshold"],
             ValidationMethod.BEHAVIORAL: self.validation_thresholds["behavioral_threshold"],
             ValidationMethod.CREDENTIAL: 0.9,  # High threshold for credentials
-            ValidationMethod.CONTINUOUS: self.validation_thresholds["continuous_threshold"]
+            ValidationMethod.CONTINUOUS: self.validation_thresholds["continuous_threshold"],
         }
 
         threshold = method_thresholds.get(validation.validation_method, 0.8)
@@ -537,14 +530,17 @@ class AdvancedIdentityValidator:
 
         # Get recent validation history
         recent_validations = [
-            v for v in self.validation_history
-            if v.user_id == user_id and
-            (datetime.now() - v.validation_timestamp).total_seconds() < 86400 * 30  # Last 30 days
+            v
+            for v in self.validation_history
+            if v.user_id == user_id
+            and (datetime.now() - v.validation_timestamp).total_seconds()
+            < 86400 * 30  # Last 30 days
         ]
 
         success_rate = (
             len([v for v in recent_validations if v.is_valid]) / len(recent_validations)
-            if recent_validations else 0.0
+            if recent_validations
+            else 0.0
         )
 
         return {
@@ -554,8 +550,14 @@ class AdvancedIdentityValidator:
             "profile_confidence": profile.profile_confidence if profile else 0.0,
             "recent_validations": len(recent_validations),
             "success_rate": success_rate,
-            "last_validation": recent_validations[-1].validation_timestamp.isoformat() if recent_validations else None,
-            "risk_assessment": "low" if success_rate > 0.9 else "medium" if success_rate > 0.7 else "high"
+            "last_validation": recent_validations[-1].validation_timestamp.isoformat()
+            if recent_validations
+            else None,
+            "risk_assessment": "low"
+            if success_rate > 0.9
+            else "medium"
+            if success_rate > 0.7
+            else "high",
         }
 
     async def get_system_metrics(self) -> dict[str, Any]:
@@ -564,4 +566,4 @@ class AdvancedIdentityValidator:
 
 
 # Export main classes
-__all__ = ["AdvancedIdentityValidator", "IdentityValidation", "BiometricProfile"]
+__all__ = ["AdvancedIdentityValidator", "BiometricProfile", "IdentityValidation"]

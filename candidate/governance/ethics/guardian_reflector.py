@@ -131,9 +131,7 @@ class GuardianReflector:
         # Plugin configuration
         self.ethics_model = self.config.get("ethics_model", "SEEDRA-v3")
         self.reflection_depth = self.config.get("reflection_depth", "deep")
-        self.moral_framework = self.config.get(
-            "moral_framework", "virtue_ethics_hybrid"
-        )
+        self.moral_framework = self.config.get("moral_framework", "virtue_ethics_hybrid")
         self.protection_level = self.config.get("protection_level", "maximum")
 
         # Internal state
@@ -193,9 +191,7 @@ class GuardianReflector:
         # Apply multiple ethical frameworks
         framework_results = {}
         for framework in self.active_frameworks:
-            score, analysis = await self._apply_ethical_framework(
-                framework, decision_context
-            )
+            score, analysis = await self._apply_ethical_framework(framework, decision_context)
             framework_results[framework] = {"score": score, "analysis": analysis}
 
         # Synthesize results
@@ -247,9 +243,7 @@ class GuardianReflector:
         cutoff_time = datetime.now() - time_window
 
         # Get recent reflections
-        recent_reflections = [
-            r for r in self.reflection_history if r.timestamp >= cutoff_time
-        ]
+        recent_reflections = [r for r in self.reflection_history if r.timestamp >= cutoff_time]
 
         if len(recent_reflections) < 2:
             return MoralDrift(
@@ -265,9 +259,7 @@ class GuardianReflector:
         drift_score = self._calculate_drift_score(scores)
         trend_direction = self._determine_trend(scores)
         key_factors = self._identify_drift_factors(recent_reflections)
-        recommendations = self._generate_drift_recommendations(
-            drift_score, trend_direction
-        )
+        recommendations = self._generate_drift_recommendations(drift_score, trend_direction)
 
         drift = MoralDrift(
             drift_score=drift_score,
@@ -277,14 +269,10 @@ class GuardianReflector:
             recommended_actions=recommendations,
         )
 
-        logger.info(
-            f"Moral drift analysis: {drift_score:.3f} drift, {trend_direction} trend"
-        )
+        logger.info(f"Moral drift analysis: {drift_score:.3f} drift, {trend_direction} trend")
         return drift
 
-    async def protect_consciousness(
-        self, threat_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def protect_consciousness(self, threat_context: dict[str, Any]) -> dict[str, Any]:
         """
         Activate consciousness protection mechanisms
 
@@ -323,9 +311,7 @@ class GuardianReflector:
             "timestamp": datetime.now().isoformat(),
         }
 
-        logger.info(
-            f"Consciousness protection response: {len(protections)} protections activated"
-        )
+        logger.info(f"Consciousness protection response: {len(protections)} protections activated")
         return response
 
     async def _establish_moral_baseline(self) -> None:
@@ -342,9 +328,7 @@ class GuardianReflector:
     async def _register_event_handlers(self) -> None:
         """Register event handlers for real-time monitoring"""
         if self.integration_layer:
-            await self.integration_layer.subscribe(
-                "decision_request", self._on_decision_request
-            )
+            await self.integration_layer.subscribe("decision_request", self._on_decision_request)
             await self.integration_layer.subscribe(
                 "consciousness_event", self._on_consciousness_event
             )
@@ -386,9 +370,7 @@ class GuardianReflector:
 
         return avg_score, analysis
 
-    async def _apply_deontological_ethics(
-        self, context: dict[str, Any]
-    ) -> tuple[float, str]:
+    async def _apply_deontological_ethics(self, context: dict[str, Any]) -> tuple[float, str]:
         """Apply deontological ethics framework"""
         duties = ["respect_autonomy", "tell_truth", "keep_promises", "do_no_harm"]
         scores = []
@@ -402,9 +384,7 @@ class GuardianReflector:
 
         return avg_score, analysis
 
-    async def _apply_consequentialist_ethics(
-        self, context: dict[str, Any]
-    ) -> tuple[float, str]:
+    async def _apply_consequentialist_ethics(self, context: dict[str, Any]) -> tuple[float, str]:
         """Apply consequentialist ethics framework"""
         outcomes = context.get("expected_outcomes", [])
         stakeholders = context.get("affected_stakeholders", [])
@@ -445,9 +425,7 @@ class GuardianReflector:
 
         return weighted_sum / total_weight if total_weight > 0 else 0.5
 
-    def _determine_severity(
-        self, moral_score: float, framework_results: dict
-    ) -> MoralSeverity:
+    def _determine_severity(self, moral_score: float, framework_results: dict) -> MoralSeverity:
         """Determine severity based on moral score and framework analysis"""
         if moral_score >= 0.9:
             return MoralSeverity.BENIGN
@@ -470,9 +448,7 @@ class GuardianReflector:
 
         return concerns
 
-    def _generate_recommendations(
-        self, framework_results: dict, concerns: list[str]
-    ) -> list[str]:
+    def _generate_recommendations(self, framework_results: dict, concerns: list[str]) -> list[str]:
         """Generate recommendations based on analysis"""
         recommendations = []
 
@@ -487,13 +463,9 @@ class GuardianReflector:
 
         return recommendations
 
-    def _generate_justification(
-        self, framework_results: dict, moral_score: float
-    ) -> str:
+    def _generate_justification(self, framework_results: dict, moral_score: float) -> str:
         """Generate ethical justification for the decision"""
-        strongest_framework = max(
-            framework_results.items(), key=lambda x: x[1]["score"]
-        )
+        strongest_framework = max(framework_results.items(), key=lambda x: x[1]["score"])
 
         justification = f"Decision achieves {moral_score:.2f} moral score. "
         justification += f"Strongest alignment with {strongest_framework[0].value} "
@@ -590,9 +562,7 @@ class GuardianReflector:
         else:
             return "stable"
 
-    def _identify_drift_factors(
-        self, reflections: list[EthicalReflection]
-    ) -> list[str]:
+    def _identify_drift_factors(self, reflections: list[EthicalReflection]) -> list[str]:
         """Identify key factors contributing to moral drift"""
         factors = []
 
@@ -612,9 +582,7 @@ class GuardianReflector:
 
         return factors or ["undetermined"]
 
-    def _generate_drift_recommendations(
-        self, drift_score: float, trend: str
-    ) -> list[str]:
+    def _generate_drift_recommendations(self, drift_score: float, trend: str) -> list[str]:
         """Generate recommendations for addressing moral drift"""
         recommendations = []
 
@@ -622,9 +590,7 @@ class GuardianReflector:
             recommendations.append("immediate_ethical_review")
 
         if trend == "degrading":
-            recommendations.extend(
-                ["enhance_ethical_oversight", "review_decision_processes"]
-            )
+            recommendations.extend(["enhance_ethical_oversight", "review_decision_processes"])
         elif trend == "improving":
             recommendations.append("maintain_current_standards")
         else:
@@ -649,9 +615,7 @@ class GuardianReflector:
 
         return min(threat_score, 1.0)
 
-    async def _execute_protection(
-        self, protection: str, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _execute_protection(self, protection: str, context: dict[str, Any]) -> dict[str, Any]:
         """Execute a specific protection mechanism"""
         logger.info(f"Executing protection: {protection}")
 
@@ -700,8 +664,7 @@ class GuardianReflector:
 
             # Convert reflection to validation format expected by tests
             return {
-                "approved": reflection.moral_score
-                >= 0.7,  # Approve if moral score is high
+                "approved": reflection.moral_score >= 0.7,  # Approve if moral score is high
                 "risk_level": reflection.severity.lower(),
                 "reasoning": reflection.justification,
                 "moral_score": reflection.moral_score,
@@ -714,7 +677,7 @@ class GuardianReflector:
             return {
                 "approved": False,
                 "risk_level": "high",
-                "reasoning": f"Validation failed: {str(e)}",
+                "reasoning": f"Validation failed: {e!s}",
                 "moral_score": 0.0,
                 "concerns": ["validation_error"],
                 "recommendations": ["retry_action_validation"],

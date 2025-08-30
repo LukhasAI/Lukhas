@@ -173,9 +173,7 @@ class DuplicateCodeAnalyzer:
                         report["duplicate_functions"].append(
                             {
                                 "signature": signature,
-                                "locations": [
-                                    f"{g['file']}:{g['line']}" for g in group
-                                ],
+                                "locations": [f"{g['file']}:{g['line']}" for g in group],
                                 "count": len(group),
                             }
                         )
@@ -249,12 +247,8 @@ def main():
     print("\n📈 Summary:")
     print(f"  Duplicate functions: {report['summary']['total_duplicate_functions']}")
     print(f"  Duplicate classes: {report['summary']['total_duplicate_classes']}")
-    print(
-        f"  Heavily imported modules: {report['summary']['heavily_imported_modules']}"
-    )
-    print(
-        f"  Estimated lines saveable: ~{report['summary']['estimated_lines_saveable']}"
-    )
+    print(f"  Heavily imported modules: {report['summary']['heavily_imported_modules']}")
+    print(f"  Estimated lines saveable: ~{report['summary']['estimated_lines_saveable']}")
 
     # Top duplicates
     if report["duplicate_functions"]:

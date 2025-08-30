@@ -317,9 +317,7 @@ class MemoryHelixVisualizer:
                 )
             )
 
-        logger.info(
-            f"Generated memory helix visualization with {total_memories} memories"
-        )
+        logger.info(f"Generated memory helix visualization with {total_memories} memories")
         return fig
 
     def create_interactive_visualization(

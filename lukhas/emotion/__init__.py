@@ -53,9 +53,7 @@ class EmotionWrapper:
         try:
             if not EMOTION_ACTIVE:
                 logger.info("Emotion module initialized in dry-run mode")
-                emit(
-                    {"ntype": "emotion_dry_run_init", "state": {"status": "safe_mode"}}
-                )
+                emit({"ntype": "emotion_dry_run_init", "state": {"status": "safe_mode"}})
                 self._initialized = True
                 return True
 
@@ -178,9 +176,7 @@ class EmotionWrapper:
 
             # Real valence tracking
             result = self._analyze_valence_trends(window_size)
-            emit(
-                {"ntype": "valence_track_active", "state": {"window_size": window_size}}
-            )
+            emit({"ntype": "valence_track_active", "state": {"window_size": window_size}})
             return result
 
         except Exception as e:
@@ -278,9 +274,7 @@ class EmotionWrapper:
         score = (dominant_count - submissive_count) / len(words)
         return max(0.0, min(1.0, score * 5 + 0.5))
 
-    def _map_vad_to_emotion(
-        self, valence: float, arousal: float, dominance: float
-    ) -> str:
+    def _map_vad_to_emotion(self, valence: float, arousal: float, dominance: float) -> str:
         """Map VAD scores to basic emotion categories"""
         if valence > 0.3:
             if arousal > 0.5:
@@ -308,9 +302,7 @@ class EmotionWrapper:
             regulation_applied = True
         elif target_state == "calm" and self._emotional_state["arousal"] > 0.7:
             # Apply calming regulation
-            self._emotional_state["arousal"] = max(
-                0.0, self._emotional_state["arousal"] - 0.4
-            )
+            self._emotional_state["arousal"] = max(0.0, self._emotional_state["arousal"] - 0.4)
             regulation_applied = True
 
         # Hormone influence simulation
@@ -345,16 +337,12 @@ class EmotionWrapper:
                 "window_size": window_size,
             }
 
-        recent_valences = [
-            entry["valence"] for entry in self._emotion_history[-window_size:]
-        ]
+        recent_valences = [entry["valence"] for entry in self._emotion_history[-window_size:]]
         current_valence = self._emotional_state["valence"]
 
         # Calculate trend
         if len(recent_valences) >= 2:
-            trend_slope = (recent_valences[-1] - recent_valences[0]) / len(
-                recent_valences
-            )
+            trend_slope = (recent_valences[-1] - recent_valences[0]) / len(recent_valences)
             if trend_slope > 0.1:
                 trend = "improving"
             elif trend_slope < -0.1:
@@ -367,9 +355,7 @@ class EmotionWrapper:
         # Calculate variance
         if len(recent_valences) > 1:
             mean_valence = sum(recent_valences) / len(recent_valences)
-            variance = sum((v - mean_valence) ** 2 for v in recent_valences) / len(
-                recent_valences
-            )
+            variance = sum((v - mean_valence) ** 2 for v in recent_valences) / len(recent_valences)
         else:
             variance = 0.0
 
@@ -400,7 +386,7 @@ _emotion_wrapper = None
 
 def get_emotion_wrapper() -> EmotionWrapper:
     """Get the global emotion wrapper instance"""
-    global _emotion_wrapper  # noqa: PLW0603
+    global _emotion_wrapper
     if _emotion_wrapper is None:
         _emotion_wrapper = EmotionWrapper()
     return _emotion_wrapper
@@ -427,10 +413,10 @@ def track_valence(window_size: int = 10) -> dict[str, Any]:
 
 # Export the main interface
 __all__ = [
+    "EMOTION_ACTIVE",
     "EmotionWrapper",
     "get_emotion_wrapper",
     "process_emotion",
     "regulate_mood",
     "track_valence",
-    "EMOTION_ACTIVE",
 ]

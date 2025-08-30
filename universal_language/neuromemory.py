@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 class MemoryType(Enum):
     """Types of memory based on neuroscience"""
+
     SENSORY = "sensory"  # Ultra-short term (milliseconds)
     WORKING = "working"  # Short-term active memory (seconds)
     EPISODIC = "episodic"  # Specific events with context
@@ -33,6 +34,7 @@ class MemoryType(Enum):
 
 class ConsolidationState(Enum):
     """Memory consolidation states (like sleep stages)"""
+
     ENCODING = "encoding"  # Initial formation
     CONSOLIDATING = "consolidating"  # Strengthening connections
     RECONSOLIDATING = "reconsolidating"  # Updating after retrieval
@@ -46,6 +48,7 @@ class MemoryTrace:
 
     Like neurons encoding memories in the brain.
     """
+
     trace_id: str
     content: Any  # Symbol, Concept, or raw data
     memory_type: MemoryType
@@ -83,7 +86,7 @@ class MemoryTrace:
             "strength": self.strength,
             "activation_count": self.activation_count,
             "importance": self.importance,
-            "emotional_valence": self.emotional_valence
+            "emotional_valence": self.emotional_valence,
         }
 
 
@@ -94,6 +97,7 @@ class EpisodicMemory:
 
     Like the hippocampus encoding specific experiences.
     """
+
     episode_id: str
     symbols_used: list[Symbol]
     context: dict[str, Any]
@@ -109,14 +113,14 @@ class EpisodicMemory:
         return {
             "symbols": [s.name for s in self.symbols_used],
             "patterns": self._extract_patterns(),
-            "associations": self._extract_associations()
+            "associations": self._extract_associations(),
         }
 
     def _extract_patterns(self) -> list[str]:
         """Extract patterns from symbol sequence"""
         patterns = []
         for i in range(len(self.symbols_used) - 1):
-            pattern = f"{self.symbols_used[i].name}->{self.symbols_used[i+1].name}"
+            pattern = f"{self.symbols_used[i].name}->{self.symbols_used[i + 1].name}"
             patterns.append(pattern)
         return patterns
 
@@ -124,9 +128,7 @@ class EpisodicMemory:
         """Extract symbol associations"""
         associations = {}
         for symbol in self.symbols_used:
-            associations[symbol.name] = [
-                s.name for s in self.symbols_used if s != symbol
-            ]
+            associations[symbol.name] = [s.name for s in self.symbols_used if s != symbol]
         return associations
 
 
@@ -199,7 +201,7 @@ class HippocampalBuffer:
         key_parts = [
             trace.memory_type.value,
             str(trace.emotional_valence > 0),
-            str(int(trace.importance * 10))
+            str(int(trace.importance * 10)),
         ]
         return "_".join(key_parts)
 
@@ -235,7 +237,7 @@ class CorticalNetwork:
             self.semantic_nodes[concept_id] = {
                 "attributes": {},
                 "activation": 0.0,
-                "permanent_strength": 0.0
+                "permanent_strength": 0.0,
             }
 
         # Update attributes
@@ -246,14 +248,14 @@ class CorticalNetwork:
         for other_id, other_node in self.semantic_nodes.items():
             if other_id != concept_id:
                 similarity = self._compute_attribute_similarity(
-                    node["attributes"],
-                    other_node["attributes"]
+                    node["attributes"], other_node["attributes"]
                 )
                 if similarity > 0.3:
                     self._add_connection(concept_id, other_id, similarity)
 
-    def spreading_activation(self, start_concept: str,
-                           max_spread: int = 3) -> list[tuple[str, float]]:
+    def spreading_activation(
+        self, start_concept: str, max_spread: int = 3
+    ) -> list[tuple[str, float]]:
         """
         Spreading activation through semantic network.
 
@@ -288,11 +290,11 @@ class CorticalNetwork:
         """
         Hebbian learning: neurons that fire together wire together.
         """
-        self._add_connection(concept1, concept2,
-                           strength_increase=0.1)
+        self._add_connection(concept1, concept2, strength_increase=0.1)
 
-    def _add_connection(self, concept1: str, concept2: str,
-                       strength: float = 0.5, strength_increase: float = 0.0):
+    def _add_connection(
+        self, concept1: str, concept2: str, strength: float = 0.5, strength_increase: float = 0.0
+    ):
         """Add or strengthen connection between concepts"""
         if concept1 not in self.connections:
             self.connections[concept1] = set()
@@ -366,10 +368,7 @@ class WorkingMemory:
         for item, _activation in self.items:
             if self._matches_cue(item, cue):
                 # Boost activation on retrieval
-                self.items = [
-                    (i, a + 0.1 if i == item else a)
-                    for i, a in self.items
-                ]
+                self.items = [(i, a + 0.1 if i == item else a) for i, a in self.items]
                 return item
         return None
 
@@ -408,9 +407,9 @@ class NeuroSymbolicMemory:
 
         logger.info("NeuroSymbolic Memory System initialized")
 
-    def encode_symbol_experience(self, symbols: list[Symbol],
-                                context: dict[str, Any],
-                                outcome: Optional[str] = None) -> str:
+    def encode_symbol_experience(
+        self, symbols: list[Symbol], context: dict[str, Any], outcome: Optional[str] = None
+    ) -> str:
         """
         Encode a new symbol usage experience.
 
@@ -421,7 +420,7 @@ class NeuroSymbolicMemory:
             episode_id=self._generate_episode_id(),
             symbols_used=symbols,
             context=context,
-            outcome=outcome
+            outcome=outcome,
         )
 
         self.episodic_memories[episode.episode_id] = episode
@@ -433,7 +432,7 @@ class NeuroSymbolicMemory:
                 content=symbol,
                 memory_type=MemoryType.EPISODIC,
                 context=context,
-                importance=self._calculate_importance(symbol, context, outcome)
+                importance=self._calculate_importance(symbol, context, outcome),
             )
 
             # Encode in hippocampus
@@ -449,7 +448,7 @@ class NeuroSymbolicMemory:
         for pattern in semantic["patterns"]:
             self.cortex.store_semantic(
                 f"PATTERN_{hashlib.sha256(pattern.encode()).hexdigest()[:8]}",
-                {"pattern": pattern, "frequency": 1}
+                {"pattern": pattern, "frequency": 1},
             )
 
         return episode.episode_id
@@ -490,8 +489,8 @@ class NeuroSymbolicMemory:
                             "name": trace.content.name,
                             "domain": trace.content.domain.value,
                             "importance": trace.importance,
-                            "valence": trace.emotional_valence
-                        }
+                            "valence": trace.emotional_valence,
+                        },
                     )
 
             self.consolidation_cycles += 1
@@ -511,13 +510,10 @@ class NeuroSymbolicMemory:
         # Sample traces with probability proportional to importance
         importances = [t.importance for t in active_traces]
         total_importance = sum(importances)
-        probs = [i/total_importance for i in importances]
+        probs = [i / total_importance for i in importances]
 
         sampled_indices = np.random.choice(
-            len(active_traces),
-            size=min(n_symbols, len(active_traces)),
-            p=probs,
-            replace=False
+            len(active_traces), size=min(n_symbols, len(active_traces)), p=probs, replace=False
         )
 
         recombined = []
@@ -533,8 +529,8 @@ class NeuroSymbolicMemory:
                     attributes={
                         **trace.content.attributes,
                         "is_dream": True,
-                        "original_id": trace.content.id
-                    }
+                        "original_id": trace.content.id,
+                    },
                 )
                 recombined.append(dream_symbol)
 
@@ -572,13 +568,14 @@ class NeuroSymbolicMemory:
             "working_memory_items": len(self.working_memory.items),
             "hippocampal_buffer": len(self.hippocampus.buffer),
             "consolidation_cycles": self.consolidation_cycles,
-            "average_trace_strength": np.mean([
-                t.strength for t in self.memory_traces.values()
-            ]) if self.memory_traces else 0
+            "average_trace_strength": np.mean([t.strength for t in self.memory_traces.values()])
+            if self.memory_traces
+            else 0,
         }
 
-    def _calculate_importance(self, symbol: Symbol, context: dict[str, Any],
-                            outcome: Optional[str]) -> float:
+    def _calculate_importance(
+        self, symbol: Symbol, context: dict[str, Any], outcome: Optional[str]
+    ) -> float:
         """Calculate importance of a memory"""
         importance = 0.5  # Base importance
 

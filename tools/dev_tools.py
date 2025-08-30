@@ -51,6 +51,7 @@ except ImportError:
     sys.path.insert(0, str(cli_dir))
 
     from commands.base import BaseCommand
+
     from utils import (
         OutputFormatter,
         ProgressFormatter,
@@ -138,7 +139,7 @@ class DeveloperTools(BaseCommand):
         try:
             return await self.subcommands[subcommand](args[1:])
         except Exception as e:
-            print_error(f"Dev command failed: {str(e)}")
+            print_error(f"Dev command failed: {e!s}")
             return False
 
     def _show_help(self):
@@ -167,9 +168,7 @@ class DeveloperTools(BaseCommand):
 
         formatter = TableFormatter()
         print(
-            formatter.create_table(
-                table_data, title="Available Developer Commands", style="lukhas"
-            )
+            formatter.create_table(table_data, title="Available Developer Commands", style="lukhas")
         )
 
     async def analyze_code(self, args: list[str]) -> bool:
@@ -435,11 +434,7 @@ class DeveloperTools(BaseCommand):
             with open(file_path, encoding="utf-8") as f:
                 code = f.read()
                 lines_of_code += len(
-                    [
-                        l
-                        for l in code.split("\n")
-                        if l.strip() and not l.strip().startswith("#")
-                    ]
+                    [l for l in code.split("\n") if l.strip() and not l.strip().startswith("#")]
                 )
                 functions_count += code.count("def ")
                 classes_count += code.count("class ")
@@ -515,9 +510,7 @@ class DeveloperTools(BaseCommand):
         for result in results:
             status = "✅ PASSED" if result.failed == 0 else "❌ FAILED"
             print_info(f"{status} {result.test_file}")
-            print(
-                f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}"
-            )
+            print(f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}")
             print(f"  Duration: {format_duration(result.duration)}")
             if result.coverage:
                 print(f"  Coverage: {result.coverage:.1f}%")

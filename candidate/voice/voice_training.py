@@ -27,8 +27,10 @@ from candidate.voice.voice_analytics import LUKHASVoiceAnalytics
 
 logger = get_logger(__name__)
 
+
 class TrainingObjective(Enum):
     """Voice training objectives"""
+
     VOICE_CLONING = "voice_cloning"
     ACCENT_ADAPTATION = "accent_adaptation"
     STYLE_TRANSFER = "style_transfer"
@@ -37,8 +39,10 @@ class TrainingObjective(Enum):
     EMOTION_MODELING = "emotion_modeling"
     PROSODY_CONTROL = "prosody_control"
 
+
 class TrainingStage(Enum):
     """Training stages"""
+
     DATA_PREPARATION = "data_preparation"
     FEATURE_EXTRACTION = "feature_extraction"
     MODEL_TRAINING = "model_training"
@@ -47,9 +51,11 @@ class TrainingStage(Enum):
     EVALUATION = "evaluation"
     DEPLOYMENT = "deployment"
 
+
 @dataclass
 class TrainingData:
     """Voice training data sample"""
+
     audio_data: np.ndarray
     transcript: str
     speaker_id: str
@@ -63,9 +69,11 @@ class TrainingData:
         if self.duration_seconds == 0.0:
             self.duration_seconds = len(self.audio_data) / self.sample_rate
 
+
 @dataclass
 class TrainingConfig:
     """Voice training configuration"""
+
     # Training parameters
     objective: TrainingObjective = TrainingObjective.VOICE_CLONING
     batch_size: int = 32
@@ -115,12 +123,14 @@ class TrainingConfig:
             "early_stopping_patience": self.early_stopping_patience,
             "output_dir": self.output_dir,
             "save_checkpoints": self.save_checkpoints,
-            "checkpoint_frequency": self.checkpoint_frequency
+            "checkpoint_frequency": self.checkpoint_frequency,
         }
+
 
 @dataclass
 class TrainingMetrics:
     """Training progress metrics"""
+
     epoch: int = 0
     total_loss: float = 0.0
     validation_loss: float = 0.0
@@ -149,8 +159,9 @@ class TrainingMetrics:
             "voice_similarity": self.voice_similarity,
             "samples_processed": self.samples_processed,
             "training_time_seconds": self.training_time_seconds,
-            "gpu_memory_used": self.gpu_memory_used
+            "gpu_memory_used": self.gpu_memory_used,
         }
+
 
 class VoiceTrainingModel(ABC):
     """Abstract base class for voice training models"""
@@ -180,6 +191,7 @@ class VoiceTrainingModel(ABC):
         """Load trained model"""
         pass
 
+
 class MockVoiceTrainingModel(VoiceTrainingModel):
     """Mock implementation for demonstration"""
 
@@ -202,12 +214,13 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
         await asyncio.sleep(0.1)
 
         return {
-            "train_loader": training_data[:int(len(training_data) * (1 - self.config.validation_split))],
-            "val_loader": training_data[int(len(training_data) * (1 - self.config.validation_split)):],
-            "feature_stats": {
-                "mean_mel": np.random.rand(80),
-                "std_mel": np.random.rand(80)
-            }
+            "train_loader": training_data[
+                : int(len(training_data) * (1 - self.config.validation_split))
+            ],
+            "val_loader": training_data[
+                int(len(training_data) * (1 - self.config.validation_split)) :
+            ],
+            "feature_stats": {"mean_mel": np.random.rand(80), "std_mel": np.random.rand(80)},
         }
 
     async def train_epoch(self, data_loader: list[TrainingData], epoch: int) -> TrainingMetrics:
@@ -243,8 +256,8 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             voice_similarity=min(1.0, 0.3 + epoch * 0.07),
             samples_processed=total_samples,
             training_time_seconds=training_time,
-            learning_rate=self.config.learning_rate * (0.95 ** epoch),
-            gpu_memory_used=2.5 + np.random.rand() * 0.5  # GB
+            learning_rate=self.config.learning_rate * (0.95**epoch),
+            gpu_memory_used=2.5 + np.random.rand() * 0.5,  # GB
         )
 
     async def validate(self, data_loader: list[TrainingData], epoch: int) -> TrainingMetrics:
@@ -259,7 +272,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             epoch=epoch,
             validation_loss=val_loss,
             voice_similarity=min(1.0, 0.2 + epoch * 0.06),
-            samples_processed=len(data_loader)
+            samples_processed=len(data_loader),
         )
 
     async def save_model(self, path: str, metadata: dict[str, Any]) -> bool:
@@ -273,7 +286,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
                 "config": self.config.to_dict(),
                 "epoch": self.current_epoch,
                 "metadata": metadata,
-                "weights": f"mock_weights_epoch_{self.current_epoch}"
+                "weights": f"mock_weights_epoch_{self.current_epoch}",
             }
 
             with open(path, "w") as f:
@@ -283,7 +296,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to save model: {str(e)}")
+            self.logger.error(f"Failed to save model: {e!s}")
             return False
 
     async def load_model(self, path: str) -> bool:
@@ -297,8 +310,9 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to load model: {str(e)}")
+            self.logger.error(f"Failed to load model: {e!s}")
             return False
+
 
 class LUKHASVoiceTrainer:
     """Main LUKHAS voice training system"""
@@ -328,28 +342,29 @@ class LUKHASVoiceTrainer:
         transcript: str,
         speaker_id: str,
         emotion: Optional[str] = None,
-        sample_rate: int = 44100
+        sample_rate: int = 44100,
     ) -> bool:
         """Add training sample"""
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "voice_training_data_add",
-                "audio_length": len(audio_data),
-                "speaker_id": speaker_id,
-                "transcript_length": len(transcript)
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "voice_training_data_add",
+                    "audio_length": len(audio_data),
+                    "speaker_id": speaker_id,
+                    "transcript_length": len(transcript),
+                }
+            )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(f"Guardian rejected training sample: {validation_result.get('reason')}")
+                self.logger.warning(
+                    f"Guardian rejected training sample: {validation_result.get('reason')}"
+                )
                 return False
 
             # Quality assessment
             AudioBuffer(
-                data=audio_data,
-                sample_rate=sample_rate,
-                channels=1,
-                format=AudioFormat.FLOAT_32
+                data=audio_data, sample_rate=sample_rate, channels=1, format=AudioFormat.FLOAT_32
             )
 
             # Convert to bytes for analytics
@@ -360,13 +375,17 @@ class LUKHASVoiceTrainer:
 
             # Check quality thresholds
             if quality_report.overall_score < 60:  # Minimum quality threshold
-                self.logger.warning(f"Low quality training sample rejected (score: {quality_report.overall_score})")
+                self.logger.warning(
+                    f"Low quality training sample rejected (score: {quality_report.overall_score})"
+                )
                 return False
 
             # Duration check
             duration = len(audio_data) / sample_rate
             if duration < self.config.min_audio_length or duration > self.config.max_audio_length:
-                self.logger.warning(f"Training sample duration {duration:.2f}s outside acceptable range")
+                self.logger.warning(
+                    f"Training sample duration {duration:.2f}s outside acceptable range"
+                )
                 return False
 
             # Create training data
@@ -380,31 +399,33 @@ class LUKHASVoiceTrainer:
                 quality_score=quality_report.overall_score / 100.0,
                 metadata={
                     "quality_report": quality_report.to_dict(),
-                    "added_timestamp": time.time()
-                }
+                    "added_timestamp": time.time(),
+                },
             )
 
             self.training_data.append(training_sample)
 
-            await GLYPH.emit("voice.training.sample_added", {
-                "speaker_id": speaker_id,
-                "duration": duration,
-                "quality_score": training_sample.quality_score,
-                "total_samples": len(self.training_data)
-            })
+            await GLYPH.emit(
+                "voice.training.sample_added",
+                {
+                    "speaker_id": speaker_id,
+                    "duration": duration,
+                    "quality_score": training_sample.quality_score,
+                    "total_samples": len(self.training_data),
+                },
+            )
 
-            self.logger.info(f"Added training sample: {speaker_id} ({duration:.2f}s, quality: {training_sample.quality_score:.2f})")
+            self.logger.info(
+                f"Added training sample: {speaker_id} ({duration:.2f}s, quality: {training_sample.quality_score:.2f})"
+            )
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to add training sample: {str(e)}")
+            self.logger.error(f"Failed to add training sample: {e!s}")
             return False
 
     async def load_training_data_from_directory(
-        self,
-        directory: str,
-        speaker_id: str,
-        file_pattern: str = "*.wav"
+        self, directory: str, speaker_id: str, file_pattern: str = "*.wav"
     ) -> int:
         """Load training data from directory"""
         loaded_count = 0
@@ -430,7 +451,9 @@ class LUKHASVoiceTrainer:
                         transcript = f.read().strip()
                 else:
                     # Use speech recognition to generate transcript
-                    self.logger.info(f"No transcript found for {audio_file}, using speech recognition")
+                    self.logger.info(
+                        f"No transcript found for {audio_file}, using speech recognition"
+                    )
                     # Mock transcript
                     transcript = f"Generated transcript for {audio_file.name}"
 
@@ -444,14 +467,14 @@ class LUKHASVoiceTrainer:
                     audio_data=audio_data,
                     transcript=transcript,
                     speaker_id=speaker_id,
-                    sample_rate=sample_rate
+                    sample_rate=sample_rate,
                 )
 
                 if success:
                     loaded_count += 1
 
             except Exception as e:
-                self.logger.error(f"Failed to load {audio_file}: {str(e)}")
+                self.logger.error(f"Failed to load {audio_file}: {e!s}")
 
         self.logger.info(f"Loaded {loaded_count} training samples from {directory}")
         return loaded_count
@@ -463,11 +486,13 @@ class LUKHASVoiceTrainer:
                 raise ValueError("No training data available")
 
             # Guardian validation for training
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "voice_model_training",
-                "config": self.config.to_dict(),
-                "training_samples": len(self.training_data)
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "voice_model_training",
+                    "config": self.config.to_dict(),
+                    "training_samples": len(self.training_data),
+                }
+            )
 
             if not validation_result.get("approved", False):
                 raise ValueError(f"Guardian rejected training: {validation_result.get('reason')}")
@@ -475,11 +500,14 @@ class LUKHASVoiceTrainer:
             # Initialize model
             self.model = MockVoiceTrainingModel(self.config)
 
-            await GLYPH.emit("voice.training.started", {
-                "objective": self.config.objective.value,
-                "training_samples": len(self.training_data),
-                "config": self.config.to_dict()
-            })
+            await GLYPH.emit(
+                "voice.training.started",
+                {
+                    "objective": self.config.objective.value,
+                    "training_samples": len(self.training_data),
+                    "config": self.config.to_dict(),
+                },
+            )
 
             # Data preparation stage
             self._set_stage(TrainingStage.DATA_PREPARATION)
@@ -488,7 +516,9 @@ class LUKHASVoiceTrainer:
             train_loader = prepared_data["train_loader"]
             val_loader = prepared_data["val_loader"]
 
-            self.logger.info(f"Training data prepared: {len(train_loader)} train, {len(val_loader)} validation")
+            self.logger.info(
+                f"Training data prepared: {len(train_loader)} train, {len(val_loader)} validation"
+            )
 
             # Training loop
             self._set_stage(TrainingStage.MODEL_TRAINING)
@@ -514,7 +544,7 @@ class LUKHASVoiceTrainer:
                     self.metrics_callback(train_metrics)
 
                 self.logger.info(
-                    f"Epoch {epoch+1}/{self.config.num_epochs}: "
+                    f"Epoch {epoch + 1}/{self.config.num_epochs}: "
                     f"Loss={train_metrics.total_loss:.4f}, "
                     f"Val Loss={val_metrics.validation_loss:.4f}, "
                     f"Voice Sim={train_metrics.voice_similarity:.3f}"
@@ -528,25 +558,29 @@ class LUKHASVoiceTrainer:
                     # Save best model
                     if self.config.save_checkpoints:
                         model_path = os.path.join(
-                            self.config.output_dir,
-                            f"best_model_{self.config.objective.value}.json"
+                            self.config.output_dir, f"best_model_{self.config.objective.value}.json"
                         )
-                        await self.model.save_model(model_path, {
-                            "epoch": epoch,
-                            "validation_loss": best_val_loss,
-                            "training_samples": len(self.training_data)
-                        })
+                        await self.model.save_model(
+                            model_path,
+                            {
+                                "epoch": epoch,
+                                "validation_loss": best_val_loss,
+                                "training_samples": len(self.training_data),
+                            },
+                        )
                 else:
                     patience_counter += 1
                     if patience_counter >= self.config.early_stopping_patience:
-                        self.logger.info(f"Early stopping at epoch {epoch+1}")
+                        self.logger.info(f"Early stopping at epoch {epoch + 1}")
                         break
 
                 # Save checkpoint
-                if self.config.save_checkpoints and (epoch + 1) % self.config.checkpoint_frequency == 0:
+                if (
+                    self.config.save_checkpoints
+                    and (epoch + 1) % self.config.checkpoint_frequency == 0
+                ):
                     checkpoint_path = os.path.join(
-                        self.config.output_dir,
-                        f"checkpoint_epoch_{epoch+1}.json"
+                        self.config.output_dir, f"checkpoint_epoch_{epoch + 1}.json"
                     )
                     await self.model.save_model(checkpoint_path, {"epoch": epoch})
 
@@ -554,22 +588,24 @@ class LUKHASVoiceTrainer:
             self._set_stage(TrainingStage.EVALUATION)
             final_metrics = await self._evaluate_model(val_loader)
 
-            await GLYPH.emit("voice.training.completed", {
-                "final_metrics": final_metrics.to_dict(),
-                "total_epochs": len(self.training_metrics),
-                "best_validation_loss": best_val_loss
-            })
+            await GLYPH.emit(
+                "voice.training.completed",
+                {
+                    "final_metrics": final_metrics.to_dict(),
+                    "total_epochs": len(self.training_metrics),
+                    "best_validation_loss": best_val_loss,
+                },
+            )
 
             self.logger.info("Voice training completed successfully")
             return True
 
         except Exception as e:
-            self.logger.error(f"Voice training failed: {str(e)}")
+            self.logger.error(f"Voice training failed: {e!s}")
 
-            await GLYPH.emit("voice.training.failed", {
-                "error": str(e),
-                "stage": self.current_stage.value
-            })
+            await GLYPH.emit(
+                "voice.training.failed", {"error": str(e), "stage": self.current_stage.value}
+            )
 
             return False
 
@@ -603,26 +639,29 @@ class LUKHASVoiceTrainer:
         final_metrics = self.training_metrics[-1]
 
         return {
-            "status": "completed" if self.current_stage == TrainingStage.EVALUATION else "in_progress",
+            "status": "completed"
+            if self.current_stage == TrainingStage.EVALUATION
+            else "in_progress",
             "current_stage": self.current_stage.value,
             "total_epochs": len(self.training_metrics),
             "training_samples": len(self.training_data),
             "final_loss": final_metrics.total_loss,
             "final_validation_loss": final_metrics.validation_loss,
             "best_voice_similarity": max(m.voice_similarity for m in self.training_metrics),
-            "config": self.config.to_dict()
+            "config": self.config.to_dict(),
         }
 
     def get_training_metrics(self) -> list[dict[str, Any]]:
         """Get all training metrics"""
         return [metrics.to_dict() for metrics in self.training_metrics]
 
+
 # Convenience function
 async def train_voice_model(
     training_audio_dir: str,
     speaker_id: str,
     objective: TrainingObjective = TrainingObjective.VOICE_CLONING,
-    num_epochs: int = 50
+    num_epochs: int = 50,
 ) -> dict[str, Any]:
     """
     Simple voice model training
@@ -637,10 +676,7 @@ async def train_voice_model(
         Training summary
     """
     config = TrainingConfig(
-        objective=objective,
-        num_epochs=num_epochs,
-        batch_size=16,
-        learning_rate=0.001
+        objective=objective, num_epochs=num_epochs, batch_size=16, learning_rate=0.001
     )
 
     trainer = LUKHASVoiceTrainer(config)
@@ -656,15 +692,16 @@ async def train_voice_model(
     else:
         return {"status": "failed", "error": "Training failed"}
 
+
 # Export main classes
 __all__ = [
     "LUKHASVoiceTrainer",
+    "MockVoiceTrainingModel",
     "TrainingConfig",
     "TrainingData",
     "TrainingMetrics",
     "TrainingObjective",
     "TrainingStage",
     "VoiceTrainingModel",
-    "MockVoiceTrainingModel",
-    "train_voice_model"
+    "train_voice_model",
 ]

@@ -24,43 +24,38 @@ class BotStatusDesigner:
                 "text": "LUKHAS AI ΛBot",
                 "icon": "🤖",
                 "colors": {"success": "#28a745", "warning": "#ffc107", "error": "#dc3545"},
-                "commands": ["LUKHAS AI ΛBot.showStatus"]
+                "commands": ["LUKHAS AI ΛBot.showStatus"],
             },
-
             "detailed": {
                 "text": "LUKHAS AI ΛBot Monitor - {status}",
                 "icon": "🎯",
                 "colors": {"success": "#00ff88", "warning": "#ffaa00", "error": "#ff4444"},
-                "commands": ["LUKHAS AI ΛBot.scan", "LUKHAS AI ΛBot.showStatus"]
+                "commands": ["LUKHAS AI ΛBot.scan", "LUKHAS AI ΛBot.showStatus"],
             },
-
             "compact": {
                 "text": "Λ {violations}",
                 "icon": "",
                 "colors": {"success": "#00aa00", "warning": "#aa6600", "error": "#aa0000"},
-                "commands": ["LUKHAS AI ΛBot.quickFix"]
+                "commands": ["LUKHAS AI ΛBot.quickFix"],
             },
-
             "professional": {
                 "text": "Quality: {quality_score}%",
                 "icon": "📊",
                 "colors": {"success": "#2ea043", "warning": "#fb8500", "error": "#d1242f"},
-                "commands": ["LUKHAS AI ΛBot.showReport"]
+                "commands": ["LUKHAS AI ΛBot.showReport"],
             },
-
             "developer": {
                 "text": "⚡ {files_scanned} files | {violations} issues",
                 "icon": "",
                 "colors": {"success": "#39d353", "warning": "#d4ac0d", "error": "#e74c3c"},
-                "commands": ["LUKHAS AI ΛBot.scan", "LUKHAS AI ΛBot.applyFixes"]
+                "commands": ["LUKHAS AI ΛBot.scan", "LUKHAS AI ΛBot.applyFixes"],
             },
-
             "gaming": {
                 "text": "🎮 Level {quality_level} | ⚔️ {critical} critical",
                 "icon": "",
                 "colors": {"success": "#00ff00", "warning": "#ffff00", "error": "#ff0000"},
-                "commands": ["LUKHAS AI ΛBot.battleMode"]
-            }
+                "commands": ["LUKHAS AI ΛBot.battleMode"],
+            },
         }
 
         if design_template not in designs:
@@ -88,7 +83,7 @@ class BotStatusDesigner:
             "command": "workbench.action.quickOpen",
             "arguments": ["LUKHAS AI ΛBot Commands"],
             "priority": 100,
-            "alignment": "left"
+            "alignment": "left",
         }
 
         return widget_data
@@ -97,14 +92,15 @@ class BotStatusDesigner:
         """Create detailed tooltip."""
         return f"""LUKHAS AI ΛBot Quality Monitor
 
-Status: {data.get('status', 'unknown')}
-Files Scanned: {data.get('files_scanned', 0)}
-Violations: {data.get('violations', 0)} total
-Critical: {data.get('critical', 0)}
-Quality Score: {data.get('quality_score', 100)}%
+Status: {data.get("status", "unknown")}
+Files Scanned: {data.get("files_scanned", 0)}
+Violations: {data.get("violations", 0)} total
+Critical: {data.get("critical", 0)}
+Quality Score: {data.get("quality_score", 100)}%
 
 Right-click for more options
 Click for quick actions"""
+
 
 # Example usage and design templates
 if __name__ == "__main__":
@@ -112,23 +108,22 @@ if __name__ == "__main__":
 
     # Example designs
     examples = {
-        "minimal": designer.create_custom_status("minimal",
-            status="monitoring", violations=0, critical=0),
-
-        "detailed": designer.create_custom_status("detailed",
-            status="5 issues found", violations=5, critical=1),
-
-        "compact": designer.create_custom_status("compact",
-            violations=3, critical=0),
-
-        "professional": designer.create_custom_status("professional",
-            quality_score=95, violations=2),
-
-        "developer": designer.create_custom_status("developer",
-            files_scanned=1250, violations=8, critical=2),
-
-        "gaming": designer.create_custom_status("gaming",
-            quality_level=7, critical=1, violations=4)
+        "minimal": designer.create_custom_status(
+            "minimal", status="monitoring", violations=0, critical=0
+        ),
+        "detailed": designer.create_custom_status(
+            "detailed", status="5 issues found", violations=5, critical=1
+        ),
+        "compact": designer.create_custom_status("compact", violations=3, critical=0),
+        "professional": designer.create_custom_status(
+            "professional", quality_score=95, violations=2
+        ),
+        "developer": designer.create_custom_status(
+            "developer", files_scanned=1250, violations=8, critical=2
+        ),
+        "gaming": designer.create_custom_status(
+            "gaming", quality_level=7, critical=1, violations=4
+        ),
     }
 
     print("🎨 LUKHAS AI ΛBot Status Bar Design Examples:")

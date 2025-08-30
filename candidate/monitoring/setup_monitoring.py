@@ -13,9 +13,7 @@ from pathlib import Path
 from typing import Any
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -23,9 +21,7 @@ class MonitoringSetup:
     """Setup and manage monitoring infrastructure"""
 
     def __init__(self, config_path: str = None):
-        self.config_path = (
-            Path(config_path) if config_path else Path("monitoring_config.yaml")
-        )
+        self.config_path = Path(config_path) if config_path else Path("monitoring_config.yaml")
         self.services = {}
         self.base_dir = Path(__file__).parent
 
@@ -161,9 +157,7 @@ class MonitoringSetup:
 
         try:
             # Check if meta dashboard exists
-            meta_dashboard_path = (
-                self.base_dir.parent / "meta_dashboard" / "dashboard_server.py"
-            )
+            meta_dashboard_path = self.base_dir.parent / "meta_dashboard" / "dashboard_server.py"
 
             if meta_dashboard_path.exists():
                 cmd = [sys.executable, str(meta_dashboard_path)]
@@ -190,11 +184,7 @@ class MonitoringSetup:
                 {
                     "job_name": "lukhas-",
                     "static_configs": [
-                        {
-                            "targets": [
-                                f"localhost:{config['unified_dashboard']['port']}"
-                            ]
-                        }
+                        {"targets": [f"localhost:{config['unified_dashboard']['port']}"]}
                     ],
                     "metrics_path": "/metrics",
                 }
@@ -280,16 +270,16 @@ if __name__ == "__main__":
 
         for service_name, service_config in services.items():
             service_content = f"""[Unit]
-Description={service_config['description']}
+Description={service_config["description"]}
 After=network.target
 
 [Service]
 Type=simple
 User=lukhas
 WorkingDirectory={self.base_dir.parent}
-Environment=PATH={sys.executable.rsplit('/', 1)[0]}
+Environment=PATH={sys.executable.rsplit("/", 1)[0]}
 Environment=PYTHONPATH={self.base_dir.parent}
-ExecStart={service_config['command']}
+ExecStart={service_config["command"]}
 Restart=always
 RestartSec=10
 
@@ -369,9 +359,7 @@ WantedBy=multi-user.target
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Setup LUKHAS  monitoring infrastructure"
-    )
+    parser = argparse.ArgumentParser(description="Setup LUKHAS  monitoring infrastructure")
 
     parser.add_argument(
         "--config",
@@ -380,17 +368,11 @@ def main():
         default="monitoring_config.yaml",
     )
 
-    parser.add_argument(
-        "--start-all", action="store_true", help="Start all monitoring services"
-    )
+    parser.add_argument("--start-all", action="store_true", help="Start all monitoring services")
 
-    parser.add_argument(
-        "--start-unified", action="store_true", help="Start unified dashboard only"
-    )
+    parser.add_argument("--start-unified", action="store_true", help="Start unified dashboard only")
 
-    parser.add_argument(
-        "--start-meta", action="store_true", help="Start meta dashboard only"
-    )
+    parser.add_argument("--start-meta", action="store_true", help="Start meta dashboard only")
 
     parser.add_argument(
         "--create-scripts",
@@ -402,9 +384,7 @@ def main():
         "--create-systemd", action="store_true", help="Create systemd service files"
     )
 
-    parser.add_argument(
-        "--wait", action="store_true", help="Wait and monitor running services"
-    )
+    parser.add_argument("--wait", action="store_true", help="Wait and monitor running services")
 
     args = parser.parse_args()
 

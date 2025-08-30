@@ -14,6 +14,7 @@ This hub coordinates all memory subsystem components and provides
 a unified interface for external systems to interact with memory.
 
 """
+
 import asyncio
 import logging
 from datetime import datetime
@@ -240,9 +241,7 @@ class MemoryHub:
                     self.memory_planner.create_allocation_pool(
                         "large", 10 * 1024 * 1024
                     )  # 10MB large pool
-                    logger.info(
-                        "Memory planning components initialized with default pools"
-                    )
+                    logger.info("Memory planning components initialized with default pools")
             except Exception as e:
                 logger.error(f"Failed to initialize memory planning: {e}")
 
@@ -281,9 +280,7 @@ class MemoryHub:
             try:
                 self.episodic_memory_colony = create_episodic_memory_integration()
                 if self.episodic_memory_colony:
-                    self.register_service(
-                        "episodic_memory_colony", self.episodic_memory_colony
-                    )
+                    self.register_service("episodic_memory_colony", self.episodic_memory_colony)
                     logger.info("Episodic memory colony integration initialized")
             except Exception as e:
                 logger.error(f"Failed to initialize episodic memory colony: {e}")
@@ -320,9 +317,7 @@ class MemoryHub:
         if UNIFIED_EMOTIONAL_MEMORY_AVAILABLE:
             try:
                 self.unified_emotional_manager = UnifiedEmotionalMemoryManager()
-                self.register_service(
-                    "unified_emotional_manager", self.unified_emotional_manager
-                )
+                self.register_service("unified_emotional_manager", self.unified_emotional_manager)
                 logger.info("Unified Emotional Memory Manager initialized")
             except Exception as e:
                 logger.error(f"Failed to initialize unified emotional manager: {e}")
@@ -371,10 +366,7 @@ class MemoryHub:
         await self.initialize_memory_connections()
 
         # Initialize neurosymbolic layer if available
-        if (
-            hasattr(self, "neurosymbolic_layer_factory")
-            and self.neurosymbolic_layer_factory
-        ):
+        if hasattr(self, "neurosymbolic_layer_factory") and self.neurosymbolic_layer_factory:
             self.neurosymbolic_layer = await self.neurosymbolic_layer_factory()
             self.register_service("neurosymbolic_layer", self.neurosymbolic_layer)
 
@@ -413,13 +405,9 @@ class MemoryHub:
         for service_name, class_name in system_services:
             try:
                 if service_name == "memory_system":
-                    module = __import__(
-                        "memory.systems.memory_system", fromlist=[class_name]
-                    )
+                    module = __import__("memory.systems.memory_system", fromlist=[class_name])
                 elif service_name == "memory_orchestrator":
-                    module = __import__(
-                        "memory.systems.memory_orchestrator", fromlist=[class_name]
-                    )
+                    module = __import__("memory.systems.memory_orchestrator", fromlist=[class_name])
                 elif service_name == "memory_engine":
                     module = __import__("memory.systems.engine", fromlist=[class_name])
                 elif service_name == "memory_core":
@@ -455,21 +443,15 @@ class MemoryHub:
                     "pattern_separator",
                     "theta_oscillator",
                 ]:
-                    module = __import__(
-                        f"memory.hippocampal.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"memory.hippocampal.{service_name}", fromlist=[class_name])
                 elif service_name in [
                     "neocortical_network",
                     "concept_hierarchy",
                     "semantic_extractor",
                 ]:
-                    module = __import__(
-                        f"memory.neocortical.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"memory.neocortical.{service_name}", fromlist=[class_name])
                 elif service_name in ["episodic_recaller", "drift_tracker"]:
-                    module = __import__(
-                        f"memory.episodic.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"memory.episodic.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -499,17 +481,13 @@ class MemoryHub:
                         f"memory.consolidation.{service_name}", fromlist=[class_name]
                     )
                 elif service_name == "replay_buffer":
-                    module = __import__(
-                        "memory.replay.replay_buffer", fromlist=[class_name]
-                    )
+                    module = __import__("memory.replay.replay_buffer", fromlist=[class_name])
                 elif service_name == "resonant_memory_access":
                     module = __import__(
                         "memory.resonance.resonant_memory_access", fromlist=[class_name]
                     )
                 elif service_name in ["integration_bridge", "adaptive_memory_engine"]:
-                    module = __import__(
-                        f"memory.systems.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"memory.systems.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -593,9 +571,7 @@ class MemoryHub:
                         service_name, self.services[service_name], "memory"
                     )
 
-            logger.debug(
-                f"Registered {len(key_services)} memory services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} memory services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -612,9 +588,7 @@ class MemoryHub:
         """List all registered service names"""
         return list(self.services.keys())
 
-    async def process_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -762,9 +736,7 @@ class MemoryHub:
                     try:
                         await service.update_awareness(awareness_state)
                     except Exception as e:
-                        logger.error(
-                            f"Failed to update awareness for {service_name}: {e}"
-                        )
+                        logger.error(f"Failed to update awareness for {service_name}: {e}")
 
             logger.info("Memory awareness state broadcast complete")
         except Exception as e:
@@ -882,9 +854,7 @@ class MemoryHub:
                 compressed_content, record = await manager.compress_fold(
                     fold_key, fold_content, importance_score, drift_score, force
                 )
-                return compressed_content, (
-                    record.__dict__ if hasattr(record, "__dict__") else {}
-                )
+                return compressed_content, (record.__dict__ if hasattr(record, "__dict__") else {})
             else:
                 logger.error("Compression manager service not found")
                 return fold_content, {}
@@ -892,9 +862,7 @@ class MemoryHub:
             logger.error(f"Failed to compress memory fold: {e}")
             return fold_content, {}
 
-    async def get_compression_analytics(
-        self, fold_key: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_compression_analytics(self, fold_key: Optional[str] = None) -> dict[str, Any]:
         """Get compression analytics"""
         if not SYMBOLIC_DELTA_COMPRESSION_AVAILABLE:
             logger.warning("Symbolic Delta Compression not available")
@@ -1251,9 +1219,7 @@ class MemoryHub:
         try:
             manager = self.get_service("unified_emotional_manager")
             if manager:
-                return await manager.modulate_emotional_state(
-                    user_id, memory_id, target_state
-                )
+                return await manager.modulate_emotional_state(user_id, memory_id, target_state)
             else:
                 logger.error("Unified emotional memory manager service not found")
                 return {"status": "error", "error": "Service not found"}

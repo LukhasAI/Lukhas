@@ -25,6 +25,7 @@ def find_syntax_errors(file_path: Path) -> Optional[tuple[int, str]]:
         # Other errors (encoding, etc.)
         return (0, str(e))
 
+
 def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
     """Fix common syntax error patterns."""
     fixes_applied = []
@@ -32,7 +33,6 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
     fixed_lines = []
 
     for i, line in enumerate(lines, 1):
-
         # Pattern 1: Fix self._object.method() -> self._method()
         pattern1 = re.match(r"(\s+)def\s+self\._(\w+)\.(\w+)\((.*?)\):", line)
         if pattern1:
@@ -55,14 +55,18 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
             fixes_applied.append(f"Line {i}: Converted tabs to spaces")
 
         # Pattern 4: Fix trailing comma in function definitions
-        if re.match(r".*\),$", line) and "def " in lines[max(0, i-2):i]:
+        if re.match(r".*\),$", line) and "def " in lines[max(0, i - 2) : i]:
             line = line.rstrip(",")
             fixes_applied.append(f"Line {i}: Removed trailing comma in function definition")
 
         # Pattern 5: Fix missing colons in control structures
         control_patterns = [r"^\s*(if|elif|else|for|while|try|except|finally|with|def|class)\s+"]
         for pattern in control_patterns:
-            if re.match(pattern, line) and not line.rstrip().endswith(":") and not line.rstrip().endswith(","):
+            if (
+                re.match(pattern, line)
+                and not line.rstrip().endswith(":")
+                and not line.rstrip().endswith(",")
+            ):
                 line = line.rstrip() + ":"
                 fixes_applied.append(f"Line {i}: Added missing colon")
                 break
@@ -70,6 +74,7 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
         fixed_lines.append(line)
 
     return "\n".join(fixed_lines), fixes_applied
+
 
 def process_file(file_path: Path, auto_fix: bool = True) -> bool:
     """Process a single Python file."""
@@ -118,16 +123,10 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
         print(f"   ⚠️  Error processing file: {e}")
         return False
 
+
 def main():
     """Main entry point."""
-    directories_to_check = [
-        "tools",
-        "core",
-        "consciousness",
-        "memory",
-        "bridge",
-        "api"
-    ]
+    directories_to_check = ["tools", "core", "consciousness", "memory", "bridge", "api"]
 
     print("🔧 LUKHAS Syntax Error Fixer")
     print("=" * 50)
@@ -178,6 +177,7 @@ def main():
             print(f"   ... and {len(unfixed_files) - 10} more")
 
     return len(unfixed_files) == 0
+
 
 if __name__ == "__main__":
     success = main()

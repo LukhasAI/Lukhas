@@ -12,13 +12,13 @@ from typing import Any
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 LEDGER_DIR = os.path.join(STATE, "consent")
 RECS = os.path.join(LEDGER_DIR, "consent_ledger.jsonl")
-IDX  = os.path.join(LEDGER_DIR, "consent_index.json")  # quick lookups (user->purpose->latest)
+IDX = os.path.join(LEDGER_DIR, "consent_index.json")  # quick lookups (user->purpose->latest)
 os.makedirs(LEDGER_DIR, exist_ok=True)
 
 # Optional fan-out
-WEBHOOK_URL = os.environ.get("CONSENT_WEBHOOK_URL")         # e.g., https://audit.yourapp/consent
-KAFKA_BROKERS = os.environ.get("CONSENT_KAFKA_BROKERS")     # e.g., localhost:9092
-KAFKA_TOPIC   = os.environ.get("CONSENT_KAFKA_TOPIC")       # e.g., lukhas.consent.events
+WEBHOOK_URL = os.environ.get("CONSENT_WEBHOOK_URL")  # e.g., https://audit.yourapp/consent
+KAFKA_BROKERS = os.environ.get("CONSENT_KAFKA_BROKERS")  # e.g., localhost:9092
+KAFKA_TOPIC = os.environ.get("CONSENT_KAFKA_TOPIC")  # e.g., lukhas.consent.events
 
 # Reuse Merkle + ed25519 attestation from provenance
 _HAS_ATTEST = True
@@ -27,20 +27,25 @@ try:
 except Exception:
     _HAS_ATTEST = False
 
+
 @dataclass
 class ConsentEvent:
     ts: float
     user: str
     purpose: str
-    kind: str                     # "grant" | "revoke"
+    kind: str  # "grant" | "revoke"
     fields: list[str]
     duration_days: int
     meta: dict[str, Any]
-    receipt: dict[str, Any]       # attestation pointers (chain_path, signature, etc.)
-    event_id: str                 # deterministic id (sha256)
+    receipt: dict[str, Any]  # attestation pointers (chain_path, signature, etc.)
+    event_id: str  # deterministic id (sha256)
+
 
 def _sha(d: dict[str, Any]) -> str:
-    return hashlib.sha256(json.dumps(d, sort_keys=True, separators=(",",":")).encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        json.dumps(d, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
 
 def _read_index() -> dict[str, dict[str, dict[str, Any]]]:
     try:
@@ -48,23 +53,27 @@ def _read_index() -> dict[str, dict[str, dict[str, Any]]]:
     except Exception:
         return {}
 
+
 def _write_index(ix: dict[str, Any]) -> None:
     tmp = IDX + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(ix, f, indent=2)
     os.replace(tmp, IDX)
 
+
 def _fanout(evt: ConsentEvent) -> None:
     # Best-effort: webhook then Kafka
     if WEBHOOK_URL:
         try:
             import requests  # pip install requests
+
             requests.post(WEBHOOK_URL, json=asdict(evt), timeout=2)
         except Exception:
             pass
     if KAFKA_BROKERS and KAFKA_TOPIC:
         try:
             from kafka import KafkaProducer  # pip install kafka-python
+
             prod = KafkaProducer(
                 bootstrap_servers=KAFKA_BROKERS.split(","),
                 acks="all",
@@ -77,13 +86,19 @@ def _fanout(evt: ConsentEvent) -> None:
         except Exception:
             pass
 
+
 def _sign_receipt(grant: dict[str, Any]) -> dict[str, Any]:
     if not _HAS_ATTEST:
         return {"note": "attestation disabled (pynacl not installed)"}
     steps = [
-        {"phase":"consent","op":grant["kind"],"user":grant["user"],"purpose":grant["purpose"]},
-        {"phase":"details","fields":grant["fields"],"duration_days":grant["duration_days"]},
-        {"phase":"meta","meta":grant.get("meta",{})}
+        {
+            "phase": "consent",
+            "op": grant["kind"],
+            "user": grant["user"],
+            "purpose": grant["purpose"],
+        },
+        {"phase": "details", "fields": grant["fields"], "duration_days": grant["duration_days"]},
+        {"phase": "meta", "meta": grant.get("meta", {})},
     ]
     ch = merkle_chain(steps)
     at = attest(ch, tag="consent")
@@ -91,40 +106,90 @@ def _sign_receipt(grant: dict[str, Any]) -> dict[str, Any]:
         "chain_path": at.chain_path,
         "signature_b64": at.signature_b64,
         "public_key_b64": at.public_key_b64,
-        "root_hash": at.root_hash
+        "root_hash": at.root_hash,
     }
+
 
 def _append_event(evt: ConsentEvent) -> None:
     with open(RECS, "a", encoding="utf-8") as f:
         f.write(json.dumps(asdict(evt)) + "\n")
 
-def record(user: str, purpose: str, fields: list[str], duration_days: int, meta: dict[str, Any] | None = None) -> ConsentEvent:
+
+def record(
+    user: str,
+    purpose: str,
+    fields: list[str],
+    duration_days: int,
+    meta: dict[str, Any] | None = None,
+) -> ConsentEvent:
     now = time.time()
-    grant = {"ts": now, "user": user, "purpose": purpose, "kind":"grant",
-             "fields": sorted(set(fields)), "duration_days": int(duration_days), "meta": meta or {}}
+    grant = {
+        "ts": now,
+        "user": user,
+        "purpose": purpose,
+        "kind": "grant",
+        "fields": sorted(set(fields)),
+        "duration_days": int(duration_days),
+        "meta": meta or {},
+    }
     receipt = _sign_receipt(grant)
-    event_id = _sha({"u":user,"p":purpose,"k":"g","t":int(now)})
-    evt = ConsentEvent(ts=now, user=user, purpose=purpose, kind="grant",
-                       fields=grant["fields"], duration_days=grant["duration_days"],
-                       meta=grant["meta"], receipt=receipt, event_id=event_id)
+    event_id = _sha({"u": user, "p": purpose, "k": "g", "t": int(now)})
+    evt = ConsentEvent(
+        ts=now,
+        user=user,
+        purpose=purpose,
+        kind="grant",
+        fields=grant["fields"],
+        duration_days=grant["duration_days"],
+        meta=grant["meta"],
+        receipt=receipt,
+        event_id=event_id,
+    )
     _append_event(evt)
     # update index
     ix = _read_index()
     ix.setdefault(user, {}).setdefault(purpose, {})
-    ix[user][purpose] = {"ts": now, "fields": evt.fields, "duration_days": evt.duration_days, "meta": evt.meta}
+    ix[user][purpose] = {
+        "ts": now,
+        "fields": evt.fields,
+        "duration_days": evt.duration_days,
+        "meta": evt.meta,
+    }
     _write_index(ix)
     _fanout(evt)
     return evt
 
-def revoke(user: str, purpose: str | None = None, reason: str | None = None, meta: dict[str, Any] | None = None) -> ConsentEvent:
+
+def revoke(
+    user: str,
+    purpose: str | None = None,
+    reason: str | None = None,
+    meta: dict[str, Any] | None = None,
+) -> ConsentEvent:
     now = time.time()
     p = purpose or "ALL"
-    rec = {"ts": now, "user": user, "purpose": p, "kind":"revoke",
-           "fields": [], "duration_days": 0, "meta": {"reason":reason or "", **(meta or {})}}
+    rec = {
+        "ts": now,
+        "user": user,
+        "purpose": p,
+        "kind": "revoke",
+        "fields": [],
+        "duration_days": 0,
+        "meta": {"reason": reason or "", **(meta or {})},
+    }
     receipt = _sign_receipt(rec)
-    event_id = _sha({"u":user,"p":p,"k":"r","t":int(now)})
-    evt = ConsentEvent(ts=now, user=user, purpose=p, kind="revoke",
-                       fields=[], duration_days=0, meta=rec["meta"], receipt=receipt, event_id=event_id)
+    event_id = _sha({"u": user, "p": p, "k": "r", "t": int(now)})
+    evt = ConsentEvent(
+        ts=now,
+        user=user,
+        purpose=p,
+        kind="revoke",
+        fields=[],
+        duration_days=0,
+        meta=rec["meta"],
+        receipt=receipt,
+        event_id=event_id,
+    )
     _append_event(evt)
     # update index
     ix = _read_index()
@@ -136,7 +201,15 @@ def revoke(user: str, purpose: str | None = None, reason: str | None = None, met
     _fanout(evt)
     return evt
 
-def is_allowed(user: str, purpose: str, *, require_fields: list[str] | None = None, now: float | None = None, within_days: int | None = None) -> bool:
+
+def is_allowed(
+    user: str,
+    purpose: str,
+    *,
+    require_fields: list[str] | None = None,
+    now: float | None = None,
+    within_days: int | None = None,
+) -> bool:
     """
     Returns True if there is a non-revoked, non-expired consent for user+purpose.
     - require_fields: if set, the granted fields must be a superset.
@@ -161,8 +234,10 @@ def is_allowed(user: str, purpose: str, *, require_fields: list[str] | None = No
             return False
     return True
 
+
 def list_user(user: str) -> dict[str, Any]:
     return _read_index().get(user, {})
+
 
 # ---------------- CLI ----------------
 def main():
@@ -195,11 +270,14 @@ def main():
     elif args.cmd == "revoke":
         print(json.dumps(asdict(revoke(args.user, args.purpose, args.reason)), indent=2))
     elif args.cmd == "check":
-        ok = is_allowed(args.user, args.purpose, require_fields=args.need_fields, within_days=args.within_days)
+        ok = is_allowed(
+            args.user, args.purpose, require_fields=args.need_fields, within_days=args.within_days
+        )
         print(json.dumps({"allowed": ok}, indent=2))
         raise SystemExit(0 if ok else 2)
     else:
         print(json.dumps(list_user(args.user), indent=2))
+
 
 if __name__ == "__main__":
     main()

@@ -48,9 +48,7 @@ class SystemBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(
-            bridge_id=f"sys_bridge_{datetime.now().strftime('%H%M%S')}"
-        )
+        self.logger = logger.bind(bridge_id=f"sys_bridge_{datetime.now().strftime('%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(
@@ -112,9 +110,7 @@ class SystemBridge:
                 }
 
         try:
-            result = await self._core_integration_processing(
-                data, category
-            )  # Pass category
+            result = await self._core_integration_processing(data, category)  # Pass category
 
             response = {
                 "status": "success",
@@ -179,9 +175,7 @@ class SystemBridge:
 
     async def _process_consciousness(self, data: Any) -> dict[str, str]:
         """Process consciousness-related data (placeholder)."""
-        self.logger.debug(
-            "Processing consciousness data in SystemBridge (placeholder)."
-        )
+        self.logger.debug("Processing consciousness data in SystemBridge (placeholder).")
         return {
             "consciousness_level": "active_via_bridge",
             "awareness": "enhanced_via_bridge",
@@ -248,9 +242,7 @@ class SystemBridge:
     async def _perform_validation(self) -> bool:
         """Perform component-specific validation (placeholder)."""
         # ΛNOTE: Placeholder for component-specific validation logic.
-        self.logger.debug(
-            "Performing internal SystemBridge validation checks (placeholder)."
-        )
+        self.logger.debug("Performing internal SystemBridge validation checks (placeholder).")
         return True  # Assume valid for placeholder
 
     def get_status(self) -> dict[str, Any]:

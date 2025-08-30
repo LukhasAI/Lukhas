@@ -73,9 +73,7 @@ VIVOX_ME_ACTIVE = os.getenv("VIVOX_ME_ACTIVE", "false").lower() == "true"
 VIVOX_MAE_ACTIVE = os.getenv("VIVOX_MAE_ACTIVE", "false").lower() == "true"
 VIVOX_CIL_ACTIVE = os.getenv("VIVOX_CIL_ACTIVE", "false").lower() == "true"
 VIVOX_SRM_ACTIVE = os.getenv("VIVOX_SRM_ACTIVE", "false").lower() == "true"
-VIVOX_INTEGRATION_ACTIVE = (
-    os.getenv("VIVOX_INTEGRATION_ACTIVE", "false").lower() == "true"
-)
+VIVOX_INTEGRATION_ACTIVE = os.getenv("VIVOX_INTEGRATION_ACTIVE", "false").lower() == "true"
 
 
 # Protocols for VIVOX component implementations
@@ -168,9 +166,7 @@ class VivoxConfig:
 
     safety_mode: SafetyMode = SafetyMode.DRY_RUN
     consciousness_level: ConsciousnessLevel = ConsciousnessLevel.MINIMAL
-    drift_threshold: float = (
-        0.10  # Lower than consciousness default for stricter monitoring
-    )
+    drift_threshold: float = 0.10  # Lower than consciousness default for stricter monitoring
     performance_target_ms: int = 50  # Stricter than consciousness default
     enable_ethics_validation: bool = True
     enable_drift_detection: bool = True
@@ -294,9 +290,7 @@ class VivoxWrapper:
         try:
             # Guardian validation if enabled
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics(
-                    "initialize_consciousness", context
-                )
+                ethical_decision = await self._validate_ethics("initialize_consciousness", context)
                 if not ethical_decision.allowed:
                     return self._blocked_response(
                         "initialize_consciousness", ethical_decision.reason
@@ -334,9 +328,7 @@ class VivoxWrapper:
                     "status": "initialized",
                     "experience_id": initial_experience.experience_id,
                     "consciousness_level": self.state.consciousness_level,
-                    "memory_sequence": (
-                        memory_sequence if "memory_sequence" in locals() else None
-                    ),
+                    "memory_sequence": (memory_sequence if "memory_sequence" in locals() else None),
                     "safety_metadata": {
                         "mode": mode,
                         "performance_ms": self.state.performance_ms,
@@ -377,13 +369,9 @@ class VivoxWrapper:
         try:
             # Ethics validation
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics(
-                    "update_awareness", stimulus
-                )
+                ethical_decision = await self._validate_ethics("update_awareness", stimulus)
                 if not ethical_decision.allowed:
-                    return self._blocked_response(
-                        "update_awareness", ethical_decision.reason
-                    )
+                    return self._blocked_response("update_awareness", ethical_decision.reason)
 
             # Drift detection
             if self.config.enable_drift_detection:
@@ -393,28 +381,20 @@ class VivoxWrapper:
 
             # Process awareness update if CIL available
             if self.candidate_system and hasattr(self, "vivox_cil"):
-                conscious_experience = (
-                    await self.vivox_cil.simulate_conscious_experience(
-                        perceptual_input=stimulus, internal_state={"mode": mode}
-                    )
+                conscious_experience = await self.vivox_cil.simulate_conscious_experience(
+                    perceptual_input=stimulus, internal_state={"mode": mode}
                 )
 
                 # Update state
-                self.state.consciousness_level = (
-                    conscious_experience.awareness_state.get(
-                        "coherence_level", self.state.consciousness_level
-                    )
+                self.state.consciousness_level = conscious_experience.awareness_state.get(
+                    "coherence_level", self.state.consciousness_level
                 )
-                self.state.drift_score = (
-                    drift_score if "drift_score" in locals() else None
-                )
+                self.state.drift_score = drift_score if "drift_score" in locals() else None
 
                 # Integrate with memory if enabled
                 memory_integration = None
                 if self.memory_manager and self.config.enable_memory_integration:
-                    memory_result = await self._integrate_with_memory(
-                        conscious_experience
-                    )
+                    memory_result = await self._integrate_with_memory(conscious_experience)
                     memory_integration = memory_result
 
                 return {
@@ -460,9 +440,7 @@ class VivoxWrapper:
             if self.config.enable_ethics_validation:
                 ethical_decision = await self._validate_ethics("memory_access", query)
                 if not ethical_decision.allowed:
-                    return self._blocked_response(
-                        "memory_access", ethical_decision.reason
-                    )
+                    return self._blocked_response("memory_access", ethical_decision.reason)
 
             # Process memory access if ME available
             if self.candidate_system and hasattr(self, "vivox_me"):
@@ -502,9 +480,7 @@ class VivoxWrapper:
 
                 # Standard memory query (truth audit)
                 elif "truth_audit" in query:
-                    audit_result = await self.vivox_me.truth_audit_query(
-                        query["truth_audit"]
-                    )
+                    audit_result = await self.vivox_me.truth_audit_query(query["truth_audit"])
 
                     return {
                         "status": "success",
@@ -518,9 +494,7 @@ class VivoxWrapper:
                     }
 
                 else:
-                    return self._error_response(
-                        "memory_access", "Unsupported query type"
-                    )
+                    return self._error_response("memory_access", "Unsupported query type")
 
             else:
                 return self._fallback_memory_response(query)
@@ -671,9 +645,7 @@ class VivoxWrapper:
                     "awareness_state": conscious_experience.awareness_state,
                     "consciousness_type": "vivox_experience",
                 },
-                emotional_valence=conscious_experience.emotional_context.get(
-                    "valence", 0.0
-                ),
+                emotional_valence=conscious_experience.emotional_context.get("valence", 0.0),
                 importance=0.8,  # High importance for consciousness experiences
                 mode="dry_run",  # Always dry_run for safety unless explicitly enabled
             )
@@ -689,9 +661,7 @@ class VivoxWrapper:
 
     # Safety and fallback methods
 
-    def _dry_run_initialization_response(
-        self, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _dry_run_initialization_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Safe mock response for initialization"""
         return {
             "status": "initialized_dry_run",
@@ -751,9 +721,7 @@ class VivoxWrapper:
             },
         }
 
-    def _fallback_initialization_response(
-        self, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _fallback_initialization_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Fallback when candidate system unavailable"""
         return {
             "status": "fallback_initialized",
@@ -844,16 +812,12 @@ class VivoxWrapper:
 
         # Create basic branches based on context
         if "reflection_options" in context and SimulationBranch:
-            for i, option in enumerate(
-                context["reflection_options"][:3]
-            ):  # Limit to 3 branches
+            for i, option in enumerate(context["reflection_options"][:3]):  # Limit to 3 branches
                 branch = SimulationBranch(
                     branch_id=f"branch_{i}",
                     potential_actions=[{"action": option}],
                     probability=0.8 - (i * 0.1),  # Decreasing probability
-                    emotional_valence=context.get("emotional_context", {}).get(
-                        "valence", 0.0
-                    ),
+                    emotional_valence=context.get("emotional_context", {}).get("valence", 0.0),
                     ethical_score=0.9,  # High ethical score for safety
                 )
                 branches.append(branch)
@@ -870,9 +834,7 @@ class VivoxWrapper:
 
         return branches
 
-    async def _validate_ethics(
-        self, action_type: str, context: dict[str, Any]
-    ) -> EthicalDecision:
+    async def _validate_ethics(self, action_type: str, context: dict[str, Any]) -> EthicalDecision:
         """Validate action against ethical principles"""
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system

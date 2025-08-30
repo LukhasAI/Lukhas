@@ -15,6 +15,7 @@ from typing import Any, Optional
 
 class CacheType(Enum):
     """Types of cached consciousness data."""
+
     CONSCIOUSNESS_PROFILE = "consciousness_profile"
     BIOMETRIC_STATE = "biometric_state"
     EMPATHY_RESPONSE = "empathy_response"
@@ -25,6 +26,7 @@ class CacheType(Enum):
 @dataclass
 class CacheEntry:
     """Represents a cached consciousness entry."""
+
     cache_key: str
     cache_type: CacheType
     data: dict[str, Any]
@@ -54,7 +56,7 @@ class ConsciousnessCacheManager:
             CacheType.BIOMETRIC_STATE: timedelta(hours=2),
             CacheType.EMPATHY_RESPONSE: timedelta(hours=12),
             CacheType.CREATIVE_PREFERENCE: timedelta(hours=48),
-            CacheType.CONTEXT_AWARENESS: timedelta(hours=6)
+            CacheType.CONTEXT_AWARENESS: timedelta(hours=6),
         }
         self.max_cache_size = 10000
         self.hit_stats = {"hits": 0, "misses": 0, "evictions": 0}
@@ -65,7 +67,7 @@ class ConsciousnessCacheManager:
         consciousness_data: dict[str, Any],
         cache_type: CacheType = CacheType.CONSCIOUSNESS_PROFILE,
         ttl_hours: Optional[int] = None,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Store consciousness state in cache with intelligent expiration.
@@ -101,7 +103,7 @@ class ConsciousnessCacheManager:
             created_at=datetime.now(),
             expires_at=expires_at,
             context_hash=context_hash,
-            user_id=user_id
+            user_id=user_id,
         )
 
         # Store in cache
@@ -114,14 +116,14 @@ class ConsciousnessCacheManager:
             "cached": True,
             "cache_key": cache_key,
             "expires_at": expires_at.isoformat(),
-            "ttl_hours": ttl.total_seconds() / 3600
+            "ttl_hours": ttl.total_seconds() / 3600,
         }
 
     async def get_consciousness_state(
         self,
         user_id: str,
         cache_type: CacheType = CacheType.CONSCIOUSNESS_PROFILE,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> Optional[dict[str, Any]]:
         """
         Retrieve consciousness state from cache if valid.
@@ -154,10 +156,7 @@ class ConsciousnessCacheManager:
         return entry.data.copy()
 
     async def invalidate_consciousness_cache(
-        self,
-        user_id: str,
-        reason: str,
-        cache_types: Optional[list[CacheType]] = None
+        self, user_id: str, reason: str, cache_types: Optional[list[CacheType]] = None
     ) -> dict[str, Any]:
         """
         Invalidate cached consciousness data based on context changes.
@@ -180,11 +179,13 @@ class ConsciousnessCacheManager:
         for cache_key, entry in self.cache.items():
             if entry.user_id == user_id and entry.cache_type in cache_types:
                 keys_to_remove.append(cache_key)
-                invalidated_keys.append({
-                    "cache_key": cache_key,
-                    "cache_type": entry.cache_type.value,
-                    "age_hours": (datetime.now() - entry.created_at).total_seconds() / 3600
-                })
+                invalidated_keys.append(
+                    {
+                        "cache_key": cache_key,
+                        "cache_type": entry.cache_type.value,
+                        "age_hours": (datetime.now() - entry.created_at).total_seconds() / 3600,
+                    }
+                )
 
         for key in keys_to_remove:
             del self.cache[key]
@@ -193,7 +194,7 @@ class ConsciousnessCacheManager:
             "invalidated_count": len(invalidated_keys),
             "reason": reason,
             "user_id": user_id,
-            "invalidated_entries": invalidated_keys
+            "invalidated_entries": invalidated_keys,
         }
 
     async def get_cache_analytics(self) -> dict[str, Any]:
@@ -234,16 +235,16 @@ class ConsciousnessCacheManager:
                 "total_hits": self.hit_stats["hits"],
                 "total_misses": self.hit_stats["misses"],
                 "total_evictions": self.hit_stats["evictions"],
-                "estimated_cost_savings_usd": round(estimated_savings, 2)
+                "estimated_cost_savings_usd": round(estimated_savings, 2),
             },
             "cache_state": {
                 "total_entries": len(self.cache),
                 "max_cache_size": self.max_cache_size,
                 "cache_utilization": round(len(self.cache) / self.max_cache_size, 2),
                 "type_distribution": type_distribution,
-                "age_distribution": age_distribution
+                "age_distribution": age_distribution,
             },
-            "optimization_recommendations": await self._generate_optimization_recommendations()
+            "optimization_recommendations": await self._generate_optimization_recommendations(),
         }
 
     async def _enforce_cache_limits(self) -> None:
@@ -252,10 +253,7 @@ class ConsciousnessCacheManager:
             return
 
         # Sort by last accessed time (LRU)
-        entries_by_access = sorted(
-            self.cache.items(),
-            key=lambda x: x[1].last_accessed
-        )
+        entries_by_access = sorted(self.cache.items(), key=lambda x: x[1].last_accessed)
 
         # Evict oldest entries
         entries_to_evict = len(self.cache) - self.max_cache_size + 100  # Extra buffer
@@ -290,7 +288,9 @@ class ConsciousnessCacheManager:
         # Check cache utilization
         utilization = len(self.cache) / self.max_cache_size
         if utilization > 0.9:
-            recommendations.append("Cache utilization high (>90%) - consider increasing max_cache_size")
+            recommendations.append(
+                "Cache utilization high (>90%) - consider increasing max_cache_size"
+            )
         elif utilization < 0.3:
             recommendations.append("Cache utilization low (<30%) - could reduce max_cache_size")
 
@@ -301,9 +301,7 @@ class ConsciousnessCacheManager:
         return recommendations
 
     async def warm_consciousness_cache(
-        self,
-        user_id: str,
-        consciousness_data: dict[str, Any]
+        self, user_id: str, consciousness_data: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Pre-warm cache with consciousness data for better performance.
@@ -319,7 +317,7 @@ class ConsciousnessCacheManager:
                 user_id,
                 consciousness_data["personality_traits"],
                 CacheType.CONSCIOUSNESS_PROFILE,
-                context={"component": "personality"}
+                context={"component": "personality"},
             )
             cache_results.append({"type": "personality", "result": result})
 
@@ -328,7 +326,7 @@ class ConsciousnessCacheManager:
                 user_id,
                 consciousness_data["biometric_indicators"],
                 CacheType.BIOMETRIC_STATE,
-                ttl_hours=2  # Shorter TTL for biometrics
+                ttl_hours=2,  # Shorter TTL for biometrics
             )
             cache_results.append({"type": "biometrics", "result": result})
 
@@ -337,7 +335,7 @@ class ConsciousnessCacheManager:
                 user_id,
                 consciousness_data["creative_preferences"],
                 CacheType.CREATIVE_PREFERENCE,
-                ttl_hours=48  # Longer TTL for stable preferences
+                ttl_hours=48,  # Longer TTL for stable preferences
             )
             cache_results.append({"type": "creative", "result": result})
 
@@ -345,5 +343,5 @@ class ConsciousnessCacheManager:
             "cache_warmed": True,
             "user_id": user_id,
             "cached_components": len(cache_results),
-            "cache_results": cache_results
+            "cache_results": cache_results,
         }

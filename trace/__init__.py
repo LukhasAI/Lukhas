@@ -24,9 +24,9 @@ __trinity_compliance__ = True
 
 # Export main classes
 __all__ = [
+    "DriftAnalysis",
     "DriftHarmonizer",
-    "DriftTracker",
     "DriftSeverity",
+    "DriftTracker",
     "RealignmentStrategy",
-    "DriftAnalysis"
 ]

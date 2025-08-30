@@ -180,9 +180,7 @@ class DreamGenerator:
             emotional_profile = self._calculate_emotional_profile(narrative, context)
 
             # Perform ethical validation
-            ethical_score = await self._validate_ethics(
-                narrative, visual_prompt, context
-            )
+            ethical_score = await self._validate_ethics(narrative, visual_prompt, context)
 
             # Create dream object
             dream = GeneratedDream(
@@ -198,9 +196,7 @@ class DreamGenerator:
                 generation_metadata={
                     "mood": context.mood.value,
                     "bio_rhythm": context.bio_rhythm.value,
-                    "vendor_seed": (
-                        context.vendor_seed.seed_id if context.vendor_seed else None
-                    ),
+                    "vendor_seed": (context.vendor_seed.seed_id if context.vendor_seed else None),
                     "models_used": {
                         "narrative": self.config["gpt_model"],
                         "image": self.config["dalle_model"] if image_url else None,
@@ -211,9 +207,7 @@ class DreamGenerator:
             # Cache the dream
             self.dream_cache[cache_key] = dream
 
-            logger.info(
-                f"Generated dream: {dream_id} with ethical score: {ethical_score}"
-            )
+            logger.info(f"Generated dream: {dream_id} with ethical score: {ethical_score}")
             return dream
 
         except Exception as e:
@@ -316,9 +310,7 @@ Guidelines:
                     f"Recently exploring: {recent.get('category', 'new possibilities')}"
                 )
 
-        base_prompt = (
-            "Create a brief, poetic dream narrative that gently weaves together: "
-        )
+        base_prompt = "Create a brief, poetic dream narrative that gently weaves together: "
         return (
             base_prompt + "; ".join(prompt_parts)
             if prompt_parts
@@ -569,9 +561,7 @@ Guidelines:
 
         return score
 
-    async def _check_ai_consent(
-        self, user_id: str, generation_type: AIGenerationType
-    ) -> bool:
+    async def _check_ai_consent(self, user_id: str, generation_type: AIGenerationType) -> bool:
         """Check if user has consented to AI generation type"""
         # This would integrate with the consent manager
         # For now, return True for demonstration
@@ -612,10 +602,7 @@ Guidelines:
             current_length = 0
 
             for sentence in sentences:
-                if (
-                    current_length + len(sentence)
-                    <= self.config["max_narrative_length"]
-                ):
+                if current_length + len(sentence) <= self.config["max_narrative_length"]:
                     truncated.append(sentence)
                     current_length += len(sentence)
                 else:
@@ -637,9 +624,7 @@ Guidelines:
             DreamMood.WHIMSICAL: "Where imagination meets reality, magic happens...",
         }
 
-        base_narrative = templates.get(
-            context.mood, "A gentle moment of discovery awaits..."
-        )
+        base_narrative = templates.get(context.mood, "A gentle moment of discovery awaits...")
 
         if context.vendor_seed and context.vendor_seed.narrative:
             # Use vendor's narrative as base
@@ -663,9 +648,7 @@ Guidelines:
             ethical_score=1.0,
         )
 
-    async def generate_batch_dreams(
-        self, contexts: list[DreamContext]
-    ) -> list[GeneratedDream]:
+    async def generate_batch_dreams(self, contexts: list[DreamContext]) -> list[GeneratedDream]:
         """Generate multiple dreams in batch for efficiency"""
         tasks = [self.generate_dream(context) for context in contexts]
         dreams = await asyncio.gather(*tasks)

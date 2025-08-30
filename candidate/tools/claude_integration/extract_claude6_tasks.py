@@ -162,11 +162,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write("---\n")
             f.write(f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n")
 
-        agents_processed.append({
-            "agent": agent_key,
-            "name": agent_name,
-            "file": str(task_file)
-        })
+        agents_processed.append({"agent": agent_key, "name": agent_name, "file": str(task_file)})
         print(f"✅ Created comprehensive task file: {task_file}")
 
     # Also extract coordination framework tasks
@@ -225,17 +221,22 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
     # Create a summary JSON file for tracking
     summary_file = Path(output_dir) / "task_extraction_summary.json"
     with open(summary_file, "w") as f:
-        json.dump({
-            "extraction_date": datetime.now().isoformat(),
-            "source_file": config_file,
-            "agents_processed": agents_processed,
-            "coordination_file": str(coord_file),
-            "total_agents": len(agents_processed)
-        }, f, indent=2)
+        json.dump(
+            {
+                "extraction_date": datetime.now().isoformat(),
+                "source_file": config_file,
+                "agents_processed": agents_processed,
+                "coordination_file": str(coord_file),
+                "total_agents": len(agents_processed),
+            },
+            f,
+            indent=2,
+        )
 
     print(f"\n📊 Task Extraction Summary saved to: {summary_file}")
 
     return agents_processed
+
 
 if __name__ == "__main__":
     print("🚀 Extracting comprehensive tasks from Claude_6.yml...")

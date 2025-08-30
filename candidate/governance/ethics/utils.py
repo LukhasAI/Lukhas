@@ -24,9 +24,7 @@ class EthicsUtils:
         return {"is_ethical": True, "violations": [], "confidence": 0.95}
 
     @staticmethod
-    def check_compliance_status(
-        user_id: str, compliance_rules: list[str]
-    ) -> dict[str, Any]:
+    def check_compliance_status(user_id: str, compliance_rules: list[str]) -> dict[str, Any]:
         """Check user compliance status."""
         return {
             "user_id": user_id,

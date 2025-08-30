@@ -89,7 +89,7 @@ class SymbolicTraceMap:
         for i, node in enumerate(trace):
             diagram += f"    {node['node_id']}[{node['node_type']}]\n"
             if i > 0:
-                diagram += f"    {trace[i-1]['node_id']} --> {node['node_id']}\n"
+                diagram += f"    {trace[i - 1]['node_id']} --> {node['node_id']}\n"
 
         return diagram
 

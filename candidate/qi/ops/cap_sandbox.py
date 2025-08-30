@@ -14,7 +14,8 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
-AUDIT_DIR = os.path.join(STATE, "audit"); os.makedirs(AUDIT_DIR, exist_ok=True)
+AUDIT_DIR = os.path.join(STATE, "audit")
+os.makedirs(AUDIT_DIR, exist_ok=True)
 LEASES_PATH = os.path.join(STATE, "leases.json")  # persistent leases (ephemeral by default)
 
 # --- capture originals before any monkey-patching happens ---
@@ -25,9 +26,15 @@ _ORIG_MKDIR = os.mkdir
 _ORIG_MAKEDIRS = os.makedirs
 _ORIG_RMDIR = os.rmdir
 
+
 # ----------------- utilities -----------------
-def _now() -> float: return time.time()
-def _sha(s: str) -> str: return hashlib.sha256(s.encode("utf-8")).hexdigest()
+def _now() -> float:
+    return time.time()
+
+
+def _sha(s: str) -> str:
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
 
 def _audit_write(kind: str, rec: dict[str, Any]):
     """Write audit JSONL using original OS functions to avoid FileGuard recursion."""
@@ -41,12 +48,13 @@ def _audit_write(kind: str, rec: dict[str, Any]):
         # never explode the caller due to auditing problems
         pass
 
+
 # ----------------- leases -----------------
 @dataclass
 class Lease:
-    subject: str                 # e.g., "user:gonzalo" or "service:api"
-    caps: list[str]              # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
-    ttl_sec: int                 # seconds from issued_at
+    subject: str  # e.g., "user:gonzalo" or "service:api"
+    caps: list[str]  # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
+    ttl_sec: int  # seconds from issued_at
     issued_at: float
     meta: dict[str, Any]
 
@@ -57,8 +65,14 @@ class Lease:
     def alive(self, now: float | None = None) -> bool:
         return (now or _now()) < self.expires_at
 
-class CapError(Exception): pass
-class FsDenied(CapError): pass
+
+class CapError(Exception):
+    pass
+
+
+class FsDenied(CapError):
+    pass
+
 
 class CapManager:
     """
@@ -70,6 +84,7 @@ class CapManager:
       - "fs:read:<glob_or_path>"       -> allow read for path/glob
       - "fs:write:<glob_or_path>"      -> allow write for path/glob
     """
+
     def __init__(self, persist_path: str = LEASES_PATH):
         self.persist_path = persist_path
         self._leases: dict[str, list[Lease]] = self._load()
@@ -93,11 +108,28 @@ class CapManager:
             json.dump(payload, f, indent=2)
         os.replace(tmp, self.persist_path)
 
-    def grant(self, subject: str, caps: list[str], ttl_sec: int, meta: dict[str, Any] | None = None, persist: bool = False) -> Lease:
-        lease = Lease(subject=subject, caps=list(dict.fromkeys(caps)), ttl_sec=int(ttl_sec), issued_at=_now(), meta=meta or {})
+    def grant(
+        self,
+        subject: str,
+        caps: list[str],
+        ttl_sec: int,
+        meta: dict[str, Any] | None = None,
+        persist: bool = False,
+    ) -> Lease:
+        lease = Lease(
+            subject=subject,
+            caps=list(dict.fromkeys(caps)),
+            ttl_sec=int(ttl_sec),
+            issued_at=_now(),
+            meta=meta or {},
+        )
         self._leases.setdefault(subject, []).append(lease)
-        if persist: self._save()
-        _audit_write("lease_grant", {"subject": subject, "caps": lease.caps, "ttl_sec": ttl_sec, "persist": persist})
+        if persist:
+            self._save()
+        _audit_write(
+            "lease_grant",
+            {"subject": subject, "caps": lease.caps, "ttl_sec": ttl_sec, "persist": persist},
+        )
         return lease
 
     def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
@@ -108,9 +140,12 @@ class CapManager:
         else:
             arr = [l for l in arr if not any(c.startswith(cap_prefix) for c in l.caps)]
         self._leases[subject] = arr
-        if persist: self._save()
+        if persist:
+            self._save()
         removed = before - len(arr)
-        _audit_write("lease_revoke", {"subject": subject, "cap_prefix": cap_prefix, "removed": removed})
+        _audit_write(
+            "lease_revoke", {"subject": subject, "cap_prefix": cap_prefix, "removed": removed}
+        )
         return removed
 
     def list(self, subject: str, now: float | None = None) -> list[Lease]:
@@ -152,17 +187,20 @@ class CapManager:
                         return True
         return False
 
+
 # ----------------- ENV & FS sandbox -----------------
 @dataclass
 class EnvSpec:
-    allow: list[str] = None        # prefixes allowed
+    allow: list[str] = None  # prefixes allowed
     inject: dict[str, str] = None  # explicit env vars
+
 
 @dataclass
 class FsSpec:
-    read: list[str] = None   # glob patterns
+    read: list[str] = None  # glob patterns
     write: list[str] = None  # glob patterns
     cwd: str | None = None
+
 
 def _env_build(spec: EnvSpec | None) -> dict[str, str]:
     base = {}
@@ -174,15 +212,18 @@ def _env_build(spec: EnvSpec | None) -> dict[str, str]:
                 base[k] = v
     return base
 
+
 def _check_path_allowed(path: str, allowed_globs: Iterable[str]) -> bool:
     ap = os.path.abspath(path)
     return any(fnmatch.fnmatch(ap, os.path.abspath(patt)) for patt in allowed_globs)
+
 
 class FileGuard:
     """
     Python in-process guard that intercepts open/remove/rename *for this process*.
     It is NOT a kernel sandbox; it prevents accidental leaks in Python plugins.
     """
+
     def __init__(self, fs: FsSpec):
         self.fs = fs
         self._orig_open = builtins.open
@@ -213,7 +254,9 @@ class FileGuard:
         return self._orig_remove(path, *a, **k)
 
     def _rn(self, src, dst, *a, **k):
-        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(dst, self.fs.write or []):
+        if not _check_path_allowed(src, self.fs.write or []) or not _check_path_allowed(
+            dst, self.fs.write or []
+        ):
             return self._deny(f"{src} -> {dst}", "rename")
         return self._orig_rename(src, dst, *a, **k)
 
@@ -235,11 +278,11 @@ class FileGuard:
     @contextlib.contextmanager
     def activate(self):
         builtins.open = self._open  # type: ignore
-        os.remove = self._rm        # type: ignore
-        os.rename = self._rn        # type: ignore
-        os.mkdir = self._mk         # type: ignore
-        os.makedirs = self._mks     # type: ignore
-        os.rmdir = self._rd         # type: ignore
+        os.remove = self._rm  # type: ignore
+        os.rename = self._rn  # type: ignore
+        os.mkdir = self._mk  # type: ignore
+        os.makedirs = self._mks  # type: ignore
+        os.rmdir = self._rd  # type: ignore
         cwd_prev = None
         try:
             if self.fs.cwd:
@@ -253,7 +296,9 @@ class FileGuard:
             os.mkdir = self._orig_mkdir
             os.makedirs = self._orig_makedirs
             os.rmdir = self._orig_rmdir
-            if cwd_prev: os.chdir(cwd_prev)
+            if cwd_prev:
+                os.chdir(cwd_prev)
+
 
 # ----------------- sandbox runner -----------------
 @dataclass
@@ -263,6 +308,7 @@ class SandboxPlan:
     fs: FsSpec
     require: list[str]  # caps to check before run
     meta: dict[str, Any]
+
 
 class Sandbox:
     def __init__(self, manager: CapManager):
@@ -286,18 +332,30 @@ class Sandbox:
         fg = FileGuard(plan.fs or FsSpec())
         with fg.activate():
             # apply env for child procs; in-proc env reads should use os.getenv (we left base empty by default)
-            _audit_write("sandbox_enter", {"subject": plan.subject, "require": plan.require, "env_keys": list(env.keys()), "fs": asdict(plan.fs) if plan.fs else {}})
+            _audit_write(
+                "sandbox_enter",
+                {
+                    "subject": plan.subject,
+                    "require": plan.require,
+                    "env_keys": list(env.keys()),
+                    "fs": asdict(plan.fs) if plan.fs else {},
+                },
+            )
             try:
                 yield env
             finally:
                 _audit_write("sandbox_exit", {"subject": plan.subject})
 
-    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None) -> tuple[int, str]:
+    def run_cmd(
+        self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None
+    ) -> tuple[int, str]:
         with self.activate(plan) as env:
             # merge env with minimal PATH (unless provided)
             if "PATH" not in env:
                 env["PATH"] = "/usr/bin:/bin:/usr/local/bin"
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env)
+            proc = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env
+            )
             try:
                 out = proc.communicate(timeout=timeout)[0]
             except subprocess.TimeoutExpired:
@@ -306,15 +364,24 @@ class Sandbox:
             _audit_write("sandbox_run", {"cmd": cmd, "rc": proc.returncode})
             return proc.returncode, out
 
+
 # ----------------- CLI -----------------
 def _cli():
     import argparse
-    ap = argparse.ArgumentParser(description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)")
+
+    ap = argparse.ArgumentParser(
+        description="Lukhas Capability Sandbox (leases, FS/ENV isolation, audit)"
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     g1 = sub.add_parser("grant")
     g1.add_argument("--subject", required=True)
-    g1.add_argument("--cap", action="append", required=True, help="Capability (repeatable). Examples: net, api:google, fs:read:/tmp/**, fs:write:/tmp/**")
+    g1.add_argument(
+        "--cap",
+        action="append",
+        required=True,
+        help="Capability (repeatable). Examples: net, api:google, fs:read:/tmp/**, fs:write:/tmp/**",
+    )
     g1.add_argument("--ttl", type=int, default=600)
     g1.add_argument("--persist", action="store_true")
 
@@ -336,7 +403,9 @@ def _cli():
     g5.add_argument("--cwd")
     g5.add_argument("--fs-read", action="append", default=[])
     g5.add_argument("--fs-write", action="append", default=[])
-    g5.add_argument("--env-allow", action="append", default=["PATH","HOME"])  # env prefixes to leak in
+    g5.add_argument(
+        "--env-allow", action="append", default=["PATH", "HOME"]
+    )  # env prefixes to leak in
     g5.add_argument("--env", action="append", default=[], help="KEY=VALUE injections")
     g5.add_argument("--timeout", type=int)
     g5.add_argument("cmd", nargs=argparse.REMAINDER)
@@ -345,32 +414,40 @@ def _cli():
     mgr = CapManager()
     if args.cmd == "grant":
         lease = mgr.grant(args.subject, args.cap, args.ttl, persist=args.persist)
-        print(json.dumps(asdict(lease), indent=2)); return
+        print(json.dumps(asdict(lease), indent=2))
+        return
     if args.cmd == "revoke":
         n = mgr.revoke(args.subject, args.prefix, persist=args.persist)
-        print(json.dumps({"removed": n}, indent=2)); return
+        print(json.dumps({"removed": n}, indent=2))
+        return
     if args.cmd == "list":
-        print(json.dumps([asdict(x) for x in mgr.list(args.subject)], indent=2)); return
+        print(json.dumps([asdict(x) for x in mgr.list(args.subject)], indent=2))
+        return
     if args.cmd == "check":
         ok = mgr.has(args.subject, args.cap)
-        print(json.dumps({"ok": ok}, indent=2)); raise SystemExit(0 if ok else 2)
+        print(json.dumps({"ok": ok}, indent=2))
+        raise SystemExit(0 if ok else 2)
     if args.cmd == "run":
         if not args.cmd:
             raise SystemExit("Provide command after --")
         env_inject = {}
         for kv in args.env:
-            if "=" not in kv: continue
-            k, v = kv.split("=", 1); env_inject[k] = v
+            if "=" not in kv:
+                continue
+            k, v = kv.split("=", 1)
+            env_inject[k] = v
         plan = SandboxPlan(
             subject=args.subject,
             env=EnvSpec(allow=args.env_allow, inject=env_inject),
             fs=FsSpec(read=args.fs_read, write=args.fs_write, cwd=args.cwd),
             require=list(args.require),
-            meta={}
+            meta={},
         )
         sb = Sandbox(mgr)
         rc, out = sb.run_cmd(plan, [c for c in args.cmd if c], timeout=args.timeout)
-        print(out, end=""); raise SystemExit(rc)
+        print(out, end="")
+        raise SystemExit(rc)
+
 
 if __name__ == "__main__":
     _cli()

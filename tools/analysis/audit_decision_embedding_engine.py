@@ -73,9 +73,7 @@ class DecisionAuditEngine:
             AuditDecision object
         """
         # Generate unique decision ID
-        decision_id = self._generate_decision_id(
-            decision_type, input_data, datetime.now()
-        )
+        decision_id = self._generate_decision_id(decision_type, input_data, datetime.now())
 
         # Create audit decision
         decision = AuditDecision(
@@ -168,9 +166,7 @@ class DecisionAuditEngine:
         # Group by type
         type_counts = {}
         for decision in decisions:
-            type_counts[decision.decision_type] = (
-                type_counts.get(decision.decision_type, 0) + 1
-            )
+            type_counts[decision.decision_type] = type_counts.get(decision.decision_type, 0) + 1
 
         # Time distribution
         hour_distribution = [0] * 24
@@ -189,7 +185,9 @@ class DecisionAuditEngine:
         self, decision_type: str, input_data: dict[str, Any], timestamp: datetime
     ) -> str:
         """Generate a unique decision ID"""
-        content = f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat()}"
+        content = (
+            f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat()}"
+        )
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _persist_decision(self, decision: AuditDecision):

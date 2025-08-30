@@ -154,9 +154,7 @@ class FoldManager:
                     self.active_folds.remove(fold.id)
 
     @emit_node("memory:fold:access")
-    def retrieve_fold(
-        self, fold_id: str, mode: str = "dry_run"
-    ) -> Optional[MemoryFold]:
+    def retrieve_fold(self, fold_id: str, mode: str = "dry_run") -> Optional[MemoryFold]:
         """Retrieve a specific fold with access tracking"""
         start_time = time.time()
 
@@ -269,8 +267,7 @@ class FoldManager:
             },
             "uptime_seconds": uptime,
             "memory_healthy": (
-                len(self.folds) <= self.MAX_FOLDS
-                and prevention_rate >= self.CASCADE_THRESHOLD
+                len(self.folds) <= self.MAX_FOLDS and prevention_rate >= self.CASCADE_THRESHOLD
             ),
         }
 

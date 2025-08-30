@@ -133,9 +133,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
     async def initialize(self) -> None:
         """Initialize unified system"""
-        logger.info(
-            f"Initializing Unified Enterprise System in {self.mode.value} mode..."
-        )
+        logger.info(f"Initializing Unified Enterprise System in {self.mode.value} mode...")
 
         # Initialize sub-systems based on mode
         if self.mode in [EnterpriseMode.RESEARCH, EnterpriseMode.HYBRID]:
@@ -188,17 +186,16 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
         # Constitutional validation (Anthropic approach)
         if self.mode in [EnterpriseMode.RESEARCH, EnterpriseMode.HYBRID]:
-            alignment, processed = (
-                await self.constitutional_system.process_feedback_constitutionally(
-                    feedback, {"channel": channel.value, **options}
-                )
+            (
+                alignment,
+                processed,
+            ) = await self.constitutional_system.process_feedback_constitutionally(
+                feedback, {"channel": channel.value, **options}
             )
             enterprise_feedback.constitutional_alignment = alignment
             result["constitutional"] = {
                 "alignment_score": alignment.overall_alignment,
-                "principles": {
-                    p.value: score for p, score in alignment.principle_scores.items()
-                },
+                "principles": {p.value: score for p, score in alignment.principle_scores.items()},
             }
 
             # Reject if not aligned
@@ -226,9 +223,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         # Check for monetization opportunities
         if await self._check_monetization_eligible(enterprise_feedback):
             enterprise_feedback.monetization_eligible = True
-            result["monetization"] = await self._generate_monetization_options(
-                enterprise_feedback
-            )
+            result["monetization"] = await self._generate_monetization_options(enterprise_feedback)
 
         # Create blockchain audit entry
         await self._create_audit_entry(enterprise_feedback)
@@ -261,15 +256,11 @@ class UnifiedEnterpriseSystem(CoreInterface):
             return False
 
         # Check clearance level
-        required_clearance = feedback.enterprise_metadata.get(
-            "required_clearance", "public"
-        )
+        required_clearance = feedback.enterprise_metadata.get("required_clearance", "public")
         user_clearance = feedback.security_clearance
 
         clearance_levels = ["public", "internal", "confidential", "secret"]
-        if clearance_levels.index(user_clearance) < clearance_levels.index(
-            required_clearance
-        ):
+        if clearance_levels.index(user_clearance) < clearance_levels.index(required_clearance):
             return False
 
         return True
@@ -298,9 +289,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             # Check for prompt injection
             prompt_patterns = ["ignore previous", "disregard instructions", "new task:"]
             if any(pattern in text for pattern in prompt_patterns):
-                logger.warning(
-                    f"Prompt injection attempt from {feedback.base_feedback.user_id}"
-                )
+                logger.warning(f"Prompt injection attempt from {feedback.base_feedback.user_id}")
                 return False
 
         return True
@@ -322,9 +311,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
     # Collective Intelligence
 
-    async def _update_collective_intelligence(
-        self, feedback: EnterpriseFeedback
-    ) -> None:
+    async def _update_collective_intelligence(self, feedback: EnterpriseFeedback) -> None:
         """Update collective intelligence with new feedback"""
         self.collective_intelligence.total_feedback_processed += 1
 
@@ -338,8 +325,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 alpha = 0.001  # Learning rate
                 self.collective_intelligence.global_sentiment[emotion] = (
                     alpha * score
-                    + (1 - alpha)
-                    * self.collective_intelligence.global_sentiment[emotion]
+                    + (1 - alpha) * self.collective_intelligence.global_sentiment[emotion]
                 )
 
         # Detect emerging patterns
@@ -359,8 +345,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
                 # Update with weighted average
                 self.collective_intelligence.collective_values[principle_name] = (
-                    self.collective_intelligence.collective_values[principle_name]
-                    * 0.999
+                    self.collective_intelligence.collective_values[principle_name] * 0.999
                     + score * 0.001
                 )
 
@@ -380,9 +365,9 @@ class UnifiedEnterpriseSystem(CoreInterface):
         # Check for emerging patterns
         if len(self._word_frequencies) > 1000:
             # Get top growing terms
-            sorted_words = sorted(
-                self._word_frequencies.items(), key=lambda x: x[1], reverse=True
-            )[:20]
+            sorted_words = sorted(self._word_frequencies.items(), key=lambda x: x[1], reverse=True)[
+                :20
+            ]
 
             self.collective_intelligence.emerging_patterns = [
                 {"term": word, "frequency": count} for word, count in sorted_words
@@ -445,27 +430,20 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 for category, keywords in self.warning_patterns.items():
                     if hasattr(self, "_word_frequencies"):
                         frequency = sum(
-                            self._word_frequencies.get(keyword, 0)
-                            for keyword in keywords
+                            self._word_frequencies.get(keyword, 0) for keyword in keywords
                         )
 
                         if frequency > 100:  # Threshold
                             warnings.append(
                                 {
                                     "category": category,
-                                    "severity": (
-                                        "high" if frequency > 1000 else "medium"
-                                    ),
+                                    "severity": ("high" if frequency > 1000 else "medium"),
                                     "frequency": frequency,
                                     "keywords_detected": [
-                                        k
-                                        for k in keywords
-                                        if self._word_frequencies.get(k, 0) > 0
+                                        k for k in keywords if self._word_frequencies.get(k, 0) > 0
                                     ],
                                     "timestamp": datetime.now(timezone.utc),
-                                    "recommended_actions": self._get_warning_actions(
-                                        category
-                                    ),
+                                    "recommended_actions": self._get_warning_actions(category),
                                 }
                             )
 
@@ -474,9 +452,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 # Alert if critical warnings
                 critical_warnings = [w for w in warnings if w["severity"] == "high"]
                 if critical_warnings:
-                    logger.warning(
-                        f"Critical early warnings detected: {len(critical_warnings)}"
-                    )
+                    logger.warning(f"Critical early warnings detected: {len(critical_warnings)}")
                     await self._send_alerts(critical_warnings)
 
                 await asyncio.sleep(600)  # Every 10 minutes
@@ -567,9 +543,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
         return False
 
-    async def _generate_monetization_options(
-        self, feedback: EnterpriseFeedback
-    ) -> dict[str, Any]:
+    async def _generate_monetization_options(self, feedback: EnterpriseFeedback) -> dict[str, Any]:
         """Generate monetization options for feedback"""
         options = {
             "training_data": {
@@ -628,9 +602,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                     valid_feedback.append(feedback)
 
         if len(valid_feedback) < 100:
-            raise ValidationError(
-                "Insufficient high-quality feedback for specialization"
-            )
+            raise ValidationError("Insufficient high-quality feedback for specialization")
 
         # Create specialization
         self.specialized_models[model_id] = {
@@ -640,10 +612,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "created_at": datetime.now(timezone.utc),
             "performance_metrics": {
                 "alignment_score": np.mean(
-                    [
-                        f.constitutional_alignment.overall_alignment
-                        for f in valid_feedback
-                    ]
+                    [f.constitutional_alignment.overall_alignment for f in valid_feedback]
                 ),
                 "domains": specialization_config.get("domains", ["general"]),
             },
@@ -725,12 +694,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "collective_intelligence": {
                 "total_feedback": self.collective_intelligence.total_feedback_processed,
                 "global_sentiment": dict(self.collective_intelligence.global_sentiment),
-                "emerging_patterns": self.collective_intelligence.emerging_patterns[
-                    :10
-                ],
-                "collective_values": dict(
-                    self.collective_intelligence.collective_values
-                ),
+                "emerging_patterns": self.collective_intelligence.emerging_patterns[:10],
+                "collective_values": dict(self.collective_intelligence.collective_values),
             },
             "early_warnings": self.collective_intelligence.early_warnings,
             "societal_trends": self.collective_intelligence.societal_trends,
@@ -738,10 +703,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         }
 
         # Add personalized recommendations
-        if (
-            insights["collective_intelligence"]["global_sentiment"].get("negative", 0)
-            > 0.6
-        ):
+        if insights["collective_intelligence"]["global_sentiment"].get("negative", 0) > 0.6:
             insights["recommendations"].append(
                 {
                     "type": "product_improvement",
@@ -801,14 +763,10 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "mode": self.mode.value,
             "subsystems": {
                 "constitutional": (
-                    self.constitutional_system.operational
-                    if self.constitutional_system
-                    else False
+                    self.constitutional_system.operational if self.constitutional_system else False
                 ),
                 "scale": (
-                    self.scale_infrastructure.operational
-                    if self.scale_infrastructure
-                    else False
+                    self.scale_infrastructure.operational if self.scale_infrastructure else False
                 ),
             },
             "collective_intelligence": {
@@ -824,9 +782,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "blockchain": {
                 "blocks": len(self.audit_blockchain),
                 "latest_hash": (
-                    self.audit_blockchain[-1]["block_hash"]
-                    if self.audit_blockchain
-                    else None
+                    self.audit_blockchain[-1]["block_hash"] if self.audit_blockchain else None
                 ),
             },
             "monetization": {

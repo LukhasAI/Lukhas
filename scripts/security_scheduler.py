@@ -96,9 +96,7 @@ class SecurityTaskScheduler:
         schedule["tasks"].append(task)
         self.save_schedule(schedule)
 
-        self.log(
-            f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}"
-        )
+        self.log(f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}")
         click.echo(f"Task ID: {task['id']}")
         return True
 
@@ -180,9 +178,7 @@ class SecurityTaskScheduler:
 
             elif task_type == "fix-issues":
                 # Skip Ollama-dependent tasks for now
-                self.log(
-                    "⚠️ Skipping Ollama-dependent security issue fixes (Ollama not available)"
-                )
+                self.log("⚠️ Skipping Ollama-dependent security issue fixes (Ollama not available)")
                 return True
 
             elif task_type == "fix-all":
@@ -210,9 +206,7 @@ class SecurityTaskScheduler:
                 self.log(f"✅ Task {task['id']} completed successfully")
                 return True
             else:
-                self.log(
-                    f"❌ Task {task['id']} failed with exit code {result.returncode}"
-                )
+                self.log(f"❌ Task {task['id']} failed with exit code {result.returncode}")
                 self.log(f"Error output: {result.stderr}")
                 return False
 
@@ -238,9 +232,7 @@ class SecurityTaskScheduler:
                     click.echo(f"✅ Task {task_id} cancelled")
                     return True
                 else:
-                    click.echo(
-                        f"⚠️ Cannot cancel task {task_id} (status: {task['status']})"
-                    )
+                    click.echo(f"⚠️ Cannot cancel task {task_id} (status: {task['status']})")
                     return False
 
         click.echo(f"❌ Task {task_id} not found")
@@ -268,9 +260,7 @@ def cli():
 @cli.command()
 @click.argument(
     "task_type",
-    type=click.Choice(
-        ["fix-vulnerabilities", "fix-issues", "fix-all", "comprehensive-scan"]
-    ),
+    type=click.Choice(["fix-vulnerabilities", "fix-issues", "fix-all", "comprehensive-scan"]),
 )
 @click.argument("time")
 @click.option("--description", "-d", help="Task description")
@@ -329,9 +319,7 @@ def status():
             with open("reports/security/bandit.json") as f:
                 data = json.load(f)
                 total_issues = len(data.get("results", []))
-                high_issues = len(
-                    [i for i in data["results"] if i.get("issue_severity") == "HIGH"]
-                )
+                high_issues = len([i for i in data["results"] if i.get("issue_severity") == "HIGH"])
                 medium_issues = len(
                     [i for i in data["results"] if i.get("issue_severity") == "MEDIUM"]
                 )
@@ -343,9 +331,7 @@ def status():
             if high_issues + medium_issues > 0:
                 click.echo("\n💡 RECOMMENDATIONS:")
                 click.echo("   Schedule security fixes when Ollama is available:")
-                click.echo(
-                    "   python3 scripts/security_scheduler.py schedule fix-all +3h"
-                )
+                click.echo("   python3 scripts/security_scheduler.py schedule fix-all +3h")
 
         except Exception as e:
             click.echo(f"❌ Could not read security report: {e}")

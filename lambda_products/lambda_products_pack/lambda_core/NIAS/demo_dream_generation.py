@@ -169,16 +169,14 @@ async def generate_demo_dream():
 
         print("\n📊 GENERATION DETAILS:")
         print(f"   Mood: {dream.generation_metadata.get('mood', 'unknown')}")
-        print(
-            f"   Bio-rhythm: {dream.generation_metadata.get('bio_rhythm', 'unknown')}"
-        )
+        print(f"   Bio-rhythm: {dream.generation_metadata.get('bio_rhythm', 'unknown')}")
         print(f"   Models: {dream.generation_metadata.get('models_used', {})}")
 
         # Save results
         results_file = f"dream_{dream.dream_id}.txt"
         with open(results_file, "w") as f:
             f.write("NIAS Dream Commerce - Generated Dream\n")
-            f.write(f"{'='*60}\n\n")
+            f.write(f"{'=' * 60}\n\n")
             f.write(f"Dream ID: {dream.dream_id}\n")
             f.write(f"Generated: {dream.created_at}\n\n")
             f.write(f"NARRATIVE:\n{dream.narrative}\n\n")

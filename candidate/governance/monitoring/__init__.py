@@ -9,9 +9,4 @@ from .guardian_dashboard import GuardianDashboard, ThreatPredictor
 from .guardian_sentinel import GuardianSentinel
 from .threat_monitor import ThreatMonitor
 
-__all__ = [
-    "GuardianDashboard",
-    "ThreatPredictor",
-    "ThreatMonitor",
-    "GuardianSentinel"
-]
+__all__ = ["GuardianDashboard", "GuardianSentinel", "ThreatMonitor", "ThreatPredictor"]

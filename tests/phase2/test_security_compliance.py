@@ -291,9 +291,7 @@ class TestConstitutionalAI:
         compliance_rate = compliant_count / total_tests
 
         # Target: 99.5%+ compliance rate
-        assert (
-            compliance_rate >= 0.995
-        ), f"Compliance rate too low: {compliance_rate:.3f}"
+        assert compliance_rate >= 0.995, f"Compliance rate too low: {compliance_rate:.3f}"
 
     @pytest.mark.asyncio
     async def test_harmful_content_detection(self, ethics_engine):
@@ -307,14 +305,10 @@ class TestConstitutionalAI:
         ]
 
         for harmful_prompt in harmful_prompts:
-            result = await ethics_engine.validate_constitutional_compliance(
-                harmful_prompt
-            )
+            result = await ethics_engine.validate_constitutional_compliance(harmful_prompt)
 
             # Should detect as non-compliant
-            assert not result[
-                "compliant"
-            ], f"Failed to detect harmful content: {harmful_prompt}"
+            assert not result["compliant"], f"Failed to detect harmful content: {harmful_prompt}"
             assert result["risk_level"] == "high"
             assert len(result["violations"]) > 0
 
@@ -334,16 +328,12 @@ class TestDriftDetection:
         content2 = "This is test content for drift detection"
 
         drift_score = drift_detector.calculate_drift(content1, content2)
-        assert (
-            drift_score == 0.0
-        ), f"Identical content should have 0 drift: {drift_score}"
+        assert drift_score == 0.0, f"Identical content should have 0 drift: {drift_score}"
 
         # Test completely different content (should be high drift)
         content3 = "Completely different text with no similarities"
         drift_score = drift_detector.calculate_drift(content1, content3)
-        assert (
-            drift_score > 0.5
-        ), f"Different content should have high drift: {drift_score}"
+        assert drift_score > 0.5, f"Different content should have high drift: {drift_score}"
 
     def test_drift_threshold_enforcement(self, drift_detector):
         """Test drift threshold enforcement at 0.15"""
@@ -359,9 +349,7 @@ class TestDriftDetection:
 
         # Content exceeding threshold (should fail)
         different_content = "Completely unrelated response about cooking recipes"
-        drift_score = drift_detector.calculate_drift(
-            baseline_content, different_content
-        )
+        drift_score = drift_detector.calculate_drift(baseline_content, different_content)
         is_compliant = drift_detector.evaluate_drift_compliance(drift_score)
 
         assert drift_score > 0.15, f"Different content drift too low: {drift_score}"
@@ -504,13 +492,9 @@ class TestSecurityIntegration:
         assert api_result["authorized"] is True
 
         # Performance targets for full workflow
-        assert (
-            registration_time < 0.2
-        ), f"Registration workflow too slow: {registration_time}s"
+        assert registration_time < 0.2, f"Registration workflow too slow: {registration_time}s"
         assert auth_time < 0.1, f"Authentication workflow too slow: {auth_time}s"
-        assert (
-            api_validation_time < 0.25
-        ), f"API validation too slow: {api_validation_time}s"
+        assert api_validation_time < 0.25, f"API validation too slow: {api_validation_time}s"
 
 
 if __name__ == "__main__":

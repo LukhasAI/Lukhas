@@ -123,9 +123,7 @@ async def test_bio_oscillator_adaptation(tutor_engine, sample_config):
         config=sample_config,
     )
 
-    responses = await tutor_engine.handle_user_response(
-        session.session_id, "This is complicated."
-    )
+    responses = await tutor_engine.handle_user_response(session.session_id, "This is complicated.")
 
     assert len(responses) > 0
     assert "step back" in responses[0].content  # Should adapt to high stress

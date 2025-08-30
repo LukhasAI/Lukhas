@@ -31,9 +31,7 @@ class LukhasConfig(BaseSettings):
 
     # Security
     secret_key: str = Field(
-        default_factory=lambda: os.getenv(
-            "LUKHAS_ID_SECRET", secrets.token_urlsafe(32)
-        ),
+        default_factory=lambda: os.getenv("LUKHAS_ID_SECRET", secrets.token_urlsafe(32)),
         description="Main secret key for cryptographic operations",
     )
 
@@ -52,9 +50,7 @@ class LukhasConfig(BaseSettings):
     )
 
     memory_api_url: str = Field(
-        default_factory=lambda: os.getenv(
-            "MEMORY_API_URL", "http://localhost:8080/api/v1/memory"
-        ),
+        default_factory=lambda: os.getenv("MEMORY_API_URL", "http://localhost:8080/api/v1/memory"),
         description="Memory service endpoint",
     )
 

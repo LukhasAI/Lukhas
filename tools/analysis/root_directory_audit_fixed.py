@@ -10,7 +10,6 @@ from datetime import datetime
 
 
 class RootDirectoryAuditor:
-
     def __init__(self):
         # Define our 7 core modules
         self.core_modules = [
@@ -58,9 +57,7 @@ class RootDirectoryAuditor:
     def analyze_root(self):
         """Analyze all root-level directories"""
         root_items = os.listdir(".")
-        directories = [
-            d for d in root_items if os.path.isdir(d) and not d.startswith(".")
-        ]
+        directories = [d for d in root_items if os.path.isdir(d) and not d.startswith(".")]
 
         print(f"📊 Found {len(directories)} directories at root level")
 
@@ -105,12 +102,8 @@ class RootDirectoryAuditor:
         ]:
             self.categories["should_be_submodules"].append(directory)
             analysis["suggested_action"] = "MERGE"
-            analysis["suggested_location"] = self.suggest_module_for_directory(
-                directory
-            )
-            analysis["reason"] = (
-                f'Should be part of {analysis["suggested_location"]} module'
-            )
+            analysis["suggested_location"] = self.suggest_module_for_directory(directory)
+            analysis["reason"] = f"Should be part of {analysis['suggested_location']} module"
 
         elif directory in ["tools", "analysis_tools", "healing"]:
             self.categories["tools_and_utils"].append(directory)
@@ -336,12 +329,8 @@ def main():
             print(f"\n{category.upper().replace('_', ' ')}:")
             for directory in directories:
                 analysis = plan["detailed_analysis"][directory]
-                print(
-                    f"  - {directory}: {analysis['file_count']} files, {analysis['size']}MB"
-                )
-                print(
-                    f"    Action: {analysis['suggested_action']} - {analysis['reason']}"
-                )
+                print(f"  - {directory}: {analysis['file_count']} files, {analysis['size']}MB")
+                print(f"    Action: {analysis['suggested_action']} - {analysis['reason']}")
 
     # Create enhancement tasks
     print("\n📝 MODULE ENHANCEMENT TASKS:")

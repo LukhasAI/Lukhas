@@ -76,13 +76,11 @@ def generate_operational_summary(reports):
 
         print(f"   • Total Entry Points: {total_entries}")
         print(f"   • Working Entry Points: {working_entries}")
-        print(f"   • Operational Rate: {working_entries/total_entries:.1%}")
+        print(f"   • Operational Rate: {working_entries / total_entries:.1%}")
 
         print("\n   🎯 KEY ENTRY POINTS:")
         main_entries = [
-            path
-            for path, data in entry_points.items()
-            if "main.py" in path and data["functional"]
+            path for path, data in entry_points.items() if "main.py" in path and data["functional"]
         ]
         for entry in main_entries[:5]:  # Show top 5:
             print(f"      ✅ {entry}")
@@ -99,9 +97,7 @@ def generate_operational_summary(reports):
                 capabilities_by_system[system] = {
                     "count": len(cap_types),
                     "types": list(cap_types),
-                    "confidence": sum(
-                        1 for c in data["capabilities"] if c["confidence"] == "high"
-                    ),
+                    "confidence": sum(1 for c in data["capabilities"] if c["confidence"] == "high"),
                 }
 
         for system, caps in capabilities_by_system.items():
@@ -110,9 +106,7 @@ def generate_operational_summary(reports):
                 f"{caps['confidence']} high-confidence"
             )
             if caps["types"]:
-                print(
-                    f"      Capabilities: {', '.join(caps['types'][:5])}"
-                )  # Show first 5
+                print(f"      Capabilities: {', '.join(caps['types'][:5])}")  # Show first 5
 
     # Security & Compliance Status
     print("\n🛡️ SECURITY & COMPLIANCE STATUS:")
@@ -141,11 +135,11 @@ def generate_operational_summary(reports):
 
         if total_systems > 0:
             print(
-                f"   • System Connectivity: {working_systems}/{total_systems} ({working_systems/total_systems:.1%})"
+                f"   • System Connectivity: {working_systems}/{total_systems} ({working_systems / total_systems:.1%})"
             )
             print(f"   • Isolated Files: {isolated_files}")
             print(
-                f"   • Integration Status: {'🟢 EXCELLENT' if working_systems/total_systems > 0.9 else '🟡 GOOD' if working_systems/total_systems > 0.7 else '🔴 NEEDS WORK'}"
+                f"   • Integration Status: {'🟢 EXCELLENT' if working_systems / total_systems > 0.9 else '🟡 GOOD' if working_systems / total_systems > 0.7 else '🔴 NEEDS WORK'}"
             )
         else:
             print("   • Integration Status: Data not available")

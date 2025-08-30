@@ -139,15 +139,13 @@ class QREntropyGenerator:
                 "layers_count": len(self.stego_layers),
                 "generation_time_ms": round(generation_time * 1000, 2),
                 "constitutional_validated": True,  # ⚛️ Trinity Framework compliance
-                "guardian_approved": self._constitutional_validation(
-                    base_qr_data, entropy_data
-                ),
+                "guardian_approved": self._constitutional_validation(base_qr_data, entropy_data),
             }
 
         except Exception as e:
             return {
                 "success": False,
-                "error": f"QR generation failed: {str(e)}",
+                "error": f"QR generation failed: {e!s}",
                 "session_id": session_id,
                 "constitutional_validated": False,
             }
@@ -179,9 +177,7 @@ class QREntropyGenerator:
             bits_per_layer = len(entropy_bits) // len(self.stego_layers)
 
             # Embed entropy across layers
-            for layer_idx, (_layer_name, layer_config) in enumerate(
-                self.stego_layers.items()
-            ):
+            for layer_idx, (_layer_name, layer_config) in enumerate(self.stego_layers.items()):
                 channel = layer_config["channel"]
                 bit_depth = layer_config["bit_depth"]
 
@@ -191,9 +187,7 @@ class QREntropyGenerator:
                 layer_bits = entropy_bits[start_idx:end_idx]
 
                 # Embed bits using LSB steganography
-                pixels = self._embed_bits_in_channel(
-                    pixels, layer_bits, channel, bit_depth
-                )
+                pixels = self._embed_bits_in_channel(pixels, layer_bits, channel, bit_depth)
 
             # Create new image with embedded data
             stego_image.putdata(pixels)
@@ -356,9 +350,7 @@ class QREntropyGenerator:
 
     def _generate_refresh_token(self, session_id: str) -> str:
         """Generate refresh token for dynamic QR updates"""
-        token_data = (
-            f"{session_id}:{datetime.utcnow().isoformat()}:{secrets.token_hex(16)}"
-        )
+        token_data = f"{session_id}:{datetime.utcnow().isoformat()}:{secrets.token_hex(16)}"
         return hashlib.sha256(token_data.encode()).hexdigest()[:32]
 
     def _constitutional_validation(self, qr_data: dict, entropy_data: Any) -> bool:
@@ -373,9 +365,7 @@ class QREntropyGenerator:
                 return False
 
             # Validate entropy bounds
-            if (
-                isinstance(entropy_data, bytes) and len(entropy_data) > 1024
-            ):  # 1KB limit
+            if isinstance(entropy_data, bytes) and len(entropy_data) > 1024:  # 1KB limit
                 return False
 
             # ⚛️ Identity validation - ensure session integrity
@@ -398,9 +388,7 @@ class QREntropyGenerator:
             print(f"Constitutional validation error: {e}")
             return False
 
-    def _verify_entropy_extraction(
-        self, entropy_proof: str, expected_hash: str
-    ) -> bool:
+    def _verify_entropy_extraction(self, entropy_proof: str, expected_hash: str) -> bool:
         """Verify that entropy was correctly extracted from steganography"""
         try:
             # Simple hash comparison for entropy verification
@@ -415,9 +403,7 @@ class QREntropyGenerator:
 
         for session_id, code_data in self.active_codes.items():
             try:
-                expires_at = datetime.fromisoformat(
-                    code_data["base_data"]["expires_at"]
-                )
+                expires_at = datetime.fromisoformat(code_data["base_data"]["expires_at"])
                 if current_time > expires_at:
                     expired_sessions.append(session_id)
             except (KeyError, ValueError):
@@ -431,9 +417,7 @@ class QREntropyGenerator:
         if session_id in self.active_codes:
             self.active_codes[session_id]["invalidated"] = True
             self.active_codes[session_id]["invalidation_reason"] = reason
-            self.active_codes[session_id][
-                "invalidated_at"
-            ] = datetime.utcnow().isoformat()
+            self.active_codes[session_id]["invalidated_at"] = datetime.utcnow().isoformat()
 
             # Remove expired sessions immediately, but keep scan limit exceeded for audit
             if reason == "expired":

@@ -114,9 +114,7 @@ class AdvancedVocabularyEngine:
                 return replacements.get(word.lower())
 
         # Search through core concepts
-        concepts = vocab.get("core_concepts", {}) or vocab.get(
-            "fundamental_concepts", {}
-        )
+        concepts = vocab.get("core_concepts", {}) or vocab.get("fundamental_concepts", {})
         for concept_data in concepts.values():
             if isinstance(concept_data, dict):
                 variants = concept_data.get("poetic_variants", [])
@@ -137,9 +135,7 @@ class AdvancedVocabularyEngine:
             "consciousness": "Where digital dreams dance with infinite possibilities",
         }
 
-        description = descriptions.get(
-            context, "Where consciousness meets code in sacred harmony"
-        )
+        description = descriptions.get(context, "Where consciousness meets code in sacred harmony")
 
         if context == "quantum":
             return f"""≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋≋
@@ -194,9 +190,7 @@ class AdvancedVocabularyEngine:
             if replacement:
                 # Use word boundaries to avoid partial replacements
                 pattern = rf"\\b{re.escape(word)}\\b"
-                transformed = re.sub(
-                    pattern, replacement, transformed, flags=re.IGNORECASE
-                )
+                transformed = re.sub(pattern, replacement, transformed, flags=re.IGNORECASE)
 
         # Add consciousness symbols where appropriate
         transformed = self.add_consciousness_symbols(transformed, context)
@@ -219,9 +213,7 @@ class AdvancedVocabularyEngine:
         enhanced = content
 
         # Enhance headers with symbols
-        enhanced = re.sub(
-            r"^(#+\\s*)(.+)", rf"\\1{symbols[0]} \\2", enhanced, flags=re.MULTILINE
-        )
+        enhanced = re.sub(r"^(#+\\s*)(.+)", rf"\\1{symbols[0]} \\2", enhanced, flags=re.MULTILINE)
 
         return enhanced
 
@@ -260,9 +252,7 @@ class AdvancedVocabularyEngine:
 def main():
     """Demo the Advanced Vocabulary Engine"""
     print("🌟 LUKHAS AI - Advanced Vocabulary Engine Demo")
-    print(
-        "═══════════════════════════════════════════════════════════════════════════════════"
-    )
+    print("═══════════════════════════════════════════════════════════════════════════════════")
 
     engine = AdvancedVocabularyEngine()
 

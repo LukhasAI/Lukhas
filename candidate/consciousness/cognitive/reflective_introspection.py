@@ -46,6 +46,7 @@
 ║ • Cybernetic Control Theory (Wiener, 1948)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio  # For tier decorator placeholder
 import logging
 from collections import defaultdict, deque  # Added defaultdict
@@ -137,9 +138,7 @@ class ReflectiveIntrospectionSystem:
         self.last_reflection_time: datetime = datetime.utcnow()  # Use UTC
 
         reflection_interval_minutes = self.config.get("reflection_interval_minutes", 30)
-        self.reflection_interval: timedelta = timedelta(
-            minutes=reflection_interval_minutes
-        )
+        self.reflection_interval: timedelta = timedelta(minutes=reflection_interval_minutes)
 
         default_thresholds = {
             "accuracy": 0.8,
@@ -185,12 +184,8 @@ class ReflectiveIntrospectionSystem:
 
     # Human-readable comment: Analyzes recent interactions to identify
     # patterns and potential improvements.
-    @lukhas_tier_required(
-        level=4
-    )  # Analysis and optimization is a Guardian tier feature
-    def analyze_recent_interactions(
-        self, user_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    @lukhas_tier_required(level=4)  # Analysis and optimization is a Guardian tier feature
+    def analyze_recent_interactions(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Analyze recent interactions to identify performance metrics, patterns,
         and generate insights for adaptation.
@@ -220,9 +215,7 @@ class ReflectiveIntrospectionSystem:
             }
 
         self.last_reflection_time = now_utc
-        self.instance_logger.info(
-            "ΛTRACE: Reflection interval met. Proceeding with analysis."
-        )
+        self.instance_logger.info("ΛTRACE: Reflection interval met. Proceeding with analysis.")
 
         calculated_metrics = self._calculate_performance_metrics()
         identified_patterns = self._identify_interaction_patterns()
@@ -232,10 +225,7 @@ class ReflectiveIntrospectionSystem:
 
         adaptation_needed = False
         for metric_key, threshold_val in self.performance_thresholds.items():
-            if (
-                metric_key in calculated_metrics
-                and calculated_metrics[metric_key] < threshold_val
-            ):
+            if metric_key in calculated_metrics and calculated_metrics[metric_key] < threshold_val:
                 adaptation_needed = True
                 self.instance_logger.info(
                     f"ΛTRACE: Adaptation required. Metric '{metric_key}' ({calculated_metrics[metric_key]:.2f}) is below threshold ({threshold_val:.2f})."
@@ -265,18 +255,14 @@ class ReflectiveIntrospectionSystem:
         recent_interactions = list(self.interaction_history)
 
         if not recent_interactions:
-            self.instance_logger.debug(
-                "ΛTRACE: No recent interactions to calculate metrics from."
-            )
+            self.instance_logger.debug("ΛTRACE: No recent interactions to calculate metrics from.")
             return {}
 
         successful_interactions = sum(
             1 for i in recent_interactions if i.get("outcome") == "success"
         )
         accuracy_score = (
-            successful_interactions / len(recent_interactions)
-            if recent_interactions
-            else 0.0
+            successful_interactions / len(recent_interactions) if recent_interactions else 0.0
         )
 
         response_times = [
@@ -316,12 +302,10 @@ class ReflectiveIntrospectionSystem:
         )
 
         adaptation_rate_score = (
-            improvements_count / (len(interactions) - 1)
-            if (len(interactions) - 1) > 0
-            else 1.0
+            improvements_count / (len(interactions) - 1) if (len(interactions) - 1) > 0 else 1.0
         )
         self.instance_logger.debug(
-            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions)-1} pairs)."
+            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions) - 1} pairs)."
         )
         return adaptation_rate_score
 
@@ -338,15 +322,11 @@ class ReflectiveIntrospectionSystem:
     # Human-readable comment: Identifies patterns in interaction history.
     def _identify_interaction_patterns(self) -> dict[str, Any]:
         """Identify patterns in interaction history, like strategy distribution or common contexts."""
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Identifying interaction patterns."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Identifying interaction patterns.")
         recent_interactions = list(self.interaction_history)
 
         if not recent_interactions:
-            self.instance_logger.debug(
-                "ΛTRACE: No recent interactions for pattern identification."
-            )
+            self.instance_logger.debug("ΛTRACE: No recent interactions for pattern identification.")
             return {}
 
         strategy_counts: dict[str, int] = defaultdict(int)
@@ -355,9 +335,7 @@ class ReflectiveIntrospectionSystem:
             if strategy and isinstance(strategy, str):
                 strategy_counts[strategy] += 1
 
-        context_features_counts: dict[str, dict[Any, int]] = defaultdict(
-            lambda: defaultdict(int)
-        )
+        context_features_counts: dict[str, dict[Any, int]] = defaultdict(lambda: defaultdict(int))
         for interaction in recent_interactions:
             context_data = interaction.get("context", {})
             if isinstance(context_data, dict):
@@ -367,9 +345,7 @@ class ReflectiveIntrospectionSystem:
 
         patterns = {
             "strategy_distribution": dict(strategy_counts),
-            "common_context_features": {
-                k: dict(v) for k, v in context_features_counts.items()
-            },
+            "common_context_features": {k: dict(v) for k, v in context_features_counts.items()},
         }
         self.instance_logger.debug(
             f"ΛTRACE: Interaction patterns identified. Strategy dist: {len(patterns['strategy_distribution'])}, Context features: {len(patterns['common_context_features'])}."
@@ -407,12 +383,9 @@ class ReflectiveIntrospectionSystem:
                     strategy_dist_map.items(), key=lambda item: item[1]
                 )
                 total_strategies_used = sum(strategy_dist_map.values())
-                if (
-                    total_strategies_used > 0
-                    and (most_used_count / total_strategies_used) > 0.7
-                ):
+                if total_strategies_used > 0 and (most_used_count / total_strategies_used) > 0.7:
                     insights["opportunities_for_improvement"].append(
-                        f"Consider diversifying strategy selection beyond '{most_used_strategy}' (currently {most_used_count/total_strategies_used:.1%} of use)."
+                        f"Consider diversifying strategy selection beyond '{most_used_strategy}' (currently {most_used_count / total_strategies_used:.1%} of use)."
                     )
 
         if (
@@ -420,9 +393,7 @@ class ReflectiveIntrospectionSystem:
             and not insights["weaknesses"]
             and not insights["opportunities_for_improvement"]
         ):
-            insights["summary"] = [
-                "Overall performance stable and within acceptable parameters."
-            ]
+            insights["summary"] = ["Overall performance stable and within acceptable parameters."]
 
         self.instance_logger.debug(
             f"ΛTRACE: Insights generated: Strengths({len(insights['strengths'])}), Weaknesses({len(insights['weaknesses'])}), Opportunities({len(insights['opportunities_for_improvement'])})."
@@ -431,23 +402,15 @@ class ReflectiveIntrospectionSystem:
 
     # Human-readable comment: Recommends parameter adjustments based on
     # performance metrics.
-    def _recommend_parameter_adjustments(
-        self, metrics: dict[str, float]
-    ) -> dict[str, float]:
+    def _recommend_parameter_adjustments(self, metrics: dict[str, float]) -> dict[str, float]:
         """Recommend parameter adjustments for system optimization based on performance metrics."""
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Recommending parameter adjustments."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Recommending parameter adjustments.")
         adjustments: dict[str, float] = {}
 
-        if metrics.get("accuracy", 1.0) < self.performance_thresholds.get(
-            "accuracy", 0.8
-        ):
+        if metrics.get("accuracy", 1.0) < self.performance_thresholds.get("accuracy", 0.8):
             adjustments["pattern_detection_threshold_delta"] = +0.05
 
-        if metrics.get("efficiency", 1.0) < self.performance_thresholds.get(
-            "efficiency", 0.7
-        ):
+        if metrics.get("efficiency", 1.0) < self.performance_thresholds.get("efficiency", 0.7):
             adjustments["system_adaptation_rate_delta"] = +0.02
 
         if metrics.get("adaptation_score", 1.0) < self.performance_thresholds.get(

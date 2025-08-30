@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 # Database connection placeholder
 db_connection: Optional[any] = None
 
+
 async def init_db():
     """Initialize database connection"""
     global db_connection
@@ -28,6 +29,7 @@ async def init_db():
 
     return db_connection
 
+
 async def close_db():
     """Close database connection"""
     global db_connection
@@ -36,6 +38,7 @@ async def close_db():
         logger.info("Closing database connection...")
         db_connection = None
         logger.info("Database connection closed")
+
 
 async def get_db():
     """Get database connection"""

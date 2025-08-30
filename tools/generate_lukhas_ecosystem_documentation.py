@@ -32,9 +32,7 @@ logger = logging.getLogger(__name__)
 # Workspace paths
 WORKSPACE_ROOT = Path("/Users/A_G_I/LUKHAS_REBIRTH_Workspace")
 COMMERCIAL_PLATFORMS = WORKSPACE_ROOT / "commercial_platforms"
-LAMBDA_EASYDOC_PATH = (
-    COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_easydoc"
-)
+LAMBDA_EASYDOC_PATH = COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_easydoc"
 LAMBDA_DOC_PATH = COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_doc"
 
 
@@ -81,8 +79,7 @@ class LUKHASDocumentationOrchestrator:
             },
             "integrated_plugins": {
                 "title": "Integrated Plugin Documentation",
-                "description": "Documentation for Health Advisor, ΛEasyDoc, "
-                "and LukhasDoc plugins",
+                "description": "Documentation for Health Advisor, ΛEasyDoc, and LukhasDoc plugins",
                 "files": [
                     "HEALTH_ADVISOR_DOCS.md",
                     "LAMBDA_EASYDOC_DOCS.md",
@@ -100,8 +97,7 @@ class LUKHASDocumentationOrchestrator:
             },
             "marketplace": {
                 "title": "LUKHAS Marketplace Documentation",
-                "description": "Marketplace operations, revenue sharing, "
-                "and developer resources",
+                "description": "Marketplace operations, revenue sharing, and developer resources",
                 "files": [
                     "MARKETPLACE_GUIDE.md",
                     "REVENUE_MODEL.md",
@@ -163,9 +159,7 @@ class LUKHASDocumentationOrchestrator:
         logger.info("✅ LUKHAS Ecosystem Documentation Generation Complete!")
         logger.info(f"📂 Documentation saved to: {self.output_dir}")
 
-    async def _generate_section_documentation(
-        self, section_id: str, section_info: dict[str, Any]
-    ):
+    async def _generate_section_documentation(self, section_id: str, section_info: dict[str, Any]):
         """Generate documentation for a specific section."""
         logger.info(f"📝 Generating documentation for: {section_info['title']}")
 
@@ -175,9 +169,7 @@ class LUKHASDocumentationOrchestrator:
         # Generate each file in the section
         for filename in section_info["files"]:
             file_path = section_dir / filename
-            content = await self._generate_file_content(
-                section_id, filename, section_info
-            )
+            content = await self._generate_file_content(section_id, filename, section_info)
 
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
@@ -209,9 +201,7 @@ class LUKHASDocumentationOrchestrator:
         elif section_id == "deployment_operations":
             return await self._generate_deployment_operations_content(filename)
         else:
-            return await self._generate_default_content(
-                section_id, filename, section_info
-            )
+            return await self._generate_default_content(section_id, filename, section_info)
 
     async def _generate_ecosystem_overview_content(self, filename: str) -> str:
         """Generate ecosystem overview content."""
@@ -311,7 +301,7 @@ The LUKHAS ecosystem is designed to evolve into a comprehensive AGI platform tha
 
 ---
 
-**Generated on**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Generated on**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Documentation Version**: v2.0.0
 **Ecosystem Status**: Phase 1 Complete, Phase 2 In Progress
 
@@ -462,7 +452,7 @@ The LUKHAS ecosystem follows a modular, plugin-based architecture designed for s
 ---
 
 **Architecture Version**: v2.0.0
-**Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Last Updated**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Status**: Production-Ready Architecture
 
 *This architecture documentation was generated using ΛEasyDoc intelligent documentation system.*
@@ -704,7 +694,7 @@ Choose your path:
 ---
 
 **Getting Started Guide Version**: v2.0.0
-**Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Last Updated**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Support Level**: Community + Professional + Enterprise
 
 *This guide was generated using the LUKHAS ΛEasyDoc intelligent documentation system.*
@@ -753,11 +743,11 @@ Choose your path:
         self, section_id: str, filename: str, section_info: dict[str, Any]
     ) -> str:
         """Generate default content for unknown sections."""
-        return f"""# {section_info['title']}: {filename}
+        return f"""# {section_info["title"]}: {filename}
 
 ## Overview
 
-{section_info['description']}
+{section_info["description"]}
 
 ## Content
 
@@ -765,7 +755,7 @@ This section is part of the comprehensive LUKHAS ecosystem documentation.
 
 ---
 
-**Generated on**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Generated on**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 **Section**: {section_id}
 **Documentation System**: ΛEasyDoc + LukhasDoc
 
@@ -776,7 +766,7 @@ This section is part of the comprehensive LUKHAS ecosystem documentation.
         """Generate master index file."""
         index_content = f"""# LUKHAS Ecosystem Documentation Index
 
-Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## 📚 Documentation Sections
 
@@ -800,8 +790,8 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ## 📊 Documentation Statistics
 
 - **Total Sections**: {len(self.documentation_sections)}
-- **Total Files**: {sum(len(info['files']) for info in self.documentation_sections.values())}
-- **Generation Time**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- **Total Files**: {sum(len(info["files"]) for info in self.documentation_sections.values())}
+- **Generation Time**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 - **Documentation Version**: v2.0.0
 
 ---
@@ -829,9 +819,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
     async def _generate_documentation_metrics(self):
         """Generate documentation metrics and statistics."""
-        total_files = sum(
-            len(info["files"]) for info in self.documentation_sections.values()
-        )
+        total_files = sum(len(info["files"]) for info in self.documentation_sections.values())
 
         metrics = {
             "generation_metrics": {
@@ -872,24 +860,24 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 ## 📊 Generation Statistics
 
-- **Total Documentation Sections**: {metrics['generation_metrics']['total_sections']}
-- **Total Documentation Files**: {metrics['generation_metrics']['total_files']}
-- **Generation Timestamp**: {metrics['generation_metrics']['generation_timestamp']}
-- **Documentation Version**: {metrics['generation_metrics']['documentation_version']}
+- **Total Documentation Sections**: {metrics["generation_metrics"]["total_sections"]}
+- **Total Documentation Files**: {metrics["generation_metrics"]["total_files"]}
+- **Generation Timestamp**: {metrics["generation_metrics"]["generation_timestamp"]}
+- **Documentation Version**: {metrics["generation_metrics"]["documentation_version"]}
 
 ## 🔧 Tool Availability
 
-- **ΛEasyDoc Plugin**: {'✅ Available' if metrics['tool_availability']['lambda_easydoc_available'] else '❌ Not Available'}
-- **LukhasDoc Plugin**: {'✅ Available' if metrics['tool_availability']['lambda_doc_available'] else '❌ Not Available'}
-- **LUKHAS SDK Version**: {metrics['tool_availability']['lukhas_sdk_version']}
+- **ΛEasyDoc Plugin**: {"✅ Available" if metrics["tool_availability"]["lambda_easydoc_available"] else "❌ Not Available"}
+- **LukhasDoc Plugin**: {"✅ Available" if metrics["tool_availability"]["lambda_doc_available"] else "❌ Not Available"}
+- **LUKHAS SDK Version**: {metrics["tool_availability"]["lukhas_sdk_version"]}
 
 ## 🚀 Ecosystem Status
 
-- **Phase 1 Integration**: {'✅ Complete' if metrics['ecosystem_status']['phase_1_complete'] else '🔄 In Progress'}
-- **Plugins Integrated**: {metrics['ecosystem_status']['plugins_integrated']}
-- **Platforms Supported**: {', '.join(metrics['ecosystem_status']['platforms_supported'])}
-- **Revenue Projection Y1**: ${metrics['ecosystem_status']['revenue_projection_y1']:,}
-- **Revenue Projection Y2**: ${metrics['ecosystem_status']['revenue_projection_y2']:,}
+- **Phase 1 Integration**: {"✅ Complete" if metrics["ecosystem_status"]["phase_1_complete"] else "🔄 In Progress"}
+- **Plugins Integrated**: {metrics["ecosystem_status"]["plugins_integrated"]}
+- **Platforms Supported**: {", ".join(metrics["ecosystem_status"]["platforms_supported"])}
+- **Revenue Projection Y1**: ${metrics["ecosystem_status"]["revenue_projection_y1"]:,}
+- **Revenue Projection Y2**: ${metrics["ecosystem_status"]["revenue_projection_y2"]:,}
 
 ## 📚 Documentation Coverage
 
@@ -909,7 +897,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 ---
 
-*This metrics report was generated by the LUKHAS Documentation Orchestrator on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.*
+*This metrics report was generated by the LUKHAS Documentation Orchestrator on {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}.*
 """
 
         with open(self.output_dir / "METRICS.md", "w", encoding="utf-8") as f:

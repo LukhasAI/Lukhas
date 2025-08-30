@@ -87,9 +87,7 @@ def recall_last_interaction(
 if __name__ == "__main__":
     print(recall_last_interaction())  # No interactions yet
     store_interaction("Hello LUKHAS", "Hello User!", {"session_id": "123"})
-    store_interaction(
-        "What is AI?", "AI is artificial intelligence.", {"session_id": "123"}
-    )
+    store_interaction("What is AI?", "AI is artificial intelligence.", {"session_id": "123"})
     print(recall_last_interaction())
     store_interaction(
         "Tell me a joke.",

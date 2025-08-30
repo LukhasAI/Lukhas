@@ -44,6 +44,7 @@ class ActorSystem:
 # Create a default actor system instance
 default_actor_system = ActorSystem()
 
+
 def get_global_actor_system():
     """Get the global actor system instance"""
     return default_actor_system

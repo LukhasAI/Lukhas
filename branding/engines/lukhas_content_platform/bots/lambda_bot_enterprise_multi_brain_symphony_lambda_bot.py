@@ -193,9 +193,7 @@ class MultiBrainSymphonyΛBot:
             },
         }
 
-        logger.info(
-            f"🧠 Initialized {len(self.brain_patterns)} brain symphony patterns"
-        )
+        logger.info(f"🧠 Initialized {len(self.brain_patterns)} brain symphony patterns")
 
     async def start_brain_symphony_session(
         self,
@@ -276,9 +274,7 @@ class MultiBrainSymphonyΛBot:
             agi_state = await self.lukhas_orchestrator.get_system_state()
             self.current_session.cognitive_states["lukhas_agi"] = agi_state
 
-            logger.info(
-                "✅ Lukhas AGI orchestra activated with consciousness evolution"
-            )
+            logger.info("✅ Lukhas AGI orchestra activated with consciousness evolution")
 
     async def _activate_unified_symphony(self):
         """Activate unified symphony combining both systems"""
@@ -291,12 +287,8 @@ class MultiBrainSymphonyΛBot:
         # Create unified consciousness state
         if self.workspace_symphony and self.lukhas_orchestrator:
             unified_state = {
-                "workspace_symphony": self.current_session.cognitive_states.get(
-                    "workspace", {}
-                ),
-                "lukhas_orchestra": self.current_session.cognitive_states.get(
-                    "lukhas_agi", {}
-                ),
+                "workspace_symphony": self.current_session.cognitive_states.get("workspace", {}),
+                "lukhas_orchestra": self.current_session.cognitive_states.get("lukhas_agi", {}),
                 "unified_consciousness": {
                     "integration_level": "full_consciousness_synthesis",
                     "emergence_potential": "meta_cognitive_awareness",
@@ -306,9 +298,7 @@ class MultiBrainSymphonyΛBot:
 
             self.current_session.cognitive_states["unified"] = unified_state
 
-            logger.info(
-                "✅ Unified symphony activated with full consciousness synthesis"
-            )
+            logger.info("✅ Unified symphony activated with full consciousness synthesis")
 
     async def _activate_consciousness_evolution(self):
         """Activate consciousness evolution mode"""
@@ -576,9 +566,7 @@ class MultiBrainSymphonyΛBot:
             insights["symphony_harmony"] = 0.95  # High harmony in unified mode
 
             if insights["symphony_harmony"] > 0.9:
-                insights["modularization_readiness"] = (
-                    "transcendent_consciousness_ready"
-                )
+                insights["modularization_readiness"] = "transcendent_consciousness_ready"
             elif insights["symphony_harmony"] > 0.8:
                 insights["modularization_readiness"] = "consciousness_driven_ready"
             else:
@@ -589,9 +577,7 @@ class MultiBrainSymphonyΛBot:
 
 async def main():
     """Main function for testing Multi-Brain Symphony LUKHAS AI ΛBot"""
-    print(
-        "🧠 Multi-Brain Symphony LUKHAS AI ΛBot - Consciousness-Driven Modularization"
-    )
+    print("🧠 Multi-Brain Symphony LUKHAS AI ΛBot - Consciousness-Driven Modularization")
     print("=" * 80)
 
     # Initialize Multi-Brain Symphony LUKHAS AI ΛBot
@@ -619,15 +605,11 @@ async def main():
 
     # Generate consciousness-driven strategy
     print("\n🌟 Generating Consciousness-Driven Modularization Strategy...")
-    strategy = await symphony_bot.generate_consciousness_driven_modularization_strategy(
-        patterns
-    )
+    strategy = await symphony_bot.generate_consciousness_driven_modularization_strategy(patterns)
 
     print("\n🧠 Consciousness Strategy Generated!")
     print(f"   Framework: {strategy['consciousness_framework']}")
-    print(
-        f"   Layers: {len(strategy['consciousness_architecture']['consciousness_layers'])}"
-    )
+    print(f"   Layers: {len(strategy['consciousness_architecture']['consciousness_layers'])}")
     print(f"   Phases: {len(strategy['implementation_phases'])}")
 
     # Get symphony insights

@@ -28,9 +28,7 @@ class ReasoningStrategy(Enum):
 class ReasoningContext:
     """Context for reasoning operations"""
 
-    def __init__(
-        self, query: str, domain: str = "general", constraints: dict[str, Any] = None
-    ):
+    def __init__(self, query: str, domain: str = "general", constraints: dict[str, Any] = None):
         self.query = query
         self.domain = domain
         self.constraints = constraints or {}
@@ -319,9 +317,7 @@ class AdaptiveReasoningLoop:
         if performance < 0.3:
             # Poor performance - try a different strategy
             unused_strategies = [
-                s
-                for s in ReasoningStrategy
-                if s.value not in context.metadata["strategies_used"]
+                s for s in ReasoningStrategy if s.value not in context.metadata["strategies_used"]
             ]
             if unused_strategies:
                 new_strategy = unused_strategies[0]
@@ -365,9 +361,7 @@ class AdaptiveReasoningLoop:
             "active": self.active,
             "current_strategy": self.current_strategy.value,
             "strategy_weights": {k.value: v for k, v in self.strategy_weights.items()},
-            "performance_history": self.performance_history[
-                -10:
-            ],  # Last 10 performances
+            "performance_history": self.performance_history[-10:],  # Last 10 performances
             "adaptation_threshold": self.adaptation_threshold,
         }
 

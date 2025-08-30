@@ -30,9 +30,7 @@ class T4LensCodeFixer:
         except Exception:
             return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
 
-    def create_verification_artifact(
-        self, operation, before_count, after_count, files_affected
-    ):
+    def create_verification_artifact(self, operation, before_count, after_count, files_affected):
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
@@ -62,9 +60,7 @@ class T4LensCodeFixer:
                 cwd=self.base_path,
             )
             lines = result.stdout.strip().split("\n")
-            total_line = [
-                line for line in lines if "Found" in line and "errors" in line
-            ]
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines

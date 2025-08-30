@@ -11,4 +11,4 @@ from .replay_buffer import (
     ReplayMode,
 )
 
-__all__ = ["ReplayBuffer", "ReplayMode", "ExperienceType", "Experience", "ReplayBatch"]
+__all__ = ["Experience", "ExperienceType", "ReplayBatch", "ReplayBuffer", "ReplayMode"]

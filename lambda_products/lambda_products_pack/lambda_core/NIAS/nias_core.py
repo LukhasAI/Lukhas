@@ -215,8 +215,7 @@ class NIΛS:
             symbolic_preferences={
                 "preferred_intensity": 0.5,
                 "block_high_stress": True,
-                "dream_delivery": consent_level.value
-                in ["dream_aware", "full_symbolic"],
+                "dream_delivery": consent_level.value in ["dream_aware", "full_symbolic"],
             },
         )
 
@@ -226,9 +225,7 @@ class NIΛS:
         logger.info(f"Registered user {user_id} with tier {tier.name}")
         return context
 
-    async def update_emotional_state(
-        self, user_id: str, emotional_vector: dict[str, float]
-    ):
+    async def update_emotional_state(self, user_id: str, emotional_vector: dict[str, float]):
         """Update user's emotional state"""
         if user_id not in self.user_contexts:
             raise ValueError(f"User {user_id} not registered")
@@ -240,9 +237,7 @@ class NIΛS:
         context.stress_level = emotional_vector.get("stress", 0.0)
         context.attention_capacity = max(0.1, 1.0 - context.stress_level)
 
-    async def push_message(
-        self, message: SymbolicMessage, user_id: str
-    ) -> DeliveryResult:
+    async def push_message(self, message: SymbolicMessage, user_id: str) -> DeliveryResult:
         """
         Main entry point for symbolic message delivery
 
@@ -305,9 +300,7 @@ class NIΛS:
                 )
 
             # 5. Dream-aware delivery
-            if message.dream_based and context.symbolic_preferences.get(
-                "dream_delivery", False
-            ):
+            if message.dream_based and context.symbolic_preferences.get("dream_delivery", False):
                 return await self._schedule_dream_delivery(message, user_id)
 
             # 6. Final delivery
@@ -323,7 +316,7 @@ class NIΛS:
             return DeliveryResult(
                 status="blocked",
                 message_id=message.id,
-                reason=f"System error: {str(e)}",
+                reason=f"System error: {e!s}",
             )
 
     async def _check_rate_limits(self, user_id: str) -> bool:
@@ -334,9 +327,7 @@ class NIΛS:
         # Clean old entries
         if user_id in self.session_limits:
             self.session_limits[user_id] = [
-                timestamp
-                for timestamp in self.session_limits[user_id]
-                if timestamp > cutoff_time
+                timestamp for timestamp in self.session_limits[user_id] if timestamp > cutoff_time
             ]
         else:
             self.session_limits[user_id] = []
@@ -536,9 +527,7 @@ class NIΛS:
         """Create quantum-secured audit entry"""
         audit_data = {
             "timestamp": datetime.now().isoformat(),
-            "user_id": hashlib.sha256(user_id.encode()).hexdigest()[
-                :16
-            ],  # Privacy hash
+            "user_id": hashlib.sha256(user_id.encode()).hexdigest()[:16],  # Privacy hash
             "message_id": message.id,
             "result_status": result.status,
             "lambda_signature": message.lambda_signature,
@@ -595,9 +584,7 @@ class NIΛS:
     def get_system_metrics(self) -> dict[str, Any]:
         """Get NIΛS system metrics"""
         total_users = len(self.user_contexts)
-        total_deliveries = len(
-            [r for r in self.delivery_log if r.status == "delivered"]
-        )
+        total_deliveries = len([r for r in self.delivery_log if r.status == "delivered"])
         total_blocks = len([r for r in self.delivery_log if r.status == "blocked"])
 
         return {
@@ -664,9 +651,7 @@ if __name__ == "__main__":
         print(f"   Λ Signature: {message.lambda_signature}")
 
         # Update user context
-        await nias.update_emotional_state(
-            "alice", {"stress": 0.2, "creativity": 0.9, "focus": 0.7}
-        )
+        await nias.update_emotional_state("alice", {"stress": 0.2, "creativity": 0.9, "focus": 0.7})
 
         nias.user_contexts["alice"].current_tags = ["creativity", "work"]
 

@@ -19,6 +19,7 @@ try:
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -26,6 +27,7 @@ except ImportError:
 
 class ProtectionPolicy(BaseModel):
     """Data protection policy definition"""
+
     policy_id: str
     name: str
     description: str
@@ -46,6 +48,7 @@ class ProtectionPolicy(BaseModel):
     updated_at: datetime
     version: str
 
+
 from enum import Enum
 
 
@@ -57,6 +60,7 @@ class LawfulBasis(str, Enum):
     PUBLIC_TASK = "public_task"
     LEGITIMATE_INTERESTS = "legitimate_interests"
 
+
 class DataCategory(str, Enum):
     PERSONAL_DATA = "personal_data"
     SENSITIVE_DATA = "sensitive_data"
@@ -65,6 +69,7 @@ class DataCategory(str, Enum):
     HEALTH_DATA = "health_data"
     GENETIC_DATA = "genetic_data"
 
+
 class ProcessingPurpose(str, Enum):
     SERVICE_PROVISION = "service_provision"
     MARKETING = "marketing"
@@ -72,6 +77,7 @@ class ProcessingPurpose(str, Enum):
     RESEARCH = "research"
     COMPLIANCE = "compliance"
     SECURITY = "security"
+
 
 class DataProcessingActivity(BaseModel):
     activity_id: str
@@ -88,6 +94,7 @@ class DataProcessingActivity(BaseModel):
     automated_decision_making: bool
     profiling: bool
 
+
 class GDPRAssessment(BaseModel):
     activity_id: str
     compliance_status: str
@@ -101,10 +108,9 @@ class GDPRAssessment(BaseModel):
     recommendations: list[str]
     next_review_date: datetime
 
+
 class GDPRValidator:
-    async def assess_gdpr_compliance(
-        self, activity: DataProcessingActivity
-    ) -> GDPRAssessment:
+    async def assess_gdpr_compliance(self, activity: DataProcessingActivity) -> GDPRAssessment:
         # Simplified assessment for now
         return GDPRAssessment(
             activity_id=activity.activity_id,
@@ -120,6 +126,7 @@ class GDPRValidator:
             next_review_date=datetime.now() + timedelta(days=180),
         )
 
+
 class DataProtectionService:
     """
     Advanced data protection system with multi-layer security
@@ -133,10 +140,7 @@ class DataProtectionService:
     async def initialize(self):
         """Initialize database connection pool and load policies"""
         self.db_pool = await asyncpg.create_pool(
-            self.db_url,
-            min_size=2,
-            max_size=10,
-            command_timeout=30
+            self.db_url, min_size=2, max_size=10, command_timeout=30
         )
         await self._load_policies()
 
@@ -156,7 +160,7 @@ class DataProtectionService:
         self,
         data: Union[dict[str, Any], str, bytes],
         policy_id: str,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[Any, Any]:
         """
         Apply data protection based on policy.
@@ -182,10 +186,7 @@ class DataProtectionService:
         return protected_data, {"methods_applied": methods_applied}
 
     async def _apply_encryption(
-        self,
-        data: Any,
-        policy: ProtectionPolicy,
-        context: dict[str, Any]
+        self, data: Any, policy: ProtectionPolicy, context: dict[str, Any]
     ) -> tuple[Any, dict[str, Any]]:
         """Apply encryption based on policy"""
 
@@ -193,7 +194,10 @@ class DataProtectionService:
             # Fallback to base64 encoding
             data_str = json.dumps(data, default=str)
             encoded_data = base64.b64encode(data_str.encode()).decode()
-            return {"encrypted": True, "data": encoded_data}, {"method": "base64", "key_id": "fallback"}
+            return {"encrypted": True, "data": encoded_data}, {
+                "method": "base64",
+                "key_id": "fallback",
+            }
 
         # For now, we will use a hardcoded key
         key_material = b"12345678901234567890123456789012"
@@ -211,15 +215,13 @@ class DataProtectionService:
             "method": "symmetric",
             "algorithm": "AES-256",
             "key_id": "hardcoded_key",
-            "success": True
+            "success": True,
         }
 
         return result_data, result_info
 
     async def unprotect_data(
-        self,
-        protected_data: Any,
-        context: Optional[dict[str, Any]] = None
+        self, protected_data: Any, context: Optional[dict[str, Any]] = None
     ) -> Any:
         """
         Reverse data protection to recover original data.
@@ -243,13 +245,17 @@ class DataProtectionService:
     async def get_user_data(self, user_lid: str) -> list[dict]:
         """Get all protected data for a user."""
         async with self.db_pool.acquire() as conn:
-            rows = await conn.fetch("SELECT * FROM protection.history WHERE user_lid = $1", user_lid)
+            rows = await conn.fetch(
+                "SELECT * FROM protection.history WHERE user_lid = $1", user_lid
+            )
             return [dict(row) for row in rows]
 
     async def delete_user_data(self, user_lid: str) -> int:
         """Delete all protected data for a user."""
         async with self.db_pool.acquire() as conn:
-            result = await conn.execute("DELETE FROM protection.history WHERE user_lid = $1", user_lid)
+            result = await conn.execute(
+                "DELETE FROM protection.history WHERE user_lid = $1", user_lid
+            )
             return int(result.split(" ")[1])
 
     async def update_protected_data(self, operation_id: str, new_data: Any) -> Optional[dict]:
@@ -272,14 +278,25 @@ class DataProtectionService:
         async with self.db_pool.acquire():
             # For now, we will just log a message.
             # In a real implementation, this would delete the data from the database.
-            print(f"Enforcing data retention policy: deleting data older than {retention_period_days} days.")
+            print(
+                f"Enforcing data retention policy: deleting data older than {retention_period_days} days."
+            )
 
-    async def create_baa(self, business_associate_name: str, agreement_date: str, expiry_date: str, agreement_url: str) -> dict:
+    async def create_baa(
+        self,
+        business_associate_name: str,
+        agreement_date: str,
+        expiry_date: str,
+        agreement_url: str,
+    ) -> dict:
         """Create a new Business Associate Agreement."""
         async with self.db_pool.acquire() as conn:
             row = await conn.fetchrow(
                 "INSERT INTO protection.baas (business_associate_name, agreement_date, expiry_date, agreement_url) VALUES ($1, $2, $3, $4) RETURNING *",
-                business_associate_name, agreement_date, expiry_date, agreement_url
+                business_associate_name,
+                agreement_date,
+                expiry_date,
+                agreement_url,
             )
             return dict(row)
 
@@ -288,6 +305,6 @@ class DataProtectionService:
         async with self.db_pool.acquire() as conn:
             row = await conn.fetchrow(
                 "SELECT * FROM protection.baas WHERE business_associate_name = $1 AND status = 'active'",
-                business_associate_name
+                business_associate_name,
             )
             return dict(row) if row else None

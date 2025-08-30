@@ -77,12 +77,8 @@ class CulturalProfileManager:
     based on cultural context, accessibility needs, and constitutional requirements.
     """
 
-    def __init__(
-        self, enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD
-    ):
-        self.constitutional_gatekeeper = get_constitutional_gatekeeper(
-            enforcement_level
-        )
+    def __init__(self, enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD):
+        self.constitutional_gatekeeper = get_constitutional_gatekeeper(enforcement_level)
         self.cultural_profiles: dict[str, CulturalProfile] = {}
         self.emoji_cultural_map = self._load_emoji_cultural_mappings()
         self.accessibility_map = self._load_accessibility_mappings()
@@ -332,24 +328,18 @@ class CulturalProfileManager:
         }
 
         for emoji in emoji_list:
-            should_exclude, reasons = self._should_exclude_emoji(
-                emoji, profile, context
-            )
+            should_exclude, reasons = self._should_exclude_emoji(emoji, profile, context)
 
             if should_exclude:
                 for reason_type, reason_details in reasons.items():
                     if reason_details:
-                        exclusion_report[reason_type].append(
-                            f"{emoji}: {reason_details}"
-                        )
+                        exclusion_report[reason_type].append(f"{emoji}: {reason_details}")
             else:
                 filtered_emojis.append(emoji)
 
         # Apply constitutional filtering as final check
-        constitutional_filtered = (
-            self.constitutional_gatekeeper.enforce_cultural_safety(
-                filtered_emojis, profile.primary_culture.value
-            )
+        constitutional_filtered = self.constitutional_gatekeeper.enforce_cultural_safety(
+            filtered_emojis, profile.primary_culture.value
         )
 
         # Log any additional constitutional exclusions
@@ -411,18 +401,12 @@ class CulturalProfileManager:
                 return True, reasons
 
             # Check age restrictions
-            if profile.age_group and profile.age_group in emoji_data.get(
-                "age_restricted", []
-            ):
-                reasons["cultural_exclusions"] = (
-                    f"Age-restricted for {profile.age_group}"
-                )
+            if profile.age_group and profile.age_group in emoji_data.get("age_restricted", []):
+                reasons["cultural_exclusions"] = f"Age-restricted for {profile.age_group}"
                 return True, reasons
 
         # Check accessibility considerations
-        accessibility_data = self.accessibility_map.get(
-            profile.accessibility_profile, {}
-        )
+        accessibility_data = self.accessibility_map.get(profile.accessibility_profile, {})
         problematic_emojis = accessibility_data.get("problematic_emojis", [])
 
         if emoji in problematic_emojis:
@@ -496,9 +480,7 @@ class CulturalProfileManager:
             "platform_variations": emoji_data.get("platform_variations", {}),
             "safe_contexts": emoji_data.get("safe_contexts", []),
             "restricted_cultures": emoji_data.get("restricted_cultures", []),
-            "accessibility_considerations": self._get_accessibility_considerations(
-                emoji
-            ),
+            "accessibility_considerations": self._get_accessibility_considerations(emoji),
         }
 
     def _get_accessibility_considerations(self, emoji: str) -> list[str]:
@@ -558,8 +540,8 @@ class CulturalProfileManager:
 
 # Export the main classes and enums
 __all__ = [
-    "CulturalProfileManager",
-    "CulturalProfile",
-    "CulturalContext",
     "AccessibilityProfile",
+    "CulturalContext",
+    "CulturalProfile",
+    "CulturalProfileManager",
 ]

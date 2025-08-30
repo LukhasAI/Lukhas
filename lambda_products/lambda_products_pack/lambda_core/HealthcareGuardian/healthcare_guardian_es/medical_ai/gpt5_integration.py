@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MedicationSchedule:
     """Medication schedule entry"""
+
     name: str
     dosage: str
     frequency: str
@@ -29,6 +30,7 @@ class MedicationSchedule:
 @dataclass
 class HealthQuery:
     """Health query with context"""
+
     query: str
     user_age: int
     medical_history: list[str]
@@ -61,7 +63,7 @@ class GPT5HealthcareClient:
             "language": "spanish",
             "dialect": "andalusian",
             "user_profile": "elderly",
-            "safety_mode": "maximum"
+            "safety_mode": "maximum",
         }
 
         # Initialize medication database
@@ -86,7 +88,7 @@ class GPT5HealthcareClient:
                 "common_dosage": "5-20mg",
                 "side_effects": ["tos seca", "mareo", "cansancio"],
                 "interactions": ["potasio", "AINE", "litio"],
-                "warnings": ["No tome con alimentos ricos en potasio"]
+                "warnings": ["No tome con alimentos ricos en potasio"],
             },
             "metformina": {
                 "type": "antidiabético",
@@ -94,7 +96,7 @@ class GPT5HealthcareClient:
                 "common_dosage": "500-1000mg",
                 "side_effects": ["náuseas", "diarrea", "dolor abdominal"],
                 "interactions": ["alcohol", "contraste yodado"],
-                "warnings": ["Tome con las comidas"]
+                "warnings": ["Tome con las comidas"],
             },
             "omeprazol": {
                 "type": "inhibidor de bomba de protones",
@@ -102,7 +104,7 @@ class GPT5HealthcareClient:
                 "common_dosage": "20-40mg",
                 "side_effects": ["dolor de cabeza", "náuseas"],
                 "interactions": ["clopidogrel", "vitamina B12"],
-                "warnings": ["Tome 30 minutos antes del desayuno"]
+                "warnings": ["Tome 30 minutos antes del desayuno"],
             },
             "simvastatina": {
                 "type": "estatina",
@@ -110,7 +112,7 @@ class GPT5HealthcareClient:
                 "common_dosage": "20-40mg",
                 "side_effects": ["dolor muscular", "cansancio"],
                 "interactions": ["pomelo", "amiodarona"],
-                "warnings": ["Tome por la noche"]
+                "warnings": ["Tome por la noche"],
             },
             "paracetamol": {
                 "type": "analgésico",
@@ -118,29 +120,36 @@ class GPT5HealthcareClient:
                 "common_dosage": "500-1000mg",
                 "side_effects": ["raros con dosis normales"],
                 "interactions": ["warfarina", "alcohol"],
-                "warnings": ["Máximo 4g al día"]
-            }
+                "warnings": ["Máximo 4g al día"],
+            },
         }
 
     def _init_symptom_checker(self):
         """Initialize symptom checking patterns"""
         self.symptom_patterns = {
             "emergency": {
-                "keywords": ["dolor pecho", "no puedo respirar", "mareo fuerte",
-                            "confusión", "desmayo", "sangre", "caída"],
+                "keywords": [
+                    "dolor pecho",
+                    "no puedo respirar",
+                    "mareo fuerte",
+                    "confusión",
+                    "desmayo",
+                    "sangre",
+                    "caída",
+                ],
                 "action": "call_emergency",
-                "message": "Síntomas de emergencia detectados. Llamando al 112."
+                "message": "Síntomas de emergencia detectados. Llamando al 112.",
             },
             "urgent": {
                 "keywords": ["fiebre alta", "dolor fuerte", "vómitos", "diarrea severa"],
                 "action": "urgent_care",
-                "message": "Necesita atención médica pronto. Contacte con su centro de salud."
+                "message": "Necesita atención médica pronto. Contacte con su centro de salud.",
             },
             "routine": {
                 "keywords": ["dolor leve", "cansancio", "tos", "resfriado"],
                 "action": "schedule_appointment",
-                "message": "Síntomas leves. Considere pedir cita con su médico."
-            }
+                "message": "Síntomas leves. Considere pedir cita con su médico.",
+            },
         }
 
     async def process_health_query(self, query: str, user_context: dict = None) -> str:
@@ -226,7 +235,7 @@ class GPT5HealthcareClient:
             "safety_level": "maximum",
             "response_style": "simple, caring, non-technical",
             "medical_context": user_context or {},
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Add user's medication list if available
@@ -310,7 +319,7 @@ class GPT5HealthcareClient:
             "pronóstico": "cómo va a evolucionar",
             "patología": "enfermedad",
             "crónico": "para siempre",
-            "agudo": "de repente"
+            "agudo": "de repente",
         }
 
         simplified = text
@@ -336,15 +345,9 @@ class GPT5HealthcareClient:
     def _add_safety_disclaimers(self, response: str, urgency: str) -> str:
         """Add appropriate safety disclaimers"""
         disclaimers = {
-            "emergency": (
-                "\n\n⚠️ IMPORTANTE: Si es una emergencia, llame al 112 ahora."
-            ),
-            "urgent": (
-                "\n\n📞 Recomendación: Contacte con su centro de salud hoy."
-            ),
-            "routine": (
-                "\n\n💡 Consejo: Hable con su médico en la próxima cita."
-            )
+            "emergency": ("\n\n⚠️ IMPORTANTE: Si es una emergencia, llame al 112 ahora."),
+            "urgent": ("\n\n📞 Recomendación: Contacte con su centro de salud hoy."),
+            "routine": ("\n\n💡 Consejo: Hable con su médico en la próxima cita."),
         }
 
         disclaimer = disclaimers.get(urgency, "")
@@ -360,23 +363,20 @@ class GPT5HealthcareClient:
         Returns:
             Dictionary with interaction information
         """
-        interactions = {
-            "safe": [],
-            "caution": [],
-            "dangerous": [],
-            "recommendations": []
-        }
+        interactions = {"safe": [], "caution": [], "dangerous": [], "recommendations": []}
 
         # Check each pair of medications
         for i, med1 in enumerate(medications):
-            for med2 in medications[i+1:]:
+            for med2 in medications[i + 1 :]:
                 interaction = self._check_interaction_pair(med1, med2)
                 if interaction:
-                    interactions[interaction["severity"]].append({
-                        "medications": [med1, med2],
-                        "description": interaction["description"],
-                        "action": interaction["action"]
-                    })
+                    interactions[interaction["severity"]].append(
+                        {
+                            "medications": [med1, med2],
+                            "description": interaction["description"],
+                            "action": interaction["action"],
+                        }
+                    )
 
         # Add general recommendations
         if interactions["dangerous"]:
@@ -388,9 +388,7 @@ class GPT5HealthcareClient:
                 "⚡ Hay algunas interacciones. Coméntelo con su médico."
             )
         else:
-            interactions["recommendations"].append(
-                "✅ No hay interacciones peligrosas conocidas."
-            )
+            interactions["recommendations"].append("✅ No hay interacciones peligrosas conocidas.")
 
         return interactions
 
@@ -400,32 +398,32 @@ class GPT5HealthcareClient:
         dangerous_pairs = {
             ("warfarina", "aspirina"): "Riesgo de sangrado",
             ("metformina", "alcohol"): "Riesgo de acidosis láctica",
-            ("simvastatina", "amiodarona"): "Riesgo de daño muscular"
+            ("simvastatina", "amiodarona"): "Riesgo de daño muscular",
         }
 
         # Known caution interactions
         caution_pairs = {
             ("enalapril", "ibuprofeno"): "Puede reducir efecto antihipertensivo",
             ("omeprazol", "clopidogrel"): "Puede reducir efecto antiagregante",
-            ("metformina", "furosemida"): "Vigilar función renal"
+            ("metformina", "furosemida"): "Vigilar función renal",
         }
 
         # Check dangerous interactions
         for pair, description in dangerous_pairs.items():
-            if (med1.lower() in pair and med2.lower() in pair):
+            if med1.lower() in pair and med2.lower() in pair:
                 return {
                     "severity": "dangerous",
                     "description": description,
-                    "action": "Contacte con su médico inmediatamente"
+                    "action": "Contacte con su médico inmediatamente",
                 }
 
         # Check caution interactions
         for pair, description in caution_pairs.items():
-            if (med1.lower() in pair and med2.lower() in pair):
+            if med1.lower() in pair and med2.lower() in pair:
                 return {
                     "severity": "caution",
                     "description": description,
-                    "action": "Coméntelo en su próxima cita"
+                    "action": "Coméntelo en su próxima cita",
                 }
 
         return None
@@ -450,7 +448,7 @@ class GPT5HealthcareClient:
                 purpose="para la tensión",
                 warnings=["No tome con mucho potasio"],
                 interactions=[],
-                taken_today=[False]
+                taken_today=[False],
             ),
             MedicationSchedule(
                 name="Metformina",
@@ -460,7 +458,7 @@ class GPT5HealthcareClient:
                 purpose="para el azúcar",
                 warnings=["Tome con las comidas"],
                 interactions=[],
-                taken_today=[False, False]
+                taken_today=[False, False],
             ),
             MedicationSchedule(
                 name="Omeprazol",
@@ -470,8 +468,8 @@ class GPT5HealthcareClient:
                 purpose="para el estómago",
                 warnings=["Media hora antes del desayuno"],
                 interactions=[],
-                taken_today=[False]
-            )
+                taken_today=[False],
+            ),
         ]
 
         # Format schedule for voice output
@@ -535,8 +533,7 @@ class GPT5HealthcareClient:
 
         if med_info["side_effects"]:
             explanation += (
-                f"Puede causar {', '.join(med_info['side_effects'][:2])}, "
-                "pero no siempre pasa. "
+                f"Puede causar {', '.join(med_info['side_effects'][:2])}, pero no siempre pasa. "
             )
 
         explanation += "Si tiene dudas, pregunte a su médico o farmacéutico."
@@ -577,13 +574,15 @@ class GPT5HealthcareClient:
                 "3. Mantenga un peso saludable\n"
                 "4. Use ayudas si las necesita\n"
                 "5. Tome su medicina para el dolor"
-            )
+            ),
         }
 
         advice = advice_templates.get(
             condition.lower(),
-            "Siga las recomendaciones de su médico y mantenga hábitos saludables."
+            "Siga las recomendaciones de su médico y mantenga hábitos saludables.",
         )
 
-        return advice + "\n\nRecuerde: Estos son consejos generales. " \
-                       "Siempre siga las indicaciones de su médico."
+        return (
+            advice + "\n\nRecuerde: Estos son consejos generales. "
+            "Siempre siga las indicaciones de su médico."
+        )

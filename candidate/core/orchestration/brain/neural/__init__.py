@@ -21,4 +21,4 @@ from .neural_intelligence_main import LukhasNeuralIntelligence
 __version__ = "2.0.0"
 __author__ = "Lukhas AI Research Team"
 
-__all__ = ["NeuralIntelligenceSystem", "LukhasNeuralIntelligence"]
+__all__ = ["LukhasNeuralIntelligence", "NeuralIntelligenceSystem"]

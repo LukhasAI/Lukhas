@@ -153,14 +153,10 @@ class GlyphMemoryBridge:
         self.drift_anchors[memory_key] = drift_anchor_strength
 
         # Update memory fold with glyph metadata
-        memory_fold["glyph_associations"] = (
-            [g.id for g in glyph_objects] if glyph_objects else []
-        )
+        memory_fold["glyph_associations"] = [g.id for g in glyph_objects] if glyph_objects else []
         memory_fold["drift_anchor_score"] = drift_anchor_strength
         memory_fold["symbolic_tags"] = (
-            list(set().union(*[g.semantic_tags for g in glyph_objects]))
-            if glyph_objects
-            else []
+            list(set().union(*[g.semantic_tags for g in glyph_objects])) if glyph_objects else []
         )
 
         logger.info(
@@ -209,7 +205,8 @@ class GlyphMemoryBridge:
 
             # Get memory fold from storage
             memory_folds = self.memory_system.recall_memory_folds(
-                user_id=user_id, limit=1000  # Get all, we'll filter
+                user_id=user_id,
+                limit=1000,  # Get all, we'll filter
             )
 
             # Find matching memory fold
@@ -223,9 +220,7 @@ class GlyphMemoryBridge:
                 # Enhance with glyph metadata
                 glyph_ids = self.glyph_index.memory_to_glyph.get(memory_key, set())
                 matching_fold["associated_glyphs"] = list(glyph_ids)
-                matching_fold["drift_anchor_score"] = self.drift_anchors.get(
-                    memory_key, 0.0
-                )
+                matching_fold["drift_anchor_score"] = self.drift_anchors.get(memory_key, 0.0)
                 matching_memories.append(matching_fold)
 
             if len(matching_memories) >= limit:
@@ -307,12 +302,8 @@ class GlyphMemoryBridge:
                 anchor_strengths.append(glyph.drift_anchor_score)
 
         if glyph_stabilities:
-            assessment["average_glyph_stability"] = sum(glyph_stabilities) / len(
-                glyph_stabilities
-            )
-            assessment["anchor_strength"] = (
-                max(anchor_strengths) if anchor_strengths else 0.0
-            )
+            assessment["average_glyph_stability"] = sum(glyph_stabilities) / len(glyph_stabilities)
+            assessment["anchor_strength"] = max(anchor_strengths) if anchor_strengths else 0.0
 
             # Calculate drift score (inverse of stability)
             assessment["drift_score"] = 1.0 - assessment["average_glyph_stability"]
@@ -418,9 +409,7 @@ class GlyphMemoryBridge:
 
         return emotion_mapping.get(emotion.lower(), EmotionVector())
 
-    def _link_glyph_to_memory(
-        self, glyph: Glyph, memory_key: str, strength: float = 1.0
-    ):
+    def _link_glyph_to_memory(self, glyph: Glyph, memory_key: str, strength: float = 1.0):
         """Create bidirectional link between glyph and memory."""
         glyph_id = glyph.id
 
@@ -433,9 +422,7 @@ class GlyphMemoryBridge:
         # Store active glyph
         self.active_glyphs[glyph_id] = glyph
 
-        logger.debug(
-            f"Linked glyph {glyph_id} to memory {memory_key[:10]}... strength: {strength}"
-        )
+        logger.debug(f"Linked glyph {glyph_id} to memory {memory_key[:10]}... strength: {strength}")
 
     def _find_glyphs_by_filters(self, filters: dict[str, Any]) -> set[str]:
         """Find glyph IDs matching the specified filters."""

@@ -36,10 +36,10 @@ def run_rem_cycle():
     ]
 
     for i, state in enumerate(rem_phases):
-        print(f"💤 REM Phase {i+1} initiating...")
+        print(f"💤 REM Phase {i + 1} initiating...")
         trace = log_trace(
             {
-                "event": f"REM cycle phase {i+1}",
+                "event": f"REM cycle phase {i + 1}",
                 "emotion": {"valence": state["valence"], "arousal": state["arousal"]},
                 "traits": state["traits"],
             }
@@ -47,7 +47,7 @@ def run_rem_cycle():
         folded = fold_trace(trace)
         dream = seed_dream(folded)
         dream_logger.log_dream(
-            dream_id=f"rem_phase_{i+1}_{folded.get('token_id', 'unknown')}",
+            dream_id=f"rem_phase_{i + 1}_{folded.get('token_id', 'unknown')}",
             content=dream,
             metadata={
                 "source_token": folded.get("token_id"),

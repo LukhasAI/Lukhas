@@ -31,9 +31,7 @@ try:
 except ImportError:
     # Graceful fallback for development
     LUKHAS_IMPORTS_AVAILABLE = False
-    logging.warning(
-        "LUKHAS ecosystem imports not available - using mock implementations"
-    )
+    logging.warning("LUKHAS ecosystem imports not available - using mock implementations")
 
 logger = logging.getLogger(__name__)
 
@@ -139,9 +137,7 @@ class LambdaIdIntegration:
         lambda_id = self._generate_lambda_id(sid_hash, access_tier)
 
         # Create consciousness profile
-        consciousness_profile = self._create_consciousness_profile(
-            consciousness_context or {}
-        )
+        consciousness_profile = self._create_consciousness_profile(consciousness_context or {})
 
         # Create symbolic identity
         symbolic_identity = SymbolicIdentity(
@@ -193,9 +189,7 @@ class LambdaIdIntegration:
                 "arousal": context.get("arousal", 0.5),
                 "dominance": context.get("dominance", 0.5),
             },
-            "interaction_patterns": context.get(
-                "patterns", ["authentication", "exploration"]
-            ),
+            "interaction_patterns": context.get("patterns", ["authentication", "exploration"]),
             "privacy_preferences": {
                 "data_sharing": context.get("privacy_level", 3),
                 "biometric_collection": False,  # QRG is biometric-free
@@ -295,9 +289,7 @@ class LambdaIdIntegration:
         expected_signature = self._compute_expected_quantum_signature(identity)
         glyph_signature = glyph_data.get("qi_signature", "")
 
-        verification_result["qi_signature_valid"] = (
-            glyph_signature == expected_signature
-        )
+        verification_result["qi_signature_valid"] = glyph_signature == expected_signature
 
         # Check temporal validity
         if "temporal_validity" in glyph_data:
@@ -306,11 +298,9 @@ class LambdaIdIntegration:
 
         # Check consciousness coherence
         if "consciousness_fingerprint" in glyph_data:
-            verification_result["consciousness_coherent"] = (
-                self._verify_consciousness_coherence(
-                    glyph_data["consciousness_fingerprint"],
-                    identity.consciousness_profile,
-                )
+            verification_result["consciousness_coherent"] = self._verify_consciousness_coherence(
+                glyph_data["consciousness_fingerprint"],
+                identity.consciousness_profile,
             )
 
         # Overall validity
@@ -344,9 +334,7 @@ class LambdaIdIntegration:
         # For now, simple hash comparison
 
         stored_fingerprint = self._compute_consciousness_fingerprint(stored_profile)
-        similarity = self._compute_fingerprint_similarity(
-            glyph_fingerprint, stored_fingerprint
-        )
+        similarity = self._compute_fingerprint_similarity(glyph_fingerprint, stored_fingerprint)
 
         # Consider match if similarity > 80%
         return similarity > 0.8
@@ -413,21 +401,15 @@ class LambdaIdIntegration:
         # NIΛS integration
         nias_integration = {
             "consent_registered": True,
-            "emotional_filtering_enabled": consent_preferences.get(
-                "emotional_filtering", True
-            ),
+            "emotional_filtering_enabled": consent_preferences.get("emotional_filtering", True),
             "privacy_tier": consent_preferences.get("privacy_tier", 3),
             "data_retention_period": consent_preferences.get("retention_days", 365),
-            "third_party_sharing": consent_preferences.get(
-                "third_party_sharing", False
-            ),
+            "third_party_sharing": consent_preferences.get("third_party_sharing", False),
         }
 
         # Mock NIΛS API call (in production, would call actual NIΛS service)
         if hasattr(self.emotional_filter, "register_user_consent"):
-            self.emotional_filter.register_user_consent(
-                identity.lambda_id, consent_preferences
-            )
+            self.emotional_filter.register_user_consent(identity.lambda_id, consent_preferences)
 
         logger.info("✅ NIΛS consent integration completed")
         return nias_integration
@@ -457,9 +439,7 @@ class LambdaIdIntegration:
 
         # Mock WΛLLET integration
         if hasattr(self.qi_identity_core, "create_vault_identity"):
-            vault_result = self.qi_identity_core.create_vault_identity(
-                vault_credentials
-            )
+            vault_result = self.qi_identity_core.create_vault_identity(vault_credentials)
         else:
             vault_result = {
                 "vault_id": f"VLT-{identity.lambda_id}",
@@ -516,9 +496,7 @@ class LambdaIdIntegration:
             "access_tier": identity.access_tier.value,
             "product_status": product_status,
             "last_authentication": (
-                identity.last_authentication.isoformat()
-                if identity.last_authentication
-                else None
+                identity.last_authentication.isoformat() if identity.last_authentication else None
             ),
         }
 

@@ -95,9 +95,7 @@ async def main():
         )
 
         # Set a goal
-        goal = AgentGoal(
-            description="Optimize system performance", priority=AgentPriority.NORMAL
-        )
+        goal = AgentGoal(description="Optimize system performance", priority=AgentPriority.NORMAL)
         await test_agent.set_goal(goal)
 
         print("✅ Test agent deployed successfully")

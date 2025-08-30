@@ -37,6 +37,7 @@ class FallbackSettings:
         # Use centralized config if available, fallback to direct os.getenv
         try:
             from config.env import get_lukhas_config
+
             config = get_lukhas_config()
             self.OPENAI_API_KEY: Optional[str] = config.openai_api_key
             self.DATABASE_URL: str = config.database_url
@@ -46,20 +47,18 @@ class FallbackSettings:
         except ImportError:
             # Direct environment variable access as fallback
             self.OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
-            self.DATABASE_URL: str = os.getenv(
-                "DATABASE_URL", "sqlite:///lukhas_fallback.db"
-            )
+            self.DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///lukhas_fallback.db")
             self.REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
             self.LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # More conservative
             self.DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
-            logger.warning("Centralized config not available, using direct os.getenv")  # TODO[T4-AUDIT]: Validate fallback behavior
+            logger.warning(
+                "Centralized config not available, using direct os.getenv"
+            )  # TODO[T4-AUDIT]: Validate fallback behavior
 
         # Fallback mode indicator
         self.FALLBACK_MODE: bool = True
 
-        logger.warning(
-            "Using fallback configuration system - some features may be limited"
-        )
+        logger.warning("Using fallback configuration system - some features may be limited")
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""

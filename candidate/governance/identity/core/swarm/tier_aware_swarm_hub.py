@@ -103,15 +103,11 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         self.colony_health: dict[str, dict[str, Any]] = {}
 
         # Tier resource profiles
-        self.tier_profiles: dict[int, TierResourceAllocation] = (
-            self._initialize_tier_profiles()
-        )
+        self.tier_profiles: dict[int, TierResourceAllocation] = self._initialize_tier_profiles()
 
         # Active orchestrations
         self.active_orchestrations: dict[str, ColonyOrchestration] = {}
-        self.tier_task_queues: dict[int, list[IdentitySwarmTask]] = {
-            i: [] for i in range(6)
-        }
+        self.tier_task_queues: dict[int, list[IdentitySwarmTask]] = {i: [] for i in range(6)}
 
         # Performance tracking
         self.tier_metrics: dict[int, dict[str, Any]] = {
@@ -260,9 +256,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         tier_profile = self.tier_profiles[tier_level]
 
         # Determine required colonies based on tier and verification type
-        required_colonies = self._determine_required_colonies(
-            tier_level, verification_type
-        )
+        required_colonies = self._determine_required_colonies(tier_level, verification_type)
 
         # Calculate priority based on tier
         base_priority = priority_override or TaskPriority.NORMAL
@@ -371,9 +365,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 priority_override=TaskPriority.HIGH,
             )
 
-            verification_tasks.append(
-                {"tier": tier, "task_id": task_id, "status": "pending"}
-            )
+            verification_tasks.append({"tier": tier, "task_id": task_id, "status": "pending"})
 
         migration_request["verification_tasks"] = verification_tasks
 
@@ -392,9 +384,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         return migration_id
 
-    def _determine_required_colonies(
-        self, tier_level: int, verification_type: str
-    ) -> list[str]:
+    def _determine_required_colonies(self, tier_level: int, verification_type: str) -> list[str]:
         """Determine which colonies are required based on tier and type."""
         required = []
 
@@ -605,9 +595,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             overall_confidence = 0.0
             if results:
                 confidences = [
-                    r.confidence_score
-                    for r in results.values()
-                    if hasattr(r, "confidence_score")
+                    r.confidence_score for r in results.values() if hasattr(r, "confidence_score")
                 ]
                 if confidences:
                     overall_confidence = sum(confidences) / len(confidences)
@@ -633,9 +621,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
             # Handle tier migration if applicable
             if task.tier_migration_target:
-                await self._handle_migration_result(
-                    task.task_id, success, overall_confidence
-                )
+                await self._handle_migration_result(task.task_id, success, overall_confidence)
 
         except asyncio.TimeoutError:
             logger.error(f"Task {task.task_id} timeout")
@@ -655,9 +641,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
     def _can_allocate_resources(self, tier_profile: TierResourceAllocation) -> bool:
         """Check if resources can be allocated for tier profile."""
         # Count active agents across all colonies
-        total_active = sum(
-            health["active_tasks"] for health in self.colony_health.values()
-        )
+        total_active = sum(health["active_tasks"] for health in self.colony_health.values())
 
         # Simple resource check - can be made more sophisticated
         return total_active < tier_profile.max_agents
@@ -676,9 +660,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         current_avg = metrics["avg_duration"]
         metrics["avg_duration"] = (current_avg * (total - 1) + duration) / total
 
-    async def _handle_migration_result(
-        self, task_id: str, success: bool, confidence: float
-    ):
+    async def _handle_migration_result(self, task_id: str, success: bool, confidence: float):
         """Handle result of a migration verification task."""
         # Find migration request containing this task
         migration_request = None
@@ -695,20 +677,17 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Check if all tasks are complete
         all_complete = all(
-            task["status"] != "pending"
-            for task in migration_request["verification_tasks"]
+            task["status"] != "pending" for task in migration_request["verification_tasks"]
         )
 
         if all_complete:
             # Determine if migration is approved
             all_successful = all(
-                task["status"] == "completed"
-                for task in migration_request["verification_tasks"]
+                task["status"] == "completed" for task in migration_request["verification_tasks"]
             )
 
             avg_confidence = sum(
-                task.get("confidence", 0)
-                for task in migration_request["verification_tasks"]
+                task.get("confidence", 0) for task in migration_request["verification_tasks"]
             ) / len(migration_request["verification_tasks"])
 
             migration_approved = all_successful and avg_confidence >= 0.7
@@ -776,9 +755,9 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
                     # Update health tracking
                     health["last_check"] = datetime.utcnow()
-                    health["success_rate"] = colony_status.get(
-                        "performance_metrics", {}
-                    ).get("success_rate", 1.0)
+                    health["success_rate"] = colony_status.get("performance_metrics", {}).get(
+                        "success_rate", 1.0
+                    )
 
                     # Check if healing is needed
                     if colony_status["health_score"] < 0.6:
@@ -794,10 +773,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                                 healing_strategy="GRADUAL_RECOVERY",
                             )
 
-                    elif (
-                        health["status"] == "healing"
-                        and colony_status["health_score"] > 0.8
-                    ):
+                    elif health["status"] == "healing" and colony_status["health_score"] > 0.8:
                         # Colony has recovered
                         health["status"] = "healthy"
                         logger.info(f"Colony {colony_name} recovered to healthy state")
@@ -815,9 +791,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             "active_orchestrations": len(self.active_orchestrations),
             "colony_health": self.colony_health,
             "tier_metrics": self.tier_metrics,
-            "tier_queues": {
-                tier: len(queue) for tier, queue in self.tier_task_queues.items()
-            },
+            "tier_queues": {tier: len(queue) for tier, queue in self.tier_task_queues.items()},
             "active_migrations": len(self.migration_requests),
             "migration_history_count": len(self.migration_history),
             "total_tasks_processed": sum(
@@ -838,9 +812,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     "avg_duration_seconds": metrics["avg_duration"],
                     "resource_allocation": {
                         "max_agents": self.tier_profiles[tier].max_agents,
-                        "verification_depth": self.tier_profiles[
-                            tier
-                        ].verification_depth.name,
+                        "verification_depth": self.tier_profiles[tier].verification_depth.name,
                         "parallel_colonies": self.tier_profiles[tier].parallel_colonies,
                     },
                 }

@@ -19,4 +19,3 @@ class PolicyEngine:
         if isinstance(labels, list) and any(lbl == "forbidden" for lbl in labels):
             return False
         return True
-

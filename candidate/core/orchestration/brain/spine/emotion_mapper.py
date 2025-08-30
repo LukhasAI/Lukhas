@@ -12,7 +12,6 @@ Integration Date: 2025-05-31T07:55:28.111944
 
 
 class EmotionMapper:
-
     def __init__(self):
         # Base emoji mapping (you can expand this over time)
         self.intent_emoji_map = {

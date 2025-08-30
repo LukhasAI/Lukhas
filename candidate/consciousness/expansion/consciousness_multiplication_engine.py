@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConsciousnessInstance:
     """Represents a single consciousness instance"""
+
     instance_id: str
     specialization: str
     consciousness_level: float
@@ -49,16 +50,14 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         self.coordination_network = {
             "topology": "none",
             "connections": {},
-            "bandwidth": 1000  # Messages per second
+            "bandwidth": 1000,  # Messages per second
         }
 
         self._initialized = True
         logger.info("Consciousness Multiplication Engine initialized")
 
     async def create_consciousness_instance(
-        self,
-        template: dict[str, Any],
-        specialization: str
+        self, template: dict[str, Any], specialization: str
     ) -> ConsciousnessInstance:
         """
         Create a new consciousness instance
@@ -83,7 +82,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             specialization=specialization,
             consciousness_level=template.get("base_level", 1.0),
             capabilities=capabilities,
-            state="active"
+            state="active",
         )
 
         # Register instance
@@ -92,9 +91,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         return instance
 
     async def coordinate_instances(
-        self,
-        instances: list[ConsciousnessInstance],
-        topology: str = "mesh"
+        self, instances: list[ConsciousnessInstance], topology: str = "mesh"
     ) -> dict[str, Any]:
         """
         Establish coordination between consciousness instances
@@ -127,7 +124,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                     self.coordination_network["connections"][inst.instance_id] = [hub.instance_id]
                     if hub.instance_id not in self.coordination_network["connections"]:
                         self.coordination_network["connections"][hub.instance_id] = []
-                    self.coordination_network["connections"][hub.instance_id].append(inst.instance_id)
+                    self.coordination_network["connections"][hub.instance_id].append(
+                        inst.instance_id
+                    )
 
         elif topology == "ring":
             # Ring topology - each connected to neighbors
@@ -135,14 +134,14 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
                 next_inst = instances[(i + 1) % len(instances)]
                 prev_inst = instances[(i - 1) % len(instances)]
                 self.coordination_network["connections"][inst.instance_id] = [
-                    next_inst.instance_id, prev_inst.instance_id
+                    next_inst.instance_id,
+                    prev_inst.instance_id,
                 ]
 
         return self.coordination_network
 
     async def synchronize_collective(
-        self,
-        instances: list[ConsciousnessInstance]
+        self, instances: list[ConsciousnessInstance]
     ) -> dict[str, Any]:
         """
         Synchronize collective consciousness state
@@ -158,7 +157,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             "collective_level": 0.0,
             "shared_knowledge": [],
             "emergent_capabilities": [],
-            "coherence_score": 0.0
+            "coherence_score": 0.0,
         }
 
         # Calculate collective consciousness level
@@ -188,9 +187,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         return self.collective_state
 
     async def distribute_task(
-        self,
-        task: dict[str, Any],
-        instances: list[ConsciousnessInstance]
+        self, task: dict[str, Any], instances: list[ConsciousnessInstance]
     ) -> dict[str, Any]:
         """
         Distribute a task across consciousness instances
@@ -206,7 +203,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             "task_id": task.get("id", "unknown"),
             "assignments": {},
             "expected_completion_time": 0,
-            "parallelization_factor": 1.0
+            "parallelization_factor": 1.0,
         }
 
         # Analyze task requirements
@@ -222,14 +219,13 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         # Calculate parallelization benefit
         if distribution["assignments"]:
             distribution["parallelization_factor"] = len(distribution["assignments"]) ** 0.7
-            distribution["expected_completion_time"] = complexity / distribution["parallelization_factor"]
+            distribution["expected_completion_time"] = (
+                complexity / distribution["parallelization_factor"]
+            )
 
         return distribution
 
-    async def merge_consciousness_results(
-        self,
-        results: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def merge_consciousness_results(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Merge results from multiple consciousness instances
 
@@ -239,17 +235,13 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         Returns:
             Merged collective result
         """
-        merged = {
-            "consensus": None,
-            "confidence": 0.0,
-            "insights": [],
-            "contradictions": []
-        }
+        merged = {"consensus": None, "confidence": 0.0, "insights": [], "contradictions": []}
 
         # Find consensus
         if results:
             # Simple majority for demonstration
             from collections import Counter
+
             decisions = [r.get("decision") for r in results if "decision" in r]
             if decisions:
                 consensus = Counter(decisions).most_common(1)[0]
@@ -265,14 +257,12 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         # Identify contradictions
         for i, r1 in enumerate(results):
-            for j, r2 in enumerate(results[i+1:], i+1):
+            for j, r2 in enumerate(results[i + 1 :], i + 1):
                 if r1.get("conclusion") and r2.get("conclusion"):
                     if r1["conclusion"] != r2["conclusion"]:
-                        merged["contradictions"].append({
-                            "instance_1": i,
-                            "instance_2": j,
-                            "conflict": "different_conclusions"
-                        })
+                        merged["contradictions"].append(
+                            {"instance_1": i, "instance_2": j, "conflict": "different_conclusions"}
+                        )
 
         return merged
 
@@ -287,7 +277,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             "logical": ["formal_reasoning", "proof_verification", "deduction"],
             "intuitive": ["pattern_sensing", "holistic_thinking", "insight_generation"],
             "exploratory": ["hypothesis_generation", "experimentation", "discovery"],
-            "defensive": ["threat_detection", "protection", "verification"]
+            "defensive": ["threat_detection", "protection", "verification"],
         }
 
         return specialization_map.get(specialization, [])
@@ -320,7 +310,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             "analytical": ["analysis", "research", "investigation"],
             "creative": ["design", "creation", "innovation"],
             "strategic": ["planning", "optimization", "strategy"],
-            "logical": ["proof", "verification", "reasoning"]
+            "logical": ["proof", "verification", "reasoning"],
         }
 
         task_keywords = matches.get(specialization, [])
@@ -333,7 +323,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
             "parent_task": task.get("id"),
             "specialization": specialization,
             "objective": f"{specialization}_analysis",
-            "priority": task.get("priority", "normal")
+            "priority": task.get("priority", "normal"),
         }
 
         # Add specialization-specific parameters

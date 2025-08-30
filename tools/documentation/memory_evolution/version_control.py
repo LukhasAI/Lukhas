@@ -10,7 +10,6 @@ from typing import Optional
 
 
 class DocVersion:
-
     def __init__(self, content: str, metadata: dict):
         self.content = content
         self.metadata = metadata
@@ -24,7 +23,6 @@ class DocVersion:
 
 
 class VersionHistory:
-
     def __init__(self):
         self.versions: list[DocVersion] = []
         self.current_version: Optional[DocVersion] = None
@@ -53,7 +51,6 @@ class VersionHistory:
 
 
 class DocumentVersionControl:
-
     def __init__(self):
         self.documents: dict[str, VersionHistory] = {}
 
@@ -75,9 +72,7 @@ class DocumentVersionControl:
             raise KeyError(f"Document {doc_id} does not exist")
         return self.documents[doc_id].list_versions()
 
-    def get_document_version(
-        self, doc_id: str, version_hash: str
-    ) -> Optional[DocVersion]:
+    def get_document_version(self, doc_id: str, version_hash: str) -> Optional[DocVersion]:
         """Get a specific version of a document."""
         if doc_id not in self.documents:
             raise KeyError(f"Document {doc_id} does not exist")

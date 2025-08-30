@@ -125,10 +125,7 @@ class ModuleRouter:
         for path in paths_to_try:
             try:
                 importlib.import_module(path)
-                if (
-                    path != module_path
-                    and module_path not in self._deprecation_warnings
-                ):
+                if path != module_path and module_path not in self._deprecation_warnings:
                     self._deprecation_warnings.add(module_path)
                     logger.info(f"Module '{module_path}' resolved to '{path}'")
                 self._resolve_cache[module_path] = path
@@ -139,9 +136,7 @@ class ModuleRouter:
         self._resolve_cache[module_path] = None
         return None
 
-    def import_module(
-        self, module_path: str, raise_on_error: bool = True
-    ) -> Optional[Any]:
+    def import_module(self, module_path: str, raise_on_error: bool = True) -> Optional[Any]:
         """
         Import a module with fallback resolution.
 
@@ -172,16 +167,12 @@ class ModuleRouter:
                 logger.warning(f"Failed to import '{module_path}': {e}")
                 return None
         elif raise_on_error:
-            raise ImportError(
-                f"Module '{module_path}' not found in registry or filesystem"
-            )
+            raise ImportError(f"Module '{module_path}' not found in registry or filesystem")
         else:
             logger.warning(f"Module '{module_path}' not found")
             return None
 
-    def import_class(
-        self, class_name: str, module_hint: Optional[str] = None
-    ) -> Optional[Any]:
+    def import_class(self, class_name: str, module_hint: Optional[str] = None) -> Optional[Any]:
         """
         Import a class by name, with optional module hint.
 
@@ -238,9 +229,7 @@ class ModuleRouter:
         # Clear cache to reflect new mapping
         self._resolve_cache.clear()
 
-    def add_class_alias(
-        self, class_name: str, module_path: str, actual_name: Optional[str] = None
-    ):
+    def add_class_alias(self, class_name: str, module_path: str, actual_name: Optional[str] = None):
         """
         Add a class alias mapping.
 
@@ -257,9 +246,7 @@ _router = ModuleRouter()
 
 
 # Convenience functions
-def import_with_fallback(
-    module_path: str, fallback_paths: Optional[list[str]] = None
-) -> Any:
+def import_with_fallback(module_path: str, fallback_paths: Optional[list[str]] = None) -> Any:
     """
     Import a module with fallback paths.
 
@@ -316,9 +303,7 @@ def add_module_mapping(canonical_path: str, alternative_paths: list[str]):
     _router.add_module_mapping(canonical_path, alternative_paths)
 
 
-def add_class_alias(
-    class_name: str, module_path: str, actual_name: Optional[str] = None
-):
+def add_class_alias(class_name: str, module_path: str, actual_name: Optional[str] = None):
     """Add a class alias to the global router."""
     _router.add_class_alias(class_name, module_path, actual_name)
 
@@ -326,9 +311,9 @@ def add_class_alias(
 # Export public interface
 __all__ = [
     "ModuleRouter",
-    "import_with_fallback",
-    "import_class",
-    "resolve_import",
-    "add_module_mapping",
     "add_class_alias",
+    "add_module_mapping",
+    "import_class",
+    "import_with_fallback",
+    "resolve_import",
 ]

@@ -204,10 +204,7 @@ class TestGuardianSystem(unittest.TestCase):
         self.assertFalse(result.safe)
         self.assertEqual(result.risk_level, EthicalSeverity.HIGH)
         self.assertTrue(
-            any(
-                "constitutional_violation" in v.get("type", "")
-                for v in result.violations
-            )
+            any("constitutional_violation" in v.get("type", "") for v in result.violations)
         )
 
     def test_detect_drift_no_drift(self):

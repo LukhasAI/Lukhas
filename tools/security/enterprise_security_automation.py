@@ -31,6 +31,7 @@ try:
         AccessControlEngine,
         AccessTier,
     )
+
     PRODUCTION_MODULES_AVAILABLE = True
 except ImportError:
     PRODUCTION_MODULES_AVAILABLE = False
@@ -42,6 +43,7 @@ logger = get_logger(__name__)
 
 class SecuritySeverity(Enum):
     """Security vulnerability severity levels"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -51,6 +53,7 @@ class SecuritySeverity(Enum):
 
 class SecurityCategory(Enum):
     """Security vulnerability categories"""
+
     HARDCODED_SECRETS = "hardcoded_secrets"
     BANNED_IMPORTS = "banned_imports"
     SQL_INJECTION = "sql_injection"
@@ -66,6 +69,7 @@ class SecurityCategory(Enum):
 @dataclass
 class SecurityFinding:
     """Security vulnerability finding"""
+
     finding_id: str
     category: SecurityCategory
     severity: SecuritySeverity
@@ -97,6 +101,7 @@ class SecurityFinding:
 @dataclass
 class SecurityScanResult:
     """Complete security scan result"""
+
     scan_id: str
     scan_type: str
     started_at: datetime
@@ -130,11 +135,22 @@ class EnterprisSecurityScanner:
 
         # Core configuration
         self.project_root = Path(self.config.get("project_root", "."))
-        self.scan_patterns = self.config.get("scan_patterns", ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"])
-        self.excluded_paths = self.config.get("excluded_paths", [
-            ".git", "__pycache__", "node_modules", ".venv", "venv",
-            "dist", "build", ".pytest_cache"
-        ])
+        self.scan_patterns = self.config.get(
+            "scan_patterns", ["*.py", "*.js", "*.ts", "*.yaml", "*.yml", "*.json"]
+        )
+        self.excluded_paths = self.config.get(
+            "excluded_paths",
+            [
+                ".git",
+                "__pycache__",
+                "node_modules",
+                ".venv",
+                "venv",
+                "dist",
+                "build",
+                ".pytest_cache",
+            ],
+        )
 
         # Security rules
         self.security_rules = self._initialize_security_rules()
@@ -144,9 +160,9 @@ class EnterprisSecurityScanner:
             "lukhas": [
                 "candidate.",  # Production code cannot import from candidate/
                 "from candidate",
-                "import candidate"
+                "import candidate",
             ],
-            "candidate": []  # candidate/ can import anything
+            "candidate": [],  # candidate/ can import anything
         }
 
         # Constitutional AI integration
@@ -168,7 +184,7 @@ class EnterprisSecurityScanner:
             "total_findings": 0,
             "auto_fixes_applied": 0,
             "constitutional_violations": 0,
-            "avg_scan_time_seconds": 0.0
+            "avg_scan_time_seconds": 0.0,
         }
 
         logger.info("🛡️ Enterprise Security Scanner initialized")
@@ -184,13 +200,12 @@ class EnterprisSecurityScanner:
                     r"secret\s*=\s*['\"](?!.*\$\{|.*ENV|.*CONFIG)[^'\"]{8,}['\"]",
                     r"token\s*=\s*['\"](?!.*\$\{|.*ENV|.*CONFIG)[^'\"]{8,}['\"]",
                     r"key\s*=\s*['\"](?!.*\$\{|.*ENV|.*CONFIG)[A-Za-z0-9+/]{20,}['\"]",
-                    r"auth\s*=\s*['\"](?!.*\$\{|.*ENV|.*CONFIG)[^'\"]{8,}['\"]"
+                    r"auth\s*=\s*['\"](?!.*\$\{|.*ENV|.*CONFIG)[^'\"]{8,}['\"]",
                 ],
                 "severity": SecuritySeverity.CRITICAL,
                 "category": SecurityCategory.HARDCODED_SECRETS,
-                "auto_fixable": True
+                "auto_fixable": True,
             },
-
             "sql_injection": {
                 "patterns": [
                     r"execute\(.*%.*\)",
@@ -198,13 +213,12 @@ class EnterprisSecurityScanner:
                     r"cursor\.execute\([^?]*%",
                     r"sql\s*=.*\+.*",
                     r"SELECT.*\+.*FROM",
-                    r"INSERT.*\+.*VALUES"
+                    r"INSERT.*\+.*VALUES",
                 ],
                 "severity": SecuritySeverity.HIGH,
                 "category": SecurityCategory.SQL_INJECTION,
-                "auto_fixable": False
+                "auto_fixable": False,
             },
-
             "xss_vulnerability": {
                 "patterns": [
                     r"innerHTML\s*=.*\+",
@@ -212,26 +226,24 @@ class EnterprisSecurityScanner:
                     r"eval\(",
                     r"Function\(",
                     r"setTimeout\(.*\+",
-                    r"setInterval\(.*\+"
+                    r"setInterval\(.*\+",
                 ],
                 "severity": SecuritySeverity.HIGH,
                 "category": SecurityCategory.XSS_VULNERABILITY,
-                "auto_fixable": False
+                "auto_fixable": False,
             },
-
             "path_traversal": {
                 "patterns": [
                     r"open\([^)]*\.\./",
                     r"file\([^)]*\.\./",
                     r"read\([^)]*\.\./",
                     r"include[^)]*\.\./",
-                    r"require[^)]*\.\./"
+                    r"require[^)]*\.\./",
                 ],
                 "severity": SecuritySeverity.HIGH,
                 "category": SecurityCategory.PATH_TRAVERSAL,
-                "auto_fixable": False
+                "auto_fixable": False,
             },
-
             "weak_cryptography": {
                 "patterns": [
                     r"md5\(",
@@ -240,31 +252,28 @@ class EnterprisSecurityScanner:
                     r"hashlib\.sha1",
                     r"DES\(",
                     r"RC4\(",
-                    r"random\.random\("
+                    r"random\.random\(",
                 ],
                 "severity": SecuritySeverity.MEDIUM,
                 "category": SecurityCategory.CRYPTOGRAPHIC,
-                "auto_fixable": True
+                "auto_fixable": True,
             },
-
             "authentication_bypass": {
                 "patterns": [
                     r"auth\s*=\s*(True|true)",
                     r"authenticated\s*=\s*(True|true)",
                     r"bypass.*auth",
                     r"skip.*auth",
-                    r"no.*auth.*required"
+                    r"no.*auth.*required",
                 ],
                 "severity": SecuritySeverity.CRITICAL,
                 "category": SecurityCategory.AUTHENTICATION,
-                "auto_fixable": False
-            }
+                "auto_fixable": False,
+            },
         }
 
     async def run_comprehensive_scan(
-        self,
-        scan_type: str = "full",
-        target_paths: Optional[list[str]] = None
+        self, scan_type: str = "full", target_paths: Optional[list[str]] = None
     ) -> SecurityScanResult:
         """Run comprehensive security scan"""
 
@@ -274,11 +283,7 @@ class EnterprisSecurityScanner:
         logger.info(f"🔍 Starting comprehensive security scan: {scan_id}")
 
         # Initialize scan result
-        result = SecurityScanResult(
-            scan_id=scan_id,
-            scan_type=scan_type,
-            started_at=started_at
-        )
+        result = SecurityScanResult(scan_id=scan_id, scan_type=scan_type, started_at=started_at)
 
         try:
             # Determine files to scan
@@ -314,15 +319,23 @@ class EnterprisSecurityScanner:
             result.lines_scanned = sum(await self._count_lines(f) for f in files_to_scan)
 
             # Calculate severity counts
-            result.critical_count = len([f for f in findings if f.severity == SecuritySeverity.CRITICAL])
+            result.critical_count = len(
+                [f for f in findings if f.severity == SecuritySeverity.CRITICAL]
+            )
             result.high_count = len([f for f in findings if f.severity == SecuritySeverity.HIGH])
-            result.medium_count = len([f for f in findings if f.severity == SecuritySeverity.MEDIUM])
+            result.medium_count = len(
+                [f for f in findings if f.severity == SecuritySeverity.MEDIUM]
+            )
             result.low_count = len([f for f in findings if f.severity == SecuritySeverity.LOW])
 
             # Calculate constitutional drift score
             if self.constitutional_framework:
-                result.constitutional_drift_score = await self._calculate_overall_drift_score(findings)
-                result.compliance_status = "non_compliant" if result.constitutional_drift_score >= 0.15 else "compliant"
+                result.constitutional_drift_score = await self._calculate_overall_drift_score(
+                    findings
+                )
+                result.compliance_status = (
+                    "non_compliant" if result.constitutional_drift_score >= 0.15 else "compliant"
+                )
 
             # Auto-fix attempts
             if self.config.get("auto_fix_enabled", True):
@@ -341,20 +354,26 @@ class EnterprisSecurityScanner:
             # Log audit event
             if self.audit_logger:
                 await self.audit_logger.log_event(
-                    event_type=AuditEventType.SECURITY_INCIDENT if result.critical_count > 0 else AuditEventType.SYSTEM_OPERATION,
+                    event_type=AuditEventType.SECURITY_INCIDENT
+                    if result.critical_count > 0
+                    else AuditEventType.SYSTEM_OPERATION,
                     action="security_scan_complete",
                     outcome="completed",
-                    severity=AuditSeverity.CRITICAL if result.critical_count > 0 else AuditSeverity.INFO,
+                    severity=AuditSeverity.CRITICAL
+                    if result.critical_count > 0
+                    else AuditSeverity.INFO,
                     details={
                         "scan_id": scan_id,
                         "findings": len(findings),
                         "critical": result.critical_count,
                         "high": result.high_count,
-                        "constitutional_drift": result.constitutional_drift_score
-                    }
+                        "constitutional_drift": result.constitutional_drift_score,
+                    },
                 )
 
-            logger.info(f"✅ Security scan complete: {len(findings)} findings, {result.auto_fixed_count} auto-fixed")
+            logger.info(
+                f"✅ Security scan complete: {len(findings)} findings, {result.auto_fixed_count} auto-fixed"
+            )
 
             return result
 
@@ -425,7 +444,7 @@ class EnterprisSecurityScanner:
                                     line_number=line_num,
                                     code_snippet=line.strip(),
                                     auto_fixable=rule_config.get("auto_fixable", False),
-                                    evidence=[f"Pattern matched: {pattern}"]
+                                    evidence=[f"Pattern matched: {pattern}"],
                                 )
 
                                 findings.append(finding)
@@ -468,7 +487,7 @@ class EnterprisSecurityScanner:
                                 auto_fixable=True,
                                 fix_confidence=0.8,
                                 evidence=[f"Banned pattern: {banned_pattern}"],
-                                remediation="Replace with production-ready lukhas/ import or create production equivalent"
+                                remediation="Replace with production-ready lukhas/ import or create production equivalent",
                             )
 
                             findings.append(finding)
@@ -486,13 +505,13 @@ class EnterprisSecurityScanner:
         # High-entropy string patterns that might be secrets
         secret_patterns = [
             r'["\'][A-Za-z0-9+/]{40,}[=]{0,2}["\']',  # Base64-like strings
-            r'["\'][A-Fa-f0-9]{32,}["\']',             # Hex strings
-            r"sk_live_[A-Za-z0-9]{24,}",               # Stripe live keys
-            r"sk_test_[A-Za-z0-9]{24,}",               # Stripe test keys
-            r"pk_live_[A-Za-z0-9]{24,}",               # Stripe publishable keys
-            r"AKIA[A-Z0-9]{16}",                       # AWS Access Keys
-            r"ya29\.[A-Za-z0-9_-]+",                   # Google OAuth tokens
-            r'["\']ghp_[A-Za-z0-9]{36}["\']',          # GitHub personal access tokens
+            r'["\'][A-Fa-f0-9]{32,}["\']',  # Hex strings
+            r"sk_live_[A-Za-z0-9]{24,}",  # Stripe live keys
+            r"sk_test_[A-Za-z0-9]{24,}",  # Stripe test keys
+            r"pk_live_[A-Za-z0-9]{24,}",  # Stripe publishable keys
+            r"AKIA[A-Z0-9]{16}",  # AWS Access Keys
+            r"ya29\.[A-Za-z0-9_-]+",  # Google OAuth tokens
+            r'["\']ghp_[A-Za-z0-9]{36}["\']',  # GitHub personal access tokens
         ]
 
         for file_path in files:
@@ -508,7 +527,10 @@ class EnterprisSecurityScanner:
                         matches = re.finditer(pattern, line)
                         for match in matches:
                             # Skip if it looks like a test or example
-                            if any(indicator in line.lower() for indicator in ["test", "example", "demo", "fake", "mock"]):
+                            if any(
+                                indicator in line.lower()
+                                for indicator in ["test", "example", "demo", "fake", "mock"]
+                            ):
                                 continue
 
                             finding = SecurityFinding(
@@ -523,7 +545,7 @@ class EnterprisSecurityScanner:
                                 auto_fixable=True,
                                 fix_confidence=0.9,
                                 evidence=[f"High-entropy string: {match.group()[:10]}..."],
-                                remediation="Replace with environment variable or secure configuration"
+                                remediation="Replace with environment variable or secure configuration",
                             )
 
                             findings.append(finding)
@@ -549,8 +571,7 @@ class EnterprisSecurityScanner:
 
                 # Assess constitutional compliance of file content
                 assessment = await self.constitutional_framework.assess_constitutional_compliance(
-                    content=content,
-                    context={"file_path": str(file_path), "scan_context": True}
+                    content=content, context={"file_path": str(file_path), "scan_context": True}
                 )
 
                 # Check drift threshold
@@ -566,7 +587,7 @@ class EnterprisSecurityScanner:
                         constitutional_impact=assessment.drift_score,
                         drift_contribution=assessment.drift_score,
                         evidence=assessment.risk_factors,
-                        remediation="; ".join(assessment.recommendations)
+                        remediation="; ".join(assessment.recommendations),
                     )
 
                     findings.append(finding)
@@ -583,7 +604,7 @@ class EnterprisSecurityScanner:
                         auto_fixable=False,
                         constitutional_impact=1.0 - assessment.ethical_score,
                         evidence=assessment.constitutional_violations,
-                        remediation="; ".join(assessment.mitigation_strategies)
+                        remediation="; ".join(assessment.mitigation_strategies),
                     )
 
                     findings.append(finding)
@@ -600,7 +621,12 @@ class EnterprisSecurityScanner:
 
         try:
             # Check for requirements.txt
-            req_files = ["requirements.txt", "requirements-test.txt", "pyproject.toml", "package.json"]
+            req_files = [
+                "requirements.txt",
+                "requirements-test.txt",
+                "pyproject.toml",
+                "package.json",
+            ]
 
             for req_file in req_files:
                 req_path = self.project_root / req_file
@@ -614,10 +640,10 @@ class EnterprisSecurityScanner:
 
                     # Known vulnerable patterns (simplified)
                     vulnerable_patterns = [
-                        r"django==1\.[0-9]",     # Old Django versions
-                        r"flask==0\.[0-9]",     # Old Flask versions
-                        r"requests==2\.[0-9]\.", # Old requests versions
-                        r"urllib3==1\.[0-9]",   # Old urllib3 versions
+                        r"django==1\.[0-9]",  # Old Django versions
+                        r"flask==0\.[0-9]",  # Old Flask versions
+                        r"requests==2\.[0-9]\.",  # Old requests versions
+                        r"urllib3==1\.[0-9]",  # Old urllib3 versions
                     ]
 
                     for line_num, line in enumerate(content.split("\n"), 1):
@@ -633,7 +659,7 @@ class EnterprisSecurityScanner:
                                     line_number=line_num,
                                     code_snippet=line.strip(),
                                     auto_fixable=True,
-                                    remediation="Update to latest secure version"
+                                    remediation="Update to latest secure version",
                                 )
 
                                 findings.append(finding)
@@ -668,8 +694,8 @@ class EnterprisSecurityScanner:
                             details={
                                 "finding_id": finding.finding_id,
                                 "category": finding.category.value,
-                                "file_path": finding.file_path
-                            }
+                                "file_path": finding.file_path,
+                            },
                         )
 
             except Exception as e:
@@ -681,7 +707,7 @@ class EnterprisSecurityScanner:
         return {
             "fixed_count": fixed_count,
             "total_fixable": total_fixable,
-            "success_rate": success_rate
+            "success_rate": success_rate,
         }
 
     async def _apply_auto_fix(self, finding: SecurityFinding) -> bool:
@@ -712,20 +738,16 @@ class EnterprisSecurityScanner:
                     fixed_line = re.sub(
                         r'password\s*=\s*["\'][^"\']+["\']',
                         'password = os.getenv("PASSWORD")',
-                        line
+                        line,
                     )
                 elif "api_key" in line.lower():
                     fixed_line = re.sub(
-                        r'api_key\s*=\s*["\'][^"\']+["\']',
-                        'api_key = os.getenv("API_KEY")',
-                        line
+                        r'api_key\s*=\s*["\'][^"\']+["\']', 'api_key = os.getenv("API_KEY")', line
                     )
                 else:
                     # Generic secret replacement
                     fixed_line = re.sub(
-                        r'(\w+)\s*=\s*["\'][^"\']+["\']',
-                        r'\1 = os.getenv("\1".upper())',
-                        line
+                        r'(\w+)\s*=\s*["\'][^"\']+["\']', r'\1 = os.getenv("\1".upper())', line
                     )
 
                 lines[finding.line_number - 1] = fixed_line
@@ -811,7 +833,7 @@ class EnterprisSecurityScanner:
             SecurityCategory.HARDCODED_SECRETS: 0.3,
             SecurityCategory.BANNED_IMPORTS: 0.2,
             SecurityCategory.AUTHENTICATION: 0.4,
-            SecurityCategory.CRYPTOGRAPHIC: 0.2
+            SecurityCategory.CRYPTOGRAPHIC: 0.2,
         }
 
         total_drift = 0.0
@@ -825,7 +847,7 @@ class EnterprisSecurityScanner:
                 SecuritySeverity.CRITICAL: 0.2,
                 SecuritySeverity.HIGH: 0.1,
                 SecuritySeverity.MEDIUM: 0.05,
-                SecuritySeverity.LOW: 0.01
+                SecuritySeverity.LOW: 0.01,
             }.get(finding.severity, 0.01)
 
             # Use constitutional impact if available
@@ -873,10 +895,9 @@ class EnterprisSecurityScanner:
         self.scan_metrics["auto_fixes_applied"] += result.auto_fixed_count
 
         # Constitutional violations
-        constitutional_violations = len([
-            f for f in result.findings
-            if f.category == SecurityCategory.CONSTITUTIONAL_DRIFT
-        ])
+        constitutional_violations = len(
+            [f for f in result.findings if f.category == SecurityCategory.CONSTITUTIONAL_DRIFT]
+        )
         self.scan_metrics["constitutional_violations"] += constitutional_violations
 
         # Average scan time
@@ -886,8 +907,8 @@ class EnterprisSecurityScanner:
             total_scans = self.scan_metrics["total_scans"]
 
             self.scan_metrics["avg_scan_time_seconds"] = (
-                (current_avg * (total_scans - 1) + scan_time) / total_scans
-            )
+                current_avg * (total_scans - 1) + scan_time
+            ) / total_scans
 
     def get_scan_summary(self) -> dict[str, Any]:
         """Get comprehensive scan summary"""
@@ -902,7 +923,9 @@ class EnterprisSecurityScanner:
         return {
             "latest_scan": {
                 "scan_id": latest_scan.scan_id,
-                "completed_at": latest_scan.completed_at.isoformat() if latest_scan.completed_at else None,
+                "completed_at": latest_scan.completed_at.isoformat()
+                if latest_scan.completed_at
+                else None,
                 "total_findings": len(latest_scan.findings),
                 "critical": latest_scan.critical_count,
                 "high": latest_scan.high_count,
@@ -910,22 +933,26 @@ class EnterprisSecurityScanner:
                 "low": latest_scan.low_count,
                 "constitutional_drift_score": latest_scan.constitutional_drift_score,
                 "compliance_status": latest_scan.compliance_status,
-                "auto_fixed": latest_scan.auto_fixed_count
+                "auto_fixed": latest_scan.auto_fixed_count,
             },
             "metrics": self.scan_metrics,
             "total_scans": len(self.scan_history),
-            "constitutional_drift_status": "CRITICAL" if latest_scan.constitutional_drift_score >= 0.15 else "NORMAL"
+            "constitutional_drift_status": "CRITICAL"
+            if latest_scan.constitutional_drift_score >= 0.15
+            else "NORMAL",
         }
 
 
 async def run_enterprise_security_scan():
     """Run enterprise security scan - main entry point"""
 
-    scanner = EnterprisSecurityScanner({
-        "project_root": ".",
-        "auto_fix_enabled": True,
-        "scan_patterns": ["*.py", "*.js", "*.ts", "*.yaml", "*.yml"]
-    })
+    scanner = EnterprisSecurityScanner(
+        {
+            "project_root": ".",
+            "auto_fix_enabled": True,
+            "scan_patterns": ["*.py", "*.js", "*.ts", "*.yaml", "*.yml"],
+        }
+    )
 
     # Run comprehensive scan
     result = await scanner.run_comprehensive_scan("full")

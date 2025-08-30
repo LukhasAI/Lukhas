@@ -13,6 +13,7 @@ Test Coverage:
 
 Author: LUKHAS AI Testing & DevOps Specialist (Agent #3 - Demis Hassabis Standard)
 """
+
 import ast
 import json
 import tempfile
@@ -52,10 +53,7 @@ class TestAuditTrail:
         audit = AuditTrail()
 
         audit.add_violation(
-            "test/file.py",
-            "illegal_import",
-            "from candidate.module import Something",
-            line_no=5
+            "test/file.py", "illegal_import", "from candidate.module import Something", line_no=5
         )
 
         assert len(audit.violations) == 1
@@ -71,12 +69,7 @@ class TestAuditTrail:
         """Test adding warning-level violations."""
         audit = AuditTrail()
 
-        audit.add_violation(
-            "test/file.py",
-            "parse_error",
-            "Syntax error in file",
-            line_no=10
-        )
+        audit.add_violation("test/file.py", "parse_error", "Syntax error in file", line_no=10)
 
         violation = audit.violations[0]
         assert violation["severity"] == "warning"
@@ -86,12 +79,7 @@ class TestAuditTrail:
         """Test facade detection logging."""
         audit = AuditTrail()
 
-        audit.add_facade(
-            "test/facade.py",
-            facade_score=0.85,
-            import_count=15,
-            total_lines=20
-        )
+        audit.add_facade("test/facade.py", facade_score=0.85, import_count=15, total_lines=20)
 
         assert len(audit.facades) == 1
         facade = audit.facades[0]
@@ -141,7 +129,9 @@ class TestAuditTrail:
             assert len(report["facade_detections"]) == 1
 
             assert "compliance_status" in report
-            assert report["compliance_status"]["accepts_ready"] is False  # Has violations and facades
+            assert (
+                report["compliance_status"]["accepts_ready"] is False
+            )  # Has violations and facades
             assert report["compliance_status"]["critical_issues"] == 1
             assert report["compliance_status"]["warnings"] == 0
 

@@ -84,10 +84,10 @@ class MemoryOpenAIAdapter:
         """
         prompt = f"""Compress this memory into a semantic summary while preserving key information:
 
-Memory Type: {memory_data.get('type', 'general')}
-Content: {memory_data.get('content', '')}
-Emotional Context: {memory_data.get('emotional_context', 'neutral')}
-Timestamp: {memory_data.get('timestamp', '')}
+Memory Type: {memory_data.get("type", "general")}
+Content: {memory_data.get("content", "")}
+Emotional Context: {memory_data.get("emotional_context", "neutral")}
+Timestamp: {memory_data.get("timestamp", "")}
 
 Create a compressed representation that:
 1. Preserves essential information
@@ -201,7 +201,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         memory_texts = []
         for i, memory in enumerate(memories):
             memory_texts.append(
-                f"Memory {i+1} ({memory.get('timestamp', 'unknown time')}): "
+                f"Memory {i + 1} ({memory.get('timestamp', 'unknown time')}): "
                 f"{memory.get('content', memory.get('summary', 'No content'))}"
             )
 
@@ -209,7 +209,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
 
 {chr(10).join(memory_texts)}
 
-{'Context: ' + context if context else ''}
+{"Context: " + context if context else ""}
 
 Create a narrative that:
 1. Connects the memories meaningfully
@@ -233,9 +233,7 @@ Write in first person, as if reflecting on these experiences."""
         else:
             return "Unable to synthesize memories at this time."
 
-    async def analyze_memory_patterns(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def analyze_memory_patterns(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Analyze patterns across memories using GPT-4.
 
@@ -301,9 +299,9 @@ Format as JSON with detailed analysis."""
         """
         prompt = f"""Create a DALL-E 3 prompt for visualizing this memory as an abstract landscape:
 
-Memory: {memory.get('content', memory.get('summary', ''))}
-Emotion: {memory.get('emotional_context', 'neutral')}
-Type: {memory.get('type', 'general')}
+Memory: {memory.get("content", memory.get("summary", ""))}
+Emotion: {memory.get("emotional_context", "neutral")}
+Type: {memory.get("type", "general")}
 
 The visualization should be:
 1. Abstract and dreamlike
@@ -327,9 +325,7 @@ Write only the DALL-E prompt, nothing else."""
         else:
             return "Abstract memory landscape with flowing shapes and ethereal colors"
 
-    async def create_memory_visualization(
-        self, memory: dict[str, Any]
-    ) -> Optional[str]:
+    async def create_memory_visualization(self, memory: dict[str, Any]) -> Optional[str]:
         """
         Create visual representation of memory using DALL-E.
 

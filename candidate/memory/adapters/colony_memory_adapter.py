@@ -175,9 +175,7 @@ class ColonyMemoryAdapter:
 
         logger.info("Colony memory adapter stopped")
 
-    def register_memory_interface(
-        self, memory_type: MemoryType, interface: BaseMemoryInterface
-    ):
+    def register_memory_interface(self, memory_type: MemoryType, interface: BaseMemoryInterface):
         """Register a memory interface for a specific type"""
         self.memory_interfaces[memory_type] = interface
 
@@ -248,9 +246,7 @@ class ColonyMemoryAdapter:
             content=content,
             metadata=metadata or MemoryMetadata(memory_type=memory_type),
             parameters=kwargs,
-            target_colonies=(
-                self._select_colonies() if distributed else [self.colony_id]
-            ),
+            target_colonies=(self._select_colonies() if distributed else [self.colony_id]),
             require_consensus=distributed,
             consensus_threshold=self.config.consensus_threshold,
         )
@@ -294,9 +290,7 @@ class ColonyMemoryAdapter:
             operation_type="read",
             memory_id=memory_id,
             parameters=kwargs,
-            target_colonies=(
-                self._select_colonies() if distributed else [self.colony_id]
-            ),
+            target_colonies=(self._select_colonies() if distributed else [self.colony_id]),
         )
 
         response = await self._execute_operation(interface, operation)
@@ -333,9 +327,7 @@ class ColonyMemoryAdapter:
             content=content,
             metadata=metadata,
             parameters=kwargs,
-            target_colonies=(
-                self._select_colonies() if distributed else [self.colony_id]
-            ),
+            target_colonies=(self._select_colonies() if distributed else [self.colony_id]),
             require_consensus=distributed,
         )
 
@@ -368,9 +360,7 @@ class ColonyMemoryAdapter:
             operation_type="delete",
             memory_id=memory_id,
             parameters=kwargs,
-            target_colonies=(
-                self._select_colonies() if distributed else [self.colony_id]
-            ),
+            target_colonies=(self._select_colonies() if distributed else [self.colony_id]),
             require_consensus=distributed,
         )
 
@@ -407,9 +397,7 @@ class ColonyMemoryAdapter:
             operation_type="search",
             content=query,
             parameters={"filters": filters, "limit": limit, **kwargs},
-            target_colonies=(
-                self._select_colonies() if distributed else [self.colony_id]
-            ),
+            target_colonies=(self._select_colonies() if distributed else [self.colony_id]),
         )
 
         response = await self._execute_operation(interface, operation)
@@ -487,8 +475,7 @@ class ColonyMemoryAdapter:
                     else:
                         alpha = 0.1  # Exponential moving average
                         stats.average_response_time = (
-                            alpha * execution_time
-                            + (1 - alpha) * stats.average_response_time
+                            alpha * execution_time + (1 - alpha) * stats.average_response_time
                         )
 
             # Add to history
@@ -522,9 +509,7 @@ class ColonyMemoryAdapter:
         finally:
             self.active_operations.pop(operation.operation_id, None)
 
-    async def _get_interface(
-        self, memory_type: MemoryType
-    ) -> Optional[BaseMemoryInterface]:
+    async def _get_interface(self, memory_type: MemoryType) -> Optional[BaseMemoryInterface]:
         """Get or create interface for memory type"""
 
         # Check local interfaces first
@@ -635,9 +620,7 @@ class ColonyMemoryAdapter:
         """Get comprehensive adapter statistics"""
         success_rate = self.successful_operations / max(self.total_operations, 1)
         avg_response_time = (
-            sum(self.response_times) / len(self.response_times)
-            if self.response_times
-            else 0
+            sum(self.response_times) / len(self.response_times) if self.response_times else 0
         )
 
         cache_hit_rate = self.cache_hits / max(self.cache_hits + self.cache_misses, 1)
@@ -651,9 +634,7 @@ class ColonyMemoryAdapter:
             "average_response_time_ms": avg_response_time,
             "active_operations": len(self.active_operations),
             "registered_colonies": len(self.registered_colonies),
-            "active_colonies": sum(
-                1 for stats in self.colony_stats.values() if stats.is_active
-            ),
+            "active_colonies": sum(1 for stats in self.colony_stats.values() if stats.is_active),
             "memory_interfaces": len(self.memory_interfaces),
             "cache_entries": len(self.memory_cache),
             "cache_hit_rate": cache_hit_rate,
@@ -681,9 +662,7 @@ async def demonstrate_colony_adapter():
     # Create adapter
     adapter = ColonyMemoryAdapter(
         colony_id="main_colony",
-        config=AdapterConfig(
-            enable_validation=True, enable_caching=True, load_balancing=True
-        ),
+        config=AdapterConfig(enable_validation=True, enable_caching=True, load_balancing=True),
     )
 
     await adapter.start()

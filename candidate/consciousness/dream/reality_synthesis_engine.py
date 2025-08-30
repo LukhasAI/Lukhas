@@ -95,9 +95,7 @@ class RealitySynthesisEngine(CoreInterface):
         self.operational = False
 
         # Pattern detection components
-        self.pattern_library: dict[PatternType, list[UniversalPattern]] = defaultdict(
-            list
-        )
+        self.pattern_library: dict[PatternType, list[UniversalPattern]] = defaultdict(list)
         self.pattern_cache: dict[str, UniversalPattern] = {}
 
         # Innovation fusion components
@@ -177,9 +175,7 @@ class RealitySynthesisEngine(CoreInterface):
         ip_portfolio = await self.generate_ip_portfolio(fused_innovations)
 
         # Phase 4: Create market domination strategy
-        market_strategy = await self.create_market_domination_strategy(
-            fused_innovations
-        )
+        market_strategy = await self.create_market_domination_strategy(fused_innovations)
 
         return {
             "breakthrough_innovations": fused_innovations,
@@ -248,8 +244,7 @@ class RealitySynthesisEngine(CoreInterface):
                         ),
                         base_pattern=base_pattern,
                         cross_reality_evidence=cross_reality_evidence,
-                        universality_score=len(cross_reality_evidence)
-                        / len(reality_patterns),
+                        universality_score=len(cross_reality_evidence) / len(reality_patterns),
                         significance=await self._calculate_significance(
                             base_pattern, cross_reality_evidence
                         ),
@@ -260,9 +255,7 @@ class RealitySynthesisEngine(CoreInterface):
                         self.pattern_library[universal_pattern.pattern_type].append(
                             universal_pattern
                         )
-                        self.pattern_cache[universal_pattern.pattern_id] = (
-                            universal_pattern
-                        )
+                        self.pattern_cache[universal_pattern.pattern_id] = universal_pattern
                         self.metrics["patterns_discovered"] += 1
 
         # Validate patterns across additional realities
@@ -292,17 +285,13 @@ class RealitySynthesisEngine(CoreInterface):
         for strategy in self.fusion_strategies:
             # Apply fusion strategy
             if strategy == "technological_convergence":
-                fusions = await self._fuse_by_technological_convergence(
-                    universal_patterns
-                )
+                fusions = await self._fuse_by_technological_convergence(universal_patterns)
             elif strategy == "market_synergy":
                 fusions = await self._fuse_by_market_synergy(universal_patterns)
             elif strategy == "scientific_unity":
                 fusions = await self._fuse_by_scientific_unity(universal_patterns)
             elif strategy == "value_chain_integration":
-                fusions = await self._fuse_by_value_chain_integration(
-                    universal_patterns
-                )
+                fusions = await self._fuse_by_value_chain_integration(universal_patterns)
             else:
                 fusions = []
 
@@ -318,9 +307,7 @@ class RealitySynthesisEngine(CoreInterface):
         logger.info(f"🚀 Fused {len(top_innovations)} breakthrough innovations")
         return top_innovations
 
-    async def generate_ip_portfolio(
-        self, innovations: list[FusedInnovation]
-    ) -> IPPortfolio:
+    async def generate_ip_portfolio(self, innovations: list[FusedInnovation]) -> IPPortfolio:
         """
         Generate comprehensive patent portfolio from innovations.
 
@@ -387,9 +374,7 @@ class RealitySynthesisEngine(CoreInterface):
         strategy = {
             "timeline": await self._create_rollout_timeline(innovations),
             "market_segments": await self._identify_target_segments(innovations),
-            "competitive_advantages": await self._analyze_competitive_advantages(
-                innovations
-            ),
+            "competitive_advantages": await self._analyze_competitive_advantages(innovations),
             "revenue_projections": await self._project_revenue(innovations),
             "risk_mitigation": await self._identify_risks_and_mitigations(innovations),
         }
@@ -588,9 +573,7 @@ class RealitySynthesisEngine(CoreInterface):
         # Simplified check
         return pattern1.pattern_type != pattern2.pattern_type
 
-    async def _rank_innovations(
-        self, innovations: list[FusedInnovation]
-    ) -> list[FusedInnovation]:
+    async def _rank_innovations(self, innovations: list[FusedInnovation]) -> list[FusedInnovation]:
         """Rank innovations by breakthrough potential"""
         return sorted(
             innovations,
@@ -598,9 +581,7 @@ class RealitySynthesisEngine(CoreInterface):
             reverse=True,
         )
 
-    async def _generate_core_patents(
-        self, innovation: FusedInnovation
-    ) -> list[dict[str, Any]]:
+    async def _generate_core_patents(self, innovation: FusedInnovation) -> list[dict[str, Any]]:
         """Generate core patents for innovation"""
         patents = []
         for claim in innovation.patent_claims[:3]:
@@ -623,7 +604,7 @@ class RealitySynthesisEngine(CoreInterface):
             patent = {
                 "patent_id": str(uuid.uuid4()),
                 "type": "defensive",
-                "title": f"Defensive patent {i+1} for {innovation.fusion_strategy}",
+                "title": f"Defensive patent {i + 1} for {innovation.fusion_strategy}",
                 "innovation_id": innovation.fusion_id,
                 "value_estimate": innovation.market_impact / 500,
             }
@@ -639,7 +620,7 @@ class RealitySynthesisEngine(CoreInterface):
             patent = {
                 "patent_id": str(uuid.uuid4()),
                 "type": "improvement",
-                "title": f"Improvement {i+1} on {innovation.fusion_strategy}",
+                "title": f"Improvement {i + 1} on {innovation.fusion_strategy}",
                 "innovation_id": innovation.fusion_id,
                 "value_estimate": innovation.market_impact / 200,
             }
@@ -655,7 +636,7 @@ class RealitySynthesisEngine(CoreInterface):
             patent = {
                 "patent_id": str(uuid.uuid4()),
                 "type": "application",
-                "title": f"Application {i+1} of {innovation.fusion_strategy}",
+                "title": f"Application {i + 1} of {innovation.fusion_strategy}",
                 "innovation_id": innovation.fusion_id,
                 "value_estimate": innovation.market_impact / 1000,
             }
@@ -705,9 +686,7 @@ class RealitySynthesisEngine(CoreInterface):
         ]
         return timeline
 
-    async def _identify_target_segments(
-        self, innovations: list[FusedInnovation]
-    ) -> list[str]:
+    async def _identify_target_segments(self, innovations: list[FusedInnovation]) -> list[str]:
         """Identify target market segments"""
         return [
             "Enterprise AI",
@@ -729,9 +708,7 @@ class RealitySynthesisEngine(CoreInterface):
             "Regulatory compliance built-in",
         ]
 
-    async def _project_revenue(
-        self, innovations: list[FusedInnovation]
-    ) -> dict[str, float]:
+    async def _project_revenue(self, innovations: list[FusedInnovation]) -> dict[str, float]:
         """Project revenue from innovations"""
         total_market = sum(i.market_impact for i in innovations)
         return {
@@ -780,9 +757,7 @@ class RealitySynthesisEngine(CoreInterface):
         """Process input through synthesis engine"""
         # Implement CoreInterface abstract method
         if isinstance(input_data, dict) and "reality_results" in input_data:
-            return await self.synthesize_cross_reality_breakthroughs(
-                input_data["reality_results"]
-            )
+            return await self.synthesize_cross_reality_breakthroughs(input_data["reality_results"])
         return {"status": "processed"}
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -823,12 +798,8 @@ if __name__ == "__main__":
         ]
 
         # Synthesize breakthroughs
-        breakthroughs = await engine.synthesize_cross_reality_breakthroughs(
-            reality_results
-        )
+        breakthroughs = await engine.synthesize_cross_reality_breakthroughs(reality_results)
         print(f"Generated {len(breakthroughs['breakthrough_innovations'])} innovations")
-        print(
-            f"Created {breakthroughs['ip_portfolio'].total_value_estimate} in IP value"
-        )
+        print(f"Created {breakthroughs['ip_portfolio'].total_value_estimate} in IP value")
 
     asyncio.run(main())

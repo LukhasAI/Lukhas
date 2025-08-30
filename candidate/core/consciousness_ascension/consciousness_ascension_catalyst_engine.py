@@ -13,22 +13,30 @@ from typing import Any
 class ConsciousnessScienceAPI:
     async def analyze_consciousness_blockers(self, profile: dict[str, Any]) -> list[str]:
         return [random.choice(["ego_rigidity", "emotional_suppression"])]
+
     async def measure_consciousness_evolution(self, params: dict[str, Any]) -> Any:
-        return type("Metrics", (), {
-            "evolution_score": random.uniform(0.1, 0.5),
-            "improvement_areas": ["compassion", "clarity"],
-            "breakthrough_moments": 1,
-            "integration_score": random.uniform(0.7, 0.9),
-            "collective_impact": random.uniform(0.01, 0.05)
-        })()
+        return type(
+            "Metrics",
+            (),
+            {
+                "evolution_score": random.uniform(0.1, 0.5),
+                "improvement_areas": ["compassion", "clarity"],
+                "breakthrough_moments": 1,
+                "integration_score": random.uniform(0.7, 0.9),
+                "collective_impact": random.uniform(0.01, 0.05),
+            },
+        )()
+
 
 class TranspersonalPsychologyEngine:
     async def design_ego_transcendence_experience(self, *args) -> dict[str, Any]:
         return {"name": "Ego Dissolution Experience", "type": "meditation"}
 
+
 class FlowStateResearchAPI:
     async def design_flow_activation_sequence(self, *args) -> dict[str, Any]:
         return {"name": "Flow State Activation", "type": "focus_exercise"}
+
 
 class ConsciousnessTechnologiesSDK:
     async def integrate_experience(self, params: dict[str, Any]) -> dict[str, Any]:
@@ -52,19 +60,19 @@ class ConsciousnessAscensionCatalystEngine:
         self.consciousness_technologies = ConsciousnessTechnologiesSDK()
 
     async def design_consciousness_catalyst_experience(
-        self,
-        user_consciousness_profile: dict[str, Any],
-        catalyst_product: dict[str, Any]
+        self, user_consciousness_profile: dict[str, Any], catalyst_product: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Designs an experience that actually accelerates consciousness evolution.
         """
         catalyst_interventions = [
             await self.transpersonal_psychology.design_ego_transcendence_experience(),
-            await self.flow_state_research.design_flow_activation_sequence()
+            await self.flow_state_research.design_flow_activation_sequence(),
         ]
 
-        consciousness_tech_integration = await self.consciousness_technologies.integrate_experience({})
+        consciousness_tech_integration = await self.consciousness_technologies.integrate_experience(
+            {}
+        )
 
         return {
             "consciousness_catalyst_experience": {
@@ -72,7 +80,7 @@ class ConsciousnessAscensionCatalystEngine:
                 "consciousness_tech": consciousness_tech_integration,
                 "expected_consciousness_growth": random.uniform(0.2, 0.8),
                 "transcendence_probability": random.uniform(0.1, 0.6),
-                "integration_support": "provided"
+                "integration_support": "provided",
             }
         }
 
@@ -80,7 +88,7 @@ class ConsciousnessAscensionCatalystEngine:
         self,
         user_id: str,
         catalyst_experience: dict[str, Any],
-        post_experience_timeframe: str = "30_days"
+        post_experience_timeframe: str = "30_days",
     ) -> dict[str, Any]:
         """
         Measures actual consciousness evolution results.
@@ -92,5 +100,5 @@ class ConsciousnessAscensionCatalystEngine:
             "specific_consciousness_improvements": evolution_metrics.improvement_areas,
             "transcendence_breakthroughs": evolution_metrics.breakthrough_moments,
             "consciousness_integration_success": evolution_metrics.integration_score,
-            "collective_consciousness_contribution": evolution_metrics.collective_impact
+            "collective_consciousness_contribution": evolution_metrics.collective_impact,
         }

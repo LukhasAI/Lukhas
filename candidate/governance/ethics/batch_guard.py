@@ -136,14 +136,9 @@ class EthicsBatchGuard:
         # Adjust status based on ethics level
         if self.ethics_level == EthicsLevel.STRICT and violations:
             status = (
-                ComplianceStatus.PENDING_REVIEW
-                if status == ComplianceStatus.APPROVED
-                else status
+                ComplianceStatus.PENDING_REVIEW if status == ComplianceStatus.APPROVED else status
             )
-        elif (
-            self.ethics_level == EthicsLevel.PERMISSIVE
-            and status == ComplianceStatus.WARNING
-        ):
+        elif self.ethics_level == EthicsLevel.PERMISSIVE and status == ComplianceStatus.WARNING:
             status = ComplianceStatus.APPROVED
 
         return EthicsResult(
@@ -185,9 +180,7 @@ class EthicsBatchGuard:
         ]
 
         content_lower = content.lower()
-        harmful_count = sum(
-            1 for keyword in harmful_keywords if keyword in content_lower
-        )
+        harmful_count = sum(1 for keyword in harmful_keywords if keyword in content_lower)
 
         # Simple scoring based on keyword density
         words = len(content.split())
@@ -225,9 +218,7 @@ class EthicsBatchGuard:
                 "interface",
             ]
             content_lower = content.lower()
-            if any(
-                indicator in content_lower for indicator in brand_context_indicators
-            ):
+            if any(indicator in content_lower for indicator in brand_context_indicators):
                 return False
 
         return True
@@ -260,24 +251,16 @@ class EthicsBatchGuard:
 
         return list(set(badges))  # Remove duplicates
 
-    def generate_ethics_report(
-        self, batch_results: list[EthicsResult]
-    ) -> dict[str, any]:
+    def generate_ethics_report(self, batch_results: list[EthicsResult]) -> dict[str, any]:
         """Generate comprehensive ethics compliance report for batch operations."""
         total_tasks = len(batch_results)
-        approved = sum(
-            1 for r in batch_results if r.status == ComplianceStatus.APPROVED
-        )
+        approved = sum(1 for r in batch_results if r.status == ComplianceStatus.APPROVED)
         warnings = sum(1 for r in batch_results if r.status == ComplianceStatus.WARNING)
         blocked = sum(1 for r in batch_results if r.status == ComplianceStatus.BLOCKED)
-        pending = sum(
-            1 for r in batch_results if r.status == ComplianceStatus.PENDING_REVIEW
-        )
+        pending = sum(1 for r in batch_results if r.status == ComplianceStatus.PENDING_REVIEW)
 
         avg_confidence = (
-            sum(r.confidence for r in batch_results) / total_tasks
-            if total_tasks > 0
-            else 0
+            sum(r.confidence for r in batch_results) / total_tasks if total_tasks > 0 else 0
         )
         symbol_compliance_rate = (
             sum(1 for r in batch_results if r.symbol_compliance) / total_tasks
@@ -298,18 +281,14 @@ class EthicsBatchGuard:
                 "warnings": warnings,
                 "blocked": blocked,
                 "pending_review": pending,
-                "overall_compliance_rate": (
-                    approved / total_tasks if total_tasks > 0 else 0
-                ),
+                "overall_compliance_rate": (approved / total_tasks if total_tasks > 0 else 0),
                 "average_confidence": avg_confidence,
                 "symbol_compliance_rate": symbol_compliance_rate,
             },
             "violations": {
                 "total_violations": len(all_violations),
                 "unique_violations": list(set(all_violations)),
-                "violation_frequency": {
-                    v: all_violations.count(v) for v in set(all_violations)
-                },
+                "violation_frequency": {v: all_violations.count(v) for v in set(all_violations)},
             },
             "recommendations": {
                 "total_recommendations": len(all_recommendations),

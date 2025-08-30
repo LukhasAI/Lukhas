@@ -58,12 +58,8 @@ class QIAGISystem:
 
     def __init__(self, config: SystemConfig):
         # Core components with quantum enhancement
-        self.qi_neural_core = QINeuralSymbolicProcessor(
-            config.qi_security_config
-        )
-        self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(
-            config.cluster_config
-        )
+        self.qi_neural_core = QINeuralSymbolicProcessor(config.qi_security_config)
+        self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)
 
         # Security infrastructure
         self.security_mesh = SecurityMesh(
@@ -160,12 +156,10 @@ class QIAGISystem:
 
             # 4. Generate adaptive UI with quantum optimization
             if request.needs_ui_update:
-                optimized_ui = (
-                    await self.qi_ui_optimizer.optimize_interface_layout(
-                        qi_result.user_context,
-                        qi_result.suggested_components,
-                        request.ui_constraints,
-                    )
+                optimized_ui = await self.qi_ui_optimizer.optimize_interface_layout(
+                    qi_result.user_context,
+                    qi_result.suggested_components,
+                    request.ui_constraints,
                 )
                 qi_result.attach_ui(optimized_ui)
 
@@ -272,9 +266,7 @@ class QIAGISystem:
 
         try:
             # Use quantum-enhanced voice processing
-            result = await self.voice_enhancer._quantum_voice_process(
-                audio_data, context, None
-            )
+            result = await self.voice_enhancer._quantum_voice_process(audio_data, context, None)
             return {"success": True, "result": result}
         except Exception:
             return {"success": False, "reason": "Processing failed"}
@@ -297,9 +289,7 @@ class QIAGISystem:
 
         try:
             # Use quantum-enhanced speech generation
-            result = await self.voice_enhancer._quantum_speech_generate(
-                text, voice_params, None
-            )
+            result = await self.voice_enhancer._quantum_speech_generate(text, voice_params, None)
             return {"success": True, "result": result}
         except Exception:
             return {"success": False, "reason": "Generation failed"}
@@ -330,9 +320,7 @@ class QIAGISystem:
         """
         while True:
             # Analyze quantum advantage utilization
-            qi_metrics = (
-                await self.qi_telemetry.get_quantum_advantage_metrics()
-            )
+            qi_metrics = await self.qi_telemetry.get_quantum_advantage_metrics()
 
             # Optimize quantum circuit compilation
             if qi_metrics.circuit_depth > threshold:

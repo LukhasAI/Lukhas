@@ -17,14 +17,14 @@ from .decision_explainer import (
 )
 
 __all__ = [
+    "DecisionExplainer",
+    "DecisionExplanation",
+    "DecisionFactor",
     "ExplanationLevel",
     "ExplanationType",
-    "DecisionFactor",
-    "DecisionExplanation",
-    "DecisionExplainer",
-    "get_decision_explainer",
     "explain_decision",
+    "explain_dmb_decision",
     "get_decision_comparison",
     "get_decision_counterfactuals",
-    "explain_dmb_decision",
+    "get_decision_explainer",
 ]

@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class ActorState(Enum):
     """Actor lifecycle states"""
+
     CREATED = "created"
     STARTING = "starting"
     RUNNING = "running"
@@ -33,6 +34,7 @@ class ActorState(Enum):
 @dataclass
 class Message:
     """Actor message structure"""
+
     message_id: str
     sender: str
     recipient: str
@@ -74,7 +76,7 @@ class Actor(ABC):
             "messages_sent": 0,
             "messages_processed": 0,
             "errors": 0,
-            "uptime": 0.0
+            "uptime": 0.0,
         }
         self._start_time = None
 
@@ -126,7 +128,7 @@ class Actor(ABC):
             emit_event(
                 EventTypes.MODULE_INITIALIZED,
                 f"actor.{self.actor_type}",
-                {"actor_id": self.actor_id, "actor_type": self.actor_type}
+                {"actor_id": self.actor_id, "actor_type": self.actor_type},
             )
 
         except Exception as e:
@@ -157,8 +159,7 @@ class Actor(ABC):
             # Stop all children
             if self._children:
                 await asyncio.gather(
-                    *[child.stop() for child in self._children],
-                    return_exceptions=True
+                    *[child.stop() for child in self._children], return_exceptions=True
                 )
 
             # Update metrics
@@ -172,7 +173,7 @@ class Actor(ABC):
             emit_event(
                 EventTypes.MODULE_SHUTDOWN,
                 f"actor.{self.actor_type}",
-                {"actor_id": self.actor_id, "uptime": self._metrics["uptime"]}
+                {"actor_id": self.actor_id, "uptime": self._metrics["uptime"]},
             )
 
         except Exception as e:
@@ -184,7 +185,7 @@ class Actor(ABC):
         recipient: str,
         message_type: str,
         payload: dict[str, Any],
-        reply_to: Optional[str] = None
+        reply_to: Optional[str] = None,
     ) -> str:
         """Send a message to another actor"""
         message = Message(
@@ -194,7 +195,7 @@ class Actor(ABC):
             message_type=message_type,
             payload=payload,
             reply_to=reply_to,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         # Route through actor system
@@ -218,10 +219,7 @@ class Actor(ABC):
         while self._running:
             try:
                 # Wait for messages with timeout to check running flag
-                message = await asyncio.wait_for(
-                    self._message_queue.get(),
-                    timeout=1.0
-                )
+                message = await asyncio.wait_for(self._message_queue.get(), timeout=1.0)
 
                 # Process message
                 await self.handle_message(message)
@@ -266,7 +264,7 @@ class ActorSupervisor:
         self.restart_policies = {
             "always": self._restart_always,
             "on_failure": self._restart_on_failure,
-            "never": self._restart_never
+            "never": self._restart_never,
         }
 
     async def supervise(self, actor: Actor, policy: str = "on_failure") -> None:
@@ -327,8 +325,7 @@ class ActorSupervisor:
         """Stop all supervised actors"""
         if self.actors:
             await asyncio.gather(
-                *[actor.stop() for actor in self.actors.values()],
-                return_exceptions=True
+                *[actor.stop() for actor in self.actors.values()], return_exceptions=True
             )
         self.actors.clear()
 
@@ -344,11 +341,7 @@ class ActorSystem:
         self.logger = logging.getLogger(f"actor_system.{system_id}")
 
         # System metrics
-        self.metrics = {
-            "actors_created": 0,
-            "messages_routed": 0,
-            "routing_errors": 0
-        }
+        self.metrics = {"actors_created": 0, "messages_routed": 0, "routing_errors": 0}
 
     def register_actor(self, actor: Actor) -> None:
         """Register an actor with the system"""
@@ -377,13 +370,15 @@ class ActorSystem:
             await recipient._deliver_message(message)
 
             # Track message
-            self.message_history.append({
-                "message_id": message.message_id,
-                "sender": message.sender,
-                "recipient": message.recipient,
-                "type": message.message_type,
-                "timestamp": message.timestamp
-            })
+            self.message_history.append(
+                {
+                    "message_id": message.message_id,
+                    "sender": message.sender,
+                    "recipient": message.recipient,
+                    "type": message.message_type,
+                    "timestamp": message.timestamp,
+                }
+            )
 
             self.metrics["messages_routed"] += 1
             return True
@@ -398,7 +393,7 @@ class ActorSystem:
         sender: str,
         message_type: str,
         payload: dict[str, Any],
-        actor_filter: Optional[callable] = None
+        actor_filter: Optional[callable] = None,
     ) -> int:
         """Broadcast a message to all or filtered actors"""
         recipients = self.actors.values()
@@ -415,7 +410,7 @@ class ActorSystem:
                     recipient=actor.actor_id,
                     message_type=message_type,
                     payload=payload,
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 )
 
                 if await self.route_message(message):
@@ -439,7 +434,7 @@ class ActorSystem:
             **self.metrics,
             "total_actors": len(self.actors),
             "running_actors": running_actors,
-            "message_history_size": len(self.message_history)
+            "message_history_size": len(self.message_history),
         }
 
     async def shutdown(self) -> None:
@@ -450,14 +445,13 @@ class ActorSystem:
         if self.supervisors:
             await asyncio.gather(
                 *[supervisor.stop_all() for supervisor in self.supervisors.values()],
-                return_exceptions=True
+                return_exceptions=True,
             )
 
         # Stop any remaining actors
         if self.actors:
             await asyncio.gather(
-                *[actor.stop() for actor in self.actors.values()],
-                return_exceptions=True
+                *[actor.stop() for actor in self.actors.values()], return_exceptions=True
             )
 
         self.actors.clear()
@@ -481,10 +475,7 @@ def get_actor(actor_id: str) -> Optional[Actor]:
 
 
 async def send_message(
-    sender: str,
-    recipient: str,
-    message_type: str,
-    payload: dict[str, Any]
+    sender: str, recipient: str, message_type: str, payload: dict[str, Any]
 ) -> bool:
     """Send message through global system"""
     message = Message(
@@ -493,7 +484,7 @@ async def send_message(
         recipient=recipient,
         message_type=message_type,
         payload=payload,
-        timestamp=time.time()
+        timestamp=time.time(),
     )
     return await actor_system.route_message(message)
 
@@ -501,12 +492,12 @@ async def send_message(
 # Export key components
 __all__ = [
     "Actor",
-    "ActorSystem",
-    "ActorSupervisor",
     "ActorState",
+    "ActorSupervisor",
+    "ActorSystem",
     "Message",
     "actor_system",
-    "register_actor",
     "get_actor",
-    "send_message"
+    "register_actor",
+    "send_message",
 ]

@@ -32,12 +32,8 @@ class AdaptiveImageGenerator:
         self.request_limiter = asyncio.Semaphore(5)  # Limit concurrent generations
 
         # Initialize API clients
-        self.dalle_client = DALLEClient(
-            api_key=api_config.get("api_key") if api_config else None
-        )
-        self.gpt_client = GPTClient(
-            api_key=api_config.get("api_key") if api_config else None
-        )
+        self.dalle_client = DALLEClient(api_key=api_config.get("api_key") if api_config else None)
+        self.gpt_client = GPTClient(api_key=api_config.get("api_key") if api_config else None)
 
         # Style mapping for DALL-E
         self.style_mapping = {
@@ -74,16 +70,12 @@ class AdaptiveImageGenerator:
         try:
             async with self.request_limiter:
                 # Enhance prompt based on user context
-                enhanced_prompt = await self._enhance_prompt(
-                    prompt, user_context, style
-                )
+                enhanced_prompt = await self._enhance_prompt(prompt, user_context, style)
 
                 logger.info(f"Generating image with prompt: {enhanced_prompt[:50]}...")
 
                 # Call DALL-E API for actual generation
-                image_result = await self._generate_with_dalle(
-                    enhanced_prompt, size, style
-                )
+                image_result = await self._generate_with_dalle(enhanced_prompt, size, style)
 
                 # Add to cache
                 self._update_cache(cache_key, image_result)
@@ -91,7 +83,7 @@ class AdaptiveImageGenerator:
                 return image_result
 
         except Exception as e:
-            logger.error(f"Error generating image: {str(e)}")
+            logger.error(f"Error generating image: {e!s}")
             return {
                 "error": str(e),
                 "fallback_image_url": "https://example.com/error-placeholder.png",
@@ -99,9 +91,7 @@ class AdaptiveImageGenerator:
         finally:
             self.active_requests.remove(request_id)
 
-    async def _enhance_prompt(
-        self, prompt: str, user_context: Optional[dict], style: str
-    ) -> str:
+    async def _enhance_prompt(self, prompt: str, user_context: Optional[dict], style: str) -> str:
         """Enhance the prompt with style guidance and user context"""
         style_guidance = {
             "minimalist": "clean, simple lines, lots of white space, elegant typography",
@@ -134,9 +124,7 @@ class AdaptiveImageGenerator:
             optimized_prompt = await self.gpt_client.generate_image_prompt(base_prompt)
             return optimized_prompt
         except Exception as e:
-            logger.warning(
-                f"Error optimizing prompt with GPT: {str(e)}. Using base prompt."
-            )
+            logger.warning(f"Error optimizing prompt with GPT: {e!s}. Using base prompt.")
             return base_prompt
 
     async def _generate_with_dalle(self, prompt: str, size: str, style: str) -> dict:
@@ -164,9 +152,7 @@ class AdaptiveImageGenerator:
         # Format the result
         result = {
             "image_url": (dalle_result["urls"][0] if dalle_result["urls"] else None),
-            "local_path": (
-                dalle_result["local_paths"][0] if dalle_result["local_paths"] else None
-            ),
+            "local_path": (dalle_result["local_paths"][0] if dalle_result["local_paths"] else None),
             "prompt": prompt,
             "style": style,
             "size": size,

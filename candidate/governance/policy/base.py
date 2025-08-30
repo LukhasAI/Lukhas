@@ -256,9 +256,7 @@ class EthicsPolicy(ABC):
         Called once before first use. Override for custom initialization.
         """
         self._initialized = True
-        logger.info(
-            f"Initialized {self.get_policy_name()} v{self.get_policy_version()}"
-        )
+        logger.info(f"Initialized {self.get_policy_name()} v{self.get_policy_version()}")
 
     def shutdown(self) -> None:
         """Cleanup policy resources
@@ -271,13 +269,8 @@ class EthicsPolicy(ABC):
     def get_metrics(self) -> dict[str, Any]:
         """Return policy performance metrics"""
         if self._metrics["evaluations_count"] > 0:
-            avg_time = (
-                self._metrics["total_evaluation_time"]
-                / self._metrics["evaluations_count"]
-            )
-            denial_rate = (
-                self._metrics["denials_count"] / self._metrics["evaluations_count"]
-            )
+            avg_time = self._metrics["total_evaluation_time"] / self._metrics["evaluations_count"]
+            denial_rate = self._metrics["denials_count"] / self._metrics["evaluations_count"]
         else:
             avg_time = 0.0
             denial_rate = 0.0
@@ -312,9 +305,7 @@ class PolicyRegistry:
         self._active_policies: set[str] = set()
         self._default_policy: Optional[str] = None
 
-    def register_policy(
-        self, policy: EthicsPolicy, set_as_default: bool = False
-    ) -> None:
+    def register_policy(self, policy: EthicsPolicy, set_as_default: bool = False) -> None:
         """Register a new ethics policy
 
         Args:
@@ -393,7 +384,7 @@ class PolicyRegistry:
                 evaluations.append(
                     EthicsEvaluation(
                         allowed=False,
-                        reasoning=f"Policy evaluation failed: {str(e)}",
+                        reasoning=f"Policy evaluation failed: {e!s}",
                         confidence=0.0,
                         risk_flags=["POLICY_ERROR"],
                         policy_name=name,
@@ -402,9 +393,7 @@ class PolicyRegistry:
 
         return evaluations
 
-    def get_consensus_evaluation(
-        self, evaluations: list[EthicsEvaluation]
-    ) -> EthicsEvaluation:
+    def get_consensus_evaluation(self, evaluations: list[EthicsEvaluation]) -> EthicsEvaluation:
         """Combine multiple evaluations into consensus
 
         Args:

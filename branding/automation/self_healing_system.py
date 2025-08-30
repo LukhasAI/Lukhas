@@ -22,6 +22,7 @@ from engines.database_integration import db
 @dataclass
 class HealingAction:
     """Self-healing action record"""
+
     action_id: str
     action_type: str
     target: str
@@ -30,6 +31,7 @@ class HealingAction:
     success: bool
     backup_created: bool = False
     rollback_available: bool = False
+
 
 class SelfHealingSystem:
     """
@@ -59,7 +61,9 @@ class SelfHealingSystem:
         self._load_healing_config()
 
         # Initialize healing system
-        db.log_system_activity("self_healing", "system_init", "Self-healing system initialized", 1.0)
+        db.log_system_activity(
+            "self_healing", "system_init", "Self-healing system initialized", 1.0
+        )
 
     def _setup_logging(self) -> logging.Logger:
         """Setup healing system logging"""
@@ -88,7 +92,9 @@ class SelfHealingSystem:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.healing_history = [HealingAction(**action) for action in config_data.get("healing_history", [])]
+                self.healing_history = [
+                    HealingAction(**action) for action in config_data.get("healing_history", [])
+                ]
                 self.logger.info(f"Loaded {len(self.healing_history)} healing actions from history")
             except Exception as e:
                 self.logger.error(f"Failed to load healing config: {e}")
@@ -100,7 +106,9 @@ class SelfHealingSystem:
         """Save healing configuration and history"""
         config_data = {
             "last_updated": datetime.now().isoformat(),
-            "healing_history": [asdict(action) for action in self.healing_history[-100:]]  # Keep last 100 actions
+            "healing_history": [
+                asdict(action) for action in self.healing_history[-100:]
+            ],  # Keep last 100 actions
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
@@ -141,34 +149,43 @@ class SelfHealingSystem:
 
             # Check for "elite" naming
             if "elite" in filename.lower():
-                issues.append({
-                    "type": "elite_naming",
-                    "path": str(relative_path),
-                    "current_name": filename,
-                    "suggested_name": filename.lower().replace("elite", "").replace("__", "_").strip("_"),
-                    "severity": "medium"
-                })
+                issues.append(
+                    {
+                        "type": "elite_naming",
+                        "path": str(relative_path),
+                        "current_name": filename,
+                        "suggested_name": filename.lower()
+                        .replace("elite", "")
+                        .replace("__", "_")
+                        .strip("_"),
+                        "severity": "medium",
+                    }
+                )
 
             # Check for redundant "lukhas_unified" patterns
             if "lukhas_unified" in filename.lower():
                 suggested = filename.lower().replace("lukhas_unified_", "").replace("lukhas_", "")
-                issues.append({
-                    "type": "redundant_naming",
-                    "path": str(relative_path),
-                    "current_name": filename,
-                    "suggested_name": suggested,
-                    "severity": "low"
-                })
+                issues.append(
+                    {
+                        "type": "redundant_naming",
+                        "path": str(relative_path),
+                        "current_name": filename,
+                        "suggested_name": suggested,
+                        "severity": "low",
+                    }
+                )
 
             # Check for inconsistent naming patterns
             if filename.count("_") > 4:  # Too many underscores
-                issues.append({
-                    "type": "excessive_underscores",
-                    "path": str(relative_path),
-                    "current_name": filename,
-                    "suggested_name": None,  # Requires manual review
-                    "severity": "low"
-                })
+                issues.append(
+                    {
+                        "type": "excessive_underscores",
+                        "path": str(relative_path),
+                        "current_name": filename,
+                        "suggested_name": None,  # Requires manual review
+                        "severity": "low",
+                    }
+                )
 
         self.logger.info(f"Found {len(issues)} naming issues")
         return issues
@@ -191,12 +208,14 @@ class SelfHealingSystem:
                     # Categorize empty directory
                     category = self._categorize_empty_directory(dir_path)
 
-                    empty_dirs.append({
-                        "path": str(relative_path),
-                        "full_path": str(dir_path),
-                        "category": category,
-                        "action": self._suggest_empty_dir_action(category, dir_path)
-                    })
+                    empty_dirs.append(
+                        {
+                            "path": str(relative_path),
+                            "full_path": str(dir_path),
+                            "category": category,
+                            "action": self._suggest_empty_dir_action(category, dir_path),
+                        }
+                    )
 
         self.logger.info(f"Found {len(empty_dirs)} empty directories")
         return empty_dirs
@@ -238,7 +257,7 @@ class SelfHealingSystem:
             "feature_placeholder": "create_readme",
             "testing": "create_test_placeholder",
             "documentation": "create_readme",
-            "unknown": "review_manually"
+            "unknown": "review_manually",
         }
         return actions.get(category, "review_manually")
 
@@ -275,13 +294,15 @@ class SelfHealingSystem:
                     issues.append("low_voice_coherence")
 
             if issues:
-                inconsistencies.append({
-                    "content_id": content["id"],
-                    "title": title,
-                    "system": content["source_system"],
-                    "issues": issues,
-                    "voice_coherence": content.get("voice_coherence", 0)
-                })
+                inconsistencies.append(
+                    {
+                        "content_id": content["id"],
+                        "title": title,
+                        "system": content["source_system"],
+                        "issues": issues,
+                        "voice_coherence": content.get("voice_coherence", 0),
+                    }
+                )
 
         self.logger.info(f"Found {len(inconsistencies)} brand inconsistencies")
         return inconsistencies
@@ -298,7 +319,7 @@ class SelfHealingSystem:
                 target=issue["path"],
                 description="Skipped - no valid suggestion",
                 applied_at=datetime.now().isoformat(),
-                success=False
+                success=False,
             )
 
         try:
@@ -317,7 +338,7 @@ class SelfHealingSystem:
                 applied_at=datetime.now().isoformat(),
                 success=True,
                 backup_created=backup_path is not None,
-                rollback_available=True
+                rollback_available=True,
             )
 
             self.logger.info(f"✅ Fixed naming: {issue['current_name']} → {suggested_name}")
@@ -328,9 +349,9 @@ class SelfHealingSystem:
                 action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
                 target=issue["path"],
-                description=f"Failed: {str(e)}",
+                description=f"Failed: {e!s}",
                 applied_at=datetime.now().isoformat(),
-                success=False
+                success=False,
             )
 
             self.logger.error(f"❌ Failed to fix naming for {issue['current_name']}: {e}")
@@ -347,13 +368,15 @@ class SelfHealingSystem:
             if action_type == "create_placeholder":
                 # Create a simple __init__.py
                 init_file = dir_path / "__init__.py"
-                init_file.write_text(f'"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""\n')
+                init_file.write_text(
+                    f'"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""\n'
+                )
                 action_description = "Created __init__.py placeholder"
 
             elif action_type == "create_readme":
                 # Create README.md with basic structure
                 readme_file = dir_path / "README.md"
-                readme_content = f"""# {dir_path.name.replace('_', ' ').title()}
+                readme_content = f"""# {dir_path.name.replace("_", " ").title()}
 
 {self.trinity_branding}
 
@@ -428,10 +451,12 @@ if __name__ == "__main__":
                 target=empty_dir["path"],
                 description=action_description,
                 applied_at=datetime.now().isoformat(),
-                success=True
+                success=True,
             )
 
-            self.logger.info(f"✅ Handled empty directory: {empty_dir['path']} - {action_description}")
+            self.logger.info(
+                f"✅ Handled empty directory: {empty_dir['path']} - {action_description}"
+            )
             return action
 
         except Exception as e:
@@ -439,9 +464,9 @@ if __name__ == "__main__":
                 action_id=f"empty_dir_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="empty_directory",
                 target=empty_dir["path"],
-                description=f"Failed: {str(e)}",
+                description=f"Failed: {e!s}",
                 applied_at=datetime.now().isoformat(),
-                success=False
+                success=False,
             )
 
             self.logger.error(f"❌ Failed to handle empty directory {empty_dir['path']}: {e}")
@@ -469,7 +494,7 @@ if __name__ == "__main__":
                 target=f"content_{content_id}",
                 description=action_description,
                 applied_at=datetime.now().isoformat(),
-                success=True
+                success=True,
             )
 
             self.logger.info(f"✅ Addressed brand inconsistency in content {content_id}")
@@ -480,9 +505,9 @@ if __name__ == "__main__":
                 action_id=f"brand_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="brand_consistency",
                 target=f"content_{content_id}",
-                description=f"Failed: {str(e)}",
+                description=f"Failed: {e!s}",
                 applied_at=datetime.now().isoformat(),
-                success=False
+                success=False,
             )
 
             self.logger.error(f"❌ Failed to fix brand inconsistency in content {content_id}: {e}")
@@ -497,7 +522,7 @@ if __name__ == "__main__":
             "actions_performed": [],
             "issues_detected": {},
             "issues_fixed": {},
-            "summary": {}
+            "summary": {},
         }
 
         # Detect all issues
@@ -509,7 +534,7 @@ if __name__ == "__main__":
         healing_results["issues_detected"] = {
             "naming_issues": len(naming_issues),
             "empty_directories": len(empty_dirs),
-            "brand_inconsistencies": len(brand_issues)
+            "brand_inconsistencies": len(brand_issues),
         }
 
         # Fix issues
@@ -528,7 +553,11 @@ if __name__ == "__main__":
         # Handle empty directories
         empty_dir_fixes = 0
         for empty_dir in empty_dirs[:10]:  # Limit to 10
-            if empty_dir["action"] in ["create_placeholder", "create_readme", "create_test_placeholder"]:
+            if empty_dir["action"] in [
+                "create_placeholder",
+                "create_readme",
+                "create_test_placeholder",
+            ]:
                 action = await self.handle_empty_directory(empty_dir)
                 self.healing_history.append(action)
                 healing_results["actions_performed"].append(asdict(action))
@@ -547,7 +576,7 @@ if __name__ == "__main__":
         healing_results["issues_fixed"] = {
             "naming_issues": naming_fixes,
             "empty_directories": empty_dir_fixes,
-            "brand_inconsistencies": brand_fixes
+            "brand_inconsistencies": brand_fixes,
         }
 
         # Generate summary
@@ -559,7 +588,11 @@ if __name__ == "__main__":
             "total_issues_detected": total_issues,
             "total_fixes_applied": total_fixes,
             "success_rate": success_rate,
-            "system_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention"
+            "system_health": "excellent"
+            if success_rate > 90
+            else "good"
+            if success_rate > 70
+            else "needs_attention",
         }
 
         healing_results["cycle_completed"] = datetime.now().isoformat()
@@ -568,11 +601,16 @@ if __name__ == "__main__":
         self._save_healing_config()
 
         # Log results
-        db.log_system_activity("self_healing", "comprehensive_healing",
-                              f"Healing cycle: {total_fixes}/{total_issues} issues fixed",
-                              success_rate)
+        db.log_system_activity(
+            "self_healing",
+            "comprehensive_healing",
+            f"Healing cycle: {total_fixes}/{total_issues} issues fixed",
+            success_rate,
+        )
 
-        self.logger.info(f"✅ Healing cycle completed: {total_fixes}/{total_issues} issues fixed ({success_rate:.1f}% success)")
+        self.logger.info(
+            f"✅ Healing cycle completed: {total_fixes}/{total_issues} issues fixed ({success_rate:.1f}% success)"
+        )
 
         return healing_results
 
@@ -584,13 +622,20 @@ if __name__ == "__main__":
             "system_status": "active",
             "total_healing_actions": len(self.healing_history),
             "recent_actions": len(recent_actions),
-            "success_rate": (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100) if self.healing_history else 100,
+            "success_rate": (
+                len([a for a in self.healing_history if a.success])
+                / len(self.healing_history)
+                * 100
+            )
+            if self.healing_history
+            else 100,
             "last_healing_cycle": recent_actions[-1].applied_at if recent_actions else None,
             "backup_system": "active",
-            "rollback_available": len([a for a in self.healing_history if a.rollback_available])
+            "rollback_available": len([a for a in self.healing_history if a.rollback_available]),
         }
 
         return status
+
 
 async def main():
     """Demonstrate self-healing system"""
@@ -616,6 +661,7 @@ async def main():
     print(f"   System health: {results['summary']['system_health']}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Self-Healing System Active")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

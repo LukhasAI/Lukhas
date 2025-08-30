@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 
 class ResourceMetadata(BaseModel):
     """Standard resource metadata structure across all adapters"""
+
     id: str = Field(..., description="Unique resource identifier")
     name: str = Field(..., description="Human-readable name")
     type: str = Field(..., description="Resource type (email, file, folder, etc.)")
@@ -37,6 +38,7 @@ class ResourceMetadata(BaseModel):
 
 class ResourceContent(BaseModel):
     """Resource content structure (requires content-level capabilities)"""
+
     metadata: ResourceMetadata
     content: bytes = Field(..., description="Raw content data")
     encoding: Optional[str] = Field(None, description="Content encoding")
@@ -45,6 +47,7 @@ class ResourceContent(BaseModel):
 
 class SearchQuery(BaseModel):
     """Common search query structure"""
+
     query: Optional[str] = Field(None, description="Text search query")
     type_filter: Optional[str] = Field(None, description="Resource type filter")
     size_min: Optional[int] = Field(None, description="Minimum size filter")
@@ -59,14 +62,18 @@ class SearchQuery(BaseModel):
 
 class WatchRequest(BaseModel):
     """Watch request for real-time updates"""
+
     resource_id: Optional[str] = Field(None, description="Specific resource to watch")
     resource_type: Optional[str] = Field(None, description="Type of resources to watch")
     webhook_url: str = Field(..., description="Webhook URL for notifications")
-    events: list[str] = Field(default=["created", "updated", "deleted"], description="Events to watch")
+    events: list[str] = Field(
+        default=["created", "updated", "deleted"], description="Events to watch"
+    )
 
 
 class OperationResult(BaseModel):
     """Standard operation result structure"""
+
     success: bool
     resource_id: Optional[str] = None
     message: str
@@ -95,10 +102,7 @@ class ServiceAdapter(ABC):
 
     @abstractmethod
     async def verify_capability_token(
-        self,
-        token: str,
-        required_scopes: list[str],
-        resource_id: Optional[str] = None
+        self, token: str, required_scopes: list[str], resource_id: Optional[str] = None
     ) -> dict[str, Any]:
         """Verify capability token has required scopes for operation"""
         pass
@@ -111,25 +115,21 @@ class ServiceAdapter(ABC):
         capability_token: str,
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
-        limit: int = 100
+        limit: int = 100,
     ) -> list[ResourceMetadata]:
         """List resources with metadata only (requires metadata scope)"""
         pass
 
     @abstractmethod
     async def get_resource_metadata(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> ResourceMetadata:
         """Get detailed metadata for specific resource (requires metadata scope)"""
         pass
 
     @abstractmethod
     async def get_resource_content(
-        self,
-        capability_token: str,
-        resource_id: str
+        self, capability_token: str, resource_id: str
     ) -> ResourceContent:
         """Get full resource content (requires content scope)"""
         pass
@@ -141,7 +141,7 @@ class ServiceAdapter(ABC):
         parent_id: Optional[str],
         name: str,
         content: bytes,
-        content_type: str
+        content_type: str,
     ) -> OperationResult:
         """Create or update resource (requires write scope)"""
         pass
@@ -152,35 +152,25 @@ class ServiceAdapter(ABC):
         capability_token: str,
         resource_id: str,
         new_parent_id: str,
-        new_name: Optional[str] = None
+        new_name: Optional[str] = None,
     ) -> OperationResult:
         """Move resource to different location (requires move scope)"""
         pass
 
     @abstractmethod
     async def search_resources(
-        self,
-        capability_token: str,
-        query: SearchQuery
+        self, capability_token: str, query: SearchQuery
     ) -> list[ResourceMetadata]:
         """Search resources (requires appropriate scope based on search depth)"""
         pass
 
     @abstractmethod
-    async def watch_resources(
-        self,
-        capability_token: str,
-        watch_request: WatchRequest
-    ) -> str:
+    async def watch_resources(self, capability_token: str, watch_request: WatchRequest) -> str:
         """Set up real-time resource watching (requires watch scope)"""
         pass
 
     @abstractmethod
-    async def unwatch_resources(
-        self,
-        capability_token: str,
-        watch_id: str
-    ) -> OperationResult:
+    async def unwatch_resources(self, capability_token: str, watch_id: str) -> OperationResult:
         """Remove resource watch (requires watch scope)"""
         pass
 
@@ -192,7 +182,7 @@ class ServiceAdapter(ABC):
         resource_id: Optional[str] = None,
         success: bool = True,
         error: Optional[str] = None,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Log operation for audit trail"""
         # This would integrate with the consent service audit log
@@ -203,7 +193,7 @@ class ServiceAdapter(ABC):
             "success": success,
             "error": error,
             "metadata": metadata,
-            "timestamp": datetime.utcnow()
+            "timestamp": datetime.utcnow(),
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
 
@@ -216,16 +206,16 @@ class ServiceAdapter(ABC):
             "put": [f"{resource_type or 'files'}.write"],
             "move": [f"{resource_type or 'files'}.move"],
             "search": [f"{resource_type or 'files'}.search"],
-            "watch": [f"{resource_type or 'files'}.watch"]
+            "watch": [f"{resource_type or 'files'}.watch"],
         }
         return scope_map.get(operation, [f"{resource_type or 'files'}.read.metadata"])
 
 
 __all__ = [
-    "ServiceAdapter",
-    "ResourceMetadata",
+    "OperationResult",
     "ResourceContent",
+    "ResourceMetadata",
     "SearchQuery",
+    "ServiceAdapter",
     "WatchRequest",
-    "OperationResult"
 ]

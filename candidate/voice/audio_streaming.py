@@ -23,15 +23,19 @@ from candidate.voice.audio_processing import AudioFormat
 
 logger = get_logger(__name__)
 
+
 class StreamingMode(Enum):
     """Audio streaming modes"""
-    REAL_TIME = "real_time"          # Lowest latency
-    LOW_LATENCY = "low_latency"      # Balanced latency/quality
-    HIGH_QUALITY = "high_quality"   # Quality prioritized
-    BUFFERED = "buffered"            # Higher latency, stable
+
+    REAL_TIME = "real_time"  # Lowest latency
+    LOW_LATENCY = "low_latency"  # Balanced latency/quality
+    HIGH_QUALITY = "high_quality"  # Quality prioritized
+    BUFFERED = "buffered"  # Higher latency, stable
+
 
 class StreamState(Enum):
     """Stream states"""
+
     IDLE = "idle"
     STARTING = "starting"
     ACTIVE = "active"
@@ -39,9 +43,11 @@ class StreamState(Enum):
     STOPPING = "stopping"
     ERROR = "error"
 
+
 @dataclass
 class StreamConfig:
     """Audio stream configuration"""
+
     # Basic parameters
     sample_rate: int = 44100
     channels: int = 1
@@ -69,12 +75,14 @@ class StreamConfig:
             "target_latency_ms": self.target_latency_ms,
             "adaptive_quality": self.adaptive_quality,
             "min_buffer_count": self.min_buffer_count,
-            "max_latency_ms": self.max_latency_ms
+            "max_latency_ms": self.max_latency_ms,
         }
+
 
 @dataclass
 class AudioChunk:
     """Audio data chunk for streaming"""
+
     data: np.ndarray
     timestamp: float
     sequence_number: int
@@ -87,9 +95,11 @@ class AudioChunk:
         """Get chunk duration in milliseconds"""
         return (len(self.data) / (self.sample_rate * self.channels)) * 1000
 
+
 @dataclass
 class StreamStats:
     """Stream statistics"""
+
     chunks_processed: int = 0
     bytes_streamed: int = 0
     average_latency_ms: float = 0.0
@@ -108,6 +118,7 @@ class StreamStats:
             return (self.bytes_streamed * 8) / (self.uptime_seconds * 1000)
         return 0.0
 
+
 class AudioStreamProcessor(ABC):
     """Abstract base for audio stream processors"""
 
@@ -116,11 +127,13 @@ class AudioStreamProcessor(ABC):
         """Process audio chunk"""
         pass
 
+
 class PassthroughProcessor(AudioStreamProcessor):
     """Passthrough processor (no processing)"""
 
     async def process_chunk(self, chunk: AudioChunk) -> AudioChunk:
         return chunk
+
 
 class VolumeProcessor(AudioStreamProcessor):
     """Volume adjustment processor"""
@@ -136,8 +149,9 @@ class VolumeProcessor(AudioStreamProcessor):
             sequence_number=chunk.sequence_number,
             sample_rate=chunk.sample_rate,
             channels=chunk.channels,
-            metadata={**chunk.metadata, "volume_applied": self.volume}
+            metadata={**chunk.metadata, "volume_applied": self.volume},
         )
+
 
 class LUKHASAudioStream:
     """LUKHAS real-time audio stream"""
@@ -181,14 +195,18 @@ class LUKHASAudioStream:
                 return False
 
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "audio_stream_start",
-                "stream_id": self.stream_id,
-                "config": self.config.to_dict()
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "audio_stream_start",
+                    "stream_id": self.stream_id,
+                    "config": self.config.to_dict(),
+                }
+            )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected stream start: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected stream start: {validation_result.get('reason')}"
+                )
 
             self._set_state(StreamState.STARTING)
 
@@ -198,16 +216,16 @@ class LUKHASAudioStream:
             self._set_state(StreamState.ACTIVE)
             self.stats.start_time = time.time()
 
-            await GLYPH.emit("audio.stream.started", {
-                "stream_id": self.stream_id,
-                "config": self.config.to_dict()
-            })
+            await GLYPH.emit(
+                "audio.stream.started",
+                {"stream_id": self.stream_id, "config": self.config.to_dict()},
+            )
 
             self.logger.info(f"Audio stream {self.stream_id} started")
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to start stream {self.stream_id}: {str(e)}")
+            self.logger.error(f"Failed to start stream {self.stream_id}: {e!s}")
             self._set_state(StreamState.ERROR)
             if self.on_error_callback:
                 self.on_error_callback(e)
@@ -242,16 +260,15 @@ class LUKHASAudioStream:
 
             self._set_state(StreamState.IDLE)
 
-            await GLYPH.emit("audio.stream.stopped", {
-                "stream_id": self.stream_id,
-                "stats": self.get_stats()
-            })
+            await GLYPH.emit(
+                "audio.stream.stopped", {"stream_id": self.stream_id, "stats": self.get_stats()}
+            )
 
             self.logger.info(f"Audio stream {self.stream_id} stopped")
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to stop stream {self.stream_id}: {str(e)}")
+            self.logger.error(f"Failed to stop stream {self.stream_id}: {e!s}")
             self._set_state(StreamState.ERROR)
             return False
 
@@ -269,7 +286,7 @@ class LUKHASAudioStream:
                 timestamp=timestamp,
                 sequence_number=self.next_sequence,
                 sample_rate=self.config.sample_rate,
-                channels=self.config.channels
+                channels=self.config.channels,
             )
             self.next_sequence += 1
 
@@ -288,7 +305,7 @@ class LUKHASAudioStream:
                 return False
 
         except Exception as e:
-            self.logger.error(f"Failed to push audio to stream {self.stream_id}: {str(e)}")
+            self.logger.error(f"Failed to push audio to stream {self.stream_id}: {e!s}")
             self.stats.processing_errors += 1
             return False
 
@@ -306,9 +323,8 @@ class LUKHASAudioStream:
 
             if self.stats.chunks_processed > 0:
                 self.stats.average_latency_ms = (
-                    (self.stats.average_latency_ms * self.stats.chunks_processed + latency) /
-                    (self.stats.chunks_processed + 1)
-                )
+                    self.stats.average_latency_ms * self.stats.chunks_processed + latency
+                ) / (self.stats.chunks_processed + 1)
             else:
                 self.stats.average_latency_ms = latency
 
@@ -326,7 +342,7 @@ class LUKHASAudioStream:
                 await self._adapt_quality(underrun=True)
             return None
         except Exception as e:
-            self.logger.error(f"Failed to get audio from stream {self.stream_id}: {str(e)}")
+            self.logger.error(f"Failed to get audio from stream {self.stream_id}: {e!s}")
             self.stats.processing_errors += 1
             return None
 
@@ -335,10 +351,7 @@ class LUKHASAudioStream:
         while self.state == StreamState.ACTIVE:
             try:
                 # Get chunk from input queue
-                chunk = await asyncio.wait_for(
-                    self.input_queue.get(),
-                    timeout=0.1
-                )
+                chunk = await asyncio.wait_for(self.input_queue.get(), timeout=0.1)
 
                 # Process through all processors
                 processed_chunk = chunk
@@ -375,7 +388,7 @@ class LUKHASAudioStream:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                self.logger.error(f"Processing error in stream {self.stream_id}: {str(e)}")
+                self.logger.error(f"Processing error in stream {self.stream_id}: {e!s}")
                 self.stats.processing_errors += 1
                 if self.on_error_callback:
                     self.on_error_callback(e)
@@ -388,11 +401,15 @@ class LUKHASAudioStream:
         if overrun:
             # Too much data, reduce quality slightly
             self.quality_adjustment_factor = max(0.5, self.quality_adjustment_factor * 0.95)
-            self.logger.debug(f"Stream {self.stream_id} quality reduced to {self.quality_adjustment_factor:.2f}")
+            self.logger.debug(
+                f"Stream {self.stream_id} quality reduced to {self.quality_adjustment_factor:.2f}"
+            )
         elif underrun:
             # Not enough data, increase quality slightly
             self.quality_adjustment_factor = min(1.0, self.quality_adjustment_factor * 1.05)
-            self.logger.debug(f"Stream {self.stream_id} quality increased to {self.quality_adjustment_factor:.2f}")
+            self.logger.debug(
+                f"Stream {self.stream_id} quality increased to {self.quality_adjustment_factor:.2f}"
+            )
         elif self.current_latency > self.config.max_latency_ms:
             # Latency too high, reduce quality
             self.quality_adjustment_factor = max(0.5, self.quality_adjustment_factor * 0.98)
@@ -405,7 +422,9 @@ class LUKHASAudioStream:
         if self.state != new_state:
             old_state = self.state
             self.state = new_state
-            self.logger.debug(f"Stream {self.stream_id} state: {old_state.value} -> {new_state.value}")
+            self.logger.debug(
+                f"Stream {self.stream_id} state: {old_state.value} -> {new_state.value}"
+            )
             if self.on_state_change_callback:
                 self.on_state_change_callback(new_state)
 
@@ -434,8 +453,9 @@ class LUKHASAudioStream:
             "throughput_kbps": self.stats.throughput_kbps,
             "quality_factor": self.quality_adjustment_factor,
             "input_queue_size": self.input_queue.qsize(),
-            "output_queue_size": self.output_queue.qsize()
+            "output_queue_size": self.output_queue.qsize(),
         }
+
 
 class LUKHASAudioStreamManager:
     """Manager for multiple audio streams"""
@@ -443,11 +463,7 @@ class LUKHASAudioStreamManager:
     def __init__(self):
         self.logger = get_logger(f"{__name__}.LUKHASAudioStreamManager")
         self.streams: dict[str, LUKHASAudioStream] = {}
-        self.global_stats = {
-            "streams_created": 0,
-            "streams_active": 0,
-            "total_data_streamed": 0
-        }
+        self.global_stats = {"streams_created": 0, "streams_active": 0, "total_data_streamed": 0}
 
     async def create_stream(self, stream_id: str, config: StreamConfig) -> LUKHASAudioStream:
         """Create new audio stream"""
@@ -465,7 +481,9 @@ class LUKHASAudioStreamManager:
             if new_state == StreamState.ACTIVE:
                 self.global_stats["streams_active"] += 1
             elif new_state in [StreamState.IDLE, StreamState.ERROR]:
-                self.global_stats["streams_active"] = max(0, self.global_stats["streams_active"] - 1)
+                self.global_stats["streams_active"] = max(
+                    0, self.global_stats["streams_active"] - 1
+                )
 
             if original_state_callback:
                 original_state_callback(new_state)
@@ -520,14 +538,13 @@ class LUKHASAudioStreamManager:
         return {
             **self.global_stats,
             "streams_total": len(self.streams),
-            "total_throughput_kbps": total_throughput
+            "total_throughput_kbps": total_throughput,
         }
+
 
 # Convenience functions
 async def create_realtime_stream(
-    stream_id: str,
-    sample_rate: int = 44100,
-    buffer_size: int = 512
+    stream_id: str, sample_rate: int = 44100, buffer_size: int = 512
 ) -> LUKHASAudioStream:
     """Create real-time audio stream with minimal latency"""
     config = StreamConfig(
@@ -536,23 +553,24 @@ async def create_realtime_stream(
         buffer_size=buffer_size,
         max_buffer_count=5,
         target_latency_ms=20.0,
-        adaptive_quality=True
+        adaptive_quality=True,
     )
 
     manager = LUKHASAudioStreamManager()
     return await manager.create_stream(stream_id, config)
 
+
 # Export main classes
 __all__ = [
+    "AudioChunk",
+    "AudioStreamProcessor",
     "LUKHASAudioStream",
     "LUKHASAudioStreamManager",
+    "PassthroughProcessor",
     "StreamConfig",
-    "AudioChunk",
+    "StreamState",
     "StreamStats",
     "StreamingMode",
-    "StreamState",
-    "AudioStreamProcessor",
-    "PassthroughProcessor",
     "VolumeProcessor",
-    "create_realtime_stream"
+    "create_realtime_stream",
 ]

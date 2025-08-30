@@ -283,7 +283,7 @@ class EmailNotification(ReviewerNotification):
             decision_id=decision.decision_id,
             type=notification_type,
             step="initiated",
-            narrative="Starting email notification orchestration workflow"
+            narrative="Starting email notification orchestration workflow",
         )
 
         try:
@@ -294,20 +294,22 @@ class EmailNotification(ReviewerNotification):
                     "decision_type": getattr(decision, "decision_type", "general_review"),
                     "urgency_level": getattr(decision, "urgency_level", "normal"),
                     "created_at": getattr(decision, "created_at", start_time.isoformat()),
-                    "deadline": getattr(decision, "review_deadline", None)
+                    "deadline": getattr(decision, "review_deadline", None),
                 },
                 "reviewer_context": {
                     "reviewer_name": getattr(reviewer, "name", reviewer.reviewer_id),
                     "expertise_area": getattr(reviewer, "expertise_area", "general"),
                     "notification_preferences": getattr(reviewer, "notification_preferences", {}),
-                    "contact_email": getattr(reviewer, "email", f"{reviewer.reviewer_id}@company.com")
+                    "contact_email": getattr(
+                        reviewer, "email", f"{reviewer.reviewer_id}@company.com"
+                    ),
                 },
                 "notification_metadata": {
                     "notification_type": notification_type,
                     "notification_id": notification_id,
                     "system_context": "LUKHAS_AI_Decision_Review",
-                    "template_version": "1.0"
-                }
+                    "template_version": "1.0",
+                },
             }
 
             # Phase 2: Generate email content based on notification type
@@ -319,19 +321,19 @@ class EmailNotification(ReviewerNotification):
                 step="content_prepared",
                 email_subject_length=len(email_content.get("subject", "")),
                 email_body_length=len(email_content.get("body", "")),
-                narrative="Email content prepared with decision context integration"
+                narrative="Email content prepared with decision context integration",
             )
 
             # Phase 3: Execute email delivery with orchestration patterns
             delivery_result = await self._execute_email_delivery(
-                email_context["reviewer_context"]["contact_email"],
-                email_content,
-                email_context
+                email_context["reviewer_context"]["contact_email"], email_content, email_context
             )
 
             # Phase 4: Track delivery and integrate with monitoring systems
             if delivery_result.get("delivered", False):
-                await self._track_notification_delivery(notification_id, email_context, delivery_result)
+                await self._track_notification_delivery(
+                    notification_id, email_context, delivery_result
+                )
 
                 # Broadcast success event for workflow orchestration
                 if hasattr(self, "_broadcast_orchestration_event"):
@@ -343,30 +345,33 @@ class EmailNotification(ReviewerNotification):
                             "decision_id": decision.decision_id,
                             "notification_type": notification_type,
                             "delivery_status": "delivered",
-                            "workflow_step": "human_notification_complete"
-                        }
+                            "workflow_step": "human_notification_complete",
+                        },
                     )
 
                 logger.info(
                     "ΛTRACE_EMAIL_ORCHESTRATION_SUCCESS",
                     notification_id=notification_id,
                     step="orchestration_complete",
-                    processing_time_ms=(datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
+                    processing_time_ms=(datetime.now(timezone.utc) - start_time).total_seconds()
+                    * 1000,
                     delivery_method=delivery_result.get("delivery_method", "smtp"),
-                    narrative="Email notification orchestration completed successfully"
+                    narrative="Email notification orchestration completed successfully",
                 )
 
                 return True
             else:
                 # Handle delivery failure with orchestration patterns
-                await self._handle_notification_failure(notification_id, email_context, delivery_result)
+                await self._handle_notification_failure(
+                    notification_id, email_context, delivery_result
+                )
 
                 logger.warning(
                     "ΛTRACE_EMAIL_DELIVERY_FAILED",
                     notification_id=notification_id,
                     step="delivery_failed",
                     failure_reason=delivery_result.get("error", "unknown"),
-                    narrative="Email delivery failed - initiating fallback orchestration"
+                    narrative="Email delivery failed - initiating fallback orchestration",
                 )
 
                 return False
@@ -378,7 +383,7 @@ class EmailNotification(ReviewerNotification):
                 reviewer_id=reviewer.reviewer_id,
                 decision_id=decision.decision_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             return False
 
@@ -408,7 +413,7 @@ class SlackNotification(ReviewerNotification):
             decision_id=decision.decision_id,
             type=notification_type,
             step="initiated",
-            narrative="Starting Slack notification orchestration workflow"
+            narrative="Starting Slack notification orchestration workflow",
         )
 
         try:
@@ -419,21 +424,23 @@ class SlackNotification(ReviewerNotification):
                     "decision_type": getattr(decision, "decision_type", "general_review"),
                     "urgency_level": getattr(decision, "urgency_level", "normal"),
                     "review_deadline": getattr(decision, "review_deadline", None),
-                    "priority_score": getattr(decision, "priority_score", 5)
+                    "priority_score": getattr(decision, "priority_score", 5),
                 },
                 "reviewer_context": {
                     "reviewer_id": reviewer.reviewer_id,
                     "slack_user_id": getattr(reviewer, "slack_user_id", f"@{reviewer.reviewer_id}"),
-                    "preferred_channel": getattr(reviewer, "preferred_slack_channel", "#lukhas-decisions"),
+                    "preferred_channel": getattr(
+                        reviewer, "preferred_slack_channel", "#lukhas-decisions"
+                    ),
                     "notification_preferences": getattr(reviewer, "slack_preferences", {}),
-                    "timezone": getattr(reviewer, "timezone", "UTC")
+                    "timezone": getattr(reviewer, "timezone", "UTC"),
                 },
                 "orchestration_metadata": {
                     "notification_type": notification_type,
                     "notification_id": slack_notification_id,
                     "workflow_context": "LUKHAS_AI_Decision_Orchestration",
-                    "integration_version": "1.0"
-                }
+                    "integration_version": "1.0",
+                },
             }
 
             # Phase 2: Create interactive Slack message with decision actions
@@ -447,7 +454,7 @@ class SlackNotification(ReviewerNotification):
                 step="message_prepared",
                 message_blocks_count=len(slack_message.get("blocks", [])),
                 has_interactive_elements=bool(slack_message.get("attachments")),
-                narrative="Interactive Slack message prepared with decision workflow actions"
+                narrative="Interactive Slack message prepared with decision workflow actions",
             )
 
             # Phase 3: Execute Slack API delivery with error handling
@@ -472,8 +479,8 @@ class SlackNotification(ReviewerNotification):
                             "slack_channel": slack_context["reviewer_context"]["preferred_channel"],
                             "delivery_status": "delivered",
                             "workflow_step": "slack_notification_active",
-                            "interactive_elements_enabled": True
-                        }
+                            "interactive_elements_enabled": True,
+                        },
                     )
 
                 # Phase 6: Schedule follow-up and reminder orchestration
@@ -488,7 +495,7 @@ class SlackNotification(ReviewerNotification):
                     processing_time_ms=processing_time,
                     slack_channel=slack_context["reviewer_context"]["preferred_channel"],
                     message_timestamp=delivery_result.get("message_timestamp"),
-                    narrative="Slack notification orchestration completed with interactive workflow integration"
+                    narrative="Slack notification orchestration completed with interactive workflow integration",
                 )
 
                 return True
@@ -505,7 +512,7 @@ class SlackNotification(ReviewerNotification):
                     step="delivery_failed",
                     failure_reason=delivery_result.get("error", "unknown"),
                     slack_error_code=delivery_result.get("slack_error_code"),
-                    narrative="Slack delivery failed - initiating fallback notification orchestration"
+                    narrative="Slack delivery failed - initiating fallback notification orchestration",
                 )
 
                 return False
@@ -517,7 +524,7 @@ class SlackNotification(ReviewerNotification):
                 reviewer_id=reviewer.reviewer_id,
                 decision_id=decision.decision_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             return False
 
@@ -557,15 +564,9 @@ class HumanInTheLoopOrchestrator:
         # Configuration
         self.consensus_threshold = self.config.get("consensus_threshold", 0.7)
         self.max_review_time_hours = self.config.get("max_review_time_hours", 48)
-        self.emergency_timeout_minutes = self.config.get(
-            "emergency_timeout_minutes", 60
-        )
-        self.min_reviewers_per_decision = self.config.get(
-            "min_reviewers_per_decision", 2
-        )
-        self.max_reviewers_per_decision = self.config.get(
-            "max_reviewers_per_decision", 5
-        )
+        self.emergency_timeout_minutes = self.config.get("emergency_timeout_minutes", 60)
+        self.min_reviewers_per_decision = self.config.get("min_reviewers_per_decision", 2)
+        self.max_reviewers_per_decision = self.config.get("max_reviewers_per_decision", 5)
 
         # Metrics and state
         self.metrics = {
@@ -710,9 +711,7 @@ class HumanInTheLoopOrchestrator:
             return context.decision_id
 
         # Create assignments
-        assignments = await self._create_review_assignments(
-            context.decision_id, reviewers
-        )
+        assignments = await self._create_review_assignments(context.decision_id, reviewers)
         decision_record.assignments = assignments
         decision_record.status = DecisionStatus.UNDER_REVIEW
 
@@ -739,9 +738,7 @@ class HumanInTheLoopOrchestrator:
 
         return context.decision_id
 
-    async def submit_review_response(
-        self, assignment_id: str, response: ReviewResponse
-    ) -> bool:
+    async def submit_review_response(self, assignment_id: str, response: ReviewResponse) -> bool:
         """Submit a review response from a human reviewer."""
         response_logger = self.logger.bind(
             assignment_id=assignment_id, reviewer_id=response.reviewer_id
@@ -794,9 +791,7 @@ class HumanInTheLoopOrchestrator:
 
         return True
 
-    async def _find_suitable_reviewers(
-        self, context: DecisionContext
-    ) -> list[ReviewerProfile]:
+    async def _find_suitable_reviewers(self, context: DecisionContext) -> list[ReviewerProfile]:
         """Find suitable reviewers for a decision context."""
         suitable_reviewers = []
 
@@ -837,15 +832,10 @@ class HumanInTheLoopOrchestrator:
         max_reviewers = self._get_reviewer_count_for_priority(context.priority)
         return suitable_reviewers[:max_reviewers]
 
-    def _check_role_suitability(
-        self, reviewer: ReviewerProfile, context: DecisionContext
-    ) -> bool:
+    def _check_role_suitability(self, reviewer: ReviewerProfile, context: DecisionContext) -> bool:
         """Check if reviewer roles are suitable for decision context."""
         # Ethics-related decisions need ethics specialists
-        if (
-            context.ethical_implications
-            and ReviewerRole.ETHICS_SPECIALIST in reviewer.roles
-        ):
+        if context.ethical_implications and ReviewerRole.ETHICS_SPECIALIST in reviewer.roles:
             return True
 
         # High priority decisions need senior overseers
@@ -873,17 +863,13 @@ class HumanInTheLoopOrchestrator:
 
         # Expertise match
         expertise_matches = sum(
-            1
-            for expertise in context.required_expertise
-            if expertise in reviewer.expertise_domains
+            1 for expertise in context.required_expertise if expertise in reviewer.expertise_domains
         )
         if context.required_expertise:
             score += (expertise_matches / len(context.required_expertise)) * 0.3
 
         # Workload (prefer less busy reviewers)
-        workload_factor = 1.0 - (
-            reviewer.current_workload / reviewer.max_concurrent_reviews
-        )
+        workload_factor = 1.0 - (reviewer.current_workload / reviewer.max_concurrent_reviews)
         score += workload_factor * 0.2
 
         # Performance metrics
@@ -911,7 +897,7 @@ class HumanInTheLoopOrchestrator:
             check_id=availability_check_id,
             reviewer_id=reviewer.reviewer_id,
             step="initiated",
-            narrative="Starting timezone-aware availability checking orchestration"
+            narrative="Starting timezone-aware availability checking orchestration",
         )
 
         try:
@@ -924,6 +910,7 @@ class HumanInTheLoopOrchestrator:
             current_utc = datetime.now(timezone.utc)
             try:
                 import pytz
+
                 reviewer_tz = pytz.timezone(reviewer_timezone)
                 reviewer_local_time = current_utc.astimezone(reviewer_tz)
             except (ImportError, pytz.exceptions.UnknownTimeZoneError):
@@ -938,7 +925,7 @@ class HumanInTheLoopOrchestrator:
                 utc_time=current_utc.isoformat(),
                 local_time=reviewer_local_time.isoformat(),
                 step="timezone_calculated",
-                narrative="Calculated reviewer local time for availability assessment"
+                narrative="Calculated reviewer local time for availability assessment",
             )
 
             # Phase 2: Check work hours availability
@@ -957,9 +944,7 @@ class HumanInTheLoopOrchestrator:
             )
 
             # Phase 5: Check current workload and capacity
-            capacity_available = self._check_reviewer_capacity(
-                reviewer, availability_check_id
-            )
+            capacity_available = self._check_reviewer_capacity(reviewer, availability_check_id)
 
             # Phase 6: Integrate availability factors with orchestration logic
             availability_factors = {
@@ -968,15 +953,15 @@ class HumanInTheLoopOrchestrator:
                 "notification_preferences_allow": notification_available,
                 "capacity_available": capacity_available,
                 "reviewer_local_time": reviewer_local_time.isoformat(),
-                "check_timestamp": current_utc.isoformat()
+                "check_timestamp": current_utc.isoformat(),
             }
 
             # Calculate overall availability with weighted scoring
             overall_available = (
-                work_hours_available and
-                calendar_available and
-                notification_available and
-                capacity_available
+                work_hours_available
+                and calendar_available
+                and notification_available
+                and capacity_available
             )
 
             # Phase 7: Log availability assessment for transparency
@@ -990,22 +975,24 @@ class HumanInTheLoopOrchestrator:
                 overall_available=overall_available,
                 availability_factors=availability_factors,
                 processing_time_ms=processing_time_ms,
-                narrative="Timezone-aware availability assessment completed with multi-factor analysis"
+                narrative="Timezone-aware availability assessment completed with multi-factor analysis",
             )
 
             # Phase 8: Broadcast availability event for workflow orchestration
             if hasattr(self, "_broadcast_orchestration_event"):
-                asyncio.create_task(self._broadcast_orchestration_event(
-                    "orchestration.reviewer.availability_checked",
-                    {
-                        "availability_check_id": availability_check_id,
-                        "reviewer_id": reviewer.reviewer_id,
-                        "available": overall_available,
-                        "availability_factors": availability_factors,
-                        "reviewer_timezone": reviewer_timezone,
-                        "workflow_step": "availability_verified"
-                    }
-                ))
+                asyncio.create_task(
+                    self._broadcast_orchestration_event(
+                        "orchestration.reviewer.availability_checked",
+                        {
+                            "availability_check_id": availability_check_id,
+                            "reviewer_id": reviewer.reviewer_id,
+                            "available": overall_available,
+                            "availability_factors": availability_factors,
+                            "reviewer_timezone": reviewer_timezone,
+                            "workflow_step": "availability_verified",
+                        },
+                    )
+                )
 
             return overall_available
 
@@ -1015,7 +1002,7 @@ class HumanInTheLoopOrchestrator:
                 check_id=availability_check_id,
                 reviewer_id=reviewer.reviewer_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             # Default to available on error to avoid blocking workflow
             return True
@@ -1085,9 +1072,9 @@ class HumanInTheLoopOrchestrator:
             for contact_method in reviewer.contact_methods:
                 if contact_method in self.notification_systems:
                     try:
-                        await self.notification_systems[
-                            contact_method
-                        ].send_notification(reviewer, decision, notification_type)
+                        await self.notification_systems[contact_method].send_notification(
+                            reviewer, decision, notification_type
+                        )
                         assignment.notification_sent = True
                     except Exception as e:
                         self.logger.error(
@@ -1114,9 +1101,7 @@ class HumanInTheLoopOrchestrator:
 
         # Calculate consensus
         total_responses = len(decision.responses)
-        avg_confidence = (
-            total_confidence / total_responses if total_responses > 0 else 0.0
-        )
+        avg_confidence = total_confidence / total_responses if total_responses > 0 else 0.0
 
         # Find majority decision
         majority_decision = max(decisions.keys(), key=lambda k: len(decisions[k]))
@@ -1137,9 +1122,7 @@ class HumanInTheLoopOrchestrator:
 
             # Generate human explanation
             if self.xil:
-                decision.human_explanation = await self._generate_human_explanation(
-                    decision
-                )
+                decision.human_explanation = await self._generate_human_explanation(decision)
 
             # Update metrics
             if majority_decision == "approve":
@@ -1159,8 +1142,7 @@ class HumanInTheLoopOrchestrator:
             # No consensus with maximum reviewers - escalate
             decision.status = DecisionStatus.ESCALATED
             self.metrics["escalation_rate"] = (
-                self.metrics.get("escalation_rate", 0)
-                * (self.metrics["decisions_processed"] - 1)
+                self.metrics.get("escalation_rate", 0) * (self.metrics["decisions_processed"] - 1)
                 + 1
             ) / self.metrics["decisions_processed"]
 
@@ -1179,7 +1161,9 @@ class HumanInTheLoopOrchestrator:
         explanation with step-by-step narrative generation and human interpretability.
         """
         start_time = datetime.now(timezone.utc)
-        explanation_request_id = f"xil_explain_{context.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        explanation_request_id = (
+            f"xil_explain_{context.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        )
 
         logger.info(
             "ΛTRACE_XIL_INTEGRATION_ORCHESTRATION",
@@ -1187,13 +1171,15 @@ class HumanInTheLoopOrchestrator:
             decision_id=context.decision_id,
             decision_type=context.decision_type,
             step="initiated",
-            narrative="Starting XIL integration orchestration for AI explanation generation"
+            narrative="Starting XIL integration orchestration for AI explanation generation",
         )
 
         try:
             if not self.xil:
                 # Create standalone explanation when XIL not available
-                fallback_explanation = await self._create_fallback_ai_explanation(context, explanation_request_id)
+                fallback_explanation = await self._create_fallback_ai_explanation(
+                    context, explanation_request_id
+                )
                 return fallback_explanation
 
             # Phase 1: Prepare XIL explanation request with HITLO context
@@ -1205,7 +1191,7 @@ class HumanInTheLoopOrchestrator:
                     "ai_confidence": getattr(context, "ai_confidence", 0.0),
                     "risk_level": getattr(context, "risk_level", "unknown"),
                     "complexity_score": getattr(context, "complexity_score", 0.0),
-                    "stakeholder_impact": getattr(context, "stakeholder_impact", "unknown")
+                    "stakeholder_impact": getattr(context, "stakeholder_impact", "unknown"),
                 },
                 "explanation_requirements": {
                     "target_audience": "human_reviewers",
@@ -1213,14 +1199,14 @@ class HumanInTheLoopOrchestrator:
                     "include_reasoning_chain": True,
                     "include_confidence_intervals": True,
                     "include_alternative_scenarios": True,
-                    "human_interpretability_priority": "high"
+                    "human_interpretability_priority": "high",
                 },
                 "orchestration_context": {
                     "requesting_system": "HumanInTheLoopOrchestrator",
                     "workflow_stage": "human_review_preparation",
                     "explanation_purpose": "human_oversight_support",
-                    "integration_version": "1.0"
-                }
+                    "integration_version": "1.0",
+                },
             }
 
             logger.info(
@@ -1229,7 +1215,7 @@ class HumanInTheLoopOrchestrator:
                 step="request_prepared",
                 decision_type=context.decision_type,
                 ai_confidence=xil_request["decision_context"]["ai_confidence"],
-                narrative="XIL explanation request prepared with HITLO context integration"
+                narrative="XIL explanation request prepared with HITLO context integration",
             )
 
             # Phase 2: Execute XIL explanation generation with orchestration
@@ -1241,7 +1227,7 @@ class HumanInTheLoopOrchestrator:
                     explanation_request_id=explanation_request_id,
                     step="explanation_generated",
                     explanation_length=len(str(xil_explanation)),
-                    narrative="XIL explanation generated successfully"
+                    narrative="XIL explanation generated successfully",
                 )
 
                 # Phase 3: Post-process explanation for HITLO integration
@@ -1258,9 +1244,11 @@ class HumanInTheLoopOrchestrator:
                             "decision_id": context.decision_id,
                             "explanation_type": "ai_decision_analysis",
                             "xil_integration_successful": True,
-                            "explanation_quality_score": await self._assess_explanation_quality(processed_explanation),
-                            "workflow_step": "ai_explanation_ready_for_human_review"
-                        }
+                            "explanation_quality_score": await self._assess_explanation_quality(
+                                processed_explanation
+                            ),
+                            "workflow_step": "ai_explanation_ready_for_human_review",
+                        },
                     )
 
                 processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
@@ -1270,7 +1258,7 @@ class HumanInTheLoopOrchestrator:
                     explanation_request_id=explanation_request_id,
                     step="integration_complete",
                     processing_time_ms=processing_time,
-                    narrative="XIL integration orchestration completed with human-interpretable explanation"
+                    narrative="XIL integration orchestration completed with human-interpretable explanation",
                 )
 
                 return processed_explanation
@@ -1280,7 +1268,7 @@ class HumanInTheLoopOrchestrator:
                     "XIL explanation generation failed, creating fallback",
                     explanation_request_id=explanation_request_id,
                     xil_error=str(xil_error),
-                    step="xil_fallback"
+                    step="xil_fallback",
                 )
 
                 # Create enhanced fallback with available context
@@ -1296,7 +1284,7 @@ class HumanInTheLoopOrchestrator:
                 explanation_request_id=explanation_request_id,
                 decision_id=context.decision_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
 
             # Return basic explanation to maintain workflow continuity
@@ -1313,9 +1301,7 @@ class HumanInTheLoopOrchestrator:
 
         for response in decision.responses:
             if response.reasoning:
-                all_reasoning.append(
-                    f"Reviewer {response.reviewer_id}: {response.reasoning}"
-                )
+                all_reasoning.append(f"Reviewer {response.reviewer_id}: {response.reasoning}")
             all_recommendations.extend(response.recommendations)
 
         explanation_parts = [
@@ -1347,7 +1333,9 @@ class HumanInTheLoopOrchestrator:
         smart contract integration, and transparent audit trail management.
         """
         start_time = datetime.now(timezone.utc)
-        escrow_orchestration_id = f"escrow_setup_{escrow_details.escrow_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        escrow_orchestration_id = (
+            f"escrow_setup_{escrow_details.escrow_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        )
 
         logger.info(
             "ΛTRACE_ESCROW_ORCHESTRATION",
@@ -1356,7 +1344,7 @@ class HumanInTheLoopOrchestrator:
             amount=str(escrow_details.amount),
             currency=escrow_details.currency,
             step="initiated",
-            narrative="Starting financial/crypto escrow setup orchestration workflow"
+            narrative="Starting financial/crypto escrow setup orchestration workflow",
         )
 
         try:
@@ -1369,14 +1357,15 @@ class HumanInTheLoopOrchestrator:
                 "decision_context": {
                     "decision_id": getattr(escrow_details, "decision_id", "unknown"),
                     "urgency_level": getattr(escrow_details, "urgency_level", "normal"),
-                    "risk_assessment": getattr(escrow_details, "risk_assessment", "moderate")
+                    "risk_assessment": getattr(escrow_details, "risk_assessment", "moderate"),
                 },
                 "security_requirements": {
-                    "multi_signature_required": escrow_details.amount > 10000,  # High value threshold
+                    "multi_signature_required": escrow_details.amount
+                    > 10000,  # High value threshold
                     "time_lock_enabled": True,
                     "audit_trail_required": True,
-                    "compliance_verification": True
-                }
+                    "compliance_verification": True,
+                },
             }
 
             logger.info(
@@ -1384,17 +1373,25 @@ class HumanInTheLoopOrchestrator:
                 orchestration_id=escrow_orchestration_id,
                 step="config_prepared",
                 escrow_type=escrow_config["escrow_type"],
-                multi_sig_required=escrow_config["security_requirements"]["multi_signature_required"],
-                narrative="Escrow configuration prepared with security requirements"
+                multi_sig_required=escrow_config["security_requirements"][
+                    "multi_signature_required"
+                ],
+                narrative="Escrow configuration prepared with security requirements",
             )
 
             # Phase 2: Execute escrow setup based on currency type
             if escrow_config["escrow_type"] == "cryptocurrency":
-                escrow_result = await self._setup_crypto_escrow(escrow_config, escrow_orchestration_id)
+                escrow_result = await self._setup_crypto_escrow(
+                    escrow_config, escrow_orchestration_id
+                )
             elif escrow_config["escrow_type"] == "traditional_currency":
-                escrow_result = await self._setup_traditional_escrow(escrow_config, escrow_orchestration_id)
+                escrow_result = await self._setup_traditional_escrow(
+                    escrow_config, escrow_orchestration_id
+                )
             else:
-                escrow_result = await self._setup_hybrid_escrow(escrow_config, escrow_orchestration_id)
+                escrow_result = await self._setup_hybrid_escrow(
+                    escrow_config, escrow_orchestration_id
+                )
 
             # Phase 3: Verify escrow setup and update status
             if escrow_result.get("setup_successful", False):
@@ -1404,10 +1401,14 @@ class HumanInTheLoopOrchestrator:
                 escrow_details.smart_contract_address = escrow_result.get("smart_contract_address")
 
                 # Phase 4: Set up monitoring and auto-release conditions
-                await self._setup_escrow_monitoring(escrow_details, escrow_result, escrow_orchestration_id)
+                await self._setup_escrow_monitoring(
+                    escrow_details, escrow_result, escrow_orchestration_id
+                )
 
                 # Phase 5: Create audit trail and compliance documentation
-                await self._create_escrow_audit_trail(escrow_details, escrow_config, escrow_result, escrow_orchestration_id)
+                await self._create_escrow_audit_trail(
+                    escrow_details, escrow_config, escrow_result, escrow_orchestration_id
+                )
 
                 # Phase 6: Integrate with LUKHAS orchestration event system
                 if hasattr(self, "_broadcast_orchestration_event"):
@@ -1421,12 +1422,14 @@ class HumanInTheLoopOrchestrator:
                             "currency": escrow_config["currency"],
                             "escrow_address": escrow_details.escrow_address,
                             "transaction_hash": escrow_details.transaction_hash,
-                            "workflow_step": "escrow_active_monitoring"
-                        }
+                            "workflow_step": "escrow_active_monitoring",
+                        },
                     )
 
                 self.metrics["escrow_operations"] += 1
-                self.metrics["successful_escrow_setups"] = self.metrics.get("successful_escrow_setups", 0) + 1
+                self.metrics["successful_escrow_setups"] = (
+                    self.metrics.get("successful_escrow_setups", 0) + 1
+                )
 
                 processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
@@ -1437,20 +1440,22 @@ class HumanInTheLoopOrchestrator:
                     processing_time_ms=processing_time,
                     escrow_address=escrow_details.escrow_address,
                     transaction_hash=escrow_details.transaction_hash,
-                    narrative="Financial/crypto escrow orchestration completed successfully with monitoring enabled"
+                    narrative="Financial/crypto escrow orchestration completed successfully with monitoring enabled",
                 )
 
             else:
                 # Handle escrow setup failure
                 escrow_details.status = EscrowStatus.FAILED
-                await self._handle_escrow_setup_failure(escrow_details, escrow_result, escrow_orchestration_id)
+                await self._handle_escrow_setup_failure(
+                    escrow_details, escrow_result, escrow_orchestration_id
+                )
 
                 logger.error(
                     "ΛTRACE_ESCROW_SETUP_FAILED",
                     orchestration_id=escrow_orchestration_id,
                     step="setup_failed",
                     failure_reason=escrow_result.get("error", "unknown"),
-                    narrative="Escrow setup failed - initiating fallback procedures"
+                    narrative="Escrow setup failed - initiating fallback procedures",
                 )
 
         except Exception as e:
@@ -1459,7 +1464,7 @@ class HumanInTheLoopOrchestrator:
                 orchestration_id=escrow_orchestration_id,
                 escrow_id=escrow_details.escrow_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
             escrow_details.status = EscrowStatus.FAILED
 
@@ -1485,7 +1490,9 @@ class HumanInTheLoopOrchestrator:
         signature verification, and non-repudiation audit trail integration.
         """
         start_time = datetime.now(timezone.utc)
-        signing_orchestration_id = f"srd_sign_{response.response_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        signing_orchestration_id = (
+            f"srd_sign_{response.response_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        )
 
         logger.info(
             "ΛTRACE_SRD_SIGNING_ORCHESTRATION",
@@ -1493,7 +1500,7 @@ class HumanInTheLoopOrchestrator:
             response_id=response.response_id,
             reviewer_id=response.reviewer_id,
             step="initiated",
-            narrative="Starting SRD cryptographic signing orchestration workflow"
+            narrative="Starting SRD cryptographic signing orchestration workflow",
         )
 
         try:
@@ -1502,10 +1509,12 @@ class HumanInTheLoopOrchestrator:
                     "SRD not available for cryptographic signing",
                     orchestration_id=signing_orchestration_id,
                     step="srd_unavailable",
-                    fallback_signature="hash_based"
+                    fallback_signature="hash_based",
                 )
                 # Return basic hash-based signature as fallback
-                fallback_signature = await self._create_fallback_signature(response, signing_orchestration_id)
+                fallback_signature = await self._create_fallback_signature(
+                    response, signing_orchestration_id
+                )
                 return fallback_signature
 
             # Phase 1: Prepare comprehensive signature payload
@@ -1516,26 +1525,26 @@ class HumanInTheLoopOrchestrator:
                     "decision": response.decision,
                     "timestamp_utc": response.timestamp.isoformat(),
                     "reasoning": getattr(response, "reasoning", ""),
-                    "confidence_score": getattr(response, "confidence_score", 0.0)
+                    "confidence_score": getattr(response, "confidence_score", 0.0),
                 },
                 "integrity_context": {
                     "decision_id": getattr(response, "decision_id", "unknown"),
                     "review_session_id": getattr(response, "review_session_id", "unknown"),
                     "workflow_step": "human_review_response",
-                    "orchestration_version": "1.0"
+                    "orchestration_version": "1.0",
                 },
                 "security_context": {
                     "signing_timestamp": start_time.isoformat(),
                     "signing_system": "LUKHAS_HITLO_Orchestrator",
                     "signature_algorithm": "SRD_cryptographic_signing",
-                    "non_repudiation_required": True
+                    "non_repudiation_required": True,
                 },
                 "compliance_context": {
                     "audit_trail_enabled": True,
                     "tamper_evidence_enabled": True,
                     "regulatory_compliance": ["SOX", "GDPR", "CCPA"],
-                    "data_integrity_verification": True
-                }
+                    "data_integrity_verification": True,
+                },
             }
 
             logger.info(
@@ -1544,7 +1553,7 @@ class HumanInTheLoopOrchestrator:
                 step="payload_prepared",
                 payload_size=len(str(signature_payload)),
                 signature_algorithm="SRD_cryptographic_signing",
-                narrative="SRD signature payload prepared with comprehensive context"
+                narrative="SRD signature payload prepared with comprehensive context",
             )
 
             # Phase 2: Execute SRD cryptographic signing with orchestration
@@ -1555,8 +1564,8 @@ class HumanInTheLoopOrchestrator:
                         "orchestration_id": signing_orchestration_id,
                         "signature_purpose": "human_review_response_integrity",
                         "non_repudiation_level": "high",
-                        "audit_trail_integration": True
-                    }
+                        "audit_trail_integration": True,
+                    },
                 )
 
                 logger.info(
@@ -1565,7 +1574,7 @@ class HumanInTheLoopOrchestrator:
                     step="signature_created",
                     signature_length=len(str(srd_signature)),
                     signature_type="cryptographic",
-                    narrative="SRD cryptographic signature created successfully"
+                    narrative="SRD cryptographic signature created successfully",
                 )
 
                 # Phase 3: Verify signature integrity immediately
@@ -1578,7 +1587,7 @@ class HumanInTheLoopOrchestrator:
                         "SRD signature verification failed",
                         orchestration_id=signing_orchestration_id,
                         step="verification_failed",
-                        verification_error=signature_verification.get("error")
+                        verification_error=signature_verification.get("error"),
                     )
                     return await self._create_fallback_signature(response, signing_orchestration_id)
 
@@ -1591,15 +1600,15 @@ class HumanInTheLoopOrchestrator:
                         "key_version": signature_verification.get("key_version", "unknown"),
                         "signature_timestamp": start_time.isoformat(),
                         "verification_status": "verified",
-                        "non_repudiation_level": "cryptographic_proof"
+                        "non_repudiation_level": "cryptographic_proof",
                     },
                     "audit_context": signature_payload,
                     "orchestration_metadata": {
                         "orchestration_id": signing_orchestration_id,
                         "workflow_integration": "LUKHAS_HITLO_SRD_Integration",
                         "signature_purpose": "human_review_integrity",
-                        "compliance_verified": True
-                    }
+                        "compliance_verified": True,
+                    },
                 }
 
                 # Phase 5: Integrate with LUKHAS orchestration event system
@@ -1613,8 +1622,8 @@ class HumanInTheLoopOrchestrator:
                             "signature_id": signature_record["signature_id"],
                             "signature_algorithm": "SRD_cryptographic",
                             "non_repudiation_verified": True,
-                            "workflow_step": "response_cryptographically_signed"
-                        }
+                            "workflow_step": "response_cryptographically_signed",
+                        },
                     )
 
                 # Phase 6: Store signature record for audit trail
@@ -1629,7 +1638,7 @@ class HumanInTheLoopOrchestrator:
                     processing_time_ms=processing_time,
                     signature_id=signature_record["signature_id"],
                     non_repudiation_level="cryptographic_proof",
-                    narrative="SRD cryptographic signing orchestration completed with full audit trail"
+                    narrative="SRD cryptographic signing orchestration completed with full audit trail",
                 )
 
                 return str(srd_signature)
@@ -1639,7 +1648,7 @@ class HumanInTheLoopOrchestrator:
                     "SRD cryptographic signing failed, creating fallback",
                     orchestration_id=signing_orchestration_id,
                     srd_error=str(srd_error),
-                    step="srd_fallback"
+                    step="srd_fallback",
                 )
 
                 # Create enhanced fallback with SRD error context
@@ -1655,7 +1664,7 @@ class HumanInTheLoopOrchestrator:
                 orchestration_id=signing_orchestration_id,
                 response_id=response.response_id,
                 error=str(e),
-                step="orchestration_error"
+                step="orchestration_error",
             )
 
             # Return basic signature to maintain workflow continuity
@@ -1772,15 +1781,13 @@ class HumanInTheLoopOrchestrator:
 
                 # Calculate consensus rate
                 consensus_decisions = [
-                    d
-                    for d in completed_decisions
-                    if d.status == DecisionStatus.CONSENSUS_REACHED
+                    d for d in completed_decisions if d.status == DecisionStatus.CONSENSUS_REACHED
                 ]
 
                 if completed_decisions:
-                    self.metrics["consensus_reached_rate"] = len(
-                        consensus_decisions
-                    ) / len(completed_decisions)
+                    self.metrics["consensus_reached_rate"] = len(consensus_decisions) / len(
+                        completed_decisions
+                    )
 
                 # Calculate reviewer workload balance
                 if self.reviewers:
@@ -1809,9 +1816,7 @@ class HumanInTheLoopOrchestrator:
             "decision_id": decision_id,
             "status": decision.status.value,
             "created_at": decision.created_at.isoformat(),
-            "completed_at": (
-                decision.completed_at.isoformat() if decision.completed_at else None
-            ),
+            "completed_at": (decision.completed_at.isoformat() if decision.completed_at else None),
             "final_decision": decision.final_decision,
             "consensus_score": decision.consensus_score,
             "total_responses": len(decision.responses),

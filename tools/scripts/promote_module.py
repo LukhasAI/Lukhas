@@ -47,9 +47,7 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Promote module from candidate to lukhas")
     p.add_argument("--src", required=True, help="Source path under candidate/")
     p.add_argument("--dst", required=True, help="Destination under lukhas/")
-    p.add_argument(
-        "--dry-run", action="store_true", help="Show actions without writing"
-    )
+    p.add_argument("--dry-run", action="store_true", help="Show actions without writing")
     p.add_argument(
         "--shim-direction",
         choices=["candidate->lukhas", "lukhas->candidate"],
@@ -110,9 +108,7 @@ def rewrite_imports(dst_root: Path, files: Iterable[str], dry: bool) -> list[str
     return rewritten
 
 
-def create_shim(
-    shim_direction: str | None, src: Path, dst: Path, dry: bool
-) -> str | None:
+def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> str | None:
     if not shim_direction:
         return None
 

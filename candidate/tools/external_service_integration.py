@@ -51,7 +51,7 @@ class ExternalServiceIntegration:
             "authentication_attempts": 0,
             "authentication_successes": 0,
             "rate_limit_hits": 0,
-            "consent_denials": 0
+            "consent_denials": 0,
         }
 
         # Service mapping for tool operations
@@ -65,7 +65,7 @@ class ExternalServiceIntegration:
             "drive_upload": "google_drive",
             "drive_download": "google_drive",
             "drive_list": "google_drive",
-            "drive_share": "google_drive"
+            "drive_share": "google_drive",
         }
 
         logger.info(f"External Service Integration initialized with {len(self.adapters)} adapters")
@@ -75,7 +75,7 @@ class ExternalServiceIntegration:
         adapter_configs = [
             ("gmail", GmailAdapter, "Gmail"),
             ("dropbox", DropboxAdapter, "Dropbox"),
-            ("google_drive", DriveAdapter, "Google Drive")
+            ("google_drive", DriveAdapter, "Google Drive"),
         ]
 
         for service_name, adapter_class, display_name in adapter_configs:
@@ -91,8 +91,12 @@ class ExternalServiceIntegration:
             else:
                 logger.debug(f"{display_name} adapter not available")
 
-    async def execute_service_operation(self, operation: str, arguments: dict[str, Any],
-                                      user_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def execute_service_operation(
+        self,
+        operation: str,
+        arguments: dict[str, Any],
+        user_context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Execute operation on external service through appropriate adapter
 
@@ -133,7 +137,7 @@ class ExternalServiceIntegration:
                 self.integration_metrics["consent_denials"] += 1
                 return self._create_error_result(
                     "Operation denied by consent system",
-                    {"reason": "consent_denied", "service": service_name}
+                    {"reason": "consent_denied", "service": service_name},
                 )
 
             # Execute the specific operation
@@ -151,8 +155,9 @@ class ExternalServiceIntegration:
             logger.error(f"Service operation failed: {operation}: {e}", exc_info=True)
             return self._create_error_result(str(e))
 
-    async def _ensure_authentication(self, adapter: BaseServiceAdapter, lid: str,
-                                   credentials: dict[str, Any]) -> dict[str, Any]:
+    async def _ensure_authentication(
+        self, adapter: BaseServiceAdapter, lid: str, credentials: dict[str, Any]
+    ) -> dict[str, Any]:
         """Ensure adapter is authenticated for the user"""
         try:
             # Try identity-based authentication first
@@ -165,28 +170,25 @@ class ExternalServiceIntegration:
                 return {
                     "success": False,
                     "error": "authentication_failed",
-                    "details": auth_result.get("error")
+                    "details": auth_result.get("error"),
                 }
 
             return {"success": True, "auth_result": auth_result}
 
         except Exception as e:
             logger.error(f"Authentication failed for {adapter.service_name}: {e}")
-            return {
-                "success": False,
-                "error": "authentication_error",
-                "details": str(e)
-            }
+            return {"success": False, "error": "authentication_error", "details": str(e)}
 
-    async def _check_operation_consent(self, adapter: BaseServiceAdapter, lid: str,
-                                     operation: str, arguments: dict[str, Any]) -> bool:
+    async def _check_operation_consent(
+        self, adapter: BaseServiceAdapter, lid: str, operation: str, arguments: dict[str, Any]
+    ) -> bool:
         """Check if user has consented to the operation"""
         try:
             if hasattr(adapter, "check_consent"):
                 context = {
                     "operation": operation,
                     "arguments": arguments,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
                 return await adapter.check_consent(lid, operation, context)
             return True  # Allow if consent checking not available
@@ -194,8 +196,9 @@ class ExternalServiceIntegration:
             logger.warning(f"Consent check failed: {e}")
             return False  # Be conservative on consent check failure
 
-    async def _route_service_operation(self, adapter: BaseServiceAdapter, operation: str,
-                                     arguments: dict[str, Any], lid: str) -> dict[str, Any]:
+    async def _route_service_operation(
+        self, adapter: BaseServiceAdapter, operation: str, arguments: dict[str, Any], lid: str
+    ) -> dict[str, Any]:
         """Route operation to specific adapter method"""
 
         # Gmail operations
@@ -213,8 +216,9 @@ class ExternalServiceIntegration:
         else:
             return self._create_error_result(f"Unsupported operation: {operation}")
 
-    async def _handle_gmail_operation(self, adapter, operation: str,
-                                    arguments: dict[str, Any], lid: str) -> dict[str, Any]:
+    async def _handle_gmail_operation(
+        self, adapter, operation: str, arguments: dict[str, Any], lid: str
+    ) -> dict[str, Any]:
         """Handle Gmail-specific operations"""
         try:
             if operation == "gmail_send":
@@ -232,7 +236,7 @@ class ExternalServiceIntegration:
                     subject=arguments["subject"],
                     body=arguments["body"],
                     attachments=arguments.get("attachments", []),
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "gmail_send"}
@@ -244,7 +248,7 @@ class ExternalServiceIntegration:
                     lid=lid,
                     limit=arguments.get("limit", 10),
                     query=arguments.get("query", ""),
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "gmail_list"}
@@ -256,9 +260,7 @@ class ExternalServiceIntegration:
                 token = self._create_capability_token(lid, "gmail", ["read"])
 
                 result = await adapter.get_message(
-                    lid=lid,
-                    message_id=arguments["message_id"],
-                    capability_token=token
+                    lid=lid, message_id=arguments["message_id"], capability_token=token
                 )
 
                 return {"success": True, "data": result, "operation": "gmail_read"}
@@ -270,8 +272,9 @@ class ExternalServiceIntegration:
             logger.error(f"Gmail operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    async def _handle_dropbox_operation(self, adapter, operation: str,
-                                      arguments: dict[str, Any], lid: str) -> dict[str, Any]:
+    async def _handle_dropbox_operation(
+        self, adapter, operation: str, arguments: dict[str, Any], lid: str
+    ) -> dict[str, Any]:
         """Handle Dropbox-specific operations"""
         try:
             if operation == "dropbox_upload":
@@ -286,7 +289,7 @@ class ExternalServiceIntegration:
                     lid=lid,
                     file_path=arguments["file_path"],
                     content=arguments["content"],
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "dropbox_upload"}
@@ -298,9 +301,7 @@ class ExternalServiceIntegration:
                 token = self._create_capability_token(lid, "dropbox", ["read"])
 
                 result = await adapter.download_file(
-                    lid=lid,
-                    file_path=arguments["file_path"],
-                    capability_token=token
+                    lid=lid, file_path=arguments["file_path"], capability_token=token
                 )
 
                 return {"success": True, "data": result, "operation": "dropbox_download"}
@@ -309,9 +310,7 @@ class ExternalServiceIntegration:
                 token = self._create_capability_token(lid, "dropbox", ["read", "list"])
 
                 result = await adapter.list_files(
-                    lid=lid,
-                    folder_path=arguments.get("folder_path", "/"),
-                    capability_token=token
+                    lid=lid, folder_path=arguments.get("folder_path", "/"), capability_token=token
                 )
 
                 return {"success": True, "data": result, "operation": "dropbox_list"}
@@ -323,8 +322,9 @@ class ExternalServiceIntegration:
             logger.error(f"Dropbox operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    async def _handle_drive_operation(self, adapter, operation: str,
-                                    arguments: dict[str, Any], lid: str) -> dict[str, Any]:
+    async def _handle_drive_operation(
+        self, adapter, operation: str, arguments: dict[str, Any], lid: str
+    ) -> dict[str, Any]:
         """Handle Google Drive-specific operations"""
         try:
             if operation == "drive_upload":
@@ -340,7 +340,7 @@ class ExternalServiceIntegration:
                     file_name=arguments["file_name"],
                     content=arguments["content"],
                     folder_id=arguments.get("folder_id"),
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "drive_upload"}
@@ -352,9 +352,7 @@ class ExternalServiceIntegration:
                 token = self._create_capability_token(lid, "google_drive", ["read"])
 
                 result = await adapter.download_file(
-                    lid=lid,
-                    file_id=arguments["file_id"],
-                    capability_token=token
+                    lid=lid, file_id=arguments["file_id"], capability_token=token
                 )
 
                 return {"success": True, "data": result, "operation": "drive_download"}
@@ -366,7 +364,7 @@ class ExternalServiceIntegration:
                     lid=lid,
                     folder_id=arguments.get("folder_id"),
                     query=arguments.get("query"),
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "drive_list"}
@@ -384,7 +382,7 @@ class ExternalServiceIntegration:
                     file_id=arguments["file_id"],
                     email=arguments["email"],
                     role=arguments.get("role", "reader"),
-                    capability_token=token
+                    capability_token=token,
                 )
 
                 return {"success": True, "data": result, "operation": "drive_share"}
@@ -396,7 +394,9 @@ class ExternalServiceIntegration:
             logger.error(f"Drive operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    def _create_capability_token(self, lid: str, service: str, scopes: list[str]) -> Optional[CapabilityToken]:
+    def _create_capability_token(
+        self, lid: str, service: str, scopes: list[str]
+    ) -> Optional[CapabilityToken]:
         """Create capability token for service operation"""
         if not CapabilityToken:
             return None
@@ -410,20 +410,18 @@ class ExternalServiceIntegration:
                 ttl=3600,  # 1 hour
                 audience=service,
                 issued_at=datetime.now().isoformat(),
-                signature="tool_executor_generated"
+                signature="tool_executor_generated",
             )
             return token
         except Exception as e:
             logger.warning(f"Failed to create capability token: {e}")
             return None
 
-    def _create_error_result(self, error_message: str, details: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    def _create_error_result(
+        self, error_message: str, details: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Create standardized error result"""
-        result = {
-            "success": False,
-            "error": error_message,
-            "timestamp": datetime.now().isoformat()
-        }
+        result = {"success": False, "error": error_message, "timestamp": datetime.now().isoformat()}
 
         if details:
             result["details"] = details
@@ -436,7 +434,7 @@ class ExternalServiceIntegration:
             "integration_active": True,
             "adapters_count": len(self.adapters),
             "metrics": self.integration_metrics,
-            "services": {}
+            "services": {},
         }
 
         for service_name, adapter in self.adapters.items():
@@ -444,10 +442,7 @@ class ExternalServiceIntegration:
                 service_health = adapter.get_health_status()
                 health_status["services"][service_name] = service_health
             except Exception as e:
-                health_status["services"][service_name] = {
-                    "error": str(e),
-                    "status": "unhealthy"
-                }
+                health_status["services"][service_name] = {"error": str(e), "status": "unhealthy"}
 
         return health_status
 
@@ -474,16 +469,19 @@ class ExternalServiceIntegration:
         return {
             **self.integration_metrics,
             "success_rate": (
-                self.integration_metrics["successful_operations"] /
-                max(1, self.integration_metrics["successful_operations"] +
-                       self.integration_metrics["failed_operations"])
+                self.integration_metrics["successful_operations"]
+                / max(
+                    1,
+                    self.integration_metrics["successful_operations"]
+                    + self.integration_metrics["failed_operations"],
+                )
             ),
             "authentication_success_rate": (
-                self.integration_metrics["authentication_successes"] /
-                max(1, self.integration_metrics["authentication_attempts"])
+                self.integration_metrics["authentication_successes"]
+                / max(1, self.integration_metrics["authentication_attempts"])
             ),
             "available_services": list(self.adapters.keys()),
-            "total_operations": len(self.tool_service_mapping)
+            "total_operations": len(self.tool_service_mapping),
         }
 
 
@@ -491,7 +489,9 @@ class ExternalServiceIntegration:
 _integration: Optional[ExternalServiceIntegration] = None
 
 
-def get_external_service_integration(config: Optional[dict[str, Any]] = None) -> ExternalServiceIntegration:
+def get_external_service_integration(
+    config: Optional[dict[str, Any]] = None,
+) -> ExternalServiceIntegration:
     """Get or create the global external service integration instance"""
     global _integration
     if _integration is None:

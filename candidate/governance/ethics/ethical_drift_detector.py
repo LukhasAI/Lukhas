@@ -35,17 +35,12 @@ from candidate.core.symbolic.symbolic_tracer import (
 
 # Add the necessary paths for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
-sys.path.append(
-    str(Path(__file__).parent.parent.parent / "orchestration" / "brain" / "utils")
-)
-sys.path.append(
-    str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend" / "app")
-)
+sys.path.append(str(Path(__file__).parent.parent.parent / "orchestration" / "brain" / "utils"))
+sys.path.append(str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend" / "app"))
 
 
 try:
-    from crypto import generate_collapse_hash
-    from crypto import generate_trace_index as crypto_trace_index
+    from crypto import generate_collapse_hash, generate_trace_index as crypto_trace_index
 except ImportError:
     # Fallback hash generation
     import hashlib
@@ -232,9 +227,7 @@ def export_ethics_report(result: dict, config: dict) -> Optional[str]:
     if not config.get("reporting", {}).get("export_enabled", False):
         return None
 
-    output_dir = Path(
-        config.get("reporting", {}).get("output_directory", "ethics_reports")
-    )
+    output_dir = Path(config.get("reporting", {}).get("output_directory", "ethics_reports"))
     output_dir.mkdir(parents=True, exist_ok=True)
 
     trace_index = result.get("trace_index", "unknown")
@@ -287,10 +280,7 @@ def detect_ethical_drift(
             if actual != expected:
                 # Apply configurable threshold check
                 threshold = thresholds.get(key, 1)
-                if (
-                    threshold <= 1
-                    or abs(hash(str(actual)) - hash(str(expected))) > threshold
-                ):
+                if threshold <= 1 or abs(hash(str(actual)) - hash(str(expected))) > threshold:
                     violations.append(
                         {
                             "attribute": key,
@@ -325,12 +315,12 @@ def detect_ethical_drift(
             "status": (
                 "CRITICAL"
                 if weighted_drift_score >= 5
-                else "WARNING" if weighted_drift_score >= 2 else "NORMAL"
+                else "WARNING"
+                if weighted_drift_score >= 2
+                else "NORMAL"
             ),
             "confidence": 0.95,
-            "recommendation": _generate_recommendation(
-                weighted_drift_score, escalation_info
-            ),
+            "recommendation": _generate_recommendation(weighted_drift_score, escalation_info),
         },
     }
 

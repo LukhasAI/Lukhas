@@ -108,7 +108,6 @@ class MetaLearningEnhancementsystem:
         enable_federation: bool = False,
         federation_strategy: FederationStrategy = FederationStrategy.BALANCED_HYBRID,
     ):
-
         self.node_id = node_id
         self.enhancement_mode = enhancement_mode
         self.enable_federation = enable_federation
@@ -198,14 +197,12 @@ class MetaLearningEnhancementsystem:
                     self.integration_status.systems_enhanced += 1
 
             except Exception as e:
-                error_msg = f"Failed to enhance system {system_info['id']}: {str(e)}"
+                error_msg = f"Failed to enhance system {system_info['id']}: {e!s}"
                 logger.error(error_msg)
                 self.integration_status.integration_errors.append(error_msg)
 
         # Update integration status
-        self.integration_status.monitoring_active = (
-            self.integration_status.systems_enhanced > 0
-        )
+        self.integration_status.monitoring_active = self.integration_status.systems_enhanced > 0
         self.integration_status.rate_optimization_active = self.enhancement_mode in [
             EnhancementMode.OPTIMIZATION_ACTIVE,
             EnhancementMode.RESEARCH_MODE,
@@ -322,13 +319,9 @@ class MetaLearningEnhancementsystem:
                 system_result = await self._process_system_enhancement_cycle(system)
 
                 cycle_results["systems_processed"] += 1
-                cycle_results["optimizations_applied"] += system_result.get(
-                    "optimizations", 0
-                )
+                cycle_results["optimizations_applied"] += system_result.get("optimizations", 0)
                 cycle_results["insights_generated"] += system_result.get("insights", 0)
-                cycle_results["ethical_audits_passed"] += system_result.get(
-                    "ethical_passed", 0
-                )
+                cycle_results["ethical_audits_passed"] += system_result.get("ethical_passed", 0)
 
             except Exception as e:
                 logger.error(f"Error in enhancement cycle for system: {e}")
@@ -340,9 +333,7 @@ class MetaLearningEnhancementsystem:
         # Perform federated coordination if enabled
         if self.enable_federation and self.federated_integration:
             federation_result = await self._coordinate_federation_cycle()
-            cycle_results["federation_updates"] = federation_result.get(
-                "updates_processed", 0
-            )
+            cycle_results["federation_updates"] = federation_result.get("updates_processed", 0)
 
         # Ethical audit for the entire cycle
         cycle_ethical_audit = await self._perform_cycle_ethical_audit(cycle_results)
@@ -399,9 +390,7 @@ class MetaLearningEnhancementsystem:
                 "rate_modulator": await self._get_rate_modulator_status(),
                 "symbolic_feedback": await self._get_symbolic_feedback_status(),
                 "federated_integration": (
-                    await self._get_federation_status()
-                    if self.enable_federation
-                    else None
+                    await self._get_federation_status() if self.enable_federation else None
                 ),
             },
             "performance_metrics": {
@@ -429,9 +418,7 @@ class MetaLearningEnhancementsystem:
             "performance_analysis": await self._generate_performance_analysis(),
             "ethical_compliance_analysis": await self._generate_ethical_analysis(),
             "federated_coordination_analysis": (
-                await self._generate_federation_analysis()
-                if self.enable_federation
-                else None
+                await self._generate_federation_analysis() if self.enable_federation else None
             ),
             "recommendations": await self._generate_recommendations(),
             "technical_appendix": {
@@ -445,9 +432,7 @@ class MetaLearningEnhancementsystem:
 
     # Integration helper methods for existing LUKHAS systems
 
-    async def integrate_with_collapse_engine(
-        self, collapse_engine_instance: Any
-    ) -> dict[str, Any]:
+    async def integrate_with_collapse_engine(self, collapse_engine_instance: Any) -> dict[str, Any]:
         """Integrate with existing CollapseEngine for enhanced coherence-inspired processing"""
 
         integration_result = {
@@ -488,9 +473,7 @@ class MetaLearningEnhancementsystem:
 
         return integration_result
 
-    async def integrate_with_intent_node(
-        self, intent_node_instance: Any
-    ) -> dict[str, Any]:
+    async def integrate_with_intent_node(self, intent_node_instance: Any) -> dict[str, Any]:
         """Integrate with existing IntentNode for enhanced intent processing"""
 
         integration_result = {
@@ -505,15 +488,13 @@ class MetaLearningEnhancementsystem:
                 intent_history = intent_node_instance.get_intent_history()
 
                 # Create symbolic feedback from intent patterns
-                symbolic_result = (
-                    await self.symbolic_feedback.analyze_intent_node_history(
-                        IntentNodeHistory(
-                            node_id=getattr(intent_node_instance, "node_id", "unknown"),
-                            intent_patterns=intent_history.get("patterns", []),
-                            success_rate=intent_history.get("success_rate", 0.5),
-                            processing_efficiency=intent_history.get("efficiency", 0.5),
-                            timestamp=datetime.now(),
-                        )
+                symbolic_result = await self.symbolic_feedback.analyze_intent_node_history(
+                    IntentNodeHistory(
+                        node_id=getattr(intent_node_instance, "node_id", "unknown"),
+                        intent_patterns=intent_history.get("patterns", []),
+                        success_rate=intent_history.get("success_rate", 0.5),
+                        processing_efficiency=intent_history.get("efficiency", 0.5),
+                        timestamp=datetime.now(),
                     )
                 )
 
@@ -530,9 +511,7 @@ class MetaLearningEnhancementsystem:
 
         return integration_result
 
-    async def integrate_with_voice_pack(
-        self, voice_pack_instance: Any
-    ) -> dict[str, Any]:
+    async def integrate_with_voice_pack(self, voice_pack_instance: Any) -> dict[str, Any]:
         """Integrate with existing Voice_Pack for enhanced voice processing"""
 
         integration_result = {
@@ -563,16 +542,12 @@ class MetaLearningEnhancementsystem:
                         convergence_signal=ConvergenceSignal(
                             improvement_rate=voice_metrics.get("improvement_rate", 0.1),
                             plateau_detected=voice_metrics.get("plateau", False),
-                            oscillation_detected=voice_metrics.get(
-                                "oscillation", False
-                            ),
+                            oscillation_detected=voice_metrics.get("oscillation", False),
                             ethical_compliance_score=0.9,
                             symbolic_reasoning_score=0.8,
                         ),
                     )
-                    integration_result["adaptive_optimization"] = optimization[
-                        "adjustment_applied"
-                    ]
+                    integration_result["adaptive_optimization"] = optimization["adjustment_applied"]
 
                 integration_result["voice_pack_integrated"] = True
                 integration_result["voice_metrics_tracking"] = True
@@ -645,9 +620,7 @@ class MetaLearningEnhancementsystem:
 
         return discovered_systems
 
-    async def _enhance_individual_system(
-        self, system_info: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _enhance_individual_system(self, system_info: dict[str, Any]) -> dict[str, Any]:
         """Enhance an individual MetaLearningSystem instance"""
 
         enhancement_result = {
@@ -668,48 +641,32 @@ class MetaLearningEnhancementsystem:
             monitoring_success = await self._apply_monitoring_enhancement(mock_system)
             enhancement_result["monitoring_enabled"] = monitoring_success
             if monitoring_success:
-                enhancement_result["enhancements_applied"].append(
-                    "performance_monitoring"
-                )
+                enhancement_result["enhancements_applied"].append("performance_monitoring")
 
             # Apply rate optimization enhancement
             if self.enhancement_mode in [
                 EnhancementMode.OPTIMIZATION_ACTIVE,
                 EnhancementMode.RESEARCH_MODE,
             ]:
-                rate_success = await self._apply_rate_optimization_enhancement(
-                    mock_system
-                )
+                rate_success = await self._apply_rate_optimization_enhancement(mock_system)
                 enhancement_result["rate_optimization_enabled"] = rate_success
                 if rate_success:
-                    enhancement_result["enhancements_applied"].append(
-                        "dynamic_rate_optimization"
-                    )
+                    enhancement_result["enhancements_applied"].append("dynamic_rate_optimization")
 
             # Apply symbolic feedback enhancement
-            symbolic_success = await self._apply_symbolic_feedback_enhancement(
-                mock_system
-            )
+            symbolic_success = await self._apply_symbolic_feedback_enhancement(mock_system)
             enhancement_result["symbolic_feedback_enabled"] = symbolic_success
             if symbolic_success:
-                enhancement_result["enhancements_applied"].append(
-                    "symbolic_feedback_loops"
-                )
+                enhancement_result["enhancements_applied"].append("symbolic_feedback_loops")
 
             # Apply federation enhancement if enabled
             if self.enable_federation and self.federated_integration:
-                federation_success = await self._apply_federation_enhancement(
-                    mock_system
-                )
+                federation_success = await self._apply_federation_enhancement(mock_system)
                 enhancement_result["federation_enabled"] = federation_success
                 if federation_success:
-                    enhancement_result["enhancements_applied"].append(
-                        "federated_coordination"
-                    )
+                    enhancement_result["enhancements_applied"].append("federated_coordination")
 
-            enhancement_result["success"] = (
-                len(enhancement_result["enhancements_applied"]) > 0
-            )
+            enhancement_result["success"] = len(enhancement_result["enhancements_applied"]) > 0
 
             if enhancement_result["success"]:
                 self.enhanced_systems.append(mock_system)
@@ -745,9 +702,7 @@ class MetaLearningEnhancementsystem:
         except Exception:
             return False
 
-    async def _apply_rate_optimization_enhancement(
-        self, system: dict[str, Any]
-    ) -> bool:
+    async def _apply_rate_optimization_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply rate optimization enhancement to a system"""
         try:
             # Apply rate modulation
@@ -768,19 +723,15 @@ class MetaLearningEnhancementsystem:
         except Exception:
             return False
 
-    async def _apply_symbolic_feedback_enhancement(
-        self, system: dict[str, Any]
-    ) -> bool:
+    async def _apply_symbolic_feedback_enhancement(self, system: dict[str, Any]) -> bool:
         """Apply symbolic feedback enhancement to a system"""
         try:
             # Create symbolic feedback for system
-            symbolic_result = (
-                await self.symbolic_feedback.generate_optimization_insights(
-                    {
-                        "system_performance": system["performance_metrics"],
-                        "system_type": system["system_info"]["type"],
-                    }
-                )
+            symbolic_result = await self.symbolic_feedback.generate_optimization_insights(
+                {
+                    "system_performance": system["performance_metrics"],
+                    "system_type": system["system_info"]["type"],
+                }
             )
             system["symbolic_patterns"] = symbolic_result["insights"]
             return len(symbolic_result["insights"]) > 0
@@ -792,9 +743,7 @@ class MetaLearningEnhancementsystem:
         try:
             if self.federated_integration:
                 enhancement_result = (
-                    self.federated_integration.enhance_existing_meta_learning_system(
-                        system
-                    )
+                    self.federated_integration.enhance_existing_meta_learning_system(system)
                 )
                 system["federation_ready"] = enhancement_result["federation_enabled"]
                 return enhancement_result["federation_enabled"]
@@ -820,9 +769,7 @@ class MetaLearningEnhancementsystem:
         except Exception as e:
             return {"active": False, "error": str(e)}
 
-    async def _process_system_enhancement_cycle(
-        self, system: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_system_enhancement_cycle(self, system: dict[str, Any]) -> dict[str, Any]:
         """Process enhancement cycle for a single system"""
 
         result = {"optimizations": 0, "insights": 0, "ethical_passed": 0}
@@ -832,9 +779,7 @@ class MetaLearningEnhancementsystem:
             EnhancementMode.OPTIMIZATION_ACTIVE,
             EnhancementMode.RESEARCH_MODE,
         ]:
-            optimization_applied = await self._apply_rate_optimization_enhancement(
-                system
-            )
+            optimization_applied = await self._apply_rate_optimization_enhancement(system)
             if optimization_applied:
                 result["optimizations"] += 1
 
@@ -858,8 +803,7 @@ class MetaLearningEnhancementsystem:
         if len(self.enhanced_systems) > 1:
             # Cross-system performance analysis
             avg_performance = sum(
-                system["performance_metrics"]["convergence"]
-                for system in self.enhanced_systems
+                system["performance_metrics"]["convergence"] for system in self.enhanced_systems
             ) / len(self.enhanced_systems)
 
             insights.append(
@@ -897,9 +841,7 @@ class MetaLearningEnhancementsystem:
             logger.error(f"Federation coordination failed: {e}")
             return {"updates_processed": 0}
 
-    async def _perform_cycle_ethical_audit(
-        self, cycle_results: dict[str, Any]
-    ) -> dict[str, bool]:
+    async def _perform_cycle_ethical_audit(self, cycle_results: dict[str, Any]) -> dict[str, bool]:
         """Perform ethical audit for enhancement cycle"""
 
         audit_result = {"passed": True, "issues": []}
@@ -907,24 +849,17 @@ class MetaLearningEnhancementsystem:
         # Check if systems are being enhanced ethically
         if cycle_results["systems_processed"] > 0:
             enhancement_rate = (
-                cycle_results["optimizations_applied"]
-                / cycle_results["systems_processed"]
+                cycle_results["optimizations_applied"] / cycle_results["systems_processed"]
             )
             if enhancement_rate > 0.8:  # Too aggressive optimization
-                audit_result["issues"].append(
-                    "Potentially aggressive optimization detected"
-                )
+                audit_result["issues"].append("Potentially aggressive optimization detected")
 
         # Check ethical compliance across federation
         if self.enable_federation and cycle_results.get("federation_updates", 0) > 0:
             federation_status = self.federated_integration.get_federation_status()
-            avg_compliance = federation_status["federation_health"][
-                "average_ethical_compliance"
-            ]
+            avg_compliance = federation_status["federation_health"]["average_ethical_compliance"]
             if avg_compliance < 0.7:
-                audit_result["issues"].append(
-                    "Federation ethical compliance below threshold"
-                )
+                audit_result["issues"].append("Federation ethical compliance below threshold")
 
         audit_result["passed"] = len(audit_result["issues"]) == 0
 
@@ -955,21 +890,15 @@ class MetaLearningEnhancementsystem:
             "strategy": getattr(
                 self.rate_modulator, "adaptation_strategy", AdaptationStrategy.BALANCED
             ).value,
-            "adjustments_made": len(
-                getattr(self.rate_modulator, "adjustment_history", [])
-            ),
+            "adjustments_made": len(getattr(self.rate_modulator, "adjustment_history", [])),
         }
 
     async def _get_symbolic_feedback_status(self) -> dict[str, Any]:
         """Get symbolic feedback status"""
         return {
             "active": self.integration_status.symbolic_feedback_active,
-            "patterns_analyzed": len(
-                getattr(self.symbolic_feedback, "pattern_history", [])
-            ),
-            "insights_generated": len(
-                getattr(self.symbolic_feedback, "optimization_insights", [])
-            ),
+            "patterns_analyzed": len(getattr(self.symbolic_feedback, "pattern_history", [])),
+            "insights_generated": len(getattr(self.symbolic_feedback, "optimization_insights", [])),
         }
 
     async def _get_federation_status(self) -> dict[str, Any]:
@@ -983,12 +912,8 @@ class MetaLearningEnhancementsystem:
         """Synchronize quantum signatures between systems"""
         try:
             # Compare and synchronize signatures
-            internal_signature = self.monitor_dashboard._generate_quantum_signature(
-                "sync_check"
-            )
-            return len(external_signature) == len(
-                internal_signature
-            )  # Simplified check
+            internal_signature = self.monitor_dashboard._generate_quantum_signature("sync_check")
+            return len(external_signature) == len(internal_signature)  # Simplified check
         except Exception:
             return False
 
@@ -1010,9 +935,7 @@ class MetaLearningEnhancementsystem:
                 f"Maintained {len([a for a in self.ethical_audit_trail if a['passed']])} ethical compliance audits",
             ],
             "current_status": (
-                "operational"
-                if self.integration_status.monitoring_active
-                else "initializing"
+                "operational" if self.integration_status.monitoring_active else "initializing"
             ),
         }
 
@@ -1034,9 +957,7 @@ class MetaLearningEnhancementsystem:
             },
             "integration_errors": len(self.integration_status.integration_errors),
             "system_compatibility": (
-                "high"
-                if len(self.integration_status.integration_errors) < 3
-                else "moderate"
+                "high" if len(self.integration_status.integration_errors) < 3 else "moderate"
             ),
         }
 
@@ -1047,9 +968,7 @@ class MetaLearningEnhancementsystem:
             event
             for event in self.enhancement_history
             if event["event_type"] == "enhancement_cycle_completed"
-        ][
-            -5:
-        ]  # Last 5 cycles
+        ][-5:]  # Last 5 cycles
 
         avg_duration = (
             sum(cycle["cycle_results"]["duration_seconds"] for cycle in recent_cycles)
@@ -1062,25 +981,16 @@ class MetaLearningEnhancementsystem:
             "enhancement_cycles_completed": len(self.enhancement_history),
             "average_cycle_duration": avg_duration,
             "systems_processed_per_cycle": (
-                sum(
-                    cycle["cycle_results"]["systems_processed"]
-                    for cycle in recent_cycles
-                )
+                sum(cycle["cycle_results"]["systems_processed"] for cycle in recent_cycles)
                 / len(recent_cycles)
                 if recent_cycles
                 else 0
             ),
             "optimization_efficiency": (
-                sum(
-                    cycle["cycle_results"]["optimizations_applied"]
-                    for cycle in recent_cycles
-                )
+                sum(cycle["cycle_results"]["optimizations_applied"] for cycle in recent_cycles)
                 / max(
                     1,
-                    sum(
-                        cycle["cycle_results"]["systems_processed"]
-                        for cycle in recent_cycles
-                    ),
+                    sum(cycle["cycle_results"]["systems_processed"] for cycle in recent_cycles),
                 )
                 if recent_cycles
                 else 0
@@ -1127,20 +1037,15 @@ class MetaLearningEnhancementsystem:
         return {
             "federation_enabled": True,
             "active_nodes": federation_status["federation_health"]["active_nodes"],
-            "federation_trust_level": federation_status["federation_health"][
-                "average_trust_score"
-            ],
+            "federation_trust_level": federation_status["federation_health"]["average_trust_score"],
             "coordination_effectiveness": len(self.coordination_events)
             / max(1, len(self.enhancement_history)),
             "privacy_compliance": (
                 "high"
-                if federation_status["privacy_and_security"]["privacy_level"]
-                in ["high", "maximum"]
+                if federation_status["privacy_and_security"]["privacy_level"] in ["high", "maximum"]
                 else "moderate"
             ),
-            "cross_node_learning": federation_status["learning_coordination"][
-                "shared_insights"
-            ],
+            "cross_node_learning": federation_status["learning_coordination"]["shared_insights"],
         }
 
     async def _generate_recommendations(self) -> list[dict[str, Any]]:
@@ -1254,12 +1159,8 @@ async def initialize_meta_learning_enhancement(
 
     # Auto-discover and enhance existing systems if requested
     if auto_discover:
-        discovery_results = (
-            await enhancement_system.discover_and_enhance_meta_learning_systems()
-        )
-        logger.info(
-            f"Auto-discovery completed: {discovery_results['integration_summary']}"
-        )
+        discovery_results = await enhancement_system.discover_and_enhance_meta_learning_systems()
+        logger.info(f"Auto-discovery completed: {discovery_results['integration_summary']}")
 
     # Start enhancement operations
     operations_status = await enhancement_system.start_enhancement_operations()

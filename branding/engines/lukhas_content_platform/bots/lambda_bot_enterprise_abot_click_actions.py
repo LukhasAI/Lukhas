@@ -12,91 +12,78 @@ class BotClickActions:
 
     def __init__(self):
         self.action_templates = {
-
             # === SINGLE CLICK ACTIONS ===
             "quick_scan": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Quick Scan"],
-                "description": "Run immediate quality scan"
+                "description": "Run immediate quality scan",
             },
-
             "show_report": {
                 "command": "vscode.open",
                 "arguments": ["${workspaceFolder}/naming_audit_report.json"],
-                "description": "Open detailed quality report"
+                "description": "Open detailed quality report",
             },
-
             "show_status": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Status Check"],
-                "description": "Show current status in terminal"
+                "description": "Show current status in terminal",
             },
-
             "open_dashboard": {
                 "command": "vscode.open",
                 "arguments": ["${workspaceFolder}/quality-metrics-live.json"],
-                "description": "Open live quality dashboard"
+                "description": "Open live quality dashboard",
             },
-
             "apply_fixes": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Apply Auto-Fixes"],
-                "description": "Apply automatic fixes"
+                "description": "Apply automatic fixes",
             },
-
             "command_palette": {
                 "command": "workbench.action.quickOpen",
                 "arguments": [">LUKHAS AI ΛBot"],
-                "description": "Open LUKHAS AI ΛBot command palette"
+                "description": "Open LUKHAS AI ΛBot command palette",
             },
-
             "show_problems": {
                 "command": "workbench.actions.view.problems",
-                "description": "Show VS Code problems panel"
+                "description": "Show VS Code problems panel",
             },
-
             "terminal_focus": {
                 "command": "workbench.action.terminal.focus",
-                "description": "Focus on terminal"
+                "description": "Focus on terminal",
             },
-
             # === CONTEXT MENU ACTIONS ===
             "context_menu": {
                 "command": "extension.LUKHAS AI ΛBot.showContextMenu",
-                "description": "Show LUKHAS AI ΛBot context menu with multiple options"
+                "description": "Show LUKHAS AI ΛBot context menu with multiple options",
             },
-
             # === CUSTOM COMMANDS ===
             "full_audit": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Full Audit"],
-                "description": "Run comprehensive audit"
+                "description": "Run comprehensive audit",
             },
-
             "start_scanner": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Start Continuous Scanner"],
-                "description": "Start continuous monitoring"
+                "description": "Start continuous monitoring",
             },
-
             "stop_scanner": {
                 "command": "workbench.action.tasks.runTask",
                 "arguments": ["LUKHAS AI ΛBot: Stop Scanner"],
-                "description": "Stop continuous monitoring"
-            }
+                "description": "Stop continuous monitoring",
+            },
         }
 
         # Multi-action configurations
         self.multi_actions = {
             "scan_and_report": [
                 {"action": "quick_scan", "delay": 0},
-                {"action": "show_report", "delay": 3000}
+                {"action": "show_report", "delay": 3000},
             ],
-
             "fix_and_scan": [
                 {"action": "apply_fixes", "delay": 0},
-                {"action": "quick_scan", "delay": 2000}
-            ]
+                {"action": "quick_scan", "delay": 2000},
+            ],
         }
 
     def get_action_config(self, action_name: str):
@@ -112,29 +99,29 @@ class BotClickActions:
                 {
                     "label": "🔍 Quick Scan",
                     "command": "workbench.action.tasks.runTask",
-                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"]
+                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"],
                 },
                 {
                     "label": "📊 Show Report",
                     "command": "vscode.open",
-                    "arguments": ["${workspaceFolder}/naming_audit_report.json"]
+                    "arguments": ["${workspaceFolder}/naming_audit_report.json"],
                 },
                 {
                     "label": "🔧 Apply Auto-Fixes",
                     "command": "workbench.action.tasks.runTask",
-                    "arguments": ["LUKHAS AI ΛBot: Apply Auto-Fixes"]
+                    "arguments": ["LUKHAS AI ΛBot: Apply Auto-Fixes"],
                 },
                 {
                     "label": "⚙️ Settings",
                     "command": "workbench.action.openSettings",
-                    "arguments": ["LUKHAS AI ΛBot"]
+                    "arguments": ["LUKHAS AI ΛBot"],
                 },
                 {
                     "label": "🛑 Stop Scanner",
                     "command": "workbench.action.tasks.runTask",
-                    "arguments": ["LUKHAS AI ΛBot: Stop Scanner"]
-                }
-            ]
+                    "arguments": ["LUKHAS AI ΛBot: Stop Scanner"],
+                },
+            ],
         }
 
     def print_all_options(self):
@@ -155,6 +142,7 @@ class BotClickActions:
         for item in menu_config["menu_items"]:
             print(f"  {item['label']}")
 
+
 # Usage examples
 if __name__ == "__main__":
     actions = ΛBotClickActions()
@@ -168,7 +156,7 @@ if __name__ == "__main__":
         ("Auto-Fix Mode", "apply_fixes → quick_scan"),
         ("Dashboard View", "open_dashboard"),
         ("Command Center", "command_palette"),
-        ("Context Menu", "Right-click for multiple options")
+        ("Context Menu", "Right-click for multiple options"),
     ]
 
     for title, desc in examples:

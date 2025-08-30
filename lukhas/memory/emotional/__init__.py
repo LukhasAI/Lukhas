@@ -27,9 +27,7 @@ class EmotionalMemoryManager:
         self.emotional_threshold = 0.5  # Threshold for emotional significance
 
         logger.info("EmotionalMemoryManager initialized")
-        logger.info(
-            f"Max folds: {self.max_folds}, Emotional threshold: {self.emotional_threshold}"
-        )
+        logger.info(f"Max folds: {self.max_folds}, Emotional threshold: {self.emotional_threshold}")
 
     def store_emotional_memory(
         self,
@@ -180,9 +178,7 @@ class EmotionalMemoryManager:
                 fold["causal_links"].append(recent_fold["memory_id"])
 
         self.memory_folds.append(fold)
-        logger.debug(
-            f"Created memory fold {fold['fold_index']} for memory {memory['id']}"
-        )
+        logger.debug(f"Created memory fold {fold['fold_index']} for memory {memory['id']}")
 
     def consolidate_memories(self, time_window: float = 86400.0) -> dict[str, Any]:
         """
@@ -219,18 +215,14 @@ class EmotionalMemoryManager:
                 pattern = consolidated["patterns"][emotion]
                 pattern["count"] += 1
                 pattern["total_intensity"] += memory["intensity"]
-                pattern["peak_intensity"] = max(
-                    pattern["peak_intensity"], memory["intensity"]
-                )
+                pattern["peak_intensity"] = max(pattern["peak_intensity"], memory["intensity"])
 
                 consolidated["memory_count"] += 1
 
         # Calculate averages and find dominant emotions
         for emotion, pattern in consolidated["patterns"].items():
             if pattern["count"] > 0:
-                pattern["average_intensity"] = (
-                    pattern["total_intensity"] / pattern["count"]
-                )
+                pattern["average_intensity"] = pattern["total_intensity"] / pattern["count"]
 
                 consolidated["dominant_emotions"].append(
                     {
@@ -241,9 +233,7 @@ class EmotionalMemoryManager:
                 )
 
         # Sort by strength
-        consolidated["dominant_emotions"].sort(
-            key=lambda x: x["strength"], reverse=True
-        )
+        consolidated["dominant_emotions"].sort(key=lambda x: x["strength"], reverse=True)
 
         return consolidated
 
@@ -300,6 +290,6 @@ def get_emotional_state() -> dict[str, float]:
 __all__ = [
     "EmotionalMemoryManager",
     "get_emotional_memory_manager",
-    "store_emotion",
     "get_emotional_state",
+    "store_emotion",
 ]

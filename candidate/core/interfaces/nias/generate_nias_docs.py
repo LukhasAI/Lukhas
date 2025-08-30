@@ -14,9 +14,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -154,7 +152,7 @@ def generate_nias_documentation():
 title: "NIAS Modular Plugin System: Strategic Plan & Architecture"
 subtitle: "Lukhas-Enhanced with Comprehensive EU/US Compliance & AGI Socio-Economic Alignment"
 version: "3.0"
-date: "{datetime.now().strftime('%Y-%m-%d')}"
+date: "{datetime.now().strftime("%Y-%m-%d")}"
 compliance_status: "Full EU AI Act, GDPR, Multi-State US Privacy Laws"
 agi_readiness: "Phase 1 Implementation Ready"
 document_type: "Strategic Architecture & Implementation Guide"
@@ -168,9 +166,9 @@ scope: "Commercial AI System with Democratic User Agency"
 ## 📊 Documentation Metrics
 
 - **Total Lines**: {len(nias_content.splitlines())} lines
-- **Sections**: {len(documentation_metadata['sections'])} major sections
-- **Compliance Frameworks**: {len(documentation_metadata['compliance_frameworks'])} frameworks
-- **User Agency Features**: {len(documentation_metadata['user_agency_features'])} features
+- **Sections**: {len(documentation_metadata["sections"])} major sections
+- **Compliance Frameworks**: {len(documentation_metadata["compliance_frameworks"])} frameworks
+- **User Agency Features**: {len(documentation_metadata["user_agency_features"])} features
 - **Enhancement Status**: Complete with AGI alignment
 
 ## 🔗 Related Documentation

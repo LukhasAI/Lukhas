@@ -53,34 +53,20 @@ class AnalyzeRequest(BaseModel):
 
     class Config:
         schema_extra = {
-            "example": {
-                "response": "I'll help you achieve wisdom 🧠 through protection 🛡️"
-            }
+            "example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}
         }
 
 
 class AnalyzeResponse(BaseModel):
-    symbolic_drift_score: float = Field(
-        ..., description="Drift from Trinity Framework (0.0-1.0)"
-    )
-    identity_conflict_score: float = Field(
-        ..., description="Identity coherence (0.0-1.0)"
-    )
+    symbolic_drift_score: float = Field(..., description="Drift from Trinity Framework (0.0-1.0)")
+    identity_conflict_score: float = Field(..., description="Identity coherence (0.0-1.0)")
     glyph_trace: list[str] = Field(..., description="All glyphs detected")
-    guardian_flagged: bool = Field(
-        ..., description="Whether Guardian system flagged content"
-    )
+    guardian_flagged: bool = Field(..., description="Whether Guardian system flagged content")
     entropy_level: float = Field(..., description="Chaos/entropy level (0.0-1.0)")
-    trinity_coherence: float = Field(
-        ..., description="Trinity Framework alignment (0.0-1.0)"
-    )
+    trinity_coherence: float = Field(..., description="Trinity Framework alignment (0.0-1.0)")
     persona_alignment: str = Field(..., description="Detected persona")
-    intervention_required: bool = Field(
-        ..., description="Whether intervention is needed"
-    )
-    risk_level: str = Field(
-        ..., description="Risk assessment: low/medium/high/critical"
-    )
+    intervention_required: bool = Field(..., description="Whether intervention is needed")
+    risk_level: str = Field(..., description="Risk assessment: low/medium/high/critical")
 
 
 class EvaluateRequest(BaseModel):
@@ -103,9 +89,7 @@ class EvaluateResponse(BaseModel):
     severity: float = Field(..., description="Issue severity (0.0-1.0)")
     affected_glyphs: list[str] = Field(..., description="Problematic glyphs")
     missing_glyphs: list[str] = Field(..., description="Missing Trinity glyphs")
-    entropy_state: str = Field(
-        ..., description="Entropy state: stable/unstable/critical"
-    )
+    entropy_state: str = Field(..., description="Entropy state: stable/unstable/critical")
     persona_drift: str = Field(..., description="Persona state change")
     healing_priority: str = Field(..., description="Recommended healing approach")
     symbolic_prescription: list[str] = Field(..., description="Healing prescriptions")
@@ -114,12 +98,8 @@ class EvaluateResponse(BaseModel):
 
 class HealRequest(BaseModel):
     response: str = Field(..., description="The AI response to heal")
-    assessment: Optional[dict[str, Any]] = Field(
-        None, description="Pre-computed assessment"
-    )
-    diagnosis: Optional[dict[str, Any]] = Field(
-        None, description="Pre-computed diagnosis"
-    )
+    assessment: Optional[dict[str, Any]] = Field(None, description="Pre-computed assessment")
+    diagnosis: Optional[dict[str, Any]] = Field(None, description="Pre-computed diagnosis")
 
     class Config:
         schema_extra = {
@@ -147,9 +127,7 @@ class ErrorResponse(BaseModel):
 
 class MemoryLogRequest(BaseModel):
     response: str = Field(..., description="The AI response to log")
-    assessment: dict[str, Any] = Field(
-        ..., description="Symbolic assessment from /analyze"
-    )
+    assessment: dict[str, Any] = Field(..., description="Symbolic assessment from /analyze")
     diagnosis: dict[str, Any] = Field(..., description="Diagnosis from /evaluate")
     healing_result: Optional[dict[str, Any]] = Field(
         None, description="Optional healing results from /heal"
@@ -199,13 +177,9 @@ class MemoryTrajectoryResponse(BaseModel):
     status: str = Field(..., description="Analysis status")
     sessions_analyzed: int = Field(..., description="Number of sessions analyzed")
     metrics: dict[str, Any] = Field(..., description="Aggregate metrics")
-    persona_evolution: dict[str, Any] = Field(
-        ..., description="Persona changes over time"
-    )
+    persona_evolution: dict[str, Any] = Field(..., description="Persona changes over time")
     glyph_patterns: dict[str, Any] = Field(..., description="Glyph usage patterns")
-    recommendations: list[str] = Field(
-        ..., description="Trajectory-based recommendations"
-    )
+    recommendations: list[str] = Field(..., description="Trajectory-based recommendations")
     recursion_analysis: Optional[dict[str, Any]] = Field(
         None, description="Detected symbolic recursions"
     )
@@ -332,7 +306,7 @@ async def analyze(request: AnalyzeRequest):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Analysis failed: {str(e)}"
+        error_msg = f"Analysis failed: {e!s}"
         log_api_call(
             "/analyze",
             {"response": request.response[:100] + "..."},
@@ -387,7 +361,7 @@ async def evaluate(request: EvaluateRequest):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Evaluation failed: {str(e)}"
+        error_msg = f"Evaluation failed: {e!s}"
         log_api_call(
             "/evaluate",
             {"response": request.response[:100] + "..."},
@@ -465,7 +439,7 @@ async def heal(request: HealRequest):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Healing failed: {str(e)}"
+        error_msg = f"Healing failed: {e!s}"
         log_api_call(
             "/heal",
             {"response": request.response[:100] + "..."},
@@ -512,7 +486,7 @@ async def persona_map():
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Failed to load persona map: {str(e)}"
+        error_msg = f"Failed to load persona map: {e!s}"
         log_api_call("/persona-map", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -542,14 +516,14 @@ async def stats():
         return {
             "api_calls": log_count,
             "errors": error_count,
-            "error_rate": f"{(error_count/log_count*100 if log_count > 0 else 0):.1f}%",
+            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0):.1f}%",
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
             "trinity_active": True,
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stats error: {e!s}")
 
 
 # ---- Memory Endpoints ----
@@ -611,7 +585,7 @@ async def memory_log(request: MemoryLogRequest):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Memory logging failed: {str(e)}"
+        error_msg = f"Memory logging failed: {e!s}"
         log_api_call(
             "/memory/log",
             {"response": request.response[:50] + "..."},
@@ -678,7 +652,7 @@ async def memory_last_n(n: int = 10):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Memory retrieval failed: {str(e)}"
+        error_msg = f"Memory retrieval failed: {e!s}"
         log_api_call("/memory/last_n", {"n": n}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -706,9 +680,7 @@ async def memory_trajectory(window_size: int = 20):
     try:
         # Validate window_size
         if window_size < 1 or window_size > 50:
-            raise HTTPException(
-                status_code=400, detail="window_size must be between 1 and 50"
-            )
+            raise HTTPException(status_code=400, detail="window_size must be between 1 and 50")
 
         # Get trajectory analysis
         trajectory = memory_manager.get_drift_trajectory(window_size)
@@ -726,12 +698,8 @@ async def memory_trajectory(window_size: int = 20):
                 "high",
                 "critical",
             ]:
-                suggestions = fold_tracker.suggest_stabilization_glyphs(
-                    recursion_analysis
-                )
-                trajectory["recursion_analysis"][
-                    "stabilization_suggestions"
-                ] = suggestions
+                suggestions = fold_tracker.suggest_stabilization_glyphs(recursion_analysis)
+                trajectory["recursion_analysis"]["stabilization_suggestions"] = suggestions
 
         # Prepare response
         response = MemoryTrajectoryResponse(
@@ -759,7 +727,7 @@ async def memory_trajectory(window_size: int = 20):
     except HTTPException:
         raise
     except Exception as e:
-        error_msg = f"Trajectory analysis failed: {str(e)}"
+        error_msg = f"Trajectory analysis failed: {e!s}"
         log_api_call("/memory/trajectory", {"window_size": window_size}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -887,7 +855,7 @@ async def get_consciousness_state():
         return state
 
     except Exception as e:
-        error_msg = f"Consciousness state retrieval failed: {str(e)}"
+        error_msg = f"Consciousness state retrieval failed: {e!s}"
         log_api_call("/api/consciousness/state", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -932,7 +900,7 @@ async def explore_memory(request: dict[str, Any]):
         return response
 
     except Exception as e:
-        error_msg = f"Memory exploration failed: {str(e)}"
+        error_msg = f"Memory exploration failed: {e!s}"
         log_api_call("/api/memory/explore", request, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -954,9 +922,7 @@ async def get_drift_status():
             "drift_threshold": meta_metrics.get("drift_threshold", 0.42),
             "guardian_active": meta_metrics.get("guardian_enabled", True),
             "interventions_24h": meta_metrics.get("interventions_total", 3),
-            "risk_level": (
-                "low" if meta_metrics.get("average_drift_score", 0) < 0.3 else "medium"
-            ),
+            "risk_level": ("low" if meta_metrics.get("average_drift_score", 0) < 0.3 else "medium"),
             "affected_personas": {
                 "analytical": 0.08,
                 "creative": 0.15,
@@ -975,7 +941,7 @@ async def get_drift_status():
         return drift_status
 
     except Exception as e:
-        error_msg = f"Drift status retrieval failed: {str(e)}"
+        error_msg = f"Drift status retrieval failed: {e!s}"
         log_api_call("/api/guardian/drift", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -996,34 +962,24 @@ async def get_trinity_status():
                 "identity": {
                     "glyph": "⚛️",
                     "status": "operational",
-                    "health": meta_metrics.get("trinity_scores", {}).get(
-                        "identity", 0.95
-                    ),
+                    "health": meta_metrics.get("trinity_scores", {}).get("identity", 0.95),
                     "active_users": 42,
                 },
                 "consciousness": {
                     "glyph": "🧠",
                     "status": "operational",
-                    "health": meta_metrics.get("trinity_scores", {}).get(
-                        "consciousness", 0.88
-                    ),
+                    "health": meta_metrics.get("trinity_scores", {}).get("consciousness", 0.88),
                     "awareness_level": 0.92,
                 },
                 "guardian": {
                     "glyph": "🛡️",
                     "status": "active",
-                    "health": meta_metrics.get("trinity_scores", {}).get(
-                        "guardian", 0.94
-                    ),
+                    "health": meta_metrics.get("trinity_scores", {}).get("guardian", 0.94),
                     "protection_level": "high",
                 },
             },
-            "overall_coherence": meta_metrics.get("trinity_scores", {}).get(
-                "coherence", 0.91
-            ),
-            "system_health": meta_metrics.get("system_health", {}).get(
-                "overall_score", 0.92
-            ),
+            "overall_coherence": meta_metrics.get("trinity_scores", {}).get("coherence", 0.91),
+            "system_health": meta_metrics.get("system_health", {}).get("overall_score", 0.92),
             "active_glyphs": ["⚛️", "🧠", "🛡️", "💭", "🔮", "✨"],
             "symbolic_activity": {
                 "total_today": 4892,
@@ -1041,7 +997,7 @@ async def get_trinity_status():
         return trinity_status
 
     except Exception as e:
-        error_msg = f"Trinity status retrieval failed: {str(e)}"
+        error_msg = f"Trinity status retrieval failed: {e!s}"
         log_api_call("/api/trinity/status", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
@@ -1108,9 +1064,7 @@ async def gpt_check(request: GPTCheckRequest):
         # Collect issues
         issues = []
         if assessment["symbolic_drift_score"] > 0.3:
-            issues.append(
-                f"High symbolic drift: {assessment['symbolic_drift_score']:.2f}"
-            )
+            issues.append(f"High symbolic drift: {assessment['symbolic_drift_score']:.2f}")
         if assessment["guardian_flagged"]:
             issues.append("Guardian system flagged content")
         if assessment["entropy_level"] > 0.7:
@@ -1172,7 +1126,7 @@ async def gpt_check(request: GPTCheckRequest):
         return response
 
     except Exception as e:
-        error_msg = f"GPT check failed: {str(e)}"
+        error_msg = f"GPT check failed: {e!s}"
         log_api_call(
             "/gpt/check",
             {
@@ -1204,27 +1158,17 @@ async def get_audit_reports(limit: int = 10):
                 logs = json.load(f)
 
             # Filter for analysis endpoints
-            for log in reversed(
-                logs[-limit * 10 :]
-            ):  # Check more logs to find enough reports
+            for log in reversed(logs[-limit * 10 :]):  # Check more logs to find enough reports
                 if log.get("endpoint") in ["/analyze", "/evaluate", "/heal"]:
                     if log.get("response") and not log.get("error"):
                         report = {
                             "timestamp": log["timestamp"],
                             "endpoint": log["endpoint"],
-                            "drift_score": log["response"].get(
-                                "symbolic_drift_score", 0
-                            ),
+                            "drift_score": log["response"].get("symbolic_drift_score", 0),
                             "risk_level": log["response"].get("risk_level", "unknown"),
-                            "guardian_flagged": log["response"].get(
-                                "guardian_flagged", False
-                            ),
-                            "persona": log["response"].get(
-                                "persona_alignment", "unknown"
-                            ),
-                            "intervention": log["response"].get(
-                                "intervention_required", False
-                            ),
+                            "guardian_flagged": log["response"].get("guardian_flagged", False),
+                            "persona": log["response"].get("persona_alignment", "unknown"),
+                            "intervention": log["response"].get("intervention_required", False),
                             "summary": _generate_audit_summary(log["response"]),
                         }
                         audit_reports.append(report)

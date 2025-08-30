@@ -66,9 +66,7 @@ class KnowledgeSource(ABC):
     """Abstract base for knowledge sources"""
 
     @abstractmethod
-    async def acquire(
-        self, topic: str, knowledge_type: KnowledgeType
-    ) -> dict[str, Any]:
+    async def acquire(self, topic: str, knowledge_type: KnowledgeType) -> dict[str, Any]:
         """Acquire knowledge on topic"""
 
     @abstractmethod
@@ -178,7 +176,9 @@ class AutonomousLearningPipeline:
 
         # If not known, trigger learning
         goal_id = await self.set_learning_goal(
-            topic, KnowledgeType.CONCEPTUAL, 0.6  # Basic understanding
+            topic,
+            KnowledgeType.CONCEPTUAL,
+            0.6,  # Basic understanding
         )
 
         # Wait for initial learning (with timeout)
@@ -272,12 +272,8 @@ class AutonomousLearningPipeline:
             validation_score = await self._validate_knowledge(knowledge_gained)
 
             if validation_score > 0.5:
-                await self._integrate_knowledge(
-                    goal.topic, knowledge_gained, validation_score
-                )
-                goal.progress = min(
-                    1.0, goal.progress + self.learning_rate * validation_score
-                )
+                await self._integrate_knowledge(goal.topic, knowledge_gained, validation_score)
+                goal.progress = min(1.0, goal.progress + self.learning_rate * validation_score)
                 success = True
 
         # Record experience
@@ -356,12 +352,8 @@ class AutonomousLearningPipeline:
 
         # Extract meta-knowledge
         meta_knowledge = {
-            "effective_strategies": self._analyze_effective_strategies(
-                relevant_experiences
-            ),
-            "optimal_conditions": self._identify_optimal_conditions(
-                relevant_experiences
-            ),
+            "effective_strategies": self._analyze_effective_strategies(relevant_experiences),
+            "optimal_conditions": self._identify_optimal_conditions(relevant_experiences),
             "common_pitfalls": self._identify_pitfalls(relevant_experiences),
         }
 
@@ -493,9 +485,7 @@ class AutonomousLearningPipeline:
 
         return sum(scores) / len(scores) if scores else 0.5
 
-    async def _integrate_knowledge(
-        self, topic: str, knowledge: dict[str, Any], confidence: float
-    ):
+    async def _integrate_knowledge(self, topic: str, knowledge: dict[str, Any], confidence: float):
         """Integrate knowledge into knowledge base"""
         if topic not in self.knowledge_base:
             self.knowledge_base[topic] = {}
@@ -522,9 +512,7 @@ class AutonomousLearningPipeline:
 class KnowledgeSynthesizer:
     """Synthesize connections between knowledge"""
 
-    async def synthesize(
-        self, knowledge1: dict, knowledge2: dict
-    ) -> Optional[dict[str, Any]]:
+    async def synthesize(self, knowledge1: dict, knowledge2: dict) -> Optional[dict[str, Any]]:
         """Synthesize connection between two knowledge pieces"""
         # Simplified synthesis
         if not knowledge1 or not knowledge2:
@@ -575,8 +563,7 @@ class ConceptMapper:
 
         connections = self.concept_graph[topic].get("connections", [])
         return [
-            c["concept"]
-            for c in sorted(connections, key=lambda x: x["strength"], reverse=True)
+            c["concept"] for c in sorted(connections, key=lambda x: x["strength"], reverse=True)
         ]
 
     def _calculate_similarity(self, concept1: str, concept2: str) -> float:
@@ -600,9 +587,7 @@ class ConceptMapper:
 class InternalReflectionSource(KnowledgeSource):
     """Learn through internal reflection"""
 
-    async def acquire(
-        self, topic: str, knowledge_type: KnowledgeType
-    ) -> dict[str, Any]:
+    async def acquire(self, topic: str, knowledge_type: KnowledgeType) -> dict[str, Any]:
         return {
             "source": "internal_reflection",
             "insights": [f"Reflected on {topic}"],
@@ -619,9 +604,7 @@ class ExperienceReplaySource(KnowledgeSource):
     def __init__(self, history: list[LearningExperience]):
         self.history = history
 
-    async def acquire(
-        self, topic: str, knowledge_type: KnowledgeType
-    ) -> dict[str, Any]:
+    async def acquire(self, topic: str, knowledge_type: KnowledgeType) -> dict[str, Any]:
         relevant = [exp for exp in self.history if topic in str(exp.knowledge_gained)]
 
         if relevant:
@@ -640,9 +623,7 @@ class ExperienceReplaySource(KnowledgeSource):
 class CreativeExplorationSource(KnowledgeSource):
     """Learn through creative exploration"""
 
-    async def acquire(
-        self, topic: str, knowledge_type: KnowledgeType
-    ) -> dict[str, Any]:
+    async def acquire(self, topic: str, knowledge_type: KnowledgeType) -> dict[str, Any]:
         return {
             "source": "creative_exploration",
             "hypothesis": f"Creative hypothesis about {topic}",

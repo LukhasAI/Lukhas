@@ -37,6 +37,7 @@ logger = get_logger(__name__)
 
 class DebugLevel(Enum):
     """Debug information levels."""
+
     TRACE = "trace"
     DEBUG = "debug"
     INFO = "info"
@@ -47,6 +48,7 @@ class DebugLevel(Enum):
 
 class ComponentState(Enum):
     """Component operational states."""
+
     UNKNOWN = "unknown"
     INITIALIZING = "initializing"
     RUNNING = "running"
@@ -57,6 +59,7 @@ class ComponentState(Enum):
 
 class DebugCategory(Enum):
     """Debug information categories."""
+
     SYSTEM = "system"
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
@@ -88,9 +91,9 @@ class DebugEvent:
     request_id: Optional[str] = None
 
     # Trinity Framework context
-    identity_context: dict[str, Any] = field(default_factory=dict)    # ⚛️
-    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_context: dict[str, Any] = field(default_factory=dict)    # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
     # Performance metrics
     execution_time: Optional[float] = None
@@ -190,9 +193,9 @@ class DebugInterface:
 
         # Trinity Framework debugging
         self.trinity_debug_state = {
-            "identity": {"active_contexts": [], "debug_level": DebugLevel.INFO},    # ⚛️
-            "consciousness": {"awareness_state": {}, "debug_level": DebugLevel.INFO}, # 🧠
-            "guardian": {"protection_status": {}, "debug_level": DebugLevel.INFO}    # 🛡️
+            "identity": {"active_contexts": [], "debug_level": DebugLevel.INFO},  # ⚛️
+            "consciousness": {"awareness_state": {}, "debug_level": DebugLevel.INFO},  # 🧠
+            "guardian": {"protection_status": {}, "debug_level": DebugLevel.INFO},  # 🛡️
         }
 
         # Debugging state
@@ -220,7 +223,7 @@ class DebugInterface:
         component: str,
         message: str,
         details: Optional[dict[str, Any]] = None,
-        **context
+        **context,
     ) -> str:
         """
         Log a debug event.
@@ -256,7 +259,7 @@ class DebugInterface:
             request_id=context.get("request_id"),
             execution_time=context.get("execution_time"),
             memory_usage=context.get("memory_usage"),
-            cpu_usage=context.get("cpu_usage")
+            cpu_usage=context.get("cpu_usage"),
         )
 
         # Add stack trace for errors
@@ -284,7 +287,7 @@ class DebugInterface:
             DebugLevel.INFO: logging.INFO,
             DebugLevel.WARNING: logging.WARNING,
             DebugLevel.ERROR: logging.ERROR,
-            DebugLevel.CRITICAL: logging.CRITICAL
+            DebugLevel.CRITICAL: logging.CRITICAL,
         }.get(level, logging.INFO)
 
         logger.log(log_level, f"🔍 [{category.value}] {component}: {message}")
@@ -296,7 +299,7 @@ class DebugInterface:
         component_name: str,
         component_instance: Any,
         version: str = "unknown",
-        dependencies: Optional[list[str]] = None
+        dependencies: Optional[list[str]] = None,
     ):
         """
         Register a component for debugging.
@@ -313,7 +316,7 @@ class DebugInterface:
             "version": version,
             "dependencies": dependencies or [],
             "registered_at": datetime.now(),
-            "debug_enabled": True
+            "debug_enabled": True,
         }
 
         self.component_states[component_name] = ComponentState.RUNNING
@@ -323,7 +326,7 @@ class DebugInterface:
             DebugCategory.SYSTEM,
             "debug_interface",
             f"Component registered: {component_name}",
-            {"version": version, "dependencies": dependencies}
+            {"version": version, "dependencies": dependencies},
         )
 
     async def create_debug_session(
@@ -331,7 +334,7 @@ class DebugInterface:
         user_id: Optional[str] = None,
         debug_level: DebugLevel = DebugLevel.DEBUG,
         categories: Optional[set[DebugCategory]] = None,
-        components: Optional[set[str]] = None
+        components: Optional[set[str]] = None,
     ) -> str:
         """
         Create a new debug session.
@@ -354,7 +357,7 @@ class DebugInterface:
             user_id=user_id,
             debug_level=debug_level,
             categories=categories or set(DebugCategory),
-            components=components or set(self.registered_components.keys())
+            components=components or set(self.registered_components.keys()),
         )
 
         self.active_sessions[session_id] = session
@@ -364,7 +367,7 @@ class DebugInterface:
             DebugCategory.SYSTEM,
             "debug_interface",
             f"Debug session created: {session_id}",
-            {"user_id": user_id, "debug_level": debug_level.value}
+            {"user_id": user_id, "debug_level": debug_level.value},
         )
 
         return session_id
@@ -412,8 +415,7 @@ class DebugInterface:
 
             # Count recent events for this component
             recent_events = [
-                e for e in list(self.debug_events)[-100:]
-                if e.component == component_name
+                e for e in list(self.debug_events)[-100:] if e.component == component_name
             ]
 
             error_count = len([e for e in recent_events if e.level == DebugLevel.ERROR])
@@ -436,7 +438,7 @@ class DebugInterface:
                 thread_count=threading.active_count(),
                 dependencies=component_info["dependencies"],
                 dependents=self._find_component_dependents(component_name),
-                recent_events=recent_events[-20:]  # Last 20 events
+                recent_events=recent_events[-20:],  # Last 20 events
             )
 
             self.component_snapshots[component_name] = snapshot
@@ -448,14 +450,12 @@ class DebugInterface:
                 DebugCategory.SYSTEM,
                 "debug_interface",
                 f"Failed to create snapshot for {component_name}: {e}",
-                {"error": str(e), "component": component_name}
+                {"error": str(e), "component": component_name},
             )
             return None
 
     async def get_debug_dashboard_data(
-        self,
-        session_id: Optional[str] = None,
-        time_range_hours: int = 1
+        self, session_id: Optional[str] = None, time_range_hours: int = 1
     ) -> dict[str, Any]:
         """
         Get comprehensive debug dashboard data.
@@ -472,19 +472,19 @@ class DebugInterface:
         start_time = end_time - timedelta(hours=time_range_hours)
 
         # Filter events by time range
-        filtered_events = [
-            e for e in self.debug_events
-            if start_time <= e.timestamp <= end_time
-        ]
+        filtered_events = [e for e in self.debug_events if start_time <= e.timestamp <= end_time]
 
         # Filter by session if specified
         if session_id and session_id in self.active_sessions:
             session = self.active_sessions[session_id]
             filtered_events = [
-                e for e in filtered_events
-                if (e.level.value >= session.debug_level.value and
-                    e.category in session.categories and
-                    e.component in session.components)
+                e
+                for e in filtered_events
+                if (
+                    e.level.value >= session.debug_level.value
+                    and e.category in session.categories
+                    and e.component in session.components
+                )
             ]
 
         # Event statistics
@@ -507,7 +507,7 @@ class DebugInterface:
                     "state": snapshot.state.value,
                     "error_count": snapshot.error_count,
                     "warning_count": snapshot.warning_count,
-                    "memory_usage_mb": snapshot.memory_usage_mb
+                    "memory_usage_mb": snapshot.memory_usage_mb,
                 }
 
         # Trinity Framework status
@@ -515,18 +515,22 @@ class DebugInterface:
             "identity": {
                 "health": self._get_trinity_component_health("identity"),
                 "active_contexts": len(self.trinity_debug_state["identity"]["active_contexts"]),
-                "debug_level": self.trinity_debug_state["identity"]["debug_level"].value
+                "debug_level": self.trinity_debug_state["identity"]["debug_level"].value,
             },
             "consciousness": {
                 "health": self._get_trinity_component_health("consciousness"),
-                "awareness_state": len(self.trinity_debug_state["consciousness"]["awareness_state"]),
-                "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value
+                "awareness_state": len(
+                    self.trinity_debug_state["consciousness"]["awareness_state"]
+                ),
+                "debug_level": self.trinity_debug_state["consciousness"]["debug_level"].value,
             },
             "guardian": {
                 "health": self._get_trinity_component_health("guardian"),
-                "protection_active": bool(self.trinity_debug_state["guardian"]["protection_status"]),
-                "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value
-            }
+                "protection_active": bool(
+                    self.trinity_debug_state["guardian"]["protection_status"]
+                ),
+                "debug_level": self.trinity_debug_state["guardian"]["debug_level"].value,
+            },
         }
 
         # Performance metrics summary
@@ -539,7 +543,7 @@ class DebugInterface:
                     "average": sum(recent_values) / len(recent_values),
                     "min": min(recent_values),
                     "max": max(recent_values),
-                    "trend": self._calculate_trend(recent_values)
+                    "trend": self._calculate_trend(recent_values),
                 }
 
         return {
@@ -548,23 +552,20 @@ class DebugInterface:
             "session_id": session_id,
             "debug_enabled": self.debug_enabled,
             "profiling_enabled": self.profiling_enabled,
-
             # Event statistics
             "events": {
                 "total_count": len(filtered_events),
                 "by_level": dict(events_by_level),
                 "by_category": dict(events_by_category),
                 "by_component": dict(events_by_component),
-                "recent_events": [self._serialize_event(e) for e in filtered_events[-50:]]
+                "recent_events": [self._serialize_event(e) for e in filtered_events[-50:]],
             },
-
             # Component information
             "components": {
                 "registered_count": len(self.registered_components),
                 "health_summary": component_health,
-                "snapshots_available": list(self.component_snapshots.keys())
+                "snapshots_available": list(self.component_snapshots.keys()),
             },
-
             # Debug sessions
             "sessions": {
                 "active_count": len(self.active_sessions),
@@ -574,31 +575,26 @@ class DebugInterface:
                         "user_id": s.user_id,
                         "debug_level": s.debug_level.value,
                         "events_captured": s.events_captured,
-                        "created_at": s.created_at.isoformat()
+                        "created_at": s.created_at.isoformat(),
                     }
                     for s in self.active_sessions.values()
-                ]
+                ],
             },
-
             # Trinity Framework status
             "trinity_framework": trinity_status,
-
             # Performance metrics
             "performance": performance_summary,
-
             # System information
             "system": {
                 "debug_events_stored": len(self.debug_events),
                 "max_events": self.max_events,
                 "profiling_sessions": len(self.profiling_sessions),
-                "uptime": self._get_system_uptime()
-            }
+                "uptime": self._get_system_uptime(),
+            },
         }
 
     async def start_profiling_session(
-        self,
-        component_name: str,
-        session_name: Optional[str] = None
+        self, component_name: str, session_name: Optional[str] = None
     ) -> str:
         """
         Start a performance profiling session for a component.
@@ -620,7 +616,7 @@ class DebugInterface:
             "component_name": component_name,
             "started_at": datetime.now(),
             "samples": [],
-            "active": True
+            "active": True,
         }
 
         self.profiling_sessions[session_id] = profiling_session
@@ -630,7 +626,7 @@ class DebugInterface:
             DebugCategory.PERFORMANCE,
             "debug_interface",
             f"Started profiling session for {component_name}",
-            {"session_id": session_id, "session_name": session_name}
+            {"session_id": session_id, "session_name": session_name},
         )
 
         return session_id
@@ -644,8 +640,7 @@ class DebugInterface:
             try:
                 # Clean up old events
                 cutoff_time = datetime.now() - timedelta(hours=self.event_retention_hours)
-                while (self.debug_events and
-                       self.debug_events[0].timestamp < cutoff_time):
+                while self.debug_events and self.debug_events[0].timestamp < cutoff_time:
                     self.debug_events.popleft()
 
                 await asyncio.sleep(60)  # Clean up every minute
@@ -702,7 +697,7 @@ class DebugInterface:
                         DebugLevel.INFO,
                         DebugCategory.SYSTEM,
                         "debug_interface",
-                        f"Debug session expired: {session_id}"
+                        f"Debug session expired: {session_id}",
                     )
 
                 await asyncio.sleep(300)  # Check every 5 minutes
@@ -731,10 +726,11 @@ class DebugInterface:
         """Notify active debug sessions about new events."""
 
         for session in self.active_sessions.values():
-            if (event.level.value >= session.debug_level.value and
-                event.category in session.categories and
-                event.component in session.components):
-
+            if (
+                event.level.value >= session.debug_level.value
+                and event.category in session.categories
+                and event.component in session.components
+            ):
                 session.events_captured += 1
 
     def _serialize_config(self, config: Any) -> dict[str, Any]:
@@ -761,7 +757,7 @@ class DebugInterface:
             "details": event.details,
             "execution_time": event.execution_time,
             "memory_usage": event.memory_usage,
-            "cpu_usage": event.cpu_usage
+            "cpu_usage": event.cpu_usage,
         }
 
     def _get_component_memory_usage(self, component_instance: Any) -> float:
@@ -769,6 +765,7 @@ class DebugInterface:
 
         try:
             import sys
+
             return sys.getsizeof(component_instance) / (1024 * 1024)  # MB
         except:
             return 0.0
@@ -788,8 +785,7 @@ class DebugInterface:
 
         # Simulate health calculation based on registered components
         related_components = [
-            name for name in self.registered_components
-            if framework_component in name.lower()
+            name for name in self.registered_components if framework_component in name.lower()
         ]
 
         if not related_components:
@@ -831,6 +827,7 @@ class DebugInterface:
 
         try:
             import uptime
+
             uptime_seconds = uptime.uptime()
             hours = int(uptime_seconds // 3600)
             minutes = int((uptime_seconds % 3600) // 60)
@@ -867,25 +864,37 @@ class DebugInterface:
         """Update Trinity Framework debug state."""
 
         # Update identity debug state (⚛️)
-        identity_components = [name for name in self.registered_components if "identity" in name.lower()]
+        identity_components = [
+            name for name in self.registered_components if "identity" in name.lower()
+        ]
         self.trinity_debug_state["identity"]["active_contexts"] = identity_components
 
         # Update consciousness debug state (🧠)
-        consciousness_components = [name for name in self.registered_components if "consciousness" in name.lower() or "awareness" in name.lower()]
-        self.trinity_debug_state["consciousness"]["awareness_state"] = {comp: "active" for comp in consciousness_components}
+        consciousness_components = [
+            name
+            for name in self.registered_components
+            if "consciousness" in name.lower() or "awareness" in name.lower()
+        ]
+        self.trinity_debug_state["consciousness"]["awareness_state"] = {
+            comp: "active" for comp in consciousness_components
+        }
 
         # Update guardian debug state (🛡️)
-        guardian_components = [name for name in self.registered_components if "guardian" in name.lower()]
-        self.trinity_debug_state["guardian"]["protection_status"] = {comp: "protected" for comp in guardian_components}
+        guardian_components = [
+            name for name in self.registered_components if "guardian" in name.lower()
+        ]
+        self.trinity_debug_state["guardian"]["protection_status"] = {
+            comp: "protected" for comp in guardian_components
+        }
 
 
 # Export main classes
 __all__ = [
-    "DebugInterface",
-    "DebugEvent",
     "ComponentSnapshot",
-    "DebugSession",
-    "DebugLevel",
     "ComponentState",
-    "DebugCategory"
+    "DebugCategory",
+    "DebugEvent",
+    "DebugInterface",
+    "DebugLevel",
+    "DebugSession",
 ]

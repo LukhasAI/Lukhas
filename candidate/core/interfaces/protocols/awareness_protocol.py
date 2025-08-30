@@ -134,9 +134,7 @@ class AwarenessProtocolInterface(ABC):
         """Assess user awareness and assign tier"""
 
     @abstractmethod
-    async def update_session(
-        self, session_id: str, update_data: dict[str, Any]
-    ) -> SessionContext:
+    async def update_session(self, session_id: str, update_data: dict[str, Any]) -> SessionContext:
         """Update session context"""
 
     @abstractmethod
@@ -160,9 +158,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
         self.sessions: dict[str, SessionContext] = {}
         self.assessors: dict[AwarenessType, AwarenessAssessor] = {}
         self.logger = logger.getChild("DefaultAwarenessProtocol")
-        self.session_timeout = timedelta(
-            minutes=self.config.get("session_timeout_minutes", 60)
-        )
+        self.session_timeout = timedelta(minutes=self.config.get("session_timeout_minutes", 60))
 
         # Initialize built-in assessors
         self._initialize_builtin_assessors()
@@ -233,9 +229,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             self.logger.error(f"Assessment failed: {e}")
             raise
 
-    async def update_session(
-        self, session_id: str, update_data: dict[str, Any]
-    ) -> SessionContext:
+    async def update_session(self, session_id: str, update_data: dict[str, Any]) -> SessionContext:
         """Update session context"""
         session = self.sessions.get(session_id)
         if not session:
@@ -271,8 +265,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             for awareness_type in supported_types:
                 self.assessors[awareness_type] = assessor
                 self.logger.info(
-                    f"Registered assessor for {awareness_type}: "
-                    f"{assessor.__class__.__name__}"
+                    f"Registered assessor for {awareness_type}: {assessor.__class__.__name__}"
                 )
             return True
         except Exception as e:
@@ -379,7 +372,8 @@ class DefaultAwarenessAssessor(AwarenessAssessor):
         """Generate unique request ID"""
         data = f"{input_data.user_id}:{input_data.session_id}:{time.time()}"
         return hashlib.sha256(  # Changed from MD5 for security
-            data.encode()).hexdigest()[:12]
+            data.encode()
+        ).hexdigest()[:12]
 
     def _generate_symbolic_signature(self, tier: TierLevel) -> str:
         """Generate symbolic signature for tier"""

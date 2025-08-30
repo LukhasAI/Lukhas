@@ -12,10 +12,9 @@ import os
 import warnings
 
 warnings.warn(
-    "Import 'qim' is deprecated. "
-    "Please update to 'lukhas.candidate.qim' and enable feature flag",
+    "Import 'qim' is deprecated. Please update to 'lukhas.candidate.qim' and enable feature flag",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 # Check if feature flag is enabled

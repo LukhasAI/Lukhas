@@ -90,13 +90,9 @@ class NIASOpenAIAdapter:
             if self.fusion_strategy == "late":
                 fusion_result = await self._late_fusion(processed_streams, user_context)
             elif self.fusion_strategy == "intermediate":
-                fusion_result = await self._intermediate_fusion(
-                    processed_streams, user_context
-                )
+                fusion_result = await self._intermediate_fusion(processed_streams, user_context)
             else:  # early
-                fusion_result = await self._early_fusion(
-                    processed_streams, user_context
-                )
+                fusion_result = await self._early_fusion(processed_streams, user_context)
 
             # Step 3: Generate unified interpretation
             interpretation = await self._generate_unified_interpretation(
@@ -190,16 +186,12 @@ class NIASOpenAIAdapter:
                 stream.processed_data = {
                     "visual_analysis": analysis,
                     "attention_metrics": self._extract_attention_metrics(analysis),
-                    "emotional_indicators": self._extract_emotional_indicators(
-                        analysis
-                    ),
+                    "emotional_indicators": self._extract_emotional_indicators(analysis),
                 }
 
             # Process eye tracking data
             elif "gaze_path" in stream.raw_data:
-                gaze_analysis = await self._analyze_gaze_patterns(
-                    stream.raw_data["gaze_path"]
-                )
+                gaze_analysis = await self._analyze_gaze_patterns(stream.raw_data["gaze_path"])
                 stream.processed_data = gaze_analysis
 
         except Exception as e:
@@ -208,9 +200,7 @@ class NIASOpenAIAdapter:
 
         return stream
 
-    async def _analyze_gaze_patterns(
-        self, gaze_path: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _analyze_gaze_patterns(self, gaze_path: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze eye tracking gaze patterns"""
         if not gaze_path:
             return {"error": "No gaze data"}
@@ -224,9 +214,7 @@ class NIASOpenAIAdapter:
             curr = gaze_path[i]
 
             # Calculate movement
-            distance = np.sqrt(
-                (curr["x"] - prev["x"]) ** 2 + (curr["y"] - prev["y"]) ** 2
-            )
+            distance = np.sqrt((curr["x"] - prev["x"]) ** 2 + (curr["y"] - prev["y"]) ** 2)
             duration = curr["timestamp"] - prev["timestamp"]
 
             if distance < 50:  # Fixation threshold
@@ -251,8 +239,8 @@ class NIASOpenAIAdapter:
                     {
                         "role": "user",
                         "content": f"""Fixations: {len(fixations)} total,
-    avg duration: {np.mean([f['duration'] for f in fixations]) if fixations else 0}ms
-                    Saccades: {len(saccades)} total, avg velocity: {np.mean([s['velocity'] for s in saccades]) if saccades else 0}px/ms
+    avg duration: {np.mean([f["duration"] for f in fixations]) if fixations else 0}ms
+                    Saccades: {len(saccades)} total, avg velocity: {np.mean([s["velocity"] for s in saccades]) if saccades else 0}px/ms
                     Total gaze points: {len(gaze_path)}""",
                     },
                 ],
@@ -342,9 +330,7 @@ class NIASOpenAIAdapter:
 
         return stream
 
-    async def _process_contextual_stream(
-        self, stream: MultimodalData
-    ) -> MultimodalData:
+    async def _process_contextual_stream(self, stream: MultimodalData) -> MultimodalData:
         """Process contextual data (weather, location, time, etc.)"""
         try:
             context_data = stream.raw_data
@@ -365,12 +351,8 @@ class NIASOpenAIAdapter:
 
             stream.processed_data = {
                 "context_analysis": response.choices[0].message.content,
-                "receptivity_modifier": self._calculate_context_receptivity(
-                    context_data
-                ),
-                "suggested_adaptations": self._suggest_context_adaptations(
-                    context_data
-                ),
+                "receptivity_modifier": self._calculate_context_receptivity(context_data),
+                "suggested_adaptations": self._suggest_context_adaptations(context_data),
             }
 
         except Exception as e:
@@ -426,9 +408,7 @@ class NIASOpenAIAdapter:
 
         return suggestions
 
-    async def _process_behavioral_stream(
-        self, stream: MultimodalData
-    ) -> MultimodalData:
+    async def _process_behavioral_stream(self, stream: MultimodalData) -> MultimodalData:
         """Process behavioral data (clicks, navigation, history)"""
         try:
             behavioral_data = stream.raw_data
@@ -472,9 +452,7 @@ class NIASOpenAIAdapter:
             parts.append(f"Click patterns: {behavioral_data['clicks']}")
 
         if "navigation" in behavioral_data:
-            parts.append(
-                f"Navigation path: {' -> '.join(behavioral_data['navigation'])}"
-            )
+            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation'])}")
 
         if "dwell_times" in behavioral_data:
             parts.append(f"Dwell times: {behavioral_data['dwell_times']}")
@@ -496,15 +474,11 @@ class NIASOpenAIAdapter:
         else:
             return "browsing"
 
-    def _build_preference_profile(
-        self, behavioral_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _build_preference_profile(self, behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """Build user preference profile from behavior"""
         return {
             "categories_viewed": behavioral_data.get("categories", []),
-            "price_sensitivity": behavioral_data.get(
-                "price_range_preference", "medium"
-            ),
+            "price_sensitivity": behavioral_data.get("price_range_preference", "medium"),
             "brand_loyalty": behavioral_data.get("brand_repeat_rate", 0.5),
             "decision_speed": behavioral_data.get("avg_decision_time", "moderate"),
         }
@@ -530,9 +504,7 @@ class NIASOpenAIAdapter:
                     {
                         "role": "user",
                         "content": (
-                            text_data
-                            if isinstance(text_data, str)
-                            else json.dumps(text_data)
+                            text_data if isinstance(text_data, str) else json.dumps(text_data)
                         ),
                     },
                 ],
@@ -632,9 +604,7 @@ class NIASOpenAIAdapter:
             return self.embedding_cache[cache_key]
 
         try:
-            response = await self.client.embeddings.create(
-                model=self.embedding_model, input=text
-            )
+            response = await self.client.embeddings.create(model=self.embedding_model, input=text)
             embeddings = response.data[0].embedding
 
             # Cache result
@@ -732,9 +702,7 @@ class NIASOpenAIAdapter:
                 function_call={"name": "fuse_modalities"},
             )
 
-            fusion_result = json.loads(
-                response.choices[0].message.function_call.arguments
-            )
+            fusion_result = json.loads(response.choices[0].message.function_call.arguments)
             return fusion_result
 
         except Exception as e:
@@ -772,9 +740,7 @@ class NIASOpenAIAdapter:
             if stream.processed_data and isinstance(stream.processed_data, dict):
                 # Extract relevant metrics
                 data = stream.processed_data
-                fusion_result["attention_level"] += weight * data.get(
-                    "attention_score", 0.5
-                )
+                fusion_result["attention_level"] += weight * data.get("attention_score", 0.5)
                 fusion_result["stress_level"] += weight * data.get("stress_level", 0.5)
                 fusion_result["engagement"] += weight * data.get("engagement", 0.5)
 
@@ -852,9 +818,7 @@ class NIASOpenAIAdapter:
             logger.error(f"Interpretation generation failed: {e}")
             return "Multimodal fusion complete"
 
-    def _calculate_fusion_confidence(
-        self, processed_streams: list[MultimodalData]
-    ) -> float:
+    def _calculate_fusion_confidence(self, processed_streams: list[MultimodalData]) -> float:
         """Calculate overall confidence in fusion results"""
         if not processed_streams:
             return 0.0
@@ -1060,9 +1024,9 @@ class NIASOpenAIAdapter:
             unified_state = fusion_result.get("unified_state", {})
 
             prompt = f"""Abstract visualization of human attention state:
-            Attention level: {unified_state.get('attention_level', 0.5):.1%}
-            Emotional state: {unified_state.get('emotional_state', 'neutral')}
-            Cognitive load: {unified_state.get('cognitive_load', 0.5):.1%}
+            Attention level: {unified_state.get("attention_level", 0.5):.1%}
+            Emotional state: {unified_state.get("emotional_state", "neutral")}
+            Cognitive load: {unified_state.get("cognitive_load", 0.5):.1%}
             Style: {style}, flowing, gentle colors, no text"""
 
             response = await self.client.images.generate(

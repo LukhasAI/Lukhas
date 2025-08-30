@@ -153,9 +153,7 @@ class ThreatPredictor:
         if prediction_scores:
             max_score = max(prediction_scores.values())
             if max_score > 0:
-                prediction_scores = {
-                    k: v / max_score for k, v in prediction_scores.items()
-                }
+                prediction_scores = {k: v / max_score for k, v in prediction_scores.items()}
 
         return dict(prediction_scores)
 
@@ -174,14 +172,12 @@ class ThreatPredictor:
         avg_severity_change = statistics.mean(severity_trend) if severity_trend else 0
 
         # Most common patterns
-        top_patterns = sorted(
-            self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True
-        )[:5]
+        top_patterns = sorted(self.pattern_frequencies.items(), key=lambda x: x[1], reverse=True)[
+            :5
+        ]
 
         # Recent activity
-        recent_activity = len(
-            [t for t in threats if time.time() - t.timestamp < 300]
-        )  # 5 minutes
+        recent_activity = len([t for t in threats if time.time() - t.timestamp < 300])  # 5 minutes
 
         return {
             "total_threats": len(threats),
@@ -283,9 +279,7 @@ class GuardianDashboard:
         self.emergency_response_actions: dict = {}
 
         # Dashboard state
-        self.current_view = (
-            "overview"  # overview, threats, predictions, analysis, emergency
-        )
+        self.current_view = "overview"  # overview, threats, predictions, analysis, emergency
         self.selected_threat_index = 0
         self.animation_phase = 0.0
         self.alert_flash_state = False
@@ -323,9 +317,7 @@ class GuardianDashboard:
         except Exception as e:
             print(f"❌ Failed to load emergency manifest: {e}")
 
-    async def trigger_emergency_simulation(
-        self, condition_name: str = "entropy_explosion"
-    ):
+    async def trigger_emergency_simulation(self, condition_name: str = "entropy_explosion"):
         """Trigger emergency simulation for testing"""
         if condition_name not in self.emergency_trigger_conditions:
             print(f"❌ Unknown emergency condition: {condition_name}")
@@ -362,9 +354,7 @@ class GuardianDashboard:
     async def resolve_emergency(self):
         """Resolve active emergency"""
         if self.emergency_state.active_emergency_level:
-            print(
-                f"✅ Emergency resolved: {self.emergency_state.active_emergency_level}"
-            )
+            print(f"✅ Emergency resolved: {self.emergency_state.active_emergency_level}")
 
             self.emergency_state = EmergencyState(
                 active_emergency_level=None,
@@ -424,9 +414,7 @@ class GuardianDashboard:
 
         while self.running:
             # Randomly generate threats
-            if (
-                len(self.active_threats) < 5 and time.time() % 10 < 0.5
-            ):  # Throttled generation
+            if len(self.active_threats) < 5 and time.time() % 10 < 0.5:  # Throttled generation
                 if (
                     not hasattr(self, "_last_threat_time")
                     or time.time() - self._last_threat_time > 8
@@ -614,19 +602,13 @@ class GuardianDashboard:
                 if self.current_metrics.consciousness_stability > 0.8
                 else Console.YELLOW
             )
-            print(
-                f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end=""
-            )
+            print(f"Trinity Framework: ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}", end="")
 
             # Guardian load
             load_color = (
                 Console.GREEN
                 if self.current_metrics.guardian_load < 0.3
-                else (
-                    Console.YELLOW
-                    if self.current_metrics.guardian_load < 0.7
-                    else Console.RED
-                )
+                else (Console.YELLOW if self.current_metrics.guardian_load < 0.7 else Console.RED)
             )
             load_bar = "█" * int(self.current_metrics.guardian_load * 10) + "░" * (
                 10 - int(self.current_metrics.guardian_load * 10)
@@ -653,9 +635,7 @@ class GuardianDashboard:
 
         if not self.active_threats:
             print(Console.move_cursor(6, 45), end="")
-            print(
-                f"{Console.GREEN}✅ No active threats detected{Console.RESET}", end=""
-            )
+            print(f"{Console.GREEN}✅ No active threats detected{Console.RESET}", end="")
         else:
             for i, threat in enumerate(self.active_threats[:5]):  # Show top 5
                 config = self.THREAT_CONFIGS.get(threat.type, {})
@@ -711,9 +691,7 @@ class GuardianDashboard:
             print(Console.move_cursor(14, 45), end="")
             print(f"{Console.BOLD}THREAT PREDICTIONS{Console.RESET}", end="")
 
-            for i, (threat_type, probability) in enumerate(
-                list(predictions.items())[:3]
-            ):
+            for i, (threat_type, probability) in enumerate(list(predictions.items())[:3]):
                 config = self.THREAT_CONFIGS.get(threat_type, {})
                 symbol = config.get("symbol", "⚠️")
                 color = config.get("color", Console.YELLOW)
@@ -753,7 +731,9 @@ class GuardianDashboard:
             severity_color = (
                 Console.RED
                 if threat.severity > 0.7
-                else Console.YELLOW if threat.severity > 0.4 else Console.GREEN
+                else Console.YELLOW
+                if threat.severity > 0.4
+                else Console.GREEN
             )
             print(
                 f"Severity: {severity_color}{threat.severity:.2f}{Console.RESET} ({threat.confidence:.1%} confidence)",
@@ -849,7 +829,9 @@ class GuardianDashboard:
         health_color = (
             Console.GREEN
             if health_score > 0.8
-            else Console.YELLOW if health_score > 0.6 else Console.RED
+            else Console.YELLOW
+            if health_score > 0.6
+            else Console.RED
         )
         health_bar = "█" * int(health_score * 20)
 
@@ -871,11 +853,11 @@ class GuardianDashboard:
         trend_color = (
             Console.RED
             if severity_trend > 0.1
-            else Console.GREEN if severity_trend < -0.1 else Console.YELLOW
+            else Console.GREEN
+            if severity_trend < -0.1
+            else Console.YELLOW
         )
-        trend_arrow = (
-            "↗️" if severity_trend > 0.05 else "↘️" if severity_trend < -0.05 else "→"
-        )
+        trend_arrow = "↗️" if severity_trend > 0.05 else "↘️" if severity_trend < -0.05 else "→"
         print(
             f"Severity Trend: {trend_color}{trend_arrow} {severity_trend:+.3f}{Console.RESET}",
             end="",
@@ -932,17 +914,13 @@ class GuardianDashboard:
 
             # Resolution option
             print(Console.move_cursor(13, 5), end="")
-            print(
-                f"{Console.GREEN}Press 'r' to resolve emergency{Console.RESET}", end=""
-            )
+            print(f"{Console.GREEN}Press 'r' to resolve emergency{Console.RESET}", end="")
         else:
             print(f"Status: {Console.GREEN}No active emergency{Console.RESET}", end="")
 
             # Emergency simulation options
             print(Console.move_cursor(9, 5), end="")
-            print(
-                f"{Console.BOLD}Available Emergency Simulations:{Console.RESET}", end=""
-            )
+            print(f"{Console.BOLD}Available Emergency Simulations:{Console.RESET}", end="")
 
             available_conditions = list(self.emergency_trigger_conditions.keys())[:5]
             for i, condition in enumerate(available_conditions):
@@ -952,7 +930,7 @@ class GuardianDashboard:
                 print(Console.move_cursor(10 + i, 7), end="")
                 print(Console.CLEAR_LINE, end="")
                 symbolic = "→".join(condition_info.get("symbolic_sequence", ["❓"]))
-                print(f"{i+1}. {condition} ({level}) {symbolic}", end="")
+                print(f"{i + 1}. {condition} ({level}) {symbolic}", end="")
 
             print(Console.move_cursor(16, 5), end="")
             print(
@@ -1008,13 +986,9 @@ class GuardianDashboard:
         elif self.current_view == "emergency":
             print(Console.move_cursor(21, 5), end="")
             print(Console.CLEAR_LINE, end="")
-            emergency_status = (
-                "ACTIVE" if self.emergency_state.active_emergency_level else "Ready"
-            )
+            emergency_status = "ACTIVE" if self.emergency_state.active_emergency_level else "Ready"
             status_color = (
-                Console.RED
-                if self.emergency_state.active_emergency_level
-                else Console.GREEN
+                Console.RED if self.emergency_state.active_emergency_level else Console.GREEN
             )
             print(
                 f"{Console.DIM}Emergency Status: {status_color}{emergency_status}{Console.RESET} | Simulation: {'Enabled' if self.emergency_simulation_enabled else 'Disabled'}",
@@ -1053,9 +1027,7 @@ async def main():
     """Main entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="LUKHAS Guardian Real-Time Threat Dashboard"
-    )
+    parser = argparse.ArgumentParser(description="LUKHAS Guardian Real-Time Threat Dashboard")
     parser.add_argument(
         "--update-interval",
         type=float,

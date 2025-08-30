@@ -21,6 +21,7 @@ async def test_consciousness_oracle_integration():
     assert profile["short_term_forecast"]["vulnerability_protected"]
     assert "recommended_nias_tier" in profile["long_term_journey"]
 
+
 @pytest.mark.nias_transcendence
 @pytest.mark.asyncio
 async def test_collective_intelligence_ethics():

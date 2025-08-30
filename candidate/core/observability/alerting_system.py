@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 
 class AlertSeverity(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     LOW = "low"
     MEDIUM = "medium"
@@ -53,6 +54,7 @@ class AlertSeverity(Enum):
 
 class AlertCategory(Enum):
     """Alert category types"""
+
     SYSTEM = "system"
     SECURITY = "security"
     PERFORMANCE = "performance"
@@ -68,6 +70,7 @@ class AlertCategory(Enum):
 
 class AlertStatus(Enum):
     """Alert status values"""
+
     ACTIVE = "active"
     ACKNOWLEDGED = "acknowledged"
     IN_PROGRESS = "in_progress"
@@ -78,6 +81,7 @@ class AlertStatus(Enum):
 
 class NotificationChannel(Enum):
     """Notification delivery channels"""
+
     DASHBOARD = "dashboard"
     EMAIL = "email"
     WEBHOOK = "webhook"
@@ -88,6 +92,7 @@ class NotificationChannel(Enum):
 
 class ComplianceRegulation(Enum):
     """Compliance regulations for audit trails"""
+
     GDPR = "gdpr"
     CCPA = "ccpa"
     HIPAA = "hipaa"
@@ -259,7 +264,7 @@ class NotificationConfig:
 
     # Rate limiting
     rate_limit: int = 10  # max notifications per hour
-    burst_limit: int = 3   # max notifications per minute
+    burst_limit: int = 3  # max notifications per minute
 
     # Templates
     subject_template: str = "LUKHAS AI Alert: {title}"
@@ -386,9 +391,8 @@ class ComprehensiveAlertingSystem:
                 notification_channels=[NotificationChannel.DASHBOARD, NotificationChannel.EMAIL],
                 compliance_relevant=True,
                 applicable_regulations=[ComplianceRegulation.SOC2],
-                trinity_component="guardian"
+                trinity_component="guardian",
             ),
-
             # Consciousness alerts
             AlertRule(
                 rule_id="consciousness_cognitive_overload",
@@ -400,9 +404,8 @@ class ComprehensiveAlertingSystem:
                 severity=AlertSeverity.MEDIUM,
                 category=AlertCategory.CONSCIOUSNESS,
                 notification_channels=[NotificationChannel.DASHBOARD],
-                trinity_component="consciousness"
+                trinity_component="consciousness",
             ),
-
             # System health alerts
             AlertRule(
                 rule_id="system_health_critical",
@@ -415,9 +418,8 @@ class ComprehensiveAlertingSystem:
                 category=AlertCategory.HEALTH,
                 notification_channels=[NotificationChannel.DASHBOARD, NotificationChannel.EMAIL],
                 escalation_timeout=900,
-                escalation_severity=AlertSeverity.EMERGENCY
+                escalation_severity=AlertSeverity.EMERGENCY,
             ),
-
             # Memory cascade prevention
             AlertRule(
                 rule_id="memory_cascade_risk",
@@ -430,9 +432,8 @@ class ComprehensiveAlertingSystem:
                 category=AlertCategory.MEMORY,
                 notification_channels=[NotificationChannel.DASHBOARD, NotificationChannel.EMAIL],
                 compliance_relevant=True,
-                applicable_regulations=[ComplianceRegulation.SOC2]
+                applicable_regulations=[ComplianceRegulation.SOC2],
             ),
-
             # API performance alerts
             AlertRule(
                 rule_id="api_response_time",
@@ -443,9 +444,8 @@ class ComprehensiveAlertingSystem:
                 threshold_operator=">",
                 severity=AlertSeverity.MEDIUM,
                 category=AlertCategory.API,
-                notification_channels=[NotificationChannel.DASHBOARD]
+                notification_channels=[NotificationChannel.DASHBOARD],
             ),
-
             # Compliance violations
             AlertRule(
                 rule_id="compliance_violation",
@@ -459,8 +459,8 @@ class ComprehensiveAlertingSystem:
                 notification_channels=[NotificationChannel.DASHBOARD, NotificationChannel.EMAIL],
                 compliance_relevant=True,
                 applicable_regulations=[ComplianceRegulation.GDPR, ComplianceRegulation.CCPA],
-                escalation_timeout=1800
-            )
+                escalation_timeout=1800,
+            ),
         ]
 
         for rule in default_rules:
@@ -477,9 +477,13 @@ class ComprehensiveAlertingSystem:
                 name="Dashboard Notifications",
                 channel=NotificationChannel.DASHBOARD,
                 endpoint="dashboard",
-                severity_filter=[AlertSeverity.MEDIUM, AlertSeverity.HIGH, AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY]
+                severity_filter=[
+                    AlertSeverity.MEDIUM,
+                    AlertSeverity.HIGH,
+                    AlertSeverity.CRITICAL,
+                    AlertSeverity.EMERGENCY,
+                ],
             ),
-
             NotificationConfig(
                 config_id="email_critical",
                 name="Critical Email Notifications",
@@ -506,8 +510,8 @@ Metadata:
 Please take immediate action to address this alert.
 
 LUKHAS AI Monitoring System
-                """
-            )
+                """,
+            ),
         ]
 
         for config in default_configs:
@@ -590,7 +594,7 @@ LUKHAS AI Monitoring System
         triggered_value: Optional[float] = None,
         tags: Optional[dict[str, str]] = None,
         metadata: Optional[dict[str, Any]] = None,
-        affected_systems: Optional[list[str]] = None
+        affected_systems: Optional[list[str]] = None,
     ) -> Alert:
         """Create a new alert"""
 
@@ -619,7 +623,7 @@ LUKHAS AI Monitoring System
             tags=tags,
             metadata=metadata,
             affected_systems=affected_systems,
-            correlation_key=correlation_key
+            correlation_key=correlation_key,
         )
 
         # Set compliance relevance
@@ -640,7 +644,9 @@ LUKHAS AI Monitoring System
             self.correlation_keys[correlation_key].append(alert_id)
 
             # Link to parent alert if correlation exists
-            existing_alerts = [aid for aid in self.correlation_keys[correlation_key] if aid != alert_id]
+            existing_alerts = [
+                aid for aid in self.correlation_keys[correlation_key] if aid != alert_id
+            ]
             if existing_alerts:
                 parent_id = existing_alerts[0]  # Use first alert as parent
                 alert.parent_alert_id = parent_id
@@ -660,21 +666,21 @@ LUKHAS AI Monitoring System
         self.metrics.active_alerts_count = len(self.active_alerts)
 
         severity_key = severity.value
-        self.metrics.alerts_by_severity[severity_key] = self.metrics.alerts_by_severity.get(severity_key, 0) + 1
+        self.metrics.alerts_by_severity[severity_key] = (
+            self.metrics.alerts_by_severity.get(severity_key, 0) + 1
+        )
 
         category_key = category.value
-        self.metrics.alerts_by_category[category_key] = self.metrics.alerts_by_category.get(category_key, 0) + 1
+        self.metrics.alerts_by_category[category_key] = (
+            self.metrics.alerts_by_category.get(category_key, 0) + 1
+        )
 
         logger.warning(f"🚨 Alert created: {title} ({severity.value})")
 
         return alert
 
     async def _generate_correlation_key(
-        self,
-        rule_id: str,
-        source_system: str,
-        source_metric: Optional[str],
-        tags: dict[str, str]
+        self, rule_id: str, source_system: str, source_metric: Optional[str], tags: dict[str, str]
     ) -> str:
         """Generate correlation key for alert deduplication"""
 
@@ -724,7 +730,7 @@ LUKHAS AI Monitoring System
             AlertSeverity.MEDIUM: 0.5,
             AlertSeverity.HIGH: 0.8,
             AlertSeverity.CRITICAL: 1.0,
-            AlertSeverity.EMERGENCY: 1.2
+            AlertSeverity.EMERGENCY: 1.2,
         }
 
         multiplier = severity_multipliers.get(alert.severity, 0.5)
@@ -743,7 +749,11 @@ LUKHAS AI Monitoring System
             entry_id = f"audit_{uuid.uuid4().hex[:12]}"
 
             # Determine violation severity
-            violation_severity = "high" if alert.severity in [AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY] else "medium"
+            violation_severity = (
+                "high"
+                if alert.severity in [AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY]
+                else "medium"
+            )
 
             # Create audit entry
             audit_entry = ComplianceAuditEntry(
@@ -763,16 +773,17 @@ LUKHAS AI Monitoring System
                         "severity": alert.severity.value,
                         "category": alert.category.value,
                         "triggered_value": alert.triggered_value,
-                        "metadata": alert.metadata
+                        "metadata": alert.metadata,
                     }
                 },
                 remediation_required=True,
                 remediation_actions=[
                     f"Investigate alert: {alert.title}",
                     f"Review {alert.source_system} system compliance",
-                    "Implement corrective measures if needed"
+                    "Implement corrective measures if needed",
                 ],
-                remediation_deadline=datetime.now() + timedelta(days=7 if violation_severity == "medium" else 1)
+                remediation_deadline=datetime.now()
+                + timedelta(days=7 if violation_severity == "medium" else 1),
             )
 
             # Store audit entry
@@ -792,22 +803,24 @@ LUKHAS AI Monitoring System
             ComplianceRegulation.GDPR: {
                 AlertCategory.SECURITY: "Article 32 - Security of processing",
                 AlertCategory.COMPLIANCE: "Article 5 - Principles of processing",
-                "default": "General data protection requirements"
+                "default": "General data protection requirements",
             },
             ComplianceRegulation.CCPA: {
                 AlertCategory.SECURITY: "Section 1798.81.5 - Security procedures",
                 AlertCategory.COMPLIANCE: "Section 1798.100 - Consumer rights",
-                "default": "Consumer privacy protection requirements"
+                "default": "Consumer privacy protection requirements",
             },
             ComplianceRegulation.SOC2: {
                 AlertCategory.SECURITY: "CC6.0 - Logical and Physical Access Controls",
                 AlertCategory.SYSTEM: "CC7.0 - System Operations",
-                "default": "Trust services criteria compliance"
-            }
+                "default": "Trust services criteria compliance",
+            },
         }
 
         regulation_reqs = requirements.get(regulation, {})
-        return regulation_reqs.get(alert.category, regulation_reqs.get("default", "General compliance requirement"))
+        return regulation_reqs.get(
+            alert.category, regulation_reqs.get("default", "General compliance requirement")
+        )
 
     async def _queue_alert_notifications(self, alert: Alert):
         """Queue notifications for an alert"""
@@ -829,7 +842,7 @@ LUKHAS AI Monitoring System
                 "alert_id": alert.alert_id,
                 "channel": channel,
                 "timestamp": datetime.now(),
-                "attempt": 1
+                "attempt": 1,
             }
 
             self.notification_queue.append(notification)
@@ -876,10 +889,13 @@ LUKHAS AI Monitoring System
 
         # Find matching notification configuration
         matching_configs = [
-            config for config in self.notification_configs.values()
-            if (config.channel == channel and
-                config.enabled and
-                self._notification_matches_filters(alert, config))
+            config
+            for config in self.notification_configs.values()
+            if (
+                config.channel == channel
+                and config.enabled
+                and self._notification_matches_filters(alert, config)
+            )
         ]
 
         if not matching_configs:
@@ -909,7 +925,7 @@ LUKHAS AI Monitoring System
             "config_id": config.config_id,
             "timestamp": datetime.now().isoformat(),
             "success": success,
-            "attempt": notification["attempt"]
+            "attempt": notification["attempt"],
         }
 
         alert.notification_history.append(notification_record)
@@ -918,7 +934,9 @@ LUKHAS AI Monitoring System
         self.metrics.total_notifications_sent += 1
 
         channel_key = channel.value
-        self.metrics.notifications_by_channel[channel_key] = self.metrics.notifications_by_channel.get(channel_key, 0) + 1
+        self.metrics.notifications_by_channel[channel_key] = (
+            self.metrics.notifications_by_channel.get(channel_key, 0) + 1
+        )
 
         if success:
             logger.info(f"📤 Notification sent: {alert.title} via {channel.value}")
@@ -952,9 +970,10 @@ LUKHAS AI Monitoring System
 
         # Check recent notifications for this config
         recent_notifications = [
-            record for record in alert.notification_history
-            if record["config_id"] == config.config_id and
-               (current_time - datetime.fromisoformat(record["timestamp"])).total_seconds() < 3600
+            record
+            for record in alert.notification_history
+            if record["config_id"] == config.config_id
+            and (current_time - datetime.fromisoformat(record["timestamp"])).total_seconds() < 3600
         ]
 
         if len(recent_notifications) >= config.rate_limit:
@@ -962,7 +981,8 @@ LUKHAS AI Monitoring System
 
         # Check burst limit
         recent_burst = [
-            record for record in recent_notifications
+            record
+            for record in recent_notifications
             if (current_time - datetime.fromisoformat(record["timestamp"])).total_seconds() < 60
         ]
 
@@ -984,9 +1004,7 @@ LUKHAS AI Monitoring System
         try:
             # Format email content
             subject = config.subject_template.format(
-                title=alert.title,
-                severity=alert.severity.value,
-                category=alert.category.value
+                title=alert.title, severity=alert.severity.value, category=alert.category.value
             )
 
             body = config.body_template.format(
@@ -996,7 +1014,7 @@ LUKHAS AI Monitoring System
                 category=alert.category.value,
                 created_at=alert.created_at.isoformat(),
                 source_system=alert.source_system,
-                metadata=json.dumps(alert.metadata, indent=2)
+                metadata=json.dumps(alert.metadata, indent=2),
             )
 
             # Create email message
@@ -1035,7 +1053,7 @@ LUKHAS AI Monitoring System
                 "source_system": alert.source_system,
                 "tags": alert.tags,
                 "metadata": alert.metadata,
-                "trinity_impact": alert.trinity_impact
+                "trinity_impact": alert.trinity_impact,
             }
 
             # In production, would make HTTP POST to webhook URL
@@ -1094,10 +1112,7 @@ LUKHAS AI Monitoring System
         return True
 
     async def resolve_alert(
-        self,
-        alert_id: str,
-        user_id: Optional[str] = None,
-        resolution_notes: Optional[str] = None
+        self, alert_id: str, user_id: Optional[str] = None, resolution_notes: Optional[str] = None
     ) -> bool:
         """Resolve an alert"""
 
@@ -1137,7 +1152,9 @@ LUKHAS AI Monitoring System
             event_type="alert_acknowledged",
             event_description=f"Alert acknowledged: {alert.title}",
             alert_id=alert.alert_id,
-            regulation=alert.applicable_regulations[0] if alert.applicable_regulations else ComplianceRegulation.SOC2,
+            regulation=alert.applicable_regulations[0]
+            if alert.applicable_regulations
+            else ComplianceRegulation.SOC2,
             compliance_requirement="Incident response - acknowledgment",
             violation_severity="low",
             system_component=alert.source_system,
@@ -1145,13 +1162,15 @@ LUKHAS AI Monitoring System
             evidence={
                 "acknowledgment_details": {
                     "alert_id": alert.alert_id,
-                    "acknowledged_at": alert.acknowledged_at.isoformat() if alert.acknowledged_at else None,
-                    "user_id": user_id
+                    "acknowledged_at": alert.acknowledged_at.isoformat()
+                    if alert.acknowledged_at
+                    else None,
+                    "user_id": user_id,
                 }
             },
             status="acknowledged",
             remediation_required=True,
-            remediation_actions=["Continue investigation", "Implement resolution"]
+            remediation_actions=["Continue investigation", "Implement resolution"],
         )
 
         self.audit_trail.append(audit_entry)
@@ -1160,10 +1179,7 @@ LUKHAS AI Monitoring System
         logger.info(f"📋 Acknowledgment audit entry created: {entry_id}")
 
     async def _create_resolution_audit_entry(
-        self,
-        alert: Alert,
-        user_id: Optional[str],
-        resolution_notes: Optional[str]
+        self, alert: Alert, user_id: Optional[str], resolution_notes: Optional[str]
     ):
         """Create audit entry for alert resolution"""
 
@@ -1175,7 +1191,9 @@ LUKHAS AI Monitoring System
             event_type="alert_resolved",
             event_description=f"Alert resolved: {alert.title}",
             alert_id=alert.alert_id,
-            regulation=alert.applicable_regulations[0] if alert.applicable_regulations else ComplianceRegulation.SOC2,
+            regulation=alert.applicable_regulations[0]
+            if alert.applicable_regulations
+            else ComplianceRegulation.SOC2,
             compliance_requirement="Incident response - resolution",
             violation_severity="resolved",
             system_component=alert.source_system,
@@ -1186,15 +1204,15 @@ LUKHAS AI Monitoring System
                     "resolved_at": alert.resolved_at.isoformat() if alert.resolved_at else None,
                     "user_id": user_id,
                     "resolution_notes": resolution_notes,
-                    "total_duration_seconds": (
-                        alert.resolved_at - alert.created_at
-                    ).total_seconds() if alert.resolved_at else None
+                    "total_duration_seconds": (alert.resolved_at - alert.created_at).total_seconds()
+                    if alert.resolved_at
+                    else None,
                 }
             },
             status="resolved",
             resolved_at=datetime.now(),
             resolution_notes=resolution_notes or "Alert resolved",
-            remediation_required=False
+            remediation_required=False,
         )
 
         self.audit_trail.append(audit_entry)
@@ -1230,9 +1248,7 @@ LUKHAS AI Monitoring System
             # Check if escalation is due
             time_since_creation = (current_time - alert.created_at).total_seconds()
 
-            if (time_since_creation >= rule.escalation_timeout and
-                alert.escalation_level == 0):
-
+            if time_since_creation >= rule.escalation_timeout and alert.escalation_level == 0:
                 # Escalate alert
                 alert.severity = rule.escalation_severity
                 alert.escalation_level += 1
@@ -1243,7 +1259,7 @@ LUKHAS AI Monitoring System
                     "timestamp": current_time.isoformat(),
                     "from_severity": alert.severity.value,
                     "to_severity": rule.escalation_severity.value,
-                    "reason": "timeout_escalation"
+                    "reason": "timeout_escalation",
                 }
 
                 alert.escalation_history.append(escalation_record)
@@ -1251,14 +1267,17 @@ LUKHAS AI Monitoring System
                 # Queue new notifications for escalated alert
                 await self._queue_alert_notifications(alert)
 
-                logger.warning(f"⬆️ Alert escalated: {alert.title} to {rule.escalation_severity.value}")
+                logger.warning(
+                    f"⬆️ Alert escalated: {alert.title} to {rule.escalation_severity.value}"
+                )
 
     async def _monitor_compliance_violations(self):
         """Monitor for compliance violations"""
 
         # Check for unresolved compliance alerts
         [
-            alert for alert in self.active_alerts.values()
+            alert
+            for alert in self.active_alerts.values()
             if alert.compliance_relevant and alert.status == AlertStatus.ACTIVE
         ]
 
@@ -1266,10 +1285,11 @@ LUKHAS AI Monitoring System
         current_time = datetime.now()
 
         for entry in self.audit_trail:
-            if (entry.status == "open" and
-                entry.remediation_deadline and
-                current_time > entry.remediation_deadline):
-
+            if (
+                entry.status == "open"
+                and entry.remediation_deadline
+                and current_time > entry.remediation_deadline
+            ):
                 # Create overdue remediation alert
                 await self.create_alert(
                     rule_id="compliance_overdue",
@@ -1278,7 +1298,7 @@ LUKHAS AI Monitoring System
                     severity=AlertSeverity.HIGH,
                     category=AlertCategory.COMPLIANCE,
                     source_system="compliance_monitor",
-                    metadata={"audit_entry_id": entry.entry_id}
+                    metadata={"audit_entry_id": entry.entry_id},
                 )
 
     async def _generate_compliance_reports(self):
@@ -1312,7 +1332,9 @@ LUKHAS AI Monitoring System
         # Update uptime
         uptime_seconds = (current_time - self.system_start_time).total_seconds()
         if uptime_seconds > 0:
-            self.metrics.alerting_system_uptime = min(100.0, (uptime_seconds / (uptime_seconds + 60)) * 100)
+            self.metrics.alerting_system_uptime = min(
+                100.0, (uptime_seconds / (uptime_seconds + 60)) * 100
+            )
 
         self.metrics.last_metrics_update = current_time
 
@@ -1365,7 +1387,7 @@ LUKHAS AI Monitoring System
         self,
         regulation: Optional[ComplianceRegulation] = None,
         start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None
+        end_date: Optional[datetime] = None,
     ) -> list[ComplianceAuditEntry]:
         """Get compliance audit trail entries"""
 
@@ -1400,15 +1422,15 @@ LUKHAS AI Monitoring System
 
 # Export main classes
 __all__ = [
-    "ComprehensiveAlertingSystem",
     "Alert",
-    "AlertRule",
-    "ComplianceAuditEntry",
-    "NotificationConfig",
-    "AlertingMetrics",
-    "AlertSeverity",
     "AlertCategory",
+    "AlertRule",
+    "AlertSeverity",
     "AlertStatus",
+    "AlertingMetrics",
+    "ComplianceAuditEntry",
+    "ComplianceRegulation",
+    "ComprehensiveAlertingSystem",
     "NotificationChannel",
-    "ComplianceRegulation"
+    "NotificationConfig",
 ]

@@ -114,9 +114,7 @@ class MethylationModel:
         min_lifespan = self._get_minimum_lifespan(scope)
         adjusted_lifespan = max(adjusted_lifespan, min_lifespan)
 
-        logger.debug(
-            f"Adjusted lifespan for {scope.value}: {lifespan} -> {adjusted_lifespan}"
-        )
+        logger.debug(f"Adjusted lifespan for {scope.value}: {lifespan} -> {adjusted_lifespan}")
         return adjusted_lifespan
 
     def calculate_decay_rate(self, tag: SymbolicTag, current_time: datetime) -> float:
@@ -206,9 +204,7 @@ class MethylationModel:
 
         return False
 
-    def inherit_tag(
-        self, parent_tag: SymbolicTag, generation_id: str
-    ) -> Optional[SymbolicTag]:
+    def inherit_tag(self, parent_tag: SymbolicTag, generation_id: str) -> Optional[SymbolicTag]:
         """
         Create an inherited tag from a parent tag.
 
@@ -281,7 +277,7 @@ _methylation_model = None
 
 def get_methylation_model() -> MethylationModel:
     """Get or create the global methylation model."""
-    global _methylation_model  # noqa: PLW0603
+    global _methylation_model
     if _methylation_model is None:
         _methylation_model = MethylationModel()
     return _methylation_model

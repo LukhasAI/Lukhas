@@ -43,15 +43,11 @@ class LambdaTraceLogger:
         }
         self.enterprise_mode = config.get("enterprise_forensic_enabled", False)
 
-    def log_activity(
-        self, user_id: str, activity_type: str, symbolic_data: dict[str, Any]
-    ) -> str:
+    def log_activity(self, user_id: str, activity_type: str, symbolic_data: dict[str, Any]) -> str:
         """Log a symbolic activity event with enterprise forensic capabilities"""
 
         # Check consent for activity logging
-        if self.consent_manager and not self._check_logging_consent(
-            user_id, activity_type
-        ):
+        if self.consent_manager and not self._check_logging_consent(user_id, activity_type):
             return None
 
         timestamp = datetime.utcnow().isoformat()
@@ -68,9 +64,7 @@ class LambdaTraceLogger:
             "session_id": symbolic_data.get("session_id"),
             "device_fingerprint": symbolic_data.get("device_fingerprint"),
             "ip_address": (
-                symbolic_data.get("ip_address")
-                if self._geo_consent_granted(user_id)
-                else None
+                symbolic_data.get("ip_address") if self._geo_consent_granted(user_id) else None
             ),
             "user_agent": symbolic_data.get("user_agent"),
             "trace_context": self._build_trace_context(user_id, activity_type),
@@ -86,9 +80,7 @@ class LambdaTraceLogger:
 
         return trace_record["trace_id"]
 
-    def log_id_creation(
-        self, user_id: str, lambda_id: str, tier: int, entropy_score: float
-    ):
+    def log_id_creation(self, user_id: str, lambda_id: str, tier: int, entropy_score: float):
         """Specialized logging for ΛiD creation events"""
         symbolic_data = {
             "lambda_id": lambda_id,
@@ -109,9 +101,7 @@ class LambdaTraceLogger:
         }
         return self.log_activity(user_id, event_type, symbolic_data)
 
-    def log_tier_change(
-        self, user_id: str, old_tier: int, new_tier: int, change_reason: str
-    ):
+    def log_tier_change(self, user_id: str, old_tier: int, new_tier: int, change_reason: str):
         """Log tier progression with symbolic representation"""
         symbolic_data = {
             "old_tier": old_tier,
@@ -122,9 +112,7 @@ class LambdaTraceLogger:
         }
         return self.log_activity(user_id, "tier_change", symbolic_data)
 
-    def log_consent_trail(
-        self, user_id: str, consent_action: str, scope: str, consent_hash: str
-    ):
+    def log_consent_trail(self, user_id: str, consent_action: str, scope: str, consent_hash: str):
         """Log consent modifications for audit trail"""
         symbolic_data = {
             "consent_action": consent_action,  # 'grant', 'revoke', 'update'
@@ -132,9 +120,7 @@ class LambdaTraceLogger:
             "consent_hash": consent_hash,
             "trail_symbol": "✅" if consent_action == "grant" else "❌",
         }
-        activity_type = (
-            "consent_grant" if consent_action == "grant" else "consent_revoke"
-        )
+        activity_type = "consent_grant" if consent_action == "grant" else "consent_revoke"
         return self.log_activity(user_id, activity_type, symbolic_data)
 
     def log_geo_symbolic_trace(self, user_id: str, location_data: dict):
@@ -168,9 +154,7 @@ class LambdaTraceLogger:
         if time_range:
             start_time = time_range.get("start")
             end_time = time_range.get("end")
-            user_traces = [
-                t for t in user_traces if start_time <= t["timestamp"] <= end_time
-            ]
+            user_traces = [t for t in user_traces if start_time <= t["timestamp"] <= end_time]
 
         # Generate symbolic pattern
         activity_sequence = "".join([t["symbol"] for t in user_traces])
@@ -182,9 +166,7 @@ class LambdaTraceLogger:
             "activity_breakdown": self._analyze_activity_breakdown(user_traces),
             "risk_indicators": self._identify_risk_patterns(user_traces),
             "enterprise_summary": (
-                self._generate_enterprise_summary(user_traces)
-                if self.enterprise_mode
-                else None
+                self._generate_enterprise_summary(user_traces) if self.enterprise_mode else None
             ),
         }
 
@@ -280,12 +262,8 @@ class LambdaTraceLogger:
         """Generate enterprise-grade summary for forensic analysis"""
         return {
             "total_trace_events": len(traces),
-            "security_events": len(
-                [t for t in traces if t["activity_type"] == "security_event"]
-            ),
-            "consent_modifications": len(
-                [t for t in traces if "consent" in t["activity_type"]]
-            ),
+            "security_events": len([t for t in traces if t["activity_type"] == "security_event"]),
+            "consent_modifications": len([t for t in traces if "consent" in t["activity_type"]]),
             "cross_system_interactions": len(
                 [t for t in traces if t["activity_type"] == "cross_system"]
             ),

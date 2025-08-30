@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class LukhasConceptScanner:
-
     def __init__(self):
         self.root_path = Path(".")
 
@@ -108,9 +107,7 @@ class LukhasConceptScanner:
                         }
                     )
 
-                    self.concept_files[concept].add(
-                        str(file_path.relative_to(self.root_path))
-                    )
+                    self.concept_files[concept].add(str(file_path.relative_to(self.root_path)))
 
             # Analyze naming patterns
             self._analyze_naming_patterns(file_path, content)
@@ -153,9 +150,7 @@ class LukhasConceptScanner:
     def _generate_report(self) -> dict:
         """Generate comprehensive concept report"""
         # Calculate statistics
-        total_concepts_found = sum(
-            len(usages) for usages in self.concept_usage.values()
-        )
+        total_concepts_found = sum(len(usages) for usages in self.concept_usage.values())
         concepts_by_frequency = sorted(
             [(concept, len(usages)) for concept, usages in self.concept_usage.items()],
             key=lambda x: x[1],
@@ -204,9 +199,7 @@ class LukhasConceptScanner:
         for concept, description in self.core_concepts.items():
             usage_count = len(self.concept_usage.get(concept, []))
             if usage_count == 0:
-                recommendations.append(
-                    f"Consider implementing '{concept}' ({description})"
-                )
+                recommendations.append(f"Consider implementing '{concept}' ({description})")
             elif usage_count < 5:
                 recommendations.append(
                     f"Low usage of '{concept}' - ensure it's properly integrated"
@@ -214,9 +207,7 @@ class LukhasConceptScanner:
 
         # Check for consistent naming
         if self.naming_patterns:
-            recommendations.append(
-                "Maintain consistent naming patterns for LUKHAS concepts"
-            )
+            recommendations.append("Maintain consistent naming patterns for LUKHAS concepts")
 
         # General recommendations
         recommendations.extend(
@@ -265,9 +256,7 @@ def main():
     with open(output_path, "w") as f:
         # Convert sets to lists for JSON serialization
         report_json = report.copy()
-        report_json["concept_files"] = {
-            k: list(v) for k, v in scanner.concept_files.items()
-        }
+        report_json["concept_files"] = {k: list(v) for k, v in scanner.concept_files.items()}
         json.dump(report_json, f, indent=2)
 
     print(f"\n📄 Detailed report saved to: {output_path}")

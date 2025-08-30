@@ -111,9 +111,7 @@ class PQCCryptoEngine:
         # Key storage (in production, use secure key management)
         self.key_store = {}
 
-        logger.info(
-            f"PQC Crypto Engine initialized - liboqs available: {LIBOQS_AVAILABLE}"
-        )
+        logger.info(f"PQC Crypto Engine initialized - liboqs available: {LIBOQS_AVAILABLE}")
 
     def generate_kem_keypair(self, algorithm: str = "Kyber768") -> PQCKeyPair:
         """
@@ -144,9 +142,7 @@ class PQCCryptoEngine:
             public_key = seed + public_poly
 
             # Private key = private polynomial || public key || hash || random
-            private_poly = secrets.token_bytes(
-                params["sk_size"] - params["pk_size"] - 64
-            )
+            private_poly = secrets.token_bytes(params["sk_size"] - params["pk_size"] - 64)
             hash_val = hashlib.sha3_256(public_key).digest()
             random_val = secrets.token_bytes(32)
             private_key = private_poly + public_key + hash_val + random_val
@@ -198,9 +194,7 @@ class PQCCryptoEngine:
 
             # Private key = seed || secret polynomials || public key
             secret_seed = secrets.token_bytes(32)
-            secret_polys = secrets.token_bytes(
-                params["sk_size"] - 32 - params["pk_size"]
-            )
+            secret_polys = secrets.token_bytes(params["sk_size"] - 32 - params["pk_size"])
             private_key = secret_seed + secret_polys + public_key
 
         # Store key pair
@@ -350,9 +344,7 @@ class PQCCryptoEngine:
             timestamp=datetime.now(),
         )
 
-    def verify_signature(
-        self, signature: PQCSignature, message: bytes, public_key: bytes
-    ) -> bool:
+    def verify_signature(self, signature: PQCSignature, message: bytes, public_key: bytes) -> bool:
         """
         Verify post-quantum digital signature.
 
@@ -375,9 +367,7 @@ class PQCCryptoEngine:
             try:
                 sig = oqs.Signature(signature.algorithm)
                 result = sig.verify(message, signature.signature, public_key)
-                logger.info(
-                    f"Signature verification: {result} using {signature.algorithm}"
-                )
+                logger.info(f"Signature verification: {result} using {signature.algorithm}")
                 return result
             except Exception as e:
                 logger.error(f"Signature verification failed: {e}")
@@ -407,14 +397,10 @@ class PQCCryptoEngine:
             # Check if signature starts with expected bytes (simplified verification)
             result = signature.signature[:32] == expected_sig_start
 
-            logger.info(
-                f"Signature verification (simulated): {result} using {signature.algorithm}"
-            )
+            logger.info(f"Signature verification (simulated): {result} using {signature.algorithm}")
             return result
 
-    def derive_authentication_key(
-        self, entropy_data: bytes, user_context: str
-    ) -> bytes:
+    def derive_authentication_key(self, entropy_data: bytes, user_context: str) -> bytes:
         """
         Derive authentication key from entropy and user context.
 
@@ -495,9 +481,7 @@ class PQCCryptoEngine:
                 "timing_attack_protection": True,
             },
             "nist_compliance": True,
-            "implementation_mode": (
-                "liboqs" if LIBOQS_AVAILABLE else "enhanced_simulation"
-            ),
+            "implementation_mode": ("liboqs" if LIBOQS_AVAILABLE else "enhanced_simulation"),
         }
 
     def establish_quantum_safe_channel(
@@ -579,9 +563,7 @@ class PQCCryptoEngine:
         elif current_keypair.algorithm in self.supported_signature_algorithms:
             new_keypair = self.generate_signature_keypair(current_keypair.algorithm)
         else:
-            raise ValueError(
-                f"Unknown algorithm for key rotation: {current_keypair.algorithm}"
-            )
+            raise ValueError(f"Unknown algorithm for key rotation: {current_keypair.algorithm}")
 
         # Log rotation event
         logger.info(f"Key rotation completed for {current_keypair.algorithm}")
@@ -632,9 +614,7 @@ class PQCCryptoEngine:
             backend=default_backend(),
         )
         decryptor = cipher.decryptor()
-        plaintext = (
-            decryptor.update(encrypted_data["ciphertext"]) + decryptor.finalize()
-        )
+        plaintext = decryptor.update(encrypted_data["ciphertext"]) + decryptor.finalize()
 
         return plaintext
 

@@ -79,8 +79,8 @@ def publish_event(event_type: IdentityEventType, user_id: str, **metadata):
 
 
 __all__ = [
-    "IdentityEventType",
     "IdentityEvent",
     "IdentityEventPublisher",
+    "IdentityEventType",
     "publish_event",
 ]

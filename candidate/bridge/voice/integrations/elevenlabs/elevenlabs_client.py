@@ -35,9 +35,7 @@ class ElevenLabsClient:
         self.session = None
         BASE_DIR = os.path.dirname(
             os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-                )
+                os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             )
         )
         self.audio_storage_path = os.path.join(BASE_DIR, "temp", "audio", "elevenlabs")
@@ -106,9 +104,7 @@ class ElevenLabsClient:
             async with self.session.post(url, json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {
                         "error": f"API error: {response.status}",
                         "audio_path": None,
@@ -128,7 +124,7 @@ class ElevenLabsClient:
                 }
 
         except Exception as e:
-            logger.error(f"Error generating speech: {str(e)}")
+            logger.error(f"Error generating speech: {e!s}")
             return {"error": str(e), "audio_path": None}
 
     async def get_voices(self) -> dict[str, Any]:
@@ -148,16 +144,14 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
                 return data
 
         except Exception as e:
-            logger.error(f"Error fetching voices: {str(e)}")
+            logger.error(f"Error fetching voices: {e!s}")
             return {"error": str(e)}
 
     async def get_user_info(self) -> dict[str, Any]:
@@ -177,16 +171,14 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(
-                        f"ElevenLabs API error: {response.status} - {error_text}"
-                    )
+                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
                 return data
 
         except Exception as e:
-            logger.error(f"Error fetching user info: {str(e)}")
+            logger.error(f"Error fetching user info: {e!s}")
             return {"error": str(e)}
 
     async def _save_audio(self, audio_data: bytes, text: str) -> str:
@@ -215,7 +207,7 @@ class ElevenLabsClient:
             return filepath
 
         except Exception as e:
-            logger.error(f"Error saving audio: {str(e)}")
+            logger.error(f"Error saving audio: {e!s}")
             return ""
 
     async def generate_and_play(
@@ -263,21 +255,17 @@ class ElevenLabsClient:
                         os.system(f"aplay {audio_path}") == 0
                         or os.system(f"mpg123 {audio_path}") == 0
                         or (
-                            os.system(
-                                f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1"
-                            )
+                            os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1")
                             == 0
                         )
                     ):
                         played = True
                     else:
-                        logger.warning(
-                            "Could not find a suitable audio player for Linux"
-                        )
+                        logger.warning("Could not find a suitable audio player for Linux")
 
                 result["played"] = played
             except Exception as e:
-                logger.error(f"Error playing audio: {str(e)}")
+                logger.error(f"Error playing audio: {e!s}")
                 result["played"] = False
 
         return result

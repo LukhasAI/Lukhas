@@ -22,13 +22,9 @@ class QIIntegration:
         self.state_dir = state_dir or Path.home() / ".lukhas" / "state" / "qi"
 
         # Initialize QI components
-        self.calibration = UncertaintyCalibrationEngine(
-            state_dir=self.state_dir / "calibration"
-        )
+        self.calibration = UncertaintyCalibrationEngine(state_dir=self.state_dir / "calibration")
 
-        self.teq_gate = TEQCoupler(
-            state_dir=self.state_dir / "teq"
-        )
+        self.teq_gate = TEQCoupler(state_dir=self.state_dir / "teq")
 
         logger.info("[QI] Quantum-Inspired components initialized")
 
@@ -39,7 +35,7 @@ class QIIntegration:
         confidence: float,
         risk_estimate: float = None,
         energy: float = 1.0,
-        metadata: dict = None
+        metadata: dict = None,
     ) -> tuple[bool, dict[str, Any]]:
         """
         Evaluate an action through both calibration and TEQ systems
@@ -54,11 +50,7 @@ class QIIntegration:
 
         # Check TEQ gate first (safety)
         allowed, reason, suggestions = self.teq_gate.evaluate_action(
-            module=module,
-            action=action,
-            risk_level=risk_estimate,
-            energy=energy,
-            metadata=metadata
+            module=module, action=action, risk_level=risk_estimate, energy=energy, metadata=metadata
         )
 
         # Record prediction for calibration
@@ -66,7 +58,7 @@ class QIIntegration:
             module=module,
             confidence=confidence,
             prediction=action,
-            metadata={"teq_allowed": allowed, "risk": risk_estimate}
+            metadata={"teq_allowed": allowed, "risk": risk_estimate},
         )
 
         # Get calibration adjustment
@@ -81,24 +73,15 @@ class QIIntegration:
             "adjusted_confidence": min(1.0, max(0.0, confidence + confidence_adjustment)),
             "module_trust": self.teq_gate.get_module_trust(module),
             "calibration_score": self.calibration.get_calibration_score(module),
-            "teq_state": self.teq_gate.get_equilibrium_status()
+            "teq_state": self.teq_gate.get_equilibrium_status(),
         }
 
         return allowed, context
 
-    def record_outcome(
-        self,
-        module: str,
-        action: str,
-        success: bool,
-        actual_result: Any = None
-    ):
+    def record_outcome(self, module: str, action: str, success: bool, actual_result: Any = None):
         """Record actual outcome for calibration"""
         self.calibration.record_outcome(
-            module=module,
-            prediction=action,
-            actual=actual_result or success,
-            correct=success
+            module=module, prediction=action, actual=actual_result or success, correct=success
         )
 
     def get_system_status(self) -> dict[str, Any]:
@@ -107,12 +90,12 @@ class QIIntegration:
             "calibration": {
                 "global_score": self.calibration.get_calibration_score(),
                 "uncertainty": self.calibration.get_uncertainty_estimate(),
-                "report": self.calibration.get_report()
+                "report": self.calibration.get_report(),
             },
             "teq": {
                 "status": self.teq_gate.get_equilibrium_status(),
-                "report": self.teq_gate.get_report()
-            }
+                "report": self.teq_gate.get_report(),
+            },
         }
 
     def emergency_reset(self):
@@ -151,7 +134,7 @@ def example_integration():
         action=action,
         confidence=confidence,
         risk_estimate=0.4,  # Moderate risk
-        energy=3.0
+        energy=3.0,
     )
 
     if allowed:

@@ -114,18 +114,14 @@ class NIΛS:
         self.system_metrics["total_users"] += 1
         return True
 
-    async def update_emotional_state(
-        self, user_id: str, emotional_state: dict[str, float]
-    ) -> bool:
+    async def update_emotional_state(self, user_id: str, emotional_state: dict[str, float]) -> bool:
         """Update user's emotional state"""
         if user_id in self.users:
             self.users[user_id]["emotional_state"].update(emotional_state)
             return True
         return False
 
-    async def push_message(
-        self, message: SymbolicMessage, user_id: str
-    ) -> DeliveryResult:
+    async def push_message(self, message: SymbolicMessage, user_id: str) -> DeliveryResult:
         """Push message to user with emotional gating"""
 
         if user_id not in self.users:

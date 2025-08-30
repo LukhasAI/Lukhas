@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class PrivacyLevel(Enum):
     """Privacy levels for symbol storage and transmission"""
+
     LOCAL_ONLY = "local_only"  # Never leaves device
     ANONYMOUS = "anonymous"  # Only hashes/IDs transmitted
     ENCRYPTED = "encrypted"  # Encrypted before transmission
@@ -36,6 +37,7 @@ class PrivateSymbol:
 
     Based on Universal Language spec for private idiolect.
     """
+
     symbol_id: str
     token: Any  # The actual private token (emoji, stroke, etc.)
     token_type: str  # emoji, stroke, word, color, audio, image
@@ -77,13 +79,14 @@ class PrivateSymbol:
             "token_type": self.token_type,
             "meaning_id": self.meaning_id,
             "confidence": self.confidence,
-            "usage_count": self.usage_count
+            "usage_count": self.usage_count,
         }
 
 
 @dataclass
 class PrivateBinding:
     """Binding between private symbol and universal meaning"""
+
     binding_id: str
     symbol_id: str
     meaning_id: str  # Universal Concept Layer ID
@@ -133,12 +136,14 @@ class SymbolEncryption:
     def encrypt_symbol(self, symbol: PrivateSymbol, key: bytes) -> bytes:
         """Encrypt a private symbol"""
         # Serialize symbol
-        symbol_data = json.dumps({
-            "token": str(symbol.token),
-            "token_type": symbol.token_type,
-            "meaning_id": symbol.meaning_id,
-            "confidence": symbol.confidence
-        })
+        symbol_data = json.dumps(
+            {
+                "token": str(symbol.token),
+                "token_type": symbol.token_type,
+                "meaning_id": symbol.meaning_id,
+                "confidence": symbol.confidence,
+            }
+        )
 
         # Simple XOR encryption (use AES-GCM in production)
         encrypted = self._xor_encrypt(symbol_data.encode(), key)
@@ -243,8 +248,14 @@ class PrivateSymbolVault:
 
         logger.info(f"Private Symbol Vault initialized for user {user_id}")
 
-    def bind_symbol(self, token: Any, token_type: str, meaning_id: str,
-                   confidence: float = 1.0, tags: Optional[list[str]] = None) -> PrivateSymbol:
+    def bind_symbol(
+        self,
+        token: Any,
+        token_type: str,
+        meaning_id: str,
+        confidence: float = 1.0,
+        tags: Optional[list[str]] = None,
+    ) -> PrivateSymbol:
         """Bind a private token to a universal meaning"""
         # Create private symbol
         symbol = PrivateSymbol(
@@ -253,7 +264,7 @@ class PrivateSymbolVault:
             token_type=token_type,
             meaning_id=meaning_id,
             confidence=confidence,
-            tags=tags or []
+            tags=tags or [],
         )
 
         # Store symbol
@@ -264,16 +275,15 @@ class PrivateSymbolVault:
             binding_id=self._generate_binding_id(),
             symbol_id=symbol.symbol_id,
             meaning_id=meaning_id,
-            confidence=confidence
+            confidence=confidence,
         )
         self.bindings[binding.binding_id] = binding
 
         # Log event
-        self._log_event("bind", {
-            "symbol_id": symbol.symbol_id,
-            "token_type": token_type,
-            "meaning_id": meaning_id
-        })
+        self._log_event(
+            "bind",
+            {"symbol_id": symbol.symbol_id, "token_type": token_type, "meaning_id": meaning_id},
+        )
 
         return symbol
 
@@ -318,15 +328,16 @@ class PrivateSymbolVault:
                 concept_ids.append(f"UNKNOWN.{anonymous_id}")
 
         # Log translation (anonymous)
-        self._log_event("translate_to_universal", {
-            "token_count": len(tokens),
-            "concept_count": len(concept_ids)
-        })
+        self._log_event(
+            "translate_to_universal",
+            {"token_count": len(tokens), "concept_count": len(concept_ids)},
+        )
 
         return concept_ids
 
-    def translate_universal_to_private(self, concept_ids: list[str],
-                                      mode: str = "preferred") -> list[Any]:
+    def translate_universal_to_private(
+        self, concept_ids: list[str], mode: str = "preferred"
+    ) -> list[Any]:
         """
         Translate universal concept IDs to private tokens.
 
@@ -363,11 +374,10 @@ class PrivateSymbolVault:
                 private_tokens.append(f"[{concept_id}]")
 
         # Log translation
-        self._log_event("translate_to_private", {
-            "concept_count": len(concept_ids),
-            "token_count": len(private_tokens),
-            "mode": mode
-        })
+        self._log_event(
+            "translate_to_private",
+            {"concept_count": len(concept_ids), "token_count": len(private_tokens), "mode": mode},
+        )
 
         return private_tokens
 
@@ -375,10 +385,7 @@ class PrivateSymbolVault:
         """Set preferred private symbol for a concept"""
         if symbol_id in self.symbols:
             self.render_preferences[concept_id] = symbol_id
-            self._log_event("set_preference", {
-                "concept_id": concept_id,
-                "symbol_id": symbol_id
-            })
+            self._log_event("set_preference", {"concept_id": concept_id, "symbol_id": symbol_id})
 
     def export_vault(self, password: str) -> bytes:
         """Export encrypted vault for backup"""
@@ -388,7 +395,7 @@ class PrivateSymbolVault:
             "symbols": {sid: s.__dict__ for sid, s in self.symbols.items()},
             "bindings": {bid: b.__dict__ for bid, b in self.bindings.items()},
             "preferences": self.render_preferences,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Derive export key from password
@@ -400,11 +407,7 @@ class PrivateSymbolVault:
         encrypted = self.encryption._xor_encrypt(vault_json.encode(), export_key)
 
         # Package with salt
-        export_package = {
-            "salt": export_salt.hex(),
-            "data": encrypted.hex(),
-            "version": "1.0"
-        }
+        export_package = {"salt": export_salt.hex(), "data": encrypted.hex(), "version": "1.0"}
 
         return json.dumps(export_package).encode()
 
@@ -459,7 +462,9 @@ class PrivateSymbolVault:
                     # For bindings, we can merge the values if they're different
                     if existing_binding != imported_binding:
                         # Create a merged binding with both values
-                        if isinstance(existing_binding, list) and isinstance(imported_binding, list):
+                        if isinstance(existing_binding, list) and isinstance(
+                            imported_binding, list
+                        ):
                             merged_values = list(set(existing_binding + imported_binding))
                             self.bindings[binding_key] = merged_values
                         else:
@@ -476,7 +481,9 @@ class PrivateSymbolVault:
             # Update stats by merging counters
             for stat_key, stat_value in imported_stats.items():
                 if stat_key in self.stats:
-                    if isinstance(stat_value, (int, float)) and isinstance(self.stats[stat_key], (int, float)):
+                    if isinstance(stat_value, (int, float)) and isinstance(
+                        self.stats[stat_key], (int, float)
+                    ):
                         # Sum numeric stats
                         self.stats[stat_key] += stat_value
                     else:
@@ -499,7 +506,7 @@ class PrivateSymbolVault:
             "total_bindings": len(self.bindings),
             "active_bindings": sum(1 for b in self.bindings.values() if b.active),
             "total_usage": sum(s.usage_count for s in self.symbols.values()),
-            "unique_concepts": len({b.meaning_id for b in self.bindings.values()})
+            "unique_concepts": len({b.meaning_id for b in self.bindings.values()}),
         }
 
         # Apply differential privacy if not in local-only mode
@@ -545,11 +552,7 @@ class PrivateSymbolVault:
 
     def _log_event(self, event_type: str, metadata: dict[str, Any]):
         """Log vault event for audit"""
-        self.audit_log.append({
-            "timestamp": time.time(),
-            "event": event_type,
-            "metadata": metadata
-        })
+        self.audit_log.append({"timestamp": time.time(), "event": event_type, "metadata": metadata})
 
         # Limit audit log size
         if len(self.audit_log) > 1000:

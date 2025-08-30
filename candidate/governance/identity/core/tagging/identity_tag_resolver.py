@@ -141,9 +141,7 @@ class TagConsensusRequest:
 
         total_weight = sum(self.vote_weights.values())
         approve_weight = sum(
-            weight
-            for voter, weight in self.vote_weights.items()
-            if self.votes.get(voter, False)
+            weight for voter, weight in self.vote_weights.items() if self.votes.get(voter, False)
         )
 
         return approve_weight / total_weight >= self.tag.consensus_threshold
@@ -223,29 +221,21 @@ class IdentityTagResolver:
             consensus_required=require_consensus,
             issuer_id=issuer_id or "system",
             expiry_time=(
-                datetime.utcnow() + timedelta(hours=expiry_hours)
-                if expiry_hours
-                else None
+                datetime.utcnow() + timedelta(hours=expiry_hours) if expiry_hours else None
             ),
         )
 
         # Check if consensus is required
         if require_consensus and issuer_id != "system":
             # Get trust network for consensus
-            trust_network = self._get_trust_network(
-                issuer_id, min_trust=TrustLevel.MEDIUM
-            )
+            trust_network = self._get_trust_network(issuer_id, min_trust=TrustLevel.MEDIUM)
 
             if len(trust_network) < 3:
-                logger.warning(
-                    f"Insufficient trust network for consensus on {lambda_id}"
-                )
+                logger.warning(f"Insufficient trust network for consensus on {lambda_id}")
                 return ""
 
             # Create consensus request
-            request_id = (
-                f"consensus_{lambda_id}_{tag.name}_{int(datetime.utcnow().timestamp())}"
-            )
+            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.utcnow().timestamp())}"
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,
@@ -387,9 +377,7 @@ class IdentityTagResolver:
         relationship.update_interaction(positive)
 
         # Update graph edge weight
-        self.trust_network[from_identity][to_identity][
-            "trust_score"
-        ] = relationship.trust_score
+        self.trust_network[from_identity][to_identity]["trust_score"] = relationship.trust_score
 
         # Publish trust update event if level changed
         if old_trust != relationship.trust_level:
@@ -472,9 +460,7 @@ class IdentityTagResolver:
         """
         # Get reputation tags
         identity_tags = self.identity_tags.get(lambda_id, [])
-        reputation_tags = [
-            tag for tag in identity_tags if tag.name.startswith("reputation:")
-        ]
+        reputation_tags = [tag for tag in identity_tags if tag.name.startswith("reputation:")]
 
         # Calculate base reputation from tags
         tag_reputation = 0.0
@@ -498,9 +484,7 @@ class IdentityTagResolver:
         influence_score = self._calculate_network_influence(lambda_id)
 
         # Combine scores
-        overall_reputation = (
-            tag_reputation * 0.4 + trust_reputation * 0.4 + influence_score * 0.2
-        )
+        overall_reputation = tag_reputation * 0.4 + trust_reputation * 0.4 + influence_score * 0.2
 
         return {
             "overall_reputation": overall_reputation,
@@ -565,12 +549,8 @@ class IdentityTagResolver:
             elif relationship.to_identity == identity_id:
                 incoming_scores.append(relationship.trust_score)
 
-        outgoing_avg = (
-            sum(outgoing_scores) / len(outgoing_scores) if outgoing_scores else 0.5
-        )
-        incoming_avg = (
-            sum(incoming_scores) / len(incoming_scores) if incoming_scores else 0.5
-        )
+        outgoing_avg = sum(outgoing_scores) / len(outgoing_scores) if outgoing_scores else 0.5
+        incoming_avg = sum(incoming_scores) / len(incoming_scores) if incoming_scores else 0.5
 
         # Higher weight on incoming trust (being trusted by others)
         return incoming_avg * 0.7 + outgoing_avg * 0.3
@@ -582,16 +562,12 @@ class IdentityTagResolver:
 
         try:
             # Calculate various centrality measures
-            degree_centrality = nx.degree_centrality(self.trust_network).get(
-                identity_id, 0
-            )
+            degree_centrality = nx.degree_centrality(self.trust_network).get(identity_id, 0)
 
             # Only calculate betweenness for smaller networks to avoid performance
             # issues
             if len(self.trust_network) < 100:
-                betweenness = nx.betweenness_centrality(self.trust_network).get(
-                    identity_id, 0
-                )
+                betweenness = nx.betweenness_centrality(self.trust_network).get(identity_id, 0)
             else:
                 betweenness = degree_centrality  # Approximate
 
@@ -626,10 +602,7 @@ class IdentityTagResolver:
 
                 for request_id, request in self.active_consensus_requests.items():
                     # Check if deadline passed or consensus reached
-                    if (
-                        current_time > request.deadline
-                        or request.is_consensus_reached()
-                    ):
+                    if current_time > request.deadline or request.is_consensus_reached():
                         completed_requests.append(request_id)
 
                         # Process result
@@ -645,9 +618,7 @@ class IdentityTagResolver:
                                     "tag": request.tag,
                                     "action": "consensus_approved",
                                     "votes": len(request.votes),
-                                    "approval_rate": sum(
-                                        1 for v in request.votes.values() if v
-                                    )
+                                    "approval_rate": sum(1 for v in request.votes.values() if v)
                                     / len(request.votes),
                                 }
                             )
@@ -693,9 +664,7 @@ class IdentityTagResolver:
             try:
                 if len(self.trust_network) > 0:
                     # Calculate network density
-                    self.network_metrics["network_density"] = nx.density(
-                        self.trust_network
-                    )
+                    self.network_metrics["network_density"] = nx.density(self.trust_network)
 
                     # Calculate average trust score
                     all_scores = []
@@ -703,14 +672,12 @@ class IdentityTagResolver:
                         all_scores.append(data.get("trust_score", 0))
 
                     if all_scores:
-                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(
-                            all_scores
-                        )
+                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(all_scores)
 
                     # Calculate clustering coefficient for smaller networks
                     if len(self.trust_network) < 100:
-                        self.network_metrics["clustering_coefficient"] = (
-                            nx.average_clustering(self.trust_network.to_undirected())
+                        self.network_metrics["clustering_coefficient"] = nx.average_clustering(
+                            self.trust_network.to_undirected()
                         )
 
                 await asyncio.sleep(60)  # Analyze every minute

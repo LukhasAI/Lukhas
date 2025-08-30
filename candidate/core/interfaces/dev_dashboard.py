@@ -52,9 +52,7 @@ with tab_docs:
         with manual_path.open("r") as f:
             content = f.read()
         # Extract modules with header and footer blocks
-        module_blocks = re.findall(
-            r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL
-        )
+        module_blocks = re.findall(r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL)
         modules = [m[1].strip() for m in module_blocks]
         selected_module = st.selectbox("📦 Select Module", modules)
         # Display selected module content
@@ -142,9 +140,7 @@ with tab_tests:
                     text=True,
                 )
                 if result.returncode == 0:
-                    test_output_placeholder.success(
-                        "✅ All tests passed!\n\n" + result.stdout
-                    )
+                    test_output_placeholder.success("✅ All tests passed!\n\n" + result.stdout)
                 else:
                     test_output_placeholder.error(
                         "❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr
@@ -165,9 +161,7 @@ with tab_compliance:
         with compliance_path.open("r") as f:
             compliance_md = f.read()
         # Try to find a markdown table
-        table_match = re.search(
-            r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md
-        )
+        table_match = re.search(r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md)
         if table_match:
             table_md = table_match.group(1)
             st.markdown(table_md)

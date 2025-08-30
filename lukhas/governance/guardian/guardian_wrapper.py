@@ -145,9 +145,7 @@ def evaluate_ethics(
     if mode != "dry_run" and GUARDIAN_ACTIVE and _guardian_instance:
         # Use real implementation
         try:
-            decision = _guardian_instance.evaluate_ethics(
-                action=action, context=context
-            )
+            decision = _guardian_instance.evaluate_ethics(action=action, context=context)
 
             return {
                 "ok": True,

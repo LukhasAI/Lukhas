@@ -12,6 +12,7 @@ from typing import Any, Optional
 @dataclass
 class GateDecision:
     """ABAS gate decision result"""
+
     approved: bool
     reason: Optional[str] = None
     confidence: float = 1.0
@@ -32,15 +33,11 @@ class TinyABASGate:
 
     def __init__(self):
         self.quiet_hours_start = 22  # 10 PM
-        self.quiet_hours_end = 7     # 7 AM
+        self.quiet_hours_end = 7  # 7 AM
         self.stress_threshold = 0.8
         self.alignment_threshold = 0.3
 
-    def check_gate(
-        self,
-        user_state: dict[str, Any],
-        opportunity: dict[str, Any]
-    ) -> GateDecision:
+    def check_gate(self, user_state: dict[str, Any], opportunity: dict[str, Any]) -> GateDecision:
         """
         Primary gate check function
 
@@ -53,72 +50,45 @@ class TinyABASGate:
         """
         # Safety block - absolute priority
         if user_state.get("driving", False):
-            return GateDecision(
-                approved=False,
-                reason="safety_block",
-                confidence=1.0
-            )
+            return GateDecision(approved=False, reason="safety_block", confidence=1.0)
 
         # Stress protection
         stress_level = user_state.get("stress", 0.0)
         if stress_level > self.stress_threshold:
             defer_time = int(time.time()) + (2 * 3600)  # 2 hours
             return GateDecision(
-                approved=False,
-                reason="stress_block",
-                confidence=0.9,
-                defer_until=defer_time
+                approved=False, reason="stress_block", confidence=0.9, defer_until=defer_time
             )
 
         # Flow state protection
         if user_state.get("flow_state", False):
-            return GateDecision(
-                approved=False,
-                reason="flow_protection",
-                confidence=0.95
-            )
+            return GateDecision(approved=False, reason="flow_protection", confidence=0.95)
 
         # Deep focus protection
         focus_level = user_state.get("focus_level", 0.0)
         if focus_level > 0.8:
-            return GateDecision(
-                approved=False,
-                reason="deep_focus",
-                confidence=0.8
-            )
+            return GateDecision(approved=False, reason="deep_focus", confidence=0.8)
 
         # Quiet hours protection
         current_hour = user_state.get("hour")
         if current_hour is not None:
             if self._is_quiet_hours(current_hour):
-                return GateDecision(
-                    approved=False,
-                    reason="quiet_hours",
-                    confidence=0.7
-                )
+                return GateDecision(approved=False, reason="quiet_hours", confidence=0.7)
 
         # Low alignment protection
         alignment = self._get_alignment_score(opportunity)
         if alignment < self.alignment_threshold:
-            return GateDecision(
-                approved=False,
-                reason="low_alignment",
-                confidence=0.6
-            )
+            return GateDecision(approved=False, reason="low_alignment", confidence=0.6)
 
         # Stress-sensitive opportunities
         if opportunity.get("risk", {}).get("stress_block", False) and stress_level > 0.5:
-            return GateDecision(
-                approved=False,
-                reason="stress_sensitive",
-                confidence=0.7
-            )
+            return GateDecision(approved=False, reason="stress_sensitive", confidence=0.7)
 
         # All checks passed
         return GateDecision(
             approved=True,
             reason=None,
-            confidence=self._calculate_approval_confidence(user_state, opportunity)
+            confidence=self._calculate_approval_confidence(user_state, opportunity),
         )
 
     def _is_quiet_hours(self, hour: int) -> bool:
@@ -135,9 +105,7 @@ class TinyABASGate:
         return opportunity.get("risk", {}).get("alignment", 0.5)
 
     def _calculate_approval_confidence(
-        self,
-        user_state: dict[str, Any],
-        opportunity: dict[str, Any]
+        self, user_state: dict[str, Any], opportunity: dict[str, Any]
     ) -> float:
         """Calculate confidence score for approval decision"""
         confidence_factors = []
@@ -168,16 +136,13 @@ class TinyABASGate:
             "deep_focus": "You're deeply focused - we'll wait for a better moment",
             "quiet_hours": "Respecting quiet hours - we'll try again tomorrow",
             "low_alignment": "This doesn't seem like a good match for you right now",
-            "stress_sensitive": "This type of content is deferred when you're stressed"
+            "stress_sensitive": "This type of content is deferred when you're stressed",
         }
         return reason_map.get(reason, f"Deferred: {reason}")
 
 
 # Convenience function for drop-in usage
-def abas_gate(
-    user_state: dict[str, Any],
-    opportunity: dict[str, Any]
-) -> dict[str, Any]:
+def abas_gate(user_state: dict[str, Any], opportunity: dict[str, Any]) -> dict[str, Any]:
     """
     Simple function interface for ABAS gate
 
@@ -197,7 +162,7 @@ def abas_gate(
         "reason": decision.reason,
         "confidence": decision.confidence,
         "defer_until": decision.defer_until,
-        "explanation": gate.get_human_readable_reason(decision.reason) if decision.reason else None
+        "explanation": gate.get_human_readable_reason(decision.reason) if decision.reason else None,
     }
 
 
@@ -269,33 +234,33 @@ if __name__ == "__main__":
         {
             "name": "Safe delivery",
             "user": {"stress": 0.2, "hour": 14, "focus_level": 0.3},
-            "opportunity": {"risk": {"alignment": 0.8}}
+            "opportunity": {"risk": {"alignment": 0.8}},
         },
         {
             "name": "Driving block",
             "user": {"driving": True},
-            "opportunity": {"risk": {"alignment": 0.9}}
+            "opportunity": {"risk": {"alignment": 0.9}},
         },
         {
             "name": "Stress block",
             "user": {"stress": 0.9, "hour": 14},
-            "opportunity": {"risk": {"alignment": 0.7}}
+            "opportunity": {"risk": {"alignment": 0.7}},
         },
         {
             "name": "Flow state protection",
             "user": {"flow_state": True, "stress": 0.1},
-            "opportunity": {"risk": {"alignment": 0.8}}
+            "opportunity": {"risk": {"alignment": 0.8}},
         },
         {
             "name": "Quiet hours",
             "user": {"hour": 23, "stress": 0.1},
-            "opportunity": {"risk": {"alignment": 0.8}}
+            "opportunity": {"risk": {"alignment": 0.8}},
         },
         {
             "name": "Low alignment",
             "user": {"stress": 0.1, "hour": 14},
-            "opportunity": {"risk": {"alignment": 0.2}}
-        }
+            "opportunity": {"risk": {"alignment": 0.2}},
+        },
     ]
 
     print("🛡️ ABAS Gate Demo\n")

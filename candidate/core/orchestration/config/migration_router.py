@@ -76,9 +76,7 @@ class CircuitBreaker:
 
         if self.failure_count >= self.failure_threshold:
             self.state = "OPEN"
-            logger.warning(
-                f"Circuit breaker opened after {self.failure_count} failures"
-            )
+            logger.warning(f"Circuit breaker opened after {self.failure_count} failures")
 
 
 class PerformanceMetrics:
@@ -148,14 +146,10 @@ class ShadowOrchestrator:
         )
 
         # Execute new orchestrator (shadow)
-        new_result = await self._execute_orchestrator(
-            new_orchestrator, "new", *args, **kwargs
-        )
+        new_result = await self._execute_orchestrator(new_orchestrator, "new", *args, **kwargs)
 
         # Compare results
-        results_match, differences = self._compare_results(
-            legacy_result.result, new_result.result
-        )
+        results_match, differences = self._compare_results(legacy_result.result, new_result.result)
 
         comparison_time_ms = (time.time() - start_time) * 1000
 
@@ -200,7 +194,7 @@ class ShadowOrchestrator:
 
         except Exception as e:
             execution_time_ms = (time.time() - start_time) * 1000
-            error_msg = f"{type(e).__name__}: {str(e)}"
+            error_msg = f"{type(e).__name__}: {e!s}"
 
             logger.warning(
                 "Orchestrator execution failed",
@@ -217,9 +211,7 @@ class ShadowOrchestrator:
                 metadata={"traceback": traceback.format_exc()},
             )
 
-    def _compare_results(
-        self, legacy_result: Any, new_result: Any
-    ) -> tuple[bool, dict[str, Any]]:
+    def _compare_results(self, legacy_result: Any, new_result: Any) -> tuple[bool, dict[str, Any]]:
         """Compare orchestrator results for equivalence"""
         try:
             differences = {}
@@ -238,9 +230,7 @@ class ShadowOrchestrator:
             # Deep comparison for complex objects
             if isinstance(legacy_result, dict) and isinstance(new_result, dict):
                 differences.update(self._compare_dicts(legacy_result, new_result))
-            elif isinstance(legacy_result, (list, tuple)) and isinstance(
-                new_result, (list, tuple)
-            ):
+            elif isinstance(legacy_result, (list, tuple)) and isinstance(new_result, (list, tuple)):
                 differences.update(self._compare_sequences(legacy_result, new_result))
             else:
                 differences["value_mismatch"] = {
@@ -319,12 +309,8 @@ class ShadowOrchestrator:
         legacy_successes = sum(1 for c in self.comparisons if c.legacy_result.success)
         new_successes = sum(1 for c in self.comparisons if c.new_result.success)
 
-        avg_legacy_time = (
-            sum(c.legacy_result.execution_time_ms for c in self.comparisons) / total
-        )
-        avg_new_time = (
-            sum(c.new_result.execution_time_ms for c in self.comparisons) / total
-        )
+        avg_legacy_time = sum(c.legacy_result.execution_time_ms for c in self.comparisons) / total
+        avg_new_time = sum(c.new_result.execution_time_ms for c in self.comparisons) / total
 
         return {
             "total_comparisons": total,
@@ -334,9 +320,7 @@ class ShadowOrchestrator:
             "avg_legacy_time_ms": avg_legacy_time,
             "avg_new_time_ms": avg_new_time,
             "performance_improvement": (
-                (avg_legacy_time - avg_new_time) / avg_legacy_time
-                if avg_legacy_time > 0
-                else 0
+                (avg_legacy_time - avg_new_time) / avg_legacy_time if avg_legacy_time > 0 else 0
             ),
         }
 
@@ -370,7 +354,6 @@ class OrchestratorRouter:
 
                 @dataclass
                 class MinimalFlags:
-
                     def get_orchestrator_mode(self, name):
                         return OrchestrationMode.LEGACY
 
@@ -413,9 +396,7 @@ class OrchestratorRouter:
         # Check circuit breaker
         circuit_breaker = self.circuit_breakers[orchestrator_name]
         if not circuit_breaker.can_execute():
-            logger.warning(
-                f"Circuit breaker is open for {orchestrator_name}, using fallback"
-            )
+            logger.warning(f"Circuit breaker is open for {orchestrator_name}, using fallback")
             return await self._execute_fallback(orchestrator_name, *args, **kwargs)
 
         try:
@@ -614,9 +595,7 @@ class OrchestratorRouter:
                 orchestrator_name, new_orchestrator, *args, **kwargs
             )
         else:
-            logger.debug(
-                f"Canary routing to legacy orchestrator for {orchestrator_name}"
-            )
+            logger.debug(f"Canary routing to legacy orchestrator for {orchestrator_name}")
             return await self._execute_legacy_only(
                 orchestrator_name, legacy_orchestrator, *args, **kwargs
             )
@@ -642,18 +621,12 @@ class OrchestratorRouter:
             self.performance_metrics[orchestrator_name] = PerformanceMetrics()
 
         if orchestrator_name not in self.shadow_orchestrators:
-            self.shadow_orchestrators[orchestrator_name] = ShadowOrchestrator(
-                orchestrator_name
-            )
+            self.shadow_orchestrators[orchestrator_name] = ShadowOrchestrator(orchestrator_name)
 
-    def _record_metrics(
-        self, orchestrator_name: str, execution_time_ms: float, success: bool
-    ):
+    def _record_metrics(self, orchestrator_name: str, execution_time_ms: float, success: bool):
         """Record performance metrics"""
         if orchestrator_name in self.performance_metrics:
-            self.performance_metrics[orchestrator_name].record_execution(
-                execution_time_ms, success
-            )
+            self.performance_metrics[orchestrator_name].record_execution(execution_time_ms, success)
 
     def get_orchestrator_health(self, orchestrator_name: str) -> dict[str, Any]:
         """Get health status for an orchestrator"""
@@ -671,9 +644,7 @@ class OrchestratorRouter:
         if circuit_breaker and self.flags.enable_circuit_breaker:
             from .orchestrator_flags import should_circuit_break
 
-            should_break = should_circuit_break(
-                orchestrator_name, error_rate, avg_latency
-            )
+            should_break = should_circuit_break(orchestrator_name, error_rate, avg_latency)
 
         # Determine overall health status
         if should_break or (circuit_breaker and circuit_breaker.state == "OPEN"):
@@ -688,9 +659,7 @@ class OrchestratorRouter:
         return {
             "status": status,
             "orchestrator_name": orchestrator_name,
-            "circuit_breaker_state": (
-                circuit_breaker.state if circuit_breaker else "N/A"
-            ),
+            "circuit_breaker_state": (circuit_breaker.state if circuit_breaker else "N/A"),
             "total_requests": metrics.total_requests,
             "success_rate": 1.0 - error_rate,
             "error_rate": error_rate,

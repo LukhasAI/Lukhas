@@ -15,7 +15,6 @@ from pathlib import Path
 
 
 class EcosystemHarmonyAuditor:
-
     def __init__(self):
         self.modules = [
             "core",
@@ -103,24 +102,16 @@ class EcosystemHarmonyAuditor:
         health_metrics["comment_ratio"] = total_comments / max(total_lines, 1)
         health_metrics["imports_in"] = imports_in
         health_metrics["imports_out"] = imports_out
-        health_metrics["connectivity_score"] = (imports_in + imports_out) / max(
-            len(py_files), 1
-        )
+        health_metrics["connectivity_score"] = (imports_in + imports_out) / max(len(py_files), 1)
 
         # Check submodule balance
-        health_metrics["submodule_balance"] = self.analyze_submodule_balance(
-            module_path
-        )
+        health_metrics["submodule_balance"] = self.analyze_submodule_balance(module_path)
 
         # Check hybrid components
-        health_metrics["hybrid_component_health"] = self.check_hybrid_components(
-            module_path
-        )
+        health_metrics["hybrid_component_health"] = self.check_hybrid_components(module_path)
 
         # Calculate overall health score
-        health_metrics["health_score"] = self.calculate_module_health_score(
-            health_metrics
-        )
+        health_metrics["health_score"] = self.calculate_module_health_score(health_metrics)
 
         return health_metrics
 
@@ -151,9 +142,7 @@ class EcosystemHarmonyAuditor:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.Import):
                         for alias in node.names:
-                            if any(
-                                m in alias.name for m in self.modules if m != module
-                            ):
+                            if any(m in alias.name for m in self.modules if m != module):
                                 metrics["imports_out"] += 1
                     elif (
                         isinstance(node, ast.ImportFrom)
@@ -164,15 +153,13 @@ class EcosystemHarmonyAuditor:
 
                 # Check for common issues
                 if len(lines) > 500:
-                    metrics["issues"].append(
-                        f"{filepath.name}: File too long ({len(lines)} lines)"
-                    )
+                    metrics["issues"].append(f"{filepath.name}: File too long ({len(lines)} lines)")
 
                 if metrics["comments"] / max(len(lines), 1) < 0.1:
                     metrics["issues"].append(f"{filepath.name}: Low comment ratio")
 
         except Exception as e:
-            metrics["issues"].append(f"{filepath.name}: Parse error - {str(e)}")
+            metrics["issues"].append(f"{filepath.name}: Parse error - {e!s}")
 
         return metrics
 
@@ -212,11 +199,7 @@ class EcosystemHarmonyAuditor:
         submodules = {}
 
         for item in module_path.iterdir():
-            if (
-                item.is_dir()
-                and not item.name.startswith(".")
-                and not item.name.startswith("_")
-            ):
+            if item.is_dir() and not item.name.startswith(".") and not item.name.startswith("_"):
                 py_files = list(item.rglob("*.py"))
                 submodules[item.name] = {
                     "file_count": len(py_files),
@@ -286,7 +269,7 @@ class EcosystemHarmonyAuditor:
         scores.append(min(metrics["example_count"] / 5, 1.0))
 
         # Submodule balance
-        if "submodule_balance" in metrics and metrics["submodule_balance"]:
+        if metrics.get("submodule_balance"):
             scores.append(metrics["submodule_balance"].get("balance_score", 0))
 
         # Quality issues penalty
@@ -325,9 +308,9 @@ class EcosystemHarmonyAuditor:
                 with open(py_file, encoding="utf-8") as f:
                     content = f.read()
                     if f"from {module2}" in content or f"import {module2}" in content:
-                        imports_1_to_2 += content.count(
-                            f"from {module2}"
-                        ) + content.count(f"import {module2}")
+                        imports_1_to_2 += content.count(f"from {module2}") + content.count(
+                            f"import {module2}"
+                        )
             except BaseException:
                 pass
 
@@ -337,9 +320,9 @@ class EcosystemHarmonyAuditor:
                 with open(py_file, encoding="utf-8") as f:
                     content = f.read()
                     if f"from {module1}" in content or f"import {module1}" in content:
-                        imports_2_to_1 += content.count(
-                            f"from {module1}"
-                        ) + content.count(f"import {module1}")
+                        imports_2_to_1 += content.count(f"from {module1}") + content.count(
+                            f"import {module1}"
+                        )
             except BaseException:
                 pass
 
@@ -352,9 +335,7 @@ class EcosystemHarmonyAuditor:
         underperformers = []
 
         # Calculate average health score
-        health_scores = [
-            m["health_score"] for m in self.audit_results["module_health"].values()
-        ]
+        health_scores = [m["health_score"] for m in self.audit_results["module_health"].values()]
         avg_health = statistics.mean(health_scores) if health_scores else 0
 
         for module, metrics in self.audit_results["module_health"].items():
@@ -403,10 +384,7 @@ class EcosystemHarmonyAuditor:
                         for node in ast.walk(tree):
                             if isinstance(node, ast.ImportFrom) and node.module:
                                 for other_module in self.modules:
-                                    if (
-                                        other_module != module
-                                        and other_module in node.module
-                                    ):
+                                    if other_module != module and other_module in node.module:
                                         dep_graph[module].add(other_module)
                 except BaseException:
                     pass
@@ -481,9 +459,7 @@ class EcosystemHarmonyAuditor:
                 recommendations.append(
                     {
                         "module": module,
-                        "priority": (
-                            "HIGH" if metrics["health_score"] < 0.5 else "MEDIUM"
-                        ),
+                        "priority": ("HIGH" if metrics["health_score"] < 0.5 else "MEDIUM"),
                         "actions": recs,
                     }
                 )
@@ -528,9 +504,7 @@ class EcosystemHarmonyAuditor:
         # Check circular dependencies
         print("\n🔄 Checking for Circular Dependencies...")
         self.audit_results["circular_dependencies"] = self.check_circular_dependencies()
-        print(
-            f"  Found {len(self.audit_results['circular_dependencies'])} circular dependencies"
-        )
+        print(f"  Found {len(self.audit_results['circular_dependencies'])} circular dependencies")
 
         # Calculate harmony score
         self.audit_results["harmony_score"] = self.calculate_harmony_score()
@@ -545,9 +519,9 @@ def generate_harmony_report(audit_results):
     """Generate a detailed harmony report"""
     report = f"""
 # 🎵 LUKHAS Ecosystem Harmony Report
-Generated: {audit_results['timestamp']}
+Generated: {audit_results["timestamp"]}
 
-## Overall Harmony Score: {audit_results['harmony_score']:.1%}
+## Overall Harmony Score: {audit_results["harmony_score"]:.1%}
 
 ## 📊 Module Health Summary
 """
@@ -563,7 +537,9 @@ Generated: {audit_results['timestamp']}
         status = (
             "🟢"
             if metrics["health_score"] >= 0.7
-            else "🟡" if metrics["health_score"] >= 0.5 else "🔴"
+            else "🟡"
+            if metrics["health_score"] >= 0.5
+            else "🔴"
         )
         report += f"\n## {status} {module} — Health: {metrics['health_score']:.1%}\n"
         report += f"- Files: {metrics['file_count']}\n"
@@ -579,7 +555,9 @@ Generated: {audit_results['timestamp']}
     if audit_results["weak_links"]:
         report += "\n## 🔗 Weak Connections\n"
         for link in audit_results["weak_links"]:
-            report += f"- {link['modules'][0]} ↔ {link['modules'][1]}: strength {link['strength']:.1%}\n"
+            report += (
+                f"- {link['modules'][0]} ↔ {link['modules'][1]}: strength {link['strength']:.1%}\n"
+            )
 
     # Underperformers
     if audit_results["underperformers"]:
@@ -600,9 +578,7 @@ Generated: {audit_results['timestamp']}
     if audit_results["recommendations"]:
         report += "\n## 🎯 Recommendations\n"
 
-        high_priority = [
-            r for r in audit_results["recommendations"] if r.get("priority") == "HIGH"
-        ]
+        high_priority = [r for r in audit_results["recommendations"] if r.get("priority") == "HIGH"]
         medium_priority = [
             r for r in audit_results["recommendations"] if r.get("priority") == "MEDIUM"
         ]
@@ -633,7 +609,9 @@ Generated: {audit_results['timestamp']}
     if audit_results["harmony_score"] >= 0.8:
         report += "✅ **EXCELLENT**: The ecosystem is in harmonious synchrony!\n"
     elif audit_results["harmony_score"] >= 0.6:
-        report += "🟡 **GOOD**: The ecosystem is mostly harmonious with some areas for improvement.\n"
+        report += (
+            "🟡 **GOOD**: The ecosystem is mostly harmonious with some areas for improvement.\n"
+        )
     elif audit_results["harmony_score"] >= 0.4:
         report += "🟠 **FAIR**: Several modules need attention to achieve harmony.\n"
     else:

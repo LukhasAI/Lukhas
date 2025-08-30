@@ -22,12 +22,8 @@ from pathlib import Path
 from typing import Any
 
 # Add project root to Python path
-project_root = os.environ.get(
-    "LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-)
-identity_module_path = os.environ.get(
-    "IDENTITY_MODULE_PATH", f"{project_root}/governance/identity"
-)
+project_root = os.environ.get("LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
+identity_module_path = os.environ.get("IDENTITY_MODULE_PATH", f"{project_root}/governance/identity")
 sys.path.insert(0, project_root)
 sys.path.insert(0, identity_module_path)
 
@@ -777,9 +773,7 @@ class LukhosIdentityServer:
 
 async def main():
     """Main MCP server entry point"""
-    project_root = os.environ.get(
-        "LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas"
-    )
+    project_root = os.environ.get("LUKHAS_PROJECT_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas")
     identity_module_path = os.environ.get(
         "IDENTITY_MODULE_PATH", f"{project_root}/governance/identity"
     )

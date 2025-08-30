@@ -293,24 +293,15 @@ class LambdaTierManager:
                     continue
 
                 # Check cultural diversity requirements
-                if (
-                    requirements.cultural_diversity_required
-                    and cultural_diversity < 0.3
-                ):
+                if requirements.cultural_diversity_required and cultural_diversity < 0.3:
                     continue
 
                 # Check enterprise requirements
-                if (
-                    requirements.enterprise_features_required
-                    and not enterprise_features
-                ):
+                if requirements.enterprise_features_required and not enterprise_features:
                     continue
 
                 # Check consciousness requirements
-                if (
-                    requirements.consciousness_integration_required
-                    and consciousness_level < 0.7
-                ):
+                if requirements.consciousness_integration_required and consciousness_level < 0.7:
                     continue
 
                 # Found eligible tier
@@ -321,9 +312,7 @@ class LambdaTierManager:
                     "eligible_tier": tier_level.value,
                     "tier_name": tier_level.name,
                     "tier_symbol": self.tier_symbols[tier_level.value],
-                    "capabilities": [
-                        cap.value for cap in requirements.required_capabilities
-                    ],
+                    "capabilities": [cap.value for cap in requirements.required_capabilities],
                     "qrs_integration": True,
                     "success": True,
                 }
@@ -336,9 +325,7 @@ class LambdaTierManager:
                 "tier_symbol": self.tier_symbols[TierLevel.FREE.value],
                 "capabilities": [
                     cap.value
-                    for cap in self.tier_requirements[
-                        TierLevel.FREE
-                    ].required_capabilities
+                    for cap in self.tier_requirements[TierLevel.FREE].required_capabilities
                 ],
                 "qrs_integration": True,
                 "success": True,
@@ -362,26 +349,18 @@ class LambdaTierManager:
         current_requirements = self.tier_requirements[current_tier]
 
         # Symbolic vault recommendations
-        if (
-            target_requirements.min_symbolic_elements
-            > current_requirements.min_symbolic_elements
-        ):
+        if target_requirements.min_symbolic_elements > current_requirements.min_symbolic_elements:
             diff = (
                 target_requirements.min_symbolic_elements
                 - current_requirements.min_symbolic_elements
             )
-            recommendations.append(
-                f"Add {diff} more symbolic elements to your ΛiD vault"
-            )
+            recommendations.append(f"Add {diff} more symbolic elements to your ΛiD vault")
             recommendations.append(
                 "Consider adding diverse elements: emoji, phrases, cultural symbols"
             )
 
         # Entropy recommendations
-        if (
-            target_requirements.min_entropy_score
-            > current_requirements.min_entropy_score
-        ):
+        if target_requirements.min_entropy_score > current_requirements.min_entropy_score:
             recommendations.append(
                 f"Improve entropy score to {target_requirements.min_entropy_score}"
             )
@@ -391,21 +370,15 @@ class LambdaTierManager:
 
         # QRG capability recommendations
         missing_caps = (
-            target_requirements.required_capabilities
-            - current_requirements.required_capabilities
+            target_requirements.required_capabilities - current_requirements.required_capabilities
         )
         if TierCapability.QRG_GENERATION in missing_caps:
             recommendations.append("Enable QRG (QR-Glymph) generation capabilities")
         if TierCapability.QRG_ADVANCED in missing_caps:
-            recommendations.append(
-                "Unlock advanced QRG features and consciousness integration"
-            )
+            recommendations.append("Unlock advanced QRG features and consciousness integration")
 
         # Biometric recommendations
-        if (
-            target_requirements.biometric_required
-            and not current_requirements.biometric_required
-        ):
+        if target_requirements.biometric_required and not current_requirements.biometric_required:
             recommendations.append("Enable biometric authentication hooks")
             recommendations.append("Complete biometric enrollment process")
 
@@ -415,9 +388,7 @@ class LambdaTierManager:
             and not current_requirements.cultural_diversity_required
         ):
             recommendations.append("Add culturally diverse symbolic elements")
-            recommendations.append(
-                "Include multiple languages, scripts, or cultural references"
-            )
+            recommendations.append("Include multiple languages, scripts, or cultural references")
 
         # Enterprise recommendations
         if (
@@ -510,9 +481,7 @@ class LambdaTierManager:
     def validate_permission(self, user_id: str, permission: str) -> bool:
         """Validate if user has required permission based on tier"""
         user_tier = self.get_user_tier(user_id)
-        tier_permissions = self.tier_rules.get(f"tier_{user_tier}", {}).get(
-            "permissions", []
-        )
+        tier_permissions = self.tier_rules.get(f"tier_{user_tier}", {}).get("permissions", [])
 
         # Check direct permission
         if permission in tier_permissions:
@@ -588,7 +557,9 @@ class LambdaTierManager:
                 "status": (
                     "current"
                     if tier == current_tier
-                    else "unlocked" if tier < current_tier else "locked"
+                    else "unlocked"
+                    if tier < current_tier
+                    else "locked"
                 ),
                 "requirements": (
                     self._get_tier_requirements(tier) if tier > current_tier else None
@@ -763,9 +734,7 @@ class LambdaTierManager:
                 return {"valid": False, "reason": f"Unmet requirement: {req}"}
 
         # Calculate validation score
-        validation_score = self._calculate_validation_score(
-            validation_data, tier_requirements
-        )
+        validation_score = self._calculate_validation_score(validation_data, tier_requirements)
 
         return {
             "valid": True,
@@ -773,16 +742,10 @@ class LambdaTierManager:
             "entropy_surplus": user_entropy - required_entropy,
         }
 
-    def _calculate_unlocked_capabilities(
-        self, old_tier: int, new_tier: int
-    ) -> list[str]:
+    def _calculate_unlocked_capabilities(self, old_tier: int, new_tier: int) -> list[str]:
         """Calculate newly unlocked capabilities"""
-        old_capabilities = set(
-            self.tier_rules.get(f"tier_{old_tier}", {}).get("capabilities", [])
-        )
-        new_capabilities = set(
-            self.tier_rules.get(f"tier_{new_tier}", {}).get("capabilities", [])
-        )
+        old_capabilities = set(self.tier_rules.get(f"tier_{old_tier}", {}).get("capabilities", []))
+        new_capabilities = set(self.tier_rules.get(f"tier_{new_tier}", {}).get("capabilities", []))
 
         return list(new_capabilities - old_capabilities)
 
@@ -834,9 +797,7 @@ class LambdaTierManager:
         """Persist tier change to storage"""
         # TODO: Implement persistent storage
 
-    def _calculate_validation_score(
-        self, validation_data: dict, requirements: dict
-    ) -> float:
+    def _calculate_validation_score(self, validation_data: dict, requirements: dict) -> float:
         """Calculate validation score for tier upgrade"""
         # TODO: Implement sophisticated scoring algorithm
         return 1.0
@@ -844,6 +805,7 @@ class LambdaTierManager:
 
 # Aliases for compatibility with identity system
 TierManager = LambdaTierManager
+
 
 class TierValidator:
     """Simple tier validator wrapper"""
@@ -856,8 +818,9 @@ class TierValidator:
         user_tier = self.tier_manager.get_user_tier(user_id)
         return user_tier >= required_tier
 
+
 # Export classes
-__all__ = ["LambdaTierManager", "TierManager", "TierValidator", "TierLevel", "TierCapability"]
+__all__ = ["LambdaTierManager", "TierCapability", "TierLevel", "TierManager", "TierValidator"]
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

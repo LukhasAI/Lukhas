@@ -109,7 +109,9 @@ class EnvironmentConfig:
                 raise ValueError(f"Environment variable '{key}' must be a float, got: {value}")
             return default
 
-    def get_list(self, key: str, default: Optional[list] = None, separator: str = ",", required: bool = False) -> list[str]:
+    def get_list(
+        self, key: str, default: Optional[list] = None, separator: str = ",", required: bool = False
+    ) -> list[str]:
         """Get list from comma-separated environment variable"""
         if default is None:
             default = []
@@ -136,12 +138,13 @@ class EnvironmentConfig:
             "required_vars": len(self._required_vars),
             "optional_vars": len(self._optional_vars),
             "yaml_config_loaded": bool(self._yaml_config),
-            "yaml_keys": list(self._yaml_config.keys()) if self._yaml_config else []
+            "yaml_keys": list(self._yaml_config.keys()) if self._yaml_config else [],
         }
 
 
 # Global configuration instance
 _config_instance: Optional[EnvironmentConfig] = None
+
 
 def get_config(yaml_path: Optional[str] = None) -> EnvironmentConfig:
     """Get global configuration instance"""
@@ -302,6 +305,7 @@ def get(key: str, default=None):
     """Return env var value or default. (Legacy compatibility)"""
     return os.getenv(key, default)
 
+
 def require(key: str):
     """Return env var value or raise if missing. (Legacy compatibility)"""
     value = os.getenv(key)
@@ -309,14 +313,17 @@ def require(key: str):
         raise RuntimeError(f"Missing required env var: {key}")
     return value
 
+
 # Convenience functions for new unified interface
 def get_env(key: str, default: Any = None, required: bool = False) -> Any:
     """Get environment variable (convenience function)"""
     return get_config().get(key, default, required)
 
+
 def get_env_bool(key: str, default: bool = False) -> bool:
     """Get boolean environment variable (convenience function)"""
     return get_config().get_bool(key, default)
+
 
 def get_env_int(key: str, default: int = 0) -> int:
     """Get integer environment variable (convenience function)"""

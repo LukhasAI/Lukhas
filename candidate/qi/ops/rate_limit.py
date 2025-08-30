@@ -16,6 +16,7 @@ try:
     from prometheus_client import Counter, Gauge
 
     from qi.ops.metrics_middleware import REGISTRY
+
     _PROM = True
 except Exception:
     _PROM = False
@@ -35,13 +36,16 @@ if _PROM:
         registry=REGISTRY,
     )
 
+
 @dataclass
 class BucketConfig:
-    capacity: int            # max tokens
-    refill_per_sec: float    # tokens per second
+    capacity: int  # max tokens
+    refill_per_sec: float  # tokens per second
+
 
 def _now() -> float:
     return time.monotonic()
+
 
 class TokenBucket:
     def __init__(self, capacity: int, refill_per_sec: float):
@@ -60,6 +64,7 @@ class TokenBucket:
             return True
         return False
 
+
 class RateLimiter(BaseHTTPMiddleware):
     """
     Configurable token-bucket limiter keyed by (user_id|ip, path group).
@@ -68,7 +73,13 @@ class RateLimiter(BaseHTTPMiddleware):
       where matcher is a callable(Request) -> bool
     If no rule matches, request passes through unmetered.
     """
-    def __init__(self, app, buckets: dict[str, BucketConfig], rules: list[tuple[Callable[[Request], bool], str]]):
+
+    def __init__(
+        self,
+        app,
+        buckets: dict[str, BucketConfig],
+        rules: list[tuple[Callable[[Request], bool], str]],
+    ):
         super().__init__(app)
         self.buckets_cfg = buckets
         self.rules = rules
@@ -85,7 +96,9 @@ class RateLimiter(BaseHTTPMiddleware):
             ip = req.client.host if req.client else "unknown"
         return f"ip:{ip}"
 
-    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
         # figure out which bucket (if any) applies
         bucket_name = None
         for match, name in self.rules:
@@ -121,9 +134,18 @@ class RateLimiter(BaseHTTPMiddleware):
             if _PROM:
                 with contextlib.suppress(Exception):
                     RL_BLOCKS.labels(bucket=bucket_name, path=path_group).inc()
-            retry_after = max(1, int((1.0 - bucket.tokens) / cfg.refill_per_sec)) if cfg.refill_per_sec > 0 else 60
+            retry_after = (
+                max(1, int((1.0 - bucket.tokens) / cfg.refill_per_sec))
+                if cfg.refill_per_sec > 0
+                else 60
+            )
             return JSONResponse(
-                {"error": "rate_limited", "bucket": bucket_name, "path": path_group, "retry_after_sec": retry_after},
+                {
+                    "error": "rate_limited",
+                    "bucket": bucket_name,
+                    "path": path_group,
+                    "retry_after_sec": retry_after,
+                },
                 status_code=429,
                 headers={"Retry-After": str(retry_after)},
             )
@@ -144,15 +166,22 @@ class RateLimiter(BaseHTTPMiddleware):
                 return "/provenance/:sha/receipt"
         return p
 
+
 # convenience factory for common provenance limits
 def make_provenance_limiter(app, per_user_per_min: int = 60, per_ip_per_min: int = 120):
     buckets = {
-        "prov_user": BucketConfig(capacity=per_user_per_min, refill_per_sec=per_user_per_min / 60.0),
-        "prov_ip":   BucketConfig(capacity=per_ip_per_min,   refill_per_sec=per_ip_per_min / 60.0),
+        "prov_user": BucketConfig(
+            capacity=per_user_per_min, refill_per_sec=per_user_per_min / 60.0
+        ),
+        "prov_ip": BucketConfig(capacity=per_ip_per_min, refill_per_sec=per_ip_per_min / 60.0),
     }
+
     def is_prov(req: Request) -> bool:
         p = req.url.path
-        return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
+        return p.startswith("/provenance/") and any(
+            seg in p for seg in ("/stream", "/download", "/link")
+        )
+
     rules = [
         (is_prov, "prov_user"),
         (is_prov, "prov_ip"),

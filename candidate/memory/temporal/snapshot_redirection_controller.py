@@ -69,9 +69,7 @@ class SnapshotRedirectionController:
             Optional[Dict[str, Any]]: A new dream seed if redirection is needed, otherwise None.
         """
         if self.session_redirects > 3:
-            logger.warning(
-                "Redirect overload detected. Halting redirection for this session."
-            )
+            logger.warning("Redirect overload detected. Halting redirection for this session.")
             return {
                 "seed_type": "narrative_redirection",
                 "narrative_name": "redirect_overload",
@@ -96,9 +94,7 @@ class SnapshotRedirectionController:
 
         return None
 
-    def _calculate_emotional_drift(
-        self, snapshots: list[dict[str, Any]]
-    ) -> Optional[float]:
+    def _calculate_emotional_drift(self, snapshots: list[dict[str, Any]]) -> Optional[float]:
         """
         Calculates the emotional drift across a series of snapshots.
 
@@ -195,9 +191,7 @@ class SnapshotRedirectionController:
         severity = self.calculate_redirect_severity(drift_score, emotional_delta)
         cause = self._determine_redirect_cause(drift_score)
 
-        snapshot_health_score = self._calculate_snapshot_health_score(
-            drift_score, emotional_delta
-        )
+        snapshot_health_score = self._calculate_snapshot_health_score(drift_score, emotional_delta)
 
         log_entry = {
             "snapshot_id": snapshot.get("dream_id", "unknown"),
@@ -215,9 +209,7 @@ class SnapshotRedirectionController:
         with open(self.redirect_log_path, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
 
-    def calculate_redirect_severity(
-        self, drift_score: float, emotional_delta: float
-    ) -> str:
+    def calculate_redirect_severity(self, drift_score: float, emotional_delta: float) -> str:
         """
         Calculates the severity of a redirect.
 
@@ -236,9 +228,7 @@ class SnapshotRedirectionController:
         else:
             return "low"
 
-    def _calculate_snapshot_health_score(
-        self, drift_score: float, emotional_delta: float
-    ) -> float:
+    def _calculate_snapshot_health_score(self, drift_score: float, emotional_delta: float) -> float:
         """
         Calculates the health score of a snapshot.
 

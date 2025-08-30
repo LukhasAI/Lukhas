@@ -243,9 +243,7 @@ class SSOBridge:
                         user_claims=session_data["user_claims"],
                         assigned_glyphs=session_data["assigned_glyphs"],
                         created_at=datetime.fromisoformat(session_data["created_at"]),
-                        last_activity=datetime.fromisoformat(
-                            session_data["last_activity"]
-                        ),
+                        last_activity=datetime.fromisoformat(session_data["last_activity"]),
                     )
 
             except Exception as e:
@@ -373,9 +371,7 @@ class SSOBridge:
             session_id=session_id,
             provider_id=provider.provider_id,
             user_id=user_info.get("sub", user_info.get("id", "unknown")),
-            external_user_id=user_info.get(
-                "email", user_info.get("preferred_username", "unknown")
-            ),
+            external_user_id=user_info.get("email", user_info.get("preferred_username", "unknown")),
             access_token=token_response["access_token"],
             refresh_token=token_response.get("refresh_token"),
             token_type=token_response.get("token_type", "Bearer"),
@@ -421,9 +417,7 @@ class SSOBridge:
             "scope": " ".join(provider.scopes),
         }
 
-    def _get_user_info(
-        self, provider: SSOProvider, access_token: str
-    ) -> Optional[dict]:
+    def _get_user_info(self, provider: SSOProvider, access_token: str) -> Optional[dict]:
         """Get user information from provider (simulated)"""
         # In a real implementation, this would make an HTTP GET to the userinfo endpoint
         logger.info("👤 Simulating user info retrieval...")
@@ -593,9 +587,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create SSO bridge
-    sso = SSOBridge(
-        config_file="demo_sso_config.json", session_store="demo_sso_sessions.json"
-    )
+    sso = SSOBridge(config_file="demo_sso_config.json", session_store="demo_sso_sessions.json")
 
     print("🔗 SSO Bridge Demo")
     print("=" * 60)

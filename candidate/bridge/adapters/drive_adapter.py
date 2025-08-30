@@ -36,11 +36,7 @@ class DriveAdapter(BaseServiceAdapter):
     async def authenticate(self, credentials: dict) -> dict:
         """OAuth2 authentication flow for Google Drive"""
         if self.dry_run_mode:
-            return {
-                "access_token": "dry_run_token",
-                "token_type": "Bearer",
-                "expires_in": 3600
-            }
+            return {"access_token": "dry_run_token", "token_type": "Bearer", "expires_in": 3600}
 
         client_id = credentials.get("client_id")
         client_secret = credentials.get("client_secret")
@@ -55,8 +51,8 @@ class DriveAdapter(BaseServiceAdapter):
                         "client_id": client_id,
                         "client_secret": client_secret,
                         "refresh_token": refresh_token,
-                        "grant_type": "refresh_token"
-                    }
+                        "grant_type": "refresh_token",
+                    },
                 ) as response:
                     token_data = await response.json()
 
@@ -65,7 +61,8 @@ class DriveAdapter(BaseServiceAdapter):
                     if lid and "access_token" in token_data:
                         self.oauth_tokens[lid] = {
                             "access_token": token_data["access_token"],
-                            "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"]
+                            "expires_at": datetime.now(timezone.utc).timestamp()
+                            + token_data["expires_in"],
                         }
 
                     return token_data
@@ -73,10 +70,14 @@ class DriveAdapter(BaseServiceAdapter):
         return {"error": "authentication_required"}
 
     @with_resilience
-    async def list_files(self, lid: str, folder_id: Optional[str] = None,
-                        query: Optional[str] = None,
-                        capability_token: Optional[CapabilityToken] = None,
-                        page_size: int = 100) -> dict:
+    async def list_files(
+        self,
+        lid: str,
+        folder_id: Optional[str] = None,
+        query: Optional[str] = None,
+        capability_token: Optional[CapabilityToken] = None,
+        page_size: int = 100,
+    ) -> dict:
         """
         List files in Google Drive with optional folder and query
         Emits Λ-trace for audit
@@ -93,8 +94,7 @@ class DriveAdapter(BaseServiceAdapter):
         # Dry-run mode
         if self.dry_run_mode:
             plan = self.dry_run_planner.plan_operation(
-                "list_files",
-                {"folder_id": folder_id, "query": query, "page_size": page_size}
+                "list_files", {"folder_id": folder_id, "query": query, "page_size": page_size}
             )
             return {"dry_run": True, "plan": plan}
 
@@ -113,7 +113,7 @@ class DriveAdapter(BaseServiceAdapter):
 
         params = {
             "pageSize": page_size,
-            "fields": "files(id,name,mimeType,size,createdTime,modifiedTime,parents)"
+            "fields": "files(id,name,mimeType,size,createdTime,modifiedTime,parents)",
         }
         if q_parts:
             params["q"] = " and ".join(q_parts)
@@ -123,9 +123,7 @@ class DriveAdapter(BaseServiceAdapter):
             headers = {"Authorization": f"Bearer {access_token}"}
 
             async with session.get(
-                f"{self.base_url}/files",
-                headers=headers,
-                params=params
+                f"{self.base_url}/files", headers=headers, params=params
             ) as response:
                 if response.status == 200:
                     data = await response.json()
@@ -133,14 +131,15 @@ class DriveAdapter(BaseServiceAdapter):
                     return {
                         "files": data.get("files", []),
                         "count": len(data.get("files", [])),
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"api_error_{response.status}"}
 
     @with_resilience
-    async def get_file(self, lid: str, file_id: str,
-                       capability_token: Optional[CapabilityToken] = None) -> dict:
+    async def get_file(
+        self, lid: str, file_id: str, capability_token: Optional[CapabilityToken] = None
+    ) -> dict:
         """Get file metadata and content"""
 
         # Validate capability token
@@ -158,8 +157,8 @@ class DriveAdapter(BaseServiceAdapter):
                     "id": file_id,
                     "name": "mock_file.pdf",
                     "mimeType": "application/pdf",
-                    "size": "2048000"
-                }
+                    "size": "2048000",
+                },
             }
 
         # Get OAuth token
@@ -175,7 +174,7 @@ class DriveAdapter(BaseServiceAdapter):
             async with session.get(
                 f"{self.base_url}/files/{file_id}",
                 headers=headers,
-                params={"fields": "id,name,mimeType,size,createdTime,modifiedTime,description"}
+                params={"fields": "id,name,mimeType,size,createdTime,modifiedTime,description"},
             ) as response:
                 if response.status == 200:
                     metadata = await response.json()
@@ -185,7 +184,7 @@ class DriveAdapter(BaseServiceAdapter):
                         async with session.get(
                             f"{self.base_url}/files/{file_id}",
                             headers=headers,
-                            params={"alt": "media"}
+                            params={"alt": "media"},
                         ) as content_response:
                             if content_response.status == 200:
                                 content = await content_response.text()
@@ -193,14 +192,15 @@ class DriveAdapter(BaseServiceAdapter):
 
                     return {
                         "file": metadata,
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"api_error_{response.status}"}
 
     @with_resilience
-    async def search_files(self, lid: str, search_query: str,
-                          capability_token: Optional[CapabilityToken] = None) -> dict:
+    async def search_files(
+        self, lid: str, search_query: str, capability_token: Optional[CapabilityToken] = None
+    ) -> dict:
         """
         Search files in Drive
         Example: "name contains 'travel' and mimeType = 'application/pdf'"
@@ -208,9 +208,14 @@ class DriveAdapter(BaseServiceAdapter):
         return await self.list_files(lid, query=search_query, capability_token=capability_token)
 
     @with_resilience
-    async def upload_file(self, lid: str, file_name: str, content: bytes,
-                         parent_folder_id: Optional[str] = None,
-                         capability_token: Optional[CapabilityToken] = None) -> dict:
+    async def upload_file(
+        self,
+        lid: str,
+        file_name: str,
+        content: bytes,
+        parent_folder_id: Optional[str] = None,
+        capability_token: Optional[CapabilityToken] = None,
+    ) -> dict:
         """Upload file to Google Drive"""
 
         # Validate capability token
@@ -223,8 +228,7 @@ class DriveAdapter(BaseServiceAdapter):
 
         if self.dry_run_mode:
             plan = self.dry_run_planner.plan_operation(
-                "upload_file",
-                {"file_name": file_name, "size": len(content)}
+                "upload_file", {"file_name": file_name, "size": len(content)}
             )
             return {"dry_run": True, "plan": plan}
 
@@ -246,7 +250,7 @@ class DriveAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
             # Create file metadata
@@ -256,15 +260,15 @@ class DriveAdapter(BaseServiceAdapter):
                 params={"uploadType": "multipart"},
                 data=aiohttp.FormData()(
                     ("metadata", json.dumps(metadata), "application/json"),
-                    ("file", content, mime_type)
-                )
+                    ("file", content, mime_type),
+                ),
             ) as response:
                 if response.status == 200:
                     file_data = await response.json()
                     return {
                         "file_id": file_data["id"],
                         "name": file_data["name"],
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"upload_error_{response.status}"}
@@ -281,7 +285,7 @@ class DriveAdapter(BaseServiceAdapter):
                 resource="drive_oauth",
                 capability_token=None,
                 latency_ms=0,
-                success=True
+                success=True,
             )
 
             return True
@@ -296,7 +300,7 @@ class DriveAdapter(BaseServiceAdapter):
             "service": "drive",
             "storage_used_bytes": 1073741824,  # 1GB mock
             "storage_limit_bytes": 15737418240,  # 15GB
-            "usage_percentage": 6.67
+            "usage_percentage": 6.67,
         }
 
 
@@ -310,19 +314,18 @@ class DriveContextIntegration:
     def __init__(self, drive_adapter: DriveAdapter):
         self.adapter = drive_adapter
 
-    async def workflow_fetch_travel_documents(self, lid: str,
-                                             context: dict) -> dict:
+    async def workflow_fetch_travel_documents(self, lid: str, context: dict) -> dict:
         """
         Workflow step: Fetch travel-related documents from Drive
         Used in MVP demo scenario
         """
         # Search for travel documents
-        travel_query = "name contains 'travel' or name contains 'passport' or name contains 'itinerary'"
+        travel_query = (
+            "name contains 'travel' or name contains 'passport' or name contains 'itinerary'"
+        )
 
         result = await self.adapter.search_files(
-            lid=lid,
-            search_query=travel_query,
-            capability_token=context.get("capability_token")
+            lid=lid, search_query=travel_query, capability_token=context.get("capability_token")
         )
 
         if "files" in result:
@@ -330,18 +333,20 @@ class DriveContextIntegration:
             travel_docs = []
             for file in result["files"]:
                 doc_type = self._classify_travel_document(file["name"])
-                travel_docs.append({
-                    "id": file["id"],
-                    "name": file["name"],
-                    "type": doc_type,
-                    "size": file.get("size", "unknown"),
-                    "modified": file.get("modifiedTime", "")
-                })
+                travel_docs.append(
+                    {
+                        "id": file["id"],
+                        "name": file["name"],
+                        "type": doc_type,
+                        "size": file.get("size", "unknown"),
+                        "modified": file.get("modifiedTime", ""),
+                    }
+                )
 
             return {
                 "travel_documents": travel_docs,
                 "count": len(travel_docs),
-                "trace_id": result.get("trace_id")
+                "trace_id": result.get("trace_id"),
             }
 
         return result
@@ -379,9 +384,7 @@ if __name__ == "__main__":
         print("🔍 Testing dry-run mode...")
 
         result = await adapter.list_files(
-            lid="USR-123456",
-            query="name contains 'travel'",
-            page_size=10
+            lid="USR-123456", query="name contains 'travel'", page_size=10
         )
 
         if result.get("dry_run"):
@@ -391,10 +394,7 @@ if __name__ == "__main__":
 
         # Test file operations
         print("\n📄 Testing file operations...")
-        file_result = await adapter.get_file(
-            lid="USR-123456",
-            file_id="mock_file_id"
-        )
+        file_result = await adapter.get_file(lid="USR-123456", file_id="mock_file_id")
 
         if file_result.get("dry_run"):
             print(f"✅ Mock file retrieved: {file_result['file']['name']}")
@@ -410,8 +410,7 @@ if __name__ == "__main__":
         print("\n🔄 Testing workflow integration...")
 
         await integration.workflow_fetch_travel_documents(
-            lid="USR-123456",
-            context={"stage": "document_retrieval"}
+            lid="USR-123456", context={"stage": "document_retrieval"}
         )
 
         print("✅ Workflow step ready for Agent 4 integration")

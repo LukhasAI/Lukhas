@@ -88,9 +88,7 @@ except ImportError:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(
-    not CONSENT_LEDGER_AVAILABLE, reason="ConsentLedgerV1 not available"
-)
+@pytest.mark.skipif(not CONSENT_LEDGER_AVAILABLE, reason="ConsentLedgerV1 not available")
 class TestConsentLedger:
     """Test Consent Management System with GDPR/CCPA compliance"""
 
@@ -225,9 +223,7 @@ class TestConsentLedger:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(
-    not DRIFT_DETECTOR_AVAILABLE, reason="AdvancedDriftDetector not available"
-)
+@pytest.mark.skipif(not DRIFT_DETECTOR_AVAILABLE, reason="AdvancedDriftDetector not available")
 class TestDriftDetector:
     """Test Drift Detection System with 0.15 threshold monitoring"""
 
@@ -453,9 +449,7 @@ class TestEthicsPolicyEngine:
             },
         )
 
-        compliance = await engine.check_compliance(
-            evaluation, {"context_type": "data_access"}
-        )
+        compliance = await engine.check_compliance(evaluation, {"context_type": "data_access"})
         assert not compliance["compliant"]
         assert len(compliance["violations"]) > 0
 
@@ -486,9 +480,7 @@ class TestEthicsPolicyEngine:
 
 
 @pytest.mark.asyncio
-@pytest.mark.skipif(
-    not AUDIT_SYSTEM_AVAILABLE, reason="ComprehensiveAuditSystem not available"
-)
+@pytest.mark.skipif(not AUDIT_SYSTEM_AVAILABLE, reason="ComprehensiveAuditSystem not available")
 class TestAuditSystem:
     """Test Audit System with immutable logging and compliance reporting"""
 
@@ -742,15 +734,13 @@ class TestGuardianSystemIntegration:
             validation_time_ms = (end_time - start_time) * 1000
             validation_times.append(validation_time_ms)
 
-            assert (
-                response.validation_time_ms <= 250
-            ), f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
+            assert response.validation_time_ms <= 250, (
+                f"Validation took {response.validation_time_ms}ms, exceeding 250ms requirement"
+            )
 
         # Check average performance
         avg_time = sum(validation_times) / len(validation_times)
-        assert (
-            avg_time < 200
-        ), f"Average validation time {avg_time}ms should be well under 250ms"
+        assert avg_time < 200, f"Average validation time {avg_time}ms should be well under 250ms"
 
     async def test_emergency_stop_scenarios(self):
         """Test emergency stop scenarios"""
@@ -854,12 +844,8 @@ class TestGuardianSystemCompliance:
             )
 
             assert consent.lawful_basis == "consent"
-            assert (
-                DataSubjectRights.ERASURE in consent.data_subject_rights
-            )  # Right to be forgotten
-            assert (
-                DataSubjectRights.DATA_PORTABILITY in consent.data_subject_rights
-            )  # Article 20
+            assert DataSubjectRights.ERASURE in consent.data_subject_rights  # Right to be forgotten
+            assert DataSubjectRights.DATA_PORTABILITY in consent.data_subject_rights  # Article 20
             assert consent.retention_period == 365
 
     async def test_constitutional_ai_compliance(self):

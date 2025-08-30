@@ -30,6 +30,7 @@
 ║ - #ΛCOLLAPSE_HOOK                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
+
 import asyncio
 import contextlib
 import logging
@@ -85,9 +86,11 @@ except ImportError:
     class SimpleDreamEngine:
         async def generate_dream_sequence(self, daily_data: list = None):
             return {
-                "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
+                "dream_sequence": {
+                    "narrative": "A peaceful dream state of creative possibility..."
+                },
                 "learning": {"insights": "Creative potential explored"},
-                "memory_trace": "dream_fallback_001"
+                "memory_trace": "dream_fallback_001",
             }
 
 
@@ -126,9 +129,7 @@ class EnhancedDreamEngine:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum adapter
-        self.qi_adapter = QIDreamAdapter(
-            orchestrator=self.orchestrator, config=self.config
-        )
+        self.qi_adapter = QIDreamAdapter(orchestrator=self.orchestrator, config=self.config)
 
         # Initialize dream reflection components
         self.active = False
@@ -136,9 +137,7 @@ class EnhancedDreamEngine:
         self.current_cycle = None
 
         # Register with integration layer
-        self.integration.register_component(
-            "enhanced_dream_engine", self.handle_message
-        )
+        self.integration.register_component("enhanced_dream_engine", self.handle_message)
 
         logger.info("Enhanced dream engine initialized")
 
@@ -187,9 +186,7 @@ class EnhancedDreamEngine:
                 "memories_processed": 0,
             }
 
-            self.processing_task = asyncio.create_task(
-                self._run_dream_cycle(duration_minutes)
-            )
+            self.processing_task = asyncio.create_task(self._run_dream_cycle(duration_minutes))
 
             logger.info(f"Started enhanced dream cycle for {duration_minutes} minutes")
 
@@ -319,9 +316,7 @@ class EnhancedDreamEngine:
         memories = self.current_cycle["memories_processed"]
 
         logger.info(
-            f"Dream cycle completed: "
-            f"Duration={duration.total_seconds():.1f}s, "
-            f"Memories={memories}"
+            f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}"
         )
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
@@ -354,9 +349,7 @@ class EnhancedDreamEngine:
         except Exception as e:
             logger.error(f"Error consolidating dreams: {e}")
 
-    def _extract_dream_insights(
-        self, qi_like_state: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _extract_dream_insights(self, qi_like_state: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract insights from qi dream state
 
         Args:
@@ -470,9 +463,7 @@ class EnhancedDreamEngine:
             dream["state"] = "error"
             dream["metadata"]["error"] = str(e)
 
-    async def _process_dream_quantum(
-        self, dream: dict[str, Any], qi_like_state: dict
-    ) -> dict:
+    async def _process_dream_quantum(self, dream: dict[str, Any], qi_like_state: dict) -> dict:
         """Process dream through quantum layer
 
         Args:
@@ -490,9 +481,7 @@ class EnhancedDreamEngine:
             emotional = processed.get("emotional_context", {})
 
             # Quantum enhance the emotional context
-            enhanced_emotions = await self.qi_adapter.enhance_emotional_state(
-                emotional
-            )
+            enhanced_emotions = await self.qi_adapter.enhance_emotional_state(emotional)
 
             # Get quantum insights
             insights = qi_like_state.get("insights", [])
@@ -531,9 +520,7 @@ class EnhancedDreamEngine:
         try:
             # Remove from unconsolidated memories
             unconsolidated = await self.integration.get_data("unconsolidated_memories")
-            unconsolidated = [
-                m for m in unconsolidated if m.get("id") != dream.get("id")
-            ]
+            unconsolidated = [m for m in unconsolidated if m.get("id") != dream.get("id")]
             await self.integration.store_data("unconsolidated_memories", unconsolidated)
 
             # Add to enhanced memories
@@ -549,7 +536,7 @@ DreamEngine = SimpleDreamEngine  # Simple, working dream engine
 AdvancedDreamEngine = EnhancedDreamEngine  # Full-featured dream engine
 
 # Default export for typical usage
-__all__ = ["DreamEngine", "EnhancedDreamEngine", "AdvancedDreamEngine", "SimpleDreamEngine"]
+__all__ = ["AdvancedDreamEngine", "DreamEngine", "EnhancedDreamEngine", "SimpleDreamEngine"]
 
 
 """

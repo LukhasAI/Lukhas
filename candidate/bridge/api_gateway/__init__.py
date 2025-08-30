@@ -13,9 +13,4 @@ from .rate_limiter import RateLimiter
 from .route_handlers import RouteHandlers
 from .unified_api_gateway import UnifiedAPIGateway
 
-__all__ = [
-    "UnifiedAPIGateway",
-    "RouteHandlers",
-    "AuthMiddleware",
-    "RateLimiter"
-]
+__all__ = ["AuthMiddleware", "RateLimiter", "RouteHandlers", "UnifiedAPIGateway"]

@@ -191,9 +191,7 @@ def emit_event(event_type: str, source: str, payload: dict[str, Any] = None):
     event_bus.publish_sync(event)
 
 
-async def emit_event_async(
-    event_type: str, source: str, payload: dict[str, Any] = None
-):
+async def emit_event_async(event_type: str, source: str, payload: dict[str, Any] = None):
     """Helper to emit events asynchronously"""
     event = Event(event_type=event_type, source_module=source, payload=payload)
     await event_bus.publish(event)

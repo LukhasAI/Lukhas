@@ -99,9 +99,7 @@ class SemanticMemory:
     # Semantic properties
     category: Optional[str] = None
     attributes: dict[str, Any] = field(default_factory=dict)
-    relations: dict[str, set[str]] = field(
-        default_factory=dict
-    )  # relation_type -> memory_ids
+    relations: dict[str, set[str]] = field(default_factory=dict)  # relation_type -> memory_ids
 
     # Learning statistics
     consolidation_count: int = 0
@@ -113,9 +111,7 @@ class SemanticMemory:
     source_episodes: set[str] = field(default_factory=set)
 
     # Colony distribution
-    colony_locations: dict[str, float] = field(
-        default_factory=dict
-    )  # colony_id -> strength
+    colony_locations: dict[str, float] = field(default_factory=dict)  # colony_id -> strength
 
     def calculate_activation_energy(self) -> float:
         """Calculate energy required to activate this memory"""
@@ -123,9 +119,7 @@ class SemanticMemory:
         base_energy = 1.0 - self.stability
 
         # Recent memories are easier to activate
-        recency_factor = math.exp(
-            -(time.time() - self.last_update) / 86400
-        )  # Day decay
+        recency_factor = math.exp(-(time.time() - self.last_update) / 86400)  # Day decay
 
         return base_energy * (1 - 0.3 * recency_factor)
 
@@ -141,9 +135,7 @@ class CorticalColumn:
     layer_neurons: dict[CorticalLayer, np.ndarray] = field(default_factory=dict)
 
     # Lateral connections to neighboring columns
-    lateral_weights: dict[str, float] = field(
-        default_factory=dict
-    )  # column_id -> weight
+    lateral_weights: dict[str, float] = field(default_factory=dict)  # column_id -> weight
 
     # Receptive field
     receptive_field: Optional[np.ndarray] = None
@@ -189,17 +181,13 @@ class NeocorticalNetwork:
 
         # Semantic memory storage
         self.semantic_memories: dict[str, SemanticMemory] = {}
-        self.concept_index: dict[str, set[str]] = defaultdict(
-            set
-        )  # concept -> memory_ids
+        self.concept_index: dict[str, set[str]] = defaultdict(set)  # concept -> memory_ids
 
         # Consolidation queue
         self.consolidation_queue: list[tuple[str, dict[str, Any]]] = []
 
         # Colony integration
-        self.colony_distributions: dict[str, dict[str, float]] = (
-            {}
-        )  # memory_id -> colony weights
+        self.colony_distributions: dict[str, dict[str, float]] = {}  # memory_id -> colony weights
 
         # Metrics
         self.total_consolidated = 0
@@ -215,10 +203,7 @@ class NeocorticalNetwork:
             "NeocorticalNetwork initialized",
             columns=f"{columns_x}x{columns_y}",
             neurons_per_layer=neurons_per_layer,
-            total_neurons=columns_x
-            * columns_y
-            * neurons_per_layer
-            * len(CorticalLayer),
+            total_neurons=columns_x * columns_y * neurons_per_layer * len(CorticalLayer),
         )
 
     def _initialize_columns(self):
@@ -336,9 +321,7 @@ class NeocorticalNetwork:
 
         return [memory for _, memory in activated_memories]
 
-    async def distribute_to_colonies(
-        self, memory_id: str, colony_weights: dict[str, float]
-    ):
+    async def distribute_to_colonies(self, memory_id: str, colony_weights: dict[str, float]):
         """
         Distribute semantic memory across multiple colonies.
         Ensures redundancy and parallel access.
@@ -444,9 +427,7 @@ class NeocorticalNetwork:
 
         # First check exact concept match
         if concept in self.concept_index:
-            candidates = [
-                self.semantic_memories[mid] for mid in self.concept_index[concept]
-            ]
+            candidates = [self.semantic_memories[mid] for mid in self.concept_index[concept]]
 
             # Find most similar based on features
             episode_features = self._extract_features(episode_data)
@@ -457,10 +438,7 @@ class NeocorticalNetwork:
             for candidate in candidates:
                 if candidate.feature_vector is not None:
                     similarity = np.dot(episode_features, candidate.feature_vector)
-                    if (
-                        similarity > best_similarity
-                        and similarity > similarity_threshold
-                    ):
+                    if similarity > best_similarity and similarity > similarity_threshold:
                         best_similarity = similarity
                         best_match = candidate
 
@@ -486,16 +464,12 @@ class NeocorticalNetwork:
         # Extract attributes
         if isinstance(episode_data, dict):
             memory.attributes = {
-                k: v
-                for k, v in episode_data.items()
-                if k not in ["type", "event", "concept"]
+                k: v for k, v in episode_data.items() if k not in ["type", "event", "concept"]
             }
 
         # Initialize layer activations
         for layer in CorticalLayer:
-            memory.layer_activations[layer] = (
-                np.random.randn(self.neurons_per_layer) * 0.1
-            )
+            memory.layer_activations[layer] = np.random.randn(self.neurons_per_layer) * 0.1
 
         # Add source episode
         memory.source_episodes.add(source_episode_id)
@@ -522,9 +496,7 @@ class NeocorticalNetwork:
                 tags={concept, "semantic", "consolidated"},
             )
 
-        logger.debug(
-            "Semantic memory created", memory_id=memory.memory_id, concept=concept
-        )
+        logger.debug("Semantic memory created", memory_id=memory.memory_id, concept=concept)
 
         return memory.memory_id
 
@@ -542,9 +514,7 @@ class NeocorticalNetwork:
         if memory.feature_vector is not None:
             # Weighted average based on learning rate and replay strength
             alpha = memory.learning_rate * replay_strength
-            memory.feature_vector = (
-                1 - alpha
-            ) * memory.feature_vector + alpha * new_features
+            memory.feature_vector = (1 - alpha) * memory.feature_vector + alpha * new_features
         else:
             memory.feature_vector = new_features
 
@@ -583,9 +553,7 @@ class NeocorticalNetwork:
             stability=memory.stability,
         )
 
-    def _compute_activation(
-        self, query_features: np.ndarray, memory: SemanticMemory
-    ) -> float:
+    def _compute_activation(self, query_features: np.ndarray, memory: SemanticMemory) -> float:
         """Compute activation strength for memory given query"""
 
         if memory.feature_vector is None:
@@ -609,9 +577,7 @@ class NeocorticalNetwork:
 
         return max(0.0, min(1.0, activation))
 
-    def _find_subcategories(
-        self, category: str, memories: list[SemanticMemory]
-    ) -> dict[str, Any]:
+    def _find_subcategories(self, category: str, memories: list[SemanticMemory]) -> dict[str, Any]:
         """Find subcategories within a category"""
 
         # Cluster by shared attributes
@@ -707,9 +673,7 @@ class NeocorticalNetwork:
         """Get neocortical metrics"""
 
         if self.semantic_memories:
-            avg_stability = np.mean(
-                [m.stability for m in self.semantic_memories.values()]
-            )
+            avg_stability = np.mean([m.stability for m in self.semantic_memories.values()])
             avg_consolidation = np.mean(
                 [m.consolidation_count for m in self.semantic_memories.values()]
             )
@@ -726,9 +690,7 @@ class NeocorticalNetwork:
             "forgetting_events": self.forgetting_events,
             "consolidation_queue_size": len(self.consolidation_queue),
             "cortical_columns": len(self.columns),
-            "total_neurons": len(self.columns)
-            * self.neurons_per_layer
-            * len(CorticalLayer),
+            "total_neurons": len(self.columns) * self.neurons_per_layer * len(CorticalLayer),
         }
 
 
@@ -809,9 +771,7 @@ async def demonstrate_neocortical_network():
     print(f"Found {len(ml_memories)} memories matching ML query")
 
     if ml_memories:
-        print(
-            f"  Example: {ml_memories[0].concept} (stability: {ml_memories[0].stability:.2f})"
-        )
+        print(f"  Example: {ml_memories[0].concept} (stability: {ml_memories[0].stability:.2f})")
 
     # Show concept hierarchy
     print("\n--- Concept Hierarchy ---")

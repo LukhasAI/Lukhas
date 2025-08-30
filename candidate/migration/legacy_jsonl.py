@@ -22,9 +22,7 @@ class LegacyJSONL(LegacyStore):
                     rec = json.loads(line)
                     k = rec["key"]
                     prev = self._index.get(k)
-                    if (prev is None) or (
-                        rec.get("version", 0) >= prev.get("version", 0)
-                    ):
+                    if (prev is None) or (rec.get("version", 0) >= prev.get("version", 0)):
                         self._index[k] = rec
                 except Exception:
                     continue
@@ -43,9 +41,7 @@ class LegacyJSONL(LegacyStore):
             self._load_index()
         return self._index.get(key)
 
-    def write(
-        self, key: str, value: Any, *, version: int, strength: float, meta: dict
-    ) -> bool:
+    def write(self, key: str, value: Any, *, version: int, strength: float, meta: dict) -> bool:
         rec = {
             "key": key,
             "value": value,

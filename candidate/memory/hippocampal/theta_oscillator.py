@@ -201,9 +201,7 @@ class ThetaOscillator:
 
         return coherence
 
-    def get_traveling_wave_offset(
-        self, distance: float, wave_speed: float = 5.0
-    ) -> float:
+    def get_traveling_wave_offset(self, distance: float, wave_speed: float = 5.0) -> float:
         """
         Calculate phase offset for traveling theta waves.
         Used for sequential memory activation across hippocampal regions.
@@ -223,9 +221,7 @@ class ThetaOscillator:
 
         return phase_offset % (2 * np.pi)
 
-    async def wait_for_phase(
-        self, target_phase: OscillationPhase, timeout: float = 1.0
-    ):
+    async def wait_for_phase(self, target_phase: OscillationPhase, timeout: float = 1.0):
         """
         Wait until oscillator reaches target phase.
         Useful for timing memory operations.
@@ -335,9 +331,7 @@ class ThetaOscillator:
             "gamma_enabled": self.enable_gamma_coupling,
             "gamma_phase": self.gamma_phase if self.enable_gamma_coupling else None,
             "phase_amplitude_coupling": self.compute_phase_amplitude_coupling(),
-            "phase_distribution": {
-                phase.value: count for phase, count in phase_counts.items()
-            },
+            "phase_distribution": {phase.value: count for phase, count in phase_counts.items()},
         }
 
 
@@ -386,9 +380,7 @@ async def demonstrate_theta_oscillator():
     print(f"  Retrieval phases: {retrieval_count}")
 
     # Test phase-amplitude coupling
-    print(
-        f"\nTheta-gamma coupling: {oscillator.compute_phase_amplitude_coupling():.3f}"
-    )
+    print(f"\nTheta-gamma coupling: {oscillator.compute_phase_amplitude_coupling():.3f}")
 
     # Test traveling wave
     print("\nTraveling wave phase offsets:")

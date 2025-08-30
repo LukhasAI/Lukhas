@@ -54,13 +54,10 @@ def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: str = 
     """
 
     def decorator(func):
-
         def wrapper(*args, **kwargs):
             # For now, we'll extract user_id from the function arguments
             # In a real implementation, this would integrate with the session system
-            if len(args) >= 2 and isinstance(
-                args[1], str
-            ):  # Assuming user_id is second arg
+            if len(args) >= 2 and isinstance(args[1], str):  # Assuming user_id is second arg
                 user_id = args[1]
                 if not verify_access(user_id, required_tier):
                     logger.warning(
@@ -68,17 +65,11 @@ def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: str = 
                         user_id=user_id,
                         required_tier=required_tier,
                     )
-                    raise PermissionError(
-                        f"User {user_id} lacks required tier {required_tier}"
-                    )
+                    raise PermissionError(f"User {user_id} lacks required tier {required_tier}")
 
                 if check_consent and not check_consent(user_id, check_consent):
-                    logger.warning(
-                        "Consent denied", user_id=user_id, action=check_consent
-                    )
-                    raise PermissionError(
-                        f"User {user_id} has not consented to {check_consent}"
-                    )
+                    logger.warning("Consent denied", user_id=user_id, action=check_consent)
+                    raise PermissionError(f"User {user_id} has not consented to {check_consent}")
 
             return func(*args, **kwargs)
 
@@ -218,15 +209,11 @@ class UnifiedVeriFoldSystem:
         verifold_hash = self._compute_verifold_hash(snapshot)
 
         # Create record
-        record = VeriFoldRecord(
-            snapshot=snapshot, verifold_hash=verifold_hash, verified=False
-        )
+        record = VeriFoldRecord(snapshot=snapshot, verifold_hash=verifold_hash, verified=False)
 
         # Add cryptographic signature if available
         if PQ_AVAILABLE:
-            record.signature, record.public_key = self._sign_verifold_hash(
-                verifold_hash
-            )
+            record.signature, record.public_key = self._sign_verifold_hash(verifold_hash)
             record.verified = True
 
         # Store and monitor
@@ -288,9 +275,7 @@ class UnifiedVeriFoldSystem:
         )
         return True
 
-    @require_identity(
-        required_tier="LAMBDA_TIER_3", check_consent="collapse_monitoring"
-    )
+    @require_identity(required_tier="LAMBDA_TIER_3", check_consent="collapse_monitoring")
     async def monitor_collapse_cascade(
         self, user_id: str, threshold: float = 0.8
     ) -> dict[str, Any]:
@@ -316,9 +301,7 @@ class UnifiedVeriFoldSystem:
 
         # Analyze collapse patterns
         recent_collapses = [
-            record
-            for record in self.collapse_history[-10:]
-            if record.snapshot.entropy_score > 0.6
+            record for record in self.collapse_history[-10:] if record.snapshot.entropy_score > 0.6
         ]
 
         # Check for tier-specific risks
@@ -350,9 +333,7 @@ class UnifiedVeriFoldSystem:
 
         return status
 
-    @require_identity(
-        required_tier="LAMBDA_TIER_4", check_consent="system_intervention"
-    )
+    @require_identity(required_tier="LAMBDA_TIER_4", check_consent="system_intervention")
     async def trigger_collapse_intervention(
         self, user_id: str, intervention_type: str = "moderate"
     ) -> dict[str, Any]:
@@ -505,9 +486,7 @@ class UnifiedVeriFoldSystem:
         system_load = len(self.active_collapses) / 100.0
         temporal_factor = abs(time.time() % 1000) / 1000.0
 
-        entropy_score = min(
-            1.0, base_entropy + system_load * 0.1 + temporal_factor * 0.05
-        )
+        entropy_score = min(1.0, base_entropy + system_load * 0.1 + temporal_factor * 0.05)
         return entropy_score
 
     def _determine_collapse_phase(self, entropy_score: float) -> VeriFoldPhase:
@@ -665,11 +644,11 @@ def verify_verifold_hash(record: VeriFoldRecord, user_id: str) -> bool:
 
 __all__ = [
     "UnifiedVeriFoldSystem",
-    "VeriFoldRecord",
-    "VeriFoldSnapshot",
     "VeriFoldCollapseType",
     "VeriFoldPhase",
-    "get_global_verifold_system",
+    "VeriFoldRecord",
+    "VeriFoldSnapshot",
     "generate_verifold_hash",
+    "get_global_verifold_system",
     "verify_verifold_hash",
 ]

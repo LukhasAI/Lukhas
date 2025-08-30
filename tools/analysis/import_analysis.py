@@ -59,9 +59,7 @@ class ImportAnalyzer:
                     if node.level == 0:  # Absolute import
                         module = node.module
                     else:  # Relative import
-                        module = self._resolve_relative_import(
-                            file_path, node.module, node.level
-                        )
+                        module = self._resolve_relative_import(file_path, node.module, node.level)
 
                     self._check_import(file_path, module, node.lineno)
                     self.import_graph[module_name].add(module)
@@ -81,9 +79,7 @@ class ImportAnalyzer:
         parts = list(rel_path.parts[:-1]) + [rel_path.stem]
         return ".".join(parts)
 
-    def _resolve_relative_import(
-        self, file_path: Path, module: Optional[str], level: int
-    ) -> str:
+    def _resolve_relative_import(self, file_path: Path, module: Optional[str], level: int) -> str:
         """Resolve relative import to absolute module name"""
         current_parts = self._path_to_module(file_path).split(".")
 
@@ -303,9 +299,7 @@ def main():
     external_missing = []
 
     for module in report["missing_modules"]:
-        if module.startswith(
-            ("lukhas", "core", "memory", "orchestration", "consciousness")
-        ):
+        if module.startswith(("lukhas", "core", "memory", "orchestration", "consciousness")):
             local_missing.append(module)
         else:
             external_missing.append(module)
@@ -323,9 +317,7 @@ def main():
     # Save detailed report
     import json
 
-    report_path = (
-        PROJECT_ROOT / "docs" / "reports" / "analysis" / "_IMPORT_ANALYSIS_REPORT.json"
-    )
+    report_path = PROJECT_ROOT / "docs" / "reports" / "analysis" / "_IMPORT_ANALYSIS_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w") as f:

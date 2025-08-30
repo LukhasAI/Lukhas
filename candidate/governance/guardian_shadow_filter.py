@@ -65,10 +65,7 @@ class GuardianShadowFilter:
     # Minimum coherence for identity shifts
     MIN_COHERENCE_FOR_SHIFT = 0.3
 
-    def __init__(
-        self, config_file: Optional[str] = None, trusthelix_path: Optional[str] = None
-    ):
-
+    def __init__(self, config_file: Optional[str] = None, trusthelix_path: Optional[str] = None):
         self.config_file = Path(config_file) if config_file else None
         self.trusthelix_path = Path(trusthelix_path) if trusthelix_path else None
 
@@ -215,9 +212,7 @@ class GuardianShadowFilter:
         most_severe = max(violations, key=lambda v: v.severity)
 
         # Log all violations
-        logger.warning(
-            f"🚫 Guardian blocked transformation: {len(violations)} violations"
-        )
+        logger.warning(f"🚫 Guardian blocked transformation: {len(violations)} violations")
         for v in violations:
             logger.warning(f"   - {v.constraint_type.value}: {v.description}")
 
@@ -228,9 +223,7 @@ class GuardianShadowFilter:
     def _check_glyph_conflicts(self, glyphs: set[str]) -> Optional[str]:
         """Check for conflicting glyph combinations"""
         for conflict_set1, conflict_set2 in self.CONFLICTING_GLYPHS:
-            if glyphs.intersection(conflict_set1) and glyphs.intersection(
-                conflict_set2
-            ):
+            if glyphs.intersection(conflict_set1) and glyphs.intersection(conflict_set2):
                 conflict1 = list(glyphs.intersection(conflict_set1))[0]
                 conflict2 = list(glyphs.intersection(conflict_set2))[0]
                 return f"{conflict1} conflicts with {conflict2}"
@@ -242,9 +235,7 @@ class GuardianShadowFilter:
         hour_ago = current_time - 3600
 
         # Clean old entries
-        self.transformation_history = [
-            t for t in self.transformation_history if t > hour_ago
-        ]
+        self.transformation_history = [t for t in self.transformation_history if t > hour_ago]
 
         # Check rate
         if len(self.transformation_history) >= self.MAX_TRANSFORMATIONS_PER_HOUR:
@@ -294,9 +285,7 @@ class GuardianShadowFilter:
             "drift_thresholds": {"min": 0.2, "max": 0.5},
         }
 
-    def calculate_transformation_risk(
-        self, current_state: dict, target_state: dict
-    ) -> float:
+    def calculate_transformation_risk(self, current_state: dict, target_state: dict) -> float:
         """
         Calculate risk score for a transformation (0.0-1.0).
 
@@ -349,13 +338,9 @@ class GuardianShadowFilter:
         hour_ago = current_time - 3600
         day_ago = current_time - 86400
 
-        hour_transformations = len(
-            [t for t in self.transformation_history if t > hour_ago]
-        )
+        hour_transformations = len([t for t in self.transformation_history if t > hour_ago])
 
-        day_transformations = len(
-            [t for t in self.transformation_history if t > day_ago]
-        )
+        day_transformations = len([t for t in self.transformation_history if t > day_ago])
 
         return {
             "guardian_status": "active",

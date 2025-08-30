@@ -70,9 +70,7 @@ class TestToolExecutor:
     async def test_retrieve_knowledge_enabled(self, tool_executor):
         """Test knowledge retrieval when enabled"""
         # Test ethical AI query
-        result = await tool_executor.execute(
-            "retrieve_knowledge", '{"query": "ethical AI"}'
-        )
+        result = await tool_executor.execute("retrieve_knowledge", '{"query": "ethical AI"}')
 
         assert "ethical AI" in result
         assert "Transparency and Explainability" in result
@@ -135,17 +133,13 @@ class TestToolExecutor:
         """Test code security validation"""
         # Safe code should pass
         assert tool_executor._validate_code_security("print('hello')", "python")
-        assert tool_executor._validate_code_security(
-            "console.log('test')", "javascript"
-        )
+        assert tool_executor._validate_code_security("console.log('test')", "javascript")
         assert tool_executor._validate_code_security("echo 'hello'", "bash")
 
         # Dangerous patterns should be blocked
         assert not tool_executor._validate_code_security("import os", "python")
         assert not tool_executor._validate_code_security("eval('test')", "python")
-        assert not tool_executor._validate_code_security(
-            "subprocess.run(['ls'])", "python"
-        )
+        assert not tool_executor._validate_code_security("subprocess.run(['ls'])", "python")
         assert not tool_executor._validate_code_security("process.env", "javascript")
         assert not tool_executor._validate_code_security("rm -rf /", "bash")
         assert not tool_executor._validate_code_security("sudo su", "bash")

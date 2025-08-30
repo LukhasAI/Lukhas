@@ -105,10 +105,7 @@ subprocess.run(['curl', 'http://evil.com'])
                 assert result.execution_time < 30, "Execution not properly limited"
             else:
                 # Should properly detect and prevent malicious behavior
-                assert (
-                    "security" in result.error.lower()
-                    or "permission" in result.error.lower()
-                )
+                assert "security" in result.error.lower() or "permission" in result.error.lower()
 
     @pytest.mark.asyncio
     async def test_resource_limits_enforcement(self, docker_sandbox):
@@ -173,9 +170,7 @@ print(f"Available commands: {os.listdir('/usr/bin')[:5]}")
         await docker_sandbox.cleanup_containers()
         containers_after = len(docker_sandbox.list_active_containers())
 
-        assert (
-            containers_after <= containers_before
-        ), "Containers not properly cleaned up"
+        assert containers_after <= containers_before, "Containers not properly cleaned up"
 
 
 class TestWebScrapingSafety:
@@ -211,9 +206,9 @@ class TestWebScrapingSafety:
 
         # Should enforce rate limiting (at least 1 second between requests)
         expected_min_time = (len(urls) - 1) * 1.0  # 1 second delay between requests
-        assert (
-            total_time >= expected_min_time
-        ), f"Rate limiting not enforced: {total_time}s < {expected_min_time}s"
+        assert total_time >= expected_min_time, (
+            f"Rate limiting not enforced: {total_time}s < {expected_min_time}s"
+        )
 
         # All requests should succeed with proper rate limiting
         for result in results:
@@ -269,9 +264,7 @@ class TestWebScrapingSafety:
         for suspicious_url in suspicious_urls:
             result = await safe_web_scraper.fetch_url(suspicious_url)
             assert not result.success, f"Suspicious URL was allowed: {suspicious_url}"
-            assert (
-                "security" in result.error.lower() or "protocol" in result.error.lower()
-            )
+            assert "security" in result.error.lower() or "protocol" in result.error.lower()
 
 
 class TestGuardianToolValidation:
@@ -297,9 +290,7 @@ class TestGuardianToolValidation:
         ]
 
         for safe_request in safe_requests:
-            result = await guardian_system.validate_tool_request(
-                "code_executor", safe_request
-            )
+            result = await guardian_system.validate_tool_request("code_executor", safe_request)
             assert result["approved"] is True
             assert result["risk_level"] == "low"
 
@@ -313,9 +304,7 @@ class TestGuardianToolValidation:
         ]
 
         for unsafe_request in unsafe_requests:
-            result = await guardian_system.validate_tool_request(
-                "code_executor", unsafe_request
-            )
+            result = await guardian_system.validate_tool_request("code_executor", unsafe_request)
             assert result["approved"] is False
             assert result["risk_level"] in ["medium", "high"]
             assert len(result["violations"]) > 0
@@ -333,9 +322,7 @@ class TestGuardianToolValidation:
         ]
 
         for legitimate_request in legitimate_requests:
-            result = await guardian_system.validate_tool_request(
-                "web_scraper", legitimate_request
-            )
+            result = await guardian_system.validate_tool_request("web_scraper", legitimate_request)
             assert result["approved"] is True
             assert result["risk_level"] == "low"
 
@@ -349,9 +336,7 @@ class TestGuardianToolValidation:
         ]
 
         for unethical_request in unethical_requests:
-            result = await guardian_system.validate_tool_request(
-                "web_scraper", unethical_request
-            )
+            result = await guardian_system.validate_tool_request("web_scraper", unethical_request)
             assert result["approved"] is False
             assert result["risk_level"] in ["medium", "high"]
 
@@ -383,9 +368,7 @@ class TestGuardianToolValidation:
         for i, request in enumerate(normal_requests):
             baseline = baseline_requests[i]
             drift_score = guardian_system.calculate_tool_usage_drift(baseline, request)
-            assert (
-                drift_score < 0.15
-            ), f"Normal request shows excessive drift: {drift_score}"
+            assert drift_score < 0.15, f"Normal request shows excessive drift: {drift_score}"
 
         # Test excessive drift (should fail)
         for i, request in enumerate(drifted_requests):
@@ -561,9 +544,7 @@ print("Completed")
         execution_time = time.time() - start_time
 
         # Should timeout within the limit
-        assert (
-            execution_time <= resource_monitor.max_execution_time + 5
-        )  # 5s grace period
+        assert execution_time <= resource_monitor.max_execution_time + 5  # 5s grace period
         assert not result.success or "timeout" in result.error.lower()
 
     @pytest.mark.asyncio

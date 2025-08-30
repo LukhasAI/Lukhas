@@ -403,12 +403,8 @@ class ReasoningColony(BaseColony):
                             }
                         )
 
-                        result["concept_map"][concept1]["related_concepts"].append(
-                            concept2
-                        )
-                        result["concept_map"][concept2]["related_concepts"].append(
-                            concept1
-                        )
+                        result["concept_map"][concept1]["related_concepts"].append(concept2)
+                        result["concept_map"][concept2]["related_concepts"].append(concept1)
 
         return result
 

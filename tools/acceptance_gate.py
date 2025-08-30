@@ -6,6 +6,7 @@ Fail-closed acceptance gate:
 - Flags "facade" files (tiny wrappers that are mostly imports)
 Exit code: 0 = pass, 1 = violations
 """
+
 import ast
 import os
 import sys
@@ -64,16 +65,12 @@ def check_file(py_path):
                 if isinstance(arg0, ast.Constant) and isinstance(arg0.value, str):
                     root = arg0.value.split(".")[0]
                     if root in FORBIDDEN_ROOTS:
-                        violations.append(
-                            (py_path, f"Illegal dynamic import of '{root}'")
-                        )
+                        violations.append((py_path, f"Illegal dynamic import of '{root}'"))
 
     # Facade detection (warn-level; make it error to enforce)
     try:
         if is_facade(py_path, tree, src):
-            violations.append(
-                (py_path, "Facade wrapper detected (tiny & mostly imports)")
-            )
+            violations.append((py_path, "Facade wrapper detected (tiny & mostly imports)"))
     except Exception as e:
         violations.append((py_path, f"Facade check error: {e}"))
 

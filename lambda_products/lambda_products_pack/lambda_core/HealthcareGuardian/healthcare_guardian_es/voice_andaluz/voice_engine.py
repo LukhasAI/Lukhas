@@ -18,26 +18,23 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AndaluzPhonetics:
     """Andalusian Spanish phonetic patterns"""
+
     # Seseo: s/c/z all pronounced as 's'
     seseo_replacements = {
         "gracias": "grasia",
         "hacer": "haser",
         "medicina": "medisina",
-        "corazón": "corasón"
+        "corazón": "corasón",
     }
 
     # Aspiration of final consonants
-    aspiration_patterns = {
-        "los ": "loh ",
-        "más ": "mah ",
-        "después": "dehpué"
-    }
+    aspiration_patterns = {"los ": "loh ", "más ": "mah ", "después": "dehpué"}
 
     # Common Andalusian expressions
     expressions = {
         "greeting": ["mi niño", "mi niña", "mi arma"],
         "concern": ["¿qué le pasa?", "¿está malito?"],
-        "comfort": ["no se preocupe", "tranquilo", "ya verá como se mejora"]
+        "comfort": ["no se preocupe", "tranquilo", "ya verá como se mejora"],
     }
 
 
@@ -65,7 +62,7 @@ class AndaluzVoiceEngine:
             "pitch": self.config.get("pitch", "medium"),
             "volume": self.config.get("volume", "loud"),
             "clarity": self.config.get("clarity", "high"),
-            "elder_mode": self.config.get("elder_mode", True)
+            "elder_mode": self.config.get("elder_mode", True),
         }
 
         # Medical vocabulary in simplified Andalusian Spanish
@@ -94,19 +91,17 @@ class AndaluzVoiceEngine:
             "efectos secundarios": "lo malo de la medicina",
             "contraindicaciones": "cuando no se puede tomar",
             "posología": "cuántas pastillas y cuándo",
-
             # Body parts in familiar terms
             "cardiovascular": "del corazón",
             "respiratorio": "de los pulmones",
             "gastrointestinal": "del estómago",
             "neurológico": "de la cabeza",
-
             # Common medications
             "enalapril": "la pastilla del corazón",
             "metformina": "la pastilla del azúcar",
             "omeprazol": "la pastilla del estómago",
             "paracetamol": "la pastilla del dolor",
-            "ibuprofeno": "la pastilla de la inflamación"
+            "ibuprofeno": "la pastilla de la inflamación",
         }
 
         # Load custom vocabulary if exists
@@ -174,13 +169,13 @@ class AndaluzVoiceEngine:
                 audio = self.recognizer.listen(
                     source,
                     timeout=5,  # Wait up to 5 seconds
-                    phrase_time_limit=10  # Allow up to 10 seconds of speech
+                    phrase_time_limit=10,  # Allow up to 10 seconds of speech
                 )
 
             # Recognize speech using Google (supports Spanish)
             text = self.recognizer.recognize_google(
                 audio,
-                language="es-ES"  # Spanish (Spain)
+                language="es-ES",  # Spanish (Spain)
             )
 
             # Apply Andalusian dialect processing
@@ -227,11 +222,7 @@ class AndaluzVoiceEngine:
                 andaluz_text = self._add_emotional_context(andaluz_text, emotion)
 
             # Create TTS with Spanish voice
-            tts = gTTS(
-                text=andaluz_text,
-                lang="es",
-                slow=self.voice_settings["speed"] == "slow"
-            )
+            tts = gTTS(text=andaluz_text, lang="es", slow=self.voice_settings["speed"] == "slow")
 
             # Save to temporary file
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as f:
@@ -240,9 +231,7 @@ class AndaluzVoiceEngine:
 
             # Play the audio
             pygame.mixer.music.load(temp_file)
-            pygame.mixer.music.set_volume(
-                1.0 if self.voice_settings["volume"] == "loud" else 0.7
-            )
+            pygame.mixer.music.set_volume(1.0 if self.voice_settings["volume"] == "loud" else 0.7)
             pygame.mixer.music.play()
 
             # Wait for audio to finish
@@ -279,7 +268,7 @@ class AndaluzVoiceEngine:
             "grasia": "gracias",
             "haser": "hacer",
             "medisina": "medicina",
-            "corasón": "corazón"
+            "corasón": "corazón",
         }
 
         for andaluz, standard in reverse_seseo.items():
@@ -331,14 +320,14 @@ class AndaluzVoiceEngine:
             "caring": "Con cariño, ",
             "urgent": "¡Importante! ",
             "happy": "¡Qué bien! ",
-            "concerned": "Me preocupa que "
+            "concerned": "Me preocupa que ",
         }
 
         emotional_suffixes = {
             "caring": ", mi niño.",
             "urgent": " ¡Es urgente!",
             "happy": " ¡Qué alegría!",
-            "concerned": ". ¿Está usted bien?"
+            "concerned": ". ¿Está usted bien?",
         }
 
         prefix = emotional_prefixes.get(emotion, "")
@@ -397,12 +386,11 @@ class AndaluzVoiceEngine:
             "metformina": "Es para controlar el azúcar en la sangre.",
             "omeprazol": "Es para proteger el estómago y que no le duela.",
             "paracetamol": "Es para quitar el dolor y la fiebre.",
-            "ibuprofeno": "Es para el dolor y la inflamación."
+            "ibuprofeno": "Es para el dolor y la inflamación.",
         }
 
         purpose = medication_purposes.get(
-            medication_name.lower(),
-            "Es una medicina importante para su salud."
+            medication_name.lower(), "Es una medicina importante para su salud."
         )
 
         explanation += purpose
@@ -426,11 +414,12 @@ class AndaluzVoiceEngine:
         reminders = [
             f"Mi niño, son las {time}. Es hora de tomar {simple_med}.",
             f"No se olvide, ahora toca {simple_med}.",
-            f"Venga, que es la hora de la medicina. {simple_med} le toca ahora."
+            f"Venga, que es la hora de la medicina. {simple_med} le toca ahora.",
         ]
 
         # Select reminder based on time of day
         import random
+
         reminder = random.choice(reminders)
 
         # Add caring suffix
@@ -446,7 +435,7 @@ class AndaluzMedicalPhrases:
         "morning": "Buenos días, mi niño. ¿Cómo ha amanecido hoy?",
         "afternoon": "Buenas tardes, mi alma. ¿Qué tal se encuentra?",
         "evening": "Buenas noches, mi niño. ¿Cómo ha pasado el día?",
-        "check_in": "¿Cómo está usted? ¿Se encuentra bien?"
+        "check_in": "¿Cómo está usted? ¿Se encuentra bien?",
     }
 
     MEDICATION = {
@@ -454,7 +443,7 @@ class AndaluzMedicalPhrases:
         "taken": "Muy bien, ya ha tomado su medicina.",
         "missed": "Ay, se le ha pasado la medicina. Tómela ahora.",
         "question": "¿Ha tomado ya su medicina?",
-        "explain": "Esta medicina es para {purpose}. Es importante tomarla."
+        "explain": "Esta medicina es para {purpose}. Es importante tomarla.",
     }
 
     EMERGENCY = {
@@ -462,7 +451,7 @@ class AndaluzMedicalPhrases:
         "calm": "Tranquilo, tranquilo. Ya viene la ayuda.",
         "calling": "Estoy llamando al 112. No se preocupe.",
         "family": "Voy a avisar a su familia también.",
-        "stay": "Quédese sentado y respire tranquilo."
+        "stay": "Quédese sentado y respire tranquilo.",
     }
 
     APPOINTMENTS = {
@@ -470,7 +459,7 @@ class AndaluzMedicalPhrases:
         "reminder": "Mañana tiene cita con el médico.",
         "booking": "Voy a buscarle una cita. ¿Cuándo le viene bien?",
         "confirmed": "Ya tiene la cita confirmada.",
-        "cancelled": "La cita se ha cancelado. ¿Quiere otra?"
+        "cancelled": "La cita se ha cancelado. ¿Quiere otra?",
     }
 
     COMFORT = {
@@ -478,5 +467,5 @@ class AndaluzMedicalPhrases:
         "im_here": "Estoy aquí para ayudarle.",
         "take_time": "Tómese su tiempo, no hay prisa.",
         "well_done": "Muy bien, lo está haciendo fenomenal.",
-        "rest": "Descanse un poquito, se lo merece."
+        "rest": "Descanse un poquito, se lo merece.",
     }

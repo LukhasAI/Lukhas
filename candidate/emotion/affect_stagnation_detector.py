@@ -61,9 +61,7 @@ class AffectStagnationDetector:
     Monitors for emotional stagnation and triggers recovery mechanisms.
     """
 
-    def __init__(
-        self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None
-    ):
+    def __init__(self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None):
         self.emotional_memory = emotional_memory
         self.config = config or {}
         self.stagnation_threshold = self.config.get("stagnation_threshold_hours", 24)
@@ -87,9 +85,7 @@ class AffectStagnationDetector:
             logger.warning(
                 f"Emotional stagnation detected. No significant affect change for {time_since_last_change / 3600:.2f} hours."
             )
-            (
-                self.emotional_memory.current_emotion.get_primary_emotion()
-            )
+            (self.emotional_memory.current_emotion.get_primary_emotion())
             # Use standard hourglass symbol for stagnation
             return {
                 "stagnation": True,

@@ -28,29 +28,29 @@ class TaskProcessor:
                 "default_priority": "high",
                 "estimated_duration": 60,
                 "required_tags": ["bug"],
-                "workflow_steps": ["investigate", "fix", "test", "deploy"]
+                "workflow_steps": ["investigate", "fix", "test", "deploy"],
             },
             "feature_development": {
                 "pattern": ["feature", "implement", "add", "create", "build"],
                 "default_priority": "medium",
                 "estimated_duration": 240,
                 "required_tags": ["feature"],
-                "workflow_steps": ["design", "implement", "test", "review", "deploy"]
+                "workflow_steps": ["design", "implement", "test", "review", "deploy"],
             },
             "documentation": {
                 "pattern": ["docs", "documentation", "readme", "guide"],
                 "default_priority": "low",
                 "estimated_duration": 30,
                 "required_tags": ["documentation"],
-                "workflow_steps": ["research", "write", "review", "publish"]
+                "workflow_steps": ["research", "write", "review", "publish"],
             },
             "testing": {
                 "pattern": ["test", "testing", "qa", "quality", "verify"],
                 "default_priority": "medium",
                 "estimated_duration": 90,
                 "required_tags": ["testing"],
-                "workflow_steps": ["plan", "execute", "validate", "report"]
-            }
+                "workflow_steps": ["plan", "execute", "validate", "report"],
+            },
         }
 
     def process_task(self, task_data: dict) -> dict[str, Any]:
@@ -73,7 +73,7 @@ class TaskProcessor:
             "processed_at": datetime.now().isoformat(),
             "processing_time_ms": (time.time() - start_time) * 1000,
             "template_applied": template["name"] if template else None,
-            "ai_confidence": ai_enhancements.get("ai_confidence", 0.8)
+            "ai_confidence": ai_enhancements.get("ai_confidence", 0.8),
         }
 
         return processed_task
@@ -91,11 +91,7 @@ class TaskProcessor:
             score = self._calculate_template_match_score(combined_text, template["pattern"])
             if score > highest_score and score > 0.3:  # Minimum threshold
                 highest_score = score
-                best_match = {
-                    "name": template_name,
-                    "score": score,
-                    **template
-                }
+                best_match = {"name": template_name, "score": score, **template}
 
         return best_match
 
@@ -180,7 +176,7 @@ class TaskProcessor:
             "performance": ["performance", "optimize", "speed", "slow", "fast"],
             "mobile": ["mobile", "ios", "android", "react-native"],
             "urgent": ["urgent", "asap", "critical", "emergency"],
-            "research": ["research", "investigate", "explore", "spike"]
+            "research": ["research", "investigate", "explore", "spike"],
         }
 
         suggested_tags = []
@@ -198,7 +194,7 @@ class TaskProcessor:
             "technical_complexity": "low",
             "timeline_risk": "low",
             "dependency_risk": "low",
-            "business_impact": "medium"
+            "business_impact": "medium",
         }
 
         # Technical complexity assessment
@@ -209,7 +205,11 @@ class TaskProcessor:
 
         # Timeline risk assessment
         if task_data.get("due_date"):
-            due_date = datetime.fromisoformat(task_data["due_date"]) if isinstance(task_data["due_date"], str) else task_data["due_date"]
+            due_date = (
+                datetime.fromisoformat(task_data["due_date"])
+                if isinstance(task_data["due_date"], str)
+                else task_data["due_date"]
+            )
             days_until_due = (due_date - datetime.now()).days
             if days_until_due <= 1:
                 risks["timeline_risk"] = "high"
@@ -242,6 +242,7 @@ class TaskProcessor:
 
         return criteria
 
+
 class TagProcessor:
     """
     🏷️ Intelligent tag processing and management
@@ -258,7 +259,7 @@ class TagProcessor:
             "priority": ["critical", "high", "medium", "low"],
             "type": ["feature", "bug", "task", "research", "documentation"],
             "status": ["new", "in-progress", "review", "testing", "done"],
-            "team": ["engineering", "design", "product", "qa", "devops"]
+            "team": ["engineering", "design", "product", "qa", "devops"],
         }
 
     def process_tags(self, tags: list[str], context: Optional[dict] = None) -> dict[str, Any]:
@@ -269,7 +270,7 @@ class TagProcessor:
             "suggested_tags": self._suggest_additional_tags(tags, context or {}),
             "tag_categories": self._categorize_tags(tags),
             "tag_conflicts": self._detect_tag_conflicts(tags),
-            "tag_analytics": self._analyze_tag_usage(tags)
+            "tag_analytics": self._analyze_tag_usage(tags),
         }
 
         return processed
@@ -286,7 +287,7 @@ class TagProcessor:
             "ux": "design",
             "db": "database",
             "api": "backend",
-            "infra": "devops"
+            "infra": "devops",
         }
 
         for tag in tags:
@@ -331,7 +332,9 @@ class TagProcessor:
         categorized = {}
 
         for category, category_tags in self.tag_hierarchy.items():
-            matching_tags = [tag for tag in tags if tag.lower() in [ct.lower() for ct in category_tags]]
+            matching_tags = [
+                tag for tag in tags if tag.lower() in [ct.lower() for ct in category_tags]
+            ]
             if matching_tags:
                 categorized[category] = matching_tags
 
@@ -354,20 +357,26 @@ class TagProcessor:
         # Priority conflicts
         priority_tags = [tag for tag in tags_lower if tag in ["critical", "high", "medium", "low"]]
         if len(priority_tags) > 1:
-            conflicts.append({
-                "type": "multiple_priorities",
-                "conflicting_tags": priority_tags,
-                "suggestion": "Use only one priority tag"
-            })
+            conflicts.append(
+                {
+                    "type": "multiple_priorities",
+                    "conflicting_tags": priority_tags,
+                    "suggestion": "Use only one priority tag",
+                }
+            )
 
         # Status conflicts
-        status_tags = [tag for tag in tags_lower if tag in ["new", "in-progress", "review", "testing", "done"]]
+        status_tags = [
+            tag for tag in tags_lower if tag in ["new", "in-progress", "review", "testing", "done"]
+        ]
         if len(status_tags) > 1:
-            conflicts.append({
-                "type": "multiple_statuses",
-                "conflicting_tags": status_tags,
-                "suggestion": "Use only one status tag"
-            })
+            conflicts.append(
+                {
+                    "type": "multiple_statuses",
+                    "conflicting_tags": status_tags,
+                    "suggestion": "Use only one status tag",
+                }
+            )
 
         return conflicts
 
@@ -377,7 +386,7 @@ class TagProcessor:
             "tag_count": len(tags),
             "unique_categories": len(self._categorize_tags(tags)),
             "completeness_score": self._calculate_tag_completeness(tags),
-            "optimization_suggestions": self._suggest_tag_optimizations(tags)
+            "optimization_suggestions": self._suggest_tag_optimizations(tags),
         }
 
     def _calculate_tag_completeness(self, tags: list[str]) -> float:
@@ -405,6 +414,7 @@ class TagProcessor:
 
         return suggestions
 
+
 class AttentionProcessor:
     """
     🎯 Intelligent attention management and focus optimization
@@ -414,14 +424,16 @@ class AttentionProcessor:
         self.attention_patterns: dict[str, Any] = {}
         self.focus_sessions: list[dict] = []
 
-    def process_attention_request(self, request: str, context: Optional[dict] = None) -> dict[str, Any]:
+    def process_attention_request(
+        self, request: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Process attention/focus requests with AI optimization"""
         attention_analysis = {
             "focus_type": self._classify_focus_type(request),
             "recommended_tasks": [],
             "focus_duration": self._recommend_focus_duration(request),
             "distraction_mitigation": self._suggest_distraction_mitigation(request),
-            "attention_score": self._calculate_attention_score(context or {})
+            "attention_score": self._calculate_attention_score(context or {}),
         }
 
         return attention_analysis
@@ -450,7 +462,7 @@ class AttentionProcessor:
             "quick_tasks": 25,
             "review_mode": 45,
             "creative_mode": 60,
-            "standard_focus": 50
+            "standard_focus": 50,
         }
 
         return duration_map.get(focus_type, 50)
@@ -460,23 +472,27 @@ class AttentionProcessor:
         suggestions = [
             "Close unnecessary browser tabs",
             "Put phone in do-not-disturb mode",
-            "Use noise-cancelling headphones or focus music"
+            "Use noise-cancelling headphones or focus music",
         ]
 
         focus_type = self._classify_focus_type(request)
 
         if focus_type == "deep_work":
-            suggestions.extend([
-                "Block social media and news sites",
-                "Clear physical workspace",
-                "Schedule longer uninterrupted blocks"
-            ])
+            suggestions.extend(
+                [
+                    "Block social media and news sites",
+                    "Clear physical workspace",
+                    "Schedule longer uninterrupted blocks",
+                ]
+            )
         elif focus_type == "creative_mode":
-            suggestions.extend([
-                "Have notebook or whiteboard ready",
-                "Ensure good lighting and comfortable seating",
-                "Keep inspiration materials accessible"
-            ])
+            suggestions.extend(
+                [
+                    "Have notebook or whiteboard ready",
+                    "Ensure good lighting and comfortable seating",
+                    "Keep inspiration materials accessible",
+                ]
+            )
 
         return suggestions
 
@@ -501,6 +517,7 @@ class AttentionProcessor:
 
         return max(1.0, min(10.0, base_score))
 
+
 class SolutionProcessor:
     """
     💡 Intelligent solution tracking and knowledge management
@@ -510,7 +527,9 @@ class SolutionProcessor:
         self.solution_database: dict[str, Any] = {}
         self.pattern_library: dict[str, list[dict]] = {}
 
-    def process_solution(self, problem: str, solution: str, context: Optional[dict] = None) -> dict[str, Any]:
+    def process_solution(
+        self, problem: str, solution: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Process and store solution with intelligent categorization"""
         solution_record = {
             "problem": problem,
@@ -520,7 +539,7 @@ class SolutionProcessor:
             "solution_id": self._generate_solution_id(problem, solution),
             "categories": self._categorize_solution(problem, solution),
             "effectiveness_score": 0.0,  # Will be updated based on usage
-            "related_solutions": self._find_related_solutions(problem, solution)
+            "related_solutions": self._find_related_solutions(problem, solution),
         }
 
         # Store in database
@@ -533,12 +552,13 @@ class SolutionProcessor:
             "solution_id": solution_record["solution_id"],
             "categorization": solution_record["categories"],
             "related_count": len(solution_record["related_solutions"]),
-            "reusability_score": self._calculate_reusability_score(solution_record)
+            "reusability_score": self._calculate_reusability_score(solution_record),
         }
 
     def _generate_solution_id(self, problem: str, solution: str) -> str:
         """Generate unique solution ID"""
         import hashlib
+
         content = f"{problem}{solution}{time.time()}"
         return hashlib.md5(content.encode()).hexdigest()[:12]
 
@@ -574,9 +594,7 @@ class SolutionProcessor:
         related = []
 
         for solution_id, record in self.solution_database.items():
-            similarity_score = self._calculate_similarity(
-                problem, record["problem"]
-            )
+            similarity_score = self._calculate_similarity(problem, record["problem"])
             if similarity_score > 0.3:  # Similarity threshold
                 related.append(solution_id)
 
@@ -598,11 +616,13 @@ class SolutionProcessor:
             if category not in self.pattern_library:
                 self.pattern_library[category] = []
 
-            self.pattern_library[category].append({
-                "solution_id": solution_record["solution_id"],
-                "problem_pattern": self._extract_problem_pattern(solution_record["problem"]),
-                "solution_pattern": self._extract_solution_pattern(solution_record["solution"])
-            })
+            self.pattern_library[category].append(
+                {
+                    "solution_id": solution_record["solution_id"],
+                    "problem_pattern": self._extract_problem_pattern(solution_record["problem"]),
+                    "solution_pattern": self._extract_solution_pattern(solution_record["solution"]),
+                }
+            )
 
     def _extract_problem_pattern(self, problem: str) -> str:
         """Extract generalizable pattern from problem description"""

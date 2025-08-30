@@ -109,8 +109,7 @@ class FinalImportCleanup:
             # Decrease indent after certain keywords
             if (
                 any(
-                    stripped.startswith(x)
-                    for x in ["return", "break", "continue", "pass", "raise"]
+                    stripped.startswith(x) for x in ["return", "break", "continue", "pass", "raise"]
                 )
                 and indent_level >= 4
             ):
@@ -198,7 +197,9 @@ class FinalImportCleanup:
 
             if not full_path.exists():
                 module_name = full_path.stem.replace("_", " ").title()
-                content = f'"""\n{module_name} Module\n"""\n\n# TODO: Implement {module_name}\npass\n'
+                content = (
+                    f'"""\n{module_name} Module\n"""\n\n# TODO: Implement {module_name}\npass\n'
+                )
 
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
@@ -250,9 +251,7 @@ class FinalImportCleanup:
         invalid_files = []
 
         for py_file in PROJECT_ROOT.rglob("*.py"):
-            if any(
-                ignore in str(py_file) for ignore in [".venv", "__pycache__", ".git"]
-            ):
+            if any(ignore in str(py_file) for ignore in [".venv", "__pycache__", ".git"]):
                 continue
 
             try:
@@ -321,8 +320,7 @@ def main():
                 print(f"   • {issue}")
 
     success_rate = (
-        (result["valid_files"] / (result["valid_files"] + result["invalid_files"]))
-        * 100
+        (result["valid_files"] / (result["valid_files"] + result["invalid_files"])) * 100
         if (result["valid_files"] + result["invalid_files"]) > 0
         else 100
     )

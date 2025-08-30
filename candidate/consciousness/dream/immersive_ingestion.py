@@ -4,6 +4,7 @@ This module provides a minimal, breath-like entry point into the
 symbolic dream system. Complex orchestration is hidden so that first
 experiences feel magical.
 """
+
 import logging
 from typing import Any
 

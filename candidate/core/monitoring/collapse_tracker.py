@@ -66,9 +66,7 @@ class CollapseAlertLevel(Enum):
 class CollapseState:
     """Represents a collapse state snapshot."""
 
-    collapse_trace_id: str = field(
-        default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}"
-    )
+    collapse_trace_id: str = field(default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     entropy_score: float = 0.0
     alert_level: CollapseAlertLevel = CollapseAlertLevel.GREEN
@@ -117,9 +115,7 @@ class CollapseTracker:
         self.ethics_callback = ethics_callback
 
         # Persistence
-        self.persistence_path = persistence_path or Path(
-            "lukhas/logs/collapse_history.jsonl"
-        )
+        self.persistence_path = persistence_path or Path("lukhas/logs/collapse_history.jsonl")
         self.persistence_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Thresholds
@@ -198,9 +194,7 @@ class CollapseTracker:
 
         # Weighted average if we have component scores
         if self.component_entropy:
-            component_avg = sum(self.component_entropy.values()) / len(
-                self.component_entropy
-            )
+            component_avg = sum(self.component_entropy.values()) / len(self.component_entropy)
             final_entropy = 0.7 * main_entropy + 0.3 * component_avg
         else:
             final_entropy = main_entropy
@@ -321,9 +315,7 @@ class CollapseTracker:
                         {
                             **alert_data,
                             "severity": (
-                                "HIGH"
-                                if new_level == CollapseAlertLevel.RED
-                                else "MEDIUM"
+                                "HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM"
                             ),
                             "recommended_action": "intervention_required",
                         }

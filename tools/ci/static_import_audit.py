@@ -27,17 +27,24 @@ def find_missing_imports(roots: Iterable[Path]) -> list[dict]:
                 # Resolve module path heuristically
                 mod_path = Path(*mod.split("."))
                 if not (mod_path.with_suffix(".py").exists() or mod_path.exists()):
-                    missing.append({
-                        "file": str(p),
-                        "line": i,
-                        "import": mod,
-                    })
+                    missing.append(
+                        {
+                            "file": str(p),
+                            "line": i,
+                            "import": mod,
+                        }
+                    )
     return missing
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Static import audit for local packages")
-    ap.add_argument("--roots", nargs="*", default=["lukhas", "serve", "enterprise", "candidate"], help="Root dirs")
+    ap.add_argument(
+        "--roots",
+        nargs="*",
+        default=["lukhas", "serve", "enterprise", "candidate"],
+        help="Root dirs",
+    )
     ap.add_argument("--out", default="reports/audit/static_imports.json", help="Output JSON path")
     args = ap.parse_args()
 
@@ -52,4 +59,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -24,9 +24,7 @@ from typing import Any, Optional
 
 from gpt_oss_brain import GPTOSSBrainSpecialist
 
-sys.path.append(
-    str(Path(__file__).parent.parent.parent / "agi-integration/brain-modules")
-)
+sys.path.append(str(Path(__file__).parent.parent.parent / "agi-integration/brain-modules"))
 
 logger = logging.getLogger("LambdaProducts.GPTOSSAdapter")
 
@@ -102,7 +100,9 @@ class QRGAdapter:
         """Generate high-quality reasoning using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"qrg_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        request_id = (
+            f"qrg_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        )
 
         # Create QRG-specific prompt
         enhanced_data = {
@@ -215,12 +215,9 @@ class QRGAdapter:
         logical_indicators = ["therefore", "because", "consequently", "thus", "hence"]
         contradictions = ["however", "but", "although", "despite"]
 
-        logical_score = sum(
-            1 for indicator in logical_indicators if indicator in raw_output
-        )
+        logical_score = sum(1 for indicator in logical_indicators if indicator in raw_output)
         contradiction_penalty = (
-            sum(1 for contradiction in contradictions if contradiction in raw_output)
-            * 0.1
+            sum(1 for contradiction in contradictions if contradiction in raw_output) * 0.1
         )
 
         validity = min(logical_score / 5.0, 1.0) - contradiction_penalty
@@ -250,9 +247,7 @@ class QRGAdapter:
         raw_output = reasoning.get("raw_output", "")
 
         # Simple clarity metrics
-        avg_sentence_length = len(raw_output.split()) / max(
-            len(raw_output.split(".")), 1
-        )
+        avg_sentence_length = len(raw_output.split()) / max(len(raw_output.split(".")), 1)
 
         # Penalize overly long sentences
         clarity = 1.0 - min(avg_sentence_length / 30, 0.5)
@@ -294,15 +289,11 @@ class QRGAdapter:
 
     def _calculate_qrg_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate QRG-specific confidence score"""
-        base_confidence = reasoning.get("confidence_factors", {}).get(
-            "context_relevance", 0.5
-        )
+        base_confidence = reasoning.get("confidence_factors", {}).get("context_relevance", 0.5)
 
         # Add QRG-specific confidence factors
         quality_bonus = 0.2 if self._assess_logical_validity(reasoning) > 0.7 else 0.0
-        evidence_bonus = (
-            0.1 if self._evaluate_evidence_strength(reasoning) > 0.6 else 0.0
-        )
+        evidence_bonus = 0.1 if self._evaluate_evidence_strength(reasoning) > 0.6 else 0.0
 
         confidence = base_confidence + quality_bonus + evidence_bonus
         return min(confidence, 1.0)
@@ -329,7 +320,9 @@ class NIASAdapter:
         """Perform neural intelligence analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"nias_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        request_id = (
+            f"nias_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        )
 
         # Create NIAS-specific prompt
         enhanced_data = {
@@ -390,9 +383,7 @@ class NIASAdapter:
         }
 
         # Calculate derived scores
-        enhanced["intelligence_score"] = (
-            enhanced["intelligence_metrics"]["overall"] * 100
-        )
+        enhanced["intelligence_score"] = enhanced["intelligence_metrics"]["overall"] * 100
         enhanced["neural_complexity"] = enhanced["neural_patterns"]["complexity"] * 100
 
         return enhanced
@@ -402,14 +393,10 @@ class NIASAdapter:
         raw_output = reasoning.get("raw_output", "").lower()
 
         patterns = {
-            "sequential_processing": "sequential" in raw_output
-            or "step by step" in raw_output,
-            "parallel_processing": "parallel" in raw_output
-            or "simultaneous" in raw_output,
-            "hierarchical_thinking": "hierarchy" in raw_output
-            or "levels" in raw_output,
-            "associative_linking": "association" in raw_output
-            or "connection" in raw_output,
+            "sequential_processing": "sequential" in raw_output or "step by step" in raw_output,
+            "parallel_processing": "parallel" in raw_output or "simultaneous" in raw_output,
+            "hierarchical_thinking": "hierarchy" in raw_output or "levels" in raw_output,
+            "associative_linking": "association" in raw_output or "connection" in raw_output,
             "pattern_recognition": "pattern" in raw_output or "recognize" in raw_output,
         }
 
@@ -424,9 +411,7 @@ class NIASAdapter:
 
         return patterns
 
-    def _calculate_intelligence_metrics(
-        self, reasoning: dict[str, Any]
-    ) -> dict[str, float]:
+    def _calculate_intelligence_metrics(self, reasoning: dict[str, Any]) -> dict[str, float]:
         """Calculate intelligence assessment metrics"""
         raw_output = reasoning.get("raw_output", "")
         insights = reasoning.get("key_insights", [])
@@ -435,11 +420,7 @@ class NIASAdapter:
             "analytical": len([i for i in insights if "analyz" in i.lower()])
             / max(len(insights), 1),
             "creative": len(
-                [
-                    i
-                    for i in insights
-                    if "creativ" in i.lower() or "innovat" in i.lower()
-                ]
+                [i for i in insights if "creativ" in i.lower() or "innovat" in i.lower()]
             )
             / max(len(insights), 1),
             "logical": self._assess_logical_validity(reasoning),
@@ -459,17 +440,13 @@ class NIASAdapter:
 
         return metrics
 
-    def _model_cognitive_architecture(
-        self, reasoning: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _model_cognitive_architecture(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Model the cognitive architecture demonstrated"""
         raw_output = reasoning.get("raw_output", "").lower()
 
         architecture = {
             "processing_style": "serial" if "step" in raw_output else "parallel",
-            "memory_usage": (
-                "working" if "working memory" in raw_output else "long_term"
-            ),
+            "memory_usage": ("working" if "working memory" in raw_output else "long_term"),
             "attention_focus": "focused" if "focus" in raw_output else "distributed",
             "reasoning_type": "deductive" if "deduc" in raw_output else "inductive",
         }
@@ -484,9 +461,7 @@ class NIASAdapter:
         }
 
         architecture["active_components"] = [k for k, v in components.items() if v]
-        architecture["complexity_level"] = len(architecture["active_components"]) / len(
-            components
-        )
+        architecture["complexity_level"] = len(architecture["active_components"]) / len(components)
 
         return architecture
 
@@ -536,20 +511,14 @@ class NIASAdapter:
 
     def _calculate_nias_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate NIAS confidence score"""
-        base_confidence = reasoning.get("confidence_factors", {}).get(
-            "context_relevance", 0.5
-        )
+        base_confidence = reasoning.get("confidence_factors", {}).get("context_relevance", 0.5)
 
         # Add NIAS-specific confidence factors
         neural_bonus = (
-            0.15
-            if self._identify_neural_patterns(reasoning)["complexity"] > 0.6
-            else 0.0
+            0.15 if self._identify_neural_patterns(reasoning)["complexity"] > 0.6 else 0.0
         )
         intelligence_bonus = (
-            0.1
-            if self._calculate_intelligence_metrics(reasoning)["overall"] > 0.7
-            else 0.0
+            0.1 if self._calculate_intelligence_metrics(reasoning)["overall"] > 0.7 else 0.0
         )
 
         return min(base_confidence + neural_bonus + intelligence_bonus, 1.0)
@@ -583,7 +552,9 @@ class ABASAdapter:
         """Perform business analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"abas_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        request_id = (
+            f"abas_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        )
 
         # Create business analysis prompt
         enhanced_data = {
@@ -608,7 +579,9 @@ class ABASAdapter:
         processing_time = int((time.time() - start_time) * 1000)
 
         # Business analysis symbolic signature
-        symbolic_signature = f"ΛB{lambda_enhanced['business_score']:.0f}{lambda_enhanced['strategic_value']:.0f}"
+        symbolic_signature = (
+            f"ΛB{lambda_enhanced['business_score']:.0f}{lambda_enhanced['strategic_value']:.0f}"
+        )
 
         response = LambdaProductResponse(
             product_type=self.product_type,
@@ -641,9 +614,7 @@ class ABASAdapter:
             "risk_analysis": self._analyze_business_risks(reasoning),
             "competitive_insights": self._generate_competitive_insights(reasoning),
             "business_insights": self._extract_business_insights(reasoning),
-            "strategic_recommendations": self._generate_strategic_recommendations(
-                reasoning
-            ),
+            "strategic_recommendations": self._generate_strategic_recommendations(reasoning),
             "confidence": self._calculate_business_confidence(reasoning),
         }
 
@@ -666,33 +637,27 @@ class ABASAdapter:
 
         return market_factors
 
-    def _assess_financial_implications(
-        self, reasoning: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _assess_financial_implications(self, reasoning: dict[str, Any]) -> dict[str, Any]:
         """Assess financial implications"""
         raw_output = reasoning.get("raw_output", "").lower()
 
         financial = {
             "revenue_potential": "positive" if "revenue" in raw_output else "uncertain",
-            "cost_structure": (
-                "optimal" if "cost effective" in raw_output else "standard"
-            ),
+            "cost_structure": ("optimal" if "cost effective" in raw_output else "standard"),
             "roi_outlook": "promising" if "return" in raw_output else "moderate",
             "financial_risks": self._identify_financial_risks(raw_output),
         }
 
         return financial
 
-    def _evaluate_strategic_options(
-        self, reasoning: dict[str, Any]
-    ) -> list[dict[str, Any]]:
+    def _evaluate_strategic_options(self, reasoning: dict[str, Any]) -> list[dict[str, Any]]:
         """Evaluate strategic options"""
         recommendations = reasoning.get("recommendations", [])
 
         strategic_options = []
         for i, rec in enumerate(recommendations[:3]):
             option = {
-                "option_id": f"strategy_{i+1}",
+                "option_id": f"strategy_{i + 1}",
                 "description": rec,
                 "feasibility": 0.8,  # Would implement feasibility analysis
                 "impact": 0.7,  # Would implement impact assessment
@@ -702,9 +667,7 @@ class ABASAdapter:
 
         return strategic_options
 
-    def _analyze_business_risks(
-        self, reasoning: dict[str, Any]
-    ) -> list[dict[str, str]]:
+    def _analyze_business_risks(self, reasoning: dict[str, Any]) -> list[dict[str, str]]:
         """Analyze business risks"""
         raw_output = reasoning.get("raw_output", "").lower()
 
@@ -760,9 +723,7 @@ class ABASAdapter:
         business_insights.extend(base_insights[:2])
         return business_insights
 
-    def _generate_strategic_recommendations(
-        self, reasoning: dict[str, Any]
-    ) -> list[str]:
+    def _generate_strategic_recommendations(self, reasoning: dict[str, Any]) -> list[str]:
         """Generate strategic recommendations"""
         return [
             "Implement phased market entry strategy",
@@ -774,9 +735,7 @@ class ABASAdapter:
 
     def _calculate_business_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate business analysis confidence"""
-        base_confidence = reasoning.get("confidence_factors", {}).get(
-            "context_relevance", 0.5
-        )
+        base_confidence = reasoning.get("confidence_factors", {}).get("context_relevance", 0.5)
 
         # Business-specific confidence factors
         market_bonus = 0.1 if "market" in str(reasoning).lower() else 0.0
@@ -787,13 +746,9 @@ class ABASAdapter:
     def _calculate_business_score(self, enhanced: dict[str, Any]) -> float:
         """Calculate overall business analysis score"""
         # Simplified scoring based on analysis completeness
-        market_score = (
-            0.8 if enhanced["market_analysis"]["growth_potential"] == "high" else 0.6
-        )
+        market_score = 0.8 if enhanced["market_analysis"]["growth_potential"] == "high" else 0.6
         financial_score = (
-            0.9
-            if enhanced["financial_assessment"]["revenue_potential"] == "positive"
-            else 0.7
+            0.9 if enhanced["financial_assessment"]["revenue_potential"] == "positive" else 0.7
         )
         strategic_score = len(enhanced["strategic_evaluation"]) / 5.0
 
@@ -849,7 +804,9 @@ class DASTAdapter:
         """Perform data analytics and strategic thinking"""
 
         start_time = time.time()
-        request_id = f"dast_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        request_id = (
+            f"dast_{hashlib.md5(f'{request.content}_{time.time()}'.encode()).hexdigest()[:8]}"
+        )
 
         # Create data analytics prompt
         enhanced_data = {
@@ -874,7 +831,9 @@ class DASTAdapter:
         processing_time = int((time.time() - start_time) * 1000)
 
         # DAST symbolic signature
-        symbolic_signature = f"ΛD{lambda_enhanced['analytics_score']:.0f}{lambda_enhanced['strategic_depth']:.0f}"
+        symbolic_signature = (
+            f"ΛD{lambda_enhanced['analytics_score']:.0f}{lambda_enhanced['strategic_depth']:.0f}"
+        )
 
         response = LambdaProductResponse(
             product_type=self.product_type,
@@ -990,27 +949,21 @@ class DASTAdapter:
 
     def _calculate_dast_confidence(self, reasoning: dict[str, Any]) -> float:
         """Calculate DAST confidence score"""
-        base_confidence = reasoning.get("confidence_factors", {}).get(
-            "context_relevance", 0.5
-        )
+        base_confidence = reasoning.get("confidence_factors", {}).get("context_relevance", 0.5)
 
         # DAST-specific confidence factors
         data_bonus = 0.1 if "data" in str(reasoning).lower() else 0.0
         analytics_bonus = 0.15 if "analytic" in str(reasoning).lower() else 0.0
         strategic_bonus = 0.1 if "strategic" in str(reasoning).lower() else 0.0
 
-        return min(
-            base_confidence + data_bonus + analytics_bonus + strategic_bonus, 1.0
-        )
+        return min(base_confidence + data_bonus + analytics_bonus + strategic_bonus, 1.0)
 
     def _calculate_analytics_score(self, enhanced: dict[str, Any]) -> float:
         """Calculate analytics capability score"""
         pattern_score = enhanced["data_patterns"]["strength"] * 0.4
         insight_score = len(enhanced["data_insights"]) / 10.0 * 0.3
         predictive_score = (
-            0.8
-            if enhanced["predictive_analysis"]["confidence_interval"] == "high"
-            else 0.6
+            0.8 if enhanced["predictive_analysis"]["confidence_interval"] == "high" else 0.6
         )
         predictive_score *= 0.3
 
@@ -1073,9 +1026,7 @@ class LambdaProductsGPTOSSAdapter:
         await self.gpt_oss_brain.initialize()
         logger.info("✅ Lambda Products GPT-OSS Adapter ready")
 
-    async def process_request(
-        self, request: LambdaProductRequest
-    ) -> LambdaProductResponse:
+    async def process_request(self, request: LambdaProductRequest) -> LambdaProductResponse:
         """Process request through appropriate Lambda Product adapter"""
 
         self.metrics["total_requests"] += 1
@@ -1119,9 +1070,7 @@ class LambdaProductsGPTOSSAdapter:
         """Get comprehensive adapter metrics"""
         success_rate = 0
         if self.metrics["total_requests"] > 0:
-            success_rate = (
-                self.metrics["successful_responses"] / self.metrics["total_requests"]
-            )
+            success_rate = self.metrics["successful_responses"] / self.metrics["total_requests"]
 
         return {
             **self.metrics,

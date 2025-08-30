@@ -12,7 +12,6 @@ import os
 
 
 class StateManager:
-
     def __init__(self, agent_id, storage_path="/tmp/state"):
         self.agent_id = agent_id
         self.storage_path = os.path.join(storage_path, agent_id)
@@ -26,9 +25,7 @@ class StateManager:
 
     def _load_latest_snapshot(self):
         try:
-            snapshot_files = [
-                f for f in os.listdir(self.storage_path) if f.endswith(".snapshot")
-            ]
+            snapshot_files = [f for f in os.listdir(self.storage_path) if f.endswith(".snapshot")]
             if not snapshot_files:
                 return
             latest_snapshot = max(snapshot_files)
@@ -71,9 +68,7 @@ class StateManager:
 if __name__ == "__main__":
     state_manager = StateManager("agent-001")
     state_manager.apply_event({"type": "set", "key": "name", "value": "Jules"})
-    state_manager.apply_event(
-        {"type": "set", "key": "role", "value": "Software Engineer"}
-    )
+    state_manager.apply_event({"type": "set", "key": "role", "value": "Software Engineer"})
     state_manager.take_snapshot()
     state_manager.apply_event({"type": "delete", "key": "role"})
 

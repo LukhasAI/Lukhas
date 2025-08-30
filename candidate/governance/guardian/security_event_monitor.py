@@ -34,6 +34,7 @@ logger = get_logger(__name__)
 
 class SecurityEventType(Enum):
     """Security event types."""
+
     AUTHENTICATION = "authentication"
     AUTHORIZATION = "authorization"
     ACCESS_DENIED = "access_denied"
@@ -48,6 +49,7 @@ class SecurityEventType(Enum):
 
 class ThreatLevel(Enum):
     """Security threat levels."""
+
     NONE = "none"
     LOW = "low"
     MEDIUM = "medium"
@@ -58,6 +60,7 @@ class ThreatLevel(Enum):
 
 class AuthenticationOutcome(Enum):
     """Authentication outcomes."""
+
     SUCCESS = "success"
     FAILURE = "failure"
     BLOCKED = "blocked"
@@ -67,6 +70,7 @@ class AuthenticationOutcome(Enum):
 
 class SecurityAction(Enum):
     """Security response actions."""
+
     LOG_ONLY = "log_only"
     ALERT = "alert"
     BLOCK_IP = "block_ip"
@@ -107,8 +111,8 @@ class SecurityEvent:
     geolocation: dict[str, str] = field(default_factory=dict)
 
     # Trinity Framework context
-    identity_context: dict[str, Any] = field(default_factory=dict)    # ⚛️
-    guardian_context: dict[str, Any] = field(default_factory=dict)    # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
     # Response actions
     actions_taken: list[SecurityAction] = field(default_factory=list)
@@ -258,7 +262,7 @@ class SecurityEventMonitor:
             "unusual_hour_threshold": 0.7,
             "session_duration_anomaly": 3.0,  # standard deviations
             "brute_force_threshold": 5,
-            "privilege_escalation_threshold": 3
+            "privilege_escalation_threshold": 3,
         }
 
         # Security rules
@@ -266,8 +270,8 @@ class SecurityEventMonitor:
 
         # Trinity Framework security contexts
         self.trinity_security_contexts = {
-            "identity": {"monitored_events": [], "security_level": "high"},      # ⚛️
-            "guardian": {"protection_rules": [], "enforcement_level": "strict"} # 🛡️
+            "identity": {"monitored_events": [], "security_level": "high"},  # ⚛️
+            "guardian": {"protection_rules": [], "enforcement_level": "strict"},  # 🛡️
         }
 
         # Monitoring state
@@ -307,7 +311,7 @@ class SecurityEventMonitor:
         ip_address: str,
         user_agent: str,
         failure_reason: Optional[str] = None,
-        **metadata
+        **metadata,
     ) -> str:
         """
         Log an authentication event.
@@ -342,7 +346,7 @@ class SecurityEventMonitor:
             auth_method=auth_method,
             auth_outcome=outcome,
             failure_reason=failure_reason,
-            metadata=metadata
+            metadata=metadata,
         )
 
         # Calculate anomaly score
@@ -356,7 +360,7 @@ class SecurityEventMonitor:
 
         # Add Trinity Framework context
         event.identity_context = await self._get_identity_context(user_id)  # ⚛️
-        event.guardian_context = await self._get_guardian_context()         # 🛡️
+        event.guardian_context = await self._get_guardian_context()  # 🛡️
 
         # Store event
         self.security_events.append(event)
@@ -371,7 +375,9 @@ class SecurityEventMonitor:
         if outcome == AuthenticationOutcome.SUCCESS:
             logger.info(f"🔒 Authentication success: {user_id} from {ip_address}")
         else:
-            logger.warning(f"🔒 Authentication {outcome.value}: {user_id} from {ip_address} - {failure_reason}")
+            logger.warning(
+                f"🔒 Authentication {outcome.value}: {user_id} from {ip_address} - {failure_reason}"
+            )
 
         return event_id
 
@@ -383,7 +389,7 @@ class SecurityEventMonitor:
         response_code: int,
         ip_address: str,
         session_id: Optional[str] = None,
-        **metadata
+        **metadata,
     ) -> str:
         """
         Log an access event.
@@ -423,7 +429,7 @@ class SecurityEventMonitor:
             endpoint=endpoint,
             http_method=http_method,
             response_code=response_code,
-            metadata=metadata
+            metadata=metadata,
         )
 
         # Calculate anomaly score
@@ -445,7 +451,9 @@ class SecurityEventMonitor:
 
         return event_id
 
-    async def detect_brute_force_attack(self, time_window_minutes: int = 60) -> list[ThreatDetection]:
+    async def detect_brute_force_attack(
+        self, time_window_minutes: int = 60
+    ) -> list[ThreatDetection]:
         """
         Detect brute force attack patterns.
 
@@ -461,10 +469,13 @@ class SecurityEventMonitor:
 
         # Get recent failed authentication events
         failed_auths = [
-            e for e in self.security_events
-            if (e.timestamp >= cutoff_time and
-                e.event_type == SecurityEventType.AUTHENTICATION and
-                e.auth_outcome == AuthenticationOutcome.FAILURE)
+            e
+            for e in self.security_events
+            if (
+                e.timestamp >= cutoff_time
+                and e.event_type == SecurityEventType.AUTHENTICATION
+                and e.auth_outcome == AuthenticationOutcome.FAILURE
+            )
         ]
 
         # Group by IP address
@@ -476,7 +487,6 @@ class SecurityEventMonitor:
         # Check for brute force patterns
         for ip_address, failures in ip_failures.items():
             if len(failures) >= self.anomaly_thresholds["brute_force_threshold"]:
-
                 # Create threat detection
                 detection_id = f"brute_force_{uuid.uuid4().hex[:8]}"
 
@@ -489,7 +499,7 @@ class SecurityEventMonitor:
                     indicators=[
                         f"{len(failures)} failed login attempts in {time_window_minutes} minutes",
                         f"Target users: {len(set(f.user_id for f in failures if f.user_id))}",
-                        f"Source IP: {ip_address}"
+                        f"Source IP: {ip_address}",
                     ],
                     affected_users=[f.user_id for f in failures if f.user_id],
                     source_ips=[ip_address],
@@ -497,7 +507,7 @@ class SecurityEventMonitor:
                     potential_impact="Account compromise, service disruption",
                     detection_method="pattern_analysis",
                     false_positive_probability=0.1,
-                    recommended_actions=[SecurityAction.BLOCK_IP, SecurityAction.ALERT]
+                    recommended_actions=[SecurityAction.BLOCK_IP, SecurityAction.ALERT],
                 )
 
                 detections.append(detection)
@@ -507,7 +517,9 @@ class SecurityEventMonitor:
                 if self.config.get("auto_block_brute_force", False):
                     await self._block_ip_address(ip_address, "brute_force_attack")
 
-                logger.warning(f"🔒 Brute force attack detected from {ip_address}: {len(failures)} attempts")
+                logger.warning(
+                    f"🔒 Brute force attack detected from {ip_address}: {len(failures)} attempts"
+                )
 
         return detections
 
@@ -531,9 +543,9 @@ class SecurityEventMonitor:
 
         # Get recent events for this user
         recent_events = [
-            e for e in self.security_events
-            if (e.user_id == user_id and
-                e.timestamp >= datetime.now() - timedelta(hours=24))
+            e
+            for e in self.security_events
+            if (e.user_id == user_id and e.timestamp >= datetime.now() - timedelta(hours=24))
         ]
 
         if not recent_events:
@@ -541,9 +553,10 @@ class SecurityEventMonitor:
 
         # Check for geographical anomalies
         for event in recent_events:
-            if (event.geolocation and
-                event.geolocation.get("country") not in profile.login_countries):
-
+            if (
+                event.geolocation
+                and event.geolocation.get("country") not in profile.login_countries
+            ):
                 detection_id = f"geo_anomaly_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
@@ -555,7 +568,7 @@ class SecurityEventMonitor:
                     indicators=[
                         f"New country: {event.geolocation.get('country')}",
                         f"Known countries: {', '.join(profile.login_countries)}",
-                        f"IP address: {event.ip_address}"
+                        f"IP address: {event.ip_address}",
                     ],
                     affected_users=[user_id],
                     source_ips=[event.ip_address] if event.ip_address else [],
@@ -563,19 +576,16 @@ class SecurityEventMonitor:
                     potential_impact="Account compromise, unauthorized access",
                     detection_method="behavioral_analysis",
                     false_positive_probability=0.3,
-                    recommended_actions=[SecurityAction.ALERT]
+                    recommended_actions=[SecurityAction.ALERT],
                 )
 
                 detections.append(detection)
 
         # Check for time-based anomalies
         current_hour = datetime.now().hour
-        if (profile.typical_login_hours and
-            current_hour not in profile.typical_login_hours):
-
+        if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
             recent_auth_events = [
-                e for e in recent_events
-                if e.event_type == SecurityEventType.AUTHENTICATION
+                e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION
             ]
 
             if recent_auth_events:
@@ -590,7 +600,7 @@ class SecurityEventMonitor:
                     indicators=[
                         f"Current hour: {current_hour}",
                         f"Typical hours: {sorted(profile.typical_login_hours)}",
-                        f"Recent authentications: {len(recent_auth_events)}"
+                        f"Recent authentications: {len(recent_auth_events)}",
                     ],
                     affected_users=[user_id],
                     source_ips=[],
@@ -598,17 +608,14 @@ class SecurityEventMonitor:
                     potential_impact="Possible account compromise",
                     detection_method="temporal_analysis",
                     false_positive_probability=0.4,
-                    recommended_actions=[SecurityAction.LOG_ONLY]
+                    recommended_actions=[SecurityAction.LOG_ONLY],
                 )
 
                 detections.append(detection)
 
         return detections
 
-    async def get_security_dashboard_data(
-        self,
-        time_range_hours: int = 24
-    ) -> dict[str, Any]:
+    async def get_security_dashboard_data(self, time_range_hours: int = 24) -> dict[str, Any]:
         """
         Get comprehensive security dashboard data.
 
@@ -623,10 +630,7 @@ class SecurityEventMonitor:
         start_time = end_time - timedelta(hours=time_range_hours)
 
         # Filter events by time range
-        recent_events = [
-            e for e in self.security_events
-            if start_time <= e.timestamp <= end_time
-        ]
+        recent_events = [e for e in self.security_events if start_time <= e.timestamp <= end_time]
 
         # Event statistics
         events_by_type = defaultdict(int)
@@ -641,13 +645,15 @@ class SecurityEventMonitor:
 
         # Authentication success rate
         total_auth_events = sum(
-            1 for e in recent_events
-            if e.event_type == SecurityEventType.AUTHENTICATION
+            1 for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION
         )
         successful_auths = sum(
-            1 for e in recent_events
-            if (e.event_type == SecurityEventType.AUTHENTICATION and
-                e.auth_outcome == AuthenticationOutcome.SUCCESS)
+            1
+            for e in recent_events
+            if (
+                e.event_type == SecurityEventType.AUTHENTICATION
+                and e.auth_outcome == AuthenticationOutcome.SUCCESS
+            )
         )
         auth_success_rate = (successful_auths / total_auth_events) if total_auth_events > 0 else 1.0
 
@@ -669,7 +675,7 @@ class SecurityEventMonitor:
                 "threat_level": t.threat_level.value,
                 "description": t.description,
                 "affected_users": len(t.affected_users),
-                "source_ips": t.source_ips
+                "source_ips": t.source_ips,
             }
             for t in list(self.threat_detections)[-10:]
         ]
@@ -683,7 +689,7 @@ class SecurityEventMonitor:
                 "severity": inc.severity.value,
                 "title": inc.title,
                 "status": inc.resolution_status,
-                "users_affected": len(inc.users_affected)
+                "users_affected": len(inc.users_affected),
             }
             for inc in self.security_incidents.values()
             if inc.resolution_status == "open"
@@ -696,7 +702,9 @@ class SecurityEventMonitor:
                 "risk_score": profile.risk_score,
                 "trust_level": profile.trust_level,
                 "security_violations": profile.security_violations,
-                "last_activity": profile.last_security_event.isoformat() if profile.last_security_event else None
+                "last_activity": profile.last_security_event.isoformat()
+                if profile.last_security_event
+                else None,
             }
             for user_id, profile in self.user_profiles.items()
             if profile.risk_score > 0.7
@@ -705,90 +713,93 @@ class SecurityEventMonitor:
         # Trinity Framework security status
         trinity_security = {
             "identity": {
-                "monitored_events": len(self.trinity_security_contexts["identity"]["monitored_events"]),
+                "monitored_events": len(
+                    self.trinity_security_contexts["identity"]["monitored_events"]
+                ),
                 "security_level": self.trinity_security_contexts["identity"]["security_level"],
-                "recent_violations": len([
-                    e for e in recent_events
-                    if "identity" in e.identity_context
-                ])
+                "recent_violations": len(
+                    [e for e in recent_events if "identity" in e.identity_context]
+                ),
             },
             "guardian": {
-                "protection_rules": len(self.trinity_security_contexts["guardian"]["protection_rules"]),
-                "enforcement_level": self.trinity_security_contexts["guardian"]["enforcement_level"],
-                "blocked_threats": len([
-                    e for e in recent_events
-                    if SecurityAction.BLOCK_IP in e.actions_taken or SecurityAction.QUARANTINE in e.actions_taken
-                ])
-            }
+                "protection_rules": len(
+                    self.trinity_security_contexts["guardian"]["protection_rules"]
+                ),
+                "enforcement_level": self.trinity_security_contexts["guardian"][
+                    "enforcement_level"
+                ],
+                "blocked_threats": len(
+                    [
+                        e
+                        for e in recent_events
+                        if SecurityAction.BLOCK_IP in e.actions_taken
+                        or SecurityAction.QUARANTINE in e.actions_taken
+                    ]
+                ),
+            },
         }
 
         return {
             "timestamp": datetime.now().isoformat(),
             "time_range_hours": time_range_hours,
             "monitoring_active": self.monitoring_active,
-
             # Event statistics
             "events": {
                 "total_events": len(recent_events),
                 "by_type": dict(events_by_type),
                 "by_outcome": dict(events_by_outcome),
-                "by_threat_level": dict(events_by_threat_level)
+                "by_threat_level": dict(events_by_threat_level),
             },
-
             # Authentication metrics
             "authentication": {
                 "total_attempts": total_auth_events,
                 "successful_attempts": successful_auths,
                 "success_rate": auth_success_rate,
-                "failed_attempts": total_auth_events - successful_auths
+                "failed_attempts": total_auth_events - successful_auths,
             },
-
             # Network analysis
             "network": {
                 "unique_ips": len(ip_counts),
                 "top_source_ips": [{"ip": ip, "count": count} for ip, count in top_ips],
                 "blocked_ips": len(self.blocked_ips),
-                "suspicious_ips": len([ip for ip, count in top_ips if count > 50])
+                "suspicious_ips": len([ip for ip, count in top_ips if count > 50]),
             },
-
             # Threat intelligence
             "threats": {
                 "total_detections": len(self.threat_detections),
                 "recent_threats": recent_threats,
                 "threat_types": list(set(t.threat_type for t in self.threat_detections)),
-                "high_confidence_threats": len([
-                    t for t in self.threat_detections
-                    if t.confidence > 0.8
-                ])
+                "high_confidence_threats": len(
+                    [t for t in self.threat_detections if t.confidence > 0.8]
+                ),
             },
-
             # Incident management
             "incidents": {
                 "total_incidents": len(self.security_incidents),
                 "active_incidents": active_incidents,
-                "resolved_incidents": len([
-                    inc for inc in self.security_incidents.values()
-                    if inc.resolution_status == "resolved"
-                ])
+                "resolved_incidents": len(
+                    [
+                        inc
+                        for inc in self.security_incidents.values()
+                        if inc.resolution_status == "resolved"
+                    ]
+                ),
             },
-
             # User analysis
             "users": {
                 "total_profiles": len(self.user_profiles),
                 "high_risk_users": high_risk_users,
                 "disabled_users": len(self.disabled_users),
-                "active_sessions": len(self.active_sessions)
+                "active_sessions": len(self.active_sessions),
             },
-
             # Trinity Framework security
             "trinity_framework": trinity_security,
-
             # System status
             "system": {
                 "security_rules_active": len(self.security_rules),
                 "anomaly_detection_enabled": True,
-                "auto_response_enabled": self.config.get("auto_response", False)
-            }
+                "auto_response_enabled": self.config.get("auto_response", False),
+            },
         }
 
     # Background monitoring loops
@@ -886,14 +897,11 @@ class SecurityEventMonitor:
             "session_timeout": 3600,  # seconds
             "suspicious_endpoints": ["/admin", "/config", "/debug"],
             "blocked_user_agents": [],
-            "geofencing_enabled": False
+            "geofencing_enabled": False,
         }
 
     def _assess_auth_threat_level(
-        self,
-        outcome: AuthenticationOutcome,
-        user_id: str,
-        ip_address: str
+        self, outcome: AuthenticationOutcome, user_id: str, ip_address: str
     ) -> ThreatLevel:
         """Assess threat level for authentication event."""
 
@@ -947,11 +955,7 @@ class SecurityEventMonitor:
         """Get IP geolocation information (simplified)."""
 
         # In production, would use actual geolocation service
-        return {
-            "country": "Unknown",
-            "region": "Unknown",
-            "city": "Unknown"
-        }
+        return {"country": "Unknown", "region": "Unknown", "city": "Unknown"}
 
     async def _get_identity_context(self, user_id: str) -> dict[str, Any]:
         """Get identity context for Trinity Framework (⚛️)."""
@@ -959,7 +963,7 @@ class SecurityEventMonitor:
         return {
             "user_id": user_id,
             "identity_verified": True,
-            "context_timestamp": datetime.now().isoformat()
+            "context_timestamp": datetime.now().isoformat(),
         }
 
     async def _get_guardian_context(self) -> dict[str, Any]:
@@ -968,34 +972,59 @@ class SecurityEventMonitor:
         return {
             "protection_active": True,
             "rules_enforced": len(self.security_rules),
-            "threat_level": "monitoring"
+            "threat_level": "monitoring",
         }
 
     # Additional placeholder methods for full implementation
-    async def _update_user_profile(self, event: SecurityEvent): pass
-    async def _check_immediate_threats(self, event: SecurityEvent): pass
-    async def _calculate_access_anomaly_score(self, event: SecurityEvent) -> float: return 0.0
-    async def _identify_access_risk_factors(self, event: SecurityEvent) -> list[str]: return []
-    async def _check_access_patterns(self, event: SecurityEvent): pass
-    async def _block_ip_address(self, ip_address: str, reason: str): pass
-    async def _detect_privilege_escalation(self): pass
-    async def _detect_session_anomalies(self): pass
-    async def _update_all_user_profiles(self): pass
-    async def _update_incident_statuses(self): pass
-    async def _check_incident_escalation(self): pass
-    async def _cleanup_old_events(self): pass
-    async def _cleanup_old_incidents(self): pass
+    async def _update_user_profile(self, event: SecurityEvent):
+        pass
+
+    async def _check_immediate_threats(self, event: SecurityEvent):
+        pass
+
+    async def _calculate_access_anomaly_score(self, event: SecurityEvent) -> float:
+        return 0.0
+
+    async def _identify_access_risk_factors(self, event: SecurityEvent) -> list[str]:
+        return []
+
+    async def _check_access_patterns(self, event: SecurityEvent):
+        pass
+
+    async def _block_ip_address(self, ip_address: str, reason: str):
+        pass
+
+    async def _detect_privilege_escalation(self):
+        pass
+
+    async def _detect_session_anomalies(self):
+        pass
+
+    async def _update_all_user_profiles(self):
+        pass
+
+    async def _update_incident_statuses(self):
+        pass
+
+    async def _check_incident_escalation(self):
+        pass
+
+    async def _cleanup_old_events(self):
+        pass
+
+    async def _cleanup_old_incidents(self):
+        pass
 
 
 # Export main classes
 __all__ = [
-    "SecurityEventMonitor",
-    "SecurityEvent",
-    "UserSecurityProfile",
-    "ThreatDetection",
-    "SecurityIncident",
-    "SecurityEventType",
-    "ThreatLevel",
     "AuthenticationOutcome",
-    "SecurityAction"
+    "SecurityAction",
+    "SecurityEvent",
+    "SecurityEventMonitor",
+    "SecurityEventType",
+    "SecurityIncident",
+    "ThreatDetection",
+    "ThreatLevel",
+    "UserSecurityProfile",
 ]

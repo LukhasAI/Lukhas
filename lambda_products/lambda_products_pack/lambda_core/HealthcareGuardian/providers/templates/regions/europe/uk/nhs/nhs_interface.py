@@ -31,8 +31,10 @@ except ImportError:
         class AuditLogger:
             def __init__(self, config):
                 pass
+
             def log_access(self, **kwargs):
                 pass
+
             def log_security_event(self, **kwargs):
                 pass
 
@@ -63,13 +65,7 @@ class NHSInterface(EHRInterface):
 
     def _validate_config(self):
         """Validate NHS-specific configuration"""
-        required_fields = [
-            "trust_id",
-            "api_key",
-            "environment",
-            "spine_asid",
-            "org_code"
-        ]
+        required_fields = ["trust_id", "api_key", "environment", "spine_asid", "org_code"]
         for field in required_fields:
             if field not in self.config:
                 raise ValueError(f"Missing required NHS configuration: {field}")
@@ -82,9 +78,9 @@ class NHSInterface(EHRInterface):
         # - Initialize Smart Card interface if required
         pass
 
-    async def get_patient_record(self,
-                               patient_id: str,
-                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
+    async def get_patient_record(
+        self, patient_id: str, record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve patient records from NHS
 
@@ -93,38 +89,32 @@ class NHSInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config["org_code"],
-            action="get_patient_record",
-            resource_id=patient_id
+            user_id=self.config["org_code"], action="get_patient_record", resource_id=patient_id
         )
         # Implement NHS-specific record retrieval
         pass
 
-    async def update_patient_record(self,
-                                  patient_id: str,
-                                  data: dict[str, Any],
-                                  update_type: str) -> bool:
+    async def update_patient_record(
+        self, patient_id: str, data: dict[str, Any], update_type: str
+    ) -> bool:
         """Update patient records in NHS systems"""
         self.audit.log_access(
             user_id=self.config["org_code"],
             action="update_patient_record",
             resource_id=patient_id,
-            details={"update_type": update_type}
+            details={"update_type": update_type},
         )
         # Implement NHS-specific record update
         pass
 
-    async def create_encounter(self,
-                             patient_id: str,
-                             encounter_data: dict[str, Any]) -> str:
+    async def create_encounter(self, patient_id: str, encounter_data: dict[str, Any]) -> str:
         """Create new patient encounter in NHS systems"""
         # Implement NHS-specific encounter creation
         pass
 
-    async def get_provider_schedule(self,
-                                  provider_id: str,
-                                  start_date: datetime,
-                                  end_date: datetime) -> list[dict[str, Any]]:
+    async def get_provider_schedule(
+        self, provider_id: str, start_date: datetime, end_date: datetime
+    ) -> list[dict[str, Any]]:
         """Get provider's schedule from nhs_scheduling system"""
         # Implement NHS-specific schedule retrieval
         pass
@@ -137,8 +127,6 @@ class NHSInterface(EHRInterface):
     async def handle_error(self, error: Exception) -> None:
         """Handle NHS-specific errors"""
         self.audit.log_security_event(
-            event_type="error",
-            severity="error",
-            details={"error": str(error)}
+            event_type="error", severity="error", details={"error": str(error)}
         )
         # Implement NHS-specific error handling

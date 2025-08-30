@@ -130,9 +130,7 @@ class PersonaSimilarityEngine:
                 all_features.add("trinity_aligned")
 
         # Create feature map
-        self.feature_map = {
-            feature: i for i, feature in enumerate(sorted(all_features))
-        }
+        self.feature_map = {feature: i for i, feature in enumerate(sorted(all_features))}
         feature_count = len(self.feature_map)
 
         # Create embeddings for each persona
@@ -267,9 +265,7 @@ class PersonaSimilarityEngine:
                 confidence="low",
             )
 
-    def rank_personas(
-        self, symbolic_trace: dict[str, Any], top_n: int = 3
-    ) -> list[PersonaMatch]:
+    def rank_personas(self, symbolic_trace: dict[str, Any], top_n: int = 3) -> list[PersonaMatch]:
         """
         Rank all personas by similarity to current state.
 
@@ -318,9 +314,7 @@ class PersonaSimilarityEngine:
             trait_alignment = self._calculate_trait_alignment(symbolic_trace, persona)
 
             # Generate explanation
-            explanation = self._generate_explanation(
-                symbolic_trace, persona, score, glyph_overlap
-            )
+            explanation = self._generate_explanation(symbolic_trace, persona, score, glyph_overlap)
 
             # Determine confidence
             if score > 0.8:
@@ -398,9 +392,7 @@ class PersonaSimilarityEngine:
         if glyph_overlap > 2:
             explanations.append(f"{glyph_overlap} shared glyphs")
         elif glyph_overlap > 0:
-            explanations.append(
-                f"{glyph_overlap} shared glyph{'s' if glyph_overlap > 1 else ''}"
-            )
+            explanations.append(f"{glyph_overlap} shared glyph{'s' if glyph_overlap > 1 else ''}")
 
         # State explanation
         drift = symbolic_trace.get("drift_score", 0.5)
@@ -481,7 +473,9 @@ class PersonaSimilarityEngine:
 
             if top_match.persona_name in evolution_paths:
                 evolution_type = "natural_evolution"
-                rationale = f"Natural progression from {current_persona} to {top_match.persona_name}"
+                rationale = (
+                    f"Natural progression from {current_persona} to {top_match.persona_name}"
+                )
             else:
                 evolution_type = "adaptation"
                 rationale = f"Symbolic state shift suggests adaptation to {top_match.persona_name}"
@@ -503,9 +497,7 @@ class PersonaSimilarityEngine:
                 "alternative_score": top_match.similarity_score,
             }
 
-    def get_fallback_if_collapse(
-        self, symbolic_trace: dict[str, Any]
-    ) -> dict[str, Any]:
+    def get_fallback_if_collapse(self, symbolic_trace: dict[str, Any]) -> dict[str, Any]:
         """
         Get fallback persona if symbolic collapse detected.
 
@@ -692,9 +684,7 @@ class PersonaSimilarityEngine:
                 ),
             },
             "recommendations": {
-                "primary": (
-                    matches[0].persona_name if matches else self.fallback_persona
-                ),
+                "primary": (matches[0].persona_name if matches else self.fallback_persona),
                 "alternatives": (
                     [m.persona_name for m in matches[1:4]] if len(matches) > 1 else []
                 ),
@@ -721,12 +711,8 @@ class PersonaSimilarityEngine:
         """Get engine statistics"""
         embedding_dims = 0
         if self.persona_embeddings:
-            first_embedding = self.persona_embeddings[
-                next(iter(self.persona_embeddings))
-            ]
-            embedding_dims = (
-                len(first_embedding) if hasattr(first_embedding, "__len__") else 0
-            )
+            first_embedding = self.persona_embeddings[next(iter(self.persona_embeddings))]
+            embedding_dims = len(first_embedding) if hasattr(first_embedding, "__len__") else 0
 
         return {
             "personas_loaded": len(self.personas),

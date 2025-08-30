@@ -23,6 +23,7 @@ logger = get_logger(__name__)
 
 class VoiceModulationMode(Enum):
     """Voice modulation modes for different use cases"""
+
     NATURAL = "natural"
     EMOTIONAL = "emotional"
     ROBOTIC = "robotic"
@@ -35,6 +36,7 @@ class VoiceModulationMode(Enum):
 
 class AudioFormat(Enum):
     """Supported audio formats"""
+
     WAV = "wav"
     MP3 = "mp3"
     FLAC = "flac"
@@ -44,6 +46,7 @@ class AudioFormat(Enum):
 @dataclass
 class VoiceParameters:
     """Voice modulation parameters"""
+
     pitch_shift: float = 1.0  # Pitch multiplier (0.5-2.0)
     speed_factor: float = 1.0  # Speed multiplier (0.5-2.0)
     volume_gain: float = 1.0  # Volume multiplier (0.0-2.0)
@@ -79,7 +82,7 @@ class VoiceParameters:
             "valence": self.valence,
             "arousal": self.arousal,
             "context_adaptation": self.context_adaptation,
-            "personality_blend": self.personality_blend
+            "personality_blend": self.personality_blend,
         }
 
     @classmethod
@@ -98,7 +101,7 @@ class VoiceParameters:
             valence=data.get("valence", 0.0),
             arousal=data.get("arousal", 0.0),
             context_adaptation=data.get("context_adaptation", 1.0),
-            personality_blend=data.get("personality_blend", {})
+            personality_blend=data.get("personality_blend", {}),
         )
 
 
@@ -107,10 +110,7 @@ class VoiceModulationEngine(ABC):
 
     @abstractmethod
     async def modulate_audio(
-        self,
-        audio_data: bytes,
-        parameters: VoiceParameters,
-        sample_rate: int = 44100
+        self, audio_data: bytes, parameters: VoiceParameters, sample_rate: int = 44100
     ) -> tuple[bytes, dict[str, Any]]:
         """Modulate audio data with given parameters"""
         pass
@@ -135,40 +135,69 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         # Emotion mapping for voice parameters
         self.emotion_mappings = {
             "happiness": VoiceParameters(
-                pitch_shift=1.1, speed_factor=1.05, volume_gain=1.1,
-                valence=0.8, arousal=0.6, emotion_intensity=0.7
+                pitch_shift=1.1,
+                speed_factor=1.05,
+                volume_gain=1.1,
+                valence=0.8,
+                arousal=0.6,
+                emotion_intensity=0.7,
             ),
             "sadness": VoiceParameters(
-                pitch_shift=0.9, speed_factor=0.85, volume_gain=0.8,
-                breathiness=0.3, valence=-0.6, arousal=-0.3, emotion_intensity=0.6
+                pitch_shift=0.9,
+                speed_factor=0.85,
+                volume_gain=0.8,
+                breathiness=0.3,
+                valence=-0.6,
+                arousal=-0.3,
+                emotion_intensity=0.6,
             ),
             "anger": VoiceParameters(
-                pitch_shift=1.05, speed_factor=1.15, volume_gain=1.2,
-                roughness=0.4, valence=-0.5, arousal=0.8, emotion_intensity=0.8
+                pitch_shift=1.05,
+                speed_factor=1.15,
+                volume_gain=1.2,
+                roughness=0.4,
+                valence=-0.5,
+                arousal=0.8,
+                emotion_intensity=0.8,
             ),
             "fear": VoiceParameters(
-                pitch_shift=1.15, speed_factor=1.1, volume_gain=0.9,
-                vibrato_rate=4.0, vibrato_depth=0.05, valence=-0.4, arousal=0.7
+                pitch_shift=1.15,
+                speed_factor=1.1,
+                volume_gain=0.9,
+                vibrato_rate=4.0,
+                vibrato_depth=0.05,
+                valence=-0.4,
+                arousal=0.7,
             ),
             "surprise": VoiceParameters(
-                pitch_shift=1.2, speed_factor=0.95, volume_gain=1.05,
-                valence=0.3, arousal=0.8, emotion_intensity=0.6
+                pitch_shift=1.2,
+                speed_factor=0.95,
+                volume_gain=1.05,
+                valence=0.3,
+                arousal=0.8,
+                emotion_intensity=0.6,
             ),
             "disgust": VoiceParameters(
-                pitch_shift=0.95, speed_factor=0.9, volume_gain=0.85,
-                roughness=0.2, valence=-0.7, arousal=0.2, emotion_intensity=0.5
+                pitch_shift=0.95,
+                speed_factor=0.9,
+                volume_gain=0.85,
+                roughness=0.2,
+                valence=-0.7,
+                arousal=0.2,
+                emotion_intensity=0.5,
             ),
             "neutral": VoiceParameters(
-                pitch_shift=1.0, speed_factor=1.0, volume_gain=1.0,
-                valence=0.0, arousal=0.0, emotion_intensity=0.3
-            )
+                pitch_shift=1.0,
+                speed_factor=1.0,
+                volume_gain=1.0,
+                valence=0.0,
+                arousal=0.0,
+                emotion_intensity=0.3,
+            ),
         }
 
     async def modulate_audio(
-        self,
-        audio_data: bytes,
-        parameters: VoiceParameters,
-        sample_rate: int = 44100
+        self, audio_data: bytes, parameters: VoiceParameters, sample_rate: int = 44100
     ) -> tuple[bytes, dict[str, Any]]:
         """
         Modulate audio data with advanced voice parameters.
@@ -176,15 +205,19 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         """
         try:
             # Guardian validation - ensure ethical voice processing
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "voice_modulation",
-                "parameters": parameters.to_dict(),
-                "audio_length": len(audio_data),
-                "sample_rate": sample_rate
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "voice_modulation",
+                    "parameters": parameters.to_dict(),
+                    "audio_length": len(audio_data),
+                    "sample_rate": sample_rate,
+                }
+            )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason')}")
+                raise ValueError(
+                    f"Guardian rejected voice modulation: {validation_result.get('reason')}"
+                )
 
             # Convert audio data to numpy array
             audio_array = self._bytes_to_audio_array(audio_data, sample_rate)
@@ -238,12 +271,11 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             # 7. Vibrato effect
             if parameters.vibrato_rate > 0.0 and parameters.vibrato_depth > 0.0:
                 modulated_audio = await self._apply_vibrato(
-                    modulated_audio, parameters.vibrato_rate,
-                    parameters.vibrato_depth, sample_rate
+                    modulated_audio, parameters.vibrato_rate, parameters.vibrato_depth, sample_rate
                 )
                 processing_metadata["vibrato"] = {
                     "rate": parameters.vibrato_rate,
-                    "depth": parameters.vibrato_depth
+                    "depth": parameters.vibrato_depth,
                 }
 
             # Convert back to bytes
@@ -257,7 +289,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
                 "quality_metrics": await self._calculate_quality_metrics(
                     audio_array, modulated_audio, sample_rate
                 ),
-                "guardian_approved": True
+                "guardian_approved": True,
             }
 
             await GLYPH.emit("voice.modulation.completed", glyph_data)
@@ -266,21 +298,16 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
                 "success": True,
                 "parameters_applied": parameters.to_dict(),
                 "processing_metadata": processing_metadata,
-                "quality_metrics": glyph_data["quality_metrics"]
+                "quality_metrics": glyph_data["quality_metrics"],
             }
 
         except Exception as e:
-            self.logger.error(f"Voice modulation failed: {str(e)}")
-            await GLYPH.emit("voice.modulation.error", {
-                "error": str(e),
-                "parameters": parameters.to_dict()
-            })
+            self.logger.error(f"Voice modulation failed: {e!s}")
+            await GLYPH.emit(
+                "voice.modulation.error", {"error": str(e), "parameters": parameters.to_dict()}
+            )
 
-            return audio_data, {
-                "success": False,
-                "error": str(e),
-                "original_returned": True
-            }
+            return audio_data, {"success": False, "error": str(e), "original_returned": True}
 
     def get_supported_formats(self) -> list[AudioFormat]:
         """Get supported audio formats"""
@@ -328,7 +355,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         # Pad or truncate to original length
         if len(pitched_audio) > len(audio):
-            pitched_audio = pitched_audio[:len(audio)]
+            pitched_audio = pitched_audio[: len(audio)]
         else:
             padding = len(audio) - len(pitched_audio)
             pitched_audio = np.pad(pitched_audio, (0, padding), mode="constant")
@@ -336,7 +363,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         return pitched_audio, {
             "applied": True,
             "shift_factor": shift_factor,
-            "algorithm": "resample_based"
+            "algorithm": "resample_based",
         }
 
     async def _apply_speed_change(
@@ -367,7 +394,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         return stretched_audio, {
             "applied": True,
             "speed_factor": speed_factor,
-            "algorithm": "overlap_add"
+            "algorithm": "overlap_add",
         }
 
     def _apply_volume_adjustment(self, audio: np.ndarray, gain: float) -> np.ndarray:
@@ -402,7 +429,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         output = np.zeros_like(audio)
 
         for i in range(0, len(audio) - fft_size, hop_length):
-            frame = audio[i:i + fft_size] * window
+            frame = audio[i : i + fft_size] * window
 
             # FFT
             spectrum = np.fft.rfft(frame)
@@ -422,12 +449,12 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             shifted_frame = np.fft.irfft(new_spectrum, n=fft_size).real
 
             # Overlap-add
-            output[i:i + fft_size] += shifted_frame * window
+            output[i : i + fft_size] += shifted_frame * window
 
         return output, {
             "applied": True,
             "shift_factor": shift_factor,
-            "algorithm": "spectral_envelope"
+            "algorithm": "spectral_envelope",
         }
 
     async def _apply_breathiness(
@@ -439,6 +466,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         # High-pass filter the noise to simulate breath
         from scipy import signal
+
         sos = signal.butter(6, 1000, btype="highpass", fs=sample_rate, output="sos")
         filtered_noise = signal.sosfilt(sos, noise)
 
@@ -482,13 +510,13 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
     ) -> dict[str, float]:
         """Calculate audio quality metrics"""
         # Signal-to-Noise Ratio
-        signal_power = np.mean(original ** 2)
+        signal_power = np.mean(original**2)
         noise_power = np.mean((processed - original) ** 2)
         snr = 10 * np.log10(signal_power / (noise_power + 1e-10))
 
         # RMS levels
-        original_rms = np.sqrt(np.mean(original ** 2))
-        processed_rms = np.sqrt(np.mean(processed ** 2))
+        original_rms = np.sqrt(np.mean(original**2))
+        processed_rms = np.sqrt(np.mean(processed**2))
 
         # Dynamic range
         dynamic_range = 20 * np.log10(np.max(np.abs(processed)) / (np.std(processed) + 1e-10))
@@ -498,7 +526,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             "original_rms": float(original_rms),
             "processed_rms": float(processed_rms),
             "dynamic_range_db": float(dynamic_range),
-            "processing_gain_db": 20 * np.log10((processed_rms + 1e-10) / (original_rms + 1e-10))
+            "processing_gain_db": 20 * np.log10((processed_rms + 1e-10) / (original_rms + 1e-10)),
         }
 
 
@@ -524,7 +552,7 @@ class VoiceModulator:
             VoiceModulationMode.DRAMATIC: self._get_dramatic_parameters,
             VoiceModulationMode.PROFESSIONAL: self._get_professional_parameters,
             VoiceModulationMode.CREATIVE: self._get_creative_parameters,
-            VoiceModulationMode.THERAPEUTIC: self._get_therapeutic_parameters
+            VoiceModulationMode.THERAPEUTIC: self._get_therapeutic_parameters,
         }
 
         # Cache for determined parameters
@@ -537,7 +565,7 @@ class VoiceModulator:
         audio_data: bytes,
         mode: Union[VoiceModulationMode, str],
         context: Optional[dict[str, Any]] = None,
-        custom_parameters: Optional[VoiceParameters] = None
+        custom_parameters: Optional[VoiceParameters] = None,
     ) -> tuple[bytes, dict[str, Any]]:
         """
         Modulate audio with specified mode and context
@@ -563,9 +591,7 @@ class VoiceModulator:
                 parameters = await self.determine_parameters(mode, context or {})
 
             # Apply modulation
-            modulated_audio, metadata = await self.engine.modulate_audio(
-                audio_data, parameters
-            )
+            modulated_audio, metadata = await self.engine.modulate_audio(audio_data, parameters)
 
             # Add mode information to metadata
             metadata["modulation_mode"] = mode.value
@@ -574,17 +600,15 @@ class VoiceModulator:
             return modulated_audio, metadata
 
         except Exception as e:
-            self.logger.error(f"Voice modulation failed: {str(e)}")
+            self.logger.error(f"Voice modulation failed: {e!s}")
             return audio_data, {
                 "success": False,
                 "error": str(e),
-                "mode": mode.value if hasattr(mode, "value") else str(mode)
+                "mode": mode.value if hasattr(mode, "value") else str(mode),
             }
 
     def determine_parameters(
-        self,
-        mode: VoiceModulationMode,
-        context: dict[str, Any]
+        self, mode: VoiceModulationMode, context: dict[str, Any]
     ) -> VoiceParameters:
         """
         Determine voice parameters based on mode and context
@@ -609,7 +633,7 @@ class VoiceModulator:
             speed_factor=1.0,
             volume_gain=1.0,
             emotion_intensity=0.2,
-            context_adaptation=1.0
+            context_adaptation=1.0,
         )
 
     def _get_emotional_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -638,7 +662,7 @@ class VoiceModulator:
             roughness=0.3,
             emotion_intensity=0.1,
             valence=-0.2,
-            arousal=-0.1
+            arousal=-0.1,
         )
 
     def _get_whisper_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -650,7 +674,7 @@ class VoiceModulator:
             breathiness=0.7,
             emotion_intensity=0.3,
             valence=-0.1,
-            arousal=-0.3
+            arousal=-0.3,
         )
 
     def _get_dramatic_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -663,7 +687,7 @@ class VoiceModulator:
             vibrato_depth=0.08,
             emotion_intensity=0.9,
             valence=0.3,
-            arousal=0.6
+            arousal=0.6,
         )
 
     def _get_professional_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -675,7 +699,7 @@ class VoiceModulator:
             formant_shift=1.05,
             emotion_intensity=0.4,
             valence=0.1,
-            arousal=0.0
+            arousal=0.0,
         )
 
     def _get_creative_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -688,7 +712,7 @@ class VoiceModulator:
             vibrato_depth=0.05,
             emotion_intensity=0.7,
             valence=0.5,
-            arousal=0.4
+            arousal=0.4,
         )
 
     def _get_therapeutic_parameters(self, context: dict[str, Any]) -> VoiceParameters:
@@ -700,13 +724,11 @@ class VoiceModulator:
             breathiness=0.2,
             emotion_intensity=0.6,
             valence=0.4,
-            arousal=-0.2
+            arousal=-0.2,
         )
 
     def _adapt_to_context(
-        self,
-        base_parameters: VoiceParameters,
-        context: dict[str, Any]
+        self, base_parameters: VoiceParameters, context: dict[str, Any]
     ) -> VoiceParameters:
         """Adapt parameters based on context"""
         adapted = VoiceParameters(
@@ -722,7 +744,7 @@ class VoiceModulator:
             valence=base_parameters.valence,
             arousal=base_parameters.arousal,
             context_adaptation=base_parameters.context_adaptation,
-            personality_blend=base_parameters.personality_blend.copy()
+            personality_blend=base_parameters.personality_blend.copy(),
         )
 
         # Adapt based on user preferences
@@ -771,11 +793,7 @@ class LucasVoiceSystem:
 
         self.logger.info("LucasVoiceSystem initialized with LUKHAS voice modulator")
 
-    async def process_input(
-        self,
-        text: str,
-        context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_input(self, text: str, context: dict[str, Any]) -> dict[str, Any]:
         """Process text input through voice system"""
         try:
             # Extract voice profile and parameters
@@ -792,24 +810,20 @@ class LucasVoiceSystem:
                     VoiceModulationMode(mode), context
                 ).to_dict(),
                 "context": context,
-                "gdpr_compliant": self.gdpr_enabled
+                "gdpr_compliant": self.gdpr_enabled,
             }
 
         except Exception as e:
-            self.logger.error(f"Voice processing failed: {str(e)}")
-            return {
-                "success": False,
-                "error": str(e),
-                "text": text
-            }
+            self.logger.error(f"Voice processing failed: {e!s}")
+            return {"success": False, "error": str(e), "text": text}
 
 
 # Export main classes
 __all__ = [
-    "VoiceModulator",
-    "LucasVoiceSystem",
-    "VoiceParameters",
-    "VoiceModulationMode",
     "AudioFormat",
-    "LUKHASVoiceModulationEngine"
+    "LUKHASVoiceModulationEngine",
+    "LucasVoiceSystem",
+    "VoiceModulationMode",
+    "VoiceModulator",
+    "VoiceParameters",
 ]

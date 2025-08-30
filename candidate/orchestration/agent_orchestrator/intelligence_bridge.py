@@ -138,9 +138,7 @@ class LukhasAgentBridge:
         self._initialized = True
         logger.info("🚀 Agent-Intelligence Bridge ready for coordination")
 
-    async def process_agent_request(
-        self, request: AgentRequest
-    ) -> IntelligenceResponse:
+    async def process_agent_request(self, request: AgentRequest) -> IntelligenceResponse:
         """
         Process an intelligence request from a LUKHAS AI agent
 
@@ -177,9 +175,7 @@ class LukhasAgentBridge:
                 success=True,
                 result=result,
                 processing_time=processing_time,
-                confidence=(
-                    result.get("confidence", 0.8) if isinstance(result, dict) else 0.8
-                ),
+                confidence=(result.get("confidence", 0.8) if isinstance(result, dict) else 0.8),
             )
 
             # Update performance metrics
@@ -248,9 +244,7 @@ class LukhasAgentBridge:
         else:
             raise ValueError(f"Unknown request type: {request_type}")
 
-    async def _handle_meta_cognitive_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_meta_cognitive_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle meta-cognitive analysis requests"""
         engine = self.intelligence_engines["meta_cognitive"]
 
@@ -265,18 +259,14 @@ class LukhasAgentBridge:
             "confidence": analysis.get("meta_confidence", 0.8),
         }
 
-    async def _handle_causal_reasoning_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_causal_reasoning_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle causal reasoning requests"""
         engine = self.intelligence_engines["causal"]
 
         request_text = payload.get("request", "")
         subsystem_responses = payload.get("subsystem_responses", {})
 
-        analysis = await engine.analyze_request_causality(
-            request_text, subsystem_responses
-        )
+        analysis = await engine.analyze_request_causality(request_text, subsystem_responses)
 
         return {
             "analysis": analysis,
@@ -284,9 +274,7 @@ class LukhasAgentBridge:
             "confidence": analysis.get("causal_confidence", 0.7),
         }
 
-    async def _handle_goal_formation_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_goal_formation_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle autonomous goal formation requests"""
         engine = self.intelligence_engines["autonomous_goals"]
 
@@ -304,9 +292,7 @@ class LukhasAgentBridge:
             "confidence": 0.8,
         }
 
-    async def _handle_curiosity_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_curiosity_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle curiosity exploration requests"""
         engine = self.intelligence_engines["curiosity"]
 
@@ -320,9 +306,7 @@ class LukhasAgentBridge:
             "confidence": 0.9,
         }
 
-    async def _handle_theory_of_mind_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_theory_of_mind_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle theory of mind requests"""
         engine = self.intelligence_engines["theory_of_mind"]
 
@@ -337,9 +321,7 @@ class LukhasAgentBridge:
             "confidence": 0.85,
         }
 
-    async def _handle_narrative_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_narrative_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle narrative creation requests"""
         engine = self.intelligence_engines["narrative"]
 
@@ -358,9 +340,7 @@ class LukhasAgentBridge:
             "confidence": 0.9,
         }
 
-    async def _handle_dimensional_analysis_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_dimensional_analysis_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle multi-dimensional analysis requests"""
         engine = self.intelligence_engines["dimensional"]
 
@@ -374,9 +354,7 @@ class LukhasAgentBridge:
             "confidence": 0.85,
         }
 
-    async def _handle_orchestration_request(
-        self, payload: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _handle_orchestration_request(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Handle orchestration coordination requests"""
         engine = self.intelligence_engines["orchestrator"]
 
@@ -422,24 +400,22 @@ class LukhasAgentBridge:
         """Get overall system status"""
         active_requests_count = len(self.active_requests)
         total_requests = sum(
-            metrics["total_requests"]
-            for metrics in self.agent_performance_metrics.values()
+            metrics["total_requests"] for metrics in self.agent_performance_metrics.values()
         )
         successful_requests = sum(
-            metrics["successful_requests"]
-            for metrics in self.agent_performance_metrics.values()
+            metrics["successful_requests"] for metrics in self.agent_performance_metrics.values()
         )
 
-        success_rate = (
-            (successful_requests / total_requests) if total_requests > 0 else 0.0
-        )
+        success_rate = (successful_requests / total_requests) if total_requests > 0 else 0.0
 
         return {
             "initialized": self._initialized,
             "active_requests": active_requests_count,
             "total_requests_processed": total_requests,
             "success_rate": success_rate,
-            "intelligence_engines_status": dict.fromkeys(self.intelligence_engines.keys(), "active"),
+            "intelligence_engines_status": dict.fromkeys(
+                self.intelligence_engines.keys(), "active"
+            ),
             "request_history_size": len(self.request_history),
         }
 

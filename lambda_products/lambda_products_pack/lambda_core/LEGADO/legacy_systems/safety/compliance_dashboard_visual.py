@@ -21,9 +21,7 @@ from pathlib import Path
 st.set_page_config(page_title="Lukhas Compliance Visual Dashboard", layout="wide")
 st.title("🛡️ Lukhas AGI — Visual Compliance Review Dashboard")
 st.markdown("✅ **Restored Symbolic Export** — LUKHAS_AGI_3_FINAL_HANDOVER.zip")
-st.markdown(
-    "🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`"
-)
+st.markdown("🔐 SHA-256: `33fc117c5fd786fb701de0cfe1514f6d5dabe70002cb4c09857d92cc58a4f569`")
 
 digest_path = Path("logs/weekly_compliance_digest.md")
 plot_dir = Path("logs")
@@ -55,9 +53,7 @@ for col, image in zip(
 ):
     img_path = plot_dir / image
     if img_path.exists():
-        col.image(
-            str(img_path), caption=image.replace("_", " ").replace(".png", "").title()
-        )
+        col.image(str(img_path), caption=image.replace("_", " ").replace(".png", "").title())
     else:
         col.warning(f"{image} not found")
 
@@ -66,17 +62,13 @@ st.markdown("## 🧾 Presentation Script (Attendees & Auditor View)")
 st.code(script_text)
 
 # Generate handout file
-handout_text = (
-    "# Lukhas Compliance Brief\n\n" + digest_path.read_text() + "\n---\n" + script_text
-)
+handout_text = "# Lukhas Compliance Brief\n\n" + digest_path.read_text() + "\n---\n" + script_text
 handout_bytes = handout_text.encode("utf-8")
 b64 = base64.b64encode(handout_bytes).decode()
 href = f'<a href="data:file/txt;base64,{b64}" download="lukhas_compliance_handout.txt">📥 Download Compliance Handout</a>'
 st.markdown(href, unsafe_allow_html=True)
 
-st.caption(
-    "✅ Approved under the symbolic vision of SA (governance) and SJ (experience design)."
-)
+st.caption("✅ Approved under the symbolic vision of SA (governance) and SJ (experience design).")
 
 st.divider()
 st.markdown("## ⏰ Scheduling & Mobile Optimization")

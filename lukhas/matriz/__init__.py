@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 
 # Import runtime components
 try:
-    from .runtime.supervisor import RuntimeSupervisor
     from .runtime.policy import PolicyEngine
+    from .runtime.supervisor import RuntimeSupervisor
 
     # Alias for backward compatibility
     MatrizNode = RuntimeSupervisor
@@ -27,9 +27,9 @@ except ImportError as e:
     MatrizNode = None
 
 __all__ = [
-    "RuntimeSupervisor",
     "MatrizNode",  # Alias
     "PolicyEngine",
+    "RuntimeSupervisor",
 ]
 
 __version__ = "1.0.0"

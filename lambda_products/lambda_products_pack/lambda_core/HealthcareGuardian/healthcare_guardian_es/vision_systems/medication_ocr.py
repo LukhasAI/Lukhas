@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class MedicationInfo:
     """Medication information extracted from OCR"""
+
     name: str
     brand_name: Optional[str]
     generic_name: Optional[str]
@@ -38,6 +39,7 @@ class MedicationInfo:
 @dataclass
 class PillIdentification:
     """Visual pill identification result"""
+
     shape: str  # redonda, ovalada, cápsula
     color: str
     markings: Optional[str]
@@ -57,12 +59,12 @@ class MedicationOCRSystem:
         "dosage": [
             r"(\d+(?:\.\d+)?)\s*(mg|mcg|g|ml|ui|unidades?)",
             r"(\d+(?:\.\d+)?)\s*miligramos?",
-            r"(\d+(?:\.\d+)?)\s*microgramos?"
+            r"(\d+(?:\.\d+)?)\s*microgramos?",
         ],
         "instructions": [
             r"tomar?\s+(\d+)?\s*(comprimido|cápsula|pastilla)s?\s*(cada|al día)",
             r"(\d+)\s*veces?\s*(al día|diarias?)",
-            r"cada\s+(\d+)\s*horas?"
+            r"cada\s+(\d+)\s*horas?",
         ],
         "warnings": [
             r"no exceder",
@@ -70,13 +72,13 @@ class MedicationOCRSystem:
             r"puede producir somnolencia",
             r"evite el alcohol",
             r"no conducir",
-            r"mantener fuera del alcance"
+            r"mantener fuera del alcance",
         ],
         "expiration": [
             r"cad\.?\s*:?\s*(\d{2})[/-](\d{2,4})",
             r"caducidad\s*:?\s*(\d{2})[/-](\d{2,4})",
-            r"exp\.?\s*:?\s*(\d{2})[/-](\d{2,4})"
-        ]
+            r"exp\.?\s*:?\s*(\d{2})[/-](\d{2,4})",
+        ],
     }
 
     # Common Spanish medication forms
@@ -89,7 +91,7 @@ class MedicationOCRSystem:
         "gotas": "gotas",
         "supos": "supositorios",
         "crema": "crema",
-        "gel": "gel"
+        "gel": "gel",
     }
 
     # Spanish medication database (subset)
@@ -97,28 +99,28 @@ class MedicationOCRSystem:
         "paracetamol": {
             "forms": ["comprimidos", "sobres", "jarabe"],
             "strengths": ["500mg", "650mg", "1g"],
-            "brands": ["Gelocatil", "Termalgin", "Efferalgan"]
+            "brands": ["Gelocatil", "Termalgin", "Efferalgan"],
         },
         "ibuprofeno": {
             "forms": ["comprimidos", "sobres", "jarabe"],
             "strengths": ["400mg", "600mg"],
-            "brands": ["Neobrufen", "Espidifen", "Dalsy"]
+            "brands": ["Neobrufen", "Espidifen", "Dalsy"],
         },
         "omeprazol": {
             "forms": ["cápsulas"],
             "strengths": ["20mg", "40mg"],
-            "brands": ["Losec", "Pepticum", "Omeprazol Cinfa"]
+            "brands": ["Losec", "Pepticum", "Omeprazol Cinfa"],
         },
         "enalapril": {
             "forms": ["comprimidos"],
             "strengths": ["5mg", "10mg", "20mg"],
-            "brands": ["Renitec", "Enalapril Normon"]
+            "brands": ["Renitec", "Enalapril Normon"],
         },
         "metformina": {
             "forms": ["comprimidos"],
             "strengths": ["500mg", "850mg", "1000mg"],
-            "brands": ["Dianben", "Metformina Cinfa"]
-        }
+            "brands": ["Dianben", "Metformina Cinfa"],
+        },
     }
 
     def __init__(self, config: dict[str, Any] = None):
@@ -162,7 +164,9 @@ class MedicationOCRSystem:
 
         except Exception as e:
             logger.warning(f"OCR engine not available: {e}")
-            logger.warning("Install with: brew install tesseract (macOS) or apt-get install tesseract-ocr")
+            logger.warning(
+                "Install with: brew install tesseract (macOS) or apt-get install tesseract-ocr"
+            )
             self.ocr_available = False
 
     async def scan_medication_label(self, image_path: str) -> Optional[MedicationInfo]:
@@ -196,7 +200,7 @@ class MedicationOCRSystem:
             text = pytesseract.image_to_string(
                 processed,
                 lang=self.ocr_language,
-                config="--psm 6"  # Uniform block of text
+                config="--psm 6",  # Uniform block of text
             )
 
             # Extract medication information
@@ -236,7 +240,9 @@ class MedicationOCRSystem:
 
         return denoised
 
-    async def _extract_medication_info(self, text: str, image_path: str) -> Optional[MedicationInfo]:
+    async def _extract_medication_info(
+        self, text: str, image_path: str
+    ) -> Optional[MedicationInfo]:
         """Extract structured medication information from OCR text"""
         if not text:
             return None
@@ -260,7 +266,7 @@ class MedicationOCRSystem:
             manufacturer=None,
             cn_code=None,
             confidence_score=0.0,
-            image_path=image_path
+            image_path=image_path,
         )
 
         # Extract medication name (usually largest text)
@@ -395,6 +401,7 @@ class MedicationOCRSystem:
 
                     # Create date (last day of month)
                     import calendar
+
                     last_day = calendar.monthrange(year, month)[1]
                     return date(year, month, last_day)
 
@@ -499,7 +506,7 @@ class MedicationOCRSystem:
                 markings=markings,
                 size_mm=size,
                 matched_medication=matched_med,
-                confidence=confidence
+                confidence=confidence,
             )
 
         except Exception as e:
@@ -548,7 +555,9 @@ class MedicationOCRSystem:
         # Would need reference object or calibration
         return None
 
-    async def _match_pill_database(self, shape: str, color: str, markings: Optional[str]) -> Optional[str]:
+    async def _match_pill_database(
+        self, shape: str, color: str, markings: Optional[str]
+    ) -> Optional[str]:
         """Match pill characteristics with database"""
         # Simplified matching
         # In production, use comprehensive pill database
@@ -556,7 +565,7 @@ class MedicationOCRSystem:
         pill_database = {
             ("redonda", "blanco", None): "Paracetamol 500mg",
             ("ovalada", "rosa", None): "Ibuprofeno 600mg",
-            ("cápsula", "azul", None): "Omeprazol 20mg"
+            ("cápsula", "azul", None): "Omeprazol 20mg",
         }
 
         return pill_database.get((shape, color, markings))
@@ -579,7 +588,7 @@ class MedicationOCRSystem:
             return {
                 "status": "unknown",
                 "message": "No se pudo leer la fecha de caducidad",
-                "safe": False
+                "safe": False,
             }
 
         today = date.today()
@@ -589,19 +598,19 @@ class MedicationOCRSystem:
             return {
                 "status": "expired",
                 "message": f"⚠️ CADUCADO hace {abs(days_until_expiration)} días",
-                "safe": False
+                "safe": False,
             }
         elif days_until_expiration < 30:
             return {
                 "status": "expiring_soon",
                 "message": f"⚡ Caduca en {days_until_expiration} días",
-                "safe": True
+                "safe": True,
             }
         else:
             return {
                 "status": "valid",
                 "message": f"✅ Válido por {days_until_expiration} días",
-                "safe": True
+                "safe": True,
             }
 
     def format_medication_for_voice(self, medication: MedicationInfo) -> str:

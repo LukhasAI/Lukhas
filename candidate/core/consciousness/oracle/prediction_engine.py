@@ -65,7 +65,7 @@ class PredictionEngine:
                 "conversion_optimized": round(random.random(), 2),
                 "social_influence": round(random.random(), 2),
             },
-            "vulnerability_protected": True, # Ethical boundary
+            "vulnerability_protected": True,  # Ethical boundary
         }
 
         return forecasted_state
@@ -88,14 +88,16 @@ class PredictionEngine:
         windows = []
         now = datetime.datetime.now(datetime.timezone.utc)
 
-        for i in range(next_hours * 4): # 15 minute intervals
+        for i in range(next_hours * 4):  # 15 minute intervals
             start_time = now + datetime.timedelta(minutes=i * 15)
             end_time = start_time + datetime.timedelta(minutes=15)
 
             window = {
                 "start_time_utc": start_time.isoformat(),
                 "end_time_utc": end_time.isoformat(),
-                "predicted_receptivity": random.choice(["creative", "decision_ready", "socially_influenced"]),
+                "predicted_receptivity": random.choice(
+                    ["creative", "decision_ready", "socially_influenced"]
+                ),
                 "confidence": round(random.uniform(0.5, 0.9), 2),
             }
             windows.append(window)

@@ -72,9 +72,7 @@ class EmotionalPattern:
     neuroplastic_tags: list[str] = field(default_factory=list)
     colony_propagatable: bool = False
 
-    def matches_context(
-        self, context: dict[str, Any], similarity_threshold: float = 0.7
-    ) -> float:
+    def matches_context(self, context: dict[str, Any], similarity_threshold: float = 0.7) -> float:
         """Calculate how well this pattern matches current context"""
         if not self.context_factors:
             return 0.5  # Default similarity for patterns without context
@@ -127,9 +125,7 @@ class ColonyLearningPattern:
     usage_contexts: list[str]
     propagation_strength: float
     created_by: str  # Source of pattern
-    verified_by: list[str] = field(
-        default_factory=list
-    )  # Users who verified effectiveness
+    verified_by: list[str] = field(default_factory=list)  # Users who verified effectiveness
 
     def should_propagate(self) -> bool:
         """Determine if pattern should propagate to other users"""
@@ -141,9 +137,7 @@ class ColonyLearningPattern:
         if len(self.effectiveness_scores) < 3:
             return False
 
-        avg_effectiveness = sum(self.effectiveness_scores) / len(
-            self.effectiveness_scores
-        )
+        avg_effectiveness = sum(self.effectiveness_scores) / len(self.effectiveness_scores)
         if avg_effectiveness < 0.7:
             return False
 
@@ -270,9 +264,7 @@ class VIVOXNeuroplasticLearner:
         """
         try:
             # Extract pattern features
-            pattern_features = self._extract_pattern_features(
-                regulation_response, context
-            )
+            pattern_features = self._extract_pattern_features(regulation_response, context)
 
             # Find or create matching pattern
             pattern = await self._find_or_create_pattern(
@@ -281,9 +273,7 @@ class VIVOXNeuroplasticLearner:
 
             # Update pattern with new experience
             effectiveness = (
-                user_feedback
-                if user_feedback is not None
-                else regulation_response.effectiveness
+                user_feedback if user_feedback is not None else regulation_response.effectiveness
             )
             pattern.update_effectiveness(effectiveness)
 
@@ -298,9 +288,7 @@ class VIVOXNeuroplasticLearner:
 
             # Check for colony propagation
             if effectiveness > self.colony_propagation_threshold:
-                await self._consider_colony_propagation(
-                    pattern, regulation_response, context
-                )
+                await self._consider_colony_propagation(pattern, regulation_response, context)
 
             # Emit hormonal signals for neuroplastic changes
             await self._emit_neuroplastic_hormones(pattern, effectiveness)
@@ -327,9 +315,9 @@ class VIVOXNeuroplasticLearner:
                 "intensity": regulation_response.original_state.intensity,
             },
             "strategy_used": regulation_response.strategy_used.value,
-            "context_hash": hashlib.md5(
-                json.dumps(context, sort_keys=True).encode()
-            ).hexdigest()[:8],
+            "context_hash": hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest()[
+                :8
+            ],
             "time_of_day": context.get("time_of_day", "unknown"),
             "environment": context.get("environment", "unknown"),
             "stress_level": context.get("stress_level", 0.5),
@@ -348,13 +336,8 @@ class VIVOXNeuroplasticLearner:
         best_similarity = 0.0
 
         for pattern in self.learned_patterns.values():
-            similarity = await self._calculate_pattern_similarity(
-                pattern, features, context
-            )
-            if (
-                similarity > best_similarity
-                and similarity > self.min_pattern_confidence
-            ):
+            similarity = await self._calculate_pattern_similarity(pattern, features, context)
+            if similarity > best_similarity and similarity > self.min_pattern_confidence:
                 best_similarity = similarity
                 best_match = pattern
 
@@ -362,9 +345,7 @@ class VIVOXNeuroplasticLearner:
             return best_match
 
         # Create new pattern
-        pattern_id = (
-            f"pattern_{len(self.learned_patterns)}_{int(datetime.now().timestamp())}"
-        )
+        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now().timestamp())}"
 
         triggers = self._extract_triggers(regulation_response, context)
 
@@ -441,9 +422,7 @@ class VIVOXNeuroplasticLearner:
             total_difference += abs(val1 - val2)
 
         # Convert difference to similarity (lower difference = higher similarity)
-        max_possible_difference = (
-            len(dimensions) * 2.0
-        )  # Each dimension can differ by at most 2
+        max_possible_difference = len(dimensions) * 2.0  # Each dimension can differ by at most 2
         similarity = 1.0 - (total_difference / max_possible_difference)
 
         return max(0.0, similarity)
@@ -562,7 +541,6 @@ class VIVOXNeuroplasticLearner:
             not pattern.colony_propagatable
             and pattern.success_rate > self.colony_propagation_threshold
         ):
-
             # Create colony learning pattern
             pattern_hash = hashlib.md5(
                 json.dumps(
@@ -591,9 +569,7 @@ class VIVOXNeuroplasticLearner:
 
                 logger.info(f"Created colony pattern: {pattern_hash}")
 
-    async def _emit_neuroplastic_hormones(
-        self, pattern: EmotionalPattern, effectiveness: float
-    ):
+    async def _emit_neuroplastic_hormones(self, pattern: EmotionalPattern, effectiveness: float):
         """Emit hormonal signals for neuroplastic changes"""
         if not NEUROPLASTIC_AVAILABLE:
             return
@@ -601,12 +577,8 @@ class VIVOXNeuroplasticLearner:
         try:
             # Success hormones
             if effectiveness > 0.7:
-                self.neuroplastic_connector.emit_hormone(
-                    "dopamine", effectiveness * 0.5
-                )
-                self.neuroplastic_connector.emit_hormone(
-                    "serotonin", effectiveness * 0.3
-                )
+                self.neuroplastic_connector.emit_hormone("dopamine", effectiveness * 0.5)
+                self.neuroplastic_connector.emit_hormone("serotonin", effectiveness * 0.3)
 
             # Learning hormones
             if pattern.usage_count <= 3:  # New learning
@@ -639,9 +611,7 @@ class VIVOXNeuroplasticLearner:
                 days_old = (datetime.now(timezone.utc) - pattern.last_used).days
                 recency_score = max(0.1, 1.0 - (days_old * 0.05))
 
-            relevance_score = (
-                success_score * 0.5 + usage_score * 0.3 + recency_score * 0.2
-            )
+            relevance_score = success_score * 0.5 + usage_score * 0.3 + recency_score * 0.2
             patterns_with_scores.append((pattern, relevance_score))
 
         # Sort by relevance (lowest first for removal)
@@ -678,21 +648,14 @@ class VIVOXNeuroplasticLearner:
         best_similarity = 0.0
 
         for pattern in self.learned_patterns.values():
-            similarity = await self._calculate_pattern_similarity(
-                pattern, features, context
-            )
-            if (
-                similarity > best_similarity
-                and similarity > self.min_pattern_confidence
-            ):
+            similarity = await self._calculate_pattern_similarity(pattern, features, context)
+            if similarity > best_similarity and similarity > self.min_pattern_confidence:
                 best_similarity = similarity
                 best_pattern = pattern
 
         if best_pattern and best_pattern.effective_strategies:
             # Return most effective strategy from pattern
-            strategy_name = best_pattern.effective_strategies[
-                0
-            ]  # First is usually most effective
+            strategy_name = best_pattern.effective_strategies[0]  # First is usually most effective
             try:
                 strategy = RegulationStrategy(strategy_name)
                 confidence = best_similarity * best_pattern.success_rate
@@ -756,15 +719,11 @@ class VIVOXNeuroplasticLearner:
             ),
             "most_effective_strategies": sorted_strategies[:5],
             "patterns_by_usage": {
-                "high_usage": sum(
-                    1 for p in self.learned_patterns.values() if p.usage_count >= 10
-                ),
+                "high_usage": sum(1 for p in self.learned_patterns.values() if p.usage_count >= 10),
                 "medium_usage": sum(
                     1 for p in self.learned_patterns.values() if 3 <= p.usage_count < 10
                 ),
-                "low_usage": sum(
-                    1 for p in self.learned_patterns.values() if p.usage_count < 3
-                ),
+                "low_usage": sum(1 for p in self.learned_patterns.values() if p.usage_count < 3),
             },
         }
 
@@ -805,9 +764,7 @@ class VIVOXTagSystemIntegration:
             generated_tags.extend(emergent_tags)
 
             # Update tag history
-            self._update_tag_history(
-                generated_tags, regulation_response, context, user_id
-            )
+            self._update_tag_history(generated_tags, regulation_response, context, user_id)
 
         except Exception as e:
             logger.error(f"Error processing emotional tags: {e}")
@@ -844,25 +801,17 @@ class VIVOXTagSystemIntegration:
         emergent_tags = []
 
         # Pattern: Stress + Success -> Resilience Building
-        if (
-            "vivox_stress_pattern" in current_tags
-            and "vivox_regulation_success" in current_tags
-        ):
+        if "vivox_stress_pattern" in current_tags and "vivox_regulation_success" in current_tags:
             emergent_tags.append("resilience_building")
             emergent_tags.append("stress_mastery_developing")
 
         # Pattern: Multiple learning tags -> Advanced User
-        learning_tags = [
-            tag for tag in current_tags if "learning" in tag or "adaptation" in tag
-        ]
+        learning_tags = [tag for tag in current_tags if "learning" in tag or "adaptation" in tag]
         if len(learning_tags) >= 2:
             emergent_tags.append("advanced_emotional_learner")
 
         # Pattern: Colony learning + Success -> Pattern Leader
-        if (
-            "vivox_colony_learning" in current_tags
-            and "vivox_regulation_success" in current_tags
-        ):
+        if "vivox_colony_learning" in current_tags and "vivox_regulation_success" in current_tags:
             emergent_tags.append("emotional_pattern_leader")
 
         return emergent_tags
@@ -932,15 +881,11 @@ class VIVOXTagSystemIntegration:
         return {
             "total_tag_activations": sum(tag_counts.values()),
             "unique_tags_activated": len(tag_counts),
-            "most_frequent_tags": sorted(
-                tag_counts.items(), key=lambda x: x[1], reverse=True
-            )[:5],
+            "most_frequent_tags": sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:5],
             "most_effective_tags": most_effective_tags,
             "tag_activation_trend": len(relevant_history),
             "learning_indicators": {
-                "neuroplastic_adaptations": tag_counts.get(
-                    "vivox_neuroplastic_adaptation", 0
-                ),
+                "neuroplastic_adaptations": tag_counts.get("vivox_neuroplastic_adaptation", 0),
                 "successful_regulations": tag_counts.get("vivox_regulation_success", 0),
                 "stress_patterns_identified": tag_counts.get("vivox_stress_pattern", 0),
                 "colony_learning_events": tag_counts.get("vivox_colony_learning", 0),

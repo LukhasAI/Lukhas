@@ -17,9 +17,7 @@ import subprocess
 from pathlib import Path
 
 # Setup logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -137,9 +135,7 @@ class SyntaxFixerBot:
             if unicode_char in content:
                 content = content.replace(unicode_char, replacement)
                 self.stats["patterns_applied"] += 1
-                logger.debug(
-                    f"🔧 Replaced unicode character '{unicode_char}' with '{replacement}'"
-                )
+                logger.debug(f"🔧 Replaced unicode character '{unicode_char}' with '{replacement}'")
 
         return content
 
@@ -315,14 +311,10 @@ class SyntaxFixerBot:
                 self.stats["files_fixed"] += 1
 
                 if syntax_valid:
-                    logger.info(
-                        f"✅ Fixed: {file_path.relative_to(self.workspace_path)}"
-                    )
+                    logger.info(f"✅ Fixed: {file_path.relative_to(self.workspace_path)}")
                     return True
                 else:
-                    logger.warning(
-                        f"⚠️ Partial fix: {file_path.relative_to(self.workspace_path)}"
-                    )
+                    logger.warning(f"⚠️ Partial fix: {file_path.relative_to(self.workspace_path)}")
                     return False
 
             return syntax_valid
@@ -356,9 +348,7 @@ class SyntaxFixerBot:
         if remaining_errors:
             logger.warning(f"⚠️ {len(remaining_errors)} files still have syntax errors")
             for file_path, error in remaining_errors[:5]:  # Show first 5
-                logger.warning(
-                    f"   - {file_path.relative_to(self.workspace_path)}: {error}"
-                )
+                logger.warning(f"   - {file_path.relative_to(self.workspace_path)}: {error}")
         else:
             logger.info("🎉 ALL SYNTAX ERRORS FIXED! System health: 100%")
 
@@ -372,10 +362,10 @@ class SyntaxFixerBot:
 ╚═══════════════════════════════════════════════════════════════════════════╝
 
 📊 STATISTICS:
-   • Files Scanned: {self.stats['scanned']}
-   • Errors Found: {self.stats['errors_found']}
-   • Files Fixed: {self.stats['files_fixed']}
-   • Patterns Applied: {self.stats['patterns_applied']}
+   • Files Scanned: {self.stats["scanned"]}
+   • Errors Found: {self.stats["errors_found"]}
+   • Files Fixed: {self.stats["files_fixed"]}
+   • Patterns Applied: {self.stats["patterns_applied"]}
 
 ✅ FIXED FILES:
 """

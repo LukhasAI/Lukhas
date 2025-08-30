@@ -81,12 +81,7 @@ class BrainCollapseManager:
         analysis: dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        return (
-            analysis.get("qi_like_state_trends", {}).get(
-                "avg_coherence_trend", 1.0
-            )
-            < 0.1
-        )
+        return analysis.get("qi_like_state_trends", {}).get("avg_coherence_trend", 1.0) < 0.1
 
     # ΛPROPAGATOR
     async def handle_collapse(self) -> None:
@@ -238,9 +233,7 @@ def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     #                A real implementation would need to escalate the collapse
     #                to a higher-level system or to a human operator.
     if collapse_manager.recovery_attempts > 5:
-        logger.critical(
-            "Maximum recovery attempts reached. Escalating to human operator."
-        )
+        logger.critical("Maximum recovery attempts reached. Escalating to human operator.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════

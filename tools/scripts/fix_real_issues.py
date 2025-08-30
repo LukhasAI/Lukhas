@@ -207,9 +207,7 @@ def main():
 
             # Group issues by type
             undefined_issues = [i for i in file_issues if i["code"] == "F821"]
-            syntax_issues = [
-                i for i in file_issues if i["code"] in ["E999", "E901", "E902"]
-            ]
+            syntax_issues = [i for i in file_issues if i["code"] in ["E999", "E901", "E902"]]
 
             fixed = False
 

@@ -375,9 +375,7 @@ class ComprehensiveCoreAuditor:
                     # Categorize file
                     category = self._categorize_file(item)
                     if category:
-                        self.audit_results["categorized_files"][category].append(
-                            str(item)
-                        )
+                        self.audit_results["categorized_files"][category].append(str(item))
                         self.audit_results["category_stats"][category] += 1
                     else:
                         self.audit_results["unclassified_files"].append(str(item))
@@ -396,9 +394,7 @@ class ComprehensiveCoreAuditor:
 
         except Exception as e:
             print(f"   ❌ Error scanning {directory}: {e}")
-            self.audit_results["potential_issues"].append(
-                f"Error scanning {directory}: {e}"
-            )
+            self.audit_results["potential_issues"].append(f"Error scanning {directory}: {e}")
 
     def _categorize_file(self, file_path: Path) -> Optional[str]:
         """Categorize a file based on its path and content"""
@@ -450,10 +446,8 @@ class ComprehensiveCoreAuditor:
 
         for pattern in skip_patterns:
             if (
-                pattern.startswith("*")
-                and file_name.endswith(pattern[1:])
-                or pattern.startswith(".")
-                and file_name == pattern
+                (pattern.startswith("*") and file_name.endswith(pattern[1:]))
+                or (pattern.startswith(".") and file_name == pattern)
                 or pattern in file_str
             ):
                 return True
@@ -487,22 +481,14 @@ class ComprehensiveCoreAuditor:
             # Try to infer potential category from filename/path
             potential_category = self._infer_category_from_filename(path_obj)
             if potential_category:
-                unclassified_analysis["potential_categories"][
-                    potential_category
-                ].append(file_path)
+                unclassified_analysis["potential_categories"][potential_category].append(file_path)
 
         # Find unique patterns in unclassified files
-        patterns = self._find_filename_patterns(
-            self.audit_results["unclassified_files"]
-        )
+        patterns = self._find_filename_patterns(self.audit_results["unclassified_files"])
         unclassified_analysis["unique_patterns"] = patterns
 
-        print(
-            f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}"
-        )
-        print(
-            f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories"
-        )
+        print(f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}")
+        print(f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories")
         print(
             f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified"
         )
@@ -583,11 +569,11 @@ class ComprehensiveCoreAuditor:
 
 ## 📊 EXECUTIVE SUMMARY
 
-- **Total Files Scanned:** {self.audit_results['total_files']:,}
-- **Directories Scanned:** {len(self.audit_results['directories_scanned'])}
-- **Categorized Files:** {sum(self.audit_results['category_stats'].values()):,}
-- **Unclassified Files:** {len(self.audit_results['unclassified_files']):,}
-- **Classification Rate:** {(sum(self.audit_results['category_stats'].values()) / max(self.audit_results['total_files'], 1) * 100):.1f}%
+- **Total Files Scanned:** {self.audit_results["total_files"]:,}
+- **Directories Scanned:** {len(self.audit_results["directories_scanned"])}
+- **Categorized Files:** {sum(self.audit_results["category_stats"].values()):,}
+- **Unclassified Files:** {len(self.audit_results["unclassified_files"]):,}
+- **Classification Rate:** {(sum(self.audit_results["category_stats"].values()) / max(self.audit_results["total_files"], 1) * 100):.1f}%
 
 ---
 
@@ -600,7 +586,9 @@ class ComprehensiveCoreAuditor:
         for dir_name in self.core_directories:
             if dir_name in self.audit_results["directories_scanned"]:
                 stats = self.audit_results["directory_stats"][dir_name]
-                report += f"| `{dir_name}` | ✅ Found | {stats['total_files']} | `{stats['path']}` |\n"
+                report += (
+                    f"| `{dir_name}` | ✅ Found | {stats['total_files']} | `{stats['path']}` |\n"
+                )
             else:
                 report += f"| `{dir_name}` | ❌ Not Found | 0 | N/A |\n"
 
@@ -642,9 +630,9 @@ class ComprehensiveCoreAuditor:
 ## ❓ UNCLASSIFIED COMPONENTS ANALYSIS
 
 ### 📊 Overview
-- **Total Unclassified:** {unclassified_analysis['total_unclassified']} files
-- **Directories Affected:** {len(unclassified_analysis['by_directory'])}
-- **Potential Categories Identified:** {len(unclassified_analysis['potential_categories'])}
+- **Total Unclassified:** {unclassified_analysis["total_unclassified"]} files
+- **Directories Affected:** {len(unclassified_analysis["by_directory"])}
+- **Potential Categories Identified:** {len(unclassified_analysis["potential_categories"])}
 
 ### 📁 Unclassified by Directory
 """
@@ -660,9 +648,7 @@ class ComprehensiveCoreAuditor:
             report += """
 ### 🔍 Potential Categories for Unclassified Files
 """
-            for category, files in unclassified_analysis[
-                "potential_categories"
-            ].items():
+            for category, files in unclassified_analysis["potential_categories"].items():
                 report += f"- **{category.title()}:** {len(files)} files\n"
 
         if unclassified_analysis["unique_patterns"]:
@@ -730,7 +716,7 @@ class ComprehensiveCoreAuditor:
 ## ✅ AUDIT COMPLETION STATUS
 
 - **Scan Completed:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-- **Total Processing Time:** ~{len(self.audit_results['directories_scanned']) * 2} seconds
+- **Total Processing Time:** ~{len(self.audit_results["directories_scanned"]) * 2} seconds
 - **Coverage:** 100% of accessible core directories
 - **Accuracy:** Machine learning categorization with manual validation needed
 - **Next Steps:** Review unclassified components and implement recommendations
@@ -743,9 +729,7 @@ class ComprehensiveCoreAuditor:
 
         return report
 
-    def _generate_recommendations(
-        self, unclassified_analysis: dict[str, Any]
-    ) -> list[str]:
+    def _generate_recommendations(self, unclassified_analysis: dict[str, Any]) -> list[str]:
         """Generate actionable recommendations based on audit results"""
         recommendations = []
 
@@ -759,9 +743,7 @@ class ComprehensiveCoreAuditor:
             )
 
         if unclassified_analysis["potential_categories"]:
-            recommendations.append(
-                "Consider creating new categories for identified patterns"
-            )
+            recommendations.append("Consider creating new categories for identified patterns")
 
         # Check for directories with many files
         for dir_name, stats in self.audit_results["directory_stats"].items():
@@ -773,21 +755,15 @@ class ComprehensiveCoreAuditor:
         # Check for dominant file types
         python_files = self.audit_results["file_types"].get("python", 0)
         if python_files > total_files * 0.7:
-            recommendations.append(
-                "High Python file concentration - consider modular organization"
-            )
+            recommendations.append("High Python file concentration - consider modular organization")
 
         if len(self.audit_results["categorized_files"]) < 5:
             recommendations.append(
                 "Consider expanding categorization system for better organization"
             )
 
-        recommendations.append(
-            "Implement automated categorization for future file additions"
-        )
-        recommendations.append(
-            "Create cleanup scripts for empty directories and obsolete files"
-        )
+        recommendations.append("Implement automated categorization for future file additions")
+        recommendations.append("Create cleanup scripts for empty directories and obsolete files")
 
         return recommendations
 
@@ -803,9 +779,7 @@ class ComprehensiveCoreAuditor:
         report = self.generate_comprehensive_report()
 
         # Save report
-        report_path = (
-            self.workspace_root / f"COMPREHENSIVE_CORE_AUDIT_{self.audit_timestamp}.md"
-        )
+        report_path = self.workspace_root / f"COMPREHENSIVE_CORE_AUDIT_{self.audit_timestamp}.md"
         with open(report_path, "w", encoding="utf-8") as f:
             f.write(report)
 

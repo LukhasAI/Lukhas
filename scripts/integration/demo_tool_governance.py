@@ -90,9 +90,7 @@ def demo_safety_modes():
 
         print(f"   Temperature: {params.temperature}")
         print(f"   Tools allowed: {params.tool_allowlist}")
-        print(
-            f"   Guardian validation: {'Enhanced' if mode == 'strict' else 'Standard'}"
-        )
+        print(f"   Guardian validation: {'Enhanced' if mode == 'strict' else 'Standard'}")
 
 
 def demo_audit_bundle():

@@ -143,8 +143,7 @@ class ObjectPool:
             "max_size": self.max_size,
             "created": self.created_count,
             "reused": self.reused_count,
-            "reuse_rate": self.reused_count
-            / max(1, self.created_count + self.reused_count),
+            "reuse_rate": self.reused_count / max(1, self.created_count + self.reused_count),
         }
 
 
@@ -256,9 +255,7 @@ class MemoryOptimizer:
 class ConnectionPool:
     """Generic connection pool for database/HTTP connections"""
 
-    def __init__(
-        self, factory: Callable, max_connections: int = 10, timeout: float = 30.0
-    ):
+    def __init__(self, factory: Callable, max_connections: int = 10, timeout: float = 30.0):
         self.factory = factory
         self.max_connections = max_connections
         self.timeout = timeout
@@ -434,9 +431,7 @@ class PerformanceMonitor:
 
             for metric_name, values in self.metrics.items():
                 if values:
-                    recent_values = [
-                        v["value"] for v in values[-100:]
-                    ]  # Last 100 values
+                    recent_values = [v["value"] for v in values[-100:]]  # Last 100 values
                     stats["metrics"][metric_name] = {
                         "count": len(values),
                         "average": sum(recent_values) / len(recent_values),
@@ -479,17 +474,13 @@ io_executor = ThreadPoolExecutor(max_workers=10, thread_name_prefix="lukhas-io")
 async def run_in_cpu_executor(func: Callable, *args, **kwargs):
     """Run CPU-intensive function in thread pool"""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(
-        cpu_executor, functools.partial(func, **kwargs), *args
-    )
+    return await loop.run_in_executor(cpu_executor, functools.partial(func, **kwargs), *args)
 
 
 async def run_in_io_executor(func: Callable, *args, **kwargs):
     """Run I/O function in thread pool"""
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(
-        io_executor, functools.partial(func, **kwargs), *args
-    )
+    return await loop.run_in_executor(io_executor, functools.partial(func, **kwargs), *args)
 
 
 def optimize_imports():
@@ -542,17 +533,11 @@ def get_optimization_stats() -> dict[str, Any]:
         "thread_pools": {
             "cpu_executor": {
                 "max_workers": cpu_executor._max_workers,
-                "threads": (
-                    len(cpu_executor._threads)
-                    if hasattr(cpu_executor, "_threads")
-                    else 0
-                ),
+                "threads": (len(cpu_executor._threads) if hasattr(cpu_executor, "_threads") else 0),
             },
             "io_executor": {
                 "max_workers": io_executor._max_workers,
-                "threads": (
-                    len(io_executor._threads) if hasattr(io_executor, "_threads") else 0
-                ),
+                "threads": (len(io_executor._threads) if hasattr(io_executor, "_threads") else 0),
             },
         },
     }
@@ -585,7 +570,7 @@ if __name__ == "__main__":
 
     print(f"First call: {first_call_time:.3f}s")
     print(f"Second call: {second_call_time:.3f}s")
-    print(f"Speedup: {first_call_time/second_call_time:.1f}x")
+    print(f"Speedup: {first_call_time / second_call_time:.1f}x")
     print(f"Cache stats: {expensive_calculation.cache.stats()}")
 
     # Print optimization stats

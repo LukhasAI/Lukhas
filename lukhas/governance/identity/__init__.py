@@ -83,8 +83,7 @@ class IdentityImportBridge:
         if old_path in IMPORT_MAPPINGS:
             new_path = IMPORT_MAPPINGS[old_path]
             warnings.warn(
-                f"Import path '{old_path}' is deprecated. "
-                f"Please use '{new_path}' instead.",
+                f"Import path '{old_path}' is deprecated. Please use '{new_path}' instead.",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -96,9 +95,7 @@ class IdentityImportBridge:
                 return self._cache[new_path]
             except ImportError as e:
                 logger.error(f"Failed to import {new_path}: {e}")
-                raise ImportError(
-                    f"Cannot import {old_path} (mapped to {new_path})"
-                ) from e
+                raise ImportError(f"Cannot import {old_path} (mapped to {new_path})") from e
 
         # For submodules, create a bridge
         return IdentitySubmoduleBridge(f"identity.{name}")
@@ -123,8 +120,7 @@ class IdentitySubmoduleBridge:
         if full_path in IMPORT_MAPPINGS:
             new_path = IMPORT_MAPPINGS[full_path]
             warnings.warn(
-                f"Import path '{full_path}' is deprecated. "
-                f"Please use '{new_path}' instead.",
+                f"Import path '{full_path}' is deprecated. Please use '{new_path}' instead.",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -217,11 +213,11 @@ def verify_tier_access(user_id: str, required_tier: str) -> bool:
 
 # Core module exports
 __all__ = [
+    "IMPORT_MAPPINGS",
     "IdentityClient",
+    "IdentityImportBridge",
     "get_identity_client",
     "verify_tier_access",
-    "IdentityImportBridge",
-    "IMPORT_MAPPINGS",
 ]
 
 # Log successful initialization

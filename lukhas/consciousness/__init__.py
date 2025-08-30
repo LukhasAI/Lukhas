@@ -28,11 +28,11 @@ from .consciousness_wrapper import (
 ConsciousnessKernel = ConsciousnessWrapper
 
 __all__ = [
-    "ConsciousnessWrapper",
-    "ConsciousnessKernel",  # Alias
-    "ConsciousnessConfig",
-    "ConsciousnessState",
     "AwarenessLevel",
+    "ConsciousnessConfig",
+    "ConsciousnessKernel",  # Alias
+    "ConsciousnessState",
+    "ConsciousnessWrapper",
     "SafetyMode",
 ]
 

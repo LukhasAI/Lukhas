@@ -103,9 +103,7 @@ class APIValidator:
                     ValidationRule(
                         field="email",
                         validation_type=ValidationType.PATTERN,
-                        params={
-                            "pattern": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                        },
+                        params={"pattern": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"},
                         error_message="Invalid email format",
                     ),
                     ValidationRule(
@@ -142,9 +140,7 @@ class APIValidator:
                     ValidationRule(
                         field="dream_type",
                         validation_type=ValidationType.ENUM,
-                        params={
-                            "values": ["lucid", "guided", "free", "narrative", "visual"]
-                        },
+                        params={"values": ["lucid", "guided", "free", "narrative", "visual"]},
                         error_message="Dream type must be one of: lucid, guided, free, narrative, visual",
                     ),
                     ValidationRule(
@@ -252,9 +248,7 @@ class APIValidator:
             ),
         }
 
-    async def validate_request(
-        self, schema_name: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def validate_request(self, schema_name: str, data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate request data against a schema
 
@@ -290,11 +284,7 @@ class APIValidator:
             extra_fields = set(data.keys()) - field_names
             if extra_fields:
                 for field in extra_fields:
-                    errors.append(
-                        ValidationError(
-                            field, f"Unexpected field: {field}", data[field]
-                        )
-                    )
+                    errors.append(ValidationError(field, f"Unexpected field: {field}", data[field]))
 
         # Apply custom validators
         for validator in schema.custom_validators:
@@ -329,9 +319,7 @@ class APIValidator:
         # Check required fields
         if rule.validation_type == ValidationType.REQUIRED:
             if field_value is None or field_value == "":
-                raise ValidationError(
-                    rule.field, rule.error_message or f"{rule.field} is required"
-                )
+                raise ValidationError(rule.field, rule.error_message or f"{rule.field} is required")
             return field_value
 
         # Skip other validations if field is not present
@@ -344,8 +332,7 @@ class APIValidator:
             if not isinstance(field_value, expected_type):
                 raise ValidationError(
                     rule.field,
-                    rule.error_message
-                    or f"{rule.field} must be of type {expected_type.__name__}",
+                    rule.error_message or f"{rule.field} must be of type {expected_type.__name__}",
                     field_value,
                 )
 
@@ -355,8 +342,7 @@ class APIValidator:
             if not re.match(pattern, str(field_value)):
                 raise ValidationError(
                     rule.field,
-                    rule.error_message
-                    or f"{rule.field} does not match required pattern",
+                    rule.error_message or f"{rule.field} does not match required pattern",
                     field_value,
                 )
 
@@ -388,16 +374,14 @@ class APIValidator:
             if min_len is not None and value_len < min_len:
                 raise ValidationError(
                     rule.field,
-                    rule.error_message
-                    or f"{rule.field} must be at least {min_len} characters",
+                    rule.error_message or f"{rule.field} must be at least {min_len} characters",
                     field_value,
                 )
 
             if max_len is not None and value_len > max_len:
                 raise ValidationError(
                     rule.field,
-                    rule.error_message
-                    or f"{rule.field} must be at most {max_len} characters",
+                    rule.error_message or f"{rule.field} must be at most {max_len} characters",
                     field_value,
                 )
 
@@ -407,8 +391,7 @@ class APIValidator:
             if field_value not in allowed_values:
                 raise ValidationError(
                     rule.field,
-                    rule.error_message
-                    or f"{rule.field} must be one of {allowed_values}",
+                    rule.error_message or f"{rule.field} must be one of {allowed_values}",
                     field_value,
                 )
 
@@ -439,9 +422,7 @@ class APIValidator:
             return errors[0]
 
         error_messages = [f"{e.field}: {e.message}" for e in errors]
-        return ValidationError(
-            "multiple_fields", f"Validation failed: {'; '.join(error_messages)}"
-        )
+        return ValidationError("multiple_fields", f"Validation failed: {'; '.join(error_messages)}")
 
     async def validate_with_retry(
         self,
@@ -553,9 +534,7 @@ if __name__ == "__main__":
         invalid_email = {"username": "test_user", "email": "not-an-email", "age": 25}
 
         try:
-            result = await validator.validate_request(
-                "user_registration", invalid_email
-            )
+            result = await validator.validate_request("user_registration", invalid_email)
             print(f"✅ Valid: {result}")
         except ValidationError as e:
             print(f"✅ Correctly rejected: {e}")

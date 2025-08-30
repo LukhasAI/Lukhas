@@ -119,7 +119,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
             # Configure TraceMemoryLogger to use our storage location
             config = {
                 "log_dir": self.storage_location,
-                "recent_traces_limit": 200  # Increase cache for API usage
+                "recent_traces_limit": 200,  # Increase cache for API usage
             }
 
             self._trace_logger = TraceMemoryLogger(config=config)
@@ -179,7 +179,9 @@ class FileTraceStorageProvider(TraceStorageProvider):
             trace_logger = self._get_trace_logger()
 
             # Check if storage directory is accessible
-            storage_accessible = os.path.isdir(self.storage_location) and os.access(self.storage_location, os.W_OK)
+            storage_accessible = os.path.isdir(self.storage_location) and os.access(
+                self.storage_location, os.W_OK
+            )
 
             # Check if all_traces.jsonl exists and is readable
             all_traces_file = os.path.join(self.storage_location, "all_traces.jsonl")
@@ -194,7 +196,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
                 "storage_accessible": storage_accessible,
                 "traces_file_exists": traces_file_exists,
                 "recent_traces_count": recent_count,
-                "trace_logger_initialized": True
+                "trace_logger_initialized": True,
             }
         except Exception as e:
             logger.error(f"Health check failed: {e}")
@@ -202,15 +204,13 @@ class FileTraceStorageProvider(TraceStorageProvider):
                 "status": "unhealthy",
                 "error": str(e),
                 "storage_location": self.storage_location,
-                "trace_logger_initialized": False
+                "trace_logger_initialized": False,
             }
 
 
 # Factory function to create storage provider based on configuration
 def create_trace_storage_provider(
-    provider_type: str = "file",
-    storage_location: Optional[str] = None,
-    **kwargs
+    provider_type: str = "file", storage_location: Optional[str] = None, **kwargs
 ) -> TraceStorageProvider:
     """
     Factory function to create trace storage providers.
@@ -250,8 +250,7 @@ def get_default_trace_provider() -> TraceStorageProvider:
         # Use environment variable or default location
         storage_location = os.getenv("LUKHAS_TRACE_STORAGE", "var/traces/")
         _default_provider = create_trace_storage_provider(
-            provider_type="file",
-            storage_location=storage_location
+            provider_type="file", storage_location=storage_location
         )
     return _default_provider
 

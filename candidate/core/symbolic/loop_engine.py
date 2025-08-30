@@ -102,9 +102,7 @@ class SymbolicLoopEngine:
                 "bio_state": state.bio_grounding,
                 "coherence_level": 0.8,
             }
-            state.qi_state = await self.qi.process_symbolic_state(
-                qi_input
-            )
+            state.qi_state = await self.qi.process_symbolic_state(qi_input)
 
             # Stage 4: Consciousness Integration - Awareness and binding
             consciousness_input = {
@@ -113,8 +111,8 @@ class SymbolicLoopEngine:
                 "qi_state": state.qi_state,
                 "integration_mode": "holistic",
             }
-            state.conscious_representation = (
-                await self.consciousness.integrate_symbolic(consciousness_input)
+            state.conscious_representation = await self.consciousness.integrate_symbolic(
+                consciousness_input
             )
 
             # Stage 5: Emergent Meaning - Symbol returns enriched
@@ -229,9 +227,7 @@ class SymbolicLoopEngine:
         )
 
         # Find quantum correlations
-        qi_correlations = await self.qi.find_correlations(
-            [s.qi_state for s in symbols.values()]
-        )
+        qi_correlations = await self.qi.find_correlations([s.qi_state for s in symbols.values()])
 
         # Identify conscious gestalts
         conscious_gestalts = await self.consciousness.identify_gestalts(
@@ -239,9 +235,7 @@ class SymbolicLoopEngine:
         )
 
         # Combine into emergent patterns
-        for bio_c, qi_c, conscious_g in zip(
-            bio_clusters, qi_correlations, conscious_gestalts
-        ):
+        for bio_c, qi_c, conscious_g in zip(bio_clusters, qi_correlations, conscious_gestalts):
             patterns.append(
                 {
                     "type": "emergent_symbolic_pattern",
@@ -249,18 +243,14 @@ class SymbolicLoopEngine:
                     "qi_correlation": qi_c,
                     "conscious_gestalt": conscious_g,
                     "symbols_involved": [
-                        s
-                        for s in symbols
-                        if self._symbol_in_pattern(s, bio_c, qi_c, conscious_g)
+                        s for s in symbols if self._symbol_in_pattern(s, bio_c, qi_c, conscious_g)
                     ],
                 }
             )
 
         return patterns
 
-    def _symbol_in_pattern(
-        self, symbol: str, bio: Any, quantum: Any, conscious: Any
-    ) -> bool:
+    def _symbol_in_pattern(self, symbol: str, bio: Any, quantum: Any, conscious: Any) -> bool:
         """Check if a symbol participates in an emergent pattern."""
         # Implementation would check if symbol's states are part of the pattern
         return True  # Simplified for illustration

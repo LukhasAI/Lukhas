@@ -19,9 +19,11 @@ def monitor():
     yield monitor
     shutil.rmtree(log_dir)
 
+
 def test_initial_drift_score_is_zero(monitor: ComplianceMonitor):
     """Test that the initial drift score is 0."""
     assert monitor.drift_score == 0.0
+
 
 def test_no_drift_with_stable_high_compliance(monitor: ComplianceMonitor):
     """Test that the drift score remains low with stable high compliance."""
@@ -31,6 +33,7 @@ def test_no_drift_with_stable_high_compliance(monitor: ComplianceMonitor):
     assert monitor.drift_score < 0.1
     monitor.recalibrate.assert_not_called()
     monitor.escalate_to_human.assert_not_called()
+
 
 def test_drift_detection_with_sudden_drop(monitor: ComplianceMonitor):
     """Test that a sudden drop in compliance is detected."""
@@ -43,6 +46,7 @@ def test_drift_detection_with_sudden_drop(monitor: ComplianceMonitor):
 
     assert monitor.drift_score > initial_drift_score
     assert monitor.drift_score > 0.05
+
 
 def test_recalibration_is_triggered(monitor: ComplianceMonitor):
     """Test that recalibration is triggered when drift exceeds threshold."""
@@ -57,6 +61,7 @@ def test_recalibration_is_triggered(monitor: ComplianceMonitor):
     monitor.recalibrate.assert_called()
     monitor.escalate_to_human.assert_not_called()
 
+
 def test_escalation_is_triggered(monitor: ComplianceMonitor):
     """Test that escalation is triggered when drift exceeds critical threshold."""
     # Establish a high compliance baseline
@@ -68,6 +73,7 @@ def test_escalation_is_triggered(monitor: ComplianceMonitor):
         monitor.evaluate_decision(f"D{i}", 0.5)
 
     monitor.escalate_to_human.assert_called()
+
 
 def test_compliance_history_is_maintained(monitor: ComplianceMonitor):
     """Test that the compliance history window is maintained."""

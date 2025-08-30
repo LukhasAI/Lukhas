@@ -56,7 +56,7 @@ def main():
     # Choose compression
     comp = "gz"
     try:
-        import zstandard as zstd  # noqa: F401
+        import zstandard as zstd
 
         comp = "zst"
     except Exception:

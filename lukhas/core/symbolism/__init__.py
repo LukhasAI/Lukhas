@@ -11,11 +11,11 @@ from .methylation_model import MethylationModel, get_methylation_model
 from .tags import SymbolicTag, TagManager, TagPermission, TagScope, get_tag_manager
 
 __all__ = [
-    "TagScope",
-    "TagPermission",
+    "MethylationModel",
     "SymbolicTag",
     "TagManager",
-    "get_tag_manager",
-    "MethylationModel",
+    "TagPermission",
+    "TagScope",
     "get_methylation_model",
+    "get_tag_manager",
 ]

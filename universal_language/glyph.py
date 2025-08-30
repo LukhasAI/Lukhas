@@ -30,7 +30,6 @@ GLYPH_MAP: dict[str, str] = {
     "🌱": "Emergent Property / Growth / New Potential",
     "❓": "Ambiguity / Uncertainty / Query Point",
     "👁️": "Observation / Monitoring / Awareness State",
-
     # Navigation and tracking
     "🧭": "Path Tracking / Logic Navigation / Trace Route",
     "🌊": "Entropic Divergence / Gradual Instability / Drift Point",
@@ -38,14 +37,12 @@ GLYPH_MAP: dict[str, str] = {
     "📝": "Developer Note / Insight / Anchor Comment",
     "🤖": "AI Inference / Machine Reasoning / Automated Logic",
     "🏛️": "Core Architecture / Structural Foundation / System Pillar",
-
     # Biological and consciousness
     "🧠": "Consciousness / Cognitive Process / Mental State",
     "💭": "Thought / Mental Process / Cognition",
     "🫀": "Biological Core / Life Process / Vital System",
     "🧬": "Genetic / Evolutionary / Adaptive Process",
     "🦋": "Transformation / Metamorphosis / Evolution",
-
     # Emotional spectrum
     "😊": "Happiness / Joy / Positive Emotion",
     "😢": "Sadness / Sorrow / Negative Emotion",
@@ -53,7 +50,6 @@ GLYPH_MAP: dict[str, str] = {
     "😨": "Fear / Anxiety / Uncertainty",
     "😍": "Love / Affection / Connection",
     "🤔": "Contemplation / Thinking / Processing",
-
     # Action and state
     "✨": "Creation / Generation / Manifestation",
     "🔥": "Energy / Intensity / Active Process",
@@ -61,39 +57,36 @@ GLYPH_MAP: dict[str, str] = {
     "⚡": "Sudden Change / Flash / Instant Action",
     "🌟": "Excellence / Peak / Optimal State",
     "🎯": "Target / Goal / Objective",
-
     # System states
     "🟢": "Active / Running / Operational",
     "🟡": "Warning / Caution / Transitional",
     "🔴": "Stop / Error / Critical",
     "🔵": "Information / Neutral / Stable",
     "⚫": "Dormant / Inactive / Null State",
-
     # Quantum and abstract
     "♾️": "Infinity / Unbounded / Eternal",
     "🌀": "Vortex / Spiral / Recursive Pattern",
     "🔮": "Prediction / Future State / Possibility",
     "⚛️": "Quantum / Atomic / Fundamental",
     "🌌": "Universal / Cosmic / All-Encompassing",
-
     # Communication
     "📡": "Transmission / Signal / Communication",
     "📨": "Message / Information / Data",
     "🔊": "Voice / Sound / Audio Signal",
     "👁️‍🗨️": "Visual Communication / Image / Vision",
     "🤝": "Agreement / Consensus / Cooperation",
-
     # Memory and time
     "💾": "Storage / Memory / Persistence",
     "⏰": "Time / Temporal / Schedule",
     "🔄": "Cycle / Repetition / Loop",
     "⏸️": "Pause / Hold / Suspension",
-    "▶️": "Play / Continue / Progress"
+    "▶️": "Play / Continue / Progress",
 }
 
 
 class GLYPHType(Enum):
     """Types of GLYPH tokens"""
+
     SYMBOLIC = "symbolic"  # Visual symbol
     TEXTUAL = "textual"  # Text representation
     COMPOSITE = "composite"  # Multiple glyphs
@@ -108,6 +101,7 @@ class GLYPHToken:
 
     Represents a single meaningful unit in the GLYPH system.
     """
+
     glyph: str  # The visual glyph (emoji/symbol)
     meaning: str  # The semantic meaning
     token_type: GLYPHType = GLYPHType.SYMBOLIC
@@ -133,7 +127,7 @@ class GLYPHToken:
             "type": self.token_type.value,
             "context": self.context,
             "weight": self.weight,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -142,6 +136,7 @@ class GLYPHSequence:
     """
     Sequence of GLYPH tokens forming a message or concept.
     """
+
     tokens: list[GLYPHToken]
     sequence_id: Optional[str] = None
     entropy_bits: float = 0.0
@@ -210,8 +205,9 @@ class GLYPHEngine:
             logger.error(f"Failed to register custom GLYPH: {e}")
             return False
 
-    def create_token(self, glyph: str, meaning: Optional[str] = None,
-                    context: Optional[str] = None) -> GLYPHToken:
+    def create_token(
+        self, glyph: str, meaning: Optional[str] = None, context: Optional[str] = None
+    ) -> GLYPHToken:
         """Create a GLYPH token"""
         # Check cache first
         cache_key = f"{glyph}:{meaning}:{context}"
@@ -222,11 +218,7 @@ class GLYPHEngine:
         if not meaning:
             meaning = self.glyph_map.get(glyph, "Unknown")
 
-        token = GLYPHToken(
-            glyph=glyph,
-            meaning=meaning,
-            context=context
-        )
+        token = GLYPHToken(glyph=glyph, meaning=meaning, context=context)
 
         # Cache the token
         self.glyph_cache[cache_key] = token
@@ -249,8 +241,9 @@ class GLYPHEngine:
 
         return GLYPHSequence(tokens=tokens)
 
-    def create_sequence(self, glyphs: list[str],
-                       meanings: Optional[list[str]] = None) -> GLYPHSequence:
+    def create_sequence(
+        self, glyphs: list[str], meanings: Optional[list[str]] = None
+    ) -> GLYPHSequence:
         """Create a GLYPH sequence from a list of glyphs"""
         tokens = []
 
@@ -273,11 +266,7 @@ class GLYPHEngine:
                 tokens.append(token)
             else:
                 # Use a default unknown glyph
-                token = GLYPHToken(
-                    glyph="❓",
-                    meaning=concept,
-                    token_type=GLYPHType.TEXTUAL
-                )
+                token = GLYPHToken(glyph="❓", meaning=concept, token_type=GLYPHType.TEXTUAL)
                 tokens.append(token)
 
         return GLYPHSequence(tokens=tokens)
@@ -307,8 +296,7 @@ class GLYPHEngine:
 
         return GLYPHSequence(tokens=all_tokens)
 
-    def filter_by_type(self, sequence: GLYPHSequence,
-                      token_type: GLYPHType) -> GLYPHSequence:
+    def filter_by_type(self, sequence: GLYPHSequence, token_type: GLYPHType) -> GLYPHSequence:
         """Filter GLYPH sequence by token type"""
         filtered_tokens = [t for t in sequence.tokens if t.token_type == token_type]
         return GLYPHSequence(tokens=filtered_tokens)
@@ -323,7 +311,7 @@ class GLYPHEngine:
             "version": GLYPH_MAP_VERSION,
             "core_glyphs": dict(GLYPH_MAP.items()),
             "custom_glyphs": self.custom_glyphs,
-            "total_glyphs": len(self.glyph_map)
+            "total_glyphs": len(self.glyph_map),
         }
 
     def import_glyph_map(self, glyph_data: dict[str, Any]) -> bool:
@@ -356,6 +344,7 @@ def get_glyph_engine() -> GLYPHEngine:
 # Export commonly used GLYPH constants
 class GLYPHConstants:
     """Common GLYPH constants for easy access"""
+
     # States
     ACTIVE = "🟢"
     WARNING = "🟡"

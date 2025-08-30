@@ -228,7 +228,7 @@ _config_loader: Optional[ConfigLoader] = None
 
 def get_config_loader() -> ConfigLoader:
     """Get global config loader instance"""
-    global _config_loader  # noqa: PLW0603
+    global _config_loader
     if _config_loader is None:
         _config_loader = ConfigLoader()
     return _config_loader

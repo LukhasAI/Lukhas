@@ -13,6 +13,7 @@ DESCRIPTION:
     Intended for use with dream_replay.py, replay_queue.jsonl, or live dream loops.
 
 """
+
 import json
 import logging
 from pathlib import Path
@@ -24,9 +25,7 @@ from candidate.core.utils.symbolic_utils import summarize_emotion_vector, tier_l
 logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -100,9 +99,7 @@ def narrate_dreams(limit=3):
             for entry in narrated:
                 f.write(json.dumps(entry) + "\n")
         # Keep as print since this is CLI user output
-        print(
-            f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl."
-        )
+        print(f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl.")
 
 
 """

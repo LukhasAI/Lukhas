@@ -135,15 +135,11 @@ class NeuralIntelligenceSystem:
         # Setup system state management
         self._initialize_system_state()
 
-        logger.info(
-            f"✅ Neural Intelligence System initialized - Session: {self.session_id}"
-        )
+        logger.info(f"✅ Neural Intelligence System initialized - Session: {self.session_id}")
 
         # Set initial capability level
         if self.orchestrator:
-            logger.info(
-                f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
-            )
+            logger.info(f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}")
         else:
             logger.info("🎯 Initial Capability Level: INTERMEDIATE (simplified mode)")
 
@@ -180,21 +176,13 @@ class NeuralIntelligenceSystem:
 
             # Register available components with orchestrator
             if self.attention_mechanism:
-                self.orchestrator.register_component(
-                    "attention", self.attention_mechanism
-                )
+                self.orchestrator.register_component("attention", self.attention_mechanism)
             if self.causal_reasoning:
-                self.orchestrator.register_component(
-                    "causal_reasoning", self.causal_reasoning
-                )
+                self.orchestrator.register_component("causal_reasoning", self.causal_reasoning)
             if self.symbolic_engine:
-                self.orchestrator.register_component(
-                    "symbolic_reasoning", self.symbolic_engine
-                )
+                self.orchestrator.register_component("symbolic_reasoning", self.symbolic_engine)
             if self.compliance_engine:
-                self.orchestrator.register_component(
-                    "compliance", self.compliance_engine
-                )
+                self.orchestrator.register_component("compliance", self.compliance_engine)
         else:
             self.orchestrator = None
             logger.warning("Orchestrator not available - using simplified processing")
@@ -274,8 +262,8 @@ class NeuralIntelligenceSystem:
                 except TypeError:
                     # Fallback to old signature if needed
                     try:
-                        compliance_result = (
-                            await self.compliance_engine.check_compliance(input_data)
+                        compliance_result = await self.compliance_engine.check_compliance(
+                            input_data
                         )
                     except BaseException:
                         # If compliance engine is not working, use basic safety
@@ -304,8 +292,8 @@ class NeuralIntelligenceSystem:
             # Step 2: Orchestrate cognitive processing
             if self.orchestrator:
                 try:
-                    orchestration_result = (
-                        await self.orchestrator.orchestrate_processing(input_data)
+                    orchestration_result = await self.orchestrator.orchestrate_processing(
+                        input_data
                     )
                 except Exception as e:
                     logger.warning(
@@ -374,9 +362,7 @@ class NeuralIntelligenceSystem:
                 metadata={"error": str(e)},
             )
 
-    async def _apply_dream_processing(
-        self, input_data: dict, orchestration_result: dict
-    ) -> dict:
+    async def _apply_dream_processing(self, input_data: dict, orchestration_result: dict) -> dict:
         """Apply Lukhas Dreams innovation for enhanced cognitive processing"""
         try:
             if not self.dream_processor:
@@ -418,9 +404,7 @@ class NeuralIntelligenceSystem:
             }
 
             # Apply healix optimization (simplified for now)
-            healix_optimization = await self._simulate_healix_optimization(
-                optimization_context
-            )
+            healix_optimization = await self._simulate_healix_optimization(optimization_context)
 
             return {
                 "healix_optimization": healix_optimization,
@@ -483,9 +467,7 @@ class NeuralIntelligenceSystem:
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
             # Use SHA-256 instead of MD5 for better security
-            pattern_key = hashlib.sha256(
-                input_data.get("text", "").encode()
-            ).hexdigest()[:16]
+            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],

@@ -65,9 +65,7 @@ except ImportError:
 try:
     import importlib.util
 
-    MEMORY_AVAILABLE = (
-        importlib.util.find_spec("lukhas.memory.memory_wrapper") is not None
-    )
+    MEMORY_AVAILABLE = importlib.util.find_spec("lukhas.memory.memory_wrapper") is not None
 except ImportError:
     MEMORY_AVAILABLE = False
 
@@ -197,13 +195,9 @@ class ConsciousnessWrapper:
         try:
             # Guardian validation if enabled
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics(
-                    "awareness_check", stimulus
-                )
+                ethical_decision = await self._validate_ethics("awareness_check", stimulus)
                 if not ethical_decision.allowed:
-                    return self._blocked_response(
-                        "awareness_check", ethical_decision.reason
-                    )
+                    return self._blocked_response("awareness_check", ethical_decision.reason)
 
             # Performance monitoring
             if self.candidate_system and AWARENESS_ACTIVE:
@@ -303,13 +297,9 @@ class ConsciousnessWrapper:
             # Validate decision ethics
             decision_context = {"options": options, "decision_type": "conscious_choice"}
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics(
-                    "decision_making", decision_context
-                )
+                ethical_decision = await self._validate_ethics("decision_making", decision_context)
                 if not ethical_decision.allowed:
-                    return self._blocked_response(
-                        "decision_making", ethical_decision.reason
-                    )
+                    return self._blocked_response("decision_making", ethical_decision.reason)
 
             # Simple decision logic for production safety
             if options:
@@ -412,9 +402,7 @@ class ConsciousnessWrapper:
             },
         }
 
-    def _dry_run_decision_response(
-        self, options: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _dry_run_decision_response(self, options: list[dict[str, Any]]) -> dict[str, Any]:
         """Safe mock response for decisions"""
         return {
             "chosen_option": options[0] if options else {},
@@ -487,9 +475,7 @@ class ConsciousnessWrapper:
             "safety_metadata": {"error_handled": True, "graceful_degradation": True},
         }
 
-    async def _validate_ethics(
-        self, action_type: str, context: dict[str, Any]
-    ) -> EthicalDecision:
+    async def _validate_ethics(self, action_type: str, context: dict[str, Any]) -> EthicalDecision:
         """Validate action against ethical principles"""
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system

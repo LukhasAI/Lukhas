@@ -91,9 +91,7 @@ except ImportError as e:
 
     class _DummyIdentityClient:  # Fallback for type hinting and basic structure
         def get_user_info(self, user_id: str) -> Optional[dict[str, Any]]:
-            logger.debug(
-                "Fallback IdentityClient: get_user_info called", user_id=user_id
-            )
+            logger.debug("Fallback IdentityClient: get_user_info called", user_id=user_id)
             return None
 
     IdentityClient = _DummyIdentityClient  # type: ignore
@@ -211,9 +209,7 @@ class SharedStateManager:
             and not isinstance(IdentityClient, _DummyIdentityClient)
         ):
             self.identity_client: Optional[IdentityClient] = IdentityClient()
-            self.logger.info(
-                "IdentityClient integration enabled for SharedStateManager."
-            )
+            self.logger.info("IdentityClient integration enabled for SharedStateManager.")
         else:
             self.identity_client = None
             self.logger.info(
@@ -285,13 +281,10 @@ class SharedStateManager:
                     tier=tier,
                 )
                 if tier == "ADMIN":
-                    self.logger.debug(
-                        "Access granted: ADMIN tier", key=key, user_id=user_id
-                    )
+                    self.logger.debug("Access granted: ADMIN tier", key=key, user_id=user_id)
                     return True
                 if (
-                    access_level == StateAccessLevel.PROTECTED
-                    and operation == StateOperation.READ
+                    access_level == StateAccessLevel.PROTECTED and operation == StateOperation.READ
                 ) and tier in ["DEVELOPER", "RESEARCHER", "SYSTEM"]:
                     self.logger.debug(
                         "Access granted: PROTECTED read for authorized tier",
@@ -392,9 +385,7 @@ class SharedStateManager:
             self.logger.debug("Conflict resolved: LAST_WRITE_WINS", key=key)
             return True
         elif self.conflict_strategy == ConflictResolutionStrategy.FIRST_WRITE_WINS:
-            self.logger.debug(
-                "Conflict resolved: FIRST_WRITE_WINS (new value rejected)", key=key
-            )
+            self.logger.debug("Conflict resolved: FIRST_WRITE_WINS (new value rejected)", key=key)
             return False
         elif self.conflict_strategy == ConflictResolutionStrategy.REJECT:
             self.logger.debug("Conflict resolved: REJECT (new value rejected)", key=key)
@@ -405,9 +396,7 @@ class SharedStateManager:
                 merged_val.update(new_value)
                 self.state[key].value = merged_val
                 self.state[key].timestamp = time.time()
-                self.logger.info(
-                    "Conflict resolved: MERGE (dictionaries merged)", key=key
-                )
+                self.logger.info("Conflict resolved: MERGE (dictionaries merged)", key=key)
                 return True
             else:
                 self.logger.warning(
@@ -435,9 +424,7 @@ class SharedStateManager:
             for callback in list(self.subscribers[key]):
                 try:
                     if asyncio.iscoroutinefunction(callback):
-                        asyncio.create_task(
-                            callback(key, new_value, operation_type_str)
-                        )
+                        asyncio.create_task(callback(key, new_value, operation_type_str))
                     else:
                         callback(key, new_value, operation_type_str)
                     self.logger.debug(
@@ -615,17 +602,13 @@ class SharedStateManager:
         self, key: str, module: str, user_id: Optional[str] = None, default: Any = None
     ) -> Any:
         """Get a state value"""
-        self.logger.debug(
-            "Attempting to get state", key=key, module_name=module, user_id=user_id
-        )
+        self.logger.debug("Attempting to get state", key=key, module_name=module, user_id=user_id)
         try:
             self._cleanup_expired()
 
             with self._get_lock(key):
                 if key not in self.state:
-                    self.logger.debug(
-                        "Key not found in state, returning default", key=key
-                    )
+                    self.logger.debug("Key not found in state, returning default", key=key)
                     return default
 
                 if not self._check_access(key, StateOperation.READ, module, user_id):
@@ -640,9 +623,7 @@ class SharedStateManager:
                 state_value_obj = self.state[key]
 
                 if self._is_expired(state_value_obj):
-                    self.logger.info(
-                        "State value expired, removing and returning default", key=key
-                    )
+                    self.logger.info("State value expired, removing and returning default", key=key)
                     deleted_val_for_hist = state_value_obj.value
                     del self.state[key]
                     self._notify_subscribers(key, None, "expired")
@@ -679,9 +660,7 @@ class SharedStateManager:
             )
             return default
 
-    def delete_state(
-        self, key: str, module: str, user_id: Optional[str] = None
-    ) -> bool:
+    def delete_state(self, key: str, module: str, user_id: Optional[str] = None) -> bool:
         """Delete a state value"""
         self.logger.debug(
             "Attempting to delete state", key=key, module_name=module, user_id=user_id
@@ -689,9 +668,7 @@ class SharedStateManager:
         try:
             with self._get_lock(key):
                 if key not in self.state:
-                    self.logger.info(
-                        "Key not found for deletion, considered successful", key=key
-                    )
+                    self.logger.info("Key not found for deletion, considered successful", key=key)
                     return True
 
                 if not self._check_access(key, StateOperation.DELETE, module, user_id):
@@ -789,9 +766,7 @@ class SharedStateManager:
             )
             return False
 
-    def unsubscribe(
-        self, key: str, callback: Callable[[str, Any, str], Any], module: str
-    ) -> bool:
+    def unsubscribe(self, key: str, callback: Callable[[str, Any, str], Any], module: str) -> bool:
         """Unsubscribe from state changes"""
         self.logger.debug(
             "Attempting to unsubscribe from state",
@@ -804,9 +779,7 @@ class SharedStateManager:
                 self.subscribers[key].discard(callback)
                 if not self.subscribers[key]:
                     del self.subscribers[key]
-                self.stats["subscriptions"] = sum(
-                    len(s) for s in self.subscribers.values()
-                )
+                self.stats["subscriptions"] = sum(len(s) for s in self.subscribers.values())
 
             self.logger.info(
                 "Unsubscribed from state successfully",
@@ -842,18 +815,14 @@ class SharedStateManager:
             if key.startswith(prefix)
             and self._check_access(key, StateOperation.READ, module, user_id)
         ]
-        self.logger.info(
-            "Keys by prefix retrieved", prefix=prefix, count=len(accessible_keys)
-        )
+        self.logger.info("Keys by prefix retrieved", prefix=prefix, count=len(accessible_keys))
         return accessible_keys
 
     def get_state_info(
         self, key: str, module: str, user_id: Optional[str] = None
     ) -> Optional[dict[str, Any]]:
         """Get metadata about a state value"""
-        self.logger.debug(
-            "Getting state info", key=key, module_name=module, user_id=user_id
-        )
+        self.logger.debug("Getting state info", key=key, module_name=module, user_id=user_id)
         if key not in self.state:
             self.logger.debug("Key not found for get_state_info", key=key)
             return None
@@ -921,9 +890,7 @@ class SharedStateManager:
         current_stats = {
             **self.stats,
             "total_keys_active": len(self.state),
-            "total_subscriptions_active": sum(
-                len(subs) for subs in self.subscribers.values()
-            ),
+            "total_subscriptions_active": sum(len(subs) for subs in self.subscribers.values()),
             "estimated_memory_usage_bytes": mem_usage,
             "lock_count": len(self.locks),
             "change_history_length": len(self.change_history),
@@ -990,9 +957,7 @@ class SharedStateManager:
             else:
                 current_sv = self.state.get(key)
                 access_level_for_restore = (
-                    current_sv.access_level
-                    if current_sv
-                    else StateAccessLevel.PROTECTED
+                    current_sv.access_level if current_sv else StateAccessLevel.PROTECTED
                 )
                 ttl_for_restore = current_sv.ttl if current_sv else None
                 metadata_for_restore = current_sv.metadata if current_sv else None

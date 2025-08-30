@@ -105,7 +105,7 @@ class ConsentReceiptGenerator:
     <g transform="translate(20, 100)">
         <text font-family="monospace" font-size="12" fill="#00ff00">Symbolic Trail:</text>
         <text x="0" y="30" font-size="36" fill="#00ff00">
-            {''.join(glyph_trail[:7])}
+            {"".join(glyph_trail[:7])}
         </text>
     </g>
 
@@ -133,7 +133,7 @@ class ConsentReceiptGenerator:
     <g transform="translate(20, 340)">
         <text font-family="monospace" font-size="12" fill="#00ff00">Timestamp:</text>
         <text x="0" y="20" font-family="monospace" font-size="10" fill="#00ff00" opacity="0.8">
-            {timestamp.strftime('%Y-%m-%d %H:%M:%S UTC')}
+            {timestamp.strftime("%Y-%m-%d %H:%M:%S UTC")}
         </text>
     </g>
 
@@ -183,9 +183,7 @@ class ConsentReceiptGenerator:
 </svg>"""
 
         # Save SVG file
-        filename = (
-            f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S')}.svg"
-        )
+        filename = f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S')}.svg"
         filepath = self.output_dir / filename
 
         with open(filepath, "w", encoding="utf-8") as f:
@@ -217,15 +215,15 @@ class ConsentReceiptGenerator:
             qr_svg = f"""
     <g transform="translate({qr_x}, {qr_y})">
         <rect x="0" y="0" width="{qr_size}" height="{qr_size}" fill="#1a1a1a" stroke="#00ff00" stroke-width="1"/>
-        <text x="{qr_size/2}" y="-5" text-anchor="middle" font-family="monospace" font-size="10" fill="#00ff00">
+        <text x="{qr_size / 2}" y="-5" text-anchor="middle" font-family="monospace" font-size="10" fill="#00ff00">
             TrustHelix Lineage
         </text>
-        <text x="{qr_size/2}" y="{qr_size + 15}" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff00" opacity="0.7">
+        <text x="{qr_size / 2}" y="{qr_size + 15}" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff00" opacity="0.7">
             Scan for verification
         </text>
         <!-- Placeholder for actual QR code -->
-        <rect x="10" y="10" width="{qr_size-20}" height="{qr_size-20}" fill="#333" opacity="0.5"/>
-        <text x="{qr_size/2}" y="{qr_size/2}" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff00">
+        <rect x="10" y="10" width="{qr_size - 20}" height="{qr_size - 20}" fill="#333" opacity="0.5"/>
+        <text x="{qr_size / 2}" y="{qr_size / 2}" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff00">
             [QR Code]
         </text>
     </g>"""
@@ -235,9 +233,7 @@ class ConsentReceiptGenerator:
             logger.error(f"QR code generation failed: {e}")
             return ""
 
-    def generate_batch_receipt(
-        self, user_id: str, consent_events: list[dict[str, Any]]
-    ) -> str:
+    def generate_batch_receipt(self, user_id: str, consent_events: list[dict[str, Any]]) -> str:
         """Generate a batch receipt for multiple consent events"""
 
         if not consent_events:

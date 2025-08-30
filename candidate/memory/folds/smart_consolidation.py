@@ -51,9 +51,7 @@ class SmartConsolidator:
                     imports.append(node.module)
 
             # Categorize by actual purpose
-            purpose = self._categorize_purpose(
-                file_path.name, content, classes, functions
-            )
+            purpose = self._categorize_purpose(file_path.name, content, classes, functions)
 
             return {
                 "type": purpose,
@@ -67,16 +65,13 @@ class SmartConsolidator:
                 ),
                 "is_test": any(x in file_path.name.lower() for x in ["test", "spec"]),
                 "is_api": any(
-                    x in content.lower()
-                    for x in ["fastapi", "flask", "endpoint", "router"]
+                    x in content.lower() for x in ["fastapi", "flask", "endpoint", "router"]
                 ),
                 "is_database": any(
-                    x in content.lower()
-                    for x in ["sqlalchemy", "database", "db", "crud"]
+                    x in content.lower() for x in ["sqlalchemy", "database", "db", "crud"]
                 ),
                 "is_ui": any(
-                    x in content.lower()
-                    for x in ["streamlit", "html", "css", "javascript"]
+                    x in content.lower() for x in ["streamlit", "html", "css", "javascript"]
                 ),
             }
         except Exception as e:

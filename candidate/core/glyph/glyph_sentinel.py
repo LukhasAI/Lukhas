@@ -197,9 +197,7 @@ class GlyphSentinel:
             glyph, persistence_policy, custom_conditions
         )
 
-        logger.debug(
-            f"Registered glyph {glyph.id} with policy {persistence_policy.value}"
-        )
+        logger.debug(f"Registered glyph {glyph.id} with policy {persistence_policy.value}")
         return True
 
     def unregister_glyph(self, glyph_id: str) -> bool:
@@ -245,9 +243,7 @@ class GlyphSentinel:
         if time_since_last > 0:
             # Update access frequency (exponential moving average)
             daily_factor = 86400.0 / time_since_last  # Convert to per-day
-            metrics.access_frequency = (
-                metrics.access_frequency * 0.7 + daily_factor * 0.3
-            )
+            metrics.access_frequency = metrics.access_frequency * 0.7 + daily_factor * 0.3
 
         metrics.last_accessed = current_time
 
@@ -271,9 +267,7 @@ class GlyphSentinel:
             return False
 
         self.is_monitoring = True
-        self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop, daemon=True
-        )
+        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
         self.monitoring_thread.start()
 
         logger.info("Glyph Sentinel monitoring started")
@@ -322,9 +316,7 @@ class GlyphSentinel:
             "access_frequency": metrics.access_frequency,
             "last_accessed": metrics.last_accessed.isoformat(),
             "predicted_expiry": (
-                metrics.predicted_expiry.isoformat()
-                if metrics.predicted_expiry
-                else None
+                metrics.predicted_expiry.isoformat() if metrics.predicted_expiry else None
             ),
             "persistence_policy": profile.policy.value,
             "importance_weight": profile.importance_weight,
@@ -365,9 +357,7 @@ class GlyphSentinel:
 
         return self._refresh_glyph(glyph_id)
 
-    def add_decay_handler(
-        self, decay_state: DecayState, handler: Callable[[str], None]
-    ):
+    def add_decay_handler(self, decay_state: DecayState, handler: Callable[[str], None]):
         """
         Add event handler for decay state transitions.
 
@@ -430,9 +420,7 @@ class GlyphSentinel:
             importance_weight=importance,
             usage_threshold=usage_thresholds[policy],
             conditions=conditions or {},
-            auto_refresh=(
-                policy in [PersistencePolicy.PERSISTENT, PersistencePolicy.PERMANENT]
-            ),
+            auto_refresh=(policy in [PersistencePolicy.PERSISTENT, PersistencePolicy.PERMANENT]),
             backup_priority=min(5, max(1, int(importance * 5))),
         )
 
@@ -518,9 +506,7 @@ class GlyphSentinel:
                 self._perform_monitoring_cycle()
 
                 # Check if cleanup is needed
-                if (
-                    datetime.now() - self.last_cleanup
-                ).total_seconds() >= self.cleanup_interval:
+                if (datetime.now() - self.last_cleanup).total_seconds() >= self.cleanup_interval:
                     self._perform_cleanup_cycle()
                     self.last_cleanup = datetime.now()
 
@@ -559,9 +545,7 @@ class GlyphSentinel:
             except Exception as e:
                 logger.error(f"Error monitoring glyph {glyph_id}: {e}")
 
-    def _update_decay_metrics(
-        self, glyph_id: str, glyph: Glyph, current_time: datetime
-    ):
+    def _update_decay_metrics(self, glyph_id: str, glyph: Glyph, current_time: datetime):
         """Update decay metrics for a glyph."""
         metrics = self.decay_metrics[glyph_id]
 
@@ -624,10 +608,10 @@ class GlyphSentinel:
         profile = self.persistence_profiles[glyph_id]
 
         # Check if glyph needs refreshing based on usage
-        if (
-            metrics.access_frequency >= profile.usage_threshold
-            and metrics.decay_state in [DecayState.DEGRADING, DecayState.CRITICAL]
-        ):
+        if metrics.access_frequency >= profile.usage_threshold and metrics.decay_state in [
+            DecayState.DEGRADING,
+            DecayState.CRITICAL,
+        ]:
             self._refresh_glyph(glyph_id)
 
     def _check_expiration(self, glyph_id: str, current_time: datetime):
@@ -673,9 +657,7 @@ class GlyphSentinel:
             # Remove expired glyph
             self._remove_expired_glyph(glyph_id)
 
-        logger.debug(
-            f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs"
-        )
+        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs")
 
     def _refresh_glyph(self, glyph_id: str) -> bool:
         """Refresh a glyph to reset decay state."""
@@ -781,12 +763,10 @@ class GlyphSentinel:
         avg_access_freq = 0.0
         if total_glyphs > 0:
             avg_integrity = (
-                sum(m.integrity_score for m in self.decay_metrics.values())
-                / total_glyphs
+                sum(m.integrity_score for m in self.decay_metrics.values()) / total_glyphs
             )
             avg_access_freq = (
-                sum(m.access_frequency for m in self.decay_metrics.values())
-                / total_glyphs
+                sum(m.access_frequency for m in self.decay_metrics.values()) / total_glyphs
             )
 
         return {

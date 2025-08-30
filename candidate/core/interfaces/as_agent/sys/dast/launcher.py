@@ -33,9 +33,7 @@ def startup_sequence():
     # Example: Schedule a DST check-in
     from datetime import datetime, timedelta
 
-    lukhas_scheduler.schedule_task(
-        "DST Check", datetime.utcnow() + timedelta(minutes=2)
-    )
+    lukhas_scheduler.schedule_task("DST Check", datetime.utcnow() + timedelta(minutes=2))
 
     # Example: Create a preview widget
     widget = lukhas_widget_engine.create_symbolic_widget(

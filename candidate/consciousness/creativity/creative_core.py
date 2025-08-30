@@ -30,9 +30,7 @@ class CreativeCore:
         self.creativity_state = "dormant"
         self.synthesis_history: list[dict[str, Any]] = []
 
-    def spark_inspiration(
-        self, source_type: str, intensity: float = 0.7
-    ) -> dict[str, Any]:
+    def spark_inspiration(self, source_type: str, intensity: float = 0.7) -> dict[str, Any]:
         """Spark creative inspiration from various sources."""
         inspiration = {
             "source": source_type,
@@ -43,9 +41,7 @@ class CreativeCore:
         }
 
         self.inspiration_sources[inspiration["unique_id"]] = inspiration
-        logger.info(
-            f"Sparked inspiration from {source_type} (intensity: {intensity:.2f})"
-        )
+        logger.info(f"Sparked inspiration from {source_type} (intensity: {intensity:.2f})")
 
         return inspiration
 
@@ -165,9 +161,7 @@ class CreativeCore:
             "surreal": ["reality_distortion", "dream_logic", "impossible_geometries"],
             "minimalist": ["essence_extraction", "negative_space", "pure_form"],
         }
-        composition["artistic_techniques"] = techniques.get(
-            style, ["experimental_approach"]
-        )
+        composition["artistic_techniques"] = techniques.get(style, ["experimental_approach"])
 
         # Calculate emotional resonance
         composition["emotional_resonance"] = min(
@@ -190,9 +184,7 @@ class CreativeCore:
             "synthesis_count": len(self.synthesis_history),
             "pattern_library": len(self.creative_patterns),
             "innovation_threshold": self.innovation_threshold,
-            "most_novel_pattern": max(
-                self.creative_patterns.items(), key=lambda x: x[1]
-            )
+            "most_novel_pattern": max(self.creative_patterns.items(), key=lambda x: x[1])
             if self.creative_patterns
             else None,
             "recent_inspirations": list(self.inspiration_sources.keys())[-5:]

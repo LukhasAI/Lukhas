@@ -74,9 +74,7 @@ except ImportError:
         async def compress(self, content):
             return content
 
-        def compress_memory_with_motifs(
-            self, content, importance_score, emotional_context=None
-        ):
+        def compress_memory_with_motifs(self, content, importance_score, emotional_context=None):
             """
             Compress memory content with motif detection and emotional context.
 
@@ -96,9 +94,7 @@ except ImportError:
                 "compression_ratio": 0.5,
                 "detected_motifs": [],
                 "emotional_stability": (
-                    emotional_context.get("volatility", 0.5)
-                    if emotional_context
-                    else 0.5
+                    emotional_context.get("volatility", 0.5) if emotional_context else 0.5
                 ),
                 "original_size": len(str(content)),
                 "compressed_size": compressed_size,
@@ -511,8 +507,7 @@ class SymbolicDeltaCompressionManager:
         metrics = CompressionMetrics(
             original_size=len(content_str),
             compressed_size=len(json.dumps(compressed_data)),
-            compression_ratio=len(content_str)
-            / max(1, len(json.dumps(compressed_data))),
+            compression_ratio=len(content_str) / max(1, len(json.dumps(compressed_data))),
             entropy_preserved=compressed_data.get("entropy_preserved", 0.9),
             motifs_extracted=len(compressed_data.get("motifs", [])),
             emotional_fidelity=compressed_data.get("emotional_fidelity", 0.95),
@@ -558,9 +553,7 @@ class SymbolicDeltaCompressionManager:
             return self.emotional_memory.get_emotional_volatility()
         except (AttributeError, KeyError) as e:
             # Fallback if emotional memory is not available
-            logger.warning(
-                f"Unable to get emotional volatility: {e}. Using default 0.5"
-            )
+            logger.warning(f"Unable to get emotional volatility: {e}. Using default 0.5")
             return 0.5
 
     def _get_dominant_emotion(self) -> str:
@@ -569,23 +562,17 @@ class SymbolicDeltaCompressionManager:
             emotions = self.emotional_memory.get_current_emotional_state()
             return emotions.get("dominant", "neutral")
         except (AttributeError, KeyError, TypeError) as e:
-            logger.warning(
-                f"Unable to get dominant emotion: {e}. Using default 'neutral'"
-            )
+            logger.warning(f"Unable to get dominant emotion: {e}. Using default 'neutral'")
             return "neutral"
 
-    def _get_recent_compressions(
-        self, fold_key: str, hours: int = 24
-    ) -> list[CompressionRecord]:
+    def _get_recent_compressions(self, fold_key: str, hours: int = 24) -> list[CompressionRecord]:
         """Get recent compression records for a fold."""
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         history = self.compression_history.get(fold_key, [])
 
         recent = []
         for record in history:
-            timestamp = datetime.fromisoformat(
-                record.timestamp_utc.replace("Z", "+00:00")
-            )
+            timestamp = datetime.fromisoformat(record.timestamp_utc.replace("Z", "+00:00"))
             if timestamp >= cutoff:
                 recent.append(record)
 
@@ -607,9 +594,7 @@ class SymbolicDeltaCompressionManager:
 
         return entropy / theoretical_max
 
-    def _detect_pattern_repetition(
-        self, fold_key: str, fold_content: dict[str, Any]
-    ) -> float:
+    def _detect_pattern_repetition(self, fold_key: str, fold_content: dict[str, Any]) -> float:
         """Detect repetitive patterns in content."""
         content_str = json.dumps(fold_content)
 
@@ -649,24 +634,18 @@ class SymbolicDeltaCompressionManager:
             cascade_score += 0.3 * len(collapse_events)
 
         # Check for rapid importance changes
-        importance_shifts = [
-            p for p in critical_points if p["type"] == "importance_shift"
-        ]
+        importance_shifts = [p for p in critical_points if p["type"] == "importance_shift"]
         if importance_shifts:
             cascade_score += 0.2 * len(importance_shifts)
 
         # Check stability metrics
-        stability = lineage_analysis.get("stability_metrics", {}).get(
-            "stability_score", 1.0
-        )
+        stability = lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
         cascade_score += (1.0 - stability) * 0.5
 
         return min(1.0, cascade_score)
 
     # LUKHAS_TAG: compression_analytics
-    async def get_compression_analytics(
-        self, fold_key: Optional[str] = None
-    ) -> dict[str, Any]:
+    async def get_compression_analytics(self, fold_key: Optional[str] = None) -> dict[str, Any]:
         """
         Get comprehensive compression analytics.
 
@@ -681,15 +660,9 @@ class SymbolicDeltaCompressionManager:
             history = self.compression_history.get(fold_key, [])
             metrics = self.metrics_cache.get(fold_key)
 
-            successful_compressions = [
-                r for r in history if r.state == CompressionState.COMPRESSED
-            ]
-            failed_compressions = [
-                r for r in history if r.state == CompressionState.FAILED
-            ]
-            loop_detections = [
-                r for r in history if r.state == CompressionState.LOOP_DETECTED
-            ]
+            successful_compressions = [r for r in history if r.state == CompressionState.COMPRESSED]
+            failed_compressions = [r for r in history if r.state == CompressionState.FAILED]
+            loop_detections = [r for r in history if r.state == CompressionState.LOOP_DETECTED]
 
             analytics = {
                 "fold_key": fold_key,
@@ -712,13 +685,9 @@ class SymbolicDeltaCompressionManager:
             for history in self.compression_history.values():
                 all_records.extend(history)
 
-            successful = [
-                r for r in all_records if r.state == CompressionState.COMPRESSED
-            ]
+            successful = [r for r in all_records if r.state == CompressionState.COMPRESSED]
             failed = [r for r in all_records if r.state == CompressionState.FAILED]
-            loops = [
-                r for r in all_records if r.state == CompressionState.LOOP_DETECTED
-            ]
+            loops = [r for r in all_records if r.state == CompressionState.LOOP_DETECTED]
 
             analytics = {
                 "total_folds_compressed": total_folds,
@@ -734,9 +703,7 @@ class SymbolicDeltaCompressionManager:
                     r.metrics.compression_ratio for r in successful if r.metrics
                 )
                 / max(1, len(successful)),
-                "average_emotional_stability": sum(
-                    r.emotional_stability for r in all_records
-                )
+                "average_emotional_stability": sum(r.emotional_stability for r in all_records)
                 / max(1, len(all_records)),
             }
 
@@ -807,9 +774,9 @@ class SymbolicDeltaCompressionManager:
                 "ML-based access pattern analysis",
                 "Proactive compression scheduling",
                 "Resource optimization",
-                "Predictive load balancing"
+                "Predictive load balancing",
             ],
-            "started_at": datetime.now(timezone.utc).isoformat()
+            "started_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def predict_compression_needs(self, fold_keys: list[str]) -> dict[str, Any]:
@@ -829,7 +796,9 @@ class SymbolicDeltaCompressionManager:
             access_pattern = self._analyze_fold_access_pattern(fold_key)
 
             # Predict optimal compression window
-            optimal_window = await self._predict_optimal_compression_window(fold_key, access_pattern)
+            optimal_window = await self._predict_optimal_compression_window(
+                fold_key, access_pattern
+            )
 
             # Calculate compression benefit score
             benefit_score = self._calculate_compression_benefit(fold_key, access_pattern)
@@ -843,7 +812,7 @@ class SymbolicDeltaCompressionManager:
                 "benefit_score": benefit_score,
                 "scheduling_priority": priority,
                 "recommended_action": self._get_compression_recommendation(benefit_score, priority),
-                "prediction_confidence": access_pattern["confidence"]
+                "prediction_confidence": access_pattern["confidence"],
             }
 
         logger.info(f"Generated compression predictions for {len(fold_keys)} folds")
@@ -852,8 +821,10 @@ class SymbolicDeltaCompressionManager:
             "status": "predictions_generated",
             "predictions": predictions,
             "total_folds_analyzed": len(fold_keys),
-            "high_priority_folds": len([p for p in predictions.values() if p["scheduling_priority"] == "high"]),
-            "generated_at": datetime.now(timezone.utc).isoformat()
+            "high_priority_folds": len(
+                [p for p in predictions.values() if p["scheduling_priority"] == "high"]
+            ),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def execute_scheduled_compression(self, schedule: dict) -> dict[str, Any]:
@@ -865,7 +836,7 @@ class SymbolicDeltaCompressionManager:
             "successful_compressions": 0,
             "failed_compressions": 0,
             "bytes_compressed": 0,
-            "execution_results": []
+            "execution_results": [],
         }
 
         for fold_key, prediction in schedule.get("predictions", {}).items():
@@ -879,32 +850,38 @@ class SymbolicDeltaCompressionManager:
                         fold_content={"placeholder": "content"},  # Would get actual content
                         importance_score=prediction["benefit_score"],
                         drift_score=0.1,  # Low drift for scheduled compressions
-                        force=False
+                        force=False,
                     )
 
                     if compression_result[1].state == CompressionState.COMPRESSED:
                         results["successful_compressions"] += 1
                         if compression_result[1].metrics:
-                            results["bytes_compressed"] += compression_result[1].metrics.compressed_size
+                            results["bytes_compressed"] += compression_result[
+                                1
+                            ].metrics.compressed_size
                     else:
                         results["failed_compressions"] += 1
 
-                    results["execution_results"].append({
-                        "fold_key": fold_key,
-                        "success": compression_result[1].state == CompressionState.COMPRESSED,
-                        "compression_ratio": compression_result[1].metrics.compression_ratio if compression_result[1].metrics else 0,
-                        "execution_time": time.time() - time.time()  # Placeholder
-                    })
+                    results["execution_results"].append(
+                        {
+                            "fold_key": fold_key,
+                            "success": compression_result[1].state == CompressionState.COMPRESSED,
+                            "compression_ratio": compression_result[1].metrics.compression_ratio
+                            if compression_result[1].metrics
+                            else 0,
+                            "execution_time": time.time() - time.time(),  # Placeholder
+                        }
+                    )
 
                 except Exception as e:
                     results["failed_compressions"] += 1
-                    results["execution_results"].append({
-                        "fold_key": fold_key,
-                        "success": False,
-                        "error": str(e)
-                    })
+                    results["execution_results"].append(
+                        {"fold_key": fold_key, "success": False, "error": str(e)}
+                    )
 
-        logger.info(f"Scheduled compression execution completed: {results['successful_compressions']}/{results['scheduled_compressions']} successful")
+        logger.info(
+            f"Scheduled compression execution completed: {results['successful_compressions']}/{results['scheduled_compressions']} successful"
+        )
 
         return results
 
@@ -940,7 +917,7 @@ class SymbolicDeltaCompressionManager:
             "pattern_type": pattern_type,
             "confidence": confidence,
             "last_access": access_history.get("last_access"),
-            "access_trend": "decreasing" if decay_rate > 0.5 else "stable"
+            "access_trend": "decreasing" if decay_rate > 0.5 else "stable",
         }
 
     def _get_fold_access_history(self, fold_key: str) -> dict[str, Any]:
@@ -965,10 +942,12 @@ class SymbolicDeltaCompressionManager:
             "total_accesses": base_accesses,
             "recent_accesses": recent_accesses,
             "timestamps": sorted(timestamps, reverse=True),
-            "last_access": timestamps[0] if timestamps else current_time - timedelta(days=1)
+            "last_access": timestamps[0] if timestamps else current_time - timedelta(days=1),
         }
 
-    async def _predict_optimal_compression_window(self, fold_key: str, access_pattern: dict) -> dict[str, Any]:
+    async def _predict_optimal_compression_window(
+        self, fold_key: str, access_pattern: dict
+    ) -> dict[str, Any]:
         """Predict optimal time window for compression"""
 
         current_time = datetime.now(timezone.utc)
@@ -981,7 +960,7 @@ class SymbolicDeltaCompressionManager:
         # Predict next likely access
         if pattern_type == "regular":
             # Regular access pattern - schedule between accesses
-            next_access_prediction = current_time + timedelta(hours=1/access_frequency)
+            next_access_prediction = current_time + timedelta(hours=1 / access_frequency)
             optimal_start = next_access_prediction - timedelta(minutes=30)
             optimal_end = next_access_prediction - timedelta(minutes=5)
         elif pattern_type == "declining":
@@ -1010,9 +989,11 @@ class SymbolicDeltaCompressionManager:
             "optimal_start": optimal_start.isoformat(),
             "optimal_end": optimal_end.isoformat(),
             "window_duration_hours": (optimal_end - optimal_start).total_seconds() / 3600,
-            "next_access_prediction": next_access_prediction.isoformat() if "next_access_prediction" in locals() else None,
+            "next_access_prediction": next_access_prediction.isoformat()
+            if "next_access_prediction" in locals()
+            else None,
             "system_load_factor": system_load_factor,
-            "confidence": access_pattern["confidence"]
+            "confidence": access_pattern["confidence"],
         }
 
     def _calculate_compression_benefit(self, fold_key: str, access_pattern: dict) -> float:
@@ -1043,7 +1024,9 @@ class SymbolicDeltaCompressionManager:
 
         return min(1.0, total_benefit)
 
-    def _calculate_scheduling_priority(self, fold_key: str, access_pattern: dict, benefit_score: float) -> str:
+    def _calculate_scheduling_priority(
+        self, fold_key: str, access_pattern: dict, benefit_score: float
+    ) -> str:
         """Calculate scheduling priority for compression"""
 
         # High benefit and declining access = high priority
@@ -1092,7 +1075,7 @@ class SymbolicDeltaCompressionManager:
         # Analyze interval statistics
         avg_interval = sum(intervals) / len(intervals)
         interval_variance = sum((x - avg_interval) ** 2 for x in intervals) / len(intervals)
-        interval_std = interval_variance ** 0.5
+        interval_std = interval_variance**0.5
 
         # Determine pattern regularity
         regularity = max(0.0, 1.0 - (interval_std / avg_interval)) if avg_interval > 0 else 0.0
@@ -1110,7 +1093,7 @@ class SymbolicDeltaCompressionManager:
             "regularity": regularity,
             "avg_interval_hours": avg_interval,
             "interval_variance": interval_variance,
-            "total_intervals": len(intervals)
+            "total_intervals": len(intervals),
         }
 
     def _calculate_access_decay_rate(self, timestamps: list[datetime]) -> float:
@@ -1136,7 +1119,11 @@ class SymbolicDeltaCompressionManager:
 
         # Older period frequency
         if older_timestamps:
-            older_timespan = (recent_timestamps[0] - older_timestamps[-1]).total_seconds() / 3600 if recent_timestamps and older_timestamps else 24
+            older_timespan = (
+                (recent_timestamps[0] - older_timestamps[-1]).total_seconds() / 3600
+                if recent_timestamps and older_timestamps
+                else 24
+            )
             older_frequency = len(older_timestamps) / max(older_timespan, 1)
         else:
             older_frequency = 0
@@ -1149,7 +1136,9 @@ class SymbolicDeltaCompressionManager:
 
         return min(1.0, decay_rate)
 
-    def _classify_access_pattern(self, frequency: float, temporal_pattern: dict, decay_rate: float) -> str:
+    def _classify_access_pattern(
+        self, frequency: float, temporal_pattern: dict, decay_rate: float
+    ) -> str:
         """Classify the overall access pattern type"""
 
         regularity = temporal_pattern.get("regularity", 0.0)
@@ -1190,7 +1179,9 @@ class SymbolicDeltaCompressionManager:
         pattern_confidence = temporal_pattern.get("regularity", 0.0)
 
         # Weighted confidence score
-        total_confidence = (data_confidence * 0.4 + recency_confidence * 0.3 + pattern_confidence * 0.3)
+        total_confidence = (
+            data_confidence * 0.4 + recency_confidence * 0.3 + pattern_confidence * 0.3
+        )
 
         return min(1.0, total_confidence)
 
@@ -1203,7 +1194,7 @@ class SymbolicDeltaCompressionManager:
         # Model daily load patterns (higher during business hours)
         if 9 <= current_hour <= 17:
             base_load = 0.7  # Higher during business hours
-        elif 22 <= current_hour or current_hour <= 6:
+        elif current_hour >= 22 or current_hour <= 6:
             base_load = 0.3  # Lower during night hours
         else:
             base_load = 0.5  # Moderate during other hours
@@ -1222,7 +1213,9 @@ class SymbolicDeltaCompressionManager:
 
         # Simulate analytics data
         analytics = {
-            "scheduler_status": "active" if getattr(self, "scheduler_active", False) else "inactive",
+            "scheduler_status": "active"
+            if getattr(self, "scheduler_active", False)
+            else "inactive",
             "total_predictions_made": random.randint(100, 500),
             "successful_compressions": random.randint(80, 400),
             "prediction_accuracy": random.uniform(0.75, 0.95),
@@ -1232,18 +1225,18 @@ class SymbolicDeltaCompressionManager:
                 "regular": random.randint(20, 50),
                 "declining": random.randint(15, 40),
                 "sporadic": random.randint(10, 30),
-                "stable": random.randint(25, 60)
+                "stable": random.randint(25, 60),
             },
             "optimal_compression_windows": {
                 "hit_rate": random.uniform(0.7, 0.9),
                 "average_window_hours": random.uniform(2.0, 6.0),
-                "system_load_consideration": True
+                "system_load_consideration": True,
             },
             "performance_improvements": {
                 "storage_space_saved": f"{random.randint(15, 40)}%",
                 "access_time_reduction": f"{random.randint(10, 25)}%",
-                "system_resource_optimization": f"{random.randint(20, 35)}%"
-            }
+                "system_resource_optimization": f"{random.randint(20, 35)}%",
+            },
         }
 
         return analytics
@@ -1267,7 +1260,7 @@ class MemoryAccessPatternAnalyzer:
             analysis_results[fold_key] = {
                 "features": pattern_features,
                 "prediction": prediction,
-                "confidence": random.uniform(0.7, 0.95)
+                "confidence": random.uniform(0.7, 0.95),
             }
 
         return analysis_results
@@ -1278,7 +1271,7 @@ class MemoryAccessPatternAnalyzer:
             "access_frequency": random.uniform(0.1, 5.0),
             "temporal_regularity": random.uniform(0.0, 1.0),
             "decay_rate": random.uniform(0.0, 1.0),
-            "age_factor": random.uniform(0.0, 1.0)
+            "age_factor": random.uniform(0.0, 1.0),
         }
 
     def _predict_access_pattern(self, features: dict) -> dict[str, Any]:
@@ -1286,7 +1279,7 @@ class MemoryAccessPatternAnalyzer:
         return {
             "next_access_hours": random.uniform(1.0, 48.0),
             "pattern_type": random.choice(["regular", "declining", "sporadic", "stable"]),
-            "compression_benefit": random.uniform(0.3, 0.9)
+            "compression_benefit": random.uniform(0.3, 0.9),
         }
 
 
@@ -1305,24 +1298,26 @@ class CompressionScheduler:
             "created_at": datetime.now(timezone.utc).isoformat(),
             "compressions": [],
             "total_folds": len(predictions),
-            "optimization_applied": True
+            "optimization_applied": True,
         }
 
         # Sort predictions by priority and benefit
         sorted_predictions = sorted(
             predictions.items(),
             key=lambda x: (x[1]["scheduling_priority"] == "high", x[1]["benefit_score"]),
-            reverse=True
+            reverse=True,
         )
 
         for fold_key, prediction in sorted_predictions:
             if prediction["recommended_action"] in ["compress_now", "compress_soon"]:
-                schedule["compressions"].append({
-                    "fold_key": fold_key,
-                    "scheduled_time": prediction["optimal_window"]["optimal_start"],
-                    "priority": prediction["scheduling_priority"],
-                    "expected_benefit": prediction["benefit_score"]
-                })
+                schedule["compressions"].append(
+                    {
+                        "fold_key": fold_key,
+                        "scheduled_time": prediction["optimal_window"]["optimal_start"],
+                        "priority": prediction["scheduling_priority"],
+                        "expected_benefit": prediction["benefit_score"],
+                    }
+                )
 
         self.active_schedule = schedule
         return schedule
@@ -1334,7 +1329,8 @@ class CompressionScheduler:
 
         current_time = datetime.now(timezone.utc)
         ready_compressions = [
-            comp for comp in self.active_schedule["compressions"]
+            comp
+            for comp in self.active_schedule["compressions"]
             if datetime.fromisoformat(comp["scheduled_time"]) <= current_time
         ]
 
@@ -1361,18 +1357,16 @@ def create_compression_manager(
         max_compression_depth=config.get("max_compression_depth", 5),
         cooldown_seconds=config.get("cooldown_seconds", 30),
         entropy_threshold=config.get("entropy_threshold", 1.2),
-        emotional_volatility_threshold=config.get(
-            "emotional_volatility_threshold", 0.75
-        ),
+        emotional_volatility_threshold=config.get("emotional_volatility_threshold", 0.75),
     )
 
 
 # Export classes and functions
 __all__ = [
-    "SymbolicDeltaCompressionManager",
-    "CompressionState",
     "CompressionRecord",
+    "CompressionState",
     "LoopDetectionResult",
+    "SymbolicDeltaCompressionManager",
     "create_compression_manager",
 ]
 

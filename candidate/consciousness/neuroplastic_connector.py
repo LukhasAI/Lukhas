@@ -27,16 +27,12 @@ class NeuroplasticConnector:
         self.connection_strength: dict[str, float] = {}
         self.adaptation_history: list[dict[str, Any]] = []
 
-    def form_synapse(
-        self, from_neuron: str, to_neuron: str, initial_weight: float = 0.5
-    ):
+    def form_synapse(self, from_neuron: str, to_neuron: str, initial_weight: float = 0.5):
         """Form new synaptic connection between neurons."""
         connection_id = f"{from_neuron}->{to_neuron}"
         self.synaptic_weights[connection_id] = initial_weight
         self.connection_strength[connection_id] = initial_weight
-        logger.info(
-            f"Formed neuroplastic synapse: {connection_id} (weight: {initial_weight})"
-        )
+        logger.info(f"Formed neuroplastic synapse: {connection_id} (weight: {initial_weight})")
 
     def strengthen_pathway(self, pathway_id: str, reinforcement: float = 0.1):
         """Strengthen neural pathway through Hebbian learning."""
@@ -97,9 +93,7 @@ class NeuroplasticConnector:
             "total_synapses": len(self.synaptic_weights),
             "active_pathways": len(self.connection_strength),
             "adaptations": len(self.adaptation_history),
-            "strongest_pathway": max(
-                self.connection_strength.items(), key=lambda x: x[1]
-            )
+            "strongest_pathway": max(self.connection_strength.items(), key=lambda x: x[1])
             if self.connection_strength
             else None,
             "plasticity_threshold": self.plasticity_threshold,

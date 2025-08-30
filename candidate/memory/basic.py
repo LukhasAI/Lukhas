@@ -219,9 +219,7 @@ class MemoryManager:
             return {
                 "total_memories": self.store.size(),
                 "total_accesses": total_accesses,
-                "avg_accesses": (
-                    total_accesses / len(all_memories) if all_memories else 0
-                ),
+                "avg_accesses": (total_accesses / len(all_memories) if all_memories else 0),
                 "oldest_memory": (
                     min(all_memories, key=lambda x: x.created_at).created_at.isoformat()
                     if all_memories

@@ -226,14 +226,10 @@ class BreakthroughDetector(CoreInterface):
                         innovation_data=result,
                         impact_curve=impact_curve,
                         paradigm_conflicts=[],
-                        civilizational_impact=self._calculate_civilizational_impact(
-                            impact_curve
-                        ),
+                        civilizational_impact=self._calculate_civilizational_impact(impact_curve),
                         validation_score=0.0,
                         metadata={
-                            "growth_projection": self._project_exponential_growth(
-                                impact_curve
-                            ),
+                            "growth_projection": self._project_exponential_growth(impact_curve),
                             "market_penetration": impact_curve.penetration_speed,
                         },
                     )
@@ -289,9 +285,7 @@ class BreakthroughDetector(CoreInterface):
                         civilizational_impact=revolution_potential,
                         validation_score=0.0,
                         metadata={
-                            "broken_paradigms": [
-                                c.paradigm_name for c in paradigm_conflicts
-                            ],
+                            "broken_paradigms": [c.paradigm_name for c in paradigm_conflicts],
                             "new_paradigm": await self.outline_new_paradigm(result),
                         },
                     )
@@ -377,9 +371,7 @@ class BreakthroughDetector(CoreInterface):
                     civilizational_impact=foundation_score,
                     validation_score=0.0,
                     metadata={
-                        "enables_technologies": await self.identify_enabled_technologies(
-                            result
-                        ),
+                        "enables_technologies": await self.identify_enabled_technologies(result),
                         "platform_potential": foundation_score,
                     },
                 )
@@ -420,9 +412,7 @@ class BreakthroughDetector(CoreInterface):
                     innovation_data=result,
                     impact_curve=impact_curve,
                     paradigm_conflicts=[],
-                    civilizational_impact=consciousness_impact[
-                        "civilizational_transformation"
-                    ],
+                    civilizational_impact=consciousness_impact["civilizational_transformation"],
                     validation_score=0.0,
                     metadata=consciousness_impact,
                 )
@@ -445,9 +435,7 @@ class BreakthroughDetector(CoreInterface):
         revolution_candidates = []
 
         for result in reality_results:
-            revolution_analysis = await self.analyze_scientific_revolution_potential(
-                result
-            )
+            revolution_analysis = await self.analyze_scientific_revolution_potential(result)
 
             if revolution_analysis["revolution_probability"] > 0.9:
                 # Scientific revolutions have unique impact curves
@@ -486,9 +474,7 @@ class BreakthroughDetector(CoreInterface):
 
         return revolution_candidates
 
-    async def validate_breakthrough_potential(
-        self, candidate: BreakthroughCandidate
-    ) -> float:
+    async def validate_breakthrough_potential(self, candidate: BreakthroughCandidate) -> float:
         """
         Validate breakthrough potential through multi-criteria analysis.
 
@@ -516,8 +502,7 @@ class BreakthroughDetector(CoreInterface):
         }
 
         validation_score = sum(
-            score * weights[criterion]
-            for criterion, score in validation_criteria.items()
+            score * weights[criterion] for criterion, score in validation_criteria.items()
         )
 
         # Adjust for breakthrough type
@@ -612,9 +597,7 @@ class BreakthroughDetector(CoreInterface):
             "Consciousness interfaces",
         ]
 
-    async def assess_consciousness_impact(
-        self, result: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def assess_consciousness_impact(self, result: dict[str, Any]) -> dict[str, Any]:
         """Assess impact on consciousness evolution"""
         base_score = result.get("breakthrough_score", 0.5)
 
@@ -640,9 +623,7 @@ class BreakthroughDetector(CoreInterface):
 
     # Validation helper methods
 
-    async def assess_technical_feasibility(
-        self, candidate: BreakthroughCandidate
-    ) -> float:
+    async def assess_technical_feasibility(self, candidate: BreakthroughCandidate) -> float:
         """Assess technical feasibility of breakthrough"""
         return 0.9  # Simplified - would use detailed analysis
 
@@ -650,22 +631,16 @@ class BreakthroughDetector(CoreInterface):
         """Assess market readiness for breakthrough"""
         return 0.85
 
-    async def assess_regulatory_alignment(
-        self, candidate: BreakthroughCandidate
-    ) -> float:
+    async def assess_regulatory_alignment(self, candidate: BreakthroughCandidate) -> float:
         """Assess regulatory alignment"""
         return 0.8
 
-    async def assess_ethical_compliance(
-        self, candidate: BreakthroughCandidate
-    ) -> float:
+    async def assess_ethical_compliance(self, candidate: BreakthroughCandidate) -> float:
         """Assess ethical compliance through Guardian System"""
         # Would integrate with LUKHAS Guardian System
         return 0.95
 
-    async def assess_resource_availability(
-        self, candidate: BreakthroughCandidate
-    ) -> float:
+    async def assess_resource_availability(self, candidate: BreakthroughCandidate) -> float:
         """Assess resource availability for implementation"""
         return 0.9
 
@@ -794,9 +769,7 @@ if __name__ == "__main__":
         ]
 
         # Detect breakthroughs
-        breakthroughs = await detector.detect_civilization_changing_breakthroughs(
-            reality_results
-        )
+        breakthroughs = await detector.detect_civilization_changing_breakthroughs(reality_results)
         print(f"Detected {len(breakthroughs)} civilization-changing breakthroughs")
 
         for breakthrough in breakthroughs:

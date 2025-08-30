@@ -7,7 +7,6 @@ Integration Date: 2025-05-31T07:55:28.134776
 
 
 class Node:
-
     def __init__(
         self,
         node_type,
@@ -17,12 +16,8 @@ class Node:
         triggers=None,
         reflections=None,
     ):
-        self.node_type = (
-            node_type  # Type of the node (e.g., SENSORY, EMOTION, INTENT, etc.)
-        )
-        self.state = (
-            state  # State of the node, containing emotional valence, confidence, etc.
-        )
+        self.node_type = node_type  # Type of the node (e.g., SENSORY, EMOTION, INTENT, etc.)
+        self.state = state  # State of the node, containing emotional valence, confidence, etc.
         self.links = links if links is not None else []  # Links to other nodes
         self.evolves_to = (
             evolves_to if evolves_to is not None else []

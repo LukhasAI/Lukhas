@@ -178,15 +178,15 @@ def estimate_cracking_time(entropy_bits: float) -> str:
     if seconds < 60:
         return f"{seconds:.2f} seconds"
     elif seconds < 3600:
-        return f"{seconds/60:.2f} minutes"
+        return f"{seconds / 60:.2f} minutes"
     elif seconds < 86400:
-        return f"{seconds/3600:.2f} hours"
+        return f"{seconds / 3600:.2f} hours"
     elif seconds < 31536000:
-        return f"{seconds/86400:.2f} days"
+        return f"{seconds / 86400:.2f} days"
     elif seconds < 3.15e9:  # 100 years
-        return f"{seconds/31536000:.2f} years"
+        return f"{seconds / 31536000:.2f} years"
     else:
-        return f"{seconds/3.15e9:.2e} centuries"
+        return f"{seconds / 3.15e9:.2e} centuries"
 
 
 def get_strength_rating(entropy_bits: float) -> str:
@@ -259,6 +259,7 @@ async def understand_symbols(
         try:
             # Get the Universal Language translator
             from universal_language.translator import UniversalTranslator
+
             translator = UniversalTranslator()
 
             # Try to find the universal symbol for this input
@@ -266,6 +267,7 @@ async def understand_symbols(
             if isinstance(request.input, str):
                 # Look for existing symbol or create one
                 from universal_language.vocabulary import get_unified_vocabulary
+
                 vocabulary = get_unified_vocabulary()
                 symbol = vocabulary.manager.find_symbol(request.input)
 
@@ -274,8 +276,7 @@ async def understand_symbols(
                 elif result.final_decision:
                     # Try to translate the decision to a universal symbol
                     translation_result = translator.translate(
-                        str(result.final_decision),
-                        target_type="glyph"
+                        str(result.final_decision), target_type="glyph"
                     )
                     if translation_result and translation_result.is_successful():
                         universal_symbol = str(translation_result.target)
@@ -341,8 +342,7 @@ async def generate_password(
 
         # Calculate memorability (simplified)
         element_count = sum(
-            len(v) if isinstance(v, (list, str)) else 1
-            for v in password_elements.values()
+            len(v) if isinstance(v, (list, str)) else 1 for v in password_elements.values()
         )
         memorability = max(0.3, min(1.0, 1.0 - (element_count / 20)))
 

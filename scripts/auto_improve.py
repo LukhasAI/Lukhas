@@ -22,8 +22,7 @@ from lukhas.bridge.local_llm_fixer import LocalLLMFixer
 from lukhas.orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -39,7 +38,7 @@ class AutoImprover:
         workspace_path: str = ".",
         use_ollama: bool = True,
         use_github_actions: bool = False,
-        dry_run: bool = False
+        dry_run: bool = False,
     ):
         self.workspace_path = Path(workspace_path)
         self.use_ollama = use_ollama
@@ -47,21 +46,13 @@ class AutoImprover:
         self.dry_run = dry_run
 
         # Initialize components
-        self.healer = CodeQualityHealer(
-            workspace_path=workspace_path,
-            learning_enabled=True
-        )
+        self.healer = CodeQualityHealer(workspace_path=workspace_path, learning_enabled=True)
 
         # Symbolic kernel for event coordination
         self.kernel_bus = SymbolicKernelBus()
 
         # Statistics
-        self.stats = {
-            "files_processed": 0,
-            "issues_found": 0,
-            "issues_fixed": 0,
-            "time_saved": 0.0
-        }
+        self.stats = {"files_processed": 0, "issues_found": 0, "issues_fixed": 0, "time_saved": 0.0}
 
     async def check_prerequisites(self) -> bool:
         """Check if all prerequisites are met"""
@@ -102,11 +93,7 @@ class AutoImprover:
     def _check_tool(self, tool: str) -> bool:
         """Check if a tool is available"""
         try:
-            result = subprocess.run(
-                ["which", tool],
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(["which", tool], capture_output=True, text=True)
             return result.returncode == 0
         except:
             return False
@@ -120,9 +107,7 @@ class AutoImprover:
             return await fixer.check_ollama_available()
 
     async def run_improvement_cycle(
-        self,
-        target_files: Optional[list[str]] = None,
-        max_issues: int = 100
+        self, target_files: Optional[list[str]] = None, max_issues: int = 100
     ) -> dict:
         """Run a single improvement cycle"""
 
@@ -153,7 +138,7 @@ class AutoImprover:
             "llm_fixes": llm_results,
             "healing": healing_results,
             "validation": validation_results,
-            "stats": self.stats
+            "stats": self.stats,
         }
 
         # Report results
@@ -170,11 +155,7 @@ class AutoImprover:
 
     async def _run_quick_fixes(self, target_files: Optional[list[str]] = None) -> dict:
         """Run quick fixes using standard tools"""
-        results = {
-            "black": 0,
-            "ruff": 0,
-            "isort": 0
-        }
+        results = {"black": 0, "ruff": 0, "isort": 0}
 
         try:
             # Run black
@@ -186,6 +167,7 @@ class AutoImprover:
                 # Count files that would be/were reformatted
                 if "would be reformatted" in result.stdout or "reformatted" in result.stdout:
                     import re
+
                     match = re.search(r"(\d+) file", result.stdout)
                     if match:
                         results["black"] = int(match.group(1))
@@ -213,16 +195,14 @@ class AutoImprover:
         return results
 
     async def _run_llm_fixes(
-        self,
-        target_files: Optional[list[str]] = None,
-        max_issues: int = 100
+        self, target_files: Optional[list[str]] = None, max_issues: int = 100
     ) -> dict:
         """Run LLM-powered fixes"""
         results = {
             "files_analyzed": 0,
             "issues_found": 0,
             "fixes_applied": 0,
-            "confidence_avg": 0.0
+            "confidence_avg": 0.0,
         }
 
         try:
@@ -234,9 +214,11 @@ class AutoImprover:
                     files = list(self.workspace_path.rglob("*.py"))[:50]  # Limit for demo
 
                 # Skip test and venv files
-                files = [f for f in files if not any(
-                    skip in str(f) for skip in ["test_", "__pycache__", ".venv", "venv"]
-                )]
+                files = [
+                    f
+                    for f in files
+                    if not any(skip in str(f) for skip in ["test_", "__pycache__", ".venv", "venv"])
+                ]
 
                 results["files_analyzed"] = len(files)
                 total_confidence = 0.0
@@ -269,11 +251,7 @@ class AutoImprover:
 
     async def _run_healing_cycle(self, max_issues: int = 100) -> dict:
         """Run self-healing cycle"""
-        results = {
-            "issues_detected": 0,
-            "healing_actions": 0,
-            "success_rate": 0.0
-        }
+        results = {"issues_detected": 0, "healing_actions": 0, "success_rate": 0.0}
 
         try:
             # Scan for issues
@@ -282,7 +260,7 @@ class AutoImprover:
 
             # Heal top issues
             successful = 0
-            for failure in failures[:min(max_issues, 10)]:  # Limit for demo
+            for failure in failures[: min(max_issues, 10)]:  # Limit for demo
                 action = await self.healer.heal_failure(failure)
                 results["healing_actions"] += 1
                 if action.success:
@@ -303,11 +281,7 @@ class AutoImprover:
 
     async def _run_guardian_validation(self) -> dict:
         """Run Guardian validation on changes"""
-        results = {
-            "drift_score": 0.0,
-            "approved": True,
-            "recommendations": []
-        }
+        results = {"drift_score": 0.0, "approved": True, "recommendations": []}
 
         try:
             # Simulate Guardian validation
@@ -334,10 +308,7 @@ class AutoImprover:
             # Trigger awareness update
             await self.kernel_bus.emit(
                 effect=SymbolicEffect.AWARENESS_UPDATE,
-                data={
-                    "type": "code_quality_improvement",
-                    "results": results
-                }
+                data={"type": "code_quality_improvement", "results": results},
             )
 
             # Trigger memory fold for learning
@@ -346,8 +317,8 @@ class AutoImprover:
                     effect=SymbolicEffect.MEMORY_FOLD,
                     data={
                         "type": "successful_fixes",
-                        "count": results["llm_fixes"]["fixes_applied"]
-                    }
+                        "count": results["llm_fixes"]["fixes_applied"],
+                    },
                 )
 
             # Trigger ethics check if needed
@@ -356,8 +327,8 @@ class AutoImprover:
                     effect=SymbolicEffect.ETHICS_CHECK,
                     data={
                         "reason": "code_changes",
-                        "drift_score": results["validation"]["drift_score"]
-                    }
+                        "drift_score": results["validation"]["drift_score"],
+                    },
                 )
         except Exception as e:
             logger.error(f"Event trigger failed: {e}")
@@ -416,43 +387,18 @@ class AutoImprover:
 
 async def main():
     """Main entry point"""
-    parser = argparse.ArgumentParser(
-        description="LUKHAS Auto-Improvement System"
-    )
-    parser.add_argument(
-        "--path",
-        default=".",
-        help="Workspace path to improve"
-    )
-    parser.add_argument(
-        "--no-ollama",
-        action="store_true",
-        help="Skip Ollama/LLM fixes"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Don't actually make changes"
-    )
-    parser.add_argument(
-        "--max-issues",
-        type=int,
-        default=100,
-        help="Maximum issues to fix"
-    )
-    parser.add_argument(
-        "--continuous",
-        action="store_true",
-        help="Run continuous improvement loop"
-    )
+    parser = argparse.ArgumentParser(description="LUKHAS Auto-Improvement System")
+    parser.add_argument("--path", default=".", help="Workspace path to improve")
+    parser.add_argument("--no-ollama", action="store_true", help="Skip Ollama/LLM fixes")
+    parser.add_argument("--dry-run", action="store_true", help="Don't actually make changes")
+    parser.add_argument("--max-issues", type=int, default=100, help="Maximum issues to fix")
+    parser.add_argument("--continuous", action="store_true", help="Run continuous improvement loop")
 
     args = parser.parse_args()
 
     # Create improver
     improver = AutoImprover(
-        workspace_path=args.path,
-        use_ollama=not args.no_ollama,
-        dry_run=args.dry_run
+        workspace_path=args.path, use_ollama=not args.no_ollama, dry_run=args.dry_run
     )
 
     # Check prerequisites

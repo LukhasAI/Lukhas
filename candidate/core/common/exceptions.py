@@ -46,9 +46,7 @@ class GuardianRejectionError(LukhasError):
         if suggestion:
             details["suggestion"] = suggestion
 
-        super().__init__(
-            message=message, error_code="GUARDIAN_REJECTION", details=details
-        )
+        super().__init__(message=message, error_code="GUARDIAN_REJECTION", details=details)
 
 
 class MemoryDriftError(LukhasError):
@@ -128,9 +126,7 @@ class ConfigurationError(LukhasError):
         if config_file:
             details["config_file"] = config_file
 
-        super().__init__(
-            message=message, error_code="CONFIGURATION_ERROR", details=details
-        )
+        super().__init__(message=message, error_code="CONFIGURATION_ERROR", details=details)
 
 
 class AuthenticationError(LukhasError):
@@ -146,9 +142,7 @@ class AuthenticationError(LukhasError):
         if auth_method:
             details["auth_method"] = auth_method
 
-        super().__init__(
-            message=message, error_code="AUTHENTICATION_ERROR", details=details
-        )
+        super().__init__(message=message, error_code="AUTHENTICATION_ERROR", details=details)
 
 
 class AuthorizationError(LukhasError):
@@ -170,9 +164,7 @@ class AuthorizationError(LukhasError):
         if required_permission:
             details["required_permission"] = required_permission
 
-        super().__init__(
-            message=message, error_code="AUTHORIZATION_ERROR", details=details
-        )
+        super().__init__(message=message, error_code="AUTHORIZATION_ERROR", details=details)
 
 
 class ValidationError(LukhasError):
@@ -194,9 +186,7 @@ class ValidationError(LukhasError):
         if constraint:
             details["constraint"] = constraint
 
-        super().__init__(
-            message=message, error_code="VALIDATION_ERROR", details=details
-        )
+        super().__init__(message=message, error_code="VALIDATION_ERROR", details=details)
 
 
 class GLYPHError(LukhasError):
@@ -238,9 +228,7 @@ class CircuitBreakerError(LukhasError):
             **kwargs.get("details", {}),
         }
 
-        super().__init__(
-            message=message, error_code="CIRCUIT_BREAKER_OPEN", details=details
-        )
+        super().__init__(message=message, error_code="CIRCUIT_BREAKER_OPEN", details=details)
 
 
 class ResourceExhaustedError(LukhasError):
@@ -260,13 +248,9 @@ class ResourceExhaustedError(LukhasError):
             details["current_usage"] = current_usage
         if limit is not None:
             details["limit"] = limit
-            details["usage_percentage"] = (
-                (current_usage / limit * 100) if limit > 0 else 100
-            )
+            details["usage_percentage"] = (current_usage / limit * 100) if limit > 0 else 100
 
-        super().__init__(
-            message=message, error_code="RESOURCE_EXHAUSTED", details=details
-        )
+        super().__init__(message=message, error_code="RESOURCE_EXHAUSTED", details=details)
 
 
 # Convenience functions for raising common errors
@@ -285,9 +269,7 @@ def raise_guardian_rejection(
     )
 
 
-def raise_if_drift_excessive(
-    memory_id: str, drift_level: float, threshold: float = 0.3
-) -> None:
+def raise_if_drift_excessive(memory_id: str, drift_level: float, threshold: float = 0.3) -> None:
     """Raise error if memory drift exceeds threshold"""
     if drift_level > threshold:
         raise MemoryDriftError(

@@ -53,9 +53,7 @@ from typing import Optional
 import numpy as np
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("BioOscillator")
 
 
@@ -363,9 +361,7 @@ class BaseOscillator(ABC):
         """
         min_freq, max_freq = self.config.frequency_range
         if not min_freq <= freq <= max_freq:
-            logger.warning(
-                f"Frequency {freq} outside valid range [{min_freq}, {max_freq}]"
-            )
+            logger.warning(f"Frequency {freq} outside valid range [{min_freq}, {max_freq}]")
             return np.clip(freq, min_freq, max_freq)
         return freq
 
@@ -402,9 +398,7 @@ class BaseOscillator(ABC):
         """
         min_amp, max_amp = self.config.amplitude_range
         if not min_amp <= amplitude <= max_amp:
-            logger.warning(
-                f"Amplitude {amplitude} outside valid range [{min_amp}, {max_amp}]"
-            )
+            logger.warning(f"Amplitude {amplitude} outside valid range [{min_amp}, {max_amp}]")
             return np.clip(amplitude, min_amp, max_amp)
         return amplitude
 

@@ -130,17 +130,13 @@ class EUAIActValidator:
             requirements = await self._generate_requirements(risk_category)
 
             # Generate recommendations
-            recommendations = await self._generate_recommendations(
-                violations, risk_category
-            )
+            recommendations = await self._generate_recommendations(violations, risk_category)
 
             # Calculate compliance status
             compliance_status = self._calculate_compliance_status(violations)
 
             # Calculate confidence score
-            confidence_score = await self._calculate_confidence(
-                system_profile, violations
-            )
+            confidence_score = await self._calculate_confidence(system_profile, violations)
 
             return ComplianceAssessment(
                 system_id=system_profile.system_id,
@@ -155,29 +151,20 @@ class EUAIActValidator:
             )
 
         except Exception as e:
-            logger.error(
-                f"Compliance assessment failed for {system_profile.system_id}: {e}"
-            )
+            logger.error(f"Compliance assessment failed for {system_profile.system_id}: {e}")
             raise
 
-    async def _categorize_risk(
-        self, system_profile: AISystemProfile
-    ) -> AISystemRiskCategory:
+    async def _categorize_risk(self, system_profile: AISystemProfile) -> AISystemRiskCategory:
         """Categorize AI system risk level according to EU AI Act"""
 
         # Check for prohibited practices
         for context in system_profile.deployment_context:
-            if any(
-                prohibited in context.lower()
-                for prohibited in self.prohibited_practices
-            ):
+            if any(prohibited in context.lower() for prohibited in self.prohibited_practices):
                 return AISystemRiskCategory.UNACCEPTABLE_RISK
 
         # Check for high-risk use cases
         for context in system_profile.deployment_context:
-            if any(
-                high_risk in context.lower() for high_risk in self.high_risk_use_cases
-            ):
+            if any(high_risk in context.lower() for high_risk in self.high_risk_use_cases):
                 return AISystemRiskCategory.HIGH_RISK
 
         # Check for limited risk indicators
@@ -201,23 +188,17 @@ class EUAIActValidator:
             return violations
 
         if risk_category == AISystemRiskCategory.HIGH_RISK:
-            violations.extend(
-                await self._validate_high_risk_requirements(system_profile)
-            )
+            violations.extend(await self._validate_high_risk_requirements(system_profile))
 
         if risk_category in [
             AISystemRiskCategory.HIGH_RISK,
             AISystemRiskCategory.LIMITED_RISK,
         ]:
-            violations.extend(
-                await self._validate_transparency_requirements(system_profile)
-            )
+            violations.extend(await self._validate_transparency_requirements(system_profile))
 
         return violations
 
-    async def _validate_high_risk_requirements(
-        self, system_profile: AISystemProfile
-    ) -> list[str]:
+    async def _validate_high_risk_requirements(self, system_profile: AISystemProfile) -> list[str]:
         """Validate high-risk AI system requirements"""
         violations = []
 
@@ -258,9 +239,7 @@ class EUAIActValidator:
 
         return violations
 
-    async def _generate_requirements(
-        self, risk_category: AISystemRiskCategory
-    ) -> list[str]:
+    async def _generate_requirements(self, risk_category: AISystemRiskCategory) -> list[str]:
         """Generate applicable compliance requirements"""
         requirements = []
 
@@ -343,9 +322,7 @@ class EUAIActValidator:
 
         return max(0.0, min(1.0, base_confidence - missing_info_penalty))
 
-    def _calculate_next_review_date(
-        self, risk_category: AISystemRiskCategory
-    ) -> datetime:
+    def _calculate_next_review_date(self, risk_category: AISystemRiskCategory) -> datetime:
         """Calculate next compliance review date"""
         from datetime import timedelta
 
@@ -356,9 +333,7 @@ class EUAIActValidator:
         else:
             return datetime.now() + timedelta(days=365)  # Annually
 
-    async def generate_compliance_report(
-        self, assessment: ComplianceAssessment
-    ) -> dict[str, Any]:
+    async def generate_compliance_report(self, assessment: ComplianceAssessment) -> dict[str, Any]:
         """Generate comprehensive compliance report"""
 
         report = {
@@ -412,9 +387,7 @@ class EUAIActValidator:
 
         return next_steps
 
-    async def _get_regulatory_references(
-        self, risk_category: AISystemRiskCategory
-    ) -> list[str]:
+    async def _get_regulatory_references(self, risk_category: AISystemRiskCategory) -> list[str]:
         """Get relevant regulatory references"""
         references = [
             "EU AI Act (Regulation (EU) 2024/1689)",
@@ -437,9 +410,9 @@ class EUAIActValidator:
 
 # Export the main validator class
 __all__ = [
-    "EUAIActValidator",
     "AISystemProfile",
-    "ComplianceAssessment",
     "AISystemRiskCategory",
+    "ComplianceAssessment",
     "ComplianceStatus",
+    "EUAIActValidator",
 ]

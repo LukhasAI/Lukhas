@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class LUKHASConceptValidator:
-
     def __init__(self):
         # Core LUKHAS concepts that must be preserved
         self.core_concepts = {
@@ -76,9 +75,7 @@ class LUKHASConceptValidator:
         python_files = [
             f
             for f in python_files
-            if not any(
-                skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            )
+            if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
         print(f"\nScanning {len(python_files)} Python files...")

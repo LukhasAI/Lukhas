@@ -1,5 +1,6 @@
 """Common utilities for governance module"""
 
+
 class GlyphIntegrationMixin:
     """
     Mixin class for integrating with LUKHAS GLYPH system
@@ -18,7 +19,7 @@ class GlyphIntegrationMixin:
         patterns = {
             "identity": ["⚛️", "🔑", "👤"],
             "consciousness": ["🧠", "💭", "🌟"],
-            "guardian": ["🛡️", "⚠️", "🔒"]
+            "guardian": ["🛡️", "⚠️", "🔒"],
         }
         return patterns.get(component, ["❓", "⚠️", "🔍"])
 
@@ -30,7 +31,7 @@ class GlyphIntegrationMixin:
             "case_created": "🏥→📋→✅",
             "threat_detected": "🔍→⚠️→🛡️",
             "emergency_triggered": "🚨→🛡️→👥",
-            "ethics_validated": "⚖️→✅→🛡️"
+            "ethics_validated": "⚖️→✅→🛡️",
         }
 
         return base_patterns.get(action, "🔍→❓→🛡️")

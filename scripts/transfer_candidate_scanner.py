@@ -8,6 +8,7 @@ with two sections: candidates_transfer and candidates_prune.
 
 Use env LUKHAS_LOCAL_REPOS to override the base repos directory.
 """
+
 from __future__ import annotations
 
 import contextlib
@@ -117,9 +118,7 @@ def file_score_for_prune(path: Path) -> list[str]:
         try:
             text = path.read_text(errors="ignore")
             code_lines = sum(
-                1
-                for ln in text.splitlines()
-                if ln.strip() and not ln.strip().startswith("#")
+                1 for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#")
             )
             if (
                 code_lines < 20

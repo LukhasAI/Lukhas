@@ -48,9 +48,7 @@ class ChatRequest(BaseModel):
     """Chat request model"""
 
     message: str = Field(..., description="User message to process")
-    session_id: Optional[str] = Field(
-        None, description="Session ID for conversation continuity"
-    )
+    session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
     user_id: Optional[str] = Field(None, description="User identifier")
 
     class Config:
@@ -69,9 +67,7 @@ class ChatResponse(BaseModel):
     response: str = Field(..., description="AI response")
     session_id: str = Field(..., description="Session ID for future requests")
     timestamp: datetime = Field(default_factory=datetime.now)
-    metadata: Optional[dict[str, Any]] = Field(
-        None, description="Additional response metadata"
-    )
+    metadata: Optional[dict[str, Any]] = Field(None, description="Additional response metadata")
 
     class Config:
         json_schema_extra = {
@@ -190,9 +186,7 @@ async def chat(request: ChatRequest):
     """
     try:
         if not nl_interface or not nl_interface.operational:
-            raise HTTPException(
-                status_code=503, detail="Consciousness interface not available"
-            )
+            raise HTTPException(status_code=503, detail="Consciousness interface not available")
 
         # Process the message
         response_text = await nl_interface.process_input(
@@ -213,15 +207,11 @@ async def chat(request: ChatRequest):
                     "turn_number": len(context.turns),
                 }
 
-        return ChatResponse(
-            response=response_text, session_id=session_id, metadata=metadata
-        )
+        return ChatResponse(response=response_text, session_id=session_id, metadata=metadata)
 
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
-        raise HTTPException(
-            status_code=500, detail=f"Error processing request: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e!s}")
 
 
 @app.get("/sessions", response_model=list[SessionInfo], tags=["Sessions"])
@@ -342,9 +332,7 @@ async def submit_feedback(
 async def health_check():
     """Simple health check endpoint"""
     return {
-        "status": (
-            "healthy" if nl_interface and nl_interface.operational else "unhealthy"
-        ),
+        "status": ("healthy" if nl_interface and nl_interface.operational else "unhealthy"),
         "timestamp": datetime.now(),
     }
 

@@ -51,8 +51,7 @@ class GlyphIDHasher:
         ]
 
         bonded = b"".join(
-            bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)])
-            for i in range(4)
+            bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)]) for i in range(4)
         )
         return bonded.hex()
 

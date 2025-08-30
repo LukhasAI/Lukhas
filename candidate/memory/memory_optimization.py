@@ -207,8 +207,7 @@ class ObjectPool(Generic[T]):
         return {
             "pool_size": len(self._pool),
             "allocated": self._allocated,
-            "hit_rate": self._stats["hits"]
-            / max(1, self._stats["hits"] + self._stats["misses"]),
+            "hit_rate": self._stats["hits"] / max(1, self._stats["hits"] + self._stats["misses"]),
             **self._stats,
         }
 
@@ -233,9 +232,7 @@ class CompressedStorage:
             CompressionStrategy.HEAVY: gzip.decompress,
         }
 
-    def compress(
-        self, data: bytes, strategy: CompressionStrategy
-    ) -> tuple[bytes, float]:
+    def compress(self, data: bytes, strategy: CompressionStrategy) -> tuple[bytes, float]:
         """
         Compress data using specified strategy
         Returns: (compressed_data, compression_ratio)
@@ -251,9 +248,7 @@ class CompressedStorage:
         """Decompress data using specified strategy"""
         return self.decompression_strategies[strategy](data)
 
-    def select_strategy(
-        self, size_bytes: int, access_frequency: float
-    ) -> CompressionStrategy:
+    def select_strategy(self, size_bytes: int, access_frequency: float) -> CompressionStrategy:
         """Select compression strategy based on object characteristics"""
         # Large, rarely accessed objects get heavy compression
         if size_bytes > 1_000_000 and access_frequency < 0.1:

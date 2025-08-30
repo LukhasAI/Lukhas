@@ -475,9 +475,7 @@ class TestJWTTokenSecurity(unittest.TestCase):
             "token_type": "access",
         }
 
-        expired_token = jwt.encode(
-            expired_payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM
-        )
+        expired_token = jwt.encode(expired_payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
         # Should fail validation
         is_valid, payload, error = _validate_jwt_token(expired_token)

@@ -14,6 +14,7 @@
 ║ Initialization for cognitive subpackage.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 
 # Module imports
@@ -55,9 +56,7 @@ try:
         ReflectiveIntrospectionSystem,  # Assuming class name
     )
 
-    logger.debug(
-        "ΛTRACE: Imported 'ReflectiveIntrospectionSystem' from .reflective_introspection."
-    )
+    logger.debug("ΛTRACE: Imported 'ReflectiveIntrospectionSystem' from .reflective_introspection.")
 except ImportError as e_ri:
     logger.warning(f"ΛTRACE: Could not import 'ReflectiveIntrospectionSystem': {e_ri}.")
     ReflectiveIntrospectionSystem = None  # type: ignore
@@ -71,9 +70,7 @@ __all__ = [
 # Filter out None values from __all__ if imports failed
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
-logger.info(
-    f"ΛTRACE: 'consciousness.cognitive' package initialized. Exposed: {__all__}"
-)
+logger.info(f"ΛTRACE: 'consciousness.cognitive' package initialized. Exposed: {__all__}")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

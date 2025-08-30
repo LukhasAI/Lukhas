@@ -83,9 +83,9 @@ class StrokeGestureRecognizer(GestureRecognizer):
         # Total path length
         total_length = 0.0
         for i in range(1, len(points)):
-            dx = points[i]["x"] - points[i-1]["x"]
-            dy = points[i]["y"] - points[i-1]["y"]
-            total_length += math.sqrt(dx*dx + dy*dy)
+            dx = points[i]["x"] - points[i - 1]["x"]
+            dy = points[i]["y"] - points[i - 1]["y"]
+            total_length += math.sqrt(dx * dx + dy * dy)
 
         features.append(total_length)
 
@@ -104,10 +104,10 @@ class StrokeGestureRecognizer(GestureRecognizer):
             curvatures = []
             for i in range(1, len(points) - 1):
                 # Calculate angle change at point i
-                v1x = points[i]["x"] - points[i-1]["x"]
-                v1y = points[i]["y"] - points[i-1]["y"]
-                v2x = points[i+1]["x"] - points[i]["x"]
-                v2y = points[i+1]["y"] - points[i]["y"]
+                v1x = points[i]["x"] - points[i - 1]["x"]
+                v1y = points[i]["y"] - points[i - 1]["y"]
+                v2x = points[i + 1]["x"] - points[i]["x"]
+                v2y = points[i + 1]["y"] - points[i]["y"]
 
                 # Cross product for angle
                 cross = v1x * v2y - v1y * v2x
@@ -117,11 +117,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
                 curvatures.append(angle)
 
             if curvatures:
-                features.extend([
-                    np.mean(curvatures),
-                    np.std(curvatures),
-                    max(curvatures)
-                ])
+                features.extend([np.mean(curvatures), np.std(curvatures), max(curvatures)])
             else:
                 features.extend([0.0, 0.0, 0.0])
         else:
@@ -140,20 +136,16 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         # Calculate velocities
         for i in range(1, len(points)):
-            dx = points[i]["x"] - points[i-1]["x"]
-            dy = points[i]["y"] - points[i-1]["y"]
-            dt = points[i]["timestamp"] - points[i-1]["timestamp"]
+            dx = points[i]["x"] - points[i - 1]["x"]
+            dy = points[i]["y"] - points[i - 1]["y"]
+            dt = points[i]["timestamp"] - points[i - 1]["timestamp"]
 
             if dt > 0:
-                velocity = math.sqrt(dx*dx + dy*dy) / dt
+                velocity = math.sqrt(dx * dx + dy * dy) / dt
                 velocities.append(velocity)
 
         if velocities:
-            features.extend([
-                np.mean(velocities),
-                np.std(velocities),
-                max(velocities)
-            ])
+            features.extend([np.mean(velocities), np.std(velocities), max(velocities)])
         else:
             features.extend([0.0, 0.0, 0.0])
 
@@ -161,19 +153,15 @@ class StrokeGestureRecognizer(GestureRecognizer):
         if len(velocities) >= 2:
             accelerations = []
             for i in range(1, len(velocities)):
-                dv = velocities[i] - velocities[i-1]
-                dt = points[i+1]["timestamp"] - points[i]["timestamp"]
+                dv = velocities[i] - velocities[i - 1]
+                dt = points[i + 1]["timestamp"] - points[i]["timestamp"]
 
                 if dt > 0:
                     acceleration = abs(dv) / dt
                     accelerations.append(acceleration)
 
             if accelerations:
-                features.extend([
-                    np.mean(accelerations),
-                    np.std(accelerations),
-                    max(accelerations)
-                ])
+                features.extend([np.mean(accelerations), np.std(accelerations), max(accelerations)])
             else:
                 features.extend([0.0, 0.0, 0.0])
         else:
@@ -185,12 +173,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
         """Extract pressure variation features"""
         pressures = [p.get("pressure", 0.5) for p in points]
 
-        return [
-            np.mean(pressures),
-            np.std(pressures),
-            max(pressures),
-            min(pressures)
-        ]
+        return [np.mean(pressures), np.std(pressures), max(pressures), min(pressures)]
 
     def _extract_timing_features(self, points: list[dict]) -> list[float]:
         """Extract timing characteristics"""
@@ -203,7 +186,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
         # Average time between points
         time_intervals = []
         for i in range(1, len(points)):
-            dt = points[i]["timestamp"] - points[i-1]["timestamp"]
+            dt = points[i]["timestamp"] - points[i - 1]["timestamp"]
             time_intervals.append(dt)
 
         avg_interval = np.mean(time_intervals) if time_intervals else 0.0
@@ -297,17 +280,19 @@ class TapSequenceRecognizer(GestureRecognizer):
         # Inter-tap intervals
         intervals = []
         for i in range(1, len(taps)):
-            interval = taps[i]["timestamp"] - taps[i-1]["timestamp"]
+            interval = taps[i]["timestamp"] - taps[i - 1]["timestamp"]
             intervals.append(interval)
 
         # Timing statistics
-        features.extend([
-            len(taps),                    # Number of taps
-            np.mean(intervals),           # Average interval
-            np.std(intervals),            # Interval variation
-            max(intervals),               # Longest interval
-            min(intervals),               # Shortest interval
-        ])
+        features.extend(
+            [
+                len(taps),  # Number of taps
+                np.mean(intervals),  # Average interval
+                np.std(intervals),  # Interval variation
+                max(intervals),  # Longest interval
+                min(intervals),  # Shortest interval
+            ]
+        )
 
         # Spatial spread
         x_coords = [tap["x"] for tap in taps]
@@ -376,12 +361,7 @@ class MockStrokeData:
 
             timestamp = start_time + t * 1.5  # 1.5 second gesture
 
-            points.append({
-                "x": x,
-                "y": y,
-                "timestamp": timestamp,
-                "pressure": pressure
-            })
+            points.append({"x": x, "y": y, "timestamp": timestamp, "pressure": pressure})
 
         return {"points": points}
 
@@ -401,7 +381,7 @@ class MockStrokeData:
             tap = {
                 "timestamp": base_time + interval,
                 "x": 200 + random.gauss(0, 10),  # Some spatial variation
-                "y": 300 + random.gauss(0, 10)
+                "y": 300 + random.gauss(0, 10),
             }
             taps.append(tap)
 
@@ -425,9 +405,9 @@ def create_gesture_recognizer(gesture_type: GestureType) -> GestureRecognizer:
 from .. import EdgeGestureProcessor
 
 __all__ = [
+    "EdgeGestureProcessor",  # Re-export from parent
+    "MockStrokeData",
     "StrokeGestureRecognizer",
     "TapSequenceRecognizer",
-    "MockStrokeData",
     "create_gesture_recognizer",
-    "EdgeGestureProcessor"  # Re-export from parent
 ]

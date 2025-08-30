@@ -192,9 +192,7 @@ def main():
     print("1. Review changes: git diff --stat")
     print("2. Check specific changes: git diff <file>")
     print("3. Run tests: make test")
-    print(
-        "4. If satisfied: git add -A && git commit -m 'fix: aggressive linting cleanup'"
-    )
+    print("4. If satisfied: git add -A && git commit -m 'fix: aggressive linting cleanup'")
     print("5. If not satisfied: git checkout -- .")
     print("\n⚠️  IMPORTANT: Test critical functionality before committing!")
 

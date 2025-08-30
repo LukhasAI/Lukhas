@@ -82,9 +82,7 @@ class EnhancedVoiceIntegrator:
 
         # Quantum enhancement
         if orchestrator:
-            self.qi_enhancer = QIVoiceEnhancer(
-                orchestrator, self, self.config.qi_config
-            )
+            self.qi_enhancer = QIVoiceEnhancer(orchestrator, self, self.config.qi_config)
         else:
             self.qi_enhancer = None
 
@@ -192,9 +190,7 @@ class EnhancedVoiceIntegrator:
                 "success": True,
                 "text": text,
                 "emotion": emotion["emotion"] if emotion else None,
-                "emotion_confidence": (
-                    emotion.get("confidence", 0.0) if emotion else 0.0
-                ),
+                "emotion_confidence": (emotion.get("confidence", 0.0) if emotion else 0.0),
             }
 
         except Exception as e:
@@ -213,9 +209,7 @@ class EnhancedVoiceIntegrator:
 
         try:
             # Get quantum emotional state
-            coherence = (
-                await self.qi_enhancer.emotion_oscillator.measure_coherence()
-            )
+            coherence = await self.qi_enhancer.emotion_oscillator.measure_coherence()
 
             if coherence >= self.config.qi_config.coherence_threshold:
                 # Enhanced emotion detection would go here
@@ -317,9 +311,7 @@ class EnhancedVoiceIntegrator:
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = []
 
-        self.active_sessions[session_id].append(
-            {"timestamp": time.time(), "result": result}
-        )
+        self.active_sessions[session_id].append({"timestamp": time.time(), "result": result})
 
 
 """

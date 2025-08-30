@@ -223,10 +223,10 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
             self.logger.error("Timeout while connecting to ElevenLabs API")
             return {"success": False, "error": "Request timeout"}
         except requests.exceptions.RequestException as e:
-            self.logger.error(f"ElevenLabs API request error: {str(e)}")
-            return {"success": False, "error": f"Request error: {str(e)}"}
+            self.logger.error(f"ElevenLabs API request error: {e!s}")
+            return {"success": False, "error": f"Request error: {e!s}"}
         except Exception as e:
-            self.logger.error(f"ElevenLabs synthesis error: {str(e)}")
+            self.logger.error(f"ElevenLabs synthesis error: {e!s}")
             return {"success": False, "error": str(e)}
 
     def is_available(self) -> bool:
@@ -324,6 +324,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         if not self.edge_tts:
             try:
                 import edge_tts
+
                 self.edge_tts = edge_tts
             except ImportError:
                 self.logger.error("edge-tts package not installed")
@@ -380,7 +381,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
             }
 
         except Exception as e:
-            self.logger.error(f"Edge TTS synthesis error: {str(e)}")
+            self.logger.error(f"Edge TTS synthesis error: {e!s}")
             # Clean up on error
             if os.path.exists(output_file):
                 try:
@@ -394,6 +395,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         """Check if Edge TTS is available"""
         try:
             import edge_tts
+
             self.edge_tts = edge_tts
             return True
         except ImportError:
@@ -535,7 +537,7 @@ class CoquiProvider(VoiceSynthesisProvider):
             }
 
         except Exception as e:
-            self.logger.error(f"Coqui TTS synthesis error: {str(e)}")
+            self.logger.error(f"Coqui TTS synthesis error: {e!s}")
             # Clean up on error
             if os.path.exists(output_file):
                 try:

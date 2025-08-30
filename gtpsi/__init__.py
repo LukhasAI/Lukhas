@@ -24,22 +24,25 @@ from pydantic import BaseModel, Field
 
 class GestureType(Enum):
     """Supported gesture types"""
-    STROKE = "stroke"           # Finger/stylus stroke pattern
-    TAP_SEQUENCE = "tap_seq"    # Tap rhythm pattern
-    SWIPE_PATTERN = "swipe"     # Multi-finger swipe pattern
-    SIGNATURE = "signature"     # Digital signature stroke
+
+    STROKE = "stroke"  # Finger/stylus stroke pattern
+    TAP_SEQUENCE = "tap_seq"  # Tap rhythm pattern
+    SWIPE_PATTERN = "swipe"  # Multi-finger swipe pattern
+    SIGNATURE = "signature"  # Digital signature stroke
 
 
 class RiskLevel(Enum):
     """Risk levels requiring GTΨ approval"""
-    LOW = "low"           # No GTΨ required
-    MEDIUM = "medium"     # Optional GTΨ
-    HIGH = "high"         # GTΨ required
-    CRITICAL = "critical" # GTΨ + additional verification required
+
+    LOW = "low"  # No GTΨ required
+    MEDIUM = "medium"  # Optional GTΨ
+    HIGH = "high"  # GTΨ required
+    CRITICAL = "critical"  # GTΨ + additional verification required
 
 
 class GestureFeatures(BaseModel):
     """Hashed kinematic features (never raw gesture data)"""
+
     feature_hash: str = Field(..., description="Hashed kinematic features")
     salt: str = Field(..., description="Random salt for hashing")
     gesture_type: GestureType = Field(..., description="Type of gesture")
@@ -50,6 +53,7 @@ class GestureFeatures(BaseModel):
 
 class GestureChallenge(BaseModel):
     """Server-generated gesture challenge"""
+
     challenge_id: str = Field(..., description="Unique challenge identifier")
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="Action requiring approval")
@@ -61,6 +65,7 @@ class GestureChallenge(BaseModel):
 
 class GestureApproval(BaseModel):
     """GTΨ approval record for specific action"""
+
     approval_id: str = Field(..., description="Unique approval identifier")
     challenge_id: str = Field(..., description="Associated challenge")
     lid: str = Field(..., description="User who approved")
@@ -78,28 +83,28 @@ HIGH_RISK_ACTIONS = {
     "send_email": {
         "description": "Send email on behalf of user",
         "risk_level": RiskLevel.HIGH,
-        "max_approval_seconds": 30
+        "max_approval_seconds": 30,
     },
     "cloud.move.files": {
         "description": "Move files between cloud services",
         "risk_level": RiskLevel.HIGH,
-        "max_approval_seconds": 60
+        "max_approval_seconds": 60,
     },
     "share_link_public": {
         "description": "Share file/folder with public link",
         "risk_level": RiskLevel.CRITICAL,
-        "max_approval_seconds": 20
+        "max_approval_seconds": 20,
     },
     "delete_files": {
         "description": "Permanently delete files",
         "risk_level": RiskLevel.CRITICAL,
-        "max_approval_seconds": 15
+        "max_approval_seconds": 15,
     },
     "grant_admin_scope": {
         "description": "Grant administrative capabilities",
         "risk_level": RiskLevel.CRITICAL,
-        "max_approval_seconds": 10
-    }
+        "max_approval_seconds": 10,
+    },
 }
 
 
@@ -138,11 +143,7 @@ class EdgeGestureProcessor:
     def __init__(self, recognizer: GestureRecognizer):
         self.recognizer = recognizer
 
-    def process_gesture(
-        self,
-        raw_gesture_data: Any,
-        gesture_type: GestureType
-    ) -> GestureFeatures:
+    def process_gesture(self, raw_gesture_data: Any, gesture_type: GestureType) -> GestureFeatures:
         """
         Process raw gesture and return hashed features.
 
@@ -171,7 +172,7 @@ class EdgeGestureProcessor:
             gesture_type=gesture_type,
             feature_count=len(features),
             quality_score=quality_score,
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
 
@@ -195,15 +196,15 @@ def get_max_approval_time(action: str) -> int:
 
 
 __all__ = [
+    "HIGH_RISK_ACTIONS",
+    "EdgeGestureProcessor",
+    "GestureApproval",
+    "GestureChallenge",
+    "GestureFeatures",
+    "GestureRecognizer",
     "GestureType",
     "RiskLevel",
-    "GestureFeatures",
-    "GestureChallenge",
-    "GestureApproval",
-    "GestureRecognizer",
-    "EdgeGestureProcessor",
-    "HIGH_RISK_ACTIONS",
-    "requires_gtpsi_approval",
     "get_action_risk_level",
-    "get_max_approval_time"
+    "get_max_approval_time",
+    "requires_gtpsi_approval",
 ]

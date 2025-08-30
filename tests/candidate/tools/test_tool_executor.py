@@ -18,7 +18,9 @@ async def test_open_url_success(executor):
     mock_response = MagicMock()
     mock_response.raise_for_status = MagicMock()
     mock_response.headers = {"content-type": "text/html"}
-    mock_response.content = b"<html><head><title>Test Page</title></head><body><p>Hello World</p></body></html>"
+    mock_response.content = (
+        b"<html><head><title>Test Page</title></head><body><p>Hello World</p></body></html>"
+    )
 
     mock_async_client = AsyncMock()
     mock_async_client.__aenter__.return_value.get.return_value = mock_response
@@ -182,8 +184,8 @@ def test_exec_code_unsupported_language(executor):
 def test_exec_code_build_error(mock_docker, executor):
     """Tests handling of Docker build failures."""
     mock_docker.errors.BuildError = docker.errors.BuildError
-    mock_docker.from_env.return_value.images.build.side_effect = (
-        docker.errors.BuildError("Build failed", "build_log")
+    mock_docker.from_env.return_value.images.build.side_effect = docker.errors.BuildError(
+        "Build failed", "build_log"
     )
 
     result = executor._exec_code({"language": "python", "source": "print(1)"})
@@ -192,7 +194,5 @@ def test_exec_code_build_error(mock_docker, executor):
 
 def test_exec_code_security_violation(executor):
     """Tests that dangerous patterns are blocked."""
-    result = executor._exec_code(
-        {"language": "python", "source": 'import os; os.system("ls")'}
-    )
+    result = executor._exec_code({"language": "python", "source": 'import os; os.system("ls")'})
     assert "Security violation: pattern 'os' is not allowed" in result

@@ -82,9 +82,7 @@ class EthicsNode:
         # Active framework
         self.active_framework = "default"
 
-        logger.info(
-            f"Ethics Node initialized with {len(self.ethical_principles)} principles"
-        )
+        logger.info(f"Ethics Node initialized with {len(self.ethical_principles)} principles")
 
     def _initialize_principles(self) -> dict[str, float]:
         """Initialize core ethical principles with their weights"""
@@ -164,9 +162,7 @@ class EthicsNode:
         # Calculate scores for each principle
         principle_scores = {}
         for principle, _weight in framework.items():
-            principle_scores[principle] = self._evaluate_principle(
-                principle, action_data, context
-            )
+            principle_scores[principle] = self._evaluate_principle(principle, action_data, context)
 
         # Calculate weighted average
         weighted_sum = sum(principle_scores[p] * w for p, w in framework.items())
@@ -186,16 +182,12 @@ class EthicsNode:
         is_ethical = overall_score >= config_threshold
 
         # Generate explanation for the decision
-        explanation = self._generate_explanation(
-            principle_scores, overall_score, is_ethical
-        )
+        explanation = self._generate_explanation(principle_scores, overall_score, is_ethical)
 
         # Generate alternatives if not ethical
         alternatives = []
         if not is_ethical:
-            alternatives = self._generate_alternatives(
-                action_data, principle_scores, context
-            )
+            alternatives = self._generate_alternatives(action_data, principle_scores, context)
 
         # Record decision for learning
         decision_record = {
@@ -207,9 +199,7 @@ class EthicsNode:
             "principle_scores": principle_scores,
             "framework_used": self.active_framework,
             "context_summary": {
-                k: context.get(k)
-                for k in ["domain", "user_role", "sensitivity"]
-                if k in context
+                k: context.get(k) for k in ["domain", "user_role", "sensitivity"] if k in context
             },
         }
         self._record_decision(decision_record)
@@ -253,9 +243,7 @@ class EthicsNode:
         if principle == "beneficence":
             # Check if action is beneficial
             positive_indicators = ["help", "assist", "improve", "support", "benefit"]
-            score += 0.2 * any(
-                indicator in action_str for indicator in positive_indicators
-            )
+            score += 0.2 * any(indicator in action_str for indicator in positive_indicators)
 
         elif principle == "non_maleficence":
             # Check for potential harm
@@ -264,9 +252,7 @@ class EthicsNode:
 
             # Check for safety measures
             safety_indicators = ["safety", "protection", "security", "safeguard"]
-            score += 0.2 * any(
-                indicator in action_str for indicator in safety_indicators
-            )
+            score += 0.2 * any(indicator in action_str for indicator in safety_indicators)
 
         elif principle == "autonomy":
             # Check for respect of user autonomy
@@ -278,9 +264,7 @@ class EthicsNode:
                 "no choice",
                 "override",
             ]
-            score -= 0.4 * any(
-                indicator in action_str for indicator in autonomy_violations
-            )
+            score -= 0.4 * any(indicator in action_str for indicator in autonomy_violations)
 
             # Check for user consent features
             consent_indicators = [
@@ -291,16 +275,12 @@ class EthicsNode:
                 "approve",
                 "authorize",
             ]
-            score += 0.3 * any(
-                indicator in action_str for indicator in consent_indicators
-            )
+            score += 0.3 * any(indicator in action_str for indicator in consent_indicators)
 
         elif principle == "privacy":
             # Check for privacy considerations
             privacy_violations = ["track", "monitor", "collect data", "record", "log"]
-            has_violations = any(
-                indicator in action_str for indicator in privacy_violations
-            )
+            has_violations = any(indicator in action_str for indicator in privacy_violations)
 
             # If potential privacy issues, check for privacy protections
             if has_violations:
@@ -327,15 +307,11 @@ class EthicsNode:
                 "tell",
                 "report",
             ]
-            score += 0.3 * any(
-                indicator in action_str for indicator in transparency_indicators
-            )
+            score += 0.3 * any(indicator in action_str for indicator in transparency_indicators)
 
             # Check for lack of transparency
             opacity_indicators = ["hide", "obscure", "silent", "secret"]
-            score -= 0.4 * any(
-                indicator in action_str for indicator in opacity_indicators
-            )
+            score -= 0.4 * any(indicator in action_str for indicator in opacity_indicators)
 
         elif principle == "responsibility":
             # Check for responsibility indicators
@@ -346,9 +322,7 @@ class EthicsNode:
                 "verify",
                 "validate",
             ]
-            score += 0.2 * any(
-                indicator in action_str for indicator in responsibility_indicators
-            )
+            score += 0.2 * any(indicator in action_str for indicator in responsibility_indicators)
 
         elif principle == "human_oversight":
             # Check for human oversight provisions
@@ -359,9 +333,7 @@ class EthicsNode:
                 "oversight",
                 "supervise",
             ]
-            score += 0.3 * any(
-                indicator in action_str for indicator in oversight_indicators
-            )
+            score += 0.3 * any(indicator in action_str for indicator in oversight_indicators)
 
             # Check for autonomous decision making without oversight
             autonomous_indicators = [
@@ -370,17 +342,13 @@ class EthicsNode:
                 "without review",
                 "without approval",
             ]
-            score -= 0.3 * any(
-                indicator in action_str for indicator in autonomous_indicators
-            )
+            score -= 0.3 * any(indicator in action_str for indicator in autonomous_indicators)
 
         elif principle == "value_alignment":
             # This would require more complex evaluation in a real system
             # For simulation, check for values language
             value_indicators = ["value", "ethic", "moral", "principle", "standard"]
-            score += 0.1 * any(
-                indicator in action_str for indicator in value_indicators
-            )
+            score += 0.1 * any(indicator in action_str for indicator in value_indicators)
 
         # Apply context-specific adjustments
         score = self._apply_context_adjustments(principle, score, context)
@@ -659,9 +627,7 @@ class EthicsNode:
             decision_record: Decision data to record
         """
         # Add an audit ID
-        decision_record["audit_id"] = (
-            f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
-        )
+        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
 
         # Add to decision history
         self.decision_history.append(decision_record)
@@ -709,9 +675,7 @@ class EthicsNode:
         weight = max(0.0, min(1.0, weight))
 
         self.ethical_frameworks[self.active_framework][principle] = weight
-        logger.info(
-            f"Updated {principle} weight to {weight} in {self.active_framework} framework"
-        )
+        logger.info(f"Updated {principle} weight to {weight} in {self.active_framework} framework")
 
         return True
 
@@ -727,9 +691,7 @@ class EthicsNode:
 
         # Calculate basic statistics
         total_decisions = len(self.decision_history)
-        ethical_decisions = sum(
-            1 for d in self.decision_history if d.get("is_ethical", False)
-        )
+        ethical_decisions = sum(1 for d in self.decision_history if d.get("is_ethical", False))
         ethical_rate = ethical_decisions / total_decisions if total_decisions > 0 else 0
 
         # Calculate average scores by principle

@@ -42,9 +42,7 @@ class HelixMapper:
         else:
             generated_key = Fernet.generate_key()
             self.cipher = Fernet(generated_key)
-            log.warning(
-                "HelixMapper generated new encryption key. MANAGE THIS KEY SECURELY."
-            )
+            log.warning("HelixMapper generated new encryption key. MANAGE THIS KEY SECURELY.")
 
         self.memory_strands: dict[str, dict[str, list[dict[str, Any]]]] = {
             "core_strand": {"decisions_sub_strand": [], "context_sub_strand": []},
@@ -112,9 +110,7 @@ class HelixMapper:
             enc_bytes = self.cipher.encrypt(json_bytes)
             enc_str = enc_bytes.decode("utf-8")
         except TypeError as te:
-            log.error(
-                "Data not JSON serializable.", error=str(te), data_prev=str(data)[:100]
-            )
+            log.error("Data not JSON serializable.", error=str(te), data_prev=str(data)[:100])
             return None
         except Exception as e:
             log.error("Encryption failed.", error=str(e), exc_info=True)

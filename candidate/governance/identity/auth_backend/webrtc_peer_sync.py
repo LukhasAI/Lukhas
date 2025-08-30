@@ -15,9 +15,7 @@ class WebRTCPeerSync:
         self.crypto_engine = PQCCryptoEngine()
         self.audit_logger = AuditLogger()
 
-    async def connect_to_peer(
-        self, peer_id, signaling_server_url, peer_public_key=None
-    ):
+    async def connect_to_peer(self, peer_id, signaling_server_url, peer_public_key=None):
         if (
             not peer_id
             or not isinstance(peer_id, str)
@@ -36,9 +34,7 @@ class WebRTCPeerSync:
             self.audit_logger.log_event(
                 f"Attempting connection to peer {peer_id} via {signaling_server_url}"
             )
-            signaling_data = await self._send_signaling_request(
-                peer_id, signaling_server_url
-            )
+            signaling_data = await self._send_signaling_request(peer_id, signaling_server_url)
             self.peers[peer_id] = signaling_data
             if peer_public_key:
                 if not self.crypto_engine.verify_peer_key(peer_public_key):
@@ -67,9 +63,7 @@ class WebRTCPeerSync:
             return
         try:
             print(f"Syncing entropy with peer {peer_id}: {entropy_data}.")
-            self.audit_logger.log_event(
-                f"Entropy sync event with peer {peer_id}: {entropy_data}"
-            )
+            self.audit_logger.log_event(f"Entropy sync event with peer {peer_id}: {entropy_data}")
             # Placeholder for entropy sync logic
         except Exception as e:
             self.audit_logger.log_event(

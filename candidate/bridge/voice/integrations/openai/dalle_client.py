@@ -118,7 +118,7 @@ class DALLEClient:
                 }
 
         except Exception as e:
-            logger.error(f"Error generating image: {str(e)}")
+            logger.error(f"Error generating image: {e!s}")
             return {"error": str(e), "urls": []}
 
     async def _save_images_from_urls(self, urls: list[str], prompt: str) -> list[str]:
@@ -149,12 +149,10 @@ class DALLEClient:
                             f.write(await response.read())
                         saved_paths.append(filepath)
                     else:
-                        logger.error(
-                            f"Failed to download image from {url}: {response.status}"
-                        )
+                        logger.error(f"Failed to download image from {url}: {response.status}")
 
             except Exception as e:
-                logger.error(f"Error saving image: {str(e)}")
+                logger.error(f"Error saving image: {e!s}")
 
         return saved_paths
 
@@ -230,9 +228,7 @@ class DALLEClient:
                 # Save images locally
                 saved_paths = []
                 if image_urls:
-                    saved_paths = await self._save_images_from_urls(
-                        image_urls, f"edit_{prompt}"
-                    )
+                    saved_paths = await self._save_images_from_urls(image_urls, f"edit_{prompt}")
 
                 return {
                     "urls": image_urls,
@@ -242,7 +238,7 @@ class DALLEClient:
                 }
 
         except Exception as e:
-            logger.error(f"Error editing image: {str(e)}")
+            logger.error(f"Error editing image: {e!s}")
             return {"error": str(e), "urls": []}
 
     async def close(self):

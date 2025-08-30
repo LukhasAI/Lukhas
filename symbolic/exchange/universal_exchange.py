@@ -95,9 +95,7 @@ class UniversalSymbolExchange:
         protocol: ExchangeProtocol = ExchangeProtocol.HASHED,
     ) -> str:
         """Initiate a symbol exchange session"""
-        session_id = hashlib.sha256(
-            f"{initiator_id}:{time.time()}".encode()
-        ).hexdigest()[:16]
+        session_id = hashlib.sha256(f"{initiator_id}:{time.time()}".encode()).hexdigest()[:16]
 
         session = ExchangeSession(
             session_id=session_id,
@@ -299,11 +297,7 @@ class UniversalSymbolExchange:
         # Calculate privacy metrics
         total_symbols = len(self.symbol_candidates)
         revealed_symbols = len(
-            [
-                s
-                for s, c in self.symbol_candidates.items()
-                if len(c.origins) >= self.min_k_anonymity
-            ]
+            [s for s, c in self.symbol_candidates.items() if len(c.origins) >= self.min_k_anonymity]
         )
 
         return {
@@ -313,8 +307,7 @@ class UniversalSymbolExchange:
             "k_anonymity": self.min_k_anonymity,
             "total_symbols": total_symbols,
             "revealed_symbols": revealed_symbols,
-            "privacy_preservation_rate": 1.0
-            - (revealed_symbols / max(1, total_symbols)),
+            "privacy_preservation_rate": 1.0 - (revealed_symbols / max(1, total_symbols)),
             "participants": len(session.participants),
             "symbols_exchanged": session.symbols_exchanged,
         }
@@ -372,9 +365,7 @@ class UniversalSymbolExchange:
 
         # Calculate adoption metrics
         avg_confidence = (
-            np.mean(list(self.universal_vocabulary.values()))
-            if self.universal_vocabulary
-            else 0
+            np.mean(list(self.universal_vocabulary.values())) if self.universal_vocabulary else 0
         )
 
         # Find most popular symbols

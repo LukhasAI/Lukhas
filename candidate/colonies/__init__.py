@@ -25,16 +25,16 @@ from . import (
 from .base import ColonyRegistry, get_colony_registry
 
 __all__ = [
+    "ColonyRegistry",
     "base",
-    "governance",
-    "reasoning",
     "consciousness",
+    "creativity",
+    "get_colony_registry",
+    "governance",
     "identity",
     "memory",
-    "creativity",
     "orchestrator",
-    "ColonyRegistry",
-    "get_colony_registry",
+    "reasoning",
 ]
 
 

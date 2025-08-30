@@ -9,25 +9,34 @@ from fastapi import FastAPI, Header, HTTPException, Query
 
 _ORIG_OPEN = builtins.open
 
-from qi.autonomy.self_healer import apply as _apply
-from qi.autonomy.self_healer import approve as _approve
-from qi.autonomy.self_healer import list_proposals, observe_signals, plan_proposals
-from qi.autonomy.self_healer import reject as _reject
+from qi.autonomy.self_healer import (
+    apply as _apply,
+    approve as _approve,
+    list_proposals,
+    observe_signals,
+    plan_proposals,
+    reject as _reject,
+)
 
 API = FastAPI(title="Lukhas • Approver UI", version="1.0.0")
 TOKEN = os.environ.get("AUTONOMY_API_TOKEN")  # optional bearer/token
+
 
 def _auth(x_auth_token: str | None):
     if TOKEN and (x_auth_token or "") != TOKEN:
         raise HTTPException(401, "unauthorized")
 
+
 @API.get("/healthz")
-def healthz(): return {"ok": True}
+def healthz():
+    return {"ok": True}
+
 
 @API.get("/proposals")
 def api_list_proposals(x_auth_token: str | None = Header(None)):
     _auth(x_auth_token)
     return {"items": list_proposals()}
+
 
 @API.post("/proposals/plan")
 def api_plan(
@@ -39,24 +48,39 @@ def api_plan(
     props = plan_proposals(sig, config_targets=(targets.split(",") if targets else []))
     return {"planned": [p.id for p in props]}
 
+
 @API.post("/proposals/{proposal_id}/approve")
-def api_approve(proposal_id: str, by: str = Query(...), reason: str = Query(""), x_auth_token: str | None = Header(None)):
+def api_approve(
+    proposal_id: str,
+    by: str = Query(...),
+    reason: str = Query(""),
+    x_auth_token: str | None = Header(None),
+):
     _auth(x_auth_token)
     try:
         return _approve(proposal_id, approver=by, reason=reason)
     except FileNotFoundError:
         raise HTTPException(404, "proposal not found")
 
+
 @API.post("/proposals/{proposal_id}/reject")
-def api_reject(proposal_id: str, by: str = Query(...), reason: str = Query(""), x_auth_token: str | None = Header(None)):
+def api_reject(
+    proposal_id: str,
+    by: str = Query(...),
+    reason: str = Query(""),
+    x_auth_token: str | None = Header(None),
+):
     _auth(x_auth_token)
     try:
         return _reject(proposal_id, approver=by, reason=reason)
     except FileNotFoundError:
         raise HTTPException(404, "proposal not found")
 
+
 @API.post("/proposals/{proposal_id}/apply")
-def api_apply(proposal_id: str, as_user: str = Query("ops"), x_auth_token: str | None = Header(None)):
+def api_apply(
+    proposal_id: str, as_user: str = Query("ops"), x_auth_token: str | None = Header(None)
+):
     _auth(x_auth_token)
     try:
         return _apply(proposal_id, subject_user=as_user)

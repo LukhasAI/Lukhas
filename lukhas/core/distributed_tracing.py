@@ -310,9 +310,7 @@ class DistributedTracer:
         self.collector = collector or TraceCollector()
         self._current_context: threading.local = threading.local()
 
-    def start_trace(
-        self, operation_name: str, trace_id: Optional[str] = None
-    ) -> TraceContext:
+    def start_trace(self, operation_name: str, trace_id: Optional[str] = None) -> TraceContext:
         """Start a new trace"""
         if trace_id is None:
             trace_id = str(uuid.uuid4())
@@ -456,18 +454,14 @@ class AIAgentTracer(DistributedTracer):
 
                 if task_data:
                     self.add_tag(context, "task.type", task_data.get("type"))
-                    self.add_tag(
-                        context, "task.complexity", task_data.get("complexity")
-                    )
+                    self.add_tag(context, "task.complexity", task_data.get("complexity"))
 
                 context.set_baggage_item("agent_id", agent_id)
                 yield context
 
         return _trace()
 
-    def trace_agent_collaboration(
-        self, initiator_id: str, target_id: str, collaboration_type: str
-    ):
+    def trace_agent_collaboration(self, initiator_id: str, target_id: str, collaboration_type: str):
         """Trace collaboration between agents"""
         operation_name = f"collaboration.{collaboration_type}"
 
@@ -511,7 +505,7 @@ _global_tracer = None
 
 def get_global_collector() -> TraceCollector:
     """Get the global trace collector"""
-    global _global_collector  # noqa: PLW0603
+    global _global_collector
     if _global_collector is None:
         _global_collector = TraceCollector()
     return _global_collector
@@ -519,7 +513,7 @@ def get_global_collector() -> TraceCollector:
 
 def get_global_tracer(service_name: str = "lukhas-ai") -> DistributedTracer:
     """Get the global tracer"""
-    global _global_tracer  # noqa: PLW0603
+    global _global_tracer
     if _global_tracer is None:
         _global_tracer = DistributedTracer(service_name, get_global_collector())
     return _global_tracer
@@ -550,12 +544,15 @@ def demo_distributed_tracing():
             agent1_tracer.add_tag(load_ctx, "model.name", "reasoning-v2")
             time.sleep(0.1)  # Simulate work
 
-        # Simulate collaboration with another agent
-            with agent1_tracer.trace_agent_collaboration(
-                "reasoning-001", "memory-001", "knowledge_sharing"
-            ), agent2_tracer.trace_memory_operation(
-                "memory-001", "retrieve", memory_size=500
-            ) as mem_ctx:
+            # Simulate collaboration with another agent
+            with (
+                agent1_tracer.trace_agent_collaboration(
+                    "reasoning-001", "memory-001", "knowledge_sharing"
+                ),
+                agent2_tracer.trace_memory_operation(
+                    "memory-001", "retrieve", memory_size=500
+                ) as mem_ctx,
+            ):
                 agent2_tracer.add_tag(mem_ctx, "query.type", "semantic_search")
                 time.sleep(0.05)
 
@@ -599,9 +596,7 @@ class StateSnapshotter:
         import tempfile
 
         # Use a safe, platform temp dir by default
-        self.storage_path = storage_path or os.path.join(
-            tempfile.gettempdir(), "lukhas_snapshots"
-        )
+        self.storage_path = storage_path or os.path.join(tempfile.gettempdir(), "lukhas_snapshots")
         if not os.path.exists(self.storage_path):
             os.makedirs(self.storage_path)
 
@@ -612,9 +607,7 @@ class StateSnapshotter:
             timestamp=time.time(),
             state_data=state_data,
         )
-        filepath = os.path.join(
-            self.storage_path, f"{agent_id}-{snapshot.timestamp}.json"
-        )
+        filepath = os.path.join(self.storage_path, f"{agent_id}-{snapshot.timestamp}.json")
         with open(filepath, "w") as f:
             json.dump(asdict(snapshot), f, indent=2)
         logger.info(f"State snapshot for agent {agent_id} saved to {filepath}")
@@ -650,9 +643,7 @@ class EventReplayer:
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 
-    def replay_trace(
-        self, trace_id: str, to_timestamp: Optional[float] = None
-    ) -> dict[str, Any]:
+    def replay_trace(self, trace_id: str, to_timestamp: Optional[float] = None) -> dict[str, Any]:
         """
         Replays a trace to reconstruct the state of agents involved.
         - Starts from the nearest snapshot before the trace began.
@@ -693,9 +684,7 @@ class EventReplayer:
         for span_data in trace_data["spans"]:
             is_agent_span = False
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if (
-                    "agent.id" in tag_key or "agent_id" in tag_key
-                ) and tag_value == agent_id:
+                if ("agent.id" in tag_key or "agent_id" in tag_key) and tag_value == agent_id:
                     is_agent_span = True
                     break
 

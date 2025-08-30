@@ -171,7 +171,6 @@ class ConsentEscalationResolver:
         trust_db_file: str = "next_gen/guardian/trust_paths.json",
         consent_log_file: str = "next_gen/guardian/consent_log.json",
     ):
-
         self.rules_file = Path(rules_file)
         self.trust_db_file = Path(trust_db_file)
         self.consent_log_file = Path(consent_log_file)
@@ -358,9 +357,7 @@ class ConsentEscalationResolver:
             elif status in ["escalated", "pending"]:
                 stats["escalated"] += 1
 
-            stats["last_request"] = max(
-                stats["last_request"], entry.get("requested_at", 0)
-            )
+            stats["last_request"] = max(stats["last_request"], entry.get("requested_at", 0))
             stats["trust_trend"].append(entry.get("trust_score", 0.5))
 
             # Keep only recent trust scores
@@ -390,9 +387,7 @@ class ConsentEscalationResolver:
             request.decision_reason = escalation_result["reason"]
 
             # Execute escalation actions
-            await self._execute_escalation_actions(
-                request, escalation_result["actions"]
-            )
+            await self._execute_escalation_actions(request, escalation_result["actions"])
 
             # Log escalation
             escalation_entry = {
@@ -471,9 +466,7 @@ class ConsentEscalationResolver:
         for path in applicable_paths:
             # Validate path freshness
             path_age = time.time() - path.last_validated
-            freshness_penalty = min(
-                0.2, path_age / 86400
-            )  # Max 20% penalty after 1 day
+            freshness_penalty = min(0.2, path_age / 86400)  # Max 20% penalty after 1 day
 
             adjusted_score = path.path_strength - freshness_penalty
             path_scores.append(max(0.1, adjusted_score))  # Minimum score
@@ -499,9 +492,7 @@ class ConsentEscalationResolver:
             "path_count": len(applicable_paths),
         }
 
-    def _path_applies_to_request(
-        self, path: TrustPath, request: ConsentRequest
-    ) -> bool:
+    def _path_applies_to_request(self, path: TrustPath, request: ConsentRequest) -> bool:
         """Check if a trust path applies to the consent request"""
         # Simple heuristic: path applies if requester matches a node
         # In production, this would be more sophisticated
@@ -601,9 +592,7 @@ class ConsentEscalationResolver:
 
         return denial_count
 
-    async def _execute_escalation_actions(
-        self, request: ConsentRequest, actions: list[str]
-    ):
+    async def _execute_escalation_actions(self, request: ConsentRequest, actions: list[str]):
         """Execute escalation actions"""
         for action in actions:
             try:
@@ -763,9 +752,7 @@ class ConsentEscalationResolver:
         except Exception as e:
             logger.error(f"Failed to save consent history: {e}")
 
-    async def revoke_consent(
-        self, request_id: str, reason: str = "User revoked"
-    ) -> bool:
+    async def revoke_consent(self, request_id: str, reason: str = "User revoked") -> bool:
         """Revoke a previously granted consent"""
         if request_id in self.active_requests:
             request = self.active_requests[request_id]

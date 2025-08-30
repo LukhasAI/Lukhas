@@ -21,6 +21,7 @@ app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0")
 
 # ------------- Ingest Endpoints -------------
 
+
 @app.post("/feedback/ingest")
 async def ingest_feedback(
     user_id: str = Body(..., description="User identifier (will be HMACed)"),
@@ -31,7 +32,7 @@ async def ingest_feedback(
     issues: list[str] = Body(default=[], description="Issue types"),
     note: str | None = Body(None, description="User note (will be HMACed)"),
     style: str | None = Body(None, description="Proposed style"),
-    threshold_delta: float | None = Body(None, description="Proposed threshold adjustment")
+    threshold_delta: float | None = Body(None, description="Proposed threshold adjustment"),
 ) -> dict[str, Any]:
     """Ingest a feedback card with HMAC redaction and validation."""
     try:
@@ -47,13 +48,13 @@ async def ingest_feedback(
                 "task": task,
                 "jurisdiction": jurisdiction,
                 "policy_pack": os.environ.get("POLICY_PACK", "global@2025-08-01"),
-                "model_version": os.environ.get("MODEL_VERSION", "lukhas-qiv2.1")
+                "model_version": os.environ.get("MODEL_VERSION", "lukhas-qiv2.1"),
             },
             "feedback": {
                 "satisfaction": satisfaction,
                 "issues": issues,
-                "note": note  # Will be HMACed by store
-            }
+                "note": note,  # Will be HMACed by store
+            },
         }
 
         # Add proposed tuning if provided
@@ -65,17 +66,14 @@ async def ingest_feedback(
                 fc_data["proposed_tuning"]["threshold_delta"] = threshold_delta
 
         # Add constraints
-        fc_data["constraints"] = {
-            "ethics_bound": True,
-            "compliance_bound": True
-        }
+        fc_data["constraints"] = {"ethics_bound": True, "compliance_bound": True}
 
         # Validate with schema
         try:
             # This will trigger validation but we'll use the dict for storage
             FeedbackCard(**fc_data)
         except ValidationError as e:
-            raise HTTPException(status_code=400, detail=f"Invalid feedback data: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Invalid feedback data: {e!s}")
 
         # Sign the feedback
         canonical = json.dumps(fc_data, sort_keys=True, separators=(",", ":"))
@@ -85,28 +83,23 @@ async def ingest_feedback(
         # Append to JSONL (applies HMAC redaction)
         fc_id = store.append_feedback(fc_data)
 
-        return {
-            "fc_id": fc_id,
-            "status": "ingested",
-            "timestamp": time.time()
-        }
+        return {"fc_id": fc_id, "status": "ingested", "timestamp": time.time()}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Ingestion failed: {e!s}")
+
 
 @app.get("/feedback/list")
 async def list_feedback(
     task: str | None = Query(None, description="Filter by task"),
     jurisdiction: str | None = Query(None, description="Filter by jurisdiction"),
-    limit: int = Query(100, le=1000, description="Maximum results")
+    limit: int = Query(100, le=1000, description="Maximum results"),
 ) -> dict[str, Any]:
     """List recent feedback cards with optional filters."""
     try:
         store = get_store()
         feedback = store.read_feedback(
-            limit=limit,
-            task_filter=task,
-            jurisdiction_filter=jurisdiction
+            limit=limit, task_filter=task, jurisdiction_filter=jurisdiction
         )
 
         # Compute summary statistics
@@ -125,25 +118,20 @@ async def list_feedback(
         return {
             "feedback": feedback,
             "count": len(feedback),
-            "filters": {
-                "task": task,
-                "jurisdiction": jurisdiction
-            },
-            "summary": {
-                "avg_satisfaction": avg_satisfaction,
-                "issue_distribution": issue_counts
-            }
+            "filters": {"task": task, "jurisdiction": jurisdiction},
+            "summary": {"avg_satisfaction": avg_satisfaction, "issue_distribution": issue_counts},
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"List failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"List failed: {e!s}")
+
 
 # ------------- Clustering Endpoints -------------
 
+
 @app.post("/feedback/cluster")
 async def run_clustering(
-    background_tasks: BackgroundTasks,
-    limit: int = Query(1000, description="Feedback to process")
+    background_tasks: BackgroundTasks, limit: int = Query(1000, description="Feedback to process")
 ) -> dict[str, Any]:
     """Run clustering job (can be triggered as offline job)."""
     try:
@@ -154,18 +142,15 @@ async def run_clustering(
         # Also schedule weekly digest generation in background
         background_tasks.add_task(generate_weekly_digest)
 
-        return {
-            "status": "completed",
-            "stats": stats,
-            "timestamp": time.time()
-        }
+        return {"status": "completed", "stats": stats, "timestamp": time.time()}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Clustering failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Clustering failed: {e!s}")
+
 
 @app.get("/feedback/clusters")
 async def get_clusters(
-    task: str | None = Query(None, description="Filter by task")
+    task: str | None = Query(None, description="Filter by task"),
 ) -> dict[str, Any]:
     """Get computed clusters."""
     try:
@@ -175,22 +160,20 @@ async def get_clusters(
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
 
-        return {
-            "clusters": clusters,
-            "count": len(clusters),
-            "filter": {"task": task}
-        }
+        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")
+
 
 # ------------- Promotion Endpoints -------------
+
 
 @app.post("/feedback/promote")
 async def promote_to_proposal(
     fc_id: str | None = Query(None, description="Feedback card ID"),
     cluster_id: str | None = Query(None, description="Cluster ID"),
-    target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml")
+    target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
 ) -> dict[str, Any]:
     """Promote a feedback card or cluster to a change proposal."""
     try:
@@ -211,13 +194,15 @@ async def promote_to_proposal(
             "proposal_id": proposal_id,
             "status": "queued",
             "source": "cluster" if cluster_id else "feedback_card",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Promotion failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Promotion failed: {e!s}")
+
 
 # ------------- Digest Endpoints -------------
+
 
 @app.post("/feedback/digest")
 async def generate_digest() -> dict[str, Any]:
@@ -226,23 +211,23 @@ async def generate_digest() -> dict[str, Any]:
         store = get_store()
         digest = store.generate_weekly_digest()
 
-        return {
-            "digest": digest,
-            "status": "generated",
-            "timestamp": time.time()
-        }
+        return {"digest": digest, "status": "generated", "timestamp": time.time()}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Digest generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Digest generation failed: {e!s}")
+
 
 # ------------- Helper Functions -------------
+
 
 def generate_weekly_digest():
     """Background task to generate weekly digest."""
     store = get_store()
     store.generate_weekly_digest()
 
+
 # ------------- Health Check -------------
+
 
 @app.get("/health")
 async def health_check():
@@ -251,10 +236,12 @@ async def health_check():
         "status": "healthy",
         "service": "feedback_ingest",
         "version": "0.1.0",
-        "timestamp": time.time()
+        "timestamp": time.time(),
     }
+
 
 if __name__ == "__main__":
     import uvicorn
+
     port = int(os.environ.get("FEEDBACK_PORT", "8099"))
     uvicorn.run(app, host="127.0.0.1", port=port)

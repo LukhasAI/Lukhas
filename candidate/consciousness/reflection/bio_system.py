@@ -117,9 +117,7 @@ class MitochondrialQIBridge:
         current_state = self.complex_states["complex_iii"][:3]
 
         # Complex IV: Cytochrome c oxidase
-        self.complex_states["complex_iv"] = self.qi_oscillator.qi_modulate(
-            current_state
-        )
+        self.complex_states["complex_iv"] = self.qi_oscillator.qi_modulate(current_state)
 
         return current_state
 
@@ -129,15 +127,11 @@ class MitochondrialQIBridge:
         gradient_strength = np.mean(electron_state)
 
         # Apply quantum modulation
-        gradient = self.qi_oscillator.qi_modulate(
-            gradient_strength * np.ones(3)
-        )
+        gradient = self.qi_oscillator.qi_modulate(gradient_strength * np.ones(3))
 
         return gradient
 
-    def _quantum_synthesis(
-        self, proton_gradient: np.ndarray
-    ) -> tuple[np.ndarray, dict[str, Any]]:
+    def _quantum_synthesis(self, proton_gradient: np.ndarray) -> tuple[np.ndarray, dict[str, Any]]:
         """Synthesize quantum-enhanced output"""
         # Complex V: ATP synthase simulation
         self.complex_states["complex_v"] = self.qi_oscillator.qi_modulate(
@@ -145,9 +139,7 @@ class MitochondrialQIBridge:
         )
 
         # Calculate coherence-inspired processing
-        coherence = np.mean(
-            [np.linalg.norm(state) for state in self.complex_states.values()]
-        )
+        coherence = np.mean([np.linalg.norm(state) for state in self.complex_states.values()])
 
         metadata = {
             "coherence": coherence,
@@ -180,14 +172,10 @@ class QISynapticGate:
         # TAG: pulse
         try:
             # Calculate quantum interference
-            interference = self._compute_quantum_interference(
-                pre_synaptic, post_synaptic
-            )
+            interference = self._compute_quantum_interference(pre_synaptic, post_synaptic)
 
             # Update quantum-like state
-            self.qi_like_state = self.bio_oscillator.modulate_frequencies(
-                interference
-            )
+            self.qi_like_state = self.bio_oscillator.modulate_frequencies(interference)
 
             # Generate output signal
             output = self._generate_quantum_output(interference)
@@ -204,9 +192,7 @@ class QISynapticGate:
             logger.error(f"Error in quantum synaptic processing: {e}")
             raise
 
-    def _compute_quantum_interference(
-        self, pre: np.ndarray, post: np.ndarray
-    ) -> np.ndarray:
+    def _compute_quantum_interference(self, pre: np.ndarray, post: np.ndarray) -> np.ndarray:
         """Compute quantum interference pattern"""
         # Ensure matching dimensions
         if pre.shape != post.shape:
@@ -274,9 +260,7 @@ class NeuroplasticityModulator:
             logger.error(f"Error in plasticity modulation: {e}")
             raise
 
-    def _calculate_plasticity_delta(
-        self, current: np.ndarray, target: np.ndarray
-    ) -> np.ndarray:
+    def _calculate_plasticity_delta(self, current: np.ndarray, target: np.ndarray) -> np.ndarray:
         """Calculate plasticity change needed"""
         return target - current
 
@@ -293,9 +277,7 @@ class SelfAwareAgent:
         self.internal_models = {}
         self.self_assessment_enabled = True
 
-    def evaluate_performance(
-        self, output: Any, expected: Any, context: str = "general"
-    ) -> float:
+    def evaluate_performance(self, output: Any, expected: Any, context: str = "general") -> float:
         """
         Evaluate coherence between output and expected results.
         Enables metacognitive self-assessment for consciousness enhancement.
@@ -338,9 +320,7 @@ class SelfAwareAgent:
                 # String or object coherence (basic implementation)
                 output_str = str(output).lower()
                 expected_str = str(expected).lower()
-                common_chars = sum(
-                    1 for a, b in zip(output_str, expected_str) if a == b
-                )
+                common_chars = sum(1 for a, b in zip(output_str, expected_str) if a == b)
                 return common_chars / max(len(output_str), len(expected_str), 1)
         except Exception as e:
             logger.warning(f"Coherence calculation failed: {e}")
@@ -365,9 +345,7 @@ class SelfAwareAgent:
         # Adjust learning rate based on performance trends
         if len(self.performance_history) > 10:
             recent_coherence = [
-                h["coherence"]
-                for h in self.performance_history[-10:]
-                if h["context"] == context
+                h["coherence"] for h in self.performance_history[-10:] if h["context"] == context
             ]
             if len(recent_coherence) > 5:
                 trend = np.mean(recent_coherence[-5:]) - np.mean(recent_coherence[:5])
@@ -392,9 +370,7 @@ class SelfAwareAgent:
         # Calculate consciousness indicators
         context_diversity = len({h["context"] for h in recent_performance})
         adaptation_frequency = sum(
-            1
-            for model in self.internal_models.values()
-            if model["adaptation_count"] > 0
+            1 for model in self.internal_models.values() if model["adaptation_count"] > 0
         )
 
         consciousness_level = (
@@ -456,11 +432,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
         if isinstance(input_data, dict):
             input_signal = np.array(
                 [
-                    (
-                        float(val)
-                        if isinstance(val, (int, float))
-                        else hash(str(val)) % 1000
-                    )
+                    (float(val) if isinstance(val, (int, float)) else hash(str(val)) % 1000)
                     for val in input_data.values()
                 ]
             )
@@ -470,9 +442,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
         # Process using existing quantum signal processing
         import asyncio
 
-        output_signal, processing_metadata = asyncio.run(
-            self.process_quantum_signal(input_signal)
-        )
+        output_signal, processing_metadata = asyncio.run(self.process_quantum_signal(input_signal))
 
         # Convert back to dict format
         output = {
@@ -484,10 +454,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
         }
 
         # Self-assessment if expected output provided
-        if (
-            expected_output is not None
-            and self.self_aware_agent.self_assessment_enabled
-        ):
+        if expected_output is not None and self.self_aware_agent.self_assessment_enabled:
             coherence = self.self_aware_agent.evaluate_performance(
                 output, expected_output, context="qi_bio_processing"
             )

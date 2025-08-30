@@ -16,12 +16,12 @@ from .trio_orchestrator import (
 )
 
 __all__ = [
-    "TrioOrchestrator",
-    "SharedContextManager",
-    "SystemType",
     "MessagePriority",
     "ProcessingMode",
+    "SharedContextManager",
+    "SystemType",
     "TrioMessage",
+    "TrioOrchestrator",
     "TrioResponse",
     "get_trio_orchestrator",
 ]

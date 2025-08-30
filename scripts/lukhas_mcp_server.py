@@ -379,9 +379,7 @@ class LUKHASConsciousnessMCP:
         modules_map = {
             "total_modules": len(self.consciousness_modules),
             "trinity_framework": {
-                "identity_modules": [
-                    m for m in self.consciousness_modules if "identity" in m
-                ],
+                "identity_modules": [m for m in self.consciousness_modules if "identity" in m],
                 "consciousness_modules": [
                     m
                     for m in self.consciousness_modules
@@ -394,22 +392,16 @@ class LUKHASConsciousnessMCP:
                 ],
             },
             "advanced_systems": {
-                "qi_modules": [
-                    m for m in self.consciousness_modules if "quantum" in m
-                ],
+                "qi_modules": [m for m in self.consciousness_modules if "quantum" in m],
                 "bio_modules": [m for m in self.consciousness_modules if "bio" in m],
                 "creativity_modules": [
-                    m
-                    for m in self.consciousness_modules
-                    if "creativity" in m or "emotion" in m
+                    m for m in self.consciousness_modules if "creativity" in m or "emotion" in m
                 ],
             },
             "module_details": {
                 name: {
                     "path": str(path),
-                    "files_count": (
-                        len(list(path.rglob("*.py"))) if path.exists() else 0
-                    ),
+                    "files_count": (len(list(path.rglob("*.py"))) if path.exists() else 0),
                     "last_modified": path.stat().st_mtime if path.exists() else None,
                 }
                 for name, path in self.consciousness_modules.items()
@@ -434,9 +426,7 @@ class LUKHASConsciousnessMCP:
             try:
                 # Validate each consciousness module against Trinity Framework
                 for module_name, module_path in self.consciousness_modules.items():
-                    validation_result = await self._validate_module_trinity_compliance(
-                        module_path
-                    )
+                    validation_result = await self._validate_module_trinity_compliance(module_path)
                     trinity_status["validation_status"][module_name] = validation_result
             except Exception as e:
                 trinity_status["validation_error"] = str(e)
@@ -487,9 +477,7 @@ class LUKHASConsciousnessMCP:
             "active_agents": {
                 "supreme_consciousness_architect": {
                     "status": "active",
-                    "current_tasks": [
-                        "LUKHAS-0002: VIVOX consciousness system debugging"
-                    ],
+                    "current_tasks": ["LUKHAS-0002: VIVOX consciousness system debugging"],
                     "specialization": "consciousness_architecture",
                     "load": "high",
                     "next_available": "2025-08-11T17:00:00Z",
@@ -533,9 +521,7 @@ class LUKHASConsciousnessMCP:
             "trinity_alignment": await self._get_module_trinity_alignment(module_name),
             "files": [],
             "dependencies": [],
-            "consciousness_role": await self._get_module_consciousness_role(
-                module_name
-            ),
+            "consciousness_role": await self._get_module_consciousness_role(module_name),
             "recent_changes": [],
         }
 
@@ -564,9 +550,7 @@ class LUKHASConsciousnessMCP:
         return json.dumps(context, indent=2)
 
     # Tool implementation methods
-    async def _validate_trinity_framework(
-        self, arguments: dict[str, Any]
-    ) -> list[TextContent]:
+    async def _validate_trinity_framework(self, arguments: dict[str, Any]) -> list[TextContent]:
         """Validate content against Trinity Framework."""
         _ = arguments["content"]  # Content validation would be implemented here
         module = arguments.get("module", "unknown")
@@ -602,26 +586,18 @@ class LUKHASConsciousnessMCP:
                 f"🛡️ Guardian Score: {validation_result['guardian_score']:.2f}\n"
                 f"📊 Overall Score: {validation_result['overall_score']:.2f}\n\n"
                 f"✅ Passed Checks:\n"
-                + "\n".join(
-                    f"- {check}" for check in validation_result["passed_checks"]
-                )
+                + "\n".join(f"- {check}" for check in validation_result["passed_checks"])
                 + "\n\n❌ Failed Checks:\n"
-                + "\n".join(
-                    f"- {check}" for check in validation_result["failed_checks"]
-                )
+                + "\n".join(f"- {check}" for check in validation_result["failed_checks"])
                 + "\n\n💡 Recommendations:\n"
                 + "\n".join(f"- {rec}" for rec in validation_result["recommendations"]),
             )
         ]
 
-    async def _assign_optimal_agent(
-        self, arguments: dict[str, Any]
-    ) -> list[TextContent]:
+    async def _assign_optimal_agent(self, arguments: dict[str, Any]) -> list[TextContent]:
         """Suggest optimal agent assignment for a task."""
         task_description = arguments["task_description"]
-        _ = arguments.get(
-            "modules_involved", []
-        )  # Would be used for enhanced assignment logic
+        _ = arguments.get("modules_involved", [])  # Would be used for enhanced assignment logic
         complexity = arguments.get("complexity", "medium")
 
         # Agent assignment logic
@@ -637,30 +613,23 @@ class LUKHASConsciousnessMCP:
         keywords = task_description.lower()
 
         if any(
-            word in keywords
-            for word in ["consciousness", "awareness", "vivox", "architecture"]
+            word in keywords for word in ["consciousness", "awareness", "vivox", "architecture"]
         ):
             agent_scores["supreme_consciousness_architect"] += 3
 
         if any(
-            word in keywords
-            for word in ["security", "ethics", "guardian", "safety", "compliance"]
+            word in keywords for word in ["security", "ethics", "guardian", "safety", "compliance"]
         ):
             agent_scores["guardian_system_commander"] += 3
 
-        if any(
-            word in keywords for word in ["memory", "fold", "persistence", "learning"]
-        ):
+        if any(word in keywords for word in ["memory", "fold", "persistence", "learning"]):
             agent_scores["memory_systems_colonel"] += 3
 
-        if any(
-            word in keywords for word in ["emotion", "creativity", "dream", "feeling"]
-        ):
+        if any(word in keywords for word in ["emotion", "creativity", "dream", "feeling"]):
             agent_scores["creativity_emotion_colonel"] += 3
 
         if any(
-            word in keywords
-            for word in ["integration", "orchestration", "bridge", "coordination"]
+            word in keywords for word in ["integration", "orchestration", "bridge", "coordination"]
         ):
             agent_scores["orchestration_colonel"] += 3
 
@@ -706,14 +675,10 @@ class LUKHASConsciousnessMCP:
         # Simplified scoring based on module name and purpose
         if "identity" in module_name:
             return {"identity": 1.0, "consciousness": 0.6, "guardian": 0.7}
-        elif any(
-            word in module_name
-            for word in ["consciousness", "vivox", "memory", "brain"]
-        ):
+        elif any(word in module_name for word in ["consciousness", "vivox", "memory", "brain"]):
             return {"identity": 0.7, "consciousness": 1.0, "guardian": 0.8}
         elif any(
-            word in module_name
-            for word in ["governance", "ethics", "guardian", "compliance"]
+            word in module_name for word in ["governance", "ethics", "guardian", "compliance"]
         ):
             return {"identity": 0.8, "consciousness": 0.6, "guardian": 1.0}
         else:
@@ -740,9 +705,7 @@ class LUKHASConsciousnessMCP:
 
         return "Supporting consciousness development system"
 
-    async def _validate_module_trinity_compliance(
-        self, module_path: Path
-    ) -> dict[str, Any]:
+    async def _validate_module_trinity_compliance(self, module_path: Path) -> dict[str, Any]:
         """Validate a module's Trinity Framework compliance."""
         # Simplified validation - check for Trinity Framework references
         compliance = {"score": 0.8, "issues": [], "recommendations": []}
@@ -763,9 +726,7 @@ class LUKHASConsciousnessMCP:
 
             if trinity_references == 0:
                 compliance["issues"].append("No Trinity Framework references found")
-                compliance["recommendations"].append(
-                    "Add Trinity Framework integration"
-                )
+                compliance["recommendations"].append("Add Trinity Framework integration")
                 compliance["score"] = 0.3
 
         except Exception as e:

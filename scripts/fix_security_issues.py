@@ -127,21 +127,19 @@ Focus on practical, secure solutions that maintain functionality.
 
         try:
             async with aiohttp.ClientSession() as session:
-                async with (
-                    session.post(
-                        f"{self.ollama_host}/api/generate",
-                        json={
-                            "model": self.model,
-                            "prompt": prompt,
-                            "stream": False,
-                            "options": {
-                                "temperature": 0.1,  # Low temperature for consistent security advice
-                                "top_p": 0.9,
-                            },
+                async with session.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={
+                        "model": self.model,
+                        "prompt": prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.1,  # Low temperature for consistent security advice
+                            "top_p": 0.9,
                         },
-                        timeout=aiohttp.ClientTimeout(total=60),
-                    ) as response
-                ):
+                    },
+                    timeout=aiohttp.ClientTimeout(total=60),
+                ) as response:
                     if response.status == 200:
                         data = await response.json()
                         return {
@@ -156,13 +154,11 @@ Focus on practical, secure solutions that maintain functionality.
                         }
 
         except Exception as e:
-            return {"analysis": f"Ollama analysis failed: {str(e)}", "success": False}
+            return {"analysis": f"Ollama analysis failed: {e!s}", "success": False}
 
     def create_backup(self, file_path: str) -> str:
         """Create backup of file before modification"""
-        backup_dir = Path(
-            f".security_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        backup_dir = Path(f".security_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
         backup_dir.mkdir(exist_ok=True)
 
         source_file = Path(file_path)
@@ -271,9 +267,7 @@ Focus on practical, secure solutions that maintain functionality.
             click.echo(f"❌ Failed to fix {file_path}: {e}")
             return False
 
-    async def fix_high_priority_issues(
-        self, high_issues: list[dict], medium_issues: list[dict]
-    ):
+    async def fix_high_priority_issues(self, high_issues: list[dict], medium_issues: list[dict]):
         """Fix high and medium priority security issues"""
 
         click.echo(
@@ -285,10 +279,7 @@ Focus on practical, secure solutions that maintain functionality.
         for issue in high_issues + medium_issues:
             issue_type = issue["test_name"]
 
-            if (
-                issue_type in fixable_types
-                and fixable_types[issue_type]["auto_fixable"]
-            ):
+            if issue_type in fixable_types and fixable_types[issue_type]["auto_fixable"]:
                 click.echo(
                     f"\n🛠️ Processing {issue_type} in {issue['filename']}:{issue['line_number']}"
                 )
@@ -386,21 +377,15 @@ Focus on practical, secure solutions that maintain functionality.
         if self.fixes_applied:
             click.echo("\n✅ FIXED ISSUES:")
             for fix in self.fixes_applied:
-                click.echo(
-                    f"   • {fix['type']} in {fix['file']}:{fix['line']} ({fix['severity']})"
-                )
+                click.echo(f"   • {fix['type']} in {fix['file']}:{fix['line']} ({fix['severity']})")
 
         # Save detailed report
-        report_file = (
-            f"security_issue_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        )
+        report_file = f"security_issue_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(
                 {
                     "timestamp": datetime.now().isoformat(),
-                    "total_issues_found": len(high_issues)
-                    + len(medium_issues)
-                    + len(low_issues),
+                    "total_issues_found": len(high_issues) + len(medium_issues) + len(low_issues),
                     "high_severity": len(high_issues),
                     "medium_severity": len(medium_issues),
                     "low_severity": len(low_issues),
@@ -421,9 +406,7 @@ Focus on practical, secure solutions that maintain functionality.
                 f"   • Most are 'assert_used' ({len([i for i in low_issues if i['test_name'] == 'assert_used'])}) - consider code review"
             )
             click.echo("   • Review test files and development code patterns")
-            click.echo(
-                "   • Consider adding .bandit configuration to ignore test files"
-            )
+            click.echo("   • Consider adding .bandit configuration to ignore test files")
 
 
 @click.command()

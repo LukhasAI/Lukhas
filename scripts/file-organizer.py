@@ -20,10 +20,7 @@ from typing import Optional
 import yaml
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -76,13 +73,15 @@ class FileOrganizer:
         """Move a file to its destination"""
         if self.dry_run:
             logger.info(f"[DRY RUN] Would move: {source.name} → {destination}")
-            self.moves_log.append({
-                "file": source.name,
-                "from": str(source.parent),
-                "to": str(destination),
-                "description": description,
-                "dry_run": True
-            })
+            self.moves_log.append(
+                {
+                    "file": source.name,
+                    "from": str(source.parent),
+                    "to": str(destination),
+                    "description": description,
+                    "dry_run": True,
+                }
+            )
             return True
 
         try:
@@ -94,13 +93,15 @@ class FileOrganizer:
 
             logger.info(f"✅ Moved: {source.name} → {destination}")
 
-            self.moves_log.append({
-                "file": source.name,
-                "from": str(source.parent),
-                "to": str(destination),
-                "description": description,
-                "timestamp": datetime.now().isoformat()
-            })
+            self.moves_log.append(
+                {
+                    "file": source.name,
+                    "from": str(source.parent),
+                    "to": str(destination),
+                    "description": description,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
             return True
 
@@ -192,7 +193,9 @@ class FileOrganizer:
                     mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
                     if mtime < cutoff_date:
                         archive_path = self.root_path / "archive" / "aged" / file_path.name
-                        logger.info(f"📦 Archiving old file: {file_path.name} (age: {(datetime.now() - mtime).days} days)")
+                        logger.info(
+                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now() - mtime).days} days)"
+                        )
                         if not self.dry_run:
                             archive_path.parent.mkdir(parents=True, exist_ok=True)
                             shutil.move(str(file_path), str(archive_path))
@@ -229,7 +232,7 @@ class FileOrganizer:
             "\n## Summary",
             f"- Total files moved: {sum(self.stats.values())}",
             f"- Dry run: {self.dry_run}",
-            "\n## Moves by Destination\n"
+            "\n## Moves by Destination\n",
         ]
 
         for dest, count in sorted(self.stats.items()):
@@ -356,32 +359,20 @@ def main():
     parser.add_argument(
         "command",
         choices=["organize", "cleanup", "suggest", "watch", "restore", "report"],
-        help="Command to execute"
+        help="Command to execute",
     )
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Simulate actions without making changes"
+        "--dry-run", action="store_true", help="Simulate actions without making changes"
     )
     parser.add_argument(
-        "--interactive",
-        action="store_true",
-        help="Ask before moving special files"
+        "--interactive", action="store_true", help="Ask before moving special files"
     )
     parser.add_argument(
-        "--interval",
-        type=int,
-        default=300,
-        help="Watch interval in seconds (default: 300)"
+        "--interval", type=int, default=300, help="Watch interval in seconds (default: 300)"
     )
+    parser.add_argument("--file", help="File to restore (for restore command)")
     parser.add_argument(
-        "--file",
-        help="File to restore (for restore command)"
-    )
-    parser.add_argument(
-        "--config",
-        default=".file-organization.yaml",
-        help="Configuration file path"
+        "--config", default=".file-organization.yaml", help="Configuration file path"
     )
 
     args = parser.parse_args()

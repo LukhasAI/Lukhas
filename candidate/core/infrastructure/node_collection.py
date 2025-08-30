@@ -112,13 +112,8 @@ class MemoryNode:
             # For now, basic keyword matching
             results = []
 
-            for memory in list(self.short_term.values()) + list(
-                self.long_term.values()
-            ):
-                if (
-                    isinstance(memory["data"], str)
-                    and query.lower() in memory["data"].lower()
-                ):
+            for memory in list(self.short_term.values()) + list(self.long_term.values()):
+                if isinstance(memory["data"], str) and query.lower() in memory["data"].lower():
                     memory["access_count"] += 1
                     memory["last_accessed"] = time.time()
                     results.append(memory)
@@ -322,9 +317,7 @@ class DAOGovernanceNode:
                 if len(proposal["votes"]) >= len(self.council_members):
                     self._finalize_proposal(proposal)
 
-                self.logger.info(
-                    f"Recorded vote from {member_id} on proposal {proposal_id}"
-                )
+                self.logger.info(f"Recorded vote from {member_id} on proposal {proposal_id}")
                 return True
 
         self.logger.warning(f"Proposal {proposal_id} not found")

@@ -88,9 +88,7 @@ class NIASEngine:
             self.abas_adapter = get_abas_adapter()
 
             if self.abas_adapter.is_abas_available():
-                logger.info(
-                    "ΛBAS integration active - real attention boundaries enabled"
-                )
+                logger.info("ΛBAS integration active - real attention boundaries enabled")
             else:
                 logger.info("ΛBAS integration available with fallback mode")
 
@@ -234,16 +232,12 @@ class NIASEngine:
 
         try:
             # Phase 1: Consent Check
-            result = await self._phase_consent_check(
-                message, user_context, processing_session
-            )
+            result = await self._phase_consent_check(message, user_context, processing_session)
             if not result["approved"]:
                 return self._complete_processing(processing_session, result)
 
             # Phase 2: Emotional Gating
-            result = await self._phase_emotional_gating(
-                message, user_context, processing_session
-            )
+            result = await self._phase_emotional_gating(message, user_context, processing_session)
             if not result["approved"]:
                 return self._complete_processing(processing_session, result)
 
@@ -254,27 +248,19 @@ class NIASEngine:
             message = result["processed_message"]
 
             # Phase 4: Tier Filtering
-            result = await self._phase_tier_filtering(
-                message, user_context, processing_session
-            )
+            result = await self._phase_tier_filtering(message, user_context, processing_session)
             message = result["filtered_message"]
 
             # Phase 5: Widget Generation
-            result = await self._phase_widget_generation(
-                message, user_context, processing_session
-            )
+            result = await self._phase_widget_generation(message, user_context, processing_session)
 
             # Phase 6: Delivery
-            delivery_result = await self._phase_delivery(
-                result, user_context, processing_session
-            )
+            delivery_result = await self._phase_delivery(result, user_context, processing_session)
 
             return self._complete_processing(processing_session, delivery_result)
 
         except Exception as e:
-            logger.error(
-                f"Error processing message {processing_session['message_id']}: {e}"
-            )
+            logger.error(f"Error processing message {processing_session['message_id']}: {e}")
             error_result = {"status": "error", "error": str(e), "phase": "unknown"}
             return self._complete_processing(processing_session, error_result)
 
@@ -292,9 +278,7 @@ class NIASEngine:
             from .consent_filter import get_consent_filter
 
             consent_filter = get_consent_filter()
-            consent_result = await consent_filter.check_consent(
-                user_context["user_id"], message
-            )
+            consent_result = await consent_filter.check_consent(user_context["user_id"], message)
 
             session["phases"][ProcessingPhase.CONSENT_CHECK.value] = {
                 "start_time": phase_start.isoformat(),
@@ -338,18 +322,13 @@ class NIASEngine:
                 if user_id:
                     try:
                         # Check attention availability through ABAS
-                        abas_result = (
-                            await self.abas_adapter.check_attention_availability(
-                                user_id, message, user_context
-                            )
+                        abas_result = await self.abas_adapter.check_attention_availability(
+                            user_id, message, user_context
                         )
 
                         session["phases"][ProcessingPhase.EMOTIONAL_GATING.value] = {
                             "start_time": phase_start.isoformat(),
-                            "duration_ms": (
-                                datetime.now() - phase_start
-                            ).total_seconds()
-                            * 1000,
+                            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
                             "emotional_state": abas_result.get("emotional_state"),
                             "attention_state": abas_result.get("attention_state"),
                             "abas_decision": abas_result.get("abas_decision"),
@@ -361,16 +340,12 @@ class NIASEngine:
                             defer_until_str = abas_result.get("defer_until")
                             if defer_until_str:
                                 defer_until = datetime.fromisoformat(defer_until_str)
-                                await self._defer_message(
-                                    message, user_context, defer_until
-                                )
+                                await self._defer_message(message, user_context, defer_until)
 
                             return {
                                 "approved": False,
                                 "status": "deferred" if defer_until_str else "blocked",
-                                "reason": abas_result.get(
-                                    "reason", "attention_boundary"
-                                ),
+                                "reason": abas_result.get("reason", "attention_boundary"),
                                 "phase": ProcessingPhase.EMOTIONAL_GATING.value,
                                 "defer_until": defer_until_str,
                                 "emotional_state": abas_result.get("emotional_state"),
@@ -495,62 +470,33 @@ class NIASEngine:
                         processed_message = message.copy()
                         processed_message["symbolic_processing"] = {
                             "symbolic_tags": symbolic_context.get("symbolic_tags", []),
-                            "primary_activity": symbolic_context.get(
-                                "primary_activity"
-                            ),
-                            "recommended_colors": symbolic_context.get(
-                                "recommended_colors", []
-                            ),
-                            "recommended_symbols": symbolic_context.get(
-                                "recommended_elements", []
-                            ),
-                            "recommended_tone": symbolic_context.get(
-                                "recommended_tone", "neutral"
-                            ),
-                            "coherence_score": symbolic_context.get(
-                                "coherence_score", 0.5
-                            ),
-                            "message_coherence": symbolic_context.get(
-                                "message_coherence", 0.5
-                            ),
-                            "context_scores": symbolic_context.get(
-                                "context_scores", {}
-                            ),
-                            "lambda_fingerprint": symbolic_context.get(
-                                "lambda_fingerprint"
-                            ),
+                            "primary_activity": symbolic_context.get("primary_activity"),
+                            "recommended_colors": symbolic_context.get("recommended_colors", []),
+                            "recommended_symbols": symbolic_context.get("recommended_elements", []),
+                            "recommended_tone": symbolic_context.get("recommended_tone", "neutral"),
+                            "coherence_score": symbolic_context.get("coherence_score", 0.5),
+                            "message_coherence": symbolic_context.get("message_coherence", 0.5),
+                            "context_scores": symbolic_context.get("context_scores", {}),
+                            "lambda_fingerprint": symbolic_context.get("lambda_fingerprint"),
                             "dast_integration": True,
                             "processed_at": datetime.now().isoformat(),
                         }
 
                         # Apply LUKHAS symbolic authentication
                         if self._has_lukhas_integration():
-                            processed_message["symbolic_auth"] = (
-                                await self._apply_symbolic_auth(
-                                    processed_message, user_context
-                                )
+                            processed_message["symbolic_auth"] = await self._apply_symbolic_auth(
+                                processed_message, user_context
                             )
 
                         session["phases"][ProcessingPhase.SYMBOLIC_PROCESSING.value] = {
                             "start_time": phase_start.isoformat(),
-                            "duration_ms": (
-                                datetime.now() - phase_start
-                            ).total_seconds()
-                            * 1000,
+                            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
                             "dast_integration": True,
-                            "symbolic_tags_count": len(
-                                symbolic_context.get("symbolic_tags", [])
-                            ),
-                            "primary_activity": symbolic_context.get(
-                                "primary_activity"
-                            ),
+                            "symbolic_tags_count": len(symbolic_context.get("symbolic_tags", [])),
+                            "primary_activity": symbolic_context.get("primary_activity"),
                             "coherence_score": symbolic_context.get("coherence_score"),
-                            "message_coherence": symbolic_context.get(
-                                "message_coherence"
-                            ),
-                            "lambda_fingerprint": symbolic_context.get(
-                                "lambda_fingerprint"
-                            ),
+                            "message_coherence": symbolic_context.get("message_coherence"),
+                            "lambda_fingerprint": symbolic_context.get("lambda_fingerprint"),
                         }
 
                         logger.debug(
@@ -559,9 +505,7 @@ class NIASEngine:
                         return {"processed_message": processed_message}
 
                     except Exception as e:
-                        logger.warning(
-                            f"DΛST symbolic processing failed, using fallback: {e}"
-                        )
+                        logger.warning(f"DΛST symbolic processing failed, using fallback: {e}")
 
             # Fallback to legacy symbolic processing
             return await self._phase_symbolic_processing_fallback(
@@ -595,12 +539,8 @@ class NIASEngine:
         processed_message = message.copy()
         processed_message["symbolic_processing"] = {
             "emotional_state": emotional_state,
-            "recommended_colors": self._get_symbolic_colors(
-                emotional_mapping["colors"]
-            ),
-            "recommended_symbols": self._get_symbolic_elements(
-                emotional_mapping["symbols"]
-            ),
+            "recommended_colors": self._get_symbolic_colors(emotional_mapping["colors"]),
+            "recommended_symbols": self._get_symbolic_elements(emotional_mapping["symbols"]),
             "recommended_tone": emotional_mapping["tone"],
             "dast_integration": False,
             "fallback_mode": True,
@@ -617,9 +557,7 @@ class NIASEngine:
             "start_time": phase_start.isoformat(),
             "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
             "emotional_mapping": emotional_mapping,
-            "symbols_applied": len(
-                processed_message["symbolic_processing"]["recommended_symbols"]
-            ),
+            "symbols_applied": len(processed_message["symbolic_processing"]["recommended_symbols"]),
             "dast_integration": False,
             "fallback_mode": True,
         }
@@ -639,12 +577,8 @@ class NIASEngine:
             from .tier_manager import get_tier_manager
 
             tier_manager = get_tier_manager()
-            processing_config = await tier_manager.get_processing_config(
-                user_context["tier"]
-            )
-            filtered_message = await tier_manager.apply_tier_filters(
-                message, processing_config
-            )
+            processing_config = await tier_manager.get_processing_config(user_context["tier"])
+            filtered_message = await tier_manager.apply_tier_filters(message, processing_config)
 
             session["phases"][ProcessingPhase.TIER_FILTERING.value] = {
                 "start_time": phase_start.isoformat(),
@@ -784,19 +718,13 @@ class NIASEngine:
                         await self.abas_adapter.register_user(user_id)
 
                     # Get attention analytics from ABAS
-                    abas_status = await self.abas_adapter.get_attention_analytics(
-                        user_id
-                    )
+                    abas_status = await self.abas_adapter.get_attention_analytics(user_id)
 
                     if "error" not in abas_status:
-                        attention_state = abas_status.get(
-                            "attention_state", "available"
-                        )
+                        attention_state = abas_status.get("attention_state", "available")
                         # Map attention state to emotional state
-                        emotional_state = (
-                            self.abas_adapter.attention_to_emotional_mapping.get(
-                                attention_state, "neutral"
-                            )
+                        emotional_state = self.abas_adapter.attention_to_emotional_mapping.get(
+                            attention_state, "neutral"
                         )
                         logger.debug(
                             f"ΛBAS mapped {attention_state} -> {emotional_state} for {user_id}"
@@ -837,9 +765,7 @@ class NIASEngine:
         """Get symbolic elements for given categories"""
         elements = []
         for category in element_categories:
-            elements.extend(
-                self.symbolic_patterns["symbolic_elements"].get(category, [])
-            )
+            elements.extend(self.symbolic_patterns["symbolic_elements"].get(category, []))
         return elements[:4]  # Limit to 4 elements
 
     def _has_lukhas_integration(self) -> bool:
@@ -878,9 +804,7 @@ class NIASEngine:
 
         logger.info(f"Message deferred until {defer_until.isoformat()}: {defer_id}")
 
-    async def _record_dream_seed(
-        self, message: dict[str, Any], user_context: dict[str, Any]
-    ):
+    async def _record_dream_seed(self, message: dict[str, Any], user_context: dict[str, Any]):
         """Record dream seed for dream system integration"""
         try:
             from .dream_recorder import get_dream_recorder
@@ -897,9 +821,7 @@ class NIASEngine:
         except Exception as e:
             logger.error(f"Failed to record dream seed: {e}")
 
-    async def check_emotional_state(
-        self, user_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def check_emotional_state(self, user_context: dict[str, Any]) -> dict[str, Any]:
         """Public method to check emotional state (used by NIAS Hub) with ΛBAS integration"""
         if self.abas_adapter:
             try:
@@ -941,8 +863,7 @@ class NIASEngine:
             "emotional_state": emotional_state,
             "defer_until": (
                 (
-                    datetime.now()
-                    + timedelta(hours=gating_config.get("defer_duration_hours", 0))
+                    datetime.now() + timedelta(hours=gating_config.get("defer_duration_hours", 0))
                 ).isoformat()
                 if not gating_config.get("allow_delivery", True)
                 else None
@@ -964,9 +885,7 @@ class NIASEngine:
         for defer_id, deferred_data in ready_messages:
             try:
                 logger.info(f"Processing deferred message: {defer_id}")
-                await self.process_message(
-                    deferred_data["message"], deferred_data["user_context"]
-                )
+                await self.process_message(deferred_data["message"], deferred_data["user_context"])
             except Exception as e:
                 logger.error(f"Failed to process deferred message {defer_id}: {e}")
 

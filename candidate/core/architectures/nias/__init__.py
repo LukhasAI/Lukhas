@@ -5,7 +5,7 @@ from .core.nias_engine import (
 )
 
 __all__ = [
+    "ContextAwareRecommendation",
     "NIASEngine",
     "PositiveGatingFilter",
-    "ContextAwareRecommendation",
 ]

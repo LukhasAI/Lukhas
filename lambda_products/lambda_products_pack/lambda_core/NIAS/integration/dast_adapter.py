@@ -89,9 +89,7 @@ class NIASDastAdapter:
         # Registered users for DAST
         self.registered_users = set()
 
-        logger.info(
-            f"NIΛS-DΛST adapter initialized (DAST available: {self.dast_available})"
-        )
+        logger.info(f"NIΛS-DΛST adapter initialized (DAST available: {self.dast_available})")
 
     def _initialize_symbol_color_mapping(self) -> dict[str, list[str]]:
         """Map DAST symbolic tags to NIAS color themes"""
@@ -235,16 +233,12 @@ class NIASDastAdapter:
                 },
                 "recommended_colors": self._get_recommended_colors(current_tags),
                 "recommended_elements": self._get_recommended_elements(current_tags),
-                "recommended_tone": self._get_recommended_tone(
-                    context_snapshot.primary_activity
-                ),
+                "recommended_tone": self._get_recommended_tone(context_snapshot.primary_activity),
                 "coherence_score": context_snapshot.coherence_score,
                 "lambda_fingerprint": context_snapshot.lambda_fingerprint,
                 "dast_integration": True,
                 "timestamp": (
-                    context_snapshot.timestamp.isoformat()
-                    if context_snapshot.timestamp
-                    else None
+                    context_snapshot.timestamp.isoformat() if context_snapshot.timestamp else None
                 ),
             }
 
@@ -252,8 +246,8 @@ class NIASDastAdapter:
             if message_type:
                 message_symbols = self.message_to_symbol_mapping.get(message_type, [])
                 symbolic_context["message_aligned_symbols"] = message_symbols
-                symbolic_context["message_coherence"] = (
-                    self._calculate_message_coherence(current_tags, message_symbols)
+                symbolic_context["message_coherence"] = self._calculate_message_coherence(
+                    current_tags, message_symbols
                 )
 
             logger.debug(
@@ -394,17 +388,13 @@ class NIASDastAdapter:
 
             # Add brand interaction symbols
             if brand_id:
-                symbols_to_add.append(
-                    (f"brand-{brand_id}", SymbolCategory.CONTEXT, 0.4)
-                )
+                symbols_to_add.append((f"brand-{brand_id}", SymbolCategory.CONTEXT, 0.4))
 
             # Add dream seed symbols
             if message.get("dream_seed"):
                 dream_theme = message["dream_seed"].get("theme", "inspiration")
                 symbols_to_add.append((dream_theme, SymbolCategory.CREATIVE, 0.8))
-                symbols_to_add.append(
-                    ("dream-interaction", SymbolCategory.CREATIVE, 0.6)
-                )
+                symbols_to_add.append(("dream-interaction", SymbolCategory.CREATIVE, 0.6))
 
             # Add symbols to DAST
             for symbol, category, confidence in symbols_to_add:
@@ -483,9 +473,7 @@ class NIASDastAdapter:
             logger.error(f"Failed to get activity suggestions for {user_id}: {e}")
             return []
 
-    async def get_symbolic_analytics(
-        self, user_id: str, hours: int = 24
-    ) -> dict[str, Any]:
+    async def get_symbolic_analytics(self, user_id: str, hours: int = 24) -> dict[str, Any]:
         """Get symbolic analytics from DAST"""
         if not self.dast_available or not self.dast_instance:
             return {"error": "DAST not available"}

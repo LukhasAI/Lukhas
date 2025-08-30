@@ -136,9 +136,7 @@ class VoiceInterface:
         """Register a handler for voice input messages"""
         self.message_handler.register_input_handler(handler)
 
-    def add_to_conversation(
-        self, text: str, conversation_id: str, is_input: bool = True
-    ):
+    def add_to_conversation(self, text: str, conversation_id: str, is_input: bool = True):
         """Add a message to a conversation thread"""
         if conversation_id not in self.active_conversations:
             self.active_conversations[conversation_id] = []

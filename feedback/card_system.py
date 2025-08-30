@@ -248,7 +248,7 @@ class FeedbackCardSystem:
 
         # Create feedback card
         card = FeedbackCard(
-            card_id=f"card_{int(time.time()*1000)}",
+            card_id=f"card_{int(time.time() * 1000)}",
             action_id=action_id,
             rating=FeedbackRating(rating),
             note=note,
@@ -523,9 +523,7 @@ class FeedbackCardSystem:
         user_id_hash = hashlib.sha256(user_id.encode()).hexdigest()[:16]
 
         # Get user's feedback cards
-        user_cards = [
-            card for card in self.feedback_cards if card.user_id_hash == user_id_hash
-        ]
+        user_cards = [card for card in self.feedback_cards if card.user_id_hash == user_id_hash]
 
         if not user_cards:
             return LearningReport(

@@ -57,9 +57,12 @@ except ImportError:
     try:
         from candidate.core.common import LukhasError
     except ImportError:
+
         class LukhasError(Exception):
             """Fallback error class"""
+
             pass
+
 
 # Import memory components
 # TODO: Resolve import paths if these files are moved or structure changes.
@@ -70,49 +73,71 @@ try:
 except ImportError:
     # Create minimal fallback classes
     class AGIMemory:
-        def __init__(self, *args, **kwargs): pass
+        def __init__(self, *args, **kwargs):
+            pass
+
     class MemoryFold:
-        def __init__(self, *args, **kwargs): pass
+        def __init__(self, *args, **kwargs):
+            pass
+
     class MemoryPriority:
         HIGH = "high"
         MEDIUM = "medium"
         LOW = "low"
+
     class MemoryType:
         EPISODIC = "episodic"
         SEMANTIC = "semantic"
         PROCEDURAL = "procedural"
 
+
 try:
     from .trauma_lock import TraumaLockSystem as TraumaLock
 except ImportError:
+
     class TraumaLock:
-        def __init__(self, *args, **kwargs): pass
-        def is_locked(self, *args, **kwargs): return False
-        def unlock(self, *args, **kwargs): return True
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def is_locked(self, *args, **kwargs):
+            return False
+
+        def unlock(self, *args, **kwargs):
+            return True
 
 # from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
 # from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
 
+
 # Create fallback classes for missing AID components
 class MemoryIdentityIntegration:
     """Fallback class for AID MemoryIdentityIntegration"""
+
     def __init__(self, *args, **kwargs):
         pass
+
 
 class MemoryAccessPolicy:
     """Fallback class for AID MemoryAccessPolicy"""
+
     def __init__(self, *args, **kwargs):
         pass
+
 
 class ID:
     """Fallback class for AID ID"""
+
     def __init__(self, *args, **kwargs):
         pass
 
+
 class AccessTier:
     """Fallback class for AID AccessTier"""
+
     PRIVATE = "private"
     PUBLIC = "public"
+
+
 # Assuming dream_reflection_loop is in CORE/dream_engine
 # from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop
 # import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's
@@ -212,10 +237,7 @@ class MemoryManager:
         now = datetime.now()
 
         # Only run if enough time has passed since last cycle
-        if (
-            self.last_dream_cycle
-            and now - self.last_dream_cycle < self.dream_cycle_interval
-        ):
+        if self.last_dream_cycle and now - self.last_dream_cycle < self.dream_cycle_interval:
             return {"status": "skipped", "reason": "too_soon"}
 
         try:
@@ -252,7 +274,7 @@ class MemoryManager:
             }
 
         except Exception as e:
-            logger.error(f"Error in dream cycle: {str(e)}")
+            logger.error(f"Error in dream cycle: {e!s}")
             return {"status": "error", "error": str(e)}
 
     def _get_recent_memories(self, days: int = 7) -> list[dict[str, Any]]:
@@ -315,13 +337,9 @@ class MemoryManager:
                 "data": data,
                 "metadata": metadata,
                 "memory_type": (
-                    memory_type.value
-                    if isinstance(memory_type, MemoryType)
-                    else memory_type
+                    memory_type.value if isinstance(memory_type, MemoryType) else memory_type
                 ),
-                "priority": (
-                    priority.value if isinstance(priority, MemoryPriority) else priority
-                ),
+                "priority": (priority.value if isinstance(priority, MemoryPriority) else priority),
                 "owner_id": owner_id,
                 "timestamp": datetime.now().isoformat(),
             }
@@ -358,9 +376,7 @@ class MemoryManager:
 
                 # Apply priority overrides
                 priority_obj = (
-                    priority
-                    if isinstance(priority, MemoryPriority)
-                    else MemoryPriority(priority)
+                    priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
                 )
                 if priority_obj in self.priority_overrides:
                     priority_tier = self.priority_overrides[priority_obj]
@@ -371,9 +387,7 @@ class MemoryManager:
                 policy = access_policy or MemoryAccessPolicy.TIER_BASED
 
                 # Register with identity system
-                self.id_integration.register_memory(
-                    key, owner_id, memory_type, policy, min_tier
-                )
+                self.id_integration.register_memory(key, owner_id, memory_type, policy, min_tier)
 
                 # Track identity-protected memories
                 self.stats["identity_protected"] += 1
@@ -388,11 +402,7 @@ class MemoryManager:
                 self.stats["user_memories"][owner_id] += 1
 
             # Update memory type stats
-            mem_type_str = (
-                memory_type.value
-                if isinstance(memory_type, MemoryType)
-                else memory_type
-            )
+            mem_type_str = memory_type.value if isinstance(memory_type, MemoryType) else memory_type
             self.stats["memory_types"][mem_type_str] = (
                 self.stats["memory_types"].get(mem_type_str, 0) + 1
             )
@@ -403,12 +413,10 @@ class MemoryManager:
             logger.debug(f"Memory stored: {key}")
             return True
         except Exception as e:
-            logger.error(f"Failed to store memory: {str(e)}")
+            logger.error(f"Failed to store memory: {e!s}")
             return False
 
-    def retrieve(
-        self, key: str, user_identity: Optional[ID] = None
-    ) -> Optional[dict[str, Any]]:
+    def retrieve(self, key: str, user_identity: Optional[ID] = None) -> Optional[dict[str, Any]]:
         """
         Retrieve data from memory with identity verification.
 
@@ -502,9 +510,7 @@ class MemoryManager:
             memory = memory_fold.retrieve()
 
         # Check identity-based access control for permission to forget
-        if memory_fold and not self._verify_access(
-            memory_fold, user_identity, require_owner=True
-        ):
+        if memory_fold and not self._verify_access(memory_fold, user_identity, require_owner=True):
             logger.warning(f"Access denied to forget memory: {key}")
             return False
 
@@ -556,9 +562,7 @@ class MemoryManager:
         logger.info(f"Memory marked as forgotten: {key}")
         return True
 
-    def batch_forget(
-        self, keys: list[str], user_identity: Optional[ID] = None
-    ) -> dict[str, bool]:
+    def batch_forget(self, keys: list[str], user_identity: Optional[ID] = None) -> dict[str, bool]:
         """
         Remove multiple memories at once.
 
@@ -607,12 +611,13 @@ class MemoryManager:
 
                 # Retrieve and potentially decrypt
                 memory_content = fold.retrieve()
-                if self.id_integration and memory_content.get("_meta", {}).get(
-                    "encrypted", False
-                ) and user_identity and fold.owner_id == user_identity.get_user_id():
-                    memory_content = self.id_integration.decrypt_memory_content(
-                        key, memory_content
-                    )
+                if (
+                    self.id_integration
+                    and memory_content.get("_meta", {}).get("encrypted", False)
+                    and user_identity
+                    and fold.owner_id == user_identity.get_user_id()
+                ):
+                    memory_content = self.id_integration.decrypt_memory_content(key, memory_content)
                     # Add other conditions for decryption if necessary (e.g. admin)
 
                 # Ensure the memory is not marked as forgotten
@@ -622,9 +627,7 @@ class MemoryManager:
                 user_memories_data.append(memory_content)
 
         if not user_memories_data:
-            logger.info(
-                f"No accessible memories found for user {user_id} to extract insights."
-            )
+            logger.info(f"No accessible memories found for user {user_id} to extract insights.")
             return {
                 "preferences": {},
                 "activity_patterns": {},
@@ -689,9 +692,7 @@ class MemoryManager:
                 try:
                     timestamps.append(datetime.fromisoformat(ts_str.replace("Z", "")))
                 except ValueError:
-                    logger.debug(
-                        f"Could not parse timestamp: {ts_str} for insight generation."
-                    )
+                    logger.debug(f"Could not parse timestamp: {ts_str} for insight generation.")
 
         if timestamps:
             hour_counts = {}
@@ -830,7 +831,7 @@ class MemoryManager:
 
             logger.info(f"Memory persisted to disk: {key}")
         except Exception as e:
-            logger.error(f"Failed to persist memory to disk: {str(e)}")
+            logger.error(f"Failed to persist memory to disk: {e!s}")
 
     def _load_memory(self, key: str) -> Optional[dict[str, Any]]:
         """
@@ -856,7 +857,7 @@ class MemoryManager:
             logger.info(f"Memory loaded from disk: {key}")
             return memory
         except Exception as e:
-            logger.error(f"Failed to load memory from disk: {str(e)}")
+            logger.error(f"Failed to load memory from disk: {e!s}")
             return None
 
     def _verify_access(
@@ -913,19 +914,13 @@ class MemoryManager:
 
         # Determine minimum access tier
         min_tier = self.tier_requirements.get(
-            (
-                memory_type
-                if isinstance(memory_type, MemoryType)
-                else MemoryType(memory_type)
-            ),
+            (memory_type if isinstance(memory_type, MemoryType) else MemoryType(memory_type)),
             AccessTier.TIER_1,
         )
 
         # Apply priority overrides
         priority_obj = (
-            priority
-            if isinstance(priority, MemoryPriority)
-            else MemoryPriority(priority)
+            priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
         )
         if priority_obj in self.priority_overrides:
             priority_tier = self.priority_overrides[priority_obj]
@@ -936,9 +931,7 @@ class MemoryManager:
         policy = access_policy or MemoryAccessPolicy.TIER_BASED
 
         # Register with identity system
-        self.id_integration.register_memory(
-            key, owner_id, memory_type, policy, min_tier
-        )
+        self.id_integration.register_memory(key, owner_id, memory_type, policy, min_tier)
 
 
 # Last Updated: 2025-06-05 09:37:28

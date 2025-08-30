@@ -156,9 +156,7 @@ class QICertificateManager:
         self.renewal_tasks: dict[str, asyncio.Task[Any]] = {}  # type: ignore
         self.validation_task: Optional[asyncio.Task[Any]] = None
 
-        self.qi_entropy_enabled: bool = self.config.get(
-            "qi_entropy_enabled", True
-        )
+        self.qi_entropy_enabled: bool = self.config.get("qi_entropy_enabled", True)
         self.log.info(
             "QICertificateManager initialized.",
             cert_store=str(self.cert_store_path),
@@ -186,9 +184,7 @@ class QICertificateManager:
     @lukhas_tier_required(3)
     async def _load_certificates_from_store(self):
         """Loads certificates from the configured certificate store path."""
-        self.log.debug(
-            "Loading certificates from store.", path=str(self.cert_store_path)
-        )
+        self.log.debug("Loading certificates from store.", path=str(self.cert_store_path))
         loaded_count = 0
         try:
             for cert_file_path in self.cert_store_path.glob("*.qcert"):
@@ -277,12 +273,10 @@ class QICertificateManager:
                     actually_expired_certs.append(cert_id)
 
                 if cert_id in self.certificate_metadata:
-                    self.certificate_metadata[cert_id][
-                        "last_validated_utc_iso"
-                    ] = current_utc_time.isoformat()
-                    self.certificate_metadata[cert_id][
-                        "status"
-                    ] = validation_status.value
+                    self.certificate_metadata[cert_id]["last_validated_utc_iso"] = (
+                        current_utc_time.isoformat()
+                    )
+                    self.certificate_metadata[cert_id]["status"] = validation_status.value
                 else:
                     self.log.warning(
                         "Metadata missing for certificate during validation.",
@@ -296,9 +290,7 @@ class QICertificateManager:
                     exc_info=True,
                 )
                 if cert_id in self.certificate_metadata:
-                    self.certificate_metadata[cert_id][
-                        "status"
-                    ] = CertificateStatus.UNKNOWN.value
+                    self.certificate_metadata[cert_id]["status"] = CertificateStatus.UNKNOWN.value
 
         if expiring_soon_certs and self.auto_renewal_enabled:
             await self._schedule_renewal_tasks(expiring_soon_certs)
@@ -312,9 +304,7 @@ class QICertificateManager:
                 expired_count=len(actually_expired_certs),
             )
         else:
-            self.log.info(
-                "✅ All certificates validated successfully with no immediate issues."
-            )
+            self.log.info("✅ All certificates validated successfully with no immediate issues.")
 
     @lukhas_tier_required(3)
     async def _validate_single_certificate(
@@ -341,9 +331,7 @@ class QICertificateManager:
 
             if expiry_date_utc <= current_time_utc:
                 return CertificateStatus.EXPIRED
-            if expiry_date_utc <= (
-                current_time_utc + timedelta(days=self.renewal_threshold_days)
-            ):
+            if expiry_date_utc <= (current_time_utc + timedelta(days=self.renewal_threshold_days)):
                 return CertificateStatus.EXPIRING_SOON
             if not await self._validate_quantum_signature(cert_data):
                 return CertificateStatus.REVOKED
@@ -364,9 +352,7 @@ class QICertificateManager:
     @lukhas_tier_required(3)
     async def _validate_quantum_signature(self, cert_data: dict[str, Any]) -> bool:
         """Validates the quantum-resistant signature of the certificate (simulated)."""
-        self.log.debug(
-            "Validating quantum signature.", cert_id=cert_data.get("certificate_id")
-        )
+        self.log.debug("Validating quantum signature.", cert_id=cert_data.get("certificate_id"))
         try:
             algorithm = cert_data.get("qi_algorithm")
             signature_b64 = cert_data.get("qi_signature")
@@ -390,9 +376,7 @@ class QICertificateManager:
                 )
             )
             message_bytes = message_to_verify_str.encode("utf-8")
-            algo_enum_member = next(
-                (qa for qa in QIAlgorithm if qa.value == algorithm), None
-            )
+            algo_enum_member = next((qa for qa in QIAlgorithm if qa.value == algorithm), None)
             if algo_enum_member == QIAlgorithm.CRYSTALS_DILITHIUM:
                 # type: ignore
                 return await self._verify_dilithium_signature_sim(
@@ -442,9 +426,7 @@ class QICertificateManager:
         await asyncio.sleep(0.001)
         return True
 
-    async def _validate_certificate_chain_to_trusted_root(
-        self, cert_data: dict[str, Any]
-    ) -> bool:
+    async def _validate_certificate_chain_to_trusted_root(self, cert_data: dict[str, Any]) -> bool:
         await asyncio.sleep(0.001)
         return True
 
@@ -471,28 +453,20 @@ class QICertificateManager:
             return
 
         try:
-            self.certificate_metadata[cert_id][
-                "status"
-            ] = CertificateStatus.PENDING_RENEWAL.value
+            self.certificate_metadata[cert_id]["status"] = CertificateStatus.PENDING_RENEWAL.value
             new_key_pair = await self._generate_quantum_key_pair(
                 cert_data.get("qi_algorithm", "crystals_dilithium")
             )  # Default algo
-            csr = await self._create_certificate_signing_request(
-                cert_data, new_key_pair
-            )  # Renamed
+            csr = await self._create_certificate_signing_request(cert_data, new_key_pair)  # Renamed
             new_cert_data = await self._submit_renewal_request_to_ca(csr)  # Renamed
 
             if new_cert_data:
-                await self._install_renewed_certificate_to_store(
-                    cert_id, new_cert_data
-                )  # Renamed
-                self.log.info(
-                    "✅ Certificate renewal completed successfully.", cert_id=cert_id
-                )
+                await self._install_renewed_certificate_to_store(cert_id, new_cert_data)  # Renamed
+                self.log.info("✅ Certificate renewal completed successfully.", cert_id=cert_id)
             else:
-                self.certificate_metadata[cert_id][
-                    "status"
-                ] = CertificateStatus.RENEWAL_FAILED.value
+                self.certificate_metadata[cert_id]["status"] = (
+                    CertificateStatus.RENEWAL_FAILED.value
+                )
                 self.log.error(
                     "❌ Certificate renewal attempt failed: No new certificate returned from CA.",
                     cert_id=cert_id,
@@ -505,9 +479,9 @@ class QICertificateManager:
                 exc_info=True,
             )
             if cert_id in self.certificate_metadata:
-                self.certificate_metadata[cert_id][
-                    "status"
-                ] = CertificateStatus.RENEWAL_FAILED.value
+                self.certificate_metadata[cert_id]["status"] = (
+                    CertificateStatus.RENEWAL_FAILED.value
+                )
         finally:
             if cert_id in self.renewal_tasks:
                 del self.renewal_tasks[cert_id]
@@ -516,9 +490,7 @@ class QICertificateManager:
     async def _generate_quantum_key_pair(
         self, algorithm_name: str
     ) -> tuple[str, str]:  # Renamed algorithm
-        self.log.debug(
-            "Generating quantum-resistant key pair.", algorithm=algorithm_name
-        )
+        self.log.debug("Generating quantum-resistant key pair.", algorithm=algorithm_name)
         entropy = (
             await self._get_quantum_entropy()
             if self.qi_entropy_enabled
@@ -558,9 +530,7 @@ class QICertificateManager:
             "qi_algorithm": old_cert_data.get("qi_algorithm"),
             "qi_public_key": public_key_b64,
             "requested_validity_days": 365,  # Example
-            "extensions": old_cert_data.get(
-                "extensions", {"key_usage": ["digital_signature"]}
-            ),
+            "extensions": old_cert_data.get("extensions", {"key_usage": ["digital_signature"]}),
             "submission_timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
         }
         # CSR should be signed by the new private key for authenticity
@@ -604,9 +574,7 @@ class QICertificateManager:
             else:
                 # Standard HMAC-SHA256 signing
                 signature_data = hmac.new(
-                    private_key_bytes,
-                    canonical_csr.encode("utf-8"),
-                    hashlib.sha256
+                    private_key_bytes, canonical_csr.encode("utf-8"), hashlib.sha256
                 ).hexdigest()
                 signature_method = "HMAC-SHA256"
 
@@ -615,7 +583,7 @@ class QICertificateManager:
                 "signature": signature_data,
                 "algorithm": signature_method,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "key_fingerprint": hashlib.sha256(private_key_bytes).hexdigest()[:16]
+                "key_fingerprint": hashlib.sha256(private_key_bytes).hexdigest()[:16],
             }
 
             signature_b64 = base64.b64encode(
@@ -625,7 +593,7 @@ class QICertificateManager:
             self.log.debug(
                 "CSR signed successfully",
                 algorithm=signature_method,
-                key_fingerprint=signature["key_fingerprint"]
+                key_fingerprint=signature["key_fingerprint"],
             )
 
             return signature_b64
@@ -637,11 +605,13 @@ class QICertificateManager:
                 f"{canonical_csr}{private_key_b64}".encode()
             ).hexdigest()
             return base64.b64encode(
-                json.dumps({
-                    "signature": fallback_signature,
-                    "algorithm": "SHA256-FALLBACK",
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                }).encode("utf-8")
+                json.dumps(
+                    {
+                        "signature": fallback_signature,
+                        "algorithm": "SHA256-FALLBACK",
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                ).encode("utf-8")
             ).decode("utf-8")
 
     @lukhas_tier_required(3)
@@ -653,9 +623,7 @@ class QICertificateManager:
             self.log.warning(
                 "aiohttp not available, using emergency self-signed certificate for renewal simulation."
             )
-            return await self._create_emergency_self_signed_certificate(
-                csr_data
-            )  # Renamed
+            return await self._create_emergency_self_signed_certificate(csr_data)  # Renamed
 
         for ca_name, ca_url_endpoint in self.qi_ca_endpoints.items():
             try:
@@ -738,9 +706,7 @@ class QICertificateManager:
         new_cert_id = new_cert_data.get(
             "certificate_id", old_cert_id
         )  # Use new ID if provided, else overwrite
-        self.log.info(
-            "Installing renewed certificate.", old_id=old_cert_id, new_id=new_cert_id
-        )
+        self.log.info("Installing renewed certificate.", old_id=old_cert_id, new_id=new_cert_id)
         try:
             old_cert_content = self.certificates.get(old_cert_id)
             if old_cert_content:
@@ -788,9 +754,7 @@ class QICertificateManager:
             raise  # Propagate error to renewal process
 
     @lukhas_tier_required(3)
-    async def _handle_critically_expired_certificates(
-        self, expired_cert_ids: list[str]
-    ):  # Renamed
+    async def _handle_critically_expired_certificates(self, expired_cert_ids: list[str]):  # Renamed
         """Handles certificates that have passed their expiry date."""
         for cert_id in expired_cert_ids:
             self.log.critical(
@@ -799,9 +763,7 @@ class QICertificateManager:
                 metadata=self.certificate_metadata.get(cert_id),
             )
             if cert_id in self.certificate_metadata:
-                self.certificate_metadata[cert_id][
-                    "status"
-                ] = CertificateStatus.EXPIRED.value
+                self.certificate_metadata[cert_id]["status"] = CertificateStatus.EXPIRED.value
             if self.auto_renewal_enabled:
                 self.log.info(
                     "Attempting emergency renewal for EXPIRED certificate.",
@@ -851,9 +813,7 @@ class QICertificateManager:
         """Forces an immediate renewal attempt for a specific certificate."""
         self.log.info("Force renewal requested.", cert_id=cert_id)
         if cert_id not in self.certificates:
-            self.log.error(
-                "Cannot force renewal: Certificate ID not found.", cert_id=cert_id
-            )
+            self.log.error("Cannot force renewal: Certificate ID not found.", cert_id=cert_id)
             return False
         try:
             await self._attempt_certificate_renewal(cert_id)
@@ -947,9 +907,7 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
     }
     manager.certificates[demo_cert_id] = demo_cert_data
     manager.certificate_metadata[demo_cert_id] = {
-        "file_path": str(
-            Path(demo_config["cert_store_path"]) / f"{demo_cert_id}.qcert"
-        ),
+        "file_path": str(Path(demo_config["cert_store_path"]) / f"{demo_cert_id}.qcert"),
         "loaded_at_utc_iso": datetime.now(timezone.utc).isoformat(),
         "status": CertificateStatus.UNKNOWN.value,
     }
@@ -964,9 +922,7 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
         cert_id=demo_cert_id,
         expires_at=expires_soon_date.isoformat(),
     )
-    log.info(
-        "Initial certificate statuses:", statuses=manager.get_all_certificates_status()
-    )
+    log.info("Initial certificate statuses:", statuses=manager.get_all_certificates_status())
     log.info("Waiting for validation and auto-renewal cycle (approx 5-7s)...")
     await asyncio.sleep(7)
     log.info(

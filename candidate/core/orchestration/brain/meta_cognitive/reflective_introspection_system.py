@@ -74,9 +74,7 @@ class ReflectiveIntrospectionSystem:
 
         self.reflection_cycle += 1
         self.last_reflection_time = datetime.datetime.now()
-        logger.info(
-            f"Performing reflective introspection cycle {self.reflection_cycle}"
-        )
+        logger.info(f"Performing reflective introspection cycle {self.reflection_cycle}")
 
         # Analyze recent interactions
         insights = self._analyze_interactions()
@@ -181,9 +179,7 @@ class ReflectiveIntrospectionSystem:
                     {
                         "pattern_type": action_type,
                         "frequency": len(actions),
-                        "confidence": min(
-                            0.9, len(actions) / len(self.interaction_buffer)
-                        ),
+                        "confidence": min(0.9, len(actions) / len(self.interaction_buffer)),
                     }
                 )
 
@@ -342,9 +338,7 @@ class ReflectiveIntrospectionSystem:
         return {
             "reflection_cycles": self.reflection_cycle,
             "last_reflection": (
-                self.last_reflection_time.isoformat()
-                if self.last_reflection_time
-                else None
+                self.last_reflection_time.isoformat() if self.last_reflection_time else None
             ),
             "total_insights_generated": total_insights,
             "total_improvements_proposed": total_improvements,
@@ -395,12 +389,8 @@ class ReflectiveIntrospectionSystem:
                 threshold = thresholds.get(metric, 1.0)
 
                 if (
-                    metric in ["response_time", "cognitive_load"]
-                    and recent_avg > threshold
-                ) or " + "(
-                    metric in ["memory_efficiency", "accuracy"]
-                    and recent_avg < threshold
-                ):
+                    metric in ["response_time", "cognitive_load"] and recent_avg > threshold
+                ) or " + "(metric in ["memory_efficiency", "accuracy"] and recent_avg < threshold):
                     bottlenecks.append(
                         {
                             "type": "performance_bottleneck",
@@ -488,16 +478,12 @@ class ReflectiveIntrospectionSystem:
             # Generate immediate reflection
             reflection = {
                 "awareness_level": self._calculate_awareness_level(processing_result),
-                "processing_quality": self._assess_processing_quality(
-                    processing_result
-                ),
+                "processing_quality": self._assess_processing_quality(processing_result),
                 "learning_opportunities": self._identify_learning_opportunities(
                     input_data, context, processing_result
                 ),
                 "cognitive_load": self._estimate_cognitive_load(context),
-                "adaptation_suggestions": self._generate_adaptation_suggestions(
-                    processing_result
-                ),
+                "adaptation_suggestions": self._generate_adaptation_suggestions(processing_result),
                 "meta_timestamp": datetime.datetime.now().isoformat(),
             }
 
@@ -595,9 +581,7 @@ class ReflectiveIntrospectionSystem:
 
         return min(1.0, base_load)
 
-    def _generate_adaptation_suggestions(
-        self, processing_result: dict[str, Any]
-    ) -> list[str]:
+    def _generate_adaptation_suggestions(self, processing_result: dict[str, Any]) -> list[str]:
         """Generate suggestions for system adaptation"""
         suggestions = []
 

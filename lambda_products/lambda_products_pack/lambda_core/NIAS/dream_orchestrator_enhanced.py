@@ -121,9 +121,7 @@ class EnhancedDreamOrchestrator:
         # Initialize services with dependency injection
         self._init_task = asyncio.create_task(self._initialize_services())
 
-        logger.info(
-            "Enhanced Dream Orchestrator initializing with dependency injection"
-        )
+        logger.info("Enhanced Dream Orchestrator initializing with dependency injection")
 
     async def _ensure_initialized(self, timeout: float = 1.0) -> None:
         """Wait briefly for async service initialization; don't hang if slow."""
@@ -231,9 +229,7 @@ class EnhancedDreamOrchestrator:
             ServiceLifecycle.SINGLETON,
         )
 
-        await self.container.register_fallback(
-            "dream_generator", "dream_generator_fallback"
-        )
+        await self.container.register_fallback("dream_generator", "dream_generator_fallback")
 
     async def _register_health_checks(self):
         """Register health check functions for services"""
@@ -260,12 +256,8 @@ class EnhancedDreamOrchestrator:
             except Exception:
                 return False
 
-        await self.container.register_health_check(
-            "consent_manager", check_consent_manager
-        )
-        await self.container.register_health_check(
-            "dream_generator", check_dream_generator
-        )
+        await self.container.register_health_check("consent_manager", check_consent_manager)
+        await self.container.register_health_check("dream_generator", check_dream_generator)
 
     async def _monitor_service_health(self):
         """Monitor health of all services"""
@@ -280,16 +272,13 @@ class EnhancedDreamOrchestrator:
                     "user_data_integrator",
                     "vendor_portal",
                 ]:
-
                     is_healthy = await self.container.check_service_health(service_name)
 
                     if service_name not in self.service_health:
                         self.service_health[service_name] = ServiceHealth(
                             service_name=service_name,
                             status=(
-                                ServiceStatus.HEALTHY
-                                if is_healthy
-                                else ServiceStatus.UNAVAILABLE
+                                ServiceStatus.HEALTHY if is_healthy else ServiceStatus.UNAVAILABLE
                             ),
                             last_check=datetime.now(),
                         )
@@ -311,9 +300,7 @@ class EnhancedDreamOrchestrator:
                         if health.error_count == 0:
                             health.success_rate = 1.0
                         else:
-                            health.success_rate = max(
-                                0, 1.0 - (health.error_count * 0.1)
-                            )
+                            health.success_rate = max(0, 1.0 - (health.error_count * 0.1))
 
             except Exception as e:
                 logger.error(f"Error in health monitoring: {e}")
@@ -363,18 +350,14 @@ class EnhancedDreamOrchestrator:
                 }
 
             # Get consent manager with fallback
-            consent_manager = await self.container.get_healthy_service(
-                "consent_manager"
-            )
+            consent_manager = await self.container.get_healthy_service("consent_manager")
 
             # Verify consent
             try:
                 consent_status = await consent_manager.get_consent_status(user_id)
                 if not consent_status.get("has_consent", False):
                     # In test mode or with test users, grant consent automatically
-                    if user_id.startswith("test_") or self.config.get(
-                        "test_mode", False
-                    ):
+                    if user_id.startswith("test_") or self.config.get("test_mode", False):
                         logger.info(f"Test mode: auto-granting consent for {user_id}")
                         consent_status = {"has_consent": True}
                     else:
@@ -393,9 +376,7 @@ class EnhancedDreamOrchestrator:
 
             # Get user data integrator
             try:
-                user_data = await self.container.get_healthy_service(
-                    "user_data_integrator"
-                )
+                user_data = await self.container.get_healthy_service("user_data_integrator")
                 user_profile = await user_data.get_user_profile(user_id)
             except Exception as e:
                 logger.warning(f"User data integration failed, using mock profile: {e}")
@@ -404,9 +385,7 @@ class EnhancedDreamOrchestrator:
 
             # Check emotional state
             try:
-                emotional_filter = await self.container.get_healthy_service(
-                    "emotional_filter"
-                )
+                emotional_filter = await self.container.get_healthy_service("emotional_filter")
                 emotional_check = await self._check_emotional_readiness(
                     user_id, user_profile, emotional_filter
                 )
@@ -415,9 +394,7 @@ class EnhancedDreamOrchestrator:
                     self.metrics["ethical_blocks"] += 1
                     return {
                         "status": "deferred",
-                        "reason": emotional_check.get(
-                            "reason", "Emotional state not optimal"
-                        ),
+                        "reason": emotional_check.get("reason", "Emotional state not optimal"),
                         "retry_after": emotional_check.get("retry_after"),
                     }
             except Exception as e:
@@ -490,9 +467,7 @@ class EnhancedDreamOrchestrator:
         try:
             # Get emotional state from profile
             emotional_state = (
-                user_profile.emotional_profile
-                if hasattr(user_profile, "emotional_profile")
-                else {}
+                user_profile.emotional_profile if hasattr(user_profile, "emotional_profile") else {}
             )
 
             if not emotional_state:
@@ -622,9 +597,7 @@ class EnhancedDreamOrchestrator:
 
             # Get services
             await self.container.get_healthy_service("vendor_portal")
-            dream_generator = await self.container.get_healthy_service(
-                "dream_generator"
-            )
+            dream_generator = await self.container.get_healthy_service("dream_generator")
 
             # Generate dream
             if dream_seed:
@@ -645,9 +618,7 @@ class EnhancedDreamOrchestrator:
             vendor_interactions.setdefault(vendor_id, []).append(
                 {
                     "timestamp": datetime.now().isoformat(),
-                    "dream_id": (
-                        dream.dream_id if hasattr(dream, "dream_id") else "unknown"
-                    ),
+                    "dream_id": (dream.dream_id if hasattr(dream, "dream_id") else "unknown"),
                 }
             )
 
@@ -657,9 +628,7 @@ class EnhancedDreamOrchestrator:
                 "status": "delivered",
                 "vendor_id": vendor_id,
                 "user_id": user_id,
-                "dream_id": (
-                    dream.dream_id if hasattr(dream, "dream_id") else "generated"
-                ),
+                "dream_id": (dream.dream_id if hasattr(dream, "dream_id") else "generated"),
             }
 
         except Exception as e:
@@ -786,9 +755,7 @@ if __name__ == "__main__":
         print(f"Action result: {action_result}")
 
         print("\n🧪 Testing vendor dream delivery...")
-        vendor_result = await orchestrator.deliver_vendor_dream(
-            "vendor_abc123", "test_user_123"
-        )
+        vendor_result = await orchestrator.deliver_vendor_dream("vendor_abc123", "test_user_123")
         print(f"Vendor result: {vendor_result}")
 
         print("\n📊 Metrics and Health:")

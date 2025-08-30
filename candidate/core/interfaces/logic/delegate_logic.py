@@ -120,9 +120,7 @@ def can_delegate(intent: str, tier: int, emotion_score: float) -> tuple[bool, st
 # -----------------------------------------------------------------------------
 
 
-def delegate_action(
-    intent: str, context: Any, user_profile: dict[str, Any]
-) -> dict[str, Any]:
+def delegate_action(intent: str, context: Any, user_profile: dict[str, Any]) -> dict[str, Any]:
     """
     # ΛDOC: Executes or denies delegated action based on trust and emotion safety.
     # ΛARGS:
@@ -137,9 +135,7 @@ def delegate_action(
     """
     # ΛCAUTION: Relies on user_profile dict structure; .get() provides some safety.
     current_tier = user_profile.get("tier", 0)
-    current_emotion_score = user_profile.get(
-        "emotion", 0.0
-    )  # Default to neutral if not specified
+    current_emotion_score = user_profile.get("emotion", 0.0)  # Default to neutral if not specified
 
     log.debug(
         "delegate_action_attempt",

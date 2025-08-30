@@ -92,12 +92,8 @@ class EmotionalModulator:
         integrated = {
             "memory": memory_data,
             "emotion": emotion_data,
-            "integration_score": self._calculate_integration_score(
-                memory_data, emotion_data
-            ),
-            "enhanced_memory": self._enhance_memory_with_emotion(
-                memory_data, emotion_data
-            ),
+            "integration_score": self._calculate_integration_score(memory_data, emotion_data),
+            "enhanced_memory": self._enhance_memory_with_emotion(memory_data, emotion_data),
         }
 
         return integrated

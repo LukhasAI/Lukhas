@@ -38,21 +38,15 @@ class MigrationReport:
     total_failed: int = 0
 
     def __post_init__(self):
-        self.total_migrated = sum(
-            1 for r in self.results if r.migration_status == "success"
-        )
-        self.total_failed = sum(
-            1 for r in self.results if r.migration_status == "failed"
-        )
+        self.total_migrated = sum(1 for r in self.results if r.migration_status == "success")
+        self.total_failed = sum(1 for r in self.results if r.migration_status == "failed")
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "total_memories": len(self.results),
             "total_migrated": self.total_migrated,
             "total_failed": self.total_failed,
-            "success_rate": (
-                self.total_migrated / len(self.results) if self.results else 0
-            ),
+            "success_rate": (self.total_migrated / len(self.results) if self.results else 0),
             "failed_memories": [
                 {"id": r.original_id, "error": r.error_message}
                 for r in self.results
@@ -64,9 +58,7 @@ class MigrationReport:
 class HelixMemoryAdapter:
     """Adapter to convert LUKHAS memories to VIVOX helix format"""
 
-    async def convert_to_helix_entry(
-        self, lukhas_memory: dict[str, Any]
-    ) -> MemoryHelixEntry:
+    async def convert_to_helix_entry(self, lukhas_memory: dict[str, Any]) -> MemoryHelixEntry:
         """Convert LUKHAS memory format to VIVOX helix entry"""
         # Extract emotional context
         emotional_context = lukhas_memory.get("emotional_context", {})
@@ -123,9 +115,7 @@ class HelixMemoryAdapter:
 
         # Calculate valence
         if positive_count + negative_count > 0:
-            valence = (positive_count - negative_count) / (
-                positive_count + negative_count
-            )
+            valence = (positive_count - negative_count) / (positive_count + negative_count)
 
         # High arousal indicators
         arousal_words = ["urgent", "critical", "important", "immediate", "emergency"]
@@ -193,9 +183,7 @@ class VIVOXMemoryBridge:
         # For now, return empty list as placeholder
         return []
 
-    async def _migrate_batch(
-        self, memories: list[dict[str, Any]]
-    ) -> list[MigrationResult]:
+    async def _migrate_batch(self, memories: list[dict[str, Any]]) -> list[MigrationResult]:
         """Migrate a batch of memories"""
         results = []
 
@@ -227,9 +215,7 @@ class VIVOXMemoryBridge:
 
         return results
 
-    async def sync_memory_operation(
-        self, operation: str, memory_data: dict[str, Any]
-    ) -> bool:
+    async def sync_memory_operation(self, operation: str, memory_data: dict[str, Any]) -> bool:
         """
         Sync memory operations between LUKHAS and VIVOX
         """
@@ -344,9 +330,7 @@ async def store_migrated_memory(self, vivox_entry: MemoryHelixEntry) -> str:
     helix_coordinates = (0.0, 0.0, float(len(self.memory_helix.entries)))
 
     # Set hashes
-    vivox_entry.cryptographic_hash = self._generate_tamper_evident_hash(
-        vivox_entry.decision_data
-    )
+    vivox_entry.cryptographic_hash = self._generate_tamper_evident_hash(vivox_entry.decision_data)
     vivox_entry.previous_hash = await self.memory_helix.get_latest_hash()
 
     # Store in helix

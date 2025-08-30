@@ -193,9 +193,7 @@ class GuardianVisualizer:
             if pattern["animation"] == "pulse":
                 # Gentle pulsing for monitoring
                 for i in range(len(self.chevron_positions)):
-                    self.chevron_positions[i] = 0.5 + 0.3 * math.sin(
-                        self.animation_phase + i * 0.5
-                    )
+                    self.chevron_positions[i] = 0.5 + 0.3 * math.sin(self.animation_phase + i * 0.5)
 
             elif pattern["animation"] == "wave":
                 # Wave animation for alerts
@@ -287,7 +285,9 @@ class GuardianVisualizer:
         level_color = (
             Console.GREEN
             if pattern["level"] < 2
-            else Console.YELLOW if pattern["level"] < 3 else Console.RED
+            else Console.YELLOW
+            if pattern["level"] < 3
+            else Console.RED
         )
 
         print(
@@ -346,9 +346,7 @@ class GuardianVisualizer:
                     {"symbol": "⚠️", "color": Console.YELLOW, "pattern": ["⚠️"]},
                 )
 
-                severity_color = (
-                    Console.RED if threat["severity"] > 0.7 else Console.YELLOW
-                )
+                severity_color = Console.RED if threat["severity"] > 0.7 else Console.YELLOW
                 severity_bar = "█" * int(threat["severity"] * 5)
 
                 print(
@@ -377,17 +375,13 @@ class GuardianVisualizer:
 
         print(Console.move_cursor(19, 20), end="")
         print(Console.CLEAR_LINE, end="")
-        print(
-            f"{Console.CYAN}Threats:{Console.RESET} {len(self.active_threats)}", end=""
-        )
+        print(f"{Console.CYAN}Threats:{Console.RESET} {len(self.active_threats)}", end="")
 
         # Trinity Framework status
         print(Console.move_cursor(20, 20), end="")
         print(Console.CLEAR_LINE, end="")
         trinity_color = (
-            Console.GREEN
-            if self.current_status in ["monitoring", "alert"]
-            else Console.RED
+            Console.GREEN if self.current_status in ["monitoring", "alert"] else Console.RED
         )
         print(
             f"{Console.CYAN}Trinity:{Console.RESET} ⚛️🧠🛡️ {trinity_color}ACTIVE{Console.RESET}",
@@ -555,14 +549,10 @@ class GuardianDemo:
             await asyncio.sleep(8)
 
             # Cycle through statuses
-            current_level = self.visualizer.STATUS_PATTERNS[
-                self.visualizer.current_status
-            ]["level"]
+            current_level = self.visualizer.STATUS_PATTERNS[self.visualizer.current_status]["level"]
             next_level = (current_level + 1) % 5
 
-            status_by_level = {
-                v["level"]: k for k, v in self.visualizer.STATUS_PATTERNS.items()
-            }
+            status_by_level = {v["level"]: k for k, v in self.visualizer.STATUS_PATTERNS.items()}
             next_status = status_by_level[next_level]
 
             await self.visualizer.set_status(next_status)
@@ -597,9 +587,7 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print(
-            f"\n{Console.YELLOW}🛡️ Guardian visual monitoring stopped by user{Console.RESET}"
-        )
+        print(f"\n{Console.YELLOW}🛡️ Guardian visual monitoring stopped by user{Console.RESET}")
     except Exception as e:
         print(f"\n{Console.RED}❌ Error: {e}{Console.RESET}")
         sys.exit(1)

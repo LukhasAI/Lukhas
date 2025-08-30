@@ -148,22 +148,16 @@ class LLMAssistedValidator:
             behavioral_analysis = await self._analyze_behavioral_patterns(context)
 
             # Phase 3: Generate Narrative
-            narrative = await self._generate_authentication_narrative(
-                context, context_analysis
-            )
+            narrative = await self._generate_authentication_narrative(context, context_analysis)
 
             # Phase 4: Security Assessment
-            security_assessment = await self._assess_security_risks(
-                context, context_analysis
-            )
+            security_assessment = await self._assess_security_risks(context, context_analysis)
 
             # Phase 5: Cultural Observations
             cultural_observations = await self._analyze_cultural_alignment(context)
 
             # Determine overall validation result
-            result = self._determine_validation_result(
-                context_analysis, behavioral_analysis
-            )
+            result = self._determine_validation_result(context_analysis, behavioral_analysis)
 
             return LLMValidationResponse(
                 result=result,
@@ -180,17 +174,13 @@ class LLMAssistedValidator:
             logger.error(f"❌ LLM validation failed: {e}")
             return self._create_fallback_response(context)
 
-    async def _analyze_context_with_llm(
-        self, context: LLMAnalysisContext
-    ) -> dict[str, Any]:
+    async def _analyze_context_with_llm(self, context: LLMAnalysisContext) -> dict[str, Any]:
         """Analyze authentication context using LLM reasoning"""
 
         # Mock LLM analysis (in real implementation, would call actual LLM)
         analysis = {
             "risk_level": (
-                "low"
-                if context.consciousness_state in ["focused", "meditative"]
-                else "medium"
+                "low" if context.consciousness_state in ["focused", "meditative"] else "medium"
             ),
             "anomalies": [],
             "confidence": 0.85,
@@ -210,9 +200,7 @@ class LLMAssistedValidator:
         # Analyze cultural alignment
         cultural_region = context.cultural_context.get("region", "unknown")
         if cultural_region != "unknown":
-            analysis["recommendations"].append(
-                f"Cultural adaptation applied for {cultural_region}"
-            )
+            analysis["recommendations"].append(f"Cultural adaptation applied for {cultural_region}")
 
         # Check behavioral consistency
         current_method = context.authentication_method
@@ -220,15 +208,11 @@ class LLMAssistedValidator:
             common_methods = [p.get("method") for p in context.historical_patterns[-5:]]
             if current_method not in common_methods:
                 analysis["anomalies"].append("Unusual authentication method for user")
-                analysis["recommendations"].append(
-                    "Monitor for account compromise indicators"
-                )
+                analysis["recommendations"].append("Monitor for account compromise indicators")
 
         return analysis
 
-    async def _analyze_behavioral_patterns(
-        self, context: LLMAnalysisContext
-    ) -> dict[str, Any]:
+    async def _analyze_behavioral_patterns(self, context: LLMAnalysisContext) -> dict[str, Any]:
         """Analyze behavioral patterns with LLM insights"""
 
         analysis = {
@@ -241,14 +225,10 @@ class LLMAssistedValidator:
 
         # Analyze consciousness evolution
         if context.historical_patterns:
-            consciousness_trend = [
-                p.get("consciousness") for p in context.historical_patterns[-3:]
-            ]
+            consciousness_trend = [p.get("consciousness") for p in context.historical_patterns[-3:]]
             if len(set(consciousness_trend)) == 1:
                 analysis["evolution_trend"] = "consistent"
-                analysis["growth_patterns"].append(
-                    "Stable consciousness state preference"
-                )
+                analysis["growth_patterns"].append("Stable consciousness state preference")
             else:
                 analysis["evolution_trend"] = "evolving"
                 analysis["growth_patterns"].append("Expanding consciousness awareness")
@@ -258,9 +238,7 @@ class LLMAssistedValidator:
             f"User shows {analysis['evolution_trend']} behavioral patterns with {analysis['consistency_score']:.1f} consistency score. "
         )
         if analysis["growth_patterns"]:
-            analysis[
-                "summary"
-            ] += f"Growth indicators: {', '.join(analysis['growth_patterns'])}"
+            analysis["summary"] += f"Growth indicators: {', '.join(analysis['growth_patterns'])}"
 
         return analysis
 
@@ -310,9 +288,7 @@ class LLMAssistedValidator:
         else:
             return "Security assessment: ELEVATED. Multiple anomalies require additional verification steps."
 
-    async def _analyze_cultural_alignment(
-        self, context: LLMAnalysisContext
-    ) -> list[str]:
+    async def _analyze_cultural_alignment(self, context: LLMAnalysisContext) -> list[str]:
         """Analyze cultural alignment and adaptations"""
 
         observations = []
@@ -360,9 +336,7 @@ class LLMAssistedValidator:
         else:
             return LLMValidationResult.REQUIRES_REVIEW
 
-    def _create_fallback_response(
-        self, context: LLMAnalysisContext
-    ) -> LLMValidationResponse:
+    def _create_fallback_response(self, context: LLMAnalysisContext) -> LLMValidationResponse:
         """Create fallback response when LLM analysis fails"""
 
         return LLMValidationResponse(
@@ -376,9 +350,7 @@ class LLMAssistedValidator:
                 "Monitor for unusual patterns",
             ],
             risk_factors=["LLM analysis unavailable"],
-            cultural_observations=[
-                "Cultural adaptation applied using default settings"
-            ],
+            cultural_observations=["Cultural adaptation applied using default settings"],
         )
 
 

@@ -65,7 +65,7 @@ def view_audit(audit_id: str):
         <div class="card" style="margin-top:16px;">
           <h3>🛠️ Allowed Tools</h3>
           <div class="tools-list">
-            {', '.join([f'<code>{tool}</code>' for tool in tool_allowlist])}
+            {", ".join([f"<code>{tool}</code>" for tool in tool_allowlist])}
           </div>
         </div>
         """
@@ -103,7 +103,7 @@ def view_audit(audit_id: str):
         for incident in incidents:
             incidents_html += f"""
             <div class="incident-chip" style="background:#dc3545; color:white; padding:6px 12px; border-radius:999px; display:inline-block; margin:4px;">
-              ⛔ Blocked: <strong>{incident.get('attempted_tool', 'unknown')}</strong>
+              ⛔ Blocked: <strong>{incident.get("attempted_tool", "unknown")}</strong>
               <span style="opacity:0.8; font-size:12px;">(auto-tightened to strict)</span>
             </div>
             """
@@ -145,21 +145,21 @@ def view_audit(audit_id: str):
       <div class="grid">
         <div class="card">
           <h3>⚛️ Signals</h3>
-          <pre>{_pretty(obj.get('signals'))}</pre>
+          <pre>{_pretty(obj.get("signals"))}</pre>
         </div>
         <div class="card">
           <h3>🧠 Params</h3>
-          <pre>{_pretty(obj.get('params'))}</pre>
+          <pre>{_pretty(obj.get("params"))}</pre>
         </div>
       </div>
       {tools_html}
       <div class="card" style="margin-top:16px;">
         <h3>🛡️ Guardian</h3>
-        <pre>{_pretty(obj.get('guardian'))}</pre>
+        <pre>{_pretty(obj.get("guardian"))}</pre>
       </div>
       <div class="card" style="margin-top:16px;">
         <h3>📝 Explanation</h3>
-        <pre>{_pretty(obj.get('explanation'))}</pre>
+        <pre>{_pretty(obj.get("explanation"))}</pre>
       </div>
       <div class="card" style="margin-top:16px;">
         <h3>📦 Raw Bundle</h3>

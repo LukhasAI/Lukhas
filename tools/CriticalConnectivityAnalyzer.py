@@ -11,7 +11,6 @@ from pathlib import Path
 
 
 class CriticalConnectivityAnalyzer:
-
     def __init__(self, report_path):
         with open(report_path) as f:
             self.report = json.load(f)
@@ -24,9 +23,7 @@ class CriticalConnectivityAnalyzer:
         """Analyze patterns in broken imports."""
         print("🔍 Analyzing broken import patterns...")
 
-        for file_path, broken_imports_str in self.report["details"][
-            "broken_imports"
-        ].items():
+        for file_path, broken_imports_str in self.report["details"]["broken_imports"].items():
             # Parse the string representation of set
             broken_imports = eval(broken_imports_str)
 
@@ -63,9 +60,7 @@ class CriticalConnectivityAnalyzer:
                     {
                         "module": module,
                         "affected_files": count,
-                        "examples": [
-                            item["file"] for item in self.broken_patterns[module][:3]
-                        ],
+                        "examples": [item["file"] for item in self.broken_patterns[module][:3]],
                     }
                 )
 
@@ -78,17 +73,13 @@ class CriticalConnectivityAnalyzer:
         ]
         for module in voice_related:
             if module in self.broken_patterns:
-                critical_issues["voice_system_issues"].extend(
-                    self.broken_patterns[module]
-                )
+                critical_issues["voice_system_issues"].extend(self.broken_patterns[module])
 
         # Bio-symbolic issues
         bio_related = ["bio_symbolic", "bio_awareness", "bio_core"]
         for module in bio_related:
             if module in self.broken_patterns:
-                critical_issues["bio_symbolic_issues"].extend(
-                    self.broken_patterns[module]
-                )
+                critical_issues["bio_symbolic_issues"].extend(self.broken_patterns[module])
 
         return critical_issues
 
@@ -126,9 +117,7 @@ class CriticalConnectivityAnalyzer:
                 )
 
         # System restructuring needs
-        high_isolation_systems = {
-            k: v for k, v in isolation_patterns.items() if len(v) > 50
-        }
+        high_isolation_systems = {k: v for k, v in isolation_patterns.items() if len(v) > 50}
         for system, files in high_isolation_systems.items():
             action_plan["system_restructuring"].append(
                 {
@@ -151,7 +140,7 @@ class CriticalConnectivityAnalyzer:
         print(f"   Broken Imports: {self.report['broken_imports_count']}")
         print(f"   Isolated Files: {self.report['isolated_files_count']}")
         print(
-            f"   Isolation Rate: {(self.report['isolated_files_count']/self.report['total_files']*100):.1f}%"
+            f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100):.1f}%"
         )
 
         print("\n🚨 CRITICAL MISSING MODULES:")
@@ -160,16 +149,12 @@ class CriticalConnectivityAnalyzer:
             for example in issue["examples"]:
                 print(f"      📄 {example}")
 
-        print(
-            f"\n🎤 VOICE SYSTEM ISSUES ({len(critical_issues['voice_system_issues'])}):"
-        )
+        print(f"\n🎤 VOICE SYSTEM ISSUES ({len(critical_issues['voice_system_issues'])}):")
         for issue in critical_issues["voice_system_issues"][:3]:
             print(f"   📄 {issue['file']}")
             print(f"      ❌ Missing: {issue['import']}")
 
-        print(
-            f"\n🧬 BIO-SYMBOLIC ISSUES ({len(critical_issues['bio_symbolic_issues'])}):"
-        )
+        print(f"\n🧬 BIO-SYMBOLIC ISSUES ({len(critical_issues['bio_symbolic_issues'])}):")
         for issue in critical_issues["bio_symbolic_issues"][:3]:
             print(f"   📄 {issue['file']}")
             print(f"      ❌ Missing: {issue['import']}")

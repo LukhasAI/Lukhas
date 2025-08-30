@@ -55,9 +55,7 @@ try:
     from .enhanced_qi_engine import EnhancedQIEngine
 
     LUKHAS_BQ_SUBMODULES_IMPORTED = True
-    log.debug(
-        "QIBioCoordinator: Submodules for coordination imported successfully."
-    )
+    log.debug("QIBioCoordinator: Submodules for coordination imported successfully.")
 except ImportError as e:
     log.error(
         "QIBioCoordinator: Failed to import one or more submodules. Coordination capabilities will be limited.",
@@ -69,9 +67,7 @@ except ImportError as e:
     # Define mock fallbacks if necessary for the script to parse or run in a
     # limited mode
     class MockEnhancedQIEngine:
-        async def process_quantum_signal(
-            self, signal: Any, context: Any
-        ) -> dict[str, Any]:
+        async def process_quantum_signal(self, signal: Any, context: Any) -> dict[str, Any]:
             return {
                 "output": np.array([0.0]),
                 "metadata": {"coherence": 0.0, "status": "mocked_qi_engine"},
@@ -151,9 +147,7 @@ class QIBioCoordinator:
         self.log = log.bind(coordinator_id=hex(id(self))[-6:])
 
         self.qi_engine: EnhancedQIEngine = EnhancedQIEngine()
-        self.mitochondrial_bridge: MitochondrialQIBridge = (
-            MitochondrialQIBridge()
-        )
+        self.mitochondrial_bridge: MitochondrialQIBridge = MitochondrialQIBridge()
         self.synaptic_gate: QISynapticGate = QISynapticGate()
         self.plasticity_modulator: NeuroplasticityModulator = NeuroplasticityModulator()
 
@@ -203,7 +197,8 @@ class QIBioCoordinator:
             )  # type: ignore
 
             qi_engine_result = await self.qi_engine.process_quantum_signal(
-                qi_signal_input, context  # type: ignore
+                qi_signal_input,
+                context,  # type: ignore
             )
             self.log.debug(
                 "Quantum engine processing complete.",
@@ -216,9 +211,7 @@ class QIBioCoordinator:
             )
             self.log.debug("Bio-quantum pathway processing complete.", task_id=task_id)
 
-            self._update_system_state_metrics(
-                qi_engine_result, bio_quantum_pathway_result
-            )
+            self._update_system_state_metrics(qi_engine_result, bio_quantum_pathway_result)
 
             final_result = {
                 "task_id": task_id,
@@ -252,9 +245,7 @@ class QIBioCoordinator:
                     self.system_state["current_bio_stability_metric"],
                 ]
             ).item()
-            self.system_state["last_update_timestamp_utc"] = datetime.now(
-                timezone.utc
-            ).timestamp()
+            self.system_state["last_update_timestamp_utc"] = datetime.now(timezone.utc).timestamp()
             raise
 
     @lukhas_tier_required(3)
@@ -271,11 +262,10 @@ class QIBioCoordinator:
             input_signal_shape_str=str(qi_signal_output.shape),
         )
         try:
-            bridge_output_signal, bridge_metadata = (
-                await self.mitochondrial_bridge.process_quantum_signal(
-                    qi_signal_output, context
-                )
-            )
+            (
+                bridge_output_signal,
+                bridge_metadata,
+            ) = await self.mitochondrial_bridge.process_quantum_signal(qi_signal_output, context)
             self.log.debug(
                 "MitochondrialQIBridge processing complete.",
                 output_shape_str=str(bridge_output_signal.shape),
@@ -291,12 +281,13 @@ class QIBioCoordinator:
                 output_shape_str=str(gate_output_signal.shape),
             )  # type: ignore
 
-            final_modulated_output, plasticity_metadata = (
-                await self.plasticity_modulator.modulate_plasticity(
-                    main_signal_to_modulate=gate_output_signal,  # type: ignore
-                    auxiliary_bio_signal=bridge_output_signal,  # type: ignore
-                    modulation_context=context,
-                )
+            (
+                final_modulated_output,
+                plasticity_metadata,
+            ) = await self.plasticity_modulator.modulate_plasticity(
+                main_signal_to_modulate=gate_output_signal,  # type: ignore
+                auxiliary_bio_signal=bridge_output_signal,  # type: ignore
+                modulation_context=context,
             )
             self.log.debug(
                 "NeuroplasticityModulator processing complete.",
@@ -309,15 +300,11 @@ class QIBioCoordinator:
                     "mitochondrial_bridge_meta": bridge_metadata,
                     "qi_synaptic_gate_meta": gate_metadata,
                     "neuroplasticity_modulator_meta": plasticity_metadata,
-                    "pathway_completion_utc_iso": datetime.now(
-                        timezone.utc
-                    ).isoformat(),
+                    "pathway_completion_utc_iso": datetime.now(timezone.utc).isoformat(),
                 },
             }
         except Exception as e:
-            self.log.error(
-                "Error within bio-quantum pathway.", error_message=str(e), exc_info=True
-            )
+            self.log.error("Error within bio-quantum pathway.", error_message=str(e), exc_info=True)
             raise
 
     @lukhas_tier_required(1)
@@ -349,9 +336,7 @@ class QIBioCoordinator:
                     )
                 elif isinstance(value, (list, tuple, np.ndarray)):
                     try:
-                        numeric_iterable = (
-                            np.array(value, dtype=float).flatten().tolist()
-                        )  # type: ignore
+                        numeric_iterable = np.array(value, dtype=float).flatten().tolist()  # type: ignore
                         values.extend(numeric_iterable)
                     except (TypeError, ValueError):
                         self.log.warning(
@@ -366,11 +351,7 @@ class QIBioCoordinator:
                         value_type=type(value).__name__,
                     )
 
-            return (
-                np.array(values, dtype=float)
-                if values
-                else np.array([0.0], dtype=float)
-            )  # type: ignore
+            return np.array(values, dtype=float) if values else np.array([0.0], dtype=float)  # type: ignore
 
         self.log.warning(
             "input_data was not a dict, attempting direct conversion.",
@@ -404,9 +385,9 @@ class QIBioCoordinator:
         """Updates the coordinator's system state based on recent processing results."""
         self.log.debug("Updating system state metrics.")
 
-        self.system_state["current_quantum_coherence"] = qi_engine_result.get(
-            "metadata", {}
-        ).get("coherence", self.system_state["current_quantum_coherence"])
+        self.system_state["current_quantum_coherence"] = qi_engine_result.get("metadata", {}).get(
+            "coherence", self.system_state["current_quantum_coherence"]
+        )
 
         bio_component_coherences: list[float] = []
         for component_meta_key in [
@@ -433,9 +414,7 @@ class QIBioCoordinator:
                 ]
             )
         )
-        self.system_state["last_update_timestamp_utc"] = datetime.now(
-            timezone.utc
-        ).timestamp()
+        self.system_state["last_update_timestamp_utc"] = datetime.now(timezone.utc).timestamp()
         self.log.info(
             "System state metrics updated.",
             qi_coherence=self.system_state["current_quantum_coherence"],

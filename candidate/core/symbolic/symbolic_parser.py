@@ -397,9 +397,7 @@ class SymbolicParser:
         # Analyze cultural diversity and content across symbolic vault
         # Provides cultural diversity metrics and recommendations
         """
-        logger.info(
-            f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements"
-        )
+        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements")
 
         try:
             detected_scripts = Counter()
@@ -626,9 +624,7 @@ class SymbolicParser:
         # Default classification
         return SemanticType.PERSONAL
 
-    def _extract_cultural_context(
-        self, value: str, unicode_scripts: set[str]
-    ) -> Optional[str]:
+    def _extract_cultural_context(self, value: str, unicode_scripts: set[str]) -> Optional[str]:
         """Extract cultural context from value and scripts."""
         # Script-based cultural hints
         if "arabic" in unicode_scripts:

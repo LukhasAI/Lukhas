@@ -19,6 +19,7 @@ from typing import Optional
 try:
     from datadog import DogStatsd, initialize
     from datadog.api.metrics import Metric
+
     DATADOG_AVAILABLE = True
 except ImportError:
     DATADOG_AVAILABLE = False
@@ -27,12 +28,14 @@ try:
     from opentelemetry import metrics, trace
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
     OPENTELEMETRY_AVAILABLE = True
 except ImportError:
     OPENTELEMETRY_AVAILABLE = False
 
 try:
     import prometheus_client
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     PROMETHEUS_AVAILABLE = False
@@ -43,11 +46,13 @@ try:
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
     from lukhas.trinity import TrinityFramework
+
     LUKHAS_AVAILABLE = True
 except ImportError:
     try:
         from candidate.consciousness import ConsciousnessCore
         from candidate.memory import MemoryFoldSystem
+
         LUKHAS_AVAILABLE = True
     except ImportError:
         LUKHAS_AVAILABLE = False
@@ -60,6 +65,7 @@ class JSONFormatter(logging.Formatter):
     """
     Formats log records as a JSON string for Datadog.
     """
+
     def format(self, record):
         log_record = {
             "timestamp": self.formatTime(record, self.datefmt),
@@ -71,11 +77,16 @@ class JSONFormatter(logging.Formatter):
             "dd.version": os.getenv("DATADOG_VERSION", "1.0.0"),
         }
 
-        # Add trace and span IDs for log correlation
-        span = trace.get_current_span()
-        if span and span.get_span_context().is_valid:
-            log_record["dd.trace_id"] = str(span.get_span_context().trace_id)
-            log_record["dd.span_id"] = str(span.get_span_context().span_id)
+        # Add trace and span IDs for log correlation (if OpenTelemetry is available)
+        try:
+            if "trace" in globals():
+                span = trace.get_current_span()
+                if span and span.get_span_context().is_valid:
+                    log_record["dd.trace_id"] = str(span.get_span_context().trace_id)
+                    log_record["dd.span_id"] = str(span.get_span_context().span_id)
+        except Exception:
+            # If tracing is not available or raises, skip correlation fields
+            pass
 
         if hasattr(record, "extra"):
             log_record.update(record.extra)
@@ -87,6 +98,7 @@ class DatadogLogHandler(logging.Handler):
     """
     A logging handler that sends logs to Datadog via TCP.
     """
+
     def __init__(self, host="127.0.0.1", port=10514):
         super().__init__()
         self.host = host
@@ -96,7 +108,7 @@ class DatadogLogHandler(logging.Handler):
             self.socket.connect((self.host, self.port))
         except Exception:
             self.socket.close()
-            self.socket = None # Connection failed
+            self.socket = None  # Connection failed
             logger.error("Could not connect to Datadog log collection agent.")
 
     def emit(self, record):
@@ -124,9 +136,12 @@ class DatadogLogHandler(logging.Handler):
 class T4ObservabilityStack:
     """Enterprise-grade observability for LUKHAS AI"""
 
-    def __init__(self, datadog_enabled: bool = True,
-                 prometheus_enabled: bool = True,
-                 opentelemetry_enabled: bool = True):
+    def __init__(
+        self,
+        datadog_enabled: bool = True,
+        prometheus_enabled: bool = True,
+        opentelemetry_enabled: bool = True,
+    ):
         self.datadog_enabled = datadog_enabled and DATADOG_AVAILABLE
         self.prometheus_enabled = prometheus_enabled and PROMETHEUS_AVAILABLE
         self.opentelemetry_enabled = opentelemetry_enabled and OPENTELEMETRY_AVAILABLE
@@ -166,7 +181,7 @@ class T4ObservabilityStack:
             initialize(
                 api_key=os.getenv("DATADOG_API_KEY"),
                 app_key=os.getenv("DATADOG_APP_KEY"),
-                host_name="lukhas-ai-enterprise"
+                host_name="lukhas-ai-enterprise",
             )
 
             # Create StatsD client
@@ -226,7 +241,6 @@ class T4ObservabilityStack:
         # start_http_server(8000) # Expose metrics on port 8000
         logger.info("✅ Prometheus integration ready.")
 
-
     def trace(self, name: Optional[str] = None):
         """
         A decorator to trace a function with OpenTelemetry.
@@ -234,6 +248,7 @@ class T4ObservabilityStack:
         Args:
             name (str, optional): The name of the span. Defaults to the function name.
         """
+
         def decorator(func):
             @wraps(func)
             async def wrapper(*args, **kwargs):
@@ -251,10 +266,14 @@ class T4ObservabilityStack:
                         span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
                         span.record_exception(e)
                         raise
+
             return wrapper
+
         return decorator
 
-    def submit_metric(self, metric_type: str, metric_name: str, value: float, tags: Optional[list[str]] = None):
+    def submit_metric(
+        self, metric_type: str, metric_name: str, value: float, tags: Optional[list[str]] = None
+    ):
         """
         Submit a custom metric to Datadog.
 

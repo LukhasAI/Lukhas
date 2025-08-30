@@ -102,6 +102,7 @@ except ImportError:
 try:
     # Import from the module file directly
     import candidate.bio.core
+
     BioCore = candidate.bio.core.BioEngine
 except (ImportError, AttributeError):
     BioCore = None
@@ -146,12 +147,8 @@ class OrchestrationCore:
         }
         self.active_modules = {}
 
-        logger.info(
-            f"LUKHAS Orchestration Core initialized - Session: {self.session_id}"
-        )
-        logger.info(
-            f"lukhas Orchestration Core initialized - Session: {self.session_id}"
-        )
+        logger.info(f"LUKHAS Orchestration Core initialized - Session: {self.session_id}")
+        logger.info(f"lukhas Orchestration Core initialized - Session: {self.session_id}")
 
     async def initialize(self) -> bool:
         """
@@ -254,8 +251,7 @@ class OrchestrationCore:
             # Try initialization with parameters
             try:
                 self.awareness_system = BioAwarenessSystem(
-                    bio_core=self.bio_core,
-                    memory_manager=self.memory_manager
+                    bio_core=self.bio_core, memory_manager=self.memory_manager
                 )
             except TypeError:
                 # Try basic initialization
@@ -369,15 +365,11 @@ class OrchestrationCore:
             try:
                 # Update consciousness level based on bio-core oscillations
                 if self.bio_core:
-                    self.consciousness_level = (
-                        await self.bio_core.get_consciousness_level()
-                    )
+                    self.consciousness_level = await self.bio_core.get_consciousness_level()
 
                 # Update emotional state
                 if self.awareness_system:
-                    self.emotional_state = (
-                        await self.awareness_system.get_emotional_state()
-                    )
+                    self.emotional_state = await self.awareness_system.get_emotional_state()
 
                 # Process any pending dreams or memories
                 if self.dream_engine and self.consciousness_level < 0.3:
@@ -435,7 +427,7 @@ class OrchestrationCore:
 
         except Exception as e:
             logger.error(f"Error processing input: {e}")
-            return {"error": f"Processing failed: {str(e)}"}
+            return {"error": f"Processing failed: {e!s}"}
 
     async def shutdown(self):
         """Gracefully shutdown the flagship system."""

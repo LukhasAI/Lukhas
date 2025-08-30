@@ -20,6 +20,7 @@ import contextlib
 
 _ORIG_OPEN = builtins.open
 
+
 # ---- sinks (optional) ----
 def _kafka():
     brokers = os.environ.get("RECEIPTS_KAFKA_BROKERS")
@@ -32,11 +33,13 @@ def _kafka():
         raise RuntimeError("Kafka sink requested but kafka-python not installed") from e
     prod = KafkaProducer(
         bootstrap_servers=brokers.split(","),
-        acks="all", linger_ms=50,
+        acks="all",
+        linger_ms=50,
         value_serializer=lambda d: json.dumps(d).encode("utf-8"),
         key_serializer=lambda k: k.encode("utf-8"),
     )
     return prod, topic
+
 
 def _s3():
     bucket = os.environ.get("RECEIPTS_S3_BUCKET")
@@ -50,8 +53,10 @@ def _s3():
     cli = boto3.client("s3")
     return (cli, (bucket, prefix))
 
+
 def _stable_key(d: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps({"id": d.get("id")}, sort_keys=True).encode()).hexdigest()
+
 
 def emit_receipt(**kwargs) -> dict[str, Any]:
     """
@@ -87,54 +92,83 @@ def emit_receipt(**kwargs) -> dict[str, Any]:
         ymd = time.strftime("%Y%m%d", time.gmtime(data.get("created_at", time.time())))
         key = f"{prefix.rstrip('/')}/{ymd}/{r.id}.json"
         with contextlib.suppress(Exception):
-            cli.put_object(Bucket=bucket, Key=key, Body=json.dumps(data).encode("utf-8"), ContentType="application/json")
+            cli.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=json.dumps(data).encode("utf-8"),
+                ContentType="application/json",
+            )
 
     return data
+
 
 # --------- CLI ---------
 def _generate_grafana(path: str):
     dash = {
-      "title": "Lukhas • Exec Receipts (Longitudinal)",
-      "refresh": "10s",
-      "timezone": "",
-      "schemaVersion": 38,
-      "panels": [
-        {"type":"row","title":"Volume","gridPos":{"h":1,"w":24,"x":0,"y":0}},
-        {
-          "type": "timeseries",
-          "title": "Receipts per second",
-          "gridPos": {"h":8,"w":12,"x":0,"y":1},
-          "targets": [{"expr":'rate(lukhas_http_requests_total{path="/provenance/:sha/stream"}[5m])',"legendFormat":"streams","refId":"A"}]
-        },
-        {
-          "type":"timeseries",
-          "title":"Risk flags count (by kind)",
-          "gridPos":{"h":8,"w":12,"x":12,"y":1},
-          "targets":[{"expr":"sum(rate(lukhas_prov_stream_requests_total[5m])) by (backend)","legendFormat":"{{backend}}","refId":"A"}]
-        },
-        {"type":"row","title":"Latency & Tokens","gridPos":{"h":1,"w":24,"x":0,"y":9}},
-        {
-          "type":"stat",
-          "title":"Median latency (ms)",
-          "gridPos":{"h":6,"w":6,"x":0,"y":10},
-          "targets":[{"expr":"histogram_quantile(0.5, sum(rate(lukhas_http_request_seconds_bucket[5m])) by (le))","refId":"A"}]
-        },
-        {
-          "type":"timeseries",
-          "title":"Tokens out (app view - wire your exporter)",
-          "gridPos":{"h":8,"w":12,"x":6,"y":10},
-          "targets":[{"expr":"0","refId":"A"}]
-        }
-      ],
-      "time":{"from":"now-6h","to":"now"}
+        "title": "Lukhas • Exec Receipts (Longitudinal)",
+        "refresh": "10s",
+        "timezone": "",
+        "schemaVersion": 38,
+        "panels": [
+            {"type": "row", "title": "Volume", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}},
+            {
+                "type": "timeseries",
+                "title": "Receipts per second",
+                "gridPos": {"h": 8, "w": 12, "x": 0, "y": 1},
+                "targets": [
+                    {
+                        "expr": 'rate(lukhas_http_requests_total{path="/provenance/:sha/stream"}[5m])',
+                        "legendFormat": "streams",
+                        "refId": "A",
+                    }
+                ],
+            },
+            {
+                "type": "timeseries",
+                "title": "Risk flags count (by kind)",
+                "gridPos": {"h": 8, "w": 12, "x": 12, "y": 1},
+                "targets": [
+                    {
+                        "expr": "sum(rate(lukhas_prov_stream_requests_total[5m])) by (backend)",
+                        "legendFormat": "{{backend}}",
+                        "refId": "A",
+                    }
+                ],
+            },
+            {
+                "type": "row",
+                "title": "Latency & Tokens",
+                "gridPos": {"h": 1, "w": 24, "x": 0, "y": 9},
+            },
+            {
+                "type": "stat",
+                "title": "Median latency (ms)",
+                "gridPos": {"h": 6, "w": 6, "x": 0, "y": 10},
+                "targets": [
+                    {
+                        "expr": "histogram_quantile(0.5, sum(rate(lukhas_http_request_seconds_bucket[5m])) by (le))",
+                        "refId": "A",
+                    }
+                ],
+            },
+            {
+                "type": "timeseries",
+                "title": "Tokens out (app view - wire your exporter)",
+                "gridPos": {"h": 8, "w": 12, "x": 6, "y": 10},
+                "targets": [{"expr": "0", "refId": "A"}],
+            },
+        ],
+        "time": {"from": "now-6h", "to": "now"},
     }
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with _ORIG_OPEN(path, "w", encoding="utf-8") as f:
         json.dump(dash, f, indent=2)
     return path
 
+
 def main():
     import argparse
+
     ap = argparse.ArgumentParser(description="Lukhas Receipts Hub (Altman–Amodei–Hassabis)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
@@ -157,6 +191,7 @@ def main():
     e.add_argument("--tokens-in", type=int)
     e.add_argument("--tokens-out", type=int)
     e.add_argument("--metrics-json", help="JSON string with calibration metrics")
+
     def _run_emit(a):
         metrics = None
         if a.metrics_json:
@@ -182,18 +217,23 @@ def main():
             consent_receipt_id=a.consent_id,
             capability_lease_ids=a.lease_id or [],
             risk_flags=a.risk_flag or [],
-            tokens_in=a.tokens_in, tokens_out=a.tokens_out,
+            tokens_in=a.tokens_in,
+            tokens_out=a.tokens_out,
             metrics=metrics,
         )
         print(json.dumps(data, indent=2))
+
     e.set_defaults(func=_run_emit)
 
     g = sub.add_parser("export-grafana", help="Write a starter Grafana dashboard JSON")
-    g.add_argument("--out", default=os.path.join("ops","grafana","lukhas_exec_receipts_dashboard.json"))
+    g.add_argument(
+        "--out", default=os.path.join("ops", "grafana", "lukhas_exec_receipts_dashboard.json")
+    )
     g.set_defaults(func=lambda a: print(_generate_grafana(a.out)))
 
     args = ap.parse_args()
     args.func(args)
+
 
 if __name__ == "__main__":
     main()

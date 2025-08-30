@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class PrivacyPolicy:
     """Privacy policy configuration with governance metadata"""
+
     policy_id: str
     policy_name: str
     data_retention_days: int
@@ -43,6 +44,7 @@ class PrivacyPolicy:
 @dataclass
 class DataClassification:
     """Data classification and sensitivity with governance oversight"""
+
     classification_id: str
     data_type: str
     sensitivity_level: str  # public, internal, confidential, restricted
@@ -62,6 +64,7 @@ class DataClassification:
 @dataclass
 class PrivacyIncident:
     """Privacy incident tracking with governance escalation"""
+
     incident_id: str
     incident_type: str
     severity_level: str
@@ -97,7 +100,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": False,
             "access_control": "none",
             "governance_oversight": False,
-            "trinity_protection": False
+            "trinity_protection": False,
         },
         "internal": {
             "level": 1,
@@ -106,7 +109,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": False,
             "access_control": "basic",
             "governance_oversight": True,
-            "trinity_protection": False
+            "trinity_protection": False,
         },
         "confidential": {
             "level": 2,
@@ -115,7 +118,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": True,
             "access_control": "strict",
             "governance_oversight": True,
-            "trinity_protection": True
+            "trinity_protection": True,
         },
         "restricted": {
             "level": 3,
@@ -124,8 +127,8 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "anonymization": True,
             "access_control": "maximum",
             "governance_oversight": True,
-            "trinity_protection": True
-        }
+            "trinity_protection": True,
+        },
     }
 
     # Enhanced privacy regulations with governance requirements
@@ -138,7 +141,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": 72,  # hours
             "penalties": "up to 4% of annual revenue",
             "governance_integration": True,
-            "trinity_compliance": True
+            "trinity_compliance": True,
         },
         "HIPAA": {
             "name": "Health Insurance Portability and Accountability Act",
@@ -148,7 +151,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": 60,  # days
             "penalties": "up to $1.5M per incident",
             "governance_integration": True,
-            "trinity_compliance": True
+            "trinity_compliance": True,
         },
         "CCPA": {
             "name": "California Consumer Privacy Act",
@@ -158,18 +161,24 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "breach_notification": "without unreasonable delay",
             "penalties": "up to $7,500 per violation",
             "governance_integration": True,
-            "trinity_compliance": False
+            "trinity_compliance": False,
         },
         "LUKHAS_GOVERNANCE": {
             "name": "LUKHAS AI Governance Framework",
             "jurisdiction": "Global",
-            "data_subject_rights": ["access", "rectification", "erasure", "portability", "trinity_protection"],
+            "data_subject_rights": [
+                "access",
+                "rectification",
+                "erasure",
+                "portability",
+                "trinity_protection",
+            ],
             "consent_requirements": "explicit_with_governance",
             "breach_notification": 24,  # hours
             "penalties": "system_access_revocation",
             "governance_integration": True,
-            "trinity_compliance": True
-        }
+            "trinity_compliance": True,
+        },
     }
 
     # Enhanced anonymization techniques with governance validation
@@ -182,7 +191,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "noise_addition": "Add statistical noise with governance validation",
         "k_anonymity": "Ensure k identical records exist",
         "differential_privacy": "Add mathematical privacy guarantees",
-        "trinity_protection": "Apply Trinity Framework specific protection"
+        "trinity_protection": "Apply Trinity Framework specific protection",
     }
 
     # Enhanced privacy symbols with governance and Trinity Framework
@@ -195,15 +204,16 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "audit": ["📊", "🔍", "📝"],
         "governance": ["🛡️", "⚖️", "✅"],
         "trinity_protected": ["⚛️", "🧠", "🛡️"],
-        "privacy_violation": ["🚨", "⚖️", "🔒"]
+        "privacy_violation": ["🚨", "⚖️", "🔒"],
     }
 
-    def __init__(self,
-                 config_path: str = "governance/config/privacy_config.json",
-                 policies_path: str = "governance/config/privacy_policies.json",
-                 audit_log_path: str = "governance/logs/privacy_audit.log",
-                 governance_enabled: bool = True):
-
+    def __init__(
+        self,
+        config_path: str = "governance/config/privacy_config.json",
+        policies_path: str = "governance/config/privacy_policies.json",
+        audit_log_path: str = "governance/logs/privacy_audit.log",
+        governance_enabled: bool = True,
+    ):
         super().__init__()
         self.config_path = Path(config_path)
         self.policies_path = Path(policies_path)
@@ -229,10 +239,30 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         # Enhanced compliance tracking with Trinity Framework
         self.compliance_status = {
-            "GDPR": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True},
-            "HIPAA": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True},
-            "CCPA": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True},
-            "LUKHAS_GOVERNANCE": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True}
+            "GDPR": {
+                "compliant": True,
+                "last_check": None,
+                "issues": [],
+                "governance_validated": True,
+            },
+            "HIPAA": {
+                "compliant": True,
+                "last_check": None,
+                "issues": [],
+                "governance_validated": True,
+            },
+            "CCPA": {
+                "compliant": True,
+                "last_check": None,
+                "issues": [],
+                "governance_validated": True,
+            },
+            "LUKHAS_GOVERNANCE": {
+                "compliant": True,
+                "last_check": None,
+                "issues": [],
+                "governance_validated": True,
+            },
         }
 
         # Enhanced configuration with governance
@@ -246,7 +276,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "governance_integration": governance_enabled,
             "trinity_protection": True,
             "privacy_by_design": True,
-            "data_minimization": True
+            "data_minimization": True,
         }
 
         # Enhanced performance tracking with governance metrics
@@ -260,14 +290,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "audit_events_logged": 0,
             "governance_escalations": 0,
             "trinity_protections_applied": 0,
-            "privacy_by_design_validations": 0
+            "privacy_by_design_validations": 0,
         }
 
         # Trinity Framework integration
         self.trinity_weights = {
-            "identity": 1.0,      # Maximum weight for identity privacy
+            "identity": 1.0,  # Maximum weight for identity privacy
             "consciousness": 0.9,  # High weight for consciousness privacy
-            "guardian": 1.0       # Maximum weight for guardian privacy
+            "guardian": 1.0,  # Maximum weight for guardian privacy
         }
 
         # Load configuration
@@ -317,10 +347,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 for classification_data in policies_data.get("classifications", []):
                     classification = DataClassification(**classification_data)
                     if self.governance_enabled:
-                        classification.governance_validated = classification_data.get("governance_validated", True)
+                        classification.governance_validated = classification_data.get(
+                            "governance_validated", True
+                        )
                     self.data_classifications[classification.classification_id] = classification
 
-                logger.info(f"Loaded {len(self.privacy_policies)} privacy policies with governance validation")
+                logger.info(
+                    f"Loaded {len(self.privacy_policies)} privacy policies with governance validation"
+                )
             else:
                 self._create_default_policies()
 
@@ -338,20 +372,20 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "trinity_framework_protection": True,
                 "privacy_by_design_validation": True,
                 "automatic_compliance_monitoring": True,
-                "governance_escalation_threshold": 0.7
+                "governance_escalation_threshold": 0.7,
             },
             "encryption_settings": {
                 "algorithm": "AES-256-GCM",
                 "key_rotation_days": 90,
                 "secure_key_storage": True,
-                "governance_key_approval": self.governance_enabled
+                "governance_key_approval": self.governance_enabled,
             },
             "anonymization_settings": {
                 "default_level": "basic",
                 "techniques": list(self.ANONYMIZATION_TECHNIQUES.keys()),
                 "quality_threshold": 0.8,
-                "governance_validation": self.governance_enabled
-            }
+                "governance_validation": self.governance_enabled,
+            },
         }
 
         try:
@@ -359,7 +393,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             with open(self.config_path, "w") as f:
                 json.dump(default_config, f, indent=2)
 
-            logger.info(f"Created default privacy configuration with governance: {self.config_path}")
+            logger.info(
+                f"Created default privacy configuration with governance: {self.config_path}"
+            )
         except Exception as e:
             logger.error(f"Failed to create default configuration: {e}")
 
@@ -377,13 +413,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         "healthcare_providers": True,
                         "insurance": False,
                         "research": True,
-                        "marketing": False
+                        "marketing": False,
                     },
                     "consent_required": True,
                     "audit_logging": True,
                     "geographic_restrictions": [],
                     "governance_approved": True,
-                    "trinity_protection": True
+                    "trinity_protection": True,
                 },
                 {
                     "policy_id": "identity_data_policy",
@@ -395,13 +431,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         "identity_providers": True,
                         "authentication_services": True,
                         "analytics": False,
-                        "third_parties": False
+                        "third_parties": False,
                     },
                     "consent_required": True,
                     "audit_logging": True,
                     "geographic_restrictions": ["CN", "RU"],
                     "governance_approved": True,
-                    "trinity_protection": True
+                    "trinity_protection": True,
                 },
                 {
                     "policy_id": "consciousness_data_policy",
@@ -413,14 +449,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         "consciousness_researchers": True,
                         "ai_developers": True,
                         "commercial_entities": False,
-                        "government": False
+                        "government": False,
                     },
                     "consent_required": True,
                     "audit_logging": True,
                     "geographic_restrictions": [],
                     "governance_approved": True,
-                    "trinity_protection": True
-                }
+                    "trinity_protection": True,
+                },
             ],
             "classifications": [
                 {
@@ -431,9 +467,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "retention_period": 2555,
                     "encryption_required": True,
                     "access_restrictions": ["healthcare_staff", "patient", "governance_approved"],
-                    "anonymization_rules": ["remove_identifiers", "generalize_dates", "mask_locations", "trinity_protection"],
+                    "anonymization_rules": [
+                        "remove_identifiers",
+                        "generalize_dates",
+                        "mask_locations",
+                        "trinity_protection",
+                    ],
                     "governance_validated": True,
-                    "trinity_impact": {"identity": 0.8, "consciousness": 0.3, "guardian": 0.9}
+                    "trinity_impact": {"identity": 0.8, "consciousness": 0.3, "guardian": 0.9},
                 },
                 {
                     "classification_id": "identity_data",
@@ -443,9 +484,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "retention_period": 1095,
                     "encryption_required": True,
                     "access_restrictions": ["identity_managers", "user", "governance_approved"],
-                    "anonymization_rules": ["hash_identifiers", "tokenize_names", "trinity_protection"],
+                    "anonymization_rules": [
+                        "hash_identifiers",
+                        "tokenize_names",
+                        "trinity_protection",
+                    ],
                     "governance_validated": True,
-                    "trinity_impact": {"identity": 1.0, "consciousness": 0.2, "guardian": 0.8}
+                    "trinity_impact": {"identity": 1.0, "consciousness": 0.2, "guardian": 0.8},
                 },
                 {
                     "classification_id": "consciousness_data",
@@ -454,12 +499,20 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "regulatory_requirements": ["LUKHAS_GOVERNANCE"],
                     "retention_period": 730,
                     "encryption_required": True,
-                    "access_restrictions": ["consciousness_researchers", "user", "governance_approved"],
-                    "anonymization_rules": ["remove_personal_markers", "generalize_patterns", "trinity_protection"],
+                    "access_restrictions": [
+                        "consciousness_researchers",
+                        "user",
+                        "governance_approved",
+                    ],
+                    "anonymization_rules": [
+                        "remove_personal_markers",
+                        "generalize_patterns",
+                        "trinity_protection",
+                    ],
                     "governance_validated": True,
-                    "trinity_impact": {"identity": 0.4, "consciousness": 1.0, "guardian": 0.7}
-                }
-            ]
+                    "trinity_impact": {"identity": 0.4, "consciousness": 1.0, "guardian": 0.7},
+                },
+            ],
         }
 
         try:
@@ -470,7 +523,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Load the policies we just created
             self._load_privacy_policies()
 
-            logger.info(f"Created default privacy policies with governance and Trinity Framework: {self.policies_path}")
+            logger.info(
+                f"Created default privacy policies with governance and Trinity Framework: {self.policies_path}"
+            )
         except Exception as e:
             logger.error(f"Failed to create default policies: {e}")
 
@@ -483,7 +538,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             self.governance_validated_keys[key] = True
             self._log_governance_action(
                 "encryption_key_generated",
-                {"key_id": hashlib.sha256(key.encode()).hexdigest()[:16]}
+                {"key_id": hashlib.sha256(key.encode()).hexdigest()[:16]},
             )
 
         return key
@@ -527,7 +582,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         if self.governance_enabled:
             await self._log_governance_action(
                 "encryption_services_initialized",
-                {"algorithm": self.config["encryption_algorithm"]}
+                {"algorithm": self.config["encryption_algorithm"]},
             )
 
         logger.info("🔑 Enhanced encryption services initialized with governance validation")
@@ -539,7 +594,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         if self.governance_enabled:
             await self._log_governance_action(
                 "anonymization_engine_initialized",
-                {"techniques": list(self.ANONYMIZATION_TECHNIQUES.keys())}
+                {"techniques": list(self.ANONYMIZATION_TECHNIQUES.keys())},
             )
 
         logger.info("🎭 Enhanced anonymization engine initialized with governance oversight")
@@ -550,8 +605,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         if self.governance_enabled:
             await self._log_governance_action(
-                "compliance_monitoring_started",
-                {"regulations": self.active_regulations}
+                "compliance_monitoring_started", {"regulations": self.active_regulations}
             )
 
         logger.info("⚖️ Enhanced compliance monitoring started with Trinity Framework integration")
@@ -562,8 +616,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         if self.governance_enabled:
             await self._log_governance_action(
-                "audit_logging_initialized",
-                {"audit_level": self.config["audit_level"]}
+                "audit_logging_initialized", {"audit_level": self.config["audit_level"]}
             )
 
         logger.info("📝 Enhanced audit logging initialized with governance integration")
@@ -574,7 +627,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         await self._log_governance_action(
             "trinity_protection_initialized",
-            {"components": ["identity", "consciousness", "guardian"]}
+            {"components": ["identity", "consciousness", "guardian"]},
         )
 
         logger.info("⚛️🧠🛡️ Trinity Framework protection initialized")
@@ -584,8 +637,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         await asyncio.sleep(0.1)  # Simulate initialization
 
         await self._log_governance_action(
-            "governance_integration_initialized",
-            {"privacy_policies": len(self.privacy_policies)}
+            "governance_integration_initialized", {"privacy_policies": len(self.privacy_policies)}
         )
 
         logger.info("🛡️ Governance integration initialized")
@@ -609,12 +661,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     classification_id=f"auto_{data_type}",
                     data_type=data_type,
                     sensitivity_level="internal",
-                    regulatory_requirements=["LUKHAS_GOVERNANCE"] if self.governance_enabled else [],
+                    regulatory_requirements=["LUKHAS_GOVERNANCE"]
+                    if self.governance_enabled
+                    else [],
                     retention_period=365,
                     encryption_required=False,
                     access_restrictions=["authenticated_users"],
                     anonymization_rules=[],
-                    governance_validated=self.governance_enabled
+                    governance_validated=self.governance_enabled,
                 )
 
             # Analyze data content for sensitive patterns
@@ -622,7 +676,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
             # Adjust classification based on detected patterns
             if sensitive_patterns:
-                classification = await self._adjust_classification_for_patterns(classification, sensitive_patterns)
+                classification = await self._adjust_classification_for_patterns(
+                    classification, sensitive_patterns
+                )
 
             # Analyze Trinity Framework impact
             trinity_impact = await self._analyze_trinity_impact_for_data(data, data_type, context)
@@ -630,21 +686,25 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
             # Apply governance validation
             if self.governance_enabled:
-                governance_result = await self._validate_classification_governance(classification, context)
+                governance_result = await self._validate_classification_governance(
+                    classification, context
+                )
                 classification.governance_validated = governance_result["approved"]
 
             self.stats["privacy_checks"] += 1
 
             # Log classification event with governance metadata
-            await self._log_audit_event({
-                "event_type": "data_classification",
-                "data_type": data_type,
-                "classification": classification.sensitivity_level,
-                "patterns_detected": len(sensitive_patterns),
-                "trinity_impact": classification.trinity_impact,
-                "governance_validated": classification.governance_validated,
-                "timestamp": datetime.now().isoformat()
-            })
+            await self._log_audit_event(
+                {
+                    "event_type": "data_classification",
+                    "data_type": data_type,
+                    "classification": classification.sensitivity_level,
+                    "patterns_detected": len(sensitive_patterns),
+                    "trinity_impact": classification.trinity_impact,
+                    "governance_validated": classification.governance_validated,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
             # Determine symbolic signature
             symbolic_signature = self._get_classification_symbols(classification)
@@ -661,10 +721,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "anonymization_required": len(classification.anonymization_rules) > 0,
                     "access_restrictions": classification.access_restrictions,
                     "regulatory_compliance": classification.regulatory_requirements,
-                    "trinity_protection": max(classification.trinity_impact.values()) > 0.7
+                    "trinity_protection": max(classification.trinity_impact.values()) > 0.7,
                 },
                 "classification_time": time.time() - start_time,
-                "symbolic_signature": symbolic_signature
+                "symbolic_signature": symbolic_signature,
             }
 
         except Exception as e:
@@ -673,15 +733,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             # Log error in governance system
             if self.governance_enabled:
                 await self._log_governance_action(
-                    "classification_error",
-                    {"error": str(e), "data_type": data_type}
+                    "classification_error", {"error": str(e), "data_type": data_type}
                 )
 
             return {
                 "success": False,
                 "error": str(e),
                 "classification_time": time.time() - start_time,
-                "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
+                "symbolic_signature": self.PRIVACY_SYMBOLS["incident"],
             }
 
     def _detect_data_type(self, data: dict) -> str:
@@ -691,11 +750,26 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         # Trinity Framework specific keywords
         identity_keywords = ["identity", "auth", "credential", "user_id", "username", "profile"]
-        consciousness_keywords = ["memory", "thought", "decision", "consciousness", "awareness", "dream"]
+        consciousness_keywords = [
+            "memory",
+            "thought",
+            "decision",
+            "consciousness",
+            "awareness",
+            "dream",
+        ]
         guardian_keywords = ["security", "protection", "guardian", "policy", "governance", "audit"]
 
         # Traditional keywords
-        medical_keywords = ["patient", "diagnosis", "medication", "treatment", "symptom", "doctor", "hospital"]
+        medical_keywords = [
+            "patient",
+            "diagnosis",
+            "medication",
+            "treatment",
+            "symptom",
+            "doctor",
+            "hospital",
+        ]
         personal_keywords = ["name", "email", "phone", "address", "ssn", "passport", "license"]
         financial_keywords = ["account", "payment", "credit", "bank", "transaction", "balance"]
 
@@ -719,8 +793,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
     def _find_classification(self, data_type: str) -> Optional[DataClassification]:
         """Find matching data classification with governance validation"""
         for classification in self.data_classifications.values():
-            if (classification.data_type == data_type and
-                (not self.governance_enabled or classification.governance_validated)):
+            if classification.data_type == data_type and (
+                not self.governance_enabled or classification.governance_validated
+            ):
                 return classification
         return None
 
@@ -772,7 +847,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return patterns
 
-    async def _analyze_trinity_impact_for_data(self, data: dict, data_type: str, context: dict) -> dict:
+    async def _analyze_trinity_impact_for_data(
+        self, data: dict, data_type: str, context: dict
+    ) -> dict:
         """Analyze Trinity Framework impact for data classification"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
@@ -806,15 +883,11 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         return {
             "impact_scores": impact_scores,
             "overall_risk": overall_risk,
-            "high_risk_components": [
-                comp for comp, score in impact_scores.items() if score > 0.7
-            ]
+            "high_risk_components": [comp for comp, score in impact_scores.items() if score > 0.7],
         }
 
     async def _adjust_classification_for_patterns(
-        self,
-        classification: DataClassification,
-        patterns: list[str]
+        self, classification: DataClassification, patterns: list[str]
     ) -> DataClassification:
         """Enhanced classification adjustment with Trinity Framework and governance awareness"""
         trinity_patterns = {"identity_data", "consciousness_data", "guardian_data"}
@@ -850,9 +923,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         return classification
 
     async def _validate_classification_governance(
-        self,
-        classification: DataClassification,
-        context: dict
+        self, classification: DataClassification, context: dict
     ) -> dict[str, Any]:
         """Validate classification against governance policies"""
         if not self.governance_enabled:
@@ -864,7 +935,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if approval_required and not context.get("governance_pre_approved", False):
                 return {
                     "approved": False,
-                    "reason": "Governance approval required for sensitive data classification"
+                    "reason": "Governance approval required for sensitive data classification",
                 }
 
         # Check Trinity Framework compliance
@@ -873,7 +944,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if not trinity_approval:
                 return {
                     "approved": False,
-                    "reason": "Trinity Framework approval required for high-impact data"
+                    "reason": "Trinity Framework approval required for high-impact data",
                 }
 
         return {"approved": True, "reason": "Governance validation passed"}
@@ -898,7 +969,9 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return base_symbols[:5]  # Limit to 5 symbols
 
-    async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: dict = None) -> dict:
+    async def encrypt_data(
+        self, data: Any, encryption_level: str = "standard", context: dict = None
+    ) -> dict:
         """Enhanced data encryption with governance validation and Trinity Framework protection"""
         start_time = time.time()
         context = context or {}
@@ -909,18 +982,20 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "success": False,
                     "error": "Encryption is disabled",
                     "encryption_time": time.time() - start_time,
-                    "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
+                    "symbolic_signature": self.PRIVACY_SYMBOLS["incident"],
                 }
 
             # Governance validation for encryption
             if self.governance_enabled:
-                governance_result = await self._validate_encryption_governance(data, encryption_level, context)
+                governance_result = await self._validate_encryption_governance(
+                    data, encryption_level, context
+                )
                 if not governance_result["approved"]:
                     return {
                         "success": False,
                         "error": f"Governance validation failed: {governance_result['reason']}",
                         "encryption_time": time.time() - start_time,
-                        "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
+                        "symbolic_signature": self.PRIVACY_SYMBOLS["incident"],
                     }
 
             # Convert data to string for encryption
@@ -938,14 +1013,16 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 self.stats["trinity_protections_applied"] += 1
 
             # Log encryption event with governance metadata
-            await self._log_audit_event({
-                "event_type": "data_encryption",
-                "encryption_level": encryption_level,
-                "data_size": len(data_str),
-                "governance_validated": self.governance_enabled,
-                "trinity_protected": encryption_level == "trinity_protected",
-                "timestamp": datetime.now().isoformat()
-            })
+            await self._log_audit_event(
+                {
+                    "event_type": "data_encryption",
+                    "encryption_level": encryption_level,
+                    "data_size": len(data_str),
+                    "governance_validated": self.governance_enabled,
+                    "trinity_protected": encryption_level == "trinity_protected",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
             return {
                 "success": True,
@@ -955,7 +1032,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "governance_validated": self.governance_enabled,
                 "trinity_protected": encryption_level == "trinity_protected",
                 "encryption_time": time.time() - start_time,
-                "symbolic_signature": self.PRIVACY_SYMBOLS["encrypted"]
+                "symbolic_signature": self.PRIVACY_SYMBOLS["encrypted"],
             }
 
         except Exception as e:
@@ -963,18 +1040,19 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
             if self.governance_enabled:
                 await self._log_governance_action(
-                    "encryption_error",
-                    {"error": str(e), "encryption_level": encryption_level}
+                    "encryption_error", {"error": str(e), "encryption_level": encryption_level}
                 )
 
             return {
                 "success": False,
                 "error": str(e),
                 "encryption_time": time.time() - start_time,
-                "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
+                "symbolic_signature": self.PRIVACY_SYMBOLS["incident"],
             }
 
-    async def _validate_encryption_governance(self, data: Any, encryption_level: str, context: dict) -> dict[str, Any]:
+    async def _validate_encryption_governance(
+        self, data: Any, encryption_level: str, context: dict
+    ) -> dict[str, Any]:
         """Validate encryption request against governance policies"""
         # Check if high-level encryption requires approval
         if encryption_level in ["high", "trinity_protected"]:
@@ -982,16 +1060,18 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if approval_required and not context.get("governance_pre_approved", False):
                 return {
                     "approved": False,
-                    "reason": "Governance approval required for high-level encryption"
+                    "reason": "Governance approval required for high-level encryption",
                 }
 
         # Check data sensitivity requirements
         data_str = json.dumps(data) if isinstance(data, dict) else str(data)
-        if any(keyword in data_str.lower() for keyword in ["identity", "consciousness", "guardian"]):
+        if any(
+            keyword in data_str.lower() for keyword in ["identity", "consciousness", "guardian"]
+        ):
             if encryption_level == "standard":
                 return {
                     "approved": False,
-                    "reason": "Trinity Framework data requires enhanced encryption"
+                    "reason": "Trinity Framework data requires enhanced encryption",
                 }
 
         return {"approved": True, "reason": "Encryption governance validation passed"}
@@ -1033,7 +1113,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             if self.governance_enabled:
                 await self._log_governance_action(
                     f"privacy_audit_{event['event_type']}",
-                    {"event_id": event["event_id"], "details": event}
+                    {"event_id": event["event_id"], "details": event},
                 )
 
         except Exception as e:
@@ -1046,7 +1126,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "action": action,
             "metadata": metadata,
             "source": "privacy_guardian",
-            "symbolic_signature": self.generate_governance_glyph(action, metadata)
+            "symbolic_signature": self.generate_governance_glyph(action, metadata),
         }
 
         self.governance_log.append(log_entry)
@@ -1070,16 +1150,21 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         stats["governance_enabled"] = self.governance_enabled
 
         # Calculate enhanced compliance rate
-        compliant_regulations = sum(1 for status in self.compliance_status.values() if status["compliant"])
+        compliant_regulations = sum(
+            1 for status in self.compliance_status.values() if status["compliant"]
+        )
         total_regulations = len(self.compliance_status)
-        stats["compliance_rate"] = compliant_regulations / total_regulations if total_regulations > 0 else 0.0
+        stats["compliance_rate"] = (
+            compliant_regulations / total_regulations if total_regulations > 0 else 0.0
+        )
 
         # Governance-specific metrics
-        stats["governance_validated_policies"] = len([p for p in self.privacy_policies.values() if p.governance_approved])
-        stats["trinity_protected_classifications"] = len([
-            c for c in self.data_classifications.values()
-            if max(c.trinity_impact.values()) > 0.7
-        ])
+        stats["governance_validated_policies"] = len(
+            [p for p in self.privacy_policies.values() if p.governance_approved]
+        )
+        stats["trinity_protected_classifications"] = len(
+            [c for c in self.data_classifications.values() if max(c.trinity_impact.values()) > 0.7]
+        )
         stats["governance_log_entries"] = len(self.governance_log)
 
         # Trinity Framework metrics
@@ -1094,9 +1179,11 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             test_data = {
                 "name": "Test User",
                 "email": "test@example.com",
-                "identity_id": "test_identity_123"
+                "identity_id": "test_identity_123",
             }
-            classification_result = await self.classify_data(test_data, context={"health_check": True})
+            classification_result = await self.classify_data(
+                test_data, context={"health_check": True}
+            )
 
             if not classification_result["success"]:
                 return False
@@ -1121,6 +1208,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
 
 if __name__ == "__main__":
+
     async def demo():
         """Demo enhanced privacy guardian functionality with governance"""
         print("🔒 Enhanced Privacy Guardian Demo")
@@ -1141,32 +1229,42 @@ if __name__ == "__main__":
             "diagnosis": "Hypertension",
             "age": 45,
             "zip_code": "12345",
-            "api_key": "sk_live_1234567890abcdef1234567890abcdef"
+            "api_key": "sk_live_1234567890abcdef1234567890abcdef",
         }
 
         print("\n🔍 Testing enhanced data classification...")
         classification_result = await guardian.classify_data(
-            test_data,
-            data_type="medical",
-            context={"trinity_framework_approved": True}
+            test_data, data_type="medical", context={"trinity_framework_approved": True}
         )
 
         if classification_result["success"]:
             print(f"   ✅ Data type: {classification_result['data_type']}")
-            print(f"   📊 Sensitivity: {classification_result['classification']['sensitivity_level']}")
-            print(f"   🔒 Encryption required: {classification_result['protection_requirements']['encryption_required']}")
-            print(f"   🎭 Anonymization required: {classification_result['protection_requirements']['anonymization_required']}")
+            print(
+                f"   📊 Sensitivity: {classification_result['classification']['sensitivity_level']}"
+            )
+            print(
+                f"   🔒 Encryption required: {classification_result['protection_requirements']['encryption_required']}"
+            )
+            print(
+                f"   🎭 Anonymization required: {classification_result['protection_requirements']['anonymization_required']}"
+            )
             print(f"   🛡️ Governance validated: {classification_result['governance_validated']}")
-            print(f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}")
-            print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}")
-            print(f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}")
+            print(
+                f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}"
+            )
+            print(
+                f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}"
+            )
+            print(
+                f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}"
+            )
 
         # Test enhanced encryption
         print("\n🔑 Testing enhanced data encryption...")
         encryption_result = await guardian.encrypt_data(
             test_data,
             "trinity_protected",
-            context={"governance_pre_approved": True, "trinity_protection": True}
+            context={"governance_pre_approved": True, "trinity_protection": True},
         )
 
         if encryption_result["success"]:

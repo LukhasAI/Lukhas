@@ -23,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 class SymbolicDomain(Enum):
     """Core domains in the universal language"""
+
     TASK = "task"
     EMOTION = "emotion"
     ETHICS = "ethics"
@@ -45,6 +46,7 @@ class SymbolicDomain(Enum):
 
 class ConceptType(Enum):
     """Types of universal concepts"""
+
     ATOMIC = "atomic"  # Single, indivisible concept
     COMPOSITE = "composite"  # Combination of multiple concepts
     TEMPORAL = "temporal"  # Time-based concept
@@ -64,6 +66,7 @@ class Symbol:
     Unified from /core/symbolic/symbolic_language.py and
     /symbolic/multi_modal_language.py
     """
+
     id: str
     domain: SymbolicDomain
     name: str
@@ -126,7 +129,7 @@ class Symbol:
             "metadata": self.metadata,
             "created_at": self.created_at.isoformat(),
             "usage_count": self.usage_count,
-            "confidence": self.confidence
+            "confidence": self.confidence,
         }
 
 
@@ -138,6 +141,7 @@ class Concept:
     Based on Universal Language spec and UniversalConcept from
     /symbolic/multi_modal_language.py
     """
+
     concept_id: str
     concept_type: ConceptType
     meaning: str
@@ -191,7 +195,7 @@ class Concept:
             "creation_time": self.creation_time,
             "usage_count": self.usage_count,
             "parent_concepts": self.parent_concepts,
-            "child_concepts": self.child_concepts
+            "child_concepts": self.child_concepts,
         }
 
 
@@ -202,6 +206,7 @@ class Grammar:
 
     Based on missing LUKHAS Grammar system.
     """
+
     rule_id: str
     name: str
     pattern: str  # Regular expression or pattern
@@ -231,6 +236,7 @@ class Vocabulary:
     Consolidates vocabularies from /symbolic/vocabularies/ and
     /core/symbolic/ vocabularies.
     """
+
     domain: SymbolicDomain
     symbols: dict[str, Symbol] = field(default_factory=dict)
     concepts: dict[str, Concept] = field(default_factory=dict)
@@ -308,7 +314,7 @@ class UniversalLanguageCore:
             name="happiness",
             value=1.0,
             glyph="😊",
-            entropy_bits=32.0
+            entropy_bits=32.0,
         )
         self.register_symbol(happiness)
 
@@ -318,7 +324,7 @@ class UniversalLanguageCore:
             name="sadness",
             value=-1.0,
             glyph="😢",
-            entropy_bits=32.0
+            entropy_bits=32.0,
         )
         self.register_symbol(sadness)
 
@@ -329,7 +335,7 @@ class UniversalLanguageCore:
             name="create",
             value="create",
             glyph="✨",
-            entropy_bits=24.0
+            entropy_bits=24.0,
         )
         self.register_symbol(create)
 
@@ -340,7 +346,7 @@ class UniversalLanguageCore:
             name="active",
             value=True,
             glyph="🟢",
-            entropy_bits=16.0
+            entropy_bits=16.0,
         )
         self.register_symbol(active)
 
@@ -351,7 +357,7 @@ class UniversalLanguageCore:
             concept_id="EMOTION.JOY",
             concept_type=ConceptType.ABSTRACT,
             meaning="joy",
-            symbols=[self.global_symbols.get("EMOTION_HAPPINESS")]
+            symbols=[self.global_symbols.get("EMOTION_HAPPINESS")],
         )
         self.register_concept(joy_concept)
 
@@ -363,7 +369,7 @@ class UniversalLanguageCore:
             name="Subject-Verb-Object",
             pattern="ENTITY ACTION ENTITY",
             domain=SymbolicDomain.ACTION,
-            priority=100
+            priority=100,
         )
         self.register_grammar(svo_rule)
 
@@ -431,7 +437,7 @@ class UniversalLanguageCore:
                     concept_id=f"{symbol.domain.value.upper()}.{symbol.name.upper()}",
                     concept_type=ConceptType.ATOMIC,
                     meaning=symbol.name,
-                    symbols=[symbol]
+                    symbols=[symbol],
                 )
                 self.register_concept(new_concept)
                 concepts.append(new_concept)
@@ -462,10 +468,10 @@ class UniversalLanguageCore:
                 domain.value: {
                     "symbols": len(vocab.symbols),
                     "concepts": len(vocab.concepts),
-                    "grammar_rules": len(vocab.grammar_rules)
+                    "grammar_rules": len(vocab.grammar_rules),
                 }
                 for domain, vocab in self.vocabularies.items()
-            }
+            },
         }
 
 

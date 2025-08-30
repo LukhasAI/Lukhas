@@ -119,9 +119,7 @@ class AdaptiveNeuralNetwork(nn.Module):
     based on learning requirements and performance metrics.
     """
 
-    def __init__(
-        self, input_size: int, output_size: int, hidden_sizes: list[int] = None
-    ):
+    def __init__(self, input_size: int, output_size: int, hidden_sizes: list[int] = None):
         super().__init__()
         self.input_size = input_size
         self.output_size = output_size
@@ -179,9 +177,7 @@ class AdaptiveNeuralNetwork(nn.Module):
         # Rebuild network with new architecture
         self._rebuild_network(current_hidden_sizes)
 
-        logger.info(
-            f"Expanded neural architecture: {self.hidden_sizes} -> {current_hidden_sizes}"
-        )
+        logger.info(f"Expanded neural architecture: {self.hidden_sizes} -> {current_hidden_sizes}")
 
     def _optimize_architecture(self):
         """Optimize network architecture for efficiency"""
@@ -190,9 +186,7 @@ class AdaptiveNeuralNetwork(nn.Module):
             optimized_sizes = self.hidden_sizes[:-1]  # Remove last layer
             self._rebuild_network(optimized_sizes)
 
-            logger.info(
-                f"Optimized neural architecture: {self.hidden_sizes} -> {optimized_sizes}"
-            )
+            logger.info(f"Optimized neural architecture: {self.hidden_sizes} -> {optimized_sizes}")
 
     def _rebuild_network(self, new_hidden_sizes: list[int]):
         """Rebuild network with new architecture"""
@@ -371,9 +365,7 @@ class NeuralIntegrator:
         logger.info("Starting neural processing loop...")
 
         # Start processing thread
-        self.processing_thread = threading.Thread(
-            target=self._neural_processing_loop, daemon=True
-        )
+        self.processing_thread = threading.Thread(target=self._neural_processing_loop, daemon=True)
         self.processing_thread.start()
 
         # Start main processing cycle
@@ -443,10 +435,7 @@ class NeuralIntegrator:
         """Evaluate and determine appropriate neural mode"""
         # This is a simplified evaluation - in practice, this would be more
         # sophisticated
-        if (
-            self.consciousness_integrator
-            and self.consciousness_integrator.current_context
-        ):
+        if self.consciousness_integrator and self.consciousness_integrator.current_context:
             context = self.consciousness_integrator.current_context
 
             # Check for learning activity
@@ -591,10 +580,8 @@ class NeuralIntegrator:
 
                 for pattern in recent_patterns:
                     # Quantum-enhanced feature extraction
-                    enhanced_features = (
-                        await self.qi_inspired_processor.enhance_features(
-                            pattern.features
-                        )
+                    enhanced_features = await self.qi_inspired_processor.enhance_features(
+                        pattern.features
                     )
 
                     # Update pattern with enhanced features
@@ -622,9 +609,7 @@ class NeuralIntegrator:
                 # Process items from queue
                 for _ in range(10):  # Process up to 10 items per cycle
                     try:
-                        item = await asyncio.wait_for(
-                            self.processing_queue.get(), timeout=0.1
-                        )
+                        item = await asyncio.wait_for(self.processing_queue.get(), timeout=0.1)
                         await self._process_queue_item(item)
                     except asyncio.TimeoutError:
                         break
@@ -651,18 +636,14 @@ class NeuralIntegrator:
         )
 
         # Remove oldest/lowest patterns
-        patterns_to_remove = (
-            len(sorted_patterns) - self.config["processing"]["max_patterns"]
-        )
+        patterns_to_remove = len(sorted_patterns) - self.config["processing"]["max_patterns"]
         for i in range(patterns_to_remove):
             pattern_id, _ = sorted_patterns[i]
             del self.pattern_database[pattern_id]
 
         logger.info(f"Pruned {patterns_to_remove} patterns from database")
 
-    async def process_input(
-        self, input_data: np.ndarray, context: NeuralContext
-    ) -> dict[str, Any]:
+    async def process_input(self, input_data: np.ndarray, context: NeuralContext) -> dict[str, Any]:
         """Process input through neural networks"""
         results = {}
 
@@ -695,9 +676,7 @@ class NeuralIntegrator:
 
         return results
 
-    async def _find_similar_patterns(
-        self, input_features: np.ndarray
-    ) -> list[dict[str, Any]]:
+    async def _find_similar_patterns(self, input_features: np.ndarray) -> list[dict[str, Any]]:
         """Find patterns similar to input features"""
         similar_patterns = []
         threshold = self.config["processing"]["pattern_similarity_threshold"]
@@ -736,10 +715,7 @@ class NeuralIntegrator:
                 }
                 for name, (network, metrics) in zip(
                     self.neural_networks.keys(),
-                    [
-                        (n, self.performance_metrics[name])
-                        for n in self.neural_networks.values()
-                    ],
+                    [(n, self.performance_metrics[name]) for n in self.neural_networks.values()],
                 )
             },
             "pattern_database_size": len(self.pattern_database),
@@ -793,9 +769,7 @@ if __name__ == "__main__":
         # Process test input
         test_input = np.random.randn(512)
         results = await integrator.process_input(test_input, context)
-        print(
-            f"Neural Processing Results: {json.dumps(results, indent=2, default=str)}"
-        )
+        print(f"Neural Processing Results: {json.dumps(results, indent=2, default=str)}")
 
         # Let it run for a bit
         await asyncio.sleep(5.0)

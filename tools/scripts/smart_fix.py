@@ -121,9 +121,7 @@ class SmartFixer:
 
         # Get unique files with issues
         files_to_format = set()
-        for issue in (
-            self.critical_issues + self.warnings[:10]
-        ):  # Only format files with issues
+        for issue in self.critical_issues + self.warnings[:10]:  # Only format files with issues
             files_to_format.add(issue["file"])
 
         for file_path in files_to_format:

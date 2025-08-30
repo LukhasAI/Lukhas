@@ -126,9 +126,7 @@ class SimpleQIProcessor:
         normalized_states = []
         for state in weighted_states:
             normalized_state = state.copy()
-            normalized_state["normalized_probability"] = (
-                state["probability"] / total_prob
-            )
+            normalized_state["normalized_probability"] = state["probability"] / total_prob
             normalized_states.append(normalized_state)
 
         # Select decision based on highest normalized probability
@@ -200,9 +198,7 @@ def main():
         # Run the demonstration
         processor = demonstrate_qi_processing()
 
-        print(
-            f"\n📊 Total decisions processed: {len(processor.get_decision_history())}"
-        )
+        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history())}")
         print("🚀 QI Example completed successfully!")
 
     except Exception as e:

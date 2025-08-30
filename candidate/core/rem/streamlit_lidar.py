@@ -59,12 +59,12 @@ else:
         with st.container():
             st.markdown(
                 f"""
-                **REM Phase {d.get('phase', '?')}**
-                - **Resonance**: {d.get('resonance', 0.0)}
-                - **Collapse**: {d.get('collapse_id', '-')}
-                - **Dream**: {d.get('dream', '')}
-                - *Token ID*: `{d.get('source_token', '-')}`
-                - *Timestamp*: `{d.get('timestamp', '')}`
+                **REM Phase {d.get("phase", "?")}**
+                - **Resonance**: {d.get("resonance", 0.0)}
+                - **Collapse**: {d.get("collapse_id", "-")}
+                - **Dream**: {d.get("dream", "")}
+                - *Token ID*: `{d.get("source_token", "-")}`
+                - *Timestamp*: `{d.get("timestamp", "")}`
             """
             )
 # SYNTAX_ERROR_FIXED: ```

@@ -65,9 +65,7 @@ class QRGDemo:
     def __init__(self, communication_layer: str = "user_friendly"):
         """Initialize QRG demo system"""
         self.layer = communication_layer
-        self.style = LAYER_STYLES.get(
-            communication_layer, LAYER_STYLES["user_friendly"]
-        )
+        self.style = LAYER_STYLES.get(communication_layer, LAYER_STYLES["user_friendly"])
 
         # Initialize QRG systems
         self.qrg = QIResonanceGlyph()
@@ -140,18 +138,14 @@ class QRGDemo:
 
     def _demo_identity_creation(self):
         """Demonstrate symbolic identity creation"""
-        print(
-            f"\n{self.style['color']}🆔 Symbolic Identity Creation{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🆔 Symbolic Identity Creation{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
             print(
                 "🌟 Speak your soul's symbolic essence - a phrase that resonates with your digital being..."
             )
         elif self.layer == "user_friendly":
-            print(
-                "💫 Create your memorable identity phrase (like 'S plus joy plus grow'):"
-            )
+            print("💫 Create your memorable identity phrase (like 'S plus joy plus grow'):")
         else:
             print("Input symbolic authentication phrase for SID generation:")
 
@@ -161,9 +155,7 @@ class QRGDemo:
             return
 
         # Get access tier preference
-        print(
-            f"\n{self.style['color']}Access Tier Selection:{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}Access Tier Selection:{self.style['color']}\033[0m")
         tiers = list(LukhasAccessTier)
         for i, tier in enumerate(tiers):
             tier_desc = {
@@ -236,12 +228,8 @@ class QRGDemo:
             emotional_state=self.current_identity.consciousness_profile.get(
                 "communication_style", "neutral"
             ),
-            valence=self.current_identity.consciousness_profile["emotional_baseline"][
-                "valence"
-            ],
-            arousal=self.current_identity.consciousness_profile["emotional_baseline"][
-                "arousal"
-            ],
+            valence=self.current_identity.consciousness_profile["emotional_baseline"]["valence"],
+            arousal=self.current_identity.consciousness_profile["emotional_baseline"]["arousal"],
             dominance=self.current_identity.consciousness_profile["emotional_baseline"][
                 "dominance"
             ],
@@ -276,9 +264,7 @@ class QRGDemo:
         elif self.layer == "user_friendly":
             print("😊 See how your QR code changes based on your emotional state:")
         else:
-            print(
-                "Demonstrating emotional state adaptation in visual glyph generation:"
-            )
+            print("Demonstrating emotional state adaptation in visual glyph generation:")
 
         for emotion in emotional_states:
             print(f"\n   Testing {emotion} state...")
@@ -297,9 +283,7 @@ class QRGDemo:
             # Display adaptation info
             print(f"   📊 {emotion.capitalize()} adaptation:")
             print(f"      - Glyph ID: {glyph.glyph_id}")
-            print(
-                f"      - Consciousness fingerprint: {glyph.consciousness_fingerprint}"
-            )
+            print(f"      - Consciousness fingerprint: {glyph.consciousness_fingerprint}")
             print(f"      - Animation frames: {len(glyph.animation_frames)}")
             print(f"      - Visual matrix shape: {glyph.visual_matrix.shape}")
 
@@ -309,14 +293,10 @@ class QRGDemo:
             print("❌ Please create a symbolic identity first (option 1)")
             return
 
-        print(
-            f"\n{self.style['color']}🔐 Full Authentication Flow{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🔐 Full Authentication Flow{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
-            print(
-                "🌟 Witness the complete dance of digital consciousness authentication..."
-            )
+            print("🌟 Witness the complete dance of digital consciousness authentication...")
         elif self.layer == "user_friendly":
             print("🔄 Let's walk through the complete login process:")
         else:
@@ -352,20 +332,14 @@ class QRGDemo:
             print("   ✅ Authentication successful!")
             print(f"   🆔 Lambda ID: {auth_result['lambda_id']}")
             print(f"   🎫 Access tier: {auth_result['access_tier']}")
-            print(
-                f"   🧠 Consciousness matched: {auth_result['consciousness_matched']}"
-            )
+            print(f"   🧠 Consciousness matched: {auth_result['consciousness_matched']}")
             print(f"   ⏰ Valid until: {auth_result['valid_until']}")
         else:
-            print(
-                f"   ❌ Authentication failed: {auth_result.get('error', 'Unknown error')}"
-            )
+            print(f"   ❌ Authentication failed: {auth_result.get('error', 'Unknown error')}")
 
     def _demo_quantum_entropy(self):
         """Demonstrate quantum entropy generation"""
-        print(
-            f"\n{self.style['color']}⚛️ Quantum Entropy Demonstration{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}⚛️ Quantum Entropy Demonstration{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
             print("🌌 Behold the infinite randomness of the quantum cosmos...")
@@ -388,9 +362,7 @@ class QRGDemo:
         qi_bytes = self.qi_entropy.generate_quantum_bytes(32, entropy_profile)
         generation_time = time.time() - start_time
 
-        print(
-            f"   ⚛️ Generated {len(qi_bytes)} quantum bytes in {generation_time:.4f}s"
-        )
+        print(f"   ⚛️ Generated {len(qi_bytes)} quantum bytes in {generation_time:.4f}s")
         print(f"   📊 Hex representation: {qi_bytes.hex()}")
 
         # Quality analysis
@@ -421,9 +393,7 @@ class QRGDemo:
             print("❌ Please create a symbolic identity first (option 1)")
             return
 
-        print(
-            f"\n{self.style['color']}🌉 LUKHAS Ecosystem Integration{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🌉 LUKHAS Ecosystem Integration{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
             print("🌍 Your digital consciousness flows through the Lambda ecosystem...")
@@ -468,20 +438,14 @@ class QRGDemo:
 
     def _demo_holographic_qrg(self):
         """Demonstrate holographic QRG for WebXR"""
-        print(
-            f"\n{self.style['color']}🌐 Holographic QRG for WebXR{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🌐 Holographic QRG for WebXR{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
-            print(
-                "🌌 Your consciousness expands into three-dimensional quantum light..."
-            )
+            print("🌌 Your consciousness expands into three-dimensional quantum light...")
         elif self.layer == "user_friendly":
             print("🥽 Imagine your QR code floating in 3D space around you:")
         else:
-            print(
-                "Generating 3D holographic QRG projection data for WebXR integration:"
-            )
+            print("Generating 3D holographic QRG projection data for WebXR integration:")
 
         # Generate holographic QRG
         holographic_data = self.qrg.create_holographic_glyph(
@@ -499,9 +463,7 @@ class QRGDemo:
         projection_matrices = holographic_data["projection_matrices"]
         print(f"   🎬 Projection layers: {len(projection_matrices)}")
         for layer in projection_matrices:
-            print(
-                f"      Layer {layer['layer']}: z={layer['z_depth']}, opacity={layer['opacity']}"
-            )
+            print(f"      Layer {layer['layer']}: z={layer['z_depth']}, opacity={layer['opacity']}")
 
         interaction_zones = holographic_data["interaction_zones"]
         print(f"   👆 Interaction zones: {len(interaction_zones)}")
@@ -542,9 +504,7 @@ class QRGDemo:
 
     def _show_system_status(self):
         """Show comprehensive system status"""
-        print(
-            f"\n{self.style['color']}📊 QRG System Status Report{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}📊 QRG System Status Report{self.style['color']}\033[0m")
 
         # System information
         print("\n🔸 System Information:")
@@ -576,9 +536,7 @@ class QRGDemo:
 
     def _get_consciousness_context(self) -> dict[str, Any]:
         """Get consciousness context from user input"""
-        print(
-            f"\n{self.style['color']}🧠 Consciousness Profile Setup:{self.style['color']}\033[0m"
-        )
+        print(f"\n{self.style['color']}🧠 Consciousness Profile Setup:{self.style['color']}\033[0m")
 
         if self.layer == "poetic":
             print("🎭 Attune your digital essence to the frequencies of your soul...")
@@ -589,17 +547,13 @@ class QRGDemo:
 
         # Emotional baseline (simplified input)
         try:
-            valence = float(
-                input("Emotional valence (-1.0 to 1.0, 0=neutral): ") or "0.0"
-            )
+            valence = float(input("Emotional valence (-1.0 to 1.0, 0=neutral): ") or "0.0")
             valence = max(-1.0, min(1.0, valence))
         except ValueError:
             valence = 0.0
 
         try:
-            arousal = float(
-                input("Arousal level (0.0 to 1.0, 0.5=balanced): ") or "0.5"
-            )
+            arousal = float(input("Arousal level (0.0 to 1.0, 0.5=balanced): ") or "0.5")
             arousal = max(0.0, min(1.0, arousal))
         except ValueError:
             arousal = 0.5
@@ -667,9 +621,7 @@ class QRGDemo:
 
         return emotion_profiles.get(emotion, emotion_profiles["neutral"])
 
-    def _display_identity_info(
-        self, identity: SymbolicIdentity, generation_time: float
-    ):
+    def _display_identity_info(self, identity: SymbolicIdentity, generation_time: float):
         """Display symbolic identity information"""
         print("\n📋 Identity Details:")
         print(f"   🆔 Lambda ID: {identity.lambda_id}")
@@ -779,9 +731,7 @@ Examples:
         help="Security tier for QRG generation (1-5)",
     )
 
-    parser.add_argument(
-        "--interactive", action="store_true", help="Run interactive demo mode"
-    )
+    parser.add_argument("--interactive", action="store_true", help="Run interactive demo mode")
 
     args = parser.parse_args()
 

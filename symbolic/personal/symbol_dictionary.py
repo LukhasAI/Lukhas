@@ -104,9 +104,7 @@ class PersonalSymbolDictionary:
 
     def __init__(self, user_id: str, storage_path: Optional[Path] = None):
         self.user_id = user_id
-        self.storage_path = storage_path or Path(
-            f".lukhas/personal/{user_id}/symbols.enc"
-        )
+        self.storage_path = storage_path or Path(f".lukhas/personal/{user_id}/symbols.enc")
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Symbol mappings
@@ -262,9 +260,7 @@ class PersonalSymbolDictionary:
         self.feedback_scores[symbol].append(feedback_score)
 
         # Update confidence based on feedback
-        avg_feedback = sum(self.feedback_scores[symbol]) / len(
-            self.feedback_scores[symbol]
-        )
+        avg_feedback = sum(self.feedback_scores[symbol]) / len(self.feedback_scores[symbol])
         mapping.confidence = 0.7 * mapping.confidence + 0.3 * avg_feedback
 
         # Update meaning if provided and feedback is positive
@@ -289,14 +285,10 @@ class PersonalSymbolDictionary:
 
         total_symbols = len(self.mappings)
         total_usage = sum(m.usage_count for m in self.mappings.values())
-        avg_confidence = sum(m.confidence for m in self.mappings.values()) / max(
-            1, total_symbols
-        )
+        avg_confidence = sum(m.confidence for m in self.mappings.values()) / max(1, total_symbols)
 
         # Find most used symbols
-        most_used = sorted(
-            self.mappings.items(), key=lambda x: x[1].usage_count, reverse=True
-        )[:5]
+        most_used = sorted(self.mappings.items(), key=lambda x: x[1].usage_count, reverse=True)[:5]
 
         return {
             "user_id": self.user_id,
@@ -315,9 +307,7 @@ class PersonalSymbolDictionary:
             "evolution_events": len(self.evolution_history),
         }
 
-    def export_public_symbols(
-        self, confidence_threshold: float = 0.8
-    ) -> dict[str, str]:
+    def export_public_symbols(self, confidence_threshold: float = 0.8) -> dict[str, str]:
         """
         Export high-confidence symbols for universal exchange.
         Only exports symbols above confidence threshold with no personal context.
@@ -331,7 +321,6 @@ class PersonalSymbolDictionary:
                 and mapping.context != "personal"
                 and mapping.usage_count > 5
             ):
-
                 # Hash the meaning for privacy
                 meaning_hash = hashlib.sha256(
                     f"{self.user_id}:{mapping.meaning}".encode()
@@ -366,12 +355,10 @@ class PersonalSymbolDictionary:
             # Prepare data
             data = {
                 "mappings": {
-                    symbol: mapping.to_dict()
-                    for symbol, mapping in self.mappings.items()
+                    symbol: mapping.to_dict() for symbol, mapping in self.mappings.items()
                 },
                 "gesture_patterns": {
-                    pid: asdict(pattern)
-                    for pid, pattern in self.gesture_patterns.items()
+                    pid: asdict(pattern) for pid, pattern in self.gesture_patterns.items()
                 },
                 "evolution_history": self.evolution_history,
                 "feedback_scores": self.feedback_scores,
@@ -453,9 +440,7 @@ def demo_personal_dictionary():
         # Test gesture detection
         detected = dictionary.detect_gesture(["👆", "👆", "👏"])
         if detected:
-            print(
-                f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected)}"
-            )
+            print(f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected)}")
 
         # Evolve symbol based on feedback
         dictionary.evolve_symbol("🎯", new_meaning="deep_focus", feedback_score=0.9)

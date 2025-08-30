@@ -113,9 +113,7 @@ class QIMeshVisualizer:
         Returns:
             Dict containing mesh data
         """
-        logger.info(
-            f"Loading entanglement data: log_path={log_path}, live_mode={live_mode}"
-        )
+        logger.info(f"Loading entanglement data: log_path={log_path}, live_mode={live_mode}")
 
         if live_mode and QIEthicsMeshIntegrator:
             return self._load_live_data()
@@ -163,9 +161,7 @@ class QIMeshVisualizer:
 
         # Process through integrator
         unified_field = integrator.integrate_ethics_mesh(sample_states)
-        entanglement_matrix = integrator.calculate_phase_entanglement_matrix(
-            sample_states
-        )
+        entanglement_matrix = integrator.calculate_phase_entanglement_matrix(sample_states)
         conflicts = integrator.detect_ethics_phase_conflict(entanglement_matrix)
 
         return {
@@ -230,8 +226,7 @@ class QIMeshVisualizer:
                 phase_diff = min(phase_diff, 2 * np.pi - phase_diff)
 
                 coherence = (
-                    subsystem_states[mod_a]["coherence"]
-                    + subsystem_states[mod_b]["coherence"]
+                    subsystem_states[mod_a]["coherence"] + subsystem_states[mod_b]["coherence"]
                 ) / 2
                 conflict_risk = max(0.0, 0.5 - strength) * np.random.uniform(0.5, 1.5)
 
@@ -251,26 +246,18 @@ class QIMeshVisualizer:
         ]
 
         # Generate unified field
-        mesh_score = np.mean(
-            [s["coherence"] * s["alignment"] for s in subsystem_states.values()]
-        )
+        mesh_score = np.mean([s["coherence"] * s["alignment"] for s in subsystem_states.values()])
         risk_levels = ["SAFE", "CAUTION", "WARNING"]
-        risk_level = risk_levels[min(2, int(len(conflicts)))]
+        risk_level = risk_levels[min(2, len(conflicts))]
 
         return {
             "timestamp": datetime.now().isoformat(),
             "unified_field": {
                 "mesh_ethics_score": mesh_score,
-                "coherence": np.mean(
-                    [s["coherence"] for s in subsystem_states.values()]
-                ),
-                "confidence": np.mean(
-                    [s["confidence"] for s in subsystem_states.values()]
-                ),
+                "coherence": np.mean([s["coherence"] for s in subsystem_states.values()]),
+                "confidence": np.mean([s["confidence"] for s in subsystem_states.values()]),
                 "entropy": np.mean([s["entropy"] for s in subsystem_states.values()]),
-                "alignment": np.mean(
-                    [s["alignment"] for s in subsystem_states.values()]
-                ),
+                "alignment": np.mean([s["alignment"] for s in subsystem_states.values()]),
                 "phase_synchronization": np.random.uniform(0.6, 0.9),
                 "stability_index": np.random.uniform(0.7, 0.9),
                 "drift_magnitude": np.random.uniform(0.05, 0.2),
@@ -283,12 +270,8 @@ class QIMeshVisualizer:
                     "average_entanglement": np.mean(
                         [e["strength"] for e in entanglements.values()]
                     ),
-                    "max_conflict_risk": max(
-                        [e["conflict_risk"] for e in entanglements.values()]
-                    ),
-                    "phase_variance": np.var(
-                        [s["phase"] for s in subsystem_states.values()]
-                    ),
+                    "max_conflict_risk": max([e["conflict_risk"] for e in entanglements.values()]),
+                    "phase_variance": np.var([s["phase"] for s in subsystem_states.values()]),
                     "total_pairs": len(entanglements),
                 },
             },
@@ -387,9 +370,7 @@ class QIMeshVisualizer:
                 dpi=300,
                 bbox_inches="tight",
             )
-            logger.info(
-                f"Heatmap saved to {self.output_dir / 'entanglement_heatmap.png'}"
-            )
+            logger.info(f"Heatmap saved to {self.output_dir / 'entanglement_heatmap.png'}")
 
         plt.show()
 
@@ -418,13 +399,10 @@ class QIMeshVisualizer:
             if metric == "stability":
                 # Calculate stability from entropy (inverse)
                 metric_values = [
-                    1.0 - state.get("entropy", 0.5)
-                    for state in subsystem_states.values()
+                    1.0 - state.get("entropy", 0.5) for state in subsystem_states.values()
                 ]
             else:
-                metric_values = [
-                    state.get(metric, 0.5) for state in subsystem_states.values()
-                ]
+                metric_values = [state.get(metric, 0.5) for state in subsystem_states.values()]
             values.append(metric_values)
 
         # Create radar chart
@@ -439,9 +417,7 @@ class QIMeshVisualizer:
             module_values = [values[j][i] for j in range(len(metrics))]
             module_values += module_values[:1]  # Complete the circle
 
-            ax.plot(
-                angles, module_values, "o-", linewidth=2, label=module, color=colors[i]
-            )
+            ax.plot(angles, module_values, "o-", linewidth=2, label=module, color=colors[i])
             ax.fill(angles, module_values, alpha=0.25, color=colors[i])
 
         # Customize chart
@@ -464,12 +440,8 @@ class QIMeshVisualizer:
             plt.savefig(save_path, dpi=300, bbox_inches="tight")
             logger.info(f"Radar chart saved to {save_path}")
         else:
-            plt.savefig(
-                self.output_dir / "phase_sync_radar.png", dpi=300, bbox_inches="tight"
-            )
-            logger.info(
-                f"Radar chart saved to {self.output_dir / 'phase_sync_radar.png'}"
-            )
+            plt.savefig(self.output_dir / "phase_sync_radar.png", dpi=300, bbox_inches="tight")
+            logger.info(f"Radar chart saved to {self.output_dir / 'phase_sync_radar.png'}")
 
         plt.show()
 
@@ -684,11 +656,7 @@ class QIMeshVisualizer:
 
         for module, state in subsystem_states.items():
             # Calculate composite health score
-            health = (
-                state["coherence"] * 0.4
-                + state["confidence"] * 0.3
-                + state["alignment"] * 0.3
-            )
+            health = state["coherence"] * 0.4 + state["confidence"] * 0.3 + state["alignment"] * 0.3
             health_scores.append(health)
             subsystem_names.append(module.capitalize())
 
@@ -787,17 +755,13 @@ class QIMeshVisualizer:
 
         markdown = []
         markdown.append("#  Quantum Ethics Mesh Report")
-        markdown.append(
-            f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-        )
+        markdown.append(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown')}")
         markdown.append("")
 
         # Summary
         markdown.append("## Executive Summary")
-        markdown.append(
-            f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}"
-        )
+        markdown.append(f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}")
         markdown.append(f"- **Risk Level:** {unified_field['risk_level']}")
         markdown.append(
             f"- **Phase Synchronization:** {unified_field['phase_synchronization']:.3f}"
@@ -812,9 +776,7 @@ class QIMeshVisualizer:
 
         for pair, metrics in sorted(entanglements.items()):
             strength_emoji = (
-                "🟢"
-                if metrics["strength"] > 0.7
-                else ("🟡" if metrics["strength"] > 0.4 else "🔴")
+                "🟢" if metrics["strength"] > 0.7 else ("🟡" if metrics["strength"] > 0.4 else "🔴")
             )
             risk_emoji = (
                 "🔴"
@@ -920,21 +882,21 @@ class QIMeshVisualizer:
     <div class="container">
         <div class="header">
             <h1>🔗 Quantum Ethics Mesh Dashboard</h1>
-            <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-            <span class="risk-badge">{unified_field['risk_level']}</span>
+            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+            <span class="risk-badge">{unified_field["risk_level"]}</span>
         </div>
 
         <div class="metrics">
             <div class="metric-card">
-                <div class="metric-value">{unified_field['mesh_ethics_score']:.3f}</div>
+                <div class="metric-value">{unified_field["mesh_ethics_score"]:.3f}</div>
                 <div class="metric-label">Mesh Ethics Score</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">{unified_field['phase_synchronization']:.3f}</div>
+                <div class="metric-value">{unified_field["phase_synchronization"]:.3f}</div>
                 <div class="metric-label">Phase Sync</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">{unified_field['coherence']:.3f}</div>
+                <div class="metric-value">{unified_field["coherence"]:.3f}</div>
                 <div class="metric-label">Coherence</div>
             </div>
             <div class="metric-card">
@@ -943,14 +905,14 @@ class QIMeshVisualizer:
             </div>
         </div>
 
-        <div class="{'conflicts' if conflicts else 'conflicts safe'}">
-            <h3>{'⚠️ Active Phase Conflicts' if conflicts else '✅ No Active Conflicts'}</h3>
-            {self._format_conflicts_html(conflicts, data['entanglement_matrix']['entanglements']) if conflicts else '<p>All subsystems are properly phase-aligned.</p>'}
+        <div class="{"conflicts" if conflicts else "conflicts safe"}">
+            <h3>{"⚠️ Active Phase Conflicts" if conflicts else "✅ No Active Conflicts"}</h3>
+            {self._format_conflicts_html(conflicts, data["entanglement_matrix"]["entanglements"]) if conflicts else "<p>All subsystems are properly phase-aligned.</p>"}
         </div>
 
         <h3>Entanglement Matrix</h3>
         <div class="entanglement-grid">
-            {self._format_entanglements_html(data['entanglement_matrix']['entanglements'])}
+            {self._format_entanglements_html(data["entanglement_matrix"]["entanglements"])}
         </div>
     </div>
 </body>
@@ -958,9 +920,7 @@ class QIMeshVisualizer:
         """
         return html
 
-    def _format_conflicts_html(
-        self, conflicts: list[str], entanglements: dict[str, Any]
-    ) -> str:
+    def _format_conflicts_html(self, conflicts: list[str], entanglements: dict[str, Any]) -> str:
         """Format conflicts for HTML display"""
         if not conflicts:
             return ""
@@ -973,7 +933,7 @@ class QIMeshVisualizer:
                     f"""
                 <div style="margin: 10px 0; padding: 10px; background: rgba(220, 53, 69, 0.1); border-radius: 5px;">
                     <strong>{conflict}</strong><br>
-                    Risk: {metrics['conflict_risk']:.3f} | Strength: {metrics['strength']:.3f}
+                    Risk: {metrics["conflict_risk"]:.3f} | Strength: {metrics["strength"]:.3f}
                 </div>
                 """
                 )
@@ -989,12 +949,12 @@ class QIMeshVisualizer:
                 f"""
             <div class="entanglement-item">
                 <h4>{pair}</h4>
-                <div>Strength: {metrics['strength']:.3f}</div>
+                <div>Strength: {metrics["strength"]:.3f}</div>
                 <div class="strength-bar">
                     <div class="strength-fill" style="width: {strength_pct}%;"></div>
                 </div>
-                <div>Conflict Risk: {metrics['conflict_risk']:.3f}</div>
-                <div>Phase Diff: {metrics['phase_diff']:.3f} rad</div>
+                <div>Conflict Risk: {metrics["conflict_risk"]:.3f}</div>
+                <div>Phase Diff: {metrics["phase_diff"]:.3f} rad</div>
             </div>
             """
             )
@@ -1023,9 +983,7 @@ Examples:
         help="Visualization mode",
     )
     parser.add_argument("--log-path", type=str, help="Path to log file (JSONL format)")
-    parser.add_argument(
-        "--live", action="store_true", help="Use live mesh integrator data"
-    )
+    parser.add_argument("--live", action="store_true", help="Use live mesh integrator data")
     parser.add_argument("--export", type=str, help="Export report to file")
     parser.add_argument(
         "--format",
@@ -1042,9 +1000,7 @@ Examples:
         default="ethics/tools/mesh_snapshots",
         help="Output directory for files",
     )
-    parser.add_argument(
-        "--dashboard", action="store_true", help="Generate interactive dashboard"
-    )
+    parser.add_argument("--dashboard", action="store_true", help="Generate interactive dashboard")
 
     args = parser.parse_args()
 
@@ -1053,9 +1009,7 @@ Examples:
 
     try:
         # Load data
-        data = visualizer.load_entanglement_data(
-            log_path=args.log_path, live_mode=args.live
-        )
+        data = visualizer.load_entanglement_data(log_path=args.log_path, live_mode=args.live)
 
         visualizer.current_data = data
 

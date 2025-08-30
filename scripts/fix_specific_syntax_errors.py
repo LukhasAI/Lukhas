@@ -37,6 +37,7 @@ def fix_malformed_function_definitions(content: str) -> tuple[str, list[str]]:
 
     return "\n".join(fixed_lines), fixes
 
+
 def fix_unclosed_f_strings(content: str) -> tuple[str, list[str]]:
     """Fix unclosed f-strings in multiline statements."""
     fixes = []
@@ -86,6 +87,7 @@ def fix_unclosed_f_strings(content: str) -> tuple[str, list[str]]:
 
     return "\n".join(fixed_lines), fixes
 
+
 def fix_conditional_expressions(content: str) -> tuple[str, list[str]]:
     """Fix conditional expressions with incorrect colons."""
     fixes = []
@@ -104,6 +106,7 @@ def fix_conditional_expressions(content: str) -> tuple[str, list[str]]:
             fixed_lines.append(line)
 
     return "\n".join(fixed_lines), fixes
+
 
 def fix_multiline_conditionals(content: str) -> tuple[str, list[str]]:
     """Fix multiline conditional statements with syntax errors."""
@@ -134,13 +137,13 @@ def fix_multiline_conditionals(content: str) -> tuple[str, list[str]]:
                         full_condition += ":"
 
                     fixed_lines.append(full_condition)
-                    fixes.append(f"Lines {i+1}-{j}: Fixed multiline conditional")
+                    fixes.append(f"Lines {i + 1}-{j}: Fixed multiline conditional")
                     i = j
                     continue
                 else:
                     # Single line missing colon
                     fixed_lines.append(line + ":")
-                    fixes.append(f"Line {i+1}: Added missing colon to conditional")
+                    fixes.append(f"Line {i + 1}: Added missing colon to conditional")
             else:
                 fixed_lines.append(line)
         else:
@@ -149,6 +152,7 @@ def fix_multiline_conditionals(content: str) -> tuple[str, list[str]]:
         i += 1
 
     return "\n".join(fixed_lines), fixes
+
 
 def process_file(file_path: Path) -> bool:
     """Process a single file and fix syntax errors."""
@@ -190,6 +194,7 @@ def process_file(file_path: Path) -> bool:
         print(f"❌ Error processing {file_path}: {e}")
         return False
 
+
 def main():
     """Main entry point."""
     # Files with known issues from the previous run
@@ -226,7 +231,9 @@ def main():
 
     return fixed_count == len(problem_files)
 
+
 if __name__ == "__main__":
     import sys
+
     success = main()
     sys.exit(0 if success else 1)

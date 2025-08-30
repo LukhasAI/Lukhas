@@ -134,10 +134,10 @@ class AuditEventType(Enum):
 class RetentionPolicy(Enum):
     """Audit log retention policies"""
 
-    SHORT_TERM = "short_term"      # 30 days
-    MEDIUM_TERM = "medium_term"    # 1 year
-    LONG_TERM = "long_term"        # 7 years
-    PERMANENT = "permanent"        # Indefinite
+    SHORT_TERM = "short_term"  # 30 days
+    MEDIUM_TERM = "medium_term"  # 1 year
+    LONG_TERM = "long_term"  # 7 years
+    PERMANENT = "permanent"  # Indefinite
 
 
 @dataclass
@@ -172,9 +172,9 @@ class AuditEvent:
     threat_indicators: list[str] = field(default_factory=list)
 
     # Trinity Framework context
-    identity_context: dict[str, Any] = field(default_factory=dict)      # ⚛️
-    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_context: dict[str, Any] = field(default_factory=dict)      # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict)  # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
     # Compliance context
     compliance_relevant: bool = False
@@ -202,7 +202,7 @@ class AuditEvent:
             "message": self.message,
             "user_id": self.user_id,
             "session_id": self.session_id,
-            "event_data": json.dumps(self.event_data, sort_keys=True, default=str)
+            "event_data": json.dumps(self.event_data, sort_keys=True, default=str),
         }
 
         hash_string = json.dumps(hash_data, sort_keys=True)
@@ -345,9 +345,11 @@ class AuditStorage:
         grouped_events = {}
 
         for event in events:
-            key = (event.retention_policy.value,
-                   event.timestamp.strftime("%Y%m%d"),
-                   event.category.value)
+            key = (
+                event.retention_policy.value,
+                event.timestamp.strftime("%Y%m%d"),
+                event.category.value,
+            )
 
             if key not in grouped_events:
                 grouped_events[key] = []
@@ -427,7 +429,7 @@ class AuditStorage:
 
         # Sort and apply offset
         events.sort(key=lambda e: e.timestamp, reverse=(query.sort_order == "desc"))
-        return events[query.offset:query.offset + query.limit]
+        return events[query.offset : query.offset + query.limit]
 
     def _reconstruct_event(self, event_data: dict[str, Any]) -> AuditEvent:
         """Reconstruct AuditEvent from stored data"""
@@ -492,7 +494,9 @@ class AuditStorage:
         # Compliance filters
         if query.compliance_relevant_only and not event.compliance_relevant:
             return False
-        if query.compliance_frameworks and not query.compliance_frameworks.intersection(event.compliance_frameworks):
+        if query.compliance_frameworks and not query.compliance_frameworks.intersection(
+            event.compliance_frameworks
+        ):
             return False
 
         return True
@@ -520,7 +524,7 @@ class AuditEventProcessor:
             "alerts": [],
             "patterns": [],
             "recommendations": [],
-            "actions_taken": []
+            "actions_taken": [],
         }
 
         try:
@@ -557,15 +561,21 @@ class AuditEventProcessor:
 
         # Update by level
         level_key = event.level.value
-        self.statistics.events_by_level[level_key] = self.statistics.events_by_level.get(level_key, 0) + 1
+        self.statistics.events_by_level[level_key] = (
+            self.statistics.events_by_level.get(level_key, 0) + 1
+        )
 
         # Update by category
         category_key = event.category.value
-        self.statistics.events_by_category[category_key] = self.statistics.events_by_category.get(category_key, 0) + 1
+        self.statistics.events_by_category[category_key] = (
+            self.statistics.events_by_category.get(category_key, 0) + 1
+        )
 
         # Update by type
         type_key = event.event_type.value
-        self.statistics.events_by_type[type_key] = self.statistics.events_by_type.get(type_key, 0) + 1
+        self.statistics.events_by_type[type_key] = (
+            self.statistics.events_by_type.get(type_key, 0) + 1
+        )
 
         # Time-based statistics (simplified - would use proper time windows in production)
         now = datetime.now()
@@ -615,49 +625,59 @@ class AuditEventProcessor:
 
         # Critical security events
         if event.level in [AuditLevel.CRITICAL, AuditLevel.SECURITY]:
-            alerts.append({
-                "type": "critical_security_event",
-                "severity": "high",
-                "message": f"Critical security event: {event.message}",
-                "recommended_action": "immediate_investigation"
-            })
+            alerts.append(
+                {
+                    "type": "critical_security_event",
+                    "severity": "high",
+                    "message": f"Critical security event: {event.message}",
+                    "recommended_action": "immediate_investigation",
+                }
+            )
 
         # Multiple failed logins
         if event.event_type == AuditEventType.LOGIN_FAILURE:
             # In practice, would check for patterns across events
-            alerts.append({
-                "type": "authentication_failure",
-                "severity": "medium",
-                "message": "Authentication failure detected",
-                "recommended_action": "monitor_user_activity"
-            })
+            alerts.append(
+                {
+                    "type": "authentication_failure",
+                    "severity": "medium",
+                    "message": "Authentication failure detected",
+                    "recommended_action": "monitor_user_activity",
+                }
+            )
 
         # High-risk events
         if event.risk_score > 0.8:
-            alerts.append({
-                "type": "high_risk_event",
-                "severity": "high",
-                "message": f"High risk event detected (score: {event.risk_score:.2f})",
-                "recommended_action": "security_review"
-            })
+            alerts.append(
+                {
+                    "type": "high_risk_event",
+                    "severity": "high",
+                    "message": f"High risk event detected (score: {event.risk_score:.2f})",
+                    "recommended_action": "security_review",
+                }
+            )
 
         # Compliance violations
         if event.event_type in [AuditEventType.POLICY_VIOLATION, AuditEventType.PRIVACY_VIOLATION]:
-            alerts.append({
-                "type": "compliance_violation",
-                "severity": "high",
-                "message": f"Compliance violation: {event.message}",
-                "recommended_action": "compliance_review"
-            })
+            alerts.append(
+                {
+                    "type": "compliance_violation",
+                    "severity": "high",
+                    "message": f"Compliance violation: {event.message}",
+                    "recommended_action": "compliance_review",
+                }
+            )
 
         # Trinity Framework alerts
         if event.guardian_context.get("alert"):
-            alerts.append({
-                "type": "guardian_alert",
-                "severity": "high",
-                "message": "Guardian system alert triggered",
-                "recommended_action": "system_review"
-            })
+            alerts.append(
+                {
+                    "type": "guardian_alert",
+                    "severity": "high",
+                    "message": "Guardian system alert triggered",
+                    "recommended_action": "system_review",
+                }
+            )
 
         return alerts
 
@@ -671,19 +691,23 @@ class AuditEventProcessor:
 
         # Repeated events from same user
         if event.user_id:
-            patterns.append({
-                "type": "user_activity_pattern",
-                "description": f"Activity from user {event.user_id}",
-                "confidence": 0.8
-            })
+            patterns.append(
+                {
+                    "type": "user_activity_pattern",
+                    "description": f"Activity from user {event.user_id}",
+                    "confidence": 0.8,
+                }
+            )
 
         # Geographic anomalies (if IP data available)
         if event.source_ip:
-            patterns.append({
-                "type": "geographic_access",
-                "description": f"Access from IP {event.source_ip}",
-                "confidence": 0.6
-            })
+            patterns.append(
+                {
+                    "type": "geographic_access",
+                    "description": f"Access from IP {event.source_ip}",
+                    "confidence": 0.6,
+                }
+            )
 
         return patterns
 
@@ -714,10 +738,7 @@ class AuditEventProcessor:
         return recommendations
 
     async def _take_automated_actions(
-        self,
-        event: AuditEvent,
-        alerts: list[dict[str, Any]],
-        patterns: list[dict[str, Any]]
+        self, event: AuditEvent, alerts: list[dict[str, Any]], patterns: list[dict[str, Any]]
     ) -> list[str]:
         """Take automated actions based on event analysis"""
 
@@ -780,7 +801,7 @@ class ComprehensiveAuditSystem:
         session_id: Optional[str] = None,
         source_module: Optional[str] = None,
         event_data: Optional[dict[str, Any]] = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         """
         Log an audit event
@@ -807,7 +828,7 @@ class ComprehensiveAuditSystem:
             session_id=session_id,
             source_module=source_module,
             event_data=event_data or {},
-            **filtered_kwargs
+            **filtered_kwargs,
         )
 
         # Set previous event hash for chain of custody
@@ -902,7 +923,7 @@ class ComprehensiveAuditSystem:
             RetentionPolicy.SHORT_TERM: timedelta(days=30),
             RetentionPolicy.MEDIUM_TERM: timedelta(days=365),
             RetentionPolicy.LONG_TERM: timedelta(days=2555),  # ~7 years
-            RetentionPolicy.PERMANENT: None  # Never delete
+            RetentionPolicy.PERMANENT: None,  # Never delete
         }
 
         current_time = datetime.now()
@@ -934,7 +955,7 @@ class ComprehensiveAuditSystem:
         all_events.sort(key=lambda e: e.timestamp, reverse=(query.sort_order == "desc"))
 
         # Apply final limit
-        return all_events[:query.limit]
+        return all_events[: query.limit]
 
     async def get_audit_statistics(self) -> AuditStatistics:
         """Get audit system statistics"""
@@ -950,7 +971,7 @@ class ComprehensiveAuditSystem:
             "integrity_violations": 0,
             "chain_breaks": 0,
             "corrupt_events": [],
-            "overall_integrity": True
+            "overall_integrity": True,
         }
 
         try:
@@ -965,9 +986,7 @@ class ComprehensiveAuditSystem:
 
             # Also check recently stored events
             recent_query = AuditQuery(
-                start_time=datetime.now() - timedelta(hours=24),
-                end_time=datetime.now(),
-                limit=1000
+                start_time=datetime.now() - timedelta(hours=24), end_time=datetime.now(), limit=1000
             )
             stored_events = await self.storage.query_events(recent_query)
 
@@ -979,7 +998,9 @@ class ComprehensiveAuditSystem:
                     verification_result["corrupt_events"].append(event.event_id)
                     verification_result["overall_integrity"] = False
 
-            logger.info(f"✅ Audit integrity verification completed: {verification_result['total_events_checked']} events checked")
+            logger.info(
+                f"✅ Audit integrity verification completed: {verification_result['total_events_checked']} events checked"
+            )
 
         except Exception as e:
             logger.error(f"❌ Audit integrity verification failed: {e}")
@@ -993,7 +1014,7 @@ class ComprehensiveAuditSystem:
         framework: str,
         start_date: datetime,
         end_date: datetime,
-        include_recommendations: bool = True
+        include_recommendations: bool = True,
     ) -> dict[str, Any]:
         """Generate compliance audit report"""
 
@@ -1005,7 +1026,7 @@ class ComprehensiveAuditSystem:
             end_time=end_date,
             compliance_relevant_only=True,
             compliance_frameworks={framework},
-            limit=10000
+            limit=10000,
         )
 
         events = await self.query_events(query)
@@ -1014,17 +1035,18 @@ class ComprehensiveAuditSystem:
         report = {
             "report_id": report_id,
             "framework": framework,
-            "period": {
-                "start": start_date.isoformat(),
-                "end": end_date.isoformat()
-            },
+            "period": {"start": start_date.isoformat(), "end": end_date.isoformat()},
             "generated_at": datetime.now().isoformat(),
             "summary": {
                 "total_events": len(events),
-                "compliance_violations": len([e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]),
+                "compliance_violations": len(
+                    [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
+                ),
                 "privacy_events": len([e for e in events if e.category == AuditCategory.PRIVACY]),
                 "security_events": len([e for e in events if e.category == AuditCategory.SECURITY]),
-                "data_access_events": len([e for e in events if e.category == AuditCategory.DATA_ACCESS])
+                "data_access_events": len(
+                    [e for e in events if e.category == AuditCategory.DATA_ACCESS]
+                ),
             },
             "events_by_type": {},
             "high_risk_events": [
@@ -1033,10 +1055,11 @@ class ComprehensiveAuditSystem:
                     "timestamp": e.timestamp.isoformat(),
                     "type": e.event_type.value,
                     "message": e.message,
-                    "risk_score": e.risk_score
+                    "risk_score": e.risk_score,
                 }
-                for e in events if e.risk_score > 0.7
-            ]
+                for e in events
+                if e.risk_score > 0.7
+            ],
         }
 
         # Count events by type
@@ -1046,15 +1069,15 @@ class ComprehensiveAuditSystem:
 
         # Add recommendations if requested
         if include_recommendations:
-            report["recommendations"] = await self._generate_compliance_recommendations(events, framework)
+            report["recommendations"] = await self._generate_compliance_recommendations(
+                events, framework
+            )
 
         logger.info(f"✅ Generated compliance report: {report_id} ({len(events)} events)")
         return report
 
     async def _generate_compliance_recommendations(
-        self,
-        events: list[AuditEvent],
-        framework: str
+        self, events: list[AuditEvent], framework: str
     ) -> list[str]:
         """Generate compliance recommendations based on audit events"""
 
@@ -1063,17 +1086,23 @@ class ComprehensiveAuditSystem:
         # Analyze patterns and violations
         violations = [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
         if violations:
-            recommendations.append(f"Address {len(violations)} policy violations identified in the audit period")
+            recommendations.append(
+                f"Address {len(violations)} policy violations identified in the audit period"
+            )
 
         high_risk_events = [e for e in events if e.risk_score > 0.7]
         if high_risk_events:
-            recommendations.append(f"Review {len(high_risk_events)} high-risk events for potential security improvements")
+            recommendations.append(
+                f"Review {len(high_risk_events)} high-risk events for potential security improvements"
+            )
 
         # Framework-specific recommendations
         if framework.lower() == "gdpr":
             privacy_events = [e for e in events if e.category == AuditCategory.PRIVACY]
             if privacy_events:
-                recommendations.append("Review privacy event handling procedures for GDPR compliance")
+                recommendations.append(
+                    "Review privacy event handling procedures for GDPR compliance"
+                )
 
         elif framework.lower() == "soc2":
             access_events = [e for e in events if e.category == AuditCategory.AUTHORIZATION]
@@ -1083,15 +1112,13 @@ class ComprehensiveAuditSystem:
         # Trinity Framework recommendations
         identity_events = [e for e in events if e.identity_context]
         if identity_events:
-            recommendations.append("Review identity verification processes within Trinity Framework")
+            recommendations.append(
+                "Review identity verification processes within Trinity Framework"
+            )
 
         return recommendations
 
-    async def export_audit_data(
-        self,
-        query: AuditQuery,
-        format: str = "json"
-    ) -> str:
+    async def export_audit_data(self, query: AuditQuery, format: str = "json") -> str:
         """Export audit data in specified format"""
 
         events = await self.query_events(query)
@@ -1101,9 +1128,9 @@ class ComprehensiveAuditSystem:
                 "export_metadata": {
                     "timestamp": datetime.now().isoformat(),
                     "query": asdict(query),
-                    "total_events": len(events)
+                    "total_events": len(events),
                 },
-                "events": [asdict(event) for event in events]
+                "events": [asdict(event) for event in events],
             }
             return json.dumps(export_data, default=str, indent=2)
 
@@ -1112,7 +1139,7 @@ class ComprehensiveAuditSystem:
             csv_lines = ["timestamp,event_type,category,level,message,user_id"]
 
             for event in events:
-                line = f"{event.timestamp},{event.event_type.value},{event.category.value},{event.level.value},\"{event.message}\",{event.user_id or ''}"
+                line = f'{event.timestamp},{event.event_type.value},{event.category.value},{event.level.value},"{event.message}",{event.user_id or ""}'
                 csv_lines.append(line)
 
             return "\n".join(csv_lines)
@@ -1138,7 +1165,7 @@ async def audit_login(user_id: str, success: bool, source_ip: str = None) -> str
         user_id=user_id,
         source_ip=source_ip,
         compliance_relevant=True,
-        compliance_frameworks={"gdpr", "soc2"}
+        compliance_frameworks={"gdpr", "soc2"},
     )
 
 
@@ -1157,11 +1184,13 @@ async def audit_data_access(user_id: str, resource: str, access_type: str, grant
         user_id=user_id,
         event_data={"resource": resource, "access_type": access_type},
         compliance_relevant=True,
-        compliance_frameworks={"gdpr", "ccpa", "soc2"}
+        compliance_frameworks={"gdpr", "ccpa", "soc2"},
     )
 
 
-async def audit_security_violation(violation_type: str, details: str, risk_score: float = 0.8) -> str:
+async def audit_security_violation(
+    violation_type: str, details: str, risk_score: float = 0.8
+) -> str:
     """Audit security violation"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1173,11 +1202,13 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
         description=details,
         risk_score=risk_score,
         threat_indicators=[violation_type],
-        compliance_relevant=True
+        compliance_relevant=True,
     )
 
 
-async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: str = None) -> str:
+async def audit_trinity_event(
+    component: str, event_details: dict[str, Any], user_id: str = None
+) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 
@@ -1197,24 +1228,24 @@ async def audit_trinity_event(component: str, event_details: dict[str, Any], use
         level=AuditLevel.INFO,
         user_id=user_id,
         event_data=event_details,
-        **trinity_context
+        **trinity_context,
     )
 
 
 # Export main classes and functions
 __all__ = [
-    "ComprehensiveAuditSystem",
-    "AuditStorage",
-    "AuditEventProcessor",
+    "AuditCategory",
     "AuditEvent",
+    "AuditEventProcessor",
+    "AuditEventType",
+    "AuditLevel",
     "AuditQuery",
     "AuditStatistics",
-    "AuditLevel",
-    "AuditCategory",
-    "AuditEventType",
+    "AuditStorage",
+    "ComprehensiveAuditSystem",
     "RetentionPolicy",
-    "audit_login",
     "audit_data_access",
+    "audit_login",
     "audit_security_violation",
-    "audit_trinity_event"
+    "audit_trinity_event",
 ]

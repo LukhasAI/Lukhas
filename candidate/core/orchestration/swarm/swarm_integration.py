@@ -3,6 +3,7 @@
 Colony-Swarm Integration
 Connects the colony coordination and swarm intelligence systems.
 """
+
 from typing import Any
 
 from baggage.tag_system import BaggageTagSystem

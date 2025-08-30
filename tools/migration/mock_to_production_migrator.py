@@ -136,10 +136,7 @@ class MockToProductionMigrator:
         mock_locations = {}
 
         for py_file in self.base_path.rglob("*.py"):
-            if any(
-                skip in str(py_file)
-                for skip in ["test_", "mock_", "__pycache__", "backup"]
-            ):
+            if any(skip in str(py_file) for skip in ["test_", "mock_", "__pycache__", "backup"]):
                 continue
 
             self.migration_report["files_analyzed"] += 1
@@ -166,9 +163,7 @@ class MockToProductionMigrator:
                             )
 
                 if file_mocks:
-                    mock_locations[str(py_file.relative_to(self.base_path))] = (
-                        file_mocks
-                    )
+                    mock_locations[str(py_file.relative_to(self.base_path))] = file_mocks
                     self.migration_report["mocks_found"] += len(file_mocks)
 
             except Exception as e:
@@ -176,9 +171,7 @@ class MockToProductionMigrator:
 
         return mock_locations
 
-    def create_migration_plan(
-        self, mock_locations: dict[str, list[dict]]
-    ) -> list[dict]:
+    def create_migration_plan(self, mock_locations: dict[str, list[dict]]) -> list[dict]:
         """Create detailed migration plan"""
         print("\n📋 Creating migration plan...")
 
@@ -275,9 +268,7 @@ class MockToProductionMigrator:
         # Generate individual migration scripts
         for file_plan in migration_plan:
             if file_plan["priority"] >= 2:  # High and medium priority only
-                script_name = (
-                    file_plan["file"].replace("/", "_").replace(".py", "_migration.py")
-                )
+                script_name = file_plan["file"].replace("/", "_").replace(".py", "_migration.py")
                 script_path = scripts_dir / script_name
 
                 script_content = self._generate_migration_script(file_plan)
@@ -290,16 +281,16 @@ class MockToProductionMigrator:
         """Generate migration script for a file"""
         return f'''#!/usr/bin/env python3
 """
-Migration script for {file_plan['file']}
+Migration script for {file_plan["file"]}
 Generated: {datetime.now().isoformat()}
-Priority: {file_plan['priority']}
+Priority: {file_plan["priority"]}
 """
 
 from pathlib import Path
 import re
 
-FILE_PATH = "{file_plan['file']}"
-MIGRATIONS = {json.dumps(file_plan['migrations'], indent=4)}
+FILE_PATH = "{file_plan["file"]}"
+MIGRATIONS = {json.dumps(file_plan["migrations"], indent=4)}
 
 def migrate():
     """Apply migrations to file"""
@@ -371,9 +362,7 @@ if __name__ == "__main__":
             ],
         }
 
-        report_path = (
-            self.base_path / "docs" / "reports" / "mock_to_production_report.json"
-        )
+        report_path = self.base_path / "docs" / "reports" / "mock_to_production_report.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(report_path, "w") as f:

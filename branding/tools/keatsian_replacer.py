@@ -33,7 +33,6 @@ class KeatsianReplacer:
             r"definitive solution": "space for meaning to emerge",
             r"breakthrough innovation": "patient exploration",
             r"transformative power": "gentle transformation",
-
             # Technical Language → Poetic Precision
             r"comprehensive AI solutions": "space where logic and imagination meet",
             r"advanced artificial intelligence": "systems that dwell in uncertainty",
@@ -41,14 +40,12 @@ class KeatsianReplacer:
             r"next-generation platform": "platform for negative capability",
             r"revolutionary system": "system that holds questions",
             r"intelligent automation": "automation with room for wonder",
-
             # System Descriptions → Keatsian Philosophy
             r"LUKHAS provides": "LUKHAS creates space for",
             r"delivers results": "cultivates possibilities",
             r"ensures outcomes": "holds space for emergence",
             r"guarantees performance": "maintains capacity for surprise",
             r"optimizes efficiency": "balances rigor with wonder",
-
             # Mission Language → Intimate Scale
             r"global transformation": "quiet influence",
             r"world-changing": "gently transformative",
@@ -62,25 +59,31 @@ class KeatsianReplacer:
         return {
             "LUKHAS": {
                 "short": "The Negative Capability of Systems",
-                "definition": ("LUKHAS embodies what Keats called Negative Capability: "
-                              "the capacity to remain in uncertainty, mystery, and doubt "
-                              "without fleeing to premature conclusions."),
-                "essence": "A mirror where logic and imagination meet"
+                "definition": (
+                    "LUKHAS embodies what Keats called Negative Capability: "
+                    "the capacity to remain in uncertainty, mystery, and doubt "
+                    "without fleeing to premature conclusions."
+                ),
+                "essence": "A mirror where logic and imagination meet",
             },
             "MΛTRIZ": {
                 "short": "From Shadow to Resonance",
-                "definition": ("MΛTRIZ is the matrix as womb, not grid — a space where "
-                              "trust and creation grow through modular alignment, "
-                              "transparency, resonance, identity, and zero-knowledge."),
-                "essence": "The structure that lets uncertainty remain fertile"
+                "definition": (
+                    "MΛTRIZ is the matrix as womb, not grid — a space where "
+                    "trust and creation grow through modular alignment, "
+                    "transparency, resonance, identity, and zero-knowledge."
+                ),
+                "essence": "The structure that lets uncertainty remain fertile",
             },
             "EQNOX": {
                 "short": "Balance at the Turning Point",
-                "definition": ("EQNOX holds light and dark in perfect measure, "
-                              "weaving meaning across the system while keeping "
-                              "uncertainty from becoming chaos."),
-                "essence": "It does not command, it steadies"
-            }
+                "definition": (
+                    "EQNOX holds light and dark in perfect measure, "
+                    "weaving meaning across the system while keeping "
+                    "uncertainty from becoming chaos."
+                ),
+                "essence": "It does not command, it steadies",
+            },
         }
 
     def process_markdown_file(self, file_path: Path) -> bool:
@@ -98,8 +101,10 @@ class KeatsianReplacer:
                 changes_in_file += count
 
             # Add Keatsian system definitions if this is a system description file
-            if any(keyword in file_path.name.lower() for keyword in
-                   ["system", "brand", "narrative", "description", "mission"]):
+            if any(
+                keyword in file_path.name.lower()
+                for keyword in ["system", "brand", "narrative", "description", "mission"]
+            ):
                 content = self._inject_keatsian_definitions(content)
                 if content != original_content:
                     changes_in_file += 1
@@ -133,8 +138,10 @@ class KeatsianReplacer:
             original_data = data.copy()
 
             # Add Keatsian philosophy to vocabulary files
-            if "vocabulary" in file_path.name or any(vocab in file_path.name for vocab in
-                                                    ["consciousness", "dream", "identity", "quantum"]):
+            if "vocabulary" in file_path.name or any(
+                vocab in file_path.name
+                for vocab in ["consciousness", "dream", "identity", "quantum"]
+            ):
                 if not data:
                     data = {}
 
@@ -241,17 +248,19 @@ class KeatsianReplacer:
 
 The LUKHAS system embodies Negative Capability - the capacity to remain in uncertainty, mystery, and doubt without fleeing to premature conclusions.
 
-{keatsian_defs['LUKHAS']['definition']}
+{keatsian_defs["LUKHAS"]["definition"]}
 
-{keatsian_defs['MΛTRIZ']['definition']}
+{keatsian_defs["MΛTRIZ"]["definition"]}
 
-{keatsian_defs['EQNOX']['definition']}
+{keatsian_defs["EQNOX"]["definition"]}
 
 ---
 """
             # Insert before the first main heading or at the beginning
             if re.search(r"^#[^#]", content, re.MULTILINE):
-                content = re.sub(r"^(#[^#].+)", keatsian_section + r"\1", content, count=1, flags=re.MULTILINE)
+                content = re.sub(
+                    r"^(#[^#].+)", keatsian_section + r"\1", content, count=1, flags=re.MULTILINE
+                )
             else:
                 content = keatsian_section + content
 
@@ -265,7 +274,7 @@ The LUKHAS system embodies Negative Capability - the capacity to remain in uncer
             "total_changes": 0,
             "markdown_files": 0,
             "yaml_files": 0,
-            "json_files": 0
+            "json_files": 0,
         }
 
         print(f"🎭 {'[DRY RUN] ' if dry_run else ''}Keatsian Branding Replacement")
@@ -305,14 +314,17 @@ The LUKHAS system embodies Negative Capability - the capacity to remain in uncer
 
         return stats
 
+
 def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Apply Keatsian philosophy to LUKHAS branding")
-    parser.add_argument("--branding-root", default="branding",
-                       help="Root directory of branding files")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show what would be changed without making changes")
+    parser.add_argument(
+        "--branding-root", default="branding", help="Root directory of branding files"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show what would be changed without making changes"
+    )
 
     args = parser.parse_args()
 
@@ -326,7 +338,7 @@ def main():
             "timestamp": timestamp,
             "philosophy": "keatsian_negative_capability",
             "statistics": stats,
-            "approach": "uncertainty_as_fertile_ground"
+            "approach": "uncertainty_as_fertile_ground",
         }
 
         report_path = Path("keatsian_replacement_report.json")
@@ -336,6 +348,7 @@ def main():
         print(f"\n📝 Report saved: {report_path}")
         print("\n🎭 Keatsian transformation complete!")
         print("💫 'A new sense: retro and modern, poetic and logical'")
+
 
 if __name__ == "__main__":
     main()

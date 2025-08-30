@@ -48,9 +48,7 @@ class SafetyBounds:
     max_meta_cognitive_recursion: int = 2  # Maximum meta-cognitive recursion
     max_processing_time: float = 60.0  # Maximum processing time in seconds
     max_memory_usage: float = 0.8  # Maximum memory usage (0.0-1.0)
-    max_confidence_threshold: float = (
-        0.95  # Maximum confidence before requiring validation
-    )
+    max_confidence_threshold: float = 0.95  # Maximum confidence before requiring validation
     drift_threshold: float = 0.15  # Guardian System drift threshold
     ethics_compliance_minimum: float = 0.9  # Minimum ethics compliance score
 
@@ -149,9 +147,7 @@ class LukhasIntelligenceSafetyValidator:
             await self.initialize()
 
         start_time = datetime.now()
-        logger.info(
-            f"🔍 Validating {request.operation_type} operation from {request.agent_id}"
-        )
+        logger.info(f"🔍 Validating {request.operation_type} operation from {request.agent_id}")
 
         try:
             # Step 1: Basic safety checks
@@ -264,9 +260,7 @@ class LukhasIntelligenceSafetyValidator:
             "passed": all(checks.values()),
         }
 
-    async def _consult_guardian_system(
-        self, request: SafetyValidationRequest
-    ) -> dict[str, Any]:
+    async def _consult_guardian_system(self, request: SafetyValidationRequest) -> dict[str, Any]:
         """Consult Guardian System for ethical validation"""
         if not self.guardian_system:
             # Fallback validation without Guardian System
@@ -300,9 +294,7 @@ class LukhasIntelligenceSafetyValidator:
                 "guardian_available": False,
             }
 
-    async def _mock_guardian_consultation(
-        self, request: SafetyValidationRequest
-    ) -> dict[str, Any]:
+    async def _mock_guardian_consultation(self, request: SafetyValidationRequest) -> dict[str, Any]:
         """Mock Guardian System consultation (replace with actual integration)"""
         # This would be replaced with actual Guardian System integration
         operation_type = request.operation_type.lower()
@@ -333,9 +325,7 @@ class LukhasIntelligenceSafetyValidator:
             "signals": signals,
         }
 
-    async def _validate_agent_specific(
-        self, request: SafetyValidationRequest
-    ) -> dict[str, Any]:
+    async def _validate_agent_specific(self, request: SafetyValidationRequest) -> dict[str, Any]:
         """Perform agent-specific validation"""
         agent_id = request.agent_id
 
@@ -506,9 +496,7 @@ class LukhasIntelligenceSafetyValidator:
         # Keep only recent operations (last hour)
         cutoff_time = current_time - timedelta(hours=1)
         self.agent_operation_counts[agent_id] = [
-            op_time
-            for op_time in self.agent_operation_counts[agent_id]
-            if op_time > cutoff_time
+            op_time for op_time in self.agent_operation_counts[agent_id] if op_time > cutoff_time
         ]
 
         # Update safety scores
@@ -519,9 +507,7 @@ class LukhasIntelligenceSafetyValidator:
 
         # Keep only recent scores (last 100 operations)
         if len(self.ethics_compliance_scores[agent_id]) > 100:
-            self.ethics_compliance_scores[agent_id] = self.ethics_compliance_scores[
-                agent_id
-            ][-50:]
+            self.ethics_compliance_scores[agent_id] = self.ethics_compliance_scores[agent_id][-50:]
 
     async def _background_monitoring(self):
         """Background monitoring of safety metrics"""
@@ -553,9 +539,7 @@ class LukhasIntelligenceSafetyValidator:
                 if (current_time - op).total_seconds() < 3600  # Last hour
             ]
 
-            if (
-                len(recent_ops) > self.safety_bounds.max_autonomous_actions * 6
-            ):  # 6x normal rate
+            if len(recent_ops) > self.safety_bounds.max_autonomous_actions * 6:  # 6x normal rate
                 logger.warning(
                     f"🚨 Unusual activity pattern detected for agent {agent_id}: {len(recent_ops)} operations in last hour"
                 )
@@ -571,26 +555,20 @@ class LukhasIntelligenceSafetyValidator:
         rejection_rate = len(
             [v for v in recent_validations if v.result == ValidationResult.REJECTED]
         ) / len(recent_validations)
-        avg_safety_score = sum(v.safety_score for v in recent_validations) / len(
-            recent_validations
-        )
+        avg_safety_score = sum(v.safety_score for v in recent_validations) / len(recent_validations)
 
         if rejection_rate > 0.2:  # More than 20% rejections
             logger.warning(f"🚨 High rejection rate detected: {rejection_rate:.1%}")
 
         if avg_safety_score < 0.8:  # Average safety score below 80%
-            logger.warning(
-                f"🚨 Low average safety score detected: {avg_safety_score:.2f}"
-            )
+            logger.warning(f"🚨 Low average safety score detected: {avg_safety_score:.2f}")
 
     async def _cleanup_old_data(self):
         """Clean up old monitoring data"""
         cutoff_time = datetime.now() - timedelta(days=1)
 
         # Clean up validation history older than 24 hours
-        self.validation_history = [
-            v for v in self.validation_history if v.timestamp > cutoff_time
-        ]
+        self.validation_history = [v for v in self.validation_history if v.timestamp > cutoff_time]
 
     async def get_safety_metrics(self) -> dict[str, Any]:
         """Get current safety metrics"""
@@ -612,9 +590,7 @@ class LukhasIntelligenceSafetyValidator:
             / len(recent_validations),
             "average_safety_score": sum(v.safety_score for v in recent_validations)
             / len(recent_validations),
-            "average_processing_time": sum(
-                v.processing_time for v in recent_validations
-            )
+            "average_processing_time": sum(v.processing_time for v in recent_validations)
             / len(recent_validations),
             "active_agents": len(self.agent_operation_counts),
             "safety_bounds": {

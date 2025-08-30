@@ -53,9 +53,7 @@ class RestabilizationIndex:
 
     # ΛRECOVERY_POINT: Core method for registering a recovery action or vector.
 
-    def register_recovery(
-        self, symbol_id: str, recovery_vector: dict, notes: str
-    ) -> str:
+    def register_recovery(self, symbol_id: str, recovery_vector: dict, notes: str) -> str:
         """
             Registers a symbolic recovery event.
 
@@ -236,15 +234,11 @@ if __name__ == "__main__":
     fake_drift_record_id = "drift_event_xyz123"
     # ΛTRACE: Simulating linking drift to recovery event
     logger.debug("Simulating linking drift to recovery event", tag="ΛTRACE")
-    index.link_to_drift(
-        drift_record_id=fake_drift_record_id, recovery_event_id=event2_id
-    )
+    index.link_to_drift(drift_record_id=fake_drift_record_id, recovery_event_id=event2_id)
     print(f"Linked recovery event {event2_id} to drift record {fake_drift_record_id}")
 
     # Score one of the recoveries
-    score1 = index.score_recovery(
-        symbol_id="persona_echo_7", recovery_event_id=event1_id
-    )
+    score1 = index.score_recovery(symbol_id="persona_echo_7", recovery_event_id=event1_id)
     print(f"Recovery score for event {event1_id} (symbol 'persona_echo_7'): {score1}")
 
     # Print the stabilization summary

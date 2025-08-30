@@ -32,7 +32,6 @@ from .safety.voice_safety_guard import SafetyGuard
 
 
 class LUKHASVoiceSystem:
-
     def __init__(self, config: dict[str, Any]):
         self.logger = logging.getLogger("LUKHASVoiceSystem")
         self.context_analyzer = ContextAnalyzer()
@@ -44,9 +43,7 @@ class LUKHASVoiceSystem:
         )
         self.safety_guard = SafetyGuard()
 
-    async def process_input(
-        self, user_input: str, metadata: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_input(self, user_input: str, metadata: dict[str, Any]) -> dict[str, Any]:
         self.logger.info(
             "Processing user input",
             extra={"metadata": self.compliance_engine.anonymize_metadata(metadata)},

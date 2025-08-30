@@ -171,9 +171,7 @@ class AuditLogger:
         self.config = config or {}
 
         # Storage configuration
-        self.audit_file_path = Path(
-            self.config.get("audit_file_path", "audit/audit.jsonl")
-        )
+        self.audit_file_path = Path(self.config.get("audit_file_path", "audit/audit.jsonl"))
         self.max_file_size_mb = self.config.get("max_file_size_mb", 100)
         self.retention_days = self.config.get("retention_days", 2555)  # 7 years
 
@@ -255,9 +253,7 @@ class AuditLogger:
 
         # Log critical events immediately
         if severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]:
-            logger.warning(
-                f"Critical audit event: {event_type.value} - {action} - {outcome}"
-            )
+            logger.warning(f"Critical audit event: {event_type.value} - {action} - {outcome}")
 
         return event_id
 
@@ -412,9 +408,7 @@ class AuditLogger:
     ) -> str:
         """Log drift detection event"""
 
-        severity = (
-            AuditSeverity.CRITICAL if drift_score >= threshold else AuditSeverity.INFO
-        )
+        severity = AuditSeverity.CRITICAL if drift_score >= threshold else AuditSeverity.INFO
         outcome = "threshold_breach" if drift_score >= threshold else "within_threshold"
 
         drift_details = {
@@ -493,9 +487,7 @@ class AuditLogger:
             details={
                 "trail_id": trail.trail_id,
                 "event_count": len(trail.events),
-                "duration_seconds": (
-                    trail.completed_at - trail.created_at
-                ).total_seconds(),
+                "duration_seconds": (trail.completed_at - trail.created_at).total_seconds(),
             },
         )
 
@@ -558,15 +550,11 @@ class AuditLogger:
         # Severity distribution
         severity_counts = {}
         for event in recent_events:
-            severity_counts[event.severity.value] = (
-                severity_counts.get(event.severity.value, 0) + 1
-            )
+            severity_counts[event.severity.value] = severity_counts.get(event.severity.value, 0) + 1
 
         # Constitutional events
         constitutional_events = [
-            e
-            for e in recent_events
-            if e.event_type == AuditEventType.CONSTITUTIONAL_ENFORCEMENT
+            e for e in recent_events if e.event_type == AuditEventType.CONSTITUTIONAL_ENFORCEMENT
         ]
         drift_events = [e for e in recent_events if e.drift_score is not None]
 
@@ -607,7 +595,7 @@ class AuditLogger:
             except Exception as e:
                 verification_results["integrity_failed"] += 1
                 verification_results["errors"].append(
-                    f"Error verifying event {event.event_id}: {str(e)}"
+                    f"Error verifying event {event.event_id}: {e!s}"
                 )
 
         return verification_results
@@ -615,10 +603,10 @@ class AuditLogger:
 
 # Export classes for production use
 __all__ = [
-    "AuditLogger",
     "AuditEvent",
-    "AuditTrail",
     "AuditEventType",
+    "AuditLogger",
     "AuditSeverity",
+    "AuditTrail",
     "ComplianceFramework",
 ]

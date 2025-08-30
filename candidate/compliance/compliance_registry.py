@@ -39,9 +39,7 @@ class ComplianceRegistry:
 
         self.component_registry = {}
 
-    async def register_component(
-        self, component_id: str, compliance_data: dict[str, Any]
-    ) -> None:
+    async def register_component(self, component_id: str, compliance_data: dict[str, Any]) -> None:
         """Register a component's compliance information"""
         self.component_registry[component_id] = {
             "registration_date": datetime.now().isoformat(),

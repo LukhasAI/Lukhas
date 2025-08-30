@@ -79,9 +79,7 @@ class VoiceHub:
         """List all registered voice services"""
         return list(self.services.keys())
 
-    async def process_voice_request(
-        self, request_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_voice_request(self, request_data: dict[str, Any]) -> dict[str, Any]:
         """Process voice request through registered services"""
         try:
             results = {}

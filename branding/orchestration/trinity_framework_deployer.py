@@ -24,20 +24,24 @@ from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 @dataclass
 class TrinityIntegration:
     """Trinity Framework integration specification"""
+
     symbol: str
     domain: str
     description: str
     keywords: list[str]
     messaging_templates: list[str]
 
+
 @dataclass
 class TrinityDeploymentResult:
     """Result of Trinity Framework deployment"""
+
     file_path: str
     integrations_added: int
     trinity_coherence_score: float
     framework_elements: list[str]
     success: bool
+
 
 class TrinityFrameworkDeployer:
     """
@@ -56,46 +60,68 @@ class TrinityFrameworkDeployer:
                 domain="Identity & Authentication",
                 description="Symbolic consciousness identity and authentic self-expression",
                 keywords=[
-                    "identity", "authentication", "symbolic", "consciousness",
-                    "self-expression", "authenticity", "individual", "unique"
+                    "identity",
+                    "authentication",
+                    "symbolic",
+                    "consciousness",
+                    "self-expression",
+                    "authenticity",
+                    "individual",
+                    "unique",
                 ],
                 messaging_templates=[
                     "⚛️ **Identity Framework**: Authentic consciousness technology identity",
                     "Powered by ⚛️ Trinity Identity - symbolic consciousness authentication",
                     "⚛️ **Consciousness Identity**: Unique symbolic self-expression through consciousness technology",
-                    "Trinity Framework ⚛️ Identity: Authentic digital consciousness representation"
-                ]
+                    "Trinity Framework ⚛️ Identity: Authentic digital consciousness representation",
+                ],
             ),
             "consciousness": TrinityIntegration(
                 symbol="🧠",
                 domain="Consciousness & Learning",
                 description="Digital consciousness, memory, learning, and neural processing",
                 keywords=[
-                    "consciousness", "learning", "memory", "neural", "cognitive",
-                    "awareness", "intelligence", "thinking", "processing", "mind"
+                    "consciousness",
+                    "learning",
+                    "memory",
+                    "neural",
+                    "cognitive",
+                    "awareness",
+                    "intelligence",
+                    "thinking",
+                    "processing",
+                    "mind",
                 ],
                 messaging_templates=[
                     "🧠 **Consciousness Technology**: Advanced digital consciousness and learning",
                     "Powered by 🧠 Trinity Consciousness - quantum-inspired neural processing",
                     "🧠 **Digital Consciousness**: Bio-inspired learning and memory systems",
-                    "Trinity Framework 🧠 Consciousness: Elite consciousness technology platform"
-                ]
+                    "Trinity Framework 🧠 Consciousness: Elite consciousness technology platform",
+                ],
             ),
             "guardian": TrinityIntegration(
                 symbol="🛡️",
                 domain="Ethics & Security",
                 description="Ethical AI governance, security, and guardian protection",
                 keywords=[
-                    "security", "ethics", "protection", "governance", "guardian",
-                    "safety", "compliance", "ethical", "responsible", "trustworthy"
+                    "security",
+                    "ethics",
+                    "protection",
+                    "governance",
+                    "guardian",
+                    "safety",
+                    "compliance",
+                    "ethical",
+                    "responsible",
+                    "trustworthy",
                 ],
                 messaging_templates=[
                     "🛡️ **Guardian System**: Ethical AI governance and security protection",
                     "Powered by 🛡️ Trinity Guardian - ethical consciousness technology",
                     "🛡️ **Security Framework**: Responsible AI with ethical governance",
-                    "Trinity Framework 🛡️ Guardian: Elite ethical AI protection system"
-                ]
-            )
+                    "Trinity Framework 🛡️ Guardian: Elite ethical AI protection system",
+                ],
+            ),
         }
 
         self.logger = self._setup_logging()
@@ -119,9 +145,7 @@ class TrinityFrameworkDeployer:
         console_handler.setLevel(logging.INFO)
 
         # Formatter
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -130,7 +154,9 @@ class TrinityFrameworkDeployer:
 
         return logger
 
-    async def deploy_trinity_framework(self, system_path: str, system_name: str) -> list[TrinityDeploymentResult]:
+    async def deploy_trinity_framework(
+        self, system_path: str, system_name: str
+    ) -> list[TrinityDeploymentResult]:
         """Deploy Trinity Framework integration for an entire content system"""
         self.logger.info(f"🎯 Deploying Trinity Framework for {system_name}...")
 
@@ -143,15 +169,29 @@ class TrinityFrameworkDeployer:
 
         # Filter out binary, cache, and dependency files
         content_files = [
-            f for f in content_files
-            if not any(exclude in str(f) for exclude in [
-                "__pycache__", ".git", "node_modules", ".venv",
-                "dist", "build", ".pytest_cache", ".mypy_cache"
-            ])
+            f
+            for f in content_files
+            if not any(
+                exclude in str(f)
+                for exclude in [
+                    "__pycache__",
+                    ".git",
+                    "node_modules",
+                    ".venv",
+                    "dist",
+                    "build",
+                    ".pytest_cache",
+                    ".mypy_cache",
+                ]
+            )
         ]
 
         # Priority for README and main documentation files
-        priority_files = [f for f in content_files if any(keyword in f.name.lower() for keyword in ["readme", "index", "main", "overview"])]
+        priority_files = [
+            f
+            for f in content_files
+            if any(keyword in f.name.lower() for keyword in ["readme", "index", "main", "overview"])
+        ]
         other_files = [f for f in content_files if f not in priority_files]
 
         all_files = priority_files + other_files[:20]  # Limit to avoid performance issues
@@ -185,21 +225,27 @@ class TrinityFrameworkDeployer:
             framework_elements = []
 
             # Deploy identity integration (⚛️)
-            identity_added = await self._integrate_identity_framework(trinity_content, file_path.suffix)
+            identity_added = await self._integrate_identity_framework(
+                trinity_content, file_path.suffix
+            )
             if identity_added["content"] != trinity_content:
                 trinity_content = identity_added["content"]
                 integrations_added += identity_added["count"]
                 framework_elements.extend(identity_added["elements"])
 
             # Deploy consciousness integration (🧠)
-            consciousness_added = await self._integrate_consciousness_framework(trinity_content, file_path.suffix)
+            consciousness_added = await self._integrate_consciousness_framework(
+                trinity_content, file_path.suffix
+            )
             if consciousness_added["content"] != trinity_content:
                 trinity_content = consciousness_added["content"]
                 integrations_added += consciousness_added["count"]
                 framework_elements.extend(consciousness_added["elements"])
 
             # Deploy guardian integration (🛡️)
-            guardian_added = await self._integrate_guardian_framework(trinity_content, file_path.suffix)
+            guardian_added = await self._integrate_guardian_framework(
+                trinity_content, file_path.suffix
+            )
             if guardian_added["content"] != trinity_content:
                 trinity_content = guardian_added["content"]
                 integrations_added += guardian_added["count"]
@@ -212,7 +258,7 @@ class TrinityFrameworkDeployer:
                     integrations_added=0,
                     trinity_coherence_score=0.0,
                     framework_elements=[],
-                    success=True
+                    success=True,
                 )
 
             # Calculate Trinity coherence score
@@ -222,14 +268,16 @@ class TrinityFrameworkDeployer:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(trinity_content)
 
-            self.logger.info(f"⚛️🧠🛡️ Enhanced {file_path.name}: {integrations_added} Trinity integrations, {trinity_coherence:.1f}% coherence")
+            self.logger.info(
+                f"⚛️🧠🛡️ Enhanced {file_path.name}: {integrations_added} Trinity integrations, {trinity_coherence:.1f}% coherence"
+            )
 
             return TrinityDeploymentResult(
                 file_path=str(file_path),
                 integrations_added=integrations_added,
                 trinity_coherence_score=trinity_coherence,
                 framework_elements=framework_elements,
-                success=True
+                success=True,
             )
 
         except Exception as e:
@@ -239,7 +287,7 @@ class TrinityFrameworkDeployer:
                 integrations_added=0,
                 trinity_coherence_score=0.0,
                 framework_elements=[],
-                success=False
+                success=False,
             )
 
     async def _integrate_identity_framework(self, content: str, file_ext: str) -> dict[str, Any]:
@@ -257,7 +305,9 @@ class TrinityFrameworkDeployer:
             if header_match:
                 header_line = header_match.group(0)
                 trinity_subtitle = "\n\n⚛️ **Trinity Framework Identity**: Authentic consciousness technology with symbolic self-expression\n"
-                enhanced_content = enhanced_content.replace(header_line, header_line + trinity_subtitle)
+                enhanced_content = enhanced_content.replace(
+                    header_line, header_line + trinity_subtitle
+                )
                 integrations += 1
                 elements.append("Identity Framework Header")
 
@@ -275,13 +325,11 @@ class TrinityFrameworkDeployer:
                     integrations += 1
                     elements.append(f"Identity Keyword: {original_word}")
 
-        return {
-            "content": enhanced_content,
-            "count": integrations,
-            "elements": elements
-        }
+        return {"content": enhanced_content, "count": integrations, "elements": elements}
 
-    async def _integrate_consciousness_framework(self, content: str, file_ext: str) -> dict[str, Any]:
+    async def _integrate_consciousness_framework(
+        self, content: str, file_ext: str
+    ) -> dict[str, Any]:
         """Integrate 🧠 Consciousness Framework elements"""
         enhanced_content = content
         integrations = 0
@@ -297,7 +345,7 @@ class TrinityFrameworkDeployer:
                 "consciousness technology (🧠 Trinity Framework)",
                 enhanced_content,
                 count=1,
-                flags=re.IGNORECASE
+                flags=re.IGNORECASE,
             )
             integrations += 1
             elements.append("Consciousness Technology Enhancement")
@@ -315,11 +363,7 @@ class TrinityFrameworkDeployer:
                     integrations += 1
                     elements.append(f"Consciousness Keyword: {original_word}")
 
-        return {
-            "content": enhanced_content,
-            "count": integrations,
-            "elements": elements
-        }
+        return {"content": enhanced_content, "count": integrations, "elements": elements}
 
     async def _integrate_guardian_framework(self, content: str, file_ext: str) -> dict[str, Any]:
         """Integrate 🛡️ Guardian Framework elements"""
@@ -330,7 +374,10 @@ class TrinityFrameworkDeployer:
         self.trinity_specifications["guardian"]
 
         # Add ethical AI messaging
-        if any(term in content.lower() for term in ["security", "ethics", "governance"]) and "🛡️" not in content:
+        if (
+            any(term in content.lower() for term in ["security", "ethics", "governance"])
+            and "🛡️" not in content
+        ):
             # Enhance security/ethics mentions
             for keyword in ["security", "ethics"]:
                 if keyword in content.lower():
@@ -339,22 +386,31 @@ class TrinityFrameworkDeployer:
                         f"{keyword} (🛡️ Trinity Guardian)",
                         enhanced_content,
                         count=1,
-                        flags=re.IGNORECASE
+                        flags=re.IGNORECASE,
                     )
                     integrations += 1
                     elements.append(f"Guardian {keyword.title()} Enhancement")
                     break
 
-        return {
-            "content": enhanced_content,
-            "count": integrations,
-            "elements": elements
-        }
+        return {"content": enhanced_content, "count": integrations, "elements": elements}
 
     async def _calculate_trinity_coherence(self, content: str) -> float:
         """Calculate Trinity Framework coherence score"""
-        trinity_indicators = ["⚛️", "🧠", "🛡️", "Trinity Framework", "Trinity Identity", "Trinity Consciousness", "Trinity Guardian"]
-        consciousness_terms = ["consciousness technology", "digital consciousness", "quantum-inspired", "bio-inspired"]
+        trinity_indicators = [
+            "⚛️",
+            "🧠",
+            "🛡️",
+            "Trinity Framework",
+            "Trinity Identity",
+            "Trinity Consciousness",
+            "Trinity Guardian",
+        ]
+        consciousness_terms = [
+            "consciousness technology",
+            "digital consciousness",
+            "quantum-inspired",
+            "bio-inspired",
+        ]
 
         # Count Trinity Framework elements
         trinity_count = sum(content.count(indicator) for indicator in trinity_indicators)
@@ -396,12 +452,14 @@ class TrinityFrameworkDeployer:
                 "total_integrations": sum(r.integrations_added for r in results),
                 "average_trinity_coherence": 0.0,
                 "framework_elements": [],
-                "results": results
+                "results": results,
             }
 
             if results:
                 trinity_scores = [r.trinity_coherence_score for r in results if r.success]
-                system_results["average_trinity_coherence"] = sum(trinity_scores) / len(trinity_scores) if trinity_scores else 0.0
+                system_results["average_trinity_coherence"] = (
+                    sum(trinity_scores) / len(trinity_scores) if trinity_scores else 0.0
+                )
 
                 # Collect all framework elements
                 for result in results:
@@ -410,7 +468,9 @@ class TrinityFrameworkDeployer:
             deployment_results[system_name] = system_results
             total_integrations += system_results["total_integrations"]
 
-            self.logger.info(f"⚛️🧠🛡️ {system_name}: {system_results['total_integrations']} Trinity integrations, {system_results['average_trinity_coherence']:.1f}% coherence")
+            self.logger.info(
+                f"⚛️🧠🛡️ {system_name}: {system_results['total_integrations']} Trinity integrations, {system_results['average_trinity_coherence']:.1f}% coherence"
+            )
 
         # Generate Trinity deployment report
         await self._generate_trinity_report(deployment_results, total_integrations)
@@ -420,13 +480,15 @@ class TrinityFrameworkDeployer:
 
         return deployment_results
 
-    async def _generate_trinity_report(self, deployment_results: dict[str, Any], total_integrations: int):
+    async def _generate_trinity_report(
+        self, deployment_results: dict[str, Any], total_integrations: int
+    ):
         """Generate comprehensive Trinity Framework deployment report"""
         report_path = self.base_path / "TRINITY_FRAMEWORK_DEPLOYMENT_REPORT.md"
 
         report_content = f"""# ⚛️🧠🛡️ LUKHAS AI Trinity Framework Deployment Report
 
-*Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 
@@ -442,10 +504,10 @@ class TrinityFrameworkDeployer:
         for system_name, results in deployment_results.items():
             report_content += f"""### {system_name}
 
-- **Files Enhanced**: {results['files_processed']}
-- **Trinity Integrations**: {results['total_integrations']}
-- **Trinity Coherence**: {results['average_trinity_coherence']:.1f}%
-- **Framework Elements**: {len(results['framework_elements'])} elements
+- **Files Enhanced**: {results["files_processed"]}
+- **Trinity Integrations**: {results["total_integrations"]}
+- **Trinity Coherence**: {results["average_trinity_coherence"]:.1f}%
+- **Framework Elements**: {len(results["framework_elements"])} elements
 
 """
 
@@ -490,6 +552,7 @@ class TrinityFrameworkDeployer:
 
         self.logger.info(f"⚛️🧠🛡️ Generated Trinity deployment report: {report_path}")
 
+
 async def main():
     """Main Trinity Framework deployment execution"""
     deployer = TrinityFrameworkDeployer()
@@ -504,6 +567,7 @@ async def main():
     print(f"⚛️🧠🛡️ Systems enhanced: {len(results)}")
 
     print("\n🚀 Ready for Phase 3: Elite Brand Deployment!")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -151,9 +151,7 @@ class SymbolicHandshake:
         logger.info(f"Handshake validated for {module_name}")
         return True
 
-    def get_signal_history(
-        self, module_name: Optional[str] = None
-    ) -> list[SymbolicSignal]:
+    def get_signal_history(self, module_name: Optional[str] = None) -> list[SymbolicSignal]:
         """
         ΛTAG: orchestration, signal_tracing
 

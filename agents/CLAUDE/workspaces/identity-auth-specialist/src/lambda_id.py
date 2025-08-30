@@ -20,6 +20,7 @@ PERFORMANCE_TARGET_MS = 100
 @dataclass
 class LukhasID:
     """LUKHAS Identity with namespace support"""
+
     lid: str  # Unique LUKHAS ID
     namespace: str  # Identity namespace (user, agent, service)
     created_at: str  # ISO timestamp
@@ -34,18 +35,18 @@ class NamespaceSchema:
         "user": {
             "prefix": "USR",
             "required_fields": ["email", "display_name"],
-            "capabilities": ["authenticate", "consent", "data_access"]
+            "capabilities": ["authenticate", "consent", "data_access"],
         },
         "agent": {
             "prefix": "AGT",
             "required_fields": ["agent_type", "version"],
-            "capabilities": ["execute", "orchestrate", "audit"]
+            "capabilities": ["execute", "orchestrate", "audit"],
         },
         "service": {
             "prefix": "SVC",
             "required_fields": ["service_name", "endpoint"],
-            "capabilities": ["api_access", "data_process"]
-        }
+            "capabilities": ["api_access", "data_process"],
+        },
     }
 
     @classmethod
@@ -92,7 +93,7 @@ class LambdaIDGenerator:
             lid=lid,
             namespace=namespace,
             created_at=datetime.now(timezone.utc).isoformat(),
-            metadata=metadata
+            metadata=metadata,
         )
 
 
@@ -103,8 +104,9 @@ class JWTTokenManager:
         self.secret_key = secret_key or secrets.token_urlsafe(32)
         self.algorithm = "HS256"  # Will upgrade to ES256 with KMS
 
-    def issue_token(self, lid: str, namespace: str,
-                   capabilities: list[str], ttl_seconds: int = 3600) -> str:
+    def issue_token(
+        self, lid: str, namespace: str, capabilities: list[str], ttl_seconds: int = 3600
+    ) -> str:
         """Issue JWT token for authenticated identity"""
         payload = {
             "lid": lid,
@@ -113,7 +115,7 @@ class JWTTokenManager:
             "iat": datetime.now(timezone.utc),
             "exp": datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds),
             "iss": "lukhas-identity",
-            "aud": "lukhas-services"
+            "aud": "lukhas-services",
         }
 
         return jwt.encode(payload, self.secret_key, algorithm=self.algorithm)
@@ -126,7 +128,7 @@ class JWTTokenManager:
                 self.secret_key,
                 algorithms=[self.algorithm],
                 audience="lukhas-services",
-                issuer="lukhas-identity"
+                issuer="lukhas-identity",
             )
             return {"valid": True, "payload": payload}
         except jwt.ExpiredSignatureError:
@@ -148,30 +150,27 @@ class WebAuthnPasskey:
         self.challenges[lid] = {
             "challenge": challenge,
             "timestamp": time.time(),
-            "type": "registration"
+            "type": "registration",
         }
 
         return {
             "challenge": challenge,
-            "rp": {
-                "name": "LUKHAS AI",
-                "id": "lukhas.ai"
-            },
+            "rp": {"name": "LUKHAS AI", "id": "lukhas.ai"},
             "user": {
                 "id": base64.urlsafe_b64encode(lid.encode()).decode(),
                 "name": lid,
-                "displayName": f"LUKHAS User {lid}"
+                "displayName": f"LUKHAS User {lid}",
             },
             "pubKeyCredParams": [
                 {"type": "public-key", "alg": -7},  # ES256
-                {"type": "public-key", "alg": -257}  # RS256
+                {"type": "public-key", "alg": -257},  # RS256
             ],
             "authenticatorSelection": {
                 "authenticatorAttachment": "platform",
-                "userVerification": "required"
+                "userVerification": "required",
             },
             "timeout": 60000,
-            "attestation": "direct"
+            "attestation": "direct",
         }
 
     def generate_login_challenge(self, lid: str) -> dict:
@@ -181,14 +180,14 @@ class WebAuthnPasskey:
         self.challenges[lid] = {
             "challenge": challenge,
             "timestamp": time.time(),
-            "type": "authentication"
+            "type": "authentication",
         }
 
         return {
             "challenge": challenge,
             "timeout": 60000,
             "userVerification": "required",
-            "rpId": "lukhas.ai"
+            "rpId": "lukhas.ai",
         }
 
     def verify_response(self, lid: str, response: dict) -> bool:
@@ -225,17 +224,14 @@ class IdentityService:
 
         # Create identity
         identity = self.id_generator.create_identity(
-            namespace="user",
-            metadata={"email": email, "display_name": display_name}
+            namespace="user", metadata={"email": email, "display_name": display_name}
         )
 
         # Store identity
         self.identities[identity.lid] = identity
 
         # Generate passkey challenge
-        passkey_challenge = self.passkey_manager.generate_registration_challenge(
-            identity.lid
-        )
+        passkey_challenge = self.passkey_manager.generate_registration_challenge(identity.lid)
 
         # Check performance
         elapsed_ms = (time.time() - start_time) * 1000
@@ -245,7 +241,7 @@ class IdentityService:
             "namespace": identity.namespace,
             "passkey_challenge": passkey_challenge,
             "performance_ms": elapsed_ms,
-            "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS
+            "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS,
         }
 
     def authenticate(self, lid: str, passkey_response: dict) -> dict:
@@ -265,9 +261,7 @@ class IdentityService:
         # Issue token
         capabilities = NamespaceSchema.NAMESPACES[identity.namespace]["capabilities"]
         token = self.token_manager.issue_token(
-            lid=lid,
-            namespace=identity.namespace,
-            capabilities=capabilities
+            lid=lid, namespace=identity.namespace, capabilities=capabilities
         )
 
         # Check performance
@@ -279,7 +273,7 @@ class IdentityService:
             "token": token,
             "capabilities": capabilities,
             "performance_ms": elapsed_ms,
-            "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS
+            "meets_target": elapsed_ms < PERFORMANCE_TARGET_MS,
         }
 
     def validate_access(self, token: str) -> dict:

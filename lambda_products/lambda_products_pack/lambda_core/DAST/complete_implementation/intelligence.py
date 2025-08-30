@@ -25,7 +25,7 @@ class TaskIntelligence:
             "simple": ["fix", "update", "change", "quick"],
             "moderate": ["implement", "create", "build", "develop"],
             "complex": ["design", "architect", "refactor", "integrate"],
-            "very_complex": ["system", "platform", "infrastructure", "migration"]
+            "very_complex": ["system", "platform", "infrastructure", "migration"],
         }
 
         description_lower = task_description.lower()
@@ -33,7 +33,12 @@ class TaskIntelligence:
 
         for level, indicators in complexity_indicators.items():
             if any(indicator in description_lower for indicator in indicators):
-                complexity_scores = {"simple": 1.0, "moderate": 3.0, "complex": 6.0, "very_complex": 10.0}
+                complexity_scores = {
+                    "simple": 1.0,
+                    "moderate": 3.0,
+                    "complex": 6.0,
+                    "very_complex": 10.0,
+                }
                 complexity_score = complexity_scores[level]
                 break
 
@@ -41,7 +46,7 @@ class TaskIntelligence:
             "complexity_score": complexity_score,
             "estimated_effort_hours": complexity_score * 2,
             "recommended_approach": self._recommend_approach(complexity_score),
-            "risk_factors": self._identify_risk_factors(task_description, context)
+            "risk_factors": self._identify_risk_factors(task_description, context),
         }
 
     def _recommend_approach(self, complexity_score: float) -> str:
@@ -71,6 +76,7 @@ class TaskIntelligence:
 
         return risks
 
+
 class PriorityOptimizer:
     """
     🎯 AI-powered priority optimization with learning capabilities
@@ -88,7 +94,9 @@ class PriorityOptimizer:
             optimized_priority = self._calculate_dynamic_priority(task)
             task_copy = task.copy()
             task_copy["optimized_priority"] = optimized_priority
-            task_copy["optimization_reasoning"] = self._explain_priority_decision(task, optimized_priority)
+            task_copy["optimization_reasoning"] = self._explain_priority_decision(
+                task, optimized_priority
+            )
             optimized_tasks.append(task_copy)
 
         # Sort by optimized priority
@@ -100,7 +108,11 @@ class PriorityOptimizer:
 
         # Time pressure factor
         if task.get("due_date"):
-            due_date = datetime.fromisoformat(task["due_date"]) if isinstance(task["due_date"], str) else task["due_date"]
+            due_date = (
+                datetime.fromisoformat(task["due_date"])
+                if isinstance(task["due_date"], str)
+                else task["due_date"]
+            )
             days_until_due = (due_date - datetime.now()).days
             if days_until_due <= 0:
                 base_score += 5.0  # Overdue
@@ -131,7 +143,11 @@ class PriorityOptimizer:
         explanations = []
 
         if task.get("due_date"):
-            due_date = datetime.fromisoformat(task["due_date"]) if isinstance(task["due_date"], str) else task["due_date"]
+            due_date = (
+                datetime.fromisoformat(task["due_date"])
+                if isinstance(task["due_date"], str)
+                else task["due_date"]
+            )
             days_until_due = (due_date - datetime.now()).days
             if days_until_due <= 0:
                 explanations.append("OVERDUE - immediate attention required")
@@ -156,6 +172,7 @@ class PriorityOptimizer:
 
         return " • ".join(explanations) if explanations else "Standard priority"
 
+
 class ContextTracker:
     """
     📋 Intelligent context tracking and prediction
@@ -171,7 +188,7 @@ class ContextTracker:
             "task_id": task_id,
             "context": context,
             "timestamp": time.time(),
-            "patterns_detected": self._detect_context_patterns(context)
+            "patterns_detected": self._detect_context_patterns(context),
         }
 
         self.context_history.append(context_entry)
@@ -183,7 +200,7 @@ class ContextTracker:
         return {
             "context_insights": self._analyze_context_insights(context),
             "predicted_needs": self._predict_context_needs(context),
-            "related_contexts": self._find_related_contexts(context)
+            "related_contexts": self._find_related_contexts(context),
         }
 
     def _detect_context_patterns(self, context: dict) -> list[str]:
@@ -201,11 +218,7 @@ class ContextTracker:
 
     def _analyze_context_insights(self, context: dict) -> dict[str, Any]:
         """Analyze context for actionable insights"""
-        insights = {
-            "context_type": "standard",
-            "recommendations": [],
-            "resource_needs": []
-        }
+        insights = {"context_type": "standard", "recommendations": [], "resource_needs": []}
 
         if context.get("repo"):
             insights["context_type"] = "development"
@@ -237,13 +250,17 @@ class ContextTracker:
         related = []
 
         for historical_context in self.context_history[-50:]:  # Check recent 50
-            similarity_score = self._calculate_context_similarity(context, historical_context["context"])
+            similarity_score = self._calculate_context_similarity(
+                context, historical_context["context"]
+            )
             if similarity_score > 0.5:
-                related.append({
-                    "task_id": historical_context["task_id"],
-                    "similarity_score": similarity_score,
-                    "context": historical_context["context"]
-                })
+                related.append(
+                    {
+                        "task_id": historical_context["task_id"],
+                        "similarity_score": similarity_score,
+                        "context": historical_context["context"],
+                    }
+                )
 
         return sorted(related, key=lambda x: x["similarity_score"], reverse=True)[:5]
 
@@ -257,6 +274,7 @@ class ContextTracker:
         total_keys = len(set(context1.keys()) | set(context2.keys()))
 
         return matches / total_keys if total_keys > 0 else 0.0
+
 
 class SymbolicReasoner:
     """
@@ -274,27 +292,27 @@ class SymbolicReasoner:
                 "testing_depends_on_implementation": {
                     "if_pattern": ["implement", "build", "create"],
                     "then_suggest": "Add testing task",
-                    "reasoning": "Implementation tasks typically require testing"
+                    "reasoning": "Implementation tasks typically require testing",
                 },
                 "deployment_depends_on_testing": {
                     "if_pattern": ["test", "qa", "verify"],
                     "then_suggest": "Consider deployment task",
-                    "reasoning": "Tested features are ready for deployment"
-                }
+                    "reasoning": "Tested features are ready for deployment",
+                },
             },
             "priority_rules": {
                 "security_high_priority": {
                     "if_pattern": ["security", "vulnerability", "exploit"],
                     "then_action": "elevate_priority",
-                    "reasoning": "Security issues require immediate attention"
+                    "reasoning": "Security issues require immediate attention",
                 },
                 "documentation_lower_priority": {
                     "if_pattern": ["docs", "documentation", "readme"],
                     "unless_pattern": ["critical", "urgent"],
                     "then_action": "standard_priority",
-                    "reasoning": "Documentation is important but rarely urgent"
-                }
-            }
+                    "reasoning": "Documentation is important but rarely urgent",
+                },
+            },
         }
 
     def apply_reasoning(self, task: dict, context: dict) -> dict[str, Any]:
@@ -303,7 +321,7 @@ class SymbolicReasoner:
             "inferences": [],
             "suggested_actions": [],
             "logical_connections": [],
-            "confidence_score": 0.0
+            "confidence_score": 0.0,
         }
 
         # Apply dependency reasoning
@@ -326,13 +344,15 @@ class SymbolicReasoner:
 
         for rule_name, rule in self.reasoning_rules["dependency_rules"].items():
             if any(pattern in task_description for pattern in rule["if_pattern"]):
-                inferences.append({
-                    "type": "dependency_inference",
-                    "rule": rule_name,
-                    "suggestion": rule["then_suggest"],
-                    "reasoning": rule["reasoning"],
-                    "confidence": 0.8
-                })
+                inferences.append(
+                    {
+                        "type": "dependency_inference",
+                        "rule": rule_name,
+                        "suggestion": rule["then_suggest"],
+                        "reasoning": rule["reasoning"],
+                        "confidence": 0.8,
+                    }
+                )
 
         return inferences
 
@@ -346,15 +366,18 @@ class SymbolicReasoner:
                 # Check unless conditions
                 unless_patterns = rule.get("unless_pattern", [])
                 if not any(pattern in task_description for pattern in unless_patterns):
-                    inferences.append({
-                        "type": "priority_inference",
-                        "rule": rule_name,
-                        "action": rule["then_action"],
-                        "reasoning": rule["reasoning"],
-                        "confidence": 0.9
-                    })
+                    inferences.append(
+                        {
+                            "type": "priority_inference",
+                            "rule": rule_name,
+                            "action": rule["then_action"],
+                            "reasoning": rule["reasoning"],
+                            "confidence": 0.9,
+                        }
+                    )
 
         return inferences
+
 
 class WorkflowAnalyzer:
     """
@@ -372,7 +395,7 @@ class WorkflowAnalyzer:
             "bottlenecks": [],
             "optimization_suggestions": [],
             "workflow_insights": {},
-            "performance_trends": {}
+            "performance_trends": {},
         }
 
         # Calculate efficiency metrics
@@ -402,41 +425,52 @@ class WorkflowAnalyzer:
         bottlenecks = []
 
         # Tasks stuck in progress
-        stuck_tasks = [t for t in tasks if t.get("status") == "in_progress"
-                      and self._task_age_days(t) > 3]
+        stuck_tasks = [
+            t for t in tasks if t.get("status") == "in_progress" and self._task_age_days(t) > 3
+        ]
         if stuck_tasks:
-            bottlenecks.append({
-                "type": "stuck_in_progress",
-                "count": len(stuck_tasks),
-                "description": "Tasks stuck in progress for >3 days",
-                "impact": "high"
-            })
+            bottlenecks.append(
+                {
+                    "type": "stuck_in_progress",
+                    "count": len(stuck_tasks),
+                    "description": "Tasks stuck in progress for >3 days",
+                    "impact": "high",
+                }
+            )
 
         # Blocked tasks
         blocked_tasks = [t for t in tasks if t.get("status") == "blocked"]
         if blocked_tasks:
-            bottlenecks.append({
-                "type": "blocked_tasks",
-                "count": len(blocked_tasks),
-                "description": "Tasks waiting on external dependencies",
-                "impact": "medium"
-            })
+            bottlenecks.append(
+                {
+                    "type": "blocked_tasks",
+                    "count": len(blocked_tasks),
+                    "description": "Tasks waiting on external dependencies",
+                    "impact": "medium",
+                }
+            )
 
         # High-priority backlog
-        high_priority_pending = [t for t in tasks
-                               if t.get("priority") in ["critical", "high"]
-                               and t.get("status") == "pending"]
+        high_priority_pending = [
+            t
+            for t in tasks
+            if t.get("priority") in ["critical", "high"] and t.get("status") == "pending"
+        ]
         if len(high_priority_pending) > 5:
-            bottlenecks.append({
-                "type": "priority_backlog",
-                "count": len(high_priority_pending),
-                "description": "Large backlog of high-priority tasks",
-                "impact": "high"
-            })
+            bottlenecks.append(
+                {
+                    "type": "priority_backlog",
+                    "count": len(high_priority_pending),
+                    "description": "Large backlog of high-priority tasks",
+                    "impact": "high",
+                }
+            )
 
         return bottlenecks
 
-    def _generate_optimization_suggestions(self, tasks: list[dict], bottlenecks: list[dict]) -> list[str]:
+    def _generate_optimization_suggestions(
+        self, tasks: list[dict], bottlenecks: list[dict]
+    ) -> list[str]:
         """Generate workflow optimization suggestions"""
         suggestions = []
 
@@ -459,7 +493,9 @@ class WorkflowAnalyzer:
 
         completed_tasks = [t for t in tasks if t.get("status") == "completed"]
         if len(completed_tasks) > 0:
-            avg_completion_time = sum(self._task_age_days(t) for t in completed_tasks) / len(completed_tasks)
+            avg_completion_time = sum(self._task_age_days(t) for t in completed_tasks) / len(
+                completed_tasks
+            )
             if avg_completion_time > 5:
                 suggestions.append("Focus on reducing task cycle time")
 

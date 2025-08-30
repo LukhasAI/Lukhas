@@ -159,16 +159,10 @@ class FeedbackCardsManager:
         )
 
         # Create indexes
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_session ON feedback_cards(session_id)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_session ON feedback_cards(session_id)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_user ON feedback_cards(user_id)")
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_category ON feedback_cards(category)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_processed ON feedback_cards(processed)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_category ON feedback_cards(category)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_processed ON feedback_cards(processed)")
 
         conn.commit()
         conn.close()
@@ -369,9 +363,7 @@ class FeedbackCardsManager:
         # Update overall average
         total_sum = sum(s["sum"] for s in self.stats["categories"].values())
         total_count = sum(s["count"] for s in self.stats["categories"].values())
-        self.stats["average_rating"] = (
-            total_sum / total_count if total_count > 0 else 0.0
-        )
+        self.stats["average_rating"] = total_sum / total_count if total_count > 0 else 0.0
 
     def _calculate_impact_score(self, card: FeedbackCard) -> float:
         """
@@ -552,9 +544,7 @@ class FeedbackCardsManager:
 
         # Factor 5: Time factor (recent activity is valued)
         recent_feedback = sum(
-            1
-            for row in history
-            if (datetime.now().timestamp() - float(row[4])) < 604800
+            1 for row in history if (datetime.now().timestamp() - float(row[4])) < 604800
         )  # 1 week
         recency_score = min(recent_feedback / 5.0, 1.0)
 
@@ -684,9 +674,7 @@ class FeedbackCardsManager:
             params = [cutoff]
 
         # Total cards
-        cursor.execute(
-            f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where}", params
-        )
+        cursor.execute(f"SELECT COUNT(*) FROM feedback_cards WHERE {base_where}", params)
         total = cursor.fetchone()[0]
 
         # Completed cards (with feedback)
@@ -746,9 +734,9 @@ class FeedbackCardsManager:
 📊 Feedback Summary (Last 7 Days)
 ================================
 
-Total Cards: {stats['total_cards']}
-Completed: {stats['completed_cards']} ({stats['completion_rate']:.1%})
-Average Rating: {stats['average_rating']:.1f}/5.0
+Total Cards: {stats["total_cards"]}
+Completed: {stats["completed_cards"]} ({stats["completion_rate"]:.1%})
+Average Rating: {stats["average_rating"]:.1f}/5.0
 
 Category Breakdown:
 """
@@ -758,8 +746,8 @@ Category Breakdown:
 
         summary += f"""
 Impact Analysis:
-  • Mean Impact: {stats['impact_distribution']['mean']:.2f}
-  • High Impact: {stats['impact_distribution']['high_impact']} cards
+  • Mean Impact: {stats["impact_distribution"]["mean"]:.2f}
+  • High Impact: {stats["impact_distribution"]["high_impact"]} cards
 """
 
         return summary

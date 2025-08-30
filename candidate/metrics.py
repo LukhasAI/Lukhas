@@ -55,9 +55,7 @@ current_safety_mode = Gauge(
     ["session_id"],
 )
 
-active_tool_calls = Gauge(
-    "lukhas_active_tool_calls", "Number of currently active tool calls"
-)
+active_tool_calls = Gauge("lukhas_active_tool_calls", "Number of currently active tool calls")
 
 feedback_lut_temperature = Gauge(
     "lukhas_feedback_lut_temperature_delta",
@@ -80,9 +78,7 @@ class MetricsCollector:
 
     def record_blocked_tool(self, tool_name: str, safety_mode: str):
         """Record a blocked tool attempt"""
-        incident_blocked_tool.labels(
-            attempted_tool=tool_name, safety_mode=safety_mode
-        ).inc()
+        incident_blocked_tool.labels(attempted_tool=tool_name, safety_mode=safety_mode).inc()
 
     def record_auto_tighten(self, reason: str = "high_risk"):
         """Record auto-tightening to strict mode"""
@@ -92,23 +88,15 @@ class MetricsCollector:
         """Record OpenAI API error"""
         openai_errors.labels(error_type=error_type, status_code=str(status_code)).inc()
 
-    def record_tool_duration(
-        self, tool_name: str, duration_ms: float, status: str = "success"
-    ):
+    def record_tool_duration(self, tool_name: str, duration_ms: float, status: str = "success"):
         """Record tool execution duration"""
         tool_duration_ms.labels(tool_name=tool_name, status=status).observe(duration_ms)
 
-    def record_openai_latency(
-        self, model: str, latency_ms: float, safety_mode: str = "balanced"
-    ):
+    def record_openai_latency(self, model: str, latency_ms: float, safety_mode: str = "balanced"):
         """Record OpenAI API latency"""
-        openai_latency_ms.labels(model=model, safety_mode=safety_mode).observe(
-            latency_ms
-        )
+        openai_latency_ms.labels(model=model, safety_mode=safety_mode).observe(latency_ms)
 
-    def record_token_usage(
-        self, input_tokens: int, output_tokens: int, model: str = "gpt-4"
-    ):
+    def record_token_usage(self, input_tokens: int, output_tokens: int, model: str = "gpt-4"):
         """Record token usage"""
         token_usage.labels(direction="input", model=model).observe(input_tokens)
         token_usage.labels(direction="output", model=model).observe(output_tokens)

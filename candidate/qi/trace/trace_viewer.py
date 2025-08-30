@@ -17,15 +17,20 @@ from qi.trace.trace_graph import (
 
 app = FastAPI(title="Lukhas Trace Viewer", version="1.0.0")
 
+
 @app.get("/healthz")
-def healthz(): return {"ok": True}
+def healthz():
+    return {"ok": True}
+
 
 @app.get("/trace/{receipt_id}.svg")
-def trace_svg(receipt_id: str,
-              policy_root: str = Query(default="qi/safety/policy_packs"),
-              overlays: str | None = Query(default=None),
-              link_base: str | None = Query(default=None),
-              prov_base: str | None = Query(default=None)):
+def trace_svg(
+    receipt_id: str,
+    policy_root: str = Query(default="qi/safety/policy_packs"),
+    overlays: str | None = Query(default=None),
+    link_base: str | None = Query(default=None),
+    prov_base: str | None = Query(default=None),
+):
     try:
         r = _load_receipt(receipt_id, None)
         prov = _load_prov((r.get("entity") or {}).get("digest_sha256"))
@@ -38,4 +43,4 @@ def trace_svg(receipt_id: str,
     except FileNotFoundError:
         raise HTTPException(404, f"Receipt {receipt_id} not found")
     except Exception as e:
-        raise HTTPException(500, f"Error generating trace: {str(e)}")
+        raise HTTPException(500, f"Error generating trace: {e!s}")

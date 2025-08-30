@@ -12,12 +12,14 @@ from qi.safety.provenance_uploader import load_record_by_sha
 
 app = FastAPI(title="Lukhas Provenance Proxy", version="1.0.0")
 
+
 def _get_client_ip(req: Request) -> str:
     # best-effort client IP extraction behind proxies
     xff = req.headers.get("x-forwarded-for")
     if xff:
         return xff.split(",")[0].strip()
     return req.client.host if req.client else "unknown"
+
 
 def _summary_record(sha: str, rec: dict) -> dict:
     return {
@@ -29,9 +31,11 @@ def _summary_record(sha: str, rec: dict) -> dict:
         "model_id": rec.get("model_id"),
     }
 
+
 @app.get("/healthz")
 def healthz():
     return {"ok": True}
+
 
 @app.get("/provenance/{sha}/link")
 def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: str | None = None):
@@ -51,10 +55,11 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
         client_ip=_get_client_ip(request),
         user_agent=request.headers.get("user-agent"),
         purpose=request.query_params.get("purpose"),
-        extras={"backend": link.get("backend"), "expires_in": link.get("expires_in")}
+        extras={"backend": link.get("backend"), "expires_in": link.get("expires_in")},
     )
 
     return {"record": _summary_record(sha, rec), "link": link}
+
 
 @app.get("/provenance/{sha}/download")
 def download(sha: str, request: Request, expires: int = 600, filename: str | None = None):
@@ -81,9 +86,13 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
             client_ip=_get_client_ip(request),
             user_agent=request.headers.get("user-agent"),
             purpose=request.query_params.get("purpose"),
-            extras={"backend": "file"}
+            extras={"backend": "file"},
         )
-        return FileResponse(path, filename=filename or os.path.basename(path), media_type=rec.get("mime_type") or "application/octet-stream")
+        return FileResponse(
+            path,
+            filename=filename or os.path.basename(path),
+            media_type=rec.get("mime_type") or "application/octet-stream",
+        )
 
     # S3/GCS: redirect
     write_receipt(
@@ -94,9 +103,10 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
         client_ip=_get_client_ip(request),
         user_agent=request.headers.get("user-agent"),
         purpose=request.query_params.get("purpose"),
-        extras={"backend": backend, "expires_in": link.get("expires_in")}
+        extras={"backend": backend, "expires_in": link.get("expires_in")},
     )
     return RedirectResponse(link["url"], status_code=302)
+
 
 @app.post("/provenance/{sha}/receipt")
 async def ack_receipt(sha: str, request: Request):
@@ -120,6 +130,6 @@ async def ack_receipt(sha: str, request: Request):
         client_ip=_get_client_ip(request),
         user_agent=request.headers.get("user-agent"),
         purpose=purpose,
-        extras=extras
+        extras=extras,
     )
     return {"ok": True, "sha": sha, "event": event}

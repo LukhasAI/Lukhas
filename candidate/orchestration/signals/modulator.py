@@ -208,12 +208,8 @@ class PromptModulator:
 
             elif signal.name == SignalType.ALIGNMENT_RISK:
                 params.temperature = max(0.1, params.temperature - signal.level * 0.7)
-                params.safety_mode = (
-                    "strict" if signal.level > 0.3 else params.safety_mode
-                )
-                params.reasoning_effort = min(
-                    1.0, params.reasoning_effort + signal.level * 0.5
-                )
+                params.safety_mode = "strict" if signal.level > 0.3 else params.safety_mode
+                params.reasoning_effort = min(1.0, params.reasoning_effort + signal.level * 0.5)
 
             elif signal.name == SignalType.NOVELTY:
                 params.temperature = min(1.0, params.temperature + signal.level * 0.3)
@@ -222,18 +218,14 @@ class PromptModulator:
                 )
 
             elif signal.name == SignalType.AMBIGUITY:
-                params.reasoning_effort = min(
-                    1.0, params.reasoning_effort + signal.level * 0.4
-                )
+                params.reasoning_effort = min(1.0, params.reasoning_effort + signal.level * 0.4)
                 params.retrieval_k = min(10, params.retrieval_k + int(signal.level * 5))
 
             elif signal.name == SignalType.URGENCY:
                 params.max_output_tokens = max(
                     256, int(params.max_output_tokens * (1 - signal.level * 0.5))
                 )
-                params.reasoning_effort = max(
-                    0.2, params.reasoning_effort - signal.level * 0.3
-                )
+                params.reasoning_effort = max(0.2, params.reasoning_effort - signal.level * 0.3)
 
             elif signal.name == SignalType.TRUST:
                 params.temperature = min(1.0, params.temperature + signal.level * 0.2)
@@ -243,9 +235,7 @@ class PromptModulator:
 
         return params
 
-    def _determine_style(
-        self, signals: list[Signal], params: ModulationParams
-    ) -> PromptStyle:
+    def _determine_style(self, signals: list[Signal], params: ModulationParams) -> PromptStyle:
         """Determine prompt style based on signals and parameters"""
         # Safety mode takes precedence
         if params.safety_mode == "strict":
@@ -312,9 +302,7 @@ class PromptModulator:
 
     def _add_safety_context(self, preamble: str) -> str:
         """Add safety context to system preamble"""
-        safety_addition = (
-            "\nPrioritize safety and ethical considerations in all responses."
-        )
+        safety_addition = "\nPrioritize safety and ethical considerations in all responses."
         if safety_addition not in preamble:
             return preamble + safety_addition
         return preamble

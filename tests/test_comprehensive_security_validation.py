@@ -11,6 +11,7 @@ This test suite ensures:
 
 Author: LUKHAS AI Testing & DevOps Specialist (Agent #3 - Demis Hassabis Standard)
 """
+
 import os
 import re
 import secrets
@@ -50,7 +51,7 @@ class SecurityValidationFramework:
             r'open\s*\(\s*.*\+.*["\']',
             r"file_path\s*\+",
             r'\.\./.*["\']',
-        ]
+        ],
     }
 
     @classmethod
@@ -81,7 +82,9 @@ class SecurityValidationFramework:
         return vulnerabilities
 
     @classmethod
-    def scan_directory_for_vulnerabilities(cls, directory: Path, patterns: list[str] = None) -> dict[str, dict[str, list[tuple[int, str]]]]:
+    def scan_directory_for_vulnerabilities(
+        cls, directory: Path, patterns: list[str] = None
+    ) -> dict[str, dict[str, list[tuple[int, str]]]]:
         """Scan directory for security vulnerabilities."""
         if patterns is None:
             patterns = ["**/*.py"]
@@ -114,9 +117,9 @@ class TestHardcodedCredentialValidation:
         password_violations = []
         for file_path, vulns in vulnerabilities.items():
             if "hardcoded_passwords" in vulns:
-                password_violations.extend([
-                    f"{file_path}:{line}" for line, _ in vulns["hardcoded_passwords"]
-                ])
+                password_violations.extend(
+                    [f"{file_path}:{line}" for line, _ in vulns["hardcoded_passwords"]]
+                )
 
         assert len(password_violations) == 0, f"Hardcoded passwords found: {password_violations}"
 
@@ -137,10 +140,12 @@ class TestHardcodedCredentialValidation:
 
                 for file_path, vulns in vulnerabilities.items():
                     if "hardcoded_tokens" in vulns:
-                        token_violations.extend([
-                            f"{source_dir.name}/{file_path}:{line}"
-                            for line, _ in vulns["hardcoded_tokens"]
-                        ])
+                        token_violations.extend(
+                            [
+                                f"{source_dir.name}/{file_path}:{line}"
+                                for line, _ in vulns["hardcoded_tokens"]
+                            ]
+                        )
 
         assert len(token_violations) == 0, f"Hardcoded tokens found: {token_violations}"
 
@@ -182,7 +187,7 @@ class TestHardcodedCredentialValidation:
             "ANTHROPIC_API_KEY",
             "LUKHAS_SECRET_KEY",
             "DATABASE_PASSWORD",
-            "JWT_SECRET_KEY"
+            "JWT_SECRET_KEY",
         ]
 
         # These should be loaded from environment, not hardcoded
@@ -217,12 +222,16 @@ class TestCryptographicSecurityValidation:
 
                 for file_path, vulns in vulnerabilities.items():
                     if "weak_cryptography" in vulns:
-                        weak_crypto_violations.extend([
-                            f"{test_dir.name}/{file_path}:{line}"
-                            for line, _ in vulns["weak_cryptography"]
-                        ])
+                        weak_crypto_violations.extend(
+                            [
+                                f"{test_dir.name}/{file_path}:{line}"
+                                for line, _ in vulns["weak_cryptography"]
+                            ]
+                        )
 
-        assert len(weak_crypto_violations) == 0, f"Weak cryptography found: {weak_crypto_violations}"
+        assert len(weak_crypto_violations) == 0, (
+            f"Weak cryptography found: {weak_crypto_violations}"
+        )
 
     def test_bcrypt_password_hashing(self):
         """Test bcrypt password hashing implementation."""
@@ -246,15 +255,7 @@ class TestCryptographicSecurityValidation:
     def test_jwt_secret_strength(self):
         """Test JWT secret key strength requirements."""
         # JWT secrets should be strong
-        weak_secrets = [
-            "secret",
-            "key",
-            "password",
-            "123456",
-            "test",
-            "dev",
-            "local"
-        ]
+        weak_secrets = ["secret", "key", "password", "123456", "test", "dev", "local"]
 
         # Test that we don't use weak secrets
         from datetime import datetime, timedelta, timezone
@@ -263,10 +264,7 @@ class TestCryptographicSecurityValidation:
 
         for weak_secret in weak_secrets:
             # Should not use weak secrets in production
-            payload = {
-                "user_id": "test",
-                "exp": datetime.now(timezone.utc) + timedelta(hours=1)
-            }
+            payload = {"user_id": "test", "exp": datetime.now(timezone.utc) + timedelta(hours=1)}
 
             # This should work but we should catch it in code review
             token = jwt.encode(payload, weak_secret, algorithm="HS256")
@@ -317,10 +315,12 @@ class TestInputValidationSecurity:
 
                 for file_path, vulns in vulnerabilities.items():
                     if "sql_injection_risks" in vulns:
-                        sql_injection_risks.extend([
-                            f"{test_dir.name}/{file_path}:{line}"
-                            for line, _ in vulns["sql_injection_risks"]
-                        ])
+                        sql_injection_risks.extend(
+                            [
+                                f"{test_dir.name}/{file_path}:{line}"
+                                for line, _ in vulns["sql_injection_risks"]
+                            ]
+                        )
 
         assert len(sql_injection_risks) == 0, f"SQL injection risks found: {sql_injection_risks}"
 
@@ -342,10 +342,12 @@ class TestInputValidationSecurity:
 
                 for file_path, vulns in vulnerabilities.items():
                     if "path_traversal_risks" in vulns:
-                        path_traversal_risks.extend([
-                            f"{test_dir.name}/{file_path}:{line}"
-                            for line, _ in vulns["path_traversal_risks"]
-                        ])
+                        path_traversal_risks.extend(
+                            [
+                                f"{test_dir.name}/{file_path}:{line}"
+                                for line, _ in vulns["path_traversal_risks"]
+                            ]
+                        )
 
         # Allow some path traversal risks in test files and specific tools
         allowed_patterns = [
@@ -492,7 +494,7 @@ class TestAuditComplianceSecurity:
             "hardcoded_secrets_check": "pass",
             "cryptography_check": "pass",
             "input_validation_check": "pass",
-            "audit_compliance_check": "pass"
+            "audit_compliance_check": "pass",
         }
 
         # All checks should pass locally
@@ -507,10 +509,7 @@ class TestAuditComplianceSecurity:
 
         # Add security-related violations
         audit.add_violation(
-            "test/security.py",
-            "hardcoded_credential",
-            "password = 'secret123'",
-            line_no=10
+            "test/security.py", "hardcoded_credential", "password = 'secret123'", line_no=10
         )
 
         # Export audit report
@@ -568,7 +567,9 @@ class TestSecurityMetricsAndReporting:
 
         # Verify downward trend in security issues
         issues_over_time = [trend["issues"] for trend in security_trends]
-        assert issues_over_time == sorted(issues_over_time, reverse=True), "Security issues should decrease over time"
+        assert issues_over_time == sorted(issues_over_time, reverse=True), (
+            "Security issues should decrease over time"
+        )
 
         # Current state should have zero critical issues
         current_issues = security_trends[-1]["issues"]
@@ -579,16 +580,18 @@ class TestSecurityMetricsAndReporting:
         # Security test coverage metrics
         coverage_metrics = {
             "authentication_tests": 22,  # From test_authentication.py
-            "authorization_tests": 5,    # From test_enhanced_authentication.py
-            "input_validation_tests": 4, # From this file
-            "cryptography_tests": 3,     # From this file
-            "audit_compliance_tests": 4, # From this file
+            "authorization_tests": 5,  # From test_enhanced_authentication.py
+            "input_validation_tests": 4,  # From this file
+            "cryptography_tests": 3,  # From this file
+            "audit_compliance_tests": 4,  # From this file
         }
 
         total_security_tests = sum(coverage_metrics.values())
 
         # Should have comprehensive security test coverage
-        assert total_security_tests >= 30, f"Insufficient security test coverage: {total_security_tests}"
+        assert total_security_tests >= 30, (
+            f"Insufficient security test coverage: {total_security_tests}"
+        )
 
         # All categories should have tests
         for category, count in coverage_metrics.items():

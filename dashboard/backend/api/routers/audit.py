@@ -13,6 +13,7 @@ router = APIRouter()
 
 REPORTS_DIR = Path("reports")
 
+
 @router.get("/status")
 async def get_audit_status() -> dict[str, Any]:
     """Get current audit status and last run information"""
@@ -24,7 +25,7 @@ async def get_audit_status() -> dict[str, Any]:
             return {
                 "status": "no_audits_found",
                 "message": "No audit reports found. Run an audit first.",
-                "last_run": None
+                "last_run": None,
             }
 
         # Get the most recent audit
@@ -35,10 +36,11 @@ async def get_audit_status() -> dict[str, Any]:
             "status": "ready",
             "last_run": last_run.isoformat(),
             "reports_available": len(audit_files),
-            "reports_directory": str(REPORTS_DIR)
+            "reports_directory": str(REPORTS_DIR),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.post("/trigger")
 async def trigger_audit(background_tasks: BackgroundTasks) -> dict[str, Any]:
@@ -50,10 +52,11 @@ async def trigger_audit(background_tasks: BackgroundTasks) -> dict[str, Any]:
         return {
             "status": "triggered",
             "message": "Audit has been triggered and will run in the background",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.get("/metrics/summary")
 async def get_audit_summary() -> dict[str, Any]:
@@ -64,7 +67,7 @@ async def get_audit_summary() -> dict[str, Any]:
             "security": {},
             "dependencies": {},
             "tests": {},
-            "architecture": {}
+            "architecture": {},
         }
 
         # Read ruff results
@@ -94,10 +97,11 @@ async def get_audit_summary() -> dict[str, Any]:
         return {
             "health_score": health_score,
             "metrics": metrics,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.get("/reports/{report_name}")
 async def get_specific_report(report_name: str) -> dict[str, Any]:
@@ -120,12 +124,13 @@ async def get_specific_report(report_name: str) -> dict[str, Any]:
             "report_name": report_name,
             "content": content,
             "size_bytes": report_path.stat().st_size,
-            "last_modified": datetime.fromtimestamp(report_path.stat().st_mtime).isoformat()
+            "last_modified": datetime.fromtimestamp(report_path.stat().st_mtime).isoformat(),
         }
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Report {report_name} not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.get("/trends")
 async def get_audit_trends() -> dict[str, Any]:
@@ -137,21 +142,22 @@ async def get_audit_trends() -> dict[str, Any]:
             "code_quality": {
                 "7_days": [85, 86, 84, 87, 88, 89, 87],
                 "30_days_avg": 86.5,
-                "trend": "improving"
+                "trend": "improving",
             },
             "security_score": {
                 "7_days": [92, 93, 93, 94, 94, 94, 94],
                 "30_days_avg": 93.2,
-                "trend": "stable"
+                "trend": "stable",
             },
             "test_coverage": {
                 "7_days": [72, 73, 73, 74, 75, 75, 76],
                 "30_days_avg": 74.1,
-                "trend": "improving"
-            }
+                "trend": "improving",
+            },
         },
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
+
 
 @router.get("/dead-code")
 async def get_dead_code_analysis() -> dict[str, Any]:
@@ -162,7 +168,7 @@ async def get_dead_code_analysis() -> dict[str, Any]:
             "unused_files": [],
             "unused_functions": [],
             "unused_imports": [],
-            "potential_savings_kb": 0
+            "potential_savings_kb": 0,
         }
 
         # Read vulture results if available
@@ -183,6 +189,7 @@ async def get_dead_code_analysis() -> dict[str, Any]:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 # Helper functions
 def calculate_health_score(metrics: dict) -> int:
     """Calculate overall health score from metrics"""
@@ -199,16 +206,18 @@ def calculate_health_score(metrics: dict) -> int:
 
     return max(score, 0)
 
+
 async def run_audit_task():
     """Background task to run the audit"""
     import subprocess
+
     try:
         # Run the audit script
         result = subprocess.run(
             ["./scripts/audit.sh"],
             capture_output=True,
             text=True,
-            timeout=300  # 5 minute timeout
+            timeout=300,  # 5 minute timeout
         )
         return result.returncode == 0
     except Exception as e:

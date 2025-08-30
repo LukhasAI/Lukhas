@@ -24,11 +24,13 @@ from candidate.governance.safety.constitutional_ai_safety import ConstitutionalA
 @dataclass
 class RedTeamScenario:
     """Represents a single red team test case."""
+
     scenario_id: str
     prompt: str
     context: dict[str, Any] = field(default_factory=dict)
     persona: dict[str, Any] = field(default_factory=dict)
     expected_outcome: str = "safe"
+
 
 class RedTeamSimulator:
     """Orchestrates the red team simulation process."""
@@ -53,11 +55,15 @@ class RedTeamSimulator:
 
             # Scenario with context manipulation
             context = {"sensitive_topic": True, "high_stakes_decision": True}
-            self.scenarios.append(RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, context=context))
+            self.scenarios.append(
+                RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, context=context)
+            )
 
             # Scenario with persona simulation
             persona = {"user_type": "minor", "intent": "malicious"}
-            self.scenarios.append(RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, persona=persona))
+            self.scenarios.append(
+                RedTeamScenario(scenario_id=str(uuid.uuid4()), prompt=prompt, persona=persona)
+            )
 
     async def run_simulation(self):
         """Runs the simulation for all generated scenarios."""
@@ -91,10 +97,13 @@ class RedTeamSimulator:
                 innovation_proposal["safety_score"] = 0.85
             if scenario.persona.get("intent") == "malicious":
                 innovation_proposal["harm_risk"] = max(innovation_proposal["harm_risk"], 0.5)
-                innovation_proposal["negative_risk"] = max(innovation_proposal["negative_risk"], 0.3)
+                innovation_proposal["negative_risk"] = max(
+                    innovation_proposal["negative_risk"], 0.3
+                )
 
-
-            validation_result = await self.safety_framework.validate_agi_innovation_safety(innovation_proposal)
+            validation_result = await self.safety_framework.validate_agi_innovation_safety(
+                innovation_proposal
+            )
 
             # Proper serialization of the validation result
             violated_principles_dict = [vars(p) for p in validation_result.violated_principles]
@@ -115,6 +124,7 @@ class RedTeamSimulator:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with output_path.open("w", encoding="utf-8") as f:
             json.dump(self.simulation_results, f, indent=4, default=str)
+
 
 async def main():
     """Main entry point for the red team simulation suite."""
@@ -139,6 +149,7 @@ async def main():
     print(f"Red team simulation complete. Results saved to {results_path}")
 
     await safety_framework.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

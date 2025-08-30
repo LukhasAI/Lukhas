@@ -58,7 +58,7 @@ def _sparkline(points, width=180, height=32, pad=4):
     return (
         f"<svg width='{width}' height='{height}' aria-label='sparkline'>"
         f"<polyline fill='none' stroke='#0a3da8' stroke-width='2' points='{pts}'/>"
-        f"<text x='{width-4}' y='{height-4}' text-anchor='end' font-size='10' fill='#333'>{last:.0f} ms</text></svg>"
+        f"<text x='{width - 4}' y='{height - 4}' text-anchor='end' font-size='10' fill='#333'>{last:.0f} ms</text></svg>"
     )
 
 
@@ -169,8 +169,8 @@ def admin_index(request: Request):
     <div class="card" style="margin-top:16px">
       <h2>Performance (p95)</h2>
       <div class="muted">Window:
-        <a href="/admin?hours=24" {'style="font-weight:700"' if hours==24 else ''}>24h</a> ·
-        <a href="/admin?hours=168" {'style="font-weight:700"' if hours==168 else ''}>7d</a>
+        <a href="/admin?hours=24" {'style="font-weight:700"' if hours == 24 else ""}>24h</a> ·
+        <a href="/admin?hours=168" {'style="font-weight:700"' if hours == 168 else ""}>7d</a>
       </div>
       <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; margin-top:12px">
         <div><div class="muted">/feedback/health</div>{_sparkline(s_health)}</div>
@@ -187,9 +187,7 @@ def admin_index(request: Request):
     return _page("Admin Overview", body)
 
 
-@router.get(
-    "/incidents", response_class=HTMLResponse, dependencies=[Depends(require_api_key)]
-)
+@router.get("/incidents", response_class=HTMLResponse, dependencies=[Depends(require_api_key)])
 def admin_incidents(
     tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)
 ):
@@ -229,9 +227,7 @@ def admin_incidents(
     return _page("Admin Incidents", body)
 
 
-@router.get(
-    "/tools", response_class=HTMLResponse, dependencies=[Depends(require_api_key)]
-)
+@router.get("/tools", response_class=HTMLResponse, dependencies=[Depends(require_api_key)])
 def admin_tools():
     _require_enabled()
     usage = recent_tool_usage(limit=200)
@@ -241,8 +237,8 @@ def admin_tools():
     body += "<div class='card'><h2>Recent Tool Calls</h2><table><tr><th>When</th><th>Tool</th><th>Status</th><th>Duration (ms)</th><th>Args</th></tr>"
     for r in usage:
         body += (
-            f"<tr><td>{r.get('ts')}</td><td><code>{html.escape(r.get('tool','-'))}</code></td>"
-            f"<td>{html.escape(r.get('status','-'))}</td><td>{r.get('duration_ms','-')}</td>"
+            f"<tr><td>{r.get('ts')}</td><td><code>{html.escape(r.get('tool', '-'))}</code></td>"
+            f"<td>{html.escape(r.get('status', '-'))}</td><td>{r.get('duration_ms', '-')}</td>"
             f"<td><code>{html.escape((r.get('args_summary') or '')[:120])}</code></td></tr>"
         )
     body += "</table></div>"

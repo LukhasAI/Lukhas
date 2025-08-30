@@ -50,6 +50,7 @@
 ║ Symbolic Tags: {ΛCOGNITIVE}, {ΛORCHESTRATOR}, {ΛMEMORY}, {ΛATTENTION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 # Module imports
 import asyncio
 import configparser
@@ -89,9 +90,7 @@ class CognitiveConfig:
         """Initialize configuration from file or defaults."""
         self.config_path = (
             config_path
-            or Path(__file__).parent.parent
-            / "config"
-            / "cognitive_architecture_config.ini"
+            or Path(__file__).parent.parent / "config" / "cognitive_architecture_config.ini"
         )
         self.config = configparser.ConfigParser()
         self._load_config()
@@ -213,9 +212,7 @@ def lukhas_tier_required(level: int):
                     user_tier = kwargs["user_tier"]
 
                 if user_tier < level:
-                    logger.warning(
-                        f"Access denied. User tier {user_tier} < required {level}"
-                    )
+                    logger.warning(f"Access denied. User tier {user_tier} < required {level}")
                     return None
 
                 return await func(*args, **kwargs)
@@ -231,9 +228,7 @@ def lukhas_tier_required(level: int):
                     user_tier = kwargs["user_tier"]
 
                 if user_tier < level:
-                    logger.warning(
-                        f"Access denied. User tier {user_tier} < required {level}"
-                    )
+                    logger.warning(f"Access denied. User tier {user_tier} < required {level}")
                     return None
 
                 return func(*args, **kwargs)
@@ -433,9 +428,7 @@ class WorkingMemory(MemorySystem):
                 self.access_order.remove(key)
             self.access_order.append(key)
 
-            MEMORY_OPERATIONS.labels(
-                operation_type="store", memory_type="working"
-            ).inc()
+            MEMORY_OPERATIONS.labels(operation_type="store", memory_type="working").inc()
             return True
 
     def retrieve(self, key: str) -> Optional[Any]:
@@ -451,9 +444,7 @@ class WorkingMemory(MemorySystem):
                     self.access_order.remove(key)
                 self.access_order.append(key)
 
-                MEMORY_OPERATIONS.labels(
-                    operation_type="retrieve", memory_type="working"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="retrieve", memory_type="working").inc()
                 return item.content
             return None
 
@@ -464,26 +455,20 @@ class WorkingMemory(MemorySystem):
                 del self.items[key]
                 if key in self.access_order:
                     self.access_order.remove(key)
-                MEMORY_OPERATIONS.labels(
-                    operation_type="forget", memory_type="working"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="forget", memory_type="working").inc()
                 return True
             return False
 
     def consolidate(self):
         """Apply decay and remove items below threshold."""
         with self.lock:
-            forgetting_threshold = self.config.get_float(
-                "memory", "forgetting_threshold", 0.1
-            )
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
             current_time = datetime.utcnow()
             keys_to_forget = []
 
             for key, item in self.items.items():
                 time_elapsed = (current_time - item.timestamp).total_seconds()
-                decay_factor = np.exp(
-                    -item.decay_rate * time_elapsed / 3600
-                )  # Hourly decay
+                decay_factor = np.exp(-item.decay_rate * time_elapsed / 3600)  # Hourly decay
                 item.importance *= decay_factor
 
                 if item.importance < forgetting_threshold:
@@ -492,9 +477,7 @@ class WorkingMemory(MemorySystem):
             for key in keys_to_forget:
                 self.forget(key)
 
-            logger.debug(
-                f"WorkingMemory consolidation: forgot {len(keys_to_forget)} items"
-            )
+            logger.debug(f"WorkingMemory consolidation: forgot {len(keys_to_forget)} items")
 
 
 class EpisodicMemory(MemorySystem):
@@ -528,9 +511,7 @@ class EpisodicMemory(MemorySystem):
             self.temporal_index.append((item.timestamp, key))
             self.temporal_index.sort(key=lambda x: x[0])
 
-            MEMORY_OPERATIONS.labels(
-                operation_type="store", memory_type="episodic"
-            ).inc()
+            MEMORY_OPERATIONS.labels(operation_type="store", memory_type="episodic").inc()
             return True
 
     def retrieve(self, key: str) -> Optional[Any]:
@@ -539,15 +520,11 @@ class EpisodicMemory(MemorySystem):
             if key in self.items:
                 item = self.items[key]
                 item.access_count += 1
-                MEMORY_OPERATIONS.labels(
-                    operation_type="retrieve", memory_type="episodic"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="retrieve", memory_type="episodic").inc()
                 return item.content
             return None
 
-    def retrieve_by_time_range(
-        self, start: datetime, end: datetime
-    ) -> list[MemoryItem]:
+    def retrieve_by_time_range(self, start: datetime, end: datetime) -> list[MemoryItem]:
         """Retrieve memories within a time range."""
         with self.lock:
             memories = []
@@ -562,12 +539,8 @@ class EpisodicMemory(MemorySystem):
             if key in self.items:
                 self.items[key]
                 del self.items[key]
-                self.temporal_index = [
-                    (t, k) for t, k in self.temporal_index if k != key
-                ]
-                MEMORY_OPERATIONS.labels(
-                    operation_type="forget", memory_type="episodic"
-                ).inc()
+                self.temporal_index = [(t, k) for t, k in self.temporal_index if k != key]
+                MEMORY_OPERATIONS.labels(operation_type="forget", memory_type="episodic").inc()
                 return True
             return False
 
@@ -575,9 +548,7 @@ class EpisodicMemory(MemorySystem):
         """Consolidate episodic memories based on importance and recency."""
         with self.lock:
             current_time = datetime.utcnow()
-            forgetting_threshold = self.config.get_float(
-                "memory", "forgetting_threshold", 0.1
-            )
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
             keys_to_forget = []
 
             for key, item in self.items.items():
@@ -612,9 +583,7 @@ class SemanticMemory(MemorySystem):
 
     def _load_foundational_knowledge(self):
         """Load foundational knowledge from configuration."""
-        knowledge_file = self.config.config.get(
-            "knowledge", "knowledge_file", fallback=None
-        )
+        knowledge_file = self.config.config.get("knowledge", "knowledge_file", fallback=None)
         if knowledge_file and Path(knowledge_file).exists():
             try:
                 with open(knowledge_file) as f:
@@ -629,17 +598,13 @@ class SemanticMemory(MemorySystem):
             except Exception as e:
                 logger.error(f"Failed to load foundational knowledge: {e}")
 
-    def store(
-        self, key: str, content: Any, related_concepts: list[str] = None, **kwargs
-    ) -> bool:
+    def store(self, key: str, content: Any, related_concepts: list[str] = None, **kwargs) -> bool:
         """Store semantic knowledge with concept relationships."""
         with self.lock:
             if len(self.items) >= self.capacity:
                 # Remove least important concept
                 if self.items:
-                    least_important = min(
-                        self.items.items(), key=lambda x: x[1].importance
-                    )
+                    least_important = min(self.items.items(), key=lambda x: x[1].importance)
                     self.forget(least_important[0])
 
             item = MemoryItem(
@@ -658,9 +623,7 @@ class SemanticMemory(MemorySystem):
                     self.concept_graph[key].add(concept)
                     self.concept_graph[concept].add(key)
 
-            MEMORY_OPERATIONS.labels(
-                operation_type="store", memory_type="semantic"
-            ).inc()
+            MEMORY_OPERATIONS.labels(operation_type="store", memory_type="semantic").inc()
             return True
 
     def retrieve(self, key: str) -> Optional[Any]:
@@ -669,9 +632,7 @@ class SemanticMemory(MemorySystem):
             if key in self.items:
                 item = self.items[key]
                 item.access_count += 1
-                MEMORY_OPERATIONS.labels(
-                    operation_type="retrieve", memory_type="semantic"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="retrieve", memory_type="semantic").inc()
                 return item.content
             return None
 
@@ -684,9 +645,7 @@ class SemanticMemory(MemorySystem):
             related = set(self.concept_graph[concept])
             if depth > 1:
                 for related_concept in list(related):
-                    related.update(
-                        self.find_related_concepts(related_concept, depth - 1)
-                    )
+                    related.update(self.find_related_concepts(related_concept, depth - 1))
 
             return related - {concept}
 
@@ -701,9 +660,7 @@ class SemanticMemory(MemorySystem):
                     self.concept_graph[related].discard(key)
                 del self.concept_graph[key]
 
-                MEMORY_OPERATIONS.labels(
-                    operation_type="forget", memory_type="semantic"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="forget", memory_type="semantic").inc()
                 return True
             return False
 
@@ -712,9 +669,7 @@ class SemanticMemory(MemorySystem):
         with self.lock:
             # Semantic memories are generally more stable
             # Only remove if importance is very low
-            forgetting_threshold = (
-                self.config.get_float("memory", "forgetting_threshold", 0.1) / 10
-            )
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1) / 10
             keys_to_forget = []
 
             for key, item in self.items.items():
@@ -736,9 +691,7 @@ class ProceduralMemory(MemorySystem):
         self.lock = threading.RLock()
         logger.info(f"ProceduralMemory initialized with capacity {self.capacity}")
 
-    def store(
-        self, key: str, content: Any, skill_type: str = "general", **kwargs
-    ) -> bool:
+    def store(self, key: str, content: Any, skill_type: str = "general", **kwargs) -> bool:
         """Store a procedure or skill."""
         with self.lock:
             if len(self.procedures) >= self.capacity:
@@ -758,9 +711,7 @@ class ProceduralMemory(MemorySystem):
 
             self.skill_levels[key] = kwargs.get("initial_skill", 0.1)
 
-            MEMORY_OPERATIONS.labels(
-                operation_type="store", memory_type="procedural"
-            ).inc()
+            MEMORY_OPERATIONS.labels(operation_type="store", memory_type="procedural").inc()
             return True
 
     def retrieve(self, key: str) -> Optional[Any]:
@@ -768,9 +719,7 @@ class ProceduralMemory(MemorySystem):
         with self.lock:
             if key in self.procedures:
                 self.procedures[key]["execution_count"] += 1
-                MEMORY_OPERATIONS.labels(
-                    operation_type="retrieve", memory_type="procedural"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="retrieve", memory_type="procedural").inc()
                 return self.procedures[key]["content"]
             return None
 
@@ -788,9 +737,7 @@ class ProceduralMemory(MemorySystem):
                 if exec_count > 0:
                     success_rate = success_count / exec_count
                     # Skill improves with practice and success
-                    self.skill_levels[key] = min(
-                        1.0, self.skill_levels[key] + 0.01 * success_rate
-                    )
+                    self.skill_levels[key] = min(1.0, self.skill_levels[key] + 0.01 * success_rate)
 
     def forget(self, key: str) -> bool:
         """Remove a procedure."""
@@ -798,9 +745,7 @@ class ProceduralMemory(MemorySystem):
             if key in self.procedures:
                 del self.procedures[key]
                 del self.skill_levels[key]
-                MEMORY_OPERATIONS.labels(
-                    operation_type="forget", memory_type="procedural"
-                ).inc()
+                MEMORY_OPERATIONS.labels(operation_type="forget", memory_type="procedural").inc()
                 return True
             return False
 
@@ -848,9 +793,7 @@ class CognitiveResourceManager:
             ),
         }
         self.lock = threading.RLock()
-        self.recharge_rate = config.get_float(
-            "resources", "resource_recharge_rate", 0.05
-        )
+        self.recharge_rate = config.get_float("resources", "resource_recharge_rate", 0.05)
         self._start_recharge_thread()
 
     def _start_recharge_thread(self):
@@ -866,12 +809,8 @@ class CognitiveResourceManager:
                             ResourceType.ENERGY,
                             ResourceType.PROCESSING_CYCLES,
                         ]:
-                            recharge_amount = (
-                                resource.total_capacity * self.recharge_rate
-                            )
-                            resource.allocated = max(
-                                0, resource.allocated - recharge_amount
-                            )
+                            recharge_amount = resource.total_capacity * self.recharge_rate
+                            resource.allocated = max(0, resource.allocated - recharge_amount)
 
         thread = threading.Thread(target=recharge_loop, daemon=True)
         thread.start()
@@ -916,9 +855,7 @@ class CognitiveResourceManager:
 class CognitiveProcessScheduler:
     """Schedules and executes cognitive processes."""
 
-    def __init__(
-        self, config: CognitiveConfig, resource_manager: CognitiveResourceManager
-    ):
+    def __init__(self, config: CognitiveConfig, resource_manager: CognitiveResourceManager):
         self.config = config
         self.resource_manager = resource_manager
         self.process_queue: list[CognitiveProcess] = []
@@ -935,15 +872,11 @@ class CognitiveProcessScheduler:
         )
 
         # Process handlers
-        self.process_handlers: dict[CognitiveProcessType, Callable] = (
-            self._initialize_handlers()
-        )
+        self.process_handlers: dict[CognitiveProcessType, Callable] = self._initialize_handlers()
 
         # Start scheduler thread
         self._running = True
-        self._scheduler_thread = threading.Thread(
-            target=self._scheduler_loop, daemon=True
-        )
+        self._scheduler_thread = threading.Thread(target=self._scheduler_loop, daemon=True)
         self._scheduler_thread.start()
 
     def _initialize_handlers(self) -> dict[CognitiveProcessType, Callable]:
@@ -978,9 +911,7 @@ class CognitiveProcessScheduler:
                 )
                 process.resource_requirements = {
                     ResourceType.ATTENTION: default_reqs.get("attention", 10),
-                    ResourceType.MEMORY_BANDWIDTH: default_reqs.get(
-                        "memory_bandwidth", 10
-                    ),
+                    ResourceType.MEMORY_BANDWIDTH: default_reqs.get("memory_bandwidth", 10),
                     ResourceType.PROCESSING_CYCLES: default_reqs.get("cycles", 10),
                     ResourceType.ENERGY: default_reqs.get("energy", 5),
                 }
@@ -1006,9 +937,7 @@ class CognitiveProcessScheduler:
     def _schedule_processes(self):
         """Schedule queued processes if resources are available."""
         with self.lock:
-            max_concurrent = self.config.get_int(
-                "processes", "max_concurrent_processes", 10
-            )
+            max_concurrent = self.config.get_int("processes", "max_concurrent_processes", 10)
 
             while self.process_queue and len(self.running_processes) < max_concurrent:
                 # Get highest priority process
@@ -1023,9 +952,7 @@ class CognitiveProcessScheduler:
                     ]
                     if unmet_deps:
                         # Re-queue if dependencies not met
-                        heapq.heappush(
-                            self.process_queue, (-process.priority.value, process)
-                        )
+                        heapq.heappush(self.process_queue, (-process.priority.value, process))
                         continue
 
                 # Try to allocate resources
@@ -1040,9 +967,7 @@ class CognitiveProcessScheduler:
                     logger.info(f"Scheduled process {process.process_id}")
                 else:
                     # Re-queue if resources not available
-                    heapq.heappush(
-                        self.process_queue, (-process.priority.value, process)
-                    )
+                    heapq.heappush(self.process_queue, (-process.priority.value, process))
                     break
 
     def _execute_process(self, process: CognitiveProcess):
@@ -1105,9 +1030,7 @@ class CognitiveProcessScheduler:
                 if process.started_at:
                     runtime = (current_time - process.started_at).total_seconds()
                     if runtime > timeout:
-                        logger.warning(
-                            f"Process {process_id} exceeded timeout ({runtime}s)"
-                        )
+                        logger.warning(f"Process {process_id} exceeded timeout ({runtime}s)")
                         # Could implement process termination here
 
     # Process handlers
@@ -1170,9 +1093,7 @@ class CognitiveProcessScheduler:
             # Implement abductive reasoning
             observations = process.context.get("observations", [])
             hypotheses = process.context.get("hypotheses", [])
-            hypothesis_limit = self.config.get_int(
-                "reasoning", "abductive_hypothesis_limit", 5
-            )
+            hypothesis_limit = self.config.get_int("reasoning", "abductive_hypothesis_limit", 5)
 
             # Score hypotheses based on explanatory power
             scored_hypotheses = []
@@ -1218,9 +1139,7 @@ class CognitiveProcessScheduler:
             model = {
                 "type": "supervised",
                 "samples": len(data),
-                "features_learned": list(
-                    {f for feat_list in features for f in feat_list}
-                ),
+                "features_learned": list({f for feat_list in features for f in feat_list}),
                 "labels_learned": list(set(labels)),
                 "accuracy": np.random.uniform(0.7, 0.95),  # Simulated
             }
@@ -1368,8 +1287,7 @@ class CognitiveProcessScheduler:
                     p
                     for p in self.completed_processes
                     if p.completed_at
-                    and (datetime.utcnow() - p.completed_at).total_seconds()
-                    < time_window
+                    and (datetime.utcnow() - p.completed_at).total_seconds() < time_window
                 ]
 
             if recent_processes:
@@ -1386,16 +1304,14 @@ class CognitiveProcessScheduler:
                 )
 
                 insights["observations"] = [
-                    f"Success rate: {success_count/total_count:.2%}",
+                    f"Success rate: {success_count / total_count:.2%}",
                     f"Average duration: {avg_duration:.1f}s",
                     f"Total processes: {total_count}",
                 ]
 
                 insights["recommendations"] = []
                 if success_count / total_count < 0.8:
-                    insights["recommendations"].append(
-                        "Consider reducing cognitive load"
-                    )
+                    insights["recommendations"].append("Consider reducing cognitive load")
                 if avg_duration > 60:
                     insights["recommendations"].append("Optimize process efficiency")
 
@@ -1403,13 +1319,11 @@ class CognitiveProcessScheduler:
             # Analyze resource utilization
             availability = self.resource_manager.get_availability()
             total_capacity = {
-                rt: self.resource_manager.resources[rt].total_capacity
-                for rt in ResourceType
+                rt: self.resource_manager.resources[rt].total_capacity for rt in ResourceType
             }
 
             utilization = {
-                rt.name: 1 - (availability[rt] / total_capacity[rt])
-                for rt in ResourceType
+                rt.name: 1 - (availability[rt] / total_capacity[rt]) for rt in ResourceType
             }
 
             insights["observations"] = [
@@ -1494,9 +1408,7 @@ class CognitiveProcessScheduler:
                 combination = {
                     "type": "combination",
                     "base_concepts": inputs[:2],
-                    "novel_features": [
-                        f"feature_{i}" for i in range(int(3 * randomness) + 1)
-                    ],
+                    "novel_features": [f"feature_{i}" for i in range(int(3 * randomness) + 1)],
                     "creativity_score": np.random.uniform(0.6, 0.9),
                 }
                 return {"creation": combination}
@@ -1512,9 +1424,7 @@ class CognitiveProcessScheduler:
                         {
                             "base": inputs[0],
                             "variation_id": i,
-                            "modifications": [
-                                f"mod_{j}" for j in range(int(2 * randomness) + 1)
-                            ],
+                            "modifications": [f"mod_{j}" for j in range(int(2 * randomness) + 1)],
                         }
                     )
 
@@ -1555,9 +1465,7 @@ class CognitiveMonitor:
         self.scheduler = scheduler
         self.resource_manager = resource_manager
         self.memory_systems = memory_systems
-        self.monitoring_interval = config.get_int(
-            "monitoring", "monitor_interval_seconds", 10
-        )
+        self.monitoring_interval = config.get_int("monitoring", "monitor_interval_seconds", 10)
         self._running = True
         self._monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
         self._monitor_thread.start()
@@ -1588,15 +1496,11 @@ class CognitiveMonitor:
             )
 
             if utilization > pressure_threshold:
-                logger.warning(
-                    f"High {resource_type.name} utilization: {utilization:.1%}"
-                )
+                logger.warning(f"High {resource_type.name} utilization: {utilization:.1%}")
 
     def _check_memory_pressure(self):
         """Check memory system pressure."""
-        pressure_threshold = self.config.get_float(
-            "monitoring", "memory_pressure_threshold", 0.8
-        )
+        pressure_threshold = self.config.get_float("monitoring", "memory_pressure_threshold", 0.8)
 
         for memory_type, memory_system in self.memory_systems.items():
             if hasattr(memory_system, "items"):
@@ -1743,9 +1647,7 @@ class CognitiveArchitectureController:
         return False
 
     @lukhas_tier_required(1)
-    def recall(
-        self, key: str, memory_type: Optional[MemoryType] = None
-    ) -> Optional[Any]:
+    def recall(self, key: str, memory_type: Optional[MemoryType] = None) -> Optional[Any]:
         """Recall information from lukhas.memory."""
         if memory_type:
             memory_system = self.memory_systems.get(memory_type)
@@ -1822,9 +1724,7 @@ class CognitiveArchitectureController:
         return {"error": "Planning timeout"}
 
     @lukhas_tier_required(2)
-    def decide(
-        self, options: list[dict[str, Any]], criteria: dict[str, float]
-    ) -> dict[str, Any]:
+    def decide(self, options: list[dict[str, Any]], criteria: dict[str, float]) -> dict[str, Any]:
         """Make a decision between options based on criteria."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.DECISION,
@@ -1851,9 +1751,7 @@ class CognitiveArchitectureController:
         return {"error": "Decision timeout"}
 
     @lukhas_tier_required(4)
-    def create(
-        self, inputs: list[Any], creative_type: str = "synthesis"
-    ) -> dict[str, Any]:
+    def create(self, inputs: list[Any], creative_type: str = "synthesis") -> dict[str, Any]:
         """Generate creative output."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.CREATIVITY,
@@ -1880,9 +1778,7 @@ class CognitiveArchitectureController:
         return {"error": "Creative process timeout"}
 
     @lukhas_tier_required(3)
-    def reflect(
-        self, target: str = "performance", time_window: int = 3600
-    ) -> dict[str, Any]:
+    def reflect(self, target: str = "performance", time_window: int = 3600) -> dict[str, Any]:
         """Perform self-reflection."""
         process = CognitiveProcess(
             process_type=CognitiveProcessType.REFLECTION,

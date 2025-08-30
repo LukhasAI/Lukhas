@@ -9,7 +9,6 @@ class SupervisionStrategy(Enum):
 
 
 class Supervisor:
-
     def __init__(
         self,
         strategy=SupervisionStrategy.RESTART,

@@ -47,9 +47,7 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
         "LUKHAS_DASHBOARD_HOST", config["unified_dashboard"].get("host", "0.0.0.0")
     )
     config["unified_dashboard"]["port"] = int(
-        os.getenv(
-            "LUKHAS_DASHBOARD_PORT", str(config["unified_dashboard"].get("port", 3000))
-        )
+        os.getenv("LUKHAS_DASHBOARD_PORT", str(config["unified_dashboard"].get("port", 3000)))
     )
     config["unified_dashboard"]["refresh_rate"] = int(
         os.getenv(
@@ -73,9 +71,7 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
         )
     )
     config["meta_dashboard"]["refresh_rate"] = int(
-        os.getenv(
-            "LUKHAS_META_REFRESH", str(config["meta_dashboard"].get("refresh_rate", 15))
-        )
+        os.getenv("LUKHAS_META_REFRESH", str(config["meta_dashboard"].get("refresh_rate", 15)))
     )
 
     # Metrics Collection
@@ -267,9 +263,7 @@ def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
         os.getenv("LUKHAS_DEBUG", str(config["development"].get("debug_mode", False)))
     )
     config["development"]["mock_data"] = _str_to_bool(
-        os.getenv(
-            "LUKHAS_MOCK_DATA", str(config["development"].get("mock_data", False))
-        )
+        os.getenv("LUKHAS_MOCK_DATA", str(config["development"].get("mock_data", False)))
     )
 
     return config

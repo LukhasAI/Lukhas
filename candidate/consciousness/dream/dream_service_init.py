@@ -35,6 +35,7 @@ def initialize_consciousness_services():
     try:
         # Import and register consciousness service
         from consciousness.unified.auto_consciousness import AutoConsciousness
+
         consciousness = AutoConsciousness()
         register_service("consciousness_service", consciousness, singleton=True)
 
@@ -43,15 +44,28 @@ def initialize_consciousness_services():
             async def search(self, query=None, limit=5):
                 return [
                     {"id": "mem1", "summary": "Mock memory entry", "timestamp": "2025-08-10"},
-                    {"id": "mem2", "summary": "Another memory", "timestamp": "2025-08-10"}
+                    {"id": "mem2", "summary": "Another memory", "timestamp": "2025-08-10"},
                 ]
 
         class MockEmotionService:
             async def analyze_text(self, text):
-                return {"emotions": {"joy": 0.5, "sadness": 0.1, "anger": 0.0, "fear": 0.1, "surprise": 0.3}}
+                return {
+                    "emotions": {
+                        "joy": 0.5,
+                        "sadness": 0.1,
+                        "anger": 0.0,
+                        "fear": 0.1,
+                        "surprise": 0.3,
+                    }
+                }
 
             async def get_current_state(self):
-                return {"dominant_emotion": "contentment", "valence": 0.6, "arousal": 0.4, "dominance": 0.5}
+                return {
+                    "dominant_emotion": "contentment",
+                    "valence": 0.6,
+                    "arousal": 0.4,
+                    "dominance": 0.5,
+                }
 
         class MockParallelRealitySimulator:
             async def create_simulation(self, origin_scenario, branch_count=3):
@@ -62,23 +76,30 @@ def initialize_consciousness_services():
                     RealityType,
                 )
 
-                return type("Simulation", (), {
-                    "branches": [
-                        RealityBranch(
-                            branch_id=f"branch_{i}",
-                            probability=0.8 - i * 0.1,
-                            reality_type=RealityType.OPTIMISTIC,
-                            timestamp=datetime.now(),
-                            ethical_score=0.9,
-                            causal_chain=[],
-                            divergence_point={"summary": f"path {i+1}"}
-                        ) for i in range(branch_count)
-                    ]
-                })()
+                return type(
+                    "Simulation",
+                    (),
+                    {
+                        "branches": [
+                            RealityBranch(
+                                branch_id=f"branch_{i}",
+                                probability=0.8 - i * 0.1,
+                                reality_type=RealityType.OPTIMISTIC,
+                                timestamp=datetime.now(),
+                                ethical_score=0.9,
+                                causal_chain=[],
+                                divergence_point={"summary": f"path {i + 1}"},
+                            )
+                            for i in range(branch_count)
+                        ]
+                    },
+                )()
 
         register_service("memory_service", MockMemoryService(), singleton=True)
         register_service("emotion_service", MockEmotionService(), singleton=True)
-        register_service("parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True)
+        register_service(
+            "parallel_reality_simulator", MockParallelRealitySimulator(), singleton=True
+        )
 
         logger.info("Consciousness services initialized and registered")
         return True

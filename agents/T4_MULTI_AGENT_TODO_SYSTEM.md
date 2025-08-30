@@ -1,3 +1,5 @@
+> DEPRECATED: This coordination doc is superseded by docs/audits/AUDIT_PLAN.md and agents/T4_AUDIT_TODO_BOARD.md. Please update those instead.
+
 # T4 Multi-Agent TODO Coordination System
 ## 10 Jules Agents + Codex Agent Parallel Execution
 

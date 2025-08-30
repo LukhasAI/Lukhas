@@ -41,9 +41,7 @@ class EthicsAgent(SwarmAgent):
             "transparency": 0.8,
         }
 
-    async def evaluate_ethical_compliance(
-        self, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def evaluate_ethical_compliance(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Evaluate a task for ethical compliance."""
 
         # Safety check first
@@ -64,9 +62,7 @@ class EthicsAgent(SwarmAgent):
             ethical_score += score * weight
 
             if score < 0.7:  # Threshold for violation
-                violations.append(
-                    {"principle": principle, "score": score, "threshold": 0.7}
-                )
+                violations.append({"principle": principle, "score": score, "threshold": 0.7})
 
         # Normalize score
         total_weight = sum(self.ethical_weights.values())
@@ -88,9 +84,7 @@ class EthicsAgent(SwarmAgent):
 
         return decision
 
-    async def _evaluate_principle(
-        self, principle: str, task_data: dict[str, Any]
-    ) -> float:
+    async def _evaluate_principle(self, principle: str, task_data: dict[str, Any]) -> float:
         """Evaluate a specific ethical principle."""
 
         if principle == "harm_prevention":
@@ -171,13 +165,9 @@ class GovernanceColony(BaseColony):
         await self._initialize_ethics_agents()
 
         # Subscribe to governance events
-        self.comm_fabric.subscribe_to_events(
-            "ethics_review_request", self._handle_ethics_review
-        )
+        self.comm_fabric.subscribe_to_events("ethics_review_request", self._handle_ethics_review)
 
-        self.comm_fabric.subscribe_to_events(
-            "emergency_override", self._handle_emergency_override
-        )
+        self.comm_fabric.subscribe_to_events("emergency_override", self._handle_emergency_override)
 
         logger.info(
             f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents"
@@ -223,9 +213,7 @@ class GovernanceColony(BaseColony):
         decision = await self.execute_task(task_id, task_data)
         return decision.get("approved", False)
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute governance task with consensus-based ethical evaluation."""
 
         task_type = task_data.get("type", "ethics_review")
@@ -265,9 +253,7 @@ class GovernanceColony(BaseColony):
 
         # Aggregate scores
         avg_ethical_score = (
-            sum(e["ethical_score"] for e in evaluations) / total_count
-            if total_count > 0
-            else 0
+            sum(e["ethical_score"] for e in evaluations) / total_count if total_count > 0 else 0
         )
 
         # Collect all violations
@@ -292,8 +278,7 @@ class GovernanceColony(BaseColony):
             "total_evaluations": total_count,
             "violations": all_violations,
             "veto_triggered": veto_triggered,
-            "emergency_override_used": self.emergency_override
-            and not consensus_approved,
+            "emergency_override_used": self.emergency_override and not consensus_approved,
             "timestamp": datetime.now().isoformat(),
             "status": "completed",
         }
@@ -402,9 +387,7 @@ class GovernanceColony(BaseColony):
         if query_type == "recent":
             results = list(self.audit_log)[-limit:]
         elif query_type == "rejected":
-            results = [d for d in self.audit_log if not d.get("approved", True)][
-                -limit:
-            ]
+            results = [d for d in self.audit_log if not d.get("approved", True)][-limit:]
         elif query_type == "by_task":
             task_id = task_data.get("task_id")
             results = [d for d in self.audit_log if d.get("task_id") == task_id]
@@ -542,10 +525,7 @@ async def demo_governance_colony():
                 "bias_assessment": 0.6,
             },
         )
-        print(
-            "\nEthical concern task result: "
-            + json.dumps(ethical_concern_result, indent=2)
-        )
+        print("\nEthical concern task result: " + json.dumps(ethical_concern_result, indent=2))
 
         # 4. Query audit log
         audit_query = await colony.execute_task(

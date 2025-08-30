@@ -55,10 +55,7 @@ class SyntaxDoctor:
 
         for root, _dirs, files in os.walk("."):
             # Skip virtual environments and git
-            if any(
-                skip in root
-                for skip in [".venv", ".git", "__pycache__", "._cleanup_archive"]
-            ):
+            if any(skip in root for skip in [".venv", ".git", "__pycache__", "._cleanup_archive"]):
                 continue
 
             for file in files:
@@ -101,7 +98,7 @@ class SyntaxDoctor:
         """Attempt to fix syntax errors in a file"""
         # Create backup
         backup_path = self.backup_dir / (
-            Path(filepath).name + f'.{datetime.now().strftime("%Y%m%d_%H%M%S")}.backup'
+            Path(filepath).name + f".{datetime.now().strftime('%Y%m%d_%H%M%S')}.backup"
         )
         shutil.copy2(filepath, backup_path)
 
@@ -264,9 +261,7 @@ class SyntaxDoctor:
             "total_errors": len(errors_found),
             "fixed": self.fixed_count,
             "failed": self.failed_count,
-            "success_rate": (
-                (self.fixed_count / len(errors_found) * 100) if errors_found else 0
-            ),
+            "success_rate": ((self.fixed_count / len(errors_found) * 100) if errors_found else 0),
             "files": {
                 "fixed": [f for f in errors_fixed if errors_fixed[f]],
                 "failed": [f for f in errors_fixed if not errors_fixed[f]],
@@ -308,7 +303,7 @@ def main():
     errors_fixed = {}
 
     for i, filepath in enumerate(errors):
-        print(f"Fixing {i+1}/{len(errors)}: {filepath}...", end="")
+        print(f"Fixing {i + 1}/{len(errors)}: {filepath}...", end="")
         success = doctor.fix_file(filepath)
         errors_fixed[filepath] = success
         print(" [OK]" if success else " [FAILED]")
@@ -327,9 +322,7 @@ def main():
     print("\n" + "=" * 50)
     print("[SYNTAX HEALING COMPLETE]")
     print("=" * 50)
-    print(
-        f"[Fixed] {doctor.fixed_count}/{len(errors)} files ({report['success_rate']:.1f}%)"
-    )
+    print(f"[Fixed] {doctor.fixed_count}/{len(errors)} files ({report['success_rate']:.1f}%)")
     print(f"[Failed] {doctor.failed_count} files")
 
     if doctor.failed_count > 0:

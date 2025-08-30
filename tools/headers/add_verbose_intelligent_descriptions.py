@@ -68,9 +68,7 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
             )
 
         # Extract key functions
-        func_pattern = re.compile(
-            r"def\s+(\w+)\s*\([^)]*\)\s*->\s*([^:]+):", re.MULTILINE
-        )
+        func_pattern = re.compile(r"def\s+(\w+)\s*\([^)]*\)\s*->\s*([^:]+):", re.MULTILINE)
         for match in func_pattern.finditer(content):
             analysis["functions"].append(
                 {"name": match.group(1), "return_type": match.group(2).strip()}
@@ -126,9 +124,7 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
 
     # Build comprehensive context
     qi_concepts = analysis["qi_concepts"]
-    concept_list = (
-        ", ".join(qi_concepts) if qi_concepts else "quantum-inspired processing"
-    )
+    concept_list = ", ".join(qi_concepts) if qi_concepts else "quantum-inspired processing"
 
     classes_info = ""
     if analysis["classes"]:
@@ -137,9 +133,9 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
 
     prompt = f"""Generate a verbose, rich module description for a quantum-inspired computing module in the LUKHAS AGI system.
 
-Module: {analysis['module_name']}
-Filename: {analysis['filename']}
-Tier Level: {analysis['tier']} (1-5, higher = more advanced)
+Module: {analysis["module_name"]}
+Filename: {analysis["filename"]}
+Tier Level: {analysis["tier"]} (1-5, higher = more advanced)
 Quantum Concepts Present: {concept_list}
 {classes_info}
 
@@ -233,9 +229,7 @@ Generate a verbose, beautiful description that makes readers feel the magic of q
         if "superposition" in concepts:
             qi_refs.append("superposition states dancing between possibilities")
         if "cryptography" in concepts:
-            qi_refs.append(
-                "cryptographic lattices protecting secrets in high dimensions"
-            )
+            qi_refs.append("cryptographic lattices protecting secrets in high dimensions")
         if not qi_refs:
             qi_refs.append("quantum phenomena transcending classical boundaries")
 
@@ -426,9 +420,7 @@ def find_good_candidates(project_root: Path) -> list[Path]:
     return unique_candidates[:10]  # Return top 10 candidates
 
 
-def estimate_costs(
-    candidates: list[Path], model: str = "gpt-4o-mini"
-) -> dict[str, float]:
+def estimate_costs(candidates: list[Path], model: str = "gpt-4o-mini") -> dict[str, float]:
     """Estimate API costs for processing candidates."""
 
     # Rough token estimates
@@ -455,9 +447,7 @@ def estimate_costs(
     costs = model_costs.get(model, model_costs["gpt-4o-mini"])
 
     total_input_cost = (avg_input_tokens * len(candidates) * costs["input"]) / 1_000_000
-    total_output_cost = (
-        avg_output_tokens * len(candidates) * costs["output"]
-    ) / 1_000_000
+    total_output_cost = (avg_output_tokens * len(candidates) * costs["output"]) / 1_000_000
 
     return {
         "model": model,
@@ -483,7 +473,7 @@ def run_cost_analysis():
         cost_info = estimate_costs(candidates, model)
         print(f"\n{model.upper()}:")
         print(f"  Total estimated cost: ${cost_info['total_estimated_cost']:.3f}")
-        print(f"  Per file: ${cost_info['total_estimated_cost']/len(candidates):.3f}")
+        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates):.3f}")
 
     print("\n📁 CANDIDATE FILES:")
     for i, candidate in enumerate(candidates, 1):

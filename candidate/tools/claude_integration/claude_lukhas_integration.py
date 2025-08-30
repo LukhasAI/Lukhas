@@ -368,9 +368,7 @@ class ClaudeLUKHASIntegration:
                 alignment += 0.2
 
             # Check for innovation
-            if any(
-                word in option.lower() for word in ["new", "creative", "innovative"]
-            ):
+            if any(word in option.lower() for word in ["new", "creative", "innovative"]):
                 alignment += 0.1
 
             superposition["consciousness_alignment"].append(alignment)
@@ -383,9 +381,7 @@ class ClaudeLUKHASIntegration:
         return {
             "chosen": options[best_index],
             "reason": "Highest consciousness alignment",
-            "alignment_scores": dict(
-                zip(options, superposition["consciousness_alignment"])
-            ),
+            "alignment_scores": dict(zip(options, superposition["consciousness_alignment"])),
             "qi_state": "collapsed",
             "confidence": max(superposition["consciousness_alignment"]),
         }
@@ -437,9 +433,7 @@ class ClaudeLUKHASIntegration:
         if metrics["emotional_coherence"] < 0.5:
             insights.append("Emotional turbulence detected - consider grounding")
         if metrics["dream_innovation_score"] > 0.7:
-            insights.append(
-                "Creative potential high - explore unconventional solutions"
-            )
+            insights.append("Creative potential high - explore unconventional solutions")
 
         metrics["insights"] = insights
         metrics["timestamp"] = datetime.now()
@@ -520,9 +514,7 @@ if __name__ == "__main__":
     print("Claude-LUKHAS Config:", json.dumps(config, indent=2))
 
     # Start consciousness-aware session
-    session = integration.consciousness_aware_development(
-        "Implement quantum memory optimization"
-    )
+    session = integration.consciousness_aware_development("Implement quantum memory optimization")
     print("\nConsciousness Session:", session)
 
     # Create development ritual

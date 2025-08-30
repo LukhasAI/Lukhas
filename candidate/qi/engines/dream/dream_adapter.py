@@ -69,9 +69,7 @@ class QIDreamAdapter:
             "measurement_count": 0,
         }
 
-    def create_dream_superposition(
-        self, dream_states: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def create_dream_superposition(self, dream_states: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Create a superposition of multiple dream states.
 
@@ -177,9 +175,7 @@ class QIDreamAdapter:
             "dream_2": {"id": dream_id_2, "data": dream_data_2},
             "strength": entanglement_strength,
             "created_at": self._get_timestamp(),
-            "correlation_factors": self._calculate_correlation_factors(
-                dream_data_1, dream_data_2
-            ),
+            "correlation_factors": self._calculate_correlation_factors(dream_data_1, dream_data_2),
         }
 
         # Store entanglement
@@ -238,9 +234,7 @@ class QIDreamAdapter:
 
         # Entangled emotional intensity
         if "emotional_intensity" in data1 and "emotional_intensity" in data2:
-            avg_intensity = (
-                data1["emotional_intensity"] + data2["emotional_intensity"]
-            ) / 2
+            avg_intensity = (data1["emotional_intensity"] + data2["emotional_intensity"]) / 2
             entangled["emotional_intensity"] = avg_intensity
 
         # Entangled narrative elements
@@ -257,15 +251,11 @@ class QIDreamAdapter:
 
         # Entanglement-specific properties
         entangled["entanglement_strength"] = strength
-        entangled["qi_correlation"] = self._calculate_quantum_correlation(
-            data1, data2
-        )
+        entangled["qi_correlation"] = self._calculate_quantum_correlation(data1, data2)
 
         return entangled
 
-    def _calculate_quantum_correlation(
-        self, data1: dict[str, Any], data2: dict[str, Any]
-    ) -> float:
+    def _calculate_quantum_correlation(self, data1: dict[str, Any], data2: dict[str, Any]) -> float:
         """Calculate quantum correlation between two dream states."""
         # Simplified quantum correlation based on dream properties
         correlation = 0.0
@@ -278,9 +268,7 @@ class QIDreamAdapter:
 
         return correlation / comparisons if comparisons > 0 else 0.0
 
-    def measure_quantum_like_state(
-        self, observable: str = "coherence"
-    ) -> dict[str, Any]:
+    def measure_quantum_like_state(self, observable: str = "coherence") -> dict[str, Any]:
         """
         Perform probabilistic observation on the dream state.
 
@@ -306,9 +294,7 @@ class QIDreamAdapter:
 
         elif observable == "phase":
             # Measure phase
-            measurement_result["value"] = self.qi_like_state["phase"] % (
-                2 * math.pi
-            )
+            measurement_result["value"] = self.qi_like_state["phase"] % (2 * math.pi)
 
         elif observable == "entanglement":
             # Measure entanglement strength
@@ -351,9 +337,7 @@ class QIDreamAdapter:
             Evolution result
         """
         # Update phase
-        self.qi_like_state["phase"] += (
-            2 * math.pi * self.config.qi_frequency * time_step
-        )
+        self.qi_like_state["phase"] += 2 * math.pi * self.config.qi_frequency * time_step
 
         # Apply decoherence
         decoherence_factor = math.exp(-self.config.decoherence_rate * time_step)
@@ -362,9 +346,7 @@ class QIDreamAdapter:
         # Update amplitude with small fluctuations
         fluctuation = 0.01 * random.uniform(-1, 1)
         self.qi_like_state["amplitude"] *= 1 + fluctuation
-        self.qi_like_state["amplitude"] = max(
-            0.1, min(2.0, self.qi_like_state["amplitude"])
-        )
+        self.qi_like_state["amplitude"] = max(0.1, min(2.0, self.qi_like_state["amplitude"]))
 
         # Record coherence history
         self.coherence_history.append(
@@ -425,9 +407,7 @@ class QIDreamAdapter:
         if len(self.coherence_history) < 2:
             return "insufficient_data"
 
-        recent_coherence = [
-            entry["coherence"] for entry in self.coherence_history[-10:]
-        ]
+        recent_coherence = [entry["coherence"] for entry in self.coherence_history[-10:]]
 
         if len(recent_coherence) < 2:
             return "stable"

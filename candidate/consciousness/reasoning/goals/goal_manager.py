@@ -4,6 +4,7 @@ Original: goal_node.py
 Advanced: goal_node.py
 Integration Date: 2025-05-31T07:55:28.129660
 """
+
 import logging
 
 # packages/core/src/nodes/goal_node.py
@@ -49,15 +50,13 @@ class GoalManagementNode:
 
         # Extract description from intent
         if intent_data["type"] == "query":
-            description = (
-                f"Answer query: {intent_data.get('original_text', 'Unknown query')}"
-            )
+            description = f"Answer query: {intent_data.get('original_text', 'Unknown query')}"
         elif intent_data["type"] == "task":
-            description = (
-                f"Complete task: {intent_data.get('original_text', 'Unknown task')}"
-            )
+            description = f"Complete task: {intent_data.get('original_text', 'Unknown task')}"
         else:  # dialogue
-            description = f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic')}"
+            description = (
+                f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic')}"
+            )
 
         return {
             "id": goal_id,
@@ -90,9 +89,7 @@ class GoalManagementNode:
             "steps": [
                 {
                     "action": "retrieve_information",
-                    "parameters": intent_data.get("action_plan", {}).get(
-                        "parameters", {}
-                    ),
+                    "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
                 {"action": "formulate_response", "parameters": {}},
             ],
@@ -107,9 +104,7 @@ class GoalManagementNode:
             "steps": [
                 {
                     "action": "analyze_task",
-                    "parameters": intent_data.get("action_plan", {}).get(
-                        "parameters", {}
-                    ),
+                    "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
                 {"action": "execute_task", "parameters": {}},
                 {"action": "verify_completion", "parameters": {}},
@@ -125,9 +120,7 @@ class GoalManagementNode:
             "steps": [
                 {
                     "action": "analyze_context",
-                    "parameters": intent_data.get("action_plan", {}).get(
-                        "parameters", {}
-                    ),
+                    "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
                 {"action": "generate_response", "parameters": {}},
             ],

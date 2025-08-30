@@ -33,9 +33,7 @@ def main():
         required=False,
         help="Path or s3:// to tarball (else read from manifest)",
     )
-    ap.add_argument(
-        "--target", default=os.getenv("RESTORE_TARGET", "./_restore_sandbox")
-    )
+    ap.add_argument("--target", default=os.getenv("RESTORE_TARGET", "./_restore_sandbox"))
     ap.add_argument("--dry_run", action="store_true")
     args = ap.parse_args()
 
@@ -81,11 +79,7 @@ def main():
                 continue
             tar.extract(m, path=args.target)
 
-    print(
-        json.dumps(
-            {"ok": True, "verified": True, "extracted_to": args.target}, indent=2
-        )
-    )
+    print(json.dumps({"ok": True, "verified": True, "extracted_to": args.target}, indent=2))
     return 0
 
 

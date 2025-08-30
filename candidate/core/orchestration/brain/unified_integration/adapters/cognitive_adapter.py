@@ -104,9 +104,7 @@ class CognitiveAdapter:
             )
 
             # Process through proton gradient
-            gradient_processed = self.proton_gradient.process(
-                filtered_data, self.cognitive_state
-            )
+            gradient_processed = self.proton_gradient.process(filtered_data, self.cognitive_state)
 
             # Update cognitive state
             self._update_cognitive_state(gradient_processed)
@@ -176,9 +174,7 @@ class CognitiveAdapter:
         """Update cognitive state based on processed data"""
         # Update attention focus
         if "attention_updates" in processed_data:
-            self.cognitive_state["attention_focus"].update(
-                processed_data["attention_updates"]
-            )
+            self.cognitive_state["attention_focus"].update(processed_data["attention_updates"])
 
         # Update working memory
         if "working_memory_updates" in processed_data:
@@ -186,24 +182,20 @@ class CognitiveAdapter:
                 processed_data["working_memory_updates"][-5:]  # Keep last 5 items
             )
             if len(self.cognitive_state["working_memory"]) > 10:
-                self.cognitive_state["working_memory"] = self.cognitive_state[
-                    "working_memory"
-                ][-10:]
+                self.cognitive_state["working_memory"] = self.cognitive_state["working_memory"][
+                    -10:
+                ]
 
         # Update emotional state
         if "emotional_updates" in processed_data:
             for key, value in processed_data["emotional_updates"].items():
                 current = self.cognitive_state["emotional_state"].get(key, 0.0)
                 # Smooth emotional transitions
-                self.cognitive_state["emotional_state"][key] = (
-                    current * 0.7 + value * 0.3
-                )
+                self.cognitive_state["emotional_state"][key] = current * 0.7 + value * 0.3
 
         # Update activation patterns
         if "activation_updates" in processed_data:
-            self.cognitive_state["activation_patterns"].update(
-                processed_data["activation_updates"]
-            )
+            self.cognitive_state["activation_patterns"].update(processed_data["activation_updates"])
 
     async def _store_memory(self, processed_data: dict[str, Any]) -> None:
         """Store processed data in appropriate memory systems"""
@@ -268,9 +260,7 @@ class CognitiveAdapter:
         # Emotional patterns
         if len(self.patterns["emotional"]) > 0:
             for pattern in self.patterns["emotional"]:
-                if self._match_emotional_pattern(
-                    self.cognitive_state["emotional_state"], pattern
-                ):
+                if self._match_emotional_pattern(self.cognitive_state["emotional_state"], pattern):
                     recognized_patterns["emotional"].append(pattern)
 
         return recognized_patterns
@@ -289,9 +279,7 @@ class CognitiveAdapter:
                 "emotional": len(self.memory["emotional"]),
             },
             "metrics": {
-                key: np.mean(values[-10:])
-                for key, values in self.metrics.items()
-                if values
+                key: np.mean(values[-10:]) for key, values in self.metrics.items() if values
             },
         }
 
@@ -299,9 +287,7 @@ class CognitiveAdapter:
         """Record performance metrics"""
         (datetime.now() - start_time).total_seconds()
 
-        self.metrics["memory_access"].append(
-            len(self.cognitive_state["working_memory"])
-        )
+        self.metrics["memory_access"].append(len(self.cognitive_state["working_memory"]))
         self.metrics["pattern_recognition"].append(
             len(self.patterns["temporal"])
             + len(self.patterns["causal"])
@@ -311,9 +297,7 @@ class CognitiveAdapter:
         self.metrics["emotional_stability"].append(
             1.0 - max(abs(v) for v in self.cognitive_state["emotional_state"].values())
         )
-        self.metrics["attention_quality"].append(
-            len(self.cognitive_state["attention_focus"])
-        )
+        self.metrics["attention_quality"].append(len(self.cognitive_state["attention_focus"]))
 
         # Keep only recent metrics
         max_history = 1000
@@ -340,23 +324,17 @@ class CognitiveAdapter:
         # Implementation would search emotional memories
         return []
 
-    def _match_temporal_pattern(
-        self, data: dict[str, Any], pattern: dict[str, Any]
-    ) -> bool:
+    def _match_temporal_pattern(self, data: dict[str, Any], pattern: dict[str, Any]) -> bool:
         """Match temporal patterns in data"""
         # Implementation would check for time-based patterns
         return False
 
-    def _match_causal_pattern(
-        self, causes: list[dict[str, Any]], pattern: dict[str, Any]
-    ) -> bool:
+    def _match_causal_pattern(self, causes: list[dict[str, Any]], pattern: dict[str, Any]) -> bool:
         """Match causal patterns in data"""
         # Implementation would check for cause-effect patterns
         return False
 
-    def _match_spatial_pattern(
-        self, structure: dict[str, Any], pattern: dict[str, Any]
-    ) -> bool:
+    def _match_spatial_pattern(self, structure: dict[str, Any], pattern: dict[str, Any]) -> bool:
         """Match spatial patterns in data"""
         # Implementation would check for structural patterns
         return False

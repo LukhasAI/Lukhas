@@ -138,8 +138,7 @@ class EmotionVector:
             "anticipation",
         ]
         diff_sum = sum(
-            (getattr(self, emotion) - getattr(other, emotion)) ** 2
-            for emotion in primary_emotions
+            (getattr(self, emotion) - getattr(other, emotion)) ** 2 for emotion in primary_emotions
         )
         return np.sqrt(diff_sum)
 
@@ -201,9 +200,7 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = (
-            f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
-        )
+        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
 
     def calculate_emotional_delta(
         self, parent_emotion: EmotionVector, current_emotion: EmotionVector
@@ -347,9 +344,7 @@ class Glyph:
     def update_drift_anchor(self, new_score: float):
         """Update drift anchor score."""
         self.drift_anchor_score = max(0.0, min(1.0, new_score))
-        logger.debug(
-            f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}"
-        )
+        logger.debug(f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}")
 
     def assess_collapse_risk(self) -> float:
         """Assess collapse risk based on glyph state."""
@@ -583,9 +578,7 @@ class GlyphFactory:
             priority=GlyphPriority.HIGH,
         )
         glyph.causal_link.parent_glyph_id = parent_id
-        glyph.causal_link.event_chain_hash = hashlib.sha256(
-            event_chain.encode()
-        ).hexdigest()[:16]
+        glyph.causal_link.event_chain_hash = hashlib.sha256(event_chain.encode()).hexdigest()[:16]
         glyph.add_semantic_tag("causal_link")
         glyph.add_semantic_tag("lineage_tracker")
         return glyph
@@ -624,11 +617,7 @@ class GlyphFactory:
             content={
                 "action": action,
                 "params": params or {},
-                **(
-                    {"required_tier": required_tier}
-                    if required_tier is not None
-                    else {}
-                ),
+                **({"required_tier": required_tier} if required_tier is not None else {}),
             },
         )
         glyph.add_semantic_tag("action")

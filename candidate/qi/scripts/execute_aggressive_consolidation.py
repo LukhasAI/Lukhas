@@ -117,10 +117,10 @@ def create_module_manifests():
             if not os.path.exists(init_path):
                 init_content = f'''"""
 {module_name} - {submodule} Submodule
-{"Hybrid component - exists in quantum superposition" if submodule in module_info['hybrid'] else ""}
+{"Hybrid component - exists in quantum superposition" if submodule in module_info["hybrid"] else ""}
 #TAG:{module_name.lower()}
 #TAG:{submodule}
-#TAG:{"hybrid" if submodule in module_info['hybrid'] else "standard"}
+#TAG:{"hybrid" if submodule in module_info["hybrid"] else "standard"}
 """
 
 # Colony base for propagation

@@ -210,7 +210,9 @@ class UnifiedMemoryOrchestrator:
         self.enable_distributed = enable_distributed
 
         # Core memory systems with memory limits
-        self.hippocampal_buffer: deque[MemoryTrace] = deque(maxlen=min(hippocampal_capacity, 1000))  # Limit to 1000
+        self.hippocampal_buffer: deque[MemoryTrace] = deque(
+            maxlen=min(hippocampal_capacity, 1000)
+        )  # Limit to 1000
         self.neocortical_network: dict[str, MemoryTrace] = {}
         self.working_memory: dict[str, MemoryTrace] = {}
 
@@ -287,9 +289,7 @@ class UnifiedMemoryOrchestrator:
                     "test_error_conditions": lambda orch: test_module.test_error_conditions(),
                     "initialized": True,
                 }
-                logger.info(
-                    "Comprehensive memory tester initialized via dependency injection"
-                )
+                logger.info("Comprehensive memory tester initialized via dependency injection")
             else:
                 # Fallback to local test functions
                 self.comprehensive_memory_tester = {
@@ -297,9 +297,7 @@ class UnifiedMemoryOrchestrator:
                     "test_error_conditions": test_error_conditions,
                     "initialized": True,
                 }
-                logger.info(
-                    "Comprehensive memory tester initialized with local functions"
-                )
+                logger.info("Comprehensive memory tester initialized with local functions")
         except Exception as e:
             logger.warning(f"Failed to initialize comprehensive tester: {e}")
             self.comprehensive_memory_tester = {
@@ -320,14 +318,10 @@ class UnifiedMemoryOrchestrator:
         """Initialize LUKHAS subsystems"""
         try:
             # Symbol-aware memory
-            self.symbol_memory = SymbolAwareTieredMemory(
-                embedding_dim=768, enable_compression=True
-            )
+            self.symbol_memory = SymbolAwareTieredMemory(embedding_dim=768, enable_compression=True)
 
             # Atomic scaffold for stable storage
-            self.atomic_scaffold = AtomicMemoryScaffold(
-                dimensions=4, max_memories_per_coil=100
-            )
+            self.atomic_scaffold = AtomicMemoryScaffold(dimensions=4, max_memories_per_coil=100)
 
             # Integrity verification
             self.collapse_hash = CollapseHash()
@@ -448,12 +442,8 @@ class UnifiedMemoryOrchestrator:
             )
 
             # Register interfaces with registry
-            memory_registry.register_interface(
-                MemoryType.EPISODIC, self.episodic_interface
-            )
-            memory_registry.register_interface(
-                MemoryType.SEMANTIC, self.semantic_interface
-            )
+            memory_registry.register_interface(MemoryType.EPISODIC, self.episodic_interface)
+            memory_registry.register_interface(MemoryType.SEMANTIC, self.semantic_interface)
 
             # Initialize colony validator if enabled
             if self.enable_colony_validation:
@@ -525,7 +515,7 @@ class UnifiedMemoryOrchestrator:
                 loop.create_task(self._consolidation_loop()),
                 loop.create_task(self._oscillation_generator()),
                 loop.create_task(self._memory_replay_loop()),
-                loop.create_task(self._health_maintenance_loop())
+                loop.create_task(self._health_maintenance_loop()),
             ]
 
             logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
@@ -568,9 +558,7 @@ class UnifiedMemoryOrchestrator:
             memory_id=memory_id,
             content=content,
             memory_type=memory_type,
-            encoding_strength=self._calculate_encoding_strength(
-                importance, emotional_valence
-            ),
+            encoding_strength=self._calculate_encoding_strength(importance, emotional_valence),
             emotional_valence=emotional_valence,
             semantic_links=set(semantic_links or []),
         )
@@ -580,9 +568,7 @@ class UnifiedMemoryOrchestrator:
 
         # Colony validation if enabled
         if self.enable_colony_validation:
-            validation_passed = await self._validate_memory_with_colonies(
-                memory_trace, tags
-            )
+            validation_passed = await self._validate_memory_with_colonies(memory_trace, tags)
             if not validation_passed:
                 logger.warning(f"Memory {memory_id} failed colony validation")
                 return ""
@@ -626,17 +612,13 @@ class UnifiedMemoryOrchestrator:
     def _generate_memory_id(self, content: Any, memory_type: MemoryType) -> str:
         """Generate unique memory ID"""
         content_str = (
-            json.dumps(content, sort_keys=True)
-            if isinstance(content, dict)
-            else str(content)
+            json.dumps(content, sort_keys=True) if isinstance(content, dict) else str(content)
         )
         timestamp = datetime.now(timezone.utc).isoformat()
         hash_input = f"{memory_type.value}:{content_str}:{timestamp}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
-    def _calculate_encoding_strength(
-        self, importance: float, emotional_valence: float
-    ) -> float:
+    def _calculate_encoding_strength(self, importance: float, emotional_valence: float) -> float:
         """Calculate initial encoding strength based on importance and emotion"""
         # Emotional memories are encoded more strongly
         emotion_boost = abs(emotional_valence) * 0.5
@@ -684,9 +666,7 @@ class UnifiedMemoryOrchestrator:
             if existing_trace.memory_type == memory_trace.memory_type:
                 # Simple similarity based on semantic links overlap
                 if existing_trace.semantic_links:
-                    overlap = len(
-                        memory_trace.semantic_links & existing_trace.semantic_links
-                    )
+                    overlap = len(memory_trace.semantic_links & existing_trace.semantic_links)
                     similarity = overlap / max(
                         len(memory_trace.semantic_links),
                         len(existing_trace.semantic_links),
@@ -697,9 +677,7 @@ class UnifiedMemoryOrchestrator:
 
         return similar
 
-    async def _validate_with_colonies(
-        self, memory_trace: MemoryTrace, tags: list[str]
-    ) -> bool:
+    async def _validate_with_colonies(self, memory_trace: MemoryTrace, tags: list[str]) -> bool:
         """
         Validate memory with specialized colonies
         """
@@ -764,13 +742,9 @@ class UnifiedMemoryOrchestrator:
             # Record validation results in memory trace
             for colony_id, response in outcome.colony_responses.items():
                 if response.success:
-                    memory_trace.colony_validations[colony_id] = (
-                        response.colony_trust_score
-                    )
+                    memory_trace.colony_validations[colony_id] = response.colony_trust_score
 
-            validation_success = (
-                outcome.consensus_achieved and outcome.result.name == "SUCCESS"
-            )
+            validation_success = outcome.consensus_achieved and outcome.result.name == "SUCCESS"
 
             logger.debug(
                 f"Colony validation completed: memory_id={memory_trace.memory_id}, "
@@ -820,16 +794,12 @@ class UnifiedMemoryOrchestrator:
         if memory_type == MemoryType.EPISODIC:
             # Episodic memories often have emotional components
             colonies.append(
-                self.memory_colonies.get(
-                    MemoryType.EMOTIONAL, "emotional_memory_colony"
-                )
+                self.memory_colonies.get(MemoryType.EMOTIONAL, "emotional_memory_colony")
             )
         elif memory_type == MemoryType.SEMANTIC:
             # Semantic memories might relate to procedural knowledge
             colonies.append(
-                self.memory_colonies.get(
-                    MemoryType.PROCEDURAL, "procedural_memory_colony"
-                )
+                self.memory_colonies.get(MemoryType.PROCEDURAL, "procedural_memory_colony")
             )
 
         return colonies
@@ -1001,11 +971,7 @@ class UnifiedMemoryOrchestrator:
 
         return min(
             1.0,
-            base_score
-            + recency_boost * 0.2
-            + access_boost
-            + strength_boost
-            + gamma_boost,
+            base_score + recency_boost * 0.2 + access_boost + strength_boost + gamma_boost,
         )
 
     async def _search_neocortical(
@@ -1155,9 +1121,7 @@ class UnifiedMemoryOrchestrator:
 
         # Add emotional category if significant
         if abs(memory_trace.emotional_valence) > 0.5:
-            emotion_category = (
-                "positive" if memory_trace.emotional_valence > 0 else "negative"
-            )
+            emotion_category = "positive" if memory_trace.emotional_valence > 0 else "negative"
             features.append(f"emotion:{emotion_category}")
 
         # Colony-based feature extraction if available
@@ -1219,9 +1183,7 @@ class UnifiedMemoryOrchestrator:
                     priority += abs(trace.emotional_valence) * 0.5
 
                 if prioritize_recent:
-                    time_diff = (
-                        datetime.now(timezone.utc) - trace.timestamp
-                    ).total_seconds()
+                    time_diff = (datetime.now(timezone.utc) - trace.timestamp).total_seconds()
                     recency_factor = np.exp(-time_diff / (12 * 3600))  # 12-hour decay
                     priority += recency_factor * 0.3
 
@@ -1234,9 +1196,7 @@ class UnifiedMemoryOrchestrator:
         # Replay selected memories
         for trace, priority in selected_memories:
             # Simulate ripple event
-            self.oscillations.ripple_amplitude = np.random.gamma(
-                2, 2
-            )  # Gamma distribution
+            self.oscillations.ripple_amplitude = np.random.gamma(2, 2)  # Gamma distribution
 
             # Strengthen memory through replay
             trace.encoding_strength = min(1.0, trace.encoding_strength + 0.1)
@@ -1256,9 +1216,7 @@ class UnifiedMemoryOrchestrator:
             # Brief pause between replays
             await asyncio.sleep(0.1)
 
-        logger.debug(
-            f"Replayed {len(selected_memories)} memories during {self.sleep_stage.value}"
-        )
+        logger.debug(f"Replayed {len(selected_memories)} memories during {self.sleep_stage.value}")
 
     async def enter_sleep_stage(self, stage: SleepStage):
         """
@@ -1544,8 +1502,9 @@ class UnifiedMemoryOrchestrator:
         """Add memory to working memory with size management"""
         if len(self.working_memory) >= self.max_working_memory_size:
             # Remove least recently accessed memory
-            oldest_id = min(self.working_memory.keys(),
-                          key=lambda x: self.working_memory[x].last_accessed)
+            oldest_id = min(
+                self.working_memory.keys(), key=lambda x: self.working_memory[x].last_accessed
+            )
             del self.working_memory[oldest_id]
 
         self.working_memory[memory_id] = memory_trace
@@ -1557,10 +1516,7 @@ class UnifiedMemoryOrchestrator:
 
         # Remove oldest 10% of memories
         target_size = int(self.max_neocortical_size * 0.9)
-        sorted_memories = sorted(
-            self.neocortical_network.items(),
-            key=lambda x: x[1].last_accessed
-        )
+        sorted_memories = sorted(self.neocortical_network.items(), key=lambda x: x[1].last_accessed)
 
         # Remove oldest memories
         for memory_id, _ in sorted_memories[:-target_size]:
@@ -1576,14 +1532,13 @@ class UnifiedMemoryOrchestrator:
         for index_dict in [self.semantic_index, self.temporal_index, self.emotional_index]:
             if len(index_dict) > self.max_index_entries:
                 # Remove least frequently used entries
-                sorted_keys = sorted(index_dict.keys(),
-                                   key=lambda x: len(index_dict[x]))
-                for key in sorted_keys[:len(index_dict) - self.max_index_entries]:
+                sorted_keys = sorted(index_dict.keys(), key=lambda x: len(index_dict[x]))
+                for key in sorted_keys[: len(index_dict) - self.max_index_entries]:
                     del index_dict[key]
 
         # Limit replay buffer size aggressively
         if len(self.replay_buffer) > self.max_replay_buffer_size // 2:
-            self.replay_buffer = self.replay_buffer[-(self.max_replay_buffer_size // 2):]
+            self.replay_buffer = self.replay_buffer[-(self.max_replay_buffer_size // 2) :]
 
         # Cancel and recreate background tasks if they're consuming too much memory
         if len(self.background_tasks) > 10:  # Should only be 4
@@ -1635,18 +1590,12 @@ class UnifiedMemoryOrchestrator:
             state_distribution[trace.consolidation_state.value] += 1
 
         # Average metrics
-        all_traces = list(self.hippocampal_buffer) + list(
-            self.neocortical_network.values()
-        )
+        all_traces = list(self.hippocampal_buffer) + list(self.neocortical_network.values())
         avg_encoding_strength = (
             np.mean([t.encoding_strength for t in all_traces]) if all_traces else 0
         )
-        avg_replay_count = (
-            np.mean([t.replay_count for t in all_traces]) if all_traces else 0
-        )
-        avg_access_count = (
-            np.mean([t.access_count for t in all_traces]) if all_traces else 0
-        )
+        avg_replay_count = np.mean([t.replay_count for t in all_traces]) if all_traces else 0
+        avg_access_count = np.mean([t.access_count for t in all_traces]) if all_traces else 0
 
         return {
             "total_memories": len(all_traces),
@@ -1740,9 +1689,7 @@ class UnifiedMemoryOrchestrator:
         """
         return {
             "comprehensive_tester": {
-                "initialized": self.comprehensive_memory_tester.get(
-                    "initialized", False
-                ),
+                "initialized": self.comprehensive_memory_tester.get("initialized", False),
                 "available_tests": ["test_memory_lifecycle", "test_error_conditions"],
                 "test_functions_loaded": bool(
                     self.comprehensive_memory_tester.get("test_memory_lifecycle")
@@ -1823,15 +1770,11 @@ async def demonstrate_unified_memory():
     print("\n2. Testing memory retrieval...")
 
     # Test retrieval
-    results = await orchestrator.retrieve_memory(
-        query="LUKHAS", use_pattern_completion=True
-    )
+    results = await orchestrator.retrieve_memory(query="LUKHAS", use_pattern_completion=True)
 
     print(f"Found {len(results)} memories for 'LUKHAS':")
     for trace, score in results[:3]:
-        print(
-            f"  - {trace.memory_type.value}: {str(trace.content)[:50]}... (score: {score:.3f})"
-        )
+        print(f"  - {trace.memory_type.value}: {str(trace.content)[:50]}... (score: {score:.3f})")
 
     print("\n3. Simulating sleep cycle consolidation...")
 
@@ -1870,9 +1813,7 @@ async def demonstrate_unified_memory():
 
     print(f"Found {len(emotional_results)} emotional memories:")
     for trace, score in emotional_results:
-        print(
-            f"  - {trace.content} (valence: {trace.emotional_valence:.2f}, score: {score:.3f})"
-        )
+        print(f"  - {trace.content} (valence: {trace.emotional_valence:.2f}, score: {score:.3f})")
 
     print("\n✅ Unified Memory Orchestrator demonstration complete!")
     print(

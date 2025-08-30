@@ -27,34 +27,37 @@ from pydantic import BaseModel, Field, validator
 
 class SymbolType(Enum):
     """Types of personal symbols that can be bound"""
-    STROKE = "stroke"         # Hand-drawn symbol
-    EMOJI = "emoji"           # Unicode emoji or sequence
-    WORD = "word"             # Personal word or phrase
-    SOUND = "sound"           # Audio pattern (future)
-    COLOR = "color"           # Color sequence
-    RHYTHM = "rhythm"         # Tap/click rhythm
-    GLYPH = "glyph"          # LUKHAS glyph token
+
+    STROKE = "stroke"  # Hand-drawn symbol
+    EMOJI = "emoji"  # Unicode emoji or sequence
+    WORD = "word"  # Personal word or phrase
+    SOUND = "sound"  # Audio pattern (future)
+    COLOR = "color"  # Color sequence
+    RHYTHM = "rhythm"  # Tap/click rhythm
+    GLYPH = "glyph"  # LUKHAS glyph token
 
 
 class MeaningType(Enum):
     """Types of meanings symbols can represent"""
-    EMOTION = "emotion"       # Emotional state (joy, calm, anger)
-    ACTION = "action"         # Action concept (approve, reject, pause)
-    IDENTITY = "identity"     # Identity aspect (self, work, family)
-    CONCEPT = "concept"       # Abstract concept (truth, beauty, strength)
-    LAMBDA = "lambda"         # Λ-meaning in LUKHAS system
-    UNL = "unl"              # Universal Networking Language token
+
+    EMOTION = "emotion"  # Emotional state (joy, calm, anger)
+    ACTION = "action"  # Action concept (approve, reject, pause)
+    IDENTITY = "identity"  # Identity aspect (self, work, family)
+    CONCEPT = "concept"  # Abstract concept (truth, beauty, strength)
+    LAMBDA = "lambda"  # Λ-meaning in LUKHAS system
+    UNL = "unl"  # Universal Networking Language token
 
 
 @dataclass
 class PersonalSymbol:
     """A personal symbol bound to meaning (stored locally only)"""
+
     symbol_id: str
     symbol_type: SymbolType
-    symbol_hash: str          # Hashed representation
-    salt: str                 # Random salt for hashing
+    symbol_hash: str  # Hashed representation
+    salt: str  # Random salt for hashing
     meaning_type: MeaningType
-    meaning_value: str        # The actual meaning
+    meaning_value: str  # The actual meaning
     created_at: datetime
     last_used_at: Optional[datetime] = None
     use_count: int = 0
@@ -63,6 +66,7 @@ class PersonalSymbol:
 
 class SymbolBinding(BaseModel):
     """Request to bind a symbol to meaning"""
+
     symbol_type: SymbolType = Field(..., description="Type of symbol")
     symbol_data: Any = Field(..., description="Raw symbol data (kept local)")
     meaning_type: MeaningType = Field(..., description="Type of meaning")
@@ -77,6 +81,7 @@ class SymbolBinding(BaseModel):
 
 class CompositionChallenge(BaseModel):
     """Server-generated composition challenge"""
+
     challenge_id: str = Field(..., description="Unique challenge ID")
     composition: str = Field(..., description="Requested composition (e.g., 'calm + collapse')")
     operators: list[str] = Field(..., description="Operators in composition (+, -, *, /)")
@@ -87,6 +92,7 @@ class CompositionChallenge(BaseModel):
 
 class CompositionProof(BaseModel):
     """Proof of symbol composition knowledge"""
+
     challenge_id: str = Field(..., description="Challenge being answered")
     proof_hash: str = Field(..., description="Hash proof of composition")
     symbol_count: int = Field(..., description="Number of symbols used")
@@ -96,10 +102,13 @@ class CompositionProof(BaseModel):
 
 class ULSignature(BaseModel):
     """Universal Language signature for approval"""
+
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="Action being approved")
     symbol_proofs: list[str] = Field(..., description="Symbol proof hashes")
-    composition_proof: Optional[CompositionProof] = Field(None, description="Composition proof if challenged")
+    composition_proof: Optional[CompositionProof] = Field(
+        None, description="Composition proof if challenged"
+    )
     timestamp: datetime = Field(..., description="Signature timestamp")
     expires_at: datetime = Field(..., description="Signature expiration")
 
@@ -136,10 +145,10 @@ class EmojiEncoder(SymbolEncoder):
         emoji_str = symbol_data if isinstance(symbol_data, str) else "".join(symbol_data)
 
         features = [
-            len(emoji_str),                    # Length
-            len(set(emoji_str)),               # Unique characters
+            len(emoji_str),  # Length
+            len(set(emoji_str)),  # Unique characters
             emoji_str.count("😀") / len(emoji_str) if emoji_str else 0,  # Happiness ratio
-            1.0 if any(ord(c) > 127462 for c in emoji_str) else 0.0     # Has complex emoji
+            1.0 if any(ord(c) > 127462 for c in emoji_str) else 0.0,  # Has complex emoji
         ]
 
         return features
@@ -162,10 +171,10 @@ class WordEncoder(SymbolEncoder):
         text = symbol_data.lower().strip()
 
         features = [
-            len(text),                         # Length
-            text.count(" ") + 1,               # Word count
-            len(set(text)),                    # Unique characters
-            sum(1 for c in text if c.isalpha()) / len(text) if text else 0  # Letter ratio
+            len(text),  # Length
+            text.count(" ") + 1,  # Word count
+            len(set(text)),  # Unique characters
+            sum(1 for c in text if c.isalpha()) / len(text) if text else 0,  # Letter ratio
         ]
 
         return features
@@ -186,10 +195,10 @@ class ColorEncoder(SymbolEncoder):
     def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract features from color sequence"""
         features = [
-            len(symbol_data),                  # Number of colors
-            len(set(map(tuple, symbol_data))), # Unique colors
-            1.0,                                # Placeholder for color harmony
-            1.0                                 # Placeholder for contrast
+            len(symbol_data),  # Number of colors
+            len(set(map(tuple, symbol_data))),  # Unique colors
+            1.0,  # Placeholder for color harmony
+            1.0,  # Placeholder for contrast
         ]
 
         return features
@@ -256,12 +265,13 @@ def compose_symbol_proof(symbols: list[PersonalSymbol], operators: list[str], no
 
 class CompositionOperator(Enum):
     """Operators for symbol composition"""
-    ADD = "+"          # Combine/merge meanings
-    SUBTRACT = "-"     # Remove/negate meaning
-    MULTIPLY = "*"     # Intensify meaning
-    DIVIDE = "/"       # Dilute/soften meaning
-    TRANSFORM = "~"    # Transform/invert meaning
-    SEQUENCE = "→"     # Sequential progression
+
+    ADD = "+"  # Combine/merge meanings
+    SUBTRACT = "-"  # Remove/negate meaning
+    MULTIPLY = "*"  # Intensify meaning
+    DIVIDE = "/"  # Dilute/soften meaning
+    TRANSFORM = "~"  # Transform/invert meaning
+    SEQUENCE = "→"  # Sequential progression
 
 
 def parse_composition(composition_str: str) -> tuple[list[str], list[str]]:
@@ -298,23 +308,23 @@ UL_ENHANCED_ACTIONS = {
     "grant_admin_scope": {
         "description": "Grant administrative capabilities",
         "required_symbols": 2,
-        "composition_required": True
+        "composition_required": True,
     },
     "delete_all_data": {
         "description": "Delete all user data permanently",
         "required_symbols": 3,
-        "composition_required": True
+        "composition_required": True,
     },
     "transfer_ownership": {
         "description": "Transfer ownership of resources",
         "required_symbols": 2,
-        "composition_required": True
+        "composition_required": True,
     },
     "emergency_lockdown": {
         "description": "Emergency system lockdown",
         "required_symbols": 1,
-        "composition_required": False
-    }
+        "composition_required": False,
+    },
 }
 
 
@@ -338,25 +348,25 @@ def requires_composition(action: str) -> bool:
 
 
 __all__ = [
-    "SymbolType",
+    "UL_ENHANCED_ACTIONS",
+    "ColorEncoder",
+    "CompositionChallenge",
+    "CompositionOperator",
+    "CompositionProof",
+    "EmojiEncoder",
     "MeaningType",
     "PersonalSymbol",
     "SymbolBinding",
-    "CompositionChallenge",
-    "CompositionProof",
-    "ULSignature",
     "SymbolEncoder",
-    "EmojiEncoder",
+    "SymbolType",
+    "ULSignature",
     "WordEncoder",
-    "ColorEncoder",
-    "create_symbol_encoder",
-    "hash_symbol",
     "calculate_symbol_quality",
     "compose_symbol_proof",
-    "CompositionOperator",
-    "parse_composition",
-    "UL_ENHANCED_ACTIONS",
-    "requires_ul_entropy",
+    "create_symbol_encoder",
     "get_required_symbols",
-    "requires_composition"
+    "hash_symbol",
+    "parse_composition",
+    "requires_composition",
+    "requires_ul_entropy",
 ]

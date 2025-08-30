@@ -81,12 +81,8 @@ class ShynessModule:
 
     def update_shyness(self, interaction_quality: float):
         """Meta-learn shyness adaptation using federated pattern"""
-        global_shyness = self.federated_learning.get_parameters().get(
-            "shyness_profile", {}
-        )
-        self.shyness_level = 0.3 * interaction_quality + 0.7 * global_shyness.get(
-            "mean", 0.5
-        )
+        global_shyness = self.federated_learning.get_parameters().get("shyness_profile", {})
+        self.shyness_level = 0.3 * interaction_quality + 0.7 * global_shyness.get("mean", 0.5)
 
 
 class EtiquetteModule:
@@ -241,9 +237,7 @@ class EnhancedPersonalityCommunicationEngine:
             "confidence": 0.8,
         }
 
-    def _apply_vocal_characteristics(
-        self, response: dict, etiquette_rules: dict
-    ) -> dict:
+    def _apply_vocal_characteristics(self, response: dict, etiquette_rules: dict) -> dict:
         """Apply voice modulation based on personality and etiquette"""
         response["voice_params"] = etiquette_rules.get("voice_params", {})
         response["speech_pattern"] = etiquette_rules.get("speech_pattern", "neutral")

@@ -336,9 +336,7 @@ class BrandingDreamVocabulary:
             "consolidation": "🧠 Your memories weave together with AI understanding...",
             "breakthrough": "💥 Experience the LUKHAS AI eureka moment...",
         }
-        return branding_contexts.get(
-            dream_element, f"✨ LUKHAS AI {dream_element} experience"
-        )
+        return branding_contexts.get(dream_element, f"✨ LUKHAS AI {dream_element} experience")
 
     def cycle_start(self, dream_type: str) -> str:
         """Symbol for starting a dream cycle with branding."""

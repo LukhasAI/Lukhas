@@ -27,6 +27,7 @@ try:
         normalize_output_text,
         validate_output,
     )
+
     BRANDING_AVAILABLE = True
 except ImportError:
     BRANDING_AVAILABLE = False
@@ -177,7 +178,7 @@ class SymbolicKernelBus:
                 trinity_emphasis="balanced",  # All Trinity components
                 compliance_level="standard",
                 creative_mode=False,
-                terminology_enforcement=True
+                terminology_enforcement=True,
             )
             logger.info("🎨 Branding integrated with Symbolic Kernel Bus")
         else:
@@ -348,9 +349,7 @@ class SymbolicKernelBus:
             with self._metrics_lock:
                 self._metrics["events_dispatched"] += 1
 
-            logger.debug(
-                f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers"
-            )
+            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers")
 
         except Exception as e:
             logger.error(f"Dispatch error: {e}")
@@ -452,14 +451,23 @@ class SymbolicKernelBus:
                     # Validate compliance
                     validation = validate_output(branded_value, self._brand_context)
                     if not validation["valid"]:
-                        logger.debug(f"Event payload branding issue in {key}: {validation['issues']}")
+                        logger.debug(
+                            f"Event payload branding issue in {key}: {validation['issues']}"
+                        )
 
                     event.payload[key] = branded_value
 
             # Add Trinity Framework context for consciousness and guardian events
-            if any(effect in [SymbolicEffect.AWARENESS_UPDATE, SymbolicEffect.DREAM_TRIGGER,
-                             SymbolicEffect.ETHICS_CHECK, SymbolicEffect.SAFETY_GATE]
-                   for effect in event.effects):
+            if any(
+                effect
+                in [
+                    SymbolicEffect.AWARENESS_UPDATE,
+                    SymbolicEffect.DREAM_TRIGGER,
+                    SymbolicEffect.ETHICS_CHECK,
+                    SymbolicEffect.SAFETY_GATE,
+                ]
+                for effect in event.effects
+            ):
                 trinity_context = get_trinity_context("balanced")
                 event.payload["trinity_framework"] = trinity_context["framework"]
 
@@ -656,9 +664,7 @@ class SymbolicKernelBus:
         boundary = event.payload.get("boundary")
         distance = event.payload.get("distance", 1.0)
 
-        logger.warning(
-            f"🛡️ Safety boundary approached: {boundary} (distance: {distance})"
-        )
+        logger.warning(f"🛡️ Safety boundary approached: {boundary} (distance: {distance})")
 
         if distance < 0.1:  # Critical proximity
             self.emit(
@@ -752,12 +758,12 @@ async def dispatch(event: SymbolicEvent):
 
 # Export key components
 __all__ = [
-    "SymbolicKernelBus",
-    "SymbolicEvent",
-    "SymbolicEffect",
     "EventPriority",
-    "kernel_bus",
-    "emit",
-    "subscribe",
+    "SymbolicEffect",
+    "SymbolicEvent",
+    "SymbolicKernelBus",
     "dispatch",
+    "emit",
+    "kernel_bus",
+    "subscribe",
 ]

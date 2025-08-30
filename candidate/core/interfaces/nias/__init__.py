@@ -46,9 +46,7 @@ except ImportError as e:
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = (
-    structlog.get_logger()
-)  # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
 # ΛCONFIG_END
 
 # ΛDUNDER_VARIABLES_START
@@ -56,7 +54,7 @@ __version__ = "1.0.0"  # ΛVERSION_INFO
 __author__ = "Lukhas AGI Systems"  # ΛAUTHOR_INFO
 
 # ΛPUBLIC_API
-__all__ = ["NIASPlugin", "NIASConfig"]
+__all__ = ["NIASConfig", "NIASPlugin"]
 # ΛDUNDER_VARIABLES_END
 
 # ΛMAIN_LOGIC_START

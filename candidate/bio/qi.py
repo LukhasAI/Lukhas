@@ -5,7 +5,6 @@ Generated: 2025-08-12T19:38:03.072451
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-
 __module__ = "bio.quantum"
 __trinity__ = "⚛️🧠🛡️"
 
@@ -29,7 +28,7 @@ class QIVoiceEnhancer:
                 "original_data": voice_data,
                 "enhancement_level": enhancement_level,
                 "qi_processing_applied": True,
-                "enhancements": {}
+                "enhancements": {},
             }
 
             # Quantum-inspired voice enhancement algorithms
@@ -38,31 +37,27 @@ class QIVoiceEnhancer:
                 enhanced_voice["enhancements"]["frequency_superposition"] = {
                     "base_frequency": 440.0,
                     "harmonic_layers": [440.0, 880.0, 1320.0],
-                    "coherence_factor": enhancement_level
+                    "coherence_factor": enhancement_level,
                 }
 
                 # Bio-inspired vocal tract modeling
                 enhanced_voice["enhancements"]["bio_vocal_modeling"] = {
                     "vocal_tract_simulation": True,
                     "breath_pattern_sync": True,
-                    "neuroplasticity_adaptation": enhancement_level > 0.7
+                    "neuroplasticity_adaptation": enhancement_level > 0.7,
                 }
 
                 # Quantum coherence voice clarity
                 enhanced_voice["enhancements"]["quantum_clarity"] = {
                     "coherence_level": min(1.0, enhancement_level * 1.2),
                     "noise_reduction": enhancement_level * 0.8,
-                    "signal_stability": 0.9
+                    "signal_stability": 0.9,
                 }
 
             return enhanced_voice
 
         except Exception as e:
-            return {
-                "error": str(e),
-                "original_data": voice_data,
-                "enhancement_applied": False
-            }
+            return {"error": str(e), "original_data": voice_data, "enhancement_applied": False}
 
 
 class MitochondrialQIBridge:
@@ -97,7 +92,7 @@ def __validate_module__():
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},
-        "overall_health": "healthy"
+        "overall_health": "healthy",
     }
 
     # Test VoiceQIConfig
@@ -107,13 +102,10 @@ def __validate_module__():
         validation_results["test_results"]["VoiceQIConfig"] = {
             "status": "pass",
             "instantiation": "successful",
-            "type": "configuration_class"
+            "type": "configuration_class",
         }
     except Exception as e:
-        validation_results["test_results"]["VoiceQIConfig"] = {
-            "status": "fail",
-            "error": str(e)
-        }
+        validation_results["test_results"]["VoiceQIConfig"] = {"status": "fail", "error": str(e)}
 
     # Test QIVoiceEnhancer
     try:
@@ -126,19 +118,16 @@ def __validate_module__():
             "status": "pass",
             "enhancement_test": "successful",
             "enhancement_applied": enhancement_result.get("qi_processing_applied", False),
-            "enhancements_count": len(enhancement_result.get("enhancements", {}))
+            "enhancements_count": len(enhancement_result.get("enhancements", {})),
         }
     except Exception as e:
-        validation_results["test_results"]["QIVoiceEnhancer"] = {
-            "status": "fail",
-            "error": str(e)
-        }
+        validation_results["test_results"]["QIVoiceEnhancer"] = {"status": "fail", "error": str(e)}
 
     # Test other components (basic instantiation)
     components_to_test = [
         ("MitochondrialQIBridge", MitochondrialQIBridge),
         ("QISynapticGate", QISynapticGate),
-        ("NeuroplasticityModulator", NeuroplasticityModulator)
+        ("NeuroplasticityModulator", NeuroplasticityModulator),
     ]
 
     for name, component_class in components_to_test:
@@ -148,17 +137,17 @@ def __validate_module__():
             validation_results["test_results"][name] = {
                 "status": "pass",
                 "instantiation": "successful",
-                "type": "bio_qi_component"
+                "type": "bio_qi_component",
             }
         except Exception as e:
-            validation_results["test_results"][name] = {
-                "status": "fail",
-                "error": str(e)
-            }
+            validation_results["test_results"][name] = {"status": "fail", "error": str(e)}
 
     # Calculate overall health
-    passed_tests = sum(1 for result in validation_results["test_results"].values()
-                      if result.get("status") == "pass")
+    passed_tests = sum(
+        1
+        for result in validation_results["test_results"].values()
+        if result.get("status") == "pass"
+    )
     total_tests = len(validation_results["test_results"])
 
     if total_tests > 0:
@@ -173,7 +162,7 @@ def __validate_module__():
     validation_results["test_summary"] = {
         "total_components": total_tests,
         "passed_tests": passed_tests,
-        "pass_rate": round(pass_rate * 100, 1) if total_tests > 0 else 0
+        "pass_rate": round(pass_rate * 100, 1) if total_tests > 0 else 0,
     }
 
     return validation_results

@@ -56,9 +56,9 @@ class EliteProductionDeployment:
     """
 
     def __init__(self):
-        self.deployment_id = hashlib.sha256(
-            f"{datetime.now().isoformat()}".encode()
-        ).hexdigest()[:8]
+        self.deployment_id = hashlib.sha256(f"{datetime.now().isoformat()}".encode()).hexdigest()[
+            :8
+        ]
 
         self.metrics = DeploymentMetrics(start_time=datetime.now())
         self.stage = DeploymentStage.CANARY
@@ -295,9 +295,7 @@ class EliteProductionDeployment:
                 self.deployment_config["replicas"]["min"],
             )
             if new_replicas < current:
-                logger.info(
-                    f"📉 Scaling down: {current} -> {int(new_replicas)} replicas"
-                )
+                logger.info(f"📉 Scaling down: {current} -> {int(new_replicas)} replicas")
                 self.deployment_config["replicas"]["current"] = int(new_replicas)
 
     async def rollback(self):

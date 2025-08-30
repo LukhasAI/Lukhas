@@ -84,9 +84,7 @@ class QIAgent(SwarmAgent):
         results = []
         for state, weight in zip(states, weights):
             # Simulate quantum parallelism
-            amplitude = cmath.exp(1j * np.random.uniform(0, 2 * np.pi)) * np.sqrt(
-                weight
-            )
+            amplitude = cmath.exp(1j * np.random.uniform(0, 2 * np.pi)) * np.sqrt(weight)
             result = {
                 "state": state,
                 "amplitude": complex(amplitude.real, amplitude.imag),
@@ -204,9 +202,7 @@ class QIAgent(SwarmAgent):
 
         return {
             "operation": operation,
-            "new_amplitude": complex(
-                self.qi_state.amplitude.real, self.qi_state.amplitude.imag
-            ),
+            "new_amplitude": complex(self.qi_state.amplitude.real, self.qi_state.amplitude.imag),
             "new_phase": self.qi_state.phase,
             "coherence": self.qi_state.coherence,
         }
@@ -253,13 +249,9 @@ class QIColony(BaseColony):
         await self._initialize_quantum_agents()
 
         # Subscribe to quantum events
-        self.comm_fabric.subscribe_to_events(
-            "qi_task_request", self._handle_quantum_request
-        )
+        self.comm_fabric.subscribe_to_events("qi_task_request", self._handle_quantum_request)
 
-        self.logger.info(
-            f"QIColony {self.colony_id} started with quantum capabilities"
-        )
+        self.logger.info(f"QIColony {self.colony_id} started with quantum capabilities")
 
     async def _initialize_quantum_agents(self, count: int = 5):
         """Initialize quantum-enabled agents."""
@@ -284,9 +276,7 @@ class QIColony(BaseColony):
         for i in range(count):
             agent_id = f"quantum-agent-{start_idx + i}"
             oscillator = QIBioOscillator(
-                frequency=PrimeOscillator.PRIMES[
-                    (start_idx + i) % len(PrimeOscillator.PRIMES)
-                ]
+                frequency=PrimeOscillator.PRIMES[(start_idx + i) % len(PrimeOscillator.PRIMES)]
             )
 
             agent = QIAgent(agent_id, oscillator)
@@ -545,9 +535,7 @@ class QIColony(BaseColony):
                         }
                     )
 
-        self.logger.info(
-            f"Maintained coherence: reset {len(low_coherence_agents)} agents"
-        )
+        self.logger.info(f"Maintained coherence: reset {len(low_coherence_agents)} agents")
 
     def _generate_neighbor(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate a neighbor state for annealing."""
@@ -563,9 +551,7 @@ class QIColony(BaseColony):
 
         return neighbor
 
-    def _prepare_variational_state(
-        self, theta: np.ndarray, num_qubits: int
-    ) -> np.ndarray:
+    def _prepare_variational_state(self, theta: np.ndarray, num_qubits: int) -> np.ndarray:
         """Prepare variational quantum state."""
         # Simplified state preparation
         state = np.zeros(2**num_qubits, dtype=complex)
@@ -617,9 +603,7 @@ class QIColony(BaseColony):
 
         return cut_value
 
-    def _aggregate_quantum_results(
-        self, results: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _aggregate_quantum_results(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Aggregate results from multiple quantum agents."""
         if not results:
             return {}

@@ -2,7 +2,6 @@
 Tests for the Collective Intelligence Layer.
 """
 
-
 import pytest
 
 from candidate.core.collective.clusters.consciousness_clusters import (
@@ -29,6 +28,7 @@ async def test_consciousness_clustering_engine():
     assert isinstance(cluster_id, str)
     assert "cluster_" in cluster_id
 
+
 @pytest.mark.asyncio
 async def test_swarm_recommendation_system():
     """
@@ -46,6 +46,7 @@ async def test_swarm_recommendation_system():
         assert "consent_based" in rec
         assert rec["consent_based"] is True
 
+
 @pytest.mark.asyncio
 async def test_altruistic_ad_router():
     """
@@ -57,6 +58,7 @@ async def test_altruistic_ad_router():
     assert isinstance(path, dict)
     assert "is_routed" in path
     assert "narrative" in path
+
 
 @pytest.mark.asyncio
 async def test_collective_ad_mind_facade():

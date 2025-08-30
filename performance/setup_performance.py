@@ -356,8 +356,7 @@ class PerformanceSetup:
             "version": "1.0.0",
             "last_updated": time.time(),
             "optimizations": {
-                opt["name"]: opt["status"] == "success"
-                for opt in self.optimizations_applied
+                opt["name"]: opt["status"] == "success" for opt in self.optimizations_applied
             },
             "runtime_settings": {
                 "gc_threshold": 1000,
@@ -433,9 +432,7 @@ class PerformanceSetup:
 
     def print_summary(self):
         """Print setup summary"""
-        successful = sum(
-            1 for opt in self.optimizations_applied if opt["status"] == "success"
-        )
+        successful = sum(1 for opt in self.optimizations_applied if opt["status"] == "success")
         total = len(self.optimizations_applied)
 
         logger.info("\n" + "=" * 70)
@@ -444,7 +441,7 @@ class PerformanceSetup:
         logger.info(f"📈 Total Optimizations: {total}")
         logger.info(f"✅ Successful: {successful}")
         logger.info(f"❌ Failed: {total - successful}")
-        logger.info(f"📊 Success Rate: {(successful/total*100):.1f}%")
+        logger.info(f"📊 Success Rate: {(successful / total * 100):.1f}%")
         logger.info("=" * 70)
 
         if successful > 0:
@@ -457,9 +454,7 @@ class PerformanceSetup:
             logger.info("\n⚠️  Failed Optimizations:")
             for opt in self.optimizations_applied:
                 if opt["status"] == "error":
-                    logger.info(
-                        f"   ❌ {opt['name']}: {opt.get('error', 'Unknown error')}"
-                    )
+                    logger.info(f"   ❌ {opt['name']}: {opt.get('error', 'Unknown error')}")
 
         logger.info(f"\n📁 Configuration files saved to: {self.base_dir}/")
         logger.info("=" * 70)
@@ -480,9 +475,7 @@ async def main():
     else:
         logger.warning("\n⚠️  Some optimizations failed to apply.")
         logger.warning("   Review the errors above and retry failed optimizations.")
-        logger.warning(
-            "   The system will still function but may not be fully optimized."
-        )
+        logger.warning("   The system will still function but may not be fully optimized.")
 
 
 if __name__ == "__main__":

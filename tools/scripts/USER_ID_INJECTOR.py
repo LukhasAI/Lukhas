@@ -18,8 +18,7 @@ class UserIDInjector:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
         self.backup_dir = (
-            self.root_path
-            / f"user_id_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            self.root_path / f"user_id_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         self.modifications = []
 
@@ -63,9 +62,7 @@ class UserIDInjector:
             r"(\.commit\()",
         ]
 
-    def inject_user_tracking(
-        self, target_modules: list[str] = None, dry_run: bool = False
-    ):
+    def inject_user_tracking(self, target_modules: list[str] = None, dry_run: bool = False):
         """Inject user ID tracking into specified modules."""
         print("🔗 LUKHAS  User ID Injector")
         print("=" * 40)
@@ -132,18 +129,14 @@ class UserIDInjector:
                     if content != original_content:
                         if not dry_run:
                             # Backup original
-                            backup_file = (
-                                self.backup_dir / f"{py_file.name}_{files_modified}"
-                            )
+                            backup_file = self.backup_dir / f"{py_file.name}_{files_modified}"
                             shutil.copy2(py_file, backup_file)
 
                             # Write modified content
                             py_file.write_text(content)
 
                         files_modified += 1
-                        self.modifications.append(
-                            f"Modified {py_file.relative_to(self.root_path)}"
-                        )
+                        self.modifications.append(f"Modified {py_file.relative_to(self.root_path)}")
 
             except Exception as e:
                 print(f"❌ Error processing {py_file}: {e}")
@@ -157,9 +150,7 @@ class UserIDInjector:
         """Check if file needs user ID tracking."""
 
         # Skip if already has user tracking
-        if "user_id" in content and (
-            "user.user_id" in content or '"user_id":' in content
-        ):
+        if "user_id" in content and ("user.user_id" in content or '"user_id":' in content):
             return False
 
         # Check for patterns that indicate need for user tracking
@@ -301,11 +292,7 @@ class UserIDInjector:
                 )
 
                 # Add user parameter if needed and not present
-                if (
-                    needs_user
-                    and "user:" not in func_line
-                    and "AuthContext" not in func_line
-                ):
+                if needs_user and "user:" not in func_line and "AuthContext" not in func_line:
                     if func_line.endswith(":"):
                         # Single line function def
                         if "()" in func_line:

@@ -29,9 +29,7 @@ class CollectiveAdMind:
         self.swarm_recommender = SwarmRecommendationSystem()
         self.altruistic_router = AltruisticAdRouter()
 
-    async def get_collective_recommendations(
-        self, user_id: str
-    ) -> list[dict[str, Any]]:
+    async def get_collective_recommendations(self, user_id: str) -> list[dict[str, Any]]:
         """
         Generates a set of recommendations for a user, enhanced with
         collective intelligence and altruistic routing.
@@ -46,9 +44,7 @@ class CollectiveAdMind:
         cluster_id = await self.clustering_engine.find_cluster_for_user(user_id)
 
         # 2. Get swarm recommendations for that cluster
-        swarm_recs = await self.swarm_recommender.get_swarm_recommendations(
-            user_id, cluster_id
-        )
+        swarm_recs = await self.swarm_recommender.get_swarm_recommendations(user_id, cluster_id)
 
         # 3. Find altruistic routing for each recommendation
         routed_recommendations = []

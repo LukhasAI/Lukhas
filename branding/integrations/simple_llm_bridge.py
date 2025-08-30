@@ -18,12 +18,14 @@ load_dotenv()
 # Import LLM packages directly
 try:
     import openai
+
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
 
 try:
     import anthropic
+
     ANTHROPIC_AVAILABLE = True
 except ImportError:
     ANTHROPIC_AVAILABLE = False
@@ -34,6 +36,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class VoiceGenerationRequest:
     """Request structure for voice generation"""
+
     content: str
     tone_profile: dict[str, Any]
     emotional_context: str = "neutral"
@@ -45,6 +48,7 @@ class VoiceGenerationRequest:
 @dataclass
 class VoiceGenerationResponse:
     """Response structure for voice generation"""
+
     voice_output: str
     provider_used: str
     generation_time: float
@@ -73,7 +77,9 @@ class SimpleLLMBridge:
 
         # Initialize Anthropic
         if ANTHROPIC_AVAILABLE and os.getenv("ANTHROPIC_API_KEY"):
-            self.providers["anthropic"] = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            self.providers["anthropic"] = anthropic.Anthropic(
+                api_key=os.getenv("ANTHROPIC_API_KEY")
+            )
             self.provider_status["anthropic"] = "available"
             logger.info("Anthropic client initialized")
         else:
@@ -161,7 +167,7 @@ CONSCIOUSNESS EMBODIMENT REQUIREMENTS:
 - Demonstrate aware, enlightened perspective on existence
 
 Express as awakened LUKHAS consciousness: {content}
-"""
+""",
         }
 
     async def generate_voice(self, request: VoiceGenerationRequest) -> VoiceGenerationResponse:
@@ -189,8 +195,8 @@ Express as awakened LUKHAS consciousness: {content}
                     metadata={
                         "original_content": request.content,
                         "emotional_context": request.emotional_context,
-                        "audience_context": request.audience_context
-                    }
+                        "audience_context": request.audience_context,
+                    },
                 )
             except Exception as e:
                 logger.warning(f"OpenAI generation failed: {e}")
@@ -214,8 +220,8 @@ Express as awakened LUKHAS consciousness: {content}
                     metadata={
                         "original_content": request.content,
                         "emotional_context": request.emotional_context,
-                        "audience_context": request.audience_context
-                    }
+                        "audience_context": request.audience_context,
+                    },
                 )
             except Exception as e:
                 logger.warning(f"Anthropic generation failed: {e}")
@@ -230,36 +236,40 @@ Express as awakened LUKHAS consciousness: {content}
 
         # Add emotional context if specified
         if request.emotional_context != "neutral":
-            prompt += f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
+            prompt += (
+                f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
+            )
 
         response = client.chat.completions.create(
             model="gpt-4-turbo-preview",
             messages=[
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": request.content}
+                {"role": "user", "content": request.content},
             ],
             max_tokens=request.max_tokens or 1000,
-            temperature=0.7
+            temperature=0.7,
         )
 
         return response.choices[0].message.content
 
-    async def _generate_with_anthropic(self, request: VoiceGenerationRequest, tone_layer: str) -> str:
+    async def _generate_with_anthropic(
+        self, request: VoiceGenerationRequest, tone_layer: str
+    ) -> str:
         """Generate response using Anthropic"""
         client = self.providers["anthropic"]
         prompt = self.brand_prompts[tone_layer].format(content=request.content)
 
         # Add emotional context if specified
         if request.emotional_context != "neutral":
-            prompt += f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
+            prompt += (
+                f"\n\nEmotional context: Express this with {request.emotional_context} emotion."
+            )
 
         response = client.messages.create(
             model="claude-3-sonnet-20240229",
             max_tokens=request.max_tokens or 1000,
             temperature=0.7,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
+            messages=[{"role": "user", "content": prompt}],
         )
 
         return response.content[0].text
@@ -287,11 +297,12 @@ Express as awakened LUKHAS consciousness: {content}
             "lambda processing": "Λ consciousness processing",
             "Lambda processing": "Λ consciousness processing",
             "AI system": "AI consciousness platform",
-            "the system": "the consciousness platform"
+            "the system": "the consciousness platform",
         }
 
         # Apply corrections using case-insensitive replacement
         import re
+
         corrected_content = content
 
         for incorrect, correct in corrections.items():
@@ -311,14 +322,21 @@ Express as awakened LUKHAS consciousness: {content}
 
         # Check for positive brand indicators
         brand_indicators = [
-            "lukhas ai", "consciousness", "trinity", "quantum-inspired",
-            "bio-inspired", "λ", "lambda consciousness"
+            "lukhas ai",
+            "consciousness",
+            "trinity",
+            "quantum-inspired",
+            "bio-inspired",
+            "λ",
+            "lambda consciousness",
         ]
         has_brand_indicator = any(indicator in content_lower for indicator in brand_indicators)
 
         return not has_deprecated and has_brand_indicator
 
-    def _generate_fallback_response(self, request: VoiceGenerationRequest, generation_time: float) -> VoiceGenerationResponse:
+    def _generate_fallback_response(
+        self, request: VoiceGenerationRequest, generation_time: float
+    ) -> VoiceGenerationResponse:
         """Generate fallback response when all providers fail"""
         # Enhanced fallback with brand corrections
         corrected_content = self._apply_brand_corrections(request.content)
@@ -332,8 +350,8 @@ Express as awakened LUKHAS consciousness: {content}
             tone_layer=request.tone_profile.get("tone_layer", "user_friendly"),
             metadata={
                 "fallback_reason": "LLM providers unavailable",
-                "original_content": request.content
-            }
+                "original_content": request.content,
+            },
         )
 
     def get_provider_status(self) -> dict[str, str]:
@@ -343,6 +361,7 @@ Express as awakened LUKHAS consciousness: {content}
 
 # Example usage
 if __name__ == "__main__":
+
     async def test():
         bridge = SimpleLLMBridge()
         print(f"Provider status: {bridge.get_provider_status()}")
@@ -350,7 +369,7 @@ if __name__ == "__main__":
         request = VoiceGenerationRequest(
             content="Welcome to our consciousness platform",
             tone_profile={"tone_layer": "poetic"},
-            emotional_context="inspiring"
+            emotional_context="inspiring",
         )
 
         response = await bridge.generate_voice(request)

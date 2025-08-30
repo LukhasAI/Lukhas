@@ -13,7 +13,6 @@ from typing import Any
 
 
 class FunctionIndexGenerator:
-
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.index = defaultdict(dict)
@@ -35,10 +34,7 @@ class FunctionIndexGenerator:
                 print(f"  Progress: {i}/{total_files} files...")
 
             # Skip archive directories
-            if any(
-                skip in str(file_path)
-                for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            ):
+            if any(skip in str(file_path) for skip in ["._cleanup_archive", "__pycache__", ".git"]):
                 continue
 
             functions_found = self._extract_functions(file_path)
@@ -141,9 +137,7 @@ class FunctionIndexGenerator:
             "returns": return_type,
             "complexity": complexity,
             "docstring": (
-                docstring[:100] + "..."
-                if docstring and len(docstring) > 100
-                else docstring
+                docstring[:100] + "..." if docstring and len(docstring) > 100 else docstring
             ),
         }
 
@@ -220,9 +214,7 @@ class FunctionIndexGenerator:
                 "modules_with_functions": modules_with_functions,
                 "lukhas_specific_functions": len(self.lukhas_functions),
                 "most_used_decorators": decorator_stats,
-                "most_complex_functions": [
-                    (f[0], f[1], f[2]) for f in complex_functions[:10]
-                ],
+                "most_complex_functions": [(f[0], f[1], f[2]) for f in complex_functions[:10]],
             },
             "index": dict(self.index),
             "decorator_usage": dict(self.decorator_usage),

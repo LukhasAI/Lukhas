@@ -188,9 +188,7 @@ class TrustHelixNode:
                 principles.extend(child.traverse_for_consent(consent_type))
         return principles
 
-    def _is_relevant_for_consent(
-        self, principle: str, consent_type: ConsentType
-    ) -> bool:
+    def _is_relevant_for_consent(self, principle: str, consent_type: ConsentType) -> bool:
         """Check if ethical principle is relevant for consent type"""
         relevance_map = {
             ConsentType.BIOMETRIC_STORAGE: [
@@ -214,9 +212,7 @@ class TrustHelixNode:
                 "observer_effect",
             ],
         }
-        relevant_principles = relevance_map.get(
-            consent_type, ["transparency", "fairness"]
-        )
+        relevant_principles = relevance_map.get(consent_type, ["transparency", "fairness"])
         return any(rp in principle.lower() for rp in relevant_principles)
 
 
@@ -368,15 +364,11 @@ class ConsentChainValidator:
                 )
 
                 # Validate against TrustHelix
-                helix_validation = await self._validate_against_trusthelix(
-                    node, consent_type
-                )
+                helix_validation = await self._validate_against_trusthelix(node, consent_type)
 
                 if not helix_validation["valid"]:
                     all_valid = False
-                    warnings.append(
-                        f"TrustHelix validation failed: {helix_validation['reason']}"
-                    )
+                    warnings.append(f"TrustHelix validation failed: {helix_validation['reason']}")
                 else:
                     # Add to chain
                     chain.add_node(node)
@@ -399,14 +391,11 @@ class ConsentChainValidator:
         )
 
         # Determine validity state
-        validity_state = self._determine_validity_state(
-            all_valid, ethical_score, warnings
-        )
+        validity_state = self._determine_validity_state(all_valid, ethical_score, warnings)
 
         # Create decision
         decision = ConsentDecision(
-            valid=all_valid
-            and ethical_score >= self.consent_config["min_ethical_score"],
+            valid=all_valid and ethical_score >= self.consent_config["min_ethical_score"],
             decision_id=decision_id,
             consent_symbol=consent_symbol,
             validity_state=validity_state,
@@ -510,12 +499,8 @@ class ConsentChainValidator:
         }
 
         # Generate ethical hash
-        ethical_content = (
-            f"{consent_type.value}|{consciousness_state}|{json.dumps(consent_data)}"
-        )
-        ethical_hash = (
-            f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest()[:12]}"
-        )
+        ethical_content = f"{consent_type.value}|{consciousness_state}|{json.dumps(consent_data)}"
+        ethical_hash = f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest()[:12]}"
 
         # Create node
         node = ConsentNode(
@@ -763,9 +748,7 @@ class ConsentChainValidator:
                     "expires_at": node.expiry.isoformat() if node.expiry else None,
                     "is_expired": node.is_expired(),
                     "consciousness_state": node.consciousness_state,
-                    "signature": (
-                        node.signature[:16] + "..." if node.signature else None
-                    ),
+                    "signature": (node.signature[:16] + "..." if node.signature else None),
                 }
             )
 
@@ -870,11 +853,7 @@ async def main():
 
     history = await validator.get_consent_history("t5_user_000")
     print(f"Total Consents: {history['total_consents']}")
-    print(
-        f"Merkle Root: {history['merkle_root'][:16]}..."
-        if history["merkle_root"]
-        else "None"
-    )
+    print(f"Merkle Root: {history['merkle_root'][:16]}..." if history["merkle_root"] else "None")
 
     # Test case 4: Stargate Gateway integration
     print("\n📍 Test 4: Stargate Gateway Consent")

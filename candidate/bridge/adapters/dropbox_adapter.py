@@ -36,11 +36,7 @@ class DropboxAdapter(BaseServiceAdapter):
     async def authenticate(self, credentials: dict) -> dict:
         """OAuth2 authentication flow for Dropbox"""
         if self.dry_run_mode:
-            return {
-                "access_token": "dry_run_token",
-                "token_type": "Bearer",
-                "expires_in": 14400
-            }
+            return {"access_token": "dry_run_token", "token_type": "Bearer", "expires_in": 14400}
 
         client_id = credentials.get("app_key")
         client_secret = credentials.get("app_secret")
@@ -55,8 +51,8 @@ class DropboxAdapter(BaseServiceAdapter):
                         "grant_type": "refresh_token",
                         "refresh_token": refresh_token,
                         "client_id": client_id,
-                        "client_secret": client_secret
-                    }
+                        "client_secret": client_secret,
+                    },
                 ) as response:
                     token_data = await response.json()
 
@@ -65,7 +61,8 @@ class DropboxAdapter(BaseServiceAdapter):
                     if lid and "access_token" in token_data:
                         self.oauth_tokens[lid] = {
                             "access_token": token_data["access_token"],
-                            "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"]
+                            "expires_at": datetime.now(timezone.utc).timestamp()
+                            + token_data["expires_in"],
                         }
 
                     return token_data
@@ -73,10 +70,14 @@ class DropboxAdapter(BaseServiceAdapter):
         return {"error": "authentication_required"}
 
     @with_resilience
-    async def list_folder(self, lid: str, path: str = "",
-                         recursive: bool = False,
-                         capability_token: Optional[CapabilityToken] = None,
-                         limit: int = 100) -> dict:
+    async def list_folder(
+        self,
+        lid: str,
+        path: str = "",
+        recursive: bool = False,
+        capability_token: Optional[CapabilityToken] = None,
+        limit: int = 100,
+    ) -> dict:
         """
         List files and folders in Dropbox
         Emits Λ-trace for audit
@@ -93,8 +94,7 @@ class DropboxAdapter(BaseServiceAdapter):
         # Dry-run mode
         if self.dry_run_mode:
             plan = self.dry_run_planner.plan_operation(
-                "list_folder",
-                {"path": path, "recursive": recursive, "limit": limit}
+                "list_folder", {"path": path, "recursive": recursive, "limit": limit}
             )
             return {
                 "dry_run": True,
@@ -102,8 +102,8 @@ class DropboxAdapter(BaseServiceAdapter):
                 "mock_entries": [
                     {"name": "Travel_Guide_Japan.pdf", "type": "file", "size": 5242880},
                     {"name": "Passport_Scan.pdf", "type": "file", "size": 2097152},
-                    {"name": "Emergency_Contacts.txt", "type": "file", "size": 2048}
-                ]
+                    {"name": "Emergency_Contacts.txt", "type": "file", "size": 2048},
+                ],
             }
 
         # Get OAuth token
@@ -116,19 +116,13 @@ class DropboxAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
-            payload = {
-                "path": path if path else "",
-                "recursive": recursive,
-                "limit": limit
-            }
+            payload = {"path": path if path else "", "recursive": recursive, "limit": limit}
 
             async with session.post(
-                f"{self.base_url}/files/list_folder",
-                headers=headers,
-                json=payload
+                f"{self.base_url}/files/list_folder", headers=headers, json=payload
             ) as response:
                 if response.status == 200:
                     data = await response.json()
@@ -136,28 +130,31 @@ class DropboxAdapter(BaseServiceAdapter):
                     # Process entries
                     entries = []
                     for entry in data.get("entries", []):
-                        entries.append({
-                            "id": entry.get("id"),
-                            "name": entry.get("name"),
-                            "path": entry.get("path_display"),
-                            "type": entry.get(".tag"),
-                            "size": entry.get("size", 0),
-                            "modified": entry.get("server_modified", "")
-                        })
+                        entries.append(
+                            {
+                                "id": entry.get("id"),
+                                "name": entry.get("name"),
+                                "path": entry.get("path_display"),
+                                "type": entry.get(".tag"),
+                                "size": entry.get("size", 0),
+                                "modified": entry.get("server_modified", ""),
+                            }
+                        )
 
                     return {
                         "entries": entries,
                         "count": len(entries),
                         "has_more": data.get("has_more", False),
                         "cursor": data.get("cursor"),
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"api_error_{response.status}"}
 
     @with_resilience
-    async def download_file(self, lid: str, path: str,
-                           capability_token: Optional[CapabilityToken] = None) -> dict:
+    async def download_file(
+        self, lid: str, path: str, capability_token: Optional[CapabilityToken] = None
+    ) -> dict:
         """Download file content from Dropbox"""
 
         # Validate capability token
@@ -175,8 +172,8 @@ class DropboxAdapter(BaseServiceAdapter):
                     "path": path,
                     "name": path.split("/")[-1],
                     "size": 1024000,
-                    "content_preview": "Mock content..."
-                }
+                    "content_preview": "Mock content...",
+                },
             }
 
         # Get OAuth token
@@ -188,12 +185,11 @@ class DropboxAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Dropbox-API-Arg": json.dumps({"path": path})
+                "Dropbox-API-Arg": json.dumps({"path": path}),
             }
 
             async with session.post(
-                f"{self.content_url}/files/download",
-                headers=headers
+                f"{self.content_url}/files/download", headers=headers
             ) as response:
                 if response.status == 200:
                     # Get metadata from response header
@@ -210,17 +206,23 @@ class DropboxAdapter(BaseServiceAdapter):
                             "size": metadata.get("size"),
                             "modified": metadata.get("server_modified"),
                             "content_hash": hashlib.sha256(content).hexdigest(),
-                            "content_preview": content[:1000].decode("utf-8", errors="ignore") if content else ""
+                            "content_preview": content[:1000].decode("utf-8", errors="ignore")
+                            if content
+                            else "",
                         },
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"download_error_{response.status}"}
 
     @with_resilience
-    async def search_files(self, lid: str, query: str,
-                          capability_token: Optional[CapabilityToken] = None,
-                          max_results: int = 50) -> dict:
+    async def search_files(
+        self,
+        lid: str,
+        query: str,
+        capability_token: Optional[CapabilityToken] = None,
+        max_results: int = 50,
+    ) -> dict:
         """Search files in Dropbox"""
 
         # Validate capability token
@@ -233,8 +235,7 @@ class DropboxAdapter(BaseServiceAdapter):
 
         if self.dry_run_mode:
             plan = self.dry_run_planner.plan_operation(
-                "search_files",
-                {"query": query, "max_results": max_results}
+                "search_files", {"query": query, "max_results": max_results}
             )
             return {"dry_run": True, "plan": plan}
 
@@ -247,21 +248,16 @@ class DropboxAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
             payload = {
                 "query": query,
-                "options": {
-                    "max_results": max_results,
-                    "file_status": "active"
-                }
+                "options": {"max_results": max_results, "file_status": "active"},
             }
 
             async with session.post(
-                f"{self.base_url}/files/search_v2",
-                headers=headers,
-                json=payload
+                f"{self.base_url}/files/search_v2", headers=headers, json=payload
             ) as response:
                 if response.status == 200:
                     data = await response.json()
@@ -269,27 +265,34 @@ class DropboxAdapter(BaseServiceAdapter):
                     matches = []
                     for match in data.get("matches", []):
                         metadata = match.get("metadata", {}).get("metadata", {})
-                        matches.append({
-                            "id": metadata.get("id"),
-                            "name": metadata.get("name"),
-                            "path": metadata.get("path_display"),
-                            "type": metadata.get(".tag"),
-                            "size": metadata.get("size", 0)
-                        })
+                        matches.append(
+                            {
+                                "id": metadata.get("id"),
+                                "name": metadata.get("name"),
+                                "path": metadata.get("path_display"),
+                                "type": metadata.get(".tag"),
+                                "size": metadata.get("size", 0),
+                            }
+                        )
 
                     return {
                         "matches": matches,
                         "count": len(matches),
                         "has_more": data.get("has_more", False),
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"search_error_{response.status}"}
 
     @with_resilience
-    async def upload_file(self, lid: str, path: str, content: bytes,
-                         capability_token: Optional[CapabilityToken] = None,
-                         autorename: bool = True) -> dict:
+    async def upload_file(
+        self,
+        lid: str,
+        path: str,
+        content: bytes,
+        capability_token: Optional[CapabilityToken] = None,
+        autorename: bool = True,
+    ) -> dict:
         """Upload file to Dropbox"""
 
         # Validate capability token
@@ -302,8 +305,7 @@ class DropboxAdapter(BaseServiceAdapter):
 
         if self.dry_run_mode:
             plan = self.dry_run_planner.plan_operation(
-                "upload_file",
-                {"path": path, "size": len(content)}
+                "upload_file", {"path": path, "size": len(content)}
             )
             return {"dry_run": True, "plan": plan}
 
@@ -316,18 +318,14 @@ class DropboxAdapter(BaseServiceAdapter):
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {access_token}",
-                "Dropbox-API-Arg": json.dumps({
-                    "path": path,
-                    "mode": "add",
-                    "autorename": autorename
-                }),
-                "Content-Type": "application/octet-stream"
+                "Dropbox-API-Arg": json.dumps(
+                    {"path": path, "mode": "add", "autorename": autorename}
+                ),
+                "Content-Type": "application/octet-stream",
             }
 
             async with session.post(
-                f"{self.content_url}/files/upload",
-                headers=headers,
-                data=content
+                f"{self.content_url}/files/upload", headers=headers, data=content
             ) as response:
                 if response.status == 200:
                     file_data = await response.json()
@@ -336,9 +334,9 @@ class DropboxAdapter(BaseServiceAdapter):
                             "id": file_data.get("id"),
                             "name": file_data.get("name"),
                             "path": file_data.get("path_display"),
-                            "size": file_data.get("size")
+                            "size": file_data.get("size"),
                         },
-                        "trace_id": self.telemetry.metrics.get("last_trace_id")
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
                     }
                 else:
                     return {"error": f"upload_error_{response.status}"}
@@ -356,7 +354,7 @@ class DropboxAdapter(BaseServiceAdapter):
                 resource="dropbox_oauth",
                 capability_token=None,
                 latency_ms=0,
-                success=True
+                success=True,
             )
 
             return True
@@ -371,7 +369,7 @@ class DropboxAdapter(BaseServiceAdapter):
             "service": "dropbox",
             "used_bytes": 2147483648,  # 2GB mock
             "allocated_bytes": 2199023255552,  # 2TB
-            "usage_percentage": 0.098
+            "usage_percentage": 0.098,
         }
 
 
@@ -385,8 +383,7 @@ class DropboxContextIntegration:
     def __init__(self, dropbox_adapter: DropboxAdapter):
         self.adapter = dropbox_adapter
 
-    async def workflow_fetch_travel_files(self, lid: str,
-                                         context: dict) -> dict:
+    async def workflow_fetch_travel_files(self, lid: str, context: dict) -> dict:
         """
         Workflow step: Fetch travel-related files from Dropbox
         Used in MVP demo scenario
@@ -396,7 +393,7 @@ class DropboxContextIntegration:
             lid=lid,
             query="travel",
             capability_token=context.get("capability_token"),
-            max_results=20
+            max_results=20,
         )
 
         if "matches" in result:
@@ -405,18 +402,20 @@ class DropboxContextIntegration:
             for file in result["matches"]:
                 if file["type"] == "file":
                     file_type = self._classify_travel_file(file["name"])
-                    travel_files.append({
-                        "id": file["id"],
-                        "name": file["name"],
-                        "path": file["path"],
-                        "type": file_type,
-                        "size": file.get("size", 0)
-                    })
+                    travel_files.append(
+                        {
+                            "id": file["id"],
+                            "name": file["name"],
+                            "path": file["path"],
+                            "type": file_type,
+                            "size": file.get("size", 0),
+                        }
+                    )
 
             return {
                 "travel_files": travel_files,
                 "count": len(travel_files),
-                "trace_id": result.get("trace_id")
+                "trace_id": result.get("trace_id"),
             }
 
         return result
@@ -453,11 +452,7 @@ if __name__ == "__main__":
         adapter.set_dry_run(True)
         print("🔍 Testing dry-run mode...")
 
-        result = await adapter.list_folder(
-            lid="USR-123456",
-            path="/travel",
-            recursive=False
-        )
+        result = await adapter.list_folder(lid="USR-123456", path="/travel", recursive=False)
 
         if result.get("dry_run"):
             print("✅ Dry-run plan created")
@@ -467,10 +462,7 @@ if __name__ == "__main__":
 
         # Test search
         print("\n🔎 Testing search...")
-        search_result = await adapter.search_files(
-            lid="USR-123456",
-            query="passport"
-        )
+        search_result = await adapter.search_files(lid="USR-123456", query="passport")
 
         if search_result.get("dry_run"):
             print("✅ Search plan created")
@@ -486,8 +478,7 @@ if __name__ == "__main__":
         print("\n🔄 Testing workflow integration...")
 
         await integration.workflow_fetch_travel_files(
-            lid="USR-123456",
-            context={"stage": "file_retrieval"}
+            lid="USR-123456", context={"stage": "file_retrieval"}
         )
 
         print("✅ Workflow step ready for Agent 4 integration")

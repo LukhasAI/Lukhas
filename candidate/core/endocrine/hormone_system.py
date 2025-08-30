@@ -217,9 +217,7 @@ class EndocrineSystem:
 
             if source_level >= interaction.threshold:
                 # Calculate effect strength
-                effect_strength = (
-                    source_level - interaction.threshold
-                ) * interaction.effect
+                effect_strength = (source_level - interaction.threshold) * interaction.effect
 
                 # Apply to target hormone
                 target = self.hormones[interaction.target]
@@ -406,9 +404,7 @@ class EndocrineSystem:
             previous_level=self.active_effects.get("stress_level", 0.5),
             current_level=stress_level,
             stress_source="hormonal",
-            hormone_levels={
-                hormone.value: level.level for hormone, level in self.hormones.items()
-            },
+            hormone_levels={hormone.value: level.level for hormone, level in self.hormones.items()},
         )
         # Event would be published through event bus
 

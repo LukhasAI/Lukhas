@@ -19,6 +19,7 @@ Usage:
 
 Author: LUKHAS AI Testing & DevOps Specialist (Agent #3)
 """
+
 import argparse
 import json
 import subprocess
@@ -45,14 +46,14 @@ class T4QualityGateValidator:
                 "validation_mode": mode,
                 "start_time": self.start_time.isoformat(),
                 "agent": "Agent #3 - Testing & DevOps Specialist",
-                "standard": "Demis Hassabis (Rigorous Validation)"
+                "standard": "Demis Hassabis (Rigorous Validation)",
             },
             "quality_gates": {},
             "test_execution": {},
             "security_validation": {},
             "performance_metrics": {},
             "audit_compliance": {},
-            "overall_status": "PENDING"
+            "overall_status": "PENDING",
         }
 
         # Ensure output directories exist
@@ -68,7 +69,7 @@ class T4QualityGateValidator:
                 capture_output=True,
                 text=True,
                 cwd=REPO_ROOT,
-                timeout=600  # 10 minute timeout
+                timeout=600,  # 10 minute timeout
             )
             return result.returncode == 0, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
@@ -91,7 +92,7 @@ class T4QualityGateValidator:
             "pytest.ini",
             "requirements.txt",
             "requirements-test.txt",
-            "tools/acceptance_gate_ast.py"
+            "tools/acceptance_gate_ast.py",
         ]
 
         for file_path in required_files:
@@ -100,7 +101,9 @@ class T4QualityGateValidator:
                 return False
 
         # Check pytest is available
-        success, _, _ = self.run_command(["python", "-m", "pytest", "--version"], "Check pytest availability")
+        success, _, _ = self.run_command(
+            ["python", "-m", "pytest", "--version"], "Check pytest availability"
+        )
         if not success:
             print("❌ pytest not available")
             return False
@@ -113,8 +116,7 @@ class T4QualityGateValidator:
         print("🛡️ Running acceptance gate validation...")
 
         success, stdout, stderr = self.run_command(
-            ["python", "tools/acceptance_gate_ast.py"],
-            "AST-based acceptance gate scan"
+            ["python", "tools/acceptance_gate_ast.py"], "AST-based acceptance gate scan"
         )
 
         # Check if audit report was generated
@@ -138,13 +140,19 @@ class T4QualityGateValidator:
         print("🔒 Running security validation...")
 
         # Run security-focused tests
-        success, stdout, stderr = self.run_command([
-            "python", "-m", "pytest",
-            "tests/test_comprehensive_security_validation.py",
-            "-v", "--tb=short",
-            "--json-report",
-            f"--json-report-file={RESULTS_DIR / 'security-report.json'}"
-        ], "Security validation tests")
+        success, stdout, stderr = self.run_command(
+            [
+                "python",
+                "-m",
+                "pytest",
+                "tests/test_comprehensive_security_validation.py",
+                "-v",
+                "--tb=short",
+                "--json-report",
+                f"--json-report-file={RESULTS_DIR / 'security-report.json'}",
+            ],
+            "Security validation tests",
+        )
 
         # Parse security test results
         security_report_path = RESULTS_DIR / "security-report.json"
@@ -154,11 +162,10 @@ class T4QualityGateValidator:
                 self.results["security_validation"]["test_results"] = security_data
 
         # Run authentication tests
-        auth_success, _, _ = self.run_command([
-            "python", "-m", "pytest",
-            "tests/security/",
-            "-v", "--tb=short"
-        ], "Authentication security tests")
+        auth_success, _, _ = self.run_command(
+            ["python", "-m", "pytest", "tests/security/", "-v", "--tb=short"],
+            "Authentication security tests",
+        )
 
         overall_success = success and auth_success
 
@@ -174,16 +181,24 @@ class T4QualityGateValidator:
         print("🧪 Running comprehensive test suite...")
 
         # Run all tests with coverage
-        success, stdout, stderr = self.run_command([
-            "python", "-m", "pytest",
-            "tests/",
-            "-v", "--tb=short",
-            "--cov=lukhas", "--cov=candidate", "--cov=tools",
-            "--cov-report=json:" + str(RESULTS_DIR / "coverage.json"),
-            "--cov-report=html:" + str(RESULTS_DIR / "coverage-html"),
-            "--json-report",
-            f"--json-report-file={RESULTS_DIR / 'test-report.json'}"
-        ], "Comprehensive test suite")
+        success, stdout, stderr = self.run_command(
+            [
+                "python",
+                "-m",
+                "pytest",
+                "tests/",
+                "-v",
+                "--tb=short",
+                "--cov=lukhas",
+                "--cov=candidate",
+                "--cov=tools",
+                "--cov-report=json:" + str(RESULTS_DIR / "coverage.json"),
+                "--cov-report=html:" + str(RESULTS_DIR / "coverage-html"),
+                "--json-report",
+                f"--json-report-file={RESULTS_DIR / 'test-report.json'}",
+            ],
+            "Comprehensive test suite",
+        )
 
         # Parse test results
         test_report_path = RESULTS_DIR / "test-report.json"
@@ -218,11 +233,17 @@ class T4QualityGateValidator:
             print("ℹ️  No performance tests found, skipping...")
             return True
 
-        success, stdout, stderr = self.run_command([
-            "python", "-m", "pytest",
-            "--benchmark-only",
-            "--benchmark-json=" + str(RESULTS_DIR / "benchmark-report.json")
-        ] + [str(f) for f in perf_test_files], "Performance benchmarks")
+        success, stdout, stderr = self.run_command(
+            [
+                "python",
+                "-m",
+                "pytest",
+                "--benchmark-only",
+                "--benchmark-json=" + str(RESULTS_DIR / "benchmark-report.json"),
+            ]
+            + [str(f) for f in perf_test_files],
+            "Performance benchmarks",
+        )
 
         if success:
             print("✅ Performance benchmarks PASSED")
@@ -239,7 +260,7 @@ class T4QualityGateValidator:
             "test_metrics": {},
             "security_metrics": {},
             "coverage_metrics": {},
-            "quality_scores": {}
+            "quality_scores": {},
         }
 
         # Test execution metrics
@@ -257,7 +278,7 @@ class T4QualityGateValidator:
                 "total_tests": total_tests,
                 "passed_tests": passed_tests,
                 "failed_tests": failed_tests,
-                "pass_rate_percentage": round(pass_rate, 2)
+                "pass_rate_percentage": round(pass_rate, 2),
             }
 
         # Coverage metrics
@@ -265,9 +286,7 @@ class T4QualityGateValidator:
             coverage_data = self.results["test_execution"]["coverage_results"]
             total_coverage = coverage_data.get("totals", {}).get("percent_covered", 0)
 
-            metrics["coverage_metrics"] = {
-                "total_coverage_percentage": round(total_coverage, 2)
-            }
+            metrics["coverage_metrics"] = {"total_coverage_percentage": round(total_coverage, 2)}
 
         # Security metrics
         if "test_results" in self.results["security_validation"]:
@@ -278,19 +297,25 @@ class T4QualityGateValidator:
             security_passed = security_summary.get("passed", 0)
             security_failed = security_summary.get("failed", 0)
 
-            security_pass_rate = (security_passed / security_total * 100) if security_total > 0 else 0
+            security_pass_rate = (
+                (security_passed / security_total * 100) if security_total > 0 else 0
+            )
 
             metrics["security_metrics"] = {
                 "total_security_tests": security_total,
                 "security_tests_passed": security_passed,
                 "security_tests_failed": security_failed,
-                "security_pass_rate_percentage": round(security_pass_rate, 2)
+                "security_pass_rate_percentage": round(security_pass_rate, 2),
             }
 
         # Quality scores (T4 standards)
         test_score = min(metrics["test_metrics"].get("pass_rate_percentage", 0) / 95 * 100, 100)
-        coverage_score = min(metrics["coverage_metrics"].get("total_coverage_percentage", 0) / 95 * 100, 100)
-        security_score = min(metrics["security_metrics"].get("security_pass_rate_percentage", 0) / 95 * 100, 100)
+        coverage_score = min(
+            metrics["coverage_metrics"].get("total_coverage_percentage", 0) / 95 * 100, 100
+        )
+        security_score = min(
+            metrics["security_metrics"].get("security_pass_rate_percentage", 0) / 95 * 100, 100
+        )
 
         overall_score = (test_score + coverage_score + security_score) / 3
 
@@ -298,7 +323,7 @@ class T4QualityGateValidator:
             "test_quality_score": round(test_score, 2),
             "coverage_quality_score": round(coverage_score, 2),
             "security_quality_score": round(security_score, 2),
-            "overall_quality_score": round(overall_score, 2)
+            "overall_quality_score": round(overall_score, 2),
         }
 
         return metrics
@@ -311,23 +336,23 @@ class T4QualityGateValidator:
             "test_pass_rate": {
                 "target": 95.0,
                 "actual": metrics["test_metrics"].get("pass_rate_percentage", 0),
-                "status": "PENDING"
+                "status": "PENDING",
             },
             "test_coverage": {
                 "target": 95.0,
                 "actual": metrics["coverage_metrics"].get("total_coverage_percentage", 0),
-                "status": "PENDING"
+                "status": "PENDING",
             },
             "security_compliance": {
                 "target": 0,  # Zero security test failures
                 "actual": metrics["security_metrics"].get("security_tests_failed", 0),
-                "status": "PENDING"
+                "status": "PENDING",
             },
             "minimum_test_count": {
                 "target": 30,
                 "actual": metrics["test_metrics"].get("total_tests", 0),
-                "status": "PENDING"
-            }
+                "status": "PENDING",
+            },
         }
 
         all_gates_passed = True
@@ -343,9 +368,13 @@ class T4QualityGateValidator:
             gate_data["status"] = "PASSED" if passed else "FAILED"
 
             if passed:
-                print(f"✅ {gate_name}: {gate_data['actual']} {'<=' if gate_name == 'security_compliance' else '>='} {gate_data['target']}")
+                print(
+                    f"✅ {gate_name}: {gate_data['actual']} {'<=' if gate_name == 'security_compliance' else '>='} {gate_data['target']}"
+                )
             else:
-                print(f"❌ {gate_name}: {gate_data['actual']} {'>' if gate_name == 'security_compliance' else '<'} {gate_data['target']}")
+                print(
+                    f"❌ {gate_name}: {gate_data['actual']} {'>' if gate_name == 'security_compliance' else '<'} {gate_data['target']}"
+                )
                 all_gates_passed = False
 
         self.results["quality_gates"] = gates
@@ -376,7 +405,7 @@ class T4QualityGateValidator:
             "quality_gates": {k: v["status"] for k, v in self.results["quality_gates"].items()},
             "test_summary": metrics.get("test_metrics", {}),
             "security_summary": metrics.get("security_metrics", {}),
-            "coverage_summary": metrics.get("coverage_metrics", {})
+            "coverage_summary": metrics.get("coverage_metrics", {}),
         }
 
         with open(summary_path, "w") as f:
@@ -433,7 +462,9 @@ class T4QualityGateValidator:
             # Final status
             if gates_passed:
                 print("\n🎉 T4 QUALITY GATE VALIDATION PASSED")
-                print(f"   Overall Quality Score: {metrics.get('quality_scores', {}).get('overall_quality_score', 0):.2f}/100")
+                print(
+                    f"   Overall Quality Score: {metrics.get('quality_scores', {}).get('overall_quality_score', 0):.2f}/100"
+                )
                 return True
             else:
                 print("\n❌ T4 QUALITY GATE VALIDATION FAILED")
@@ -454,7 +485,7 @@ def main():
         "--mode",
         choices=["full", "security", "audit"],
         default="full",
-        help="Validation mode (default: full)"
+        help="Validation mode (default: full)",
     )
 
     args = parser.parse_args()

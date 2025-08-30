@@ -200,9 +200,7 @@ class SymbolicIdentityHash:
 
         # Create a base dictionary to hash
         to_hash = {
-            "emotional": {
-                k: v for k, v in emotional_vector.items() if k != "timestamp"
-            },
+            "emotional": {k: v for k, v in emotional_vector.items() if k != "timestamp"},
             "metadata": user_metadata or {},
             "version": self.hash_version,
             "salt": self.salt,
@@ -260,9 +258,7 @@ class SymbolicIdentityHash:
             else:
                 # For emotional vectors, exact matches are rare
                 # Instead, calculate similarity
-                similarity = self._calculate_hash_similarity(
-                    verification_hash["hash"], stored_hash
-                )
+                similarity = self._calculate_hash_similarity(verification_hash["hash"], stored_hash)
                 if similarity >= 0.8:  # 80% similarity threshold
                     return {
                         "verified": True,
@@ -351,12 +347,8 @@ class TraumaLock:
 
             # Create sanitized vector
             sanitized = memory_vector.copy()
-            sanitized["valence"] = max(
-                0, sanitized.get("valence", 0)
-            )  # Remove negative valence
-            sanitized["arousal"] = min(
-                0.5, sanitized.get("arousal", 0)
-            )  # Reduce arousal
+            sanitized["valence"] = max(0, sanitized.get("valence", 0))  # Remove negative valence
+            sanitized["arousal"] = min(0.5, sanitized.get("arousal", 0))  # Reduce arousal
             sanitized["locked"] = True
             sanitized["lock_id"] = lock_id
 
@@ -457,9 +449,7 @@ class AdvancedIdentityManager:
         claimed_user_id = user_input.get("user_id")
 
         # Verify identity
-        verification_result = self.symbolic_identity_hash.verify(
-            emotional_vector, claimed_user_id
-        )
+        verification_result = self.symbolic_identity_hash.verify(emotional_vector, claimed_user_id)
 
         # Log authentication attempt
         self._log_identity_event(
@@ -479,9 +469,7 @@ class AdvancedIdentityManager:
         secured_vector, was_locked = self.trauma_lock.secure(emotional_vector)
 
         # Create identity hash
-        identity_hash = self.symbolic_identity_hash.create_hash(
-            secured_vector, metadata
-        )
+        identity_hash = self.symbolic_identity_hash.create_hash(secured_vector, metadata)
 
         # Store hash
         self.symbolic_identity_hash.store_hash(user_id, identity_hash)
@@ -496,9 +484,7 @@ class AdvancedIdentityManager:
             self.users[user_id]["verified"] = True
 
             # Log update event
-            self._log_identity_event(
-                "user_updated", user_id, {"was_locked": was_locked}
-            )
+            self._log_identity_event("user_updated", user_id, {"was_locked": was_locked})
         else:
             # Create new user entry
             new_user = {
@@ -511,9 +497,7 @@ class AdvancedIdentityManager:
             self.users[user_id] = new_user
 
             # Log creation event
-            self._log_identity_event(
-                "user_created", user_id, {"was_locked": was_locked}
-            )
+            self._log_identity_event("user_created", user_id, {"was_locked": was_locked})
 
         return {
             "user_id": user_id,

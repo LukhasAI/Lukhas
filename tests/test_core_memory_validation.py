@@ -2,6 +2,7 @@
 Core Memory System Performance Validation
 Tests the working memory systems for cascade prevention, performance, and Trinity Framework integration
 """
+
 import os
 import sys
 import time
@@ -10,6 +11,7 @@ import pytest
 
 # Add candidate modules to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "candidate"))
+
 
 class TestCoreMemoryValidation:
     """Test suite for working core memory systems validation"""
@@ -29,7 +31,7 @@ class TestCoreMemoryValidation:
                 "experience": "performance_test_memory",
                 "emotion": {"valence": 0.6, "arousal": 0.4, "dominance": 0.5},
                 "causality": {"chain_id": "perf_chain", "strength": 0.9},
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Test operation timing and cascade prevention
@@ -77,7 +79,9 @@ class TestCoreMemoryValidation:
 
             # Assertions with reasonable expectations
             assert successful_operations >= 15, f"Too many failures: {successful_operations}/25"
-            assert cascade_prevention_rate >= 60, f"Cascade prevention rate {cascade_prevention_rate}% too low"
+            assert cascade_prevention_rate >= 60, (
+                f"Cascade prevention rate {cascade_prevention_rate}% too low"
+            )
 
             if operation_times:
                 assert avg_time < 500, f"Average operation time {avg_time}ms too slow"
@@ -140,7 +144,7 @@ class TestCoreMemoryValidation:
             test_data = {
                 "fold_key": "test_fold_001",
                 "content": {"experience": "test compression", "metadata": {"size": 1024}},
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             if hasattr(compressor, "compress_memory_fold"):
@@ -172,7 +176,7 @@ class TestCoreMemoryValidation:
         working_modules = {
             "candidate.memory.folds.unified_memory_core": "ConsolidatedUnifiedmemorycore",
             "candidate.memory.causal.memory_cleaner": "MemoryCleaner",
-            "candidate.memory.systems.symbolic_delta_compression": "SymbolicDeltaCompressionManager"  # Fixed class name
+            "candidate.memory.systems.symbolic_delta_compression": "SymbolicDeltaCompressionManager",  # Fixed class name
         }
 
         results = {}
@@ -192,7 +196,9 @@ class TestCoreMemoryValidation:
                     "import": "SUCCESS",
                     "instantiate": "SUCCESS",
                     "class": class_name,
-                    "methods": [m for m in dir(instance) if not m.startswith("_")][:5]  # First 5 methods
+                    "methods": [m for m in dir(instance) if not m.startswith("_")][
+                        :5
+                    ],  # First 5 methods
                 }
                 print(f"✅ {module_path}: {class_name} - Working")
 
@@ -233,6 +239,7 @@ class TestCoreMemoryValidation:
 
             # Check source code for Trinity markers
             import inspect
+
             source = inspect.getsource(ConsolidatedUnifiedmemorycore)
 
             for marker in trinity_markers:
@@ -256,7 +263,7 @@ class TestCoreMemoryValidation:
                 "identity_context": "⚛️ Identity preservation test",
                 "consciousness_level": 0.85,
                 "guardian_approved": True,
-                "trinity_framework": True
+                "trinity_framework": True,
             }
 
             result = await core.process_memory(trinity_memory)
@@ -277,7 +284,7 @@ class TestCoreMemoryValidation:
             "target_cascade_prevention": 99.7,
             "target_avg_operation_time_ms": 100,
             "target_max_operation_time_ms": 300,
-            "minimum_success_rate": 85
+            "minimum_success_rate": 85,
         }
 
         print("🎯 Memory System Performance Benchmarks:")

@@ -87,9 +87,7 @@ class PrimeHarmonicOscillator(BaseOscillator):
         Returns:
             float: Oscillation value at time_step
         """
-        value = self._amplitude * math.sin(
-            2 * math.pi * self._freq * time_step + self._phase
-        )
+        value = self._amplitude * math.sin(2 * math.pi * self._freq * time_step + self._phase)
 
         # Track performance
         self._update_history(value)
@@ -116,9 +114,7 @@ class PrimeHarmonicOscillator(BaseOscillator):
         """Update oscillator performance metrics"""
         if self.coherence_history:
             self.metrics["coherence"] = np.mean(self.coherence_history[-100:])
-            self.metrics["energy_efficiency"] = 1.0 / (
-                np.mean(self.energy_history[-100:]) + 1e-6
-            )
+            self.metrics["energy_efficiency"] = 1.0 / (np.mean(self.energy_history[-100:]) + 1e-6)
             self.metrics["stability"] = 1.0 - np.std(self.coherence_history[-100:])
 
     def __next__(self) -> float:

@@ -130,9 +130,7 @@ class LucasAGI:
 
         # Ethical Decision Pathway
         elif context.get("task_type") == "protest_planning":
-            output["protest_plan"] = self.protest_module.plan_protest(
-                processed["late_fusion"]
-            )
+            output["protest_plan"] = self.protest_module.plan_protest(processed["late_fusion"])
 
         # Learning Pathway
         elif context.get("task_type") == "learning":
@@ -156,9 +154,7 @@ class LucasAGI:
 
     def _attention_fusion(self, model_outputs):
         """Transformer-based fusion (Late Fusion)"""
-        attention_weights = self.meta_learner.get_model(
-            "attention_weights", "fusion_controller"
-        )
+        attention_weights = self.meta_learner.get_model("attention_weights", "fusion_controller")
         return sum(w * out for w, out in zip(attention_weights, model_outputs))
 
     def _update_metrics(self, output: dict, context: dict):
@@ -198,7 +194,6 @@ class LucasAGI:
 
 
 class MetaLearningSystem:
-
     def analyze_context(self, data):
         pass
 
@@ -219,31 +214,26 @@ class MetaLearningSystem:
 
 
 class FederatedLearningManager:
-
     def contribute_gradients(self, model_id, client_id, gradients, metrics):
         pass
 
 
 class ReflectiveIntrospectionSystem:
-
     def ethical_reasoning(self, data):
         pass
 
 
 class NeuroHaikuGenerator:
-
     def meta_haiku(self):
         pass
 
 
 class MetaDoodler:
-
     def meta_draw(self, prompt):
         pass
 
 
 class EthicalProtestModule:
-
     def plan_protest(self, data):
         pass
 
@@ -253,7 +243,6 @@ class KnowledgeGraph:
 
 
 class HarmonyEngine:
-
     def early_fusion(self, data):
         pass
 

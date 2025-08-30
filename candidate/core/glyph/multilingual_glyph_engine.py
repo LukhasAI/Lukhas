@@ -339,17 +339,17 @@ class MultilingualGlyphEngine:
         # Build mappings from database
         for _category, glyphs in self.glyph_database.items():
             for glyph in glyphs:
-                self.cultural_mappings["universal_to_cultural"][
-                    glyph.universal
-                ] = glyph.cultural_variants
+                self.cultural_mappings["universal_to_cultural"][glyph.universal] = (
+                    glyph.cultural_variants
+                )
 
                 # Reverse mappings
                 for locale, variant in glyph.cultural_variants.items():
                     if locale not in self.cultural_mappings["cultural_to_universal"]:
                         self.cultural_mappings["cultural_to_universal"][locale] = {}
-                    self.cultural_mappings["cultural_to_universal"][locale][
-                        variant
-                    ] = glyph.universal
+                    self.cultural_mappings["cultural_to_universal"][locale][variant] = (
+                        glyph.universal
+                    )
 
         self._save_map()
 
@@ -389,9 +389,7 @@ class MultilingualGlyphEngine:
         except Exception as e:
             logger.error(f"Failed to save translation map: {e}")
 
-    def translate_glyph(
-        self, glyph: str, target_locale: str, context: Optional[str] = None
-    ) -> str:
+    def translate_glyph(self, glyph: str, target_locale: str, context: Optional[str] = None) -> str:
         """
         Translate a single glyph to target locale.
 
@@ -612,9 +610,7 @@ class MultilingualGlyphEngine:
             report["coverage_by_locale"][locale] = {
                 "translated": translated_count,
                 "total": total_count,
-                "percentage": (
-                    (translated_count / total_count * 100) if total_count > 0 else 0
-                ),
+                "percentage": ((translated_count / total_count * 100) if total_count > 0 else 0),
             }
 
             # Trinity support

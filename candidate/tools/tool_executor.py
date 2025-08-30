@@ -39,15 +39,9 @@ class ToolExecutor:
         self.config = config or {}
 
         # Check environment flags for which tools are enabled
-        self.retrieval_enabled = (
-            os.getenv("LUKHAS_ENABLE_RETRIEVAL", "true").lower() == "true"
-        )
-        self.browser_enabled = (
-            os.getenv("LUKHAS_ENABLE_BROWSER", "true").lower() == "true"
-        )
-        self.scheduler_enabled = (
-            os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
-        )
+        self.retrieval_enabled = os.getenv("LUKHAS_ENABLE_RETRIEVAL", "true").lower() == "true"
+        self.browser_enabled = os.getenv("LUKHAS_ENABLE_BROWSER", "true").lower() == "true"
+        self.scheduler_enabled = os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
         self.code_exec_enabled = (
             os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true"  # Enabled for dev
         )
@@ -109,10 +103,10 @@ class ToolExecutor:
                 return f"Tool '{tool_name}' is not available."
 
             # Execute with safety checks
-            if tool_name == "exec_code": # This is a sync function
-                 result = self._exec_code(args)
+            if tool_name == "exec_code":  # This is a sync function
+                result = self._exec_code(args)
             else:
-                 result = await handler(args)
+                result = await handler(args)
 
             self.metrics[tool_name] = self.metrics.get(tool_name, 0) + 1
 
@@ -129,7 +123,7 @@ class ToolExecutor:
 
         except Exception as e:
             logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
-            return f"Tool execution failed: {str(e)}"
+            return f"Tool execution failed: {e!s}"
 
     async def _retrieve_knowledge(self, args: dict[str, Any]) -> str:
         """
@@ -171,10 +165,11 @@ class ToolExecutor:
             # Try to import vector store libraries
             try:
                 import chromadb
+
                 self.chroma_client = chromadb.Client()
                 self.vector_store = self.chroma_client.get_or_create_collection(
                     name="lukhas_knowledge_base",
-                    metadata={"description": "LUKHAS AI knowledge repository"}
+                    metadata={"description": "LUKHAS AI knowledge repository"},
                 )
                 logger.info("ChromaDB vector store initialized successfully")
                 return
@@ -184,6 +179,7 @@ class ToolExecutor:
             try:
                 import faiss
                 import numpy as np
+
                 # Initialize FAISS index (simplified)
                 self.faiss_index = faiss.IndexFlatL2(384)  # 384-dim embeddings
                 self.vector_store = "faiss"
@@ -205,9 +201,7 @@ class ToolExecutor:
         if hasattr(self, "chroma_client") and self.vector_store:
             # ChromaDB semantic search
             results = self.vector_store.query(
-                query_texts=[query],
-                n_results=k,
-                include=["documents", "metadatas", "distances"]
+                query_texts=[query], n_results=k, include=["documents", "metadatas", "distances"]
             )
             return results
         elif self.vector_store == "faiss":
@@ -224,8 +218,10 @@ class ToolExecutor:
 
         formatted_results = [f"Retrieved knowledge for '{query}':\n"]
 
-        for i, (docs, metadatas) in enumerate(zip(results["documents"][0], results.get("metadatas", [[]])[0])):
-            formatted_results.append(f"{i+1}. {docs}")
+        for i, (docs, metadatas) in enumerate(
+            zip(results["documents"][0], results.get("metadatas", [[]])[0])
+        ):
+            formatted_results.append(f"{i + 1}. {docs}")
             if metadatas and "source" in metadatas:
                 formatted_results.append(f"   Source: {metadatas['source']}")
 
@@ -254,7 +250,9 @@ class ToolExecutor:
 - Multi-modal explanation capabilities with XIL"""
 
         # Consciousness technology
-        elif "consciousness" in query_lower and ("ai" in query_lower or "artificial" in query_lower):
+        elif "consciousness" in query_lower and (
+            "ai" in query_lower or "artificial" in query_lower
+        ):
             return """Retrieved knowledge about AI consciousness technology:
 - Consciousness requires self-awareness, intentionality, and subjective experience
 - Current AI systems exhibit narrow consciousness in specific domains
@@ -263,7 +261,9 @@ class ToolExecutor:
 - Ethical considerations around consciousness claims are paramount"""
 
         # Machine learning and AI development
-        elif any(term in query_lower for term in ["machine learning", "neural networks", "deep learning"]):
+        elif any(
+            term in query_lower for term in ["machine learning", "neural networks", "deep learning"]
+        ):
             return """Retrieved knowledge about ML/AI development:
 - Deep learning revolutionized pattern recognition and NLP
 - Transformer architectures enable large language models
@@ -272,7 +272,9 @@ class ToolExecutor:
 - Best practices: version control, testing, monitoring, documentation"""
 
         # Programming and development
-        elif any(term in query_lower for term in ["python", "programming", "development", "coding"]):
+        elif any(
+            term in query_lower for term in ["python", "programming", "development", "coding"]
+        ):
             return """Retrieved knowledge about software development:
 - Python dominates AI/ML development with rich ecosystem
 - Best practices: clean code, testing, documentation, version control
@@ -372,7 +374,9 @@ class ToolExecutor:
 
                 max_length = self.config.get("max_content_length", 8000)
                 if len(full_text) > max_length:
-                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
+                    full_text = (
+                        full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
+                    )
 
                 return f"Successfully retrieved and parsed content from {url}:\n\n{full_text}"
 
@@ -383,7 +387,7 @@ class ToolExecutor:
             return f"Error fetching URL: {e}"
         except Exception as e:
             logger.error(f"An unexpected error occurred while opening URL {url}", exc_info=e)
-            return f"An unexpected error occurred: {str(e)}"
+            return f"An unexpected error occurred: {e!s}"
 
     async def _schedule_task(self, args: dict[str, Any]) -> str:
         """
@@ -405,9 +409,7 @@ class ToolExecutor:
             return "Cannot schedule task without a description."
 
         # Create task record
-        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[
-            :8
-        ]
+        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[:8]
         task_data = {
             "id": task_id,
             "created": datetime.now().isoformat(),
@@ -452,7 +454,7 @@ class ToolExecutor:
         dangerous_patterns = {
             "python": ["__import__", "socket", "os", "subprocess", "eval", "exec"],
             "javascript": ["require('fs')", "require('child_process')", "eval"],
-            "bash": [":(){:|:&};:", "rm -rf"], # fork bomb and dangerous rm
+            "bash": [":(){:|:&};:", "rm -rf"],  # fork bomb and dangerous rm
         }
         for pattern in dangerous_patterns.get(language, []):
             if pattern in source:
@@ -480,7 +482,9 @@ class ToolExecutor:
             # Build the image
             try:
                 logger.info(f"Building docker image {image_tag} for {language} code.")
-                image, _ = client.images.build(path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120)
+                image, _ = client.images.build(
+                    path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120
+                )
             except docker.errors.BuildError as e:
                 logger.error(f"Docker build failed for {language}: {e}")
                 log_str = "\n".join([str(line) for line in e.build_log])
@@ -505,7 +509,7 @@ class ToolExecutor:
                     stdout = container.logs(stdout=True, stderr=False).decode("utf-8", "ignore")
                     stderr = container.logs(stdout=False, stderr=True).decode("utf-8", "ignore")
                     output = f"STDOUT:\n{stdout}\nSTDERR:\n{stderr}"
-                except Exception: # Container ran too long
+                except Exception:  # Container ran too long
                     container.kill()
                     output = "Execution timed out after 30 seconds."
 
@@ -530,30 +534,42 @@ class ToolExecutor:
 
         except Exception as e:
             logger.error(f"An unexpected error occurred during code execution: {e}", exc_info=True)
-            return f"An unexpected error occurred during execution: {str(e)}"
+            return f"An unexpected error occurred during execution: {e!s}"
         finally:
             shutil.rmtree(temp_dir)
 
     def _get_docker_config(self, language: str) -> tuple[str, str, str]:
         if language == "python":
-            return """
+            return (
+                """
 FROM python:3.11-slim
 WORKDIR /app
 COPY {filename} .
-""", "script.py", "python {filename}"
+""",
+                "script.py",
+                "python {filename}",
+            )
         elif language == "javascript":
-            return """
+            return (
+                """
 FROM node:20-slim
 WORKDIR /app
 COPY {filename} .
-""", "script.js", "node {filename}"
+""",
+                "script.js",
+                "node {filename}",
+            )
         elif language == "bash":
-            return """
+            return (
+                """
 FROM bash:5.2
 WORKDIR /app
 COPY {filename} .
 RUN chmod +x {filename}
-""", "script.sh", "./{filename}"
+""",
+                "script.sh",
+                "./{filename}",
+            )
         else:
             raise ValueError(f"Unsupported language: {language}")
 
@@ -561,9 +577,7 @@ RUN chmod +x {filename}
         """Get execution metrics"""
         return self.metrics.copy()
 
-    async def execute_tool_calls(
-        self, tool_calls: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    async def execute_tool_calls(self, tool_calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Execute multiple tool calls and return results.
 
@@ -597,14 +611,19 @@ RUN chmod +x {filename}
     def _init_security_config(self) -> dict[str, Any]:
         """Initialize security configuration"""
         return {
-            "allowed_domains": set(self.config.get("allowed_domains", [
-                "openai.com",
-                "anthropic.com",
-                "github.com",
-                "arxiv.org",
-                "wikipedia.org",
-                "stackoverflow.com"
-            ])),
+            "allowed_domains": set(
+                self.config.get(
+                    "allowed_domains",
+                    [
+                        "openai.com",
+                        "anthropic.com",
+                        "github.com",
+                        "arxiv.org",
+                        "wikipedia.org",
+                        "stackoverflow.com",
+                    ],
+                )
+            ),
             "blocked_patterns": [
                 r"javascript:",
                 r"data:",
@@ -614,13 +633,13 @@ RUN chmod +x {filename}
                 r"127\.0\.0\.1",
                 r"192\.168\.",
                 r"10\.",
-                r"172\."
+                r"172\.",
             ],
             "max_content_size": int(os.getenv("LUKHAS_MAX_CONTENT_SIZE", "1048576")),  # 1MB
             "request_timeout": int(os.getenv("LUKHAS_REQUEST_TIMEOUT", "30")),  # 30 seconds
             "rate_limit_requests": int(os.getenv("LUKHAS_RATE_LIMIT_REQUESTS", "10")),
             "rate_limit_window": int(os.getenv("LUKHAS_RATE_LIMIT_WINDOW", "60")),  # 1 minute
-            "user_agent": "LUKHAS-AI-ToolExecutor/1.0 (Safe Web Scraper)"
+            "user_agent": "LUKHAS-AI-ToolExecutor/1.0 (Safe Web Scraper)",
         }
 
     async def _check_rate_limit(self, tool_name: str, user_id: str = "default") -> bool:
@@ -680,7 +699,9 @@ RUN chmod +x {filename}
         # Validate URL
         if not self._validate_url(url):
             self.metrics["security_violations"] += 1
-            await self._audit_log("url_blocked", {"url": url, "reason": "security_validation_failed"})
+            await self._audit_log(
+                "url_blocked", {"url": url, "reason": "security_validation_failed"}
+            )
             return f"URL blocked by security policy: {url}"
 
         # Check rate limits
@@ -697,8 +718,7 @@ RUN chmod +x {filename}
             )
 
             timeout = aiohttp.ClientTimeout(
-                total=self.security_config["request_timeout"],
-                connect=10
+                total=self.security_config["request_timeout"], connect=10
             )
 
             headers = {
@@ -707,26 +727,33 @@ RUN chmod +x {filename}
                 "Accept-Language": "en-US,en;q=0.5",
                 "Accept-Encoding": "gzip, deflate",
                 "Connection": "keep-alive",
-                "Upgrade-Insecure-Requests": "1"
+                "Upgrade-Insecure-Requests": "1",
             }
 
             async with aiohttp.ClientSession(
-                connector=connector,
-                timeout=timeout,
-                headers=headers
+                connector=connector, timeout=timeout, headers=headers
             ) as session:
-
                 async with session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
                     content_length = response.headers.get("content-length")
-                    if content_length and int(content_length) > self.security_config["max_content_size"]:
-                        await self._audit_log("content_too_large", {"url": url, "size": content_length})
+                    if (
+                        content_length
+                        and int(content_length) > self.security_config["max_content_size"]
+                    ):
+                        await self._audit_log(
+                            "content_too_large", {"url": url, "size": content_length}
+                        )
                         return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
 
                     # Check content type
                     content_type = response.headers.get("content-type", "").lower()
-                    if not any(ct in content_type for ct in ["text/", "application/json", "application/xml"]):
-                        await self._audit_log("unsupported_content_type", {"url": url, "content_type": content_type})
+                    if not any(
+                        ct in content_type
+                        for ct in ["text/", "application/json", "application/xml"]
+                    ):
+                        await self._audit_log(
+                            "unsupported_content_type", {"url": url, "content_type": content_type}
+                        )
                         return f"Unsupported content type: {content_type}"
 
                     # Read content with size limit
@@ -735,7 +762,9 @@ RUN chmod +x {filename}
                     async for chunk in response.content.iter_chunked(8192):
                         size += len(chunk)
                         if size > self.security_config["max_content_size"]:
-                            await self._audit_log("content_too_large_streaming", {"url": url, "size": size})
+                            await self._audit_log(
+                                "content_too_large_streaming", {"url": url, "size": size}
+                            )
                             return f"Content too large during streaming. Maximum allowed: {self.security_config['max_content_size']}"
                         content += chunk
 
@@ -744,13 +773,16 @@ RUN chmod +x {filename}
                     extracted = await self._extract_safe_content(text_content, url)
 
                     elapsed = time.time() - start_time
-                    await self._audit_log("web_scrape_success", {
-                        "url": url,
-                        "content_size": len(text_content),
-                        "extracted_size": len(extracted),
-                        "elapsed_time": elapsed,
-                        "status_code": response.status
-                    })
+                    await self._audit_log(
+                        "web_scrape_success",
+                        {
+                            "url": url,
+                            "content_size": len(text_content),
+                            "extracted_size": len(extracted),
+                            "elapsed_time": elapsed,
+                            "status_code": response.status,
+                        },
+                    )
 
                     return extracted
 
@@ -759,10 +791,10 @@ RUN chmod +x {filename}
             return f"Request timed out after {self.security_config['request_timeout']} seconds"
         except aiohttp.ClientError as e:
             await self._audit_log("web_scrape_client_error", {"url": url, "error": str(e)})
-            return f"Network error accessing {url}: {str(e)}"
+            return f"Network error accessing {url}: {e!s}"
         except Exception as e:
             await self._audit_log("web_scrape_error", {"url": url, "error": str(e)})
-            return f"Error scraping {url}: {str(e)}"
+            return f"Error scraping {url}: {e!s}"
 
     async def _extract_safe_content(self, html_content: str, url: str) -> str:
         """Extract and sanitize content from HTML"""
@@ -782,21 +814,30 @@ RUN chmod +x {filename}
 
             # Try to find main content areas
             content_selectors = [
-                "main", "article", '[role="main"]',
-                ".content", ".main-content", ".post-content",
-                ".entry-content", ".article-content"
+                "main",
+                "article",
+                '[role="main"]',
+                ".content",
+                ".main-content",
+                ".post-content",
+                ".entry-content",
+                ".article-content",
             ]
 
             for selector in content_selectors:
                 elements = soup.select(selector)
                 if elements:
-                    main_content = "\n".join(el.get_text(strip=True, separator=" ") for el in elements[:3])
+                    main_content = "\n".join(
+                        el.get_text(strip=True, separator=" ") for el in elements[:3]
+                    )
                     break
 
             # Fallback to paragraphs and headings
             if not main_content:
                 elements = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10)
-                main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
+                main_content = "\n".join(
+                    el.get_text(strip=True) for el in elements if el.get_text(strip=True)
+                )
 
             # Extract metadata
             description = soup.find("meta", attrs={"name": "description"})
@@ -809,13 +850,15 @@ RUN chmod +x {filename}
 
             response_parts.append(f"URL: {url}")
             response_parts.append("Content:")
-            response_parts.append(main_content[:2000] + "..." if len(main_content) > 2000 else main_content)
+            response_parts.append(
+                main_content[:2000] + "..." if len(main_content) > 2000 else main_content
+            )
 
             return "\n\n".join(response_parts)
 
         except Exception as e:
             logger.error(f"Content extraction error: {e}")
-            return f"Content extraction failed: {str(e)}"
+            return f"Content extraction failed: {e!s}"
 
     async def _get_docker_client(self):
         """Get or create Docker client"""
@@ -840,17 +883,22 @@ RUN chmod +x {filename}
         execution_id = hashlib.sha256(f"{time.time()}{source}".encode()).hexdigest()[:12]
 
         try:
-            await self._audit_log("code_execution_start", {
-                "execution_id": execution_id,
-                "language": language,
-                "code_length": len(source),
-                "active_executions": self._active_executions
-            })
+            await self._audit_log(
+                "code_execution_start",
+                {
+                    "execution_id": execution_id,
+                    "language": language,
+                    "code_length": len(source),
+                    "active_executions": self._active_executions,
+                },
+            )
 
             # Enhanced security checks
             if not self._validate_code_security(source, language):
                 self.metrics["security_violations"] += 1
-                await self._audit_log("code_security_violation", {"execution_id": execution_id, "language": language})
+                await self._audit_log(
+                    "code_security_violation", {"execution_id": execution_id, "language": language}
+                )
                 return "Code contains security violations and cannot be executed."
 
             docker_client = await self._get_docker_client()
@@ -861,20 +909,20 @@ RUN chmod +x {filename}
                     "image": "python:3.11-alpine",
                     "command": ["python", "-c"],
                     "working_dir": "/sandbox",
-                    "user": "nobody"
+                    "user": "nobody",
                 },
                 "javascript": {
                     "image": "node:18-alpine",
                     "command": ["node", "-e"],
                     "working_dir": "/sandbox",
-                    "user": "nobody"
+                    "user": "nobody",
                 },
                 "bash": {
                     "image": "alpine:latest",
                     "command": ["sh", "-c"],
                     "working_dir": "/sandbox",
-                    "user": "nobody"
-                }
+                    "user": "nobody",
+                },
             }
 
             if language not in container_configs:
@@ -894,13 +942,11 @@ RUN chmod +x {filename}
                     "memswap_limit": "128m",
                     "cpu_period": 100000,
                     "cpu_quota": 50000,  # 50% of one CPU
-                    "pids_limit": 100
+                    "pids_limit": 100,
                 }
 
                 # Network and security restrictions
-                security_opts = [
-                    "no-new-privileges:true"
-                ]
+                security_opts = ["no-new-privileges:true"]
 
                 try:
                     # Run container with timeout
@@ -916,16 +962,23 @@ RUN chmod +x {filename}
                         network_disabled=True,  # No network access
                         read_only=True,  # Read-only filesystem
                         security_opt=security_opts,
-                        **container_limits
+                        **container_limits,
                     )
 
-                    output = container.decode("utf-8") if isinstance(container, bytes) else str(container)
+                    output = (
+                        container.decode("utf-8")
+                        if isinstance(container, bytes)
+                        else str(container)
+                    )
 
-                    await self._audit_log("code_execution_success", {
-                        "execution_id": execution_id,
-                        "language": language,
-                        "output_length": len(output)
-                    })
+                    await self._audit_log(
+                        "code_execution_success",
+                        {
+                            "execution_id": execution_id,
+                            "language": language,
+                            "output_length": len(output),
+                        },
+                    )
 
                     # Truncate output if too long
                     if len(output) > 4000:
@@ -935,28 +988,30 @@ RUN chmod +x {filename}
 
                 except docker.errors.ContainerError as e:
                     error_output = e.stderr.decode("utf-8") if e.stderr else "No error details"
-                    await self._audit_log("code_execution_container_error", {
-                        "execution_id": execution_id,
-                        "exit_code": e.exit_status,
-                        "error": error_output
-                    })
+                    await self._audit_log(
+                        "code_execution_container_error",
+                        {
+                            "execution_id": execution_id,
+                            "exit_code": e.exit_status,
+                            "error": error_output,
+                        },
+                    )
                     return f"Code execution failed with exit code {e.exit_status}:\n{error_output}"
 
                 except Exception as e:
-                    await self._audit_log("code_execution_docker_error", {
-                        "execution_id": execution_id,
-                        "error": str(e)
-                    })
-                    return f"Docker execution error: {str(e)}"
+                    await self._audit_log(
+                        "code_execution_docker_error",
+                        {"execution_id": execution_id, "error": str(e)},
+                    )
+                    return f"Docker execution error: {e!s}"
 
         except RuntimeError as e:
             return str(e)
         except Exception as e:
-            await self._audit_log("code_execution_error", {
-                "execution_id": execution_id,
-                "error": str(e)
-            })
-            return f"Sandboxed execution failed: {str(e)}"
+            await self._audit_log(
+                "code_execution_error", {"execution_id": execution_id, "error": str(e)}
+            )
+            return f"Sandboxed execution failed: {e!s}"
         finally:
             self._active_executions -= 1
 
@@ -1003,7 +1058,7 @@ RUN chmod +x {filename}
                 r"__.*__",  # Dunder methods
                 r"threading",
                 r"multiprocessing",
-                r"ctypes"
+                r"ctypes",
             ],
             "javascript": [
                 r"require\s*\(",
@@ -1019,7 +1074,7 @@ RUN chmod +x {filename}
                 r"setTimeout",
                 r"setInterval",
                 r"Function\s*\(",
-                r"constructor"
+                r"constructor",
             ],
             "bash": [
                 r"curl\s",
@@ -1045,8 +1100,8 @@ RUN chmod +x {filename}
                 r"pkill\s",
                 r"systemctl\s",
                 r"service\s",
-                r"crontab\s"
-            ]
+                r"crontab\s",
+            ],
         }
 
         # Check patterns for current language and all languages
@@ -1067,11 +1122,7 @@ RUN chmod +x {filename}
     async def _audit_log(self, event: str, data: dict[str, Any]):
         """Log security and execution events"""
         try:
-            log_entry = {
-                "timestamp": datetime.now().isoformat(),
-                "event": event,
-                "data": data
-            }
+            log_entry = {"timestamp": datetime.now().isoformat(), "event": event, "data": data}
 
             # Append to audit log
             with open(self.audit_log, "a") as f:

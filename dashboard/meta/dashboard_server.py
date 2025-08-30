@@ -175,9 +175,7 @@ DASHBOARD_HTML = """
 @app.get("/", response_class=HTMLResponse)
 async def root():
     """Redirect to overview page"""
-    return HTMLResponse(
-        content='<meta http-equiv="refresh" content="0; url=/meta/overview">'
-    )
+    return HTMLResponse(content='<meta http-equiv="refresh" content="0; url=/meta/overview">')
 
 
 @app.get("/meta/overview", response_class=HTMLResponse)
@@ -201,9 +199,7 @@ async def get_metrics():
         return JSONResponse(content=metrics)
     except Exception as e:
         logger.error(f"Error loading metrics: {e}")
-        return JSONResponse(
-            content={"error": "Failed to load metrics"}, status_code=500
-        )
+        return JSONResponse(content={"error": "Failed to load metrics"}, status_code=500)
 
 
 @app.get("/api/meta/trends")
@@ -215,9 +211,7 @@ async def get_trends():
         return JSONResponse(content=trends)
     except Exception as e:
         logger.error(f"Error calculating trends: {e}")
-        return JSONResponse(
-            content={"error": "Failed to calculate trends"}, status_code=500
-        )
+        return JSONResponse(content={"error": "Failed to calculate trends"}, status_code=500)
 
 
 @app.get("/api/meta/personas")
@@ -230,16 +224,12 @@ async def get_personas():
             content={
                 "personas": personas,
                 "total": sum(personas.values()),
-                "dominant": (
-                    max(personas.items(), key=lambda x: x[1])[0] if personas else None
-                ),
+                "dominant": (max(personas.items(), key=lambda x: x[1])[0] if personas else None),
             }
         )
     except Exception as e:
         logger.error(f"Error loading personas: {e}")
-        return JSONResponse(
-            content={"error": "Failed to load personas"}, status_code=500
-        )
+        return JSONResponse(content={"error": "Failed to load personas"}, status_code=500)
 
 
 @app.websocket("/ws")
@@ -302,9 +292,7 @@ async def toggle_red_team(request: dict[str, Any]):
         }
     except Exception as e:
         logger.error(f"Error toggling Red Team mode: {e}")
-        return JSONResponse(
-            content={"error": "Failed to toggle Red Team mode"}, status_code=500
-        )
+        return JSONResponse(content={"error": "Failed to toggle Red Team mode"}, status_code=500)
 
 
 @app.post("/api/meta/reset")
@@ -319,9 +307,7 @@ async def reset_metrics():
         return {"status": "success", "message": "Metrics reset to baseline"}
     except Exception as e:
         logger.error(f"Error resetting metrics: {e}")
-        return JSONResponse(
-            content={"error": "Failed to reset metrics"}, status_code=500
-        )
+        return JSONResponse(content={"error": "Failed to reset metrics"}, status_code=500)
 
 
 @app.get("/api/health")

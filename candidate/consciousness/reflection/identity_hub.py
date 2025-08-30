@@ -12,6 +12,7 @@ Identity and authentication
 This hub coordinates all identity subsystem components and provides
 a unified interface for external systems to interact with identity.
 """
+
 import asyncio
 import logging
 import time
@@ -286,9 +287,7 @@ class IdentityHub:
         self.tierawareswarm = TierAwareSwarmHub()
         self.register_service("tierawareswarm", self.tierawareswarm)
         self.biometricintegrationmanager = BiometricIntegrationManager()
-        self.register_service(
-            "biometricintegrationmanager", self.biometricintegrationmanager
-        )
+        self.register_service("biometricintegrationmanager", self.biometricintegrationmanager)
         self.lambdaconsentmanager = LambdaConsentManager()
         self.register_service("lambdaconsentmanager", self.lambdaconsentmanager)
         self.core_bridge = IdentityCoreBridge()
@@ -349,7 +348,7 @@ class IdentityHub:
             except Exception as e:
                 logger.error(f"Failed to initialize persona engine: {e}")
 
-        logger.info(f"IdentityHub initialized with {len(self.services)} " f"services")
+        logger.info(f"IdentityHub initialized with {len(self.services)} services")
 
     async def initialize(self) -> None:
         """Initialize all identity services"""
@@ -400,14 +399,8 @@ class IdentityHub:
             )
 
             return {
-                "status": (
-                    result.status.value if hasattr(result, "status") else "success"
-                ),
-                "user": (
-                    asdict(result.user)
-                    if hasattr(result, "user") and result.user
-                    else None
-                ),
+                "status": (result.status.value if hasattr(result, "status") else "success"),
+                "user": (asdict(result.user) if hasattr(result, "user") and result.user else None),
                 "access_token": getattr(result, "access_token", None),
                 "session_id": getattr(result, "session_id", session_id),
                 "permissions": getattr(result, "permissions", []),
@@ -436,9 +429,7 @@ class IdentityHub:
 
         try:
             roles = await self.services["enterprise_auth"].get_user_roles(user_id)
-            return [
-                role.value if hasattr(role, "value") else str(role) for role in roles
-            ]
+            return [role.value if hasattr(role, "value") else str(role) for role in roles]
         except Exception as e:
             logger.error(f"Failed to get user roles: {e}")
             return []
@@ -456,9 +447,7 @@ class IdentityHub:
             logger.error(f"Failed to get config template: {e}")
             return {}
 
-    async def configure_enterprise_authentication(
-        self, config: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def configure_enterprise_authentication(self, config: dict[str, Any]) -> dict[str, Any]:
         """Configure enterprise authentication with new settings"""
         if "enterprise_auth" not in self.services:
             return {"status": "failed", "error": "Enterprise auth not available"}
@@ -533,9 +522,7 @@ class IdentityHub:
         """List all registered service names"""
         return list(self.services.keys())
 
-    async def process_event(
-        self, event_type: str, event_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -570,9 +557,9 @@ class IdentityHub:
             return {"status": "failed", "error": "QRG coverage not configured"}
 
         try:
-            coverage_report = await self.services[
-                "qrg_coverage"
-            ].run_comprehensive_coverage_tests(test_categories, custom_config)
+            coverage_report = await self.services["qrg_coverage"].run_comprehensive_coverage_tests(
+                test_categories, custom_config
+            )
 
             return {
                 "status": "completed",
@@ -597,9 +584,7 @@ class IdentityHub:
             }
 
         try:
-            readiness_result = await self.services[
-                "qrg_coverage"
-            ].validate_system_readiness()
+            readiness_result = await self.services["qrg_coverage"].validate_system_readiness()
             return readiness_result
         except Exception as e:
             logger.error(f"QRG readiness validation failed: {e}")
@@ -684,9 +669,7 @@ class IdentityHub:
             logger.error(f"Memory registration failed: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_brain_identity_access_logs(
-        self, limit: int = 100
-    ) -> list[dict[str, Any]]:
+    async def get_brain_identity_access_logs(self, limit: int = 100) -> list[dict[str, Any]]:
         """Get brain identity access logs"""
         if "brain_identity" not in self.services:
             return []
@@ -721,9 +704,9 @@ class IdentityHub:
             return content  # Return original content if service not available
 
         try:
-            encrypted_content = await self.services[
-                "brain_identity"
-            ].encrypt_memory_content(memory_key, content)
+            encrypted_content = await self.services["brain_identity"].encrypt_memory_content(
+                memory_key, content
+            )
             return encrypted_content
         except Exception as e:
             logger.error(f"Memory content encryption failed: {e}")
@@ -737,9 +720,9 @@ class IdentityHub:
             return content  # Return original content if service not available
 
         try:
-            decrypted_content = await self.services[
-                "brain_identity"
-            ].decrypt_memory_content(memory_key, content)
+            decrypted_content = await self.services["brain_identity"].decrypt_memory_content(
+                memory_key, content
+            )
             return decrypted_content
         except Exception as e:
             logger.error(f"Memory content decryption failed: {e}")
@@ -795,9 +778,7 @@ class IdentityHub:
         logger.info("Identity module connections established")
 
     # Agent 1 Task 8: Attention monitor interface methods
-    async def start_attention_monitoring(
-        self, config: Optional[dict[str, Any]] = None
-    ) -> bool:
+    async def start_attention_monitoring(self, config: Optional[dict[str, Any]] = None) -> bool:
         """Start attention monitoring for user engagement tracking"""
         if not ATTENTION_MONITOR_AVAILABLE:
             logging.warning("Attention monitor not available")
@@ -912,9 +893,7 @@ class IdentityHub:
                                 "safe_area_insets",
                                 {"top": 44, "bottom": 34, "left": 0, "right": 0},
                             ),
-                            orientation=screen_dimensions.get(
-                                "orientation", "portrait"
-                            ),
+                            orientation=screen_dimensions.get("orientation", "portrait"),
                         )
                     except Exception:
                         # Use None if ScreenDimensions construction fails
@@ -966,18 +945,10 @@ class IdentityHub:
                     "available": True,
                     "initialized": getattr(calculator, "initialized", True),
                     "constraints": {
-                        "min_grid_size": getattr(
-                            calculator.constraints, "min_grid_size", 4
-                        ),
-                        "max_grid_size": getattr(
-                            calculator.constraints, "max_grid_size", 16
-                        ),
-                        "min_cell_size": getattr(
-                            calculator.constraints, "min_cell_size", 40.0
-                        ),
-                        "max_cell_size": getattr(
-                            calculator.constraints, "max_cell_size", 120.0
-                        ),
+                        "min_grid_size": getattr(calculator.constraints, "min_grid_size", 4),
+                        "max_grid_size": getattr(calculator.constraints, "max_grid_size", 16),
+                        "min_cell_size": getattr(calculator.constraints, "min_cell_size", 40.0),
+                        "max_cell_size": getattr(calculator.constraints, "max_cell_size", 120.0),
                     },
                     "supported_patterns": [
                         "square",
@@ -1023,9 +994,7 @@ class IdentityHub:
             logging.error(f"Failed to process identity data: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def create_identity_component(
-        self, config: Optional[dict] = None
-    ) -> dict[str, Any]:
+    async def create_identity_component(self, config: Optional[dict] = None) -> dict[str, Any]:
         """Create a new identity component instance"""
         if not PERSONA_ENGINE_AVAILABLE:
             return {"status": "error", "error": "Persona engine not available"}
@@ -1059,9 +1028,7 @@ class IdentityHub:
                 "config": config or {},
             }
         except Exception as e:
-            logging.error(
-                "Failed to create and initialize identity component: " + str(e)
-            )
+            logging.error("Failed to create and initialize identity component: " + str(e))
             return {"status": "error", "error": str(e)}
 
     async def validate_persona_engine(self) -> dict[str, Any]:

@@ -32,12 +32,8 @@ class LoopType(Enum):
     """Types of symbolic loops in the system"""
 
     META_LEARNING = "meta_learning"  # Learning → Dream → Creativity → Memory
-    SYMBOLIC_GROUNDING = (
-        "symbolic_grounding"  # Symbolic → Bio → Quantum → Consciousness
-    )
-    SAFETY_MONITORING = (
-        "safety_monitoring"  # Identity → Ethics → Consciousness → Safety
-    )
+    SYMBOLIC_GROUNDING = "symbolic_grounding"  # Symbolic → Bio → Quantum → Consciousness
+    SAFETY_MONITORING = "safety_monitoring"  # Identity → Ethics → Consciousness → Safety
     DREAM_SYNTHESIS = "dream_synthesis"  # Memory → Dream → Consciousness → Memory
 
 
@@ -113,9 +109,7 @@ class SymbolicLoopController:
             # Symbolic grounding loop
             from symbolic.loop_engine import get_symbolic_loop_engine
 
-            self._loop_handlers[LoopType.SYMBOLIC_GROUNDING] = (
-                get_symbolic_loop_engine()
-            )
+            self._loop_handlers[LoopType.SYMBOLIC_GROUNDING] = get_symbolic_loop_engine()
 
             # Initialize loop status
             for loop_type in LoopType:
@@ -167,16 +161,12 @@ class SymbolicLoopController:
             loop_type = self._determine_loop_type(term, data)
 
         # Create operation
-        operation = SymbolicOperation(
-            term=term, loop_type=loop_type, agent_id=agent_id, data=data
-        )
+        operation = SymbolicOperation(term=term, loop_type=loop_type, agent_id=agent_id, data=data)
 
         # Process based on term type
         return await self._route_operation(operation)
 
-    def _determine_loop_type(
-        self, term: SymbolicTerm, data: dict[str, Any]
-    ) -> LoopType:
+    def _determine_loop_type(self, term: SymbolicTerm, data: dict[str, Any]) -> LoopType:
         """Determine appropriate loop type for a symbolic term"""
         # Map terms to their primary loops
         term_loop_map = {
@@ -201,9 +191,7 @@ class SymbolicLoopController:
 
     async def _route_operation(self, operation: SymbolicOperation) -> SymbolicResult:
         """Route operation to appropriate loop handler"""
-        operation_id = (
-            f"{operation.term.value}_{operation.agent_id}_{datetime.now().timestamp()}"
-        )
+        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now().timestamp()}"
 
         try:
             # Check if loop is available
@@ -257,9 +245,7 @@ class SymbolicLoopController:
         finally:
             self._active_operations.pop(operation_id, None)
 
-    async def _execute_term_operation(
-        self, handler: Any, operation: SymbolicOperation
-    ) -> Any:
+    async def _execute_term_operation(self, handler: Any, operation: SymbolicOperation) -> Any:
         """Execute specific term operation on handler"""
         term = operation.term
         data = operation.data
@@ -312,9 +298,7 @@ class SymbolicLoopController:
         while self._running:
             try:
                 # Get next operation with timeout
-                operation = await asyncio.wait_for(
-                    self._operation_queue.get(), timeout=1.0
-                )
+                operation = await asyncio.wait_for(self._operation_queue.get(), timeout=1.0)
 
                 # Process the operation
                 await self._route_operation(operation)
@@ -394,14 +378,10 @@ def get_symbolic_controller() -> SymbolicLoopController:
 async def fold_memory(agent_id: str, memory_data: dict[str, Any]) -> SymbolicResult:
     """Convenience function for memory folding"""
     controller = get_symbolic_controller()
-    return await controller.process_symbolic_term(
-        SymbolicTerm.FOLD, agent_id, memory_data
-    )
+    return await controller.process_symbolic_term(SymbolicTerm.FOLD, agent_id, memory_data)
 
 
-async def ground_symbol(
-    symbol: str, context: Optional[dict[str, Any]] = None
-) -> SymbolicResult:
+async def ground_symbol(symbol: str, context: Optional[dict[str, Any]] = None) -> SymbolicResult:
     """Convenience function for symbol grounding"""
     controller = get_symbolic_controller()
     return await controller.process_symbolic_term(
@@ -418,13 +398,13 @@ async def track_drift(agent_id: str, state: dict[str, Any]) -> SymbolicResult:
 
 
 __all__ = [
-    "SymbolicLoopController",
-    "SymbolicTerm",
     "LoopType",
+    "SymbolicLoopController",
     "SymbolicOperation",
     "SymbolicResult",
-    "get_symbolic_controller",
+    "SymbolicTerm",
     "fold_memory",
+    "get_symbolic_controller",
     "ground_symbol",
     "track_drift",
 ]

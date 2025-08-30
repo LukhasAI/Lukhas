@@ -3,6 +3,7 @@
 Implements a 3D helical visualization of system memories,
 integrating with the memory management system, Lukhas_ID, and Seedra.
 """
+
 import logging
 import time
 from datetime import datetime
@@ -25,9 +26,7 @@ class MemoryHelixVisualizer:
     the v1_AGI memory system, Lukhas_ID for access control, and Seedra components.
     """
 
-    def __init__(
-        self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None
-    ):
+    def __init__(self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None):
         """
         Initialize the memory helix visualizer.
 
@@ -301,9 +300,7 @@ class MemoryHelixVisualizer:
                 )
             )
 
-        logger.info(
-            f"Generated memory helix visualization with {total_memories} memories"
-        )
+        logger.info(f"Generated memory helix visualization with {total_memories} memories")
         return fig
 
     def create_interactive_visualization(

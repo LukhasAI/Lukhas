@@ -14,9 +14,9 @@ from .identity_health_monitor import (
 )
 
 __all__ = [
-    "IdentityHealthMonitor",
-    "ComponentType",
-    "HealthMetric",
     "ComponentHealth",
+    "ComponentType",
     "HealingPlan",
+    "HealthMetric",
+    "IdentityHealthMonitor",
 ]

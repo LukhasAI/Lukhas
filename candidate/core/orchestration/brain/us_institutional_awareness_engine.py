@@ -112,9 +112,7 @@ class USComplianceConfig:
 
     # State jurisdictions
     state_laws_enabled: bool = True
-    applicable_states: list[str] = field(
-        default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"]
-    )
+    applicable_states: list[str] = field(default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"])
 
     # CCPA/CPRA
     ccpa_enabled: bool = True
@@ -302,9 +300,7 @@ class USEnvironmentalReasoner:
             "processing_lawful": True,
         }
 
-    def explain_decision(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> str:
+    def explain_decision(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> str:
         """Provide CCPA-compliant explanation."""
         return (
             f"Environmental assessment completed using US privacy-preserving methods. "
@@ -313,9 +309,7 @@ class USEnvironmentalReasoner:
             f"CCPA consumer rights available. Data minimization applied: {results['data_minimized']}."
         )
 
-    def assess_bias(
-        self, inputs: USInstitutionalInput, results: dict[str, Any]
-    ) -> dict[str, Any]:
+    def assess_bias(self, inputs: USInstitutionalInput, results: dict[str, Any]) -> dict[str, Any]:
         """Assess algorithmic bias with US fairness standards."""
         return {
             "bias_detected": False,
@@ -386,9 +380,7 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
     ) -> float:
         """Evaluate US jurisdictional compliance."""
         if jurisdiction != Jurisdiction.US:
-            return super()._evaluate_jurisdictional_compliance(
-                jurisdiction, result, inputs
-            )
+            return super()._evaluate_jurisdictional_compliance(jurisdiction, result, inputs)
 
         base_score = result["environmental_score"] * 60
 
@@ -501,9 +493,7 @@ class USInstitutionalAwarenessEngine:
         else:
             return {"status": "not_supported", "right": right}
 
-    def _convert_to_global_input(
-        self, us_input: USInstitutionalInput
-    ) -> GlobalInstitutionalInput:
+    def _convert_to_global_input(self, us_input: USInstitutionalInput) -> GlobalInstitutionalInput:
         """Convert US input to global input format."""
         from identity.backend.app.institution_manager import (
             GlobalConsentData,
@@ -584,9 +574,7 @@ class USInstitutionalAwarenessEngine:
             compliance_attestation=global_output.compliance_attestation,
         )
 
-    def _record_us_processing_activity(
-        self, module_type: str, inputs: USInstitutionalInput
-    ):
+    def _record_us_processing_activity(self, module_type: str, inputs: USInstitutionalInput):
         """Record US processing activity."""
         activity = {
             "id": str(uuid.uuid4()),
@@ -714,9 +702,7 @@ class USInstitutionalAwarenessEngine:
                 else None
             ),
             "processing_statistics": {
-                "total_activities": len(
-                    self.processing_registry["processing_activities"]
-                ),
+                "total_activities": len(self.processing_registry["processing_activities"]),
                 "active_opt_outs": len(self.processing_registry["opt_out_requests"]),
                 "data_breaches": len(self.processing_registry["data_breaches"]),
             },
@@ -806,9 +792,7 @@ if __name__ == "__main__":
         print(f"Access Request: {access_result['status']}")
 
         # Test opt-out request
-        opt_out_result = us_engine.exercise_consumer_rights(
-            "opt_out", "us_consumer_001"
-        )
+        opt_out_result = us_engine.exercise_consumer_rights("opt_out", "us_consumer_001")
         print(f"Opt-out Request: {opt_out_result['status']}")
 
         # Generate US compliance report

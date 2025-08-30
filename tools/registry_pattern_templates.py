@@ -5,6 +5,7 @@ These templates implement the pattern without execution - for workspace audit pr
 
 Purpose: Provide transformation logic for pre/post-MATRIZ audit compliance.
 """
+
 from __future__ import annotations
 
 from typing import Any, Protocol

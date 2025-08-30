@@ -12,6 +12,5 @@ class EthicalAuditEntry:
 
 
 class MetaLearningMonitorDashboard:
-
     def _generate_quantum_signature(self, a):
         pass

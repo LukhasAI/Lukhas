@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 class SentinelStatus(Enum):
     """Sentinel operational status"""
+
     ACTIVE = "active"
     STANDBY = "standby"
     MAINTENANCE = "maintenance"
@@ -48,6 +49,7 @@ class SentinelStatus(Enum):
 
 class MonitoringScope(Enum):
     """Monitoring scope levels"""
+
     SYSTEM_WIDE = "system_wide"
     COMPONENT_SPECIFIC = "component_specific"
     USER_FOCUSED = "user_focused"
@@ -58,6 +60,7 @@ class MonitoringScope(Enum):
 @dataclass
 class SentinelAlert:
     """Sentinel-generated alert"""
+
     alert_id: str
     severity: str
     alert_type: str
@@ -71,6 +74,7 @@ class SentinelAlert:
 @dataclass
 class MonitoringProfile:
     """Monitoring configuration profile"""
+
     profile_id: str
     name: str
     scope: MonitoringScope
@@ -102,7 +106,7 @@ class GuardianSentinel:
             "false_positive_rate": 0.0,
             "detection_accuracy": 0.95,
             "average_response_time": 0.0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize
@@ -122,15 +126,15 @@ class GuardianSentinel:
                 name="System Health Monitor",
                 scope=MonitoringScope.SYSTEM_WIDE,
                 thresholds={"cpu_usage": 0.8, "memory_usage": 0.85, "drift_score": 0.15},
-                monitoring_frequency=5.0
+                monitoring_frequency=5.0,
             ),
             MonitoringProfile(
                 profile_id="security_monitor",
                 name="Security Monitoring",
                 scope=MonitoringScope.SECURITY_FOCUSED,
                 thresholds={"failed_auth": 5, "suspicious_activity": 0.7},
-                monitoring_frequency=1.0
-            )
+                monitoring_frequency=1.0,
+            ),
         ]
 
         for profile in profiles:
@@ -167,7 +171,7 @@ class GuardianSentinel:
                     message=f"{metric_name} exceeded threshold: {current_value} > {threshold}",
                     detected_at=datetime.now(),
                     source_component=profile.name,
-                    confidence_score=0.9
+                    confidence_score=0.9,
                 )
 
                 await self._generate_alert(alert)
@@ -180,7 +184,7 @@ class GuardianSentinel:
             "memory_usage": 0.4,
             "drift_score": 0.05,
             "failed_auth": 0,
-            "suspicious_activity": 0.1
+            "suspicious_activity": 0.1,
         }
 
     async def _generate_alert(self, alert: SentinelAlert):
@@ -195,10 +199,12 @@ class GuardianSentinel:
         return {
             "status": self.status.value,
             "active_profiles": len(self.monitoring_profiles),
-            "recent_alerts": len([a for a in self.alerts if (datetime.now() - a.detected_at).seconds < 3600]),
-            "metrics": self.metrics
+            "recent_alerts": len(
+                [a for a in self.alerts if (datetime.now() - a.detected_at).seconds < 3600]
+            ),
+            "metrics": self.metrics,
         }
 
 
 # Export main classes
-__all__ = ["GuardianSentinel", "SentinelAlert", "MonitoringProfile"]
+__all__ = ["GuardianSentinel", "MonitoringProfile", "SentinelAlert"]

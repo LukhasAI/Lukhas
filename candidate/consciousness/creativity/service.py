@@ -31,17 +31,13 @@ try:
 except ImportError:
     # Fallback for development
     class IdentityClient:
-        def verify_user_access(
-            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
-        ) -> bool:
+        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
             return True
 
         def check_consent(self, user_id: str, action: str) -> bool:
             return True
 
-        def log_activity(
-            self, activity_type: str, user_id: str, metadata: dict[str, Any]
-        ) -> None:
+        def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
             print(f"CREATIVITY_LOG: {activity_type} by {user_id}: {metadata}")
 
 
@@ -98,9 +94,7 @@ class CreativityService:
         model_config = self.creative_models[content_type]
 
         # Verify user access for this content type
-        if not self.identity_client.verify_user_access(
-            user_id, model_config["min_tier"]
-        ):
+        if not self.identity_client.verify_user_access(user_id, model_config["min_tier"]):
             return {
                 "success": False,
                 "error": f"Insufficient tier for {content_type} generation",
@@ -159,7 +153,7 @@ class CreativityService:
             }
 
         except Exception as e:
-            error_msg = f"Content generation error: {str(e)}"
+            error_msg = f"Content generation error: {e!s}"
             self.identity_client.log_activity(
                 "creative_generation_error",
                 user_id,
@@ -222,7 +216,7 @@ class CreativityService:
             }
 
         except Exception as e:
-            error_msg = f"Dream synthesis error: {str(e)}"
+            error_msg = f"Dream synthesis error: {e!s}"
             self.identity_client.log_activity(
                 "dream_synthesis_error",
                 user_id,
@@ -265,13 +259,9 @@ class CreativityService:
 
         try:
             # Generate emotionally-aware content
-            emotional_content = self._generate_emotional_content(
-                emotion, context, output_format
-            )
+            emotional_content = self._generate_emotional_content(emotion, context, output_format)
 
-            content_id = (
-                f"emotional_{emotion}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
-            )
+            content_id = f"emotional_{emotion}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
 
             # Log emotional content generation
             self.identity_client.log_activity(
@@ -296,7 +286,7 @@ class CreativityService:
             }
 
         except Exception as e:
-            error_msg = f"Emotional content generation error: {str(e)}"
+            error_msg = f"Emotional content generation error: {e!s}"
             self.identity_client.log_activity(
                 "emotional_generation_error",
                 user_id,
@@ -368,7 +358,7 @@ class CreativityService:
             }
 
         except Exception as e:
-            error_msg = f"Creative collaboration error: {str(e)}"
+            error_msg = f"Creative collaboration error: {e!s}"
             self.identity_client.log_activity(
                 "collaboration_error",
                 user_id,

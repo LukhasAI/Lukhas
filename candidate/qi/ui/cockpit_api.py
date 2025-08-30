@@ -26,14 +26,15 @@ from qi.ops.auto_safety_report import (
 from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
 
 # ---- UI serving (single-file cockpit + friends) ----
-COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")     # /abs/path/to/web/cockpit.html
-RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")   # /abs/path/to/web/trace_drilldown.html
-APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")   # /abs/path/to/web/approver_ui.html
+COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.html
+RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")  # /abs/path/to/web/trace_drilldown.html
+APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")  # /abs/path/to/web/approver_ui.html
 
 # Safe I/O for UI files
 import builtins
 
 _ORIG_OPEN = builtins.open
+
 
 # Auth
 def _check_auth(token: str | None = Header(None, alias="X-Auth-Token")):
@@ -41,11 +42,13 @@ def _check_auth(token: str | None = Header(None, alias="X-Auth-Token")):
     if expected and token != expected:
         raise HTTPException(status_code=401, detail="Invalid or missing auth token")
 
+
 # FastAPI app
 app = FastAPI(title="LUKHAS Unified Ops Cockpit", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 # ------------- Panel 1: Safety Card & Reports -------------
+
 
 @app.get("/cockpit/safety-card")
 def get_safety_card(
@@ -54,7 +57,7 @@ def get_safety_card(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -64,12 +67,13 @@ def get_safety_card(
             version=version,
             policy_root=policy_root,
             overlays=overlays,
-            jurisdictions=jurs
+            jurisdictions=jurs,
         )
         md = to_markdown(card)
         return {"card": card, "markdown": md, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Safety card generation failed: {e!s}")
+
 
 @app.get("/cockpit/safety_card.json")
 def get_safety_card_json(
@@ -79,7 +83,7 @@ def get_safety_card_json(
     overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
     include_appendix: bool = Query(False),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -89,7 +93,7 @@ def get_safety_card_json(
             version=version,
             policy_root=policy_root,
             overlays=overlays,
-            jurisdictions=jurs
+            jurisdictions=jurs,
         )
 
         if include_appendix:
@@ -102,7 +106,8 @@ def get_safety_card_json(
 
         return card
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {e!s}")
+
 
 @app.get("/cockpit/safety_card.md")
 def get_safety_card_markdown(
@@ -111,7 +116,7 @@ def get_safety_card_markdown(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -121,61 +126,72 @@ def get_safety_card_markdown(
             version=version,
             policy_root=policy_root,
             overlays=overlays,
-            jurisdictions=jurs
+            jurisdictions=jurs,
         )
         md = to_markdown(card)
         return HTMLResponse(content=md, media_type="text/plain")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Safety card markdown generation failed: {e!s}"
+        )
+
 
 @app.get("/cockpit/safety_card.pdf")
 def get_safety_card_pdf(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         # Mock PDF response - requires weasyprint
-        raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
+        raise HTTPException(
+            status_code=404, detail="PDF generation requires weasyprint installation"
+        )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"PDF generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"PDF generation failed: {e!s}")
+
 
 @app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
 def calibration_svg(
     task: str | None = Query(None),
     width: int = Query(640),
     height: int = Query(320),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
-    return HTMLResponse(reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml")
+    return HTMLResponse(
+        reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml"
+    )
+
 
 @app.post("/cockpit/calibration/refit")
 def calibration_refit(
-    source: str = Query("eval"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    source: str = Query("eval"), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
         p = fit_and_save(source_preference=source)
-        return JSONResponse({
-            "ok": True,
-            "source": p.source,
-            "temperature": p.temperature,
-            "ece": p.ece,
-            "per_task_temperature": p.per_task_temperature or {},
-            "per_task_ece": p.per_task_ece or {}
-        })
+        return JSONResponse(
+            {
+                "ok": True,
+                "source": p.source,
+                "temperature": p.temperature,
+                "ece": p.ece,
+                "per_task_temperature": p.per_task_temperature or {},
+                "per_task_ece": p.per_task_ece or {},
+            }
+        )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Calibration refit failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Calibration refit failed: {e!s}")
+
 
 @app.get("/cockpit/nightly-report")
 def get_nightly_report(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
     window: int = Query(500),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -185,31 +201,33 @@ def get_nightly_report(
             "window": window,
             "generated_at": time.time(),
             "latest_eval": _latest_eval(),
-            "recent_receipts_count": len(_recent_receipts(window))
+            "recent_receipts_count": len(_recent_receipts(window)),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Report generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Report generation failed: {e!s}")
+
 
 @app.post("/cockpit/generate-report")
 def generate_full_report(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
     window: int = Query(500),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         path = generate_report(policy_root, overlays, window)
         return {"report_path": path, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Full report generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Full report generation failed: {e!s}")
+
 
 # ------------- Panel 2: Adaptive Learning Proposals -------------
 
+
 @app.get("/cockpit/adaptive/analyze")
 def analyze_adaptive_performance(
-    window: int = Query(2000),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    window: int = Query(2000), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -217,44 +235,44 @@ def analyze_adaptive_performance(
         patterns = engine.analyze_performance_patterns(window=window)
         return {"analysis": patterns, "window": window}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {e!s}")
+
 
 @app.get("/cockpit/adaptive/candidates")
-def get_adaptive_candidates(
-    token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         engine = AdaptiveLearningEngine()
         candidates = engine.batch_offline_eval(top_k=10)
         return {
-            "items": [{"id": c.id, "patch": c.patch, "meta": c.meta, "score_offline": c.score_offline} for c in candidates],
-            "count": len(candidates)
+            "items": [
+                {"id": c.id, "patch": c.patch, "meta": c.meta, "score_offline": c.score_offline}
+                for c in candidates
+            ],
+            "count": len(candidates),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {e!s}")
+
 
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
-    targets: list[str] = Query(...),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    targets: list[str] = Query(...), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
         engine = AdaptiveLearningEngine()
         proposal_ids = engine.propose_best(config_targets=targets)
-        return {
-            "queued_proposals": proposal_ids,
-            "count": len(proposal_ids)
-        }
+        return {"queued_proposals": proposal_ids, "count": len(proposal_ids)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {e!s}")
+
 
 @app.post("/cockpit/adaptive/evolve-params")
 def evolve_adaptive_parameters(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
     tasks_focus: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -264,54 +282,55 @@ def evolve_adaptive_parameters(
         return {
             "candidates": [{"id": c.id, "patch": c.patch, "meta": c.meta} for c in candidates],
             "count": len(candidates),
-            "target_file": target_file
+            "target_file": target_file,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Parameter evolution failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Parameter evolution failed: {e!s}")
+
 
 @app.post("/cockpit/adaptive/discover-tools")
 def discover_tool_combinations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
     tasks_focus: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         engine = AdaptiveLearningEngine()
         focus_list = [t.strip() for t in tasks_focus.split(",")] if tasks_focus else None
-        candidates = engine.discover_new_node_combinations(target_file=target_file, tasks_focus=focus_list)
+        candidates = engine.discover_new_node_combinations(
+            target_file=target_file, tasks_focus=focus_list
+        )
         return {
             "candidates": [{"id": c.id, "patch": c.patch, "meta": c.meta} for c in candidates],
             "count": len(candidates),
-            "target_file": target_file
+            "target_file": target_file,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Tool discovery failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Tool discovery failed: {e!s}")
+
 
 @app.post("/cockpit/adaptive/propose-best")
 def propose_best_adaptive(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         engine = AdaptiveLearningEngine()
         targets = [t.strip() for t in config_targets.split(",")]
         proposal_ids = engine.propose_best(config_targets=targets)
-        return {
-            "proposal_ids": proposal_ids,
-            "count": len(proposal_ids),
-            "config_targets": targets
-        }
+        return {"proposal_ids": proposal_ids, "count": len(proposal_ids), "config_targets": targets}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Adaptive proposal failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Adaptive proposal failed: {e!s}")
+
 
 # ------------- Panel 3: Human Adaptation Proposals -------------
 
+
 @app.get("/cockpit/human-adapt/analyze")
 def analyze_human_satisfaction(
-    window: int = Query(1000),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    window: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -319,30 +338,30 @@ def analyze_human_satisfaction(
         patterns = engine.analyze_satisfaction_patterns(window=window)
         return {"analysis": patterns, "window": window}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {e!s}")
+
 
 @app.get("/cockpit/human/proposals")
 def get_human_proposals(
-    user: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    user: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
         engine = HumanAdaptEngine()
         proposals = engine.propose_tone_adaptations(
-            target_file="qi/safety/policy_packs/global/mappings.yaml",
-            user_focus=user
+            target_file="qi/safety/policy_packs/global/mappings.yaml", user_focus=user
         )
         return {"proposals": proposals, "count": len(proposals), "user_focus": user}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {e!s}")
+
 
 @app.post("/cockpit/human/promote")
 def promote_human_adaptations(
     user: str | None = Query(None),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
     ttl_sec: int = Query(3600),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -350,16 +369,17 @@ def promote_human_adaptations(
         submitted_ids = engine.submit_for_approval(config_targets=[target_file])
         return {
             "queued_proposal": submitted_ids[0] if submitted_ids else None,
-            "count": len(submitted_ids)
+            "count": len(submitted_ids),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human promotion failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Human promotion failed: {e!s}")
+
 
 @app.post("/cockpit/human-adapt/propose-tone")
 def propose_tone_adaptations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
     user_focus: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -369,15 +389,16 @@ def propose_tone_adaptations(
             "proposals": proposals,
             "count": len(proposals),
             "target_file": target_file,
-            "user_focus": user_focus
+            "user_focus": user_focus,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Tone adaptation proposal failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Tone adaptation proposal failed: {e!s}")
+
 
 @app.post("/cockpit/human-adapt/submit")
 def submit_human_adaptations(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -387,19 +408,21 @@ def submit_human_adaptations(
         return {
             "submitted_ids": submitted_ids,
             "count": len(submitted_ids),
-            "config_targets": targets
+            "config_targets": targets,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Human adaptation submission failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Human adaptation submission failed: {e!s}")
+
 
 # ------------- Panel 4: Centralized Approvals -------------
+
 
 @app.get("/cockpit/approvals/list")
 def list_all_proposals(
     status_filter: str | None = Query(None),
     author_filter: str | None = Query(None),
     limit: int = Query(50),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -431,42 +454,43 @@ def list_all_proposals(
             "proposals": proposals,
             "count": len(proposals),
             "filters": {"status": status_filter, "author": author_filter},
-            "limit": limit
+            "limit": limit,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Proposal listing failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Proposal listing failed: {e!s}")
+
 
 @app.get("/cockpit/proposals")
-def get_proposals_simplified(
-    token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_proposals_simplified(token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         proposals = list_proposals()
         return {"items": proposals, "count": len(proposals)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {e!s}")
+
 
 @app.post("/cockpit/proposals/{proposal_id}/approve")
 def approve_proposal_by_id(
     proposal_id: str,
     by: str = Query(...),
     reason: str = Query("Approved via cockpit UI"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         result = approve(proposal_id, by, reason)
         return {"proposal_id": proposal_id, "result": result, "by": by, "reason": reason}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Approval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
+
 
 @app.post("/cockpit/proposals/{proposal_id}/reject")
 def reject_proposal_by_id(
     proposal_id: str,
     by: str = Query(...),
     reason: str = Query("Rejected via cockpit UI"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -474,52 +498,65 @@ def reject_proposal_by_id(
         result = approve(proposal_id, by, f"REJECTED: {reason}")
         return {"proposal_id": proposal_id, "result": result, "by": by, "reason": reason}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Rejection failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Rejection failed: {e!s}")
+
 
 @app.post("/cockpit/proposals/{proposal_id}/apply")
 def apply_proposal_by_id(
     proposal_id: str,
     as_user: str = Query("ops"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         result = apply(proposal_id, as_user)
-        return {"proposal_id": proposal_id, "result": result, "as_user": as_user, "receipt_id": result.get("receipt_id")}
+        return {
+            "proposal_id": proposal_id,
+            "result": result,
+            "as_user": as_user,
+            "receipt_id": result.get("receipt_id"),
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Application failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
+
 
 @app.post("/cockpit/approvals/{proposal_id}/approve")
 def approve_proposal_unified(
     proposal_id: str,
     reviewer: str = Query(...),
     reason: str = Query("Approved via unified cockpit"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         result = approve(proposal_id, reviewer, reason)
-        return {"proposal_id": proposal_id, "result": result, "reviewer": reviewer, "reason": reason}
+        return {
+            "proposal_id": proposal_id,
+            "result": result,
+            "reviewer": reviewer,
+            "reason": reason,
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Approval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
+
 
 @app.post("/cockpit/approvals/{proposal_id}/apply")
 def apply_proposal_unified(
     proposal_id: str,
     as_user: str = Query("ops"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         result = apply(proposal_id, as_user)
         return {"proposal_id": proposal_id, "result": result, "as_user": as_user}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Application failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
+
 
 @app.get("/cockpit/approvals/stats")
 def get_approval_stats(
-    days_back: int = Query(7),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    days_back: int = Query(7), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -535,7 +572,7 @@ def get_approval_stats(
             "by_source": {},
             "by_risk": {},
             "avg_approval_time": None,
-            "pending_count": 0
+            "pending_count": 0,
         }
 
         approval_times = []
@@ -567,23 +604,28 @@ def get_approval_stats(
 
         return {"stats": stats, "days_back": days_back, "generated_at": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stats generation failed: {e!s}")
+
 
 # ------------- Panel 5: Receipts & Provenance -------------
+
 
 @app.get("/cockpit/receipts/recent")
 def get_recent_receipts(
     limit: int = Query(100),
     task_filter: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit * 2)  # Get more to allow filtering
 
         if task_filter:
-            receipts = [r for r in receipts if
-                       (r.get("activity") or {}).get("type", "").find(task_filter) >= 0]
+            receipts = [
+                r
+                for r in receipts
+                if (r.get("activity") or {}).get("type", "").find(task_filter) >= 0
+            ]
 
         receipts = receipts[:limit]
 
@@ -606,23 +648,23 @@ def get_recent_receipts(
             "total": len(receipts),
             "task_distribution": task_counts,
             "risk_flags": risk_counts,
-            "latency_p50": sorted(latencies)[len(latencies)//2] if latencies else None,
-            "latency_p95": sorted(latencies)[int(0.95*len(latencies))-1] if latencies else None
+            "latency_p50": sorted(latencies)[len(latencies) // 2] if latencies else None,
+            "latency_p95": sorted(latencies)[int(0.95 * len(latencies)) - 1] if latencies else None,
         }
 
         return {
             "receipts": receipts,
             "summary": summary,
             "limit": limit,
-            "task_filter": task_filter
+            "task_filter": task_filter,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
+
 
 @app.get("/cockpit/receipts")
 def get_receipts_simplified(
-    limit: int = Query(20),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    limit: int = Query(20), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -631,23 +673,26 @@ def get_receipts_simplified(
         # Transform to match UI expectations
         items = []
         for r in receipts:
-            items.append({
-                "id": r.get("id", "unknown"),
-                "task": (r.get("activity") or {}).get("type") or "unknown",
-                "latency_ms": r.get("latency_ms"),
-                "risk_flags": r.get("risk_flags", [])
-            })
+            items.append(
+                {
+                    "id": r.get("id", "unknown"),
+                    "task": (r.get("activity") or {}).get("type") or "unknown",
+                    "latency_ms": r.get("latency_ms"),
+                    "risk_flags": r.get("risk_flags", []),
+                }
+            )
 
         return {"items": items, "count": len(items)}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
+
 
 @app.get("/cockpit/receipts/{receipt_id}/replay.json")
 def replay_receipt_json(
     receipt_id: str,
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -657,13 +702,14 @@ def replay_receipt_json(
             "replay": {
                 "allowed": True,
                 "policies_matched": ["default", "consent"],
-                "risk_score": 0.2
+                "risk_score": 0.2,
             },
             "policy_root": policy_root,
-            "overlays": overlays
+            "overlays": overlays,
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Receipt replay failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Receipt replay failed: {e!s}")
+
 
 @app.get("/cockpit/receipts/{receipt_id}/trace.svg")
 def get_receipt_trace_svg(
@@ -671,7 +717,7 @@ def get_receipt_trace_svg(
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: str | None = Query("qi/risk"),
     link_base: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -686,52 +732,60 @@ def get_receipt_trace_svg(
 
         return HTMLResponse(content=svg, media_type="image/svg+xml")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Trace generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Trace generation failed: {e!s}")
+
 
 @app.get("/cockpit/receipts/{receipt_id}/neighbors")
 def get_receipt_neighbors_unified(
     receipt_id: str,
     task_filter: str | None = Query(None),
     limit: int = Query(10),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         neighbors = receipt_neighbors(receipt_id, task_filter, limit)
-        return {"receipt_id": receipt_id, "neighbors": neighbors, "task_filter": task_filter, "limit": limit}
+        return {
+            "receipt_id": receipt_id,
+            "neighbors": neighbors,
+            "task_filter": task_filter,
+            "limit": limit,
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Neighbor retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Neighbor retrieval failed: {e!s}")
+
 
 @app.get("/cockpit/receipts/sample")
 def get_receipt_sample_unified(
     task_filter: str | None = Query(None),
     limit: int = Query(20),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         sample = receipt_sample(task_filter, limit)
         return {"sample": sample, "task_filter": task_filter, "limit": limit}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {e!s}")
+
 
 # ------------- Panel 6: Feedback System -------------
+
 
 @app.get("/cockpit/feedback")
 def get_feedback_list(
     task: str | None = Query(None),
     jurisdiction: str | None = Query(None),
     limit: int = Query(100),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
         from qi.feedback.store import get_store
+
         store = get_store()
         feedback = store.read_feedback(
-            limit=limit,
-            task_filter=task,
-            jurisdiction_filter=jurisdiction
+            limit=limit, task_filter=task, jurisdiction_filter=jurisdiction
         )
 
         # Compute summary
@@ -751,61 +805,53 @@ def get_feedback_list(
             "feedback": feedback,
             "count": len(feedback),
             "filters": {"task": task, "jurisdiction": jurisdiction},
-            "summary": {
-                "avg_satisfaction": avg_sat,
-                "issue_distribution": issue_counts
-            }
+            "summary": {"avg_satisfaction": avg_sat, "issue_distribution": issue_counts},
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {e!s}")
+
 
 @app.get("/cockpit/feedback/clusters")
 def get_feedback_clusters(
-    task: str | None = Query(None),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    task: str | None = Query(None), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
         from qi.feedback.store import get_store
+
         store = get_store()
         clusters = store.read_clusters()
 
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
 
-        return {
-            "clusters": clusters,
-            "count": len(clusters),
-            "filter": {"task": task}
-        }
+        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")
+
 
 @app.post("/cockpit/feedback/cluster")
 def run_feedback_clustering(
-    limit: int = Query(1000),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    limit: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
         from qi.feedback.triage import get_triage
+
         triage = get_triage()
         stats = triage.run_triage(limit=limit)
 
-        return {
-            "status": "completed",
-            "stats": stats,
-            "timestamp": time.time()
-        }
+        return {"status": "completed", "stats": stats, "timestamp": time.time()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Clustering failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Clustering failed: {e!s}")
+
 
 @app.post("/cockpit/feedback/promote")
 def promote_feedback_to_proposal(
     fc_id: str | None = Query(None),
     cluster_id: str | None = Query(None),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: str | None = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token"),
 ):
     _check_auth(token)
     try:
@@ -813,6 +859,7 @@ def promote_feedback_to_proposal(
             raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
 
         from qi.feedback.proposals import ProposalMapper
+
         mapper = ProposalMapper()
 
         if cluster_id:
@@ -827,12 +874,14 @@ def promote_feedback_to_proposal(
             "proposal_id": proposal_id,
             "status": "queued",
             "source": "cluster" if cluster_id else "feedback_card",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Promotion failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Promotion failed: {e!s}")
+
 
 # ------------- Dashboard & Health -------------
+
 
 @app.get("/cockpit/health")
 def health_check():
@@ -848,14 +897,13 @@ def health_check():
             "human_adaptation": "available",
             "approvals": "available",
             "receipts": "available",
-            "feedback": "available"
-        }
+            "feedback": "available",
+        },
     }
 
+
 @app.get("/cockpit/dashboard")
-def get_dashboard_summary(
-    token: str | None = Header(None, alias="X-Auth-Token")
-):
+def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")):
     """Unified dashboard summary for ops overview."""
     _check_auth(token)
     try:
@@ -887,20 +935,17 @@ def get_dashboard_summary(
             "timestamp": time.time(),
             "evaluation": {
                 "latest": latest_eval,
-                "status": "pass" if latest_eval and latest_eval.get("summary", {}).get("num_failures", 1) == 0 else "fail"
+                "status": "pass"
+                if latest_eval and latest_eval.get("summary", {}).get("num_failures", 1) == 0
+                else "fail",
             },
             "production": {
                 "receipt_count": len(recent_receipts),
-                "avg_latency": sum(r.get("latency_ms", 0) for r in recent_receipts) / max(len(recent_receipts), 1)
+                "avg_latency": sum(r.get("latency_ms", 0) for r in recent_receipts)
+                / max(len(recent_receipts), 1),
             },
-            "governance": {
-                "pending_proposals": len(pending_proposals),
-                "proposal_sources": {}
-            },
-            "learning": {
-                "adaptive_patterns": adaptive_patterns,
-                "human_patterns": human_patterns
-            }
+            "governance": {"pending_proposals": len(pending_proposals), "proposal_sources": {}},
+            "learning": {"adaptive_patterns": adaptive_patterns, "human_patterns": human_patterns},
         }
 
         # Proposal source breakdown
@@ -912,12 +957,14 @@ def get_dashboard_summary(
                 source = "human_adapt"
             else:
                 source = "other"
-            dashboard["governance"]["proposal_sources"][source] = \
+            dashboard["governance"]["proposal_sources"][source] = (
                 dashboard["governance"]["proposal_sources"].get(source, 0) + 1
+            )
 
         return {"dashboard": dashboard}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Dashboard generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Dashboard generation failed: {e!s}")
+
 
 # ------------- Static Files (if needed) -------------
 
@@ -926,6 +973,7 @@ if os.path.exists("web"):
     app.mount("/static", StaticFiles(directory="web"), name="static")
 
 # ------------- UI Hub Routes -------------
+
 
 @app.get("/ui", response_class=HTMLResponse)
 def ui_index():
@@ -940,6 +988,7 @@ def ui_index():
       <p style="opacity:.7">Tip: set <code>COCKPIT_UI_PATH</code>, <code>RECEIPTS_UI_PATH</code>, <code>APPROVER_UI_PATH</code> to serve your local HTML files.</p>
     </body></html>
     """
+
 
 @app.get("/ui/cockpit", response_class=HTMLResponse)
 def ui_cockpit(
@@ -1001,6 +1050,7 @@ def ui_cockpit(
         html += inject
     return HTMLResponse(content=html)
 
+
 @app.get("/ui/trace", response_class=HTMLResponse)
 def ui_trace(
     rid: str | None = Query(None),
@@ -1034,7 +1084,10 @@ def ui_trace(
   }})();
 </script>
 """
-    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html+inject)
+    return HTMLResponse(
+        content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
+    )
+
 
 @app.get("/ui/approver", response_class=HTMLResponse)
 def ui_approver(
@@ -1056,14 +1109,24 @@ def ui_approver(
   }})();
 </script>
 """
-    return HTMLResponse(content=html.replace("</body>", inject + "</body>") if "</body>" in html else html+inject)
+    return HTMLResponse(
+        content=html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
+    )
+
 
 # Root redirect
 @app.get("/")
 def root():
-    return {"message": "LUKHAS Unified Ops Cockpit API", "version": "1.0.0", "docs": "/docs", "ui": "/ui"}
+    return {
+        "message": "LUKHAS Unified Ops Cockpit API",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "ui": "/ui",
+    }
+
 
 if __name__ == "__main__":
     import uvicorn
+
     port = int(os.environ.get("COCKPIT_PORT", "8098"))
     uvicorn.run(app, host="127.0.0.1", port=port)

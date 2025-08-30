@@ -55,9 +55,7 @@ except ImportError as e:
                 return True
 
     class ActivityLogger:
-        def log_activity(
-            self, activity_type: str, user_id: str, metadata: dict
-        ) -> None:
+        def log_activity(self, activity_type: str, user_id: str, metadata: dict) -> None:
             print(f"ΛTRACE: {activity_type} by {user_id}: {metadata}")
 
     class ConsentManager:
@@ -122,9 +120,7 @@ class IdentityClient:
                 "LambdIDValidator", (), {"validate_identity": lambda self, a: True}
             )()
 
-    def verify_user_access(
-        self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
-    ) -> bool:
+    def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
         """
         Verify that a user has the required access tier for an operation.
 
@@ -147,16 +143,12 @@ class IdentityClient:
 
             # Then check tier access
             if not self.tier_validator.validate_tier(user_id, required_tier):
-                self.log_security_event(
-                    "insufficient_tier", user_id, {"required": required_tier}
-                )
+                self.log_security_event("insufficient_tier", user_id, {"required": required_tier})
                 return False
 
             return True
         except Exception as e:
-            self.log_security_event(
-                "access_verification_error", user_id, {"error": str(e)}
-            )
+            self.log_security_event("access_verification_error", user_id, {"error": str(e)})
             return False
 
     def check_consent(self, user_id: str, action: str, scope: str = "default") -> bool:
@@ -183,9 +175,7 @@ class IdentityClient:
             self.log_security_event("consent_check_error", user_id, {"error": str(e)})
             return False
 
-    def log_activity(
-        self, activity_type: str, user_id: str, metadata: dict[str, Any]
-    ) -> None:
+    def log_activity(self, activity_type: str, user_id: str, metadata: dict[str, Any]) -> None:
         """
         Log an activity to the ΛTRACE system for audit trails.
 
@@ -204,9 +194,7 @@ class IdentityClient:
         except Exception as e:
             print(f"Error logging activity: {e}")
 
-    def log_security_event(
-        self, event_type: str, user_id: str, metadata: dict[str, Any]
-    ) -> None:
+    def log_security_event(self, event_type: str, user_id: str, metadata: dict[str, Any]) -> None:
         """
         Log a security-related event with elevated priority.
 
@@ -244,9 +232,7 @@ class IdentityClient:
             self.log_activity("session_validation", user_id, {"session_id": session_id})
             return True
         except Exception as e:
-            self.log_security_event(
-                "session_validation_error", user_id, {"error": str(e)}
-            )
+            self.log_security_event("session_validation_error", user_id, {"error": str(e)})
             return False
 
     def _get_calling_module(self) -> str:

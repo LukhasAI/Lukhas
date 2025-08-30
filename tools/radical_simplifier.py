@@ -48,10 +48,7 @@ class RadicalSimplifier:
 
         # First pass: Identify what exists
         for root, _dirs, files in os.walk("."):
-            if any(
-                skip in root
-                for skip in [".git", "__pycache__", "._cleanup_archive", "venv"]
-            ):
+            if any(skip in root for skip in [".git", "__pycache__", "._cleanup_archive", "venv"]):
                 continue
 
             for file in files:
@@ -76,9 +73,7 @@ class RadicalSimplifier:
                                 )
 
                             # Check if it's in a non-core module
-                            module = (
-                                root.split("/")[1] if len(root.split("/")) > 1 else ""
-                            )
+                            module = root.split("/")[1] if len(root.split("/")) > 1 else ""
                             if (
                                 module
                                 and module not in self.core_modules
@@ -107,15 +102,12 @@ class RadicalSimplifier:
         never_imported = all_files - imported_files
         for filepath in never_imported:
             if not any(
-                entry in filepath
-                for entry in ["main.py", "__init__.py", "test_", "setup.py"]
+                entry in filepath for entry in ["main.py", "__init__.py", "test_", "setup.py"]
             ):
                 analysis["unused_files"].append(filepath)
 
         # Generate simplification opportunities
-        analysis["simplification_opportunities"] = self._generate_simplifications(
-            analysis
-        )
+        analysis["simplification_opportunities"] = self._generate_simplifications(analysis)
 
         return analysis
 
@@ -145,9 +137,7 @@ class RadicalSimplifier:
                             "file": filepath,
                             "function": node.name,
                             "lines": (
-                                node.end_lineno - node.lineno
-                                if hasattr(node, "end_lineno")
-                                else 0
+                                node.end_lineno - node.lineno if hasattr(node, "end_lineno") else 0
                             ),
                         }
                     )
@@ -180,9 +170,7 @@ class RadicalSimplifier:
             )
 
         # 2. Merge duplicate functions
-        duplicates_count = sum(
-            len(v) for v in self.duplicate_functions.values() if len(v) > 1
-        )
+        duplicates_count = sum(len(v) for v in self.duplicate_functions.values() if len(v) > 1)
         if duplicates_count > 0:
             suggestions.append(
                 {
@@ -221,10 +209,10 @@ class RadicalSimplifier:
         plan = f"""# LUKHAS Radical Simplification Plan
 
 ## Current State (The Problem)
-- Files: {analysis['total_files']}
-- Lines: {analysis['total_lines']}
-- Unused files: {len(analysis['unused_files'])}
-- Complex files: {len(analysis['complex_files'])}
+- Files: {analysis["total_files"]}
+- Lines: {analysis["total_lines"]}
+- Unused files: {len(analysis["unused_files"])}
+- Complex files: {len(analysis["complex_files"])}
 
 ## Steve's Vision (The Solution)
 "What is LUKHAS? AI that dreams, remembers, and understands emotions."
@@ -235,8 +223,8 @@ Everything else is noise.
 ### Phase 1: DELETE (Week 1)
 Steve says: "I'm as proud of what we don't do as I am of what we do."
 
-1. Delete all unused files ({len(analysis['unused_files'])} files)
-2. Delete all non-core modules ({len(analysis['non_core_modules'])} files)
+1. Delete all unused files ({len(analysis["unused_files"])} files)
+2. Delete all non-core modules ({len(analysis["non_core_modules"])} files)
 3. Archive anything with historical value
 
 ### Phase 2: CONSOLIDATE (Week 2)
@@ -263,9 +251,9 @@ Steve says: "When you first start off trying to solve a problem, the first solut
 4. No more than 3 levels of imports
 
 ### Success Metrics
-- Before: {analysis['total_lines']} lines
+- Before: {analysis["total_lines"]} lines
 - Target: < 50,000 lines (94% reduction)
-- Before: {analysis['total_files']} files
+- Before: {analysis["total_files"]} files
 - Target: < 50 files (98% reduction)
 
 ### The Jobs Test
@@ -328,9 +316,7 @@ def main():
     simplifier = RadicalSimplifier()
 
     print("🎯 Starting Radical Simplification Analysis...")
-    print(
-        "Following Steve Jobs' philosophy: 'Simplicity is the ultimate sophistication'\n"
-    )
+    print("Following Steve Jobs' philosophy: 'Simplicity is the ultimate sophistication'\n")
 
     # Analyze
     analysis = simplifier.analyze_codebase()

@@ -9,4 +9,4 @@ from .neocortical_network import (
     SemanticMemory,
 )
 
-__all__ = ["NeocorticalNetwork", "SemanticMemory", "CorticalLayer"]
+__all__ = ["CorticalLayer", "NeocorticalNetwork", "SemanticMemory"]

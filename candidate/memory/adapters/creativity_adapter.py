@@ -45,7 +45,7 @@ from typing import Any, Optional
 from ..systems.emotional_memory_manager import EmotionalModulator
 
 # Export for backward compatibility
-__all__ = ["EmotionalModulator", "CreativityMemoryAdapter", "get_emotional_modulator"]
+__all__ = ["CreativityMemoryAdapter", "EmotionalModulator", "get_emotional_modulator"]
 
 
 class CreativityMemoryAdapter:

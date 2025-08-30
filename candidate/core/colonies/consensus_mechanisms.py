@@ -518,9 +518,7 @@ class ColonyConsensus:
 
         return outcome
 
-    def _analyze_dissent(
-        self, votes: list[AgentVote], decision: VoteType
-    ) -> dict[str, Any]:
+    def _analyze_dissent(self, votes: list[AgentVote], decision: VoteType) -> dict[str, Any]:
         """Analyze dissenting votes"""
         dissent = []
 
@@ -618,9 +616,7 @@ async def demo_consensus():
         # Simulate votes
         for agent_id in agents:
             # Random vote with varying confidence
-            vote_type = random.choice(
-                [VoteType.APPROVE, VoteType.REJECT, VoteType.ABSTAIN]
-            )
+            vote_type = random.choice([VoteType.APPROVE, VoteType.REJECT, VoteType.ABSTAIN])
             confidence = random.uniform(0.3, 1.0)
 
             await consensus.vote(
@@ -633,9 +629,7 @@ async def demo_consensus():
 
         # Update hormones for hormone-based consensus
         if method == ConsensusMethod.HORMONE:
-            consensus.update_hormone_levels(
-                {"stress": 0.8, "urgency": 0.6, "trust": 0.4}
-            )
+            consensus.update_hormone_levels({"stress": 0.8, "urgency": 0.6, "trust": 0.4})
 
         # Reach consensus
         outcome = await consensus.reach_consensus(proposal_id)
@@ -649,10 +643,7 @@ async def demo_consensus():
     # Show history
     print("\n📊 Consensus History:")
     for record in consensus.get_consensus_history():
-        print(
-            f"  {record['method']}: {record['decision']} "
-            f"({record['confidence']:.2%} confidence)"
-        )
+        print(f"  {record['method']}: {record['decision']} ({record['confidence']:.2%} confidence)")
 
 
 if __name__ == "__main__":

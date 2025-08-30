@@ -93,9 +93,7 @@ class TraceSummaryBuilder:
             narrative = await self._generate_narrative(root_node, insights)
 
             # Create recommendations
-            recommendations = self._generate_recommendations(
-                insights, confidence_analysis
-            )
+            recommendations = self._generate_recommendations(insights, confidence_analysis)
 
             summary = {
                 "narrative": narrative,
@@ -209,9 +207,7 @@ class TraceSummaryBuilder:
 
             # Follow highest confidence child
             if current.children:
-                current = max(
-                    current.children, key=lambda c: c.metadata.get("confidence", 0.0)
-                )
+                current = max(current.children, key=lambda c: c.metadata.get("confidence", 0.0))
             else:
                 current = None
 
@@ -255,9 +251,7 @@ class TraceSummaryBuilder:
             "high_confidence_nodes": len([c for c in confidences if c > 0.8]),
         }
 
-    async def _generate_narrative(
-        self, root: TraceNode, insights: list[dict[str, Any]]
-    ) -> str:
+    async def _generate_narrative(self, root: TraceNode, insights: list[dict[str, Any]]) -> str:
         """Generate a narrative summary of the reasoning process"""
         narrative_parts = []
 
@@ -274,11 +268,11 @@ class TraceSummaryBuilder:
         for i, step in enumerate(path[:5]):  # First 5 steps
             if self.current_style == "technical":
                 narrative_parts.append(
-                    f"{i+1}. {step['type'].upper()}: {step['summary']} "
+                    f"{i + 1}. {step['type'].upper()}: {step['summary']} "
                     f"(confidence: {step['confidence']:.2f})"
                 )
             else:
-                narrative_parts.append(f"{i+1}. {step['summary']}")
+                narrative_parts.append(f"{i + 1}. {step['summary']}")
 
         # Key insights
         if insights:
@@ -299,9 +293,7 @@ class TraceSummaryBuilder:
                     f"(confidence: {conclusion.metadata.get('confidence', 0.0):.2f})"
                 )
             else:
-                narrative_parts.append(
-                    f"\nConclusion: {self._summarize_node(conclusion)}"
-                )
+                narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion)}")
 
         return "\n".join(narrative_parts)
 
@@ -367,9 +359,7 @@ class TraceSummaryBuilder:
 
         # General recommendations
         if not recommendations:
-            recommendations.append(
-                "Reasoning trace appears sound. No immediate actions required."
-            )
+            recommendations.append("Reasoning trace appears sound. No immediate actions required.")
 
         return recommendations[:5]  # Limit to 5 recommendations
 
@@ -417,9 +407,7 @@ def summarize_reason_trace(reason_tree: dict) -> str:
     asyncio.set_event_loop(loop)
 
     try:
-        summary = loop.run_until_complete(
-            builder.build_summary(reason_tree, style="simplified")
-        )
+        summary = loop.run_until_complete(builder.build_summary(reason_tree, style="simplified"))
 
         if "error" in summary:
             return f"Error building summary: {summary['error']}"

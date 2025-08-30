@@ -341,9 +341,7 @@ class EnergyConsumptionAnalyzer:
 
             # Update predictive model
             input_size = metadata.get("input_size", 1) if metadata else 1
-            self.energy_model.record_observation(
-                operation, input_size, energy_joules, duration_ms
-            )
+            self.energy_model.record_observation(operation, input_size, energy_joules, duration_ms)
 
     def create_budget(
         self,
@@ -379,13 +377,9 @@ class EnergyConsumptionAnalyzer:
             else:
                 raise ValueError(f"Budget '{budget_name}' not found")
 
-    def predict_operation_energy(
-        self, operation: str, input_size: int
-    ) -> dict[str, Any]:
+    def predict_operation_energy(self, operation: str, input_size: int) -> dict[str, Any]:
         """Predict energy consumption for an operation"""
-        predicted_energy, confidence = self.energy_model.predict_energy(
-            operation, input_size
-        )
+        predicted_energy, confidence = self.energy_model.predict_energy(operation, input_size)
 
         # Check against budget
         can_afford = True
@@ -406,9 +400,7 @@ class EnergyConsumptionAnalyzer:
             "budget_impact_percent": budget_impact,
         }
 
-    def get_energy_statistics(
-        self, time_window_seconds: Optional[float] = None
-    ) -> dict[str, Any]:
+    def get_energy_statistics(self, time_window_seconds: Optional[float] = None) -> dict[str, Any]:
         """Get comprehensive energy statistics"""
         with self._lock:
             current_time = time.time()
@@ -468,9 +460,7 @@ class EnergyConsumptionAnalyzer:
                 "total_energy_joules": total_energy,
                 "average_power_watts": avg_power,
                 "peak_power_watts": (
-                    max(m.power_watts for m in recent_metrics)
-                    if recent_metrics
-                    else 0.0
+                    max(m.power_watts for m in recent_metrics) if recent_metrics else 0.0
                 ),
                 "component_breakdown": dict(component_energy),
                 "operation_breakdown": dict(operation_energy),
@@ -505,7 +495,7 @@ class EnergyConsumptionAnalyzer:
                         "severity": "high",
                         "component": highest_component[0],
                         "message": f"{highest_component[0]} consuming {highest_component[1]:.2f}J "
-                        f"({(highest_component[1]/stats['total_energy_joules']*100):.1f}% of total)",
+                        f"({(highest_component[1] / stats['total_energy_joules'] * 100):.1f}% of total)",
                         "suggestion": f"Consider optimizing {highest_component[0]} operations or "
                         "switching to a lower power profile",
                     }
@@ -514,9 +504,9 @@ class EnergyConsumptionAnalyzer:
         # Operation-based recommendations
         operation_breakdown = stats["operation_breakdown"]
         if operation_breakdown:
-            top_operations = sorted(
-                operation_breakdown.items(), key=lambda x: x[1], reverse=True
-            )[:3]
+            top_operations = sorted(operation_breakdown.items(), key=lambda x: x[1], reverse=True)[
+                :3
+            ]
             for op, energy in top_operations:
                 if energy > stats["total_energy_joules"] * 0.2:
                     recommendations.append(
@@ -619,9 +609,7 @@ class EnergyConsumptionAnalyzer:
                     if budget.time_elapsed() > budget.time_window_seconds:
                         # Reset budget for new time window
                         budget.reset()
-                        logger.info(
-                            f"Budget '{self.active_budget}' reset for new time window"
-                        )
+                        logger.info(f"Budget '{self.active_budget}' reset for new time window")
 
                 await asyncio.sleep(self.monitoring_interval)
 
@@ -629,16 +617,12 @@ class EnergyConsumptionAnalyzer:
                 logger.error(f"Error in monitoring loop: {e}")
                 await asyncio.sleep(self.monitoring_interval)
 
-    def _estimate_component_energy(
-        self, component: EnergyComponent, utilization: float
-    ) -> float:
+    def _estimate_component_energy(self, component: EnergyComponent, utilization: float) -> float:
         """Estimate energy consumption based on component utilization"""
         if component not in self.component_profiles:
             return 0.0
 
-        profile_energy = self.component_profiles[component].get(
-            self.current_profile, 0.1
-        )
+        profile_energy = self.component_profiles[component].get(self.current_profile, 0.1)
 
         # Energy scales with utilization
         return profile_energy * utilization * self.monitoring_interval
@@ -699,9 +683,7 @@ class EnergyAwareComponent:
 
             # Calculate actual energy (simplified estimation)
             duration_ms = (time.time() - start_time) * 1000
-            actual_energy = self._estimate_operation_energy(
-                operation, duration_ms, input_size
-            )
+            actual_energy = self._estimate_operation_energy(operation, duration_ms, input_size)
 
             # Record consumption
             self.energy_analyzer.record_energy_consumption(

@@ -23,6 +23,7 @@ logger = get_logger(__name__)
 
 class VoiceEffectType(Enum):
     """Types of voice effects"""
+
     REVERB = "reverb"
     ECHO = "echo"
     DELAY = "delay"
@@ -47,6 +48,7 @@ class VoiceEffectType(Enum):
 
 class EffectIntensity(Enum):
     """Effect intensity levels"""
+
     SUBTLE = "subtle"
     MODERATE = "moderate"
     STRONG = "strong"
@@ -56,6 +58,7 @@ class EffectIntensity(Enum):
 @dataclass
 class EffectParameters:
     """Generic effect parameters"""
+
     intensity: EffectIntensity = EffectIntensity.MODERATE
     mix: float = 0.5  # Dry/wet mix (0.0 = dry, 1.0 = wet)
     enabled: bool = True
@@ -81,7 +84,7 @@ class EffectParameters:
             "rate": self.rate,
             "feedback": self.feedback,
             "delay_time": self.delay_time,
-            "custom_params": self.custom_params
+            "custom_params": self.custom_params,
         }
 
 
@@ -123,10 +126,26 @@ class ReverbEffect(VoiceEffect):
 
         # Reverb parameters based on intensity
         intensity_params = {
-            EffectIntensity.SUBTLE: {"room_size": 0.3, "damping": 0.7, "delays": [0.02, 0.04, 0.06]},
-            EffectIntensity.MODERATE: {"room_size": 0.5, "damping": 0.5, "delays": [0.03, 0.05, 0.08, 0.11]},
-            EffectIntensity.STRONG: {"room_size": 0.7, "damping": 0.3, "delays": [0.02, 0.04, 0.07, 0.10, 0.14]},
-            EffectIntensity.EXTREME: {"room_size": 0.9, "damping": 0.1, "delays": [0.01, 0.03, 0.06, 0.09, 0.13, 0.18]}
+            EffectIntensity.SUBTLE: {
+                "room_size": 0.3,
+                "damping": 0.7,
+                "delays": [0.02, 0.04, 0.06],
+            },
+            EffectIntensity.MODERATE: {
+                "room_size": 0.5,
+                "damping": 0.5,
+                "delays": [0.03, 0.05, 0.08, 0.11],
+            },
+            EffectIntensity.STRONG: {
+                "room_size": 0.7,
+                "damping": 0.3,
+                "delays": [0.02, 0.04, 0.07, 0.10, 0.14],
+            },
+            EffectIntensity.EXTREME: {
+                "room_size": 0.9,
+                "damping": 0.1,
+                "delays": [0.01, 0.03, 0.06, 0.09, 0.13, 0.18],
+            },
         }
 
         params = intensity_params[parameters.intensity]
@@ -141,12 +160,13 @@ class ReverbEffect(VoiceEffect):
             delay_samples = int(delay_time * sample_rate)
             if delay_samples < len(data):
                 # Create delayed version with decay
-                decay = room_size * (0.7 ** i)  # Each delay decays more
+                decay = room_size * (0.7**i)  # Each delay decays more
                 delayed = np.pad(data[:-delay_samples], (delay_samples, 0), mode="constant")
 
                 # Apply damping (low-pass filter)
                 if damping > 0:
                     from scipy import signal
+
                     cutoff = 8000 * (1.0 - damping)
                     sos = signal.butter(2, cutoff, btype="lowpass", fs=sample_rate, output="sos")
                     delayed = signal.sosfilt(sos, delayed)
@@ -161,7 +181,7 @@ class ReverbEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "reverb_applied": True}
+            metadata={**buffer.metadata, "reverb_applied": True},
         )
 
     def get_latency_ms(self) -> float:
@@ -191,7 +211,7 @@ class EchoEffect(VoiceEffect):
             EffectIntensity.SUBTLE: {"delay": 0.5, "feedback": 0.5},
             EffectIntensity.MODERATE: {"delay": 1.0, "feedback": 1.0},
             EffectIntensity.STRONG: {"delay": 1.5, "feedback": 1.3},
-            EffectIntensity.EXTREME: {"delay": 2.0, "feedback": 1.6}
+            EffectIntensity.EXTREME: {"delay": 2.0, "feedback": 1.6},
         }
 
         multiplier = intensity_multipliers[parameters.intensity]
@@ -206,7 +226,7 @@ class EchoEffect(VoiceEffect):
 
         # Create echo buffer
         output = np.zeros(len(data) + delay_samples)
-        output[:len(data)] = data
+        output[: len(data)] = data
 
         # Apply multiple echoes with feedback
         current_delay = delay_samples
@@ -215,14 +235,14 @@ class EchoEffect(VoiceEffect):
         while current_delay < len(output) and current_gain > 0.01:
             # Add delayed signal
             end_idx = min(len(data), len(output) - current_delay)
-            output[current_delay:current_delay + end_idx] += data[:end_idx] * current_gain
+            output[current_delay : current_delay + end_idx] += data[:end_idx] * current_gain
 
             # Next echo
             current_delay += delay_samples
             current_gain *= feedback
 
         # Trim to original length and apply mix
-        echo_signal = output[:len(data)] - data  # Extract only the echo part
+        echo_signal = output[: len(data)] - data  # Extract only the echo part
         mixed_output = data * (1.0 - parameters.mix) + (data + echo_signal) * parameters.mix
 
         return AudioBuffer(
@@ -230,7 +250,7 @@ class EchoEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "echo_applied": True}
+            metadata={**buffer.metadata, "echo_applied": True},
         )
 
     def get_latency_ms(self) -> float:
@@ -260,7 +280,7 @@ class ChorusEffect(VoiceEffect):
             EffectIntensity.SUBTLE: {"voices": 2, "depth": 0.5, "rate": 0.5},
             EffectIntensity.MODERATE: {"voices": 3, "depth": 1.0, "rate": 1.0},
             EffectIntensity.STRONG: {"voices": 4, "depth": 1.5, "rate": 1.5},
-            EffectIntensity.EXTREME: {"voices": 6, "depth": 2.0, "rate": 2.0}
+            EffectIntensity.EXTREME: {"voices": 6, "depth": 2.0, "rate": 2.0},
         }
 
         params = intensity_multipliers[parameters.intensity]
@@ -304,7 +324,7 @@ class ChorusEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "chorus_applied": True}
+            metadata={**buffer.metadata, "chorus_applied": True},
         )
 
     def get_latency_ms(self) -> float:
@@ -329,7 +349,7 @@ class DistortionEffect(VoiceEffect):
             EffectIntensity.SUBTLE: {"drive": 2.0, "threshold": 0.7},
             EffectIntensity.MODERATE: {"drive": 5.0, "threshold": 0.5},
             EffectIntensity.STRONG: {"drive": 10.0, "threshold": 0.3},
-            EffectIntensity.EXTREME: {"drive": 20.0, "threshold": 0.1}
+            EffectIntensity.EXTREME: {"drive": 20.0, "threshold": 0.1},
         }
 
         params = intensity_params[parameters.intensity]
@@ -344,7 +364,7 @@ class DistortionEffect(VoiceEffect):
             return np.where(
                 np.abs(x) <= thresh,
                 x,
-                np.sign(x) * (thresh + (1 - thresh) * np.tanh((np.abs(x) - thresh) / (1 - thresh)))
+                np.sign(x) * (thresh + (1 - thresh) * np.tanh((np.abs(x) - thresh) / (1 - thresh))),
             )
 
         distorted = soft_clip(driven, threshold)
@@ -360,7 +380,7 @@ class DistortionEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "distortion_applied": True}
+            metadata={**buffer.metadata, "distortion_applied": True},
         )
 
     def get_latency_ms(self) -> float:
@@ -389,7 +409,7 @@ class PitchShiftEffect(VoiceEffect):
                 EffectIntensity.SUBTLE: 2,
                 EffectIntensity.MODERATE: 5,
                 EffectIntensity.STRONG: 12,
-                EffectIntensity.EXTREME: 24
+                EffectIntensity.EXTREME: 24,
             }
             semitones = intensity_semitones[parameters.intensity]
 
@@ -406,7 +426,7 @@ class PitchShiftEffect(VoiceEffect):
 
         # Pad or truncate to original length
         if len(pitched) > len(data):
-            pitched = pitched[:len(data)]
+            pitched = pitched[: len(data)]
         else:
             pitched = np.pad(pitched, (0, len(data) - len(pitched)), mode="constant")
 
@@ -418,7 +438,7 @@ class PitchShiftEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "pitch_shift_applied": True, "semitones": semitones}
+            metadata={**buffer.metadata, "pitch_shift_applied": True, "semitones": semitones},
         )
 
     def get_latency_ms(self) -> float:
@@ -448,7 +468,7 @@ class VibratoEffect(VoiceEffect):
             EffectIntensity.SUBTLE: {"rate": 0.5, "depth": 0.5},
             EffectIntensity.MODERATE: {"rate": 1.0, "depth": 1.0},
             EffectIntensity.STRONG: {"rate": 1.5, "depth": 1.5},
-            EffectIntensity.EXTREME: {"rate": 2.0, "depth": 2.0}
+            EffectIntensity.EXTREME: {"rate": 2.0, "depth": 2.0},
         }
 
         multiplier = intensity_multipliers[parameters.intensity]
@@ -484,7 +504,7 @@ class VibratoEffect(VoiceEffect):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "vibrato_applied": True}
+            metadata={**buffer.metadata, "vibrato_applied": True},
         )
 
     def get_latency_ms(self) -> float:
@@ -505,57 +525,90 @@ class VoiceEffectsProcessor:
             VoiceEffectType.CHORUS: ChorusEffect(),
             VoiceEffectType.DISTORTION: DistortionEffect(),
             VoiceEffectType.PITCH_SHIFT: PitchShiftEffect(),
-            VoiceEffectType.VIBRATO: VibratoEffect()
+            VoiceEffectType.VIBRATO: VibratoEffect(),
         }
 
         # Effect presets
         self.presets = {
             "natural": [],
             "radio": [
-                (VoiceEffectType.COMPRESSOR, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.8)),
-                (VoiceEffectType.EQ, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.6))
+                (
+                    VoiceEffectType.COMPRESSOR,
+                    EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.8),
+                ),
+                (VoiceEffectType.EQ, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.6)),
             ],
             "robot": [
-                (VoiceEffectType.DISTORTION, EffectParameters(intensity=EffectIntensity.STRONG, mix=0.7)),
-                (VoiceEffectType.PITCH_SHIFT, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.8,
-                 custom_params={"semitones": -5}))
+                (
+                    VoiceEffectType.DISTORTION,
+                    EffectParameters(intensity=EffectIntensity.STRONG, mix=0.7),
+                ),
+                (
+                    VoiceEffectType.PITCH_SHIFT,
+                    EffectParameters(
+                        intensity=EffectIntensity.MODERATE, mix=0.8, custom_params={"semitones": -5}
+                    ),
+                ),
             ],
             "ethereal": [
-                (VoiceEffectType.REVERB, EffectParameters(intensity=EffectIntensity.STRONG, mix=0.6)),
-                (VoiceEffectType.CHORUS, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.4)),
-                (VoiceEffectType.PITCH_SHIFT, EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3,
-                 custom_params={"semitones": 7}))
+                (
+                    VoiceEffectType.REVERB,
+                    EffectParameters(intensity=EffectIntensity.STRONG, mix=0.6),
+                ),
+                (
+                    VoiceEffectType.CHORUS,
+                    EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.4),
+                ),
+                (
+                    VoiceEffectType.PITCH_SHIFT,
+                    EffectParameters(
+                        intensity=EffectIntensity.SUBTLE, mix=0.3, custom_params={"semitones": 7}
+                    ),
+                ),
             ],
             "vintage": [
-                (VoiceEffectType.DISTORTION, EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3)),
-                (VoiceEffectType.ECHO, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.4))
+                (
+                    VoiceEffectType.DISTORTION,
+                    EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3),
+                ),
+                (
+                    VoiceEffectType.ECHO,
+                    EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.4),
+                ),
             ],
             "dramatic": [
-                (VoiceEffectType.REVERB, EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.5)),
-                (VoiceEffectType.VIBRATO, EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3))
-            ]
+                (
+                    VoiceEffectType.REVERB,
+                    EffectParameters(intensity=EffectIntensity.MODERATE, mix=0.5),
+                ),
+                (
+                    VoiceEffectType.VIBRATO,
+                    EffectParameters(intensity=EffectIntensity.SUBTLE, mix=0.3),
+                ),
+            ],
         }
 
         self.logger.info("Voice Effects Processor initialized")
 
     async def apply_effect(
-        self,
-        buffer: AudioBuffer,
-        effect_type: VoiceEffectType,
-        parameters: EffectParameters
+        self, buffer: AudioBuffer, effect_type: VoiceEffectType, parameters: EffectParameters
     ) -> AudioBuffer:
         """Apply single effect to audio buffer"""
         try:
             # Guardian validation
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "voice_effect",
-                "effect_type": effect_type.value,
-                "parameters": parameters.to_dict(),
-                "audio_length": len(buffer.data)
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "voice_effect",
+                    "effect_type": effect_type.value,
+                    "parameters": parameters.to_dict(),
+                    "audio_length": len(buffer.data),
+                }
+            )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason')}")
+                self.logger.warning(
+                    f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason')}"
+                )
                 return buffer
 
             if effect_type not in self.effects:
@@ -566,23 +619,24 @@ class VoiceEffectsProcessor:
             result = await effect.apply(buffer, parameters)
 
             # Emit GLYPH event
-            await GLYPH.emit("voice.effect.applied", {
-                "effect_type": effect_type.value,
-                "intensity": parameters.intensity.value,
-                "mix": parameters.mix,
-                "latency_ms": effect.get_latency_ms()
-            })
+            await GLYPH.emit(
+                "voice.effect.applied",
+                {
+                    "effect_type": effect_type.value,
+                    "intensity": parameters.intensity.value,
+                    "mix": parameters.mix,
+                    "latency_ms": effect.get_latency_ms(),
+                },
+            )
 
             return result
 
         except Exception as e:
-            self.logger.error(f"Effect {effect_type.value} failed: {str(e)}")
+            self.logger.error(f"Effect {effect_type.value} failed: {e!s}")
             return buffer
 
     async def apply_effect_chain(
-        self,
-        buffer: AudioBuffer,
-        effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
+        self, buffer: AudioBuffer, effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
     ) -> AudioBuffer:
         """Apply chain of effects to audio buffer"""
         current_buffer = buffer
@@ -596,7 +650,7 @@ class VoiceEffectsProcessor:
         self,
         buffer: AudioBuffer,
         preset_name: str,
-        intensity_override: Optional[EffectIntensity] = None
+        intensity_override: Optional[EffectIntensity] = None,
     ) -> AudioBuffer:
         """Apply preset effect chain"""
         if preset_name not in self.presets:
@@ -608,28 +662,34 @@ class VoiceEffectsProcessor:
         # Override intensity if requested
         if intensity_override:
             effect_chain = [
-                (effect_type, EffectParameters(
-                    intensity=intensity_override,
-                    mix=params.mix,
-                    enabled=params.enabled,
-                    frequency=params.frequency,
-                    depth=params.depth,
-                    rate=params.rate,
-                    feedback=params.feedback,
-                    delay_time=params.delay_time,
-                    custom_params=params.custom_params
-                ))
+                (
+                    effect_type,
+                    EffectParameters(
+                        intensity=intensity_override,
+                        mix=params.mix,
+                        enabled=params.enabled,
+                        frequency=params.frequency,
+                        depth=params.depth,
+                        rate=params.rate,
+                        feedback=params.feedback,
+                        delay_time=params.delay_time,
+                        custom_params=params.custom_params,
+                    ),
+                )
                 for effect_type, params in effect_chain
             ]
 
         result = await self.apply_effect_chain(buffer, effect_chain)
 
         # Emit GLYPH event
-        await GLYPH.emit("voice.preset.applied", {
-            "preset_name": preset_name,
-            "effects_count": len(effect_chain),
-            "intensity_override": intensity_override.value if intensity_override else None
-        })
+        await GLYPH.emit(
+            "voice.preset.applied",
+            {
+                "preset_name": preset_name,
+                "effects_count": len(effect_chain),
+                "intensity_override": intensity_override.value if intensity_override else None,
+            },
+        )
 
         return result
 
@@ -652,9 +712,7 @@ class VoiceEffectsProcessor:
         return sum(self.get_effect_latency(effect_type) for effect_type in effect_chain)
 
     def add_custom_preset(
-        self,
-        name: str,
-        effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
+        self, name: str, effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
     ):
         """Add custom preset"""
         self.presets[name] = effect_chain
@@ -673,7 +731,7 @@ async def apply_voice_effect(
     sample_rate: int,
     effect_type: VoiceEffectType,
     intensity: EffectIntensity = EffectIntensity.MODERATE,
-    mix: float = 0.5
+    mix: float = 0.5,
 ) -> bytes:
     """
     Apply single voice effect to audio data
@@ -693,10 +751,7 @@ async def apply_voice_effect(
     # Convert bytes to AudioBuffer
     audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
     buffer = AudioBuffer(
-        data=audio_array,
-        sample_rate=sample_rate,
-        channels=1,
-        format=AudioFormat.PCM_16
+        data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16
     )
 
     # Apply effect
@@ -712,7 +767,7 @@ async def apply_voice_preset(
     audio_data: bytes,
     sample_rate: int,
     preset_name: str,
-    intensity_override: Optional[EffectIntensity] = None
+    intensity_override: Optional[EffectIntensity] = None,
 ) -> bytes:
     """
     Apply voice effect preset to audio data
@@ -731,10 +786,7 @@ async def apply_voice_preset(
     # Convert bytes to AudioBuffer
     audio_array = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
     buffer = AudioBuffer(
-        data=audio_array,
-        sample_rate=sample_rate,
-        channels=1,
-        format=AudioFormat.PCM_16
+        data=audio_array, sample_rate=sample_rate, channels=1, format=AudioFormat.PCM_16
     )
 
     # Apply preset
@@ -747,17 +799,17 @@ async def apply_voice_preset(
 
 # Export main classes
 __all__ = [
-    "VoiceEffectsProcessor",
-    "VoiceEffect",
-    "VoiceEffectType",
-    "EffectIntensity",
-    "EffectParameters",
-    "ReverbEffect",
-    "EchoEffect",
     "ChorusEffect",
     "DistortionEffect",
+    "EchoEffect",
+    "EffectIntensity",
+    "EffectParameters",
     "PitchShiftEffect",
+    "ReverbEffect",
     "VibratoEffect",
+    "VoiceEffect",
+    "VoiceEffectType",
+    "VoiceEffectsProcessor",
     "apply_voice_effect",
-    "apply_voice_preset"
+    "apply_voice_preset",
 ]

@@ -5,6 +5,7 @@ LUKHAS AI GLYPH CLI
 Comprehensive command-line interface for creating, verifying, and managing
 cryptographic seals for AI artifacts.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -25,6 +26,7 @@ def hash_file(file_path: str) -> str:
             hasher.update(chunk)
     return f"sha3-512:{hasher.hexdigest()}"
 
+
 def create_seal_command(args):
     """Create a new GLYPH seal"""
     try:
@@ -38,6 +40,7 @@ def create_seal_command(args):
 
         # Determine media type
         import mimetypes
+
         media_type, _ = mimetypes.guess_type(args.file)
         if not media_type:
             media_type = "application/octet-stream"
@@ -74,7 +77,7 @@ def create_seal_command(args):
             proof_bundle=args.proof_bundle,
             ttl_days=args.ttl_days,
             calib_ref=calib_ref,
-            prev=args.prev
+            prev=args.prev,
         )
 
         # Save seal
@@ -95,6 +98,7 @@ def create_seal_command(args):
         if args.qr:
             try:
                 import qrcode
+
                 qr = qrcode.QRCode(version=1, box_size=10, border=5)
                 qr.add_data(result["compact"])
                 qr.make(fit=True)
@@ -110,6 +114,7 @@ def create_seal_command(args):
     except Exception as e:
         print(f"Seal creation failed: {e}")
         return 1
+
 
 def verify_seal_command(args):
     """Verify a GLYPH seal"""
@@ -171,6 +176,7 @@ def verify_seal_command(args):
         print(f"Verification failed: {e}")
         return 1
 
+
 def extract_seal_command(args):
     """Extract seal from embedded file"""
     try:
@@ -227,6 +233,7 @@ def extract_seal_command(args):
         print(f"Extraction failed: {e}")
         return 1
 
+
 def info_command(args):
     """Show information about GLYPH system"""
     print("🔒 LUKHAS AI GLYPH Cryptographic Seal System v0.1")
@@ -256,11 +263,11 @@ def info_command(args):
 
     return 0
 
+
 def main():
     """Main CLI entry point"""
     parser = argparse.ArgumentParser(
-        prog="glyph",
-        description="LUKHAS AI GLYPH Cryptographic Seal System"
+        prog="glyph", description="LUKHAS AI GLYPH Cryptographic Seal System"
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -312,6 +319,7 @@ def main():
         return 1
 
     return args.func(args)
+
 
 if __name__ == "__main__":
     sys.exit(main())

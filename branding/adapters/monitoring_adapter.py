@@ -51,58 +51,64 @@ class BrandMonitoringAdapter:
             "brand_consistency_metrics": {
                 "terminology_compliance": {
                     "approved_terms": [
-                        "lukhas_ai", "consciousness", "trinity_framework",
-                        "qi_inspired", "bio_inspired", "lambda_symbol"
+                        "lukhas_ai",
+                        "consciousness",
+                        "trinity_framework",
+                        "qi_inspired",
+                        "bio_inspired",
+                        "lambda_symbol",
                     ],
-                    "deprecated_terms": [
-                        "lukhas_pwm", "lukhas_agi", "pwm", "lambda_function"
-                    ],
-                    "compliance_threshold": 0.95
+                    "deprecated_terms": ["lukhas_pwm", "lukhas_agi", "pwm", "lambda_function"],
+                    "compliance_threshold": 0.95,
                 },
                 "tone_layer_distribution": {
                     "poetic": {"target_percentage": 25, "tolerance": 5},
                     "user_friendly": {"target_percentage": 50, "tolerance": 10},
-                    "academic": {"target_percentage": 25, "tolerance": 5}
+                    "academic": {"target_percentage": 25, "tolerance": 5},
                 },
                 "trinity_framework_presence": {
                     "identity_mentions": {"min_percentage": 30},
                     "consciousness_mentions": {"min_percentage": 40},
-                    "guardian_mentions": {"min_percentage": 30}
-                }
+                    "guardian_mentions": {"min_percentage": 30},
+                },
             },
             "brand_performance_metrics": {
                 "voice_consistency_score": {"target": 0.9, "critical_threshold": 0.7},
                 "personality_coherence": {"target": 0.85, "critical_threshold": 0.65},
                 "brand_alignment_score": {"target": 0.88, "critical_threshold": 0.7},
-                "user_engagement_rate": {"target": 0.75, "critical_threshold": 0.5}
+                "user_engagement_rate": {"target": 0.75, "critical_threshold": 0.5},
             },
             "brand_intelligence_metrics": {
                 "sentiment_analysis": {
                     "positive_threshold": 0.7,
                     "negative_threshold": 0.3,
                     "brand_perception_categories": [
-                        "innovative", "trustworthy", "conscious", "helpful", "advanced"
-                    ]
+                        "innovative",
+                        "trustworthy",
+                        "conscious",
+                        "helpful",
+                        "advanced",
+                    ],
                 },
                 "competitive_positioning": {
                     "differentiation_score": {"target": 0.8},
                     "brand_uniqueness": {"target": 0.75},
-                    "market_resonance": {"target": 0.7}
-                }
+                    "market_resonance": {"target": 0.7},
+                },
             },
             "monitoring_intervals": {
                 "real_time": 60,  # seconds
                 "adaptive": 300,  # 5 minutes
                 "comprehensive": 3600,  # 1 hour
-                "deep_analysis": 86400  # 24 hours
-            }
+                "deep_analysis": 86400,  # 24 hours
+            },
         }
 
     def collect_brand_metrics(
         self,
         metric_categories: list[str] = None,
         time_range: str = "last_hour",
-        include_intelligence: bool = True
+        include_intelligence: bool = True,
     ) -> dict[str, Any]:
         """
         Collect comprehensive brand metrics using core monitoring systems
@@ -111,14 +117,16 @@ class BrandMonitoringAdapter:
 
         if metric_categories is None:
             metric_categories = [
-                "brand_consistency", "brand_performance",
-                "brand_intelligence", "trinity_alignment"
+                "brand_consistency",
+                "brand_performance",
+                "brand_intelligence",
+                "trinity_alignment",
             ]
 
         # Collect core system metrics
         core_metrics = self.core_monitoring.collect_metrics(
             time_range=time_range,
-            categories=["system_health", "user_interaction", "content_generation"]
+            categories=["system_health", "user_interaction", "content_generation"],
         )
 
         # Collect brand-specific metrics
@@ -152,7 +160,7 @@ class BrandMonitoringAdapter:
             "adaptive_metrics": adaptive_brand_metrics,
             "brand_insights": brand_insights,
             "overall_brand_health": self._calculate_overall_brand_health(brand_metrics),
-            "recommendations": self._generate_brand_recommendations(brand_metrics)
+            "recommendations": self._generate_brand_recommendations(brand_metrics),
         }
 
     def _collect_brand_consistency_metrics(self, time_range: str) -> dict[str, Any]:
@@ -177,7 +185,7 @@ class BrandMonitoringAdapter:
             "consistency_score": self._calculate_consistency_score(
                 terminology_compliance, tone_distribution, trinity_presence
             ),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _collect_brand_performance_metrics(self, time_range: str) -> dict[str, Any]:
@@ -192,7 +200,7 @@ class BrandMonitoringAdapter:
             "brand_alignment_score": self._calculate_brand_alignment_score(performance_data),
             "user_engagement_rate": self._calculate_user_engagement_rate(performance_data),
             "performance_trend": self._analyze_performance_trend(time_range),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _collect_brand_intelligence_metrics(self, time_range: str) -> dict[str, Any]:
@@ -210,7 +218,7 @@ class BrandMonitoringAdapter:
             "brand_perception_evolution": self._track_brand_perception_evolution(time_range),
             "market_differentiation": self._assess_market_differentiation(competitive_data),
             "intelligence_confidence": self._calculate_intelligence_confidence(),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _collect_trinity_alignment_metrics(self, time_range: str) -> dict[str, Any]:
@@ -224,7 +232,7 @@ class BrandMonitoringAdapter:
             "guardian_protection": self._measure_guardian_protection(trinity_data),
             "trinity_coherence_score": self._calculate_trinity_coherence(trinity_data),
             "framework_evolution": self._track_framework_evolution(time_range),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _analyze_terminology_compliance(self, content_data: dict[str, Any]) -> dict[str, float]:
@@ -238,7 +246,7 @@ class BrandMonitoringAdapter:
             "deprecated_term_usage": 0.05,  # 5% uses deprecated terms
             "compliance_score": 0.94,  # Overall compliance score
             "compliance_threshold": config["compliance_threshold"],
-            "needs_attention": False
+            "needs_attention": False,
         }
 
     def _analyze_tone_layer_distribution(self, content_data: dict[str, Any]) -> dict[str, Any]:
@@ -249,7 +257,7 @@ class BrandMonitoringAdapter:
         actual_distribution = {
             "poetic": 28,  # 28% poetic content
             "user_friendly": 52,  # 52% user-friendly content
-            "academic": 20  # 20% academic content
+            "academic": 20,  # 20% academic content
         }
 
         distribution_health = {}
@@ -261,45 +269,47 @@ class BrandMonitoringAdapter:
                 "actual": percentage,
                 "target": target,
                 "within_tolerance": abs(percentage - target) <= tolerance,
-                "deviation": percentage - target
+                "deviation": percentage - target,
             }
 
         return {
             "distribution": actual_distribution,
             "distribution_health": distribution_health,
-            "overall_balance": self._calculate_distribution_balance(distribution_health)
+            "overall_balance": self._calculate_distribution_balance(distribution_health),
         }
 
     def _analyze_trinity_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze presence of Trinity Framework elements"""
 
-        config = self.brand_metrics_config["brand_consistency_metrics"]["trinity_framework_presence"]
+        config = self.brand_metrics_config["brand_consistency_metrics"][
+            "trinity_framework_presence"
+        ]
 
         return {
             "identity_mentions": {
                 "percentage": 35,
                 "target": config["identity_mentions"]["min_percentage"],
-                "meets_target": True
+                "meets_target": True,
             },
             "consciousness_mentions": {
                 "percentage": 45,
                 "target": config["consciousness_mentions"]["min_percentage"],
-                "meets_target": True
+                "meets_target": True,
             },
             "guardian_mentions": {
                 "percentage": 32,
                 "target": config["guardian_mentions"]["min_percentage"],
-                "meets_target": True
+                "meets_target": True,
             },
             "trinity_symbols_usage": 0.78,  # 78% of content includes trinity symbols
-            "framework_coherence": 0.85
+            "framework_coherence": 0.85,
         }
 
     def _calculate_consistency_score(
         self,
         terminology: dict[str, float],
         tone_distribution: dict[str, Any],
-        trinity_presence: dict[str, Any]
+        trinity_presence: dict[str, Any],
     ) -> float:
         """Calculate overall brand consistency score"""
 
@@ -313,9 +323,9 @@ class BrandMonitoringAdapter:
         weights = {"terminology": 0.4, "distribution": 0.3, "trinity": 0.3}
 
         consistency_score = (
-            terminology_score * weights["terminology"] +
-            distribution_score * weights["distribution"] +
-            trinity_score * weights["trinity"]
+            terminology_score * weights["terminology"]
+            + distribution_score * weights["distribution"]
+            + trinity_score * weights["trinity"]
         )
 
         return round(consistency_score, 3)
@@ -346,26 +356,22 @@ class BrandMonitoringAdapter:
             "trend_direction": "improving",
             "trend_strength": 0.15,
             "key_improvements": ["voice_consistency", "trinity_alignment"],
-            "areas_needing_attention": ["academic_tone_balance"]
+            "areas_needing_attention": ["academic_tone_balance"],
         }
 
     def _analyze_brand_sentiment(self, sentiment_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze brand sentiment and perception"""
         return {
             "overall_sentiment": 0.78,  # Positive sentiment
-            "sentiment_distribution": {
-                "positive": 0.72,
-                "neutral": 0.23,
-                "negative": 0.05
-            },
+            "sentiment_distribution": {"positive": 0.72, "neutral": 0.23, "negative": 0.05},
             "brand_perception_categories": {
                 "innovative": 0.85,
                 "trustworthy": 0.82,
                 "conscious": 0.79,
                 "helpful": 0.88,
-                "advanced": 0.83
+                "advanced": 0.83,
             },
-            "sentiment_trend": "improving"
+            "sentiment_trend": "improving",
         }
 
     def _analyze_competitive_positioning(self, competitive_data: dict[str, Any]) -> dict[str, Any]:
@@ -375,9 +381,11 @@ class BrandMonitoringAdapter:
             "brand_uniqueness": 0.77,
             "market_resonance": 0.74,
             "competitive_advantages": [
-                "consciousness_focus", "trinity_framework", "ethical_foundation"
+                "consciousness_focus",
+                "trinity_framework",
+                "ethical_foundation",
             ],
-            "positioning_strength": "strong"
+            "positioning_strength": "strong",
         }
 
     def _track_brand_perception_evolution(self, time_range: str) -> dict[str, Any]:
@@ -385,9 +393,7 @@ class BrandMonitoringAdapter:
         return {
             "perception_change": 0.08,  # 8% improvement
             "evolution_direction": "positive",
-            "key_perception_shifts": [
-                "increased_trust", "enhanced_innovation_perception"
-            ]
+            "key_perception_shifts": ["increased_trust", "enhanced_innovation_perception"],
         }
 
     def _assess_market_differentiation(self, competitive_data: dict[str, Any]) -> dict[str, Any]:
@@ -395,9 +401,11 @@ class BrandMonitoringAdapter:
         return {
             "differentiation_strength": "high",
             "unique_value_propositions": [
-                "consciousness_technology", "trinity_framework", "ethical_ai"
+                "consciousness_technology",
+                "trinity_framework",
+                "ethical_ai",
             ],
-            "market_position": "innovative_leader"
+            "market_position": "innovative_leader",
         }
 
     def _calculate_intelligence_confidence(self) -> float:
@@ -410,7 +418,7 @@ class BrandMonitoringAdapter:
             "authenticity_score": 0.92,
             "consciousness_representation": 0.88,
             "symbolic_coherence": 0.85,
-            "identity_strength": "high"
+            "identity_strength": "high",
         }
 
     def _measure_consciousness_depth(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
@@ -419,7 +427,7 @@ class BrandMonitoringAdapter:
             "consciousness_awareness": 0.89,
             "learning_representation": 0.84,
             "memory_integration": 0.86,
-            "consciousness_depth": "deep"
+            "consciousness_depth": "deep",
         }
 
     def _measure_guardian_protection(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
@@ -428,7 +436,7 @@ class BrandMonitoringAdapter:
             "ethical_foundation": 0.93,
             "protection_mechanisms": 0.87,
             "drift_prevention": 0.91,
-            "guardian_strength": "robust"
+            "guardian_strength": "robust",
         }
 
     def _calculate_trinity_coherence(self, trinity_data: dict[str, Any]) -> float:
@@ -440,7 +448,7 @@ class BrandMonitoringAdapter:
         return {
             "evolution_direction": "strengthening",
             "coherence_improvement": 0.05,
-            "framework_maturity": "advanced"
+            "framework_maturity": "advanced",
         }
 
     def _calculate_distribution_balance(self, distribution_health: dict[str, Any]) -> float:
@@ -469,11 +477,13 @@ class BrandMonitoringAdapter:
 
         if "brand_performance" in brand_metrics:
             perf = brand_metrics["brand_performance"]
-            health_scores.extend([
-                perf["voice_consistency_score"],
-                perf["personality_coherence"],
-                perf["brand_alignment_score"]
-            ])
+            health_scores.extend(
+                [
+                    perf["voice_consistency_score"],
+                    perf["personality_coherence"],
+                    perf["brand_alignment_score"],
+                ]
+            )
 
         if "trinity_alignment" in brand_metrics:
             health_scores.append(brand_metrics["trinity_alignment"]["trinity_coherence_score"])
@@ -494,10 +504,12 @@ class BrandMonitoringAdapter:
             "overall_score": round(overall_score, 3),
             "status": status,
             "health_indicators": health_scores,
-            "trend": "stable"  # Would be calculated from historical data
+            "trend": "stable",  # Would be calculated from historical data
         }
 
-    def _generate_brand_recommendations(self, brand_metrics: dict[str, Any]) -> list[dict[str, Any]]:
+    def _generate_brand_recommendations(
+        self, brand_metrics: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate actionable brand improvement recommendations"""
 
         recommendations = []
@@ -507,46 +519,52 @@ class BrandMonitoringAdapter:
             consistency = brand_metrics["brand_consistency"]
 
             if consistency["terminology_compliance"]["compliance_score"] < 0.9:
-                recommendations.append({
-                    "category": "terminology",
-                    "priority": "high",
-                    "recommendation": "Improve terminology compliance by reducing deprecated term usage",
-                    "action_items": [
-                        "Review content for deprecated terms",
-                        "Update terminology guidelines",
-                        "Train content creators on approved terms"
-                    ]
-                })
+                recommendations.append(
+                    {
+                        "category": "terminology",
+                        "priority": "high",
+                        "recommendation": "Improve terminology compliance by reducing deprecated term usage",
+                        "action_items": [
+                            "Review content for deprecated terms",
+                            "Update terminology guidelines",
+                            "Train content creators on approved terms",
+                        ],
+                    }
+                )
 
             # Check tone distribution
             distribution = consistency["tone_layer_distribution"]["distribution_health"]
             for layer, health in distribution.items():
                 if not health["within_tolerance"]:
-                    recommendations.append({
-                        "category": "tone_balance",
-                        "priority": "medium",
-                        "recommendation": f"Rebalance {layer} tone layer content",
-                        "action_items": [
-                            f"{'Increase' if health['deviation'] < 0 else 'Decrease'} {layer} content",
-                            f"Target {health['target']}% {layer} content distribution"
-                        ]
-                    })
+                    recommendations.append(
+                        {
+                            "category": "tone_balance",
+                            "priority": "medium",
+                            "recommendation": f"Rebalance {layer} tone layer content",
+                            "action_items": [
+                                f"{'Increase' if health['deviation'] < 0 else 'Decrease'} {layer} content",
+                                f"Target {health['target']}% {layer} content distribution",
+                            ],
+                        }
+                    )
 
         # Analyze performance metrics
         if "brand_performance" in brand_metrics:
             performance = brand_metrics["brand_performance"]
 
             if performance["user_engagement_rate"] < 0.7:
-                recommendations.append({
-                    "category": "engagement",
-                    "priority": "high",
-                    "recommendation": "Improve user engagement through enhanced brand resonance",
-                    "action_items": [
-                        "Enhance conversational warmth",
-                        "Increase personalization",
-                        "Improve response relevance"
-                    ]
-                })
+                recommendations.append(
+                    {
+                        "category": "engagement",
+                        "priority": "high",
+                        "recommendation": "Improve user engagement through enhanced brand resonance",
+                        "action_items": [
+                            "Enhance conversational warmth",
+                            "Increase personalization",
+                            "Improve response relevance",
+                        ],
+                    }
+                )
 
         return recommendations
 
@@ -554,7 +572,7 @@ class BrandMonitoringAdapter:
         self,
         core_metrics: dict[str, Any],
         brand_metrics: dict[str, Any],
-        adaptive_metrics: dict[str, Any]
+        adaptive_metrics: dict[str, Any],
     ) -> dict[str, Any]:
         """Generate intelligent insights from brand analytics"""
 
@@ -563,7 +581,7 @@ class BrandMonitoringAdapter:
             "emerging_trends": [],
             "opportunities": [],
             "risks": [],
-            "predictions": []
+            "predictions": [],
         }
 
         # Analyze for key findings
@@ -588,9 +606,7 @@ class BrandMonitoringAdapter:
         if "brand_consistency" in brand_metrics:
             consistency = brand_metrics["brand_consistency"]
             if consistency["consistency_score"] < 0.8:
-                insights["risks"].append(
-                    "Brand consistency declining - risk of message dilution"
-                )
+                insights["risks"].append("Brand consistency declining - risk of message dilution")
 
         # Generate predictions
         insights["predictions"].append(
@@ -608,7 +624,7 @@ if __name__ == "__main__":
     result = adapter.collect_brand_metrics(
         metric_categories=["brand_consistency", "brand_performance"],
         time_range="last_hour",
-        include_intelligence=True
+        include_intelligence=True,
     )
 
     print("Brand Monitoring Results:")

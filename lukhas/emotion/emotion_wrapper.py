@@ -110,9 +110,7 @@ class EmotionMemoryIntegration:
             return False
 
     @instrument("emotion_recall_patterns")
-    def recall_emotional_patterns(
-        self, emotion_type: Optional[str] = None
-    ) -> list[dict[str, Any]]:
+    def recall_emotional_patterns(self, emotion_type: Optional[str] = None) -> list[dict[str, Any]]:
         """Recall similar emotional patterns from memory"""
         if not self._memory_available:
             emit(
@@ -272,9 +270,7 @@ class AdvancedEmotionWrapper:
             emotion_result["memory_stored"] = storage_success
 
             # Sync with consciousness
-            consciousness_sync = self._integration.sync_with_consciousness(
-                emotion_result
-            )
+            consciousness_sync = self._integration.sync_with_consciousness(emotion_result)
             emotion_result["consciousness_sync"] = consciousness_sync
 
             emit(
@@ -293,9 +289,7 @@ class AdvancedEmotionWrapper:
 
         except Exception as e:
             logger.error(f"Advanced emotion processing failed: {e}")
-            emit(
-                {"ntype": "advanced_emotion_process_error", "state": {"error": str(e)}}
-            )
+            emit({"ntype": "advanced_emotion_process_error", "state": {"error": str(e)}})
             return {"error": str(e), "emotion": "neutral"}
 
     @instrument("advanced_mood_regulate")
@@ -307,9 +301,7 @@ class AdvancedEmotionWrapper:
         """Regulate mood with learning from past successful regulations"""
         try:
             # Get base mood regulation
-            regulation_result = self._base_wrapper.regulate_mood(
-                target_state, hormone_context
-            )
+            regulation_result = self._base_wrapper.regulate_mood(target_state, hormone_context)
 
             # Recall past successful regulations
             if target_state:
@@ -373,9 +365,7 @@ class AdvancedEmotionWrapper:
             for emotion in emotions:
                 emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
 
-            dominant_emotions = sorted(
-                emotion_counts.items(), key=lambda x: x[1], reverse=True
-            )[:3]
+            dominant_emotions = sorted(emotion_counts.items(), key=lambda x: x[1], reverse=True)[:3]
 
             # Calculate valence trend
             if len(valences) >= 2:
@@ -393,9 +383,7 @@ class AdvancedEmotionWrapper:
 
             insights = {
                 "total_experiences": len(patterns),
-                "dominant_emotions": [
-                    {"emotion": e[0], "count": e[1]} for e in dominant_emotions
-                ],
+                "dominant_emotions": [{"emotion": e[0], "count": e[1]} for e in dominant_emotions],
                 "valence_trend": valence_trend,
                 "average_valence": sum(valences) / len(valences) if valences else 0.0,
                 "emotional_range": max(valences) - min(valences) if valences else 0.0,
@@ -427,7 +415,7 @@ _advanced_emotion_wrapper = None
 
 def get_advanced_emotion_wrapper() -> AdvancedEmotionWrapper:
     """Get the global advanced emotion wrapper instance"""
-    global _advanced_emotion_wrapper  # noqa: PLW0603
+    global _advanced_emotion_wrapper
     if _advanced_emotion_wrapper is None:
         _advanced_emotion_wrapper = AdvancedEmotionWrapper()
     return _advanced_emotion_wrapper

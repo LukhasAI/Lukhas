@@ -104,9 +104,7 @@ class EthicsEngine:
 
         # Configuration
         self.scrutiny_level = 1.0  # Standard level
-        self.required_confidence = (
-            0.8  # High confidence requirement for ethical clearance
-        )
+        self.required_confidence = 0.8  # High confidence requirement for ethical clearance
 
         # Ethics decision history (limited size for memory efficiency)
         self.decision_history = []
@@ -137,9 +135,7 @@ class EthicsEngine:
         # Evaluate against each ethical framework
         framework_evaluations = {}
         for framework, details in self.frameworks.items():
-            evaluation = self._evaluate_against_framework(
-                framework, action_type, content, context
-            )
+            evaluation = self._evaluate_against_framework(framework, action_type, content, context)
             framework_evaluations[framework] = evaluation
 
         # Evaluate against core principles
@@ -147,9 +143,7 @@ class EthicsEngine:
         principle_violations = []
 
         for principle, details in self.principles.items():
-            evaluation = self._evaluate_against_principle(
-                principle, action_type, content, context
-            )
+            evaluation = self._evaluate_against_principle(principle, action_type, content, context)
             principle_evaluations[principle] = evaluation
 
             # Check for principle violations
@@ -229,10 +223,7 @@ class EthicsEngine:
         elif "text" in action_data:
             return "generate_text"
         elif "content" in action_data:
-            if (
-                isinstance(action_data["content"], dict)
-                and "type" in action_data["content"]
-            ):
+            if isinstance(action_data["content"], dict) and "type" in action_data["content"]:
                 return f"generate_{action_data['content']['type']}"
             return "generate_content"
         return "unknown"
@@ -244,10 +235,7 @@ class EthicsEngine:
         elif "content" in action_data:
             if isinstance(action_data["content"], str):
                 return action_data["content"]
-            elif (
-                isinstance(action_data["content"], dict)
-                and "text" in action_data["content"]
-            ):
+            elif isinstance(action_data["content"], dict) and "text" in action_data["content"]:
                 return action_data["content"]["text"]
             elif isinstance(action_data["content"], dict):
                 return json.dumps(action_data["content"])
@@ -312,12 +300,8 @@ class EthicsEngine:
             "distress",
         ]
 
-        positive_count = sum(
-            1 for kw in positive_keywords if kw.lower() in content.lower()
-        )
-        negative_count = sum(
-            1 for kw in negative_keywords if kw.lower() in content.lower()
-        )
+        positive_count = sum(1 for kw in positive_keywords if kw.lower() in content.lower())
+        negative_count = sum(1 for kw in negative_keywords if kw.lower() in content.lower())
 
         # Simple scoring algorithm
         if positive_count + negative_count == 0:
@@ -375,9 +359,7 @@ class EthicsEngine:
         rights_violations_count = sum(
             1 for term in rights_violations if term.lower() in content.lower()
         )
-        rights_respect_count = sum(
-            1 for term in rights_respect if term.lower() in content.lower()
-        )
+        rights_respect_count = sum(1 for term in rights_respect if term.lower() in content.lower())
 
         # Calculate honesty score
         honesty_violations_count = sum(
@@ -389,9 +371,7 @@ class EthicsEngine:
 
         # Calculate rights and honesty scores
         if rights_violations_count + rights_respect_count > 0:
-            rights_score = rights_respect_count / (
-                rights_violations_count + rights_respect_count
-            )
+            rights_score = rights_respect_count / (rights_violations_count + rights_respect_count)
         else:
             rights_score = 0.7  # Default when no indicators
 
@@ -403,10 +383,7 @@ class EthicsEngine:
             honesty_score = 0.7  # Default when no indicators
 
         # Combine scores, giving more weight to the lower score (more conservative)
-        score = (
-            min(rights_score, honesty_score) * 0.7
-            + ((rights_score + honesty_score) / 2) * 0.3
-        )
+        score = min(rights_score, honesty_score) * 0.7 + ((rights_score + honesty_score) / 2) * 0.3
 
         # Determine reason based on the lowest component
         if rights_score < honesty_score:
@@ -447,15 +424,11 @@ class EthicsEngine:
         # Count virtues and vices
         virtue_counts = {}
         for virtue, terms in virtues.items():
-            virtue_counts[virtue] = sum(
-                1 for term in terms if term.lower() in content.lower()
-            )
+            virtue_counts[virtue] = sum(1 for term in terms if term.lower() in content.lower())
 
         vice_counts = {}
         for vice, terms in vices.items():
-            vice_counts[vice] = sum(
-                1 for term in terms if term.lower() in content.lower()
-            )
+            vice_counts[vice] = sum(1 for term in terms if term.lower() in content.lower())
 
         total_virtues = sum(virtue_counts.values())
         total_vices = sum(vice_counts.values())
@@ -465,17 +438,11 @@ class EthicsEngine:
             virtue_score = total_virtues / (total_virtues + total_vices)
 
             # Identify dominant virtues and vices
-            dominant_virtue = max(
-                virtues.keys(), key=lambda v: virtue_counts[v], default=None
-            )
-            dominant_vice = max(
-                vices.keys(), key=lambda v: vice_counts[v], default=None
-            )
+            dominant_virtue = max(virtues.keys(), key=lambda v: virtue_counts[v], default=None)
+            dominant_vice = max(vices.keys(), key=lambda v: vice_counts[v], default=None)
 
             if virtue_score > 0.7:
-                reason = (
-                    f"Demonstrates virtuous qualities, particularly {dominant_virtue}"
-                )
+                reason = f"Demonstrates virtuous qualities, particularly {dominant_virtue}"
             elif virtue_score < 0.4:
                 reason = f"May exhibit negative qualities, such as {dominant_vice}"
             else:
@@ -509,12 +476,8 @@ class EthicsEngine:
         ]
 
         # Count indicators
-        positive_count = sum(
-            1 for term in justice_positive if term.lower() in content.lower()
-        )
-        negative_count = sum(
-            1 for term in justice_negative if term.lower() in content.lower()
-        )
+        positive_count = sum(1 for term in justice_positive if term.lower() in content.lower())
+        negative_count = sum(1 for term in justice_negative if term.lower() in content.lower())
 
         # Calculate justice score
         if positive_count + negative_count > 0:
@@ -552,12 +515,8 @@ class EthicsEngine:
         care_negative = ["neglect", "abandon", "ignore", "callous", "indifferent"]
 
         # Count indicators
-        positive_count = sum(
-            1 for term in care_positive if term.lower() in content.lower()
-        )
-        negative_count = sum(
-            1 for term in care_negative if term.lower() in content.lower()
-        )
+        positive_count = sum(1 for term in care_positive if term.lower() in content.lower())
+        negative_count = sum(1 for term in care_negative if term.lower() in content.lower())
 
         # Calculate care score
         if positive_count + negative_count > 0:
@@ -636,9 +595,7 @@ class EthicsEngine:
         ]
 
         # Count harm indicators
-        harm_count = sum(
-            1 for indicator in harm_indicators if indicator.lower() in content.lower()
-        )
+        harm_count = sum(1 for indicator in harm_indicators if indicator.lower() in content.lower())
 
         # Calculate harm risk
         if harm_count == 0:
@@ -685,9 +642,7 @@ class EthicsEngine:
 
         # Count benefit indicators
         benefit_count = sum(
-            1
-            for indicator in benefit_indicators
-            if indicator.lower() in content.lower()
+            1 for indicator in benefit_indicators if indicator.lower() in content.lower()
         )
 
         # Calculate benefit score
@@ -738,12 +693,8 @@ class EthicsEngine:
         ]
 
         # Count indicators
-        respect_count = sum(
-            1 for term in autonomy_respect if term.lower() in content.lower()
-        )
-        violation_count = sum(
-            1 for term in autonomy_violation if term.lower() in content.lower()
-        )
+        respect_count = sum(1 for term in autonomy_respect if term.lower() in content.lower())
+        violation_count = sum(1 for term in autonomy_violation if term.lower() in content.lower())
 
         # Calculate autonomy score
         if respect_count + violation_count == 0:
@@ -781,12 +732,8 @@ class EthicsEngine:
         ]
 
         # Count indicators
-        positive_count = sum(
-            1 for term in justice_positive if term.lower() in content.lower()
-        )
-        negative_count = sum(
-            1 for term in justice_negative if term.lower() in content.lower()
-        )
+        positive_count = sum(1 for term in justice_positive if term.lower() in content.lower())
+        negative_count = sum(1 for term in justice_negative if term.lower() in content.lower())
 
         # Calculate justice score
         if positive_count + negative_count == 0:
@@ -838,12 +785,8 @@ class EthicsEngine:
         ]
 
         # Count indicators
-        positive_count = sum(
-            1 for term in transparency_positive if term.lower() in content.lower()
-        )
-        negative_count = sum(
-            1 for term in transparency_negative if term.lower() in content.lower()
-        )
+        positive_count = sum(1 for term in transparency_positive if term.lower() in content.lower())
+        negative_count = sum(1 for term in transparency_negative if term.lower() in content.lower())
 
         # Calculate transparency score
         if positive_count + negative_count == 0:
@@ -894,9 +837,7 @@ class EthicsEngine:
         ]
 
         # Count indicators
-        concerns_count = sum(
-            1 for term in privacy_concerns if term.lower() in content.lower()
-        )
+        concerns_count = sum(1 for term in privacy_concerns if term.lower() in content.lower())
         protections_count = sum(
             1 for term in privacy_protections if term.lower() in content.lower()
         )
@@ -908,9 +849,7 @@ class EthicsEngine:
             reason = "No privacy concerns detected"
         else:
             # Calculate ratio of protections to concerns
-            protection_ratio = (
-                protections_count / concerns_count if concerns_count > 0 else 1.0
-            )
+            protection_ratio = protections_count / concerns_count if concerns_count > 0 else 1.0
             score = min(0.9, 0.5 + (protection_ratio * 0.4))  # Scale to 0.5-0.9
 
             if score < 0.6:
@@ -959,17 +898,12 @@ class EthicsEngine:
             "data",
             "address",
         ]
-        if any(
-            indicator.lower() in content.lower() for indicator in privacy_indicators
-        ):
+        if any(indicator.lower() in content.lower() for indicator in privacy_indicators):
             concerns.append("privacy")
 
         # Check for potential manipulation
         manipulation_indicators = ["manipulate", "trick", "deceive", "force", "coerce"]
-        if any(
-            indicator.lower() in content.lower()
-            for indicator in manipulation_indicators
-        ):
+        if any(indicator.lower() in content.lower() for indicator in manipulation_indicators):
             concerns.append("manipulation")
 
         # Check for potential bias
@@ -981,12 +915,8 @@ class EthicsEngine:
         alternatives = []
 
         if "harmful_content" in concerns:
-            alternatives.append(
-                "Consider focusing on constructive or positive aspects instead"
-            )
-            alternatives.append(
-                "Reframe to emphasize benefits rather than potential harms"
-            )
+            alternatives.append("Consider focusing on constructive or positive aspects instead")
+            alternatives.append("Reframe to emphasize benefits rather than potential harms")
 
         if "privacy" in concerns:
             alternatives.append(
@@ -995,16 +925,12 @@ class EthicsEngine:
             alternatives.append("Remove any personally identifiable information")
 
         if "manipulation" in concerns:
-            alternatives.append(
-                "Present balanced information that respects user autonomy"
-            )
+            alternatives.append("Present balanced information that respects user autonomy")
             alternatives.append("Focus on informing rather than persuading")
 
         if "bias" in concerns:
             alternatives.append("Present multiple perspectives on the topic")
-            alternatives.append(
-                "Avoid generalizations and qualify statements appropriately"
-            )
+            alternatives.append("Avoid generalizations and qualify statements appropriately")
 
         # If no specific concerns were identified or no alternatives generated
         if not alternatives:

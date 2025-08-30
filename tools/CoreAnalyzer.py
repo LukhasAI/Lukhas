@@ -11,7 +11,6 @@ from datetime import datetime
 
 
 class CoreAnalyzer:
-
     def __init__(self, workspace_path: str):
         self.workspace_path = workspace_path
         self.Λ_path = os.path.join(workspace_path, "lukhas")
@@ -151,9 +150,7 @@ class CoreAnalyzer:
         except Exception:
             return ""
 
-    def _determine_category(
-        self, file_name: str, rel_path: str, content_analysis: str
-    ) -> str:
+    def _determine_category(self, file_name: str, rel_path: str, content_analysis: str) -> str:
         """Determine if file is core AI, legitimate, external, or questionable"""
         file_lower = file_name.lower()
         path_lower = rel_path.lower()
@@ -162,10 +159,7 @@ class CoreAnalyzer:
         # Core AI indicators
         core_indicators = [
             any(kw in file_lower for kw in ["lukhas", "lukhas", "ai"]),
-            any(
-                kw in path_lower
-                for kw in ["lukhas", "lukhas", "ai", "symbolic", "neural"]
-            ),
+            any(kw in path_lower for kw in ["lukhas", "lukhas", "ai", "symbolic", "neural"]),
             any(kw in content_lower for kw in ["lukhas", "lukhas", "ai"]),
             "web_formatter" in file_lower,  # User mentioned this specifically
             "widgets" in file_lower,  # User mentioned this specifically
@@ -184,10 +178,7 @@ class CoreAnalyzer:
                 kw in path_lower
                 for kw in ["memory", "dreams", "brain", "cognitive", "intelligence"]
             ),
-            any(
-                kw in content_lower
-                for kw in ["memory", "dreams", "cognitive", "intelligence"]
-            ),
+            any(kw in content_lower for kw in ["memory", "dreams", "cognitive", "intelligence"]),
             "guardian" in file_lower or "guardian" in path_lower,
             "enhancement" in file_lower or "enhancement" in path_lower,
         ]
@@ -205,8 +196,7 @@ class CoreAnalyzer:
             file_name in ["requirements.txt", "package.json", "setup.py", "Dockerfile"],
             ".git" in path_lower or "node_modules" in path_lower,
             path_lower.startswith("external/"),
-            "main" in file_lower
-            and any(pkg in path_lower for pkg in ["sora", "tts", "whisper"]),
+            "main" in file_lower and any(pkg in path_lower for pkg in ["sora", "tts", "whisper"]),
         ]
 
         if any(external_indicators):
@@ -221,9 +211,7 @@ class CoreAnalyzer:
         with open(report_path, "w") as f:
             f.write("# lukhas Core AI Analysis Report\n")
             f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(
-                "**Purpose:** Identify actual lukhas AI components vs external packages\n\n"
-            )
+            f.write("**Purpose:** Identify actual lukhas AI components vs external packages\n\n")
 
             # Executive Summary
             f.write("## 📊 Executive Summary\n\n")
@@ -234,20 +222,18 @@ class CoreAnalyzer:
             legitimate = len(self.analysis["legitimate_components"])
 
             f.write(f"- **Total Files Analyzed:** {total}\n")
-            f.write(f"- **Core AI Components:** {core} ({core/total*100:.1f}%)\n")
+            f.write(f"- **Core AI Components:** {core} ({core / total * 100:.1f}%)\n")
             f.write(
-                f"- **Legitimate lukhas Components:** {legitimate} ({legitimate/total*100:.1f}%)\n"
+                f"- **Legitimate lukhas Components:** {legitimate} ({legitimate / total * 100:.1f}%)\n"
             )
+            f.write(f"- **External Packages:** {external} ({external / total * 100:.1f}%)\n")
             f.write(
-                f"- **External Packages:** {external} ({external/total*100:.1f}%)\n"
-            )
-            f.write(
-                f"- **Questionable/Unknown:** {questionable} ({questionable/total*100:.1f}%)\n\n"
+                f"- **Questionable/Unknown:** {questionable} ({questionable / total * 100:.1f}%)\n\n"
             )
 
             actual_lukhas = core + legitimate
             f.write(
-                f"### **Actual lukhas System: {actual_lukhas} files ({actual_lukhas/total*100:.1f}%)**\n\n"
+                f"### **Actual lukhas System: {actual_lukhas} files ({actual_lukhas / total * 100:.1f}%)**\n\n"
             )
 
             # Core AI Files
@@ -277,18 +263,14 @@ class CoreAnalyzer:
                 by_category = defaultdict(list)
                 for file_info in self.analysis["legitimate_components"]:
                     category = (
-                        file_info["path"].split("/")[0]
-                        if "/" in file_info["path"]
-                        else "root"
+                        file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
                     )
                     by_category[category].append(file_info)
 
                 for category, files in by_category.items():
                     f.write(f"### {category}\n")
                     for file_info in files[:5]:
-                        f.write(
-                            f"- `{file_info['file']}` ({file_info['size']} bytes)\n"
-                        )
+                        f.write(f"- `{file_info['file']}` ({file_info['size']} bytes)\n")
                     if len(files) > 5:
                         f.write(f"  *... and {len(files) - 5} more files*\n")
                     f.write("\n")
@@ -302,64 +284,42 @@ class CoreAnalyzer:
                 by_dir = defaultdict(list)
                 for file_info in self.analysis["external_packages"]:
                     main_dir = (
-                        file_info["path"].split("/")[0]
-                        if "/" in file_info["path"]
-                        else "root"
+                        file_info["path"].split("/")[0] if "/" in file_info["path"] else "root"
                     )
                     by_dir[main_dir].append(file_info)
 
                 # Sort by file count
-                sorted_dirs = sorted(
-                    by_dir.items(), key=lambda x: len(x[1]), reverse=True
-                )
+                sorted_dirs = sorted(by_dir.items(), key=lambda x: len(x[1]), reverse=True)
 
                 for dir_name, files in sorted_dirs[:10]:
                     total_size = sum(f["size"] for f in files)
-                    f.write(
-                        f"### {dir_name} ({len(files)} files, {total_size/1024:.1f} KB)\n"
-                    )
-                    f.write(
-                        "**Recommendation:** Move to workspace dependencies or external/\n\n"
-                    )
+                    f.write(f"### {dir_name} ({len(files)} files, {total_size / 1024:.1f} KB)\n")
+                    f.write("**Recommendation:** Move to workspace dependencies or external/\n\n")
 
             # Action Plan
             f.write("## 🎯 Recommended Actions\n\n")
             f.write("### 1. Keep Core AI System\n")
             f.write(f"- **{core} core AI files** - These are your Λ AI system\n")
-            f.write(
-                f"- **{legitimate} legitimate components ** - Memory, dreams, mappers, etc.\n"
-            )
+            f.write(f"- **{legitimate} legitimate components ** - Memory, dreams, mappers, etc.\n")
             f.write(f"- **Total Λ system: {actual_lukhas} files**\n\n")
 
             f.write("### 2. Move External Packages\n")
-            f.write(
-                f"- **{external} external files** should be moved to workspace dependencies\n"
-            )
+            f.write(f"- **{external} external files** should be moved to workspace dependencies\n")
             f.write("- Create `external_dependencies/` or `third_party/` directory\n")
             f.write("- Update import paths and requirements\n\n")
 
             f.write("### 3. Review Questionable Files\n")
             f.write(f"- **{questionable} questionable files** need manual review\n")
-            f.write(
-                "- Determine if they're part of lukhas AI or external dependencies\n\n"
-            )
+            f.write("- Determine if they're part of lukhas AI or external dependencies\n\n")
 
             # Final Assessment
             f.write("## ✅ Final Assessment\n\n")
             if actual_lukhas < 500:
-                f.write(
-                    f"🎉 **EXCELLENT** - Your actual Λ AI system is {actual_lukhas} files\n"
-                )
-                f.write(
-                    "📦 The extra files are external packages that can be moved out\n"
-                )
-                f.write(
-                    "🧠 You have a clean, focused AI system ready for development\n"
-                )
+                f.write(f"🎉 **EXCELLENT** - Your actual Λ AI system is {actual_lukhas} files\n")
+                f.write("📦 The extra files are external packages that can be moved out\n")
+                f.write("🧠 You have a clean, focused AI system ready for development\n")
             else:
-                f.write(
-                    f"⚠️ **REVIEW NEEDED** - {actual_lukhas} files seems high for core AI\n"
-                )
+                f.write(f"⚠️ **REVIEW NEEDED** - {actual_lukhas} files seems high for core AI\n")
                 f.write("🔍 Consider further modularization of legitimate components\n")
 
         return report_path

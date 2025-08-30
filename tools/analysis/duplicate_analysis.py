@@ -99,8 +99,7 @@ class DuplicateAnalyzer:
         # Pattern 1: Logger initialization
         for n in ast.walk(node):
             if isinstance(n, ast.Assign) and any(
-                isinstance(target, ast.Name) and target.id == "logger"
-                for target in n.targets
+                isinstance(target, ast.Name) and target.id == "logger" for target in n.targets
             ):
                 self.common_patterns["logger_init"].append(f"{file_path}::{node.name}")
 
@@ -108,16 +107,12 @@ class DuplicateAnalyzer:
         for n in ast.walk(node):
             if isinstance(n, ast.Call):
                 if hasattr(n.func, "id") and "config" in n.func.id.lower():
-                    self.common_patterns["config_loading"].append(
-                        f"{file_path}::{node.name}"
-                    )
+                    self.common_patterns["config_loading"].append(f"{file_path}::{node.name}")
 
         # Pattern 3: Error handling patterns
         try_count = sum(1 for n in ast.walk(node) if isinstance(n, ast.Try))
         if try_count > 2:
-            self.common_patterns["heavy_error_handling"].append(
-                f"{file_path}::{node.name}"
-            )
+            self.common_patterns["heavy_error_handling"].append(f"{file_path}::{node.name}")
 
     def _analyze_imports(self, node, file_path: str) -> None:
         """Track import patterns"""
@@ -163,9 +158,7 @@ class DuplicateAnalyzer:
                 )
 
         # Identify consolidation opportunities
-        duplicates["consolidation_opportunities"] = (
-            self._identify_consolidation_opportunities()
-        )
+        duplicates["consolidation_opportunities"] = self._identify_consolidation_opportunities()
 
         return duplicates
 
@@ -193,10 +186,7 @@ class DuplicateAnalyzer:
                     "type": "configuration_management",
                     "description": "Create centralized config loader",
                     "affected_files": len(
-                        {
-                            f.split("::")[0]
-                            for f in self.common_patterns["config_loading"]
-                        }
+                        {f.split("::")[0] for f in self.common_patterns["config_loading"]}
                     ),
                     "priority": "high",
                 }
@@ -357,9 +347,7 @@ def main():
     print(f"   Duplicate functions: {len(duplicates['duplicate_functions'])}")
     print(f"   Similar classes: {len(duplicates['similar_classes'])}")
     print(f"   Common imports: {len(duplicates['common_imports'])}")
-    print(
-        f"   Repeated patterns: {sum(len(v) for v in duplicates['repeated_patterns'].values())}"
-    )
+    print(f"   Repeated patterns: {sum(len(v) for v in duplicates['repeated_patterns'].values())}")
 
     # Show top duplicates
     if duplicates["duplicate_functions"]:
@@ -390,13 +378,7 @@ def main():
                 print(f"      - {item}")
 
     # Save detailed report
-    report_path = (
-        PROJECT_ROOT
-        / "docs"
-        / "reports"
-        / "analysis"
-        / "_DUPLICATE_ANALYSIS_REPORT.json"
-    )
+    report_path = PROJECT_ROOT / "docs" / "reports" / "analysis" / "_DUPLICATE_ANALYSIS_REPORT.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(report_path, "w") as f:
@@ -413,9 +395,7 @@ def main():
                     ),
                     "duplicate_functions": len(duplicates["duplicate_functions"]),
                     "similar_classes": len(duplicates["similar_classes"]),
-                    "consolidation_opportunities": len(
-                        duplicates["consolidation_opportunities"]
-                    ),
+                    "consolidation_opportunities": len(duplicates["consolidation_opportunities"]),
                 },
             },
             f,

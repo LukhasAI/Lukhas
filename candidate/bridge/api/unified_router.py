@@ -23,6 +23,7 @@ try:
         normalize_output_text,
         validate_output,
     )
+
     BRANDING_AVAILABLE = True
 except ImportError:
     BRANDING_AVAILABLE = False
@@ -39,10 +40,11 @@ if BRANDING_AVAILABLE:
         trinity_emphasis="balanced",
         compliance_level="standard",
         creative_mode=False,
-        terminology_enforcement=True
+        terminology_enforcement=True,
     )
 else:
     api_brand_context = None
+
 
 def apply_api_branding(response_data: dict[str, Any]) -> dict[str, Any]:
     """Apply LUKHAS AI branding to API responses"""
@@ -65,7 +67,9 @@ def apply_api_branding(response_data: dict[str, Any]) -> dict[str, Any]:
         logger.warning(f"API branding failed: {e}")
         return response_data
 
+
 # Health check
+
 
 @router.get("/health")
 async def health_check():

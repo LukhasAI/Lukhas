@@ -108,8 +108,7 @@ class CircularQREngine:
 
         # Angular sector calculations
         self.sector_angles = [
-            (2 * self.PI * i / self.config.sector_count)
-            for i in range(self.config.sector_count)
+            (2 * self.PI * i / self.config.sector_count) for i in range(self.config.sector_count)
         ]
 
         logger.info(
@@ -133,12 +132,8 @@ class CircularQREngine:
 
     def _calculate_linear_rings(self) -> list[float]:
         """Calculate ring positions using linear spacing"""
-        step = (
-            self.config.outer_radius - self.config.center_radius
-        ) / self.config.ring_count
-        return [
-            self.config.center_radius + i * step for i in range(self.config.ring_count)
-        ]
+        step = (self.config.outer_radius - self.config.center_radius) / self.config.ring_count
+        return [self.config.center_radius + i * step for i in range(self.config.ring_count)]
 
     def _initialize_consciousness_zones(self):
         """Initialize consciousness adaptation zones"""
@@ -162,9 +157,7 @@ class CircularQREngine:
                 "adaptation_strength": [0.9, 0.7, 0.5][zone_idx % 3],
             }
 
-        logger.info(
-            f"🧠 Initialized {len(self.consciousness_zones)} consciousness zones"
-        )
+        logger.info(f"🧠 Initialized {len(self.consciousness_zones)} consciousness zones")
 
     def encode_circular_qr(
         self,
@@ -240,9 +233,7 @@ class CircularQREngine:
             bit_array.append(0)  # Padding
 
         if len(bit_array) > available_capacity:
-            logger.warning(
-                f"⚠️ Data truncated: {len(bit_array)} -> {available_capacity} bits"
-            )
+            logger.warning(f"⚠️ Data truncated: {len(bit_array)} -> {available_capacity} bits")
             bit_array = bit_array[:available_capacity]
 
         return bit_array
@@ -404,9 +395,7 @@ class CircularQREngine:
                     if ec_index < len(error_correction):
                         # Replace some padding with error correction
                         if circular_data.rings[ring_idx][sector_idx] == 0:
-                            circular_data.rings[ring_idx][sector_idx] = (
-                                error_correction[ec_index]
-                            )
+                            circular_data.rings[ring_idx][sector_idx] = error_correction[ec_index]
                             ec_index += 1
 
     def _apply_consciousness_adaptation(
@@ -438,9 +427,7 @@ class CircularQREngine:
             # Apply adaptation to rings in this zone
             for ring_idx in range(zone_config["start_ring"], zone_config["end_ring"]):
                 if ring_idx < len(circular_data.rings):
-                    self._apply_ring_adaptation(
-                        circular_data.rings[ring_idx], adaptation
-                    )
+                    self._apply_ring_adaptation(circular_data.rings[ring_idx], adaptation)
 
         circular_data.consciousness_map = consciousness_map
 
@@ -465,25 +452,17 @@ class CircularQREngine:
             "neutral": {"brightness": 1.0, "saturation": 1.0, "pattern_density": 1.0},
         }
 
-        multipliers = state_multipliers.get(
-            emotional_state, state_multipliers["neutral"]
-        )
+        multipliers = state_multipliers.get(emotional_state, state_multipliers["neutral"])
 
         return {
-            "brightness_factor": multipliers["brightness"]
-            * (1 + valence * 0.2)
-            * base_strength,
-            "saturation_factor": multipliers["saturation"]
-            * (1 + arousal * 0.3)
-            * emotional_weight,
+            "brightness_factor": multipliers["brightness"] * (1 + valence * 0.2) * base_strength,
+            "saturation_factor": multipliers["saturation"] * (1 + arousal * 0.3) * emotional_weight,
             "pattern_density": multipliers["pattern_density"] * base_strength,
             "rotation_offset": valence * 15.0,  # Degrees
             "pulsation_rate": arousal * 2.0,  # Hz
         }
 
-    def _apply_ring_adaptation(
-        self, ring_data: list[int], adaptation: dict[str, float]
-    ):
+    def _apply_ring_adaptation(self, ring_data: list[int], adaptation: dict[str, float]):
         """Apply consciousness adaptation to a ring"""
         density_factor = adaptation["pattern_density"]
 
@@ -498,9 +477,7 @@ class CircularQREngine:
                 if i % 4 == 0:  # Add every fourth bit
                     ring_data[i] = 1
 
-    def _generate_visual_matrix(
-        self, circular_data: CircularData, visual_size: int
-    ) -> np.ndarray:
+    def _generate_visual_matrix(self, circular_data: CircularData, visual_size: int) -> np.ndarray:
         """Generate visual matrix from circular data"""
         # 🎨 Poetic Layer: "Manifesting sacred geometry in pixels of light"
         # 💬 User Friendly: "Drawing your beautiful circular QR code"
@@ -527,12 +504,8 @@ class CircularQREngine:
                 if sector_value == 0:
                     continue  # Skip empty sectors
 
-                start_angle = self.sector_angles[sector_idx] - (
-                    self.PI / self.config.sector_count
-                )
-                end_angle = self.sector_angles[sector_idx] + (
-                    self.PI / self.config.sector_count
-                )
+                start_angle = self.sector_angles[sector_idx] - (self.PI / self.config.sector_count)
+                end_angle = self.sector_angles[sector_idx] + (self.PI / self.config.sector_count)
 
                 # Draw sector
                 self._draw_ring_sector(
@@ -591,9 +564,7 @@ class CircularQREngine:
 
         matrix[sector_mask] = base_color
 
-    def _calculate_sector_color(
-        self, value: int, ring_idx: int
-    ) -> tuple[int, int, int]:
+    def _calculate_sector_color(self, value: int, ring_idx: int) -> tuple[int, int, int]:
         """Calculate color for a sector based on value and position"""
         if value == 0:
             return (0, 0, 0)  # Black for empty
@@ -624,9 +595,7 @@ class CircularQREngine:
         enhanced_matrix = matrix.copy()
 
         if self.config.pattern_type == CircularPattern.LAMBDA_SPIRAL:
-            enhanced_matrix = self._enhance_lambda_spiral(
-                enhanced_matrix, consciousness_context
-            )
+            enhanced_matrix = self._enhance_lambda_spiral(enhanced_matrix, consciousness_context)
         elif self.config.pattern_type == CircularPattern.MANDALA_SECTORS:
             enhanced_matrix = self._enhance_mandala_pattern(enhanced_matrix)
         elif self.config.pattern_type == CircularPattern.FRACTAL_RECURSIVE:
@@ -746,9 +715,7 @@ class CircularQREngine:
 
         return mandala_weights
 
-    def _calculate_lambda_symbol_points(
-        self, center: int, size: int
-    ) -> list[tuple[float, float]]:
+    def _calculate_lambda_symbol_points(self, center: int, size: int) -> list[tuple[float, float]]:
         """Calculate points for Lambda symbol overlay"""
         # Lambda symbol as two lines forming Λ
         half_size = size // 2
@@ -761,9 +728,7 @@ class CircularQREngine:
 
         return points
 
-    def decode_circular_qr(
-        self, visual_matrix: np.ndarray
-    ) -> tuple[str, dict[str, Any]]:
+    def decode_circular_qr(self, visual_matrix: np.ndarray) -> tuple[str, dict[str, Any]]:
         """
         Decode circular QR code from visual matrix
 
@@ -906,9 +871,7 @@ class CircularQREngine:
             "capacity": {
                 "total_sectors": self.config.ring_count * self.config.sector_count,
                 "data_capacity": int(
-                    self.config.ring_count
-                    * self.config.sector_count
-                    * self.config.data_density
+                    self.config.ring_count * self.config.sector_count * self.config.data_density
                 ),
                 "error_correction_capacity": int(
                     self.config.ring_count

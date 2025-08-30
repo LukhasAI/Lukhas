@@ -112,9 +112,7 @@ class LUKHASAIOrchestrator:
         enhanced_content = f"{self.lukhas_context}\n{content}"
 
         try:
-            return await self._call_provider(
-                provider_name, enhanced_content, context or {}
-            )
+            return await self._call_provider(provider_name, enhanced_content, context or {})
         except Exception as e:
             # Fallback to another provider
             fallback_providers = ["claude", "gpt", "ollama"]
@@ -122,9 +120,7 @@ class LUKHASAIOrchestrator:
 
             for fallback in fallback_providers:
                 try:
-                    return await self._call_provider(
-                        fallback, enhanced_content, context
-                    )
+                    return await self._call_provider(fallback, enhanced_content, context)
                 except Exception:
                     continue
 
@@ -247,9 +243,7 @@ class LUKHASAIOrchestrator:
 
         return layers
 
-    async def lukhas_code_review(
-        self, code: str, file_path: str = ""
-    ) -> dict[str, Any]:
+    async def lukhas_code_review(self, code: str, file_path: str = "") -> dict[str, Any]:
         """🛡️ Comprehensive LUKHAS code review"""
         prompt = f"""
         Review this code for LUKHAS compliance and suggest improvements:
@@ -294,9 +288,7 @@ class LUKHASAIOrchestrator:
         # Parse suggestions from response
         suggestions = []
         for line in response.split("\n"):
-            if any(char.isalpha() for char in line) and (
-                "_" in line or line[0].isupper()
-            ):
+            if any(char.isalpha() for char in line) and ("_" in line or line[0].isupper()):
                 clean_line = line.strip("- ").strip("1234567890. ").strip()
                 if clean_line:
                     suggestions.append(clean_line)
@@ -345,9 +337,7 @@ async def main():
             purpose = sys.argv[2]
             element_type = sys.argv[3]
             domain = sys.argv[4] if len(sys.argv) > 4 else ""
-            suggestions = await orchestrator.suggest_lukhas_naming(
-                purpose, element_type, domain
-            )
+            suggestions = await orchestrator.suggest_lukhas_naming(purpose, element_type, domain)
             print("🧠 LUKHAS Naming Suggestions:")
             for i, suggestion in enumerate(suggestions, 1):
                 print(f"{i}. {suggestion}")

@@ -414,9 +414,7 @@ class RippleGenerator:
         base_amplitude = 1.0
 
         # Higher amplitude for priority memories
-        priority_count = sum(
-            1 for mid in memory_sequence if mid in self.priority_memories
-        )
+        priority_count = sum(1 for mid in memory_sequence if mid in self.priority_memories)
         importance_factor = 1.0 + (priority_count / max(len(memory_sequence), 1)) * 0.5
 
         # Add noise
@@ -491,17 +489,14 @@ class RippleGenerator:
 
                 # Select memories for replay
                 if self.available_memories:
-                    num_memories = np.random.randint(
-                        1, min(5, len(self.available_memories))
-                    )
+                    num_memories = np.random.randint(1, min(5, len(self.available_memories)))
 
                     # Prioritize important memories
                     if self.priority_memories:
                         priority_mems = [
                             m
                             for m in self.available_memories
-                            if hasattr(m, "memory_id")
-                            and m.memory_id in self.priority_memories
+                            if hasattr(m, "memory_id") and m.memory_id in self.priority_memories
                         ]
                         if priority_mems:
                             selected = np.random.choice(
@@ -578,9 +573,7 @@ class RippleGenerator:
             # Type distribution
             type_counts = {}
             for r in recent:
-                type_counts[r.ripple_type.value] = (
-                    type_counts.get(r.ripple_type.value, 0) + 1
-                )
+                type_counts[r.ripple_type.value] = type_counts.get(r.ripple_type.value, 0) + 1
             metrics["ripple_types"] = type_counts
 
         return metrics
@@ -607,9 +600,7 @@ async def demonstrate_ripple_generator():
 
     # Register callbacks
     async def on_ripple(ripple):
-        print(
-            f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories"
-        )
+        print(f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories")
 
     async def on_sequence(sequence):
         print(

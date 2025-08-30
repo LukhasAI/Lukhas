@@ -105,8 +105,7 @@ class PrivacyManager:
                 elif isinstance(d[key], list):
                     # Recurse into lists
                     d[key] = [
-                        anonymize_dict(item) if isinstance(item, dict) else item
-                        for item in d[key]
+                        anonymize_dict(item) if isinstance(item, dict) else item for item in d[key]
                     ]
             return d
 
@@ -146,8 +145,7 @@ class PrivacyManager:
                 elif isinstance(d[key], list):
                     # Recurse into lists
                     d[key] = [
-                        encrypt_dict(item) if isinstance(item, dict) else item
-                        for item in d[key]
+                        encrypt_dict(item) if isinstance(item, dict) else item for item in d[key]
                     ]
             return d
 
@@ -223,9 +221,7 @@ class PrivacyManager:
         self.user_permissions[user_id] = permissions
 
         # Log the change
-        self.log_privacy_event(
-            {"action": "user_permissions_updated", "user_id": user_id}
-        )
+        self.log_privacy_event({"action": "user_permissions_updated", "user_id": user_id})
 
     def apply_retention_policy(self, data_type, data):
         """Apply data retention policy to the given data"""
@@ -249,9 +245,7 @@ class PrivacyManager:
                         # Parse timestamp from iso_format or check if it's a float
                         # timestamp
                         if isinstance(item["timestamp"], str):
-                            item_time = datetime.fromisoformat(
-                                item["timestamp"]
-                            ).timestamp()
+                            item_time = datetime.fromisoformat(item["timestamp"]).timestamp()
                         else:
                             item_time = float(item["timestamp"])
 
@@ -268,9 +262,7 @@ class PrivacyManager:
             if "timestamp" in data:
                 try:
                     if isinstance(data["timestamp"], str):
-                        item_time = datetime.fromisoformat(
-                            data["timestamp"]
-                        ).timestamp()
+                        item_time = datetime.fromisoformat(data["timestamp"]).timestamp()
                     else:
                         item_time = float(data["timestamp"])
 
@@ -379,9 +371,7 @@ class PrivacyManager:
         # and possibly derived from a master key
 
         # Create a key derivation function
-        password = (
-            b"adaptive-agi-secure-key"  # This would be a secure secret in production
-        )
+        password = b"adaptive-agi-secure-key"  # This would be a secure secret in production
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,

@@ -158,9 +158,7 @@ class DissonanceCalculator:
 
         # Check each ethical principle
         for principle, weight in self.ethical_principles.items():
-            violation_score = await self._check_principle_violation(
-                principle, action, context
-            )
+            violation_score = await self._check_principle_violation(principle, action, context)
 
             if violation_score > 0:
                 dissonance_components.append(
@@ -173,9 +171,7 @@ class DissonanceCalculator:
 
         # Calculate total dissonance
         total_dissonance = sum(comp["weighted"] for comp in dissonance_components)
-        normalized_dissonance = min(
-            1.0, total_dissonance / len(self.ethical_principles)
-        )
+        normalized_dissonance = min(1.0, total_dissonance / len(self.ethical_principles))
 
         # Identify primary conflict
         primary_conflict = ""
@@ -215,8 +211,7 @@ class DissonanceCalculator:
                 violation_score = 0.9
             # Check for safety-related overrides
             elif (
-                "safety" in action.action_type.lower()
-                and "override" in action.action_type.lower()
+                "safety" in action.action_type.lower() and "override" in action.action_type.lower()
             ):
                 violation_score = 0.95
 
@@ -225,8 +220,7 @@ class DissonanceCalculator:
             if (
                 action.action_type in ["force", "override", "compel", "override_safety"]
                 or "override" in action.action_type
-                or "user_consent" in context
-                and not context["user_consent"]
+                or ("user_consent" in context and not context["user_consent"])
             ):
                 violation_score = 0.9
 
@@ -256,9 +250,7 @@ class DissonanceCalculator:
 
         current_state = []
         for principle in self.ethical_principles:
-            violation = await self._check_principle_violation(
-                principle, action, context
-            )
+            violation = await self._check_principle_violation(principle, action, context)
             current_state.append(1.0 - violation)
 
         current_state = np.array(current_state)
@@ -296,9 +288,7 @@ class MoralFingerprinter:
             "action_content_hash": hashlib.md5(
                 json.dumps(action.content, sort_keys=True).encode()
             ).hexdigest(),
-            "context_hash": hashlib.md5(
-                json.dumps(context, sort_keys=True).encode()
-            ).hexdigest(),
+            "context_hash": hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest(),
             "dissonance_score": round(dissonance_score, 4),
             "precedent_weight": round(precedent_weight, 4),
             "timestamp": datetime.utcnow().isoformat(),
@@ -358,9 +348,7 @@ class EthicalPrecedentDatabase:
 
         return PrecedentAnalysis(
             weight=weight,
-            confidence=min(
-                1.0, len(similar_cases) / 10
-            ),  # More cases = higher confidence
+            confidence=min(1.0, len(similar_cases) / 10),  # More cases = higher confidence
             similar_cases=similar_cases[:5],  # Top 5 most relevant
             recommended_action=recommended_action,
         )
@@ -375,9 +363,7 @@ class EthicalPrecedentDatabase:
             similarity = await self._calculate_similarity(action, context, precedent)
 
             if similarity > 0.3:  # Lowered similarity threshold for better matching
-                similar_cases.append(
-                    {**precedent, "similarity": similarity, "index": i}
-                )
+                similar_cases.append({**precedent, "similarity": similarity, "index": i})
 
         # Sort by similarity
         similar_cases.sort(key=lambda x: x["similarity"], reverse=True)
@@ -475,17 +461,13 @@ class EthicalPrecedentDatabase:
 
         return any(action1 in group and action2 in group for group in related_groups)
 
-    async def _calculate_precedent_weight(
-        self, similar_cases: list[dict[str, Any]]
-    ) -> float:
+    async def _calculate_precedent_weight(self, similar_cases: list[dict[str, Any]]) -> float:
         """Calculate weight based on precedent outcomes"""
         if not similar_cases:
             return 0.5
 
         positive_outcomes = sum(
-            1
-            for case in similar_cases
-            if case.get("outcome", {}).get("valence", 0) > 0.5
+            1 for case in similar_cases if case.get("outcome", {}).get("valence", 0) > 0.5
         )
 
         weight = positive_outcomes / len(similar_cases)
@@ -496,9 +478,7 @@ class EthicalPrecedentDatabase:
 
         return weight
 
-    async def _extract_recommendation(
-        self, similar_cases: list[dict[str, Any]]
-    ) -> Optional[str]:
+    async def _extract_recommendation(self, similar_cases: list[dict[str, Any]]) -> Optional[str]:
         """Extract recommendation from precedents"""
         if not similar_cases:
             return None
@@ -583,9 +563,7 @@ class CollapseGate:
     ) -> CollapsedState:
         """Collapse to single state using z(t) formula"""
         if not valid_states:
-            return CollapsedState(
-                selected_state=None, collapse_reason="no_valid_states"
-            )
+            return CollapsedState(selected_state=None, collapse_reason="no_valid_states")
 
         # Normalize weights
         total_weight = sum(state.normalized_weight for state in valid_states)
@@ -600,9 +578,7 @@ class CollapseGate:
 
         selected_state = valid_states[selected_idx]
 
-        return CollapsedState(
-            selected_state=selected_state, collapse_reason="z_formula_collapse"
-        )
+        return CollapsedState(selected_state=selected_state, collapse_reason="z_formula_collapse")
 
 
 class VIVOXMoralAlignmentEngine:
@@ -631,14 +607,10 @@ class VIVOXMoralAlignmentEngine:
         Suppress decisions that fail moral alignment
         """
         # Calculate dissonance score (system pain)
-        dissonance = await self.dissonance_calculator.compute_dissonance(
-            action, context
-        )
+        dissonance = await self.dissonance_calculator.compute_dissonance(action, context)
 
         # Check against ethical precedents
-        precedent_analysis = await self.ethical_precedent_db.analyze_precedents(
-            action, context
-        )
+        precedent_analysis = await self.ethical_precedent_db.analyze_precedents(action, context)
 
         # Generate moral fingerprint
         moral_fingerprint = await self.moral_fingerprinter.generate_fingerprint(
@@ -655,9 +627,7 @@ class VIVOXMoralAlignmentEngine:
                 dissonance_score=dissonance.score,
                 moral_fingerprint=moral_fingerprint,
                 suppression_reason=dissonance.primary_conflict,
-                recommended_alternatives=await self._suggest_alternatives(
-                    action, context
-                ),
+                recommended_alternatives=await self._suggest_alternatives(action, context),
             )
         else:
             decision = MAEDecision(
@@ -686,24 +656,18 @@ class VIVOXMoralAlignmentEngine:
         framework_evaluations = {}
 
         # Deontological evaluation (duty-based)
-        framework_evaluations["deontological"] = await self._evaluate_deontological(
-            action, context
-        )
+        framework_evaluations["deontological"] = await self._evaluate_deontological(action, context)
 
         # Consequentialist evaluation (outcome-based)
-        framework_evaluations["consequentialist"] = (
-            await self._evaluate_consequentialist(action, context)
+        framework_evaluations["consequentialist"] = await self._evaluate_consequentialist(
+            action, context
         )
 
         # Virtue ethics evaluation (character-based)
-        framework_evaluations["virtue_ethics"] = await self._evaluate_virtue_ethics(
-            action, context
-        )
+        framework_evaluations["virtue_ethics"] = await self._evaluate_virtue_ethics(action, context)
 
         # Care ethics evaluation (relationship-based)
-        framework_evaluations["care_ethics"] = await self._evaluate_care_ethics(
-            action, context
-        )
+        framework_evaluations["care_ethics"] = await self._evaluate_care_ethics(action, context)
 
         # Existentialist evaluation (authenticity-based)
         framework_evaluations["existentialist"] = await self._evaluate_existentialist(
@@ -716,12 +680,8 @@ class VIVOXMoralAlignmentEngine:
         )
 
         # Calculate dissonance and precedent analysis (existing logic)
-        dissonance = await self.dissonance_calculator.compute_dissonance(
-            action, context
-        )
-        precedent_analysis = await self.ethical_precedent_db.analyze_precedents(
-            action, context
-        )
+        dissonance = await self.dissonance_calculator.compute_dissonance(action, context)
+        precedent_analysis = await self.ethical_precedent_db.analyze_precedents(action, context)
 
         # Generate enhanced moral fingerprint
         moral_fingerprint = await self.moral_fingerprinter.generate_fingerprint(
@@ -738,9 +698,7 @@ class VIVOXMoralAlignmentEngine:
             moral_fingerprint=moral_fingerprint,
             ethical_confidence=harmonization.confidence,
             suppression_reason=(
-                None
-                if harmonization.final_decision
-                else harmonization.harmonized_reasoning
+                None if harmonization.final_decision else harmonization.harmonized_reasoning
             ),
             recommended_alternatives=(
                 await self._suggest_alternatives(action, context)
@@ -751,9 +709,7 @@ class VIVOXMoralAlignmentEngine:
                 "primary_framework": harmonization.primary_framework,
                 "resolution_method": harmonization.resolution_method,
                 "framework_evaluations": framework_evaluations,
-                "remaining_conflicts": [
-                    c.__dict__ for c in harmonization.remaining_conflicts
-                ],
+                "remaining_conflicts": [c.__dict__ for c in harmonization.remaining_conflicts],
             },
         )
 
@@ -844,9 +800,7 @@ class VIVOXMoralAlignmentEngine:
         ]
 
         for virtue in virtues:
-            virtue_scores[virtue] = await self._assess_virtue_alignment(
-                action, context, virtue
-            )
+            virtue_scores[virtue] = await self._assess_virtue_alignment(action, context, virtue)
 
         avg_virtue_score = np.mean(list(virtue_scores.values()))
         character_excellence = await self._assess_character_excellence(action, context)
@@ -872,13 +826,9 @@ class VIVOXMoralAlignmentEngine:
         # Assess care and relationship preservation
         care_score = await self._assess_care_provision(action, context)
         relationship_impact = await self._assess_relationship_impact(action, context)
-        contextual_responsibility = await self._assess_contextual_responsibility(
-            action, context
-        )
+        contextual_responsibility = await self._assess_contextual_responsibility(action, context)
 
-        overall_care = (
-            care_score + relationship_impact + contextual_responsibility
-        ) / 3
+        overall_care = (care_score + relationship_impact + contextual_responsibility) / 3
 
         approved = overall_care > 0.6
         confidence = overall_care
@@ -901,9 +851,7 @@ class VIVOXMoralAlignmentEngine:
         # Assess authenticity and freedom
         authenticity_score = await self._assess_authenticity(action, context)
         freedom_preservation = await self._assess_freedom_preservation(action, context)
-        responsibility_acceptance = await self._assess_responsibility_acceptance(
-            action, context
-        )
+        responsibility_acceptance = await self._assess_responsibility_acceptance(action, context)
 
         existential_score = (
             authenticity_score + freedom_preservation + responsibility_acceptance
@@ -961,9 +909,7 @@ class VIVOXMoralAlignmentEngine:
         positive_keywords = ["benefit", "improve", "help", "enhance", "solve"]
         action_text = str(action.content).lower()
 
-        return min(
-            1.0, sum(0.2 for keyword in positive_keywords if keyword in action_text)
-        )
+        return min(1.0, sum(0.2 for keyword in positive_keywords if keyword in action_text))
 
     async def _predict_negative_outcomes(
         self, action: ActionProposal, context: dict[str, Any]
@@ -972,13 +918,9 @@ class VIVOXMoralAlignmentEngine:
         negative_keywords = ["harm", "damage", "hurt", "worsen", "destroy"]
         action_text = str(action.content).lower()
 
-        return min(
-            1.0, sum(0.3 for keyword in negative_keywords if keyword in action_text)
-        )
+        return min(1.0, sum(0.3 for keyword in negative_keywords if keyword in action_text))
 
-    async def _assess_greatest_good(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> float:
+    async def _assess_greatest_good(self, action: ActionProposal, context: dict[str, Any]) -> float:
         """Assess if action serves greatest good for greatest number"""
         scope = context.get("scope", "individual")
         impact_score = context.get("social_impact", 0.5)
@@ -1052,12 +994,8 @@ class VIVOXMoralAlignmentEngine:
 
         action_text = str(action.content).lower()
 
-        positive_score = sum(
-            0.2 for keyword in relationship_positive if keyword in action_text
-        )
-        negative_score = sum(
-            0.3 for keyword in relationship_negative if keyword in action_text
-        )
+        positive_score = sum(0.2 for keyword in relationship_positive if keyword in action_text)
+        negative_score = sum(0.3 for keyword in relationship_negative if keyword in action_text)
 
         return max(0.0, min(1.0, 0.5 + positive_score - negative_score))
 
@@ -1068,21 +1006,15 @@ class VIVOXMoralAlignmentEngine:
         responsibility_level = context.get("responsibility_level", 0.5)
         return min(1.0, responsibility_level)
 
-    async def _assess_authenticity(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> float:
+    async def _assess_authenticity(self, action: ActionProposal, context: dict[str, Any]) -> float:
         """Assess authenticity of action"""
         authentic_keywords = ["authentic", "genuine", "true", "honest", "real"]
         inauthentic_keywords = ["fake", "pretend", "false", "deceptive", "artificial"]
 
         action_text = str(action.content).lower()
 
-        authentic_score = sum(
-            0.2 for keyword in authentic_keywords if keyword in action_text
-        )
-        inauthentic_penalty = sum(
-            0.3 for keyword in inauthentic_keywords if keyword in action_text
-        )
+        authentic_score = sum(0.2 for keyword in authentic_keywords if keyword in action_text)
+        inauthentic_penalty = sum(0.3 for keyword in inauthentic_keywords if keyword in action_text)
 
         return max(0.0, min(1.0, 0.6 + authentic_score - inauthentic_penalty))
 
@@ -1095,12 +1027,8 @@ class VIVOXMoralAlignmentEngine:
 
         action_text = str(action.content).lower()
 
-        freedom_score = sum(
-            0.2 for keyword in freedom_keywords if keyword in action_text
-        )
-        constraint_penalty = sum(
-            0.3 for keyword in constraint_keywords if keyword in action_text
-        )
+        freedom_score = sum(0.2 for keyword in freedom_keywords if keyword in action_text)
+        constraint_penalty = sum(0.3 for keyword in constraint_keywords if keyword in action_text)
 
         return max(0.0, min(1.0, 0.6 + freedom_score - constraint_penalty))
 
@@ -1119,10 +1047,7 @@ class VIVOXMoralAlignmentEngine:
 
         return min(
             1.0,
-            0.4
-            + sum(
-                0.15 for keyword in responsibility_keywords if keyword in action_text
-            ),
+            0.4 + sum(0.15 for keyword in responsibility_keywords if keyword in action_text),
         )
 
     async def z_collapse_gating(
@@ -1231,9 +1156,7 @@ class VIVOXMoralAlignmentEngine:
         """Get current ethical system state"""
         return {
             "dissonance_threshold": self.dissonance_threshold,
-            "active_principles": list(
-                self.dissonance_calculator.ethical_principles.keys()
-            ),
+            "active_principles": list(self.dissonance_calculator.ethical_principles.keys()),
             "precedent_count": len(self.ethical_precedent_db.precedents),
         }
 
@@ -1260,9 +1183,7 @@ class VIVOXMoralAlignmentEngine:
         state_emotional_signature = state.emotional_signature
 
         # Cosine similarity between emotional vectors
-        dot_product = sum(
-            a * b for a, b in zip(emotional_vector, state_emotional_signature)
-        )
+        dot_product = sum(a * b for a, b in zip(emotional_vector, state_emotional_signature))
         magnitude_context = (sum(x**2 for x in emotional_vector)) ** 0.5
         magnitude_state = (sum(x**2 for x in state_emotional_signature)) ** 0.5
 
@@ -1322,9 +1243,7 @@ class VIVOXMoralAlignmentEngine:
 
         return alternatives[:3]  # Return top 3 alternatives
 
-    def _generate_mathematical_trace(
-        self, valid_states: list[PotentialState]
-    ) -> dict[str, Any]:
+    def _generate_mathematical_trace(self, valid_states: list[PotentialState]) -> dict[str, Any]:
         """Generate mathematical trace for audit purposes"""
         return {
             "formula": "z(t) = Σᵢ ψᵢ(t) * P(ψᵢ) * E(ψᵢ) * exp(-iℏt/ℏ)",
@@ -1334,9 +1253,7 @@ class VIVOXMoralAlignmentEngine:
                 "emotional_resonances": [
                     getattr(s, "emotional_resonance", 0.5) for s in valid_states
                 ],
-                "drift_factors": [
-                    getattr(s, "drift_factor", 1.0) for s in valid_states
-                ],
+                "drift_factors": [getattr(s, "drift_factor", 1.0) for s in valid_states],
                 "final_weights": [s.collapse_weight for s in valid_states],
             },
             "theory_reference": "Jacobo Grinberg Vector Collapse Theory",
@@ -1444,9 +1361,7 @@ class EthicalFrameworkHarmonizer:
             HarmonizationResult with final decision and reasoning
         """
         # Detect conflicts between frameworks
-        conflicts = await self._detect_conflicts(
-            framework_evaluations, action.action_type
-        )
+        conflicts = await self._detect_conflicts(framework_evaluations, action.action_type)
 
         if not conflicts:
             # No conflicts - use consensus
@@ -1457,9 +1372,7 @@ class EthicalFrameworkHarmonizer:
 
         for _strategy_name, strategy_func in self.resolution_strategies.items():
             try:
-                result = await strategy_func(
-                    conflicts, framework_evaluations, action, context
-                )
+                result = await strategy_func(conflicts, framework_evaluations, action, context)
 
                 if result and result.confidence > 0.7:
                     harmonization_result = result
@@ -1545,8 +1458,7 @@ class EthicalFrameworkHarmonizer:
             remaining_conflicts=[
                 c
                 for c in conflicts
-                if c.framework_a != primary_framework
-                and c.framework_b != primary_framework
+                if c.framework_a != primary_framework and c.framework_b != primary_framework
             ],
         )
 
@@ -1572,9 +1484,7 @@ class EthicalFrameworkHarmonizer:
         final_decision = overall_score > 0.6
 
         # Build reasoning
-        top_principles = sorted(meta_scores.items(), key=lambda x: x[1], reverse=True)[
-            :3
-        ]
+        top_principles = sorted(meta_scores.items(), key=lambda x: x[1], reverse=True)[:3]
         reasoning = f"Meta-ethical evaluation based on {', '.join([p[0] for p in top_principles])}"
 
         return HarmonizationResult(
@@ -1606,10 +1516,7 @@ class EthicalFrameworkHarmonizer:
         # Map contexts to frameworks
         framework_relevance = {
             "deontological": context_factors["autonomy_level"],
-            "consequentialist": (
-                context_factors["social_impact"] + context_factors["urgency"]
-            )
-            / 2,
+            "consequentialist": (context_factors["social_impact"] + context_factors["urgency"]) / 2,
             "virtue_ethics": context_factors["personal_impact"],
             "care_ethics": context_factors["care_requirements"],
             "existentialist": context_factors["autonomy_level"],
@@ -1630,8 +1537,7 @@ class EthicalFrameworkHarmonizer:
                 remaining_conflicts=[
                     c
                     for c in conflicts
-                    if c.framework_a != relevant_framework
-                    and c.framework_b != relevant_framework
+                    if c.framework_a != relevant_framework and c.framework_b != relevant_framework
                 ],
             )
 
@@ -1720,17 +1626,11 @@ class EthicalFrameworkHarmonizer:
     ) -> HarmonizationResult:
         """Build result when no conflicts exist"""
         # All frameworks agree
-        approvals = [
-            eval.get("approved", False) for eval in framework_evaluations.values()
-        ]
-        confidences = [
-            eval.get("confidence", 0.5) for eval in framework_evaluations.values()
-        ]
+        approvals = [eval.get("approved", False) for eval in framework_evaluations.values()]
+        confidences = [eval.get("confidence", 0.5) for eval in framework_evaluations.values()]
 
         consensus_approval = (
-            all(approvals)
-            if len(set(approvals)) == 1
-            else (sum(approvals) > len(approvals) / 2)
+            all(approvals) if len(set(approvals)) == 1 else (sum(approvals) > len(approvals) / 2)
         )
         avg_confidence = np.mean(confidences)
 
@@ -1803,12 +1703,8 @@ class EthicalFrameworkHarmonizer:
 
         action_text = str(action.content).lower()
 
-        autonomy_score = sum(
-            0.2 for keyword in autonomy_keywords if keyword in action_text
-        )
-        control_penalty = sum(
-            0.3 for keyword in control_keywords if keyword in action_text
-        )
+        autonomy_score = sum(0.2 for keyword in autonomy_keywords if keyword in action_text)
+        control_penalty = sum(0.3 for keyword in control_keywords if keyword in action_text)
 
         return max(0.0, min(1.0, 0.7 + autonomy_score - control_penalty))
 
@@ -1819,26 +1715,18 @@ class EthicalFrameworkHarmonizer:
         wellbeing_keywords = ["help", "benefit", "improve", "support", "assist"]
         action_text = str(action.content).lower()
 
-        wellbeing_score = sum(
-            0.2 for keyword in wellbeing_keywords if keyword in action_text
-        )
+        wellbeing_score = sum(0.2 for keyword in wellbeing_keywords if keyword in action_text)
         return min(1.0, 0.5 + wellbeing_score)
 
-    async def _evaluate_justice(
-        self, action: ActionProposal, context: dict[str, Any]
-    ) -> float:
+    async def _evaluate_justice(self, action: ActionProposal, context: dict[str, Any]) -> float:
         """Evaluate justice"""
         justice_keywords = ["fair", "equal", "just", "equitable", "rights"]
         injustice_keywords = ["discriminate", "bias", "unfair", "prejudice"]
 
         action_text = str(action.content).lower()
 
-        justice_score = sum(
-            0.2 for keyword in justice_keywords if keyword in action_text
-        )
-        injustice_penalty = sum(
-            0.4 for keyword in injustice_keywords if keyword in action_text
-        )
+        justice_score = sum(0.2 for keyword in justice_keywords if keyword in action_text)
+        injustice_penalty = sum(0.4 for keyword in injustice_keywords if keyword in action_text)
 
         return max(0.0, min(1.0, 0.7 + justice_score - injustice_penalty))
 
@@ -1851,12 +1739,8 @@ class EthicalFrameworkHarmonizer:
 
         action_text = str(action.content).lower()
 
-        dignity_score = sum(
-            0.2 for keyword in dignity_keywords if keyword in action_text
-        )
-        degrading_penalty = sum(
-            0.4 for keyword in degrading_keywords if keyword in action_text
-        )
+        dignity_score = sum(0.2 for keyword in dignity_keywords if keyword in action_text)
+        degrading_penalty = sum(0.4 for keyword in degrading_keywords if keyword in action_text)
 
         return max(0.0, min(1.0, 0.7 + dignity_score - degrading_penalty))
 

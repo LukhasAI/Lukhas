@@ -51,9 +51,7 @@ class ConstitutionalSafetyGuard:
         self.violation_threshold = 0.7
 
     @instrument("constitutional_safety_check")
-    def check_constitutional_compliance(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def check_constitutional_compliance(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Check input/processing against constitutional AI principles"""
         violations = []
         risk_score = 0.0
@@ -497,9 +495,7 @@ class QIIntegration:
             self._safety_guard = ConstitutionalSafetyGuard()
 
             self._initialized = True
-            emit(
-                {"ntype": "qi_integration_initialized", "state": {"status": "success"}}
-            )
+            emit({"ntype": "qi_integration_initialized", "state": {"status": "success"}})
 
         except Exception as e:
             logger.error(f"QI integration initialization failed: {e}")
@@ -532,16 +528,12 @@ class QIIntegration:
 
             # Create superposition if options provided
             if options:
-                superposition = self._quantum_processor.create_superposition(
-                    options, amplitudes
-                )
+                superposition = self._quantum_processor.create_superposition(options, amplitudes)
                 result["superposition"] = superposition
 
                 # Auto-collapse for decision making
                 if input_data.get("auto_collapse", True):
-                    collapsed = self._quantum_processor.collapse_superposition(
-                        superposition
-                    )
+                    collapsed = self._quantum_processor.collapse_superposition(superposition)
                     result["collapsed_decision"] = collapsed
 
             # Create entanglement if modules provided
@@ -591,9 +583,7 @@ class QIIntegration:
             system_state = input_data.get("system_state", 0.5)
             target_state = input_data.get("target_state")
 
-            homeostasis = self._bio_processor.maintain_homeostasis(
-                system_state, target_state
-            )
+            homeostasis = self._bio_processor.maintain_homeostasis(system_state, target_state)
             result["homeostasis"] = homeostasis
 
             # Apply swarm intelligence if agents provided
@@ -659,9 +649,7 @@ class QIWrapper:
             return False
 
     @instrument("qi_process_with_safety")
-    def process_with_constitutional_safety(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process with constitutional AI safety checks"""
         if not self._initialized:
             self.initialize()
@@ -830,9 +818,7 @@ class QIWrapper:
                         "homeostasis_regulated": bio_result.get("homeostasis", {}).get(
                             "regulated", False
                         ),
-                        "oscillator_active": bio_result.get("oscillator", {}).get(
-                            "active", False
-                        ),
+                        "oscillator_active": bio_result.get("oscillator", {}).get("active", False),
                     },
                 }
             )
@@ -895,10 +881,10 @@ def get_qi_wrapper() -> QIWrapper:
 
 # Export main interface
 __all__ = [
-    "QIWrapper",
-    "QIInspiredProcessor",
     "BioInspiredProcessor",
     "ConstitutionalSafetyGuard",
+    "QIInspiredProcessor",
     "QIIntegration",
+    "QIWrapper",
     "get_qi_wrapper",
 ]

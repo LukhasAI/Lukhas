@@ -277,9 +277,7 @@ class ConsciousnessIntegrator:
         logger.info("Starting consciousness integration loop...")
 
         # Start event processing thread
-        self.processing_thread = threading.Thread(
-            target=self._event_processing_loop, daemon=True
-        )
+        self.processing_thread = threading.Thread(target=self._event_processing_loop, daemon=True)
         self.processing_thread.start()
 
         # Start main consciousness cycle
@@ -316,8 +314,7 @@ class ConsciousnessIntegrator:
                 cycle_duration = time.time() - cycle_start
                 sleep_time = max(
                     0,
-                    self.config["consciousness_cycles"]["integration_interval"]
-                    - cycle_duration,
+                    self.config["consciousness_cycles"]["integration_interval"] - cycle_duration,
                 )
                 await asyncio.sleep(sleep_time)
 
@@ -334,9 +331,7 @@ class ConsciousnessIntegrator:
         new_state = await self._evaluate_consciousness_state()
 
         if new_state != self.current_state:
-            logger.info(
-                f"Consciousness state transition: {self.current_state} -> {new_state}"
-            )
+            logger.info(f"Consciousness state transition: {self.current_state} -> {new_state}")
             self.current_state = new_state
 
             # Notify all components of state change
@@ -348,9 +343,7 @@ class ConsciousnessIntegrator:
         # sophisticated
         if self.current_context and self.current_context.emotional_state:
             # Check for high emotional intensity
-            emotional_intensity = sum(
-                abs(v) for v in self.current_context.emotional_state.values()
-            )
+            emotional_intensity = sum(abs(v) for v in self.current_context.emotional_state.values())
             if emotional_intensity > 0.8:
                 return ConsciousnessState.INTROSPECTING
 
@@ -391,9 +384,7 @@ class ConsciousnessIntegrator:
 
         try:
             # Get emotional context from recent events
-            recent_events = (
-                self.integration_history[-10:] if self.integration_history else []
-            )
+            recent_events = self.integration_history[-10:] if self.integration_history else []
 
             # Update emotional state
             new_emotional_state = await self.emotion_engine.process_emotional_context(
@@ -419,16 +410,12 @@ class ConsciousnessIntegrator:
 
             # Update voice characteristics based on personality
             if current_persona and self.current_context:
-                voice_characteristics = (
-                    await self.persona_manager.get_voice_characteristics(
-                        current_persona
-                    )
+                voice_characteristics = await self.persona_manager.get_voice_characteristics(
+                    current_persona
                 )
 
                 # Apply voice characteristics
-                await self.voice_processor.update_voice_characteristics(
-                    voice_characteristics
-                )
+                await self.voice_processor.update_voice_characteristics(voice_characteristics)
 
                 # Update context
                 self.current_context.voice_preferences.update(voice_characteristics)
@@ -456,9 +443,7 @@ class ConsciousnessIntegrator:
                 events = []
                 for _ in range(self.config["event_processing"]["batch_size"]):
                     try:
-                        event = await asyncio.wait_for(
-                            self.event_queue.get(), timeout=1.0
-                        )
+                        event = await asyncio.wait_for(self.event_queue.get(), timeout=1.0)
                         events.append(event)
                     except asyncio.TimeoutError:
                         break
@@ -470,9 +455,7 @@ class ConsciousnessIntegrator:
                 logger.error(f"Error processing events: {e}")
                 await asyncio.sleep(0.1)
 
-    async def _process_event_batch(
-        self, events: Optional[list[ConsciousnessEvent]] = None
-    ):
+    async def _process_event_batch(self, events: Optional[list[ConsciousnessEvent]] = None):
         """Process a batch of consciousness events"""
         if not events:
             return
@@ -576,9 +559,7 @@ class ConsciousnessIntegrator:
         self.current_context.active_modules = active_modules
         self.current_context.current_state = self.current_state
 
-    async def create_integration_context(
-        self, user_id: str, session_id: str
-    ) -> IntegrationContext:
+    async def create_integration_context(self, user_id: str, session_id: str) -> IntegrationContext:
         """Create a new integration context for a user session"""
         self.current_context = IntegrationContext(
             user_id=user_id,
@@ -590,9 +571,7 @@ class ConsciousnessIntegrator:
             voice_preferences={},
         )
 
-        logger.info(
-            f"Created integration context for user {user_id}, session {session_id}"
-        )
+        logger.info(f"Created integration context for user {user_id}, session {session_id}")
         return self.current_context
 
     async def submit_event(self, event: ConsciousnessEvent) -> bool:
@@ -672,9 +651,7 @@ class ConsciousnessIntegrator:
             "event_queue_size": self.event_queue.qsize(),
             "integration_history_size": len(self.integration_history),
             "uptime": (datetime.now() - self.start_time).total_seconds(),
-            "current_context": (
-                asdict(self.current_context) if self.current_context else None
-            ),
+            "current_context": (asdict(self.current_context) if self.current_context else None),
         }
 
     async def shutdown(self):

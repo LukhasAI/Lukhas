@@ -30,15 +30,14 @@ class InnovationPrioritizationEngine(CoreInterface):
             "impact": 0.4,  # Weight for impact
             "feasibility": 0.2,  # Weight for feasibility
             "novelty": 0.2,  # Weight for novelty
-            "strategic_fit": 0.2  # Weight for strategic fit
+            "strategic_fit": 0.2,  # Weight for strategic fit
         }
 
         self._initialized = True
         logger.info("Innovation Prioritization Engine initialized")
 
     async def prioritize_innovations(
-        self,
-        innovations: list[dict[str, Any]]
+        self, innovations: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         """
         Prioritize innovations based on multiple criteria
@@ -63,10 +62,7 @@ class InnovationPrioritizationEngine(CoreInterface):
 
         return innovations
 
-    async def _calculate_priority_score(
-        self,
-        innovation: dict[str, Any]
-    ) -> float:
+    async def _calculate_priority_score(self, innovation: dict[str, Any]) -> float:
         """Calculate priority score for an innovation"""
 
         score = 0.0

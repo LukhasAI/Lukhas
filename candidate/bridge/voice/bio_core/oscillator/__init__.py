@@ -8,11 +8,11 @@ from .orchestrator import BioOrchestrator, HealthState, Priority
 from .qi_inspired_layer import QIBioOscillator, QIConfig
 
 __all__ = [
-    "QIBioOscillator",
-    "QIConfig",
     "BioOrchestrator",
     "HealthState",
     "Priority",
+    "QIBioOscillator",
+    "QIConfig",
 ]
 
 # CLAUDE CHANGELOG

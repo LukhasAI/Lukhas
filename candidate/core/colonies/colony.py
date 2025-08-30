@@ -23,7 +23,6 @@ except ImportError:
     # Simplified base colony for now
 
     class BaseColony:
-
         def __init__(self, colony_id: str, capabilities: list[str]):
             self.colony_id = colony_id
             self.capabilities = capabilities
@@ -79,9 +78,7 @@ class ColonySignalIntegration:
         success = self.signal_bus.publish(signal)
 
         # Track in history
-        self.signal_history.append(
-            {"timestamp": time.time(), "signal": signal, "success": success}
-        )
+        self.signal_history.append({"timestamp": time.time(), "signal": signal, "success": success})
 
         # Check homeostasis
         if success:
@@ -150,13 +147,9 @@ class EnhancedReasoningColony(ColonySignalIntegration):
         self.resilience_mode = False
 
         # Subscribe to relevant signals
-        self.subscribe_to_signals(
-            [SignalType.URGENCY, SignalType.STRESS, SignalType.AMBIGUITY]
-        )
+        self.subscribe_to_signals([SignalType.URGENCY, SignalType.STRESS, SignalType.AMBIGUITY])
 
-    async def process_query(
-        self, query: str, context: dict[str, Any] = None
-    ) -> ConsensusResult:
+    async def process_query(self, query: str, context: dict[str, Any] = None) -> ConsensusResult:
         """Process a query through the colony with signal awareness"""
         start_time = time.time()
 
@@ -261,9 +254,7 @@ class EnhancedReasoningColony(ColonySignalIntegration):
 
         if fast_agents:
             self.reasoning_agents = fast_agents
-            logger.info(
-                f"Colony reduced to {len(fast_agents)} fast agents for emergency"
-            )
+            logger.info(f"Colony reduced to {len(fast_agents)} fast agents for emergency")
 
         # Lower consensus threshold for faster decisions
         self.consensus_threshold = 0.5
@@ -318,9 +309,7 @@ class SwarmSignalNetwork:
         propagation_tasks = []
         for _agent_id, agent in self.agents.items():
             if hasattr(agent, "receive_tag"):
-                propagation_tasks.append(
-                    agent.receive_tag(signal.source, tag, value, signal.level)
-                )
+                propagation_tasks.append(agent.receive_tag(signal.source, tag, value, signal.level))
 
         if propagation_tasks:
             await asyncio.gather(*propagation_tasks, return_exceptions=True)

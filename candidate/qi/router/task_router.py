@@ -14,8 +14,10 @@ from qi.router.confidence_router import ConfidenceRouter
 PRESETS_PATH_ENV = "LUKHAS_ROUTER_PRESETS"
 DEFAULT_PRESETS_PATH = os.path.join("qi", "router", "presets.yaml")
 
+
 class ConfigError(Exception):
     pass
+
 
 def _load_yaml(path: str) -> dict[str, Any]:
     if not os.path.exists(path):
@@ -25,6 +27,7 @@ def _load_yaml(path: str) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ConfigError("presets.yaml must be a YAML mapping at the top level.")
     return data
+
 
 def _validate(cfg: dict[str, Any]) -> None:
     allowed_keys = {"defaults", "tasks", "models"}
@@ -36,9 +39,21 @@ def _validate(cfg: dict[str, Any]) -> None:
         # soft schema
         for k in plan:
             if k not in {
-                "gen_tokens","retrieval","passes","temperature","tools","retrieval_k",
-                "max_input_tokens","allow_models","deny_models","notes","max_output_tokens",
-                "min_conf_for_fast","force_path","cap_tokens","cap_latency_ms"
+                "gen_tokens",
+                "retrieval",
+                "passes",
+                "temperature",
+                "tools",
+                "retrieval_k",
+                "max_input_tokens",
+                "allow_models",
+                "deny_models",
+                "notes",
+                "max_output_tokens",
+                "min_conf_for_fast",
+                "force_path",
+                "cap_tokens",
+                "cap_latency_ms",
             }:
                 raise ConfigError(f"Unknown key '{k}' in {ctx}")
 
@@ -66,6 +81,7 @@ def _validate(cfg: dict[str, Any]) -> None:
             raise ConfigError(f"tasks.{name} must be a mapping.")
         _check_plan(plan, f"tasks.{name}")
 
+
 class TaskRouter:
     """
     Merges task-specific YAML presets with confidence-aware routing.
@@ -75,7 +91,12 @@ class TaskRouter:
       3) Task-specific overrides from YAML (applies to the named task)
     Then applies safety caps (cap_tokens, cap_latency_ms) if present.
     """
-    def __init__(self, presets_path: str | None = None, conf_thresholds: tuple[float,float,float] = (0.8, 0.6, 0.4)):
+
+    def __init__(
+        self,
+        presets_path: str | None = None,
+        conf_thresholds: tuple[float, float, float] = (0.8, 0.6, 0.4),
+    ):
         self.presets_path = os.environ.get(PRESETS_PATH_ENV) or presets_path or DEFAULT_PRESETS_PATH
         self.cfg = _load_yaml(self.presets_path)
         _validate(self.cfg)
@@ -92,10 +113,12 @@ class TaskRouter:
         calibrated_conf: float,
         last_path: str | None = None,
         model_id: str | None = None,
-        input_tokens_est: int | None = None
+        input_tokens_est: int | None = None,
     ) -> dict[str, Any]:
         # 1) base route from confidence
-        base = self.conf_router.decide(calibrated_conf=calibrated_conf, last_path=last_path)  # has: path, gen_tokens, retrieval, passes, temperature, confidence
+        base = self.conf_router.decide(
+            calibrated_conf=calibrated_conf, last_path=last_path
+        )  # has: path, gen_tokens, retrieval, passes, temperature, confidence
 
         # 2) apply global defaults
         out = dict(base)
@@ -109,7 +132,7 @@ class TaskRouter:
         # 4) optional model allow/deny enforcement (advisory here; you can hard-enforce in caller)
         if model_id:
             allow = out.get("allow_models")
-            deny  = out.get("deny_models")
+            deny = out.get("deny_models")
             if allow and model_id not in allow:
                 out.setdefault("warnings", []).append(f"model '{model_id}' not in allow_models")
             if deny and model_id in deny:
@@ -120,12 +143,14 @@ class TaskRouter:
         if cap_tokens is not None and isinstance(cap_tokens, int):
             if out.get("gen_tokens", 0) > cap_tokens:
                 out["gen_tokens"] = cap_tokens
-                out.setdefault("notes", ""); out["notes"] += " | capped gen_tokens"
+                out.setdefault("notes", "")
+                out["notes"] += " | capped gen_tokens"
 
         cap_latency = out.pop("cap_latency_ms", None)
         if cap_latency is not None and isinstance(cap_latency, int):
             # This is advisory — caller should check with Budgeter for precise latency caps
-            out.setdefault("notes",""); out["notes"] += " | latency cap advisory"
+            out.setdefault("notes", "")
+            out["notes"] += " | latency cap advisory"
 
         # 6) min confidence fast path override
         min_fast = out.pop("min_conf_for_fast", None)
@@ -134,22 +159,33 @@ class TaskRouter:
                 # drop to normal settings but keep other overrides
                 fallback = self.conf_router.decide(calibrated_conf=self.conf_router.t_norm + 0.001)
                 # keep temperature from overrides if present
-                for k in ("gen_tokens","retrieval","passes","temperature"):
+                for k in ("gen_tokens", "retrieval", "passes", "temperature"):
                     out[k] = out.get(k, fallback.get(k, out.get(k)))
                 out["path"] = "normal"
-                out.setdefault("notes",""); out["notes"] += " | demoted from fast by min_conf_for_fast"
+                out.setdefault("notes", "")
+                out["notes"] += " | demoted from fast by min_conf_for_fast"
 
         # 7) force_path if explicitly declared
         force = out.pop("force_path", None)
-        if force in ("fast","normal","deliberate","handoff"):
+        if force in ("fast", "normal", "deliberate", "handoff"):
             forced = self.conf_router.decide(calibrated_conf=calibrated_conf)
             forced.update({"path": force})
             # merge with our overrides (keeping our knobs)
-            for k in ("gen_tokens","retrieval","passes","temperature","tools","retrieval_k","max_input_tokens","max_output_tokens"):
+            for k in (
+                "gen_tokens",
+                "retrieval",
+                "passes",
+                "temperature",
+                "tools",
+                "retrieval_k",
+                "max_input_tokens",
+                "max_output_tokens",
+            ):
                 if k in out:
                     forced[k] = out[k]
             out = forced
-            out.setdefault("notes",""); out["notes"] += " | force_path applied"
+            out.setdefault("notes", "")
+            out["notes"] += " | force_path applied"
 
         # 8) include some context back for observability
         out["task"] = task
@@ -161,10 +197,16 @@ class TaskRouter:
 
         return out
 
+
 # ---------------- CLI ----------------
 def main():
-    ap = argparse.ArgumentParser(description="Task-specific router (YAML presets + confidence-aware)")
-    ap.add_argument("--presets", help=f"Path to presets YAML (default: {DEFAULT_PRESETS_PATH} or ${PRESETS_PATH_ENV})")
+    ap = argparse.ArgumentParser(
+        description="Task-specific router (YAML presets + confidence-aware)"
+    )
+    ap.add_argument(
+        "--presets",
+        help=f"Path to presets YAML (default: {DEFAULT_PRESETS_PATH} or ${PRESETS_PATH_ENV})",
+    )
     ap.add_argument("--task", required=True)
     ap.add_argument("--conf", type=float, required=True, help="Calibrated confidence (0-1)")
     ap.add_argument("--last-path", help="Previous path (fast|normal|deliberate|handoff)")
@@ -173,8 +215,15 @@ def main():
     args = ap.parse_args()
 
     r = TaskRouter(presets_path=args.presets)
-    plan = r.plan(task=args.task, calibrated_conf=args.conf, last_path=args.last_path, model_id=args.model_id, input_tokens_est=args.input_tokens)
+    plan = r.plan(
+        task=args.task,
+        calibrated_conf=args.conf,
+        last_path=args.last_path,
+        model_id=args.model_id,
+        input_tokens_est=args.input_tokens,
+    )
     print(json.dumps(plan, indent=2))
+
 
 if __name__ == "__main__":
     main()

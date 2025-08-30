@@ -27,11 +27,13 @@ from typing import Any, Optional
 try:
     from fastapi import FastAPI
     from fastapi.openapi.utils import get_openapi
+
     FASTAPI_AVAILABLE = True
 except ImportError:
     FASTAPI_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
+
 
 class APIDocumentationGenerator:
     """Generate comprehensive API documentation"""
@@ -123,58 +125,31 @@ All endpoints include cost estimation and tracking:
             "APIKeyAuth": {
                 "type": "http",
                 "scheme": "bearer",
-                "description": "LUKHAS API Key authentication"
+                "description": "LUKHAS API Key authentication",
             },
             "JWTAuth": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT",
-                "description": "JWT token authentication"
-            }
+                "description": "JWT token authentication",
+            },
         }
 
         # Add servers
         spec["servers"] = [
-            {
-                "url": "https://api.lukhas.ai/v1",
-                "description": "Production API"
-            },
-            {
-                "url": "https://staging-api.lukhas.ai/v1",
-                "description": "Staging API"
-            },
-            {
-                "url": "http://localhost:8080",
-                "description": "Local development"
-            }
+            {"url": "https://api.lukhas.ai/v1", "description": "Production API"},
+            {"url": "https://staging-api.lukhas.ai/v1", "description": "Staging API"},
+            {"url": "http://localhost:8080", "description": "Local development"},
         ]
 
         # Add tags with descriptions
         spec["tags"] = [
-            {
-                "name": "orchestration",
-                "description": "Multi-model AI orchestration endpoints"
-            },
-            {
-                "name": "healthcare",
-                "description": "HIPAA-compliant healthcare AI endpoints"
-            },
-            {
-                "name": "streaming",
-                "description": "Real-time streaming endpoints"
-            },
-            {
-                "name": "functions",
-                "description": "Function registration and management"
-            },
-            {
-                "name": "onboarding",
-                "description": "User onboarding and account setup"
-            },
-            {
-                "name": "monitoring",
-                "description": "API metrics and health monitoring"
-            }
+            {"name": "orchestration", "description": "Multi-model AI orchestration endpoints"},
+            {"name": "healthcare", "description": "HIPAA-compliant healthcare AI endpoints"},
+            {"name": "streaming", "description": "Real-time streaming endpoints"},
+            {"name": "functions", "description": "Function registration and management"},
+            {"name": "onboarding", "description": "User onboarding and account setup"},
+            {"name": "monitoring", "description": "API metrics and health monitoring"},
         ]
 
         # Add custom examples
@@ -199,8 +174,8 @@ All endpoints include cost estimation and tracking:
                     "max_latency_ms": 5000,
                     "max_cost": 0.10,
                     "min_confidence": 0.8,
-                    "context_type": "educational"
-                }
+                    "context_type": "educational",
+                },
             },
             "healthcare_request": {
                 "summary": "Healthcare-compliant AI request",
@@ -209,7 +184,7 @@ All endpoints include cost estimation and tracking:
                     "patient_context": {
                         "age_range": "30-40",
                         "gender": "female",
-                        "medical_history": "none_reported"
+                        "medical_history": "none_reported",
                     },
                     "consent_verified": True,
                     "phi_scrubbed": True,
@@ -218,8 +193,8 @@ All endpoints include cost estimation and tracking:
                     "audit_required": True,
                     "strategy": "consensus",
                     "providers": ["anthropic", "openai"],
-                    "enable_functions": False
-                }
+                    "enable_functions": False,
+                },
             },
             "streaming_request": {
                 "summary": "Real-time streaming request",
@@ -228,8 +203,8 @@ All endpoints include cost estimation and tracking:
                     "provider": "openai",
                     "enable_functions": False,
                     "temperature": 0.8,
-                    "max_tokens": 500
-                }
+                    "max_tokens": 500,
+                },
             },
             "onboarding_start": {
                 "summary": "Start user onboarding",
@@ -237,12 +212,12 @@ All endpoints include cost estimation and tracking:
                     "user_info": {
                         "email": "user@example.com",
                         "organization": "Healthcare Corp",
-                        "role": "Data Scientist"
+                        "role": "Data Scientist",
                     },
                     "referral_code": "PARTNER2024",
-                    "marketing_source": "website"
-                }
-            }
+                    "marketing_source": "website",
+                },
+            },
         }
 
         # Add examples to components
@@ -269,12 +244,12 @@ All endpoints include cost estimation and tracking:
                                 "type": {"type": "string"},
                                 "message": {"type": "string"},
                                 "field": {"type": "string"},
-                                "severity": {"type": "string"}
-                            }
-                        }
+                                "severity": {"type": "string"},
+                            },
+                        },
                     },
-                    "request_id": {"type": "string"}
-                }
+                    "request_id": {"type": "string"},
+                },
             },
             "RateLimitError": {
                 "type": "object",
@@ -283,8 +258,8 @@ All endpoints include cost estimation and tracking:
                     "limit_type": {"type": "string"},
                     "limit": {"type": "integer"},
                     "reset_time": {"type": "string"},
-                    "retry_after": {"type": "integer"}
-                }
+                    "retry_after": {"type": "integer"},
+                },
             },
             "SecurityError": {
                 "type": "object",
@@ -292,9 +267,9 @@ All endpoints include cost estimation and tracking:
                     "error": {"type": "string"},
                     "security_violation": {"type": "string"},
                     "threat_level": {"type": "string"},
-                    "blocked": {"type": "boolean"}
-                }
-            }
+                    "blocked": {"type": "boolean"},
+                },
+            },
         }
 
         if "schemas" not in spec["components"]:
@@ -313,26 +288,19 @@ All endpoints include cost estimation and tracking:
                 "contact": {
                     "name": "LUKHAS AI Support",
                     "email": "support@lukhas.ai",
-                    "url": "https://lukhas.ai/support"
+                    "url": "https://lukhas.ai/support",
                 },
                 "license": {
                     "name": "LUKHAS AI Proprietary License",
-                    "url": "https://lukhas.ai/license"
-                }
+                    "url": "https://lukhas.ai/license",
+                },
             },
-            "servers": [
-                {"url": "https://api.lukhas.ai/v1", "description": "Production API"}
-            ],
+            "servers": [{"url": "https://api.lukhas.ai/v1", "description": "Production API"}],
             "paths": {},
             "components": {
                 "schemas": {},
-                "securitySchemes": {
-                    "APIKeyAuth": {
-                        "type": "http",
-                        "scheme": "bearer"
-                    }
-                }
-            }
+                "securitySchemes": {"APIKeyAuth": {"type": "http", "scheme": "bearer"}},
+            },
         }
 
     def generate_sdk_info(self) -> dict[str, Any]:
@@ -353,7 +321,7 @@ response = client.orchestrate(
     strategy="consensus"
 )
 print(response.content)
-                    """
+                    """,
                 },
                 {
                     "language": "JavaScript/TypeScript",
@@ -369,7 +337,7 @@ const response = await client.orchestrate({
   strategy: 'consensus'
 });
 console.log(response.content);
-                    """
+                    """,
                 },
                 {
                     "language": "cURL",
@@ -383,8 +351,8 @@ curl -X POST https://api.lukhas.ai/v1/orchestrate \\
     "strategy": "consensus",
     "providers": ["openai", "anthropic"]
   }'
-                    """
-                }
+                    """,
+                },
             ]
         }
 
@@ -398,7 +366,7 @@ curl -X POST https://api.lukhas.ai/v1/orchestrate \\
                         "step": 1,
                         "title": "Get API Key",
                         "description": "Sign up at lukhas.ai and get your API key from the dashboard",
-                        "code": "# Your API key will look like:\n# lukhas-tier4-abc123def456..."
+                        "code": "# Your API key will look like:\n# lukhas-tier4-abc123def456...",
                     },
                     {
                         "step": 2,
@@ -413,7 +381,7 @@ response = requests.post(
     json={"prompt": "Hello, LUKHAS AI!"}
 )
 print(response.json())
-                        """
+                        """,
                     },
                     {
                         "step": 3,
@@ -431,9 +399,9 @@ response = requests.post(
         "min_confidence": 0.8
     }
 )
-                        """
-                    }
-                ]
+                        """,
+                    },
+                ],
             },
             "best_practices": {
                 "title": "Best Practices",
@@ -445,8 +413,8 @@ response = requests.post(
                             "consensus: For critical decisions requiring high accuracy",
                             "single_best: For fast responses with good quality",
                             "parallel: For comparing different model outputs",
-                            "fallback: For maximum reliability with backup options"
-                        ]
+                            "fallback: For maximum reliability with backup options",
+                        ],
                     },
                     {
                         "title": "Optimize Costs",
@@ -455,8 +423,8 @@ response = requests.post(
                             "Set appropriate max_cost limits",
                             "Use caching for repeated requests",
                             "Choose providers based on cost/quality trade-offs",
-                            "Monitor daily usage and costs"
-                        ]
+                            "Monitor daily usage and costs",
+                        ],
                     },
                     {
                         "title": "Healthcare Compliance",
@@ -466,10 +434,10 @@ response = requests.post(
                             "Verify patient consent before processing",
                             "Use healthcare-specific endpoints",
                             "Maintain comprehensive audit trails",
-                            "Use only approved IP addresses for healthcare"
-                        ]
-                    }
-                ]
+                            "Use only approved IP addresses for healthcare",
+                        ],
+                    },
+                ],
             },
             "troubleshooting": {
                 "title": "Common Issues and Solutions",
@@ -490,7 +458,7 @@ def retry_with_backoff(func, max_retries=3):
                 raise
             wait_time = (2 ** attempt) + random.uniform(0, 1)
             time.sleep(wait_time)
-                        """
+                        """,
                     },
                     {
                         "problem": "Low consensus confidence",
@@ -503,7 +471,7 @@ request = {
     "providers": ["openai", "anthropic", "google", "perplexity"],
     "min_confidence": 0.7  # Lower threshold if needed
 }
-                        """
+                        """,
                     },
                     {
                         "problem": "Healthcare validation errors",
@@ -517,11 +485,12 @@ healthcare_request = {
     "hipaa_compliant": True,   # Required
     "audit_required": True     # Required
 }
-                        """
-                    }
-                ]
-            }
+                        """,
+                    },
+                ],
+            },
         }
+
 
 def generate_api_documentation(app: Optional[Any] = None) -> dict[str, Any]:
     """Generate comprehensive API documentation"""
@@ -532,11 +501,12 @@ def generate_api_documentation(app: Optional[Any] = None) -> dict[str, Any]:
         "sdk_info": generator.generate_sdk_info(),
         "comprehensive_guide": generator.generate_comprehensive_guide(),
         "generated_at": datetime.now().isoformat(),
-        "version": "2.0.0"
+        "version": "2.0.0",
     }
 
     logger.info("📚 API documentation generated successfully")
     return documentation
+
 
 def export_openapi_spec(app: Optional[Any] = None, output_file: str = "openapi.json"):
     """Export OpenAPI specification to file"""
@@ -547,6 +517,7 @@ def export_openapi_spec(app: Optional[Any] = None, output_file: str = "openapi.j
         json.dump(spec, f, indent=2)
 
     logger.info(f"📄 OpenAPI specification exported to {output_file}")
+
 
 # Example usage and testing
 if __name__ == "__main__":
@@ -561,8 +532,4 @@ if __name__ == "__main__":
     print(f"SDK examples for {len(docs['sdk_info']['sdk_languages'])} languages")
 
 # Export main components
-__all__ = [
-    "APIDocumentationGenerator",
-    "generate_api_documentation",
-    "export_openapi_spec"
-]
+__all__ = ["APIDocumentationGenerator", "export_openapi_spec", "generate_api_documentation"]

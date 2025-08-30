@@ -34,16 +34,10 @@ class ClassicalEmotionalContext(BaseModel):
     """Input for classical emotional analysis"""
 
     text: str = Field(..., description="Text to analyze emotionally")
-    user_state: Optional[dict[str, float]] = Field(
-        None, description="Known user emotional state"
-    )
+    user_state: Optional[dict[str, float]] = Field(None, description="Known user emotional state")
     context_type: str = Field("general", description="Type of interaction")
-    emotion_model: EmotionModel = Field(
-        EmotionModel.VAD, description="Emotion model to use"
-    )
-    stability_threshold: float = Field(
-        0.7, ge=0, le=1, description="Emotional stability target"
-    )
+    emotion_model: EmotionModel = Field(EmotionModel.VAD, description="Emotion model to use")
+    stability_threshold: float = Field(0.7, ge=0, le=1, description="Emotional stability target")
 
 
 class ClassicalHormonalState(BaseModel):
@@ -72,9 +66,7 @@ class ClassicalCoherenceResponse(BaseModel):
 
     analysis_id: str
     timestamp: str
-    coherence_score: float = Field(
-        ..., ge=0, le=1, description="Classical coherence (max 1.0)"
-    )
+    coherence_score: float = Field(..., ge=0, le=1, description="Classical coherence (max 1.0)")
     emotional_state: ClassicalEmotionalVector
     physiological_indicators: ClassicalHormonalState
     response_guidelines: dict[str, float]
@@ -132,9 +124,7 @@ class ClassicalEmotionEngine:
         analysis_id = f"classical_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
         # Extract emotions using chosen model
-        emotional_state = await self._extract_emotions(
-            context.text, context.emotion_model
-        )
+        emotional_state = await self._extract_emotions(context.text, context.emotion_model)
 
         # Calculate physiological indicators
         physiological = self._calculate_physiological_state(
@@ -174,9 +164,7 @@ class ClassicalEmotionEngine:
             classical_confidence=confidence,
         )
 
-    async def _extract_emotions(
-        self, text: str, model: EmotionModel
-    ) -> ClassicalEmotionalVector:
+    async def _extract_emotions(self, text: str, model: EmotionModel) -> ClassicalEmotionalVector:
         """Extract emotions using classical NLP methods"""
 
         # Simplified emotion detection
@@ -308,11 +296,8 @@ class ClassicalEmotionEngine:
         alignment -= energy_arousal_diff * 0.2
 
         # Positive emotions should reduce stress
-        if (
-            emotions.valence > 0
-            and physiology.stress_level > 0.5
-            or emotions.valence < 0
-            and physiology.stress_level < 0.3
+        if (emotions.valence > 0 and physiology.stress_level > 0.5) or (
+            emotions.valence < 0 and physiology.stress_level < 0.3
         ):
             alignment -= 0.2
 
@@ -465,15 +450,11 @@ class ClassicalEmotionEngine:
 
         # Recommendations based on assessment
         if len(assessment["risk_factors"]) > len(assessment["protective_factors"]):
-            assessment["recommendations"].append(
-                "Consider emotion regulation strategies"
-            )
+            assessment["recommendations"].append("Consider emotion regulation strategies")
 
             # Suggest best strategies based on state
             if physiology.stress_level > 0.7:
-                assessment["recommendations"].append(
-                    "Relaxation techniques recommended"
-                )
+                assessment["recommendations"].append("Relaxation techniques recommended")
             if emotions.intensity > 0.8:
                 assessment["recommendations"].append("Cognitive reappraisal may help")
 
@@ -526,9 +507,7 @@ async def analyze_classical_coherence(context: ClassicalEmotionalContext):
         return response
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Classical analysis failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Classical analysis failed: {e!s}")
 
 
 @app.get("/")

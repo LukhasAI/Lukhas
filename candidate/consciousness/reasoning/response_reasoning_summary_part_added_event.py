@@ -55,7 +55,7 @@ logger.info(
     module_path=__file__,
 )
 
-__all__ = ["ResponseReasoningSummaryPartAddedEvent", "Part"]
+__all__ = ["Part", "ResponseReasoningSummaryPartAddedEvent"]
 
 
 # ΛNOTE: The `Part` class defines the symbolic structure for a segment of a reasoning summary,

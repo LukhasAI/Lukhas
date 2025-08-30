@@ -6,4 +6,4 @@ Centralized risk orchestration and policy overlay management.
 
 from .orchestrator_overlays import OverlaySchema, RiskOverlayManager
 
-__all__ = ["RiskOverlayManager", "OverlaySchema"]
+__all__ = ["OverlaySchema", "RiskOverlayManager"]

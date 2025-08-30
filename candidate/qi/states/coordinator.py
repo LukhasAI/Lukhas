@@ -85,9 +85,7 @@ class QICoordinator:
 
         try:
             # Process consciousness data through quantum systems
-            result = await self._process_consciousness_quantum_enhanced(
-                consciousness_data
-            )
+            result = await self._process_consciousness_quantum_enhanced(consciousness_data)
             result["timestamp"] = datetime.now().isoformat()
             return result
         except Exception as e:
@@ -128,14 +126,10 @@ class QICoordinator:
             )
 
             # Combine results from both quantum pathways
-            combined_output = self._combine_quantum_outputs(
-                qi_result, bio_quantum_result
-            )
+            combined_output = self._combine_quantum_outputs(qi_result, bio_quantum_result)
 
             # Generate consciousness insights from qi-inspired processing
-            consciousness_insights = self._extract_consciousness_insights(
-                combined_output
-            )
+            consciousness_insights = self._extract_consciousness_insights(combined_output)
 
             # Update quantum coordinator statistics
             processing_time = (datetime.now() - processing_start).total_seconds()
@@ -153,9 +147,7 @@ class QICoordinator:
             }
 
         except Exception as e:
-            logger.warning(
-                f"Quantum-inspired processing pathway failed, using fallback: {e}"
-            )
+            logger.warning(f"Quantum-inspired processing pathway failed, using fallback: {e}")
             # Fallback to basic consciousness processing
             fallback_result = self._process_consciousness_fallback(consciousness_data)
             fallback_result["fallback_used"] = True
@@ -264,21 +256,15 @@ class QICoordinator:
             qi_signal = {
                 "drift_score": consciousness_data.get("drift_score", 0.0),
                 "intent_alignment": consciousness_data.get("intent_alignment", 0.0),
-                "emotional_stability": consciousness_data.get(
-                    "emotional_stability", 0.0
-                ),
+                "emotional_stability": consciousness_data.get("emotional_stability", 0.0),
                 "ethical_compliance": consciousness_data.get("ethical_compliance", 0.0),
                 "overall_mood": consciousness_data.get("overall_mood", "contemplative"),
-                "timestamp": consciousness_data.get(
-                    "timestamp", datetime.now().isoformat()
-                ),
+                "timestamp": consciousness_data.get("timestamp", datetime.now().isoformat()),
             }
 
             # Add reflection context if available
             if "reflection_trigger" in consciousness_data:
-                qi_signal["reflection_context"] = consciousness_data[
-                    "reflection_trigger"
-                ]
+                qi_signal["reflection_context"] = consciousness_data["reflection_trigger"]
 
             return qi_signal
         else:
@@ -289,9 +275,7 @@ class QICoordinator:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    def _combine_quantum_outputs(
-        self, qi_result: dict, bio_quantum_result: dict
-    ) -> dict[str, Any]:
+    def _combine_quantum_outputs(self, qi_result: dict, bio_quantum_result: dict) -> dict[str, Any]:
         """Combine outputs from qi-inspired processing pathways"""
         return {
             "qi_coherence": qi_result.get("coherence", 0.5),
@@ -299,18 +283,16 @@ class QICoordinator:
             "bio_stability": bio_quantum_result.get("current_system_state", {}).get(
                 "current_bio_stability_metric", 0.5
             ),
-            "integration_efficiency": bio_quantum_result.get(
-                "current_system_state", {}
-            ).get("overall_integration_efficiency", 0.5),
+            "integration_efficiency": bio_quantum_result.get("current_system_state", {}).get(
+                "overall_integration_efficiency", 0.5
+            ),
             "qi_output": qi_result.get("qi_output", []),
             "bio_output": bio_quantum_result.get("final_output", []),
             "combined_processing_success": qi_result.get("status") == "success"
             and "final_output" in bio_quantum_result,
         }
 
-    def _extract_consciousness_insights(
-        self, combined_output: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _extract_consciousness_insights(self, combined_output: dict[str, Any]) -> dict[str, Any]:
         """Extract consciousness insights from qi-inspired processing results"""
         qi_coherence = combined_output.get("qi_coherence", 0.5)
         bio_stability = combined_output.get("bio_stability", 0.5)
@@ -341,18 +323,13 @@ class QICoordinator:
             "consciousness_integration": consciousness_integration,
             "consciousness_state": consciousness_state,
             "recommended_action": recommended_action,
-            "qi_advantage_detected": combined_output.get("qi_advantage", 0.0)
-            > 0.7,
+            "qi_advantage_detected": combined_output.get("qi_advantage", 0.0) > 0.7,
             "processing_quality": (
-                "high"
-                if combined_output.get("combined_processing_success", False)
-                else "limited"
+                "high" if combined_output.get("combined_processing_success", False) else "limited"
             ),
         }
 
-    def _process_consciousness_fallback(
-        self, consciousness_data: Any
-    ) -> dict[str, Any]:
+    def _process_consciousness_fallback(self, consciousness_data: Any) -> dict[str, Any]:
         """Fallback consciousness processing when quantum systems unavailable"""
         logger.info("Using fallback consciousness processing")
 
@@ -389,9 +366,7 @@ class QICoordinator:
                 "fallback_processing": True,
             }
 
-    def _update_processing_stats(
-        self, processing_time: float, insights: dict[str, Any]
-    ):
+    def _update_processing_stats(self, processing_time: float, insights: dict[str, Any]):
         """Update quantum coordinator processing statistics"""
         if "processing_stats" not in self.stats:
             self.stats["processing_stats"] = {
@@ -407,18 +382,14 @@ class QICoordinator:
 
         # Track consciousness states
         state = insights.get("consciousness_state", "unknown")
-        stats["consciousness_states"][state] = (
-            stats["consciousness_states"].get(state, 0) + 1
-        )
+        stats["consciousness_states"][state] = stats["consciousness_states"].get(state, 0) + 1
 
         # Track quantum advantages
         if insights.get("qi_advantage_detected", False):
             stats["qi_advantages"] += 1
 
         # Update average processing time
-        stats["avg_processing_time"] = (
-            stats["total_processing_time"] / stats["total_processed"]
-        )
+        stats["avg_processing_time"] = stats["total_processing_time"] / stats["total_processed"]
 
     async def get_stats(self) -> dict[str, Any]:
         """Get system statistics"""

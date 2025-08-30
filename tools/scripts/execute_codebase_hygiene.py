@@ -16,8 +16,7 @@ class CodebaseHygieneExecutor:
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.backup_dir = (
-            self.workspace
-            / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            self.workspace / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         self.changes_log = []
         self.import_updates = {}
@@ -244,9 +243,7 @@ class CodebaseHygieneExecutor:
                 "directories_renamed": len(
                     [c for c in self.changes_log if c["type"] == "directory"]
                 ),
-                "files_renamed": len(
-                    [c for c in self.changes_log if c["type"] == "file"]
-                ),
+                "files_renamed": len([c for c in self.changes_log if c["type"] == "file"]),
                 "total_changes": len(self.changes_log),
             },
         }

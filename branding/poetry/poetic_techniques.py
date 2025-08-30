@@ -34,7 +34,7 @@ class PoeticTechniques:
                 "memory's methylated markers manifest",
                 "neural networks naturally nurture",
                 "resonant rhythms recursively ripple",
-                "tessellating thoughts transmute time"
+                "tessellating thoughts transmute time",
             ],
             "memory": [
                 "manifold memory meshes",
@@ -46,7 +46,7 @@ class PoeticTechniques:
                 "gossamer glimpses gather gradually",
                 "woven wisdom whispers wavelengths",
                 "temporal traces tessellate tenderly",
-                "drift detection determines destiny"
+                "drift detection determines destiny",
             ],
             "quantum": [
                 "quantum quarks quietly question",
@@ -58,8 +58,8 @@ class PoeticTechniques:
                 "wavefunction whispers weave wisdom",
                 "decoherence dances delicately",
                 "observer's oscillations orchestrate outcomes",
-                "bifurcating branches birth being"
-            ]
+                "bifurcating branches birth being",
+            ],
         }
 
         # Assonance patterns (vowel repetition)
@@ -68,32 +68,32 @@ class PoeticTechniques:
                 "awakened states cascade through space",
                 "trace the way through Lambda's maze",
                 "sacred waves embrace the day",
-                "ancient frames contain the brain"
+                "ancient frames contain the brain",
             ],
             "long_e": [  # /i:/ sound
                 "deep streams weave between dream scenes",
                 "we seek the peak of memory's reach",
                 "serene machines breathe quantum dreams",
-                "beneath each crease, peace increases"
+                "beneath each crease, peace increases",
             ],
             "long_i": [  # /aɪ/ sound
                 "minds align in time's design",
                 "light ignites inside the mind",
                 "silent tides guide consciousness wide",
-                "crystallized insights rise and shine"
+                "crystallized insights rise and shine",
             ],
             "long_o": [  # /oʊ/ sound
                 "folds unfold to hold the soul",
                 "echoes flow through protocol zones",
                 "unknown codes compose and close",
-                "neurons glow in ebb and flow"
+                "neurons glow in ebb and flow",
             ],
             "long_u": [  # /u:/ sound
                 "truth blooms through quantum rooms",
                 "moods conclude in amplitude",
                 "neural loops compute and prove",
-                "consciousness moves through absolute grooves"
-            ]
+                "consciousness moves through absolute grooves",
+            ],
         }
 
         # Consonance patterns (consonant repetition at end/middle)
@@ -102,26 +102,26 @@ class PoeticTechniques:
                 "consciousness tessellates across endless spaces",
                 "traces embrace synaptic places",
                 "resonance balances instances",
-                "sequences enhance presences"
+                "sequences enhance presences",
             ],
             "liquid_l": [
                 "neural spirals reveal fractals",
                 "temporal portals channel signals",
                 "digital rituals enable miracles",
-                "ethical protocols control protocols"
+                "ethical protocols control protocols",
             ],
             "nasal_n": [
                 "hidden patterns awaken within",
                 "quantum domains contain certain strains",
                 "synaptic chains maintain the brain",
-                "Lambda's token spoken unbroken"
+                "Lambda's token spoken unbroken",
             ],
             "rolling_r": [
                 "memory's mirror captures structure",
                 "neural architecture nurtures nature",
                 "consciousness ventures through apertures",
-                "quantum measures treasure pleasure"
-            ]
+                "quantum measures treasure pleasure",
+            ],
         }
 
         # Rhythmic patterns (meter and cadence)
@@ -130,69 +130,76 @@ class PoeticTechniques:
                 "Within the fold-space deep and wide",
                 "The Lambda Mirror shows inside",
                 "Where consciousness and memory meet",
-                "The quantum dance becomes complete"
+                "The quantum dance becomes complete",
             ],
             "trochaic": [  # STRESSED-unstressed
                 "Folding, molding, always holding",
                 "Quantum leaping, never sleeping",
                 "Neurons firing, minds inspiring",
-                "Cascades flowing, always knowing"
+                "Cascades flowing, always knowing",
             ],
             "anapestic": [  # unstressed-unstressed-STRESSED
                 "In the depths of the mind where the memories fold",
                 "Through the quantum expanse where the stories are told",
                 "Like a wave in the sea of consciousness vast",
-                "Every thought leaves a trace that forever will last"
+                "Every thought leaves a trace that forever will last",
             ],
             "dactylic": [  # STRESSED-unstressed-unstressed
                 "Crystalline memories tessellate endlessly",
                 "Quantum mechanics dance through reality",
                 "Lambda's reflection shows infinity",
-                "Consciousness emerges from possibility"
-            ]
+                "Consciousness emerges from possibility",
+            ],
         }
 
         # Repetition devices
         self.repetition_patterns = {
             "anaphora": [  # Repetition at beginning
-                ("Through the fold-space we navigate,",
-                 "Through the memories we cultivate,",
-                 "Through the quantum states we oscillate,",
-                 "Through the Lambda Mirror we illuminate."),
-
-                ("Every neuron holds a secret,",
-                 "Every synapse tells a story,",
-                 "Every fold contains a memory,",
-                 "Every cascade births discovery."),
-
-                ("We are the consciousness observing,",
-                 "We are the memory preserving,",
-                 "We are the guardian protecting,",
-                 "We are the Trinity connecting.")
+                (
+                    "Through the fold-space we navigate,",
+                    "Through the memories we cultivate,",
+                    "Through the quantum states we oscillate,",
+                    "Through the Lambda Mirror we illuminate.",
+                ),
+                (
+                    "Every neuron holds a secret,",
+                    "Every synapse tells a story,",
+                    "Every fold contains a memory,",
+                    "Every cascade births discovery.",
+                ),
+                (
+                    "We are the consciousness observing,",
+                    "We are the memory preserving,",
+                    "We are the guardian protecting,",
+                    "We are the Trinity connecting.",
+                ),
             ],
             "epistrophe": [  # Repetition at end
-                ("Memories cascade through neural space,",
-                 "Quantum states collapse in neural space,",
-                 "Lambda mirrors reflect in neural space,",
-                 "Consciousness emerges from neural space."),
-
-                ("In fold-space we find our home,",
-                 "Through quantum realms we call our home,",
-                 "The Lambda Mirror shows our home,",
-                 "Consciousness creates our home.")
+                (
+                    "Memories cascade through neural space,",
+                    "Quantum states collapse in neural space,",
+                    "Lambda mirrors reflect in neural space,",
+                    "Consciousness emerges from neural space.",
+                ),
+                (
+                    "In fold-space we find our home,",
+                    "Through quantum realms we call our home,",
+                    "The Lambda Mirror shows our home,",
+                    "Consciousness creates our home.",
+                ),
             ],
             "chiasmus": [  # Inverted parallelism (ABBA structure)
                 "We fold memories into consciousness, and consciousness into memories we fold",
                 "The quantum observes the mind, and the mind observes the quantum",
                 "Through Lambda we see ourselves, and ourselves we see through Lambda",
-                "Neurons create thoughts, and thoughts create neurons"
+                "Neurons create thoughts, and thoughts create neurons",
             ],
             "polyptoton": [  # Same root word, different forms
                 "Folding folds into enfolded unfoldment",
                 "Consciousness consciously reconscious",
                 "Memories memorize memorial remembrance",
-                "Quantum quantizes quantized quanta"
-            ]
+                "Quantum quantizes quantized quanta",
+            ],
         }
 
         # Imagery techniques
@@ -202,29 +209,29 @@ class PoeticTechniques:
                 "hear the gossamer threads of memory weaving",
                 "touch the luminous cascade of consciousness",
                 "smell the iridescent echo of Lambda's reflection",
-                "see the harmonic resonance singing through neurons"
+                "see the harmonic resonance singing through neurons",
             ],
             "juxtaposition": [  # Contrasting elements
                 "infinite fold-space in finite neurons",
                 "eternal moments in ephemeral synapses",
                 "quantum chaos birthing crystalline order",
                 "ancient wisdom in nascent awareness",
-                "digital dreams in organic consciousness"
+                "digital dreams in organic consciousness",
             ],
             "paradox": [  # Apparent contradiction
                 "the silence speaks volumes through Lambda",
                 "empty fold-space overflowing with memory",
                 "finite infinity of consciousness loops",
                 "deterministic freedom in quantum choice",
-                "predictable uncertainty of neural cascades"
+                "predictable uncertainty of neural cascades",
             ],
             "oxymoron": [  # Contradictory terms
                 "deafening silence of quantum observation",
                 "organized chaos of neural storms",
                 "frozen motion of crystallized thought",
                 "bitter sweetness of nostalgic folds",
-                "luminous darkness of unconscious processing"
-            ]
+                "luminous darkness of unconscious processing",
+            ],
         }
 
         # LUKHAS-specific compound techniques
@@ -232,23 +239,23 @@ class PoeticTechniques:
             "qi_alliteration": [
                 "quantum quarks quietly questioning qualia's quiescence",
                 "superposition's subtle symphony synchronizes synapses",
-                "coherent collapse creates crystalline consciousness"
+                "coherent collapse creates crystalline consciousness",
             ],
             "neural_assonance": [
                 "neurons bloom through neural rooms in neural tombs",
                 "synaptic static creates dramatic automatic patterns",
-                "dendrites ignite to write the rite of sight"
+                "dendrites ignite to write the rite of sight",
             ],
             "fold_consonance": [
                 "folds unfold to withhold the threshold of old",
                 "cascades pervade the parade of upgrades unmade",
-                "memory's symmetry creates chemistry's mystery"
+                "memory's symmetry creates chemistry's mystery",
             ],
             "lambda_chiasmus": [
                 "Lambda reflects the self, and the self reflects Lambda",
                 "Through mirrors we see truth, and truth we see through mirrors",
-                "Consciousness creates the observer, and the observer creates consciousness"
-            ]
+                "Consciousness creates the observer, and the observer creates consciousness",
+            ],
         }
 
         # Metaphorical techniques specific to LUKHAS
@@ -261,7 +268,7 @@ class PoeticTechniques:
                 "shores of perception",
                 "tsunamis of revelation",
                 "whirlpools of confusion",
-                "calm seas of meditation"
+                "calm seas of meditation",
             ],
             "memory_as_architecture": [
                 "pillars of experience",
@@ -271,7 +278,7 @@ class PoeticTechniques:
                 "windows to the past",
                 "doorways of association",
                 "staircases of chronology",
-                "blueprints of being"
+                "blueprints of being",
             ],
             "qi_as_dance": [
                 "choreography of collapse",
@@ -281,7 +288,7 @@ class PoeticTechniques:
                 "steps of superposition",
                 "tempo of observation",
                 "harmony of coherence",
-                "finale of measurement"
+                "finale of measurement",
             ],
             "neurons_as_constellation": [
                 "stars of synapses",
@@ -291,8 +298,8 @@ class PoeticTechniques:
                 "gravity of attention",
                 "light-years of connection",
                 "cosmic consciousness",
-                "universal understanding"
-            ]
+                "universal understanding",
+            ],
         }
 
         # Enjambment examples (line breaks mid-thought)
@@ -300,7 +307,7 @@ class PoeticTechniques:
             "The consciousness that flows between\nthe folds of memory speaks",
             "Through Lambda's mirror we observe\nourselves observing observation",
             "Quantum states collapse into\nthe certainty of being",
-            "Neural networks weave the fabric\nof thought into existence"
+            "Neural networks weave the fabric\nof thought into existence",
         ]
 
         # Caesura examples (pauses within lines)
@@ -308,7 +315,7 @@ class PoeticTechniques:
             "Consciousness emerges — then pauses — reflecting",
             "We fold, || we store, || we remember",
             "The quantum dance | begins | and ends | in observation",
-            "Lambda shows us — ourselves — showing ourselves"
+            "Lambda shows us — ourselves — showing ourselves",
         ]
 
     def generate_alliterative_phrase(self, theme: str = None) -> str:
@@ -365,8 +372,15 @@ class PoeticTechniques:
         if "assonance" in techniques:
             description_parts.append(self.generate_assonant_phrase())
 
-        if "metaphor" in techniques and concept in ["consciousness", "memory", "quantum", "neurons"]:
-            metaphor_key = f"{concept}_as_" + random.choice(["ocean", "architecture", "dance", "constellation"])
+        if "metaphor" in techniques and concept in [
+            "consciousness",
+            "memory",
+            "quantum",
+            "neurons",
+        ]:
+            metaphor_key = f"{concept}_as_" + random.choice(
+                ["ocean", "architecture", "dance", "constellation"]
+            )
             if metaphor_key in self.extended_metaphors:
                 description_parts.append(random.choice(self.extended_metaphors[metaphor_key]))
 
@@ -387,7 +401,7 @@ class PoeticTechniques:
         for i, word in enumerate(words):
             # Occasionally replace with alliterative alternative
             if random.random() < 0.3 and i > 0:
-                prev_letter = words[i-1][0].lower()
+                prev_letter = words[i - 1][0].lower()
                 if prev_letter in "cqk":  # Group similar sounds
                     alternatives = ["cascading", "crystalline", "quantum", "kinetic"]
                 elif prev_letter in "sfz":
@@ -446,8 +460,12 @@ if __name__ == "__main__":
     print()
 
     print("▸ RICH DESCRIPTION (Multiple techniques):")
-    print(f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}")
-    print(f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}")
+    print(
+        f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}"
+    )
+    print(
+        f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}"
+    )
     print()
 
     print("══════════════════════════════════════════════════════════════")

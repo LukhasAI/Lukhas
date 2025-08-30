@@ -140,24 +140,16 @@ class ΛBotAdvancedReasoningOrchestrator:
             )
 
             # Initialize specialized reasoning systems
-            self.scientific_theory_former = ScientificTheoryFormer(
-                self.bio_quantum_reasoner
-            )
-            self.ethical_reasoner = EthicalReasoner(
-                self.bio_quantum_reasoner, self.brain_symphony
-            )
+            self.scientific_theory_former = ScientificTheoryFormer(self.bio_quantum_reasoner)
+            self.ethical_reasoner = EthicalReasoner(self.bio_quantum_reasoner, self.brain_symphony)
             self.mathematical_reasoner = MathematicalReasoner(
                 self.bio_quantum_reasoner, self.brain_symphony
             )
             self.multi_scale_reasoner = MultiScaleReasoning(self.bio_quantum_reasoner)
 
             # Cross-brain orchestration
-            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(
-                self.brain_symphony
-            )
-            self.qi_confidence_integrator = QIBioSymbolicConfidenceIntegrator(
-                self.brain_symphony
-            )
+            self.cross_brain_orchestrator = CrossBrainReasoningOrchestrator(self.brain_symphony)
+            self.qi_confidence_integrator = QIBioSymbolicConfidenceIntegrator(self.brain_symphony)
 
             logger.info("🧠⚛️ Elite Bio-Quantum Reasoning Systems fully initialized")
         else:
@@ -262,7 +254,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             return result
 
         except Exception as e:
-            logger.error(f"Error in advanced PR analysis: {str(e)}")
+            logger.error(f"Error in advanced PR analysis: {e!s}")
 
             # Log error
             self.auditor.log_event(
@@ -286,9 +278,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         self, request: AdvancedReasoningRequest
     ) -> AdvancedReasoningResult:
         """Perform analysis using the Bio-Quantum Symbolic Reasoning Engine"""
-        logger.info(
-            f"🧠⚛️ Performing quantum reasoning analysis for {request.request_id}"
-        )
+        logger.info(f"🧠⚛️ Performing quantum reasoning analysis for {request.request_id}")
 
         # Extract problem space from the request
         problem_space = {
@@ -317,14 +307,10 @@ class ΛBotAdvancedReasoningOrchestrator:
         }
 
         # Generate recommendations
-        recommendations = await self._generate_recommendations(
-            reasoning_result, brain_insights
-        )
+        recommendations = await self._generate_recommendations(reasoning_result, brain_insights)
 
         # Perform meta-analysis
-        meta_analysis = await self._perform_meta_analysis(
-            reasoning_result, confidence_metrics
-        )
+        meta_analysis = await self._perform_meta_analysis(reasoning_result, confidence_metrics)
 
         return AdvancedReasoningResult(
             request_id=request.request_id,
@@ -372,9 +358,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "possibility_space": reasoning_result.get("dream_patterns", {}),
         }
 
-    async def _extract_emotional_insights(
-        self, reasoning_result: Any
-    ) -> dict[str, Any]:
+    async def _extract_emotional_insights(self, reasoning_result: Any) -> dict[str, Any]:
         """Extract insights from the Emotional Brain (aesthetic evaluation)"""
         if not self.emotional_brain:
             return {"status": "unavailable"}
@@ -456,9 +440,7 @@ class ΛBotAdvancedReasoningOrchestrator:
                 confidence_metrics.calibration_score if confidence_metrics else 0.8
             ),
             "uncertainty_breakdown": (
-                confidence_metrics.uncertainty_decomposition
-                if confidence_metrics
-                else {}
+                confidence_metrics.uncertainty_decomposition if confidence_metrics else {}
             ),
             "meta_insights": [
                 "Multi-brain approach provided comprehensive analysis",
@@ -517,9 +499,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             await self.cross_brain_orchestrator.initialize_brain_oscillations()
 
             # Phase 2: Multi-scale cognitive processing
-            multi_scale_result = await self.multi_scale_reasoner.reason_across_scales(
-                problem
-            )
+            multi_scale_result = await self.multi_scale_reasoner.reason_across_scales(problem)
 
             # Phase 3: Bio-quantum symbolic reasoning cycle
             reasoning_result = await self.bio_quantum_reasoner.abstract_reasoning_cycle(
@@ -539,9 +519,7 @@ class ΛBotAdvancedReasoningOrchestrator:
                         "multi_scale": multi_scale_result.confidence,
                         "bio_quantum": reasoning_result.confidence,
                         "calibrated": confidence_result.point_estimate,
-                        "qi_coherence": await self._measure_quantum_coherence(
-                            reasoning_result
-                        ),
+                        "qi_coherence": await self._measure_quantum_coherence(reasoning_result),
                     },
                 )
             )
@@ -573,13 +551,9 @@ class ΛBotAdvancedReasoningOrchestrator:
                     "bio_quantum": reasoning_result,
                     "meta_reflection": meta_reflection,
                 },
-                recommendations=await self._generate_quantum_recommendations(
-                    reasoning_result
-                ),
+                recommendations=await self._generate_quantum_recommendations(reasoning_result),
                 meta_analysis={
-                    "qi_coherence": await self._measure_quantum_coherence(
-                        reasoning_result
-                    ),
+                    "qi_coherence": await self._measure_quantum_coherence(reasoning_result),
                     "bio_symbolic_patterns": reasoning_result.get("bio_patterns", {}),
                     "confidence_decomposition": integrated_confidence.uncertainty_components,
                     "neural_oscillation_coherence": await self._measure_neural_coherence(),
@@ -666,9 +640,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "multi_brain_enhanced": True,
         }
 
-    async def solve_mathematical_problem(
-        self, problem: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def solve_mathematical_problem(self, problem: dict[str, Any]) -> dict[str, Any]:
         """
         Solve mathematical problems using quantum-enhanced reasoning
 
@@ -677,9 +649,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         if not ADVANCED_REASONING_AVAILABLE:
             return {"solution": "Mock solution", "proof": "Mock proof"}
 
-        math_solution = await self.mathematical_reasoner.solve_mathematical_problem(
-            problem
-        )
+        math_solution = await self.mathematical_reasoner.solve_mathematical_problem(problem)
 
         self.reasoning_metrics["mathematical_proofs"] += 1
 
@@ -703,10 +673,8 @@ class ΛBotAdvancedReasoningOrchestrator:
         if not ADVANCED_REASONING_AVAILABLE:
             return {"result": "Mock cross-brain reasoning"}
 
-        orchestrated_result = (
-            await self.cross_brain_orchestrator.orchestrate_reasoning_process(
-                problem, context
-            )
+        orchestrated_result = await self.cross_brain_orchestrator.orchestrate_reasoning_process(
+            problem, context
         )
 
         self.reasoning_metrics["cross_brain_orchestrations"] += 1

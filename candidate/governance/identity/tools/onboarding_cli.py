@@ -82,9 +82,7 @@ class OnboardingCLI:
             print(f"{i}. {personality.title()}")
 
         try:
-            choice = input(
-                "\nSelect personality type (1-6) or press Enter for 'simple': "
-            ).strip()
+            choice = input("\nSelect personality type (1-6) or press Enter for 'simple': ").strip()
             if choice.isdigit() and 1 <= int(choice) <= 6:
                 personality_type = personalities[int(choice) - 1]
             else:
@@ -114,9 +112,7 @@ class OnboardingCLI:
         try:
             # Start session
             initial_context = {"personality_type": personality_type}
-            session_result = self.onboarding_manager.start_onboarding_session(
-                initial_context
-            )
+            session_result = self.onboarding_manager.start_onboarding_session(initial_context)
 
             if not session_result["success"]:
                 print(f"❌ Failed to start session: {session_result.get('error')}")
@@ -127,9 +123,7 @@ class OnboardingCLI:
 
             # Progress through stages
             while True:
-                status = self.onboarding_manager.get_onboarding_status(
-                    self.current_session
-                )
+                status = self.onboarding_manager.get_onboarding_status(self.current_session)
                 if not status["success"]:
                     break
 
@@ -155,9 +149,7 @@ class OnboardingCLI:
                 )
 
                 if not progress_result["success"]:
-                    print(
-                        f"❌ Stage progression failed: {progress_result.get('error')}"
-                    )
+                    print(f"❌ Stage progression failed: {progress_result.get('error')}")
                     return None
 
                 # Show recommendations if available
@@ -177,7 +169,7 @@ class OnboardingCLI:
         symbolic_elements = []
 
         for i, stage in enumerate(stages):
-            print(f"\n📍 Stage {i+1}/{len(stages)}: {stage.title()}")
+            print(f"\n📍 Stage {i + 1}/{len(stages)}: {stage.title()}")
             time.sleep(0.5)  # Simulate processing
 
             if stage == "symbolic_foundation":
@@ -191,9 +183,7 @@ class OnboardingCLI:
         # Generate demo result
         return self._generate_demo_result(personality_type, symbolic_elements)
 
-    def _collect_stage_data(
-        self, stage: str, personality_type: str
-    ) -> Optional[dict[str, Any]]:
+    def _collect_stage_data(self, stage: str, personality_type: str) -> Optional[dict[str, Any]]:
         """Collect stage data from user input."""
 
         if stage == "welcome":
@@ -245,9 +235,7 @@ class OnboardingCLI:
             print(f"{i}. {culture.replace('_', ' ').title()}")
 
         try:
-            choice = input(
-                "Select cultural context (1-7) or press Enter for 'universal': "
-            ).strip()
+            choice = input("Select cultural context (1-7) or press Enter for 'universal': ").strip()
             if choice.isdigit() and 1 <= int(choice) <= 7:
                 cultural_context = cultures[int(choice) - 1]
             else:
@@ -360,9 +348,7 @@ class OnboardingCLI:
             try:
                 rating = input(f"{aspect.replace('_', ' ').title()} (1-5): ").strip()
                 consciousness_data[aspect] = (
-                    float(rating) / 5.0
-                    if rating.isdigit() and 1 <= int(rating) <= 5
-                    else 0.5
+                    float(rating) / 5.0 if rating.isdigit() and 1 <= int(rating) <= 5 else 0.5
                 )
             except (KeyboardInterrupt, EOFError, ValueError) as e:
                 logger.warning(f"Error collecting consciousness aspect {aspect}: {e}")
@@ -422,7 +408,9 @@ class OnboardingCLI:
 
         # Generate demo hash
         f"{personality_type}{len(symbolic_elements)}{timestamp}"
-        public_hash = hashlib.sha256(  )  #  Changed from MD5 for securityhash_input.encode().hexdigest()[:16]
+        public_hash = (
+            hashlib.sha256()
+        )  #  Changed from MD5 for securityhash_input.encode().hexdigest()[:16]
 
         # Calculate demo tier and entropy
         tier_level = min(2 + len(symbolic_elements) // 3, 6)
@@ -472,9 +460,7 @@ class OnboardingCLI:
         if "completion_report" in result:
             report = result["completion_report"]
             print("\n📊 Session Statistics:")
-            print(
-                f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0):.1f} minutes"
-            )
+            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0):.1f} minutes")
             print(f"  📋 Stages: {report.get('stages_completed', 0)}")
             print(f"  🔮 Symbolic Elements: {report.get('symbolic_vault_size', 0)}")
             print(f"  🎭 Personality: {report.get('personality_type', 'N/A').title()}")
@@ -491,17 +477,17 @@ class OnboardingCLI:
 
         for i in range(count):
             personality = personalities[i % len(personalities)]
-            print(f"\n🔄 Test {i+1}/{count} - Personality: {personality}")
+            print(f"\n🔄 Test {i + 1}/{count} - Personality: {personality}")
 
             try:
                 result = self._run_demo_onboarding(personality)
                 if result and result.get("success"):
                     results.append(result)
-                    print(f"✅ Test {i+1} completed successfully")
+                    print(f"✅ Test {i + 1} completed successfully")
                 else:
-                    print(f"❌ Test {i+1} failed")
+                    print(f"❌ Test {i + 1} failed")
             except Exception as e:
-                print(f"❌ Test {i+1} error: {e}")
+                print(f"❌ Test {i + 1} error: {e}")
 
         # Display batch results
         self._display_batch_results(results)

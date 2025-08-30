@@ -94,7 +94,7 @@ class FeedbackTriage:
                 sat_var=sat_var,
                 n_samples=len(fcs),
                 common_issues=common_issues,
-                drift_delta=drift_delta
+                drift_delta=drift_delta,
             )
 
             # Use json_encoders from schema
@@ -150,7 +150,7 @@ class FeedbackTriage:
             "after_dedup": len(deduped),
             "clusters_generated": len(clusters),
             "task_weights": weights,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         return stats
@@ -168,8 +168,10 @@ class FeedbackTriage:
         clusters = self.store.read_clusters()
         return [c for c in clusters if c.get("task") == task]
 
+
 # Singleton instance
 _triage = None
+
 
 def get_triage() -> FeedbackTriage:
     """Get singleton triage instance."""

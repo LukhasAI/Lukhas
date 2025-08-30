@@ -35,6 +35,7 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import asyncio
 import logging
 from datetime import datetime
@@ -159,9 +160,7 @@ class AwarenessEngine:
         )
         # TODO: Implement actual consciousness-specific setup logic here.
         await asyncio.sleep(0.01)  # Simulate async setup operation
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Core consciousness system setup complete."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Core consciousness system setup complete.")
 
     # Human-readable comment: Processes input data through the awareness engine.
     @lukhas_tier_required(level=3)
@@ -229,9 +228,7 @@ class AwarenessEngine:
             }
 
     # Human-readable comment: Core internal processing logic dispatch based on category.
-    async def _core_consciousness_processing(
-        self, data: Any, category: Optional[str]
-    ) -> Any:
+    async def _core_consciousness_processing(self, data: Any, category: Optional[str]) -> Any:
         """Core consciousness processing logic, dispatched by category."""
         self.instance_logger.debug(
             f"ΛTRACE: Internal: _core_consciousness_processing for category '{category}'."
@@ -271,9 +268,7 @@ class AwarenessEngine:
     async def _process_voice_data(
         self, data: Any
     ) -> dict[str, Any]:  # Added from original logic, if used
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Processing voice-related data (placeholder)."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Processing voice-related data (placeholder).")
         return {"voice_data_processed": True, "audio_clarity_score": "high"}
 
     async def _process_identity_data(
@@ -296,9 +291,7 @@ class AwarenessEngine:
         return {"qi_entanglement_status": "stable", "coherence_level": "high"}
 
     async def _process_generic_data(self, data: Any) -> dict[str, Any]:
-        self.instance_logger.debug(
-            "ΛTRACE: Internal: Processing generic data (placeholder)."
-        )
+        self.instance_logger.debug("ΛTRACE: Internal: Processing generic data (placeholder).")
         return {
             "data_processed_generically": True,
             "input_summary": str(data)[:100],
@@ -407,9 +400,7 @@ def create_awareness_component(
     Returns:
         AwarenessEngine: A new instance of the AwarenessEngine.
     """
-    logger.info(
-        f"ΛTRACE: Factory create_awareness_component called by user '{user_id}'."
-    )
+    logger.info(f"ΛTRACE: Factory create_awareness_component called by user '{user_id}'.")
     return AwarenessEngine(config, user_id_context=user_id)  # Pass user_id as context
 
 
@@ -431,9 +422,7 @@ async def create_and_initialize_awareness_component(
         f"ΛTRACE: Factory create_and_initialize_awareness_component called by user '{user_id}'."
     )
     component = AwarenessEngine(config, user_id_context=user_id)  # Pass context
-    await component.initialize(
-        user_id=user_id
-    )  # Pass user_id for initialize's tier check
+    await component.initialize(user_id=user_id)  # Pass user_id for initialize's tier check
     return component
 
 
@@ -452,9 +441,7 @@ if __name__ == "__main__":
         logger.info("ΛTRACE: --- AwarenessEngine Demo Starting ---")
         # Use the factory function, passing a user_id for context
         test_user = "demo_user_awareness"
-        awareness_component = await create_and_initialize_awareness_component(
-            user_id=test_user
-        )
+        awareness_component = await create_and_initialize_awareness_component(user_id=test_user)
 
         print(
             f"ΛTRACE Demo - Initialization: {'success' if awareness_component.is_initialized else 'failed'}"
@@ -467,9 +454,7 @@ if __name__ == "__main__":
                 "payload": "example sensory data",
             }
             logger.info(f"ΛTRACE: Demo: Processing test data: {test_data}")
-            processing_result = await awareness_component.process(
-                test_data, user_id=test_user
-            )
+            processing_result = await awareness_component.process(test_data, user_id=test_user)
             print(f"ΛTRACE Demo - Processing result: {processing_result}")
 
             # Validate

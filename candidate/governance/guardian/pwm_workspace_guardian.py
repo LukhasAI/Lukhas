@@ -187,9 +187,7 @@ class WorkspaceGuardian:
 
         # Check for critical files presence
         critical_present = sum(
-            1
-            for cf in self.critical_files
-            if os.path.exists(os.path.join(self.workspace_root, cf))
+            1 for cf in self.critical_files if os.path.exists(os.path.join(self.workspace_root, cf))
         )
         critical_ratio = critical_present / len(self.critical_files)
         health_factors.append(critical_ratio)

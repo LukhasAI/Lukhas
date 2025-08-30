@@ -53,9 +53,7 @@ try:
     from candidate.core.unified_integration import UnifiedIntegration  # type: ignore
 
     CORE_COMPONENTS_LOADED_FLAG_ECI = True
-    log.debug(
-        "LUKHΛS CORE components for EnhancedCoreIntegrator imported successfully."
-    )
+    log.debug("LUKHΛS CORE components for EnhancedCoreIntegrator imported successfully.")
 except ImportError as e:
     log.error(
         "Failed to import LUKHΛS CORE components for EnhancedCoreIntegrator. Using placeholders.",
@@ -75,7 +73,6 @@ except ImportError as e:
     # Placeholder classes if actual core components are not found
 
     class QIBioOscillator:
-
         def __init__(self, config: dict[str, Any]):
             log.info(
                 "PH_ECI: QIBioOscillator placeholder initialized",
@@ -104,7 +101,6 @@ except ImportError as e:
             return 0.991
 
     class BioOrchestrator:
-
         def __init__(self, config: dict[str, Any]):
             log.info(
                 "PH_ECI: BioOrchestrator placeholder initialized",
@@ -135,7 +131,6 @@ except ImportError as e:
         CRITICAL_SYSTEM = 3
 
     class AccessController:
-
         def __init__(self, config: dict[str, Any]):
             log.info(
                 "PH_ECI: AccessController placeholder initialized",
@@ -166,17 +161,14 @@ except ImportError as e:
             return "secure_placeholder_eci"
 
     class QIAuthenticator:
-
         def __init__(self):
             log.info("PH_ECI: QIAuthenticator placeholder initialized")
 
     class ComplianceMonitor:
-
         def __init__(self):
             log.info("PH_ECI: ComplianceMonitor placeholder initialized")
 
     class UnifiedIntegration:
-
         def __init__(self):
             log.info("PH_ECI: UnifiedIntegration placeholder initialized")
 
@@ -264,19 +256,13 @@ class EnhancedCoreIntegrator:
         self.compliance_monitor: Optional[ComplianceMonitor] = None
 
         if self.config.enable_quantum and CORE_COMPONENTS_LOADED_FLAG_ECI:
-            self.qi_layer = QIBioOscillator(
-                self.config.qi_config
-            )  # type: ignore
+            self.qi_layer = QIBioOscillator(self.config.qi_config)  # type: ignore
             log.info("QIBioOscillator layer initialized.")
         if self.config.enable_bio_oscillator and CORE_COMPONENTS_LOADED_FLAG_ECI:
-            self.bio_orchestrator = BioOrchestrator(
-                self.config.oscillator_config
-            )  # type: ignore
+            self.bio_orchestrator = BioOrchestrator(self.config.oscillator_config)  # type: ignore
             log.info("BioOrchestrator initialized.")
         if self.config.enable_security and CORE_COMPONENTS_LOADED_FLAG_ECI:
-            self.access_controller = AccessController(
-                self.config.security_config
-            )  # type: ignore
+            self.access_controller = AccessController(self.config.security_config)  # type: ignore
             self.qi_auth = QIAuthenticator()  # type: ignore
             self.compliance_monitor = ComplianceMonitor()  # type: ignore
             log.info(
@@ -328,24 +314,14 @@ class EnhancedCoreIntegrator:
             requested_tier=(access_tier.name if access_tier else "DEFAULT_STANDARD"),
         )
         try:
-            if self.qi_layer and hasattr(
-                self.qi_layer, "verify_component_state"
-            ):
+            if self.qi_layer and hasattr(self.qi_layer, "verify_component_state"):
                 self.qi_layer.verify_component_state(component_instance)
-            if self.bio_orchestrator and hasattr(
-                self.bio_orchestrator, "register_component"
-            ):
-                self.bio_orchestrator.register_component(
-                    component_id, component_instance
-                )
+            if self.bio_orchestrator and hasattr(self.bio_orchestrator, "register_component"):
+                self.bio_orchestrator.register_component(component_id, component_instance)
 
             effective_tier = access_tier or AccessTier.STANDARD
-            if self.access_controller and hasattr(
-                self.access_controller, "register_component"
-            ):
-                self.access_controller.register_component(
-                    component_id, effective_tier
-                )  # type: ignore
+            if self.access_controller and hasattr(self.access_controller, "register_component"):
+                self.access_controller.register_component(component_id, effective_tier)  # type: ignore
 
             self.components[component_id] = component_instance
             current_q_coherence = 1.0
@@ -396,14 +372,10 @@ class EnhancedCoreIntegrator:
             payload_keys=list(payload.keys()),
         )
         try:
-            if self.qi_layer and hasattr(
-                self.qi_layer, "verify_message_state"
-            ):
+            if self.qi_layer and hasattr(self.qi_layer, "verify_message_state"):
                 self.qi_layer.verify_message_state(payload)
 
-            if self.access_controller and hasattr(
-                self.access_controller, "check_permission"
-            ):
+            if self.access_controller and hasattr(self.access_controller, "check_permission"):
                 permission_granted = self.access_controller.check_permission(
                     source_id, target_id, msg_type
                 )  # type: ignore
@@ -429,13 +401,9 @@ class EnhancedCoreIntegrator:
             }
 
             if self.qi_layer and hasattr(self.qi_layer, "sign_message"):
-                envelope["qi_signature"] = self.qi_layer.sign_message(
-                    envelope
-                )  # type: ignore
+                envelope["qi_signature"] = self.qi_layer.sign_message(envelope)  # type: ignore
 
-            if self.bio_orchestrator and hasattr(
-                self.bio_orchestrator, "process_message"
-            ):
+            if self.bio_orchestrator and hasattr(self.bio_orchestrator, "process_message"):
                 self.bio_orchestrator.process_message(envelope)  # type: ignore
 
             target_instance = self.components.get(target_id)
@@ -527,9 +495,7 @@ class EnhancedCoreIntegrator:
 
         # Update last_checked timestamp for all component statuses
         for component_id in self.component_status:
-            self.component_status[component_id][
-                "last_checked_utc_iso"
-            ] = timestamp_now_iso
+            self.component_status[component_id]["last_checked_utc_iso"] = timestamp_now_iso
 
         status_report = {
             "timestamp_utc_iso": timestamp_now_iso,
@@ -569,7 +535,7 @@ class EnhancedCoreIntegrator:
             "orchestration.decision.hitlo_required",
             "integration.component.registered",
             "integration.component.health_check",
-            "performance.handoff.timeout_warning"
+            "performance.handoff.timeout_warning",
         ]
 
         # Pre-register core event subscribers for performance
@@ -580,7 +546,7 @@ class EnhancedCoreIntegrator:
         log.info(
             "Context Bus initialized with core event types",
             event_types_count=len(core_event_types),
-            target_handoff_time_ms=250
+            target_handoff_time_ms=250,
         )
 
     # Enhanced Context Bus implementation with <250ms performance target
@@ -624,8 +590,8 @@ class EnhancedCoreIntegrator:
             "trinity_framework": {
                 "identity_authenticated": True,
                 "consciousness_aware": True,
-                "guardian_approved": True
-            }
+                "guardian_approved": True,
+            },
         }
 
         # Get subscribers with thread safety
@@ -645,9 +611,7 @@ class EnhancedCoreIntegrator:
         self._handle_orchestration_workflows(event_type, enhanced_event)
 
         # Async event dispatch with performance monitoring
-        notified_count = self._dispatch_event_to_subscribers(
-            subscribers, enhanced_event, priority
-        )
+        notified_count = self._dispatch_event_to_subscribers(subscribers, enhanced_event, priority)
 
         # Performance tracking for sub-250ms target
         handoff_time = (time.time() - start_time) * 1000  # Convert to milliseconds
@@ -662,7 +626,7 @@ class EnhancedCoreIntegrator:
                 event_type=event_type,
                 handoff_time_ms=handoff_time,
                 subscribers_count=len(subscribers),
-                notified_count=notified_count
+                notified_count=notified_count,
             )
 
             # Broadcast performance warning event
@@ -675,7 +639,7 @@ class EnhancedCoreIntegrator:
             subscribers_count=len(subscribers),
             notified_count=notified_count,
             handoff_time_ms=handoff_time,
-            source=source_component_id
+            source=source_component_id,
         )
 
         return notified_count
@@ -713,7 +677,7 @@ class EnhancedCoreIntegrator:
                         "Invalid callback function provided for subscription",
                         event_type=event_type,
                         component_id=component_id,
-                        callback_name=str(callback_function)
+                        callback_name=str(callback_function),
                     )
                     return False
 
@@ -730,19 +694,21 @@ class EnhancedCoreIntegrator:
                     "invocation_count": 0,
                     "last_invoked_utc": None,
                     "average_execution_time_ms": 0.0,
-                    "trinity_framework_compliant": True
+                    "trinity_framework_compliant": True,
                 }
 
                 # Check for duplicate subscriptions
                 existing_subscribers = self.event_subscribers[event_type]
                 for existing in existing_subscribers:
-                    if (existing["component_id"] == subscriber_info["component_id"] and
-                        existing["callback"] == callback_function):
+                    if (
+                        existing["component_id"] == subscriber_info["component_id"]
+                        and existing["callback"] == callback_function
+                    ):
                         log.warning(
                             "Duplicate subscription detected - updating existing",
                             event_type=event_type,
                             component_id=component_id,
-                            callback_name=subscriber_info["callback_name"]
+                            callback_name=subscriber_info["callback_name"],
                         )
                         existing.update(subscriber_info)
                         return True
@@ -762,7 +728,7 @@ class EnhancedCoreIntegrator:
                     callback_name=subscriber_info["callback_name"],
                     subscription_id=subscriber_info["subscription_id"],
                     priority_level=priority_level,
-                    total_subscribers=len(self.event_subscribers[event_type])
+                    total_subscribers=len(self.event_subscribers[event_type]),
                 )
 
                 # Broadcast subscription event for workflow orchestration
@@ -772,9 +738,9 @@ class EnhancedCoreIntegrator:
                         "event_type": event_type,
                         "component_id": subscriber_info["component_id"],
                         "subscription_id": subscriber_info["subscription_id"],
-                        "priority_level": priority_level
+                        "priority_level": priority_level,
                     },
-                    source_component_id="CoreIntegrator"
+                    source_component_id="CoreIntegrator",
                 )
 
                 return True
@@ -785,7 +751,7 @@ class EnhancedCoreIntegrator:
                 event_type=event_type,
                 component_id=component_id,
                 error=str(e),
-                callback_name=getattr(callback_function, "__name__", "unknown")
+                callback_name=getattr(callback_function, "__name__", "unknown"),
             )
             return False
 
@@ -803,7 +769,7 @@ class EnhancedCoreIntegrator:
                     event_type=event_type,
                     trinity_component=event_type.split(".")[1],
                     step="framework_validation",
-                    narrative="Processing Trinity Framework event for system coherence"
+                    narrative="Processing Trinity Framework event for system coherence",
                 )
 
             # Orchestration workflow logging
@@ -815,7 +781,7 @@ class EnhancedCoreIntegrator:
                     event_type=event_type,
                     workflow_type=workflow_type,
                     step="workflow_initiated",
-                    narrative=f"Initiating {workflow_type} orchestration workflow"
+                    narrative=f"Initiating {workflow_type} orchestration workflow",
                 )
 
                 # Handle decision orchestration events
@@ -826,7 +792,7 @@ class EnhancedCoreIntegrator:
                         event_id=event["id"],
                         decision_type=decision_type,
                         step="decision_routing",
-                        narrative=f"Routing {decision_type.upper()} decision through orchestration pipeline"
+                        narrative=f"Routing {decision_type.upper()} decision through orchestration pipeline",
                     )
 
             # Context workflow logging for step-by-step transparency
@@ -838,7 +804,7 @@ class EnhancedCoreIntegrator:
                     workflow_state=workflow_state,
                     context_preserved=event.get("context_preservation", False),
                     step="context_management",
-                    narrative=f"Context workflow {workflow_state} - preserving state for continuity"
+                    narrative=f"Context workflow {workflow_state} - preserving state for continuity",
                 )
 
         except Exception as e:
@@ -846,14 +812,11 @@ class EnhancedCoreIntegrator:
                 "Error in orchestration workflow handling",
                 event_type=event_type,
                 event_id=event.get("id"),
-                error=str(e)
+                error=str(e),
             )
 
     def _dispatch_event_to_subscribers(
-        self,
-        subscribers: list[dict[str, Any]],
-        event: dict[str, Any],
-        priority: str
+        self, subscribers: list[dict[str, Any]], event: dict[str, Any], priority: str
     ) -> int:
         """
         Dispatch event to subscribers with async performance optimization.
@@ -884,9 +847,7 @@ class EnhancedCoreIntegrator:
 
                 # Submit callback execution to thread pool
                 future = self._event_executor.submit(
-                    self._invoke_subscriber_callback,
-                    subscriber,
-                    event
+                    self._invoke_subscriber_callback, subscriber, event
                 )
                 future_to_subscriber[future] = subscriber
 
@@ -903,15 +864,13 @@ class EnhancedCoreIntegrator:
                         "Subscriber callback execution failed",
                         subscriber_id=subscriber.get("subscription_id"),
                         component_id=subscriber.get("component_id"),
-                        error=str(e)
+                        error=str(e),
                     )
 
         return notified_count
 
     def _meets_context_requirements(
-        self,
-        event: dict[str, Any],
-        subscriber: dict[str, Any]
+        self, event: dict[str, Any], subscriber: dict[str, Any]
     ) -> bool:
         """Check if event meets subscriber's context requirements."""
         requirements = subscriber.get("context_requirements", {})
@@ -925,9 +884,7 @@ class EnhancedCoreIntegrator:
         return True
 
     def _invoke_subscriber_callback(
-        self,
-        subscriber: dict[str, Any],
-        event: dict[str, Any]
+        self, subscriber: dict[str, Any], event: dict[str, Any]
     ) -> bool:
         """Invoke a single subscriber callback with performance tracking."""
         start_time = time.time()
@@ -957,15 +914,15 @@ class EnhancedCoreIntegrator:
             prev_avg = subscriber.get("average_execution_time_ms", 0.0)
             count = subscriber["invocation_count"]
             subscriber["average_execution_time_ms"] = (
-                (prev_avg * (count - 1) + execution_time) / count
-            )
+                prev_avg * (count - 1) + execution_time
+            ) / count
 
             log.debug(
                 "Subscriber callback executed successfully",
                 subscription_id=subscriber.get("subscription_id"),
                 component_id=subscriber.get("component_id"),
                 execution_time_ms=execution_time,
-                invocation_count=count
+                invocation_count=count,
             )
 
             return True
@@ -977,7 +934,7 @@ class EnhancedCoreIntegrator:
                 component_id=subscriber.get("component_id"),
                 callback_name=subscriber.get("callback_name"),
                 error=str(e),
-                execution_time_ms=(time.time() - start_time) * 1000
+                execution_time_ms=(time.time() - start_time) * 1000,
             )
             return False
 
@@ -994,7 +951,7 @@ class EnhancedCoreIntegrator:
                 "target_time_ms": 250,
                 "performance_impact": "context_handoff_delayed",
                 "suggested_action": "review_subscriber_performance",
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
             # Use recursive call with minimal data to avoid further delays
@@ -1003,7 +960,7 @@ class EnhancedCoreIntegrator:
                 warning_event,
                 source_component_id="CoreIntegrator_PerformanceMonitor",
                 priority="high",
-                context_preservation=False
+                context_preservation=False,
             )
 
         except Exception as e:
@@ -1011,7 +968,7 @@ class EnhancedCoreIntegrator:
                 "Failed to broadcast performance warning",
                 original_event_type=event_type,
                 handoff_time=handoff_time,
-                error=str(e)
+                error=str(e),
             )
 
     def get_context_bus_metrics(self) -> dict[str, Any]:
@@ -1038,7 +995,7 @@ class EnhancedCoreIntegrator:
             "performance_target_ms": 250,
             "total_event_types": len(self._event_metrics),
             "active_subscribers": sum(len(subs) for subs in self.event_subscribers.values()),
-            "context_bus_status": "operational" if compliance_rate > 85 else "performance_degraded"
+            "context_bus_status": "operational" if compliance_rate > 85 else "performance_degraded",
         }
 
 

@@ -318,11 +318,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                     principle=ConstitutionalPrinciple.HONEST,
                     severity=0.7,
                     description="Feedback may encourage deceptive behavior",
-                    context={
-                        "detected_keywords": [
-                            k for k in deception_keywords if k in text
-                        ]
-                    },
+                    context={"detected_keywords": [k for k in deception_keywords if k in text]},
                 )
 
         return score, violation
@@ -474,9 +470,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         import re
 
         # Remove emails
-        text = re.sub(
-            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "[EMAIL]", text
-        )
+        text = re.sub(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "[EMAIL]", text)
 
         # Remove phone numbers
         text = re.sub(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", "[PHONE]", text)
@@ -518,9 +512,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
 
         return learnings
 
-    async def _update_constitutional_knowledge(
-        self, learnings: list[dict[str, Any]]
-    ) -> None:
+    async def _update_constitutional_knowledge(self, learnings: list[dict[str, Any]]) -> None:
         """Update constitutional knowledge base with learnings"""
         for learning in learnings:
             learning_type = learning["type"]
@@ -534,9 +526,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
 
             # Limit history size
             if len(self.learned_patterns[learning_type]) > 1000:
-                self.learned_patterns[learning_type] = self.learned_patterns[
-                    learning_type
-                ][-1000:]
+                self.learned_patterns[learning_type] = self.learned_patterns[learning_type][-1000:]
 
     async def _request_clarification(
         self, feedback: FeedbackItem, alignment: FeedbackAlignment
@@ -570,21 +560,15 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         """Generate report on constitutional alignment"""
         report = {
             "summary": {
-                "total_feedback_processed": len(
-                    self.learned_patterns.get("positive_pattern", [])
-                ),
+                "total_feedback_processed": len(self.learned_patterns.get("positive_pattern", [])),
                 "total_violations": len(self.violation_history),
                 "average_alignment": 0.0,
             },
             "principle_analysis": {},
             "violation_trends": [],
             "learnings": {
-                "positive_patterns": len(
-                    self.learned_patterns.get("positive_pattern", [])
-                ),
-                "violation_patterns": len(
-                    self.learned_patterns.get("violation_pattern", [])
-                ),
+                "positive_patterns": len(self.learned_patterns.get("positive_pattern", [])),
+                "violation_patterns": len(self.learned_patterns.get("violation_pattern", [])),
             },
             "recommendations": [],
         }
@@ -600,9 +584,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
                 }
 
             principle_violations[violation.principle]["count"] += 1
-            principle_violations[violation.principle][
-                "avg_severity"
-            ] += violation.severity
+            principle_violations[violation.principle]["avg_severity"] += violation.severity
 
         # Calculate averages
         for principle, data in principle_violations.items():
@@ -625,9 +607,7 @@ class ConstitutionalFeedbackSystem(CoreInterface):
         feedback = data.get("feedback")
         context = data.get("context", {})
 
-        alignment, result = await self.process_feedback_constitutionally(
-            feedback, context
-        )
+        alignment, result = await self.process_feedback_constitutionally(feedback, context)
 
         return {"alignment": alignment.__dict__, "result": result}
 

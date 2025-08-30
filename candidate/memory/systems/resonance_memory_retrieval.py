@@ -69,9 +69,7 @@ class FrequencyGenerator:
         # Map emotional dimensions to frequency components
         valence_freq = base_freq * (1 + emotional_state.valence * 0.5)  # 330-660 Hz
         arousal_freq = base_freq * (0.5 + emotional_state.arousal * 1.5)  # 220-880 Hz
-        dominance_freq = base_freq * (
-            0.25 + emotional_state.dominance * 0.75
-        )  # 110-550 Hz
+        dominance_freq = base_freq * (0.25 + emotional_state.dominance * 0.75)  # 110-550 Hz
         stress_freq = base_freq * (2 + emotional_state.stress_level * 2)  # 880-1760 Hz
 
         # Create harmonic series
@@ -169,24 +167,16 @@ class ResonanceCalculator:
         return dot_product / (mag1 * mag2)
 
     @staticmethod
-    def frequency_resonance(
-        fp1: FrequencyFingerprint, fp2: FrequencyFingerprint
-    ) -> float:
+    def frequency_resonance(fp1: FrequencyFingerprint, fp2: FrequencyFingerprint) -> float:
         """Calculate frequency-based resonance between fingerprints"""
         # Frequency similarity
-        freq_similarity = ResonanceCalculator.cosine_similarity(
-            fp1.frequencies, fp2.frequencies
-        )
+        freq_similarity = ResonanceCalculator.cosine_similarity(fp1.frequencies, fp2.frequencies)
 
         # Amplitude similarity
-        amp_similarity = ResonanceCalculator.cosine_similarity(
-            fp1.amplitudes, fp2.amplitudes
-        )
+        amp_similarity = ResonanceCalculator.cosine_similarity(fp1.amplitudes, fp2.amplitudes)
 
         # Phase coherence
-        phase_diff = sum(
-            abs(p1 - p2) for p1, p2 in zip(fp1.phase_shifts, fp2.phase_shifts)
-        )
+        phase_diff = sum(abs(p1 - p2) for p1, p2 in zip(fp1.phase_shifts, fp2.phase_shifts))
         phase_coherence = 1.0 / (1.0 + phase_diff / math.pi)
 
         # Dominant frequency alignment
@@ -194,9 +184,7 @@ class ResonanceCalculator:
         dominant_alignment = 1.0 / (1.0 + dominant_diff / 100.0)  # 100 Hz tolerance
 
         # Bandwidth compatibility
-        bandwidth_ratio = min(fp1.bandwidth, fp2.bandwidth) / max(
-            fp1.bandwidth, fp2.bandwidth
-        )
+        bandwidth_ratio = min(fp1.bandwidth, fp2.bandwidth) / max(fp1.bandwidth, fp2.bandwidth)
 
         # Energy level similarity
         energy_ratio = min(fp1.energy, fp2.energy) / max(fp1.energy, fp2.energy)
@@ -226,9 +214,7 @@ class ResonanceCalculator:
         return decay_factor
 
     @staticmethod
-    def access_boost(
-        access_count: int, last_accessed: datetime, current_time: datetime
-    ) -> float:
+    def access_boost(access_count: int, last_accessed: datetime, current_time: datetime) -> float:
         """Calculate access-based boost for frequently accessed memories"""
         # Base boost from access count
         access_boost = math.log(1 + access_count) / 10  # Logarithmic scaling
@@ -258,17 +244,15 @@ class ResonanceGate:
         """Store memory linked to emotional frequency signature"""
 
         # Generate frequency fingerprint
-        freq_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(
-            emotional_state
-        )
+        freq_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(emotional_state)
 
         # Create memory ID
         memory_content = (
             json.dumps(memory_data) if not isinstance(memory_data, str) else memory_data
         )
-        memory_id = hashlib.sha3_256(
-            (memory_content + str(datetime.now())).encode()
-        ).hexdigest()[:16]
+        memory_id = hashlib.sha3_256((memory_content + str(datetime.now())).encode()).hexdigest()[
+            :16
+        ]
 
         # Create resonant memory
         resonant_memory = ResonantMemory(
@@ -318,9 +302,7 @@ class ResonanceGate:
             # Score based on age and access
             age_hours = (current_time - memory.creation_time).total_seconds() / 3600
             access_score = math.log(1 + memory.access_count)
-            combined_score = access_score - (
-                age_hours / 24
-            )  # Favor recent and accessed
+            combined_score = access_score - (age_hours / 24)  # Favor recent and accessed
 
             if combined_score < lowest_score:
                 lowest_score = combined_score
@@ -360,9 +342,7 @@ class ResonanceGate:
             )
 
             # Apply temporal decay
-            temporal_factor = ResonanceCalculator.temporal_decay(
-                memory.creation_time, current_time
-            )
+            temporal_factor = ResonanceCalculator.temporal_decay(memory.creation_time, current_time)
 
             # Apply access boost
             access_factor = ResonanceCalculator.access_boost(
@@ -423,9 +403,7 @@ class ResonanceGate:
 
         return limited_results
 
-    def update_memory_resonance(
-        self, memory_id: str, new_emotional_state: EmotionalState
-    ) -> bool:
+    def update_memory_resonance(self, memory_id: str, new_emotional_state: EmotionalState) -> bool:
         """Update the emotional resonance of an existing memory"""
         if memory_id not in self.frequency_memory_map:
             return False
@@ -433,9 +411,7 @@ class ResonanceGate:
         memory = self.frequency_memory_map[memory_id]
 
         # Generate new frequency fingerprint
-        new_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(
-            new_emotional_state
-        )
+        new_fingerprint = FrequencyGenerator.generate_frequency_fingerprint(new_emotional_state)
 
         # Update memory
         memory.frequency_signature = new_fingerprint
@@ -590,12 +566,8 @@ class ResonanceGate:
         avg_resonance = 0.0
         if self.frequency_memory_map:
             # Estimate average resonance by sampling
-            sample_state = EmotionalState(
-                valence=0, arousal=0.5, dominance=0.5, stress_level=0.3
-            )
-            sample_results = self.retrieve_by_resonance(
-                sample_state, limit=5, include_scores=True
-            )
+            sample_state = EmotionalState(valence=0, arousal=0.5, dominance=0.5, stress_level=0.3)
+            sample_results = self.retrieve_by_resonance(sample_state, limit=5, include_scores=True)
             if sample_results:
                 avg_resonance = sum(r["resonance_score"] for r in sample_results) / len(
                     sample_results
@@ -605,7 +577,9 @@ class ResonanceGate:
             "status": (
                 "healthy"
                 if utilization < 0.9
-                else "near_capacity" if utilization < 1.0 else "at_capacity"
+                else "near_capacity"
+                if utilization < 1.0
+                else "at_capacity"
             ),
             "memory_utilization": utilization,
             "total_memories": total_memories,
@@ -668,7 +642,7 @@ if __name__ == "__main__":
             memory_id = resonance_gate.store_memory_with_frequency(
                 memory_data["data"],
                 memory_data["emotional_state"],
-                {"category": f"test_memory_{i+1}"},
+                {"category": f"test_memory_{i + 1}"},
             )
             memory_ids.append(memory_id)
 
@@ -680,21 +654,15 @@ if __name__ == "__main__":
         test_queries = [
             {
                 "name": "Happy/Positive State",
-                "state": EmotionalState(
-                    valence=0.8, arousal=0.5, dominance=0.7, stress_level=0.2
-                ),
+                "state": EmotionalState(valence=0.8, arousal=0.5, dominance=0.7, stress_level=0.2),
             },
             {
                 "name": "Stressed/Negative State",
-                "state": EmotionalState(
-                    valence=-0.3, arousal=0.9, dominance=0.4, stress_level=0.8
-                ),
+                "state": EmotionalState(valence=-0.3, arousal=0.9, dominance=0.4, stress_level=0.8),
             },
             {
                 "name": "Calm/Relaxed State",
-                "state": EmotionalState(
-                    valence=0.6, arousal=0.2, dominance=0.5, stress_level=0.1
-                ),
+                "state": EmotionalState(valence=0.6, arousal=0.2, dominance=0.5, stress_level=0.1),
             },
         ]
 
@@ -744,18 +712,12 @@ if __name__ == "__main__":
 
         if "error" not in analysis:
             print(f"   📊 Total memories: {analysis['memory_count']}")
-            print(
-                f"   😊 Avg valence: {analysis['emotional_distributions']['valence']['avg']:.2f}"
-            )
-            print(
-                f"   ⚡ Avg arousal: {analysis['emotional_distributions']['arousal']['avg']:.2f}"
-            )
+            print(f"   😊 Avg valence: {analysis['emotional_distributions']['valence']['avg']:.2f}")
+            print(f"   ⚡ Avg arousal: {analysis['emotional_distributions']['arousal']['avg']:.2f}")
             print(
                 f"   🎵 Avg frequency: {analysis['frequency_distributions']['dominant_frequency']['avg']:.1f} Hz"
             )
-            print(
-                f"   👁️ Total accesses: {analysis['access_patterns']['total_accesses']}"
-            )
+            print(f"   👁️ Total accesses: {analysis['access_patterns']['total_accesses']}")
 
         # System health check
         print("\n🏥 System health check...")

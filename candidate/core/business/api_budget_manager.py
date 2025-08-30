@@ -13,6 +13,7 @@ from typing import Optional
 @dataclass
 class BudgetTier:
     """Budget tier configuration."""
+
     name: str
     daily_limit: float
     features: list[str] = field(default_factory=list)
@@ -21,6 +22,7 @@ class BudgetTier:
 @dataclass
 class UserBudgetUsage:
     """Tracks user's daily budget usage."""
+
     user_id: str
     tier: str
     daily_limit: float
@@ -45,18 +47,18 @@ class APIBudgetManager:
             "free": BudgetTier(
                 name="free",
                 daily_limit=0.50,
-                features=["basic_consciousness_profiling", "5_ads_per_day"]
+                features=["basic_consciousness_profiling", "5_ads_per_day"],
             ),
             "premium": BudgetTier(
                 name="premium",
                 daily_limit=2.00,
-                features=["advanced_profiling", "biometric_integration", "10_ads_per_day"]
+                features=["advanced_profiling", "biometric_integration", "10_ads_per_day"],
             ),
             "enterprise": BudgetTier(
                 name="enterprise",
                 daily_limit=10.00,
-                features=["full_profiling", "real_time_biometrics", "unlimited_ads"]
-            )
+                features=["full_profiling", "real_time_biometrics", "unlimited_ads"],
+            ),
         }
         self.user_budgets: dict[str, UserBudgetUsage] = {}
 
@@ -80,15 +82,11 @@ class APIBudgetManager:
             "remaining_budget": remaining_budget,
             "current_usage": usage.current_usage,
             "daily_limit": usage.daily_limit,
-            "tier": usage.tier
+            "tier": usage.tier,
         }
 
     async def record_usage(
-        self,
-        user_id: str,
-        cost: float,
-        operation: str,
-        metadata: Optional[dict] = None
+        self, user_id: str, cost: float, operation: str, metadata: Optional[dict] = None
     ) -> dict[str, any]:
         """
         Record API usage cost against user's daily budget.
@@ -107,7 +105,7 @@ class APIBudgetManager:
             "timestamp": datetime.now().isoformat(),
             "operation": operation,
             "cost": cost,
-            "metadata": metadata or {}
+            "metadata": metadata or {},
         }
         usage.usage_history.append(usage_entry)
 
@@ -119,7 +117,7 @@ class APIBudgetManager:
             "success": True,
             "new_usage": usage.current_usage,
             "remaining_budget": max(0, usage.daily_limit - usage.current_usage),
-            "operation_recorded": operation
+            "operation_recorded": operation,
         }
 
     async def get_user_analytics(self, user_id: str) -> dict[str, any]:
@@ -131,7 +129,8 @@ class APIBudgetManager:
         # Calculate daily averages over last 7 days
         seven_days_ago = datetime.now() - timedelta(days=7)
         recent_usage = [
-            entry for entry in usage.usage_history
+            entry
+            for entry in usage.usage_history
             if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
         ]
 
@@ -151,12 +150,10 @@ class APIBudgetManager:
             "current_usage": usage.current_usage,
             "avg_daily_cost_7d": round(avg_daily_cost, 4),
             "total_operations_7d": len(recent_usage),
-            "top_operations": sorted(
-                operation_costs.items(),
-                key=lambda x: x[1],
-                reverse=True
-            )[:5],
-            "budget_utilization_rate": round(avg_daily_cost / usage.daily_limit, 2) if usage.daily_limit > 0 else 0
+            "top_operations": sorted(operation_costs.items(), key=lambda x: x[1], reverse=True)[:5],
+            "budget_utilization_rate": round(avg_daily_cost / usage.daily_limit, 2)
+            if usage.daily_limit > 0
+            else 0,
         }
 
     async def get_aggregate_metrics(self) -> dict[str, any]:
@@ -175,9 +172,11 @@ class APIBudgetManager:
             "total_users": len(self.user_budgets),
             "total_allocated": round(total_allocated, 2),
             "total_used": round(total_used, 2),
-            "utilization_rate": round(total_used / total_allocated if total_allocated > 0 else 0, 2),
+            "utilization_rate": round(
+                total_used / total_allocated if total_allocated > 0 else 0, 2
+            ),
             "tier_distribution": tier_distribution,
-            "avg_user_budget": round(total_allocated / len(self.user_budgets), 2)
+            "avg_user_budget": round(total_allocated / len(self.user_budgets), 2),
         }
 
     async def upgrade_user_tier(self, user_id: str, new_tier: str) -> dict[str, any]:
@@ -200,7 +199,7 @@ class APIBudgetManager:
             "old_tier": old_tier,
             "new_tier": new_tier,
             "new_daily_limit": tier_config.daily_limit,
-            "features": tier_config.features
+            "features": tier_config.features,
         }
 
     async def _get_or_create_user_budget(self, user_id: str, tier: str) -> UserBudgetUsage:
@@ -208,9 +207,7 @@ class APIBudgetManager:
         if user_id not in self.user_budgets:
             tier_config = self.tier_configs.get(tier, self.tier_configs["free"])
             self.user_budgets[user_id] = UserBudgetUsage(
-                user_id=user_id,
-                tier=tier,
-                daily_limit=tier_config.daily_limit
+                user_id=user_id, tier=tier, daily_limit=tier_config.daily_limit
             )
         return self.user_budgets[user_id]
 

@@ -48,7 +48,6 @@ from candidate.core.bio_systems.qi_inspired_layer import QIBioOscillator
 
 
 class TestQuantumIntegration(unittest.TestCase):
-
     def setUp(self):
         # Configure quantum settings for faster testing
         self.qi_config = QIConfig(
@@ -59,12 +58,8 @@ class TestQuantumIntegration(unittest.TestCase):
         )
 
         # Initialize oscillators
-        self.osc1 = QIBioOscillator(
-            base_freq=3.0, qi_config=self.qi_config
-        )
-        self.osc2 = QIBioOscillator(
-            base_freq=3.0, qi_config=self.qi_config
-        )
+        self.osc1 = QIBioOscillator(base_freq=3.0, qi_config=self.qi_config)
+        self.osc2 = QIBioOscillator(base_freq=3.0, qi_config=self.qi_config)
 
         # Initialize orchestrator
         self.orchestrator = BioOrchestrator([self.osc1, self.osc2])
@@ -125,9 +120,7 @@ class TestQuantumIntegration(unittest.TestCase):
 
         # Verify measurement
         self.assertEqual(state, QILikeState.CLASSICAL)
-        self.assertTrue(
-            any(np.isclose(phase, exp_phase) for exp_phase in expected_phases)
-        )
+        self.assertTrue(any(np.isclose(phase, exp_phase) for exp_phase in expected_phases))
 
     def test_orchestrator_quantum_management(self):
         """Test orchestrator's quantum-like state management"""

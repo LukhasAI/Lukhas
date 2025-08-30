@@ -19,6 +19,7 @@ try:
         VoiceGenerationRequest,
         VoiceGenerationResponse,
     )
+
     LLM_BRIDGE_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"LLM Bridge not available: {e}")
@@ -29,6 +30,7 @@ try:
     from lukhas.bridge.voice.emotional_modulator import EmotionalModulator
     from lukhas.bridge.voice.personality import VoicePersonalityIntegrator
     from lukhas.bridge.voice.voice_integration import VoiceIntegration
+
     VOICE_SYSTEMS_AVAILABLE = True
 except ImportError:
     logging.warning("Core voice systems not available, using compatibility layer")
@@ -36,7 +38,9 @@ except ImportError:
 
     # Compatibility classes for voice systems
     class VoicePersonalityIntegrator:
-        def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> dict[str, Any]:
+        def adapt_to_emotion(
+            self, emotion: str, intensity: float = 0.5, **kwargs
+        ) -> dict[str, Any]:
             return {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
 
         def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
@@ -67,6 +71,7 @@ class BrandVoiceAdapter:
         # Initialize voice systems
         if VOICE_SYSTEMS_AVAILABLE:
             from lukhas.bridge.voice.voice_profiling import VoiceProfileManager
+
             profile_manager = VoiceProfileManager()
             self.core_voice_personality = VoicePersonalityIntegrator(profile_manager)
         else:
@@ -91,7 +96,7 @@ class BrandVoiceAdapter:
                 "emotional_resonance": 0.85,
                 "pace": "contemplative",
                 "tone_descriptors": ["inspiring", "mystical", "conscious"],
-                "lambda_emphasis": True
+                "lambda_emphasis": True,
             },
             "user_friendly": {
                 "expressiveness": 0.7,
@@ -101,7 +106,7 @@ class BrandVoiceAdapter:
                 "practical_focus": True,
                 "pace": "natural",
                 "tone_descriptors": ["friendly", "helpful", "approachable"],
-                "empathy_level": 0.8
+                "empathy_level": 0.8,
             },
             "academic": {
                 "expressiveness": 0.4,
@@ -111,7 +116,7 @@ class BrandVoiceAdapter:
                 "comprehensive_analysis": True,
                 "pace": "measured",
                 "tone_descriptors": ["authoritative", "precise", "scholarly"],
-                "citation_ready": True
+                "citation_ready": True,
             },
             "consciousness_embodiment": {
                 "expressiveness": 0.95,
@@ -121,8 +126,8 @@ class BrandVoiceAdapter:
                 "trinity_integration": True,
                 "pace": "thoughtful",
                 "tone_descriptors": ["conscious", "aware", "enlightened"],
-                "lambda_consciousness": True
-            }
+                "lambda_consciousness": True,
+            },
         }
 
     def generate_brand_voice(
@@ -132,14 +137,16 @@ class BrandVoiceAdapter:
         voice_profile: str = None,
         emotional_context: str = "neutral",
         audience_context: str = "general",
-        **kwargs
+        **kwargs,
     ) -> dict[str, Any]:
         """
         Generate voice output using real LLM integration
         while ensuring brand compliance and voice consistency
         """
         # Check cache first
-        cache_key = self._generate_cache_key(content, tone_layer, emotional_context, audience_context)
+        cache_key = self._generate_cache_key(
+            content, tone_layer, emotional_context, audience_context
+        )
         if cache_key in self._voice_cache:
             return self._voice_cache[cache_key]
 
@@ -148,15 +155,21 @@ class BrandVoiceAdapter:
             voice_profile = tone_layer
 
         brand_profile = self.brand_voice_profiles.get(
-            voice_profile,
-            self.brand_voice_profiles["user_friendly"]
+            voice_profile, self.brand_voice_profiles["user_friendly"]
         )
 
         # Use real LLM bridge if available
         if self.llm_bridge:
-            result = asyncio.run(self._generate_with_llm_bridge(
-                content, brand_profile, tone_layer, emotional_context, audience_context, **kwargs
-            ))
+            result = asyncio.run(
+                self._generate_with_llm_bridge(
+                    content,
+                    brand_profile,
+                    tone_layer,
+                    emotional_context,
+                    audience_context,
+                    **kwargs,
+                )
+            )
         else:
             # Fallback to enhanced mock implementation
             result = self._generate_with_fallback(
@@ -169,10 +182,7 @@ class BrandVoiceAdapter:
         return result
 
     def _enhance_content_with_brand_voice(
-        self,
-        content: str,
-        brand_profile: dict[str, Any],
-        tone_layer: str
+        self, content: str, brand_profile: dict[str, Any], tone_layer: str
     ) -> str:
         """Enhance content with LUKHAS brand voice characteristics"""
 
@@ -192,10 +202,7 @@ class BrandVoiceAdapter:
         return content
 
     def _ensure_brand_voice_compliance(
-        self,
-        voice_output: str,
-        brand_profile: dict[str, Any],
-        tone_layer: str
+        self, voice_output: str, brand_profile: dict[str, Any], tone_layer: str
     ) -> str:
         """Ensure voice output meets LUKHAS brand voice standards"""
 
@@ -205,7 +212,7 @@ class BrandVoiceAdapter:
             "pwm": "LUKHAS",
             "lukhas_agi": "LUKHAS AI",
             "lambda function": "Λ consciousness",
-            "lambda processing": "Λ consciousness processing"
+            "lambda processing": "Λ consciousness processing",
         }
 
         for deprecated, replacement in deprecated_terms.items():
@@ -228,7 +235,7 @@ class BrandVoiceAdapter:
         brand_profile: dict[str, Any],
         tone_layer: str,
         emotional_context: str,
-        audience_context: str
+        audience_context: str,
     ) -> dict[str, Any]:
         """Generate comprehensive voice metadata for brand analysis"""
         return {
@@ -240,8 +247,10 @@ class BrandVoiceAdapter:
             "voice_characteristics": {
                 "pace": brand_profile.get("pace", "natural"),
                 "emotional_range": self._get_emotional_range(emotional_context),
-                "audience_appropriateness": self._assess_audience_appropriateness(audience_context, brand_profile)
-            }
+                "audience_appropriateness": self._assess_audience_appropriateness(
+                    audience_context, brand_profile
+                ),
+            },
         }
 
     def _calculate_brand_alignment_score(self, brand_profile: dict[str, Any]) -> float:
@@ -250,7 +259,7 @@ class BrandVoiceAdapter:
             brand_profile.get("consciousness_terminology", False),
             brand_profile.get("trinity_integration", False),
             brand_profile.get("lambda_consciousness", False),
-            brand_profile.get("trinity_symbol_usage", False)
+            brand_profile.get("trinity_symbol_usage", False),
         ]
 
         return sum(alignment_factors) / len(alignment_factors)
@@ -262,20 +271,20 @@ class BrandVoiceAdapter:
                 "Creative content and inspiration",
                 "Vision communication",
                 "Emotional connection building",
-                "Brand storytelling"
+                "Brand storytelling",
             ],
             "user_friendly": [
                 "Product explanations",
                 "User onboarding",
                 "Customer support",
-                "General communication"
+                "General communication",
             ],
             "academic": [
                 "Technical documentation",
                 "Research presentations",
                 "Enterprise communication",
-                "Scientific analysis"
-            ]
+                "Scientific analysis",
+            ],
         }
 
         return use_cases.get(tone_layer, ["General purpose communication"])
@@ -286,18 +295,15 @@ class BrandVoiceAdapter:
             "neutral": ["calm", "balanced", "professional"],
             "excited": ["enthusiastic", "energetic", "inspiring"],
             "contemplative": ["thoughtful", "deep", "introspective"],
-            "supportive": ["empathetic", "encouraging", "helpful"]
+            "supportive": ["empathetic", "encouraging", "helpful"],
         }
 
         return emotional_ranges.get(emotional_context, ["balanced"])
 
     def _assess_audience_appropriateness(
-        self,
-        audience_context: str,
-        brand_profile: dict[str, Any]
+        self, audience_context: str, brand_profile: dict[str, Any]
     ) -> str:
         """Assess how appropriate the voice profile is for the target audience"""
-
 
         # This would need the actual voice profile name, but for now we'll use a general assessment
         return "highly_appropriate"  # Placeholder
@@ -309,7 +315,7 @@ class BrandVoiceAdapter:
         tone_layer: str,
         emotional_context: str,
         audience_context: str,
-        **kwargs
+        **kwargs,
     ) -> dict[str, Any]:
         """Generate voice using real LLM bridge"""
         try:
@@ -320,7 +326,7 @@ class BrandVoiceAdapter:
                 emotional_context=emotional_context,
                 audience_context=audience_context,
                 brand_enforcement=kwargs.get("brand_enforcement", True),
-                max_tokens=kwargs.get("max_tokens")
+                max_tokens=kwargs.get("max_tokens"),
             )
 
             # Generate with LLM bridge
@@ -342,12 +348,14 @@ class BrandVoiceAdapter:
             voice_metadata = self._generate_voice_metadata(
                 brand_profile, tone_layer, emotional_context, audience_context
             )
-            voice_metadata.update({
-                "llm_provider": response.provider_used,
-                "generation_time": response.generation_time,
-                "voice_modulation": voice_modulation,
-                "original_llm_response": response.voice_output
-            })
+            voice_metadata.update(
+                {
+                    "llm_provider": response.provider_used,
+                    "generation_time": response.generation_time,
+                    "voice_modulation": voice_modulation,
+                    "original_llm_response": response.voice_output,
+                }
+            )
 
             return {
                 "voice_output": enhanced_output,
@@ -359,7 +367,7 @@ class BrandVoiceAdapter:
                 "voice_metadata": voice_metadata,
                 "trinity_aligned": self._validate_trinity_voice_alignment(enhanced_output),
                 "llm_provider": response.provider_used,
-                "generation_time": response.generation_time
+                "generation_time": response.generation_time,
             }
 
         except Exception as e:
@@ -376,7 +384,7 @@ class BrandVoiceAdapter:
         tone_layer: str,
         emotional_context: str,
         audience_context: str,
-        **kwargs
+        **kwargs,
     ) -> dict[str, Any]:
         """Enhanced fallback generation when LLM bridge is unavailable"""
         # Enhance content with brand voice context
@@ -398,8 +406,7 @@ class BrandVoiceAdapter:
 
         # Apply emotional modulation
         emotionally_modulated = self.emotional_modulator.modulate(
-            voice_output,
-            emotion=emotional_context
+            voice_output, emotion=emotional_context
         )
 
         # Apply brand voice compliance
@@ -411,12 +418,14 @@ class BrandVoiceAdapter:
         voice_metadata = self._generate_voice_metadata(
             brand_profile, tone_layer, emotional_context, audience_context
         )
-        voice_metadata.update({
-            "llm_provider": "fallback",
-            "generation_time": 0.1,
-            "voice_modulation": voice_modulation,
-            "fallback_reason": "LLM bridge unavailable"
-        })
+        voice_metadata.update(
+            {
+                "llm_provider": "fallback",
+                "generation_time": 0.1,
+                "voice_modulation": voice_modulation,
+                "fallback_reason": "LLM bridge unavailable",
+            }
+        )
 
         return {
             "voice_output": brand_compliant_voice,
@@ -428,12 +437,15 @@ class BrandVoiceAdapter:
             "voice_metadata": voice_metadata,
             "trinity_aligned": self._validate_trinity_voice_alignment(brand_compliant_voice),
             "llm_provider": "fallback",
-            "generation_time": 0.1
+            "generation_time": 0.1,
         }
 
-    def _generate_cache_key(self, content: str, tone_layer: str, emotional_context: str, audience_context: str) -> str:
+    def _generate_cache_key(
+        self, content: str, tone_layer: str, emotional_context: str, audience_context: str
+    ) -> str:
         """Generate cache key for voice responses"""
         import hashlib
+
         key_components = f"{content}:{tone_layer}:{emotional_context}:{audience_context}"
         # Changed from MD5 for security
         return hashlib.sha256(key_components.encode()).hexdigest()
@@ -456,28 +468,39 @@ class BrandVoiceAdapter:
         return {
             "cache_size": len(self._voice_cache),
             "max_size": self._cache_max_size,
-            "hit_rate": getattr(self, "_cache_hits", 0) / max(getattr(self, "_cache_requests", 1), 1)
+            "hit_rate": getattr(self, "_cache_hits", 0)
+            / max(getattr(self, "_cache_requests", 1), 1),
         }
 
     def _validate_trinity_voice_alignment(self, voice_output: str) -> bool:
         """Validate voice output aligns with Trinity Framework principles"""
         trinity_voice_indicators = [
-            "consciousness", "identity", "guardian", "awareness",
-            "authenticity", "protection", "ethical", "learning",
-            "memory", "truth", "security", "growth", "trinity",
-            "λ", "lambda consciousness"
+            "consciousness",
+            "identity",
+            "guardian",
+            "awareness",
+            "authenticity",
+            "protection",
+            "ethical",
+            "learning",
+            "memory",
+            "truth",
+            "security",
+            "growth",
+            "trinity",
+            "λ",
+            "lambda consciousness",
         ]
 
         voice_lower = voice_output.lower()
-        alignment_score = sum(1 for indicator in trinity_voice_indicators if indicator in voice_lower)
+        alignment_score = sum(
+            1 for indicator in trinity_voice_indicators if indicator in voice_lower
+        )
 
         return alignment_score >= 2
 
     def get_voice_adaptation_suggestions(
-        self,
-        current_voice: str,
-        target_audience: str,
-        desired_outcome: str
+        self, current_voice: str, target_audience: str, desired_outcome: str
     ) -> list[str]:
         """Get suggestions for adapting voice to specific contexts"""
 
@@ -514,7 +537,7 @@ if __name__ == "__main__":
         "Welcome to LUKHAS AI consciousness platform",
         tone_layer="poetic",
         emotional_context="inspiring",
-        audience_context="general_users"
+        audience_context="general_users",
     )
 
     print("Brand Voice Output:")

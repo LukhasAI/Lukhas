@@ -111,9 +111,7 @@ class StreamlineAnalyzer:
 
                     elif isinstance(node, ast.ClassDef):
                         class_sig = self._get_class_signature(node)
-                        classes[class_sig].append(
-                            {"file": str(relative_path), "name": node.name}
-                        )
+                        classes[class_sig].append({"file": str(relative_path), "name": node.name})
 
                     elif isinstance(node, ast.Import):
                         for alias in node.names:
@@ -246,9 +244,7 @@ class StreamlineAnalyzer:
             "duplicate_functions": len(self.findings["duplicate_functions"]),
             "similar_classes": len(self.findings["similar_classes"]),
             "redundant_import_patterns": len(self.findings["redundant_imports"]),
-            "consolidation_opportunities": len(
-                self.findings["consolidation_opportunities"]
-            ),
+            "consolidation_opportunities": len(self.findings["consolidation_opportunities"]),
             "estimated_reduction": self._estimate_code_reduction(),
         }
 
@@ -256,13 +252,11 @@ class StreamlineAnalyzer:
         """Estimate potential code reduction"""
         # Conservative estimates
         duplicate_functions = (
-            sum(len(f["occurrences"]) - 1 for f in self.findings["duplicate_functions"])
-            * 20
+            sum(len(f["occurrences"]) - 1 for f in self.findings["duplicate_functions"]) * 20
         )  # Average 20 lines per function
 
         similar_classes = (
-            sum(len(c["occurrences"]) - 1 for c in self.findings["similar_classes"])
-            * 50
+            sum(len(c["occurrences"]) - 1 for c in self.findings["similar_classes"]) * 50
         )  # Average 50 lines per class
 
         pattern_consolidation = len(self.findings["consolidation_opportunities"]) * 10
@@ -308,9 +302,7 @@ class StreamlineAnalyzer:
 
         # Create common utilities
         pattern_opportunities = [
-            o
-            for o in self.findings["consolidation_opportunities"]
-            if o["type"] == "common_pattern"
+            o for o in self.findings["consolidation_opportunities"] if o["type"] == "common_pattern"
         ]
         if pattern_opportunities:
             recommendations.append(
@@ -331,9 +323,7 @@ class StreamlineAnalyzer:
                     "action": "Centralize common imports",
                     "description": "Create common import modules for frequently used dependencies",
                     "impact": "Cleaner import sections and easier dependency management",
-                    "modules": [
-                        r["module"] for r in self.findings["redundant_imports"]
-                    ],
+                    "modules": [r["module"] for r in self.findings["redundant_imports"]],
                 }
             )
 
@@ -394,9 +384,7 @@ class StreamlineAnalyzer:
         print(f"   Modules analyzed: {summary['modules_analyzed']}")
         print(f"   Duplicate functions found: {summary['duplicate_functions']}")
         print(f"   Similar classes found: {summary['similar_classes']}")
-        print(
-            f"   Consolidation opportunities: {summary['consolidation_opportunities']}"
-        )
+        print(f"   Consolidation opportunities: {summary['consolidation_opportunities']}")
         print(
             f"   Estimated code reduction: {summary['estimated_reduction']['lines']} lines (~{summary['estimated_reduction']['percentage']}%)"
         )

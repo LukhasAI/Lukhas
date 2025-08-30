@@ -96,7 +96,7 @@ class IdentityGuard:
 
                     if func_def_found and not has_auth:
                         violations.append(
-                            f"❌ UNPROTECTED API ENDPOINT at {file_path}:{i+1}\n"
+                            f"❌ UNPROTECTED API ENDPOINT at {file_path}:{i + 1}\n"
                             f"   Endpoint: {line.strip()}\n"
                             f"   Required: Add 'user: AuthContext = Depends(require_tX_or_above)'\n"
                         )
@@ -199,9 +199,7 @@ class IdentityGuard:
                     text=True,
                     cwd=".",
                 )
-                changed_files = (
-                    result.stdout.strip().split("\n") if result.stdout.strip() else []
-                )
+                changed_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
             except:
                 print("⚠️ Could not get git changes, validating all API files")
                 changed_files = []
@@ -241,9 +239,7 @@ class IdentityGuard:
             print("❌ IDENTITY VALIDATION FAILED")
             print("=" * 50)
             print("\n🔧 Quick Fixes:")
-            print(
-                "  • API endpoints: Add 'user: AuthContext = Depends(require_t3_or_above)'"
-            )
+            print("  • API endpoints: Add 'user: AuthContext = Depends(require_t3_or_above)'")
             print(
                 "  • Imports: Add 'from identity.middleware import AuthContext, require_t3_or_above'"
             )
@@ -272,9 +268,7 @@ def main():
             print("\n🚀 Ready to commit!")
         else:
             print("\n⚠️ Fix violations before committing")
-            print(
-                "💡 Run automated fixer: python3 tools/scripts/AUTO_IDENTITY_FIXER.py"
-            )
+            print("💡 Run automated fixer: python3 tools/scripts/AUTO_IDENTITY_FIXER.py")
 
 
 if __name__ == "__main__":

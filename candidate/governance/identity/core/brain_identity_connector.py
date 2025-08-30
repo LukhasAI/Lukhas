@@ -454,9 +454,7 @@ class MemoryIdentityIntegration:
 
         logger.info("Memory Identity Integration initialized")
 
-    def encrypt_memory_content(
-        self, key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def encrypt_memory_content(self, key: str, content: dict[str, Any]) -> dict[str, Any]:
         """
         Encrypt memory content for secure storage.
 
@@ -479,9 +477,7 @@ class MemoryIdentityIntegration:
 
         return content
 
-    def decrypt_memory_content(
-        self, key: str, content: dict[str, Any]
-    ) -> dict[str, Any]:
+    def decrypt_memory_content(self, key: str, content: dict[str, Any]) -> dict[str, Any]:
         """
         Decrypt memory content for access.
 
@@ -587,9 +583,7 @@ class MemoryIdentityIntegration:
                     )
 
                 if hasattr(mm, "store"):
-                    mm.store = self.connector.wrap_memory_function(
-                        mm.store, MemoryOperation.WRITE
-                    )
+                    mm.store = self.connector.wrap_memory_function(mm.store, MemoryOperation.WRITE)
 
                 if hasattr(mm, "update"):
                     mm.update = self.connector.wrap_memory_function(

@@ -30,11 +30,11 @@ Integration Date: 2025-05-31T07:55:29.965394
 from datetime import datetime
 
 from data_legacy.consent_manager import ConsentTierManager
+
 from utils.trace_logger import log_symbolic_trace
 
 
 class SymbolicActionProtocol:
-
     def __init__(self, user_id, consent_level):
         self.user_id = user_id
         self.consent_level = consent_level
@@ -61,7 +61,7 @@ class SymbolicActionProtocol:
         max_cost = self.tier_config.get("max_autonomous_cost", 0)
         emergency_mode = self.tier_config.get("emergency_mode", False)
 
-        return action_type in allowed_actions and cost <= max_cost or emergency_mode
+        return (action_type in allowed_actions and cost <= max_cost) or emergency_mode
 
     def explain_action(self, proposal: dict) -> str:
         """

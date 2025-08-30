@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConsciousnessState:
     """Represents the current consciousness state"""
+
     awareness_level: float
     attention_focus: list[str]
     decision_confidence: float
@@ -89,7 +90,7 @@ class AutoConsciousness:
             decision_confidence=0.7,
             reasoning_depth=1,
             timestamp=datetime.now(),
-            active_contexts={}
+            active_contexts={},
         )
 
         logger.info(f"Auto Consciousness initialized: {self.consciousness_id}")
@@ -127,7 +128,7 @@ class AutoConsciousness:
                 decision_confidence=self.current_state.decision_confidence,
                 reasoning_depth=self.current_state.reasoning_depth,
                 timestamp=datetime.now(),
-                active_contexts={**self.current_state.active_contexts, **context}
+                active_contexts={**self.current_state.active_contexts, **context},
             )
 
             # Add to state history
@@ -144,7 +145,7 @@ class AutoConsciousness:
                 "confidence": base_awareness,
                 "stimulus_recognized": True,
                 "response_generated": True,
-                "timestamp": self.current_state.timestamp.isoformat()
+                "timestamp": self.current_state.timestamp.isoformat(),
             }
 
         except Exception as e:
@@ -157,7 +158,7 @@ class AutoConsciousness:
                 "stimulus_recognized": False,
                 "response_generated": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def make_decision(self, decision_input: dict[str, Any]) -> dict[str, Any]:
@@ -206,7 +207,7 @@ class AutoConsciousness:
                 f"Analyzed scenario: {scenario}",
                 f"Considered context: urgency={urgency}, risk={risk}",
                 f"Evaluated {len(options)} options",
-                f"Selected {best_option} with score {confidence:.2f}"
+                f"Selected {best_option} with score {confidence:.2f}",
             ]
 
             # Alternative options (excluding the chosen one)
@@ -223,7 +224,7 @@ class AutoConsciousness:
                 "alternatives": alternatives,
                 "scenario": scenario,
                 "scores": scores,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -231,10 +232,10 @@ class AutoConsciousness:
             return {
                 "decision": "abort",
                 "confidence": 0.1,
-                "reasoning": [f"Decision failed: {str(e)}"],
+                "reasoning": [f"Decision failed: {e!s}"],
                 "alternatives": [],
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def get_consciousness_state(self) -> dict[str, Any]:
@@ -248,10 +249,10 @@ class AutoConsciousness:
                 "decision_confidence": self.current_state.decision_confidence,
                 "reasoning_depth": self.current_state.reasoning_depth,
                 "timestamp": self.current_state.timestamp.isoformat(),
-                "active_contexts": self.current_state.active_contexts
+                "active_contexts": self.current_state.active_contexts,
             },
             "components_available": list(self.components.keys()),
-            "state_history_length": len(self.state_history)
+            "state_history_length": len(self.state_history),
         }
 
     async def process_stimulus(self, stimulus: Any) -> dict[str, Any]:
@@ -261,7 +262,7 @@ class AutoConsciousness:
             input_data = {
                 "stimulus": stimulus,
                 "context": {"importance": 0.5},
-                "metadata": {"source": "direct"}
+                "metadata": {"source": "direct"},
             }
         elif isinstance(stimulus, dict):
             input_data = stimulus
@@ -269,7 +270,7 @@ class AutoConsciousness:
             input_data = {
                 "stimulus": str(stimulus),
                 "context": {"importance": 0.3},
-                "metadata": {"source": "converted"}
+                "metadata": {"source": "converted"},
             }
 
         # Assess awareness
@@ -280,7 +281,7 @@ class AutoConsciousness:
             decision_input = {
                 "scenario": input_data["stimulus"],
                 "options": ["process", "defer", "ignore"],
-                "context": input_data.get("context", {})
+                "context": input_data.get("context", {}),
             }
             decision_result = await self.make_decision(decision_input)
         else:
@@ -288,7 +289,7 @@ class AutoConsciousness:
                 "decision": "defer",
                 "confidence": awareness_result["awareness_level"],
                 "reasoning": ["Low awareness level, deferring processing"],
-                "alternatives": ["ignore"]
+                "alternatives": ["ignore"],
             }
 
         return {
@@ -296,7 +297,7 @@ class AutoConsciousness:
             "awareness": awareness_result,
             "decision": decision_result,
             "consciousness_state": await self.get_consciousness_state(),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def is_available(self) -> bool:

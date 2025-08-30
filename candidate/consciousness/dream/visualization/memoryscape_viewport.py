@@ -20,9 +20,7 @@ class DreamMemoryscapeViewport:
         self._last_state: dict[str, Any] | None = None
         self.total_drift: float = 0.0
 
-    def _coords_for_dream(
-        self, idx: int, dream: dict[str, Any]
-    ) -> tuple[float, float, float]:
+    def _coords_for_dream(self, idx: int, dream: dict[str, Any]) -> tuple[float, float, float]:
         affect = float(dream.get("affect_delta", 0.0))
         theta = float(dream.get("theta_delta", idx))
         return float(idx), affect, theta

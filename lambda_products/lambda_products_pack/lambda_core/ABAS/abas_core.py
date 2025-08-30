@@ -252,9 +252,7 @@ class ΛBAS:
             logger.error(f"Error registering user {user_id}: {e}")
             return False
 
-    async def update_attention_metrics(
-        self, user_id: str, metrics: AttentionMetrics
-    ) -> bool:
+    async def update_attention_metrics(self, user_id: str, metrics: AttentionMetrics) -> bool:
         """Update user's attention metrics"""
         if user_id not in self.user_attention_states:
             logger.error(f"User not registered: {user_id}")
@@ -288,9 +286,7 @@ class ΛBAS:
                 )
 
                 # Trigger boundary adjustments if needed
-                await self._adjust_boundaries_for_state_change(
-                    user_id, old_state, new_state
-                )
+                await self._adjust_boundaries_for_state_change(user_id, old_state, new_state)
 
             # Process any pending requests that might now be allowable
             await self._process_pending_requests(user_id)
@@ -337,7 +333,7 @@ class ΛBAS:
 
         # Recently interrupted
         datetime.now()
-        if user_id in self.attention_history and self.attention_history[user_id]:
+        if self.attention_history.get(user_id):
             recent_metrics = self.attention_history[user_id][-3:]  # Last 3 data points
             if any(m.interruption_cost >= 0.5 for _, m in recent_metrics):
                 return AttentionState.INTERRUPTED
@@ -345,9 +341,7 @@ class ΛBAS:
         # Default to available
         return AttentionState.AVAILABLE
 
-    async def request_attention(
-        self, user_id: str, request: AttentionRequest
-    ) -> AttentionDecision:
+    async def request_attention(self, user_id: str, request: AttentionRequest) -> AttentionDecision:
         """
         Primary entry point for attention requests
 
@@ -435,7 +429,7 @@ class ΛBAS:
                 request_id=request.id,
                 decision="block",
                 confidence=1.0,
-                reasoning=[f"System error: {str(e)}"],
+                reasoning=[f"System error: {e!s}"],
             )
 
     async def _check_boundary_violations(
@@ -451,9 +445,7 @@ class ΛBAS:
                 continue
 
             # Check for exceptions
-            if any(
-                exception in request.context_tags for exception in boundary.exceptions
-            ):
+            if any(exception in request.context_tags for exception in boundary.exceptions):
                 continue
 
             # Check violation conditions based on boundary type
@@ -538,9 +530,7 @@ class ΛBAS:
                 return {
                     "decision": "defer",
                     "confidence": 0.9,
-                    "reasoning": [
-                        "Protecting flow state - deferring interruptible request"
-                    ],
+                    "reasoning": ["Protecting flow state - deferring interruptible request"],
                     "defer_minutes": 25,
                     "alternatives": [
                         "Schedule for next break",
@@ -570,9 +560,7 @@ class ΛBAS:
                 return {
                     "decision": "transform",
                     "confidence": 0.7,
-                    "reasoning": [
-                        "High urgency during overload - suggesting transformation"
-                    ],
+                    "reasoning": ["High urgency during overload - suggesting transformation"],
                     "transformations": [
                         "Reduce cognitive complexity",
                         "Provide summary only",
@@ -585,9 +573,7 @@ class ΛBAS:
                 return {
                     "decision": "defer",
                     "confidence": 0.7,
-                    "reasoning": [
-                        "Recovery period - deferring cognitively demanding request"
-                    ],
+                    "reasoning": ["Recovery period - deferring cognitively demanding request"],
                     "defer_minutes": 5,
                     "alternatives": ["Wait for full recovery", "Reduce complexity"],
                 }
@@ -598,9 +584,7 @@ class ΛBAS:
                 return {
                     "decision": "defer",
                     "confidence": 0.6,
-                    "reasoning": [
-                        "Focused state - deferring high-cost, non-urgent request"
-                    ],
+                    "reasoning": ["Focused state - deferring high-cost, non-urgent request"],
                     "defer_minutes": 10,
                 }
 
@@ -610,9 +594,7 @@ class ΛBAS:
                 return {
                     "decision": "defer",
                     "confidence": 0.8,
-                    "reasoning": [
-                        "Recent interruption detected - allowing recovery time"
-                    ],
+                    "reasoning": ["Recent interruption detected - allowing recovery time"],
                     "defer_minutes": 3,
                 }
 
@@ -681,19 +663,13 @@ class ΛBAS:
                 continue
 
             # Flow state transitions
-            if (
-                new_state == AttentionState.FLOW_STATE
-                and old_state != AttentionState.FLOW_STATE
-            ):
+            if new_state == AttentionState.FLOW_STATE and old_state != AttentionState.FLOW_STATE:
                 # Entering flow - strengthen boundaries
                 if boundary.type in [BoundaryType.COGNITIVE, BoundaryType.CREATIVE]:
                     boundary.threshold = max(0.6, boundary.threshold * 0.9)
                     boundary.last_triggered = datetime.now()
 
-            elif (
-                old_state == AttentionState.FLOW_STATE
-                and new_state != AttentionState.FLOW_STATE
-            ):
+            elif old_state == AttentionState.FLOW_STATE and new_state != AttentionState.FLOW_STATE:
                 # Exiting flow - gradually relax boundaries
                 if boundary.type in [BoundaryType.COGNITIVE, BoundaryType.CREATIVE]:
                     boundary.threshold = min(0.9, boundary.threshold * 1.1)
@@ -749,14 +725,10 @@ class ΛBAS:
         # Count users by state
         state_counts = {}
         for state in AttentionState:
-            state_counts[state.value] = list(self.user_attention_states.values()).count(
-                state
-            )
+            state_counts[state.value] = list(self.user_attention_states.values()).count(state)
 
         # Total boundaries and decisions
-        total_boundaries = sum(
-            len(boundaries) for boundaries in self.active_boundaries.values()
-        )
+        total_boundaries = sum(len(boundaries) for boundaries in self.active_boundaries.values())
         total_decisions = len(self.decision_log)
 
         # Decision type breakdown
@@ -785,9 +757,7 @@ class ΛBAS:
             },
         }
 
-    async def create_custom_boundary(
-        self, user_id: str, boundary_config: dict[str, Any]
-    ) -> str:
+    async def create_custom_boundary(self, user_id: str, boundary_config: dict[str, Any]) -> str:
         """Create a custom attention boundary for a user"""
         if user_id not in self.user_attention_states:
             raise ValueError(f"User {user_id} not registered")
@@ -849,9 +819,7 @@ if __name__ == "__main__":
         )
 
         await abas.update_attention_metrics("alice", metrics)
-        print(
-            f"📊 Updated attention metrics - State: {abas.user_attention_states['alice'].value}"
-        )
+        print(f"📊 Updated attention metrics - State: {abas.user_attention_states['alice'].value}")
 
         # Create test attention request
         request = AttentionRequest(

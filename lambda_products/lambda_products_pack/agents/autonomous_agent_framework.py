@@ -72,9 +72,7 @@ class AgentGoal:
                 elif metrics[criterion] == target:
                     met_criteria += 1
 
-        return (
-            met_criteria / len(self.success_criteria) if self.success_criteria else 0.0
-        )
+        return met_criteria / len(self.success_criteria) if self.success_criteria else 0.0
 
 
 @dataclass
@@ -184,9 +182,7 @@ class AutonomousAgent:
         """Add a task to the agent's queue"""
         self.task_queue.append(task)
         # Sort by priority
-        self.task_queue.sort(
-            key=lambda t: (t.priority.value, t.scheduled_time or datetime.max)
-        )
+        self.task_queue.sort(key=lambda t: (t.priority.value, t.scheduled_time or datetime.max))
 
     async def run(self):
         """Main autonomous execution loop"""
@@ -259,11 +255,8 @@ class AutonomousAgent:
         if self.state == AgentState.ERROR:
             return
 
-        if (
-            self.task_queue
-            and self.state == AgentState.IDLE
-            or not self.task_queue
-            and self.goals
+        if (self.task_queue and self.state == AgentState.IDLE) or (
+            not self.task_queue and self.goals
         ):
             self.state = AgentState.PLANNING
         elif self.should_learn():
@@ -484,9 +477,7 @@ class AgentOrchestrator:
 
         logger.info(f"Deployed {agent.agent_type} agent: {agent.agent_id}")
 
-    async def deploy_agent_fleet(
-        self, agent_type: str, count: int, config: dict[str, Any]
-    ):
+    async def deploy_agent_fleet(self, agent_type: str, count: int, config: dict[str, Any]):
         """Deploy a fleet of agents"""
         for i in range(count):
             agent_id = f"{agent_type}_{i:03d}"
@@ -514,8 +505,7 @@ class AgentOrchestrator:
         return {
             "total_agents": len(self.agents),
             "agents_by_type": {
-                agent_type: len(agents)
-                for agent_type, agents in self.agent_pools.items()
+                agent_type: len(agents) for agent_type, agents in self.agent_pools.items()
             },
             "total_value_generated": sum(
                 agent.metrics["value_generated"] for agent in self.agents.values()

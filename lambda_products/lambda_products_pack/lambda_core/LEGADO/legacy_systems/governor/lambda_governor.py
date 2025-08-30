@@ -361,7 +361,7 @@ class LambdaGovernor:
                 confidence=0.0,
                 risk_score=1.0,
                 intervention_tags=["ΛEMERGENCY", "ΛFAILSAFE"],
-                reasoning=f"Emergency response due to arbitration failure: {str(e)}",
+                reasoning=f"Emergency response due to arbitration failure: {e!s}",
                 affected_symbols=signal.symbol_ids,
             )
 
@@ -452,9 +452,7 @@ class LambdaGovernor:
 
         return composite_risk
 
-    async def authorize_action(
-        self, risk_score: float, context: dict[str, Any]
-    ) -> ActionDecision:
+    async def authorize_action(self, risk_score: float, context: dict[str, Any]) -> ActionDecision:
         """
         Determine intervention based on risk score and context.
 
@@ -485,8 +483,7 @@ class LambdaGovernor:
                 return ActionDecision.QUARANTINE
 
         if risk_score >= self.safety_thresholds["emotion_freeze"] and (
-            context.get("emotion_volatility", 0)
-            > self.safety_thresholds["emotion_freeze"]
+            context.get("emotion_volatility", 0) > self.safety_thresholds["emotion_freeze"]
         ):
             return ActionDecision.FREEZE
 
@@ -502,9 +499,7 @@ class LambdaGovernor:
         else:
             return ActionDecision.ALLOW
 
-    async def log_governor_action(
-        self, signal: EscalationSignal, response: ArbitrationResponse
-    ):
+    async def log_governor_action(self, signal: EscalationSignal, response: ArbitrationResponse):
         """
         Log structured ΛTAG audit metadata to ethical_governor.jsonl.
 
@@ -573,9 +568,7 @@ class LambdaGovernor:
                 ΛTAG="ΛAUDIT_FAILURE",
             )
 
-    async def notify_mesh(
-        self, signal: EscalationSignal, response: ArbitrationResponse
-    ):
+    async def notify_mesh(self, signal: EscalationSignal, response: ArbitrationResponse):
         """
         Send resolution or intervention notice to symbolic mesh and dream routers.
 
@@ -605,17 +598,13 @@ class LambdaGovernor:
                 await router.receive_governor_notification(notification)
                 response.mesh_notifications.append(f"mesh_router_{id(router)}")
             except Exception as e:
-                logger.error(
-                    "Failed to notify mesh router", router=str(router), error=str(e)
-                )
+                logger.error("Failed to notify mesh router", router=str(router), error=str(e))
 
         # Notify dream coordinators
         for coordinator in self.dream_coordinators:
             try:
                 await coordinator.receive_intervention_notice(notification)
-                response.mesh_notifications.append(
-                    f"dream_coordinator_{id(coordinator)}"
-                )
+                response.mesh_notifications.append(f"dream_coordinator_{id(coordinator)}")
             except Exception as e:
                 logger.error(
                     "Failed to notify dream coordinator",
@@ -655,9 +644,7 @@ class LambdaGovernor:
             ΛTAG="ΛMESH_NOTIFIED",
         )
 
-    async def _execute_intervention(
-        self, response: ArbitrationResponse
-    ) -> InterventionExecution:
+    async def _execute_intervention(self, response: ArbitrationResponse) -> InterventionExecution:
         """Execute the authorized intervention."""
         execution = InterventionExecution(
             execution_id=f"EXEC_{uuid.uuid4().hex[:8]}",
@@ -708,9 +695,7 @@ class LambdaGovernor:
         for symbol_id in response.affected_symbols:
             self.frozen_systems.add(symbol_id)
             execution.affected_systems.append(f"frozen_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_frozen", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_frozen", "completed", {"symbol_id": symbol_id})
 
     async def _execute_quarantine(
         self, response: ArbitrationResponse, execution: InterventionExecution
@@ -719,9 +704,7 @@ class LambdaGovernor:
         for symbol_id in response.affected_symbols:
             self.quarantined_symbols.add(symbol_id)
             execution.affected_systems.append(f"quarantined_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_quarantined", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_quarantined", "completed", {"symbol_id": symbol_id})
 
     async def _execute_restructure(
         self, response: ArbitrationResponse, execution: InterventionExecution
@@ -730,9 +713,7 @@ class LambdaGovernor:
         for symbol_id in response.affected_symbols:
             self.restructured_components.add(symbol_id)
             execution.affected_systems.append(f"restructured_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_restructured", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_restructured", "completed", {"symbol_id": symbol_id})
 
     async def _execute_shutdown(
         self, response: ArbitrationResponse, execution: InterventionExecution
@@ -741,9 +722,7 @@ class LambdaGovernor:
         for symbol_id in response.affected_symbols:
             self.shutdown_systems.add(symbol_id)
             execution.affected_systems.append(f"shutdown_{symbol_id}")
-            execution.add_log_entry(
-                "symbol_shutdown", "completed", {"symbol_id": symbol_id}
-            )
+            execution.add_log_entry("symbol_shutdown", "completed", {"symbol_id": symbol_id})
 
     def register_mesh_router(self, router):
         """Register a mesh router for notifications."""
@@ -792,9 +771,7 @@ class LambdaGovernor:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def _calculate_decision_confidence(
-        self, signal: EscalationSignal, risk_score: float
-    ) -> float:
+    def _calculate_decision_confidence(self, signal: EscalationSignal, risk_score: float) -> float:
         """Calculate confidence in the arbitration decision."""
         # Base confidence from signal confidence
         base_confidence = signal.confidence if signal.confidence > 0 else 0.5
@@ -859,13 +836,9 @@ class LambdaGovernor:
         if signal.entropy > 0.7:
             key_factors.append(f"high entropy ({signal.entropy:.3f})")
         if signal.emotion_volatility > 0.5:
-            key_factors.append(
-                f"emotional volatility ({signal.emotion_volatility:.3f})"
-            )
+            key_factors.append(f"emotional volatility ({signal.emotion_volatility:.3f})")
         if signal.contradiction_density > 0.6:
-            key_factors.append(
-                f"contradiction density ({signal.contradiction_density:.3f})"
-            )
+            key_factors.append(f"contradiction density ({signal.contradiction_density:.3f})")
 
         if key_factors:
             base_reason += f" due to {', '.join(key_factors)}"
@@ -890,9 +863,7 @@ class LambdaGovernor:
         return {
             "symbol_ids": signal.symbol_ids,
             "memory_ids": signal.memory_ids,
-            "isolation_level": (
-                "full" if decision == ActionDecision.SHUTDOWN else "selective"
-            ),
+            "isolation_level": ("full" if decision == ActionDecision.SHUTDOWN else "selective"),
             "duration": "indefinite" if decision == ActionDecision.SHUTDOWN else "24h",
             "access_restrictions": {
                 "read": decision == ActionDecision.SHUTDOWN,

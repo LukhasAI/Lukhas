@@ -51,9 +51,7 @@ def view_feedback(limit=10, filter_emoji=None, min_score=None):
         return
 
     for entry in filtered:
-        print(
-            f"\n🧠 {entry['timestamp']} | Msg: {entry['message_id']} | User: {entry['user_id']}"
-        )
+        print(f"\n🧠 {entry['timestamp']} | Msg: {entry['message_id']} | User: {entry['user_id']}")
         print(f"   Score: {entry['score']} {entry.get('emoji', '')}")
         if entry.get("notes"):
             print(f"   Notes: {entry['notes']}")
@@ -69,10 +67,7 @@ if __name__ == "__main__":
         limit = int(limit_input) if limit_input else 10
 
         emoji_filter = (
-            input(
-                "🔘 Filter by emoji (e.g., 🌙, ⚠️, 🧡) or press ENTER to skip: "
-            ).strip()
-            or None
+            input("🔘 Filter by emoji (e.g., 🌙, ⚠️, 🧡) or press ENTER to skip: ").strip() or None
         )
         score_input = input("🔢 Minimum score (1–5) or press ENTER to skip: ").strip()
         score_filter = int(score_input) if score_input else None

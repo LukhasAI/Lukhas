@@ -57,9 +57,7 @@ class ConsentPathLogger:
     def __init__(self, db_path: str = "trusthelix_consent.db"):
         self.db_path = db_path
         self.genesis_hash = self._get_or_create_genesis()
-        logger.info(
-            f"📝 Consent Path Logger initialized with genesis: {self.genesis_hash[:16]}..."
-        )
+        logger.info(f"📝 Consent Path Logger initialized with genesis: {self.genesis_hash[:16]}...")
 
     def _init_database(self):
         """Initialize SQLite database for persistent storage"""
@@ -135,9 +133,7 @@ class ConsentPathLogger:
         conn.close()
         return genesis.consent_hash
 
-    def _save_entry(
-        self, entry: ConsentEntry, conn: Optional[sqlite3.Connection] = None
-    ):
+    def _save_entry(self, entry: ConsentEntry, conn: Optional[sqlite3.Connection] = None):
         """Save entry to database"""
         if conn is None:
             conn = sqlite3.connect(self.db_path)
@@ -296,12 +292,10 @@ class ConsentPathLogger:
         for i, entry in enumerate(path):
             # Create visual representation
             drift_indicator = (
-                "🟢"
-                if entry.drift_score < 0.3
-                else "🟡" if entry.drift_score < 0.7 else "🔴"
+                "🟢" if entry.drift_score < 0.3 else "🟡" if entry.drift_score < 0.7 else "🔴"
             )
 
-            lines.append(f"\n[{i+1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
+            lines.append(f"\n[{i + 1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
             lines.append(f"    {entry.to_symbolic_notation()}")
             lines.append(f"    Drift: {drift_indicator} {entry.drift_score:.3f}")
             lines.append(f"    Hash: {entry.consent_hash[:16]}...")
@@ -371,9 +365,7 @@ class ConsentPathLogger:
                     "unique_users": unique_users,
                     "average_drift": avg_drift,
                     "success_rate": (
-                        outcome_counts["success"] / total_entries
-                        if total_entries
-                        else 0
+                        outcome_counts["success"] / total_entries if total_entries else 0
                     ),
                 },
                 "action_distribution": action_counts,
@@ -393,18 +385,10 @@ if __name__ == "__main__":
     user_id = "demo_user_001"
 
     # Log a sequence of actions
-    logger_instance.log_consent(
-        user_id, ["🔐", "🧬", "🪷"], "authenticate", "success", 0.1
-    )
-    logger_instance.log_consent(
-        user_id, ["🔓", "🧬", "🌸"], "unlock_profile", "success", 0.15
-    )
-    logger_instance.log_consent(
-        user_id, ["🔓", "🧬", "🌸"], "view_data", "success", 0.17
-    )
-    logger_instance.log_consent(
-        user_id, ["🔒", "🦠", "🥀"], "suspicious_attempt", "failure", 0.45
-    )
+    logger_instance.log_consent(user_id, ["🔐", "🧬", "🪷"], "authenticate", "success", 0.1)
+    logger_instance.log_consent(user_id, ["🔓", "🧬", "🌸"], "unlock_profile", "success", 0.15)
+    logger_instance.log_consent(user_id, ["🔓", "🧬", "🌸"], "view_data", "success", 0.17)
+    logger_instance.log_consent(user_id, ["🔒", "🦠", "🥀"], "suspicious_attempt", "failure", 0.45)
 
     # Get and display path
     print(logger_instance.export_path_visualization(user_id))

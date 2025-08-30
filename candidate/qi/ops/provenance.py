@@ -10,17 +10,21 @@ from dataclasses import dataclass
 from typing import Any
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
-PROV_DIR = os.path.join(STATE, "prov"); os.makedirs(PROV_DIR, exist_ok=True)
-KEY_DIR  = os.path.join(STATE, "keys"); os.makedirs(KEY_DIR, exist_ok=True)
+PROV_DIR = os.path.join(STATE, "prov")
+os.makedirs(PROV_DIR, exist_ok=True)
+KEY_DIR = os.path.join(STATE, "keys")
+os.makedirs(KEY_DIR, exist_ok=True)
 
 # -- crypto (ed25519 via stdlib if 3.11+, else pure-Python fallback) --
 try:
     # Python 3.11+ has hashlib.ed25519 via 'cryptography' binding only in some builds.
     # We'll try nacl first if available; else fall back to a tiny local impl.
     import nacl.signing as _nacl  # type: ignore
+
     _HAS_NACL = True
 except Exception:
     _HAS_NACL = False
+
 
 @dataclass
 class Attestation:
@@ -29,9 +33,11 @@ class Attestation:
     signature_b64: str
     root_hash: str
 
+
 def _sha256_json(v: Any) -> str:
-    b = json.dumps(v, sort_keys=True, ensure_ascii=False, separators=(",",":")).encode("utf-8")
+    b = json.dumps(v, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(b).hexdigest()
+
 
 def _file_sha256(path: str) -> str:
     h = hashlib.sha256()
@@ -39,6 +45,7 @@ def _file_sha256(path: str) -> str:
         for chunk in iter(lambda: f.read(65536), b""):
             h.update(chunk)
     return h.hexdigest()
+
 
 def _safe_body(d: dict[str, Any]) -> dict[str, Any]:
     # Normalize and only keep serializable primitives (plus 'attachments' with file hashes)
@@ -61,6 +68,7 @@ def _safe_body(d: dict[str, Any]) -> dict[str, Any]:
                 body[k] = str(v)
     return body
 
+
 def merkle_chain(steps: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Create a simple hash-linked list. Each node: ts, body, prev, hash."""
     prev = None
@@ -74,32 +82,36 @@ def merkle_chain(steps: list[dict[str, Any]]) -> list[dict[str, Any]]:
         out.append(node)
     return out
 
+
 def _key_paths(tag: str) -> tuple[str, str]:
     # one key per tag family (e.g., "prod", "dev", "thesis")
     return (os.path.join(KEY_DIR, f"{tag}.sk"), os.path.join(KEY_DIR, f"{tag}.pk"))
 
+
 def _ensure_keypair(tag: str) -> tuple[bytes, bytes]:
     sk_path, pk_path = _key_paths(tag)
     if os.path.exists(sk_path) and os.path.exists(pk_path):
-        return open(sk_path,"rb").read(), open(pk_path,"rb").read()
+        return open(sk_path, "rb").read(), open(pk_path, "rb").read()
     if not _HAS_NACL:
         raise RuntimeError("PyNaCl not available. Install: pip install pynacl")
     sk = _nacl.SigningKey.generate()
     pk = sk.verify_key
-    open(sk_path,"wb").write(bytes(sk))
-    open(pk_path,"wb").write(bytes(pk))
+    open(sk_path, "wb").write(bytes(sk))
+    open(pk_path, "wb").write(bytes(pk))
     return bytes(sk), bytes(pk)
+
 
 def _load_keypair(tag: str) -> tuple[bytes, bytes]:
     sk_path, pk_path = _key_paths(tag)
-    return open(sk_path,"rb").read(), open(pk_path,"rb").read()
+    return open(sk_path, "rb").read(), open(pk_path, "rb").read()
+
 
 def attest(chain: list[dict[str, Any]], tag: str) -> Attestation:
     # write chain
     chain_path = os.path.join(PROV_DIR, f"{int(time.time())}_{tag}.jsonl")
     with open(chain_path, "w", encoding="utf-8") as f:
         for n in chain:
-            f.write(json.dumps(n, ensure_ascii=False)+"\n")
+            f.write(json.dumps(n, ensure_ascii=False) + "\n")
 
     # sign root (last hash) with ed25519
     root_hash = chain[-1]["hash"] if chain else _sha256_json({"empty": True})
@@ -120,6 +132,7 @@ def attest(chain: list[dict[str, Any]], tag: str) -> Attestation:
         json.dump(att.__dict__, f, indent=2)
     return att
 
+
 def verify(att_path: str) -> bool:
     data = json.load(open(att_path, encoding="utf-8"))
     chain_path = data["chain_path"]
@@ -136,12 +149,14 @@ def verify(att_path: str) -> bool:
             expected = _sha256_json({"body": n["body"], "prev": n["prev"]})
             if n.get("hash") != expected:
                 return False
-            prev = n["hash"]; root = prev
+            prev = n["hash"]
+            root = prev
     # verify signature
     if not _HAS_NACL:
         raise RuntimeError("PyNaCl required for verification.")
     _nacl.VerifyKey(pk).verify(root.encode("utf-8"), sig)
     return True
+
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Provenance (Merkle + ed25519)")

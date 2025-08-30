@@ -36,8 +36,7 @@ from typing import Any, Optional
 
 # Import the main ethics guardian implementation
 try:
-    from ethics.guardian import EthicalFramework
-    from ethics.guardian import EthicsGuardian as BaseEthicsGuardian
+    from ethics.guardian import EthicalFramework, EthicsGuardian as BaseEthicsGuardian
 except ImportError:
     # Fallback if main implementation not available
     BaseEthicsGuardian = None
@@ -90,9 +89,7 @@ class EthicsGuardian:
             has_base_guardian=self._guardian is not None,
         )
 
-    def assess_ethical_violation(
-        self, decision_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def assess_ethical_violation(self, decision_context: dict[str, Any]) -> dict[str, Any]:
         """
         Assess the severity and type of ethical violation.
 
@@ -208,7 +205,9 @@ class EthicsGuardian:
             else (
                 "high"
                 if violation_indicators >= 2
-                else "medium" if violation_indicators >= 1 else "low"
+                else "medium"
+                if violation_indicators >= 1
+                else "low"
             )
         )
 
@@ -218,9 +217,7 @@ class EthicsGuardian:
             ),
             "severity": severity,
             "overall_score": max(0.1, 1.0 - (violation_indicators * 0.25)),
-            "principle_scores": {
-                "overall": max(0.1, 1.0 - (violation_indicators * 0.25))
-            },
+            "principle_scores": {"overall": max(0.1, 1.0 - (violation_indicators * 0.25))},
             "violations_detected": [
                 {
                     "principle": "general",

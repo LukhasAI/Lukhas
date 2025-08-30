@@ -34,31 +34,39 @@ from typing import Any, Optional, Union
 # High-performance imports
 try:
     import uvloop  # 2-4x faster than default asyncio loop
+
     uvloop.install()
 except ImportError:
     pass
 
 try:
     import orjson  # 2-3x faster JSON serialization
+
     def fast_json_dumps(obj):
         return orjson.dumps(obj).decode()
+
     def fast_json_loads(data):
         return orjson.loads(data)
 except ImportError:
     import json
+
     def fast_json_dumps(obj):
         return json.dumps(obj)
+
     def fast_json_loads(data):
         return json.loads(data)
 
+
 try:
     import lz4.frame  # Ultra-fast compression for large payloads
+
     COMPRESSION_AVAILABLE = True
 except ImportError:
     COMPRESSION_AVAILABLE = False
 
 try:
     import redis.asyncio as redis
+
     REDIS_AVAILABLE = True
 except ImportError:
     REDIS_AVAILABLE = False
@@ -68,6 +76,7 @@ except ImportError:
 @dataclass
 class AuthPerformanceMetrics:
     """Detailed authentication performance metrics"""
+
     request_id: str
     operation: str
     start_time: float = field(default_factory=time.perf_counter)
@@ -157,6 +166,7 @@ class ModuleImportCache:
 
             # Dynamic import with caching
             import importlib
+
             module = importlib.import_module(module_path)
             component = getattr(module, component_name)
 
@@ -179,7 +189,7 @@ class ModuleImportCache:
             "cache_hits": self._cache_hits,
             "cache_misses": self._cache_misses,
             "hit_rate_percent": hit_rate,
-            "performance_gain": f"{hit_rate:.1f}% requests avoid 15-25ms import overhead"
+            "performance_gain": f"{hit_rate:.1f}% requests avoid 15-25ms import overhead",
         }
 
 
@@ -236,9 +246,8 @@ class AsyncHashCalculator:
         duration_ms = (time.perf_counter() - start_time) * 1000
         self.calculations_total += 1
         self.avg_calculation_time_ms = (
-            (self.avg_calculation_time_ms * (self.calculations_total - 1) + duration_ms)
-            / self.calculations_total
-        )
+            self.avg_calculation_time_ms * (self.calculations_total - 1) + duration_ms
+        ) / self.calculations_total
 
         return result
 
@@ -249,14 +258,16 @@ class AsyncHashCalculator:
 
     def get_performance_stats(self) -> dict[str, Any]:
         """Get hash calculation performance statistics"""
-        cache_hit_rate = (self.calculations_cached / max(self.calculations_total + self.calculations_cached, 1)) * 100
+        cache_hit_rate = (
+            self.calculations_cached / max(self.calculations_total + self.calculations_cached, 1)
+        ) * 100
 
         return {
             "total_calculations": self.calculations_total,
             "cached_calculations": self.calculations_cached,
             "cache_hit_rate_percent": cache_hit_rate,
             "avg_calculation_time_ms": self.avg_calculation_time_ms,
-            "performance_improvement": f"Average {self.avg_calculation_time_ms:.1f}ms vs 8-12ms sync calculation"
+            "performance_improvement": f"Average {self.avg_calculation_time_ms:.1f}ms vs 8-12ms sync calculation",
         }
 
 
@@ -267,10 +278,12 @@ class AsyncAuditBuffer:
     Eliminates 60-80ms file I/O blocking by using async batched writes with memory buffer
     """
 
-    def __init__(self,
-                 buffer_size: int = 1000,
-                 flush_interval: float = 0.5,  # 500ms aggressive flushing
-                 backup_file: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas/audit/extreme_performance_audit.jsonl"):
+    def __init__(
+        self,
+        buffer_size: int = 1000,
+        flush_interval: float = 0.5,  # 500ms aggressive flushing
+        backup_file: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas/audit/extreme_performance_audit.jsonl",
+    ):
         self.buffer: deque = deque()
         self.buffer_size = buffer_size
         self.flush_interval = flush_interval
@@ -292,13 +305,16 @@ class AsyncAuditBuffer:
 
         # Ensure directories exist
         import os
+
         os.makedirs(os.path.dirname(backup_file), exist_ok=True)
 
     async def initialize(self):
         """Initialize async audit buffer with Redis if available"""
         if self._redis_enabled:
             try:
-                self._redis = redis.Redis.from_url("redis://localhost:6379/1", decode_responses=True)
+                self._redis = redis.Redis.from_url(
+                    "redis://localhost:6379/1", decode_responses=True
+                )
                 await self._redis.ping()
                 print("🚀 AsyncAuditBuffer: Redis cache enabled for extreme performance")
             except Exception:
@@ -314,7 +330,9 @@ class AsyncAuditBuffer:
             return
 
         self._flush_task = asyncio.create_task(self._background_flush_loop())
-        print(f"🔥 AsyncAuditBuffer: Background flushing started (interval: {self.flush_interval}s)")
+        print(
+            f"🔥 AsyncAuditBuffer: Background flushing started (interval: {self.flush_interval}s)"
+        )
 
     async def _background_flush_loop(self):
         """High-performance background flush loop"""
@@ -347,9 +365,8 @@ class AsyncAuditBuffer:
         # Update performance metrics
         duration_ms = (time.perf_counter() - start_time) * 1000
         self.avg_buffer_time_ms = (
-            (self.avg_buffer_time_ms * (self.events_buffered - 1) + duration_ms)
-            / self.events_buffered
-        )
+            self.avg_buffer_time_ms * (self.events_buffered - 1) + duration_ms
+        ) / self.events_buffered
 
         return True
 
@@ -435,7 +452,9 @@ class AsyncAuditBuffer:
 
     def get_performance_stats(self) -> dict[str, Any]:
         """Get audit buffer performance statistics"""
-        throughput_events_per_sec = self.events_flushed / max(self.flush_operations * self.flush_interval, 1)
+        throughput_events_per_sec = self.events_flushed / max(
+            self.flush_operations * self.flush_interval, 1
+        )
 
         return {
             "events_buffered": self.events_buffered,
@@ -445,7 +464,7 @@ class AsyncAuditBuffer:
             "current_buffer_size": len(self.buffer),
             "throughput_events_per_sec": throughput_events_per_sec,
             "redis_enabled": self._redis_enabled,
-            "performance_improvement": f"~{60 - self.avg_buffer_time_ms:.0f}ms saved per event vs sync file I/O"
+            "performance_improvement": f"~{60 - self.avg_buffer_time_ms:.0f}ms saved per event vs sync file I/O",
         }
 
 
@@ -503,10 +522,7 @@ class ExtremeAuthPerformanceOptimizer:
 
         request_id = request_id or f"auth_{int(time.time() * 1000)}_{len(self.auth_metrics)}"
 
-        metrics = AuthPerformanceMetrics(
-            request_id=request_id,
-            operation=operation
-        )
+        metrics = AuthPerformanceMetrics(request_id=request_id, operation=operation)
 
         try:
             yield metrics
@@ -526,13 +542,24 @@ class ExtremeAuthPerformanceOptimizer:
 
             # Log performance achievements
             if metrics.total_duration_ms <= self.fast_path_threshold_ms:
-                print(f"⚡ ULTRA-FAST PATH: {operation} completed in {metrics.total_duration_ms:.2f}ms")
+                print(
+                    f"⚡ ULTRA-FAST PATH: {operation} completed in {metrics.total_duration_ms:.2f}ms"
+                )
             elif metrics.is_target_met():
-                print(f"✅ TARGET MET: {operation} completed in {metrics.total_duration_ms:.2f}ms (target: {self.target_p95_latency_ms}ms)")
+                print(
+                    f"✅ TARGET MET: {operation} completed in {metrics.total_duration_ms:.2f}ms (target: {self.target_p95_latency_ms}ms)"
+                )
             else:
-                print(f"🔧 NEEDS OPTIMIZATION: {operation} took {metrics.total_duration_ms:.2f}ms (target: {self.target_p95_latency_ms}ms)")
+                print(
+                    f"🔧 NEEDS OPTIMIZATION: {operation} took {metrics.total_duration_ms:.2f}ms (target: {self.target_p95_latency_ms}ms)"
+                )
 
-    async def get_optimized_component(self, module_path: str, component_name: str, metrics: Optional[AuthPerformanceMetrics] = None) -> Optional[Any]:
+    async def get_optimized_component(
+        self,
+        module_path: str,
+        component_name: str,
+        metrics: Optional[AuthPerformanceMetrics] = None,
+    ) -> Optional[Any]:
         """Get component using import cache optimization"""
         start_time = time.perf_counter()
 
@@ -544,7 +571,9 @@ class ExtremeAuthPerformanceOptimizer:
 
         return component
 
-    async def calculate_hash_optimized(self, data: Union[str, bytes, dict], metrics: Optional[AuthPerformanceMetrics] = None) -> str:
+    async def calculate_hash_optimized(
+        self, data: Union[str, bytes, dict], metrics: Optional[AuthPerformanceMetrics] = None
+    ) -> str:
         """Calculate hash using async optimization"""
         start_time = time.perf_counter()
 
@@ -556,7 +585,9 @@ class ExtremeAuthPerformanceOptimizer:
 
         return result
 
-    async def log_audit_event_optimized(self, event_data: dict[str, Any], metrics: Optional[AuthPerformanceMetrics] = None) -> bool:
+    async def log_audit_event_optimized(
+        self, event_data: dict[str, Any], metrics: Optional[AuthPerformanceMetrics] = None
+    ) -> bool:
         """Log audit event using async buffer optimization"""
         start_time = time.perf_counter()
 
@@ -568,24 +599,26 @@ class ExtremeAuthPerformanceOptimizer:
 
         return success
 
-    async def optimized_auth_flow(self, agent_id: str, operation: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def optimized_auth_flow(
+        self, agent_id: str, operation: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Complete optimized authentication flow demonstrating all optimizations"""
-        async with self.optimize_auth_operation(f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time())}") as metrics:
-
+        async with self.optimize_auth_operation(
+            f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time())}"
+        ) as metrics:
             # 1. OPTIMIZED COMPONENT LOADING (was 15-25ms, now <1ms)
             time.perf_counter()
             access_control = await self.get_optimized_component(
-                "lukhas.governance.security.access_control",
-                "AccessControlEngine",
-                metrics
+                "lukhas.governance.security.access_control", "AccessControlEngine", metrics
             )
 
             if not access_control:
                 # Fallback to direct import if cache miss (rarely happens after warm-up)
                 try:
                     import importlib
+
                     module = importlib.import_module("lukhas.governance.security.access_control")
-                    access_control = getattr(module, "AccessControlEngine")
+                    access_control = module.AccessControlEngine
                 except (ImportError, AttributeError):
                     return {"success": False, "error": "Authentication components not available"}
 
@@ -594,7 +627,7 @@ class ExtremeAuthPerformanceOptimizer:
                 "agent_id": agent_id,
                 "operation": operation,
                 "timestamp": datetime.utcnow().isoformat(),
-                "context": context or {}
+                "context": context or {},
             }
 
             auth_hash = await self.calculate_hash_optimized(auth_data, metrics)
@@ -613,10 +646,10 @@ class ExtremeAuthPerformanceOptimizer:
                 "performance_optimizations": [
                     "import_cache",
                     "async_hash_calculation",
-                    "async_audit_buffer"
+                    "async_audit_buffer",
                 ],
                 "target_met": False,  # Will be updated after completion
-                "optimization_level": "extreme"
+                "optimization_level": "extreme",
             }
 
             await self.log_audit_event_optimized(audit_event, metrics)
@@ -636,12 +669,15 @@ class ExtremeAuthPerformanceOptimizer:
                         f"import_cache: {metrics.import_cache_time_ms:.2f}ms",
                         f"hash_calculation: {metrics.hash_calculation_time_ms:.2f}ms",
                         f"audit_buffer: {metrics.audit_buffer_time_ms:.2f}ms",
-                        f"db_query: {metrics.db_query_time_ms:.2f}ms"
+                        f"db_query: {metrics.db_query_time_ms:.2f}ms",
                     ],
-                    "performance_level": "ultra_fast" if metrics.total_duration_ms < 10 else
-                                       "fast" if metrics.is_target_met() else "needs_optimization"
+                    "performance_level": "ultra_fast"
+                    if metrics.total_duration_ms < 10
+                    else "fast"
+                    if metrics.is_target_met()
+                    else "needs_optimization",
                 },
-                "openai_scale_ready": metrics.is_target_met() and metrics.total_duration_ms < 15.0
+                "openai_scale_ready": metrics.is_target_met() and metrics.total_duration_ms < 15.0,
             }
 
     def get_performance_dashboard(self) -> dict[str, Any]:
@@ -670,13 +706,15 @@ class ExtremeAuthPerformanceOptimizer:
         p99 = percentile(durations, 0.99)
 
         # Performance targets analysis
-        target_achievement_rate = (self.successful_optimizations / max(self.total_authentications, 1)) * 100
+        target_achievement_rate = (
+            self.successful_optimizations / max(self.total_authentications, 1)
+        ) * 100
 
         # Component performance
         component_stats = {
             "import_cache": self.import_cache.get_cache_stats(),
             "hash_calculator": self.hash_calculator.get_performance_stats(),
-            "audit_buffer": self.audit_buffer.get_performance_stats()
+            "audit_buffer": self.audit_buffer.get_performance_stats(),
         }
 
         return {
@@ -684,14 +722,17 @@ class ExtremeAuthPerformanceOptimizer:
                 "total_authentications": self.total_authentications,
                 "successful_optimizations": self.successful_optimizations,
                 "target_achievement_rate_percent": target_achievement_rate,
-                "openai_scale_ready": p95 <= self.target_p95_latency_ms and target_achievement_rate >= 95.0
+                "openai_scale_ready": p95 <= self.target_p95_latency_ms
+                and target_achievement_rate >= 95.0,
             },
             "performance_percentiles": {
                 "p50_latency_ms": p50,
                 "p95_latency_ms": p95,
                 "p99_latency_ms": p99,
                 "target_p95_ms": self.target_p95_latency_ms,
-                "improvement_vs_target": f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%" if p95 <= self.target_p95_latency_ms else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target"
+                "improvement_vs_target": f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%"
+                if p95 <= self.target_p95_latency_ms
+                else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target",
             },
             "component_performance": component_stats,
             "optimization_recommendations": self._generate_optimization_recommendations(p95),
@@ -699,8 +740,8 @@ class ExtremeAuthPerformanceOptimizer:
                 "latency_target_25ms": p95 <= 25.0,
                 "throughput_ready_100k_rps": True,  # Architecture supports it
                 "reliability_target_99_9_percent": target_achievement_rate >= 99.0,
-                "overall_openai_scale_ready": p95 <= 25.0 and target_achievement_rate >= 95.0
-            }
+                "overall_openai_scale_ready": p95 <= 25.0 and target_achievement_rate >= 95.0,
+            },
         }
 
     def _generate_optimization_recommendations(self, current_p95: float) -> list[str]:
@@ -708,26 +749,36 @@ class ExtremeAuthPerformanceOptimizer:
         recommendations = []
 
         if current_p95 > self.target_p95_latency_ms:
-            recommendations.append(f"🔴 CRITICAL: P95 latency {current_p95:.1f}ms exceeds target {self.target_p95_latency_ms}ms")
+            recommendations.append(
+                f"🔴 CRITICAL: P95 latency {current_p95:.1f}ms exceeds target {self.target_p95_latency_ms}ms"
+            )
 
         if current_p95 > 50.0:
             recommendations.append("🔧 Enable aggressive connection pooling for database queries")
             recommendations.append("⚡ Implement request-level caching for repeated operations")
 
         if current_p95 > 30.0:
-            recommendations.append("🚀 Consider implementing request batching for higher throughput")
+            recommendations.append(
+                "🚀 Consider implementing request batching for higher throughput"
+            )
 
         if current_p95 <= self.target_p95_latency_ms:
-            recommendations.append(f"✅ TARGET ACHIEVED: P95 latency {current_p95:.1f}ms meets OpenAI-scale target!")
+            recommendations.append(
+                f"✅ TARGET ACHIEVED: P95 latency {current_p95:.1f}ms meets OpenAI-scale target!"
+            )
 
         if current_p95 <= 10.0:
-            recommendations.append(f"🚀 EXTREME PERFORMANCE: {current_p95:.1f}ms P95 latency exceeds OpenAI-scale targets!")
+            recommendations.append(
+                f"🚀 EXTREME PERFORMANCE: {current_p95:.1f}ms P95 latency exceeds OpenAI-scale targets!"
+            )
 
         return recommendations
 
     async def run_performance_benchmark(self, num_operations: int = 1000) -> dict[str, Any]:
         """Run comprehensive performance benchmark"""
-        print(f"🧪 Running performance benchmark with {num_operations} authentication operations...")
+        print(
+            f"🧪 Running performance benchmark with {num_operations} authentication operations..."
+        )
 
         benchmark_start = time.time()
         operations_completed = 0
@@ -761,25 +812,32 @@ class ExtremeAuthPerformanceOptimizer:
             "benchmark_summary": {
                 "operations_completed": operations_completed,
                 "operations_successful": operations_successful,
-                "success_rate_percent": (operations_successful / max(operations_completed, 1)) * 100,
+                "success_rate_percent": (operations_successful / max(operations_completed, 1))
+                * 100,
                 "total_duration_seconds": benchmark_duration,
                 "throughput_rps": throughput_rps,
-                "openai_scale_target_met": throughput_rps >= 10000 and dashboard["performance_percentiles"]["p95_latency_ms"] <= 25.0
+                "openai_scale_target_met": throughput_rps >= 10000
+                and dashboard["performance_percentiles"]["p95_latency_ms"] <= 25.0,
             },
             "performance_analysis": dashboard,
             "sam_altman_standard": {
                 "target_throughput_rps": self.target_throughput_rps,
                 "achieved_throughput_rps": throughput_rps,
                 "throughput_ratio": throughput_rps / self.target_throughput_rps,
-                "openai_scale_ready": throughput_rps >= 10000 and dashboard["performance_percentiles"]["p95_latency_ms"] <= 25.0
-            }
+                "openai_scale_ready": throughput_rps >= 10000
+                and dashboard["performance_percentiles"]["p95_latency_ms"] <= 25.0,
+            },
         }
 
         print("✅ Benchmark complete!")
         print(f"   Throughput: {throughput_rps:.0f} RPS")
         print(f"   P95 Latency: {dashboard['performance_percentiles']['p95_latency_ms']:.1f}ms")
-        print(f"   Success Rate: {benchmark_results['benchmark_summary']['success_rate_percent']:.1f}%")
-        print(f"   OpenAI Scale Ready: {benchmark_results['benchmark_summary']['openai_scale_target_met']}")
+        print(
+            f"   Success Rate: {benchmark_results['benchmark_summary']['success_rate_percent']:.1f}%"
+        )
+        print(
+            f"   OpenAI Scale Ready: {benchmark_results['benchmark_summary']['openai_scale_target_met']}"
+        )
 
         return benchmark_results
 
@@ -803,7 +861,9 @@ async def get_extreme_optimizer() -> ExtremeAuthPerformanceOptimizer:
 
 
 # Convenience functions for easy integration
-async def optimize_authentication_flow(agent_id: str, operation: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+async def optimize_authentication_flow(
+    agent_id: str, operation: str, context: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """Optimize authentication flow with all performance enhancements"""
     optimizer = await get_extreme_optimizer()
     return await optimizer.optimized_auth_flow(agent_id, operation, context)
@@ -825,13 +885,13 @@ def get_extreme_performance_dashboard() -> dict[str, Any]:
 
 # Export components
 __all__ = [
+    "AsyncAuditBuffer",
+    "AsyncHashCalculator",
+    "AuthPerformanceMetrics",
     "ExtremeAuthPerformanceOptimizer",
     "ModuleImportCache",
-    "AsyncHashCalculator",
-    "AsyncAuditBuffer",
-    "AuthPerformanceMetrics",
     "get_extreme_optimizer",
+    "get_extreme_performance_dashboard",
     "optimize_authentication_flow",
     "run_extreme_performance_benchmark",
-    "get_extreme_performance_dashboard"
 ]

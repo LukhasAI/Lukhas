@@ -33,9 +33,7 @@ class LambdaConsentManager:
         self.active_consents = {}
         self.policy_versions = {}
 
-    def collect_consent(
-        self, user_id: str, consent_scope: str, metadata: dict = None
-    ) -> dict:
+    def collect_consent(self, user_id: str, consent_scope: str, metadata: dict = None) -> dict:
         """Collect user consent for specific scope with tier validation"""
         # Validate user tier permissions
         if self.tier_manager:
@@ -47,9 +45,7 @@ class LambdaConsentManager:
                 }
 
         # Validate scope requirements
-        scope_requirements = self.scopes_manager.get_scope_requirements(
-            consent_scope, user_tier
-        )
+        scope_requirements = self.scopes_manager.get_scope_requirements(consent_scope, user_tier)
 
         # Create consent record
         consent_data = {

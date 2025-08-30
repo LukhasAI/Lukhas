@@ -91,10 +91,7 @@ def main():
     # Process all Python files recursively
     for filepath in lukhas_dir.rglob("*.py"):
         # Skip venv and other non-project directories
-        if any(
-            part in filepath.parts
-            for part in ["venv", "__pycache__", ".git", "node_modules"]
-        ):
+        if any(part in filepath.parts for part in ["venv", "__pycache__", ".git", "node_modules"]):
             continue
 
         result = fix_ascii_in_file(filepath)

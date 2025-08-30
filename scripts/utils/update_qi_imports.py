@@ -31,6 +31,7 @@ def update_file(filepath):
         return True
     return False
 
+
 # Find all Python files
 updated_files = []
 for root, dirs, files in os.walk("."):

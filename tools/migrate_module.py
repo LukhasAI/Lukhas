@@ -192,9 +192,7 @@ class ModuleMigrator:
         }
 
         # Determine if ready for migration
-        report["ready"] = (
-            len(report["illegal_imports"]) == 0 and report["test_count"] > 0
-        )
+        report["ready"] = len(report["illegal_imports"]) == 0 and report["test_count"] > 0
 
         return report
 

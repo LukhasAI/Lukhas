@@ -13,10 +13,10 @@ from .consciousness_api import (
 )
 
 __all__ = [
-    "ConsciousnessPlatformAPI",
-    "ConsciousnessLevel",
-    "AwarenessType",
-    "ConsciousnessState",
     "AwarenessQuery",
+    "AwarenessType",
+    "ConsciousnessLevel",
+    "ConsciousnessPlatformAPI",
+    "ConsciousnessState",
     "ReflectionRequest",
 ]

@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class TranslationType(Enum):
     """Types of translations supported"""
+
     SYMBOL_TO_CONCEPT = "symbol_to_concept"
     CONCEPT_TO_SYMBOL = "concept_to_symbol"
     GLYPH_TO_SYMBOL = "glyph_to_symbol"
@@ -34,6 +35,7 @@ class TranslationType(Enum):
 @dataclass
 class TranslationResult:
     """Result of a translation operation"""
+
     source: Any
     target: Any
     translation_type: TranslationType
@@ -54,7 +56,7 @@ class TranslationResult:
             "confidence": self.confidence,
             "metadata": self.metadata,
             "trace": self.trace,
-            "successful": self.is_successful()
+            "successful": self.is_successful(),
         }
 
 
@@ -80,7 +82,7 @@ class ConceptMapper:
             concept_type=ConceptType.ATOMIC,
             meaning=symbol.name,
             symbols=[symbol],
-            entropy_total=symbol.entropy_bits
+            entropy_total=symbol.entropy_bits,
         )
 
         # Cache and return
@@ -103,7 +105,7 @@ class ConceptMapper:
             concept_type=ConceptType.COMPOSITE,
             meaning=composite_meaning,
             symbols=symbols,
-            entropy_total=sum(s.entropy_bits for s in symbols)
+            entropy_total=sum(s.entropy_bits for s in symbols),
         )
 
         return concept
@@ -132,7 +134,7 @@ class ConceptMapper:
             domain=domain,
             name=concept.meaning,
             value=concept.meaning,
-            entropy_bits=concept.entropy_total / max(1, len(concept.symbols))
+            entropy_bits=concept.entropy_total / max(1, len(concept.symbols)),
         )
         symbols.append(symbol)
 
@@ -180,7 +182,10 @@ class ConceptMapper:
                     # Search for symbol with matching concept in that domain
                     domain_vocab = self.vocabulary.manager.get_vocabulary(domain)
                     for symbol in domain_vocab.symbols:
-                        if symbol.name.upper() in name.upper() or name.upper() in symbol.name.upper():
+                        if (
+                            symbol.name.upper() in name.upper()
+                            or name.upper() in symbol.name.upper()
+                        ):
                             concept = self.symbol_to_concept(symbol)
                             self.concept_cache[concept_id] = concept
                             return concept
@@ -219,10 +224,10 @@ class CrossModalTranslator:
             "glyph_to_text": {},
             "emotion_to_color": {
                 "happiness": "#FFD700",  # Gold
-                "sadness": "#4169E1",   # Blue
-                "anger": "#FF0000",     # Red
-                "fear": "#800080",      # Purple
-                "love": "#FF69B4",      # Pink
+                "sadness": "#4169E1",  # Blue
+                "anger": "#FF0000",  # Red
+                "fear": "#800080",  # Purple
+                "love": "#FF69B4",  # Pink
                 "surprise": "#FFA500",  # Orange
             },
             "color_to_emotion": {
@@ -232,7 +237,7 @@ class CrossModalTranslator:
                 "#800080": "fear",
                 "#FF69B4": "love",
                 "#FFA500": "surprise",
-            }
+            },
         }
 
     def text_to_glyphs(self, text: str) -> GLYPHSequence:
@@ -272,7 +277,7 @@ class CrossModalTranslator:
             domain=SymbolicDomain.CONTEXT,
             name=glyph_token.meaning,
             value=glyph_token.meaning,
-            glyph=glyph_token.glyph
+            glyph=glyph_token.glyph,
         )
 
         return symbol
@@ -301,8 +306,9 @@ class UniversalTranslator:
         self.translation_cache: dict[str, TranslationResult] = {}
         logger.info("Universal Translator initialized")
 
-    def translate(self, source: Any, target_type: str,
-                 context: Optional[dict[str, Any]] = None) -> TranslationResult:
+    def translate(
+        self, source: Any, target_type: str, context: Optional[dict[str, Any]] = None
+    ) -> TranslationResult:
         """
         Translate from any source to target type.
 
@@ -321,7 +327,7 @@ class UniversalTranslator:
         trace.append(f"Detected source type: {source_type}")
 
         # Check cache
-        cache_key = f"{source_type}:{str(source)}:{target_type}"
+        cache_key = f"{source_type}:{source!s}:{target_type}"
         if cache_key in self.translation_cache:
             return self.translation_cache[cache_key]
 
@@ -350,8 +356,14 @@ class UniversalTranslator:
         else:
             return "unknown"
 
-    def _perform_translation(self, source: Any, source_type: str, target_type: str,
-                           trace: list[str], context: Optional[dict[str, Any]]) -> TranslationResult:
+    def _perform_translation(
+        self,
+        source: Any,
+        source_type: str,
+        target_type: str,
+        trace: list[str],
+        context: Optional[dict[str, Any]],
+    ) -> TranslationResult:
         """Perform the actual translation"""
         target = None
         translation_type = None
@@ -415,12 +427,14 @@ class UniversalTranslator:
             translation_type=translation_type or TranslationType.CROSS_MODAL,
             confidence=confidence if target else 0.0,
             metadata=context or {},
-            trace=trace
+            trace=trace,
         )
 
         return result
 
-    def _translate_cross_domain(self, symbol: Symbol, target_domain: SymbolicDomain) -> Optional[Symbol]:
+    def _translate_cross_domain(
+        self, symbol: Symbol, target_domain: SymbolicDomain
+    ) -> Optional[Symbol]:
         """Translate a symbol to a different domain"""
         # Find equivalent symbol in target domain
         target_vocab = self.vocabulary.manager.get_vocabulary(target_domain)
@@ -437,7 +451,7 @@ class UniversalTranslator:
             name=symbol.name,
             value=symbol.value,
             glyph=symbol.glyph,
-            attributes=symbol.attributes.copy()
+            attributes=symbol.attributes.copy(),
         )
 
         return new_symbol
@@ -471,8 +485,9 @@ class UniversalTranslator:
 
         return concept_ids
 
-    def universal_to_private(self, concept_ids: list[str],
-                           user_preferences: Optional[dict[str, Any]] = None) -> list[Any]:
+    def universal_to_private(
+        self, concept_ids: list[str], user_preferences: Optional[dict[str, Any]] = None
+    ) -> list[Any]:
         """
         Translate universal concept IDs to user's private representation.
 
@@ -538,7 +553,7 @@ class UniversalTranslator:
             "failed": failed,
             "success_rate": successful / max(1, len(self.translation_cache)),
             "cache_size": len(self.translation_cache),
-            "translation_types": translation_types
+            "translation_types": translation_types,
         }
 
 

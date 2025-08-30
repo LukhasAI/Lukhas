@@ -25,6 +25,7 @@ DIGESTS_DIR = os.path.join(FEEDBACK_DIR, "digests")
 os.makedirs(FEEDBACK_DIR, exist_ok=True)
 os.makedirs(DIGESTS_DIR, exist_ok=True)
 
+
 class FeedbackStore:
     """JSONL storage with HMAC redaction and Merkle tree generation."""
 
@@ -76,9 +77,12 @@ class FeedbackStore:
 
         return feedback_data.get("fc_id", "unknown")
 
-    def read_feedback(self, limit: int | None = None,
-                     task_filter: str | None = None,
-                     jurisdiction_filter: str | None = None) -> list[dict[str, Any]]:
+    def read_feedback(
+        self,
+        limit: int | None = None,
+        task_filter: str | None = None,
+        jurisdiction_filter: str | None = None,
+    ) -> list[dict[str, Any]]:
         """Read feedback from jsonl_with optional filters."""
         if not os.path.exists(self.feedback_file):
             return []
@@ -94,7 +98,10 @@ class FeedbackStore:
                     # Apply filters
                     if task_filter and fc.get("context", {}).get("task") != task_filter:
                         continue
-                    if jurisdiction_filter and fc.get("context", {}).get("jurisdiction") != jurisdiction_filter:
+                    if (
+                        jurisdiction_filter
+                        and fc.get("context", {}).get("jurisdiction") != jurisdiction_filter
+                    ):
                         continue
 
                     feedback.append(fc)
@@ -182,7 +189,7 @@ class FeedbackStore:
             "n_records": len(week_feedback),
             "generated_at": now.isoformat() + "Z",
             "alg": "merkle_sha3_512",
-            "signer": "development"  # Will be replaced with PQC signer
+            "signer": "development",  # Will be replaced with PQC signer
         }
 
         # Save digest
@@ -192,8 +199,10 @@ class FeedbackStore:
 
         return digest
 
+
 # Singleton instance
 _store = None
+
 
 def get_store() -> FeedbackStore:
     """Get singleton store instance."""

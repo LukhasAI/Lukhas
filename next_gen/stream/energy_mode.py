@@ -157,14 +157,10 @@ class EnergyManager:
                     cpu_percent=psutil.cpu_percent(interval=1),
                     memory_percent=psutil.virtual_memory().percent,
                     disk_io=(
-                        sum(psutil.disk_io_counters()[:2])
-                        if psutil.disk_io_counters()
-                        else 0
+                        sum(psutil.disk_io_counters()[:2]) if psutil.disk_io_counters() else 0
                     ),
                     network_io=(
-                        sum(psutil.net_io_counters()[:2])
-                        if psutil.net_io_counters()
-                        else 0
+                        sum(psutil.net_io_counters()[:2]) if psutil.net_io_counters() else 0
                     ),
                 )
 
@@ -227,24 +223,19 @@ class EnergyManager:
                 # Check for forced power save conditions
                 if (
                     current_metrics.battery_level
-                    and current_metrics.battery_level
-                    < self.SWITCH_THRESHOLDS["battery_low"]
+                    and current_metrics.battery_level < self.SWITCH_THRESHOLDS["battery_low"]
                 ):
                     target_profile = "power_save"
                     should_switch = True
                 elif (
                     current_metrics.temperature
-                    and current_metrics.temperature
-                    > self.SWITCH_THRESHOLDS["temperature_high"]
+                    and current_metrics.temperature > self.SWITCH_THRESHOLDS["temperature_high"]
                 ):
                     target_profile = "deep_sleep"
                     should_switch = True
 
                 # Check CPU thresholds
-                elif (
-                    current_metrics.cpu_percent
-                    > self.SWITCH_THRESHOLDS["cpu_high"] * 100
-                ):
+                elif current_metrics.cpu_percent > self.SWITCH_THRESHOLDS["cpu_high"] * 100:
                     # Switch to more efficient profile
                     profiles = list(self.ENERGY_PROFILES.keys())
                     current_idx = profiles.index(self.current_profile.profile_name)
@@ -252,10 +243,7 @@ class EnergyManager:
                         target_profile = profiles[current_idx - 1]
                         should_switch = True
 
-                elif (
-                    current_metrics.cpu_percent
-                    < self.SWITCH_THRESHOLDS["cpu_low"] * 100
-                ):
+                elif current_metrics.cpu_percent < self.SWITCH_THRESHOLDS["cpu_low"] * 100:
                     # Switch to more performance profile
                     profiles = list(self.ENERGY_PROFILES.keys())
                     current_idx = profiles.index(self.current_profile.profile_name)
@@ -297,8 +285,8 @@ class EnergyManager:
 
         logger.info(f"🔄 Energy profile switched: {old_profile} → {profile_name}")
         logger.info(
-            f"   New limits: CPU {self.current_profile.cpu_threshold*100:.0f}%, "
-            f"Memory {self.current_profile.memory_threshold*100:.0f}%"
+            f"   New limits: CPU {self.current_profile.cpu_threshold * 100:.0f}%, "
+            f"Memory {self.current_profile.memory_threshold * 100:.0f}%"
         )
         logger.info(f"   Symbol: {self.current_profile.symbolic_indicator}")
 
@@ -353,8 +341,7 @@ class EnergyManager:
         # Check against current profile thresholds
         if (
             current_metrics.cpu_percent / 100.0 > self.current_profile.cpu_threshold
-            or current_metrics.memory_percent / 100.0
-            > self.current_profile.memory_threshold
+            or current_metrics.memory_percent / 100.0 > self.current_profile.memory_threshold
         ):
             return True
 
@@ -457,9 +444,7 @@ class EnergyManager:
 
         # Calculate average metrics
         if self.metrics_history:
-            avg_cpu = sum(m.cpu_percent for m in self.metrics_history) / len(
-                self.metrics_history
-            )
+            avg_cpu = sum(m.cpu_percent for m in self.metrics_history) / len(self.metrics_history)
             avg_memory = sum(m.memory_percent for m in self.metrics_history) / len(
                 self.metrics_history
             )
@@ -485,13 +470,9 @@ class EnergyManager:
             },
             "current_metrics": {
                 "cpu_percent": current_metrics.cpu_percent if current_metrics else 0,
-                "memory_percent": (
-                    current_metrics.memory_percent if current_metrics else 0
-                ),
+                "memory_percent": (current_metrics.memory_percent if current_metrics else 0),
                 "energy_score": current_metrics.energy_score if current_metrics else 0,
-                "battery_level": (
-                    current_metrics.battery_level if current_metrics else None
-                ),
+                "battery_level": (current_metrics.battery_level if current_metrics else None),
                 "temperature": current_metrics.temperature if current_metrics else None,
             },
             "averages": {

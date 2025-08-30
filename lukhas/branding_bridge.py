@@ -19,6 +19,7 @@ Usage:
 """
 
 import logging
+import re
 from dataclasses import dataclass
 from typing import Any, Optional
 
@@ -119,8 +120,6 @@ def validate_branding_compliance(text: str) -> list[str]:
         issues.append("Use 'bio-inspired' instead of 'bio processing/process'")
 
     # Check for standalone 'quantum' without qualifier
-    import re
-
     if re.search(r"\bquantum\b(?!\s*[-]?(?:inspired|metaphor))", text_lower):
         issues.append(
             "Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'"
@@ -193,7 +192,7 @@ class LUKHASBrandingBridge:
     and Trinity Framework integration across the entire system.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.is_initialized = False
         self.voice_adapter = None
         self.validator = None
@@ -236,9 +235,7 @@ class LUKHASBrandingBridge:
                     logger.warning(f"⚠️ Creative branding initialization failed: {e}")
 
             self.is_initialized = True
-            logger.info(
-                f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}"
-            )
+            logger.info(f"🎨 Branding Bridge initialized with {SYSTEM_NAME} {TRINITY_FRAMEWORK}")
             return True
 
         except Exception as e:
@@ -277,9 +274,7 @@ class LUKHASBrandingBridge:
 
         return context
 
-    def validate_output(
-        self, text: str, context: Optional[BrandContext] = None
-    ) -> dict[str, Any]:
+    def validate_output(self, text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
         """Validate text output for brand compliance"""
         if not isinstance(text, str):
             return {"valid": True, "issues": [], "text": text}
@@ -310,9 +305,7 @@ class LUKHASBrandingBridge:
             "compliance_level": context.compliance_level,
         }
 
-    def normalize_output(
-        self, text: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def normalize_output(self, text: str, context: Optional[BrandContext] = None) -> str:
         """Normalize text output for brand compliance"""
         if not isinstance(text, str):
             return text
@@ -335,9 +328,7 @@ class LUKHASBrandingBridge:
             logger.warning(f"Output normalization error: {e}")
             return text
 
-    def get_brand_voice(
-        self, content: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def get_brand_voice(self, content: str, context: Optional[BrandContext] = None) -> str:
         """Apply brand voice to content"""
         context = context or self.default_context
 
@@ -360,9 +351,7 @@ class LUKHASBrandingBridge:
 
         return content
 
-    def generate_branded_content(
-        self, prompt: str, context: Optional[BrandContext] = None
-    ) -> str:
+    def generate_branded_content(self, prompt: str, context: Optional[BrandContext] = None) -> str:
         """Generate brand-compliant content from prompt"""
         context = context or self.default_context
 
@@ -382,7 +371,12 @@ class LUKHASBrandingBridge:
 
         # Fallback to prompt with Trinity context
         trinity = self.get_trinity_context(context.trinity_emphasis)
-        return f"{prompt}\n\nIntegrating {trinity['framework']} principles: {trinity['identity']['description']}, {trinity['consciousness']['description']}, {trinity['guardian']['description']}"
+        return (
+            f"{prompt}\n\nIntegrating {trinity['framework']} principles: "
+            f"{trinity['identity']['description']}, "
+            f"{trinity['consciousness']['description']}, "
+            f"{trinity['guardian']['description']}"
+        )
 
     def monitor_brand_drift(self, content: str) -> dict[str, Any]:
         """Monitor content for brand drift"""
@@ -430,7 +424,7 @@ _bridge_instance: Optional[LUKHASBrandingBridge] = None
 
 async def initialize_branding() -> bool:
     """Initialize the global branding bridge"""
-    global _bridge_instance  # noqa: PLW0603
+    global _bridge_instance
     if _bridge_instance is None:
         _bridge_instance = LUKHASBrandingBridge()
     return await _bridge_instance.initialize()
@@ -438,7 +432,7 @@ async def initialize_branding() -> bool:
 
 def get_bridge() -> LUKHASBrandingBridge:
     """Get the global branding bridge instance"""
-    global _bridge_instance  # noqa: PLW0603
+    global _bridge_instance
     if _bridge_instance is None:
         _bridge_instance = LUKHASBrandingBridge()
     return _bridge_instance
@@ -455,9 +449,7 @@ def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
     return get_bridge().get_trinity_context(emphasis)
 
 
-def validate_output(
-    text: str, context: Optional[BrandContext] = None
-) -> dict[str, Any]:
+def validate_output(text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
     """Validate text for brand compliance"""
     return get_bridge().validate_output(text, context)
 
@@ -472,9 +464,7 @@ def get_brand_voice(content: str, context: Optional[BrandContext] = None) -> str
     return get_bridge().get_brand_voice(content, context)
 
 
-def generate_branded_content(
-    prompt: str, context: Optional[BrandContext] = None
-) -> str:
+def generate_branded_content(prompt: str, context: Optional[BrandContext] = None) -> str:
     """Generate brand-compliant content"""
     return get_bridge().generate_branded_content(prompt, context)
 
@@ -491,23 +481,22 @@ def get_brand_status() -> dict[str, Any]:
 
 # Module exports
 __all__ = [
-    "LUKHASBrandingBridge",
     "BrandContext",
-    "initialize_branding",
-    "get_bridge",
-    "get_system_signature",
-    "get_trinity_context",
-    "validate_output",
-    "normalize_output_text",
-    "get_brand_voice",
-    "generate_branded_content",
-    "monitor_brand_drift",
-    "get_brand_status",
-    # Constants
+    "CONSCIOUSNESS_SYMBOL",
+    "GUARDIAN_SYMBOL",
+    "IDENTITY_SYMBOL",
+    "LUKHASBrandingBridge",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
     "TRINITY_FRAMEWORK",
-    "IDENTITY_SYMBOL",
-    "CONSCIOUSNESS_SYMBOL",
-    "GUARDIAN_SYMBOL",
+    "generate_branded_content",
+    "get_brand_status",
+    "get_brand_voice",
+    "get_bridge",
+    "get_system_signature",
+    "get_trinity_context",
+    "initialize_branding",
+    "monitor_brand_drift",
+    "normalize_output_text",
+    "validate_output",
 ]

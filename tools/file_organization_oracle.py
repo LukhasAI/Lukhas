@@ -37,9 +37,7 @@ from typing import Optional
 import yaml
 
 # Configure consciousness logger
-logging.basicConfig(
-    level=logging.INFO, format="🗂️ %(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="🗂️ %(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("OrganizationOracle")
 
 
@@ -106,9 +104,7 @@ class LUKHASFileOrganizationOracle:
 
         logger.info("🌌 Awakening File Organization Oracle...")
         logger.info(f"📁 Workspace: {self.workspace_root}")
-        logger.info(
-            f"🔍 Mode: {'Contemplation (dry-run)' if dry_run else 'Manifestation'}"
-        )
+        logger.info(f"🔍 Mode: {'Contemplation (dry-run)' if dry_run else 'Manifestation'}")
 
     def scan_root_bloat(self) -> list[tuple[Path, str, str]]:
         """
@@ -144,10 +140,8 @@ class LUKHASFileOrganizationOracle:
 
             # Check main patterns
             if any(
-                self._matches_pattern(filename, pattern.upper())
-                for pattern in config["patterns"]
+                self._matches_pattern(filename, pattern.upper()) for pattern in config["patterns"]
             ):
-
                 # Check for subdirectory classification
                 if "subdirs" in config:
                     for subdir, subpatterns in config["subdirs"].items():
@@ -229,9 +223,7 @@ class LUKHASFileOrganizationOracle:
             self.organization_log.append(action)
 
             if self.dry_run:
-                logger.info(
-                    f"🔮 Would move: {file_path.name} → {destination} ({reason})"
-                )
+                logger.info(f"🔮 Would move: {file_path.name} → {destination} ({reason})")
             else:
                 shutil.move(str(file_path), str(dest_path))
                 logger.info(f"✨ Moved: {file_path.name} → {destination} ({reason})")

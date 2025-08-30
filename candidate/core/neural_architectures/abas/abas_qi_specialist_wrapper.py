@@ -15,8 +15,8 @@ except ImportError as e:
     logging.warning(f"ABAS quantum specialist not available: {e}")
     # Try mock implementation
     try:
-        from .abas_quantum_specialist_mock import QuantumBiologicalAGI
         from .abas_quantum_specialist_mock import (
+            QuantumBiologicalAGI,
             get_quantum_biological_agi as get_mock_quantum_agi,
         )
 
@@ -80,18 +80,12 @@ class ABASQuantumSpecialistWrapper:
 
         try:
             # Process with quantum biology
-            response = await self.quantum_agi.process_with_quantum_biology(
-                input_text, context
-            )
+            response = await self.quantum_agi.process_with_quantum_biology(input_text, context)
 
             # Update statistics
             self.integration_stats["successful_processes"] += 1
-            self._update_average_metric(
-                "average_bio_confidence", response.bio_confidence
-            )
-            self._update_average_metric(
-                "average_quantum_coherence", response.quantum_coherence
-            )
+            self._update_average_metric("average_bio_confidence", response.bio_confidence)
+            self._update_average_metric("average_quantum_coherence", response.quantum_coherence)
 
             # Check for capability advancement
             current_level = self.quantum_agi.capability_level
@@ -126,7 +120,7 @@ class ABASQuantumSpecialistWrapper:
             self.integration_stats["failed_processes"] += 1
             return {
                 "error": str(e),
-                "content": f"Processing error: {str(e)}",
+                "content": f"Processing error: {e!s}",
                 "bio_confidence": 0.0,
                 "quantum_coherence": 0.0,
                 "atp_efficiency": 0.0,
@@ -149,19 +143,13 @@ class ABASQuantumSpecialistWrapper:
     ) -> dict[str, Any]:
         """Get quantum tunneling ethical arbitration"""
         if hasattr(self.quantum_agi, "quantum_ethics"):
-            return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(
-                decision_context
-            )
+            return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(decision_context)
         return {"error": "Quantum ethics not available"}
 
-    async def create_attention_gradient(
-        self, input_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def create_attention_gradient(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Create proton motive attention gradient"""
         if hasattr(self.quantum_agi, "proton_processor"):
-            return self.quantum_agi.proton_processor.create_attention_gradient(
-                input_data
-            )
+            return self.quantum_agi.proton_processor.create_attention_gradient(input_data)
         return {"error": "Proton processor not available"}
 
     async def optimize_cristae_topology(

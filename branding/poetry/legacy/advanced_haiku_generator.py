@@ -95,9 +95,7 @@ class AdvancedHaikuGenerator:
 
     def __init__(self, symbolic_db=None, federated_model=None):
         # Quantum consciousness integration
-        self.consciousness = (
-            QICreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
-        )
+        self.consciousness = QICreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
         self.logger = get_logger(__name__)
 
         # Neural federated learning integration
@@ -390,11 +388,8 @@ class AdvancedHaikuGenerator:
         # Calculate average metrics
         if all_metrics:
             avg_metrics = {
-                "qi_coherence": sum(m["qi_coherence"] for m in all_metrics)
-                / len(all_metrics),
-                "consciousness_resonance": sum(
-                    m["consciousness_resonance"] for m in all_metrics
-                )
+                "qi_coherence": sum(m["qi_coherence"] for m in all_metrics) / len(all_metrics),
+                "consciousness_resonance": sum(m["consciousness_resonance"] for m in all_metrics)
                 / len(all_metrics),
                 "creative_entropy": sum(m["creative_entropy"] for m in all_metrics)
                 / len(all_metrics),
@@ -639,12 +634,8 @@ class AdvancedHaikuGenerator:
         unique_words = len(set(haiku.lower().split()))
 
         # Simple metrics based on structure and content
-        qi_coherence = (
-            min(1.0, unique_words / word_count) if word_count > 0 else 0.0
-        )
-        consciousness_resonance = min(
-            1.0, len(lines) / 3.0
-        )  # Perfect for 3 lines (haiku)
+        qi_coherence = min(1.0, unique_words / word_count) if word_count > 0 else 0.0
+        consciousness_resonance = min(1.0, len(lines) / 3.0)  # Perfect for 3 lines (haiku)
         creative_entropy = min(1.0, (word_count - unique_words) / max(word_count, 1))
 
         return {
@@ -686,13 +677,9 @@ class AdvancedHaikuGenerator:
     def _select_concept(self, line_type: str) -> str:
         """Select concept based on line type"""
         if line_type == "fragment":
-            concepts = self.symbolic_db.get(
-                "fragment_concepts", ["light", "shadow", "wind"]
-            )
+            concepts = self.symbolic_db.get("fragment_concepts", ["light", "shadow", "wind"])
         else:  # phrase
-            concepts = self.symbolic_db.get(
-                "phrase_concepts", ["consciousness", "awareness"]
-            )
+            concepts = self.symbolic_db.get("phrase_concepts", ["consciousness", "awareness"])
 
         return random.choice(concepts)
 
@@ -710,16 +697,12 @@ class AdvancedHaikuGenerator:
         words = concept_words.get(concept, [concept])
 
         # Filter by syllable count
-        suitable_words = [
-            w for w in words if self._count_syllables(w) <= remaining_syllables
-        ]
+        suitable_words = [w for w in words if self._count_syllables(w) <= remaining_syllables]
 
         if suitable_words:
             return random.choice(suitable_words)
 
-        return (
-            concept if self._count_syllables(concept) <= remaining_syllables else None
-        )
+        return concept if self._count_syllables(concept) <= remaining_syllables else None
 
 
 # Legacy class aliases for backward compatibility
@@ -744,9 +727,7 @@ async def main():
 
     print(f"Haiku:\n{haiku_result['haiku_text']}")
     print(f"Syllables: {haiku_result['syllable_structure']}")
-    print(
-        f"Quantum Coherence: {haiku_result['consciousness_metrics']['qi_coherence']:.3f}"
-    )
+    print(f"Quantum Coherence: {haiku_result['consciousness_metrics']['qi_coherence']:.3f}")
     print(
         f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}"
     )
@@ -760,9 +741,7 @@ async def main():
         print(f"\n{theme.title()} Haiku:")
         print(haiku_list[0]["haiku_text"])
 
-    print(
-        f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}"
-    )
+    print(f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}")
     print("🎋 Advanced Haiku Generation: COMPLETE")
 
 

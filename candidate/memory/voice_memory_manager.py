@@ -99,9 +99,7 @@ class MemoryManager:
                 self.memories[user_id], key=lambda x: x["importance"], reverse=True
             )[: self.max_memories]
 
-    def get_relevant_memories(
-        self, user_id: str, limit: int = 20
-    ) -> list[dict[str, Any]]:
+    def get_relevant_memories(self, user_id: str, limit: int = 20) -> list[dict[str, Any]]:
         """Get relevant memories for a user, sorted by importance and recency."""
         if not user_id or user_id not in self.memories:
             return []
@@ -160,15 +158,11 @@ class MemoryManager:
         for user_id in self.memories:
             original_count = len(self.memories[user_id])
             self.memories[user_id] = [
-                memory
-                for memory in self.memories[user_id]
-                if memory["timestamp"] > cutoff_date
+                memory for memory in self.memories[user_id] if memory["timestamp"] > cutoff_date
             ]
             removed_count = original_count - len(self.memories[user_id])
             if removed_count > 0:
-                self.logger.info(
-                    f"Removed {removed_count} old interactions for user {user_id}"
-                )
+                self.logger.info(f"Removed {removed_count} old interactions for user {user_id}")
 
     def _calculate_importance(self, context: dict[str, Any]) -> float:
         """Calculate the importance score of an interaction based on context."""

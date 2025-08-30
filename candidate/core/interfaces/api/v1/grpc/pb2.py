@@ -72,9 +72,7 @@ class ProcessResponse(message.Message):
         import json
 
         timestamp_value = (
-            self.timestamp.seconds
-            if hasattr(self.timestamp, "seconds")
-            else int(time.time())
+            self.timestamp.seconds if hasattr(self.timestamp, "seconds") else int(time.time())
         )
         data = {
             "request_id": self.request_id,

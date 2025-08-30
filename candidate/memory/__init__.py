@@ -10,7 +10,6 @@ This module consolidates all memory-related components:
 - Colony systems
 """
 
-
 # Version info
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
@@ -45,8 +44,8 @@ except ImportError:
 __all__ = [
     "MemoryCore",
     "MemoryFold",
-    "MemorySafetyManager",
-    "MemoryPlanner",
     "MemoryManager",
     "MemoryOrchestrator",
+    "MemoryPlanner",
+    "MemorySafetyManager",
 ]

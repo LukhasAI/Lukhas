@@ -150,9 +150,7 @@ class QRGCoverageIntegration:
                     test_instance.setUp()
                 logger.debug(f"✅ Test component {test_name} initialized")
             except Exception as e:
-                logger.warning(
-                    f"⚠️ Test component {test_name} initialization issue: {e}"
-                )
+                logger.warning(f"⚠️ Test component {test_name} initialization issue: {e}")
 
         logger.info("Test component initialization complete")
 
@@ -224,12 +222,8 @@ class QRGCoverageIntegration:
                 coverage_percentage=coverage_percentage,
                 runtime_seconds=runtime,
                 test_results={
-                    "failures": [
-                        (str(test), error) for test, error in test_result.failures
-                    ],
-                    "errors": [
-                        (str(test), error) for test, error in test_result.errors
-                    ],
+                    "failures": [(str(test), error) for test, error in test_result.failures],
+                    "errors": [(str(test), error) for test, error in test_result.errors],
                     "successful_areas": self._get_successful_test_areas(),
                     "test_distribution": self._analyze_test_distribution(test_result),
                 },
@@ -254,9 +248,7 @@ class QRGCoverageIntegration:
             # Update metrics
             await self._update_test_metrics(coverage_report)
 
-            logger.info(
-                f"Coverage tests completed: {coverage_percentage:.1f}% in {runtime:.2f}s"
-            )
+            logger.info(f"Coverage tests completed: {coverage_percentage:.1f}% in {runtime:.2f}s")
             return coverage_report
 
         except Exception as e:
@@ -328,13 +320,10 @@ class QRGCoverageIntegration:
 
         # Update average runtime
         total_runtime = (
-            self.test_metrics["average_runtime"]
-            * (self.test_metrics["total_executions"] - 1)
+            self.test_metrics["average_runtime"] * (self.test_metrics["total_executions"] - 1)
             + report.runtime_seconds
         )
-        self.test_metrics["average_runtime"] = (
-            total_runtime / self.test_metrics["total_executions"]
-        )
+        self.test_metrics["average_runtime"] = total_runtime / self.test_metrics["total_executions"]
 
         # Update success rate
         success_count = sum(1 for r in self.test_history if r.coverage_percentage >= 95)
@@ -351,9 +340,7 @@ class QRGCoverageIntegration:
 
         # Keep only last 100 trend points
         if len(self.test_metrics["performance_trends"]) > 100:
-            self.test_metrics["performance_trends"] = self.test_metrics[
-                "performance_trends"
-            ][-100:]
+            self.test_metrics["performance_trends"] = self.test_metrics["performance_trends"][-100:]
 
     async def run_targeted_tests(
         self, test_category: str, specific_tests: Optional[list[str]] = None
@@ -472,14 +459,10 @@ class QRGCoverageIntegration:
             "criteria": readiness_criteria,
             "coverage_percentage": validation_result.coverage_percentage,
             "validation_timestamp": datetime.now().isoformat(),
-            "recommendations": self._generate_readiness_recommendations(
-                readiness_criteria
-            ),
+            "recommendations": self._generate_readiness_recommendations(readiness_criteria),
         }
 
-    def _generate_readiness_recommendations(
-        self, criteria: dict[str, bool]
-    ) -> list[str]:
+    def _generate_readiness_recommendations(self, criteria: dict[str, bool]) -> list[str]:
         """Generate recommendations based on readiness criteria"""
         recommendations = []
 
@@ -490,9 +473,7 @@ class QRGCoverageIntegration:
             recommendations.append("Address security validation test failures")
 
         if not criteria["performance_acceptable"]:
-            recommendations.append(
-                "Optimize performance to meet execution time requirements"
-            )
+            recommendations.append("Optimize performance to meet execution time requirements")
 
         if not criteria["error_free"]:
             recommendations.append("Resolve system errors before production deployment")
@@ -502,9 +483,7 @@ class QRGCoverageIntegration:
 
         return recommendations
 
-    async def get_test_history(
-        self, limit: Optional[int] = None
-    ) -> list[dict[str, Any]]:
+    async def get_test_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """Get test execution history"""
         history = self.test_history
         if limit:

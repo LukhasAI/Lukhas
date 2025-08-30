@@ -107,9 +107,7 @@ class PracticalIntegrationHub:
             and "consciousness_hub" in self.available_components
         ):
             try:
-                self.core_hub.register_service(
-                    "consciousness_hub", self.consciousness_hub
-                )
+                self.core_hub.register_service("consciousness_hub", self.consciousness_hub)
                 connections_made += 1
                 logger.info("✅ Connected Core ↔ Consciousness")
             except Exception as e:
@@ -143,9 +141,7 @@ class PracticalIntegrationHub:
 
     def _generate_integration_report(self):
         """Generate integration status report"""
-        working_components = len(
-            [s for s in self.integration_status.values() if s == "active"]
-        )
+        working_components = len([s for s in self.integration_status.values() if s == "active"])
         total_components = len(self.integration_status)
 
         connectivity_percentage = (
@@ -162,9 +158,7 @@ class PracticalIntegrationHub:
 
         for component, status in self.integration_status.items():
             status_icon = (
-                "✅"
-                if status == "active"
-                else "❌" if status.startswith("failed") else "⚠️"
+                "✅" if status == "active" else "❌" if status.startswith("failed") else "⚠️"
             )
             logger.info(f"{status_icon} {component}: {status}")
 
@@ -204,21 +198,15 @@ class PracticalIntegrationHub:
                 and "consciousness_hub" in self.available_components
             ):
                 # Process through consciousness hub
-                result["consciousness_response"] = (
-                    await self._process_consciousness_request(data)
-                )
+                result["consciousness_response"] = await self._process_consciousness_request(data)
 
             elif (
-                request_type.startswith("ethics_")
-                and "ethics_service" in self.available_components
+                request_type.startswith("ethics_") and "ethics_service" in self.available_components
             ):
                 # Process through ethics service
                 result["ethics_response"] = await self._process_ethics_request(data)
 
-            elif (
-                request_type.startswith("core_")
-                and "core_hub" in self.available_components
-            ):
+            elif request_type.startswith("core_") and "core_hub" in self.available_components:
                 # Process through core hub
                 result["core_response"] = await self._process_core_request(data)
 
@@ -238,9 +226,7 @@ class PracticalIntegrationHub:
                 "timestamp": datetime.now().isoformat(),
             }
 
-    async def _process_consciousness_request(
-        self, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _process_consciousness_request(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process request through consciousness hub"""
         # Simple consciousness processing
         return {
@@ -273,9 +259,7 @@ class PracticalIntegrationHub:
 
     def get_integration_status(self) -> dict[str, Any]:
         """Get current integration status"""
-        working_components = len(
-            [s for s in self.integration_status.values() if s == "active"]
-        )
+        working_components = len([s for s in self.integration_status.values() if s == "active"])
         total_components = len(self.integration_status)
 
         return {
@@ -283,16 +267,13 @@ class PracticalIntegrationHub:
             "working_components": working_components,
             "total_components": total_components,
             "connectivity_percentage": (
-                (working_components / total_components) * 100
-                if total_components > 0
-                else 0
+                (working_components / total_components) * 100 if total_components > 0 else 0
             ),
             "component_status": self.integration_status,
             "available_services": list(self.available_components.keys()),
             "phase_1_goals": {
                 "core_hub_integration": "core_hub" in self.available_components,
-                "consciousness_integration": "consciousness_hub"
-                in self.available_components,
+                "consciousness_integration": "consciousness_hub" in self.available_components,
                 "ethics_unification": "unified_ethics" in self.available_components,
             },
         }
@@ -325,9 +306,7 @@ if __name__ == "__main__":
         print("📊 INTEGRATION TEST RESULTS")
         print("=" * 60)
         print(f"🎯 Connectivity: {status['connectivity_percentage']:.1f}%")
-        print(
-            f"⚡ Working Components: {status['working_components']}/{status['total_components']}"
-        )
+        print(f"⚡ Working Components: {status['working_components']}/{status['total_components']}")
         print("🏗️  Phase 1 Goals:")
         for goal, achieved in status["phase_1_goals"].items():
             status_icon = "✅" if achieved else "❌"

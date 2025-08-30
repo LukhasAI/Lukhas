@@ -76,9 +76,7 @@ def create_complete_vivox_ern_system(
         tag_integration = VIVOXTagSystemIntegration(neuroplastic_learner)
 
         # Connect neuroplastic interfaces
-        vivox_ern.set_integration_interface(
-            "neuroplastic_connector", neuroplastic_learner
-        )
+        vivox_ern.set_integration_interface("neuroplastic_connector", neuroplastic_learner)
         vivox_ern.set_integration_interface("tag_integration", tag_integration)
 
     # Create endocrine integration if hormone system provided

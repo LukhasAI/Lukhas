@@ -38,13 +38,13 @@ MODULE_NAME = "consciousness reflection"
 
 
 __all__ = [
-    "LambdaMirror",
-    "ReflectionType",
-    "EmotionalTone",
-    "AlignmentStatus",
-    "ReflectionEntry",
     "AlignmentScore",
+    "AlignmentStatus",
     "EmotionalDrift",
+    "EmotionalTone",
+    "LambdaMirror",
+    "ReflectionEntry",
+    "ReflectionType",
 ]
 
 """

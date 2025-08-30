@@ -256,9 +256,7 @@ class QIResonanceGlyph:
         self.executor = ThreadPoolExecutor(max_workers=10)
         self.cache = {}
 
-        logger.info(
-            "🌌 QUANTUM RESONANCE GLYPH SYSTEM INITIALIZED - MARKET DOMINATION COMMENCING"
-        )
+        logger.info("🌌 QUANTUM RESONANCE GLYPH SYSTEM INITIALIZED - MARKET DOMINATION COMMENCING")
         logger.info(
             f"💰 Projected value generation: ${self.config.value_per_auth:,.2f} per authentication"
         )
@@ -270,15 +268,11 @@ class QIResonanceGlyph:
         🚀 CEO: Quantum supremacy = Market supremacy
         """
         # Generate quantum entropy pool (Each byte = $10K of security)
-        self.qi_entropy_pool = secrets.token_bytes(
-            10240
-        )  # 10KB of pure quantum gold
+        self.qi_entropy_pool = secrets.token_bytes(10240)  # 10KB of pure quantum gold
         self.qi_supremacy_achieved = True
         self.qi_value = 1_000_000_000.00  # $1B in quantum IP
 
-        logger.info(
-            f"⚛️ Quantum domination initialized - Value: ${self.qi_value:,.2f}"
-        )
+        logger.info(f"⚛️ Quantum domination initialized - Value: ${self.qi_value:,.2f}")
 
     def _initialize_consciousness_empire(self):
         """
@@ -294,9 +288,7 @@ class QIResonanceGlyph:
         }
         self.consciousness_value = 10_000_000_000.00  # $10B in consciousness IP
 
-        logger.info(
-            f"🧠 Consciousness empire online - Value: ${self.consciousness_value:,.2f}"
-        )
+        logger.info(f"🧠 Consciousness empire online - Value: ${self.consciousness_value:,.2f}")
 
     def _initialize_market_disruption_engine(self):
         """
@@ -312,9 +304,7 @@ class QIResonanceGlyph:
         }
         self.disruption_value = 100_000_000_000.00  # $100B in disruption potential
 
-        logger.info(
-            f"💥 Market disruption engine armed - Potential: ${self.disruption_value:,.2f}"
-        )
+        logger.info(f"💥 Market disruption engine armed - Potential: ${self.disruption_value:,.2f}")
 
     def _initialize_revenue_optimization(self):
         """
@@ -387,9 +377,7 @@ class QIResonanceGlyph:
         start_time = time.time()
 
         logger.info(f"🚀 GENERATING BILLION-DOLLAR GLYPH for {user_identity}")
-        logger.info(
-            f"💰 Security Tier: {security_tier} - Value: ${security_tier * 1_000_000:,.2f}"
-        )
+        logger.info(f"💰 Security Tier: {security_tier} - Value: ${security_tier * 1_000_000:,.2f}")
 
         # Generate with maximum sovereignty
         consciousness_context = consciousness_context or ConsciousnessContext(
@@ -401,9 +389,7 @@ class QIResonanceGlyph:
         )
 
         # Generate quantum signature (UNBREAKABLE FOREVER)
-        qi_signature = self._generate_quantum_signature_supreme(
-            user_identity, security_tier
-        )
+        qi_signature = self._generate_quantum_signature_supreme(user_identity, security_tier)
 
         # Create consciousness fingerprint (SOUL RECOGNITION)
         consciousness_fingerprint = self._create_consciousness_empire_fingerprint(
@@ -416,9 +402,7 @@ class QIResonanceGlyph:
         )
 
         # Apply consciousness adaptation (MIND MELD COMPLETE)
-        visual_matrix = self._apply_consciousness_domination(
-            visual_matrix, consciousness_context
-        )
+        visual_matrix = self._apply_consciousness_domination(visual_matrix, consciousness_context)
 
         # Generate animation frames (LIVING AUTHENTICATION)
         animation_frames = self._generate_sovereign_animation_frames(
@@ -439,7 +423,7 @@ class QIResonanceGlyph:
 
         # Create the BILLION DOLLAR glyph
         glyph = QIGlyph(
-            glyph_id=f"QRG_{int(time.time()*1000000)}_{security_tier}",
+            glyph_id=f"QRG_{int(time.time() * 1000000)}_{security_tier}",
             visual_matrix=visual_matrix,
             animation_frames=animation_frames,
             qi_signature=qi_signature,
@@ -471,9 +455,7 @@ class QIResonanceGlyph:
 
         return glyph
 
-    def _generate_quantum_signature_supreme(
-        self, identity: str, security_tier: int
-    ) -> str:
+    def _generate_quantum_signature_supreme(self, identity: str, security_tier: int) -> str:
         """
         Generate quantum signature - UNBREAKABLE BY DESIGN
 
@@ -485,10 +467,7 @@ class QIResonanceGlyph:
 
         # Mix with quantum entropy (MAXIMUM RANDOMNESS)
         qi_mix = bytes(
-            a ^ b
-            for a, b in zip(
-                signature_bytes, self.qi_entropy_pool[: len(signature_bytes)]
-            )
+            a ^ b for a, b in zip(signature_bytes, self.qi_entropy_pool[: len(signature_bytes)])
         )
 
         # Generate supreme signature
@@ -499,9 +478,7 @@ class QIResonanceGlyph:
 
         return signature + value_suffix
 
-    def _create_consciousness_empire_fingerprint(
-        self, context: ConsciousnessContext
-    ) -> str:
+    def _create_consciousness_empire_fingerprint(self, context: ConsciousnessContext) -> str:
         """
         Create consciousness fingerprint - SOUL RECOGNITION TECHNOLOGY
 
@@ -684,9 +661,7 @@ class QIResonanceGlyph:
         # Simplified rotation (in production, use cv2.warpAffine)
         return matrix  # Placeholder
 
-    def _generate_patents_for_glyph(
-        self, identity: str, security_tier: int
-    ) -> list[str]:
+    def _generate_patents_for_glyph(self, identity: str, security_tier: int) -> list[str]:
         """
         Generate patents for this glyph - INTELLECTUAL PROPERTY FACTORY
 
@@ -822,7 +797,8 @@ def demonstrate_world_domination():
 
     # Generate a SOVEREIGN glyph
     qrg_system.generate_auth_glyph(
-        user_identity="WORLD_DOMINATION", security_tier=10  # MAXIMUM SOVEREIGNTY
+        user_identity="WORLD_DOMINATION",
+        security_tier=10,  # MAXIMUM SOVEREIGNTY
     )
 
     # Show domination metrics

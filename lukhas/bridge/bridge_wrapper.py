@@ -34,9 +34,7 @@ class ExternalServiceIntegration:
     def initialize_services(self) -> dict[str, Any]:
         """Initialize external service connections safely"""
         if not self._active:
-            emit(
-                {"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}}
-            )
+            emit({"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}})
             return {"initialized": False, "reason": "bridge_inactive"}
 
         try:
@@ -171,9 +169,7 @@ class ExternalServiceIntegration:
         }
 
     @instrument("bridge_service_call")
-    def call_service_adapter(
-        self, service: str, operation: str, **kwargs
-    ) -> dict[str, Any]:
+    def call_service_adapter(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
         """Call a service adapter with safety measures"""
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
@@ -265,9 +261,7 @@ class MultiModelOrchestrator:
         except Exception as e:
             return {"error": str(e), "model": model}
 
-    def _synthesize_consensus(
-        self, responses: list[dict[str, Any]], query: str
-    ) -> dict[str, Any]:
+    def _synthesize_consensus(self, responses: list[dict[str, Any]], query: str) -> dict[str, Any]:
         """Synthesize consensus from multiple model responses"""
         if not responses:
             return {
@@ -359,15 +353,11 @@ class BridgeWrapper:
 
         except Exception as e:
             logger.error(f"Multi-model query failed: {e}")
-            emit(
-                {"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)}}
-            )
+            emit({"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
     @instrument("bridge_service_operation")
-    def service_operation(
-        self, service: str, operation: str, **kwargs
-    ) -> dict[str, Any]:
+    def service_operation(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
         """Perform operation on external service"""
         if not self._initialized:
             self.initialize()
@@ -392,9 +382,7 @@ class BridgeWrapper:
 
         except Exception as e:
             logger.error(f"Service operation failed: {e}")
-            emit(
-                {"ntype": "bridge_service_operation_error", "state": {"error": str(e)}}
-            )
+            emit({"ntype": "bridge_service_operation_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
     def get_status(self) -> dict[str, Any]:
@@ -428,7 +416,7 @@ _bridge_wrapper = None
 
 def get_bridge_wrapper() -> BridgeWrapper:
     """Get the global bridge wrapper instance"""
-    global _bridge_wrapper  # noqa: PLW0603
+    global _bridge_wrapper
     if _bridge_wrapper is None:
         _bridge_wrapper = BridgeWrapper()
     return _bridge_wrapper

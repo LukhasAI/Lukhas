@@ -45,15 +45,17 @@ logger = logging.getLogger(__name__)
 
 class AccessTier(Enum):
     """Access tier levels (T1-T5)"""
-    T1_BASIC = "T1_basic"              # Basic public access
+
+    T1_BASIC = "T1_basic"  # Basic public access
     T2_AUTHENTICATED = "T2_authenticated"  # Authenticated user access
-    T3_TRUSTED = "T3_trusted"          # Trusted user access
-    T4_PRIVILEGED = "T4_privileged"    # Privileged user access
+    T3_TRUSTED = "T3_trusted"  # Trusted user access
+    T4_PRIVILEGED = "T4_privileged"  # Privileged user access
     T5_ADMINISTRATIVE = "T5_administrative"  # Administrative access
 
 
 class TierTransition(Enum):
     """Types of tier transitions"""
+
     PROMOTION = "promotion"
     DEMOTION = "demotion"
     TEMPORARY_GRANT = "temporary_grant"
@@ -64,6 +66,7 @@ class TierTransition(Enum):
 
 class AccessDecision(Enum):
     """Access control decisions"""
+
     ALLOW = "allow"
     DENY = "deny"
     CONDITIONAL = "conditional"
@@ -73,6 +76,7 @@ class AccessDecision(Enum):
 @dataclass
 class TierRequirements:
     """Requirements for each access tier"""
+
     tier: AccessTier
     name: str
     description: str
@@ -101,6 +105,7 @@ class TierRequirements:
 @dataclass
 class UserAccessProfile:
     """User access profile and tier information"""
+
     user_id: str
     current_tier: AccessTier
     effective_tier: AccessTier  # May differ due to temporary changes
@@ -128,9 +133,9 @@ class UserAccessProfile:
     temporary_restrictions: list[dict[str, Any]] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_coherence: float = 1.0      # ⚛️
-    consciousness_level: str = "basic"   # 🧠
-    guardian_status: str = "monitored"   # 🛡️
+    identity_coherence: float = 1.0  # ⚛️
+    consciousness_level: str = "basic"  # 🧠
+    guardian_status: str = "monitored"  # 🛡️
 
     # Audit tracking
     last_assessment: datetime = field(default_factory=datetime.now)
@@ -140,6 +145,7 @@ class UserAccessProfile:
 @dataclass
 class AccessRequest:
     """Access request and evaluation"""
+
     request_id: str
     user_id: str
     requested_resource: str
@@ -193,7 +199,7 @@ class ComprehensiveAccessTierManager:
             AccessTier.T2_AUTHENTICATED: timedelta(days=1),
             AccessTier.T3_TRUSTED: timedelta(days=7),
             AccessTier.T4_PRIVILEGED: timedelta(days=30),
-            AccessTier.T5_ADMINISTRATIVE: timedelta(days=90)
+            AccessTier.T5_ADMINISTRATIVE: timedelta(days=90),
         }
 
         # Performance metrics
@@ -207,7 +213,7 @@ class ComprehensiveAccessTierManager:
             "emergency_lockdowns": 0,
             "average_tier_progression_time": 0.0,
             "tier_satisfaction_rate": 0.0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize system
@@ -239,7 +245,7 @@ class ComprehensiveAccessTierManager:
                 description="Basic public access with minimal privileges",
                 min_verification_level=0,
                 min_trust_score=0.0,
-                max_risk_score=0.8
+                max_risk_score=0.8,
             ),
             TierRequirements(
                 tier=AccessTier.T2_AUTHENTICATED,
@@ -248,7 +254,7 @@ class ComprehensiveAccessTierManager:
                 min_verification_level=1,
                 min_trust_score=0.3,
                 min_tenure_days=0,
-                max_risk_score=0.6
+                max_risk_score=0.6,
             ),
             TierRequirements(
                 tier=AccessTier.T3_TRUSTED,
@@ -259,7 +265,7 @@ class ComprehensiveAccessTierManager:
                 min_reputation_score=0.4,
                 min_tenure_days=30,
                 required_completions=10,
-                max_risk_score=0.4
+                max_risk_score=0.4,
             ),
             TierRequirements(
                 tier=AccessTier.T4_PRIVILEGED,
@@ -272,7 +278,7 @@ class ComprehensiveAccessTierManager:
                 required_completions=50,
                 required_endorsements=3,
                 max_risk_score=0.2,
-                security_clearance=True
+                security_clearance=True,
             ),
             TierRequirements(
                 tier=AccessTier.T5_ADMINISTRATIVE,
@@ -286,8 +292,12 @@ class ComprehensiveAccessTierManager:
                 required_endorsements=5,
                 max_risk_score=0.1,
                 security_clearance=True,
-                special_conditions=["background_check", "multi_factor_auth", "continuous_monitoring"]
-            )
+                special_conditions=[
+                    "background_check",
+                    "multi_factor_auth",
+                    "continuous_monitoring",
+                ],
+            ),
         ]
 
         for tier_def in tier_definitions:
@@ -297,18 +307,14 @@ class ComprehensiveAccessTierManager:
         """Initialize permissions for each tier"""
 
         self.tier_permissions = {
-            AccessTier.T1_BASIC: {
-                "read_public_content",
-                "basic_interaction",
-                "public_forums"
-            },
+            AccessTier.T1_BASIC: {"read_public_content", "basic_interaction", "public_forums"},
             AccessTier.T2_AUTHENTICATED: {
                 "read_public_content",
                 "basic_interaction",
                 "public_forums",
                 "create_content",
                 "private_messaging",
-                "user_profile"
+                "user_profile",
             },
             AccessTier.T3_TRUSTED: {
                 "read_public_content",
@@ -319,7 +325,7 @@ class ComprehensiveAccessTierManager:
                 "user_profile",
                 "advanced_features",
                 "community_moderation",
-                "access_analytics"
+                "access_analytics",
             },
             AccessTier.T4_PRIVILEGED: {
                 "read_public_content",
@@ -333,7 +339,7 @@ class ComprehensiveAccessTierManager:
                 "access_analytics",
                 "system_configuration",
                 "user_management",
-                "security_tools"
+                "security_tools",
             },
             AccessTier.T5_ADMINISTRATIVE: {
                 "read_public_content",
@@ -351,15 +357,15 @@ class ComprehensiveAccessTierManager:
                 "full_system_access",
                 "audit_logs",
                 "emergency_controls",
-                "tier_management"
-            }
+                "tier_management",
+            },
         }
 
     async def create_user_profile(
         self,
         user_id: str,
         initial_tier: AccessTier = AccessTier.T1_BASIC,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> UserAccessProfile:
         """Create a new user access profile"""
 
@@ -370,7 +376,7 @@ class ComprehensiveAccessTierManager:
             current_tier=initial_tier,
             effective_tier=initial_tier,
             verification_level=context.get("verification_level", 0),
-            constitutional_compliance=context.get("constitutional_compliance", True)
+            constitutional_compliance=context.get("constitutional_compliance", True),
         )
 
         # Trinity Framework initialization
@@ -407,9 +413,7 @@ class ComprehensiveAccessTierManager:
         return eligibility
 
     async def _check_tier_requirements(
-        self,
-        profile: UserAccessProfile,
-        requirements: TierRequirements
+        self, profile: UserAccessProfile, requirements: TierRequirements
     ) -> bool:
         """Check if user meets tier requirements"""
 
@@ -506,7 +510,7 @@ class ComprehensiveAccessTierManager:
                 user_id,
                 highest_eligible_tier,
                 TierTransition.PROMOTION,
-                "Automatic tier progression based on eligibility"
+                "Automatic tier progression based on eligibility",
             )
 
         # Check for demotion conditions
@@ -516,17 +520,13 @@ class ComprehensiveAccessTierManager:
                 user_id,
                 demotion_tier,
                 TierTransition.DEMOTION,
-                "Automatic tier demotion due to unmet requirements"
+                "Automatic tier demotion due to unmet requirements",
             )
 
         return None
 
     async def _execute_tier_change(
-        self,
-        user_id: str,
-        new_tier: AccessTier,
-        transition_type: TierTransition,
-        reason: str
+        self, user_id: str, new_tier: AccessTier, transition_type: TierTransition, reason: str
     ) -> TierTransition:
         """Execute a tier change"""
 
@@ -544,7 +544,7 @@ class ComprehensiveAccessTierManager:
             "old_tier": old_tier.value,
             "new_tier": new_tier.value,
             "transition_type": transition_type.value,
-            "reason": reason
+            "reason": reason,
         }
         profile.tier_history.append(tier_change_record)
 
@@ -568,10 +568,7 @@ class ComprehensiveAccessTierManager:
         return transition_type
 
     async def check_resource_access(
-        self,
-        user_id: str,
-        resource: str,
-        required_permissions: Optional[list[str]] = None
+        self, user_id: str, resource: str, required_permissions: Optional[list[str]] = None
     ) -> AccessDecision:
         """Check if user can access a specific resource"""
 
@@ -606,9 +603,7 @@ class ComprehensiveAccessTierManager:
         return AccessDecision.ALLOW
 
     async def _check_trinity_framework_access(
-        self,
-        profile: UserAccessProfile,
-        resource: str
+        self, profile: UserAccessProfile, resource: str
     ) -> bool:
         """Check Trinity Framework access requirements"""
 
@@ -636,9 +631,10 @@ class ComprehensiveAccessTierManager:
                     profile = self.user_profiles[user_id]
 
                     # Check if assessment is due
-                    time_since_assessment = (datetime.now() - profile.last_assessment).total_seconds()
+                    time_since_assessment = (
+                        datetime.now() - profile.last_assessment
+                    ).total_seconds()
                     if time_since_assessment >= self.assessment_interval:
-
                         if self.auto_tier_assessment:
                             await self.process_tier_progression(user_id)
 
@@ -667,28 +663,24 @@ class ComprehensiveAccessTierManager:
             "effective_tier": profile.effective_tier.value,
             "account_age_days": (datetime.now() - profile.account_created).days,
             "last_tier_change": profile.last_tier_change.isoformat(),
-
             "metrics": {
                 "trust_score": profile.trust_score,
                 "reputation_score": profile.reputation_score,
                 "activity_score": profile.activity_score,
                 "risk_score": profile.risk_score,
-                "verification_level": profile.verification_level
+                "verification_level": profile.verification_level,
             },
-
             "eligibility": {tier.value: eligible for tier, eligible in eligibility.items()},
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-
             "trinity_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
-                "guardian_status": profile.guardian_status
+                "guardian_status": profile.guardian_status,
             },
-
             "permissions": list(self.tier_permissions.get(profile.effective_tier, set())),
             "temporary_grants": len(profile.temporary_grants),
-            "temporary_restrictions": len(profile.temporary_restrictions)
+            "temporary_restrictions": len(profile.temporary_restrictions),
         }
 
     async def get_system_metrics(self) -> dict[str, Any]:
@@ -698,11 +690,11 @@ class ComprehensiveAccessTierManager:
 
 # Export main classes and functions
 __all__ = [
-    "ComprehensiveAccessTierManager",
-    "UserAccessProfile",
+    "AccessDecision",
     "AccessRequest",
-    "TierRequirements",
     "AccessTier",
+    "ComprehensiveAccessTierManager",
+    "TierRequirements",
     "TierTransition",
-    "AccessDecision"
+    "UserAccessProfile",
 ]

@@ -10,17 +10,19 @@ Author: LUKHAS AI Identity & Authentication Specialist
 Date: 2025-08-26
 """
 
-import sys
-import time
 import hashlib
 import secrets
-import bcrypt
+import sys
+import time
 from datetime import datetime, timezone
+
+import bcrypt
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
 # Add the project root to the Python path
-sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
+sys.path.insert(0, "/Users/agi_dev/LOCAL-REPOS/Lukhas")
+
 
 def test_api_key_validation():
     """Test API key validation functionality."""
@@ -28,9 +30,9 @@ def test_api_key_validation():
 
     try:
         from candidate.core.interfaces.api.v1.common.auth import (
-            generate_api_key,
             _validate_key_format,
-            _verify_key_signature
+            _verify_key_signature,
+            generate_api_key,
         )
 
         # Test 1: Generate valid API key
@@ -67,12 +69,12 @@ def test_authentication_flows():
 
     try:
         from candidate.bridge.api.flows import (
-            _validate_password_strength,
-            _generate_lambda_id,
             _generate_access_token,
+            _generate_lambda_id,
             _generate_refresh_token,
             _validate_jwt_token,
-            users_db
+            _validate_password_strength,
+            users_db,
         )
 
         # Clear test data
@@ -112,15 +114,15 @@ def test_authentication_flows():
 
         # Test 5: Password hashing
         password = PLACEHOLDER_PASSWORD
-        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
         # Verify hashing worked
-        hash_valid = bcrypt.checkpw(password.encode('utf-8'), password_hash)
+        hash_valid = bcrypt.checkpw(password.encode("utf-8"), password_hash)
         print(f"   ✅ Password hashing: {hash_valid}")
         assert hash_valid, "Password hashing failed"
 
         # Verify wrong password fails
-        wrong_password_fails = not bcrypt.checkpw("wrong".encode('utf-8'), password_hash)
+        wrong_password_fails = not bcrypt.checkpw(b"wrong", password_hash)
         print(f"   ✅ Wrong password rejection: {wrong_password_fails}")
         assert wrong_password_fails, "Wrong password was accepted"
 
@@ -138,10 +140,10 @@ def test_session_management():
 
     try:
         from candidate.bridge.api.flows import (
-            user_sessions,
-            blacklisted_tokens,
             _check_account_lockout,
-            failed_login_attempts
+            blacklisted_tokens,
+            failed_login_attempts,
+            user_sessions,
         )
 
         # Clear test data
@@ -156,7 +158,7 @@ def test_session_management():
             "lambda_id": "λ1234567890abcdef",
             "created_at": datetime.now(timezone.utc).isoformat(),
             "last_active": datetime.now(timezone.utc).isoformat(),
-            "ip_address": "127.0.0.1"
+            "ip_address": "127.0.0.1",
         }
         print(f"   ✅ Created session: {session_id}")
         assert session_id in user_sessions, "Session not created"

@@ -10,7 +10,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class LucasLLM:
-
     def __init__(self, model_name="openchatkit/openchat-3.5"):
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)

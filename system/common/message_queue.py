@@ -142,9 +142,7 @@ class MessageQueue:
     def get_metrics(self) -> dict[str, Any]:
         """Get queue metrics"""
         metrics = self._metrics.copy()
-        metrics["queue_sizes"] = {
-            module: queue.qsize() for module, queue in self._queues.items()
-        }
+        metrics["queue_sizes"] = {module: queue.qsize() for module, queue in self._queues.items()}
         return metrics
 
 

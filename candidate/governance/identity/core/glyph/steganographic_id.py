@@ -190,9 +190,7 @@ class SteganographicIdentityEmbedder:
             )
 
             # Calculate capacity usage
-            capacity_used = len(encrypted_data) / self._calculate_image_capacity(
-                carrier_image
-            )
+            capacity_used = len(encrypted_data) / self._calculate_image_capacity(carrier_image)
 
             # Generate integrity hash
             integrity_hash = self._generate_integrity_hash(
@@ -206,8 +204,7 @@ class SteganographicIdentityEmbedder:
                 "data_size": len(encrypted_data),
                 "image_size": carrier_image.size,
                 "embedding_locations": result.get("locations", []),
-                "qi_enhanced": method
-                in [EmbeddingMethod.QUANTUM_LSB, EmbeddingMethod.MULTI_LAYER],
+                "qi_enhanced": method in [EmbeddingMethod.QUANTUM_LSB, EmbeddingMethod.MULTI_LAYER],
                 "layers_used": result.get("layers", 1),
                 "encryption_algorithm": "Fernet",
                 "detection_countermeasures": result.get("countermeasures", []),
@@ -294,9 +291,7 @@ class SteganographicIdentityEmbedder:
     def _prepare_identity_data(self, identity_data: IdentityEmbedData) -> bytes:
         """Prepare identity data for embedding"""
         data_dict = {
-            "lambda_id_hash": hashlib.sha256(
-                identity_data.lambda_id.encode()
-            ).hexdigest()[:16],
+            "lambda_id_hash": hashlib.sha256(identity_data.lambda_id.encode()).hexdigest()[:16],
             "tier_level": identity_data.tier_level,
             "timestamp": identity_data.timestamp,
             "expires_at": identity_data.expires_at,
@@ -434,9 +429,7 @@ class SteganographicIdentityEmbedder:
                     # Add quantum countermeasures
                     if qi_noise:
                         # Occasionally flip adjacent bits to confuse detectors
-                        adjacent_pos = self._get_adjacent_position(
-                            i, j, k, img_array.shape
-                        )
+                        adjacent_pos = self._get_adjacent_position(i, j, k, img_array.shape)
                         if adjacent_pos:
                             ai, aj, ak = adjacent_pos
                             img_array[ai, aj, ak] ^= 0x01
@@ -553,9 +546,7 @@ class SteganographicIdentityEmbedder:
 
         # Use fractal patterns for embedding locations
         data_index = 0
-        fractal_positions = self._generate_fractal_positions(
-            img_array.shape, len(binary_data)
-        )
+        fractal_positions = self._generate_fractal_positions(img_array.shape, len(binary_data))
 
         for pos in fractal_positions:
             if data_index >= len(binary_data):
@@ -603,9 +594,7 @@ class SteganographicIdentityEmbedder:
 
         return bytes(data_bytes)
 
-    def _extract_quantum_lsb(
-        self, image: Image.Image, keys: dict[str, bytes]
-    ) -> Optional[bytes]:
+    def _extract_quantum_lsb(self, image: Image.Image, keys: dict[str, bytes]) -> Optional[bytes]:
         """Extract data using quantum-enhanced LSB method"""
         img_array = np.array(image.convert("RGB"))
 
@@ -664,9 +653,7 @@ class SteganographicIdentityEmbedder:
         # Find end marker and convert to bytes
         return self._binary_to_bytes(binary_data)
 
-    def _extract_multi_layer(
-        self, image: Image.Image, keys: dict[str, bytes]
-    ) -> Optional[bytes]:
+    def _extract_multi_layer(self, image: Image.Image, keys: dict[str, bytes]) -> Optional[bytes]:
         """Extract data from multiple layers"""
         # Extract from primary quantum LSB layer
         primary_data = self._extract_quantum_lsb(image, keys)
@@ -725,9 +712,7 @@ class SteganographicIdentityEmbedder:
             self.entropy_pool = secrets.token_bytes(self.entropy_pool_size)
             self.entropy_position = 0
 
-        entropy = self.entropy_pool[
-            self.entropy_position : self.entropy_position + num_bytes
-        ]
+        entropy = self.entropy_pool[self.entropy_position : self.entropy_position + num_bytes]
         self.entropy_position += num_bytes
 
         return entropy

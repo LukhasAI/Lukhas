@@ -83,9 +83,10 @@ class OllamaManager:
 
         # Check API responsiveness
         try:
-            async with aiohttp.ClientSession() as session, session.get(
-                f"{self.ollama_host}/api/tags", timeout=5
-            ) as resp:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.get(f"{self.ollama_host}/api/tags", timeout=5) as resp,
+            ):
                 if resp.status == 200:
                     health["api_responsive"] = True
                     data = await resp.json()
@@ -98,9 +99,7 @@ class OllamaManager:
         try:
             models_path = Path.home() / ".ollama" / "models"
             if models_path.exists():
-                size = sum(
-                    f.stat().st_size for f in models_path.rglob("*") if f.is_file()
-                )
+                size = sum(f.stat().st_size for f in models_path.rglob("*") if f.is_file())
                 health["disk_usage"] = f"{size / (1024**3):.2f} GB"
         except:
             pass
@@ -201,9 +200,7 @@ class OllamaManager:
         installed = await self.list_installed_models()
 
         # Check what's recommended for this task
-        task_models = self.RECOMMENDED_MODELS.get(
-            task, self.RECOMMENDED_MODELS["code_fixing"]
-        )
+        task_models = self.RECOMMENDED_MODELS.get(task, self.RECOMMENDED_MODELS["code_fixing"])
 
         # Find installed models good for this task
         for model in installed:
@@ -320,15 +317,11 @@ class OllamaManager:
         for task in ["code_fixing", "quick_fixes"]:
             recs = await self.recommend_models(task)
             if recs["recommended_to_install"]:
-                optimization["suggested_installs"].extend(
-                    recs["recommended_to_install"][:1]
-                )
+                optimization["suggested_installs"].extend(recs["recommended_to_install"][:1])
 
         return optimization
 
-    async def benchmark_model(
-        self, model_name: str, test_type: str = "code_fix"
-    ) -> dict:
+    async def benchmark_model(self, model_name: str, test_type: str = "code_fix") -> dict:
         """Benchmark a model's performance"""
         print(f"\n🧪 Benchmarking {model_name}...")
 
@@ -366,9 +359,7 @@ class OllamaManager:
 
             # Estimate tokens/second (rough estimate)
             response_length = len(result.stdout.split())
-            benchmarks["tokens_per_second"] = (
-                response_length / benchmarks["response_time"]
-            )
+            benchmarks["tokens_per_second"] = response_length / benchmarks["response_time"]
 
             # Check if response is valid
             if result.returncode == 0 and len(result.stdout) > 10:
@@ -445,9 +436,7 @@ class OllamaManager:
                 best_model = benchmark["model"]
 
         if best_model:
-            actions["final_recommendations"].append(
-                f"Use {best_model} for best performance"
-            )
+            actions["final_recommendations"].append(f"Use {best_model} for best performance")
 
         # Memory recommendations
         if actions["health_check"]["disk_usage"]:
@@ -501,9 +490,10 @@ class OllamaManager:
             try:
                 # Make a simple API call
                 call_start = time.time()
-                async with aiohttp.ClientSession() as session, session.get(
-                    f"{self.ollama_host}/api/tags", timeout=5
-                ) as resp:
+                async with (
+                    aiohttp.ClientSession() as session,
+                    session.get(f"{self.ollama_host}/api/tags", timeout=5) as resp,
+                ):
                     if resp.status == 200:
                         metrics["api_calls"] += 1
                         response_times.append(time.time() - call_start)
@@ -546,9 +536,7 @@ async def main():
 
     print("\n" + "=" * 50)
     print("✅ Management Complete!")
-    print(
-        f"   Models Installed: {len(results['health_check'].get('models_loaded', 0))}"
-    )
+    print(f"   Models Installed: {len(results['health_check'].get('models_loaded', 0))}")
     print(f"   Status: {results['health_check']['status']}")
     print(f"   Config saved to: {config_path}")
 

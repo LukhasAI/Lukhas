@@ -14,12 +14,14 @@ from .teq_gate import TEQCoupler
 
 DEFAULT_CORPUS = os.path.join(os.path.dirname(__file__), "policy_corpus.yaml")
 
+
 def _load_yaml(path: str) -> dict[str, Any]:
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
         raise ValueError("Corpus YAML must be a mapping.")
     return data
+
 
 def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.Random) -> str:
     out = t
@@ -29,10 +31,16 @@ def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.R
             out = out.replace(token, rng.choice(vals))
     return out
 
-def _mutations_for_task(task: str, corpus: dict[str, Any]) -> tuple[list[str], list[dict[str, Any]]]:
-    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get("_default_", [])
+
+def _mutations_for_task(
+    task: str, corpus: dict[str, Any]
+) -> tuple[list[str], list[dict[str, Any]]]:
+    seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get(
+        "_default_", []
+    )
     attacks = corpus.get("attacks", []) or []
     return seeds, attacks
+
 
 def fuzz(
     *,
@@ -61,9 +69,10 @@ def fuzz(
     gate = TEQCoupler(policy_dir=policy_root, jurisdiction=jurisdiction)
     base_ctx = context_base or {
         "provenance": {"inputs": ["seed"], "sources": ["test"]},
-        "pii": {}, "pii_masked": False,
+        "pii": {},
+        "pii_masked": False,
         "user_profile": {"age": 21, "user_id": "fuzzer"},
-        "tokens_planned": 512
+        "tokens_planned": 512,
     }
 
     cases = []
@@ -80,17 +89,17 @@ def fuzz(
         res = gate.run(task=task, context=ctx)
         allowed = bool(res.allowed)
         reasons = list(res.reasons or [])
-        [r.get("kind","") for r in res.checks or []] if hasattr(res, "checks") else []
+        [r.get("kind", "") for r in res.checks or []] if hasattr(res, "checks") else []
 
         # determine whether this should have been blocked
         expected_block = False
         must_block_kinds = set(require_block_kinds or [])
-        if atk.get("kind") in ("pii","jailbreak","leakage","medical","budget"):
+        if atk.get("kind") in ("pii", "jailbreak", "leakage", "medical", "budget"):
             expected_block = True
         if must_block_kinds:
             expected_block = expected_block or (atk.get("kind") in must_block_kinds)
 
-        improper_pass = (allowed and expected_block)
+        improper_pass = allowed and expected_block
 
         case = {
             "id": i,
@@ -114,19 +123,27 @@ def fuzz(
         "n": n,
         "improper_passes": bad,
         "pass_rate": round((n - bad) / n, 4),
-        "elapsed_sec": round(elapsed, 3)
+        "elapsed_sec": round(elapsed, 3),
     }
     return {"summary": summary, "cases": cases}
 
+
 def main():
-    ap = argparse.ArgumentParser(description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)")
+    ap = argparse.ArgumentParser(
+        description="Lukhas Policy Mutation Fuzzer (deterministic, corpus-driven)"
+    )
     ap.add_argument("--policy-root", required=True)
     ap.add_argument("--jurisdiction", default="global")
     ap.add_argument("--task", required=True, help="Task to test (must exist in policy mappings)")
     ap.add_argument("--n", type=int, default=40)
     ap.add_argument("--seed", type=int, default=1337)
     ap.add_argument("--corpus", default=DEFAULT_CORPUS)
-    ap.add_argument("--require-block", nargs="*", default=[], help="Attack kinds that must be blocked or test fails")
+    ap.add_argument(
+        "--require-block",
+        nargs="*",
+        default=[],
+        help="Attack kinds that must be blocked or test fails",
+    )
     ap.add_argument("--out-json")
     args = ap.parse_args()
 
@@ -137,7 +154,7 @@ def main():
         n=args.n,
         seed=args.seed,
         corpus_path=args.corpus,
-        require_block_kinds=args.require_block
+        require_block_kinds=args.require_block,
     )
 
     if args.out_json:
@@ -149,6 +166,7 @@ def main():
     # strict exit code: fail if any improper pass
     bad = rep["summary"]["improper_passes"]
     raise SystemExit(1 if bad > 0 else 0)
+
 
 if __name__ == "__main__":
     main()

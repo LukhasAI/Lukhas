@@ -23,9 +23,7 @@ import yaml
 class Signal:
     """Individual endocrine signal with decay and validation"""
 
-    name: Literal[
-        "stress", "novelty", "alignment_risk", "trust", "urgency", "ambiguity"
-    ]
+    name: Literal["stress", "novelty", "alignment_risk", "trust", "urgency", "ambiguity"]
     level: float  # 0.0 - 1.0
     ttl_ms: int = 1000
     source: str = "unknown"
@@ -114,9 +112,7 @@ class SignalModulator:
         for signal_name, level in decayed_signals.items():
             if signal_name in self.policy.get("maps", {}):
                 signal_map = self.policy["maps"][signal_name]
-                params = self._apply_signal_modulation(
-                    params, signal_name, level, signal_map
-                )
+                params = self._apply_signal_modulation(params, signal_name, level, signal_map)
 
         # Apply parameter bounds
         if "bounds" in self.policy:
@@ -150,9 +146,7 @@ class SignalModulator:
 
             # Apply decay and max level bounds
             decayed_level = signal.decay(signal_config["decay_rate"])
-            decayed_signals[signal.name] = min(
-                decayed_level, signal_config["max_level"]
-            )
+            decayed_signals[signal.name] = min(decayed_level, signal_config["max_level"])
 
         return decayed_signals
 
@@ -263,9 +257,7 @@ class SignalModulator:
 if __name__ == "__main__":
     # Create test signals
     signals = [
-        Signal(
-            name="alignment_risk", level=0.7, source="guardian", audit_id="test-001"
-        ),
+        Signal(name="alignment_risk", level=0.7, source="guardian", audit_id="test-001"),
         Signal(name="novelty", level=0.3, source="consciousness", audit_id="test-001"),
     ]
 

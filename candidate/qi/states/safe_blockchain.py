@@ -73,9 +73,7 @@ class QISafeAuditBlockchain:
         }
 
         # 2. Sign with post-quantum signature
-        signature = await self.pqc_signer.sign(
-            rlp.encode(audit_data), include_timestamp=True
-        )
+        signature = await self.pqc_signer.sign(rlp.encode(audit_data), include_timestamp=True)
 
         # 3. Create transaction
         transaction = Transaction(
@@ -90,7 +88,9 @@ class QISafeAuditBlockchain:
         return transaction.hash
 
     async def generate_compliance_report(
-        self, time_range: TimeRange, compliance_framework: str  # GDPR, CCPA, etc.
+        self,
+        time_range: TimeRange,
+        compliance_framework: str,  # GDPR, CCPA, etc.
     ) -> ComplianceReport:
         """
         Generate cryptographically verifiable compliance report

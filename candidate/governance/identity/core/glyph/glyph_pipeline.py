@@ -39,9 +39,7 @@ try:
     from ..visualization.lukhas_orb import LUKHASOrb, OrbState
     from .steganographic_id import SteganographicIdentityEmbedder
 except ImportError:
-    print(
-        "Warning: Some LUKHAS components not available. GLYPH pipeline may be limited."
-    )
+    print("Warning: Some LUKHAS components not available. GLYPH pipeline may be limited.")
 
 logger = logging.getLogger("LUKHAS_GLYPH_PIPELINE")
 
@@ -246,9 +244,7 @@ class GLYPHPipeline:
                 GLYPHSecurityLevel.QUANTUM,
                 GLYPHSecurityLevel.TRANSCENDENT,
             ]:
-                qi_signature = self._generate_quantum_signature(
-                    enhanced_glyph, identity_data
-                )
+                qi_signature = self._generate_quantum_signature(enhanced_glyph, identity_data)
 
             # Compile security metadata
             security_metadata = self._compile_security_metadata(
@@ -314,9 +310,7 @@ class GLYPHPipeline:
                 error_message=str(e),
             )
 
-    def verify_glyph(
-        self, glyph_id: str, verification_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    def verify_glyph(self, glyph_id: str, verification_data: dict[str, Any]) -> dict[str, Any]:
         """
         Verify a generated GLYPH
 
@@ -353,9 +347,7 @@ class GLYPHPipeline:
             glyph_result.identity_embedding, verification_data
         )
 
-        overall_verified = (
-            qi_verified and steganographic_verified and identity_verified
-        )
+        overall_verified = qi_verified and steganographic_verified and identity_verified
 
         return {
             "verified": overall_verified,
@@ -440,9 +432,7 @@ class GLYPHPipeline:
         # Add cultural context
         if request.cultural_context:
             profile["primary_culture"] = request.cultural_context
-            profile["color_palette"] = self._get_cultural_colors(
-                request.cultural_context
-            )
+            profile["color_palette"] = self._get_cultural_colors(request.cultural_context)
             profile["symbolic_elements"] = self.cultural_symbols.get(
                 request.cultural_context, self.cultural_symbols["universal"]
             )
@@ -501,9 +491,7 @@ class GLYPHPipeline:
 
         # Add identity metadata to GLYPH
         enhanced_glyph["identity_features"] = {
-            "lambda_id_hash": hashlib.sha256(request.lambda_id.encode()).hexdigest()[
-                :16
-            ],
+            "lambda_id_hash": hashlib.sha256(request.lambda_id.encode()).hexdigest()[:16],
             "tier_level": request.tier_level,
             "glyph_type": request.glyph_type.value,
             "security_level": request.security_level.value,
@@ -539,9 +527,7 @@ class GLYPHPipeline:
         embedding_result = self.steganographic_embedder.embed_identity_data(
             glyph.get("qr_image"),
             {
-                "lambda_id": glyph.get("identity_features", {}).get(
-                    "lambda_id_hash", ""
-                ),
+                "lambda_id": glyph.get("identity_features", {}).get("lambda_id_hash", ""),
                 "data": steganographic_data.get("data", ""),
                 "key": steganographic_data.get("key", ""),
                 "method": steganographic_data.get("method", "lsb"),
@@ -647,9 +633,7 @@ class GLYPHPipeline:
 
         # Add tier-based security
         metadata["tier_level"] = request.tier_level
-        metadata["tier_security_features"] = self._get_tier_security_features(
-            request.tier_level
-        )
+        metadata["tier_security_features"] = self._get_tier_security_features(request.tier_level)
 
         return metadata
 
@@ -697,9 +681,7 @@ class GLYPHPipeline:
         if tier_level >= 4:
             features.extend(["qi_resistance", "multi_factor_auth"])
         if tier_level >= 5:
-            features.extend(
-                ["dream_integration", "consciousness_fusion", "transcendent_security"]
-            )
+            features.extend(["dream_integration", "consciousness_fusion", "transcendent_security"])
 
         return features
 
@@ -744,9 +726,7 @@ class GLYPHPipeline:
             glyph_types[glyph_type] = glyph_types.get(glyph_type, 0) + 1
 
             # Count by security level
-            security_level = glyph_result.security_metadata.get(
-                "security_level", "unknown"
-            )
+            security_level = glyph_result.security_metadata.get("security_level", "unknown")
             security_levels[security_level] = security_levels.get(security_level, 0) + 1
 
             # Count by tier
@@ -760,13 +740,9 @@ class GLYPHPipeline:
             "tier_levels": tier_levels,
             "success_rate": sum(1 for g in self.generated_glyphs.values() if g.success)
             / len(self.generated_glyphs),
-            "qi_secured": sum(
-                1 for g in self.generated_glyphs.values() if g.qi_signature
-            ),
+            "qi_secured": sum(1 for g in self.generated_glyphs.values() if g.qi_signature),
             "steganographic_enhanced": sum(
                 1 for g in self.generated_glyphs.values() if g.steganographic_layers
             ),
-            "orb_integrated": sum(
-                1 for g in self.generated_glyphs.values() if g.orb_visualization
-            ),
+            "orb_integrated": sum(1 for g in self.generated_glyphs.values() if g.orb_visualization),
         }

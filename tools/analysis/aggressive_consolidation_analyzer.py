@@ -12,7 +12,6 @@ from datetime import datetime
 
 
 class AggressiveConsolidator:
-
     def __init__(self):
         self.core_modules = {
             "CORE": {
@@ -272,12 +271,8 @@ class AggressiveConsolidator:
                 for file in action["files"]:
                     try:
                         # Determine submodule based on content
-                        submodule = self.determine_submodule(
-                            file, action["target_module"]
-                        )
-                        new_path = os.path.join(
-                            target_path, submodule, os.path.basename(file)
-                        )
+                        submodule = self.determine_submodule(file, action["target_module"])
+                        new_path = os.path.join(target_path, submodule, os.path.basename(file))
 
                         os.makedirs(os.path.dirname(new_path), exist_ok=True)
 

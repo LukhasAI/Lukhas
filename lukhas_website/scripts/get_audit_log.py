@@ -11,7 +11,9 @@ def get_audit_logs():
     This script is self-contained and does not depend on the LUKHAS core modules.
     """
     # The script is in lukhas_website/scripts, the db is in data/
-    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "audit_trail.db"))
+    db_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "..", "data", "audit_trail.db")
+    )
 
     if not os.path.exists(db_path):
         # If the database doesn't exist, create it and add some mock data
@@ -36,10 +38,61 @@ def get_audit_logs():
         )
         # Insert mock data
         mock_entries = [
-            ("audit_1", 1672531200, "session_1", "interaction_1", "SAFETY", "Blocked harmful content", "Contained malicious patterns.", 0.99, "{}", "{}", "{}", "{}", "[]", "[]", None, "[]", "[]", "1.0", "safety_filter", "user_abc", "[]", "", 1),
-            ("audit_2", 1672534800, "session_1", "interaction_2", "RESPONSE", "Generated helpful response", "User asked a clear question.", 0.95, '{"prompt": "Hi"}', "{}", "{}", "{}", "[]", "[]", "audit_1", "[]", "[]", "1.0", "response_generator", "user_abc", "[]", "", 1)
+            (
+                "audit_1",
+                1672531200,
+                "session_1",
+                "interaction_1",
+                "SAFETY",
+                "Blocked harmful content",
+                "Contained malicious patterns.",
+                0.99,
+                "{}",
+                "{}",
+                "{}",
+                "{}",
+                "[]",
+                "[]",
+                None,
+                "[]",
+                "[]",
+                "1.0",
+                "safety_filter",
+                "user_abc",
+                "[]",
+                "",
+                1,
+            ),
+            (
+                "audit_2",
+                1672534800,
+                "session_1",
+                "interaction_2",
+                "RESPONSE",
+                "Generated helpful response",
+                "User asked a clear question.",
+                0.95,
+                '{"prompt": "Hi"}',
+                "{}",
+                "{}",
+                "{}",
+                "[]",
+                "[]",
+                "audit_1",
+                "[]",
+                "[]",
+                "1.0",
+                "response_generator",
+                "user_abc",
+                "[]",
+                "",
+                1,
+            ),
         ]
-        cursor.executemany("INSERT OR IGNORE INTO audit_entries VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", mock_entries)
+        cursor.executemany(
+            "INSERT OR IGNORE INTO audit_entries VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            mock_entries,
+        )
         conn.commit()
     else:
         conn = sqlite3.connect(db_path)
@@ -59,12 +112,22 @@ def get_audit_logs():
         for row in rows:
             entry = dict(zip(column_names, row))
             # Parse JSON fields
-            for key in ["input_data", "output_data", "system_state", "signals", "policies", "overrides", "child_ids", "related_ids", "tags"]:
+            for key in [
+                "input_data",
+                "output_data",
+                "system_state",
+                "signals",
+                "policies",
+                "overrides",
+                "child_ids",
+                "related_ids",
+                "tags",
+            ]:
                 if entry.get(key) and isinstance(entry[key], str):
                     try:
                         entry[key] = json.loads(entry[key])
                     except json.JSONDecodeError:
-                        entry[key] = entry[key] # Keep as string if not valid JSON
+                        entry[key] = entry[key]  # Keep as string if not valid JSON
             results.append(entry)
 
         return results
@@ -73,6 +136,7 @@ def get_audit_logs():
         return {"error": f"Database error: {e}"}
     finally:
         conn.close()
+
 
 if __name__ == "__main__":
     logs = get_audit_logs()

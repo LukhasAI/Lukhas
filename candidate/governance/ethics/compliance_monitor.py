@@ -40,13 +40,13 @@ logger = get_logger(__name__)
 class ComplianceFramework(Enum):
     """Supported compliance frameworks"""
 
-    GDPR = "gdpr"                    # EU General Data Protection Regulation
-    CCPA = "ccpa"                    # California Consumer Privacy Act
-    HIPAA = "hipaa"                  # Health Insurance Portability and Accountability Act
-    SOC2 = "soc2"                    # Service Organization Control 2
-    ISO27001 = "iso27001"            # Information Security Management
-    PCI_DSS = "pci_dss"              # Payment Card Industry Data Security Standard
-    AI_ETHICS = "ai_ethics"          # AI-specific ethical compliance
+    GDPR = "gdpr"  # EU General Data Protection Regulation
+    CCPA = "ccpa"  # California Consumer Privacy Act
+    HIPAA = "hipaa"  # Health Insurance Portability and Accountability Act
+    SOC2 = "soc2"  # Service Organization Control 2
+    ISO27001 = "iso27001"  # Information Security Management
+    PCI_DSS = "pci_dss"  # Payment Card Industry Data Security Standard
+    AI_ETHICS = "ai_ethics"  # AI-specific ethical compliance
     CONSTITUTIONAL_AI = "constitutional_ai"  # Constitutional AI principles
 
 
@@ -140,9 +140,9 @@ class ComplianceAssessment:
     risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_compliance: dict[str, Any] = field(default_factory=dict)      # ⚛️
-    consciousness_compliance: dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_validations: list[str] = field(default_factory=list)          # 🛡️
+    identity_compliance: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    consciousness_compliance: dict[str, Any] = field(default_factory=dict)  # 🧠
+    guardian_validations: list[str] = field(default_factory=list)  # 🛡️
 
 
 class ComplianceRuleEngine:
@@ -157,166 +157,186 @@ class ComplianceRuleEngine:
         """Initialize standard compliance rules for major frameworks"""
 
         # GDPR Rules
-        self.add_rule(ComplianceRule(
-            rule_id="gdpr_consent_001",
-            framework=ComplianceFramework.GDPR,
-            title="Explicit Consent Required",
-            description="Processing personal data requires explicit, informed consent",
-            requirements=[
-                "Obtain explicit consent before processing",
-                "Consent must be specific, informed, and freely given",
-                "Provide clear mechanism for withdrawing consent",
-                "Document consent records with timestamp"
-            ],
-            data_categories=[DataCategory.PERSONAL_DATA],
-            monitoring_points=["data_collection", "consent_capture", "consent_withdrawal"],
-            severity=ViolationSeverity.HIGH,
-            remediation_actions=[
-                "Implement consent management system",
-                "Update privacy policies",
-                "Provide consent withdrawal mechanism"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="gdpr_consent_001",
+                framework=ComplianceFramework.GDPR,
+                title="Explicit Consent Required",
+                description="Processing personal data requires explicit, informed consent",
+                requirements=[
+                    "Obtain explicit consent before processing",
+                    "Consent must be specific, informed, and freely given",
+                    "Provide clear mechanism for withdrawing consent",
+                    "Document consent records with timestamp",
+                ],
+                data_categories=[DataCategory.PERSONAL_DATA],
+                monitoring_points=["data_collection", "consent_capture", "consent_withdrawal"],
+                severity=ViolationSeverity.HIGH,
+                remediation_actions=[
+                    "Implement consent management system",
+                    "Update privacy policies",
+                    "Provide consent withdrawal mechanism",
+                ],
+                documentation_required=True,
+            )
+        )
 
-        self.add_rule(ComplianceRule(
-            rule_id="gdpr_data_minimization_001",
-            framework=ComplianceFramework.GDPR,
-            title="Data Minimization Principle",
-            description="Personal data must be adequate, relevant, and limited to what is necessary",
-            requirements=[
-                "Collect only necessary data for stated purposes",
-                "Review data collection periodically",
-                "Delete data when no longer needed",
-                "Document data retention policies"
-            ],
-            data_categories=[DataCategory.PERSONAL_DATA, DataCategory.SENSITIVE_DATA],
-            monitoring_points=["data_collection", "data_retention", "data_deletion"],
-            severity=ViolationSeverity.MEDIUM,
-            remediation_actions=[
-                "Audit data collection practices",
-                "Implement automated data deletion",
-                "Update data retention policies"
-            ],
-            documentation_required=True,
-            retention_period=365
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="gdpr_data_minimization_001",
+                framework=ComplianceFramework.GDPR,
+                title="Data Minimization Principle",
+                description="Personal data must be adequate, relevant, and limited to what is necessary",
+                requirements=[
+                    "Collect only necessary data for stated purposes",
+                    "Review data collection periodically",
+                    "Delete data when no longer needed",
+                    "Document data retention policies",
+                ],
+                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.SENSITIVE_DATA],
+                monitoring_points=["data_collection", "data_retention", "data_deletion"],
+                severity=ViolationSeverity.MEDIUM,
+                remediation_actions=[
+                    "Audit data collection practices",
+                    "Implement automated data deletion",
+                    "Update data retention policies",
+                ],
+                documentation_required=True,
+                retention_period=365,
+            )
+        )
 
-        self.add_rule(ComplianceRule(
-            rule_id="gdpr_right_to_be_forgotten_001",
-            framework=ComplianceFramework.GDPR,
-            title="Right to Be Forgotten",
-            description="Individuals have the right to erasure of their personal data",
-            requirements=[
-                "Provide mechanism for data deletion requests",
-                "Process deletion requests within 30 days",
-                "Notify third parties of deletion requirements",
-                "Document deletion activities"
-            ],
-            data_categories=[DataCategory.PERSONAL_DATA],
-            monitoring_points=["deletion_requests", "deletion_processing", "third_party_notification"],
-            severity=ViolationSeverity.HIGH,
-            remediation_actions=[
-                "Implement automated deletion system",
-                "Update data processing agreements",
-                "Train staff on deletion procedures"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="gdpr_right_to_be_forgotten_001",
+                framework=ComplianceFramework.GDPR,
+                title="Right to Be Forgotten",
+                description="Individuals have the right to erasure of their personal data",
+                requirements=[
+                    "Provide mechanism for data deletion requests",
+                    "Process deletion requests within 30 days",
+                    "Notify third parties of deletion requirements",
+                    "Document deletion activities",
+                ],
+                data_categories=[DataCategory.PERSONAL_DATA],
+                monitoring_points=[
+                    "deletion_requests",
+                    "deletion_processing",
+                    "third_party_notification",
+                ],
+                severity=ViolationSeverity.HIGH,
+                remediation_actions=[
+                    "Implement automated deletion system",
+                    "Update data processing agreements",
+                    "Train staff on deletion procedures",
+                ],
+                documentation_required=True,
+            )
+        )
 
         # CCPA Rules
-        self.add_rule(ComplianceRule(
-            rule_id="ccpa_disclosure_001",
-            framework=ComplianceFramework.CCPA,
-            title="Consumer Right to Know",
-            description="Consumers have right to know what personal information is collected",
-            requirements=[
-                "Disclose categories of personal information collected",
-                "Disclose sources of personal information",
-                "Disclose business purposes for collection",
-                "Provide disclosure upon request"
-            ],
-            data_categories=[DataCategory.PERSONAL_DATA, DataCategory.BEHAVIORAL_DATA],
-            monitoring_points=["privacy_notice", "data_disclosure_requests"],
-            severity=ViolationSeverity.MEDIUM,
-            remediation_actions=[
-                "Update privacy policy with required disclosures",
-                "Implement consumer request system",
-                "Train staff on disclosure requirements"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="ccpa_disclosure_001",
+                framework=ComplianceFramework.CCPA,
+                title="Consumer Right to Know",
+                description="Consumers have right to know what personal information is collected",
+                requirements=[
+                    "Disclose categories of personal information collected",
+                    "Disclose sources of personal information",
+                    "Disclose business purposes for collection",
+                    "Provide disclosure upon request",
+                ],
+                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.BEHAVIORAL_DATA],
+                monitoring_points=["privacy_notice", "data_disclosure_requests"],
+                severity=ViolationSeverity.MEDIUM,
+                remediation_actions=[
+                    "Update privacy policy with required disclosures",
+                    "Implement consumer request system",
+                    "Train staff on disclosure requirements",
+                ],
+                documentation_required=True,
+            )
+        )
 
         # HIPAA Rules (if health data involved)
-        self.add_rule(ComplianceRule(
-            rule_id="hipaa_phi_protection_001",
-            framework=ComplianceFramework.HIPAA,
-            title="Protected Health Information Security",
-            description="PHI must be protected with appropriate safeguards",
-            requirements=[
-                "Implement physical safeguards for PHI",
-                "Implement technical safeguards for PHI",
-                "Implement administrative safeguards for PHI",
-                "Conduct regular risk assessments"
-            ],
-            data_categories=[DataCategory.HEALTH_DATA],
-            monitoring_points=["phi_access", "phi_transmission", "phi_storage"],
-            severity=ViolationSeverity.CRITICAL,
-            remediation_actions=[
-                "Implement encryption for PHI",
-                "Conduct security risk assessment",
-                "Update security policies"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="hipaa_phi_protection_001",
+                framework=ComplianceFramework.HIPAA,
+                title="Protected Health Information Security",
+                description="PHI must be protected with appropriate safeguards",
+                requirements=[
+                    "Implement physical safeguards for PHI",
+                    "Implement technical safeguards for PHI",
+                    "Implement administrative safeguards for PHI",
+                    "Conduct regular risk assessments",
+                ],
+                data_categories=[DataCategory.HEALTH_DATA],
+                monitoring_points=["phi_access", "phi_transmission", "phi_storage"],
+                severity=ViolationSeverity.CRITICAL,
+                remediation_actions=[
+                    "Implement encryption for PHI",
+                    "Conduct security risk assessment",
+                    "Update security policies",
+                ],
+                documentation_required=True,
+            )
+        )
 
         # SOC 2 Rules
-        self.add_rule(ComplianceRule(
-            rule_id="soc2_access_control_001",
-            framework=ComplianceFramework.SOC2,
-            title="Logical Access Controls",
-            description="System access must be controlled and monitored",
-            requirements=[
-                "Implement user access management",
-                "Regular access reviews and recertification",
-                "Strong authentication mechanisms",
-                "Monitor and log access activities"
-            ],
-            data_categories=[DataCategory.PERSONAL_DATA, DataCategory.FINANCIAL_DATA],
-            monitoring_points=["user_access", "authentication", "access_logging"],
-            severity=ViolationSeverity.HIGH,
-            remediation_actions=[
-                "Implement multi-factor authentication",
-                "Conduct access reviews",
-                "Enhance access monitoring"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="soc2_access_control_001",
+                framework=ComplianceFramework.SOC2,
+                title="Logical Access Controls",
+                description="System access must be controlled and monitored",
+                requirements=[
+                    "Implement user access management",
+                    "Regular access reviews and recertification",
+                    "Strong authentication mechanisms",
+                    "Monitor and log access activities",
+                ],
+                data_categories=[DataCategory.PERSONAL_DATA, DataCategory.FINANCIAL_DATA],
+                monitoring_points=["user_access", "authentication", "access_logging"],
+                severity=ViolationSeverity.HIGH,
+                remediation_actions=[
+                    "Implement multi-factor authentication",
+                    "Conduct access reviews",
+                    "Enhance access monitoring",
+                ],
+                documentation_required=True,
+            )
+        )
 
         # AI Ethics Rules
-        self.add_rule(ComplianceRule(
-            rule_id="ai_ethics_bias_001",
-            framework=ComplianceFramework.AI_ETHICS,
-            title="AI Bias Prevention",
-            description="AI systems must be designed to prevent and mitigate bias",
-            requirements=[
-                "Test for algorithmic bias regularly",
-                "Implement bias detection mechanisms",
-                "Document bias testing and mitigation efforts",
-                "Provide explainability for AI decisions"
-            ],
-            data_categories=[DataCategory.BEHAVIORAL_DATA, DataCategory.PERSONAL_DATA],
-            monitoring_points=["ai_decision_making", "bias_testing", "model_performance"],
-            severity=ViolationSeverity.HIGH,
-            remediation_actions=[
-                "Conduct bias audits",
-                "Implement fairness metrics",
-                "Update AI governance policies"
-            ],
-            documentation_required=True
-        ))
+        self.add_rule(
+            ComplianceRule(
+                rule_id="ai_ethics_bias_001",
+                framework=ComplianceFramework.AI_ETHICS,
+                title="AI Bias Prevention",
+                description="AI systems must be designed to prevent and mitigate bias",
+                requirements=[
+                    "Test for algorithmic bias regularly",
+                    "Implement bias detection mechanisms",
+                    "Document bias testing and mitigation efforts",
+                    "Provide explainability for AI decisions",
+                ],
+                data_categories=[DataCategory.BEHAVIORAL_DATA, DataCategory.PERSONAL_DATA],
+                monitoring_points=["ai_decision_making", "bias_testing", "model_performance"],
+                severity=ViolationSeverity.HIGH,
+                remediation_actions=[
+                    "Conduct bias audits",
+                    "Implement fairness metrics",
+                    "Update AI governance policies",
+                ],
+                documentation_required=True,
+            )
+        )
 
-        logger.info(f"✅ Initialized {len(self.rules)} compliance rules across {len({rule.framework for rule in self.rules.values()})} frameworks")
+        logger.info(
+            f"✅ Initialized {len(self.rules)} compliance rules across {len({rule.framework for rule in self.rules.values()})} frameworks"
+        )
 
     def add_rule(self, rule: ComplianceRule):
         """Add a compliance rule to the engine"""
@@ -361,7 +381,7 @@ class ComplianceMonitor:
             "resolved_violations": 0,
             "average_resolution_time": 0.0,
             "compliance_score_trend": [],
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         logger.info("🔍 Compliance Monitor initialized")
@@ -369,14 +389,14 @@ class ComplianceMonitor:
     def _initialize_thresholds(self) -> dict[ComplianceFramework, float]:
         """Initialize compliance score thresholds for each framework"""
         return {
-            ComplianceFramework.GDPR: 95.0,              # Very high threshold
-            ComplianceFramework.CCPA: 90.0,              # High threshold
-            ComplianceFramework.HIPAA: 98.0,             # Critical threshold
-            ComplianceFramework.SOC2: 85.0,              # High threshold
-            ComplianceFramework.ISO27001: 85.0,          # High threshold
-            ComplianceFramework.PCI_DSS: 95.0,           # Very high threshold
-            ComplianceFramework.AI_ETHICS: 80.0,         # Moderate threshold
-            ComplianceFramework.CONSTITUTIONAL_AI: 90.0  # High threshold
+            ComplianceFramework.GDPR: 95.0,  # Very high threshold
+            ComplianceFramework.CCPA: 90.0,  # High threshold
+            ComplianceFramework.HIPAA: 98.0,  # Critical threshold
+            ComplianceFramework.SOC2: 85.0,  # High threshold
+            ComplianceFramework.ISO27001: 85.0,  # High threshold
+            ComplianceFramework.PCI_DSS: 95.0,  # Very high threshold
+            ComplianceFramework.AI_ETHICS: 80.0,  # Moderate threshold
+            ComplianceFramework.CONSTITUTIONAL_AI: 90.0,  # High threshold
         }
 
     async def start_continuous_monitoring(self):
@@ -387,7 +407,7 @@ class ComplianceMonitor:
         monitoring_tasks = [
             asyncio.create_task(self._continuous_assessment_loop()),
             asyncio.create_task(self._violation_detection_loop()),
-            asyncio.create_task(self._remediation_monitoring_loop())
+            asyncio.create_task(self._remediation_monitoring_loop()),
         ]
 
         try:
@@ -431,8 +451,7 @@ class ComplianceMonitor:
                 await asyncio.sleep(60)
 
     async def perform_comprehensive_assessment(
-        self,
-        frameworks: Optional[list[ComplianceFramework]] = None
+        self, frameworks: Optional[list[ComplianceFramework]] = None
     ) -> ComplianceAssessment:
         """
         Perform comprehensive compliance assessment
@@ -471,9 +490,7 @@ class ComplianceMonitor:
             )
 
             # Determine overall status
-            overall_status = await self._determine_overall_status(
-                framework_statuses, overall_score
-            )
+            overall_status = await self._determine_overall_status(framework_statuses, overall_score)
 
             # Trinity Framework integration
             trinity_results = await self._assess_trinity_compliance()
@@ -490,7 +507,7 @@ class ComplianceMonitor:
                 risk_factors=list(set(risk_factors)),
                 identity_compliance=trinity_results["identity"],
                 consciousness_compliance=trinity_results["consciousness"],
-                guardian_validations=trinity_results["guardian"]
+                guardian_validations=trinity_results["guardian"],
             )
 
             # Store assessment
@@ -518,13 +535,10 @@ class ComplianceMonitor:
                 compliance_score=0.0,
                 violations=[],
                 recommendations=["Manual assessment required due to system error"],
-                risk_factors=["Assessment system error"]
+                risk_factors=["Assessment system error"],
             )
 
-    async def _assess_framework_compliance(
-        self,
-        framework: ComplianceFramework
-    ) -> dict[str, Any]:
+    async def _assess_framework_compliance(self, framework: ComplianceFramework) -> dict[str, Any]:
         """Assess compliance for a specific framework"""
 
         framework_rules = self.rule_engine.get_rules_for_framework(framework)
@@ -578,7 +592,7 @@ class ComplianceMonitor:
             "risk_factors": risk_factors,
             "compliance_percentage": compliance_percentage,
             "compliant_rules": compliant_rules,
-            "total_rules": total_rules
+            "total_rules": total_rules,
         }
 
     async def _check_rule_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
@@ -587,12 +601,7 @@ class ComplianceMonitor:
         # This is a simplified compliance check
         # In a real system, this would integrate with actual data processing systems
 
-        compliance_result = {
-            "compliant": True,
-            "evidence": [],
-            "issues": [],
-            "confidence": 0.8
-        }
+        compliance_result = {"compliant": True, "evidence": [], "issues": [], "confidence": 0.8}
 
         # Simulate rule-specific compliance checks
         if rule.framework == ComplianceFramework.GDPR:
@@ -642,7 +651,7 @@ class ComplianceMonitor:
             "compliant": len(issues) == 0,
             "evidence": evidence,
             "issues": issues,
-            "confidence": 0.9
+            "confidence": 0.9,
         }
 
     async def _check_data_minimization_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
@@ -669,7 +678,7 @@ class ComplianceMonitor:
             "compliant": len(issues) == 0,
             "evidence": evidence,
             "issues": issues,
-            "confidence": 0.85
+            "confidence": 0.85,
         }
 
     async def _check_deletion_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
@@ -689,7 +698,7 @@ class ComplianceMonitor:
             "compliant": len(issues) == 0,
             "evidence": evidence,
             "issues": issues,
-            "confidence": 0.9
+            "confidence": 0.9,
         }
 
     async def _check_ai_bias_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
@@ -716,13 +725,11 @@ class ComplianceMonitor:
             "compliant": len(issues) == 0,
             "evidence": evidence,
             "issues": issues,
-            "confidence": 0.7  # Lower confidence for AI ethics
+            "confidence": 0.7,  # Lower confidence for AI ethics
         }
 
     async def _create_violation_from_rule(
-        self,
-        rule: ComplianceRule,
-        compliance_result: dict[str, Any]
+        self, rule: ComplianceRule, compliance_result: dict[str, Any]
     ) -> ComplianceViolation:
         """Create a compliance violation from a failed rule check"""
 
@@ -733,7 +740,7 @@ class ComplianceMonitor:
             ViolationSeverity.CRITICAL: 4,
             ViolationSeverity.HIGH: 24,
             ViolationSeverity.MEDIUM: 72,
-            ViolationSeverity.LOW: 168
+            ViolationSeverity.LOW: 168,
         }
 
         hours = deadline_hours.get(rule.severity, 72)
@@ -752,8 +759,8 @@ class ComplianceMonitor:
             remediation_deadline=deadline,
             context={
                 "rule_requirements": rule.requirements,
-                "compliance_confidence": compliance_result.get("confidence", 0.5)
-            }
+                "compliance_confidence": compliance_result.get("confidence", 0.5),
+            },
         )
 
         self.violation_history.append(violation)
@@ -762,7 +769,7 @@ class ComplianceMonitor:
     async def _calculate_overall_compliance_score(
         self,
         framework_statuses: dict[ComplianceFramework, ComplianceStatus],
-        violations: list[ComplianceViolation]
+        violations: list[ComplianceViolation],
     ) -> float:
         """Calculate overall compliance score"""
 
@@ -776,7 +783,7 @@ class ComplianceMonitor:
             ComplianceStatus.NON_COMPLIANT: 50.0,
             ComplianceStatus.UNDER_REVIEW: 60.0,
             ComplianceStatus.REMEDIATION_REQUIRED: 40.0,
-            ComplianceStatus.CRITICAL_VIOLATION: 20.0
+            ComplianceStatus.CRITICAL_VIOLATION: 20.0,
         }
 
         # Calculate weighted average based on framework importance
@@ -788,7 +795,7 @@ class ComplianceMonitor:
             ComplianceFramework.CCPA: 1.1,
             ComplianceFramework.ISO27001: 0.9,
             ComplianceFramework.AI_ETHICS: 0.8,
-            ComplianceFramework.CONSTITUTIONAL_AI: 1.1
+            ComplianceFramework.CONSTITUTIONAL_AI: 1.1,
         }
 
         total_weighted_score = 0.0
@@ -811,7 +818,7 @@ class ComplianceMonitor:
             ViolationSeverity.CRITICAL: 15.0,
             ViolationSeverity.HIGH: 8.0,
             ViolationSeverity.MEDIUM: 3.0,
-            ViolationSeverity.LOW: 1.0
+            ViolationSeverity.LOW: 1.0,
         }
 
         total_penalty = 0.0
@@ -828,7 +835,7 @@ class ComplianceMonitor:
     async def _determine_overall_status(
         self,
         framework_statuses: dict[ComplianceFramework, ComplianceStatus],
-        compliance_score: float
+        compliance_score: float,
     ) -> ComplianceStatus:
         """Determine overall compliance status"""
 
@@ -836,7 +843,7 @@ class ComplianceMonitor:
         critical_frameworks = [
             ComplianceFramework.GDPR,
             ComplianceFramework.HIPAA,
-            ComplianceFramework.PCI_DSS
+            ComplianceFramework.PCI_DSS,
         ]
 
         for framework in critical_frameworks:
@@ -846,8 +853,7 @@ class ComplianceMonitor:
 
         # Check for non-compliance in any framework
         non_compliant_count = sum(
-            1 for status in framework_statuses.values()
-            if status == ComplianceStatus.NON_COMPLIANT
+            1 for status in framework_statuses.values() if status == ComplianceStatus.NON_COMPLIANT
         )
 
         if non_compliant_count > 0:
@@ -855,8 +861,7 @@ class ComplianceMonitor:
 
         # Check for at-risk status
         at_risk_count = sum(
-            1 for status in framework_statuses.values()
-            if status == ComplianceStatus.AT_RISK
+            1 for status in framework_statuses.values() if status == ComplianceStatus.AT_RISK
         )
 
         if at_risk_count > len(framework_statuses) * 0.3:  # More than 30% at risk
@@ -882,7 +887,7 @@ class ComplianceMonitor:
             "privacy_controls": "implemented",
             "data_portability": "available",
             "access_controls": "enforced",
-            "compliance_score": 85.0
+            "compliance_score": 85.0,
         }
 
         # 🧠 Consciousness compliance
@@ -892,7 +897,7 @@ class ComplianceMonitor:
             "bias_monitoring": "active",
             "ethical_reasoning": "operational",
             "learning_governance": "controlled",
-            "compliance_score": 78.0
+            "compliance_score": 78.0,
         }
 
         # 🛡️ Guardian validations
@@ -901,13 +906,13 @@ class ComplianceMonitor:
             "Drift detection operational (threshold: 0.15)",
             "Safety monitoring continuous",
             "Ethical decision validation active",
-            "Compliance monitoring integrated"
+            "Compliance monitoring integrated",
         ]
 
         return {
             "identity": identity_compliance,
             "consciousness": consciousness_compliance,
-            "guardian": guardian_validations
+            "guardian": guardian_validations,
         }
 
     async def _scan_for_violations(self):
@@ -965,8 +970,7 @@ class ComplianceMonitor:
 
         # In practice, this would send alerts via email, Slack, etc.
         critical_violations = [
-            v for v in assessment.violations
-            if v.severity == ViolationSeverity.CRITICAL
+            v for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
         ]
 
         for violation in critical_violations:
@@ -980,7 +984,9 @@ class ComplianceMonitor:
         # This would typically use ML/AI to generate specific recommendations
         # For now, provide basic recommendations based on violations
 
-        logger.info(f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}")
+        logger.info(
+            f"📊 Generating improvement recommendations for assessment {assessment.assessment_id}"
+        )
 
     async def _update_compliance_dashboard(self, assessment: ComplianceAssessment):
         """Update compliance dashboard with latest assessment"""
@@ -997,16 +1003,14 @@ class ComplianceMonitor:
         self.metrics["total_violations"] += len(assessment.violations)
 
         critical_count = sum(
-            1 for v in assessment.violations
-            if v.severity == ViolationSeverity.CRITICAL
+            1 for v in assessment.violations if v.severity == ViolationSeverity.CRITICAL
         )
         self.metrics["critical_violations"] += critical_count
 
         # Update compliance score trend
-        self.metrics["compliance_score_trend"].append({
-            "timestamp": assessment.timestamp.isoformat(),
-            "score": assessment.compliance_score
-        })
+        self.metrics["compliance_score_trend"].append(
+            {"timestamp": assessment.timestamp.isoformat(), "score": assessment.compliance_score}
+        )
 
         # Keep only last 100 trend points
         if len(self.metrics["compliance_score_trend"]) > 100:
@@ -1018,10 +1022,10 @@ class ComplianceMonitor:
         """Maintain history size limits"""
 
         if len(self.assessment_history) > self.max_history_size:
-            self.assessment_history = self.assessment_history[-self.max_history_size:]
+            self.assessment_history = self.assessment_history[-self.max_history_size :]
 
         if len(self.violation_history) > self.max_history_size:
-            self.violation_history = self.violation_history[-self.max_history_size:]
+            self.violation_history = self.violation_history[-self.max_history_size :]
 
     async def get_compliance_status(self) -> dict[str, Any]:
         """Get current compliance status"""
@@ -1029,7 +1033,7 @@ class ComplianceMonitor:
         if not self.assessment_history:
             return {
                 "status": "no_assessment_available",
-                "message": "No compliance assessments have been performed yet"
+                "message": "No compliance assessments have been performed yet",
             }
 
         latest_assessment = self.assessment_history[-1]
@@ -1044,13 +1048,13 @@ class ComplianceMonitor:
                 for framework, status in latest_assessment.framework_statuses.items()
             },
             "recommendations": latest_assessment.recommendations[:5],  # Top 5
-            "next_review": latest_assessment.next_review_date.isoformat()
+            "next_review": latest_assessment.next_review_date.isoformat(),
         }
 
     async def get_violations_summary(
         self,
         severity_filter: Optional[ViolationSeverity] = None,
-        framework_filter: Optional[ComplianceFramework] = None
+        framework_filter: Optional[ComplianceFramework] = None,
     ) -> dict[str, Any]:
         """Get summary of compliance violations"""
 
@@ -1079,15 +1083,16 @@ class ComplianceMonitor:
             },
             "oldest_open_violation": (
                 min(open_violations, key=lambda x: x.detected_at).detected_at.isoformat()
-                if open_violations else None
-            )
+                if open_violations
+                else None
+            ),
         }
 
     async def export_compliance_report(
         self,
         format_type: str = "json",
         include_violations: bool = True,
-        include_recommendations: bool = True
+        include_recommendations: bool = True,
     ) -> dict[str, Any]:
         """Export comprehensive compliance report"""
 
@@ -1100,19 +1105,22 @@ class ComplianceMonitor:
             "report_id": f"comp_report_{uuid.uuid4().hex[:8]}",
             "generated_at": datetime.now().isoformat(),
             "assessment_period": {
-                "from": (self.assessment_history[0].timestamp.isoformat()
-                        if self.assessment_history else None),
-                "to": latest_assessment.timestamp.isoformat()
+                "from": (
+                    self.assessment_history[0].timestamp.isoformat()
+                    if self.assessment_history
+                    else None
+                ),
+                "to": latest_assessment.timestamp.isoformat(),
             },
             "overall_compliance": {
                 "status": latest_assessment.overall_status.value,
                 "score": latest_assessment.compliance_score,
-                "last_assessment": latest_assessment.timestamp.isoformat()
+                "last_assessment": latest_assessment.timestamp.isoformat(),
             },
             "framework_compliance": {
                 framework.value: {
                     "status": status.value,
-                    "threshold": self.compliance_thresholds.get(framework, 85.0)
+                    "threshold": self.compliance_thresholds.get(framework, 85.0),
                 }
                 for framework, status in latest_assessment.framework_statuses.items()
             },
@@ -1120,8 +1128,8 @@ class ComplianceMonitor:
             "trinity_framework": {
                 "identity_compliance": latest_assessment.identity_compliance,
                 "consciousness_compliance": latest_assessment.consciousness_compliance,
-                "guardian_validations": latest_assessment.guardian_validations
-            }
+                "guardian_validations": latest_assessment.guardian_validations,
+            },
         }
 
         if include_violations:
@@ -1135,11 +1143,12 @@ class ComplianceMonitor:
                         "title": v.title,
                         "status": v.status,
                         "detected_at": v.detected_at.isoformat(),
-                        "deadline": (v.remediation_deadline.isoformat()
-                                   if v.remediation_deadline else None)
+                        "deadline": (
+                            v.remediation_deadline.isoformat() if v.remediation_deadline else None
+                        ),
                     }
                     for v in self.violation_history[-50:]  # Last 50 violations
-                ]
+                ],
             }
 
         if include_recommendations:
@@ -1150,13 +1159,13 @@ class ComplianceMonitor:
 
 # Export main classes and functions
 __all__ = [
-    "ComplianceMonitor",
-    "ComplianceRuleEngine",
     "ComplianceAssessment",
-    "ComplianceViolation",
-    "ComplianceRule",
     "ComplianceFramework",
+    "ComplianceMonitor",
+    "ComplianceRule",
+    "ComplianceRuleEngine",
     "ComplianceStatus",
+    "ComplianceViolation",
+    "DataCategory",
     "ViolationSeverity",
-    "DataCategory"
 ]

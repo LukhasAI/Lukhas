@@ -5,7 +5,7 @@ from typing import Any, Generic, TypeVar, overload
 
 from typing_extensions import Self
 
-__all__ = ["SharedMemory", "ShareableList"]
+__all__ = ["ShareableList", "SharedMemory"]
 
 _SLT = TypeVar("_SLT", int, float, bool, str, bytes, None)
 
@@ -39,9 +39,7 @@ class ShareableList(Generic[_SLT]):
     @overload
     def __init__(self, sequence: None = None, *, name: str | None = None) -> None: ...
     @overload
-    def __init__(
-        self, sequence: Iterable[_SLT], *, name: str | None = None
-    ) -> None: ...
+    def __init__(self, sequence: Iterable[_SLT], *, name: str | None = None) -> None: ...
     def __getitem__(self, position: int) -> _SLT: ...
     def __setitem__(self, position: int, value: _SLT) -> None: ...
     def __reduce__(self) -> tuple[Self, tuple[_SLT, ...]]: ...

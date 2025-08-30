@@ -14,12 +14,12 @@ from .card_system import (
 )
 
 __all__ = [
-    "FeedbackRating",
     "FeedbackCard",
+    "FeedbackCardSystem",
+    "FeedbackRating",
+    "LearningReport",
     "PatternSet",
     "PolicyUpdate",
-    "LearningReport",
-    "FeedbackCardSystem",
 ]
 
 __version__ = "1.0.0"

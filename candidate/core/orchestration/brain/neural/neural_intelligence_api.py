@@ -98,9 +98,7 @@ async def process_intelligence_request(request: IntelligenceRequest):
         lukhas_system.config.update(config)
 
         # Process request
-        response_data = await lukhas_system.process_request(
-            request.query, request.context
-        )
+        response_data = await lukhas_system.process_request(request.query, request.context)
 
         # Get system status for session info
         status = lukhas_system.get_system_status()
@@ -116,7 +114,7 @@ async def process_intelligence_request(request: IntelligenceRequest):
 
     except Exception as e:
         logger.error(f"Intelligence processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Processing error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Processing error: {e!s}")
 
 
 @app.get("/status", response_model=SystemStatus)
@@ -136,7 +134,7 @@ async def get_system_status():
 
     except Exception as e:
         logger.error(f"Status retrieval error: {e}")
-        raise HTTPException(status_code=500, detail=f"Status error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Status error: {e!s}")
 
 
 @app.get("/innovations")
@@ -146,7 +144,7 @@ async def get_lukhas_innovations():
         return lukhas_system.get_innovations_status()
     except Exception as e:
         logger.error(f"Innovations status error: {e}")
-        raise HTTPException(status_code=500, detail=f"Innovations error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Innovations error: {e!s}")
 
 
 @app.get("/capabilities")
@@ -174,7 +172,7 @@ async def get_system_capabilities():
         }
     except Exception as e:
         logger.error(f"Capabilities error: {e}")
-        raise HTTPException(status_code=500, detail=f"Capabilities error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Capabilities error: {e!s}")
 
 
 @app.post("/dream-processing")
@@ -192,15 +190,13 @@ async def process_with_dreams(request: IntelligenceRequest):
 
         return {
             "response": response_data["response"],
-            "dreams_enhancement": response_data["metadata"].get(
-                "dream_enhancement", {}
-            ),
+            "dreams_enhancement": response_data["metadata"].get("dream_enhancement", {}),
             "innovation_focus": "Dreams - Sleep-state cognitive processing",
         }
 
     except Exception as e:
         logger.error(f"Dreams processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Dreams error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Dreams error: {e!s}")
 
 
 @app.post("/healix-optimization")
@@ -218,15 +214,13 @@ async def process_with_healix(request: IntelligenceRequest):
 
         return {
             "response": response_data["response"],
-            "healix_optimization": response_data["metadata"].get(
-                "healix_optimization", {}
-            ),
+            "healix_optimization": response_data["metadata"].get("healix_optimization", {}),
             "innovation_focus": "Healix - Golden ratio optimization",
         }
 
     except Exception as e:
         logger.error(f"Healix processing error: {e}")
-        raise HTTPException(status_code=500, detail=f"Healix error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Healix error: {e!s}")
 
 
 if __name__ == "__main__":

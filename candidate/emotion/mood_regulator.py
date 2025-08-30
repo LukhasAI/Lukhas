@@ -21,9 +21,7 @@ class MoodRegulator:
     Regulates emotional states based on drift scores and other metrics.
     """
 
-    def __init__(
-        self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None
-    ):
+    def __init__(self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None):
         self.emotional_memory = emotional_memory
         self.config = config or {}
         self.drift_threshold = self.config.get("drift_threshold", 0.7)

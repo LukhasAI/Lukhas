@@ -21,7 +21,7 @@ def load_settings(path=SETTINGS_PATH):
         with open(path) as f:
             return json.load(f)
     except Exception as e:
-        print(f"[Settings Loader Error] {str(e)}")
+        print(f"[Settings Loader Error] {e!s}")
         return {}
 
 
@@ -74,7 +74,7 @@ def log_setting_access(key_path):
             with open("logs/setting_access.log", "a") as log:
                 log.write(f"{key_path}\n")
         except Exception as e:
-            print(f"[Log Access Error] {str(e)}")
+            print(f"[Log Access Error] {e!s}")
 
 
 def preview_defaults():
@@ -85,7 +85,6 @@ def preview_defaults():
 
 
 def list_all_keys():
-
     def flatten(d, prefix=""):
         keys = []
         for k, v in d.items():

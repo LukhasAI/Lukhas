@@ -14,7 +14,10 @@ def test_author_reference_guard_detects_existing_violations():
     """Run the guard on current repo; expect violations to be detected"""
     result = subprocess.run(
         [sys.executable, "enforcement/tone/author_reference_guard.py"],
-        capture_output=True, text=True, cwd=Path(__file__).parent.parent, check=False
+        capture_output=True,
+        text=True,
+        cwd=Path(__file__).parent.parent,
+        check=False,
     )
     out = (result.stdout + "\n" + result.stderr).strip()
     # Expect violations in current repo state - should exit with code 1
@@ -32,7 +35,10 @@ def test_author_reference_guard_detects_violations():
 
         result = subprocess.run(
             [sys.executable, "enforcement/tone/author_reference_guard.py", str(test_file)],
-            capture_output=True, text=True, cwd=Path(__file__).parent.parent, check=False
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).parent.parent,
+            check=False,
         )
 
         # Debug output
@@ -41,13 +47,17 @@ def test_author_reference_guard_detects_violations():
         # print(f"Stderr: {result.stderr}")
 
         # Should find violations and exit with code 1
-        assert result.returncode == 1, f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
+        assert result.returncode == 1, (
+            f"Guard should detect violations. Got code {result.returncode}, output: {result.stdout}"
+        )
         assert "violations:" in result.stdout.lower(), "Should detect violations"
 
     finally:
         # Clean up test file
         if test_file.exists():
             test_file.unlink()
+
+
 def test_author_reference_guard_allows_academic():
     """Test that guard allows academic context content"""
     # Create a temporary academic test file
@@ -63,11 +73,16 @@ This academic paper references Keats and Einstein with proper citations.
 
         result = subprocess.run(
             [sys.executable, "enforcement/tone/author_reference_guard.py", str(test_file)],
-            capture_output=True, text=True, cwd=Path(__file__).parent.parent, check=False
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).parent.parent,
+            check=False,
         )
 
         # Should allow academic content and exit with code 0
-        assert result.returncode == 0, f"Guard should allow academic content:\n{result.stdout}\n{result.stderr}"
+        assert result.returncode == 0, (
+            f"Guard should allow academic content:\n{result.stdout}\n{result.stderr}"
+        )
 
     finally:
         # Clean up test file

@@ -5,6 +5,7 @@ Addresses TODO 168: Distributed tracing with correlation IDs
 This module provides comprehensive tracing capabilities for distributed
 AI agent interactions, enabling observability and debugging.
 """
+
 import json
 import logging
 import threading
@@ -309,9 +310,7 @@ class DistributedTracer:
         self.collector = collector or TraceCollector()
         self._current_context: threading.local = threading.local()
 
-    def start_trace(
-        self, operation_name: str, trace_id: Optional[str] = None
-    ) -> TraceContext:
+    def start_trace(self, operation_name: str, trace_id: Optional[str] = None) -> TraceContext:
         """Start a new trace"""
         if trace_id is None:
             trace_id = str(uuid.uuid4())
@@ -455,18 +454,14 @@ class AIAgentTracer(DistributedTracer):
 
                 if task_data:
                     self.add_tag(context, "task.type", task_data.get("type"))
-                    self.add_tag(
-                        context, "task.complexity", task_data.get("complexity")
-                    )
+                    self.add_tag(context, "task.complexity", task_data.get("complexity"))
 
                 context.set_baggage_item("agent_id", agent_id)
                 yield context
 
         return _trace()
 
-    def trace_agent_collaboration(
-        self, initiator_id: str, target_id: str, collaboration_type: str
-    ):
+    def trace_agent_collaboration(self, initiator_id: str, target_id: str, collaboration_type: str):
         """Trace collaboration between agents"""
         operation_name = f"collaboration.{collaboration_type}"
 
@@ -541,7 +536,6 @@ def demo_distributed_tracing():
         "analyze_data",
         {"type": "reasoning", "complexity": "high"},
     ) as ctx:
-
         # Add some logs and tags
         agent1_tracer.add_log(ctx, "started_analysis", {"input_size": 1000})
 
@@ -554,7 +548,6 @@ def demo_distributed_tracing():
         with agent1_tracer.trace_agent_collaboration(
             "reasoning-001", "memory-001", "knowledge_sharing"
         ):
-
             # Memory agent operations (simulated)
             with agent2_tracer.trace_memory_operation(
                 "memory-001", "retrieve", memory_size=500
@@ -610,9 +603,7 @@ class StateSnapshotter:
             timestamp=time.time(),
             state_data=state_data,
         )
-        filepath = os.path.join(
-            self.storage_path, f"{agent_id}-{snapshot.timestamp}.json"
-        )
+        filepath = os.path.join(self.storage_path, f"{agent_id}-{snapshot.timestamp}.json")
         with open(filepath, "w") as f:
             json.dump(asdict(snapshot), f, indent=2)
         logger.info(f"State snapshot for agent {agent_id} saved to {filepath}")
@@ -648,9 +639,7 @@ class EventReplayer:
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 
-    def replay_trace(
-        self, trace_id: str, to_timestamp: Optional[float] = None
-    ) -> dict[str, Any]:
+    def replay_trace(self, trace_id: str, to_timestamp: Optional[float] = None) -> dict[str, Any]:
         """
         Replays a trace to reconstruct the state of agents involved.
         - Starts from the nearest snapshot before the trace began.
@@ -691,9 +680,7 @@ class EventReplayer:
         for span_data in trace_data["spans"]:
             is_agent_span = False
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if (
-                    "agent.id" in tag_key or "agent_id" in tag_key
-                ) and tag_value == agent_id:
+                if ("agent.id" in tag_key or "agent_id" in tag_key) and tag_value == agent_id:
                     is_agent_span = True
                     break
 

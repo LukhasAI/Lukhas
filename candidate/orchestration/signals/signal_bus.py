@@ -200,9 +200,7 @@ class SignalBus:
             module_name: Optional module name for tracking
         """
         self.subscribers[signal_type].append(handler)
-        logger.debug(
-            f"Module {module_name or 'unknown'} subscribed to {signal_type.value}"
-        )
+        logger.debug(f"Module {module_name or 'unknown'} subscribed to {signal_type.value}")
 
     def unsubscribe(self, signal_type: SignalType, handler: Callable[[Signal], None]):
         """Unsubscribe from a signal type"""
@@ -330,16 +328,12 @@ class SignalBus:
                     continue
                 recent = list(self._recent_by_type.get(st, []))
                 if window_ms:
-                    recent = [
-                        s for s in recent if (now - s.timestamp) * 1000 <= window_ms
-                    ]
+                    recent = [s for s in recent if (now - s.timestamp) * 1000 <= window_ms]
                 collected.extend(recent)
             # Apply simple field filters
             filtered: list[Signal] = []
             for s in collected:
-                if pattern.source_pattern and not s.source.startswith(
-                    pattern.source_pattern
-                ):
+                if pattern.source_pattern and not s.source.startswith(pattern.source_pattern):
                     continue
                 if not (pattern.level_min <= s.level <= pattern.level_max):
                     continue
@@ -394,17 +388,13 @@ class SignalBus:
         """Get bus statistics"""
         return {
             **self.stats,
-            "active_signals": len(
-                [s for s in self.active_signals if not s.is_expired()]
-            ),
+            "active_signals": len([s for s in self.active_signals if not s.is_expired()]),
             "total_history": len(self.signal_history),
             "subscribers": {
                 signal_type.value: len(handlers)
                 for signal_type, handlers in self.subscribers.items()
             },
-            "current_levels": {
-                k.value: v for k, v in self.get_current_levels().items()
-            },
+            "current_levels": {k.value: v for k, v in self.get_current_levels().items()},
         }
 
     def get_metrics(self) -> dict[str, Any]:
@@ -462,9 +452,7 @@ def get_signal_bus() -> SignalBus:
 def emit_stress(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a stress signal"""
     bus = get_signal_bus()
-    signal = Signal(
-        name=SignalType.STRESS, level=level, source=source, metadata=metadata or {}
-    )
+    signal = Signal(name=SignalType.STRESS, level=level, source=source, metadata=metadata or {})
     return bus.publish(signal)
 
 
@@ -483,7 +471,5 @@ def emit_alignment_risk(level: float, source: str, metadata: Optional[dict] = No
 def emit_novelty(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a novelty signal"""
     bus = get_signal_bus()
-    signal = Signal(
-        name=SignalType.NOVELTY, level=level, source=source, metadata=metadata or {}
-    )
+    signal = Signal(name=SignalType.NOVELTY, level=level, source=source, metadata=metadata or {})
     return bus.publish(signal)

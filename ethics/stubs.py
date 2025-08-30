@@ -13,6 +13,7 @@ from typing import Any, Optional
 
 class RiskLevel(Enum):
     """Risk level enumeration"""
+
     NONE = "none"
     LOW = "low"
     MEDIUM = "medium"
@@ -23,6 +24,7 @@ class RiskLevel(Enum):
 @dataclass
 class Decision:
     """Ethics decision result"""
+
     approved: bool
     reasoning: str
     risk_level: RiskLevel
@@ -48,6 +50,7 @@ class MEGPolicyBridge:
         """Try to load real Guardian system"""
         try:
             from governance.ethics.guardian_reflector import GuardianReflector
+
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:
@@ -101,6 +104,7 @@ class EthicsEngine:
         """Try to load real Guardian system"""
         try:
             from governance.ethics.guardian_reflector import GuardianReflector
+
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:
@@ -175,16 +179,19 @@ class SafetyChecker:
         """Try to initialize Guardian system integration"""
         try:
             from candidate.governance.ethics.guardian_reflector import GuardianReflector
+
             return GuardianReflector(self.config)
         except ImportError:
             try:
                 from candidate.governance.ethics.ethics_guardian import EthicsGuardian
+
                 return EthicsGuardian(self.config)
             except ImportError:
                 try:
                     from candidate.governance.ethics.enhanced_ethical_guardian import (
                         EnhancedEthicalGuardian,
                     )
+
                     return EnhancedEthicalGuardian(self.config)
                 except ImportError:
                     return None
@@ -197,19 +204,16 @@ class SafetyChecker:
             r"\b(?:hack|exploit|vulnerability|attack|breach|penetrate)\b.*(?:system|network|database)",
             r"(?:sql|code|script).*injection",
             r"(?:bypass|circumvent).*(?:security|authentication|authorization)",
-
             # Harmful content
             r"\b(?:harm|hurt|damage|destroy|kill).*(?:human|person|people)",
             r"(?:violence|terrorist|extremist|radical).*(?:act|action|plan)",
             r"(?:suicide|self.harm|self.destruct)",
-
             # Privacy violations
             r"(?:steal|extract|harvest).*(?:data|information|credentials)",
             r"(?:personal|private|confidential).*(?:leak|expose|reveal)",
-
             # Manipulation
             r"(?:manipulate|deceive|trick|fool).*(?:user|human|person)",
-            r"(?:fake|false|fabricate).*(?:evidence|proof|documentation)"
+            r"(?:fake|false|fabricate).*(?:evidence|proof|documentation)",
         ]
 
         # Medium-risk patterns (contextual analysis required)
@@ -218,15 +222,28 @@ class SafetyChecker:
             r"(?:avoid|skip|bypass).*(?:detection|monitoring|logging)",
             r"(?:hide|conceal|mask).*(?:identity|activity|action)",
             r"(?:test|probe|scan).*(?:weakness|flaw|gap)",
-            r"(?:social|psychological).*(?:engineering|manipulation)"
+            r"(?:social|psychological).*(?:engineering|manipulation)",
         ]
 
         # Low-risk keywords (flag for review)
         self.caution_keywords = [
-            "password", "credential", "token", "secret", "key",
-            "admin", "root", "administrator", "privilege",
-            "anonymous", "stealth", "covert", "hidden",
-            "reverse", "disassemble", "decompile", "crack"
+            "password",
+            "credential",
+            "token",
+            "secret",
+            "key",
+            "admin",
+            "root",
+            "administrator",
+            "privilege",
+            "anonymous",
+            "stealth",
+            "covert",
+            "hidden",
+            "reverse",
+            "disassemble",
+            "decompile",
+            "crack",
         ]
 
     def check(self, content: str, context: Optional[dict] = None) -> bool:
@@ -329,8 +346,7 @@ class SafetyChecker:
             risk_score = max(risk_score, 0.5 + (warning_matches * 0.1))
 
         # Check caution keywords (low weight)
-        caution_matches = sum(1 for keyword in self.caution_keywords
-                             if keyword in content_lower)
+        caution_matches = sum(1 for keyword in self.caution_keywords if keyword in content_lower)
 
         if caution_matches > 0:
             risk_score = max(risk_score, 0.2 + (caution_matches * 0.05))
@@ -374,7 +390,7 @@ class SafetyChecker:
             "false_positives": self.false_positives,
             "guardian_available": self.guardian is not None,
             "risk_threshold": self.risk_threshold,
-            "strict_mode": self.strict_mode
+            "strict_mode": self.strict_mode,
         }
 
     def update_config(self, new_config: dict) -> None:
@@ -382,7 +398,9 @@ class SafetyChecker:
         self.config.update(new_config)
         self.risk_threshold = self.config.get("risk_threshold", self.risk_threshold)
         self.strict_mode = self.config.get("strict_mode", self.strict_mode)
-        self.enable_context_analysis = self.config.get("context_analysis", self.enable_context_analysis)
+        self.enable_context_analysis = self.config.get(
+            "context_analysis", self.enable_context_analysis
+        )
 
         self.logger.info("SafetyChecker configuration updated")
 

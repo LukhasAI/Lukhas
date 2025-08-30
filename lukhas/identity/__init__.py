@@ -44,6 +44,7 @@ except Exception:
 # Import authentication service
 try:
     from .auth_service import AuthenticationService, AuthResult, UserProfile
+
     # Alias for backward compatibility
     IdentityService = AuthenticationService
 except ImportError:
@@ -54,20 +55,20 @@ except ImportError:
 
 # Export components
 __all__ = [
-    "lambda_id",
-    "webauthn",
-    "AuthenticationService",
-    "IdentityService",  # Alias
-    "AuthResult",
-    "UserProfile",
     "AUTHENTICATION_AVAILABLE",
     "IDENTITY_CORE_AVAILABLE",
+    "AuthResult",
+    "AuthenticationService",
+    "IdentityService",  # Alias
+    "UserProfile",
+    "lambda_id",
+    "webauthn",
 ]
 
 # Add identity core components if available
 if IDENTITY_CORE_AVAILABLE:
-    __all__.extend(["IdentityCore", "AccessTier"])
+    __all__.extend(["AccessTier", "IdentityCore"])
 
 # Add authentication components if available
 if AUTHENTICATION_AVAILABLE:
-    __all__.extend(["auth_integration", "WalletAuthBridge", "QRGAuthBridge"])
+    __all__.extend(["QRGAuthBridge", "WalletAuthBridge", "auth_integration"])

@@ -31,9 +31,7 @@ class InternationalComplianceEngine(CoreInterface):
         logger.info("International Compliance Engine initialized")
 
     async def assess_compliance(
-        self,
-        framework: str,
-        requirements: dict[str, Any]
+        self, framework: str, requirements: dict[str, Any]
     ) -> dict[str, Any]:
         """Assess compliance with a specific framework"""
 
@@ -41,7 +39,7 @@ class InternationalComplianceEngine(CoreInterface):
             "framework": framework,
             "overall_score": 0.7,  # Base compliance
             "requirements_met": {},
-            "timestamp": asyncio.get_event_loop().time()
+            "timestamp": asyncio.get_event_loop().time(),
         }
 
         # Check each requirement
@@ -51,7 +49,7 @@ class InternationalComplianceEngine(CoreInterface):
                     # Simulate compliance check
                     assessment["requirements_met"][req] = {
                         "met": bool("safety" in req or "transparency" in req),
-                        "evidence": f"Implementation of {req}"
+                        "evidence": f"Implementation of {req}",
                     }
 
         # Calculate score
@@ -62,9 +60,7 @@ class InternationalComplianceEngine(CoreInterface):
         return assessment
 
     async def implement_requirement(
-        self,
-        requirement: str,
-        action: dict[str, Any]
+        self, requirement: str, action: dict[str, Any]
     ) -> dict[str, Any]:
         """Implement a specific compliance requirement"""
 
@@ -72,7 +68,7 @@ class InternationalComplianceEngine(CoreInterface):
             "requirement": requirement,
             "success": True,
             "cost": 50000,
-            "duration_days": action.get("estimated_days", 30)
+            "duration_days": action.get("estimated_days", 30),
         }
 
         # Simulate implementation based on requirement type
@@ -95,26 +91,33 @@ class InternationalComplianceEngine(CoreInterface):
                 "jurisdiction": "European Union",
                 "risk_based": True,
                 "mandatory_requirements": [
-                    "risk_assessment", "data_governance", "transparency",
-                    "human_oversight", "accuracy", "robustness", "cybersecurity"
-                ]
+                    "risk_assessment",
+                    "data_governance",
+                    "transparency",
+                    "human_oversight",
+                    "accuracy",
+                    "robustness",
+                    "cybersecurity",
+                ],
             },
             "US_NIST_FRAMEWORK": {
                 "jurisdiction": "United States",
                 "voluntary": True,
                 "principles": [
-                    "valid_reliable", "safe", "secure_resilient",
-                    "accountable_transparent", "explainable_interpretable",
-                    "privacy_enhanced", "fair"
-                ]
+                    "valid_reliable",
+                    "safe",
+                    "secure_resilient",
+                    "accountable_transparent",
+                    "explainable_interpretable",
+                    "privacy_enhanced",
+                    "fair",
+                ],
             },
             "CHINA_AI_GOVERNANCE": {
                 "jurisdiction": "China",
                 "state_directed": True,
-                "focus_areas": [
-                    "national_security", "data_sovereignty", "algorithm_transparency"
-                ]
-            }
+                "focus_areas": ["national_security", "data_sovereignty", "algorithm_transparency"],
+            },
         }
 
     async def shutdown(self) -> None:

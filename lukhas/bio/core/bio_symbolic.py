@@ -8,7 +8,7 @@ mapping biological processes to symbolic representations.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -61,7 +61,7 @@ class BioSymbolic:
     Maps biological processes to symbolic representations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.initialized = True
         self.bio_states: list[dict] = []
         self.symbolic_mappings: list[dict] = []
@@ -267,12 +267,11 @@ class BioSymbolic:
             Integrated bio-symbolic representation
         """
         integration_event = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "bio_data": bio_data,
             "symbolic_data": symbolic_data,
             "coherence": (
-                self.calculate_coherence(bio_data)
-                + self.calculate_coherence(symbolic_data)
+                self.calculate_coherence(bio_data) + self.calculate_coherence(symbolic_data)
             )
             / 2,
         }
@@ -292,7 +291,7 @@ class BioSymbolicOrchestrator:
     Consolidates functionality from various bio-symbolic implementations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.bio_symbolic = BioSymbolic()
         self.orchestration_events: list[dict] = []
         logger.info("Bio-Symbolic Orchestrator initialized")
@@ -319,7 +318,7 @@ class BioSymbolicOrchestrator:
         )
 
         orchestration_result = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "results": results,
             "overall_coherence": overall_coherence,
             "threshold_met": overall_coherence >= self.bio_symbolic.coherence_threshold,
@@ -359,9 +358,9 @@ symbolic_bio_symbolic_orchestrator = BioSymbolicOrchestrator
 
 # Export public interface
 __all__ = [
-    "SymbolicGlyph",
     "BioSymbolic",
     "BioSymbolicOrchestrator",
+    "SymbolicGlyph",
     "symbolic_bio_symbolic",
     "symbolic_bio_symbolic_orchestrator",
 ]

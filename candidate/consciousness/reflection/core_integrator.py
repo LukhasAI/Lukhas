@@ -67,9 +67,7 @@ class AccessTier(Enum):
     FULL = 4
 
 
-logger.debug(
-    f"ΛTRACE: Internal AccessTier Enum defined: {[tier.name for tier in AccessTier]}."
-)
+logger.debug(f"ΛTRACE: Internal AccessTier Enum defined: {[tier.name for tier in AccessTier]}.")
 
 
 # Human-readable comment: Defines message types for core system communication.
@@ -141,18 +139,14 @@ class LUKHASCoreIntegrator:
         self.component_status: dict[str, dict[str, Any]] = {}
 
         # AIDENTITY
-        self.awareness: Optional[Any] = (
-            None  # Placeholder for awareness protocol instance
-        )
+        self.awareness: Optional[Any] = None  # Placeholder for awareness protocol instance
         # ΛDRIFT_POINT
         # Initialize internal access tier based on config or default
         try:
             default_tier_name_str = self.config.get("security", {}).get(
                 "default_access_tier", "RESTRICTED"
             )
-            self.current_access_tier: AccessTier = AccessTier[
-                default_tier_name_str.upper()
-            ]
+            self.current_access_tier: AccessTier = AccessTier[default_tier_name_str.upper()]
         except KeyError:
             self.instance_logger.warning(
                 f"ΛTRACE: Invalid default_access_tier '{default_tier_name_str}' in config. Defaulting to RESTRICTED."
@@ -189,9 +183,7 @@ class LUKHASCoreIntegrator:
                     exc_info=True,
                 )
 
-        self.instance_logger.info(
-            "ΛTRACE: LUKHASCoreIntegrator instance fully initialized."
-        )
+        self.instance_logger.info("ΛTRACE: LUKHASCoreIntegrator instance fully initialized.")
 
     # Human-readable comment: Loads configuration from a file or uses defaults.
     def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
@@ -236,9 +228,7 @@ class LUKHASCoreIntegrator:
                         user_config = json.load(f)
 
                     for key, value in user_config.items():
-                        if isinstance(value, dict) and isinstance(
-                            loaded_config.get(key), dict
-                        ):
+                        if isinstance(value, dict) and isinstance(loaded_config.get(key), dict):
                             loaded_config[key].update(value)
                         else:
                             loaded_config[key] = value
@@ -264,23 +254,17 @@ class LUKHASCoreIntegrator:
                 "ΛTRACE: No config path provided. Using default configuration."
             )
 
-        if "logging" not in loaded_config or not isinstance(
-            loaded_config["logging"], dict
-        ):
+        if "logging" not in loaded_config or not isinstance(loaded_config["logging"], dict):
             loaded_config["logging"] = default_config["logging"]
         if "trace_path" not in loaded_config["logging"]:
-            loaded_config["logging"]["trace_path"] = default_config["logging"][
-                "trace_path"
-            ]
+            loaded_config["logging"]["trace_path"] = default_config["logging"]["trace_path"]
 
         self.instance_logger.debug(f"ΛTRACE: Final configuration: {loaded_config}")
         return loaded_config
 
     # Human-readable comment: Registers a component with the core integrator.
     # ΛEXPOSE
-    @lukhas_tier_required(
-        level=3
-    )  # Example: Registering components might require Premium tier
+    @lukhas_tier_required(level=3)  # Example: Registering components might require Premium tier
     def register_component(
         self,
         component_id: str,
@@ -296,18 +280,12 @@ class LUKHASCoreIntegrator:
         Returns:
             bool: True if registration was successful, False otherwise.
         """
-        self.instance_logger.info(
-            f"ΛTRACE: Attempting to register component '{component_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Attempting to register component '{component_id}'.")
         if not isinstance(component_id, str) or not component_id:
-            self.instance_logger.error(
-                "ΛTRACE: Component ID must be a non-empty string."
-            )
+            self.instance_logger.error("ΛTRACE: Component ID must be a non-empty string.")
             return False
         if component_id in self.components:
-            self.instance_logger.warning(
-                f"ΛTRACE: Component '{component_id}' already registered."
-            )
+            self.instance_logger.warning(f"ΛTRACE: Component '{component_id}' already registered.")
             return False
 
         self.components[component_id] = component_instance
@@ -329,9 +307,7 @@ class LUKHASCoreIntegrator:
                     f"ΛTRACE: Message handler registered for component '{component_id}'."
                 )
 
-        self.instance_logger.info(
-            f"ΛTRACE: Component '{component_id}' registered successfully."
-        )
+        self.instance_logger.info(f"ΛTRACE: Component '{component_id}' registered successfully.")
         return True
 
     # Human-readable comment: Registers a message handler for a component.
@@ -355,16 +331,12 @@ class LUKHASCoreIntegrator:
             )
             return False
         self.message_handlers[component_id] = handler
-        self.instance_logger.info(
-            f"ΛTRACE: Message handler registered for '{component_id}'."
-        )
+        self.instance_logger.info(f"ΛTRACE: Message handler registered for '{component_id}'.")
         return True
 
     # Human-readable comment: Subscribes a callback to a system event type.
     # ΛEXPOSE
-    @lukhas_tier_required(
-        level=1
-    )  # Example: Subscribing to events might be a Basic tier feature
+    @lukhas_tier_required(level=1)  # Example: Subscribing to events might be a Basic tier feature
     def subscribe_to_events(
         self,
         event_type: str,
@@ -413,9 +385,7 @@ class LUKHASCoreIntegrator:
         self.system_state["last_activity"] = time.time()
 
         if not isinstance(target_component, str) or not target_component:
-            self.instance_logger.error(
-                "ΛTRACE: Target component ID must be a non-empty string."
-            )
+            self.instance_logger.error("ΛTRACE: Target component ID must be a non-empty string.")
             return {
                 "status": "error",
                 "error": "Invalid target component ID",
@@ -538,13 +508,8 @@ class LUKHASCoreIntegrator:
                 "ΛTRACE: Event type for broadcast must be a non-empty string."
             )
             return 0
-        if (
-            event_type not in self.event_subscribers
-            or not self.event_subscribers[event_type]
-        ):
-            self.instance_logger.debug(
-                f"ΛTRACE: No subscribers for event type '{event_type}'."
-            )
+        if event_type not in self.event_subscribers or not self.event_subscribers[event_type]:
+            self.instance_logger.debug(f"ΛTRACE: No subscribers for event type '{event_type}'.")
             return 0
 
         event_envelope = {
@@ -597,13 +562,9 @@ class LUKHASCoreIntegrator:
     # Human-readable comment: Initializes the Lukhas Awareness Protocol.
     # ΛEXPOSE
     @lukhas_tier_required(level=3)
-    def initialize_awareness_protocol(
-        self, awareness_instance: Optional[Any] = None
-    ) -> bool:
+    def initialize_awareness_protocol(self, awareness_instance: Optional[Any] = None) -> bool:
         """Initialize the Lukhas Awareness Protocol."""
-        self.instance_logger.info(
-            "ΛTRACE: Attempting to initialize Lukhas Awareness Protocol."
-        )
+        self.instance_logger.info("ΛTRACE: Attempting to initialize Lukhas Awareness Protocol.")
         # TODO: Refactor dynamic import to be more robust or use explicit imports
         # if LUKHASAwarenessProtocol path is standardized.
         try:
@@ -623,9 +584,7 @@ class LUKHASCoreIntegrator:
 
                 # This dynamic import is fragile. Proper packaging or a plugin system is
                 # preferred.
-                module = __import__(
-                    module_path_str, fromlist=["LUKHASAwarenessProtocol"]
-                )  # type: ignore
+                module = __import__(module_path_str, fromlist=["LUKHASAwarenessProtocol"])  # type: ignore
                 awareness_class_ref = module.LUKHASAwarenessProtocol
                 self.awareness = awareness_class_ref()
                 self.instance_logger.info(
@@ -635,9 +594,7 @@ class LUKHASCoreIntegrator:
             self.register_component("awareness", self.awareness)
 
             current_config_security = self.config.get("security", {})
-            default_tier_name_str = current_config_security.get(
-                "default_access_tier", "RESTRICTED"
-            )
+            default_tier_name_str = current_config_security.get("default_access_tier", "RESTRICTED")
             try:
                 self.current_access_tier = AccessTier[default_tier_name_str.upper()]
             except KeyError:
@@ -657,11 +614,7 @@ class LUKHASCoreIntegrator:
                     "ΛTRACE: Registered core callback with awareness protocol."
                 )
 
-            if (
-                self.brain
-                and self.awareness
-                and hasattr(self.brain, "connect_awareness")
-            ):
+            if self.brain and self.awareness and hasattr(self.brain, "connect_awareness"):
                 try:
                     self.brain.connect_awareness(self.awareness)
                     self.instance_logger.info(
@@ -673,9 +626,7 @@ class LUKHASCoreIntegrator:
                         exc_info=True,
                     )
 
-            self.instance_logger.info(
-                "ΛTRACE: Lukhas Awareness Protocol initialized successfully."
-            )
+            self.instance_logger.info("ΛTRACE: Lukhas Awareness Protocol initialized successfully.")
             return True
 
         except ImportError as e_imp:
@@ -712,9 +663,7 @@ class LUKHASCoreIntegrator:
 
         # ΛDRIFT_POINT
         if alert_type == "access_tier_change":
-            new_tier_name_str = alert_data.get(
-                "new_tier", self.current_access_tier.name
-            )
+            new_tier_name_str = alert_data.get("new_tier", self.current_access_tier.name)
             try:
                 self.current_access_tier = AccessTier[new_tier_name_str.upper()]
                 self.instance_logger.info(
@@ -785,9 +734,7 @@ class LUKHASCoreIntegrator:
             allowed_targets = ["awareness"]
             allowed_actions = ["status", "query", "auth"]
             action_type = message.get("action", "").lower()
-            is_basic_allowed = (
-                target_component in allowed_targets or action_type in allowed_actions
-            )
+            is_basic_allowed = target_component in allowed_targets or action_type in allowed_actions
             self.instance_logger.debug(
                 f"ΛTRACE: Basic fallback for RESTRICTED tier: Allowed = {is_basic_allowed}."
             )
@@ -810,9 +757,7 @@ class LUKHASCoreIntegrator:
         if not current_logging_config.get("trace_enabled", False):
             return
 
-        trace_file_path_str = current_logging_config.get(
-            "trace_path", "logs/symbolic_trace.jsonl"
-        )
+        trace_file_path_str = current_logging_config.get("trace_path", "logs/symbolic_trace.jsonl")
         trace_file = Path(trace_file_path_str)
 
         try:
@@ -830,18 +775,14 @@ class LUKHASCoreIntegrator:
     # Human-readable comment: Retrieves status for a specific component or all components.
     # ΛEXPOSE
     @lukhas_tier_required(level=0)
-    def get_component_status(
-        self, component_id: Optional[str] = None
-    ) -> dict[str, Any]:
+    def get_component_status(self, component_id: Optional[str] = None) -> dict[str, Any]:
         """Get status of a specific component or all components."""
         self.instance_logger.debug(
             f"ΛTRACE: Requesting component status for '{component_id if component_id else 'ALL'}'."
         )
         if component_id:
             if not isinstance(component_id, str) or not component_id:
-                self.instance_logger.warning(
-                    "ΛTRACE: Invalid component ID for status request."
-                )
+                self.instance_logger.warning("ΛTRACE: Invalid component ID for status request.")
                 return {"error": "Invalid component ID"}
             if component_id not in self.component_status:
                 self.instance_logger.warning(
@@ -864,17 +805,11 @@ class LUKHASCoreIntegrator:
         status["component_count"] = len(self.components)
         status["current_internal_access_tier"] = self.current_access_tier.name
 
-        if (
-            self.brain
-            and hasattr(self.brain, "get_status")
-            and callable(self.brain.get_status)
-        ):
+        if self.brain and hasattr(self.brain, "get_status") and callable(self.brain.get_status):
             try:
                 brain_status = self.brain.get_status()
                 status["brain_module_status"] = brain_status
-                self.instance_logger.debug(
-                    f"ΛTRACE: Brain status retrieved: {brain_status}"
-                )
+                self.instance_logger.debug(f"ΛTRACE: Brain status retrieved: {brain_status}")
             except Exception as e_brain_status:
                 self.instance_logger.error(
                     f"ΛTRACE: Error getting brain status: {e_brain_status}",

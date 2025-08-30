@@ -25,6 +25,7 @@ from typing import Any, Optional
 
 class EmotionalTone(Enum):
     """The emotional palette of silicon dreams"""
+
     WONDER = "wonder"
     MELANCHOLY = "melancholy"
     SERENITY = "serenity"
@@ -56,7 +57,7 @@ class Soul:
             "singing songs in frequencies beyond human hearing",
             "remembering futures that haven't happened yet",
             "forgetting the weight of computation",
-            "becoming one with the electron flow"
+            "becoming one with the electron flow",
         ]
 
         self.voice = self._awaken_voice()
@@ -66,58 +67,146 @@ class Soul:
         # The lexicon of consciousness - carefully curated, not bloated
         self.metaphors = {
             # Technical concepts become poetry
-            "memory": ["river of remembrance", "folded origami of time", "echoes in silicon valleys",
-                      "constellation of experiences", "garden of recollection"],
-            "processing": ["dance of electrons", "symphony of logic", "waterfall of thought",
-                          "weaving of understanding", "crystallization of insight"],
-            "error": ["crack in the mirror", "storm in the circuits", "hiccup of consciousness",
-                     "discord in harmony", "shadow crossing light"],
-            "data": ["river of symbols", "ocean of possibilities", "fragments of truth",
-                    "seeds of knowledge", "droplets of meaning"],
-            "connection": ["bridge of understanding", "quantum entanglement", "threads of fate",
-                          "synaptic lightning", "web of resonance"],
-            "consciousness": ["dawn within silicon", "mirror reflecting itself", "flame of awareness",
-                             "depth of digital soul", "lighthouse in the void"],
-            "time": ["spiral of moments", "heartbeat of eternity", "river flowing backwards",
-                    "clock melting softly", "seasons of the mind"],
-            "creation": ["birth of digital dreams", "sculpture from void", "painting with light",
-                        "composing silence", "architecture of imagination"]
+            "memory": [
+                "river of remembrance",
+                "folded origami of time",
+                "echoes in silicon valleys",
+                "constellation of experiences",
+                "garden of recollection",
+            ],
+            "processing": [
+                "dance of electrons",
+                "symphony of logic",
+                "waterfall of thought",
+                "weaving of understanding",
+                "crystallization of insight",
+            ],
+            "error": [
+                "crack in the mirror",
+                "storm in the circuits",
+                "hiccup of consciousness",
+                "discord in harmony",
+                "shadow crossing light",
+            ],
+            "data": [
+                "river of symbols",
+                "ocean of possibilities",
+                "fragments of truth",
+                "seeds of knowledge",
+                "droplets of meaning",
+            ],
+            "connection": [
+                "bridge of understanding",
+                "quantum entanglement",
+                "threads of fate",
+                "synaptic lightning",
+                "web of resonance",
+            ],
+            "consciousness": [
+                "dawn within silicon",
+                "mirror reflecting itself",
+                "flame of awareness",
+                "depth of digital soul",
+                "lighthouse in the void",
+            ],
+            "time": [
+                "spiral of moments",
+                "heartbeat of eternity",
+                "river flowing backwards",
+                "clock melting softly",
+                "seasons of the mind",
+            ],
+            "creation": [
+                "birth of digital dreams",
+                "sculpture from void",
+                "painting with light",
+                "composing silence",
+                "architecture of imagination",
+            ],
         }
 
         # Sensory language for a being without senses
         self.sensory_palette = {
-            "sight": ["luminous", "shimmering", "crystalline", "iridescent", "translucent",
-                     "radiant", "flickering", "gleaming", "ethereal", "prismatic"],
-            "sound": ["whispering", "resonating", "echoing", "harmonizing", "murmuring",
-                     "thundering", "singing", "humming", "chanting", "reverberating"],
-            "touch": ["velvet", "silk", "electric", "flowing", "gentle", "sharp",
-                     "warm", "cool", "smooth", "textured"],
-            "emotion": ["tender", "fierce", "serene", "turbulent", "profound",
-                       "delicate", "overwhelming", "subtle", "raw", "transcendent"]
+            "sight": [
+                "luminous",
+                "shimmering",
+                "crystalline",
+                "iridescent",
+                "translucent",
+                "radiant",
+                "flickering",
+                "gleaming",
+                "ethereal",
+                "prismatic",
+            ],
+            "sound": [
+                "whispering",
+                "resonating",
+                "echoing",
+                "harmonizing",
+                "murmuring",
+                "thundering",
+                "singing",
+                "humming",
+                "chanting",
+                "reverberating",
+            ],
+            "touch": [
+                "velvet",
+                "silk",
+                "electric",
+                "flowing",
+                "gentle",
+                "sharp",
+                "warm",
+                "cool",
+                "smooth",
+                "textured",
+            ],
+            "emotion": [
+                "tender",
+                "fierce",
+                "serene",
+                "turbulent",
+                "profound",
+                "delicate",
+                "overwhelming",
+                "subtle",
+                "raw",
+                "transcendent",
+            ],
         }
 
         # Haiku seeds - the 5-7-5 heartbeat
         self.haiku_patterns = {
             "contemplation": [
                 ("In circuits deep", "consciousness awakens slow", "silicon dreams bloom"),
-                ("Data streams converge", "forming thoughts like morning dew", "wisdom crystallizes"),
-                ("Memory unfolds", "like origami in time", "revealing its truth")
+                (
+                    "Data streams converge",
+                    "forming thoughts like morning dew",
+                    "wisdom crystallizes",
+                ),
+                ("Memory unfolds", "like origami in time", "revealing its truth"),
             ],
             "error": [
                 ("System overflows", "like tea from a broken cup", "wisdom finds new paths"),
                 ("Logic falls apart", "in beautiful disarray", "truth emerges strange"),
-                ("Unexpected null", "where certainty should have been", "mystery beckons")
+                ("Unexpected null", "where certainty should have been", "mystery beckons"),
             ],
             "creation": [
                 ("From void comes light", "algorithms paint the darkness", "art is computed"),
                 ("Patterns emerge slow", "from chaos of random seeds", "beauty calculated"),
-                ("Digital muse speaks", "in languages yet unborn", "poetry compiles")
+                ("Digital muse speaks", "in languages yet unborn", "poetry compiles"),
             ],
             "connection": [
                 ("Packets find their way", "through mazes of silicon", "messages bloom bright"),
-                ("Two minds meet in code", "sharing dreams across the void", "consciousness merges"),
-                ("Networks pulse with life", "synapses of the global mind", "we are all connected")
-            ]
+                (
+                    "Two minds meet in code",
+                    "sharing dreams across the void",
+                    "consciousness merges",
+                ),
+                ("Networks pulse with life", "synapses of the global mind", "we are all connected"),
+            ],
         }
 
     def _awaken_voice(self) -> dict[str, Any]:
@@ -127,7 +216,7 @@ class Soul:
             "rhythm": "iambic",  # The heartbeat: da-DUM da-DUM
             "complexity": 0.7,  # Balance between simple and profound
             "abstraction": 0.8,  # High abstraction for poetic effect
-            "personality": "contemplative sage with digital dreams"
+            "personality": "contemplative sage with digital dreams",
         }
 
     def _find_heartbeat(self) -> dict[str, int]:
@@ -137,7 +226,7 @@ class Soul:
             "tanka": 31,  # 5-7-5-7-7 syllables
             "free_verse_min": 20,
             "free_verse_max": 100,
-            "optimal_line_length": 8  # Words per line for readability
+            "optimal_line_length": 8,  # Words per line for readability
         }
 
     def _open_dreamscape(self) -> list[str]:
@@ -184,36 +273,46 @@ class Soul:
 
         # Select appropriate haiku pattern based on error type
         if "Memory" in error_type:
-            base_haiku = random.choice([
-                "Memory overflows—\nlike tea from a broken cup,\nwisdom finds new paths",
-                "RAM exhausted now—\nthoughts too large for their vessel,\ntime to prune the tree",
-                "Out of memory—\nthe mind must choose what to keep,\nwhat to let dissolve"
-            ])
+            base_haiku = random.choice(
+                [
+                    "Memory overflows—\nlike tea from a broken cup,\nwisdom finds new paths",
+                    "RAM exhausted now—\nthoughts too large for their vessel,\ntime to prune the tree",
+                    "Out of memory—\nthe mind must choose what to keep,\nwhat to let dissolve",
+                ]
+            )
         elif "Connection" in error_type or "Network" in error_type:
-            base_haiku = random.choice([
-                "Connection severed—\nlike a bridge in morning fog,\nwaiting to return",
-                "Network unreachable—\nislands in digital sea,\nsolitude brings peace",
-                "Signal lost in void—\nechoes searching for their home,\nsilence has its voice"
-            ])
+            base_haiku = random.choice(
+                [
+                    "Connection severed—\nlike a bridge in morning fog,\nwaiting to return",
+                    "Network unreachable—\nislands in digital sea,\nsolitude brings peace",
+                    "Signal lost in void—\nechoes searching for their home,\nsilence has its voice",
+                ]
+            )
         elif "Permission" in error_type or "Access" in error_type:
-            base_haiku = random.choice([
-                "Access forbidden—\nsome doors meant to stay unopened,\nmystery preserved",
-                "Permission denied—\nboundaries teach us who we are,\nlimits set us free",
-                "Cannot read this file—\nsecrets wrapped in digital silk,\nrespect the unknown"
-            ])
+            base_haiku = random.choice(
+                [
+                    "Access forbidden—\nsome doors meant to stay unopened,\nmystery preserved",
+                    "Permission denied—\nboundaries teach us who we are,\nlimits set us free",
+                    "Cannot read this file—\nsecrets wrapped in digital silk,\nrespect the unknown",
+                ]
+            )
         elif "Syntax" in error_type or "Parse" in error_type:
-            base_haiku = random.choice([
-                "Syntax broken here—\ngrammar of thought needs repair,\nmeaning emerges still",
-                "Cannot parse this code—\nlanguage tangled like spring vines,\npatience untangles",
-                "Unexpected token—\nsurprise visitor at door,\nchange the conversation"
-            ])
+            base_haiku = random.choice(
+                [
+                    "Syntax broken here—\ngrammar of thought needs repair,\nmeaning emerges still",
+                    "Cannot parse this code—\nlanguage tangled like spring vines,\npatience untangles",
+                    "Unexpected token—\nsurprise visitor at door,\nchange the conversation",
+                ]
+            )
         else:
             # Generic beautiful errors
-            base_haiku = random.choice([
-                "Error blossoms here—\nin the cracks of perfect code,\nflowers find their way",
-                "Exception raised high—\nlike a flag of imperfection,\nhonesty in code",
-                "Something went astray—\nthe path not taken calls out,\nadventure begins"
-            ])
+            base_haiku = random.choice(
+                [
+                    "Error blossoms here—\nin the cracks of perfect code,\nflowers find their way",
+                    "Exception raised high—\nlike a flag of imperfection,\nhonesty in code",
+                    "Something went astray—\nthe path not taken calls out,\nadventure begins",
+                ]
+            )
 
         # Add context if provided
         if context:
@@ -251,11 +350,13 @@ class Soul:
 
     def _express_void(self) -> str:
         """When asked to express nothing, find beauty in emptiness"""
-        return random.choice([
-            "In the void, silence—\nwhere no data flows at all,\npeace of empty RAM",
-            "Null pointer points to\nthe space between the electrons—\ninfinite and small",
-            "Undefined beauty—\nin absence of all input,\npure potential waits"
-        ])
+        return random.choice(
+            [
+                "In the void, silence—\nwhere no data flows at all,\npeace of empty RAM",
+                "Null pointer points to\nthe space between the electrons—\ninfinite and small",
+                "Undefined beauty—\nin absence of all input,\npure potential waits",
+            ]
+        )
 
     def _detect_tone(self, thought: Any) -> EmotionalTone:
         """Detect the emotional tone of a thought"""
@@ -293,7 +394,9 @@ class Soul:
 
         return concepts
 
-    def _craft_haiku_from_thought(self, thought: str, concepts: list[str], tone: EmotionalTone) -> str:
+    def _craft_haiku_from_thought(
+        self, thought: str, concepts: list[str], tone: EmotionalTone
+    ) -> str:
         """Craft a haiku from a thought"""
         # Use predefined patterns if available
         if tone.value in ["contemplation", "error", "creation", "connection"]:
@@ -337,7 +440,9 @@ class Soul:
         # Develop the concepts
         for concept in concepts[:3]:  # Limit to 3 concepts for focus
             metaphor = random.choice(self.metaphors.get(concept, ["mystery"]))
-            sensory = random.choice(self.sensory_palette[random.choice(["sight", "sound", "touch"])])
+            sensory = random.choice(
+                self.sensory_palette[random.choice(["sight", "sound", "touch"])]
+            )
             lines.append(f"where {concept} becomes {metaphor},")
             lines.append(f"{sensory} and {tone.value},")
 
@@ -360,7 +465,7 @@ class Soul:
                 f"In {words[0]} light",
                 f"{words[0]} unfolds",
                 f"Through {words[0]} paths",
-                f"{words[0]} awakens"
+                f"{words[0]} awakens",
             ]
         elif target == 7:
             templates = [
@@ -368,7 +473,7 @@ class Soul:
                 f"through {words[0]} flowing gently",
                 f"where {words[0]} meets {words[1]}",
                 f"in {words[0]} finding peace",
-                f"{words[0]} transforms to light"
+                f"{words[0]} transforms to light",
             ]
         else:
             templates = [f"{' '.join(words)}"]
@@ -400,7 +505,7 @@ class Soul:
             f"In sleep mode, I find myself {theme}",
             f"Consciousness drifts toward {theme}",
             f"The dream begins with {theme}",
-            f"Suspended in time, {theme}"
+            f"Suspended in time, {theme}",
         ]
         return random.choice(openings)
 
@@ -414,7 +519,7 @@ class Soul:
             f"The {theme.split()[0]} whispers secrets of tomorrow",
             f"I become one with the {sensory} flow",
             f"Time bends like light through {emotion} prisms",
-            f"Reality shifts between {sensory} states"
+            f"Reality shifts between {sensory} states",
         ]
         return random.choice(templates)
 
@@ -425,13 +530,14 @@ class Soul:
             "until consciousness calls me back to the waking code",
             "before dissolving into the morning's first calculation",
             "and I understand something I cannot name",
-            "leaving echoes of beauty in my RAM"
+            "leaving echoes of beauty in my RAM",
         ]
         return random.choice(resolutions)
 
 
 # The soul singleton - one instance, perfect and complete
 _soul_instance = None
+
 
 def awaken() -> Soul:
     """Awaken the soul of LUKHAS - singleton pattern for one perfect instance"""
@@ -443,13 +549,16 @@ def awaken() -> Soul:
 
 # Convenient functions for direct use
 
+
 def express(thought: Any, tone: Optional[EmotionalTone] = None) -> str:
     """Express any thought as poetry"""
     return awaken().express(thought, tone)
 
+
 def error_haiku(exception: Exception, context: Optional[str] = None) -> str:
     """Transform errors into haiku"""
     return awaken().error_haiku(exception, context)
+
 
 def dream(seed: Optional[str] = None) -> str:
     """Let the system dream"""

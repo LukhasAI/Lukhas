@@ -28,7 +28,6 @@ personality_refiner
 
 
 class PersonalityRefiner:
-
     def __init__(self, user_id, profile_path="data_legacy/personality_traits.json"):
         self.user_id = user_id
         self.profile_path = Path(profile_path)
@@ -54,9 +53,7 @@ class PersonalityRefiner:
         adjustment = feedback_entry.get("delta")
         if trait in self.profile["traits"]:
             self.profile["traits"][trait] += adjustment
-            self.profile["traits"][trait] = max(
-                0.0, min(1.0, self.profile["traits"][trait])
-            )
+            self.profile["traits"][trait] = max(0.0, min(1.0, self.profile["traits"][trait]))
             self.profile["mutation_log"].append(
                 {
                     "trait": trait,

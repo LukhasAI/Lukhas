@@ -51,9 +51,7 @@ def apply_actor_ref_fixes():
                 path.rename(backup_path)
                 path.write_text(new_content)
 
-                print(
-                    f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})"
-                )
+                print(f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})")
 
     print(f"  📊 Total ActorRef fixes applied: {replacements}")
     return replacements
@@ -73,7 +71,9 @@ def fix_communication_fabric():
     # Check if total_messages is already in get_statistics
     if "total_messages" not in content:
         # Find the get_statistics method and add total_messages
-        stats_pattern = r"(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)"
+        stats_pattern = (
+            r"(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)"
+        )
 
         def add_total_messages(match):
             stats_dict = match.group(1)
@@ -83,8 +83,7 @@ def fix_communication_fabric():
             if "total_messages" not in stats_dict:
                 # Insert before the closing brace
                 new_stats = (
-                    stats_dict
-                    + '            "total_messages": self._message_count,\n            '
+                    stats_dict + '            "total_messages": self._message_count,\n            '
                 )
                 return new_stats + closing
             return match.group(0)
@@ -218,9 +217,7 @@ class DistributedAIAgent:
     system_path.rename(backup_path)
     system_path.write_text(content)
 
-    print(
-        f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})"
-    )
+    print(f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})")
     return True
 
 
@@ -246,9 +243,7 @@ def update_validation_script():
         def fix_import(match):
             imports = match.group(1)
             if "DistributedAIAgent" not in imports:
-                return (
-                    f"from candidate.core.integrated_system import {imports}, DistributedAIAgent"
-                )
+                return f"from candidate.core.integrated_system import {imports}, DistributedAIAgent"
             return match.group(0)
 
         content = re.sub(import_pattern, fix_import, content)

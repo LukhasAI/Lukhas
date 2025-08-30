@@ -16,7 +16,6 @@ from datetime import datetime
 
 
 class TrueCoreAnalyzer:
-
     def __init__(self, workspace_path: str):
         self.workspace_path = workspace_path
         self.Λ_path = os.path.join(workspace_path, "lukhas")
@@ -105,9 +104,7 @@ class TrueCoreAnalyzer:
 
         # Configuration files
         if (
-            file_name.endswith(
-                (".json", ".yaml", ".yml", ".toml", ".ini", ".conf", ".cfg")
-            )
+            file_name.endswith((".json", ".yaml", ".yml", ".toml", ".ini", ".conf", ".cfg"))
             or "config" in path_lower
             or "settings" in path_lower
         ):
@@ -139,10 +136,8 @@ class TrueCoreAnalyzer:
             "bio/",
         ]
 
-        if (
-            any(indicator in rel_path for indicator in core_indicators)
-            or rel_path.startswith("core/")
-            and file_name.endswith(".py")
+        if any(indicator in rel_path for indicator in core_indicators) or (
+            rel_path.startswith("core/") and file_name.endswith(".py")
         ):
             self.categories["true_core"].append(rel_path)
             self.stats["true_core_files"] += 1
@@ -157,47 +152,41 @@ class TrueCoreAnalyzer:
 
         with open(report_path, "w") as f:
             f.write("# lukhas True Core Analysis\n")
-            f.write(
-                f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-            )
+            f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             f.write("## 📊 File Distribution Summary\n\n")
             total_files = sum(len(files) for files in self.categories.values())
 
             f.write(f"- **Total Files in lukhas/:** {total_files}\n")
             f.write(
-                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core'])/total_files*100:.1f}%)\n"
+                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages'])/total_files*100:.1f}%)\n"
+                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat'])/total_files*100:.1f}%)\n"
+                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation'])/total_files*100:.1f}%)\n"
+                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration'])/total_files*100:.1f}%)\n"
+                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown'])/total_files*100:.1f}%)\n\n"
+                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown']) / total_files * 100:.1f}%)\n\n"
             )
 
             # True Core Analysis
             f.write("## 🧠 True AI Core Components\n\n")
-            f.write(
-                f"**{len(self.categories['true_core'])} files** - Your actual AI system\n\n"
-            )
+            f.write(f"**{len(self.categories['true_core'])} files** - Your actual AI system\n\n")
 
             if self.categories["true_core"]:
                 core_by_module = defaultdict(list)
                 for file in self.categories["true_core"]:
                     if "/" in file:
                         module = (
-                            file.split("/")[1]
-                            if file.startswith("core/")
-                            else file.split("/")[0]
+                            file.split("/")[1] if file.startswith("core/") else file.split("/")[0]
                         )
                         core_by_module[module].append(file)
 
@@ -206,7 +195,7 @@ class TrueCoreAnalyzer:
                     for file in sorted(files)[:5]:  # Show first 5
                         f.write(f"- `{file}`\n")
                     if len(files) > 5:
-                        f.write(f"- ... and {len(files)-5} more files\n")
+                        f.write(f"- ... and {len(files) - 5} more files\n")
                     f.write("\n")
 
             # External Packages
@@ -232,9 +221,7 @@ class TrueCoreAnalyzer:
 
                 for package, files in sorted(external_by_package.items()):
                     f.write(f"### {package}\n")
-                    f.write(
-                        "*These should be pip/npm dependencies, not included in core*\n\n"
-                    )
+                    f.write("*These should be pip/npm dependencies, not included in core*\n\n")
 
             # Interface Bloat
             if self.categories["interface_bloat"]:
@@ -253,20 +240,14 @@ class TrueCoreAnalyzer:
             external_count = len(self.categories["external_packages"])
 
             if external_count > true_core_count:
-                f.write(
-                    "⚠️ **ALERT**: External packages outnumber your core AI files!\n\n"
-                )
+                f.write("⚠️ **ALERT**: External packages outnumber your core AI files!\n\n")
 
             f.write("### Immediate Actions:\n")
             f.write(
                 "1. **Move External Packages** - Move video/audio generation to `external_dependencies/`\n"
             )
-            f.write(
-                "2. **Create requirements.txt** - List external packages as dependencies\n"
-            )
-            f.write(
-                "3. **Clean Core Focus** - Keep only true AI logic in `lukhas/core/`\n"
-            )
+            f.write("2. **Create requirements.txt** - List external packages as dependencies\n")
+            f.write("3. **Clean Core Focus** - Keep only true AI logic in `lukhas/core/`\n")
             f.write(
                 "4. **Separate Interfaces** - Consider moving large UI packages to separate repos\n\n"
             )
@@ -306,13 +287,13 @@ def main():
     total = sum(len(files) for files in analyzer.categories.values())
 
     print("\n🎯 KEY FINDINGS:")
-    print(f"   • Your True AI Core: {true_core} files ({true_core/total*100:.1f}%)")
-    print(f"   • External Packages: {external} files ({external/total*100:.1f}%)")
+    print(f"   • Your True AI Core: {true_core} files ({true_core / total * 100:.1f}%)")
+    print(f"   • External Packages: {external} files ({external / total * 100:.1f}%)")
     print(f"   • Total Files: {total}")
 
     if external > true_core:
         print(
-            f"\n⚠️  ALERT: External packages are {external/true_core:.1f}x larger than your core!"
+            f"\n⚠️  ALERT: External packages are {external / true_core:.1f}x larger than your core!"
         )
         print("   Most files are NOT your AI code - they're external libraries!")
     else:

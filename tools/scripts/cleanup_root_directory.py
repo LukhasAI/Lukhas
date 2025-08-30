@@ -10,7 +10,6 @@ from pathlib import Path
 
 
 class RootDirectoryCleaner:
-
     def __init__(self):
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.moves = []
@@ -168,7 +167,7 @@ class RootDirectoryCleaner:
         """Generate cleanup report"""
         report = f"""
 # Root Directory Cleanup Report
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Files Moved: {len(self.moves)}
 

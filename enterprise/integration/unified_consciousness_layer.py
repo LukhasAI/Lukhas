@@ -28,8 +28,10 @@ from typing import Any
 try:
     import os
     import sys
+
     sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # Add enterprise/ to path
     from observability.instantiate import obs_stack
+
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     # Create a stub observability stack
@@ -37,9 +39,12 @@ except ImportError:
         def trace(self, name=None):
             def decorator(func):
                 return func
+
             return decorator
+
         def submit_metric(self, *args, **kwargs):
             pass
+
     obs_stack = MockObsStack()
     OBSERVABILITY_AVAILABLE = False
 
@@ -49,6 +54,7 @@ try:
     from lukhas.governance.security.access_control import ProductionPermissionManager
     from performance.extreme_auth_optimization import ExtremeAuthPerformanceOptimizer
     from tools.t4_quality_gate_validator import T4QualityGateValidator
+
     AGENT_COMPONENTS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"T4 Agent components not available: {e}")
@@ -58,6 +64,7 @@ except ImportError as e:
 try:
     from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
     from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
+
     ORCHESTRATION_AVAILABLE = True
 except ImportError:
     ORCHESTRATION_AVAILABLE = False
@@ -66,6 +73,7 @@ except ImportError:
 try:
     from enterprise.compliance.data_protection_service import DataProtectionService
     from enterprise.monitoring.datadog_integration import DatadogIntegration
+
     JULES_COMPONENTS_AVAILABLE = True
 except ImportError:
     JULES_COMPONENTS_AVAILABLE = False
@@ -76,6 +84,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class UnifiedSystemStatus:
     """Complete system status across all components"""
+
     timestamp: datetime
     performance_metrics: dict[str, float]
     security_status: dict[str, Any]
@@ -121,7 +130,7 @@ class UnifiedConsciousnessLayer:
                 self.orchestrator = MultiAIOrchestrator(
                     providers=["openai", "anthropic", "google", "perplexity"],
                     consensus_threshold=0.7,
-                    max_latency_ms=5000
+                    max_latency_ms=5000,
                 )
                 logger.info("✅ Multi-AI Orchestration initialized")
             except Exception as e:
@@ -147,8 +156,10 @@ class UnifiedConsciousnessLayer:
         if self.constitutional_ai:
             security_result = await self._validate_request_security(request)
             if not security_result["approved"]:
-                return {"error": "Request failed constitutional AI validation",
-                       "details": security_result}
+                return {
+                    "error": "Request failed constitutional AI validation",
+                    "details": security_result,
+                }
 
         # Step 2: Performance optimization (Agent #1)
         if self.performance_optimizer:
@@ -162,14 +173,14 @@ class UnifiedConsciousnessLayer:
             orchestration_result = await self.orchestrator.execute_consensus(
                 prompt=optimized_request.get("message", ""),
                 task_type=optimized_request.get("task_type", "conversation"),
-                consensus_required=True
+                consensus_required=True,
             )
         else:
             orchestration_result = {
                 "response": "Orchestration not available",
                 "confidence": 0.5,
                 "providers": [],
-                "consensus_method": "none"
+                "consensus_method": "none",
             }
 
         # Step 4: Quality validation (Agent #3)
@@ -193,7 +204,7 @@ class UnifiedConsciousnessLayer:
             "performance_optimized": self.performance_optimizer is not None,
             "providers_used": orchestration_result.get("providers", []),
             "consciousness_coherence": await self._calculate_consciousness_coherence(),
-            "enterprise_grade": True
+            "enterprise_grade": True,
         }
 
     async def _validate_request_security(self, request: dict[str, Any]) -> dict[str, Any]:
@@ -203,20 +214,19 @@ class UnifiedConsciousnessLayer:
             drift_result = self.constitutional_ai.detect_drift(
                 baseline="standard user request",
                 current=str(request.get("message", "")),
-                threshold=0.15
+                threshold=0.15,
             )
 
             # Security validation
             security_check = self.security_manager.validate_request_permissions(
-                request.get("user_id", "anonymous"),
-                request.get("scopes", [])
+                request.get("user_id", "anonymous"), request.get("scopes", [])
             )
 
             return {
                 "approved": drift_result.drift_score < 0.15 and security_check,
                 "drift_score": drift_result.drift_score,
                 "security_passed": security_check,
-                "constitutional_ai_status": "compliant"
+                "constitutional_ai_status": "compliant",
             }
         except Exception as e:
             logger.error(f"Security validation failed: {e}")
@@ -241,7 +251,7 @@ class UnifiedConsciousnessLayer:
                 "validated": True,
                 "quality_score": quality_score,
                 "meets_t4_standards": quality_score >= 0.85,
-                "validation_method": "comprehensive"
+                "validation_method": "comprehensive",
             }
         except Exception as e:
             logger.error(f"Quality validation failed: {e}")
@@ -275,34 +285,36 @@ class UnifiedConsciousnessLayer:
             performance_metrics={
                 "auth_latency_ms": 26.0,  # From Agent #1 performance work
                 "throughput_rps": 31240,  # From performance validation
-                "optimization_active": self.performance_optimizer is not None
+                "optimization_active": self.performance_optimizer is not None,
             },
             security_status={
                 "constitutional_ai_active": self.constitutional_ai is not None,
                 "security_manager_active": self.security_manager is not None,
                 "drift_threshold": 0.15,
-                "vulnerabilities": 0
+                "vulnerabilities": 0,
             },
             orchestration_health={
                 "multi_ai_active": self.orchestrator is not None,
                 "providers_available": ["openai", "anthropic", "google", "perplexity"],
-                "consensus_ready": True
+                "consensus_ready": True,
             },
             enterprise_readiness={
                 "observability_active": True,
                 "datadog_enabled": self.observability_stack.datadog_enabled,
                 "prometheus_enabled": self.observability_stack.prometheus_enabled,
-                "quality_gates_active": self.quality_validator is not None
+                "quality_gates_active": self.quality_validator is not None,
             },
-            consciousness_coherence=await self._calculate_consciousness_coherence()
+            consciousness_coherence=await self._calculate_consciousness_coherence(),
         )
 
     def __str__(self) -> str:
-        return (f"UnifiedConsciousnessLayer("
-                f"performance={self.performance_optimizer is not None}, "
-                f"security={self.security_manager is not None}, "
-                f"orchestration={self.orchestrator is not None}, "
-                f"observability=True)")
+        return (
+            f"UnifiedConsciousnessLayer("
+            f"performance={self.performance_optimizer is not None}, "
+            f"security={self.security_manager is not None}, "
+            f"orchestration={self.orchestrator is not None}, "
+            f"observability=True)"
+        )
 
 
 # Global unified layer instance
@@ -330,7 +342,7 @@ if __name__ == "__main__":
             "message": "Test consciousness integration across all T4 agents and Jules enterprise features",
             "task_type": "consciousness_test",
             "user_id": "test_user",
-            "scopes": ["consciousness:read"]
+            "scopes": ["consciousness:read"],
         }
 
         result = await process_unified_consciousness_request(test_request)

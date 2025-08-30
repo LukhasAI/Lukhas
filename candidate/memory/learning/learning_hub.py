@@ -26,11 +26,7 @@ except ImportError as e:
 try:
     from candidate.core.meta_learning.enhancement_system import (
         EnhancementMode as CoreEnhancementMode,
-    )
-    from candidate.core.meta_learning.enhancement_system import (
         MetaLearningEnhancementSystem as CoreMetaLearningEnhancementSystem,
-    )
-    from candidate.core.meta_learning.enhancement_system import (
         SystemIntegrationStatus as CoreSystemIntegrationStatus,
     )
 
@@ -176,9 +172,7 @@ class LearningHub:
                         f"learning.meta_learning.{service_name}", fromlist=[class_name]
                     )
                 else:
-                    module = __import__(
-                        f"learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -197,9 +191,7 @@ class LearningHub:
 
         for service_name, class_name in services:
             try:
-                module = __import__(
-                    f"learning.meta_adaptive.{service_name}", fromlist=[class_name]
-                )
+                module = __import__(f"learning.meta_adaptive.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -244,9 +236,7 @@ class LearningHub:
                         fromlist=[class_name],
                     )
                 else:
-                    module = __import__(
-                        f"learning.{service_name}", fromlist=[class_name]
-                    )
+                    module = __import__(f"learning.{service_name}", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -296,9 +286,7 @@ class LearningHub:
                         service_name, self.services[service_name], "learning"
                     )
 
-            logger.debug(
-                f"Registered {len(key_services)} learning services with global discovery"
-            )
+            logger.debug(f"Registered {len(key_services)} learning services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -426,9 +414,7 @@ class LearningHub:
         federated_system = self.get_service("federated_learning_system")
         if federated_system and hasattr(federated_system, "process_update"):
             try:
-                result = await federated_system.process_update(
-                    update_data, source_context
-                )
+                result = await federated_system.process_update(update_data, source_context)
                 self.learning_metrics["federated_updates"] += 1
                 self.learning_metrics["last_updated"] = datetime.now().isoformat()
 
@@ -444,9 +430,7 @@ class LearningHub:
 
         return {"error": "Federated learning system not available"}
 
-    def register_learning_feedback(
-        self, feedback_type: str, feedback_data: dict[str, Any]
-    ):
+    def register_learning_feedback(self, feedback_type: str, feedback_data: dict[str, Any]):
         """Register learning feedback for continuous improvement"""
         # This method will be used by other hubs to provide learning feedback
 
@@ -458,9 +442,7 @@ class LearningHub:
             except Exception as e:
                 logger.error(f"Learning feedback registration error: {e}")
 
-    async def process_event(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -468,9 +450,7 @@ class LearningHub:
         for handler in handlers:
             try:
                 result = (
-                    await handler(data)
-                    if asyncio.iscoroutinefunction(handler)
-                    else handler(data)
+                    await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
                 )
                 results.append(result)
             except Exception as e:

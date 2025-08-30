@@ -192,9 +192,7 @@ class MerkleTree:
         # Rebuild tree
         self._rebuild_tree()
 
-        logger.debug(
-            "Memory added to Merkle tree", memory_id=memory_id, hash=data_hash[:16]
-        )
+        logger.debug("Memory added to Merkle tree", memory_id=memory_id, hash=data_hash[:16])
 
         return data_hash
 
@@ -368,9 +366,7 @@ class CollapseHash:
         if ethical_check and self.structural_conscience:
             is_ethical = await self._validate_ethical_content(memory_data)
             if not is_ethical:
-                logger.warning(
-                    "Memory rejected on ethical grounds", memory_id=memory_id
-                )
+                logger.warning("Memory rejected on ethical grounds", memory_id=memory_id)
                 return {"success": False, "reason": "Ethical validation failed"}
 
         # Add to Merkle tree
@@ -387,10 +383,7 @@ class CollapseHash:
                 )
 
         # Auto checkpoint if enabled
-        if (
-            self.enable_auto_checkpoint
-            and self.total_memories % self.checkpoint_interval == 0
-        ):
+        if self.enable_auto_checkpoint and self.total_memories % self.checkpoint_interval == 0:
             checkpoint_id = await self.create_checkpoint(
                 metadata={"auto": True, "memory_count": self.total_memories}
             )
@@ -556,8 +549,8 @@ class CollapseHash:
             }
 
         except Exception as e:
-            logger.error(f"Rollback failed - checkpoint_id: {checkpoint_id}, error: {str(e)}")
-            return {"success": False, "reason": f"Rollback failed: {str(e)}"}
+            logger.error(f"Rollback failed - checkpoint_id: {checkpoint_id}, error: {e!s}")
+            return {"success": False, "reason": f"Rollback failed: {e!s}"}
 
     async def audit_integrity(self) -> dict[str, Any]:
         """Perform comprehensive integrity audit"""
@@ -583,8 +576,7 @@ class CollapseHash:
             "total_memories": self.total_memories,
             "total_checkpoints": len(self.checkpoints),
             "corrupted_tags": len(corrupted_tags),
-            "corruption_rate": self.corruption_detections
-            / max(self.total_verifications, 1),
+            "corruption_rate": self.corruption_detections / max(self.total_verifications, 1),
             "audit_time_ms": audit_time * 1000,
         }
 
@@ -743,9 +735,7 @@ async def demonstrate_collapse_hash():
     print("\n--- Checkpoint History ---")
     history = collapse_hash.get_checkpoint_history()
     for cp in history:
-        print(
-            f"Checkpoint {cp['checkpoint_id'][:16]}... - {cp['memory_count']} memories"
-        )
+        print(f"Checkpoint {cp['checkpoint_id'][:16]}... - {cp['memory_count']} memories")
 
 
 if __name__ == "__main__":

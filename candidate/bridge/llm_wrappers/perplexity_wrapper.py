@@ -57,7 +57,6 @@ MODULE_NAME = "perplexity_wrapper"
 
 
 class PerplexityWrapper:
-
     def __init__(self):
         """Initialize Perplexity wrapper with API key"""
         self.api_key = get_api_key("perplexity")
@@ -98,9 +97,7 @@ class PerplexityWrapper:
                 "temperature": kwargs.get("temperature", 0.7),
             }
 
-            response = requests.post(
-                self.base_url, headers=headers, json=data, timeout=30
-            )
+            response = requests.post(self.base_url, headers=headers, json=data, timeout=30)
             response.raise_for_status()
 
             content = response.json()["choices"][0]["message"].get("content")
@@ -109,10 +106,10 @@ class PerplexityWrapper:
             err = "Perplexity API Error: Request timeout"
             return normalize_output(err) or err
         except requests.exceptions.RequestException as e:
-            err = f"Perplexity API Error: Request failed - {str(e)}"
+            err = f"Perplexity API Error: Request failed - {e!s}"
             return normalize_output(err) or err
         except Exception as e:
-            err = f"Perplexity API Error: {str(e)}"
+            err = f"Perplexity API Error: {e!s}"
             return normalize_output(err) or err
 
     def is_available(self) -> bool:

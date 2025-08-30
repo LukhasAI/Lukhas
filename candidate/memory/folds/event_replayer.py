@@ -58,9 +58,7 @@ class EventReplayer:
             )
         return events
 
-    def filter_events_by_tag(
-        self, tag: str, aggregate_id: str | None = None
-    ) -> list[Event]:
+    def filter_events_by_tag(self, tag: str, aggregate_id: str | None = None) -> list[Event]:
         """Return all events that include the given symbolic tag."""
         events = self._load_events(aggregate_id)
         return [e for e in events if tag in e.metadata.get("tags", [])]

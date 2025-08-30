@@ -13,7 +13,6 @@ from typing import Any
 
 
 class NamingConventionScanner:
-
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.violations = {"classes": [], "functions": [], "files": [], "modules": []}
@@ -48,10 +47,7 @@ class NamingConventionScanner:
                 print(f"  Progress: {i}/{total_files} files...")
 
             # Skip archive directories
-            if any(
-                skip in str(file_path)
-                for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            ):
+            if any(skip in str(file_path) for skip in ["._cleanup_archive", "__pycache__", ".git"]):
                 continue
 
             self._check_file_naming(file_path)
@@ -75,16 +71,13 @@ class NamingConventionScanner:
             )
 
         # Check for PascalCase in file names (should be snake_case)
-        elif file_name != "__init__.py" and re.search(
-            r"[A-Z]", file_name.replace(".py", "")
-        ):
+        elif file_name != "__init__.py" and re.search(r"[A-Z]", file_name.replace(".py", "")):
             self.violations["files"].append(
                 {
                     "path": str(file_path.relative_to(self.root_path)),
                     "name": file_name,
                     "issue": "Not in snake_case",
-                    "suggestion": self._to_snake_case(file_name.replace(".py", ""))
-                    + ".py",
+                    "suggestion": self._to_snake_case(file_name.replace(".py", "")) + ".py",
                 }
             )
 
@@ -237,9 +230,7 @@ class NamingConventionScanner:
                 f"Convert {len(self.violations['functions'])} function names to snake_case"
             )
 
-        recommendations.append(
-            "Use the safe_rename.py tool to automatically fix naming violations"
-        )
+        recommendations.append("Use the safe_rename.py tool to automatically fix naming violations")
 
         return recommendations
 

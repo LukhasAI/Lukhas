@@ -21,6 +21,7 @@ from engines.database_integration import db
 @dataclass
 class AutomationTask:
     """Automation task configuration"""
+
     task_id: str
     task_type: str
     schedule: str
@@ -29,6 +30,7 @@ class AutomationTask:
     last_run: Optional[str] = None
     success_rate: float = 100.0
     enabled: bool = True
+
 
 class BrandAutomationEngine:
     """
@@ -55,7 +57,9 @@ class BrandAutomationEngine:
         self._load_automation_config()
 
         # Initialize automation
-        db.log_system_activity("brand_automation", "engine_init", "Brand automation engine initialized", 1.0)
+        db.log_system_activity(
+            "brand_automation", "engine_init", "Brand automation engine initialized", 1.0
+        )
 
     def _setup_logging(self) -> logging.Logger:
         """Setup automation logging"""
@@ -64,7 +68,9 @@ class BrandAutomationEngine:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"brand_automation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = (
+            self.logs_path / f"brand_automation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        )
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -84,7 +90,9 @@ class BrandAutomationEngine:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.automation_tasks = [AutomationTask(**task) for task in config_data.get("tasks", [])]
+                self.automation_tasks = [
+                    AutomationTask(**task) for task in config_data.get("tasks", [])
+                ]
                 self.logger.info(f"Loaded {len(self.automation_tasks)} automation tasks")
             except Exception as e:
                 self.logger.error(f"Failed to load automation config: {e}")
@@ -100,36 +108,36 @@ class BrandAutomationEngine:
                 task_type="voice_analysis",
                 schedule="hourly",
                 target_system="all_content",
-                parameters={"threshold": 70.0, "auto_fix": True}
+                parameters={"threshold": 70.0, "auto_fix": True},
             ),
             AutomationTask(
                 task_id="brand_consistency_scan",
                 task_type="brand_audit",
                 schedule="daily",
                 target_system="all_systems",
-                parameters={"check_trinity_usage": True, "check_terminology": True}
+                parameters={"check_trinity_usage": True, "check_terminology": True},
             ),
             AutomationTask(
                 task_id="social_media_generation",
                 task_type="content_generation",
                 schedule="daily",
                 target_system="social_automation",
-                parameters={"platforms": ["twitter", "linkedin"], "posts_per_day": 3}
+                parameters={"platforms": ["twitter", "linkedin"], "posts_per_day": 3},
             ),
             AutomationTask(
                 task_id="performance_optimization",
                 task_type="performance_monitor",
                 schedule="daily",
                 target_system="all_systems",
-                parameters={"check_response_times": True, "optimize_database": True}
+                parameters={"check_response_times": True, "optimize_database": True},
             ),
             AutomationTask(
                 task_id="self_healing_check",
                 task_type="self_healing",
                 schedule="every_6_hours",
                 target_system="branding_structure",
-                parameters={"fix_naming_issues": True, "update_outdated_content": True}
-            )
+                parameters={"fix_naming_issues": True, "update_outdated_content": True},
+            ),
         ]
 
         self.automation_tasks = default_tasks
@@ -140,7 +148,7 @@ class BrandAutomationEngine:
         """Save automation configuration"""
         config_data = {
             "last_updated": datetime.now().isoformat(),
-            "tasks": [asdict(task) for task in self.automation_tasks]
+            "tasks": [asdict(task) for task in self.automation_tasks],
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
@@ -166,7 +174,7 @@ class BrandAutomationEngine:
                     "content_id": content["id"],
                     "title": content["title"],
                     "current_coherence": content.get("voice_coherence", 0),
-                    "system": content["source_system"]
+                    "system": content["source_system"],
                 }
                 issues_found.append(issue)
 
@@ -176,20 +184,25 @@ class BrandAutomationEngine:
                     if new_coherence > content.get("voice_coherence", 0):
                         db.update_voice_coherence(content["id"], new_coherence)
                         fixes_applied += 1
-                        self.logger.info(f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0):.1f} → {new_coherence:.1f}")
+                        self.logger.info(
+                            f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0):.1f} → {new_coherence:.1f}"
+                        )
 
         result = {
             "issues_found": len(issues_found),
             "fixes_applied": fixes_applied,
             "threshold": threshold,
             "total_content_checked": len(all_content),
-            "issues": issues_found[:10]  # First 10 for reporting
+            "issues": issues_found[:10],  # First 10 for reporting
         }
 
         # Log results
-        db.log_system_activity("brand_automation", "voice_coherence_check",
-                              f"Checked {len(all_content)} items, found {len(issues_found)} issues, fixed {fixes_applied}",
-                              fixes_applied)
+        db.log_system_activity(
+            "brand_automation",
+            "voice_coherence_check",
+            f"Checked {len(all_content)} items, found {len(issues_found)} issues, fixed {fixes_applied}",
+            fixes_applied,
+        )
 
         return result
 
@@ -243,29 +256,38 @@ class BrandAutomationEngine:
             if check_terminology:
                 # Check for outdated terminology
                 if "artificial intelligence" in content_text.lower():
-                    issues.append("Uses 'artificial intelligence' instead of 'consciousness technology'")
+                    issues.append(
+                        "Uses 'artificial intelligence' instead of 'consciousness technology'"
+                    )
 
                 if "AI system" in content_text and "consciousness technology" not in content_text:
-                    issues.append("Generic AI terminology without consciousness technology branding")
+                    issues.append(
+                        "Generic AI terminology without consciousness technology branding"
+                    )
 
             if issues:
-                consistency_issues.append({
-                    "content_id": content["id"],
-                    "title": title,
-                    "system": content["source_system"],
-                    "issues": issues
-                })
+                consistency_issues.append(
+                    {
+                        "content_id": content["id"],
+                        "title": title,
+                        "system": content["source_system"],
+                        "issues": issues,
+                    }
+                )
 
         result = {
             "consistency_issues": len(consistency_issues),
             "total_content_checked": len(all_content),
-            "issues": consistency_issues[:15]  # First 15 for reporting
+            "issues": consistency_issues[:15],  # First 15 for reporting
         }
 
         # Log results
-        db.log_system_activity("brand_automation", "brand_consistency_scan",
-                              f"Scanned {len(all_content)} items, found {len(consistency_issues)} issues",
-                              len(consistency_issues))
+        db.log_system_activity(
+            "brand_automation",
+            "brand_consistency_scan",
+            f"Scanned {len(all_content)} items, found {len(consistency_issues)} issues",
+            len(consistency_issues),
+        )
 
         return result
 
@@ -286,12 +308,16 @@ class BrandAutomationEngine:
             "🧠 The future of {topic} is here with LUKHAS AI's Trinity Framework ⚛️🧠🛡️",
             "⚛️ Authentic consciousness technology: {topic} powered by quantum-inspired algorithms",
             "🛡️ Ethical AI development: How LUKHAS AI ensures responsible {topic}",
-            "🔬 Bio-inspired innovation meets consciousness technology in {topic}"
+            "🔬 Bio-inspired innovation meets consciousness technology in {topic}",
         ]
 
         topics = [
-            "consciousness processing", "quantum-inspired algorithms", "bio-adaptive systems",
-            "ethical AI governance", "Trinity Framework integration", "voice coherence optimization"
+            "consciousness processing",
+            "quantum-inspired algorithms",
+            "bio-adaptive systems",
+            "ethical AI governance",
+            "Trinity Framework integration",
+            "voice coherence optimization",
         ]
 
         for i in range(posts_per_day):
@@ -299,10 +325,7 @@ class BrandAutomationEngine:
                 template = post_templates[i % len(post_templates)]
                 topic = topics[i % len(topics)]
 
-                post_content = template.format(
-                    topic=topic,
-                    trinity="⚛️🧠🛡️"
-                )
+                post_content = template.format(topic=topic, trinity="⚛️🧠🛡️")
 
                 # Save generated post
                 post_id = db.save_generated_content(
@@ -310,26 +333,31 @@ class BrandAutomationEngine:
                     content_type=f"{platform}_post",
                     title=f"{platform.title()} Post - {topic}",
                     content=post_content,
-                    voice_coherence=85.0
+                    voice_coherence=85.0,
                 )
 
-                generated_posts.append({
-                    "platform": platform,
-                    "content": post_content,
-                    "topic": topic,
-                    "post_id": post_id
-                })
+                generated_posts.append(
+                    {
+                        "platform": platform,
+                        "content": post_content,
+                        "topic": topic,
+                        "post_id": post_id,
+                    }
+                )
 
         result = {
             "posts_generated": len(generated_posts),
             "platforms": platforms,
-            "posts": generated_posts
+            "posts": generated_posts,
         }
 
         # Log results
-        db.log_system_activity("brand_automation", "social_media_generation",
-                              f"Generated {len(generated_posts)} social media posts",
-                              len(generated_posts))
+        db.log_system_activity(
+            "brand_automation",
+            "social_media_generation",
+            f"Generated {len(generated_posts)} social media posts",
+            len(generated_posts),
+        )
 
         return result
 
@@ -356,13 +384,16 @@ class BrandAutomationEngine:
         result = {
             "optimizations_applied": len(optimizations),
             "optimizations": optimizations,
-            "performance_improvement": "15%"  # Simulated
+            "performance_improvement": "15%",  # Simulated
         }
 
         # Log results
-        db.log_system_activity("brand_automation", "performance_optimization",
-                              f"Applied {len(optimizations)} optimizations",
-                              len(optimizations))
+        db.log_system_activity(
+            "brand_automation",
+            "performance_optimization",
+            f"Applied {len(optimizations)} optimizations",
+            len(optimizations),
+        )
 
         return result
 
@@ -390,13 +421,16 @@ class BrandAutomationEngine:
         result = {
             "healing_actions": len(healing_actions),
             "actions": healing_actions,
-            "system_health": "optimal" if len(healing_actions) < 5 else "needs_attention"
+            "system_health": "optimal" if len(healing_actions) < 5 else "needs_attention",
         }
 
         # Log results
-        db.log_system_activity("brand_automation", "self_healing_check",
-                              f"Performed {len(healing_actions)} healing actions",
-                              len(healing_actions))
+        db.log_system_activity(
+            "brand_automation",
+            "self_healing_check",
+            f"Performed {len(healing_actions)} healing actions",
+            len(healing_actions),
+        )
 
         return result
 
@@ -489,15 +523,20 @@ class BrandAutomationEngine:
             "tasks_run": total_tasks,
             "tasks_successful": successful_tasks,
             "success_rate": (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0,
-            "results": cycle_results
+            "results": cycle_results,
         }
 
         # Log cycle completion
-        db.log_system_activity("brand_automation", "automation_cycle",
-                              f"Completed automation cycle: {successful_tasks}/{total_tasks} successful",
-                              summary["success_rate"])
+        db.log_system_activity(
+            "brand_automation",
+            "automation_cycle",
+            f"Completed automation cycle: {successful_tasks}/{total_tasks} successful",
+            summary["success_rate"],
+        )
 
-        self.logger.info(f"✅ Automation cycle completed: {successful_tasks}/{total_tasks} tasks successful")
+        self.logger.info(
+            f"✅ Automation cycle completed: {successful_tasks}/{total_tasks} tasks successful"
+        )
 
         return summary
 
@@ -507,19 +546,24 @@ class BrandAutomationEngine:
             "engine_status": "active",
             "total_tasks": len(self.automation_tasks),
             "enabled_tasks": len([t for t in self.automation_tasks if t.enabled]),
-            "average_success_rate": sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks) if self.automation_tasks else 0,
+            "average_success_rate": sum(t.success_rate for t in self.automation_tasks)
+            / len(self.automation_tasks)
+            if self.automation_tasks
+            else 0,
             "tasks": [
                 {
                     "task_id": t.task_id,
                     "type": t.task_type,
                     "enabled": t.enabled,
                     "success_rate": t.success_rate,
-                    "last_run": t.last_run
-                } for t in self.automation_tasks
-            ]
+                    "last_run": t.last_run,
+                }
+                for t in self.automation_tasks
+            ],
         }
 
         return status
+
 
 async def main():
     """Demonstrate brand automation engine"""
@@ -550,6 +594,7 @@ async def main():
             print(f"   ❌ {task_id}: {result['error']}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Brand Automation Active")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

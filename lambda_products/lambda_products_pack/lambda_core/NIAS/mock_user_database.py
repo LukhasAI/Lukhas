@@ -1171,9 +1171,7 @@ class MockUserDatabase:
                     "type": "abandoned_cart",
                     "vendor": "Zara",
                     "items": user["shopping_data"]["zara_cart"],
-                    "total": sum(
-                        item["price"] for item in user["shopping_data"]["zara_cart"]
-                    ),
+                    "total": sum(item["price"] for item in user["shopping_data"]["zara_cart"]),
                     "urgency": "Sale ends in 24 hours",
                 }
             )

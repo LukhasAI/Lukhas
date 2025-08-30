@@ -139,9 +139,7 @@ class MemoryService:
         # Apply limit
         return memories[:limit]
 
-    async def consolidate(
-        self, agent_id: str, consolidation_type: str = "fold"
-    ) -> dict[str, Any]:
+    async def consolidate(self, agent_id: str, consolidation_type: str = "fold") -> dict[str, Any]:
         """
         Consolidate memories using specified strategy.
         """
@@ -157,9 +155,7 @@ class MemoryService:
             # Summarization - create summary memories
             consolidated = await self._summarize_memories(memories)
         else:
-            consolidated = {
-                "error": f"Unknown consolidation type: {consolidation_type}"
-            }
+            consolidated = {"error": f"Unknown consolidation type: {consolidation_type}"}
 
         return {
             "consolidated": True,
@@ -190,9 +186,7 @@ class MemoryService:
 
         return folded
 
-    async def _summarize_memories(
-        self, memories: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def _summarize_memories(self, memories: list[dict[str, Any]]) -> dict[str, Any]:
         """Create summary of memories"""
         return {
             "total_memories": len(memories),
@@ -206,9 +200,7 @@ class MemoryService:
 
     # Specific convenience methods used by other services
 
-    async def store_experience(
-        self, agent_id: str, experience: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def store_experience(self, agent_id: str, experience: dict[str, Any]) -> dict[str, Any]:
         """Store an experience memory"""
         return await self.store(agent_id, experience, "experience")
 
@@ -218,9 +210,7 @@ class MemoryService:
         """Store a learning outcome"""
         return await self.store(agent_id, outcome, "learning_outcome")
 
-    async def store_creation(
-        self, agent_id: str, creation: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def store_creation(self, agent_id: str, creation: dict[str, Any]) -> dict[str, Any]:
         """Store a creative output"""
         return await self.store(agent_id, creation, "creation")
 
@@ -241,9 +231,7 @@ class MemoryService:
         """Get full learning history"""
         return await self.retrieve(agent_id, {"type": "learning_outcome"}, limit=1000)
 
-    async def consolidate_meta_learning(
-        self, package: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def consolidate_meta_learning(self, package: dict[str, Any]) -> dict[str, Any]:
         """Consolidate meta-learning cycle"""
         agent_id = package.get("metadata", {}).get("agent_id", "unknown")
         return await self.store(agent_id, package, "meta_learning_cycle")

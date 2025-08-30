@@ -58,9 +58,7 @@ class QICreativeDemo:
         print(banner)
         await asyncio.sleep(1)
 
-    async def generate_quantum_haiku(
-        self, theme: str = "consciousness"
-    ) -> dict[str, Any]:
+    async def generate_quantum_haiku(self, theme: str = "consciousness") -> dict[str, Any]:
         """Generate a quantum-enhanced haiku with consciousness metrics"""
         print(f"🎋 Generating quantum haiku on theme: '{theme}'")
         print("   ⚛️  Entering superposition-like state...")
@@ -112,11 +110,9 @@ class QICreativeDemo:
             "flow_state": round(random.uniform(0.85, 0.98), 3),
         }
 
-        print(
-            f"   🧠 Bio-cognitive enhancement applied: {bio_metrics['creativity_boost']}x boost"
-        )
+        print(f"   🧠 Bio-cognitive enhancement applied: {bio_metrics['creativity_boost']}x boost")
         print(f"   ⚡ Neural oscillation: {bio_metrics['neural_oscillation']}")
-        print(f"   🌊 Flow state achieved: {bio_metrics['flow_state']*100:.1f}%")
+        print(f"   🌊 Flow state achieved: {bio_metrics['flow_state'] * 100:.1f}%")
 
         # Create quantum haiku object
         qi_haiku = {
@@ -142,9 +138,7 @@ class QICreativeDemo:
         print("\n🔬 QUANTUM METRICS:")
         print(f"   • Coherence Time: {qi_metrics['coherence_time']}μs")
         print(f"   • Entanglement: {qi_metrics['entanglement_strength']}")
-        print(
-            f"   • Consciousness Resonance: {qi_metrics['consciousness_resonance']}"
-        )
+        print(f"   • Consciousness Resonance: {qi_metrics['consciousness_resonance']}")
 
         return qi_haiku
 
@@ -210,7 +204,7 @@ class QICreativeDemo:
 
         for participant in participants:
             print(
-                f"   • {participant['name']} ({participant['style']}) - {participant['contribution']*100:.0f}% contribution"
+                f"   • {participant['name']} ({participant['style']}) - {participant['contribution'] * 100:.0f}% contribution"
             )
 
         print("\n🌊 Creative ideas flowing through entanglement-like correlation...")
@@ -224,9 +218,7 @@ class QICreativeDemo:
 
         print("\n📝 COLLABORATIVE QUANTUM HAIKU:")
         print("   ┌─────────────────────────────────┐")
-        for _i, (line, participant) in enumerate(
-            zip(collaborative_lines, participants)
-        ):
+        for _i, (line, participant) in enumerate(zip(collaborative_lines, participants)):
             print(f"   │ {line:31} │ - {participant['name']}")
         print("   └─────────────────────────────────┘")
 
@@ -237,9 +229,7 @@ class QICreativeDemo:
         print("\n📊 EMERGENCE METRICS:")
         print(f"   • Harmony Index: {harmony_index}")
         print(f"   • Innovation Level: {innovation_level}")
-        print(
-            f"   • Collective Consciousness: {(harmony_index + innovation_level)/2:.3f}"
-        )
+        print(f"   • Collective Consciousness: {(harmony_index + innovation_level) / 2:.3f}")
 
     async def demonstrate_ip_protection(self, creative_work: dict[str, Any]):
         """Demonstrate intellectual property protection for creative works"""

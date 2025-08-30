@@ -12,9 +12,9 @@ from .consciousness_multiplication_engine import ConsciousnessMultiplicationEngi
 from .meta_consciousness_developer import MetaConsciousnessDeveloper
 
 __all__ = [
-    "ConsciousnessExpansionEngine",
+    "AwarenessBoundaryTranscender",
     "ConsciousnessDimensionalityExpander",
-    "MetaConsciousnessDeveloper",
+    "ConsciousnessExpansionEngine",
     "ConsciousnessMultiplicationEngine",
-    "AwarenessBoundaryTranscender"
+    "MetaConsciousnessDeveloper",
 ]

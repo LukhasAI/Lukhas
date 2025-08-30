@@ -18,14 +18,16 @@ REPLACEMENTS = {
     r"\bTao(ism|ist)?\b": "flow-oriented wisdom",
     r"\bRick Rubin\b": "contemporary creative practice",
     r"\bNachmanovitch\b": "improvisational arts",
-    r"\bJulia Cameron\b": "creative coaching"
+    r"\bJulia Cameron\b": "creative coaching",
 }
+
 
 def sanitize(text: str) -> str:
     out = text
     for pat, repl in REPLACEMENTS.items():
         out = re.sub(pat, repl, out, flags=re.IGNORECASE)
     return out
+
 
 if __name__ == "__main__":
     print(sanitize(sys.stdin.read()))

@@ -27,6 +27,7 @@ OBSERVABILITY FEATURES:
 - Log aggregation and intelligent log analysis
 - SLA monitoring with automatic incident management
 """
+
 import asyncio
 import json
 import logging
@@ -259,7 +260,9 @@ class ModelDriftDetector:
 
         # Train isolation forest
         isolation_forest = IsolationForest(
-            contamination=0.1, random_state=42, n_estimators=100  # Expect 10% anomalies
+            contamination=0.1,
+            random_state=42,
+            n_estimators=100,  # Expect 10% anomalies
         )
         isolation_forest.fit(scaled_data)
         self.isolation_forests[model_id] = isolation_forest
@@ -283,8 +286,8 @@ class ModelDriftDetector:
         )
 
         # Performance drift detection
-        drift_scores[DriftType.PERFORMANCE_DRIFT] = (
-            await self._detect_performance_drift(model_id, current_metrics)
+        drift_scores[DriftType.PERFORMANCE_DRIFT] = await self._detect_performance_drift(
+            model_id, current_metrics
         )
 
         # Prediction drift detection using anomaly detection
@@ -294,17 +297,13 @@ class ModelDriftDetector:
 
         # Update Prometheus metrics
         for drift_type, score in drift_scores.items():
-            DRIFT_DETECTION_SCORE.labels(
-                model_id=model_id, drift_type=drift_type.value
-            ).set(score)
+            DRIFT_DETECTION_SCORE.labels(model_id=model_id, drift_type=drift_type.value).set(score)
 
         self.drift_scores[model_id] = drift_scores
 
         return drift_scores
 
-    async def _detect_data_drift(
-        self, model_id: str, current_metrics: dict[str, float]
-    ) -> float:
+    async def _detect_data_drift(self, model_id: str, current_metrics: dict[str, float]) -> float:
         """Detect data drift using Kolmogorov-Smirnov test."""
         drift_scores = []
 
@@ -391,9 +390,7 @@ class ModelDriftDetector:
             return drift_score
 
         except Exception as e:
-            logger.error(
-                "Prediction drift detection failed", model_id=model_id, error=str(e)
-            )
+            logger.error("Prediction drift detection failed", model_id=model_id, error=str(e))
             return 0.0
 
 
@@ -527,9 +524,7 @@ class AlertManager:
         )
 
         if len(self.alert_counts[rate_key]) >= 5:
-            logger.debug(
-                "Alert rate limited", alert_id=alert.id, metric=alert.metric_name
-            )
+            logger.debug("Alert rate limited", alert_id=alert.id, metric=alert.metric_name)
             return False
 
         # Record alert timestamp
@@ -592,9 +587,7 @@ class AlertManager:
             async with aiohttp.ClientSession() as session:
                 async with session.post(self.webhook_url, json=payload) as response:
                     if response.status == 200:
-                        logger.debug(
-                            "Webhook alert sent successfully", alert_id=alert.id
-                        )
+                        logger.debug("Webhook alert sent successfully", alert_id=alert.id)
                     else:
                         logger.error(
                             "Webhook alert failed",
@@ -632,9 +625,7 @@ class AlertManager:
 
         del self.active_alerts[alert_id]
 
-        logger.info(
-            "Alert resolved", alert_id=alert_id, resolution_time=alert.resolution_time
-        )
+        logger.info("Alert resolved", alert_id=alert_id, resolution_time=alert.resolution_time)
 
         return True
 
@@ -673,9 +664,9 @@ class PerformanceProfiler:
             self.gpu_usage[operation_name].append(gpu_delta)
 
             # Update Prometheus metrics
-            MODEL_INFERENCE_DURATION.labels(
-                model_id="unknown", environment="unknown"
-            ).observe(execution_time)
+            MODEL_INFERENCE_DURATION.labels(model_id="unknown", environment="unknown").observe(
+                execution_time
+            )
 
     def _get_memory_usage(self) -> float:
         """Get current memory usage in MB."""
@@ -716,9 +707,7 @@ class PerformanceProfiler:
                     else 0
                 ),
                 "avg_gpu_delta_mb": (
-                    np.mean(list(self.gpu_usage[operation]))
-                    if self.gpu_usage[operation]
-                    else 0
+                    np.mean(list(self.gpu_usage[operation])) if self.gpu_usage[operation] else 0
                 ),
             }
 
@@ -776,18 +765,14 @@ class ObservabilitySystem:
 
         # Initialize Redis
         try:
-            self.redis_client = await aioredis.from_url(
-                f"redis://{self.config.redis_host}"
-            )
+            self.redis_client = await aioredis.from_url(f"redis://{self.config.redis_host}")
             logger.info("Redis connection established")
         except Exception as e:
             logger.error("Failed to connect to Redis", error=str(e))
 
         # Start Prometheus metrics server
         prometheus_client.start_http_server(self.config.prometheus_port)
-        logger.info(
-            "Prometheus metrics server started", port=self.config.prometheus_port
-        )
+        logger.info("Prometheus metrics server started", port=self.config.prometheus_port)
 
     async def monitor_model_inference(
         self,
@@ -801,16 +786,13 @@ class ObservabilitySystem:
         async with self.tracer.trace_request(
             "model_inference", model_id=model_id, execution_time_ms=execution_time_ms
         ) as span:
-
             # Record basic metrics
             MODEL_INFERENCE_DURATION.labels(
                 model_id=model_id,
                 environment=request_data.get("environment", "unknown"),
             ).observe(execution_time_ms / 1000)
 
-            REQUEST_RATE.labels(
-                endpoint="inference", status="success", model_id=model_id
-            ).inc()
+            REQUEST_RATE.labels(endpoint="inference", status="success", model_id=model_id).inc()
 
             # Extract metrics from response
             if "metrics" in response_data:
@@ -818,9 +800,9 @@ class ObservabilitySystem:
 
                 # Update Prometheus gauges
                 for metric_name, value in metrics.items():
-                    MODEL_ACCURACY_SCORE.labels(
-                        model_id=model_id, metric_type=metric_name
-                    ).set(value)
+                    MODEL_ACCURACY_SCORE.labels(model_id=model_id, metric_type=metric_name).set(
+                        value
+                    )
 
                 # Check for drift
                 drift_scores = await self.drift_detector.detect_drift(model_id, metrics)
@@ -840,9 +822,7 @@ class ObservabilitySystem:
                 )
 
                 if alerts:
-                    self.tracer.add_span_event(
-                        span, "alerts_generated", alert_count=len(alerts)
-                    )
+                    self.tracer.add_span_event(span, "alerts_generated", alert_count=len(alerts))
 
             # Log to Elasticsearch
             await self._log_inference_event(
@@ -886,9 +866,7 @@ class ObservabilitySystem:
         self, model_id: str, baseline_metrics: list[dict[str, float]]
     ) -> None:
         """Register baseline metrics for a model."""
-        await self.drift_detector.initialize_reference_baseline(
-            model_id, baseline_metrics
-        )
+        await self.drift_detector.initialize_reference_baseline(model_id, baseline_metrics)
         logger.info(
             "Model baseline registered",
             model_id=model_id,
@@ -949,16 +927,16 @@ class ObservabilitySystem:
         report = f"""
 # ΛUKHAS AI System Health Report
 # lukhasUKHAS AI System Health Report
-Generated: {health['timestamp']}
+Generated: {health["timestamp"]}
 
 ## Service Status
-- Elasticsearch: {'✅' if health['services']['elasticsearch'] else '❌'}
-- Redis: {'✅' if health['services']['redis'] else '❌'}
-- Prometheus: {'✅' if health['services']['prometheus'] else '❌'}
+- Elasticsearch: {"✅" if health["services"]["elasticsearch"] else "❌"}
+- Redis: {"✅" if health["services"]["redis"] else "❌"}
+- Prometheus: {"✅" if health["services"]["prometheus"] else "❌"}
 
 ## Alert Summary
-- Active Alerts: {health['active_alerts']}
-- Alerts (24h): {health['alert_history_24h']}
+- Active Alerts: {health["active_alerts"]}
+- Alerts (24h): {health["alert_history_24h"]}
 
 ## Performance Summary
 """
@@ -966,10 +944,10 @@ Generated: {health['timestamp']}
         for operation, stats in health["performance_summary"].items():
             report += f"""
 ### {operation}
-- Average Execution: {stats['avg_execution_time_ms']:.1f}ms
-- P95 Execution: {stats['p95_execution_time_ms']:.1f}ms
-- P99 Execution: {stats['p99_execution_time_ms']:.1f}ms
-- Total Calls: {stats['total_calls']}
+- Average Execution: {stats["avg_execution_time_ms"]:.1f}ms
+- P95 Execution: {stats["p95_execution_time_ms"]:.1f}ms
+- P99 Execution: {stats["p99_execution_time_ms"]:.1f}ms
+- Total Calls: {stats["total_calls"]}
 """
 
         if health["drift_scores"]:

@@ -22,26 +22,36 @@ except ImportError:
         @staticmethod
         def lid_issue(*args, **kwargs):
             from contextlib import nullcontext
+
             return nullcontext()
+
         @staticmethod
         def lid_verify(*args, **kwargs):
             from contextlib import nullcontext
+
             return nullcontext()
+
         @staticmethod
         def consent_record(*args, **kwargs):
             from contextlib import nullcontext
+
             return nullcontext()
+
         @staticmethod
         def consent_check(*args, **kwargs):
             from contextlib import nullcontext
+
             return nullcontext()
+
         @staticmethod
         def adapter_metadata(*args, **kwargs):
             from contextlib import nullcontext
+
             return nullcontext()
 
     def instrument(func):
         return func
+
 
 logger = logging.getLogger(__name__)
 
@@ -85,12 +95,12 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         try:
             with AgentSpans.lid_issue(
                 user_id=credentials.get("user_id", "unknown"),
-                namespace=credentials.get("namespace", "default")
+                namespace=credentials.get("namespace", "default"),
             ):
                 # Use the ΛID authentication
                 result = self._identity_service.authenticate_namespace(
                     namespace=credentials.get("namespace", "default"),
-                    token=credentials.get("token")
+                    token=credentials.get("token"),
                 )
                 return result
         except Exception as e:
@@ -118,8 +128,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
 
         try:
             namespace = self._identity_service.create_namespace(
-                name=user_data.get("username", "user"),
-                metadata=user_data
+                name=user_data.get("username", "user"), metadata=user_data
             )
             return namespace.namespace_id
         except Exception as e:
@@ -148,7 +157,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         return {
             "service": "LambdaIdentityService",
             "initialized": self._initialized,
-            "status": "healthy" if self._initialized else "not_initialized"
+            "status": "healthy" if self._initialized else "not_initialized",
         }
 
 
@@ -188,10 +197,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
 
         try:
             with AgentSpans.consent_check(user_id=user_id, purpose=action):
-                return self._consent_ledger.has_valid_consent(
-                    subject_id=user_id,
-                    purpose=action
-                )
+                return self._consent_ledger.has_valid_consent(subject_id=user_id, purpose=action)
         except Exception as e:
             logger.error(f"Consent check failed: {e}")
             return False
@@ -205,9 +211,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         try:
             with AgentSpans.consent_record(user_id=user_id, purpose=action, granted=granted):
                 self._consent_ledger.record_consent(
-                    subject_id=user_id,
-                    purpose=action,
-                    granted=granted
+                    subject_id=user_id, purpose=action, granted=granted
                 )
                 return True
         except Exception as e:
@@ -245,7 +249,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return {
                 "status": "active",
                 "consent_records": self._consent_ledger.get_summary(),
-                "policy_active": bool(self._policy_engine)
+                "policy_active": bool(self._policy_engine),
             }
         except Exception as e:
             logger.error(f"Failed to get governance state: {e}")
@@ -259,11 +263,19 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
 
         try:
             # Use policy engine to evaluate risk
-            risk_score = self._policy_engine.calculate_risk(scenario) if hasattr(self._policy_engine, "calculate_risk") else 0.5
+            risk_score = (
+                self._policy_engine.calculate_risk(scenario)
+                if hasattr(self._policy_engine, "calculate_risk")
+                else 0.5
+            )
             return {
-                "risk_level": "high" if risk_score > 0.7 else "medium" if risk_score > 0.3 else "low",
+                "risk_level": "high"
+                if risk_score > 0.7
+                else "medium"
+                if risk_score > 0.3
+                else "low",
                 "score": risk_score,
-                "factors": scenario.get("factors", [])
+                "factors": scenario.get("factors", []),
             }
         except Exception as e:
             logger.error(f"Risk evaluation failed: {e}")
@@ -276,7 +288,11 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return {"approved": False, "reason": "Policy engine not initialized"}
 
         try:
-            result = self._policy_engine.apply_policy(request) if hasattr(self._policy_engine, "apply_policy") else {"approved": False}
+            result = (
+                self._policy_engine.apply_policy(request)
+                if hasattr(self._policy_engine, "apply_policy")
+                else {"approved": False}
+            )
             return result
         except Exception as e:
             logger.error(f"Policy application failed: {e}")
@@ -288,7 +304,9 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         if self._consent_ledger:
             try:
                 # Record action in audit trail
-                self._consent_ledger.add_audit_entry(action) if hasattr(self._consent_ledger, "add_audit_entry") else None
+                self._consent_ledger.add_audit_entry(action) if hasattr(
+                    self._consent_ledger, "add_audit_entry"
+                ) else None
             except Exception as e:
                 logger.error(f"Audit recording failed: {e}")
 
@@ -303,7 +321,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         return {
             "service": "ConsentLedgerV1",
             "initialized": self._initialized,
-            "status": "healthy" if self._initialized else "not_initialized"
+            "status": "healthy" if self._initialized else "not_initialized",
         }
 
 
@@ -444,7 +462,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             "service": "ExternalAdapters",
             "initialized": self._initialized,
             "adapters": list(self._adapters.keys()),
-            "status": "healthy" if self._initialized else "not_initialized"
+            "status": "healthy" if self._initialized else "not_initialized",
         }
 
 
@@ -520,6 +538,7 @@ def register_seven_agent_services(container=None):
 # Auto-register on import
 try:
     from candidate.core.container.service_container import get_container
+
     register_seven_agent_services(get_container())
 except ImportError:
     logger.warning("Service container not available, skipping auto-registration")

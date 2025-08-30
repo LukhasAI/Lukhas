@@ -62,9 +62,7 @@ class QIStateVector:
         # Generate basis states if not provided
         if not self.basis_states:
             n_qubits = int(np.log2(len(self.amplitudes)))
-            self.basis_states = [
-                format(i, f"0{n_qubits}b") for i in range(len(self.amplitudes))
-            ]
+            self.basis_states = [format(i, f"0{n_qubits}b") for i in range(len(self.amplitudes))]
 
     def measure(self) -> str:
         """Performs a measurement in the computational basis"""
@@ -116,9 +114,7 @@ class LambdaWalletIdentity:
         lambda_id = "".join(id_components)
 
         # Generate wallet address
-        wallet_address = (
-            f"0x{hashlib.sha256((lambda_id + 'wallet').encode()).hexdigest()[:40]}"
-        )
+        wallet_address = f"0x{hashlib.sha256((lambda_id + 'wallet').encode()).hexdigest()[:40]}"
 
         # Add biometric data if provided
         biometric_hash = None
@@ -166,9 +162,7 @@ class PostQuantumCrypto:
     def generate_keypair(self) -> tuple[bytes, bytes]:
         """Generate post-quantum secure keypair"""
         private_key = secrets.token_bytes(self.key_size // 8)
-        public_key = hmac.new(
-            private_key, b"LAMBDA-WALLET-PUBLIC", hashlib.sha256
-        ).digest()
+        public_key = hmac.new(private_key, b"LAMBDA-WALLET-PUBLIC", hashlib.sha256).digest()
         return private_key, public_key
 
     def sign(self, private_key: bytes, message: bytes) -> bytes:
@@ -271,13 +265,9 @@ class QIWalletEngine:
             from_address = from_identity.wallet_address
 
             # Check balance
-            current_balance = self.wallet_balances.get(from_address, {}).get(
-                currency, 0.0
-            )
+            current_balance = self.wallet_balances.get(from_address, {}).get(currency, 0.0)
             if current_balance < amount:
-                logger.warning(
-                    f"Insufficient balance for transfer: {current_balance} < {amount}"
-                )
+                logger.warning(f"Insufficient balance for transfer: {current_balance} < {amount}")
                 return False
 
             # Perform transfer

@@ -33,9 +33,7 @@ class TypedEventBus:
     """Enhanced event bus with strong typing and domain event support"""
 
     def __init__(self):
-        self._subscribers: dict[type[DomainEvent], list[EventSubscription]] = (
-            defaultdict(list)
-        )
+        self._subscribers: dict[type[DomainEvent], list[EventSubscription]] = defaultdict(list)
         self._event_queue: asyncio.Queue[DomainEvent] = asyncio.Queue()
         self._priority_queue: asyncio.PriorityQueue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
@@ -56,9 +54,7 @@ class TypedEventBus:
         if not self._is_running:
             self._is_running = True
             self._worker_task = asyncio.create_task(self._process_events())
-            self._priority_worker_task = asyncio.create_task(
-                self._process_priority_events()
-            )
+            self._priority_worker_task = asyncio.create_task(self._process_priority_events())
             logger.info("Typed event bus started")
 
     async def stop(self) -> None:
@@ -112,9 +108,7 @@ class TypedEventBus:
         """Publish a typed domain event"""
         # Set metadata if not already set
         if not event.event_id:
-            event.event_id = (
-                f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
-            )
+            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
         if not event.timestamp:
             event.timestamp = datetime.now()
 
@@ -153,9 +147,7 @@ class TypedEventBus:
         """Process high priority events"""
         while self._is_running:
             try:
-                _, event = await asyncio.wait_for(
-                    self._priority_queue.get(), timeout=1.0
-                )
+                _, event = await asyncio.wait_for(self._priority_queue.get(), timeout=1.0)
                 await self._dispatch_event(event)
             except asyncio.TimeoutError:
                 continue

@@ -52,9 +52,7 @@ class OnboardingStage(Enum):
     TIER_ASSESSMENT = "tier_assessment"  # Assess and assign tier
     QRG_INITIALIZATION = "qrg_initialization"  # Generate initial QRG
     BIOMETRIC_SETUP = "biometric_setup"  # Optional biometric enrollment
-    CONSCIOUSNESS_CALIBRATION = (
-        "consciousness_calibration"  # Consciousness level assessment
-    )
+    CONSCIOUSNESS_CALIBRATION = "consciousness_calibration"  # Consciousness level assessment
     VERIFICATION = "verification"  # Final verification and testing
     COMPLETION = "completion"  # Onboarding complete
 
@@ -146,9 +144,7 @@ class EnhancedOnboardingManager:
         # Symbolic element suggestions by category
         self.symbolic_suggestions = self._load_symbolic_suggestions()
 
-    def start_onboarding_session(
-        self, initial_context: dict[str, Any] = None
-    ) -> dict[str, Any]:
+    def start_onboarding_session(self, initial_context: dict[str, Any] = None) -> dict[str, Any]:
         """
         # Start new enhanced onboarding session
         # Returns session ID and initial guidance
@@ -169,9 +165,7 @@ class EnhancedOnboardingManager:
                     context.detected_languages.append(initial_context["language"])
 
                 if "location" in initial_context:
-                    cultural_context = self._detect_cultural_context(
-                        initial_context["location"]
-                    )
+                    cultural_context = self._detect_cultural_context(initial_context["location"])
                     if cultural_context:
                         context.cultural_indicators.append(cultural_context)
 
@@ -217,20 +211,14 @@ class EnhancedOnboardingManager:
             progress = self.session_progress[session_id]
 
             # Process current stage data
-            stage_result = self._process_stage_data(
-                progress.current_stage, stage_data, context
-            )
+            stage_result = self._process_stage_data(progress.current_stage, stage_data, context)
 
             # Update progress
             progress.completed_stages.append(progress.current_stage)
-            progress.stage_scores[progress.current_stage.value] = stage_result.get(
-                "score", 0.5
-            )
+            progress.stage_scores[progress.current_stage.value] = stage_result.get("score", 0.5)
 
             # Determine next stage
-            next_stage = self._determine_next_stage(
-                progress.current_stage, context, stage_result
-            )
+            next_stage = self._determine_next_stage(progress.current_stage, context, stage_result)
             progress.current_stage = next_stage
 
             # Update completion percentage
@@ -337,9 +325,7 @@ class EnhancedOnboardingManager:
                 context.personality_type.value if context.personality_type else None
             ),
             "entropy_score": (
-                progress.entropy_progression[-1]
-                if progress.entropy_progression
-                else 0.0
+                progress.entropy_progression[-1] if progress.entropy_progression else 0.0
             ),
         }
 
@@ -349,9 +335,7 @@ class EnhancedOnboardingManager:
 
         # Detect user's preferred language/culture for messaging
         cultural_context = (
-            context.cultural_indicators[0]
-            if context.cultural_indicators
-            else "universal"
+            context.cultural_indicators[0] if context.cultural_indicators else "universal"
         )
 
         welcome_messages = {
@@ -403,9 +387,7 @@ class EnhancedOnboardingManager:
                     "estimated_time": "6-10 minutes",
                 },
             ],
-            "cultural_suggestions": self._get_cultural_suggestions_for_welcome(
-                cultural_context
-            ),
+            "cultural_suggestions": self._get_cultural_suggestions_for_welcome(cultural_context),
         }
 
     def _process_stage_data(
@@ -441,9 +423,7 @@ class EnhancedOnboardingManager:
         # Set personality type
         if "personality_type" in data:
             try:
-                context.personality_type = OnboardingPersonality(
-                    data["personality_type"]
-                )
+                context.personality_type = OnboardingPersonality(data["personality_type"])
             except ValueError:
                 context.personality_type = OnboardingPersonality.SIMPLE
 
@@ -487,9 +467,7 @@ class EnhancedOnboardingManager:
                 )
 
                 # Calculate entropy contribution
-                entry.entropy_contribution = (
-                    self.entropy_calculator.calculate_entry_entropy(entry)
-                )
+                entry.entropy_contribution = self.entropy_calculator.calculate_entry_entropy(entry)
                 total_entropy += entry.entropy_contribution
 
                 processed_elements.append(entry)
@@ -512,9 +490,7 @@ class EnhancedOnboardingManager:
             "score": min(total_entropy, 1.0),
             "elements_processed": len(processed_elements),
             "total_entropy": total_entropy,
-            "recommendations": self._get_symbolic_recommendations(
-                processed_elements, context
-            ),
+            "recommendations": self._get_symbolic_recommendations(processed_elements, context),
         }
 
     def _determine_next_stage(
@@ -558,9 +534,7 @@ class EnhancedOnboardingManager:
 
         return next_stage
 
-    def _generate_stage_content(
-        self, stage: OnboardingStage, session_id: str
-    ) -> dict[str, Any]:
+    def _generate_stage_content(self, stage: OnboardingStage, session_id: str) -> dict[str, Any]:
         """Generate content for specific onboarding stage."""
         context = self.active_sessions[session_id]
 
@@ -579,9 +553,7 @@ class EnhancedOnboardingManager:
 
         return {"stage": stage.value, "message": f"Continue with {stage.value}"}
 
-    def _generate_symbolic_foundation_content(
-        self, context: OnboardingContext
-    ) -> dict[str, Any]:
+    def _generate_symbolic_foundation_content(self, context: OnboardingContext) -> dict[str, Any]:
         """Generate symbolic foundation building content."""
 
         # Get personalized suggestions based on context
@@ -669,9 +641,7 @@ class EnhancedOnboardingManager:
             "onboarding_duration_minutes": progress.time_spent_minutes,
             "stages_completed": len(progress.completed_stages),
             "final_entropy_score": (
-                progress.entropy_progression[-1]
-                if progress.entropy_progression
-                else 0.0
+                progress.entropy_progression[-1] if progress.entropy_progression else 0.0
             ),
             "tier_achieved": lambda_id_result["tier_level"],
             "tier_goal_met": lambda_id_result["tier_level"] >= context.tier_goal,

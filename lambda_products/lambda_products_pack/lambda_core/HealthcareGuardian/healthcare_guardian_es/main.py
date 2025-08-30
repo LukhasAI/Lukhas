@@ -17,8 +17,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -43,6 +42,7 @@ try:
     from lukhas.consciousness import ConsciousnessEngine
     from lukhas.guardian import GuardianSystem
     from lukhas.identity import IdentityManager
+
     LUKHAS_AVAILABLE = True
 except ImportError:
     logger.warning("LUKHAS core components not found. Running in standalone mode.")
@@ -91,23 +91,10 @@ class HealthcareGuardian:
             # Return default configuration
             return {
                 "language": "andaluz_spanish",
-                "voice": {
-                    "enabled": True,
-                    "speed": "slow",
-                    "elder_mode": True
-                },
-                "medical": {
-                    "gpt5_enabled": True,
-                    "local_fallback": True
-                },
-                "emergency": {
-                    "number": "112",
-                    "auto_dispatch": False
-                },
-                "sas": {
-                    "enabled": True,
-                    "region": "andalucia"
-                }
+                "voice": {"enabled": True, "speed": "slow", "elder_mode": True},
+                "medical": {"gpt5_enabled": True, "local_fallback": True},
+                "emergency": {"number": "112", "auto_dispatch": False},
+                "sas": {"enabled": True, "region": "andalucia"},
             }
 
     def _init_lukhas_integration(self):
@@ -135,35 +122,27 @@ class HealthcareGuardian:
 
         # Voice Engine for Andalusian Spanish
         self.components["voice"] = AndaluzVoiceEngine(
-            config=self.config.get("voice", {}),
-            consciousness=getattr(self, "consciousness", None)
+            config=self.config.get("voice", {}), consciousness=getattr(self, "consciousness", None)
         )
         logger.info("🗣️ Andaluz voice engine initialized")
 
         # GPT-5 Healthcare Integration
-        self.components["medical_ai"] = GPT5HealthcareClient(
-            config=self.config.get("medical", {})
-        )
+        self.components["medical_ai"] = GPT5HealthcareClient(config=self.config.get("medical", {}))
         logger.info("🤖 GPT-5 healthcare AI connected")
 
         # SAS Healthcare System Integration
         if self.config.get("sas", {}).get("enabled"):
-            self.components["sas"] = SASHealthcareConnector(
-                config=self.config.get("sas", {})
-            )
+            self.components["sas"] = SASHealthcareConnector(config=self.config.get("sas", {}))
             logger.info("🏥 SAS healthcare system connected")
 
         # Emergency Response System
         self.components["emergency"] = EmergencyResponseSystem(
-            config=self.config.get("emergency", {}),
-            guardian=getattr(self, "guardian", None)
+            config=self.config.get("emergency", {}), guardian=getattr(self, "guardian", None)
         )
         logger.info("🚨 Emergency response system ready")
 
         # Medication OCR System
-        self.components["vision"] = MedicationOCRSystem(
-            config=self.config.get("vision", {})
-        )
+        self.components["vision"] = MedicationOCRSystem(config=self.config.get("vision", {}))
         logger.info("📸 Medication OCR system initialized")
 
     async def start(self):

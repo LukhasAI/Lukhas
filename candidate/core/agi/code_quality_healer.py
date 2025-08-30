@@ -29,6 +29,7 @@ logger = logging.getLogger(__name__)
 # Define failure types for code quality (separate enum)
 class CodeQualityFailureType(Enum):
     """Failure types specific to code quality"""
+
     CODE_SYNTAX_ERROR = "code_syntax_error"
     CODE_UNDEFINED_NAME = "code_undefined_name"
     CODE_UNUSED_IMPORT = "code_unused_import"
@@ -40,6 +41,7 @@ class CodeQualityFailureType(Enum):
 # Define healing strategies for code fixes (separate enum)
 class CodeHealingStrategy(Enum):
     """Healing strategies specific to code quality"""
+
     AUTO_FIX = "auto_fix"
     LLM_REPAIR = "llm_repair"
     REFACTOR = "refactor"
@@ -50,6 +52,7 @@ class CodeHealingStrategy(Enum):
 @dataclass
 class CodeQualityMetrics:
     """Metrics for code quality tracking"""
+
     total_issues: int = 0
     fixed_issues: int = 0
     failed_fixes: int = 0
@@ -73,7 +76,7 @@ class CodeQualityHealer:
         workspace_path: str = ".",
         guardian_threshold: float = 0.15,
         auto_fix_threshold: float = 0.85,
-        learning_enabled: bool = True
+        learning_enabled: bool = True,
     ):
         self.workspace_path = Path(workspace_path)
         self.guardian_threshold = guardian_threshold
@@ -115,9 +118,9 @@ class CodeQualityHealer:
                         context={
                             "line": issue.line_number,
                             "code_context": issue.code_context,
-                            "fix_type": issue.issue_type.value
+                            "fix_type": issue.issue_type.value,
                         },
-                        severity=issue.severity
+                        severity=issue.severity,
                     )
                     failures.append(failure)
 
@@ -148,9 +151,7 @@ class CodeQualityHealer:
             self.metrics.formatting_issues += 1
 
     async def heal_failure(
-        self,
-        failure: SystemFailure,
-        strategy: Optional[HealingStrategy] = None
+        self, failure: SystemFailure, strategy: Optional[HealingStrategy] = None
     ) -> HealingAction:
         """Heal a specific code quality failure"""
 
@@ -181,10 +182,7 @@ class CodeQualityHealer:
             component=failure.component,
             timestamp=datetime.now(),
             success=success,
-            details={
-                "metrics": self.metrics.__dict__,
-                "confidence": self.auto_fix_threshold
-            }
+            details={"metrics": self.metrics.__dict__, "confidence": self.auto_fix_threshold},
         )
 
         # Update metrics
@@ -194,7 +192,9 @@ class CodeQualityHealer:
         else:
             self.metrics.failed_fixes += 1
 
-        self.metrics.improvement_rate = self.metrics.fixed_issues / max(1, self.metrics.total_issues)
+        self.metrics.improvement_rate = self.metrics.fixed_issues / max(
+            1, self.metrics.total_issues
+        )
 
         return action
 
@@ -231,9 +231,10 @@ class CodeQualityHealer:
             # Use ruff --fix for formatting issues
             if failure.type == CodeQualityFailureType.CODE_FORMATTING:
                 import subprocess
+
                 result = subprocess.run(
                     ["python3", "-m", "ruff", "check", failure.component, "--fix"],
-                    capture_output=True
+                    capture_output=True,
                 )
                 return result.returncode == 0
         except Exception as e:
@@ -250,7 +251,7 @@ class CodeQualityHealer:
                 issue_type=FixType.SYNTAX_ERROR,  # Map from failure type
                 message=str(failure.error),
                 code_context=failure.context.get("code_context", ""),
-                severity=failure.severity
+                severity=failure.severity,
             )
 
             # Generate and apply fix
@@ -269,11 +270,9 @@ class CodeQualityHealer:
         """Submit fix for Guardian review before applying"""
         try:
             # Check with Guardian system
-            drift_score = await self.guardian.check_drift({
-                "action": "code_fix",
-                "component": failure.component,
-                "severity": failure.severity
-            })
+            drift_score = await self.guardian.check_drift(
+                {"action": "code_fix", "component": failure.component, "severity": failure.severity}
+            )
 
             if drift_score < self.guardian_threshold:
                 # Guardian approved, proceed with LLM repair
@@ -308,13 +307,15 @@ class CodeQualityHealer:
         if pattern_key not in self.fix_patterns:
             self.fix_patterns[pattern_key] = []
 
-        self.fix_patterns[pattern_key].append({
-            "timestamp": datetime.now().isoformat(),
-            "original": fix.original_code,
-            "fixed": fix.fixed_code,
-            "confidence": fix.confidence,
-            "explanation": fix.explanation
-        })
+        self.fix_patterns[pattern_key].append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "original": fix.original_code,
+                "fixed": fix.fixed_code,
+                "confidence": fix.confidence,
+                "explanation": fix.explanation,
+            }
+        )
 
         # Keep only recent patterns
         if len(self.fix_patterns[pattern_key]) > 10:
@@ -323,7 +324,7 @@ class CodeQualityHealer:
     async def continuous_improvement_loop(
         self,
         scan_interval: int = 3600,  # 1 hour
-        max_fixes_per_cycle: int = 50
+        max_fixes_per_cycle: int = 50,
     ):
         """Run continuous improvement loop"""
         while True:
@@ -364,7 +365,7 @@ class CodeQualityHealer:
         learning_data = {
             "patterns": self.fix_patterns,
             "successful_strategies": self.successful_strategies,
-            "metrics": self.metrics.__dict__
+            "metrics": self.metrics.__dict__,
         }
 
         with open("data/code_quality_learning.json", "w") as f:
@@ -390,17 +391,14 @@ Code Quality Metrics:
             "metrics": self.metrics.__dict__,
             "learning_enabled": self.learning_enabled,
             "patterns_learned": len(self.fix_patterns),
-            "successful_strategies": len(set(self.successful_strategies))
+            "successful_strategies": len(set(self.successful_strategies)),
         }
 
 
 async def main():
     """Example usage"""
     healer = CodeQualityHealer(
-        workspace_path=".",
-        guardian_threshold=0.15,
-        auto_fix_threshold=0.85,
-        learning_enabled=True
+        workspace_path=".", guardian_threshold=0.15, auto_fix_threshold=0.85, learning_enabled=True
     )
 
     # Run a single scan and fix cycle

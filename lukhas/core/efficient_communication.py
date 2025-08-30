@@ -229,9 +229,7 @@ class EventBus:
                 self.stats["messages_delivered"] += 1
                 self.stats["energy_consumed"] += message.energy_cost
                 self.stats["average_latency"] = (
-                    self.stats["average_latency"]
-                    * (self.stats["messages_delivered"] - 1)
-                    + latency
+                    self.stats["average_latency"] * (self.stats["messages_delivered"] - 1) + latency
                 ) / self.stats["messages_delivered"]
 
             except asyncio.TimeoutError:
@@ -397,9 +395,7 @@ class EfficientCommunicationFabric:
 
         # Check energy budget
         if not self.router.can_afford_message(message):
-            logger.warning(
-                f"Insufficient energy budget for message {message.message_id}"
-            )
+            logger.warning(f"Insufficient energy budget for message {message.message_id}")
             return False
 
         # Route message based on selected mode
@@ -537,8 +533,7 @@ class EnergyMonitor:
         return {
             "total_energy": self.total_energy_used,
             "average_per_message": (
-                sum(e["energy_cost"] for e in self.energy_history)
-                / len(self.energy_history)
+                sum(e["energy_cost"] for e in self.energy_history) / len(self.energy_history)
             ),
             "hourly_usage": sum(recent_usage),
             "efficiency_score": self._calculate_efficiency_score(),
@@ -566,7 +561,7 @@ _global_communication_fabric = None
 
 def get_global_communication_fabric() -> EfficientCommunicationFabric:
     """Get or create the global communication fabric instance."""
-    global _global_communication_fabric  # noqa: PLW0603
+    global _global_communication_fabric
     if _global_communication_fabric is None:
         _global_communication_fabric = EfficientCommunicationFabric("global-fabric")
     return _global_communication_fabric
@@ -574,13 +569,13 @@ def get_global_communication_fabric() -> EfficientCommunicationFabric:
 
 # Export public interface
 __all__ = [
-    "EfficientCommunicationFabric",
-    "MessagePriority",
     "CommunicationMode",
-    "Message",
-    "MessageRouter",
-    "EventBus",
-    "P2PChannel",
+    "EfficientCommunicationFabric",
     "EnergyMonitor",
+    "EventBus",
+    "Message",
+    "MessagePriority",
+    "MessageRouter",
+    "P2PChannel",
     "get_global_communication_fabric",
 ]

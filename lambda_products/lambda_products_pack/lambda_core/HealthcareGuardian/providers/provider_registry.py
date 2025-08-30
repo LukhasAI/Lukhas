@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 class ProviderRegion(Enum):
     """Healthcare provider regions"""
+
     # Europe
     EU = "european_union"
     UK = "united_kingdom"
@@ -57,6 +58,7 @@ class ProviderRegion(Enum):
 
 class ProviderType(Enum):
     """Types of healthcare providers"""
+
     PUBLIC_NATIONAL = "public_national"  # NHS, SAS, Medicare
     PUBLIC_REGIONAL = "public_regional"  # German GKV, Canadian provincial
     PRIVATE_INSURANCE = "private_insurance"  # AXA, Kaiser, BUPA
@@ -71,6 +73,7 @@ class ProviderType(Enum):
 @dataclass
 class ProviderConfig:
     """Configuration for a healthcare provider"""
+
     provider_id: str
     name: str
     region: ProviderRegion
@@ -106,10 +109,7 @@ class BaseHealthcareProvider(ABC):
 
     @abstractmethod
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book medical appointment"""
         pass
@@ -120,11 +120,7 @@ class BaseHealthcareProvider(ABC):
         pass
 
     @abstractmethod
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Renew a prescription"""
         pass
 
@@ -140,6 +136,7 @@ class BaseHealthcareProvider(ABC):
 
 
 # EUROPEAN PROVIDERS
+
 
 class NHSProvider(BaseHealthcareProvider):
     """UK National Health Service Provider"""
@@ -158,11 +155,7 @@ class NHSProvider(BaseHealthcareProvider):
             currency="GBP",
             timezone="Europe/London",
             emergency_number="999",
-            metadata={
-                "integration_level": "full",
-                "api_version": "2.0",
-                "sandbox_available": True
-            }
+            metadata={"integration_level": "full", "api_version": "2.0", "sandbox_available": True},
         )
         super().__init__(config)
 
@@ -175,33 +168,22 @@ class NHSProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get NHS patient summary care record"""
-        return {
-            "nhs_number": patient_id,
-            "summary_care_record": {},
-            "gp_practice": {}
-        }
+        return {"nhs_number": patient_id, "summary_care_record": {}, "gp_practice": {}}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book NHS appointment via e-Referral Service"""
         return {
             "booking_reference": f"NHS-{patient_id}-{datetime.now().isoformat()}",
-            "status": "confirmed"
+            "status": "confirmed",
         }
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get NHS Electronic Prescription Service records"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Request prescription renewal through NHS EPS"""
         return {"status": "requested", "eps_id": prescription_id}
 
@@ -226,8 +208,8 @@ class GKVProvider(BaseHealthcareProvider):
             metadata={
                 "telematik_infrastructure": True,
                 "eHealth_card_required": True,
-                "kvb_integration": True  # Kassenärztliche Vereinigung Bayern
-            }
+                "kvb_integration": True,  # Kassenärztliche Vereinigung Bayern
+            },
         )
         super().__init__(config)
 
@@ -241,30 +223,20 @@ class GKVProvider(BaseHealthcareProvider):
         return {
             "versicherten_nummer": patient_id,
             "ePA_data": {},
-            "krankenkasse": "AOK"  # Example insurance
+            "krankenkasse": "AOK",  # Example insurance
         }
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book appointment via KV system"""
-        return {
-            "termin_code": f"KV-{patient_id}",
-            "facharzt": specialty
-        }
+        return {"termin_code": f"KV-{patient_id}", "facharzt": specialty}
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get eRezept (electronic prescriptions)"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Renew eRezept"""
         return {"eRezept_id": prescription_id, "status": "erneuert"}
 
@@ -286,11 +258,7 @@ class SASProvider(BaseHealthcareProvider):
             currency="EUR",
             timezone="Europe/Madrid",
             emergency_number="112",
-            metadata={
-                "clicsalud_integration": True,
-                "diraya_system": True,
-                "recipe_xxi": True
-            }
+            metadata={"clicsalud_integration": True, "diraya_system": True, "recipe_xxi": True},
         )
         super().__init__(config)
 
@@ -301,39 +269,29 @@ class SASProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get Historia de Salud from Diraya"""
-        return {
-            "nuhsa": patient_id,
-            "historia_salud": {},
-            "centro_salud": {}
-        }
+        return {"nuhsa": patient_id, "historia_salud": {}, "centro_salud": {}}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book appointment via InterSAS"""
         return {
             "codigo_cita": f"SAS-{patient_id}",
             "especialidad": specialty,
-            "centro": "Hospital Virgen del Rocío"
+            "centro": "Hospital Virgen del Rocío",
         }
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get Receta XXI prescriptions"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Renew Receta XXI"""
         return {"receta_id": prescription_id, "estado": "renovada"}
 
 
 # AMERICAN PROVIDERS
+
 
 class KaiserProvider(BaseHealthcareProvider):
     """Kaiser Permanente - US integrated healthcare"""
@@ -355,8 +313,8 @@ class KaiserProvider(BaseHealthcareProvider):
             metadata={
                 "mychart_integration": True,
                 "integrated_model": True,
-                "states_covered": ["CA", "OR", "WA", "CO", "GA", "HI", "MD", "VA", "DC"]
-            }
+                "states_covered": ["CA", "OR", "WA", "CO", "GA", "HI", "MD", "VA", "DC"],
+            },
         )
         super().__init__(config)
 
@@ -366,33 +324,19 @@ class KaiserProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get Kaiser EMR record"""
-        return {
-            "member_id": patient_id,
-            "emr_data": {},
-            "care_team": []
-        }
+        return {"member_id": patient_id, "emr_data": {}, "care_team": []}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book Kaiser appointment"""
-        return {
-            "appointment_id": f"KP-{patient_id}",
-            "department": specialty
-        }
+        return {"appointment_id": f"KP-{patient_id}", "department": specialty}
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get Kaiser pharmacy prescriptions"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Renew via Kaiser pharmacy"""
         return {"rx_number": prescription_id, "status": "renewal_requested"}
 
@@ -414,11 +358,7 @@ class CVSProvider(BaseHealthcareProvider):
             currency="USD",
             timezone="America/New_York",
             emergency_number=None,
-            metadata={
-                "locations": 9900,
-                "minute_clinics": 1200,
-                "caremark_pbm": True
-            }
+            metadata={"locations": 9900, "minute_clinics": 1200, "caremark_pbm": True},
         )
         super().__init__(config)
 
@@ -428,37 +368,25 @@ class CVSProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get CVS pharmacy records"""
-        return {
-            "extracare_number": patient_id,
-            "pharmacy_records": []
-        }
+        return {"extracare_number": patient_id, "pharmacy_records": []}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book MinuteClinic appointment"""
-        return {
-            "clinic_visit": f"MC-{patient_id}",
-            "service": specialty
-        }
+        return {"clinic_visit": f"MC-{patient_id}", "service": specialty}
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get CVS pharmacy prescriptions"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Request prescription renewal"""
         return {"rx_id": prescription_id, "status": "renewal_requested"}
 
 
 # ASIA-PACIFIC PROVIDERS
+
 
 class MedicareAustraliaProvider(BaseHealthcareProvider):
     """Medicare Australia - Public healthcare"""
@@ -477,11 +405,7 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
             currency="AUD",
             timezone="Australia/Sydney",
             emergency_number="000",
-            metadata={
-                "mygov_integration": True,
-                "pbs_safety_net": True,
-                "ndis_linkage": True
-            }
+            metadata={"mygov_integration": True, "pbs_safety_net": True, "ndis_linkage": True},
         )
         super().__init__(config)
 
@@ -491,38 +415,25 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get My Health Record"""
-        return {
-            "medicare_number": patient_id,
-            "my_health_record": {},
-            "pbs_history": []
-        }
+        return {"medicare_number": patient_id, "my_health_record": {}, "pbs_history": []}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book via HealthDirect"""
-        return {
-            "booking_ref": f"HD-{patient_id}",
-            "specialist": specialty
-        }
+        return {"booking_ref": f"HD-{patient_id}", "specialist": specialty}
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get PBS prescriptions"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """PBS prescription renewal"""
         return {"pbs_id": prescription_id, "status": "renewed"}
 
 
 # PRIVATE GLOBAL PROVIDERS
+
 
 class AXAProvider(BaseHealthcareProvider):
     """AXA - Global private health insurance"""
@@ -545,8 +456,8 @@ class AXAProvider(BaseHealthcareProvider):
                 "countries_covered": 190,
                 "virtual_doctor": True,
                 "mental_health_support": True,
-                "expat_plans": True
-            }
+                "expat_plans": True,
+            },
         )
         super().__init__(config)
 
@@ -556,33 +467,19 @@ class AXAProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get AXA member health records"""
-        return {
-            "member_id": patient_id,
-            "coverage": {},
-            "claims_history": []
-        }
+        return {"member_id": patient_id, "coverage": {}, "claims_history": []}
 
     async def book_appointment(
-        self,
-        patient_id: str,
-        specialty: str,
-        preferred_time: Optional[datetime] = None
+        self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book through AXA provider network"""
-        return {
-            "network_booking": f"AXA-{patient_id}",
-            "provider": specialty
-        }
+        return {"network_booking": f"AXA-{patient_id}", "provider": specialty}
 
     async def get_prescriptions(self, patient_id: str) -> list[dict[str, Any]]:
         """Get prescription claims"""
         return []
 
-    async def renew_prescription(
-        self,
-        patient_id: str,
-        prescription_id: str
-    ) -> dict[str, Any]:
+    async def renew_prescription(self, patient_id: str, prescription_id: str) -> dict[str, Any]:
         """Process prescription claim"""
         return {"claim_id": prescription_id, "status": "approved"}
 
@@ -624,24 +521,18 @@ class ProviderRegistry:
 
     def get_providers_by_region(self, region: ProviderRegion) -> list[BaseHealthcareProvider]:
         """Get all providers for a region"""
-        return [
-            p for p in self.providers.values()
-            if p.config.region == region
-        ]
+        return [p for p in self.providers.values() if p.config.region == region]
 
     def get_providers_by_type(self, provider_type: ProviderType) -> list[BaseHealthcareProvider]:
         """Get all providers of a specific type"""
-        return [
-            p for p in self.providers.values()
-            if p.config.type == provider_type
-        ]
+        return [p for p in self.providers.values() if p.config.type == provider_type]
 
     def search_providers(
         self,
         region: Optional[ProviderRegion] = None,
         provider_type: Optional[ProviderType] = None,
         language: Optional[str] = None,
-        service: Optional[str] = None
+        service: Optional[str] = None,
     ) -> list[BaseHealthcareProvider]:
         """Search for providers based on criteria"""
         results = list(self.providers.values())
@@ -653,16 +544,10 @@ class ProviderRegistry:
             results = [p for p in results if p.config.type == provider_type]
 
         if language:
-            results = [
-                p for p in results
-                if language in p.config.language_codes
-            ]
+            results = [p for p in results if language in p.config.language_codes]
 
         if service:
-            results = [
-                p for p in results
-                if service in p.config.supported_services
-            ]
+            results = [p for p in results if service in p.config.supported_services]
 
         return results
 

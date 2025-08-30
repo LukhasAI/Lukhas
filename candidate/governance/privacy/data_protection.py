@@ -45,6 +45,7 @@ try:
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -56,42 +57,42 @@ logger = logging.getLogger(__name__)
 class ProtectionLevel(Enum):
     """Data protection levels"""
 
-    NONE = "none"                       # No protection
-    BASIC = "basic"                     # Basic masking
-    STANDARD = "standard"               # Standard encryption
-    HIGH = "high"                       # Multi-layer protection
-    MAXIMUM = "maximum"                 # Maximum security
+    NONE = "none"  # No protection
+    BASIC = "basic"  # Basic masking
+    STANDARD = "standard"  # Standard encryption
+    HIGH = "high"  # Multi-layer protection
+    MAXIMUM = "maximum"  # Maximum security
 
 
 class EncryptionType(Enum):
     """Types of encryption"""
 
-    SYMMETRIC = "symmetric"             # AES encryption
-    ASYMMETRIC = "asymmetric"          # RSA/ECC encryption
-    HYBRID = "hybrid"                  # Combined approach
-    FIELD_LEVEL = "field_level"        # Field-specific encryption
-    TOKENIZATION = "tokenization"      # Token replacement
+    SYMMETRIC = "symmetric"  # AES encryption
+    ASYMMETRIC = "asymmetric"  # RSA/ECC encryption
+    HYBRID = "hybrid"  # Combined approach
+    FIELD_LEVEL = "field_level"  # Field-specific encryption
+    TOKENIZATION = "tokenization"  # Token replacement
 
 
 class DataClassification(Enum):
     """Data sensitivity classifications"""
 
-    PUBLIC = "public"                   # Public information
-    INTERNAL = "internal"               # Internal use only
-    CONFIDENTIAL = "confidential"       # Confidential data
-    RESTRICTED = "restricted"           # Highly restricted
-    TOP_SECRET = "top_secret"          # Maximum security
+    PUBLIC = "public"  # Public information
+    INTERNAL = "internal"  # Internal use only
+    CONFIDENTIAL = "confidential"  # Confidential data
+    RESTRICTED = "restricted"  # Highly restricted
+    TOP_SECRET = "top_secret"  # Maximum security
 
 
 class AnonymizationMethod(Enum):
     """Data anonymization methods"""
 
-    MASKING = "masking"                # Character masking
+    MASKING = "masking"  # Character masking
     GENERALIZATION = "generalization"  # Data generalization
-    SUPPRESSION = "suppression"        # Data suppression
-    PERTURBATION = "perturbation"      # Statistical noise
+    SUPPRESSION = "suppression"  # Data suppression
+    PERTURBATION = "perturbation"  # Statistical noise
     PSEUDONYMIZATION = "pseudonymization"  # Reversible anonymization
-    SYNTHETIC = "synthetic"            # Synthetic data generation
+    SYNTHETIC = "synthetic"  # Synthetic data generation
 
 
 @dataclass
@@ -105,9 +106,9 @@ class EncryptionKey:
     created_at: datetime
     expires_at: Optional[datetime] = None
     rotation_count: int = 0
-    status: str = "active"              # active, expired, revoked
+    status: str = "active"  # active, expired, revoked
     key_material: Optional[bytes] = None  # Encrypted key material
-    public_key: Optional[bytes] = None   # Public key for asymmetric
+    public_key: Optional[bytes] = None  # Public key for asymmetric
 
     # Key derivation info
     salt: Optional[bytes] = None
@@ -120,7 +121,7 @@ class EncryptionKey:
     # Trinity Framework integration
     identity_context: dict[str, Any] = field(default_factory=dict)
     consciousness_binding: bool = False  # Whether key is bound to consciousness state
-    guardian_approval: bool = False      # Guardian-approved key
+    guardian_approval: bool = False  # Guardian-approved key
 
 
 @dataclass
@@ -130,7 +131,7 @@ class ProtectionPolicy:
     policy_id: str
     name: str
     description: str
-    data_types: list[str]              # Data types covered
+    data_types: list[str]  # Data types covered
     protection_level: ProtectionLevel
 
     # Encryption settings
@@ -140,19 +141,19 @@ class ProtectionPolicy:
 
     # Anonymization settings
     anonymization_methods: list[AnonymizationMethod] = field(default_factory=list)
-    retain_utility: bool = True         # Preserve data utility
+    retain_utility: bool = True  # Preserve data utility
 
     # Access controls
     authorized_roles: list[str] = field(default_factory=list)
     audit_required: bool = True
 
     # Compliance requirements
-    gdpr_article_25: bool = True        # Data Protection by Design
-    gdpr_article_32: bool = True        # Security of Processing
+    gdpr_article_25: bool = True  # Data Protection by Design
+    gdpr_article_32: bool = True  # Security of Processing
 
     # Performance settings
-    cache_encrypted: bool = False       # Cache encrypted data
-    background_processing: bool = True   # Process in background
+    cache_encrypted: bool = False  # Cache encrypted data
+    background_processing: bool = True  # Process in background
 
     # Metadata
     created_at: datetime = field(default_factory=datetime.now)
@@ -178,7 +179,7 @@ class ProtectionResult:
     # Security metadata
     encryption_key_id: Optional[str] = None
     anonymization_score: Optional[float] = None  # 0.0 to 1.0
-    utility_preserved: Optional[float] = None     # 0.0 to 1.0
+    utility_preserved: Optional[float] = None  # 0.0 to 1.0
 
     # Reversibility
     is_reversible: bool = False
@@ -234,7 +235,7 @@ class AdvancedDataProtection:
             "policy_violations": 0,
             "average_processing_time": 0.0,
             "security_level_distribution": {},
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize crypto backend
@@ -268,7 +269,7 @@ class AdvancedDataProtection:
                 length=32,
                 salt=salt,
                 iterations=100000,
-                backend=self.crypto_backend
+                backend=self.crypto_backend,
             )
             return kdf.derive(master_secret)
         else:
@@ -288,7 +289,7 @@ class AdvancedDataProtection:
                 encryption_type=EncryptionType.FIELD_LEVEL,
                 anonymization_methods=[AnonymizationMethod.PSEUDONYMIZATION],
                 authorized_roles=["admin", "privacy_officer"],
-                key_rotation_days=30
+                key_rotation_days=30,
             ),
             ProtectionPolicy(
                 policy_id="financial_data",
@@ -299,7 +300,7 @@ class AdvancedDataProtection:
                 encryption_type=EncryptionType.HYBRID,
                 anonymization_methods=[AnonymizationMethod.TOKENIZATION],
                 authorized_roles=["financial_admin"],
-                key_rotation_days=7
+                key_rotation_days=7,
             ),
             ProtectionPolicy(
                 policy_id="behavioral_data",
@@ -308,7 +309,7 @@ class AdvancedDataProtection:
                 data_types=["click_stream", "usage_patterns", "preferences"],
                 protection_level=ProtectionLevel.STANDARD,
                 anonymization_methods=[AnonymizationMethod.GENERALIZATION],
-                key_rotation_days=180
+                key_rotation_days=180,
             ),
             ProtectionPolicy(
                 policy_id="public_data",
@@ -317,8 +318,8 @@ class AdvancedDataProtection:
                 data_types=["public_profile", "published_content"],
                 protection_level=ProtectionLevel.BASIC,
                 encryption_required=False,
-                anonymization_methods=[AnonymizationMethod.MASKING]
-            )
+                anonymization_methods=[AnonymizationMethod.MASKING],
+            ),
         ]
 
         for policy in standard_policies:
@@ -333,7 +334,7 @@ class AdvancedDataProtection:
         data: Union[dict[str, Any], str, bytes],
         policy_id: Optional[str] = None,
         protection_level: Optional[ProtectionLevel] = None,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> tuple[Any, ProtectionResult]:
         """
         Apply data protection based on policy or protection level
@@ -359,7 +360,11 @@ class AdvancedDataProtection:
                 policy = await self._determine_protection_policy(data, protection_level, context)
 
             # Calculate original data size
-            original_size = len(json.dumps(data, default=str).encode()) if isinstance(data, dict) else len(str(data).encode())
+            original_size = (
+                len(json.dumps(data, default=str).encode())
+                if isinstance(data, dict)
+                else len(str(data).encode())
+            )
 
             # Apply protection methods
             protected_data = data
@@ -377,10 +382,16 @@ class AdvancedDataProtection:
                 protected_data, anonymization_result = await self._apply_anonymization(
                     protected_data, policy, context
                 )
-                methods_applied.extend([f"anon_{method.value}" for method in policy.anonymization_methods])
+                methods_applied.extend(
+                    [f"anon_{method.value}" for method in policy.anonymization_methods]
+                )
 
             # Calculate protected data size
-            protected_size = len(json.dumps(protected_data, default=str).encode()) if isinstance(protected_data, dict) else len(str(protected_data).encode())
+            protected_size = (
+                len(json.dumps(protected_data, default=str).encode())
+                if isinstance(protected_data, dict)
+                else len(str(protected_data).encode())
+            )
 
             # Create protection result
             processing_time = (datetime.now() - start_time).total_seconds()
@@ -392,9 +403,14 @@ class AdvancedDataProtection:
                 protection_level=policy.protection_level,
                 methods_applied=methods_applied,
                 processing_time=processing_time,
-                encryption_key_id=encryption_result.get("key_id") if "encryption_result" in locals() else None,
-                anonymization_score=anonymization_result.get("score") if "anonymization_result" in locals() else None,
-                is_reversible=policy.encryption_required and not any(
+                encryption_key_id=encryption_result.get("key_id")
+                if "encryption_result" in locals()
+                else None,
+                anonymization_score=anonymization_result.get("score")
+                if "anonymization_result" in locals()
+                else None,
+                is_reversible=policy.encryption_required
+                and not any(
                     method in [AnonymizationMethod.SUPPRESSION, AnonymizationMethod.SYNTHETIC]
                     for method in policy.anonymization_methods
                 ),
@@ -402,8 +418,8 @@ class AdvancedDataProtection:
                 audit_trail=[
                     f"Applied policy: {policy.name}",
                     f"Methods: {', '.join(methods_applied)}",
-                    f"Processing time: {processing_time:.3f}s"
-                ]
+                    f"Processing time: {processing_time:.3f}s",
+                ],
             )
 
             # Trinity Framework integration
@@ -432,16 +448,13 @@ class AdvancedDataProtection:
                 protection_level=ProtectionLevel.NONE,
                 methods_applied=["error"],
                 processing_time=(datetime.now() - start_time).total_seconds(),
-                audit_trail=[f"Protection failed: {str(e)}"]
+                audit_trail=[f"Protection failed: {e!s}"],
             )
 
             return data, error_result
 
     async def unprotect_data(
-        self,
-        protected_data: Any,
-        operation_id: str,
-        context: Optional[dict[str, Any]] = None
+        self, protected_data: Any, operation_id: str, context: Optional[dict[str, Any]] = None
     ) -> tuple[Any, dict[str, Any]]:
         """
         Reverse data protection to recover original data
@@ -496,8 +509,8 @@ class AdvancedDataProtection:
                 "methods_reversed": protection_result.methods_applied,
                 "audit_trail": [
                     f"Data unprotection authorized for user {context.get('user_id')}",
-                    f"Methods reversed: {', '.join(protection_result.methods_applied)}"
-                ]
+                    f"Methods reversed: {', '.join(protection_result.methods_applied)}",
+                ],
             }
 
             logger.info(f"✅ Data unprotected: {operation_id}")
@@ -508,10 +521,7 @@ class AdvancedDataProtection:
             return protected_data, {"error": str(e), "unprotected": False}
 
     async def _determine_protection_policy(
-        self,
-        data: Any,
-        protection_level: Optional[ProtectionLevel],
-        context: dict[str, Any]
+        self, data: Any, protection_level: Optional[ProtectionLevel], context: dict[str, Any]
     ) -> ProtectionPolicy:
         """Determine appropriate protection policy based on data and context"""
 
@@ -530,7 +540,7 @@ class AdvancedDataProtection:
                 name="Ad-hoc Protection",
                 description="Dynamically created protection policy",
                 data_types=data_types,
-                protection_level=protection_level
+                protection_level=protection_level,
             )
 
         # Default to basic protection
@@ -539,7 +549,7 @@ class AdvancedDataProtection:
             name="Default Basic Protection",
             description="Default basic protection policy",
             data_types=data_types,
-            protection_level=ProtectionLevel.BASIC
+            protection_level=ProtectionLevel.BASIC,
         )
 
     async def _analyze_data_types(self, data: Any) -> list[str]:
@@ -575,10 +585,7 @@ class AdvancedDataProtection:
         return list(set(data_types)) if data_types else ["unknown"]
 
     async def _apply_encryption(
-        self,
-        data: Any,
-        policy: ProtectionPolicy,
-        context: dict[str, Any]
+        self, data: Any, policy: ProtectionPolicy, context: dict[str, Any]
     ) -> tuple[Any, dict[str, Any]]:
         """Apply encryption based on policy"""
 
@@ -587,7 +594,10 @@ class AdvancedDataProtection:
             # Fallback to base64 encoding
             data_str = json.dumps(data, default=str)
             encoded_data = base64.b64encode(data_str.encode()).decode()
-            return {"encrypted": True, "data": encoded_data}, {"method": "base64", "key_id": "fallback"}
+            return {"encrypted": True, "data": encoded_data}, {
+                "method": "base64",
+                "key_id": "fallback",
+            }
 
         # Get or generate encryption key
         key = await self._get_encryption_key(policy)
@@ -617,14 +627,14 @@ class AdvancedDataProtection:
                 "encrypted": True,
                 "algorithm": "AES-256",
                 "data": base64.b64encode(encrypted_data).decode(),
-                "iv": None  # Fernet handles IV internally
+                "iv": None,  # Fernet handles IV internally
             }
 
             result_info = {
                 "method": "symmetric",
                 "algorithm": "AES-256",
                 "key_id": key.key_id,
-                "success": True
+                "success": True,
             }
 
             return result_data, result_info
@@ -633,7 +643,9 @@ class AdvancedDataProtection:
             logger.error(f"Symmetric encryption failed: {e}")
             return data, {"method": "symmetric", "success": False, "error": str(e)}
 
-    async def _field_level_encrypt(self, data: Any, key: EncryptionKey) -> tuple[Any, dict[str, Any]]:
+    async def _field_level_encrypt(
+        self, data: Any, key: EncryptionKey
+    ) -> tuple[Any, dict[str, Any]]:
         """Apply field-level encryption to sensitive fields"""
 
         if not isinstance(data, dict):
@@ -655,7 +667,7 @@ class AdvancedDataProtection:
                     encrypted_value = fernet.encrypt(str(field_value).encode())
                     encrypted_data[field_name] = {
                         "encrypted": True,
-                        "value": base64.b64encode(encrypted_value).decode()
+                        "value": base64.b64encode(encrypted_value).decode(),
                     }
                     encrypted_fields.append(field_name)
 
@@ -667,16 +679,13 @@ class AdvancedDataProtection:
             "algorithm": "AES-256",
             "key_id": key.key_id,
             "encrypted_fields": encrypted_fields,
-            "success": True
+            "success": True,
         }
 
         return encrypted_data, result_info
 
     async def _apply_anonymization(
-        self,
-        data: Any,
-        policy: ProtectionPolicy,
-        context: dict[str, Any]
+        self, data: Any, policy: ProtectionPolicy, context: dict[str, Any]
     ) -> tuple[Any, dict[str, Any]]:
         """Apply anonymization methods based on policy"""
 
@@ -717,7 +726,7 @@ class AdvancedDataProtection:
             "methods": methods_applied,
             "score": anonymization_score,
             "utility_preserved": 1.0 - (anonymization_score * 0.3),  # Estimate utility loss
-            "success": True
+            "success": True,
         }
 
         return anonymized_data, result_info
@@ -738,7 +747,11 @@ class AdvancedDataProtection:
                         else:
                             masked_data[key] = "***@***.***"
                     elif any(sensitive in key_lower for sensitive in ["phone", "ssn", "card"]):
-                        masked_data[key] = f"{value[:2]}{'*' * (len(value) - 4)}{value[-2:]}" if len(value) > 4 else "****"
+                        masked_data[key] = (
+                            f"{value[:2]}{'*' * (len(value) - 4)}{value[-2:]}"
+                            if len(value) > 4
+                            else "****"
+                        )
                     elif "name" in key_lower:
                         masked_data[key] = f"{value[0]}***" if value else "***"
                     else:
@@ -849,7 +862,9 @@ class AdvancedDataProtection:
                 if isinstance(value, (int, float)):
                     # Add small random noise to numerical values
                     noise_factor = 0.05  # 5% noise
-                    noise = secrets.randbelow(int(abs(value) * noise_factor * 2)) - (abs(value) * noise_factor)
+                    noise = secrets.randbelow(int(abs(value) * noise_factor * 2)) - (
+                        abs(value) * noise_factor
+                    )
                     perturbed_data[key] = value + noise
                 else:
                     perturbed_data[key] = value
@@ -870,21 +885,23 @@ class AdvancedDataProtection:
 
         elif policy.encryption_type == EncryptionType.ASYMMETRIC:
             # Generate RSA key pair
-            private_key = rsa.generate_private_key(
-                public_exponent=65537,
-                key_size=2048,
-                backend=self.crypto_backend
-            ) if CRYPTO_AVAILABLE else None
+            private_key = (
+                rsa.generate_private_key(
+                    public_exponent=65537, key_size=2048, backend=self.crypto_backend
+                )
+                if CRYPTO_AVAILABLE
+                else None
+            )
 
             if private_key:
                 key_material = private_key.private_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PrivateFormat.PKCS8,
-                    encryption_algorithm=serialization.NoEncryption()
+                    encryption_algorithm=serialization.NoEncryption(),
                 )
                 public_key = private_key.public_key().public_bytes(
                     encoding=serialization.Encoding.PEM,
-                    format=serialization.PublicFormat.SubjectPublicKeyInfo
+                    format=serialization.PublicFormat.SubjectPublicKeyInfo,
                 )
             else:
                 key_material = secrets.token_bytes(32)
@@ -907,10 +924,12 @@ class AdvancedDataProtection:
             algorithm=algorithm,
             key_size=key_size,
             created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(days=policy.key_rotation_days) if policy.key_rotation_days > 0 else None,
+            expires_at=datetime.now() + timedelta(days=policy.key_rotation_days)
+            if policy.key_rotation_days > 0
+            else None,
             key_material=key_material,
             public_key=public_key,
-            authorized_systems=["lukhas_ai"]
+            authorized_systems=["lukhas_ai"],
         )
 
         # Store key
@@ -924,10 +943,11 @@ class AdvancedDataProtection:
 
         # Look for existing active key for this policy
         for key in self.encryption_keys.values():
-            if (key.status == "active" and
-                key.key_type == policy.encryption_type and
-                policy.policy_id in key.authorized_systems):
-
+            if (
+                key.status == "active"
+                and key.key_type == policy.encryption_type
+                and policy.policy_id in key.authorized_systems
+            ):
                 # Check if key is expired
                 if key.expires_at and datetime.now() > key.expires_at:
                     key.status = "expired"
@@ -948,7 +968,9 @@ class AdvancedDataProtection:
             return self.encryption_keys[pseudo_key_id]
 
         # Create pseudonymization key (long-lived deterministic key)
-        key_material = hashlib.sha256(f"pseudo_{policy.policy_id}_{self.master_key.hex()}".encode()).digest()
+        key_material = hashlib.sha256(
+            f"pseudo_{policy.policy_id}_{self.master_key.hex()}".encode()
+        ).digest()
 
         pseudo_key = EncryptionKey(
             key_id=pseudo_key_id,
@@ -958,13 +980,15 @@ class AdvancedDataProtection:
             created_at=datetime.now(),
             expires_at=None,  # Long-lived for consistency
             key_material=key_material,
-            authorized_systems=[policy.policy_id]
+            authorized_systems=[policy.policy_id],
         )
 
         self.encryption_keys[pseudo_key_id] = pseudo_key
         return pseudo_key
 
-    async def _validate_guardian_approval(self, policy: ProtectionPolicy, context: dict[str, Any]) -> bool:
+    async def _validate_guardian_approval(
+        self, policy: ProtectionPolicy, context: dict[str, Any]
+    ) -> bool:
         """Validate Guardian system approval for protection operation"""
 
         # High-level protection requires Guardian approval
@@ -972,15 +996,15 @@ class AdvancedDataProtection:
             guardian_context = context.get("guardian_context", {})
 
             if not guardian_context.get("approved", False):
-                logger.warning(f"⚠️ Guardian approval required for {policy.protection_level.value} protection")
+                logger.warning(
+                    f"⚠️ Guardian approval required for {policy.protection_level.value} protection"
+                )
                 return False
 
         return True
 
     async def _verify_unprotection_authorization(
-        self,
-        protection_result: ProtectionResult,
-        context: dict[str, Any]
+        self, protection_result: ProtectionResult, context: dict[str, Any]
     ) -> dict[str, Any]:
         """Verify authorization for data unprotection"""
 
@@ -1025,8 +1049,9 @@ class AdvancedDataProtection:
 
         # Update security level distribution
         level = result.protection_level.value
-        self.metrics["security_level_distribution"][level] = \
+        self.metrics["security_level_distribution"][level] = (
             self.metrics["security_level_distribution"].get(level, 0) + 1
+        )
 
         self.metrics["last_updated"] = datetime.now().isoformat()
 
@@ -1087,11 +1112,11 @@ class AdvancedDataProtection:
 # Export main classes and functions
 __all__ = [
     "AdvancedDataProtection",
+    "AnonymizationMethod",
+    "DataClassification",
+    "EncryptionKey",
+    "EncryptionType",
+    "ProtectionLevel",
     "ProtectionPolicy",
     "ProtectionResult",
-    "EncryptionKey",
-    "ProtectionLevel",
-    "EncryptionType",
-    "DataClassification",
-    "AnonymizationMethod"
 ]

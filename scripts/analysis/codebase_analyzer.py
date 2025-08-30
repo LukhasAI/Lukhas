@@ -202,9 +202,7 @@ class CodebaseAnalyzer:
                     content = f.read()
 
                 # Find import statements
-                imports = re.findall(
-                    r"^(?:from|import)\s+([^\s]+)", content, re.MULTILINE
-                )
+                imports = re.findall(r"^(?:from|import)\s+([^\s]+)", content, re.MULTILINE)
 
                 # Check for problematic imports
                 for imp in imports:
@@ -241,9 +239,7 @@ class CodebaseAnalyzer:
         for file_info in self.files:
             # Normalize name for comparison
             normalized = re.sub(r"[_-]", "", file_info["stem"].lower())
-            normalized = re.sub(
-                r"(adapter|adaptor|system|engine|manager)$", "", normalized
-            )
+            normalized = re.sub(r"(adapter|adaptor|system|engine|manager)$", "", normalized)
 
             if len(normalized) > 3:  # Skip very short names
                 similar_names[normalized].append(file_info)
@@ -255,8 +251,7 @@ class CodebaseAnalyzer:
                     {
                         "normalized_name": normalized_name,
                         "files": [
-                            {"path": str(f["relative_path"]), "lines": f["lines"]}
-                            for f in files
+                            {"path": str(f["relative_path"]), "lines": f["lines"]} for f in files
                         ],
                     }
                 )
@@ -280,9 +275,7 @@ class CodebaseAnalyzer:
                         "quarantined",
                     ]
 
-                    if any(
-                        indicator in content.lower() for indicator in stub_indicators
-                    ):
+                    if any(indicator in content.lower() for indicator in stub_indicators):
                         self.issues["stub_files"].append(
                             {
                                 "file": str(file_info["relative_path"]),
@@ -349,9 +342,7 @@ class CodebaseAnalyzer:
                     "priority": "HIGH",
                     "action": "Fix redundant prefixes",
                     "description": f"Rename {len(self.issues['redundant_prefixes'])} files with redundant prefixes",
-                    "files": [
-                        issue["file"] for issue in self.issues["redundant_prefixes"]
-                    ],
+                    "files": [issue["file"] for issue in self.issues["redundant_prefixes"]],
                 }
             )
 
@@ -361,9 +352,7 @@ class CodebaseAnalyzer:
                     "priority": "MEDIUM",
                     "action": "Move documentation",
                     "description": f"Move {len(self.issues['documentation_in_code'])} documentation files to docs/",
-                    "files": [
-                        issue["file"] for issue in self.issues["documentation_in_code"]
-                    ],
+                    "files": [issue["file"] for issue in self.issues["documentation_in_code"]],
                 }
             )
 
@@ -420,9 +409,7 @@ class CodebaseAnalyzer:
         print("\n💡 RECOMMENDATIONS:")
         for rec in report["recommendations"]:
             priority_color = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}
-            print(
-                f"\n  {priority_color.get(rec['priority'], '⚪')} {rec['priority']} PRIORITY"
-            )
+            print(f"\n  {priority_color.get(rec['priority'], '⚪')} {rec['priority']} PRIORITY")
             print(f"    Action: {rec['action']}")
             print(f"    Description: {rec['description']}")
 

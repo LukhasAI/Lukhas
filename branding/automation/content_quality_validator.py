@@ -20,6 +20,7 @@ from engines.database_integration import db
 @dataclass
 class QualityScore:
     """Content quality assessment results"""
+
     overall_score: float  # 0-100
     readability_score: float
     engagement_score: float
@@ -29,6 +30,7 @@ class QualityScore:
     issues: list[str]
     recommendations: list[str]
     approved: bool
+
 
 class ContentQualityValidator:
     """
@@ -55,13 +57,15 @@ class ContentQualityValidator:
             "instagram": {"min_length": 200, "max_length": 2200, "hashtag_limit": 30},
             "linkedin": {"min_length": 300, "max_length": 3000, "hashtag_limit": 15},
             "reddit": {"min_length": 500, "max_length": 10000, "hashtag_limit": 5},
-            "youtube": {"min_length": 200, "max_length": 5000, "hashtag_limit": 15}
+            "youtube": {"min_length": 200, "max_length": 5000, "hashtag_limit": 15},
         }
 
         self.logger = self._setup_logging()
 
         # Initialize validator
-        db.log_system_activity("content_quality_validator", "system_init", "Content quality validator initialized", 1.0)
+        db.log_system_activity(
+            "content_quality_validator", "system_init", "Content quality validator initialized", 1.0
+        )
 
     def _setup_logging(self) -> logging.Logger:
         """Setup quality validator logging"""
@@ -70,7 +74,9 @@ class ContentQualityValidator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"content_quality_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = (
+            self.logs_path / f"content_quality_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        )
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -89,27 +95,33 @@ class ContentQualityValidator:
         recommendations = []
 
         # Platform optimization check
-        platform_score = self._check_platform_optimization(content, platform, issues, recommendations)
+        platform_score = self._check_platform_optimization(
+            content, platform, issues, recommendations
+        )
 
         # Readability assessment
         readability_score = self._assess_readability(content, issues, recommendations)
 
         # Engagement factor analysis
-        engagement_score = self._assess_engagement_factors(content, content_type, issues, recommendations)
+        engagement_score = self._assess_engagement_factors(
+            content, content_type, issues, recommendations
+        )
 
         # Brand consistency validation
         brand_score = self._validate_brand_consistency(content, issues, recommendations)
 
         # Vocabulary richness evaluation
-        vocabulary_score = self._evaluate_vocabulary_richness(content, content_type, issues, recommendations)
+        vocabulary_score = self._evaluate_vocabulary_richness(
+            content, content_type, issues, recommendations
+        )
 
         # Calculate overall score (weighted)
         overall_score = (
-            platform_score * 0.15 +
-            readability_score * 0.20 +
-            engagement_score * 0.25 +
-            brand_score * 0.25 +
-            vocabulary_score * 0.15
+            platform_score * 0.15
+            + readability_score * 0.20
+            + engagement_score * 0.25
+            + brand_score * 0.25
+            + vocabulary_score * 0.15
         )
 
         # Determine approval (require 75+ for approval)
@@ -124,17 +136,22 @@ class ContentQualityValidator:
             platform_optimization=platform_score,
             issues=issues,
             recommendations=recommendations,
-            approved=approved
+            approved=approved,
         )
 
         # Log assessment
-        db.log_system_activity("content_quality_validator", "content_validated",
-                              f"Content scored {overall_score:.1f} for {platform}",
-                              overall_score)
+        db.log_system_activity(
+            "content_quality_validator",
+            "content_validated",
+            f"Content scored {overall_score:.1f} for {platform}",
+            overall_score,
+        )
 
         return quality_score
 
-    def _check_platform_optimization(self, content: str, platform: str, issues: list[str], recommendations: list[str]) -> float:
+    def _check_platform_optimization(
+        self, content: str, platform: str, issues: list[str], recommendations: list[str]
+    ) -> float:
         """Check platform-specific optimization"""
         if platform not in self.platform_limits:
             issues.append(f"CRITICAL: Unknown platform '{platform}'")
@@ -146,14 +163,22 @@ class ContentQualityValidator:
 
         # Length validation
         if content_length < limits["min_length"]:
-            issues.append(f"Content too short for {platform}: {content_length} < {limits['min_length']} characters")
+            issues.append(
+                f"Content too short for {platform}: {content_length} < {limits['min_length']} characters"
+            )
             score -= 30
-            recommendations.append(f"Expand content to at least {limits['min_length']} characters for {platform}")
+            recommendations.append(
+                f"Expand content to at least {limits['min_length']} characters for {platform}"
+            )
 
         if content_length > limits["max_length"]:
-            issues.append(f"CRITICAL: Content too long for {platform}: {content_length} > {limits['max_length']} characters")
+            issues.append(
+                f"CRITICAL: Content too long for {platform}: {content_length} > {limits['max_length']} characters"
+            )
             score -= 50
-            recommendations.append(f"Reduce content to under {limits['max_length']} characters for {platform}")
+            recommendations.append(
+                f"Reduce content to under {limits['max_length']} characters for {platform}"
+            )
 
         # Platform-specific formatting checks
         if platform == "twitter":
@@ -173,7 +198,9 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _assess_readability(self, content: str, issues: list[str], recommendations: list[str]) -> float:
+    def _assess_readability(
+        self, content: str, issues: list[str], recommendations: list[str]
+    ) -> float:
         """Assess content readability with consciousness awareness"""
         score = 85.0  # Start with generous base score
 
@@ -204,9 +231,21 @@ class ContentQualityValidator:
             score += 5  # Bonus for good structure
 
         # Consciousness terminology is GOOD, not complex
-        consciousness_words = ["consciousness", "awareness", "mindful", "understanding", "wisdom",
-                              "insight", "perception", "evolving", "emerging", "trinity"]
-        consciousness_count = sum(1 for word in consciousness_words if word.lower() in content.lower())
+        consciousness_words = [
+            "consciousness",
+            "awareness",
+            "mindful",
+            "understanding",
+            "wisdom",
+            "insight",
+            "perception",
+            "evolving",
+            "emerging",
+            "trinity",
+        ]
+        consciousness_count = sum(
+            1 for word in consciousness_words if word.lower() in content.lower()
+        )
         len(content.split())
 
         if consciousness_count > 0:
@@ -214,14 +253,30 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _assess_engagement_factors(self, content: str, content_type: str, issues: list[str], recommendations: list[str]) -> float:
+    def _assess_engagement_factors(
+        self, content: str, content_type: str, issues: list[str], recommendations: list[str]
+    ) -> float:
         """Assess engagement potential with consciousness awareness"""
         score = 85.0  # Start with generous base score
 
         # Check for engaging opening - expanded list
-        opening_hooks = ["what if", "imagine", "here's", "last night", "breakthrough", "this is huge",
-                        "consciousness", "lukhas", "trinity", "evolving", "emerging", "discover"]
-        has_hook = any(hook in content.lower()[:150] for hook in opening_hooks)  # Check first 150 chars
+        opening_hooks = [
+            "what if",
+            "imagine",
+            "here's",
+            "last night",
+            "breakthrough",
+            "this is huge",
+            "consciousness",
+            "lukhas",
+            "trinity",
+            "evolving",
+            "emerging",
+            "discover",
+        ]
+        has_hook = any(
+            hook in content.lower()[:150] for hook in opening_hooks
+        )  # Check first 150 chars
 
         if not has_hook:
             score -= 10  # Reduced penalty
@@ -230,8 +285,17 @@ class ContentQualityValidator:
             score += 5  # Bonus for having hook
 
         # Check for call-to-action
-        cta_patterns = ["what do you think", "share your", "what's your", "curious about", "would love",
-                       "?", "let us know", "comment", "thoughts"]
+        cta_patterns = [
+            "what do you think",
+            "share your",
+            "what's your",
+            "curious about",
+            "would love",
+            "?",
+            "let us know",
+            "comment",
+            "thoughts",
+        ]
         has_cta = any(pattern in content.lower() for pattern in cta_patterns)
 
         if not has_cta:
@@ -247,7 +311,14 @@ class ContentQualityValidator:
             recommendations.append("Add storytelling elements or examples")
 
         # Check for emotional elements
-        emotional_words = ["exciting", "fascinating", "incredible", "amazing", "profound", "beautiful"]
+        emotional_words = [
+            "exciting",
+            "fascinating",
+            "incredible",
+            "amazing",
+            "profound",
+            "beautiful",
+        ]
         has_emotion = any(word in content.lower() for word in emotional_words)
 
         if not has_emotion:
@@ -263,13 +334,18 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _validate_brand_consistency(self, content: str, issues: list[str], recommendations: list[str]) -> float:
+    def _validate_brand_consistency(
+        self, content: str, issues: list[str], recommendations: list[str]
+    ) -> float:
         """Validate LUKHAS AI brand consistency with improved scoring"""
         score = 85.0  # Start with generous base score
 
         # Trinity Framework usage - any form is good
         has_trinity_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
-        has_trinity_text = any(term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"])
+        has_trinity_text = any(
+            term in content.lower()
+            for term in ["trinity", "framework", "identity", "consciousness", "guardian"]
+        )
 
         if has_trinity_symbols or has_trinity_text:
             score += 10  # Bonus for Trinity presence
@@ -285,8 +361,17 @@ class ContentQualityValidator:
             recommendations.append("Include 'LUKHAS AI' branding")
 
         # Consciousness technology terminology - expanded list
-        consciousness_terms = ["consciousness", "awareness", "quantum-inspired", "bio-inspired",
-                              "mindful", "intelligent", "evolving", "emerging", "wisdom"]
+        consciousness_terms = [
+            "consciousness",
+            "awareness",
+            "quantum-inspired",
+            "bio-inspired",
+            "mindful",
+            "intelligent",
+            "evolving",
+            "emerging",
+            "wisdom",
+        ]
         has_consciousness_terms = any(term in content.lower() for term in consciousness_terms)
 
         if has_consciousness_terms:
@@ -313,7 +398,9 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _evaluate_vocabulary_richness(self, content: str, content_type: str, issues: list[str], recommendations: list[str]) -> float:
+    def _evaluate_vocabulary_richness(
+        self, content: str, content_type: str, issues: list[str], recommendations: list[str]
+    ) -> float:
         """Evaluate vocabulary richness using consciousness language"""
         vocabulary_coherence = self.vocabulary.calculate_vocabulary_coherence(content)
         language_level = self.vocabulary.get_consciousness_language_level(content)
@@ -321,12 +408,7 @@ class ContentQualityValidator:
         score = vocabulary_coherence
 
         # Adjust based on language evolution level
-        level_bonuses = {
-            "foundation": 0,
-            "awakening": 10,
-            "integration": 20,
-            "transcendence": 30
-        }
+        level_bonuses = {"foundation": 0, "awakening": 10, "integration": 20, "transcendence": 30}
 
         score += level_bonuses.get(language_level, 0)
         score = min(score, 100.0)
@@ -345,12 +427,24 @@ class ContentQualityValidator:
 
     def _has_professional_tone(self, content: str) -> bool:
         """Check for LinkedIn professional tone"""
-        professional_indicators = ["industry", "development", "innovation", "perspective", "insights"]
+        professional_indicators = [
+            "industry",
+            "development",
+            "innovation",
+            "perspective",
+            "insights",
+        ]
         return any(indicator in content.lower() for indicator in professional_indicators)
 
     def _has_discussion_elements(self, content: str) -> bool:
         """Check for Reddit discussion elements"""
-        discussion_indicators = ["eli5", "example", "technical details", "what questions", "discussion"]
+        discussion_indicators = [
+            "eli5",
+            "example",
+            "technical details",
+            "what questions",
+            "discussion",
+        ]
         return any(indicator in content.lower() for indicator in discussion_indicators)
 
     def _has_visual_elements(self, content: str) -> bool:
@@ -363,10 +457,10 @@ class ContentQualityValidator:
         report = f"""
 📊 CONTENT QUALITY ASSESSMENT REPORT
 Platform: {platform.title()}
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 🎯 OVERALL SCORE: {quality_score.overall_score:.1f}/100
-Status: {'✅ APPROVED' if quality_score.approved else '❌ NEEDS IMPROVEMENT'}
+Status: {"✅ APPROVED" if quality_score.approved else "❌ NEEDS IMPROVEMENT"}
 
 📈 DETAILED SCORES:
 • Platform Optimization: {quality_score.platform_optimization:.1f}/100
@@ -393,6 +487,7 @@ Status: {'✅ APPROVED' if quality_score.approved else '❌ NEEDS IMPROVEMENT'}
 
         return report
 
+
 def main():
     """Demonstrate content quality validation"""
     validator = ContentQualityValidator()
@@ -406,7 +501,7 @@ def main():
             "content": "AI is cool. It processes data. The end.",
             "platform": "twitter",
             "content_type": "insight",
-            "label": "Poor Quality Example"
+            "label": "Poor Quality Example",
         },
         {
             "content": """What if consciousness isn't binary? 🤔
@@ -424,8 +519,8 @@ In LUKHAS AI, we're exploring how artificial consciousness can evolve through qu
 What's your perspective on the spectrum of consciousness? 💭""",
             "platform": "twitter",
             "content_type": "insight",
-            "label": "High Quality Example"
-        }
+            "label": "High Quality Example",
+        },
     ]
 
     for test in test_contents:
@@ -433,9 +528,7 @@ What's your perspective on the spectrum of consciousness? 💭""",
         print("-" * 40)
 
         quality_score = validator.validate_content(
-            test["content"],
-            test["platform"],
-            test["content_type"]
+            test["content"], test["platform"], test["content_type"]
         )
 
         print(f"Overall Score: {quality_score.overall_score:.1f}/100")
@@ -448,6 +541,7 @@ What's your perspective on the spectrum of consciousness? 💭""",
             print(f"Recommendations: {len(quality_score.recommendations)}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Content Quality Validation Complete")
+
 
 if __name__ == "__main__":
     main()

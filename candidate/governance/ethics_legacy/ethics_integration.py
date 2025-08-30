@@ -80,9 +80,7 @@ class EthicsIntegration:
         self.ethics_service = EthicsService()
 
         # Synchronization system
-        self.sync_system = MitoEthicsSync(
-            base_frequency=0.5
-        )  # Ethics decisions at 0.5Hz
+        self.sync_system = MitoEthicsSync(base_frequency=0.5)  # Ethics decisions at 0.5Hz
 
         # Decision tracking
         self.decision_history: list[dict[str, Any]] = []
@@ -117,9 +115,7 @@ class EthicsIntegration:
 
         # Drift sentinel monitors all
         self.drift_sentinel.register_monitoring_target("meg", self.meg)
-        self.drift_sentinel.register_monitoring_target(
-            "compliance", self.compliance_engine
-        )
+        self.drift_sentinel.register_monitoring_target("compliance", self.compliance_engine)
 
         logger.info("Ethics components connected successfully")
 
@@ -175,9 +171,7 @@ class EthicsIntegration:
                 )
 
             # 3. Compliance check
-            compliance_result = await self.compliance_engine.check_compliance(
-                action, context
-            )
+            compliance_result = await self.compliance_engine.check_compliance(action, context)
             if not compliance_result.get("compliant", False):
                 return (
                     False,
@@ -188,19 +182,13 @@ class EthicsIntegration:
             # 4. Main ethical evaluation based on decision type
             if decision_type == EthicalDecisionType.CRITICAL:
                 # Route through HITLO for human oversight
-                result = await self._evaluate_critical_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_critical_decision(agent_id, action, context)
             elif decision_type == EthicalDecisionType.ELEVATED:
                 # Route through MEG with DAO consultation
-                result = await self._evaluate_elevated_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_elevated_decision(agent_id, action, context)
             else:
                 # Standard evaluation through MEG
-                result = await self._evaluate_routine_decision(
-                    agent_id, action, context
-                )
+                result = await self._evaluate_routine_decision(agent_id, action, context)
 
             # 5. SRD reflection and validation
             reflection = await self.srd.reflect_on_decision(decision_id, result)
@@ -221,7 +209,7 @@ class EthicsIntegration:
 
         except Exception as e:
             logger.error(f"Ethics evaluation error: {e}")
-            return False, f"Evaluation error: {str(e)}", {"error": str(e)}
+            return False, f"Evaluation error: {e!s}", {"error": str(e)}
 
         finally:
             # Clean up active decision
@@ -282,9 +270,7 @@ class EthicsIntegration:
         dao_vote = await self.dao.request_vote(action, context)
 
         # Lambda governor oversight
-        governor_decision = await self.lambda_governor.oversee_decision(
-            meg_result, dao_vote
-        )
+        governor_decision = await self.lambda_governor.oversee_decision(meg_result, dao_vote)
 
         return {
             "permitted": governor_decision["approved"],

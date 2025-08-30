@@ -111,9 +111,7 @@ class NodeRegistry:
         logger.info(f"Registered node type: {node_id}")
         return True
 
-    def create_node(
-        self, node_type: str, node_id: Optional[str] = None, **kwargs
-    ) -> str:
+    def create_node(self, node_type: str, node_id: Optional[str] = None, **kwargs) -> str:
         """
         Create and register a node instance
 
@@ -177,9 +175,7 @@ class NodeRegistry:
 
         return self.nodes[node_id]
 
-    def send_message(
-        self, from_node: str, to_node: str, message_type: str, payload: Any
-    ) -> str:
+    def send_message(self, from_node: str, to_node: str, message_type: str, payload: Any) -> str:
         """
         Send a message from one node to another
 
@@ -194,9 +190,7 @@ class NodeRegistry:
         """
         return self.message_bus.send_message(from_node, to_node, message_type, payload)
 
-    def broadcast_message(
-        self, from_node: str, message_type: str, payload: Any
-    ) -> list[str]:
+    def broadcast_message(self, from_node: str, message_type: str, payload: Any) -> list[str]:
         """
         Broadcast a message to all nodes
 
@@ -246,9 +240,7 @@ class NodeRegistry:
         else:
             raise ValueError(f"Unknown relationship type: {relationship_type}")
 
-        logger.debug(
-            f"Established {relationship_type} relationship: {from_node} -> {to_node}"
-        )
+        logger.debug(f"Established {relationship_type} relationship: {from_node} -> {to_node}")
         return True
 
     def initialize_standard_nodes(self) -> dict[str, str]:
@@ -279,19 +271,13 @@ class NodeRegistry:
 
         # Establish standard relationships
         if "intent" in node_ids and "goal" in node_ids:
-            self.establish_relationship(
-                node_ids["intent"], node_ids["goal"], "provides_to"
-            )
+            self.establish_relationship(node_ids["intent"], node_ids["goal"], "provides_to")
 
         if "goal" in node_ids and "ethics" in node_ids:
-            self.establish_relationship(
-                node_ids["goal"], node_ids["ethics"], "depends_on"
-            )
+            self.establish_relationship(node_ids["goal"], node_ids["ethics"], "depends_on")
 
         if "memory" in node_ids and "intent" in node_ids:
-            self.establish_relationship(
-                node_ids["memory"], node_ids["intent"], "provides_to"
-            )
+            self.establish_relationship(node_ids["memory"], node_ids["intent"], "provides_to")
 
         logger.info(f"Initialized {len(node_ids)} standard nodes")
         return node_ids
@@ -399,9 +385,7 @@ class MessageBus:
         self.messages = []  # Message history
         self.subscribers = {}  # Message type subscriptions
 
-    def send_message(
-        self, from_node: str, to_node: str, message_type: str, payload: Any
-    ) -> str:
+    def send_message(self, from_node: str, to_node: str, message_type: str, payload: Any) -> str:
         """
         Send a message from one node to another
 
@@ -453,9 +437,7 @@ class MessageBus:
 
         return message_id
 
-    def broadcast_message(
-        self, from_node: str, message_type: str, payload: Any
-    ) -> list[str]:
+    def broadcast_message(self, from_node: str, message_type: str, payload: Any) -> list[str]:
         """
         Broadcast a message to all nodes
 
@@ -471,9 +453,7 @@ class MessageBus:
 
         for node_id in self.registry.nodes:
             if node_id != from_node:  # Don't send to self
-                message_id = self.send_message(
-                    from_node, node_id, message_type, payload
-                )
+                message_id = self.send_message(from_node, node_id, message_type, payload)
                 message_ids.append(message_id)
 
         return message_ids
@@ -511,11 +491,7 @@ class MessageBus:
         filtered = self.messages
 
         if node_id is not None:
-            filtered = [
-                m
-                for m in filtered
-                if m["from_node"] == node_id or m["to_node"] == node_id
-            ]
+            filtered = [m for m in filtered if m["from_node"] == node_id or m["to_node"] == node_id]
 
         if message_type is not None:
             filtered = [m for m in filtered if m["type"] == message_type]

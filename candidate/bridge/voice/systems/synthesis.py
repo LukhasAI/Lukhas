@@ -127,9 +127,7 @@ class AdaptiveVoiceSynthesis:
         provider = self.providers.get(provider_name)
 
         if not provider:
-            self.logger.warning(
-                f"Provider {provider_name} not available, falling back to default"
-            )
+            self.logger.warning(f"Provider {provider_name} not available, falling back to default")
             provider_name = self.provider_priority[-1]  # Use last provider as fallback
             provider = self.providers.get(provider_name)
 
@@ -165,9 +163,7 @@ class AdaptiveVoiceSynthesis:
                         result["fallback"] = True
                         return result
                     except Exception as fallback_error:
-                        self.logger.error(
-                            f"Fallback {fallback_name} also failed: {fallback_error}"
-                        )
+                        self.logger.error(f"Fallback {fallback_name} also failed: {fallback_error}")
 
             # All providers failed, return error
             return {
@@ -228,14 +224,10 @@ class AdaptiveVoiceSynthesis:
         # Consider emotional complexity
         emotion = context.get("emotion", "neutral")
         complexity = (
-            len(context.get("emotional_nuances", []))
-            if "emotional_nuances" in context
-            else 0
+            len(context.get("emotional_nuances", [])) if "emotional_nuances" in context else 0
         )
 
-        if (
-            emotion not in ["neutral", "calm"] or complexity > 2
-        ) and "coqui" in self.providers:
+        if (emotion not in ["neutral", "calm"] or complexity > 2) and "coqui" in self.providers:
             return "coqui"
 
         # Default to first available provider in priority list
@@ -531,9 +523,7 @@ class ElevenLabsProvider(BaseTTSProvider):
 
             voice_id = params.get("voice_id", "default")
             min(max(params.get("pitch", 1.0) * 0.5, 0), 1)  # Map pitch to stability
-            min(
-                max(params.get("energy", 1.0) * 0.5, 0), 1
-            )  # Map energy to similarity boost
+            min(max(params.get("energy", 1.0) * 0.5, 0), 1)  # Map energy to similarity boost
 
             # Simulate processing time
             await asyncio.sleep(1.0)  # ElevenLabs is typically slower (API call)

@@ -46,9 +46,7 @@ class LambdaIDSystemAudit:
         report = self._generate_audit_report()
 
         # Save report
-        report_path = (
-            self.root_path / "docs" / "reports" / "LAMBDA_ID_AUDIT_REPORT.json"
-        )
+        report_path = self.root_path / "docs" / "reports" / "LAMBDA_ID_AUDIT_REPORT.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
@@ -139,9 +137,7 @@ class LambdaIDSystemAudit:
                     "categories": list(module_categories),
                     "functions": module_functions,
                     "size_lines": len(content.split("\n")),
-                    "has_classes": any(
-                        f.startswith("class_") for f in module_functions
-                    ),
+                    "has_classes": any(f.startswith("class_") for f in module_functions),
                 }
 
             except Exception as e:
@@ -264,12 +260,8 @@ class LambdaIDSystemAudit:
 
         # Calculate metrics
         total_modules = len(self.identity_modules)
-        total_functions = sum(
-            len(data["functions"]) for data in self.functionality_map.values()
-        )
-        total_lines = sum(
-            data["size_lines"] for data in self.functionality_map.values()
-        )
+        total_functions = sum(len(data["functions"]) for data in self.functionality_map.values())
+        total_lines = sum(data["size_lines"] for data in self.functionality_map.values())
 
         high_severity_issues = [
             issue for issue in self.security_issues if issue["severity"] == "HIGH"
@@ -290,9 +282,7 @@ class LambdaIDSystemAudit:
             )
 
         if "authentication" not in [
-            cat
-            for data in self.functionality_map.values()
-            for cat in data["categories"]
+            cat for data in self.functionality_map.values() for cat in data["categories"]
         ]:
             recommendations.append(
                 {
@@ -318,22 +308,15 @@ class LambdaIDSystemAudit:
             "security_audit_complete": len(high_severity_issues) == 0,
             "documentation_exists": False,  # Will be updated after doc creation
             "no_hardcoded_secrets": not any(
-                issue["issue_type"] == "hardcoded_secrets"
-                for issue in self.security_issues
+                issue["issue_type"] == "hardcoded_secrets" for issue in self.security_issues
             ),
             "clear_api_definition": "authentication"
-            in [
-                cat
-                for data in self.functionality_map.values()
-                for cat in data["categories"]
-            ],
+            in [cat for data in self.functionality_map.values() for cat in data["categories"]],
             "license_compatible": True,  # Assume compatible
             "test_coverage": False,  # Will need separate analysis
         }
 
-        readiness_score = (
-            sum(readiness_checklist.values()) / len(readiness_checklist) * 100
-        )
+        readiness_score = sum(readiness_checklist.values()) / len(readiness_checklist) * 100
 
         # Convert sets to lists for JSON serialization
         serializable_dependencies = {}

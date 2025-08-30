@@ -45,17 +45,15 @@ def validate_file(fp: Path, cfg) -> list[str]:
         return []
 
     # Gate by extension and academic context
-    if (
-        fp.suffix.lower()
-        not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"}
-        or is_academic(text, str(fp), cfg)
+    if fp.suffix.lower() not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"} or is_academic(
+        text, str(fp), cfg
     ):
         return []
 
     # Process blocked terms, neutralizing allowed stance terms first
     blocked = cfg["blocked_terms"]
     processed_text = text
-    for term in (cfg.get("allow_stance_terms") or []):
+    for term in cfg.get("allow_stance_terms") or []:
         processed_text = processed_text.replace(term, "")  # neutralize before scanning
 
     hits = scan_text(processed_text, blocked)

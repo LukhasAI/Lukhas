@@ -203,9 +203,7 @@ class BaseModule(ABC):
             "state": self.state,
             "healthy": self.state == ModuleState.READY,
             "uptime_seconds": uptime,
-            "last_activity": (
-                self.last_activity.isoformat() if self.last_activity else None
-            ),
+            "last_activity": (self.last_activity.isoformat() if self.last_activity else None),
             "metrics": self.metrics,
             "dependencies": list(self._dependencies),
             "capabilities": list(self._capabilities),

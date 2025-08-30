@@ -9,9 +9,9 @@ from .consciousness_mapper import ConsciousnessMapper, ConsciousnessState
 from .lukhas_orb import LUKHASOrb, OrbState, OrbVisualization
 
 __all__ = [
+    "ConsciousnessMapper",
+    "ConsciousnessState",
     "LUKHASOrb",
     "OrbState",
     "OrbVisualization",
-    "ConsciousnessMapper",
-    "ConsciousnessState",
 ]

@@ -114,12 +114,8 @@ class AGIModuleAnalyzer:
         """Analyze a module's AST to understand its structure and purpose"""
 
         # Extract classes and functions
-        classes = [
-            node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)
-        ]
-        functions = [
-            node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)
-        ]
+        classes = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+        functions = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
 
         # Extract imports and dependencies
         dependencies = []
@@ -154,9 +150,7 @@ class AGIModuleAnalyzer:
             path=str(file_path.relative_to(self.root_path)),
             purpose=purpose,
             complexity_score=complexity,
-            dependencies=[
-                d for d in dependencies if d.startswith("qi.") or d.startswith("core.")
-            ],
+            dependencies=[d for d in dependencies if d.startswith("qi.") or d.startswith("core.")],
             interfaces=interfaces,
             core_functions=functions[:5],  # Top 5 functions
             potential_merges=[],  # Will be filled later
@@ -175,9 +169,7 @@ class AGIModuleAnalyzer:
             elif isinstance(node, ast.FunctionDef):
                 complexity += len(node.args.args) * 0.1
             elif isinstance(node, ast.ClassDef):
-                complexity += (
-                    len([n for n in node.body if isinstance(n, ast.FunctionDef)]) * 0.2
-                )
+                complexity += len([n for n in node.body if isinstance(n, ast.FunctionDef)]) * 0.2
 
         # Add factors for AGI-specific complexity
         lines = len(content.split("\n"))
@@ -192,9 +184,7 @@ class AGIModuleAnalyzer:
         if self.use_ai:
             return self._ai_analyze_purpose(file_path, content, classes, functions)
         else:
-            return self._heuristic_analyze_purpose(
-                file_path, content, classes, functions
-            )
+            return self._heuristic_analyze_purpose(file_path, content, classes, functions)
 
     def _ai_analyze_purpose(
         self, file_path: Path, content: str, classes: list[str], functions: list[str]
@@ -211,9 +201,7 @@ class AGIModuleAnalyzer:
         # Extract docstrings
         try:
             tree = ast.parse(content)
-            if isinstance(tree.body[0], ast.Expr) and isinstance(
-                tree.body[0].value, ast.Str
-            ):
+            if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
                 tree.body[0].value.s
         except:
             pass
@@ -225,17 +213,11 @@ class AGIModuleAnalyzer:
         # Determine purpose based on patterns
         if any(word in filename for word in ["adapter", "bridge", "interface"]):
             return "Interface/Adapter layer for connecting different AGI subsystems"
-        elif any(
-            word in filename for word in ["orchestrat", "coordinat", "hub", "manager"]
-        ):
+        elif any(word in filename for word in ["orchestrat", "coordinat", "hub", "manager"]):
             return "Orchestration and coordination of AGI components"
-        elif any(
-            word in filename for word in ["quantum", "oscillator", "superposition"]
-        ):
+        elif any(word in filename for word in ["quantum", "oscillator", "superposition"]):
             return "Quantum processing and quantum-inspired computation"
-        elif any(
-            word in filename for word in ["awareness", "consciousness", "attention"]
-        ):
+        elif any(word in filename for word in ["awareness", "consciousness", "attention"]):
             return "Consciousness and awareness mechanisms"
         elif any(word in filename for word in ["neural", "brain", "cognitive"]):
             return "Neural processing and cognitive functions"
@@ -285,9 +267,7 @@ class AGIModuleAnalyzer:
         """Determine the abstraction level of the module"""
         if any("abstract" in cls.lower() or "base" in cls.lower() for cls in classes):
             return "abstract_base"
-        elif any(
-            "interface" in cls.lower() or "protocol" in cls.lower() for cls in classes
-        ):
+        elif any("interface" in cls.lower() or "protocol" in cls.lower() for cls in classes):
             return "interface"
         elif len(classes) > len(functions):
             return "high_level"
@@ -370,9 +350,7 @@ class AGIModuleAnalyzer:
 
         return consolidation_plan
 
-    def _analyze_merge_potential(
-        self, component_type: str, modules: list[dict]
-    ) -> list[dict]:
+    def _analyze_merge_potential(self, component_type: str, modules: list[dict]) -> list[dict]:
         """Analyze if modules within same AGI component can be merged"""
         merge_candidates = []
 
@@ -395,9 +373,7 @@ class AGIModuleAnalyzer:
                                     "modules": [mod1["module"], mod2["module"]],
                                     "similarity": similarity,
                                     "component_type": component_type,
-                                    "merge_strategy": self._suggest_merge_strategy(
-                                        mod1, mod2
-                                    ),
+                                    "merge_strategy": self._suggest_merge_strategy(mod1, mod2),
                                 }
                             )
 
@@ -411,9 +387,7 @@ class AGIModuleAnalyzer:
         purpose1_words = set(mod1["purpose"].lower().split())
         purpose2_words = set(mod2["purpose"].lower().split())
 
-        word_overlap = len(purpose1_words & purpose2_words) / len(
-            purpose1_words | purpose2_words
-        )
+        word_overlap = len(purpose1_words & purpose2_words) / len(purpose1_words | purpose2_words)
         complexity_similarity = 1 - abs(mod1["complexity"] - mod2["complexity"]) / max(
             mod1["complexity"], mod2["complexity"], 1
         )
@@ -436,9 +410,7 @@ class AGIModuleAnalyzer:
         for module_path, analysis in self.modules.items():
             interface_signature = tuple(sorted(analysis.interfaces))
             if len(interface_signature) > 0:
-                modules_by_interface[interface_signature].append(
-                    (module_path, analysis)
-                )
+                modules_by_interface[interface_signature].append((module_path, analysis))
 
         # Find groups with identical or very similar interfaces
         for interface_sig, module_group in modules_by_interface.items():
@@ -448,9 +420,9 @@ class AGIModuleAnalyzer:
                         "interface_signature": interface_sig,
                         "redundant_modules": [mod[0] for mod in module_group],
                         "recommendation": "Keep the most complex module, merge others",
-                        "primary_candidate": max(
-                            module_group, key=lambda x: x[1].complexity_score
-                        )[0],
+                        "primary_candidate": max(module_group, key=lambda x: x[1].complexity_score)[
+                            0
+                        ],
                     }
                 )
 
@@ -486,9 +458,7 @@ class AGIModuleAnalyzer:
 
         # Find common patterns
         interface_freq = Counter(all_interfaces)
-        common_interfaces = [
-            iface for iface, count in interface_freq.items() if count > 1
-        ]
+        common_interfaces = [iface for iface, count in interface_freq.items() if count > 1]
 
         return {
             "common_interfaces": common_interfaces,
@@ -499,39 +469,25 @@ class AGIModuleAnalyzer:
         """Suggest a standard interface for a component type"""
         # Basic interface standardization suggestions
         patterns = {
-            "initialization": [
-                iface for iface in common_interfaces if "init" in iface.lower()
-            ],
+            "initialization": [iface for iface in common_interfaces if "init" in iface.lower()],
             "processing": [
                 iface
                 for iface in common_interfaces
-                if any(
-                    word in iface.lower()
-                    for word in ["process", "execute", "run", "compute"]
-                )
+                if any(word in iface.lower() for word in ["process", "execute", "run", "compute"])
             ],
             "configuration": [
                 iface
                 for iface in common_interfaces
-                if any(
-                    word in iface.lower() for word in ["config", "setup", "configure"]
-                )
+                if any(word in iface.lower() for word in ["config", "setup", "configure"])
             ],
             "state_management": [
                 iface
                 for iface in common_interfaces
-                if any(
-                    word in iface.lower()
-                    for word in ["get_state", "set_state", "update"]
-                )
+                if any(word in iface.lower() for word in ["get_state", "set_state", "update"])
             ],
         }
 
-        return {
-            category: interfaces
-            for category, interfaces in patterns.items()
-            if interfaces
-        }
+        return {category: interfaces for category, interfaces in patterns.items() if interfaces}
 
     def _generate_optimization_plan(self) -> dict:
         """Generate optimization recommendations for the AGI architecture"""
@@ -733,9 +689,7 @@ class AGIModuleAnalyzer:
             max_depth = 0
             for source in sources:
                 try:
-                    depths = nx.single_source_shortest_path_length(
-                        self.dependency_graph, source
-                    )
+                    depths = nx.single_source_shortest_path_length(self.dependency_graph, source)
                     max_depth = max(max_depth, max(depths.values()) if depths else 0)
                 except:
                     continue
@@ -749,9 +703,7 @@ class AGIModuleAnalyzer:
         recommendations = []
 
         # Analyze current architecture balance
-        component_distribution = {
-            k: len(v) for k, v in self.agi_architecture_map.items()
-        }
+        component_distribution = {k: len(v) for k, v in self.agi_architecture_map.items()}
 
         # Check for missing essential AGI components
         essential_components = [
@@ -772,7 +724,7 @@ class AGIModuleAnalyzer:
                 {
                     "type": "missing_components",
                     "priority": "HIGH",
-                    "description": f'Implement missing essential AGI components: {", ".join(missing_components)}',
+                    "description": f"Implement missing essential AGI components: {', '.join(missing_components)}",
                     "components": missing_components,
                 }
             )
@@ -834,9 +786,7 @@ class AGIModuleAnalyzer:
             for merge in analysis_result["consolidation_plan"]["merge_candidates"]:
                 modules = merge["modules"]
                 strategy = merge["merge_strategy"]
-                script_lines.append(
-                    f"        {{'modules': {modules}, 'strategy': '{strategy}'}},"
-                )
+                script_lines.append(f"        {{'modules': {modules}, 'strategy': '{strategy}'}},")
 
             script_lines.extend(
                 [
@@ -849,9 +799,7 @@ class AGIModuleAnalyzer:
                 ]
             )
 
-        script_lines.extend(
-            ["if __name__ == '__main__':", "    consolidate_agi_modules()"]
-        )
+        script_lines.extend(["if __name__ == '__main__':", "    consolidate_agi_modules()"])
 
         return "\n".join(script_lines)
 

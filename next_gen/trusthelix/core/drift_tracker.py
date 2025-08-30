@@ -181,17 +181,13 @@ class DriftTracker:
         for alert in alerts:
             logger.warning(f"⚠️ DRIFT ALERT: {alert['message']}")
 
-    def get_drift_analysis(
-        self, user_id: Optional[str] = None, window: str = "short"
-    ) -> dict:
+    def get_drift_analysis(self, user_id: Optional[str] = None, window: str = "short") -> dict:
         """Get comprehensive drift analysis"""
         # Filter events
         cutoff = datetime.utcnow() - self.WINDOWS.get(window, self.WINDOWS["short"])
 
         if user_id:
-            events = [
-                e for e in self.history if e.user_id == user_id and e.timestamp > cutoff
-            ]
+            events = [e for e in self.history if e.user_id == user_id and e.timestamp > cutoff]
         else:
             events = [e for e in self.history if e.timestamp > cutoff]
 
@@ -262,36 +258,24 @@ class DriftTracker:
 
         # Drift-based recommendations
         if avg_drift > 0.7:
-            recommendations.append(
-                "⚠️ Implement immediate intervention - high average drift"
-            )
-            recommendations.append(
-                "🔒 Increase authentication requirements temporarily"
-            )
+            recommendations.append("⚠️ Implement immediate intervention - high average drift")
+            recommendations.append("🔒 Increase authentication requirements temporarily")
         elif avg_drift > 0.5:
             recommendations.append("📊 Monitor user behavior closely")
             recommendations.append("🤝 Consider re-consent flow")
 
         if max_drift > 0.9:
-            recommendations.append(
-                "🚨 Critical drift detected - manual review required"
-            )
+            recommendations.append("🚨 Critical drift detected - manual review required")
 
         # Entropy-based recommendations
         if entropy_trend == "increasing":
-            recommendations.append(
-                "📈 Decision patterns becoming chaotic - simplify UI"
-            )
+            recommendations.append("📈 Decision patterns becoming chaotic - simplify UI")
             recommendations.append("🧭 Provide clearer guidance to users")
 
         # State-based recommendations
-        unstable_ratio = (
-            state_dist.get("🌪️", 0) / sum(state_dist.values()) if state_dist else 0
-        )
+        unstable_ratio = state_dist.get("🌪️", 0) / sum(state_dist.values()) if state_dist else 0
         if unstable_ratio > 0.3:
-            recommendations.append(
-                "🌪️ High instability ratio - review system parameters"
-            )
+            recommendations.append("🌪️ High instability ratio - review system parameters")
 
         if not recommendations:
             recommendations.append("✅ System operating within normal parameters")
@@ -304,9 +288,7 @@ class DriftTracker:
             return {"patterns": [], "insights": ["Insufficient data"]}
 
         # Sort patterns by frequency
-        sorted_patterns = sorted(
-            self.pattern_cache.items(), key=lambda x: x[1], reverse=True
-        )
+        sorted_patterns = sorted(self.pattern_cache.items(), key=lambda x: x[1], reverse=True)
 
         patterns = []
         for pattern, count in sorted_patterns[:10]:
@@ -316,9 +298,7 @@ class DriftTracker:
                     "action": action,
                     "state": emoji,
                     "count": count,
-                    "percentage": (
-                        count / len(self.history) * 100 if self.history else 0
-                    ),
+                    "percentage": (count / len(self.history) * 100 if self.history else 0),
                 }
             )
 
@@ -394,9 +374,7 @@ if __name__ == "__main__":
             entropy = random.uniform(0.2, 0.7)
 
         event = tracker.record_drift(user, drift, action, entropy)
-        print(
-            f"{event.state_emoji} {user}: {action} (drift: {drift:.2f}, entropy: {entropy:.2f})"
-        )
+        print(f"{event.state_emoji} {user}: {action} (drift: {drift:.2f}, entropy: {entropy:.2f})")
 
     # Get analysis
     print("\n📊 Drift Analysis (Short Window):")

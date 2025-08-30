@@ -175,9 +175,7 @@ class LambdaIDPortabilitySystem:
 
         # Generate emergency codes if requested
         if RecoveryMethod.EMERGENCY_CODE in methods:
-            package.emergency_codes = self._generate_emergency_codes(
-                lambda_id, security_level
-            )
+            package.emergency_codes = self._generate_emergency_codes(lambda_id, security_level)
 
         # Generate recovery phrase if requested
         if RecoveryMethod.RECOVERY_PHRASE in methods:
@@ -316,7 +314,7 @@ class LambdaIDPortabilitySystem:
 
         except Exception as e:
             attempt.status = RecoveryStatus.FAILED
-            attempt.failure_reasons.append(f"Recovery error: {str(e)}")
+            attempt.failure_reasons.append(f"Recovery error: {e!s}")
 
         self.recovery_attempts.append(attempt)
         return attempt
@@ -341,9 +339,7 @@ class LambdaIDPortabilitySystem:
             code_hash = hashlib.sha256(code_seed.encode()).hexdigest()[:12]
 
             # Format as human-readable code
-            formatted_code = (
-                f"{code_hash[:4]}-{code_hash[4:8]}-{code_hash[8:12]}".upper()
-            )
+            formatted_code = f"{code_hash[:4]}-{code_hash[4:8]}-{code_hash[8:12]}".upper()
             codes.append(formatted_code)
 
         return codes
@@ -465,7 +461,7 @@ class LambdaIDPortabilitySystem:
 
         except Exception as e:
             attempt.status = RecoveryStatus.FAILED
-            attempt.failure_reasons.append(f"Recovery error: {str(e)}")
+            attempt.failure_reasons.append(f"Recovery error: {e!s}")
 
         self.recovery_attempts.append(attempt)
         return attempt
@@ -541,9 +537,7 @@ class LambdaIDPortabilitySystem:
         }
 
         # Encrypt backup data
-        encrypted_backup = self._encrypt_with_password(
-            json.dumps(backup_data).encode(), password
-        )
+        encrypted_backup = self._encrypt_with_password(json.dumps(backup_data).encode(), password)
 
         return {
             "backup_file": base64.b64encode(encrypted_backup).decode(),
@@ -604,7 +598,7 @@ class LambdaIDPortabilitySystem:
 
         except Exception as e:
             attempt.status = RecoveryStatus.FAILED
-            attempt.failure_reasons.append(f"Restore error: {str(e)}")
+            attempt.failure_reasons.append(f"Restore error: {e!s}")
 
         self.recovery_attempts.append(attempt)
         return attempt
@@ -621,9 +615,7 @@ class LambdaIDPortabilitySystem:
         """
         if lambda_id:
             # Analytics for specific ΛiD
-            lambda_attempts = [
-                a for a in self.recovery_attempts if a.lambda_id == lambda_id
-            ]
+            lambda_attempts = [a for a in self.recovery_attempts if a.lambda_id == lambda_id]
 
             return {
                 "lambda_id": lambda_id,
@@ -634,47 +626,31 @@ class LambdaIDPortabilitySystem:
                 "failed_attempts": len(
                     [a for a in lambda_attempts if a.status == RecoveryStatus.FAILED]
                 ),
-                "methods_used": list(
-                    {a.method.value for a in lambda_attempts if a.method}
-                ),
-                "latest_attempt": (
-                    lambda_attempts[-1].to_dict() if lambda_attempts else None
-                ),
+                "methods_used": list({a.method.value for a in lambda_attempts if a.method}),
+                "latest_attempt": (lambda_attempts[-1].to_dict() if lambda_attempts else None),
                 "package_exists": lambda_id in self.active_packages,
             }
         else:
             # Overall analytics
             total_attempts = len(self.recovery_attempts)
             successful = len(
-                [
-                    a
-                    for a in self.recovery_attempts
-                    if a.status == RecoveryStatus.SUCCESS
-                ]
+                [a for a in self.recovery_attempts if a.status == RecoveryStatus.SUCCESS]
             )
 
             method_stats = {}
             for method in RecoveryMethod:
-                method_attempts = [
-                    a for a in self.recovery_attempts if a.method == method
-                ]
+                method_attempts = [a for a in self.recovery_attempts if a.method == method]
                 method_stats[method.value] = {
                     "total": len(method_attempts),
                     "successful": len(
-                        [
-                            a
-                            for a in method_attempts
-                            if a.status == RecoveryStatus.SUCCESS
-                        ]
+                        [a for a in method_attempts if a.status == RecoveryStatus.SUCCESS]
                     ),
                 }
 
             return {
                 "total_recovery_attempts": total_attempts,
                 "successful_recoveries": successful,
-                "success_rate": (
-                    (successful / total_attempts * 100) if total_attempts > 0 else 0
-                ),
+                "success_rate": ((successful / total_attempts * 100) if total_attempts > 0 else 0),
                 "active_packages": len(self.active_packages),
                 "method_statistics": method_stats,
                 "peak_recovery_day": self._get_peak_recovery_day(),
@@ -689,9 +665,7 @@ class LambdaIDPortabilitySystem:
         geo_data = self.geo_encoder.encode_with_location(lambda_id, geo_location)
         return geo_data
 
-    def _generate_emergency_codes(
-        self, lambda_id: str, security_level: str
-    ) -> list[str]:
+    def _generate_emergency_codes(self, lambda_id: str, security_level: str) -> list[str]:
         """Generate emergency codes based on security level"""
         code_count = {"standard": 5, "high": 10, "ultra": 15}.get(security_level, 5)
         return self.generate_emergency_codes(lambda_id, code_count)
@@ -700,9 +674,7 @@ class LambdaIDPortabilitySystem:
         """Generate recovery phrase for ΛiD"""
         return self.generate_recovery_phrase(lambda_id)
 
-    def _create_backup_data(
-        self, lambda_id: str, security_level: str
-    ) -> dict[str, Any]:
+    def _create_backup_data(self, lambda_id: str, security_level: str) -> dict[str, Any]:
         """Create backup data structure"""
         return {
             "lambda_id": lambda_id,
@@ -747,10 +719,7 @@ class LambdaIDPortabilitySystem:
         dlat = lat2 - lat1
         dlon = lon2 - lon1
 
-        a = (
-            math.sin(dlat / 2) ** 2
-            + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-        )
+        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
         c = 2 * math.asin(math.sqrt(a))
         distance_km = 6371 * c  # Earth's radius in km
 
@@ -762,9 +731,7 @@ class LambdaIDPortabilitySystem:
             "original_location": original,
         }
 
-    def _verify_additional_factors(
-        self, lambda_id: str, factors: dict[str, str]
-    ) -> bool:
+    def _verify_additional_factors(self, lambda_id: str, factors: dict[str, str]) -> bool:
         """Verify additional authentication factors"""
         # Placeholder for additional verification logic
         return True
@@ -865,9 +832,7 @@ class LambdaIDPortabilitySystem:
 class GeographicEncoder:
     """Geographic encoding utility for QR-G codes"""
 
-    def encode_with_location(
-        self, lambda_id: str, geo_location: Optional[dict[str, float]]
-    ) -> str:
+    def encode_with_location(self, lambda_id: str, geo_location: Optional[dict[str, float]]) -> str:
         """Encode ΛiD with geographic location"""
         if not geo_location:
             return lambda_id

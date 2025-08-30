@@ -16,15 +16,17 @@ from typing import Any
 
 class VoiceCoherenceLevel(Enum):
     """Voice coherence quality levels"""
-    POOR = "poor"           # <60% - Needs major improvement
-    FAIR = "fair"           # 60-70% - Requires enhancement
-    GOOD = "good"           # 70-80% - Acceptable quality
-    EXCELLENT = "excellent" # 80-85% - High quality
-    ELITE = "elite"         # >85% - Market leadership level
+
+    POOR = "poor"  # <60% - Needs major improvement
+    FAIR = "fair"  # 60-70% - Requires enhancement
+    GOOD = "good"  # 70-80% - Acceptable quality
+    EXCELLENT = "excellent"  # 80-85% - High quality
+    ELITE = "elite"  # >85% - Market leadership level
 
 
 class ContentType(Enum):
     """Types of content to analyze"""
+
     BLOG_POST = "blog_post"
     LANDING_PAGE = "landing_page"
     TECHNICAL_DOC = "technical_doc"
@@ -36,12 +38,13 @@ class ContentType(Enum):
 @dataclass
 class CoherenceMetrics:
     """Voice coherence measurement metrics"""
-    brand_terminology_score: float = 0.0     # Use of approved LUKHAS terms
-    trinity_framework_score: float = 0.0     # ⚛️🧠🛡️ integration
-    consciousness_tech_score: float = 0.0    # Consciousness technology focus
-    tone_consistency_score: float = 0.0      # 3-Layer tone system adherence
-    founder_authority_score: float = 0.0     # Founder-led positioning
-    premium_positioning_score: float = 0.0   # Elite brand positioning
+
+    brand_terminology_score: float = 0.0  # Use of approved LUKHAS terms
+    trinity_framework_score: float = 0.0  # ⚛️🧠🛡️ integration
+    consciousness_tech_score: float = 0.0  # Consciousness technology focus
+    tone_consistency_score: float = 0.0  # 3-Layer tone system adherence
+    founder_authority_score: float = 0.0  # Founder-led positioning
+    premium_positioning_score: float = 0.0  # Elite brand positioning
 
     @property
     def overall_coherence(self) -> float:
@@ -52,7 +55,7 @@ class CoherenceMetrics:
             self.consciousness_tech_score,
             self.tone_consistency_score,
             self.founder_authority_score,
-            self.premium_positioning_score
+            self.premium_positioning_score,
         ]
         return sum(scores) / len(scores) * 100
 
@@ -60,6 +63,7 @@ class CoherenceMetrics:
 @dataclass
 class ContentAnalysis:
     """Complete analysis of a content piece"""
+
     content_path: str
     content_type: ContentType
     coherence_metrics: CoherenceMetrics
@@ -79,39 +83,77 @@ class VoiceCoherenceAnalyzer:
 
     def __init__(self):
         self.brand_keywords = self._load_brand_keywords()
-        self.trinity_symbols = ["⚛️", "🧠", "🛡️", "Trinity Framework", "Identity", "Consciousness", "Guardian"]
+        self.trinity_symbols = [
+            "⚛️",
+            "🧠",
+            "🛡️",
+            "Trinity Framework",
+            "Identity",
+            "Consciousness",
+            "Guardian",
+        ]
         self.consciousness_terms = [
-            "consciousness technology", "digital consciousness", "AI consciousness",
-            "consciousness awakening", "conscious AI", "consciousness awareness",
-            "quantum-inspired", "bio-inspired", "neural processing"
+            "consciousness technology",
+            "digital consciousness",
+            "AI consciousness",
+            "consciousness awakening",
+            "conscious AI",
+            "consciousness awareness",
+            "quantum-inspired",
+            "bio-inspired",
+            "neural processing",
         ]
         self.prohibited_terms = [
-            "LUKHAS AGI", "quantum processing", "bio processes",
-            "production-ready", "price prediction", "revenue forecast"
+            "LUKHAS AGI",
+            "quantum processing",
+            "bio processes",
+            "production-ready",
+            "price prediction",
+            "revenue forecast",
         ]
         self.founder_indicators = [
-            "founder", "vision", "pioneering", "breakthrough", "innovation",
-            "leadership", "thought leader", "industry pioneer"
+            "founder",
+            "vision",
+            "pioneering",
+            "breakthrough",
+            "innovation",
+            "leadership",
+            "thought leader",
+            "industry pioneer",
         ]
 
     def _load_brand_keywords(self) -> dict[str, list[str]]:
         """Load approved brand terminology"""
         return {
             "core_brand": [
-                "LUKHAS AI", "Lambda", "Trinity Framework", "consciousness technology",
-                "elite brand", "premium positioning", "market leadership"
+                "LUKHAS AI",
+                "Lambda",
+                "Trinity Framework",
+                "consciousness technology",
+                "elite brand",
+                "premium positioning",
+                "market leadership",
             ],
             "technical": [
-                "quantum-inspired", "bio-inspired", "consciousness architecture",
-                "voice coherence", "brand validation", "symbolic processing"
+                "quantum-inspired",
+                "bio-inspired",
+                "consciousness architecture",
+                "voice coherence",
+                "brand validation",
+                "symbolic processing",
             ],
             "positioning": [
-                "thought leadership", "consciousness pioneer", "digital awakening",
-                "premium experience", "market differentiation"
-            ]
+                "thought leadership",
+                "consciousness pioneer",
+                "digital awakening",
+                "premium experience",
+                "market differentiation",
+            ],
         }
 
-    def analyze_content(self, content_path: str, content: str, content_type: ContentType) -> ContentAnalysis:
+    def analyze_content(
+        self, content_path: str, content: str, content_type: ContentType
+    ) -> ContentAnalysis:
         """Analyze content for voice coherence and brand alignment"""
 
         # Calculate coherence metrics
@@ -138,7 +180,7 @@ class VoiceCoherenceAnalyzer:
             brand_violations=violations,
             improvement_suggestions=suggestions,
             elite_brand_readiness=readiness,
-            analysis_timestamp=datetime.now().isoformat()
+            analysis_timestamp=datetime.now().isoformat(),
         )
 
     def _calculate_coherence_metrics(self, content: str) -> CoherenceMetrics:
@@ -169,7 +211,7 @@ class VoiceCoherenceAnalyzer:
             consciousness_tech_score=consciousness_score,
             tone_consistency_score=tone_score,
             founder_authority_score=founder_score,
-            premium_positioning_score=premium_score
+            premium_positioning_score=premium_score,
         )
 
     def _calculate_brand_terminology_score(self, content: str) -> float:
@@ -216,15 +258,27 @@ class VoiceCoherenceAnalyzer:
         """Calculate 3-Layer tone system consistency"""
         # Check for poetic elements (metaphors, inspiring language)
         poetic_indicators = ["awakening", "transcend", "emerge", "evolve", "breakthrough"]
-        poetic_score = sum(1 for indicator in poetic_indicators if indicator in content.lower()) / len(poetic_indicators)
+        poetic_score = sum(
+            1 for indicator in poetic_indicators if indicator in content.lower()
+        ) / len(poetic_indicators)
 
         # Check for user-friendly language (accessible, conversational)
         friendly_indicators = ["you", "your", "we", "simple", "easy", "understand"]
-        friendly_score = sum(1 for indicator in friendly_indicators if indicator in content.lower()) / len(friendly_indicators)
+        friendly_score = sum(
+            1 for indicator in friendly_indicators if indicator in content.lower()
+        ) / len(friendly_indicators)
 
         # Check for academic precision (technical, detailed)
-        academic_indicators = ["architecture", "framework", "implementation", "optimization", "analysis"]
-        academic_score = sum(1 for indicator in academic_indicators if indicator in content.lower()) / len(academic_indicators)
+        academic_indicators = [
+            "architecture",
+            "framework",
+            "implementation",
+            "optimization",
+            "analysis",
+        ]
+        academic_score = sum(
+            1 for indicator in academic_indicators if indicator in content.lower()
+        ) / len(academic_indicators)
 
         # Balanced tone across layers
         return (poetic_score + friendly_score + academic_score) / 3
@@ -246,14 +300,26 @@ class VoiceCoherenceAnalyzer:
     def _calculate_premium_positioning_score(self, content: str) -> float:
         """Calculate premium/elite brand positioning score"""
         premium_indicators = [
-            "premium", "elite", "excellence", "superior", "advanced",
-            "cutting-edge", "industry-leading", "best-in-class", "revolutionary"
+            "premium",
+            "elite",
+            "excellence",
+            "superior",
+            "advanced",
+            "cutting-edge",
+            "industry-leading",
+            "best-in-class",
+            "revolutionary",
         ]
 
-        premium_mentions = sum(1 for indicator in premium_indicators if indicator in content.lower())
+        premium_mentions = sum(
+            1 for indicator in premium_indicators if indicator in content.lower()
+        )
 
         # Check for Apple/OpenAI-level language
-        if any(phrase in content.lower() for phrase in ["seamless", "intuitive", "elegant", "sophisticated"]):
+        if any(
+            phrase in content.lower()
+            for phrase in ["seamless", "intuitive", "elegant", "sophisticated"]
+        ):
             premium_mentions += 2
 
         return min(premium_mentions / 10.0, 1.0)
@@ -291,7 +357,9 @@ class VoiceCoherenceAnalyzer:
 
         return violations
 
-    def _generate_improvement_suggestions(self, content: str, metrics: CoherenceMetrics) -> list[str]:
+    def _generate_improvement_suggestions(
+        self, content: str, metrics: CoherenceMetrics
+    ) -> list[str]:
         """Generate specific improvement suggestions"""
         suggestions = []
 
@@ -324,16 +392,16 @@ class VoiceCoherenceAnalyzer:
             "consciousness_tech": 0.2,
             "tone_consistency": 0.15,
             "founder_authority": 0.15,
-            "premium_positioning": 0.15
+            "premium_positioning": 0.15,
         }
 
         readiness = (
-            metrics.brand_terminology_score * weights["brand_terminology"] +
-            metrics.trinity_framework_score * weights["trinity_framework"] +
-            metrics.consciousness_tech_score * weights["consciousness_tech"] +
-            metrics.tone_consistency_score * weights["tone_consistency"] +
-            metrics.founder_authority_score * weights["founder_authority"] +
-            metrics.premium_positioning_score * weights["premium_positioning"]
+            metrics.brand_terminology_score * weights["brand_terminology"]
+            + metrics.trinity_framework_score * weights["trinity_framework"]
+            + metrics.consciousness_tech_score * weights["consciousness_tech"]
+            + metrics.tone_consistency_score * weights["tone_consistency"]
+            + metrics.founder_authority_score * weights["founder_authority"]
+            + metrics.premium_positioning_score * weights["premium_positioning"]
         ) * 100
 
         return readiness
@@ -346,7 +414,7 @@ class VoiceCoherenceAnalyzer:
             "content_analyses": [],
             "system_metrics": {},
             "readiness_assessment": {},
-            "analysis_timestamp": datetime.now().isoformat()
+            "analysis_timestamp": datetime.now().isoformat(),
         }
 
         # Find and analyze all content files
@@ -378,7 +446,9 @@ class VoiceCoherenceAnalyzer:
                 "max_coherence": max(coherence_scores),
                 "min_coherence": min(coherence_scores),
                 "total_content_pieces": len(coherence_scores),
-                "elite_ready_percentage": len([s for s in coherence_scores if s >= 85]) / len(coherence_scores) * 100
+                "elite_ready_percentage": len([s for s in coherence_scores if s >= 85])
+                / len(coherence_scores)
+                * 100,
             }
 
             # Readiness assessment
@@ -387,7 +457,11 @@ class VoiceCoherenceAnalyzer:
                 "current_level": self._determine_coherence_level(avg_coherence).value,
                 "elite_gap": max(0, 85 - avg_coherence),
                 "deployment_ready": avg_coherence >= 85,
-                "priority_level": "high" if avg_coherence < 70 else "medium" if avg_coherence < 80 else "low"
+                "priority_level": "high"
+                if avg_coherence < 70
+                else "medium"
+                if avg_coherence < 80
+                else "low",
             }
 
         return system_analysis
@@ -420,7 +494,11 @@ class VoiceCoherenceAnalyzer:
             return ContentType.LANDING_PAGE
         elif "api" in file_path_lower and ("doc" in file_path_lower or ".md" in file_path_lower):
             return ContentType.API_DOCUMENTATION
-        elif "social" in file_path_lower or "twitter" in file_path_lower or "linkedin" in file_path_lower:
+        elif (
+            "social" in file_path_lower
+            or "twitter" in file_path_lower
+            or "linkedin" in file_path_lower
+        ):
             return ContentType.SOCIAL_MEDIA
         elif "marketing" in file_path_lower or "copy" in file_path_lower:
             return ContentType.MARKETING_COPY
@@ -439,12 +517,20 @@ class VoiceCoherenceAnalyzer:
 
         # Overall summary
         total_systems = len(analyses)
-        elite_ready_systems = len([a for a in analyses if a.get("readiness_assessment", {}).get("deployment_ready", False)])
+        elite_ready_systems = len(
+            [
+                a
+                for a in analyses
+                if a.get("readiness_assessment", {}).get("deployment_ready", False)
+            ]
+        )
 
         report.append("## 📊 Executive Summary")
         report.append("")
         report.append(f"**Total Content Systems Analyzed**: {total_systems}")
-        report.append(f"**Elite Brand Ready**: {elite_ready_systems}/{total_systems} ({elite_ready_systems/total_systems*100:.1f}%)")
+        report.append(
+            f"**Elite Brand Ready**: {elite_ready_systems}/{total_systems} ({elite_ready_systems / total_systems * 100:.1f}%)"
+        )
         report.append("")
 
         # System-by-system analysis
@@ -460,8 +546,12 @@ class VoiceCoherenceAnalyzer:
                 avg_coherence = metrics.get("average_coherence", 0)
                 coherence_level = self._determine_coherence_level(avg_coherence)
 
-                report.append(f"**Voice Coherence**: {avg_coherence:.1f}% ({coherence_level.value.title()})")
-                report.append(f"**Elite Gap**: {readiness.get('elite_gap', 0):.1f} percentage points")
+                report.append(
+                    f"**Voice Coherence**: {avg_coherence:.1f}% ({coherence_level.value.title()})"
+                )
+                report.append(
+                    f"**Elite Gap**: {readiness.get('elite_gap', 0):.1f} percentage points"
+                )
                 report.append(f"**Content Pieces**: {metrics.get('total_content_pieces', 0)}")
                 report.append(f"**Priority**: {readiness.get('priority_level', 'unknown').title()}")
                 report.append("")
@@ -470,7 +560,9 @@ class VoiceCoherenceAnalyzer:
                 if readiness.get("deployment_ready", False):
                     report.append("✅ **ELITE BRAND READY** - Ready for deployment")
                 else:
-                    report.append(f"🔄 **UPGRADE REQUIRED** - {readiness.get('elite_gap', 0):.1f}% improvement needed")
+                    report.append(
+                        f"🔄 **UPGRADE REQUIRED** - {readiness.get('elite_gap', 0):.1f}% improvement needed"
+                    )
 
                 report.append("")
 
@@ -481,13 +573,21 @@ class VoiceCoherenceAnalyzer:
         report.append("## 🚀 Deployment Recommendations")
         report.append("")
 
-        high_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "high"]
-        medium_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "medium"]
+        high_priority = [
+            a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "high"
+        ]
+        medium_priority = [
+            a
+            for a in analyses
+            if a.get("readiness_assessment", {}).get("priority_level") == "medium"
+        ]
 
         if high_priority:
             report.append("### High Priority (Immediate Attention)")
             for analysis in high_priority:
-                report.append(f"- **{analysis['system_name']}**: Major voice coherence upgrade required")
+                report.append(
+                    f"- **{analysis['system_name']}**: Major voice coherence upgrade required"
+                )
             report.append("")
 
         if medium_priority:
@@ -500,7 +600,9 @@ class VoiceCoherenceAnalyzer:
         report.append("## 🎯 Elite Brand Achievement Pathway")
         report.append("")
         report.append("1. **Phase 1** (Days 1-3): Upgrade high-priority systems to 70%+ coherence")
-        report.append("2. **Phase 2** (Days 4-7): Enhance medium-priority systems to 80%+ coherence")
+        report.append(
+            "2. **Phase 2** (Days 4-7): Enhance medium-priority systems to 80%+ coherence"
+        )
         report.append("3. **Phase 3** (Days 8-14): Achieve 85%+ elite coherence across all systems")
         report.append("")
 
@@ -520,20 +622,11 @@ def main():
     content_systems = [
         {
             "name": "ΛUCTOR Content Engine",
-            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor"
+            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor",
         },
-        {
-            "name": "ΛBot System",
-            "path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo"
-        },
-        {
-            "name": "Lucas Knowledge Base",
-            "path": "/Users/agi_dev/LOCAL-REPOS/auctor"
-        },
-        {
-            "name": "LUKHAS Core Branding",
-            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding"
-        }
+        {"name": "ΛBot System", "path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo"},
+        {"name": "Lucas Knowledge Base", "path": "/Users/agi_dev/LOCAL-REPOS/auctor"},
+        {"name": "LUKHAS Core Branding", "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding"},
     ]
 
     analyses = []
@@ -569,7 +662,9 @@ def main():
         f.write(report)
 
     # Save detailed analysis
-    analysis_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json"
+    analysis_path = (
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json"
+    )
     with open(analysis_path, "w") as f:
         json.dump(analyses, f, indent=2, default=str)
 

@@ -75,12 +75,8 @@ class LambdaSSOEngine:
                 datetime.utcnow() + timedelta(hours=self.token_expiry_hours)
             ).isoformat(),
             "device_info": device_info or {},
-            "symbolic_signature": self._generate_symbolic_signature(
-                user_id, service_scope
-            ),
-            "platform_compatibility": self._determine_platform_compatibility(
-                device_info
-            ),
+            "symbolic_signature": self._generate_symbolic_signature(user_id, service_scope),
+            "platform_compatibility": self._determine_platform_compatibility(device_info),
             "biometric_fallback_enabled": self._check_biometric_availability(user_id),
         }
 
@@ -99,17 +95,13 @@ class LambdaSSOEngine:
                 {
                     "token_id": token_id,
                     "service_scope": service_scope,
-                    "device_type": (
-                        device_info.get("device_type") if device_info else "unknown"
-                    ),
+                    "device_type": (device_info.get("device_type") if device_info else "unknown"),
                     "symbolic_method": token_data["symbolic_signature"][:8],
                 },
             )
 
         # Generate QR-G code for cross-device authentication
-        qr_glyph_data = (
-            self._generate_qr_glyph(token_data) if self.cross_platform_enabled else None
-        )
+        qr_glyph_data = self._generate_qr_glyph(token_data) if self.cross_platform_enabled else None
 
         return {
             "success": True,
@@ -220,7 +212,7 @@ class LambdaSSOEngine:
             return token_result
 
         except Exception as e:
-            return {"success": False, "error": f"QR-G authentication failed: {str(e)}"}
+            return {"success": False, "error": f"QR-G authentication failed: {e!s}"}
 
     def authenticate_with_biometric_fallback(
         self, user_id: str, biometric_data: dict, device_info: dict
@@ -240,17 +232,13 @@ class LambdaSSOEngine:
                 }
 
         # Generate SSO token with biometric authentication
-        token_result = self.generate_sso_token(
-            user_id, ["biometric_authenticated"], device_info
-        )
+        token_result = self.generate_sso_token(user_id, ["biometric_authenticated"], device_info)
 
         if token_result["success"]:
             # Add biometric authentication marker
             token_data = self.active_tokens[token_result["token_id"]]
             token_data["auth_method"] = "biometric"
-            token_data["biometric_confidence"] = biometric_data.get(
-                "confidence_score", 1.0
-            )
+            token_data["biometric_confidence"] = biometric_data.get("confidence_score", 1.0)
 
             # Log biometric authentication
             if self.trace_logger:
@@ -273,9 +261,7 @@ class LambdaSSOEngine:
 
         # Get user's active tokens
         user_tokens = {
-            tid: token
-            for tid, token in self.active_tokens.items()
-            if token["user_id"] == user_id
+            tid: token for tid, token in self.active_tokens.items() if token["user_id"] == user_id
         }
 
         if not user_tokens:
@@ -283,9 +269,7 @@ class LambdaSSOEngine:
 
         # Validate device trust
         trusted_devices = self._get_trusted_devices(user_id)
-        valid_targets = [
-            device for device in target_devices if device in trusted_devices
-        ]
+        valid_targets = [device for device in target_devices if device in trusted_devices]
 
         if not valid_targets:
             return {"success": False, "error": "No trusted target devices found"}
@@ -317,9 +301,7 @@ class LambdaSSOEngine:
                 {
                     "source_device": source_device,
                     "target_devices": valid_targets,
-                    "sync_count": len(
-                        [r for r in sync_results.values() if r["success"]]
-                    ),
+                    "sync_count": len([r for r in sync_results.values() if r["success"]]),
                     "symbolic_method": "🔗📱",
                 },
             )
@@ -330,9 +312,7 @@ class LambdaSSOEngine:
             "synced_devices": len([r for r in sync_results.values() if r["success"]]),
         }
 
-    def revoke_token(
-        self, token_id: str, revocation_reason: str = "user_request"
-    ) -> dict:
+    def revoke_token(self, token_id: str, revocation_reason: str = "user_request") -> dict:
         """Revoke SSO token with audit trail"""
 
         if token_id not in self.active_tokens:
@@ -395,14 +375,10 @@ class LambdaSSOEngine:
         payload = f"{token_data['user_id']}|{token_data['token_id']}|{token_data['created_at']}"
         return hashlib.sha256(payload.encode()).hexdigest()
 
-    def _generate_symbolic_signature(
-        self, user_id: str, service_scope: list[str]
-    ) -> str:
+    def _generate_symbolic_signature(self, user_id: str, service_scope: list[str]) -> str:
         """Generate symbolic signature for token"""
         # Combine user tier symbol with service symbols
-        scope_symbols = "".join(
-            [self.auth_methods.get(scope, "❓") for scope in service_scope[:3]]
-        )
+        scope_symbols = "".join([self.auth_methods.get(scope, "❓") for scope in service_scope[:3]])
         return f"🔐{scope_symbols}"
 
     def _generate_qr_glyph(self, token_data: dict) -> dict:
@@ -623,9 +599,9 @@ class LambdaSSOEngine:
             return glyph_payload
 
         except (json.JSONDecodeError, ValueError, KeyError) as e:
-            return {"error": f"QR-G parsing failed: {str(e)}"}
+            return {"error": f"QR-G parsing failed: {e!s}"}
         except Exception as e:
-            return {"error": f"Unexpected error parsing QR-G: {str(e)}"}
+            return {"error": f"Unexpected error parsing QR-G: {e!s}"}
 
     def _validate_qr_glyph_signature(self, glyph_payload: dict) -> bool:
         """Validate QR-G cryptographic signature with HMAC verification"""
@@ -637,9 +613,7 @@ class LambdaSSOEngine:
             if "signature" not in glyph_payload:
                 return False
 
-            provided_signature = glyph_payload.pop(
-                "signature"
-            )  # Remove for verification
+            provided_signature = glyph_payload.pop("signature")  # Remove for verification
 
             # Create canonical string for signing
             canonical_data = {
@@ -651,22 +625,16 @@ class LambdaSSOEngine:
             }
 
             # Sort keys for consistent signing
-            canonical_string = json.dumps(
-                canonical_data, sort_keys=True, separators=(",", ":")
-            )
+            canonical_string = json.dumps(canonical_data, sort_keys=True, separators=(",", ":"))
 
             # Generate HMAC signature (in production, use secure key management)
-            signing_key = self.config.get(
-                "qr_glyph_signing_key", "LUKHAS_QRG_SECRET_2024"
-            ).encode()
+            signing_key = self.config.get("qr_glyph_signing_key", "LUKHAS_QRG_SECRET_2024").encode()
             expected_signature = hmac.new(
                 signing_key, canonical_string.encode(), hashlib.sha256
             ).hexdigest()
 
             # Constant-time comparison to prevent timing attacks
-            signature_valid = hmac.compare_digest(
-                provided_signature, expected_signature
-            )
+            signature_valid = hmac.compare_digest(provided_signature, expected_signature)
 
             # Restore signature to payload
             glyph_payload["signature"] = provided_signature

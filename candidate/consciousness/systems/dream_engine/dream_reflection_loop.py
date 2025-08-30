@@ -258,9 +258,7 @@ class DreamReflectionLoop:
         # Register for system events if available
         if hasattr(brain_integration, "register_observer"):
             brain_integration.register_observer("system_idle", self.handle_system_idle)
-            brain_integration.register_observer(
-                "system_active", self.handle_system_active
-            )
+            brain_integration.register_observer("system_active", self.handle_system_active)
 
         logger.info("Dream Engine connected to Brain Integration")
 
@@ -276,9 +274,7 @@ class DreamReflectionLoop:
         # Register message handlers
         if hasattr(core_interface, "register_handler"):
             core_interface.register_handler("dream_request", self.process_message)
-            core_interface.register_handler(
-                "consolidation_request", self.consolidate_memories
-            )
+            core_interface.register_handler("consolidation_request", self.consolidate_memories)
 
         logger.info("Dream Engine registered with Core Consciousness")
 
@@ -343,8 +339,7 @@ class DreamReflectionLoop:
         self.metrics["reflections_generated"] += 1
         if dream_state.qi_coherence > 0:
             self.metrics["qi_coherence_avg"] = (
-                self.metrics["qi_coherence_avg"]
-                * (self.metrics["dreams_processed"] - 1)
+                self.metrics["qi_coherence_avg"] * (self.metrics["dreams_processed"] - 1)
                 + dream_state.qi_coherence
             ) / self.metrics["dreams_processed"]
 
@@ -355,9 +350,7 @@ class DreamReflectionLoop:
 
         # Create snapshot if available
         if self.dream_memory_fold:
-            await self.create_dream_snapshot(
-                dream_id, dream_state.content, dream_state.metadata
-            )
+            await self.create_dream_snapshot(dream_id, dream_state.content, dream_state.metadata)
 
         # Store dream metrics in database
         if self.metrics_db:
@@ -537,9 +530,7 @@ class DreamReflectionLoop:
                     if cluster_id == -1:  # Skip noise
                         continue
 
-                    cluster_indices = [
-                        i for i, c in enumerate(clusters) if c == cluster_id
-                    ]
+                    cluster_indices = [i for i, c in enumerate(clusters) if c == cluster_id]
                     cluster_memories = [recent_memories[i] for i in cluster_indices]
 
                     # Create consolidated memory
@@ -548,9 +539,7 @@ class DreamReflectionLoop:
                         "source_count": len(cluster_memories),
                         "timestamp": datetime.now().isoformat(),
                         "themes": self._extract_themes(cluster_memories),
-                        "importance": sum(
-                            m.get("importance", 0.5) for m in cluster_memories
-                        )
+                        "importance": sum(m.get("importance", 0.5) for m in cluster_memories)
                         / len(cluster_memories),
                     }
 
@@ -649,9 +638,7 @@ class DreamReflectionLoop:
                 # Check for phase patterns
                 phases = [d.bio_rhythm_phase for d in dream_seq]
                 if len(set(phases)) == 1 and phases[0] != "unknown":
-                    patterns.append(
-                        {"type": "stable_phase", "phase": phases[0], "duration": 3}
-                    )
+                    patterns.append({"type": "stable_phase", "phase": phases[0], "duration": 3})
 
             # Log discovered patterns
             for pattern in patterns:
@@ -711,9 +698,7 @@ class DreamReflectionLoop:
                 synthesized["repair_injected"] = False
 
             # Process the synthesized dream
-            process_result = asyncio.run(
-                self.process_dream(synthesized, {"synthesis": True})
-            )
+            process_result = asyncio.run(self.process_dream(synthesized, {"synthesis": True}))
 
             # Log the dream if enabled
             if self.enable_logging:
@@ -734,8 +719,7 @@ class DreamReflectionLoop:
         """Log dream to file for analysis."""
         try:
             filename = (
-                self.dream_log_path
-                / f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                self.dream_log_path / f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
             )
             with open(filename, "w") as f:
                 json.dump(dream, f, indent=2, default=str)
@@ -757,9 +741,7 @@ class DreamReflectionLoop:
                 themes.append("cognitive")
         return list(set(themes))
 
-    async def _consolidate_dream_memory(
-        self, dream_state: DreamState
-    ) -> dict[str, Any]:
+    async def _consolidate_dream_memory(self, dream_state: DreamState) -> dict[str, Any]:
         """Consolidate dream into memory system."""
         if not self.memory_manager:
             return {"status": "no_memory_manager"}
@@ -802,9 +784,7 @@ class DreamReflectionLoop:
                 except RuntimeError:
                     # Already in event loop
                     loop = asyncio.get_event_loop()
-                    result = loop.run_until_complete(
-                        self.process_dream(dream_content, context)
-                    )
+                    result = loop.run_until_complete(self.process_dream(dream_content, context))
 
                 return {"status": "success", "result": result}
 
@@ -829,9 +809,7 @@ class DreamReflectionLoop:
             return
 
         self.is_running = True
-        self.reflection_thread = threading.Thread(
-            target=self._reflection_loop, daemon=True
-        )
+        self.reflection_thread = threading.Thread(target=self._reflection_loop, daemon=True)
         self.reflection_thread.start()
         logger.info("Dream reflection loop started")
 
@@ -848,8 +826,7 @@ class DreamReflectionLoop:
             try:
                 # Check for idle state
                 if (
-                    time.time() - self.last_activity_time
-                    > self.config.idle_trigger_seconds
+                    time.time() - self.last_activity_time > self.config.idle_trigger_seconds
                 ) and not self.dreaming:
                     logger.info("System idle detected - starting dream cycle")
                     self.start_dream_cycle()

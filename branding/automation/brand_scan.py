@@ -42,9 +42,7 @@ EXCLUDE_DIRS = {
 }
 
 # Flag any 'quantum' token not followed by 'inspired' or 'metaphor(s)'
-RE_BARE_QUANTUM = re.compile(
-    r"\bquantum\b(?![\s-]?(?:inspired|metaphor|metaphors))", re.IGNORECASE
-)
+RE_BARE_QUANTUM = re.compile(r"\bquantum\b(?![\s-]?(?:inspired|metaphor|metaphors))", re.IGNORECASE)
 RE_ALLOWED_LINE = re.compile(
     r"(quantum-inspired|quantum\s+metaphors|post[- ]?quantum|quantum[- ]?(secure|safe|resistant))",
     re.IGNORECASE,
@@ -107,9 +105,7 @@ def main() -> int:
         print("Brand Guard: Found unqualified 'quantum' usage.")
         for f, ln, snip in violations:
             print(f" - {f}:{ln}: {snip}")
-        print(
-            "\nPolicy: Use 'quantum-inspired' or 'quantum metaphors' instead of bare 'quantum'."
-        )
+        print("\nPolicy: Use 'quantum-inspired' or 'quantum metaphors' instead of bare 'quantum'.")
         return 1
 
     print("Brand Guard: no violations found.")

@@ -80,9 +80,9 @@ class SymbolicTag:
         if self.last_updated is None:
             self.last_updated = datetime.now()
         if self.lambda_signature is None:
-            tag_hash = hashlib.sha256(
-                f"{self.symbol}{self.category.value}".encode()
-            ).hexdigest()[:8]
+            tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[
+                :8
+            ]
             self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper()}"
 
     def is_valid(self) -> bool:
@@ -93,9 +93,7 @@ class SymbolicTag:
         """Update confidence based on new evidence"""
         # Weighted average with source reliability
         total_weight = 1.0 + source_weight
-        self.confidence = (
-            self.confidence + (new_evidence * source_weight)
-        ) / total_weight
+        self.confidence = (self.confidence + (new_evidence * source_weight)) / total_weight
         self.confidence = min(1.0, max(0.0, self.confidence))
         self.last_updated = datetime.now()
 
@@ -168,12 +166,10 @@ class DΛST:
         }
 
         # Symbol analysis
-        self.symbol_relationships: dict[str, dict[str, float]] = (
-            {}
-        )  # Symbol co-occurrence
-        self.temporal_patterns: dict[str, list[tuple[int, list[str]]]] = (
-            {}
-        )  # Hour -> common symbols
+        self.symbol_relationships: dict[str, dict[str, float]] = {}  # Symbol co-occurrence
+        self.temporal_patterns: dict[
+            str, list[tuple[int, list[str]]]
+        ] = {}  # Hour -> common symbols
 
         logger.info("DΛST system initialized with symbolic consciousness")
 
@@ -192,9 +188,7 @@ class DΛST:
             "privacy_mode": True,
         }
 
-    async def register_user(
-        self, user_id: str, initial_tags: Optional[list[str]] = None
-    ) -> bool:
+    async def register_user(self, user_id: str, initial_tags: Optional[list[str]] = None) -> bool:
         """Register a new user with DΛST system"""
         try:
             # Create initial context
@@ -379,10 +373,7 @@ class DΛST:
             context.tags = [
                 tag
                 for tag in context.tags
-                if not (
-                    tag.symbol == symbol
-                    and (category is None or tag.category == category)
-                )
+                if not (tag.symbol == symbol and (category is None or tag.category == category))
             ]
 
             removed = len(context.tags) < original_count
@@ -501,15 +492,13 @@ class DΛST:
             context.coherence_score = 1.0  # Single symbol is perfectly coherent
 
         # Calculate stability score (how much context has changed recently)
-        if user_id in self.symbol_histories and self.symbol_histories[user_id]:
+        if self.symbol_histories.get(user_id):
             recent_history = self.symbol_histories[user_id][-3:]  # Last 3 snapshots
             if len(recent_history) > 1:
                 current_symbols = {tag.symbol for tag in valid_tags}
 
                 stability_scores = []
-                for _timestamp, historical_tags in recent_history[
-                    :-1
-                ]:  # Exclude current
+                for _timestamp, historical_tags in recent_history[:-1]:  # Exclude current
                     historical_symbols = {tag.symbol for tag in historical_tags}
 
                     if historical_symbols or current_symbols:
@@ -519,14 +508,10 @@ class DΛST:
                         stability_scores.append(similarity)
 
                 if stability_scores:
-                    context.stability_score = sum(stability_scores) / len(
-                        stability_scores
-                    )
+                    context.stability_score = sum(stability_scores) / len(stability_scores)
 
         # Update primary activity (highest confidence activity-type symbol)
-        activity_tags = [
-            tag for tag in valid_tags if tag.category == SymbolCategory.ACTIVITY
-        ]
+        activity_tags = [tag for tag in valid_tags if tag.category == SymbolCategory.ACTIVITY]
         if activity_tags:
             primary_tag = max(activity_tags, key=lambda t: t.confidence * t.weight)
             context.primary_activity = primary_tag.symbol
@@ -547,15 +532,11 @@ class DΛST:
                 relationship_key = f"{new_symbol}:{existing_symbol}"
 
                 # Increase relationship strength
-                current_strength = self.symbol_relationships[user_id].get(
-                    relationship_key, 0.5
-                )
+                current_strength = self.symbol_relationships[user_id].get(relationship_key, 0.5)
                 new_strength = min(1.0, current_strength + 0.1)
                 self.symbol_relationships[user_id][relationship_key] = new_strength
 
-    async def update_from_calendar(
-        self, user_id: str, calendar_events: list[dict]
-    ) -> bool:
+    async def update_from_calendar(self, user_id: str, calendar_events: list[dict]) -> bool:
         """Update symbols from calendar integration"""
         if not self.external_integrations.get("calendar", False):
             return False
@@ -573,9 +554,7 @@ class DΛST:
                 if any(word in event_title for word in ["meeting", "call", "sync"]):
                     symbols_to_add.append(("meeting", SymbolCategory.ACTIVITY))
 
-                if any(
-                    word in event_title for word in ["focus", "deep work", "coding"]
-                ):
+                if any(word in event_title for word in ["focus", "deep work", "coding"]):
                     symbols_to_add.append(("deep-work", SymbolCategory.FOCUS))
 
                 if any(word in event_title for word in ["break", "lunch", "coffee"]):
@@ -619,9 +598,7 @@ class DΛST:
                     app_symbols = self._infer_symbols_from_app(app)
 
                     for symbol, category in app_symbols:
-                        confidence = min(
-                            0.7, usage_minutes / 60.0
-                        )  # Up to 0.7 confidence
+                        confidence = min(0.7, usage_minutes / 60.0)  # Up to 0.7 confidence
                         await self.add_symbol(
                             user_id=user_id,
                             symbol=symbol,
@@ -650,9 +627,7 @@ class DΛST:
             logger.error(f"Error updating from activity: {e}")
             return False
 
-    def _infer_symbols_from_app(
-        self, app_name: str
-    ) -> list[tuple[str, SymbolCategory]]:
+    def _infer_symbols_from_app(self, app_name: str) -> list[tuple[str, SymbolCategory]]:
         """Infer symbolic tags from application usage"""
         app_mappings = {
             "code": [
@@ -696,9 +671,7 @@ class DΛST:
 
         return [("app-usage", SymbolCategory.ACTIVITY)]
 
-    def _infer_symbol_from_location(
-        self, location: str
-    ) -> tuple[Optional[str], SymbolCategory]:
+    def _infer_symbol_from_location(self, location: str) -> tuple[Optional[str], SymbolCategory]:
         """Infer symbolic tag from location"""
         location_lower = location.lower()
 
@@ -773,10 +746,7 @@ class DΛST:
                 # Check if any symbols meet this condition
                 cutoff_time = current_time - timedelta(hours=age_threshold_hours)
                 for tag in context.tags:
-                    if (
-                        tag.last_updated < cutoff_time
-                        and tag.confidence <= conf_threshold
-                    ):
+                    if tag.last_updated < cutoff_time and tag.confidence <= conf_threshold:
                         return True
 
         return False
@@ -817,16 +787,13 @@ class DΛST:
                     if age_match and conf_match:
                         age_threshold_hours = int(age_match.group(1))
                         conf_threshold = float(conf_match.group(1))
-                        cutoff_time = current_time - timedelta(
-                            hours=age_threshold_hours
-                        )
+                        cutoff_time = current_time - timedelta(hours=age_threshold_hours)
 
                         context.tags = [
                             tag
                             for tag in context.tags
                             if not (
-                                tag.last_updated < cutoff_time
-                                and tag.confidence <= conf_threshold
+                                tag.last_updated < cutoff_time and tag.confidence <= conf_threshold
                             )
                         ]
             else:
@@ -866,9 +833,7 @@ class DΛST:
         for symbol in all_symbols:
             symbol_counts[symbol] = symbol_counts.get(symbol, 0) + 1
 
-        most_common = sorted(symbol_counts.items(), key=lambda x: x[1], reverse=True)[
-            :10
-        ]
+        most_common = sorted(symbol_counts.items(), key=lambda x: x[1], reverse=True)[:10]
 
         # Current context
         current_context = self.user_contexts.get(user_id)
@@ -883,18 +848,10 @@ class DΛST:
             "source_distribution": source_counts,
             "current_context": (
                 {
-                    "total_active_symbols": (
-                        len(current_context.tags) if current_context else 0
-                    ),
-                    "focus_score": (
-                        current_context.focus_score if current_context else 0
-                    ),
-                    "coherence_score": (
-                        current_context.coherence_score if current_context else 0
-                    ),
-                    "stability_score": (
-                        current_context.stability_score if current_context else 0
-                    ),
+                    "total_active_symbols": (len(current_context.tags) if current_context else 0),
+                    "focus_score": (current_context.focus_score if current_context else 0),
+                    "coherence_score": (current_context.coherence_score if current_context else 0),
+                    "stability_score": (current_context.stability_score if current_context else 0),
                     "primary_activity": (
                         current_context.primary_activity if current_context else None
                     ),
@@ -907,14 +864,10 @@ class DΛST:
     def get_system_metrics(self) -> dict[str, Any]:
         """Get DΛST system metrics"""
         total_users = len(self.user_contexts)
-        total_symbols = sum(
-            len(context.tags) for context in self.user_contexts.values()
-        )
+        total_symbols = sum(len(context.tags) for context in self.user_contexts.values())
 
         # Integration status
-        active_integrations = sum(
-            1 for status in self.external_integrations.values() if status
-        )
+        active_integrations = sum(1 for status in self.external_integrations.values() if status)
 
         # Symbol category distribution
         category_counts = {}
@@ -931,9 +884,7 @@ class DΛST:
             "total_active_symbols": total_symbols,
             "active_integrations": active_integrations,
             "symbol_categories": category_counts,
-            "learned_relationships": sum(
-                len(rels) for rels in self.symbol_relationships.values()
-            ),
+            "learned_relationships": sum(len(rels) for rels in self.symbol_relationships.values()),
             "config": {
                 "max_symbols_per_user": self.config["max_active_symbols"],
                 "auto_inference": self.config["auto_inference"],
@@ -973,9 +924,7 @@ if __name__ == "__main__":
             SymbolSource.AI_INFERENCE,
             0.6,
         )
-        await dast.add_symbol(
-            "alice", "office", SymbolCategory.CONTEXT, SymbolSource.LOCATION, 0.9
-        )
+        await dast.add_symbol("alice", "office", SymbolCategory.CONTEXT, SymbolSource.LOCATION, 0.9)
 
         print(f"\n📊 Updated tags: {await dast.get_current_tags('alice')}")
 

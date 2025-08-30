@@ -34,6 +34,7 @@ from .service import (
 # Request/Response Models
 class GrantConsentRequest(BaseModel):
     """API request model for granting consent"""
+
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name")
     scopes: list[str] = Field(..., description="Requested scopes")
@@ -44,6 +45,7 @@ class GrantConsentRequest(BaseModel):
 
 class GrantConsentResponse(BaseModel):
     """API response model for consent grant"""
+
     grant_id: str
     capability_token: CapabilityToken
     message: str = "Consent granted successfully"
@@ -51,6 +53,7 @@ class GrantConsentResponse(BaseModel):
 
 class RevokeConsentRequest(BaseModel):
     """API request model for revoking consent"""
+
     lid: str = Field(..., description="Canonical ΛID")
     grant_id: Optional[str] = Field(None, description="Specific grant ID")
     service: Optional[str] = Field(None, description="Service filter")
@@ -60,12 +63,14 @@ class RevokeConsentRequest(BaseModel):
 
 class RevokeConsentResponse(BaseModel):
     """API response model for consent revocation"""
+
     revoked_count: int
     message: str
 
 
 class LedgerResponse(BaseModel):
     """API response model for consent ledger"""
+
     lid: str
     entries: list[ConsentLedgerEntry]
     total_entries: int
@@ -73,6 +78,7 @@ class LedgerResponse(BaseModel):
 
 class EscalateRequest(BaseModel):
     """API request model for content escalation"""
+
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name")
     resource_id: str = Field(..., description="Specific resource ID")
@@ -82,12 +88,14 @@ class EscalateRequest(BaseModel):
 
 class EscalateResponse(BaseModel):
     """API response model for content escalation"""
+
     capability_token: CapabilityToken
     message: str = "Content access granted"
 
 
 class VerifyTokenRequest(BaseModel):
     """API request model for token verification"""
+
     token: str = Field(..., description="Capability token to verify")
     required_scopes: list[str] = Field(..., description="Required scopes")
     resource_id: Optional[str] = Field(None, description="Specific resource ID")
@@ -95,6 +103,7 @@ class VerifyTokenRequest(BaseModel):
 
 class VerifyTokenResponse(BaseModel):
     """API response model for token verification"""
+
     valid: bool
     claims: Optional[dict[str, Any]] = None
     error: Optional[str] = None
@@ -102,6 +111,7 @@ class VerifyTokenResponse(BaseModel):
 
 class ConsentStatsResponse(BaseModel):
     """API response model for consent statistics"""
+
     total_active_grants: int
     total_services: int
     recent_activity: dict[str, int]
@@ -143,7 +153,7 @@ def get_client_context(request: Request) -> dict[str, Any]:
         "referer": request.headers.get("Referer"),
         "accept_language": request.headers.get("Accept-Language"),
         "session_id": request.headers.get("X-Session-ID"),
-        "client_fingerprint": request.headers.get("X-Client-Fingerprint")
+        "client_fingerprint": request.headers.get("X-Client-Fingerprint"),
     }
 
 
@@ -155,7 +165,7 @@ router = APIRouter(prefix="/consent", tags=["Consent Management"])
 async def grant_consent(
     request_data: GrantConsentRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service)
+    service: ConsentService = Depends(get_consent_service),
 ):
     """
     Grant consent for service access with capability token issuance.
@@ -170,38 +180,36 @@ async def grant_consent(
     try:
         # Convert to service request
         from .service import ConsentGrantRequest as ServiceConsentGrantRequest
+
         service_request = ServiceConsentGrantRequest(
             lid=request_data.lid,
             service=request_data.service,
             scopes=request_data.scopes,
             purpose_id=request_data.purpose_id,
             ttl_minutes=request_data.ttl_minutes,
-            resource_pattern=request_data.resource_pattern
+            resource_pattern=request_data.resource_pattern,
         )
 
         # Grant consent
         grant_id, capability_token = await service.grant_consent(
             service_request,
             client_ip=get_client_ip(request),
-            client_context=get_client_context(request)
+            client_context=get_client_context(request),
         )
 
-        return GrantConsentResponse(
-            grant_id=grant_id,
-            capability_token=capability_token
-        )
+        return GrantConsentResponse(grant_id=grant_id, capability_token=capability_token)
 
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Grant failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Grant failed: {e!s}")
 
 
 @router.post("/revoke", response_model=RevokeConsentResponse)
 async def revoke_consent(
     request_data: RevokeConsentRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service)
+    service: ConsentService = Depends(get_consent_service),
 ):
     """
     Revoke consent grants and invalidate associated tokens.
@@ -219,28 +227,24 @@ async def revoke_consent(
             grant_id=request_data.grant_id,
             service=request_data.service,
             scopes=request_data.scopes,
-            reason=request_data.reason
+            reason=request_data.reason,
         )
 
         # Revoke consent
         revoked_count = await service.revoke_consent(
-            service_request,
-            client_ip=get_client_ip(request)
+            service_request, client_ip=get_client_ip(request)
         )
 
         message = f"Successfully revoked {revoked_count} consent grant(s)"
         if revoked_count == 0:
             message = "No matching consent grants found to revoke"
 
-        return RevokeConsentResponse(
-            revoked_count=revoked_count,
-            message=message
-        )
+        return RevokeConsentResponse(revoked_count=revoked_count, message=message)
 
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Revoke failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Revoke failed: {e!s}")
 
 
 @router.get("/ledger", response_model=LedgerResponse)
@@ -248,7 +252,7 @@ async def get_consent_ledger(
     lid: str,
     service: Optional[str] = None,
     active_only: bool = True,
-    consent_service: ConsentService = Depends(get_consent_service)
+    consent_service: ConsentService = Depends(get_consent_service),
 ):
     """
     Get human-readable consent ledger for Studio UI.
@@ -264,21 +268,17 @@ async def get_consent_ledger(
     try:
         entries = await consent_service.get_consent_ledger(lid, service, active_only)
 
-        return LedgerResponse(
-            lid=lid,
-            entries=entries,
-            total_entries=len(entries)
-        )
+        return LedgerResponse(lid=lid, entries=entries, total_entries=len(entries))
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ledger retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Ledger retrieval failed: {e!s}")
 
 
 @router.post("/escalate", response_model=EscalateResponse)
 async def escalate_to_content(
     request_data: EscalateRequest,
     request: Request,
-    service: ConsentService = Depends(get_consent_service)
+    service: ConsentService = Depends(get_consent_service),
 ):
     """
     Escalate from metadata-only to content access for specific resource.
@@ -296,7 +296,7 @@ async def escalate_to_content(
             service=request_data.service,
             resource_id=request_data.resource_id,
             purpose_id=request_data.purpose_id,
-            ttl_minutes=request_data.ttl_minutes
+            ttl_minutes=request_data.ttl_minutes,
         )
 
         return EscalateResponse(capability_token=capability_token)
@@ -304,13 +304,12 @@ async def escalate_to_content(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Escalation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Escalation failed: {e!s}")
 
 
 @router.post("/verify", response_model=VerifyTokenResponse)
 async def verify_capability_token(
-    request_data: VerifyTokenRequest,
-    service: ConsentService = Depends(get_consent_service)
+    request_data: VerifyTokenRequest, service: ConsentService = Depends(get_consent_service)
 ):
     """
     Verify capability token and check caveats.
@@ -327,25 +326,17 @@ async def verify_capability_token(
         claims = await service.verify_capability_token(
             token=request_data.token,
             required_scopes=request_data.required_scopes,
-            resource_id=request_data.resource_id
+            resource_id=request_data.resource_id,
         )
 
-        return VerifyTokenResponse(
-            valid=True,
-            claims=claims
-        )
+        return VerifyTokenResponse(valid=True, claims=claims)
 
     except Exception as e:
-        return VerifyTokenResponse(
-            valid=False,
-            error=str(e)
-        )
+        return VerifyTokenResponse(valid=False, error=str(e))
 
 
 @router.get("/stats", response_model=ConsentStatsResponse)
-async def get_consent_statistics(
-    service: ConsentService = Depends(get_consent_service)
-):
+async def get_consent_statistics(service: ConsentService = Depends(get_consent_service)):
     """
     Get consent system statistics for monitoring and dashboards.
 
@@ -364,38 +355,34 @@ async def get_consent_statistics(
             recent_activity={
                 "grants_last_24h": 15,
                 "revokes_last_24h": 3,
-                "token_verifications_last_24h": 148
+                "token_verifications_last_24h": 148,
             },
             performance_stats={
                 "avg_grant_time_ms": 25.4,
                 "p95_grant_time_ms": 45.2,
                 "avg_verify_time_ms": 8.1,
-                "p95_verify_time_ms": 15.8
-            }
+                "p95_verify_time_ms": 15.8,
+            },
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {e!s}")
 
 
 @router.get("/purposes", response_model=list[Purpose])
-async def list_purposes(
-    service: ConsentService = Depends(get_consent_service)
-):
+async def list_purposes(service: ConsentService = Depends(get_consent_service)):
     """List all available consent purposes."""
     return await service.list_purposes()
 
+
 @router.get("/data_categories", response_model=list[DataCategory])
-async def list_data_categories(
-    service: ConsentService = Depends(get_consent_service)
-):
+async def list_data_categories(service: ConsentService = Depends(get_consent_service)):
     """List all available data categories."""
     return await service.list_data_categories()
 
+
 @router.post("/cleanup")
-async def cleanup_expired_grants(
-    service: ConsentService = Depends(get_consent_service)
-):
+async def cleanup_expired_grants(service: ConsentService = Depends(get_consent_service)):
     """
     Clean up expired grants and tokens.
 
@@ -407,14 +394,16 @@ async def cleanup_expired_grants(
     try:
         result = await service.cleanup_expired()
 
-        return JSONResponse({
-            "message": "Cleanup completed successfully",
-            "expired_grants": result["expired_grants"],
-            "expired_tokens": result["expired_tokens"]
-        })
+        return JSONResponse(
+            {
+                "message": "Cleanup completed successfully",
+                "expired_grants": result["expired_grants"],
+                "expired_tokens": result["expired_tokens"],
+            }
+        )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Cleanup failed: {e!s}")
 
 
 # Health check and system info
@@ -425,7 +414,7 @@ async def health_check():
         "status": "healthy",
         "service": "LUKHAS Consent Fabric",
         "version": "1.0.0",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -440,24 +429,22 @@ async def system_info():
             "Content escalation",
             "Macaroon capability tokens",
             "Comprehensive audit trails",
-            "Revocation paths"
+            "Revocation paths",
         ],
         "guardrails": [
             "No raw PII as usernames",
             "Short-lived least-privilege tokens",
             "Data minimization by default",
-            "Complete audit trail"
+            "Complete audit trail",
         ],
         "endpoints": {
             "grant": "POST /consent/grant - Grant consent and issue token",
             "revoke": "POST /consent/revoke - Revoke consent and invalidate tokens",
             "ledger": "GET /consent/ledger - Get user's consent ledger",
             "escalate": "POST /consent/escalate - Escalate to content access",
-            "verify": "POST /consent/verify - Verify capability token"
-        }
+            "verify": "POST /consent/verify - Verify capability token",
+        },
     }
-
-
 
 
 # Example usage
@@ -476,13 +463,16 @@ async def demonstrate_consent_api():
 
     # Test grant consent
     print("📝 Testing consent grant...")
-    grant_response = client.post("/consent/grant", json={
-        "lid": "gonzo",
-        "service": "gmail",
-        "scopes": ["email.read.headers"],
-        "purpose": "Unified inbox display",
-        "ttl_minutes": 120
-    })
+    grant_response = client.post(
+        "/consent/grant",
+        json={
+            "lid": "gonzo",
+            "service": "gmail",
+            "scopes": ["email.read.headers"],
+            "purpose": "Unified inbox display",
+            "ttl_minutes": 120,
+        },
+    )
     print(f"Status: {grant_response.status_code}")
     if grant_response.status_code == 200:
         grant_data = grant_response.json()

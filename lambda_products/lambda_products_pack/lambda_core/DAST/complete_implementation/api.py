@@ -13,6 +13,7 @@ from typing import Any, Optional
 # In a real implementation, this would use FastAPI, Flask, or similar
 # For now, we'll create a mock API structure that shows the interface design
 
+
 class LucasDASTAPI:
     """
     🌐 RESTful API for LUCAS DAST with enterprise-grade endpoints
@@ -68,14 +69,14 @@ class LucasDASTAPI:
                 "priority": task.priority.value,
                 "estimated_duration": task.estimated_duration,
                 "tags": task.tags,
-                "ai_insights": task.ai_insights
+                "ai_insights": task.ai_insights,
             }
 
             self._record_api_call("POST /tasks", time.time() - start_time)
             return self._success_response(response, 201)
 
         except Exception as e:
-            return self._error_response(f"Task creation failed: {str(e)}", 500)
+            return self._error_response(f"Task creation failed: {e!s}", 500)
 
     async def get_tasks(self, query_params: dict) -> dict[str, Any]:
         """
@@ -104,23 +105,23 @@ class LucasDASTAPI:
             else:
                 # Manual filtering
                 all_tasks = list(self.dast_engine.tasks.values())
-                filtered_tasks = self._apply_filters(all_tasks, query, priority_filter, status_filter)
+                filtered_tasks = self._apply_filters(
+                    all_tasks, query, priority_filter, status_filter
+                )
                 tasks = self._format_tasks_for_api(filtered_tasks[:limit])
 
             response = {
                 "tasks": tasks,
                 "total_count": len(self.dast_engine.tasks),
                 "filtered_count": len(tasks),
-                "performance": {
-                    "response_time_ms": (time.time() - start_time) * 1000
-                }
+                "performance": {"response_time_ms": (time.time() - start_time) * 1000},
             }
 
             self._record_api_call("GET /tasks", time.time() - start_time)
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Task retrieval failed: {e!s}", 500)
 
     async def get_task_by_id(self, task_id: str) -> dict[str, Any]:
         """
@@ -147,14 +148,14 @@ class LucasDASTAPI:
                 "estimated_duration": task.estimated_duration,
                 "dependencies": task.dependencies or [],
                 "ai_insights": task.ai_insights or {},
-                "symbolic_reasoning": task.symbolic_reasoning or {}
+                "symbolic_reasoning": task.symbolic_reasoning or {},
             }
 
             self._record_api_call("GET /tasks/{id}", time.time() - start_time)
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Task retrieval failed: {e!s}", 500)
 
     async def put_task_progress(self, task_id: str, request_data: dict) -> dict[str, Any]:
         """
@@ -182,7 +183,7 @@ class LucasDASTAPI:
             return self._success_response(result)
 
         except Exception as e:
-            return self._error_response(f"Progress update failed: {str(e)}", 500)
+            return self._error_response(f"Progress update failed: {e!s}", 500)
 
     async def delete_task(self, task_id: str) -> dict[str, Any]:
         """
@@ -203,7 +204,7 @@ class LucasDASTAPI:
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Task deletion failed: {str(e)}", 500)
+            return self._error_response(f"Task deletion failed: {e!s}", 500)
 
     # ========================================
     # 🤝 COLLABORATION ENDPOINTS
@@ -235,7 +236,7 @@ class LucasDASTAPI:
             return self._success_response(result)
 
         except Exception as e:
-            return self._error_response(f"Collaboration failed: {str(e)}", 500)
+            return self._error_response(f"Collaboration failed: {e!s}", 500)
 
     async def get_focus(self, query_params: dict) -> dict[str, Any]:
         """
@@ -258,14 +259,14 @@ class LucasDASTAPI:
                 "focus_tasks": focus_tasks,
                 "ai_recommendation": "Focus on these tasks for maximum impact",
                 "estimated_focus_time": sum(task.get("estimated_time", 60) for task in focus_tasks),
-                "optimization_score": 8.5  # AI-calculated score
+                "optimization_score": 8.5,  # AI-calculated score
             }
 
             self._record_api_call("GET /focus", time.time() - start_time)
             return self._success_response(response)
 
         except Exception as e:
-            return self._error_response(f"Focus retrieval failed: {str(e)}", 500)
+            return self._error_response(f"Focus retrieval failed: {e!s}", 500)
 
     # ========================================
     # 📊 ANALYTICS & INSIGHTS ENDPOINTS
@@ -303,7 +304,7 @@ class LucasDASTAPI:
             return self._success_response(analytics)
 
         except Exception as e:
-            return self._error_response(f"Analytics generation failed: {str(e)}", 500)
+            return self._error_response(f"Analytics generation failed: {e!s}", 500)
 
     async def get_insights(self, query_params: dict) -> dict[str, Any]:
         """
@@ -318,14 +319,14 @@ class LucasDASTAPI:
                 "bottleneck_analysis": self._analyze_bottlenecks(),
                 "optimization_suggestions": self._generate_optimization_suggestions(),
                 "ai_predictions": self._generate_ai_predictions(),
-                "performance_trends": self._analyze_performance_trends()
+                "performance_trends": self._analyze_performance_trends(),
             }
 
             self._record_api_call("GET /insights", time.time() - start_time)
             return self._success_response(insights)
 
         except Exception as e:
-            return self._error_response(f"Insights generation failed: {str(e)}", 500)
+            return self._error_response(f"Insights generation failed: {e!s}", 500)
 
     # ========================================
     # 🔧 SYSTEM & HEALTH ENDPOINTS
@@ -350,25 +351,29 @@ class LucasDASTAPI:
                     "active_tasks": len(self.dast_engine.tasks),
                     "cache_entries": len(self.dast_engine.context_cache),
                     "api_calls_total": len(self.request_log),
-                    "average_api_response_time": self._calculate_average_api_response_time()
+                    "average_api_response_time": self._calculate_average_api_response_time(),
                 },
                 "api_health": {
                     "endpoints_operational": True,
-                    "response_time_target_met": performance_stats.get("performance_target_met", True),
-                    "error_rate": self._calculate_error_rate()
-                }
+                    "response_time_target_met": performance_stats.get(
+                        "performance_target_met", True
+                    ),
+                    "error_rate": self._calculate_error_rate(),
+                },
             }
 
             # Determine overall health
-            if (not performance_stats.get("performance_target_met", True) or
-                self._calculate_error_rate() > 0.05):
+            if (
+                not performance_stats.get("performance_target_met", True)
+                or self._calculate_error_rate() > 0.05
+            ):
                 health_status["status"] = "degraded"
 
             self._record_api_call("GET /health", time.time() - start_time)
             return self._success_response(health_status)
 
         except Exception as e:
-            return self._error_response(f"Health check failed: {str(e)}", 500)
+            return self._error_response(f"Health check failed: {e!s}", 500)
 
     async def get_version(self) -> dict[str, Any]:
         """
@@ -387,15 +392,15 @@ class LucasDASTAPI:
                 "real_time_workflow_optimization",
                 "symbolic_reasoning",
                 "multi_modal_support",
-                "enterprise_integrations"
+                "enterprise_integrations",
             ],
             "ai_models": self.dast_engine.ai_model_registry,
             "performance_targets": {
                 "task_creation": "<100ms",
                 "task_retrieval": "<50ms",
                 "collaboration": "<2s",
-                "analytics": "<1s"
-            }
+                "analytics": "<1s",
+            },
         }
 
         self._record_api_call("GET /version", time.time() - start_time)
@@ -405,18 +410,26 @@ class LucasDASTAPI:
     # 🛠️ UTILITY METHODS
     # ========================================
 
-    def _apply_filters(self, tasks: list, query: Optional[str], priority_filter: Optional[str],
-                      status_filter: Optional[str]) -> list:
+    def _apply_filters(
+        self,
+        tasks: list,
+        query: Optional[str],
+        priority_filter: Optional[str],
+        status_filter: Optional[str],
+    ) -> list:
         """Apply filters to task list"""
         filtered = tasks
 
         if query:
             query_lower = query.lower()
             filtered = [
-                task for task in filtered
-                if (query_lower in task.title.lower() or
-                    query_lower in task.description.lower() or
-                    any(query_lower in tag.lower() for tag in task.tags))
+                task
+                for task in filtered
+                if (
+                    query_lower in task.title.lower()
+                    or query_lower in task.description.lower()
+                    or any(query_lower in tag.lower() for tag in task.tags)
+                )
             ]
 
         if priority_filter:
@@ -441,7 +454,7 @@ class LucasDASTAPI:
                 "estimated_duration": task.estimated_duration,
                 "created_at": task.created_at.isoformat(),
                 "due_date": task.due_date.isoformat() if task.due_date else None,
-                "ai_score": task.ai_insights.get("priority_score", 0)
+                "ai_score": task.ai_insights.get("priority_score", 0),
             }
             formatted_tasks.append(formatted_task)
 
@@ -456,13 +469,13 @@ class LucasDASTAPI:
             "benchmarks": {
                 "response_time_target": 100,  # ms
                 "cache_hit_rate_target": 0.8,
-                "task_completion_rate_target": 0.85
+                "task_completion_rate_target": 0.85,
             },
             "recommendations": [
                 "Performance targets are being met",
                 "Cache utilization is optimal",
-                "Consider pre-loading frequently accessed data"
-            ]
+                "Consider pre-loading frequently accessed data",
+            ],
         }
 
     def _generate_workflow_analytics(self, timeframe: int) -> dict:
@@ -486,13 +499,15 @@ class LucasDASTAPI:
             "task_distribution": {
                 "by_status": status_distribution,
                 "by_priority": priority_distribution,
-                "total_tasks": len(tasks)
+                "total_tasks": len(tasks),
             },
             "workflow_efficiency": {
-                "completion_rate": status_distribution.get("completed", 0) / len(tasks) if tasks else 0,
+                "completion_rate": status_distribution.get("completed", 0) / len(tasks)
+                if tasks
+                else 0,
                 "average_task_age": 3.5,  # days
-                "bottleneck_indicators": []
-            }
+                "bottleneck_indicators": [],
+            },
         }
 
     def _generate_trend_analytics(self, timeframe: int) -> dict:
@@ -503,13 +518,13 @@ class LucasDASTAPI:
             "trends": {
                 "task_creation_trend": "increasing",
                 "completion_rate_trend": "stable",
-                "priority_shift_trend": "toward_high_priority"
+                "priority_shift_trend": "toward_high_priority",
             },
             "predictions": {
                 "expected_task_load": "15% increase next week",
                 "completion_forecast": "on_track",
-                "resource_needs": "current_capacity_sufficient"
-            }
+                "resource_needs": "current_capacity_sufficient",
+            },
         }
 
     def _generate_comprehensive_analytics(self, timeframe: int) -> dict:
@@ -530,8 +545,8 @@ class LucasDASTAPI:
             "key_insights": [
                 "System performance is excellent",
                 "Workflow efficiency is above average",
-                "Task prioritization is working well"
-            ]
+                "Task prioritization is working well",
+            ],
         }
 
     def _generate_productivity_insights(self) -> dict:
@@ -543,8 +558,8 @@ class LucasDASTAPI:
             "suggestions": [
                 "Schedule complex tasks during peak hours",
                 "Batch similar tasks for efficiency",
-                "Take breaks every 90 minutes for sustained focus"
-            ]
+                "Take breaks every 90 minutes for sustained focus",
+            ],
         }
 
     def _analyze_bottlenecks(self) -> dict:
@@ -559,8 +574,8 @@ class LucasDASTAPI:
             "resolution_suggestions": [
                 "Identify and address blocking dependencies",
                 "Consider parallel task execution",
-                "Allocate additional resources to critical path"
-            ]
+                "Allocate additional resources to critical path",
+            ],
         }
 
     def _generate_optimization_suggestions(self) -> list[str]:
@@ -570,7 +585,7 @@ class LucasDASTAPI:
             "Implement time-boxing for better task completion",
             "Leverage batch processing for similar tasks",
             "Set up automated notifications for blockers",
-            "Use collaborative planning for complex projects"
+            "Use collaborative planning for complex projects",
         ]
 
     def _generate_ai_predictions(self) -> dict:
@@ -581,8 +596,8 @@ class LucasDASTAPI:
             "risk_assessment": "Low risk of major delays",
             "optimization_opportunities": [
                 "Task dependency optimization",
-                "Resource allocation improvement"
-            ]
+                "Resource allocation improvement",
+            ],
         }
 
     def _analyze_performance_trends(self) -> dict:
@@ -591,16 +606,14 @@ class LucasDASTAPI:
             "response_time_trend": "stable",
             "throughput_trend": "improving",
             "error_rate_trend": "decreasing",
-            "user_satisfaction_trend": "high"
+            "user_satisfaction_trend": "high",
         }
 
     def _record_api_call(self, endpoint: str, response_time: float):
         """Record API call for metrics"""
-        self.request_log.append({
-            "endpoint": endpoint,
-            "timestamp": time.time(),
-            "response_time": response_time
-        })
+        self.request_log.append(
+            {"endpoint": endpoint, "timestamp": time.time(), "response_time": response_time}
+        )
 
         # Keep only recent requests
         if len(self.request_log) > 1000:
@@ -639,7 +652,7 @@ class LucasDASTAPI:
             "status_code": status_code,
             "data": data,
             "timestamp": datetime.now().isoformat(),
-            "api_version": self.api_version
+            "api_version": self.api_version,
         }
 
     def _error_response(self, message: str, status_code: int) -> dict[str, Any]:
@@ -650,6 +663,6 @@ class LucasDASTAPI:
             "error": {
                 "message": message,
                 "timestamp": datetime.now().isoformat(),
-                "api_version": self.api_version
-            }
+                "api_version": self.api_version,
+            },
         }

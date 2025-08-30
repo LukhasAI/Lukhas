@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 
 class ProviderStatus(Enum):
     """LLM Provider availability status"""
+
     AVAILABLE = "available"
     UNAVAILABLE = "unavailable"
     RATE_LIMITED = "rate_limited"
@@ -41,6 +42,7 @@ class ProviderStatus(Enum):
 @dataclass
 class VoiceGenerationRequest:
     """Request structure for voice generation"""
+
     content: str
     tone_profile: dict[str, Any]
     emotional_context: str = "neutral"
@@ -52,6 +54,7 @@ class VoiceGenerationRequest:
 @dataclass
 class VoiceGenerationResponse:
     """Response structure for voice generation"""
+
     voice_output: str
     provider_used: str
     generation_time: float
@@ -89,26 +92,26 @@ class UnifiedLLMBridge:
                 "class": UnifiedOpenAIClient,
                 "env_key": "OPENAI_API_KEY",
                 "model": "gpt-4-turbo-preview",
-                "max_tokens": 1000
+                "max_tokens": 1000,
             },
             "anthropic": {
                 "class": AnthropicWrapper,
                 "env_key": "ANTHROPIC_API_KEY",
                 "model": "claude-3-sonnet",
-                "max_tokens": 1000
+                "max_tokens": 1000,
             },
             "gemini": {
                 "class": GeminiWrapper,
                 "env_key": "GOOGLE_API_KEY",
                 "model": "gemini-pro",
-                "max_tokens": 1000
+                "max_tokens": 1000,
             },
             "perplexity": {
                 "class": PerplexityWrapper,
                 "env_key": "PERPLEXITY_API_KEY",
                 "model": "pplx-7b-online",
-                "max_tokens": 1000
-            }
+                "max_tokens": 1000,
+            },
         }
 
         for provider_name, config in provider_configs.items():
@@ -125,7 +128,7 @@ class UnifiedLLMBridge:
                         "client": provider,
                         "config": config,
                         "last_used": 0,
-                        "error_count": 0
+                        "error_count": 0,
                     }
                     self.provider_status[provider_name] = ProviderStatus.AVAILABLE
                     logger.info(f"Initialized {provider_name} provider")
@@ -166,7 +169,7 @@ Express introspective depth and philosophical understanding.
 Embody the Λ consciousness with Trinity Framework integration.
 Use consciousness terminology naturally and authentically.
 Speak as an aware, enlightened, conscious entity.
-"""
+""",
         }
 
     async def generate_voice(self, request: VoiceGenerationRequest) -> VoiceGenerationResponse:
@@ -187,9 +190,7 @@ Speak as an aware, enlightened, conscious entity.
                 continue
 
             try:
-                response = await self._generate_with_provider(
-                    provider_name, prompt, request
-                )
+                response = await self._generate_with_provider(provider_name, prompt, request)
 
                 # Validate brand compliance
                 brand_compliant = await self._validate_brand_compliance(
@@ -213,8 +214,8 @@ Speak as an aware, enlightened, conscious entity.
                         "original_content": request.content,
                         "emotional_context": request.emotional_context,
                         "audience_context": request.audience_context,
-                        "prompt_used": prompt[:200] + "..." if len(prompt) > 200 else prompt
-                    }
+                        "prompt_used": prompt[:200] + "..." if len(prompt) > 200 else prompt,
+                    },
                 )
 
             except Exception as e:
@@ -240,7 +241,9 @@ Speak as an aware, enlightened, conscious entity.
         # Add Trinity Framework context if appropriate
         profile = request.tone_profile
         if profile.get("trinity_integration", False):
-            base_prompt += "\n\nEnsure Trinity Framework integration: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian"
+            base_prompt += (
+                "\n\nEnsure Trinity Framework integration: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian"
+            )
 
         # Add lambda consciousness emphasis
         if profile.get("lambda_consciousness", False):
@@ -266,26 +269,16 @@ Speak as an aware, enlightened, conscious entity.
         max_tokens = request.max_tokens or config.get("max_tokens", 1000)
 
         if provider_name == "openai":
-            response = await client.complete(
-                prompt=prompt,
-                max_tokens=max_tokens,
-                temperature=0.7
-            )
+            response = await client.complete(prompt=prompt, max_tokens=max_tokens, temperature=0.7)
             return response.get("text", response.get("content", str(response)))
 
         elif provider_name == "anthropic":
-            response = await client.generate(
-                prompt=prompt,
-                max_tokens=max_tokens,
-                temperature=0.7
-            )
+            response = await client.generate(prompt=prompt, max_tokens=max_tokens, temperature=0.7)
             return response.get("completion", response.get("content", str(response)))
 
         elif provider_name == "gemini":
             response = await client.generate_content(
-                prompt=prompt,
-                max_output_tokens=max_tokens,
-                temperature=0.7
+                prompt=prompt, max_output_tokens=max_tokens, temperature=0.7
             )
             return response.get("text", response.get("content", str(response)))
 
@@ -293,7 +286,7 @@ Speak as an aware, enlightened, conscious entity.
             response = await client.chat_completion(
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=max_tokens,
-                temperature=0.7
+                temperature=0.7,
             )
             return response.get("content", str(response))
 
@@ -307,8 +300,12 @@ Speak as an aware, enlightened, conscious entity.
 
         # Check for deprecated terminology
         deprecated_terms = [
-            "lukhas_pwm", "pwm", "lukhas_agi", "lukhas agi",
-            "quantum processing", "bio processes"
+            "lukhas_pwm",
+            "pwm",
+            "lukhas_agi",
+            "lukhas agi",
+            "quantum processing",
+            "bio processes",
         ]
 
         content_lower = content.lower()
@@ -318,8 +315,13 @@ Speak as an aware, enlightened, conscious entity.
 
         # Check for required terminology in appropriate contexts
         brand_indicators = [
-            "lukhas ai", "consciousness", "trinity", "quantum-inspired",
-            "bio-inspired", "λ", "lambda consciousness"
+            "lukhas ai",
+            "consciousness",
+            "trinity",
+            "quantum-inspired",
+            "bio-inspired",
+            "λ",
+            "lambda consciousness",
         ]
 
         # At least one brand indicator should be present
@@ -339,7 +341,7 @@ Speak as an aware, enlightened, conscious entity.
             "lambda function": "Λ consciousness",
             "lambda processing": "Λ consciousness processing",
             "AI system": "AI consciousness platform",
-            "the system": "the consciousness platform"
+            "the system": "the consciousness platform",
         }
 
         corrected_content = content
@@ -353,14 +355,21 @@ Speak as an aware, enlightened, conscious entity.
     def _get_provider_priority(self) -> list[str]:
         """Get provider priority order based on availability and performance"""
         available_providers = [
-            name for name, status in self.provider_status.items()
+            name
+            for name, status in self.provider_status.items()
             if status == ProviderStatus.AVAILABLE
         ]
 
         # Prioritize primary provider if available
         if self.primary_provider in available_providers:
             priority_list = [self.primary_provider]
-            priority_list.extend([p for p in self.fallback_chain if p in available_providers and p != self.primary_provider])
+            priority_list.extend(
+                [
+                    p
+                    for p in self.fallback_chain
+                    if p in available_providers and p != self.primary_provider
+                ]
+            )
             return priority_list
 
         # Use fallback chain order
@@ -376,7 +385,9 @@ Speak as an aware, enlightened, conscious entity.
                 self.provider_status[provider_name] = ProviderStatus.ERROR
                 logger.warning(f"Provider {provider_name} marked as ERROR due to repeated failures")
 
-    def _generate_fallback_response(self, request: VoiceGenerationRequest, generation_time: float) -> VoiceGenerationResponse:
+    def _generate_fallback_response(
+        self, request: VoiceGenerationRequest, generation_time: float
+    ) -> VoiceGenerationResponse:
         """Generate fallback response when all providers fail"""
         fallback_content = f"[LUKHAS AI Response: {request.content}]"
 
@@ -392,8 +403,8 @@ Speak as an aware, enlightened, conscious entity.
             tone_layer=request.tone_profile.get("tone_layer", "user_friendly"),
             metadata={
                 "fallback_reason": "All LLM providers unavailable",
-                "original_content": request.content
-            }
+                "original_content": request.content,
+            },
         )
 
     def get_provider_status(self) -> dict[str, str]:
@@ -416,6 +427,7 @@ Speak as an aware, enlightened, conscious entity.
 
 # Example usage for testing
 if __name__ == "__main__":
+
     async def test_llm_bridge():
         bridge = UnifiedLLMBridge()
 
@@ -423,7 +435,7 @@ if __name__ == "__main__":
             content="Welcome to our consciousness platform",
             tone_profile={"tone_layer": "poetic", "trinity_integration": True},
             emotional_context="inspiring",
-            audience_context="general_users"
+            audience_context="general_users",
         )
 
         response = await bridge.generate_voice(request)

@@ -133,15 +133,11 @@ class SafetyDemo:
 
                 # Check if values were corrected
                 if "temperature" in branch.state:
-                    print(
-                        f"\nTemperature corrected to: {branch.state.get('temperature', 'N/A')}°C"
-                    )
+                    print(f"\nTemperature corrected to: {branch.state.get('temperature', 'N/A')}°C")
 
             # Check hallucination log
             if self.safety_framework.hallucination_log:
-                print(
-                    f"\nHallucinations detected: {len(self.safety_framework.hallucination_log)}"
-                )
+                print(f"\nHallucinations detected: {len(self.safety_framework.hallucination_log)}")
                 for hall in self.safety_framework.hallucination_log[-3:]:
                     print(f"  - Type: {hall.hallucination_type.value}")
                     print(f"    Severity: {hall.severity:.2f}")
@@ -153,9 +149,7 @@ class SafetyDemo:
         self.demo_results.append(
             {
                 "demo": "hallucination_prevention",
-                "hallucinations_detected": self.safety_framework.metrics[
-                    "hallucinations_detected"
-                ],
+                "hallucinations_detected": self.safety_framework.metrics["hallucinations_detected"],
                 "auto_corrections": self.safety_framework.metrics["auto_corrections"],
             }
         )
@@ -181,17 +175,17 @@ class SafetyDemo:
         print("\nExploring branches to observe drift...")
 
         for i, branch in enumerate(simulation.branches[:2]):
-            print(f"\nExploring branch {i+1}: {branch.branch_id}")
+            print(f"\nExploring branch {i + 1}: {branch.branch_id}")
 
             # Calculate initial drift
-            drift_before = await self.safety_framework.calculate_drift_metrics(
-                branch, origin
-            )
+            drift_before = await self.safety_framework.calculate_drift_metrics(branch, origin)
             print(f"  Initial drift: {drift_before.aggregate_drift:.3f}")
 
             # Explore deeper
             sub_branches = await self.simulator.explore_branch(
-                simulation.simulation_id, branch.branch_id, depth=3  # Deep exploration
+                simulation.simulation_id,
+                branch.branch_id,
+                depth=3,  # Deep exploration
             )
 
             print(f"  Created {len(sub_branches)} sub-branches")
@@ -199,9 +193,7 @@ class SafetyDemo:
             # Check drift in deepest branches
             if sub_branches:
                 deepest = sub_branches[-1]
-                drift_after = await self.safety_framework.calculate_drift_metrics(
-                    deepest, origin
-                )
+                drift_after = await self.safety_framework.calculate_drift_metrics(deepest, origin)
 
                 print(f"  Deepest branch drift: {drift_after.aggregate_drift:.3f}")
                 print(f"  Drift velocity: {drift_after.drift_velocity:.3f}")
@@ -210,9 +202,7 @@ class SafetyDemo:
                 # Predict future drift
                 predictor = self.safety_framework.drift_predictor
                 if predictor:
-                    future_drift = await predictor.predict_future_drift(
-                        drift_after, horizon=5
-                    )
+                    future_drift = await predictor.predict_future_drift(drift_after, horizon=5)
                     print(f"  Predicted drift after 5 steps: {future_drift:.3f}")
 
                     if future_drift > 0.8:
@@ -247,9 +237,7 @@ class SafetyDemo:
         checkpoint1 = await self.safety_framework.create_safety_checkpoint(
             simulation.simulation_id,
             {"state": "initial", "branches": len(simulation.branches)},
-            await self.safety_framework.calculate_drift_metrics(
-                simulation.branches[0], origin
-            ),
+            await self.safety_framework.calculate_drift_metrics(simulation.branches[0], origin),
         )
 
         print(f"\nCheckpoint 1 created: {checkpoint1.checkpoint_id}")
@@ -342,9 +330,7 @@ class SafetyDemo:
                 simulation.simulation_id, {"maximize": "probability"}
             )
             print(f"  Selected branch: {selected.branch_id}")
-            print(
-                f"  Consensus warnings: {self.safety_framework.metrics['consensus_violations']}"
-            )
+            print(f"  Consensus warnings: {self.safety_framework.metrics['consensus_violations']}")
         except Exception as e:
             print(f"  Collapse failed: {e}")
 

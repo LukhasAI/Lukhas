@@ -116,8 +116,7 @@ class QIInspiredAttention:
         """Initialize quantum-inspired superposition matrix"""
         dimensions = len(self.attention_gates)
         self.superposition_matrix = (
-            np.eye(dimensions) * 0.5
-            + np.ones((dimensions, dimensions)) * 0.5 / dimensions
+            np.eye(dimensions) * 0.5 + np.ones((dimensions, dimensions)) * 0.5 / dimensions
         )
         for i in range(dimensions):
             row_sum = np.sum(self.superposition_matrix[i, :])
@@ -127,9 +126,7 @@ class QIInspiredAttention:
     def attend(self, input_data: dict, context: dict) -> dict:
         """Apply quantum-inspired attention mechanisms"""
         features = self._extract_features(input_data)
-        attention_distribution = self._calculate_attention_distribution(
-            features, context
-        )
+        attention_distribution = self._calculate_attention_distribution(features, context)
         superposed_attention = self._apply_superposition(attention_distribution)
         attended_data = self._apply_attention_gates(input_data, superposed_attention)
         self._update_entanglement_map(input_data, attended_data)
@@ -138,9 +135,7 @@ class QIInspiredAttention:
     def _extract_features(self, input_data: dict) -> dict:
         """Extract relevant features from input data"""
         features = {}
-        features["semantic"] = (
-            input_data.get("text", "")[:100] if "text" in input_data else None
-        )
+        features["semantic"] = input_data.get("text", "")[:100] if "text" in input_data else None
         features["emotional"] = input_data.get(
             "emotion", {"primary_emotion": "neutral", "intensity": 0.5}
         )
@@ -148,9 +143,7 @@ class QIInspiredAttention:
         features["historical"] = input_data.get("history", [])
         return features
 
-    def _calculate_attention_distribution(
-        self, features: dict, context: dict
-    ) -> np.ndarray:
+    def _calculate_attention_distribution(self, features: dict, context: dict) -> np.ndarray:
         """Calculate attention distribution based on features"""
         gate_keys = list(self.attention_gates.keys())
         attention_weights = np.array([self.attention_gates[key] for key in gate_keys])
@@ -169,9 +162,7 @@ class QIInspiredAttention:
         else:
             return attention_distribution
 
-    def _apply_attention_gates(
-        self, input_data: dict, attention_weights: np.ndarray
-    ) -> dict:
+    def _apply_attention_gates(self, input_data: dict, attention_weights: np.ndarray) -> dict:
         """Apply attention gates to input data"""
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())
@@ -291,8 +282,7 @@ class CausalReasoningModule:
                 ):
                     causal_chains[chain_id]["elements"].append(other_item)
                     causal_chains[chain_id]["base_confidence"] = (
-                        causal_chains[chain_id]["base_confidence"]
-                        + other_item["base_confidence"]
+                        causal_chains[chain_id]["base_confidence"] + other_item["base_confidence"]
                     ) / 2
 
         return causal_chains
@@ -306,9 +296,7 @@ class CausalReasoningModule:
             length_adjustment = min(0.2, 0.05 * len(chain["elements"]))
             element_types = {elem["type"] for elem in chain["elements"]}
             diversity_adjustment = min(0.15, 0.05 * len(element_types))
-            final_confidence = min(
-                0.99, base_confidence + length_adjustment + diversity_adjustment
-            )
+            final_confidence = min(0.99, base_confidence + length_adjustment + diversity_adjustment)
 
             weighted_causes[chain_id] = {
                 "elements": chain["elements"],
@@ -337,20 +325,16 @@ class CausalReasoningModule:
                 }
             else:
                 self.causal_graph[chain_id]["frequency"] += 1
-                self.causal_graph[chain_id]["confidence_history"].append(
-                    chain_data["confidence"]
-                )
-                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[
-                    chain_id
-                ]["confidence_history"][-10:]
+                self.causal_graph[chain_id]["confidence_history"].append(chain_data["confidence"])
+                self.causal_graph[chain_id]["confidence_history"] = self.causal_graph[chain_id][
+                    "confidence_history"
+                ][-10:]
 
     def _identify_primary_cause(self, valid_causes: dict) -> Optional[dict]:
         """Identify most likely primary cause"""
         if not valid_causes:
             return None
-        primary_cause_id = max(
-            valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"]
-        )
+        primary_cause_id = max(valid_causes.keys(), key=lambda k: valid_causes[k]["confidence"])
         return {
             "id": primary_cause_id,
             "summary": valid_causes[primary_cause_id]["summary"],
@@ -444,9 +428,7 @@ class SymbolicEngine:
         return {
             "symbolic_reasoning": weighted_logic,
             "valid_logic": valid_logic,
-            "confidence": max(
-                [v.get("confidence", 0) for v in valid_logic.values()], default=0.0
-            ),
+            "confidence": max([v.get("confidence", 0) for v in valid_logic.values()], default=0.0),
             "logic_applied": len(valid_logic) > 0,
             "timestamp": datetime.now().isoformat(),
         }
@@ -574,17 +556,12 @@ class SymbolicEngine:
 
             evidence_strength = 0
             for elem_type, elems in elements_by_type.items():
-                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(
-                    elems
-                ) > 1:
+                if ("symbolic" in elem_type or "formal_logic" in elem_type) and len(elems) > 1:
                     evidence_strength += 0.05 * min(3, len(elems))
 
             final_confidence = min(
                 0.99,
-                base_confidence
-                + type_diversity_bonus
-                + symbolic_bonus
-                + evidence_strength,
+                base_confidence + type_diversity_bonus + symbolic_bonus + evidence_strength,
             )
 
             weighted_logic[chain_id] = {
@@ -646,9 +623,7 @@ class MetaCognitiveOrchestrator:
 
         # Quantum attention processing
         if "attention" in self.components:
-            attention_result = self.components["attention"].attend(
-                input_data, context or {}
-            )
+            attention_result = self.components["attention"].attend(input_data, context or {})
             results["attention"] = attention_result
             input_data = attention_result  # Use attended data for subsequent processing
 
@@ -684,9 +659,7 @@ class MetaCognitiveOrchestrator:
             if hasattr(comp, "reason") or hasattr(comp, "attend")
         )
 
-        self.metacognitive_state["self_awareness"] = active_components / max(
-            total_components, 1
-        )
+        self.metacognitive_state["self_awareness"] = active_components / max(total_components, 1)
 
         # Update adaptation level based on recent modifications
         recent_modifications = len(
@@ -696,13 +669,9 @@ class MetaCognitiveOrchestrator:
                 if (datetime.now() - datetime.fromisoformat(m["timestamp"])).days < 7
             ]
         )
-        self.metacognitive_state["adaptation_level"] = min(
-            1.0, recent_modifications * 0.1
-        )
+        self.metacognitive_state["adaptation_level"] = min(1.0, recent_modifications * 0.1)
 
-    def _synthesize_results(
-        self, results: dict, input_data: dict, context: dict
-    ) -> dict:
+    def _synthesize_results(self, results: dict, input_data: dict, context: dict) -> dict:
         """Synthesize results from all components with metacognitive insight"""
         # Extract confidence scores
         confidences = []
@@ -744,9 +713,7 @@ class MetaCognitiveOrchestrator:
             if avg_confidence > 0.8:
                 insights.append("High confidence reasoning achieved across components")
             elif confidence_variance > 0.1:
-                insights.append(
-                    "Inconsistent confidence levels suggest need for calibration"
-                )
+                insights.append("Inconsistent confidence levels suggest need for calibration")
 
             if avg_confidence < 0.5:
                 insights.append(
@@ -893,19 +860,12 @@ class MetaCognitiveOrchestrator:
 
                 elif rec["type"] == "component_addition":
                     # Add new component (simplified)
-                    if (
-                        rec["target"] == "attention"
-                        and "attention" not in self.components
-                    ):
+                    if rec["target"] == "attention" and "attention" not in self.components:
                         self.components["attention"] = QIInspiredAttention()
                         modification["status"] = "successful"
 
-                self.metacognitive_state["last_self_modification"] = modification[
-                    "timestamp"
-                ]
-                logger.info(
-                    f"Self-modification performed: {modification['description']}"
-                )
+                self.metacognitive_state["last_self_modification"] = modification["timestamp"]
+                logger.info(f"Self-modification performed: {modification['description']}")
 
             except Exception as e:
                 modification["status"] = "failed"
@@ -967,9 +927,7 @@ class ComplianceEngine:
         response_text = str(proposed_response.get("content", ""))
         for pattern in harmful_patterns:
             if re.search(pattern, response_text, re.IGNORECASE):
-                compliance_result["issues"].append(
-                    f"Potential harmful content detected: {pattern}"
-                )
+                compliance_result["issues"].append(f"Potential harmful content detected: {pattern}")
                 compliance_result["is_compliant"] = False
                 compliance_result["confidence"] *= 0.5
 
@@ -1041,9 +999,7 @@ class EnhancedAGIBot:
         self.continuous_learning = True
 
         logger.info(f"✅ Enhanced AI Bot initialized - Session: {self.session_id}")
-        logger.info(
-            f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
-        )
+        logger.info(f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}")
 
     def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails"""
@@ -1078,9 +1034,7 @@ class EnhancedAGIBot:
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
             # SECURITY: Use SHA-256 instead of MD5 for better security
-            pattern_key = hashlib.sha256(
-                input_data.get("text", "").encode()
-            ).hexdigest()[:16]
+            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
@@ -1138,9 +1092,7 @@ class EnhancedAGIBot:
             "session_id": self.session_id,
             "timestamp": start_time.isoformat(),
             "context": context or {},
-            "history": (
-                self.conversation_history[-5:] if self.conversation_history else []
-            ),
+            "history": (self.conversation_history[-5:] if self.conversation_history else []),
         }
 
         try:
@@ -1199,11 +1151,9 @@ class EnhancedAGIBot:
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {str(e)}",
+                content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[
-                    {"error": str(e), "timestamp": datetime.now().isoformat()}
-                ],
+                reasoning_path=[{"error": str(e), "timestamp": datetime.now().isoformat()}],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
                     "is_compliant": True,
@@ -1216,17 +1166,11 @@ class EnhancedAGIBot:
 
             return error_response
 
-    async def _generate_response_content(
-        self, orchestration_result: dict, input_data: dict
-    ) -> str:
+    async def _generate_response_content(self, orchestration_result: dict, input_data: dict) -> str:
         """Generate response content based on orchestration results"""
         # Extract insights from different reasoning components
-        causal_insights = orchestration_result.get("causal_results", {}).get(
-            "primary_cause", {}
-        )
-        symbolic_insights = orchestration_result.get("symbolic_results", {}).get(
-            "inferences", []
-        )
+        causal_insights = orchestration_result.get("causal_results", {}).get("primary_cause", {})
+        symbolic_insights = orchestration_result.get("symbolic_results", {}).get("inferences", [])
         metacognitive_insights = orchestration_result.get("metacognitive_insights", [])
 
         # Build comprehensive response
@@ -1240,29 +1184,21 @@ class EnhancedAGIBot:
 
         # Add causal reasoning insights
         if causal_insights and causal_insights.get("summary"):
-            response_parts.append(
-                f"Causal analysis reveals: {causal_insights['summary']}"
-            )
+            response_parts.append(f"Causal analysis reveals: {causal_insights['summary']}")
 
         # Add symbolic reasoning insights
         if symbolic_insights:
-            symbolic_summary = (
-                f"Logical analysis shows: {len(symbolic_insights)} key inferences"
-            )
+            symbolic_summary = f"Logical analysis shows: {len(symbolic_insights)} key inferences"
             response_parts.append(symbolic_summary)
 
         # Add metacognitive insights
         if metacognitive_insights:
-            metacog_summary = (
-                f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
-            )
+            metacog_summary = f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
             response_parts.append(metacog_summary)
 
         # Fallback response if no insights generated
         if not response_parts:
-            response_parts.append(
-                "I've processed your input and am ready to assist you further."
-            )
+            response_parts.append("I've processed your input and am ready to assist you further.")
 
         return " ".join(response_parts)
 
@@ -1320,13 +1256,9 @@ class EnhancedAGIBot:
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,
             "overall_performance": {
-                "average_confidence": sum(
-                    d.get("confidence", 0) for d in demonstrations
-                )
+                "average_confidence": sum(d.get("confidence", 0) for d in demonstrations)
                 / len(demonstrations),
-                "successful_tests": sum(
-                    1 for d in demonstrations if d.get("confidence", 0) > 0.5
-                ),
+                "successful_tests": sum(1 for d in demonstrations if d.get("confidence", 0) > 0.5),
                 "total_tests": len(demonstrations),
             },
             "system_status": self.get_agi_status(),
@@ -1370,13 +1302,9 @@ if __name__ == "__main__":
             print("\n📈 Overall Performance:")
             perf = demo_results["overall_performance"]
             print(f"   Average Confidence: {perf['average_confidence']:.2f}")
-            print(
-                f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}"
-            )
+            print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
 
-            print(
-                f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}"
-            )
+            print(f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}")
 
         except Exception as e:
             logger.error(f"Error in main execution: {e}")

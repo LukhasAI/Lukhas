@@ -16,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 # Import router for fallback imports
-def import_with_fallback(
-    primary_path: str, fallback_paths: list, item_name: str
-) -> Any:
+def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str) -> Any:
     """
     Try to import from primary path, fall back to alternatives if needed.
     """
@@ -119,8 +117,7 @@ try:
         MessagePriority,
         get_global_communication_fabric,
     )
-    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate
-    from ..event_sourcing import get_global_event_store
+    from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate, get_global_event_store
     from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
     from ..symbolism import TagScope
 

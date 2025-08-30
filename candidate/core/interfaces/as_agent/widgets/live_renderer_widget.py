@@ -37,7 +37,7 @@ def render_widget_preview(widget):
     try:
         html = render_symbolic_expression(widget)
     except Exception as e:
-        html = f"<div style='color:red;'>Rendering error: {str(e)}</div>"
+        html = f"<div style='color:red;'>Rendering error: {e!s}</div>"
     return html
 
 

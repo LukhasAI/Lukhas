@@ -90,9 +90,7 @@ class GDPRValidator:
         self.name = "GDPR Validator"
         self.version = "1.0.0-minimal"
 
-    async def assess_gdpr_compliance(
-        self, activity: DataProcessingActivity
-    ) -> GDPRAssessment:
+    async def assess_gdpr_compliance(self, activity: DataProcessingActivity) -> GDPRAssessment:
         """
         Assess GDPR compliance for a data processing activity.
 
@@ -120,9 +118,7 @@ class GDPRValidator:
             )
 
         if activity.automated_decision_making:
-            recommendations.append(
-                "Ensure appropriate measures for automated decision-making"
-            )
+            recommendations.append("Ensure appropriate measures for automated decision-making")
 
         # Determine compliance status
         if score >= 0.8:

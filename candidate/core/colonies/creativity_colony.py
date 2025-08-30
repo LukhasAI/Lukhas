@@ -17,9 +17,7 @@ class CreativityColony(BaseColony):
     """
 
     def __init__(self, colony_id: str):
-        super().__init__(
-            colony_id, capabilities=["creativity", "generation", "synthesis"]
-        )
+        super().__init__(colony_id, capabilities=["creativity", "generation", "synthesis"])
         # ΛTAG: driftScore, fatigue_mod
         self.task_slots: int = 3
         self.driftScore: float = 1.0
@@ -31,9 +29,7 @@ class CreativityColony(BaseColony):
         # At least one slot must remain available
         self.task_slots = max(1, int(3 * (1.0 - fatigue)))
 
-    async def execute_task(
-        self, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         self.update_task_slots()
 
         if self.task_slots <= 0:

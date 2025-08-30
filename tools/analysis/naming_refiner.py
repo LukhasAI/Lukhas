@@ -14,7 +14,6 @@ from typing import Any
 
 
 class LukhasNamingRefiner:
-
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
 
@@ -217,10 +216,7 @@ class LukhasNamingRefiner:
                 print(f"  Progress: {i}/{total_files} files...")
 
             # Skip archive directories
-            if any(
-                skip in str(file_path)
-                for skip in ["._cleanup_archive", "__pycache__", ".git"]
-            ):
+            if any(skip in str(file_path) for skip in ["._cleanup_archive", "__pycache__", ".git"]):
                 continue
 
             self._analyze_file(file_path)
@@ -263,9 +259,7 @@ class LukhasNamingRefiner:
                         if isinstance(target, ast.Name) and target.id.isupper():
                             refinement = self.refine_name(target.id, "constant")
                             if refinement["changed"]:
-                                refinement["file"] = str(
-                                    file_path.relative_to(self.root_path)
-                                )
+                                refinement["file"] = str(file_path.relative_to(self.root_path))
                                 refinement["line"] = node.lineno
                                 self.refinements["constants"].append(refinement)
 

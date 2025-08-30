@@ -29,6 +29,7 @@ class DreamSystem:
         # Try to load the main dream engine
         try:
             from .core.dream_engine import DreamEngine
+
             self.engine = DreamEngine()
             components.append("CoreEngine")
         except ImportError as e:
@@ -39,6 +40,7 @@ class DreamSystem:
             from .oneiric.oneiric_core.engine.dream_engine_fastapi import (
                 DreamEngineFastAPI,
             )
+
             self.oneiric = DreamEngineFastAPI()
             components.append("OneiricEngine")
         except ImportError as e:
@@ -48,6 +50,7 @@ class DreamSystem:
         if not self.engine and not self.oneiric:
             try:
                 from .engine.dream_engine import DreamEngine as SimpleDreamEngine
+
                 self.engine = SimpleDreamEngine()
                 components.append("SimpleEngine")
             except ImportError:
@@ -78,11 +81,7 @@ class DreamSystem:
                 logger.error(f"Oneiric dream generation failed: {e}")
 
         # Fallback
-        return {
-            "type": "fallback_dream",
-            "content": f"Dream seed: {seed}",
-            "engine": "none"
-        }
+        return {"type": "fallback_dream", "content": f"Dream seed: {seed}", "engine": "none"}
 
     def get_status(self) -> dict[str, Any]:
         """Get dream system status"""
@@ -92,27 +91,38 @@ class DreamSystem:
             "core_engine": self.engine is not None,
             "oneiric_engine": self.oneiric is not None,
             "complexity": "high",  # Dreams are complex in LUKHAS
-            "path": "consciousness/dream/dream.py"
+            "path": "consciousness/dream/dream.py",
         }
 
 
 # Create a global instance for easy access
 dream_system = DreamSystem()
 
+
 # Export main functions
 def initialize():
     """Initialize the dream system"""
     return dream_system.initialize()
 
+
 async def generate_dream(seed: Any = None):
     """Generate a dream"""
     return await dream_system.generate_dream(seed)
+
 
 def get_status():
     """Get dream system status"""
     return dream_system.get_status()
 
+
 # For backward compatibility
 DreamEngine = DreamSystem
 
-__all__ = ["DreamSystem", "dream_system", "initialize", "generate_dream", "get_status", "DreamEngine"]
+__all__ = [
+    "DreamEngine",
+    "DreamSystem",
+    "dream_system",
+    "generate_dream",
+    "get_status",
+    "initialize",
+]

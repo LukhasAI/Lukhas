@@ -21,8 +21,10 @@ from candidate.voice.audio_processing import AudioBuffer
 
 logger = get_logger(__name__)
 
+
 class FilterType(Enum):
     """Audio filter types"""
+
     LOW_PASS = "low_pass"
     HIGH_PASS = "high_pass"
     BAND_PASS = "band_pass"
@@ -34,9 +36,11 @@ class FilterType(Enum):
     ADAPTIVE_NOISE = "adaptive_noise"
     SPECTRAL_GATE = "spectral_gate"
 
+
 @dataclass
 class FilterParameters:
     """Audio filter parameters"""
+
     frequency: float = 1000.0  # Center/cutoff frequency in Hz
     gain: float = 0.0  # Gain in dB
     q_factor: float = 1.0  # Quality factor
@@ -48,6 +52,7 @@ class FilterParameters:
     slope: float = 6.0  # dB/octave
     threshold: float = -20.0  # For gates/compressors
 
+
 class AudioFilter(ABC):
     """Abstract base class for audio filters"""
 
@@ -55,6 +60,7 @@ class AudioFilter(ABC):
     async def apply(self, buffer: AudioBuffer, params: FilterParameters) -> AudioBuffer:
         """Apply filter to audio buffer"""
         pass
+
 
 class LowPassFilter(AudioFilter):
     """Low-pass filter implementation"""
@@ -75,8 +81,9 @@ class LowPassFilter(AudioFilter):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "low_pass_applied": True}
+            metadata={**buffer.metadata, "low_pass_applied": True},
         )
+
 
 class HighPassFilter(AudioFilter):
     """High-pass filter implementation"""
@@ -97,8 +104,9 @@ class HighPassFilter(AudioFilter):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "high_pass_applied": True}
+            metadata={**buffer.metadata, "high_pass_applied": True},
         )
+
 
 class BandPassFilter(AudioFilter):
     """Band-pass filter implementation"""
@@ -131,8 +139,9 @@ class BandPassFilter(AudioFilter):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "band_pass_applied": True}
+            metadata={**buffer.metadata, "band_pass_applied": True},
         )
+
 
 class NotchFilter(AudioFilter):
     """Notch filter implementation"""
@@ -160,8 +169,9 @@ class NotchFilter(AudioFilter):
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "notch_applied": True}
+            metadata={**buffer.metadata, "notch_applied": True},
         )
+
 
 class AdaptiveNoiseFilter(AudioFilter):
     """Adaptive noise reduction filter"""
@@ -182,7 +192,7 @@ class AdaptiveNoiseFilter(AudioFilter):
         noise_spectrum = np.zeros(frame_size // 2 + 1)
 
         for i in range(noise_frames):
-            frame = data[i * frame_size:(i + 1) * frame_size]
+            frame = data[i * frame_size : (i + 1) * frame_size]
             if len(frame) == frame_size:
                 fft = np.fft.rfft(frame)
                 noise_spectrum += np.abs(fft) / noise_frames
@@ -192,7 +202,7 @@ class AdaptiveNoiseFilter(AudioFilter):
         window = np.hanning(frame_size)
 
         for i in range(0, len(data) - frame_size, hop_size):
-            frame = data[i:i + frame_size] * window
+            frame = data[i : i + frame_size] * window
             fft = np.fft.rfft(frame)
             magnitude = np.abs(fft)
             phase = np.angle(fft)
@@ -207,15 +217,16 @@ class AdaptiveNoiseFilter(AudioFilter):
             enhanced_frame = np.fft.irfft(enhanced_fft, n=frame_size)
 
             # Overlap-add
-            filtered_data[i:i + frame_size] += enhanced_frame * window
+            filtered_data[i : i + frame_size] += enhanced_frame * window
 
         return AudioBuffer(
             data=filtered_data,
             sample_rate=buffer.sample_rate,
             channels=buffer.channels,
             format=buffer.format,
-            metadata={**buffer.metadata, "adaptive_noise_applied": True}
+            metadata={**buffer.metadata, "adaptive_noise_applied": True},
         )
+
 
 class LUKHASAudioFilterBank:
     """LUKHAS audio filter bank with multiple filter types"""
@@ -229,22 +240,21 @@ class LUKHASAudioFilterBank:
             FilterType.HIGH_PASS: HighPassFilter(),
             FilterType.BAND_PASS: BandPassFilter(),
             FilterType.NOTCH: NotchFilter(),
-            FilterType.ADAPTIVE_NOISE: AdaptiveNoiseFilter()
+            FilterType.ADAPTIVE_NOISE: AdaptiveNoiseFilter(),
         }
 
     async def apply_filter(
-        self,
-        buffer: AudioBuffer,
-        filter_type: FilterType,
-        params: FilterParameters
+        self, buffer: AudioBuffer, filter_type: FilterType, params: FilterParameters
     ) -> AudioBuffer:
         """Apply single filter"""
         try:
-            validation_result = await self.guardian.validate_operation({
-                "operation_type": "audio_filter",
-                "filter_type": filter_type.value,
-                "audio_length": len(buffer.data)
-            })
+            validation_result = await self.guardian.validate_operation(
+                {
+                    "operation_type": "audio_filter",
+                    "filter_type": filter_type.value,
+                    "audio_length": len(buffer.data),
+                }
+            )
 
             if not validation_result.get("approved", False):
                 self.logger.warning(f"Guardian rejected filter {filter_type.value}")
@@ -253,11 +263,14 @@ class LUKHASAudioFilterBank:
             if filter_type in self.filters:
                 result = await self.filters[filter_type].apply(buffer, params)
 
-                await GLYPH.emit("audio.filter.applied", {
-                    "filter_type": filter_type.value,
-                    "frequency": params.frequency,
-                    "enabled": params.enabled
-                })
+                await GLYPH.emit(
+                    "audio.filter.applied",
+                    {
+                        "filter_type": filter_type.value,
+                        "frequency": params.frequency,
+                        "enabled": params.enabled,
+                    },
+                )
 
                 return result
             else:
@@ -265,13 +278,11 @@ class LUKHASAudioFilterBank:
                 return buffer
 
         except Exception as e:
-            self.logger.error(f"Filter {filter_type.value} failed: {str(e)}")
+            self.logger.error(f"Filter {filter_type.value} failed: {e!s}")
             return buffer
 
     async def apply_filter_chain(
-        self,
-        buffer: AudioBuffer,
-        filter_chain: list[tuple[FilterType, FilterParameters]]
+        self, buffer: AudioBuffer, filter_chain: list[tuple[FilterType, FilterParameters]]
     ) -> AudioBuffer:
         """Apply chain of filters"""
         current_buffer = buffer
@@ -281,15 +292,16 @@ class LUKHASAudioFilterBank:
 
         return current_buffer
 
+
 # Export main classes
 __all__ = [
-    "LUKHASAudioFilterBank",
-    "FilterType",
-    "FilterParameters",
+    "AdaptiveNoiseFilter",
     "AudioFilter",
-    "LowPassFilter",
-    "HighPassFilter",
     "BandPassFilter",
+    "FilterParameters",
+    "FilterType",
+    "HighPassFilter",
+    "LUKHASAudioFilterBank",
+    "LowPassFilter",
     "NotchFilter",
-    "AdaptiveNoiseFilter"
 ]

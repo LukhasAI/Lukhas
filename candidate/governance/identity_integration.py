@@ -29,11 +29,8 @@ class IdentityGovernance:
         # Apply governance policies
         if user_tier == "sovereign":
             return True  # Sovereign access
-        elif (
-            user_tier == "contributor"
-            and resource != "core"
-            or user_tier == "observer"
-            and resource == "public"
+        elif (user_tier == "contributor" and resource != "core") or (
+            user_tier == "observer" and resource == "public"
         ):
             return True
 

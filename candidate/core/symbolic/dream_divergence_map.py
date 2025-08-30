@@ -106,9 +106,7 @@ class DreamSession:
         tag_counts = Counter(self.symbolic_tags)
         total = len(self.symbolic_tags)
 
-        entropy = -sum(
-            (count / total) * math.log2(count / total) for count in tag_counts.values()
-        )
+        entropy = -sum((count / total) * math.log2(count / total) for count in tag_counts.values())
         return entropy
 
     def calculate_emotional_magnitude(self) -> float:
@@ -154,9 +152,7 @@ class DriftMatrix:
 
     def get_max_drift_pair(self) -> tuple[str, str, float]:
         """Find session pair with maximum drift."""
-        max_idx = np.unravel_index(
-            np.argmax(self.drift_scores), self.drift_scores.shape
-        )
+        max_idx = np.unravel_index(np.argmax(self.drift_scores), self.drift_scores.shape)
         max_drift = self.drift_scores[max_idx]
         session_pair = (
             self.session_ids[max_idx[0]],
@@ -164,18 +160,14 @@ class DriftMatrix:
         )
         return (*session_pair, max_drift)
 
-    def get_high_drift_pairs(
-        self, threshold: float = 0.7
-    ) -> list[tuple[str, str, float]]:
+    def get_high_drift_pairs(self, threshold: float = 0.7) -> list[tuple[str, str, float]]:
         """Get all session pairs above drift threshold."""
         high_drift_pairs = []
         for i in range(len(self.session_ids)):
             for j in range(i + 1, len(self.session_ids)):
                 drift = self.drift_scores[i, j]
                 if drift >= threshold:
-                    high_drift_pairs.append(
-                        (self.session_ids[i], self.session_ids[j], drift)
-                    )
+                    high_drift_pairs.append((self.session_ids[i], self.session_ids[j], drift))
 
         return sorted(high_drift_pairs, key=lambda x: x[2], reverse=True)
 
@@ -193,9 +185,7 @@ class DreamDivergenceMapper:
             "phase_transition": 0.15,
         }
 
-    def load_dream_sessions(
-        self, directory: str, limit: int = 20
-    ) -> list[DreamSession]:
+    def load_dream_sessions(self, directory: str, limit: int = 20) -> list[DreamSession]:
         """Load and normalize recent dream sessions from disk."""
         sessions = []
         dream_dir = Path(directory)
@@ -227,9 +217,7 @@ class DreamDivergenceMapper:
         logger.info(f"Loaded {len(sessions)} dream sessions")
         return sessions
 
-    def _normalize_session_data(
-        self, data: dict[str, Any], file_id: str
-    ) -> DreamSession:
+    def _normalize_session_data(self, data: dict[str, Any], file_id: str) -> DreamSession:
         """Normalize session data to standard format."""
         return DreamSession(
             session_id=data.get("session_id", f"session_{file_id}"),
@@ -287,21 +275,17 @@ class DreamDivergenceMapper:
             symbol_pool = sample_symbols.copy()
             if i > count // 2:
                 # Introduce divergent symbols in later sessions
-                symbol_pool.extend(
-                    ["qi_void", "recursive_mirror", "temporal_fracture"]
-                )
+                symbol_pool.extend(["qi_void", "recursive_mirror", "temporal_fracture"])
 
             session = DreamSession(
-                session_id=f"dream_session_{i+1:03d}",
+                session_id=f"dream_session_{i + 1:03d}",
                 timestamp=(base_time - timedelta(days=count - i)).isoformat(),
                 symbolic_tags=random.choices(symbol_pool, k=random.randint(3, 8)),
                 emotional_state={
                     emotion: random.uniform(-1.0, 1.0)
-                    for emotion in random.sample(
-                        sample_emotions, k=random.randint(2, 4)
-                    )
+                    for emotion in random.sample(sample_emotions, k=random.randint(2, 4))
                 },
-                content=f"Dream narrative {i+1} with symbolic elements and emotional undertones",
+                content=f"Dream narrative {i + 1} with symbolic elements and emotional undertones",
                 drift_score=random.uniform(0.0, 1.0),
                 narrative_elements=random.choices(
                     ["conflict", "resolution", "mystery", "revelation"],
@@ -328,24 +312,16 @@ class DreamDivergenceMapper:
                 drift_matrix[i, j] = drift_score.total_drift
                 drift_matrix[j, i] = drift_score.total_drift  # Symmetric matrix
 
-                drift_details[(sessions[i].session_id, sessions[j].session_id)] = (
-                    drift_score
-                )
+                drift_details[(sessions[i].session_id, sessions[j].session_id)] = drift_score
 
         # Calculate summary statistics
         upper_triangle = np.triu(drift_matrix, k=1)
         non_zero_values = upper_triangle[upper_triangle > 0]
 
         summary_stats = {
-            "mean_drift": (
-                float(np.mean(non_zero_values)) if len(non_zero_values) > 0 else 0.0
-            ),
-            "max_drift": (
-                float(np.max(non_zero_values)) if len(non_zero_values) > 0 else 0.0
-            ),
-            "std_drift": (
-                float(np.std(non_zero_values)) if len(non_zero_values) > 0 else 0.0
-            ),
+            "mean_drift": (float(np.mean(non_zero_values)) if len(non_zero_values) > 0 else 0.0),
+            "max_drift": (float(np.max(non_zero_values)) if len(non_zero_values) > 0 else 0.0),
+            "std_drift": (float(np.std(non_zero_values)) if len(non_zero_values) > 0 else 0.0),
             "total_comparisons": len(non_zero_values),
         }
 
@@ -409,9 +385,7 @@ class DreamDivergenceMapper:
         if len(phases1) == 0 and len(phases2) == 0:
             phase_transition_score = 0.0
         else:
-            phase_transition_score = len(phases1 ^ phases2) / max(
-                len(phases1 | phases2), 1
-            )
+            phase_transition_score = len(phases1 ^ phases2) / max(len(phases1 | phases2), 1)
 
         # Calculate weighted total drift
         total_drift = (
@@ -454,9 +428,7 @@ class DreamDivergenceMapper:
         # Return top recurring symbols
         return [symbol for symbol, count in symbol_counter.most_common(10)]
 
-    def render_divergence_map(
-        self, matrix: DriftMatrix, symbols: list[str], out_path: str
-    ) -> None:
+    def render_divergence_map(self, matrix: DriftMatrix, symbols: list[str], out_path: str) -> None:
         """Generate visual matrix with entropy and phase overlays."""
         if PLOTLY_AVAILABLE:
             self._render_with_plotly(matrix, symbols, out_path)
@@ -465,9 +437,7 @@ class DreamDivergenceMapper:
         else:
             self._render_ascii_matrix(matrix, symbols, out_path)
 
-    def _render_with_plotly(
-        self, matrix: DriftMatrix, symbols: list[str], out_path: str
-    ):
+    def _render_with_plotly(self, matrix: DriftMatrix, symbols: list[str], out_path: str):
         """Render interactive matrix with Plotly."""
         fig = go.Figure()
 
@@ -481,10 +451,7 @@ class DreamDivergenceMapper:
                 showscale=True,
                 colorbar={"title": "Drift Score"},
                 hovertemplate=(
-                    "Session 1: %{y}<br>"
-                    "Session 2: %{x}<br>"
-                    "Drift Score: %{z:.3f}<br>"
-                    "<extra></extra>"
+                    "Session 1: %{y}<br>Session 2: %{x}<br>Drift Score: %{z:.3f}<br><extra></extra>"
                 ),
             )
         )
@@ -531,9 +498,7 @@ class DreamDivergenceMapper:
         except Exception as e:
             logger.warning(f"Could not save static image: {e}")
 
-    def _render_with_matplotlib(
-        self, matrix: DriftMatrix, symbols: list[str], out_path: str
-    ):
+    def _render_with_matplotlib(self, matrix: DriftMatrix, symbols: list[str], out_path: str):
         """Render matrix with matplotlib."""
         plt.figure(figsize=(10, 8))
 
@@ -553,9 +518,7 @@ class DreamDivergenceMapper:
         plt.yticks(range(len(matrix.session_ids)), matrix.session_ids)
 
         # Add title
-        plt.title(
-            f'Dream Divergence Matrix\nRecurring Symbols: {", ".join(symbols[:3])}'
-        )
+        plt.title(f"Dream Divergence Matrix\nRecurring Symbols: {', '.join(symbols[:3])}")
 
         # Annotate high drift points
         high_drift_pairs = matrix.get_high_drift_pairs(threshold=0.7)
@@ -578,9 +541,7 @@ class DreamDivergenceMapper:
 
         logger.info(f"Matrix visualization saved to {out_path}")
 
-    def _render_ascii_matrix(
-        self, matrix: DriftMatrix, symbols: list[str], out_path: str
-    ):
+    def _render_ascii_matrix(self, matrix: DriftMatrix, symbols: list[str], out_path: str):
         """Render ASCII matrix as fallback."""
         output_lines = []
         output_lines.append("DREAM DIVERGENCE MATRIX")
@@ -623,9 +584,7 @@ class DreamDivergenceMapper:
 
         logger.info(f"ASCII matrix saved to {text_path}")
 
-    def generate_summary_json(
-        self, matrix: DriftMatrix, symbols: list[str]
-    ) -> dict[str, Any]:
+    def generate_summary_json(self, matrix: DriftMatrix, symbols: list[str]) -> dict[str, Any]:
         """Generate summary JSON report."""
         max_drift_pair = matrix.get_max_drift_pair()
         high_drift_pairs = matrix.get_high_drift_pairs(threshold=0.6)
@@ -688,13 +647,9 @@ def main():
         default=12,
         help="Maximum number of sessions to analyze",
     )
-    parser.add_argument(
-        "--out", default="results/divergence.svg", help="Output file path"
-    )
+    parser.add_argument("--out", default="results/divergence.svg", help="Output file path")
     parser.add_argument("--json", help="JSON summary output path")
-    parser.add_argument(
-        "--threshold", type=float, default=0.6, help="High drift threshold"
-    )
+    parser.add_argument("--threshold", type=float, default=0.6, help="High drift threshold")
 
     args = parser.parse_args()
 

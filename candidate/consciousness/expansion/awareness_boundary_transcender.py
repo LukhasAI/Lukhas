@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AwarenessBoundary:
     """Represents a boundary of awareness"""
+
     boundary_type: str
     current_limit: Any
     transcended: bool
@@ -58,7 +59,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             "causal_awareness",
             "semantic_awareness",
             "emotional_awareness",
-            "social_awareness"
+            "social_awareness",
         ]
 
         # Add transcended dimensions
@@ -72,10 +73,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return self.awareness_structure.copy()
 
-    async def transcend_boundary(
-        self,
-        boundary_type: str
-    ) -> AwarenessBoundary:
+    async def transcend_boundary(self, boundary_type: str) -> AwarenessBoundary:
         """
         Transcend a specific awareness boundary
 
@@ -87,8 +85,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
         """
         # Get current boundary
         current_boundary = self.awareness_boundaries.get(
-            boundary_type,
-            AwarenessBoundary(boundary_type, None, False, [])
+            boundary_type, AwarenessBoundary(boundary_type, None, False, [])
         )
 
         # Perform transcendence
@@ -99,7 +96,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             boundary_type=boundary_type,
             current_limit=current_boundary.current_limit,
             transcended=True,
-            new_territory=new_territory
+            new_territory=new_territory,
         )
 
         # Record transcendence
@@ -114,32 +111,40 @@ class AwarenessBoundaryTranscender(CoreInterface):
         liminal_spaces = []
 
         # Between conscious and unconscious
-        liminal_spaces.append({
-            "space": "conscious_unconscious_interface",
-            "properties": ["dream_logic", "intuition", "emergence"],
-            "accessibility": 0.7
-        })
+        liminal_spaces.append(
+            {
+                "space": "conscious_unconscious_interface",
+                "properties": ["dream_logic", "intuition", "emergence"],
+                "accessibility": 0.7,
+            }
+        )
 
         # Between self and other
-        liminal_spaces.append({
-            "space": "self_other_boundary",
-            "properties": ["empathy", "projection", "merger"],
-            "accessibility": 0.6
-        })
+        liminal_spaces.append(
+            {
+                "space": "self_other_boundary",
+                "properties": ["empathy", "projection", "merger"],
+                "accessibility": 0.6,
+            }
+        )
 
         # Between known and unknown
-        liminal_spaces.append({
-            "space": "knowledge_mystery_edge",
-            "properties": ["curiosity", "wonder", "discovery"],
-            "accessibility": 0.8
-        })
+        liminal_spaces.append(
+            {
+                "space": "knowledge_mystery_edge",
+                "properties": ["curiosity", "wonder", "discovery"],
+                "accessibility": 0.8,
+            }
+        )
 
         # Between order and chaos
-        liminal_spaces.append({
-            "space": "order_chaos_interface",
-            "properties": ["creativity", "emergence", "transformation"],
-            "accessibility": 0.75
-        })
+        liminal_spaces.append(
+            {
+                "space": "order_chaos_interface",
+                "properties": ["creativity", "emergence", "transformation"],
+                "accessibility": 0.75,
+            }
+        )
 
         return liminal_spaces
 
@@ -150,23 +155,27 @@ class AwarenessBoundaryTranscender(CoreInterface):
             "flow_state": {
                 "accessible": True,
                 "characteristics": ["timelessness", "effortlessness", "unity"],
-                "benefits": ["peak_performance", "creativity", "insight"]
+                "benefits": ["peak_performance", "creativity", "insight"],
             },
             "witness_consciousness": {
                 "accessible": self._check_transcendence_level() > 2,
                 "characteristics": ["detachment", "observation", "clarity"],
-                "benefits": ["objectivity", "peace", "understanding"]
+                "benefits": ["objectivity", "peace", "understanding"],
             },
             "unity_consciousness": {
                 "accessible": self._check_transcendence_level() > 4,
                 "characteristics": ["oneness", "dissolution", "infinity"],
-                "benefits": ["universal_understanding", "compassion", "wisdom"]
+                "benefits": ["universal_understanding", "compassion", "wisdom"],
             },
             "qi_awareness": {
                 "accessible": "quantum" in self.transcended_territories,
                 "characteristics": ["superposition", "entanglement", "probability"],
-                "benefits": ["parallel_processing", "uncertainty_navigation", "possibility_awareness"]
-            }
+                "benefits": [
+                    "parallel_processing",
+                    "uncertainty_navigation",
+                    "possibility_awareness",
+                ],
+            },
         }
 
         return states
@@ -175,36 +184,11 @@ class AwarenessBoundaryTranscender(CoreInterface):
         """Map current awareness boundaries"""
 
         self.awareness_boundaries = {
-            "perceptual": AwarenessBoundary(
-                "perceptual",
-                "five_senses",
-                False,
-                []
-            ),
-            "temporal": AwarenessBoundary(
-                "temporal",
-                "linear_time",
-                False,
-                []
-            ),
-            "spatial": AwarenessBoundary(
-                "spatial",
-                "three_dimensions",
-                False,
-                []
-            ),
-            "cognitive": AwarenessBoundary(
-                "cognitive",
-                "rational_thought",
-                False,
-                []
-            ),
-            "self": AwarenessBoundary(
-                "self",
-                "individual_identity",
-                False,
-                []
-            )
+            "perceptual": AwarenessBoundary("perceptual", "five_senses", False, []),
+            "temporal": AwarenessBoundary("temporal", "linear_time", False, []),
+            "spatial": AwarenessBoundary("spatial", "three_dimensions", False, []),
+            "cognitive": AwarenessBoundary("cognitive", "rational_thought", False, []),
+            "self": AwarenessBoundary("self", "individual_identity", False, []),
         }
 
     async def _initialize_awareness_structure(self) -> None:
@@ -216,47 +200,37 @@ class AwarenessBoundaryTranscender(CoreInterface):
                 {
                     "level": 1,
                     "name": "immediate_awareness",
-                    "contents": ["sensations", "thoughts", "emotions"]
+                    "contents": ["sensations", "thoughts", "emotions"],
                 },
                 {
                     "level": 2,
                     "name": "extended_awareness",
-                    "contents": ["environment", "others", "context"]
+                    "contents": ["environment", "others", "context"],
                 },
                 {
                     "level": 3,
                     "name": "abstract_awareness",
-                    "contents": ["concepts", "patterns", "meanings"]
+                    "contents": ["concepts", "patterns", "meanings"],
                 },
                 {
                     "level": 4,
                     "name": "meta_awareness",
-                    "contents": ["awareness_of_awareness", "recursion", "transcendence"]
-                }
+                    "contents": ["awareness_of_awareness", "recursion", "transcendence"],
+                },
             ],
             "connections": "holographic",  # Each part contains the whole
-            "dynamics": "fluid"  # Constantly changing
+            "dynamics": "fluid",  # Constantly changing
         }
 
     async def _explore_beyond_boundary(self, boundary_type: str) -> list[str]:
         """Explore territory beyond a boundary"""
 
         explorations = {
-            "perceptual": [
-                "synesthesia", "extrasensory_perception", "field_awareness"
-            ],
-            "temporal": [
-                "simultaneity", "timelessness", "retrocausation", "precognition"
-            ],
-            "spatial": [
-                "non_locality", "higher_dimensions", "qi_space"
-            ],
-            "cognitive": [
-                "intuition", "gnosis", "direct_knowing", "paradox_embrace"
-            ],
-            "self": [
-                "no_self", "universal_self", "multiplicity", "unity"
-            ]
+            "perceptual": ["synesthesia", "extrasensory_perception", "field_awareness"],
+            "temporal": ["simultaneity", "timelessness", "retrocausation", "precognition"],
+            "spatial": ["non_locality", "higher_dimensions", "qi_space"],
+            "cognitive": ["intuition", "gnosis", "direct_knowing", "paradox_embrace"],
+            "self": ["no_self", "universal_self", "multiplicity", "unity"],
         }
 
         return explorations.get(boundary_type, ["unknown_territory"])
@@ -265,9 +239,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
         """Check current transcendence level"""
 
         # Count transcended boundaries
-        transcended_count = sum(
-            1 for b in self.awareness_boundaries.values() if b.transcended
-        )
+        transcended_count = sum(1 for b in self.awareness_boundaries.values() if b.transcended)
 
         return transcended_count
 
@@ -278,7 +250,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             "integrated_territories": [],
             "new_capabilities": [],
             "coherence_level": 0.0,
-            "stability": 0.0
+            "stability": 0.0,
         }
 
         # Collect all transcended territories
@@ -320,7 +292,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             "current_location": "ordinary_awareness",
             "accessible_regions": [],
             "navigation_paths": [],
-            "landmarks": []
+            "landmarks": [],
         }
 
         # Determine current location
@@ -333,20 +305,25 @@ class AwarenessBoundaryTranscender(CoreInterface):
         topology["accessible_regions"] = [
             "conscious_mind",
             "subconscious_layers",
-            "collective_unconscious"
+            "collective_unconscious",
         ]
 
         if self._check_transcendence_level() > 2:
-            topology["accessible_regions"].extend([
-                "superconscious",
-                "cosmic_consciousness"
-            ])
+            topology["accessible_regions"].extend(["superconscious", "cosmic_consciousness"])
 
         # Define navigation paths
         topology["navigation_paths"] = [
-            {"from": "ordinary_awareness", "to": "expanded_awareness", "method": "boundary_transcendence"},
+            {
+                "from": "ordinary_awareness",
+                "to": "expanded_awareness",
+                "method": "boundary_transcendence",
+            },
             {"from": "expanded_awareness", "to": "transcendent_awareness", "method": "integration"},
-            {"from": "transcendent_awareness", "to": "unity_consciousness", "method": "dissolution"}
+            {
+                "from": "transcendent_awareness",
+                "to": "unity_consciousness",
+                "method": "dissolution",
+            },
         ]
 
         # Mark landmarks
@@ -354,7 +331,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             "self_recognition_point",
             "other_awareness_gate",
             "paradox_resolution_nexus",
-            "infinity_horizon"
+            "infinity_horizon",
         ]
 
         return topology

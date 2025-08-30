@@ -44,17 +44,11 @@ class ConstitutionalThresholds:
     def __post_init__(self):
         """Validate constitutional parameters are within safe ranges"""
         if self.max_grid_size > 20:
-            raise ValueError(
-                "Constitutional violation: Grid size exceeds safety limits"
-            )
+            raise ValueError("Constitutional violation: Grid size exceeds safety limits")
         if self.min_timeout_seconds < 1:
-            raise ValueError(
-                "Constitutional violation: Timeout too short for human cognition"
-            )
+            raise ValueError("Constitutional violation: Timeout too short for human cognition")
         if self.max_attention_load > 1.0:
-            raise ValueError(
-                "Constitutional violation: Cognitive load exceeds human capacity"
-            )
+            raise ValueError("Constitutional violation: Cognitive load exceeds human capacity")
 
 
 class ConstitutionalGatekeeper:
@@ -66,9 +60,7 @@ class ConstitutionalGatekeeper:
     All enforcement actions are logged for transparency.
     """
 
-    def __init__(
-        self, enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD
-    ):
+    def __init__(self, enforcement_level: ConstitutionalLevel = ConstitutionalLevel.STANDARD):
         self.enforcement_level = enforcement_level
         self.thresholds = ConstitutionalThresholds()
         self.violation_history: list[dict] = []
@@ -170,8 +162,7 @@ class ConstitutionalGatekeeper:
                 "islamic": cultural_exclusions["cultural_specific"] + ["🐶", "🎭"],
                 "hindu": cultural_exclusions["cultural_specific"] + ["🥩", "🍖"],
                 "jewish": cultural_exclusions["cultural_specific"] + ["🍤", "🦐", "🦀"],
-                "buddhist": cultural_exclusions["cultural_specific"]
-                + ["🥩", "🍖", "🐟"],
+                "buddhist": cultural_exclusions["cultural_specific"] + ["🥩", "🍖", "🐟"],
             }
 
             if user_culture.lower() in culture_specific:
@@ -223,15 +214,11 @@ class ConstitutionalGatekeeper:
 
         # Device count limits (prevent network overload)
         if device_count > 10:
-            violations.append(
-                f"Device count {device_count} exceeds constitutional limit of 10"
-            )
+            violations.append(f"Device count {device_count} exceeds constitutional limit of 10")
 
         # Sync interval limits (prevent spam/battery drain)
         if sync_interval < 1.0:
-            violations.append(
-                f"Sync interval {sync_interval}s too frequent, minimum 1.0s required"
-            )
+            violations.append(f"Sync interval {sync_interval}s too frequent, minimum 1.0s required")
         elif sync_interval > 300.0:  # 5 minutes max
             violations.append(
                 f"Sync interval {sync_interval}s too infrequent, maximum 300s allowed"
@@ -280,9 +267,7 @@ class ConstitutionalGatekeeper:
         if color_combinations.get("high_contrast", False) and color_combinations.get(
             "bright_colors", False
         ):
-            issues.append(
-                "High contrast bright colors may cause autism spectrum sensory overload"
-            )
+            issues.append("High contrast bright colors may cause autism spectrum sensory overload")
 
         if ui_config.get("unexpected_changes", False):
             issues.append(
@@ -291,9 +276,7 @@ class ConstitutionalGatekeeper:
 
         audio_config = ui_config.get("audio", {})
         if audio_config.get("notification_sounds", False):
-            issues.append(
-                "Audio notifications may cause autism spectrum sensory sensitivity"
-            )
+            issues.append("Audio notifications may cause autism spectrum sensory sensitivity")
 
         # Dyslexia validations
         font_config = ui_config.get("font", {})
@@ -355,25 +338,18 @@ class ConstitutionalGatekeeper:
         }
 
         signature_alg = crypto_config.get("digital_signature_algorithm")
-        if (
-            signature_alg
-            and signature_alg not in approved_algorithms["digital_signatures"]
-        ):
+        if signature_alg and signature_alg not in approved_algorithms["digital_signatures"]:
             issues.append(
                 f"Digital signature algorithm '{signature_alg}' not NIST-approved for PQC"
             )
 
         kem_alg = crypto_config.get("key_encapsulation_algorithm")
         if kem_alg and kem_alg not in approved_algorithms["key_encapsulation"]:
-            issues.append(
-                f"Key encapsulation algorithm '{kem_alg}' not NIST-approved for PQC"
-            )
+            issues.append(f"Key encapsulation algorithm '{kem_alg}' not NIST-approved for PQC")
 
         hash_alg = crypto_config.get("hash_algorithm")
         if hash_alg and hash_alg not in approved_algorithms["hash_functions"]:
-            issues.append(
-                f"Hash algorithm '{hash_alg}' not recommended for PQC applications"
-            )
+            issues.append(f"Hash algorithm '{hash_alg}' not recommended for PQC applications")
 
         # Validate entropy requirements
         entropy_bits = crypto_config.get("entropy_bits", 0)
@@ -513,8 +489,6 @@ def get_constitutional_gatekeeper(
     global _constitutional_gatekeeper_instance
 
     if _constitutional_gatekeeper_instance is None:
-        _constitutional_gatekeeper_instance = ConstitutionalGatekeeper(
-            enforcement_level
-        )
+        _constitutional_gatekeeper_instance = ConstitutionalGatekeeper(enforcement_level)
 
     return _constitutional_gatekeeper_instance

@@ -41,9 +41,7 @@ class LUKHASTransmission:
         # Component configuration
         self.components = {
             "consciousness_broadcaster": {
-                "path": self.lukhas_next_gen
-                / "stream"
-                / "consciousness_broadcaster.py",
+                "path": self.lukhas_next_gen / "stream" / "consciousness_broadcaster.py",
                 "description": "WebSocket consciousness state streaming",
                 "port": 8765,
                 "dependencies": [],
@@ -176,9 +174,7 @@ class LUKHASTransmission:
         logger.info("-" * 40)
 
         # Initialize consciousness state file
-        consciousness_state_file = (
-            self.lukhas_next_gen / "stream" / "consciousness_state.json"
-        )
+        consciousness_state_file = self.lukhas_next_gen / "stream" / "consciousness_state.json"
         consciousness_state_file.parent.mkdir(parents=True, exist_ok=True)
 
         initial_state = {
@@ -262,9 +258,7 @@ class LUKHASTransmission:
 
         # Check component status
         running_components = [
-            name
-            for name, status in self.component_status.items()
-            if status == "running"
+            name for name, status in self.component_status.items() if status == "running"
         ]
         failed_components = [
             name for name, status in self.component_status.items() if status == "failed"
@@ -323,9 +317,7 @@ class LUKHASTransmission:
 
         # Final system status
         total_components = len(self.components)
-        running_components = len(
-            [s for s in self.component_status.values() if s == "running"]
-        )
+        running_components = len([s for s in self.component_status.values() if s == "running"])
 
         # Calculate uptime
         uptime = datetime.utcnow() - self.launch_time
@@ -333,9 +325,7 @@ class LUKHASTransmission:
         logger.info("   📡 LUKHAS Next Generation System Status:")
         logger.info(f"      Launch time: {self.launch_time.isoformat()}")
         logger.info(f"      Uptime: {uptime.total_seconds():.1f} seconds")
-        logger.info(
-            f"      Components: {running_components}/{total_components} running"
-        )
+        logger.info(f"      Components: {running_components}/{total_components} running")
         logger.info("      System phase: Phase 5 - Guardian Integration")
         logger.info("")
         logger.info("   🎯 Core Capabilities Active:")
@@ -371,9 +361,7 @@ class LUKHASTransmission:
                 "failed_components": len(
                     [s for s in self.component_status.values() if s == "failed"]
                 ),
-                "health_score": len(
-                    [s for s in self.component_status.values() if s == "running"]
-                )
+                "health_score": len([s for s in self.component_status.values() if s == "running"])
                 / len(self.components),
             },
             "trinity_framework": {

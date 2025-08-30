@@ -206,9 +206,7 @@ class IdentityAutomationSuite:
         print("\n📋 Available Tools:")
         print("   • Full audit: python3 tools/analysis/IDENTITY_INTEGRATION_AUDIT.py")
         print("   • Validate files: python3 tools/scripts/IDENTITY_GUARD.py <file>")
-        print(
-            "   • Fix specific issues: python3 tools/scripts/AUTO_IDENTITY_FIXER.py --dry-run"
-        )
+        print("   • Fix specific issues: python3 tools/scripts/AUTO_IDENTITY_FIXER.py --dry-run")
         print("   • User tracking: python3 tools/scripts/USER_ID_INJECTOR.py --dry-run")
 
         print("\n🎯 Success Criteria:")
@@ -251,9 +249,7 @@ def main():
         print("   3. --validate    Validate current identity integration")
         print("   4. --help        Show detailed usage information")
         print()
-        print(
-            "   Example: python3 tools/scripts/IDENTITY_AUTOMATION_SUITE.py --dry-run"
-        )
+        print("   Example: python3 tools/scripts/IDENTITY_AUTOMATION_SUITE.py --dry-run")
 
 
 if __name__ == "__main__":

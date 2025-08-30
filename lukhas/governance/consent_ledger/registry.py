@@ -5,7 +5,7 @@ _provider = None
 
 
 def register(provider) -> None:
-    global _provider  # noqa: PLW0603
+    global _provider
     _provider = provider
 
 

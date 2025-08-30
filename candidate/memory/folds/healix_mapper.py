@@ -288,9 +288,7 @@ class QIHealixMapper:
         fold_id = await self._generate_fold_id(content, strand)
 
         # Convert content to nucleotide sequence
-        sequence = await self._content_to_nucleotides(
-            content, strand, emotional_context
-        )
+        sequence = await self._content_to_nucleotides(content, strand, emotional_context)
 
         # Calculate emotional vector
         emotional_vector = await self._extract_emotional_vector(emotional_context)
@@ -303,14 +301,10 @@ class QIHealixMapper:
 
         if self.qi_enabled:
             await self._generate_quantum_signature(sequence, emotional_vector)
-            qi_entangled = await self._check_quantum_entanglement(
-                sequence, emotional_vector
-            )
+            qi_entangled = await self._check_quantum_entanglement(sequence, emotional_vector)
 
         # Calculate stability score
-        stability_score = await self._calculate_stability_score(
-            sequence, emotional_vector
-        )
+        stability_score = await self._calculate_stability_score(sequence, emotional_vector)
 
         # Create quantum memory fold
         memory_fold = QIMemoryFold(
@@ -322,9 +316,7 @@ class QIHealixMapper:
             helix_coordinates=helix_coords,
             mutations=[],
             stability_score=stability_score,
-            gdpr_compliant=await self._ensure_gdpr_compliance(
-                content, compression, user_consent
-            ),
+            gdpr_compliant=await self._ensure_gdpr_compliance(content, compression, user_consent),
             created_timestamp=datetime.utcnow().timestamp(),
             last_accessed=datetime.utcnow().timestamp(),
         )
@@ -356,9 +348,7 @@ class QIHealixMapper:
 
         for feature_name, feature_value in features.items():
             # Map feature to nucleotide base
-            nucleotide_base = await self._feature_to_nucleotide(
-                feature_name, feature_value
-            )
+            nucleotide_base = await self._feature_to_nucleotide(feature_name, feature_value)
 
             # Calculate emotional charge for this position
             emotional_charge = await self._calculate_position_emotion(
@@ -410,9 +400,7 @@ class QIHealixMapper:
                     {f"keyword_{i}": word for i, word in enumerate(words[:10])}
                 )  # First 10 words
             elif isinstance(content["context"], dict):
-                features.update(
-                    {f"context_{k}": v for k, v in content["context"].items()}
-                )
+                features.update({f"context_{k}": v for k, v in content["context"].items()})
 
         # Extract from emotional context (voice parameters, etc.)
         if emotional_context:
@@ -436,9 +424,7 @@ class QIHealixMapper:
 
         return features
 
-    async def _feature_to_nucleotide(
-        self, feature_name: str, feature_value: Any
-    ) -> str:
+    async def _feature_to_nucleotide(self, feature_name: str, feature_value: Any) -> str:
         """Map a feature to one of the four nucleotide bases (A, T, G, C)"""
 
         # Create a deterministic mapping using hash
@@ -454,25 +440,16 @@ class QIHealixMapper:
 
         # Apply semantic meaning based on feature type
         if "emotion" in feature_name.lower():
-            if (
-                "joy" in str(feature_value).lower()
-                or "happy" in str(feature_value).lower()
-            ):
+            if "joy" in str(feature_value).lower() or "happy" in str(feature_value).lower():
                 return "G"  # Growth
-            elif (
-                "trust" in str(feature_value).lower()
-                or "calm" in str(feature_value).lower()
-            ):
+            elif "trust" in str(feature_value).lower() or "calm" in str(feature_value).lower():
                 return "T"  # Trust
             elif (
                 "empathy" in str(feature_value).lower()
                 or "compassion" in str(feature_value).lower()
             ):
                 return "C"  # Compassion
-            elif (
-                "attention" in str(feature_value).lower()
-                or "focus" in str(feature_value).lower()
-            ):
+            elif "attention" in str(feature_value).lower() or "focus" in str(feature_value).lower():
                 return "A"  # Attention
 
         return selected_base
@@ -512,9 +489,7 @@ class QIHealixMapper:
 
         return min(1.0, max(-1.0, base_charge))  # Clamp to [-1, 1]
 
-    async def _generate_position_quantum_like_state(
-        self, feature_value: Any, position: int
-    ) -> str:
+    async def _generate_position_quantum_like_state(self, feature_value: Any, position: int) -> str:
         """Generate quantum-like state for a nucleotide position"""
 
         if not self.qi_enabled:
@@ -550,12 +525,9 @@ class QIHealixMapper:
                         if other_nucleotide.base == complement:
                             # Calculate bond strength based on emotional compatibility
                             bond_strength = abs(
-                                nucleotide.emotional_charge
-                                - other_nucleotide.emotional_charge
+                                nucleotide.emotional_charge - other_nucleotide.emotional_charge
                             )
-                            if (
-                                bond_strength < 0.3
-                            ):  # Similar emotional charges bond stronger
+                            if bond_strength < 0.3:  # Similar emotional charges bond stronger
                                 nucleotide.bonds.append(j)
 
     async def _extract_emotional_vector(
@@ -624,14 +596,10 @@ class QIHealixMapper:
 
         # Look for similar emotional patterns in existing memories
         for strand_memories in self.memory_strands.values():
-            for memory_fold in strand_memories[
-                -10:
-            ]:  # Check last 10 memories per strand
+            for memory_fold in strand_memories[-10:]:  # Check last 10 memories per strand
                 if memory_fold.qi_entangled:
                     # Calculate emotional similarity
-                    similarity = np.dot(
-                        emotional_vector, memory_fold.emotional_vector
-                    ) / " + "(
+                    similarity = np.dot(emotional_vector, memory_fold.emotional_vector) / " + "(
                         np.linalg.norm(emotional_vector)
                         * np.linalg.norm(memory_fold.emotional_vector)
                     )
@@ -657,9 +625,7 @@ class QIHealixMapper:
         # Quantum coherence (if enabled)
         qi_coherence = 1.0
         if self.qi_enabled:
-            qi_like_states = [
-                n.qi_like_state for n in sequence if n.qi_like_state
-            ]
+            qi_like_states = [n.qi_like_state for n in sequence if n.qi_like_state]
             if qi_like_states:
                 # Simplified coherence-inspired processing measure
                 qi_coherence = min(1.0, len(qi_like_states) / len(sequence))
@@ -696,9 +662,7 @@ class QIHealixMapper:
                 CompressionLevel.QUANTUM_SECURED,
             ]
             if compression not in required_levels:
-                logger.warning(
-                    "Personal data detected but insufficient compression level"
-                )
+                logger.warning("Personal data detected but insufficient compression level")
                 return False
 
         return True
@@ -842,15 +806,11 @@ class QIHealixMapper:
             base=new_base,
             position=position,
             strand=(
-                memory_fold.sequence[0].strand
-                if memory_fold.sequence
-                else MemoryStrand.EMOTIONAL
+                memory_fold.sequence[0].strand if memory_fold.sequence else MemoryStrand.EMOTIONAL
             ),
             timestamp=datetime.utcnow().timestamp(),
             emotional_charge=0.0,
-            qi_like_state=await self._generate_position_quantum_like_state(
-                new_base, position
-            ),
+            qi_like_state=await self._generate_position_quantum_like_state(new_base, position),
         )
 
         # Insert into sequence
@@ -948,13 +908,9 @@ class QIHealixMapper:
 
                 # Adjust emotional charge based on collapsed state
                 if collapsed_state == "|1⟩":
-                    nucleotide.emotional_charge = min(
-                        1.0, nucleotide.emotional_charge + 0.1
-                    )
+                    nucleotide.emotional_charge = min(1.0, nucleotide.emotional_charge + 0.1)
                 else:
-                    nucleotide.emotional_charge = max(
-                        -1.0, nucleotide.emotional_charge - 0.1
-                    )
+                    nucleotide.emotional_charge = max(-1.0, nucleotide.emotional_charge - 0.1)
 
         # Update entanglement-like correlation status
         memory_fold.qi_entangled = False
@@ -971,18 +927,14 @@ class QIHealixMapper:
 
         return None
 
-    async def _store_fold_in_db(
-        self, memory_fold: QIMemoryFold, strand: MemoryStrand
-    ):
+    async def _store_fold_in_db(self, memory_fold: QIMemoryFold, strand: MemoryStrand):
         """Store memory fold in database"""
 
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
         # Serialize complex data
-        sequence_data = json.dumps(
-            [asdict(n) for n in memory_fold.sequence], default=str
-        )
+        sequence_data = json.dumps([asdict(n) for n in memory_fold.sequence], default=str)
         emotional_vector_data = memory_fold.emotional_vector.tolist()
 
         cursor.execute(
@@ -1015,9 +967,7 @@ class QIHealixMapper:
         cursor = conn.cursor()
 
         # Serialize complex data
-        sequence_data = json.dumps(
-            [asdict(n) for n in memory_fold.sequence], default=str
-        )
+        sequence_data = json.dumps([asdict(n) for n in memory_fold.sequence], default=str)
 
         cursor.execute(
             """
@@ -1064,9 +1014,7 @@ class QIHealixMapper:
         conn.commit()
         conn.close()
 
-    async def _log_gdpr_action(
-        self, fold_id: str, action: str, reason: str, user_consent: bool
-    ):
+    async def _log_gdpr_action(self, fold_id: str, action: str, reason: str, user_consent: bool):
         """Log GDPR compliance action"""
 
         conn = sqlite3.connect(self.db_path)
@@ -1087,18 +1035,14 @@ class QIHealixMapper:
                 reason,
                 datetime.utcnow().timestamp(),
                 int(user_consent),
-                self.gdpr_retention_policy.get(
-                    "emotional", 365 * 24 * 3600
-                ),  # Default 1 year
+                self.gdpr_retention_policy.get("emotional", 365 * 24 * 3600),  # Default 1 year
             ),
         )
 
         conn.commit()
         conn.close()
 
-    async def _generate_fold_id(
-        self, content: dict[str, Any], strand: MemoryStrand
-    ) -> str:
+    async def _generate_fold_id(self, content: dict[str, Any], strand: MemoryStrand) -> str:
         """Generate unique fold ID"""
 
         id_data = {
@@ -1109,17 +1053,13 @@ class QIHealixMapper:
             "timestamp": datetime.utcnow().timestamp(),
         }
 
-        fold_id = hashlib.sha256(
-            json.dumps(id_data, sort_keys=True).encode()
-        ).hexdigest()
+        fold_id = hashlib.sha256(json.dumps(id_data, sort_keys=True).encode()).hexdigest()
         return fold_id
 
     async def get_healix_analytics(self) -> dict[str, Any]:
         """Get comprehensive analytics about the Healix memory system"""
 
-        total_folds = sum(
-            len(strand_folds) for strand_folds in self.memory_strands.values()
-        )
+        total_folds = sum(len(strand_folds) for strand_folds in self.memory_strands.values())
 
         # Analyze by strand
         strand_stats = {}
@@ -1139,9 +1079,7 @@ class QIHealixMapper:
             for fold in strand_folds:
                 all_nucleotides.extend([n.base for n in fold.sequence])
 
-        nucleotide_counts = {
-            base: all_nucleotides.count(base) for base in ["A", "T", "G", "C"]
-        }
+        nucleotide_counts = {base: all_nucleotides.count(base) for base in ["A", "T", "G", "C"]}
 
         # Quantum statistics
         qi_stats = {

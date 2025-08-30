@@ -410,9 +410,7 @@ class ComprehensiveOrphanAnalyzer:
             has_test = any("test" in f for f in files)
             has_example = any("example" in f or "demo" in f for f in files)
             has_backup = any("backup" in f or "old" in f or "copy" in f for f in files)
-            has_experimental = any(
-                "experimental" in f or "draft" in f or "wip" in f for f in files
-            )
+            has_experimental = any("experimental" in f or "draft" in f or "wip" in f for f in files)
             has_legacy = any("legacy" in f or "deprecated" in f for f in files)
 
             # Determine primary pattern
@@ -470,9 +468,7 @@ class ComprehensiveOrphanAnalyzer:
         for file, importers in imported_by.items():
             import_counts[file] = len(importers)
 
-        most_imported = sorted(import_counts.items(), key=lambda x: x[1], reverse=True)[
-            :20
-        ]
+        most_imported = sorted(import_counts.items(), key=lambda x: x[1], reverse=True)[:20]
 
         # Calculate statistics
         total_files = len(self.all_python_files)
@@ -555,7 +551,7 @@ class ComprehensiveOrphanAnalyzer:
                     {
                         "directory": directory,
                         "action": "KEEP",
-                        "reason": f"High usage rate ({100-orphan_pct:.1f}%)",
+                        "reason": f"High usage rate ({100 - orphan_pct:.1f}%)",
                         "priority": "low",
                         "files_affected": stats["orphaned"],
                     }
@@ -565,7 +561,7 @@ class ComprehensiveOrphanAnalyzer:
                     {
                         "directory": directory,
                         "action": "REVIEW",
-                        "reason": f"Very low usage rate ({100-orphan_pct:.1f}%)",
+                        "reason": f"Very low usage rate ({100 - orphan_pct:.1f}%)",
                         "priority": "high",
                         "files_affected": stats["orphaned"],
                     }
@@ -595,16 +591,12 @@ def print_report(report: dict):
     # Directory statistics
     print("\n📁 DIRECTORY STATISTICS")
     print("-" * 80)
-    print(
-        f"{'Directory':<30} {'Total':<10} {'Used':<10} {'Orphaned':<10} {'Usage %':<10}"
-    )
+    print(f"{'Directory':<30} {'Total':<10} {'Used':<10} {'Orphaned':<10} {'Usage %':<10}")
     print("-" * 80)
 
     dir_stats = report["directory_statistics"]
     # Sort by orphaned count descending
-    sorted_dirs = sorted(
-        dir_stats.items(), key=lambda x: x[1]["orphaned"], reverse=True
-    )
+    sorted_dirs = sorted(dir_stats.items(), key=lambda x: x[1]["orphaned"], reverse=True)
 
     for directory, stats in sorted_dirs[:20]:
         if stats["total"] > 0:
@@ -675,9 +667,7 @@ def main():
     if high_priority:
         print(f"\n🔴 HIGH PRIORITY ({len(high_priority)} directories):")
         for rec in high_priority:
-            print(
-                f"  - {rec['directory']}: {rec['action']} ({rec['files_affected']} files)"
-            )
+            print(f"  - {rec['directory']}: {rec['action']} ({rec['files_affected']} files)")
 
     # Calculate potential cleanup
     archive_files = sum(
@@ -687,9 +677,7 @@ def main():
     )
 
     print(f"\n📦 Potential cleanup: {archive_files} files can be safely archived")
-    print(
-        f"🔍 Files needing review: {report['summary']['orphaned_files'] - archive_files}"
-    )
+    print(f"🔍 Files needing review: {report['summary']['orphaned_files'] - archive_files}")
 
 
 if __name__ == "__main__":

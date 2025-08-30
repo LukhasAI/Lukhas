@@ -562,9 +562,7 @@ voice_modulator = VoiceModulator()
 
             for pattern in import_patterns:
                 if re.search(pattern, content, re.MULTILINE):
-                    content = re.sub(
-                        pattern, fixes[broken_import], content, flags=re.MULTILINE
-                    )
+                    content = re.sub(pattern, fixes[broken_import], content, flags=re.MULTILINE)
                     break
 
         return content

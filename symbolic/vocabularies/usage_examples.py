@@ -58,9 +58,7 @@ def perform_identity_operation(operation: str):
     print(f"{emoji} Performing: {meaning}")
 
     if guardian_weight > 0.7:
-        print(
-            f"⚠️  High guardian weight ({guardian_weight}) - additional validation required"
-        )
+        print(f"⚠️  High guardian weight ({guardian_weight}) - additional validation required")
 
     # Example usage
     # perform_identity_operation("identity_creation")

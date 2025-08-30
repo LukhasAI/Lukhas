@@ -29,34 +29,35 @@ class GlobalDeploymentOrchestrator(CoreInterface):
         self._initialized = True
         logger.info("Global Deployment Orchestrator initialized")
 
-    async def plan_global_deployment(
-        self,
-        compliance_status: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def plan_global_deployment(self, compliance_status: dict[str, Any]) -> dict[str, Any]:
         """Plan deployment based on compliance status"""
 
         deployment_plan = {
             "phases": [],
             "timeline_months": 12,
             "priority_markets": [],
-            "blocked_markets": []
+            "blocked_markets": [],
         }
 
         # Phase 1: Deploy to fully compliant regions
-        deployment_plan["phases"].append({
-            "phase": 1,
-            "regions": ["Europe", "North America"],
-            "requirements": "full_compliance",
-            "timeline_months": 3
-        })
+        deployment_plan["phases"].append(
+            {
+                "phase": 1,
+                "regions": ["Europe", "North America"],
+                "requirements": "full_compliance",
+                "timeline_months": 3,
+            }
+        )
 
         # Phase 2: Expand to partially compliant regions
-        deployment_plan["phases"].append({
-            "phase": 2,
-            "regions": ["Asia Pacific", "Latin America"],
-            "requirements": "partial_compliance",
-            "timeline_months": 6
-        })
+        deployment_plan["phases"].append(
+            {
+                "phase": 2,
+                "regions": ["Asia Pacific", "Latin America"],
+                "requirements": "partial_compliance",
+                "timeline_months": 6,
+            }
+        )
 
         return deployment_plan
 
@@ -67,18 +68,18 @@ class GlobalDeploymentOrchestrator(CoreInterface):
             "Europe": {
                 "regulatory_framework": "EU_AI_ACT",
                 "market_size": 15e12,
-                "complexity": "high"
+                "complexity": "high",
             },
             "North America": {
                 "regulatory_framework": "US_NIST_FRAMEWORK",
                 "market_size": 25e12,
-                "complexity": "moderate"
+                "complexity": "moderate",
             },
             "Asia Pacific": {
                 "regulatory_framework": "varied",
                 "market_size": 30e12,
-                "complexity": "high"
-            }
+                "complexity": "high",
+            },
         }
 
     async def shutdown(self) -> None:

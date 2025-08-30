@@ -107,9 +107,7 @@ class MemoryWrapper:
             }
 
     @emit_node("memory:wrapper:consolidate")
-    def consolidate_memory(
-        self, threshold: float = 0.5, mode: str = "auto"
-    ) -> dict[str, Any]:
+    def consolidate_memory(self, threshold: float = 0.5, mode: str = "auto") -> dict[str, Any]:
         """Consolidate memory with safety checks"""
         start_time = time.time()
         effective_mode = self._get_mode(mode)
@@ -147,9 +145,7 @@ class MemoryWrapper:
             }
 
     @emit_node("memory:wrapper:access")
-    def access_memory(
-        self, query: dict[str, Any], mode: str = "auto"
-    ) -> dict[str, Any]:
+    def access_memory(self, query: dict[str, Any], mode: str = "auto") -> dict[str, Any]:
         """Access memory with query processing"""
         start_time = time.time()
         effective_mode = self._get_mode(mode)
@@ -160,9 +156,7 @@ class MemoryWrapper:
             # Handle different query types
             if "fold_id" in query:
                 # Direct fold access
-                fold = self.fold_manager.retrieve_fold(
-                    query["fold_id"], mode=effective_mode
-                )
+                fold = self.fold_manager.retrieve_fold(query["fold_id"], mode=effective_mode)
 
                 if fold:
                     return {
@@ -185,9 +179,7 @@ class MemoryWrapper:
             elif "causal_chain" in query:
                 # Causal chain query
                 if "fold_id" in query["causal_chain"]:
-                    chain = self.fold_manager.get_causal_chain(
-                        query["causal_chain"]["fold_id"]
-                    )
+                    chain = self.fold_manager.get_causal_chain(query["causal_chain"]["fold_id"])
                     return {
                         "ok": True,
                         "mode": effective_mode,

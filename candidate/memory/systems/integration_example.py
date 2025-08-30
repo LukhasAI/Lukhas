@@ -86,9 +86,7 @@ class EnhancedMemoryIntegration:
                 memory_id, feedback, {"source": "connectivity_engine"}
             )
 
-            logger.info(
-                "Memory processed via enhanced system", memory_id=memory_id, tags=tags
-            )
+            logger.info("Memory processed via enhanced system", memory_id=memory_id, tags=tags)
 
             return {"memory_id": memory_id, "status": "stored", "method": "hybrid_fold"}
 

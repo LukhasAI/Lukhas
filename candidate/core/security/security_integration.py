@@ -67,9 +67,7 @@ class SecurityIntegration:
     def _create_memory_encryption_hook(self) -> Callable:
         """Create encryption hook for memory module"""
 
-        async def encrypt_memory_data(
-            data: Any, memory_type: str = "general"
-        ) -> tuple[bytes, str]:
+        async def encrypt_memory_data(data: Any, memory_type: str = "general") -> tuple[bytes, str]:
             """Encrypt memory data with proper crypto"""
             # Serialize data
             if isinstance(data, dict):
@@ -130,9 +128,7 @@ class SecurityIntegration:
     def _create_glyph_encryption_hook(self) -> Callable:
         """Create encryption hook for GLYPH tokens"""
 
-        async def encrypt_glyph_token(
-            token: str, recipient_module: str
-        ) -> tuple[str, str]:
+        async def encrypt_glyph_token(token: str, recipient_module: str) -> tuple[str, str]:
             """Encrypt GLYPH token for secure module communication"""
             token_data = {
                 "token": token,
@@ -182,9 +178,7 @@ class SecurityIntegration:
             log_entry["node_id"] = "lukhas-main"
 
             # Encrypt
-            encrypted, key_id = await self.crypto.encrypt_json(
-                log_entry, purpose="data"
-            )
+            encrypted, key_id = await self.crypto.encrypt_json(log_entry, purpose="data")
 
             # Create signed package
             package = {
@@ -321,9 +315,7 @@ class SecurityIntegration:
 
         return None
 
-    async def validate_request(
-        self, request_data: dict[str, Any]
-    ) -> tuple[bool, Optional[str]]:
+    async def validate_request(self, request_data: dict[str, Any]) -> tuple[bool, Optional[str]]:
         """Validate incoming request with full security checks"""
         # Extract auth info
         auth_header = request_data.get("authorization", "")
@@ -338,9 +330,7 @@ class SecurityIntegration:
 
             # Check MFA for sensitive operations
             operation = request_data.get("operation", "")
-            if self._is_sensitive_operation(operation) and not payload.get(
-                "mfa_verified"
-            ):
+            if self._is_sensitive_operation(operation) and not payload.get("mfa_verified"):
                 return False, "MFA required for this operation"
 
             # Create security context
@@ -375,10 +365,7 @@ class SecurityIntegration:
             operation = request_data.get("operation", "")
             required_scope = self._get_required_scope(operation)
 
-            if (
-                required_scope not in key_data["scopes"]
-                and "*" not in key_data["scopes"]
-            ):
+            if required_scope not in key_data["scopes"] and "*" not in key_data["scopes"]:
                 return (
                     False,
                     f"API key missing required scope: {required_scope}",

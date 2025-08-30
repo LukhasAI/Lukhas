@@ -103,9 +103,7 @@ class ΛLens:
             # Add more parsers as needed
         }
 
-    async def transform(
-        self, file_path: str, options: Optional[dict] = None
-    ) -> SymbolicDashboard:
+    async def transform(self, file_path: str, options: Optional[dict] = None) -> SymbolicDashboard:
         """
         Transform a file into a symbolic dashboard
 
@@ -166,9 +164,7 @@ class ΛLens:
 
     def _generate_signature(self, symbols: list[GlyphSymbol]) -> str:
         """Generate Lambda signature for dashboard"""
-        symbol_hash = hashlib.sha256(
-            json.dumps([s.id for s in symbols]).encode()
-        ).hexdigest()[:8]
+        symbol_hash = hashlib.sha256(json.dumps([s.id for s in symbols]).encode()).hexdigest()[:8]
         return f"{self.lambda_brand}-{symbol_hash.upper()}"
 
     async def _render_dashboard(self, dashboard: SymbolicDashboard):
@@ -360,9 +356,7 @@ class RelationshipAnalyzer:
 
         return relationships
 
-    def _calculate_similarity(
-        self, symbol1: GlyphSymbol, symbol2: GlyphSymbol
-    ) -> float:
+    def _calculate_similarity(self, symbol1: GlyphSymbol, symbol2: GlyphSymbol) -> float:
         """Calculate similarity between two symbols"""
         # Simple text similarity (use better algorithms in production)
         content1 = symbol1.content.lower()
@@ -504,9 +498,7 @@ if __name__ == "__main__":
             )
 
         # Transform the file
-        dashboard = await lens.transform(
-            sample_file, {"format": "ar", "symbol_style": "modern"}
-        )
+        dashboard = await lens.transform(sample_file, {"format": "ar", "symbol_style": "modern"})
 
         print(f"\n✅ Dashboard created: {dashboard.id}")
         print(f"📊 Symbols generated: {len(dashboard.symbols)}")

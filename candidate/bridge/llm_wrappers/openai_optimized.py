@@ -26,15 +26,17 @@ logger = logging.getLogger(__name__)
 
 class CacheStrategy(Enum):
     """Cache strategies"""
-    NONE = "none"                    # No caching
-    EXACT_MATCH = "exact_match"      # Cache exact prompt matches
-    SEMANTIC = "semantic"            # Cache semantically similar prompts
-    EMBEDDING = "embedding"          # Cache by embedding similarity
+
+    NONE = "none"  # No caching
+    EXACT_MATCH = "exact_match"  # Cache exact prompt matches
+    SEMANTIC = "semantic"  # Cache semantically similar prompts
+    EMBEDDING = "embedding"  # Cache by embedding similarity
 
 
 @dataclass
 class CacheEntry:
     """Cache entry for API responses"""
+
     key: str
     prompt: str
     response: dict[str, Any]
@@ -52,6 +54,7 @@ class CacheEntry:
 @dataclass
 class RateLimitConfig:
     """Rate limit configuration"""
+
     requests_per_minute: int = 60
     requests_per_hour: int = 3000
     tokens_per_minute: int = 90000
@@ -66,11 +69,13 @@ class RateLimitConfig:
     backoff_multiplier: float = 2.0
 
     # Model-specific limits
-    model_limits: dict[str, dict[str, int]] = field(default_factory=lambda: {
-        "gpt-4": {"rpm": 40, "tpm": 40000},
-        "gpt-3.5-turbo": {"rpm": 90, "tpm": 90000},
-        "text-embedding-ada-002": {"rpm": 1000, "tpm": 1000000}
-    })
+    model_limits: dict[str, dict[str, int]] = field(
+        default_factory=lambda: {
+            "gpt-4": {"rpm": 40, "tpm": 40000},
+            "gpt-3.5-turbo": {"rpm": 90, "tpm": 90000},
+            "text-embedding-ada-002": {"rpm": 1000, "tpm": 1000000},
+        }
+    )
 
 
 class OptimizedOpenAIClient:
@@ -86,7 +91,7 @@ class OptimizedOpenAIClient:
         cache_ttl: float = 3600,  # 1 hour default
         cache_size: int = 1000,
         rate_config: Optional[RateLimitConfig] = None,
-        cache_dir: Optional[Path] = None
+        cache_dir: Optional[Path] = None,
     ):
         """
         Initialize optimized OpenAI client.
@@ -124,7 +129,7 @@ class OptimizedOpenAIClient:
             "tokens_used": 0,
             "tokens_saved": 0,
             "errors": 0,
-            "rate_limited": 0
+            "rate_limited": 0,
         }
 
         # Load persistent cache if exists
@@ -140,7 +145,7 @@ class OptimizedOpenAIClient:
             key_data = {
                 "prompt": prompt,
                 "model": model,
-                **{k: v for k, v in kwargs.items() if k not in ["stream", "n"]}
+                **{k: v for k, v in kwargs.items() if k not in ["stream", "n"]},
             }
             key_str = json.dumps(key_data, sort_keys=True)
             return hashlib.sha256(key_str.encode()).hexdigest()
@@ -180,12 +185,7 @@ class OptimizedOpenAIClient:
         return None
 
     def _add_to_cache(
-        self,
-        key: str,
-        prompt: str,
-        response: dict[str, Any],
-        model: str,
-        tokens_used: int
+        self, key: str, prompt: str, response: dict[str, Any], model: str, tokens_used: int
     ):
         """Add response to cache"""
         if not key or self.cache_strategy == CacheStrategy.NONE:
@@ -203,7 +203,7 @@ class OptimizedOpenAIClient:
             timestamp=time.time(),
             ttl=self.cache_ttl,
             model=model,
-            tokens_saved=tokens_used
+            tokens_saved=tokens_used,
         )
 
         self.cache[key] = entry
@@ -222,25 +222,24 @@ class OptimizedOpenAIClient:
         model_type = model.split("-")[0] + "-" + model.split("-")[1] if "-" in model else model
         limits = self.rate_config.model_limits.get(
             model_type,
-            {"rpm": self.rate_config.requests_per_minute, "tpm": self.rate_config.tokens_per_minute}
+            {
+                "rpm": self.rate_config.requests_per_minute,
+                "tpm": self.rate_config.tokens_per_minute,
+            },
         )
 
         # Check requests per minute
-        recent_requests = [
-            t for t in self.request_history
-            if current_time - t < 60
-        ]
+        recent_requests = [t for t in self.request_history if current_time - t < 60]
         if len(recent_requests) >= limits["rpm"]:
             self.stats["rate_limited"] += 1
             wait_time = 60 - (current_time - recent_requests[0])
-            logger.warning(f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s")
+            logger.warning(
+                f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s"
+            )
             return False
 
         # Check tokens per minute
-        recent_tokens = [
-            (t, tokens) for t, tokens in self.token_history
-            if current_time - t < 60
-        ]
+        recent_tokens = [(t, tokens) for t, tokens in self.token_history if current_time - t < 60]
         total_recent_tokens = sum(tokens for _, tokens in recent_tokens)
         if total_recent_tokens + estimated_tokens > limits["tpm"]:
             self.stats["rate_limited"] += 1
@@ -258,7 +257,7 @@ class OptimizedOpenAIClient:
             else:
                 self.current_backoff = min(
                     self.current_backoff * self.rate_config.backoff_multiplier,
-                    self.rate_config.max_backoff_ms
+                    self.rate_config.max_backoff_ms,
                 )
 
             wait_seconds = self.current_backoff / 1000
@@ -282,7 +281,7 @@ class OptimizedOpenAIClient:
         max_tokens: Optional[int] = None,
         temperature: float = 0.7,
         use_cache: bool = True,
-        **kwargs
+        **kwargs,
     ) -> dict[str, Any]:
         """
         Complete a prompt with caching and rate limiting.
@@ -322,14 +321,16 @@ class OptimizedOpenAIClient:
                 messages=messages,
                 max_tokens=max_tokens,
                 temperature=temperature,
-                **kwargs
+                **kwargs,
             )
 
             # Convert to dict
             response_dict = response.model_dump()
 
             # Track usage
-            tokens_used = response.usage.total_tokens if hasattr(response, "usage") else estimated_tokens
+            tokens_used = (
+                response.usage.total_tokens if hasattr(response, "usage") else estimated_tokens
+            )
             self.request_history.append(time.time())
             self.token_history.append((time.time(), tokens_used))
             self.stats["tokens_used"] += tokens_used
@@ -353,10 +354,7 @@ class OptimizedOpenAIClient:
             raise
 
     async def embed(
-        self,
-        text: str,
-        model: str = "text-embedding-ada-002",
-        use_cache: bool = True
+        self, text: str, model: str = "text-embedding-ada-002", use_cache: bool = True
     ) -> list[float]:
         """
         Generate embeddings with caching.
@@ -384,10 +382,7 @@ class OptimizedOpenAIClient:
 
         # Make API call
         try:
-            response = await self.async_client.embeddings.create(
-                model=model,
-                input=text
-            )
+            response = await self.async_client.embeddings.create(model=model, input=text)
 
             response_dict = response.model_dump()
             embedding = response.data[0].embedding
@@ -425,7 +420,7 @@ class OptimizedOpenAIClient:
                 "ttl": entry.ttl,
                 "hits": entry.hits,
                 "model": entry.model,
-                "tokens_saved": entry.tokens_saved
+                "tokens_saved": entry.tokens_saved,
             }
             for key, entry in self.cache.items()
         }
@@ -455,7 +450,7 @@ class OptimizedOpenAIClient:
                     ttl=data["ttl"],
                     hits=data.get("hits", 0),
                     model=data.get("model", ""),
-                    tokens_saved=data.get("tokens_saved", 0)
+                    tokens_saved=data.get("tokens_saved", 0),
                 )
 
                 # Only add non-expired entries
@@ -485,7 +480,7 @@ class OptimizedOpenAIClient:
             "tokens_saved": self.stats["tokens_saved"],
             "cost_saved": self.stats["tokens_saved"] * 0.002 / 1000,  # Rough estimate
             "errors": self.stats["errors"],
-            "rate_limited": self.stats["rate_limited"]
+            "rate_limited": self.stats["rate_limited"],
         }
 
     def clear_cache(self):
@@ -506,11 +501,7 @@ class BatchProcessor:
         self.client = client
 
     async def process_batch(
-        self,
-        prompts: list[str],
-        model: str = "gpt-3.5-turbo",
-        max_concurrent: int = 5,
-        **kwargs
+        self, prompts: list[str], model: str = "gpt-3.5-turbo", max_concurrent: int = 5, **kwargs
     ) -> list[dict[str, Any]]:
         """
         Process multiple prompts concurrently with rate limiting.
@@ -546,7 +537,7 @@ if __name__ == "__main__":
         client = OptimizedOpenAIClient(
             cache_strategy=CacheStrategy.EXACT_MATCH,
             cache_ttl=3600,
-            rate_config=RateLimitConfig(requests_per_minute=20)
+            rate_config=RateLimitConfig(requests_per_minute=20),
         )
 
         print("🚀 Optimized OpenAI Client Demo")
@@ -554,17 +545,13 @@ if __name__ == "__main__":
 
         # First request (cache miss)
         response1 = await client.complete(
-            "What is machine learning?",
-            model="gpt-3.5-turbo",
-            max_tokens=100
+            "What is machine learning?", model="gpt-3.5-turbo", max_tokens=100
         )
         print(f"Response 1: {response1['choices'][0]['message']['content'][:100]}...")
 
         # Same request (cache hit)
         response2 = await client.complete(
-            "What is machine learning?",
-            model="gpt-3.5-turbo",
-            max_tokens=100
+            "What is machine learning?", model="gpt-3.5-turbo", max_tokens=100
         )
         print(f"Response 2 (cached): {response2['choices'][0]['message']['content'][:100]}...")
 
@@ -579,22 +566,14 @@ if __name__ == "__main__":
 
         # Batch processing
         batch_processor = BatchProcessor(client)
-        prompts = [
-            "What is Python?",
-            "What is JavaScript?",
-            "What is Rust?"
-        ]
+        prompts = ["What is Python?", "What is JavaScript?", "What is Rust?"]
 
         print("\n🔄 Processing batch...")
-        responses = await batch_processor.process_batch(
-            prompts,
-            max_concurrent=2,
-            max_tokens=50
-        )
+        responses = await batch_processor.process_batch(prompts, max_concurrent=2, max_tokens=50)
 
         for i, response in enumerate(responses):
             content = response["choices"][0]["message"]["content"]
-            print(f"  {i+1}. {content[:50]}...")
+            print(f"  {i + 1}. {content[:50]}...")
 
         # Final stats
         final_stats = client.get_statistics()

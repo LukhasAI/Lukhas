@@ -16,7 +16,6 @@ class ActorMetric:
 
 
 class ObservabilityCollector:
-
     def __init__(self):
         self._metrics: dict[str, list[ActorMetric]] = defaultdict(list)
         self._running = False

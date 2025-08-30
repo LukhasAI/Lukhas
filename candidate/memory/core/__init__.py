@@ -30,16 +30,14 @@ try:
         "Imported HybridMemoryFold and create_hybrid_memory_fold from ..fold_system.hybrid_memory_fold"
     )
 except ImportError as e:
-    logger.warning(
-        f"Could not import HybridMemoryFold and create_hybrid_memory_fold: {e}"
-    )
+    logger.warning(f"Could not import HybridMemoryFold and create_hybrid_memory_fold: {e}")
     HybridMemoryFold = None
     create_hybrid_memory_fold = None
 
 __all__ = [
-    "UnifiedMemoryOrchestrator",
     "ColonyMemoryValidator",
     "HybridMemoryFold",
+    "UnifiedMemoryOrchestrator",
     "create_hybrid_memory_fold",
 ]
 

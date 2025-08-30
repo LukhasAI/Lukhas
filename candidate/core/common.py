@@ -123,16 +123,16 @@ def get_config(key: str, default: Any = None) -> Any:
 
 # Export all public symbols
 __all__ = [
-    "ComponentStatus",
-    "MessageType",
-    "get_timestamp",
-    "validate_component_id",
+    "DEFAULT_CONFIG",
     "BaseComponent",
     "BaseMessage",
-    "ComponentError",
-    "ValidationError",
     "CommunicationError",
-    "DEFAULT_CONFIG",
+    "ComponentError",
+    "ComponentStatus",
+    "MessageType",
+    "ValidationError",
     "get_config",
+    "get_timestamp",
     "logger",
+    "validate_component_id",
 ]

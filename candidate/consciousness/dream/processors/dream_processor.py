@@ -20,9 +20,7 @@ class DreamProcessor:
         self.dream_patterns = set()
         self.learning_outcomes = []
 
-    async def generate_dream(
-        self, daily_experiences: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    async def generate_dream(self, daily_experiences: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate dreams from daily experiences"""
         dream_sequence = self._create_dream_sequence(daily_experiences)
 

@@ -29,9 +29,7 @@ class DomainVocabulary:
     symbols: dict[str, Symbol] = field(default_factory=dict)
     concepts: dict[str, Concept] = field(default_factory=dict)
     aliases: dict[str, str] = field(default_factory=dict)  # alias -> symbol_id
-    relationships: dict[str, list[str]] = field(
-        default_factory=dict
-    )  # symbol_id -> related_ids
+    relationships: dict[str, list[str]] = field(default_factory=dict)  # symbol_id -> related_ids
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def add_symbol(self, symbol: Symbol) -> bool:
@@ -42,9 +40,7 @@ class DomainVocabulary:
             # Add name as alias
             self.aliases[symbol.name.lower()] = symbol.id
 
-            logger.debug(
-                f"Added symbol {symbol.name} to {self.domain.value} vocabulary"
-            )
+            logger.debug(f"Added symbol {symbol.name} to {self.domain.value} vocabulary")
             return True
         except Exception as e:
             logger.error(f"Failed to add symbol: {e}")
@@ -58,9 +54,7 @@ class DomainVocabulary:
             # Add meaning as alias
             self.aliases[concept.meaning.lower()] = concept.concept_id
 
-            logger.debug(
-                f"Added concept {concept.meaning} to {self.domain.value} vocabulary"
-            )
+            logger.debug(f"Added concept {concept.meaning} to {self.domain.value} vocabulary")
             return True
         except Exception as e:
             logger.error(f"Failed to add concept: {e}")
@@ -384,9 +378,7 @@ class VocabularyManager:
         """Get vocabulary for a specific domain"""
         return self.vocabularies.get(domain)
 
-    def find_symbol(
-        self, name: str, domain: Optional[SymbolicDomain] = None
-    ) -> Optional[Symbol]:
+    def find_symbol(self, name: str, domain: Optional[SymbolicDomain] = None) -> Optional[Symbol]:
         """Find a symbol by name, optionally within a specific domain"""
         if domain:
             vocab = self.vocabularies.get(domain)

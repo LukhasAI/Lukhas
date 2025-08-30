@@ -24,12 +24,12 @@ __description__ = "Biological-inspired processing for LUKHAS AI"
 __all__ = [
     # Utilities
     "BioUtilities",
-    "calculate_bio_energy",
     "apply_evolution",
+    "calculate_bio_energy",
     # Core bio-symbolic
-    "SymbolicGlyph",
     "BioSymbolic",
     "BioSymbolicOrchestrator",
+    "SymbolicGlyph",
     "symbolic_bio_symbolic",
     "symbolic_bio_symbolic_orchestrator",
 ]

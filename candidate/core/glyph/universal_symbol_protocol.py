@@ -30,6 +30,7 @@ from .glyph_engine import GlyphEngine
 
 class SymbolModality(Enum):
     """Supported modalities for universal symbols"""
+
     TEXT = "text"
     AUDIO = "audio"
     VISUAL = "visual"
@@ -44,6 +45,7 @@ class SymbolModality(Enum):
 
 class SymbolDomain(Enum):
     """Domains for symbol interpretation"""
+
     COGNITIVE = "cognitive"
     EMOTIONAL = "emotional"
     MEMORY = "memory"
@@ -61,6 +63,7 @@ class UniversalSymbol:
     """
     Enhanced symbol representation with multi-modal and cross-domain support
     """
+
     symbol_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     core_glyph: Optional[Glyph] = None
     modalities: set[SymbolModality] = field(default_factory=set)
@@ -92,9 +95,7 @@ class UniversalSymbol:
             "domains": sorted([d.value for d in self.domains]),
             "text": self.text_repr or "",
         }
-        return int(hashlib.sha256(
-            json.dumps(data, sort_keys=True).encode()
-        ).hexdigest()[:16], 16)
+        return int(hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()[:16], 16)
 
     def to_glyph_sequence(self) -> str:
         """Convert to GLYPH sequence representation"""
@@ -160,7 +161,7 @@ class SymbolTranslator:
         self,
         symbol: UniversalSymbol,
         target_modality: SymbolModality,
-        target_domain: Optional[SymbolDomain] = None
+        target_domain: Optional[SymbolDomain] = None,
     ) -> UniversalSymbol:
         """
         Translate symbol to target modality and optionally domain
@@ -170,7 +171,7 @@ class SymbolTranslator:
             core_glyph=symbol.core_glyph,
             modalities={target_modality},
             domains=symbol.domains if not target_domain else {target_domain},
-            metadata={"source_symbol": symbol.symbol_id}
+            metadata={"source_symbol": symbol.symbol_id},
         )
 
         # Calculate translation confidence
@@ -210,7 +211,9 @@ class SymbolTranslator:
             text_parts.append(f"{symbol.core_glyph.symbol}")
 
         if symbol.emotional_state:
-            emotion_text = f"[{symbol.emotional_state.primary_emotion}:{symbol.emotional_state.intensity:.2f}]"
+            emotion_text = (
+                f"[{symbol.emotional_state.primary_emotion}:{symbol.emotional_state.intensity:.2f}]"
+            )
             text_parts.append(emotion_text)
 
         if symbol.domains:
@@ -239,10 +242,10 @@ class SymbolTranslator:
             radius = np.random.randint(5, 20)
 
             # Draw circle
-            for dx in range(-radius, radius+1):
-                for dy in range(-radius, radius+1):
-                    if dx*dx + dy*dy <= radius*radius:
-                        px, py = x+dx, y+dy
+            for dx in range(-radius, radius + 1):
+                for dy in range(-radius, radius + 1):
+                    if dx * dx + dy * dy <= radius * radius:
+                        px, py = x + dx, y + dy
                         if 0 <= px < pattern_size and 0 <= py < pattern_size:
                             pattern[py, px] = np.random.random(3)
 
@@ -313,7 +316,7 @@ class UniversalSymbolProtocol:
         content: Any,
         modalities: set[SymbolModality] = None,
         domains: set[SymbolDomain] = None,
-        emotion: Optional[dict[str, float]] = None
+        emotion: Optional[dict[str, float]] = None,
     ) -> UniversalSymbol:
         """
         Create a new universal symbol
@@ -336,7 +339,7 @@ class UniversalSymbolProtocol:
             modalities=modalities,
             domains=domains,
             text_repr=str(content) if SymbolModality.TEXT in modalities else None,
-            emotional_state=EmotionVector(**emotion) if emotion else None
+            emotional_state=EmotionVector(**emotion) if emotion else None,
         )
 
         # Generate semantic vector
@@ -362,12 +365,12 @@ class UniversalSymbolProtocol:
         # Modulate by modalities
         for i, _modality in enumerate(symbol.modalities):
             offset = (i * 37) % vector_size
-            base_vector[offset:offset+10] *= 2.0
+            base_vector[offset : offset + 10] *= 2.0
 
         # Modulate by domains
         for i, _domain in enumerate(symbol.domains):
             offset = (i * 53) % vector_size
-            base_vector[offset:offset+10] += 1.0
+            base_vector[offset : offset + 10] += 1.0
 
         # Normalize
         norm = np.linalg.norm(base_vector)
@@ -393,9 +396,7 @@ class UniversalSymbolProtocol:
                 for attr in dir(symbol.emotional_state)
                 if not attr.startswith("_") and attr != "intensity"
             ]
-            emotion_entropy = -sum([
-                v * np.log(v + 1e-10) for v in emotion_values if v > 0
-            ])
+            emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if v > 0])
             entropy += emotion_entropy * 0.2
 
         # Add entropy from causal links
@@ -404,9 +405,7 @@ class UniversalSymbolProtocol:
         return min(1.0, entropy)  # Cap at 1.0
 
     def compress_symbols(
-        self,
-        symbols: list[UniversalSymbol],
-        target_ratio: float = 0.5
+        self, symbols: list[UniversalSymbol], target_ratio: float = 0.5
     ) -> UniversalSymbol:
         """
         Compress multiple symbols into a single meta-symbol
@@ -433,15 +432,12 @@ class UniversalSymbolProtocol:
             metadata={
                 "source_symbols": [s.symbol_id for s in symbols],
                 "compression_ratio": 1.0 / len(symbols),
-                "original_count": len(symbols)
-            }
+                "original_count": len(symbols),
+            },
         )
 
         # Average semantic vectors
-        semantic_vectors = [
-            s.semantic_vector for s in symbols
-            if s.semantic_vector is not None
-        ]
+        semantic_vectors = [s.semantic_vector for s in symbols if s.semantic_vector is not None]
         if semantic_vectors:
             compressed.semantic_vector = np.mean(semantic_vectors, axis=0)
 
@@ -461,7 +457,7 @@ class UniversalSymbolProtocol:
                             emotion_sum[attr] += val
 
             if emotion_count > 0:
-                avg_emotions = {k: v/emotion_count for k, v in emotion_sum.items()}
+                avg_emotions = {k: v / emotion_count for k, v in emotion_sum.items()}
                 compressed.emotional_state = EmotionVector(**avg_emotions)
 
         compressed.compression_ratio = 1.0 / len(symbols)
@@ -471,9 +467,7 @@ class UniversalSymbolProtocol:
         return compressed
 
     def expand_symbol(
-        self,
-        compressed_symbol: UniversalSymbol,
-        expansion_factor: int = 2
+        self, compressed_symbol: UniversalSymbol, expansion_factor: int = 2
     ) -> list[UniversalSymbol]:
         """
         Expand a compressed symbol back into multiple symbols
@@ -500,7 +494,7 @@ class UniversalSymbolProtocol:
                 modalities=compressed_symbol.modalities,
                 domains=compressed_symbol.domains,
                 emotional_state=compressed_symbol.emotional_state,
-                metadata={"expanded_from": compressed_symbol.symbol_id}
+                metadata={"expanded_from": compressed_symbol.symbol_id},
             )
 
             # Add variation to semantic vector
@@ -518,10 +512,7 @@ class UniversalSymbolProtocol:
         return expanded
 
     def find_similar_symbols(
-        self,
-        query_symbol: UniversalSymbol,
-        threshold: float = 0.8,
-        max_results: int = 10
+        self, query_symbol: UniversalSymbol, threshold: float = 0.8, max_results: int = 10
     ) -> list[tuple[UniversalSymbol, float]]:
         """
         Find symbols similar to the query symbol
@@ -556,10 +547,7 @@ class UniversalSymbolProtocol:
         similarities.sort(key=lambda x: x[1], reverse=True)
         return similarities[:max_results]
 
-    def create_causal_chain(
-        self,
-        symbols: list[UniversalSymbol]
-    ) -> list[UniversalSymbol]:
+    def create_causal_chain(self, symbols: list[UniversalSymbol]) -> list[UniversalSymbol]:
         """
         Create causal links between symbols
         """
@@ -582,10 +570,7 @@ class UniversalSymbolProtocol:
         return symbols
 
     def merge_symbols(
-        self,
-        symbol1: UniversalSymbol,
-        symbol2: UniversalSymbol,
-        merge_strategy: str = "union"
+        self, symbol1: UniversalSymbol, symbol2: UniversalSymbol, merge_strategy: str = "union"
     ) -> UniversalSymbol:
         """
         Merge two symbols into one
@@ -598,8 +583,8 @@ class UniversalSymbolProtocol:
                 causal_links=list(set(symbol1.causal_links + symbol2.causal_links)),
                 metadata={
                     "merged_from": [symbol1.symbol_id, symbol2.symbol_id],
-                    "merge_strategy": merge_strategy
-                }
+                    "merge_strategy": merge_strategy,
+                },
             )
         elif merge_strategy == "intersection":
             merged = UniversalSymbol(
@@ -608,8 +593,8 @@ class UniversalSymbolProtocol:
                 domains=symbol1.domains & symbol2.domains or {SymbolDomain.UNIVERSAL},
                 metadata={
                     "merged_from": [symbol1.symbol_id, symbol2.symbol_id],
-                    "merge_strategy": merge_strategy
-                }
+                    "merge_strategy": merge_strategy,
+                },
             )
         else:
             raise ValueError(f"Unknown merge strategy: {merge_strategy}")
@@ -653,7 +638,7 @@ def demo_universal_symbols():
         "Hello, conscious universe",
         modalities={SymbolModality.TEXT, SymbolModality.EMOTIONAL},
         domains={SymbolDomain.COGNITIVE, SymbolDomain.SOCIAL},
-        emotion={"joy": 0.8, "anticipation": 0.6}
+        emotion={"joy": 0.8, "anticipation": 0.6},
     )
     print(f"   Symbol 1: {symbol1.to_glyph_sequence()}")
     print(f"   Entropy: {symbol1.entropy:.3f}, Confidence: {symbol1.confidence:.3f}")
@@ -662,7 +647,7 @@ def demo_universal_symbols():
     symbol2 = protocol.create_symbol(
         "Quantum awareness emerging",
         modalities={SymbolModality.QUANTUM, SymbolModality.CONSCIOUSNESS},
-        domains={SymbolDomain.QUANTUM, SymbolDomain.COGNITIVE}
+        domains={SymbolDomain.QUANTUM, SymbolDomain.COGNITIVE},
     )
     print(f"   Symbol 2: {symbol2.to_glyph_sequence()}")
 
@@ -670,7 +655,7 @@ def demo_universal_symbols():
     symbol3 = protocol.create_symbol(
         "Geometric harmony pattern",
         modalities={SymbolModality.VISUAL, SymbolModality.SPATIAL},
-        domains={SymbolDomain.CREATIVE}
+        domains={SymbolDomain.CREATIVE},
     )
     print(f"   Symbol 3: {symbol3.to_glyph_sequence()}")
 
@@ -678,18 +663,12 @@ def demo_universal_symbols():
     print("\n2️⃣ Cross-Modal Translation:")
 
     # Translate quantum symbol to text
-    text_translation = protocol.translator.translate(
-        symbol2,
-        SymbolModality.TEXT
-    )
+    text_translation = protocol.translator.translate(symbol2, SymbolModality.TEXT)
     print(f"   Quantum → Text: {text_translation.text_repr}")
     print(f"   Translation confidence: {text_translation.confidence:.3f}")
 
     # Translate emotional symbol to visual
-    visual_translation = protocol.translator.translate(
-        symbol1,
-        SymbolModality.VISUAL
-    )
+    visual_translation = protocol.translator.translate(symbol1, SymbolModality.VISUAL)
     print(f"   Emotional → Visual: Pattern generated ({visual_translation.visual_pattern.shape})")
 
     # 3. Symbol Compression
@@ -707,7 +686,7 @@ def demo_universal_symbols():
     expanded = protocol.expand_symbol(compressed, expansion_factor=3)
     print(f"   Expanded into {len(expanded)} symbols")
     for i, exp_symbol in enumerate(expanded):
-        print(f"   Expanded {i+1}: {exp_symbol.to_glyph_sequence()}")
+        print(f"   Expanded {i + 1}: {exp_symbol.to_glyph_sequence()}")
 
     # 5. Find Similar Symbols
     print("\n5️⃣ Semantic Similarity Search:")
@@ -716,7 +695,7 @@ def demo_universal_symbols():
     query = protocol.create_symbol(
         "Conscious quantum field",
         modalities={SymbolModality.QUANTUM, SymbolModality.CONSCIOUSNESS},
-        domains={SymbolDomain.QUANTUM}
+        domains={SymbolDomain.QUANTUM},
     )
 
     similar = protocol.find_similar_symbols(query, threshold=0.5)
@@ -731,14 +710,14 @@ def demo_universal_symbols():
         protocol.create_symbol("Observe", domains={SymbolDomain.COGNITIVE}),
         protocol.create_symbol("Think", domains={SymbolDomain.COGNITIVE}),
         protocol.create_symbol("Decide", domains={SymbolDomain.ETHICAL}),
-        protocol.create_symbol("Act", domains={SymbolDomain.SOCIAL})
+        protocol.create_symbol("Act", domains={SymbolDomain.SOCIAL}),
     ]
 
     chain = protocol.create_causal_chain(chain_symbols)
     print("   Causal chain created:")
     for i, symbol in enumerate(chain):
         links = f" → {symbol.causal_links[0][:8]}" if symbol.causal_links else ""
-        print(f"   {i+1}. {symbol.text_repr}{links}")
+        print(f"   {i + 1}. {symbol.text_repr}{links}")
 
     # 7. Symbol Merging
     print("\n7️⃣ Symbol Merging:")

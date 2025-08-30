@@ -46,9 +46,7 @@ def create_quantum_readiness_system(
     Returns:
         Configured QISubstrate instance
     """
-    return QISubstrate(
-        interfaces=vivox_interfaces or {}, config=qi_config or {}
-    )
+    return QISubstrate(interfaces=vivox_interfaces or {}, config=qi_config or {})
 
 
 __all__ = [

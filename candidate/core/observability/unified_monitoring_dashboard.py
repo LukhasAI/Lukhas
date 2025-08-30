@@ -69,6 +69,7 @@ logger = logging.getLogger(__name__)
 
 class DashboardMode(Enum):
     """Dashboard display modes"""
+
     OVERVIEW = "overview"
     DETAILED = "detailed"
     GUARDIAN_FOCUS = "guardian_focus"
@@ -80,6 +81,7 @@ class DashboardMode(Enum):
 
 class ViewType(Enum):
     """Dashboard view types"""
+
     REAL_TIME = "real_time"
     HISTORICAL = "historical"
     PREDICTIVE = "predictive"
@@ -89,6 +91,7 @@ class ViewType(Enum):
 
 class AlertPriority(Enum):
     """Alert priority levels"""
+
     INFO = "info"
     LOW = "low"
     MEDIUM = "medium"
@@ -270,7 +273,7 @@ class UnifiedMonitoringDashboard:
             "cache_misses": 0,
             "average_response_time": 0.0,
             "uptime_seconds": 0,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
         # Initialize dashboard
@@ -376,7 +379,7 @@ class UnifiedMonitoringDashboard:
         self,
         user_id: Optional[str] = None,
         ip_address: Optional[str] = None,
-        permissions: Optional[set[str]] = None
+        permissions: Optional[set[str]] = None,
     ) -> DashboardSession:
         """Create new dashboard session"""
 
@@ -389,7 +392,7 @@ class UnifiedMonitoringDashboard:
             created_at=datetime.now(),
             last_active=datetime.now(),
             ip_address=ip_address,
-            permissions=permissions
+            permissions=permissions,
         )
 
         self.sessions[session_id] = session
@@ -403,7 +406,7 @@ class UnifiedMonitoringDashboard:
         session_id: str,
         mode: DashboardMode = DashboardMode.OVERVIEW,
         view: ViewType = ViewType.REAL_TIME,
-        time_range_hours: int = 24
+        time_range_hours: int = 24,
     ) -> DashboardData:
         """Get comprehensive dashboard data for session"""
 
@@ -437,10 +440,7 @@ class UnifiedMonitoringDashboard:
         return dashboard_data
 
     async def _generate_dashboard_data(
-        self,
-        mode: DashboardMode,
-        view: ViewType,
-        time_range_hours: int
+        self, mode: DashboardMode, view: ViewType, time_range_hours: int
     ) -> DashboardData:
         """Generate fresh dashboard data"""
 
@@ -453,7 +453,7 @@ class UnifiedMonitoringDashboard:
             view=view,
             overall_status="healthy",
             overall_health=1.0,
-            system_uptime=1.0
+            system_uptime=1.0,
         )
 
         try:
@@ -461,29 +461,41 @@ class UnifiedMonitoringDashboard:
             if self.guardian_monitor:
                 guardian_data = await self.guardian_monitor.get_dashboard_data(
                     scope=MonitoringScope.SYSTEM_WIDE if MonitoringScope else None,
-                    time_range_hours=time_range_hours
+                    time_range_hours=time_range_hours,
                 )
                 dashboard_data.guardian_data = guardian_data
 
                 # Extract key metrics
                 if "guardian" in guardian_data:
-                    dashboard_data.drift_score = guardian_data["guardian"].get("current_drift_score", 0.0)
+                    dashboard_data.drift_score = guardian_data["guardian"].get(
+                        "current_drift_score", 0.0
+                    )
 
                 if "security" in guardian_data:
-                    dashboard_data.threat_level = guardian_data["security"].get("threat_level", "benign")
+                    dashboard_data.threat_level = guardian_data["security"].get(
+                        "threat_level", "benign"
+                    )
 
                 if "compliance" in guardian_data:
                     dashboard_data.compliance_score = guardian_data["compliance"].get("score", 1.0)
 
             # Collect consciousness data
             if self.consciousness_monitor:
-                consciousness_status = await self.consciousness_monitor.get_current_awareness_status()
+                consciousness_status = (
+                    await self.consciousness_monitor.get_current_awareness_status()
+                )
                 dashboard_data.consciousness_data = consciousness_status
 
                 if consciousness_status:
-                    dashboard_data.awareness_level = consciousness_status.get("awareness_level", "standard")
-                    dashboard_data.cognitive_load = consciousness_status.get("cognitive_load_score", 0.5)
-                    dashboard_data.consciousness_health = consciousness_status.get("performance_metrics", {}).get("overall_performance", 1.0)
+                    dashboard_data.awareness_level = consciousness_status.get(
+                        "awareness_level", "standard"
+                    )
+                    dashboard_data.cognitive_load = consciousness_status.get(
+                        "cognitive_load_score", 0.5
+                    )
+                    dashboard_data.consciousness_health = consciousness_status.get(
+                        "performance_metrics", {}
+                    ).get("overall_performance", 1.0)
 
             # Collect system health data
             if self.health_monitor:
@@ -493,13 +505,14 @@ class UnifiedMonitoringDashboard:
                 if health_status:
                     dashboard_data.overall_health = health_status.get("overall_health", 1.0)
                     dashboard_data.overall_status = health_status.get("system_status", "healthy")
-                    dashboard_data.system_uptime = health_status.get("system_metrics", {}).get("uptime", 1.0)
+                    dashboard_data.system_uptime = health_status.get("system_metrics", {}).get(
+                        "uptime", 1.0
+                    )
 
                     # Extract component health
                     components = health_status.get("components", {})
                     dashboard_data.component_health = {
-                        component: data.get("health", 1.0)
-                        for component, data in components.items()
+                        component: data.get("health", 1.0) for component, data in components.items()
                     }
 
                     # Extract resource utilization
@@ -507,13 +520,13 @@ class UnifiedMonitoringDashboard:
                     dashboard_data.resource_utilization = {
                         "cpu": system_metrics.get("cpu_usage", 0.0),
                         "memory": system_metrics.get("memory_usage", 0.0),
-                        "disk": system_metrics.get("disk_usage", 0.0)
+                        "disk": system_metrics.get("disk_usage", 0.0),
                     }
 
                     # Extract performance metrics
                     dashboard_data.performance_data = {
                         "response_time": system_metrics.get("avg_response_time", 0.0),
-                        "error_rate": system_metrics.get("error_rate", 0.0)
+                        "error_rate": system_metrics.get("error_rate", 0.0),
                     }
 
                     dashboard_data.response_times = [system_metrics.get("avg_response_time", 0.0)]
@@ -533,25 +546,30 @@ class UnifiedMonitoringDashboard:
             dashboard_data.trinity_status = {
                 "identity": {  # ⚛️
                     "health": dashboard_data.component_health.get("identity", 1.0),
-                    "status": "operational"
+                    "status": "operational",
                 },
                 "consciousness": {  # 🧠
                     "health": dashboard_data.consciousness_health,
                     "awareness_level": dashboard_data.awareness_level,
-                    "cognitive_load": dashboard_data.cognitive_load
+                    "cognitive_load": dashboard_data.cognitive_load,
                 },
                 "guardian": {  # 🛡️
                     "health": dashboard_data.component_health.get("guardian", 1.0),
                     "drift_score": dashboard_data.drift_score,
                     "threat_level": dashboard_data.threat_level,
-                    "compliance_score": dashboard_data.compliance_score
-                }
+                    "compliance_score": dashboard_data.compliance_score,
+                },
             }
 
             # Generate predictions and recommendations based on mode
-            if mode in [DashboardMode.DETAILED, DashboardMode.DEBUG] and self.config.enable_predictive_analytics:
+            if (
+                mode in [DashboardMode.DETAILED, DashboardMode.DEBUG]
+                and self.config.enable_predictive_analytics
+            ):
                 dashboard_data.predictions = await self._generate_predictions(dashboard_data)
-                dashboard_data.recommendations = await self._generate_recommendations(dashboard_data)
+                dashboard_data.recommendations = await self._generate_recommendations(
+                    dashboard_data
+                )
 
         except Exception as e:
             logger.error(f"❌ Dashboard data generation failed: {e}")
@@ -578,11 +596,15 @@ class UnifiedMonitoringDashboard:
                             alert_type=alert_data.get("type", "unknown"),
                             title=f"Guardian Alert: {alert_data.get('type', 'Unknown')}",
                             message=alert_data.get("message", "No message"),
-                            priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
+                            priority=self._convert_to_alert_priority(
+                                alert_data.get("severity", "info")
+                            ),
                             category="guardian",
-                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now().isoformat())),
+                            created_at=datetime.fromisoformat(
+                                alert_data.get("created_at", datetime.now().isoformat())
+                            ),
                             source_data=alert_data,
-                            trinity_impact={"guardian": 1.0}  # 🛡️
+                            trinity_impact={"guardian": 1.0},  # 🛡️
                         )
                         new_alerts.append(unified_alert)
 
@@ -602,13 +624,15 @@ class UnifiedMonitoringDashboard:
                         category="health",
                         created_at=datetime.now(),
                         source_data=alerts_data,
-                        trinity_impact={"identity": 0.3, "consciousness": 0.3, "guardian": 0.3}
+                        trinity_impact={"identity": 0.3, "consciousness": 0.3, "guardian": 0.3},
                     )
                     new_alerts.append(unified_alert)
 
             # Collect consciousness alerts
             if self.consciousness_monitor:
-                consciousness_status = await self.consciousness_monitor.get_current_awareness_status()
+                consciousness_status = (
+                    await self.consciousness_monitor.get_current_awareness_status()
+                )
 
                 stress_indicators = consciousness_status.get("stress_indicators", [])
                 if stress_indicators:
@@ -622,7 +646,7 @@ class UnifiedMonitoringDashboard:
                         category="consciousness",
                         created_at=datetime.now(),
                         source_data=consciousness_status,
-                        trinity_impact={"consciousness": 1.0}  # 🧠
+                        trinity_impact={"consciousness": 1.0},  # 🧠
                     )
                     new_alerts.append(unified_alert)
 
@@ -643,7 +667,7 @@ class UnifiedMonitoringDashboard:
             "medium": AlertPriority.MEDIUM,
             "high": AlertPriority.HIGH,
             "critical": AlertPriority.CRITICAL,
-            "emergency": AlertPriority.EMERGENCY
+            "emergency": AlertPriority.EMERGENCY,
         }
 
         return severity_map.get(severity.lower(), AlertPriority.INFO)
@@ -655,33 +679,39 @@ class UnifiedMonitoringDashboard:
 
         # Predict based on drift score trend
         if dashboard_data.drift_score > 0.1:
-            predictions.append({
-                "type": "drift_trend",
-                "prediction": "Drift score may exceed threshold",
-                "confidence": 0.7,
-                "time_frame": "next_2_hours",
-                "impact": "medium"
-            })
+            predictions.append(
+                {
+                    "type": "drift_trend",
+                    "prediction": "Drift score may exceed threshold",
+                    "confidence": 0.7,
+                    "time_frame": "next_2_hours",
+                    "impact": "medium",
+                }
+            )
 
         # Predict based on cognitive load
         if dashboard_data.cognitive_load > 0.8:
-            predictions.append({
-                "type": "cognitive_overload",
-                "prediction": "Cognitive overload risk",
-                "confidence": 0.8,
-                "time_frame": "next_30_minutes",
-                "impact": "high"
-            })
+            predictions.append(
+                {
+                    "type": "cognitive_overload",
+                    "prediction": "Cognitive overload risk",
+                    "confidence": 0.8,
+                    "time_frame": "next_30_minutes",
+                    "impact": "high",
+                }
+            )
 
         # Predict based on system health
         if dashboard_data.overall_health < 0.7:
-            predictions.append({
-                "type": "system_degradation",
-                "prediction": "System performance degradation",
-                "confidence": 0.75,
-                "time_frame": "next_1_hour",
-                "impact": "high"
-            })
+            predictions.append(
+                {
+                    "type": "system_degradation",
+                    "prediction": "System performance degradation",
+                    "confidence": 0.75,
+                    "time_frame": "next_1_hour",
+                    "impact": "high",
+                }
+            )
 
         return predictions
 
@@ -714,9 +744,9 @@ class UnifiedMonitoringDashboard:
             recommendations.append("Memory usage high - consider cleanup procedures")
 
         # Trinity Framework recommendations
-        trinity_health_avg = sum(
-            component["health"] for component in dashboard_data.trinity_status.values()
-        ) / 3
+        trinity_health_avg = (
+            sum(component["health"] for component in dashboard_data.trinity_status.values()) / 3
+        )
 
         if trinity_health_avg < 0.8:
             recommendations.append("Trinity Framework health below optimal - review all components")
@@ -746,10 +776,13 @@ class UnifiedMonitoringDashboard:
     async def _update_dashboard_metrics(self):
         """Update dashboard performance metrics"""
 
-        self.dashboard_metrics["active_sessions"] = len([
-            s for s in self.sessions.values()
-            if (datetime.now() - s.last_active).total_seconds() < self.config.session_timeout
-        ])
+        self.dashboard_metrics["active_sessions"] = len(
+            [
+                s
+                for s in self.sessions.values()
+                if (datetime.now() - s.last_active).total_seconds() < self.config.session_timeout
+            ]
+        )
 
         self.dashboard_metrics["uptime_seconds"] = (
             datetime.now() - datetime.fromisoformat(self.dashboard_metrics["last_updated"])
@@ -774,10 +807,14 @@ class UnifiedMonitoringDashboard:
     async def _update_session_metrics(self):
         """Update session-related metrics"""
 
-        active_count = len([
-            s for s in self.sessions.values()
-            if (datetime.now() - s.last_active).total_seconds() < 300  # Active in last 5 minutes
-        ])
+        active_count = len(
+            [
+                s
+                for s in self.sessions.values()
+                if (datetime.now() - s.last_active).total_seconds()
+                < 300  # Active in last 5 minutes
+            ]
+        )
 
         self.dashboard_metrics["active_sessions"] = active_count
 
@@ -835,27 +872,27 @@ class UnifiedMonitoringDashboard:
             "active_sessions": len(self.sessions),
             "cached_data_count": len(self.cached_data),
             "alert_queue_size": len(self.unified_alerts),
-
             "monitoring_systems_status": {
                 "guardian_monitor": self.guardian_monitor is not None,
                 "consciousness_monitor": self.consciousness_monitor is not None,
-                "health_monitor": self.health_monitor is not None
+                "health_monitor": self.health_monitor is not None,
             },
-
             "cache_statistics": {
                 "cache_enabled": self.config.cache_enabled,
                 "cache_hits": self.dashboard_metrics["cache_hits"],
                 "cache_misses": self.dashboard_metrics["cache_misses"],
-                "hit_rate": self.dashboard_metrics["cache_hits"] / max(1,
-                    self.dashboard_metrics["cache_hits"] + self.dashboard_metrics["cache_misses"]) * 100
+                "hit_rate": self.dashboard_metrics["cache_hits"]
+                / max(
+                    1, self.dashboard_metrics["cache_hits"] + self.dashboard_metrics["cache_misses"]
+                )
+                * 100,
             },
-
             "system_configuration": {
                 "refresh_interval": self.config.refresh_interval,
                 "auto_refresh": self.config.auto_refresh,
                 "max_data_points": self.config.max_data_points,
-                "session_timeout": self.config.session_timeout
-            }
+                "session_timeout": self.config.session_timeout,
+            },
         }
 
         return debug_data
@@ -873,9 +910,8 @@ class UnifiedMonitoringDashboard:
                 "dashboard_active": self.dashboard_active,
                 "total_sessions": len(self.sessions),
                 "total_alerts_processed": self.dashboard_metrics["alerts_processed"],
-                "uptime_hours": self.dashboard_metrics["uptime_seconds"] / 3600
+                "uptime_hours": self.dashboard_metrics["uptime_seconds"] / 3600,
             },
-
             "session_details": [
                 {
                     "session_id": s.session_id,
@@ -884,36 +920,35 @@ class UnifiedMonitoringDashboard:
                     "last_active": s.last_active.isoformat(),
                     "current_mode": s.current_mode.value,
                     "ip_address": s.ip_address,
-                    "permissions": list(s.permissions)
+                    "permissions": list(s.permissions),
                 }
                 for s in self.sessions.values()
             ],
-
             "alert_management": {
                 "total_alerts": len(self.unified_alerts),
                 "unresolved_alerts": len([a for a in self.unified_alerts if not a.resolved]),
-                "critical_alerts": len([a for a in self.unified_alerts if a.priority == AlertPriority.CRITICAL]),
+                "critical_alerts": len(
+                    [a for a in self.unified_alerts if a.priority == AlertPriority.CRITICAL]
+                ),
                 "alerts_by_system": {
                     system: len([a for a in self.unified_alerts if a.source_system == system])
                     for system in set(a.source_system for a in self.unified_alerts)
-                }
+                },
             },
-
             "performance_metrics": self.dashboard_metrics.copy(),
-
             "configuration": {
                 "monitoring_enabled": {
                     "guardian": self.config.enable_guardian_monitoring,
                     "consciousness": self.config.enable_consciousness_monitoring,
                     "health": self.config.enable_health_monitoring,
-                    "predictive": self.config.enable_predictive_analytics
+                    "predictive": self.config.enable_predictive_analytics,
                 },
                 "features_enabled": {
                     "real_time_updates": self.config.enable_real_time_updates,
                     "cache": self.config.cache_enabled,
-                    "notifications": self.config.enable_alert_notifications
-                }
-            }
+                    "notifications": self.config.enable_alert_notifications,
+                },
+            },
         }
 
         return admin_data
@@ -943,12 +978,12 @@ class UnifiedMonitoringDashboard:
 
 # Export main classes
 __all__ = [
-    "UnifiedMonitoringDashboard",
+    "AlertPriority",
     "DashboardConfig",
-    "DashboardSession",
-    "UnifiedAlert",
     "DashboardData",
     "DashboardMode",
+    "DashboardSession",
+    "UnifiedAlert",
+    "UnifiedMonitoringDashboard",
     "ViewType",
-    "AlertPriority"
 ]
