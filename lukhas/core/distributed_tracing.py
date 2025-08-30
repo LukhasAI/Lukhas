@@ -478,9 +478,7 @@ class AIAgentTracer(DistributedTracer):
 
         return _trace()
 
-    def trace_memory_operation(
-        self, agent_id: str, operation: str, memory_size: Optional[int] = None
-    ):
+    def trace_memory_operation(self, agent_id: str, operation: str, memory_size: Optional[int] = None):
         """Trace memory operations"""
         operation_name = f"memory.{operation}"
 
@@ -546,12 +544,8 @@ def demo_distributed_tracing() -> None:
 
             # Simulate collaboration with another agent
             with (
-                agent1_tracer.trace_agent_collaboration(
-                    "reasoning-001", "memory-001", "knowledge_sharing"
-                ),
-                agent2_tracer.trace_memory_operation(
-                    "memory-001", "retrieve", memory_size=500
-                ) as mem_ctx,
+                agent1_tracer.trace_agent_collaboration("reasoning-001", "memory-001", "knowledge_sharing"),
+                agent2_tracer.trace_memory_operation("memory-001", "retrieve", memory_size=500) as mem_ctx,
             ):
                 agent2_tracer.add_tag(mem_ctx, "query.type", "semantic_search")
                 time.sleep(0.05)
@@ -616,11 +610,7 @@ class StateSnapshotter:
     def restore_latest_snapshot(self, agent_id: str) -> Optional[AgentState]:
         """Restores the most recent snapshot for an agent."""
         try:
-            files = [
-                f
-                for f in os.listdir(self.storage_path)
-                if f.startswith(f"{agent_id}-") and f.endswith(".json")
-            ]
+            files = [f for f in os.listdir(self.storage_path) if f.startswith(f"{agent_id}-") and f.endswith(".json")]
             if not files:
                 return None
             latest_file = max(
@@ -662,9 +652,7 @@ class EventReplayer:
 
         reconstructed_states = {}
         for agent_id in agent_ids:
-            reconstructed_states[agent_id] = self.replay_agent_state(
-                agent_id, trace_data, to_timestamp
-            )
+            reconstructed_states[agent_id] = self.replay_agent_state(agent_id, trace_data, to_timestamp)
 
         return reconstructed_states
 

@@ -92,10 +92,7 @@ class SymbolicTag:
             return True
         elif self.permission == TagPermission.PROTECTED:
             # Allow if requester is the owner or has protected access
-            return (
-                requester_id == self.metadata.get("owner")
-                or "protected_access" in requester_privileges
-            )
+            return requester_id == self.metadata.get("owner") or "protected_access" in requester_privileges
         elif self.permission == TagPermission.PRIVATE:
             # Only owner can access
             return requester_id == self.metadata.get("owner")

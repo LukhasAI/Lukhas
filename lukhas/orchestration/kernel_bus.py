@@ -111,9 +111,7 @@ class KernelBus:
         return {"ok": True, "event_id": event_id, "dispatched": 0, "mode": "dry_run"}
 
     @instrument("DECISION", label="orchestration:subscribe", capability="orchestrator:events")
-    def subscribe(
-        self, event: str, callback: Callable, *, mode: str = "dry_run", **kwargs
-    ) -> dict[str, Any]:
+    def subscribe(self, event: str, callback: Callable, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
         """
         Subscribe to an event type.
 

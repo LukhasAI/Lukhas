@@ -101,18 +101,10 @@ class IdentityClient:
         except Exception as e:
             print(f"Warning: Could not initialize identity components: {e}")
             # Fall back to stub implementations
-            self.tier_validator = type(
-                "TierValidator", (), {"validate_tier": lambda *args: True}
-            )()
-            self.activity_logger = type(
-                "ActivityLogger", (), {"log_activity": lambda *args: None}
-            )()
-            self.consent_manager = type(
-                "ConsentManager", (), {"check_consent": lambda *args: True}
-            )()
-            self.id_validator = type(
-                "LambdIDValidator", (), {"validate_identity": lambda *args: True}
-            )()
+            self.tier_validator = type("TierValidator", (), {"validate_tier": lambda *args: True})()
+            self.activity_logger = type("ActivityLogger", (), {"log_activity": lambda *args: None})()
+            self.consent_manager = type("ConsentManager", (), {"check_consent": lambda *args: True})()
+            self.id_validator = type("LambdIDValidator", (), {"validate_identity": lambda *args: True})()
 
     def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
         """

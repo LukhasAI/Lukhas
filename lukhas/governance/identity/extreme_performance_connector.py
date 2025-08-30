@@ -31,9 +31,7 @@ try:
     EXTREME_OPTIMIZATIONS_AVAILABLE = True
 except ImportError:
     EXTREME_OPTIMIZATIONS_AVAILABLE = False
-    print(
-        "⚠️ Extreme performance optimizations not available - falling back to standard implementation"
-    )
+    print("⚠️ Extreme performance optimizations not available - falling back to standard implementation")
 
 
 class SecurityError(Exception):
@@ -106,9 +104,7 @@ class ExtremePerformanceIdentityConnector:
                         )
                 else:
                     # Fallback to fast but not extreme implementation
-                    return await self._execute_tier_check_fast(
-                        func, agent_id, min_tier, *args, **kwargs
-                    )
+                    return await self._execute_tier_check_fast(func, agent_id, min_tier, *args, **kwargs)
 
             return extreme_performance_wrapper
 
@@ -133,9 +129,7 @@ class ExtremePerformanceIdentityConnector:
         if not access_control:
             # Fast fallback for missing components
             metrics.cache_hit = False
-            return await self._create_fallback_response(
-                agent_id, func.__name__, "component_unavailable"
-            )
+            return await self._create_fallback_response(agent_id, func.__name__, "component_unavailable")
 
         safety_monitor = await self.extreme_optimizer.get_optimized_component(
             "lukhas.governance.ethics.constitutional_ai", "SafetyMonitor", metrics
@@ -199,9 +193,7 @@ class ExtremePerformanceIdentityConnector:
             }
 
             # Use async hash for safety data integrity
-            safety_hash = await self.extreme_optimizer.calculate_hash_optimized(
-                safety_data, metrics
-            )
+            safety_hash = await self.extreme_optimizer.calculate_hash_optimized(safety_data, metrics)
 
             # Simplified safety assessment (real implementation would be more complex)
             safety_level = "safe"  # Fast path for demonstration
@@ -241,9 +233,7 @@ class ExtremePerformanceIdentityConnector:
         # 6. EXECUTE ORIGINAL FUNCTION
         return await func(self, agent_id, *args, **kwargs)
 
-    async def _execute_tier_check_fast(
-        self, func: Callable, agent_id: str, min_tier: int, *args, **kwargs
-    ):
+    async def _execute_tier_check_fast(self, func: Callable, agent_id: str, min_tier: int, *args, **kwargs):
         """Fast tier check implementation for fallback when extreme optimizations not available"""
         auth_start = time.time()
 
@@ -266,9 +256,7 @@ class ExtremePerformanceIdentityConnector:
 
             return result
 
-    async def _create_fallback_response(
-        self, agent_id: str, function_name: str, error_type: str
-    ) -> dict[str, Any]:
+    async def _create_fallback_response(self, agent_id: str, function_name: str, error_type: str) -> dict[str, Any]:
         """Create fast fallback response for error cases"""
         return {
             "success": False,
@@ -294,9 +282,7 @@ class ExtremePerformanceIdentityConnector:
                 self.avg_auth_time_ms * (self.authentication_count - 1) + duration_ms
             ) / self.authentication_count
 
-    async def connect_to_module_optimized(
-        self, module_name: str, module_instance: Any
-    ) -> dict[str, Any]:
+    async def connect_to_module_optimized(self, module_name: str, module_instance: Any) -> dict[str, Any]:
         """
         🚀 EXTREME PERFORMANCE MODULE CONNECTION
 
@@ -415,9 +401,7 @@ class ExtremePerformanceIdentityConnector:
             "connection_time_ms": connection_time_ms,
             "performance_mode": self.performance_mode,
             "optimizations_applied": (
-                ["async_operations", "fast_validation"]
-                if self.extreme_optimizer
-                else ["standard_fallback"]
+                ["async_operations", "fast_validation"] if self.extreme_optimizer else ["standard_fallback"]
             ),
         }
 
@@ -450,11 +434,7 @@ class ExtremePerformanceIdentityConnector:
                     "config": config,
                     "setup_time_ms": module_time_ms,
                     "performance_level": (
-                        "extreme"
-                        if module_time_ms < 1.0
-                        else "fast"
-                        if module_time_ms < 5.0
-                        else "standard"
+                        "extreme" if module_time_ms < 1.0 else "fast" if module_time_ms < 5.0 else "standard"
                     ),
                 }
             )
@@ -494,25 +474,19 @@ class ExtremePerformanceIdentityConnector:
             "connector_performance": {
                 "total_authentications": self.authentication_count,
                 "successful_authentications": self.successful_authentications,
-                "success_rate_percent": (
-                    self.successful_authentications / max(self.authentication_count, 1)
-                )
-                * 100,
+                "success_rate_percent": (self.successful_authentications / max(self.authentication_count, 1)) * 100,
                 "avg_auth_time_ms": self.avg_auth_time_ms,
                 "performance_mode": self.performance_mode,
                 "target_p95_ms": self.target_p95_ms,
                 "target_achieved": (
-                    self.avg_auth_time_ms <= self.target_p95_ms
-                    if self.authentication_count > 0
-                    else False
+                    self.avg_auth_time_ms <= self.target_p95_ms if self.authentication_count > 0 else False
                 ),
             },
             "cache_performance": {
                 "cache_hits": self._component_cache_hits,
                 "cache_misses": self._component_cache_misses,
                 "hit_rate_percent": (
-                    self._component_cache_hits
-                    / max(self._component_cache_hits + self._component_cache_misses, 1)
+                    self._component_cache_hits / max(self._component_cache_hits + self._component_cache_misses, 1)
                 )
                 * 100,
             },
@@ -566,8 +540,7 @@ class ExtremePerformanceIdentityConnector:
                 "total_duration_seconds": benchmark_duration,
                 "throughput_rps": throughput_rps,
                 "avg_latency_ms": (benchmark_duration * 1000) / num_operations,
-                "openai_scale_target_met": throughput_rps >= 10000
-                and self.avg_auth_time_ms <= 25.0,
+                "openai_scale_target_met": throughput_rps >= 10000 and self.avg_auth_time_ms <= 25.0,
             },
             "performance_analysis": self.get_performance_dashboard(),
         }

@@ -173,9 +173,7 @@ class ConsciousnessWrapper:
         self.candidate_system = _CONSCIOUSNESS_REGISTRY.get("default")
 
     @matriz_trace("consciousness.check_awareness")
-    async def check_awareness(
-        self, stimulus: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def check_awareness(self, stimulus: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Check awareness level for given stimulus
 
@@ -222,9 +220,7 @@ class ConsciousnessWrapper:
             return self._error_response("awareness_check", str(e))
 
     @matriz_trace("consciousness.initiate_reflection")
-    async def initiate_reflection(
-        self, context: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def initiate_reflection(self, context: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Initiate consciousness reflection process
 
@@ -275,9 +271,7 @@ class ConsciousnessWrapper:
             return self._error_response("reflection", str(e))
 
     @matriz_trace("consciousness.make_decision")
-    async def make_conscious_decision(
-        self, options: list[dict[str, Any]], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def make_conscious_decision(self, options: list[dict[str, Any]], mode: str = "dry_run") -> dict[str, Any]:
         """
         Make consciousness-informed decision
 

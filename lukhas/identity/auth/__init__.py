@@ -144,9 +144,7 @@ class LUKHASAuthenticationSystem:
             ]:
                 consciousness_result = await self._authenticate_consciousness(credentials)
                 result.consciousness_score = consciousness_result.get("score", 0.0)
-                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = consciousness_result.get(
-                    "valid", False
-                )
+                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = consciousness_result.get("valid", False)
 
                 if not result.trinity_validation[CONSCIOUSNESS_SYMBOL]:
                     return result
@@ -219,18 +217,14 @@ class LUKHASAuthenticationSystem:
             "ethical_compliance": True,
         }  # Placeholder
 
-    def _validate_final_result(
-        self, result: AuthenticationResult, auth_level: AuthenticationLevel
-    ) -> bool:
+    def _validate_final_result(self, result: AuthenticationResult, auth_level: AuthenticationLevel) -> bool:
         """Validate final authentication result"""
         trinity_valid = result.trinity_validation or {}
 
         if auth_level == AuthenticationLevel.BASIC:
             return trinity_valid.get(IDENTITY_SYMBOL, False)
         elif auth_level == AuthenticationLevel.CONSCIOUSNESS:
-            return trinity_valid.get(IDENTITY_SYMBOL, False) and trinity_valid.get(
-                CONSCIOUSNESS_SYMBOL, False
-            )
+            return trinity_valid.get(IDENTITY_SYMBOL, False) and trinity_valid.get(CONSCIOUSNESS_SYMBOL, False)
         elif auth_level == AuthenticationLevel.GUARDIAN:
             return all(trinity_valid.values())
 

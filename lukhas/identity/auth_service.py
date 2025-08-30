@@ -184,9 +184,7 @@ class AuthenticationService:
         self.password_pepper = self.config.get("password_pepper", "lukhas_ai_pepper")
 
         implementation_type = "production" if REAL_IDENTITY_AVAILABLE else "fallback"
-        self.logger.info(
-            f"Authentication service initialized with {implementation_type} implementations"
-        )
+        self.logger.info(f"Authentication service initialized with {implementation_type} implementations")
 
     def _init_storage(self) -> None:
         """Initialize user storage"""
@@ -277,9 +275,7 @@ class AuthenticationService:
             self.wallet_manager = None
             self.logger.info("ℹ️ Wallet authentication not available")
 
-    def authenticate_user(
-        self, username: str, password: str, auth_method: str = "password"
-    ) -> AuthResult:
+    def authenticate_user(self, username: str, password: str, auth_method: str = "password") -> AuthResult:
         """
         Authenticate user with username/password using real implementations
 
@@ -495,15 +491,11 @@ class AuthenticationService:
                 break
 
         if not user_data:
-            return AuthResult(
-                success=False, error="User not found", auth_method="enhanced_identity"
-            )
+            return AuthResult(success=False, error="User not found", auth_method="enhanced_identity")
 
         # Verify password
         if not self._verify_password(password, user_data["password_hash"]):
-            return AuthResult(
-                success=False, error="Invalid password", auth_method="enhanced_identity"
-            )
+            return AuthResult(success=False, error="Invalid password", auth_method="enhanced_identity")
 
         try:
             # Perform real identity validation
@@ -797,9 +789,7 @@ class AuthenticationService:
             # Only save non-expired sessions
             current_time = time.time()
             valid_sessions = {
-                token: data
-                for token, data in self.active_sessions.items()
-                if data["expires_at"] > current_time
+                token: data for token, data in self.active_sessions.items() if data["expires_at"] > current_time
             }
 
             with open(self.sessions_file, "w") as f:
@@ -849,15 +839,9 @@ class AuthenticationService:
         """Get current implementation status and capabilities"""
         return {
             "type": self._implementation_type,
-            "identity_manager": (
-                "real" if self._implementation_type == "production" else "fallback"
-            ),
-            "identity_validator": (
-                "real" if self._implementation_type == "production" else "fallback"
-            ),
-            "qi_identity_manager": (
-                "real" if self._implementation_type == "production" else "fallback"
-            ),
+            "identity_manager": ("real" if self._implementation_type == "production" else "fallback"),
+            "identity_validator": ("real" if self._implementation_type == "production" else "fallback"),
+            "qi_identity_manager": ("real" if self._implementation_type == "production" else "fallback"),
             "audit_logger": ("real" if self._implementation_type == "production" else "fallback"),
             "auth_server": ("real" if self._implementation_type == "production" else "fallback"),
             "features": {
@@ -872,11 +856,7 @@ class AuthenticationService:
     def _cleanup_expired_sessions(self) -> None:
         """Remove expired sessions"""
         current_time = time.time()
-        expired_tokens = [
-            token
-            for token, data in self.active_sessions.items()
-            if data["expires_at"] <= current_time
-        ]
+        expired_tokens = [token for token, data in self.active_sessions.items() if data["expires_at"] <= current_time]
 
         for token in expired_tokens:
             del self.active_sessions[token]

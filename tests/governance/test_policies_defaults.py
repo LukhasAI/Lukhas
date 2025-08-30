@@ -21,15 +21,16 @@ def test_policy_assessment():
     """Test policy assessment creation."""
     try:
         from datetime import datetime, timezone
+
         from lukhas.governance.auth_governance_policies import PolicyAssessment
 
         # Using all required parameter names from the dataclass
         assessment = PolicyAssessment(
-            compliant=True, 
-            violations=[], 
+            compliant=True,
+            violations=[],
             recommendations=[],
             risk_score=0.0,
-            assessment_timestamp=datetime.now(timezone.utc)
+            assessment_timestamp=datetime.now(timezone.utc),
         )
         assert assessment.compliant is True
         assert assessment.violations == []

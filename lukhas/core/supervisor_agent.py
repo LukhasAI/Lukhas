@@ -27,9 +27,7 @@ class SupervisorAgent:
 
         logger.info(f"SupervisorAgent {supervisor_id} initialized")
 
-    async def review_task(
-        self, colony_id: str, task_id: str, task_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def review_task(self, colony_id: str, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Review an escalated task from a colony.
 
@@ -108,10 +106,7 @@ class SupervisorAgent:
             analysis["recommendations"].append("Requires manual oversight")
 
         # Check for sensitive operations
-        if any(
-            keyword in str(task_data).lower()
-            for keyword in ["delete", "remove", "override", "bypass", "escalate"]
-        ):
+        if any(keyword in str(task_data).lower() for keyword in ["delete", "remove", "override", "bypass", "escalate"]):
             analysis["risk_level"] = "medium"
             analysis["recommendations"].append("Monitor for side effects")
 
@@ -149,17 +144,11 @@ class SupervisorAgent:
             }
 
         # Calculate approval rate
-        approved = sum(
-            1
-            for e in self.escalation_history
-            if e.get("review_result", {}).get("approval") == "approved"
-        )
+        approved = sum(1 for e in self.escalation_history if e.get("review_result", {}).get("approval") == "approved")
         approval_rate = approved / total_escalations
 
         # Calculate risk distribution
-        risk_levels = [
-            e.get("review_result", {}).get("risk_level", "unknown") for e in self.escalation_history
-        ]
+        risk_levels = [e.get("review_result", {}).get("risk_level", "unknown") for e in self.escalation_history]
         risk_counts = {level: risk_levels.count(level) for level in set(risk_levels)}
 
         return {

@@ -19,22 +19,25 @@ def test_exception_none_handling():
 def test_more_exception_types():
     """Test various exception types for coverage."""
     from lukhas.core.common.exceptions import (
-        LukhasError, ConfigurationError, AuthenticationError,
-        ValidationError, ModuleNotFoundError
+        AuthenticationError,
+        ConfigurationError,
+        LukhasError,
+        ModuleNotFoundError,
+        ValidationError,
     )
-    
+
     # Test basic exceptions
     base = LukhasError(message="Base error")
     assert "Base error" in str(base)
-    
+
     config = ConfigurationError(message="Config error", config_key="test_param")
     assert config.details["config_key"] == "test_param"
-    
+
     validation = ValidationError(message="Validation error", field="test_field", value="invalid")
     assert validation.details["field"] == "test_field"
-    
+
     auth = AuthenticationError(message="Auth error", auth_method="password")
     assert auth.details["auth_method"] == "password"
-    
+
     module_error = ModuleNotFoundError(module_name="test_module")
     assert module_error.details["module_name"] == "test_module"

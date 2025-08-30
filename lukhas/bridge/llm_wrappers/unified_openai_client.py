@@ -146,9 +146,7 @@ class UnifiedOpenAIClient:
         self.timeout = timeout
 
         if not self.api_key:
-            raise ValueError(
-                "OpenAI API key must be provided or set in OPENAI_API_KEY environment variable"
-            )
+            raise ValueError("OpenAI API key must be provided or set in OPENAI_API_KEY environment variable")
 
         # Initialize clients
         client_args = {
@@ -281,12 +279,8 @@ class UnifiedOpenAIClient:
                     ],
                     "usage": (
                         {
-                            "prompt_tokens": (
-                                response.usage.prompt_tokens if response.usage else 0
-                            ),
-                            "completion_tokens": (
-                                response.usage.completion_tokens if response.usage else 0
-                            ),
+                            "prompt_tokens": (response.usage.prompt_tokens if response.usage else 0),
+                            "completion_tokens": (response.usage.completion_tokens if response.usage else 0),
                             "total_tokens": (response.usage.total_tokens if response.usage else 0),
                         }
                         if response.usage

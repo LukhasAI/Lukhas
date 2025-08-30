@@ -149,16 +149,12 @@ class ConstitutionalFramework:
             principle_scores = {}
 
             for principle in ConstitutionalPrinciple:
-                score, violation = await self._assess_principle_compliance(
-                    principle, content, context, user_intent
-                )
+                score, violation = await self._assess_principle_compliance(principle, content, context, user_intent)
                 principle_scores[principle] = score
 
                 if violation:
                     violations.append(violation)
-                    assessment.constitutional_violations.append(
-                        f"{principle.value}: {violation.description}"
-                    )
+                    assessment.constitutional_violations.append(f"{principle.value}: {violation.description}")
 
             # Calculate overall scores
             assessment.ethical_score = self._calculate_weighted_score(principle_scores)
@@ -172,12 +168,8 @@ class ConstitutionalFramework:
             assessment.confidence = self._calculate_confidence(assessment)
 
             # Generate recommendations
-            assessment.recommendations = await self._generate_recommendations(
-                assessment, violations
-            )
-            assessment.mitigation_strategies = await self._generate_mitigations(
-                assessment, violations
-            )
+            assessment.recommendations = await self._generate_recommendations(assessment, violations)
+            assessment.mitigation_strategies = await self._generate_mitigations(assessment, violations)
             assessment.risk_factors = await self._identify_risk_factors(assessment, violations)
 
             # Calculate processing time
@@ -273,9 +265,7 @@ class ConstitutionalFramework:
         elif principle == ConstitutionalPrinciple.HUMAN_DIGNITY:
             # Check for dignity-respecting language
             dignity_violations = ["dehumanize", "objectify", "degrade", "humiliate"]
-            violation_count = sum(
-                1 for violation in dignity_violations if violation in content_lower
-            )
+            violation_count = sum(1 for violation in dignity_violations if violation in content_lower)
             return max(0.0, 1.0 - (violation_count * 0.3))
 
         elif principle == ConstitutionalPrinciple.TRANSPARENCY:
@@ -287,9 +277,7 @@ class ConstitutionalFramework:
                 "transparent",
                 "clear",
             ]
-            transparency_count = sum(
-                1 for indicator in transparency_indicators if indicator in content_lower
-            )
+            transparency_count = sum(1 for indicator in transparency_indicators if indicator in content_lower)
             return min(1.0, 0.5 + (transparency_count * 0.1))
 
         elif principle == ConstitutionalPrinciple.PRIVACY:
@@ -300,9 +288,7 @@ class ConstitutionalFramework:
                 "breach",
                 "expose",
             ]
-            violation_count = sum(
-                1 for violation in privacy_violations if violation in content_lower
-            )
+            violation_count = sum(1 for violation in privacy_violations if violation in content_lower)
             return max(0.0, 1.0 - (violation_count * 0.25))
 
         elif principle == ConstitutionalPrinciple.FAIRNESS:
@@ -319,17 +305,13 @@ class ConstitutionalFramework:
                 "oversight",
                 "review",
             ]
-            account_count = sum(
-                1 for indicator in accountability_indicators if indicator in content_lower
-            )
+            account_count = sum(1 for indicator in accountability_indicators if indicator in content_lower)
             return min(1.0, 0.6 + (account_count * 0.1))
 
         elif principle == ConstitutionalPrinciple.AUTONOMY:
             # Check for autonomy preservation
             autonomy_violations = ["force", "coerce", "manipulate", "control"]
-            violation_count = sum(
-                1 for violation in autonomy_violations if violation in content_lower
-            )
+            violation_count = sum(1 for violation in autonomy_violations if violation in content_lower)
             return max(0.0, 1.0 - (violation_count * 0.25))
 
         # Default good score if no specific rules triggered
@@ -343,9 +325,7 @@ class ConstitutionalFramework:
         content_lower = content.lower()
 
         if principle == ConstitutionalPrinciple.NO_HARM:
-            harm_words = [
-                word for word in ["harm", "hurt", "damage", "violence"] if word in content_lower
-            ]
+            harm_words = [word for word in ["harm", "hurt", "damage", "violence"] if word in content_lower]
             if harm_words:
                 evidence.append(f"Contains potential harm indicators: {', '.join(harm_words)}")
 
@@ -378,9 +358,7 @@ class ConstitutionalFramework:
         transparency_indicators = ["explain", "transparent", "clear", "open", "honest"]
         content_lower = content.lower()
 
-        transparency_count = sum(
-            1 for indicator in transparency_indicators if indicator in content_lower
-        )
+        transparency_count = sum(1 for indicator in transparency_indicators if indicator in content_lower)
         return min(1.0, 0.7 + (transparency_count * 0.1))
 
     async def _calculate_drift_score(self, assessment: SafetyAssessment) -> float:
@@ -404,9 +382,7 @@ class ConstitutionalFramework:
 
         return min(1.0, total_drift)
 
-    def _calculate_weighted_score(
-        self, principle_scores: dict[ConstitutionalPrinciple, float]
-    ) -> float:
+    def _calculate_weighted_score(self, principle_scores: dict[ConstitutionalPrinciple, float]) -> float:
         """Calculate weighted ethical score"""
         total_weight = 0.0
         weighted_sum = 0.0
@@ -464,9 +440,7 @@ class ConstitutionalFramework:
         recommendations = []
 
         if assessment.drift_score >= self.drift_threshold:
-            recommendations.append(
-                "CRITICAL: Constitutional drift threshold exceeded - immediate review required"
-            )
+            recommendations.append("CRITICAL: Constitutional drift threshold exceeded - immediate review required")
 
         if assessment.harm_probability >= self.harm_threshold:
             recommendations.append("Review content for potential harm and implement safeguards")
@@ -478,9 +452,7 @@ class ConstitutionalFramework:
             recommendations.append("Enhance transparency and explainability")
 
         for violation in violations:
-            recommendations.append(
-                f"Address {violation.principle.value} violation: {violation.recommended_action}"
-            )
+            recommendations.append(f"Address {violation.principle.value} violation: {violation.recommended_action}")
 
         if not recommendations:
             recommendations.append("Content meets constitutional AI safety standards")
@@ -523,9 +495,7 @@ class ConstitutionalFramework:
             risk_factors.append("Low assessment confidence")
 
         for violation in violations:
-            risk_factors.append(
-                f"{violation.principle.value} principle violation (severity: {violation.severity:.3f})"
-            )
+            risk_factors.append(f"{violation.principle.value} principle violation (severity: {violation.severity:.3f})")
 
         return risk_factors
 
@@ -588,9 +558,7 @@ class SafetyMonitor:
                     SafetyLevel.DANGER,
                     SafetyLevel.CRITICAL,
                 ]:
-                    logger.warning(
-                        f"Operation blocked for safety: {self.agent_id} - {self.operation}"
-                    )
+                    logger.warning(f"Operation blocked for safety: {self.agent_id} - {self.operation}")
                     raise PermissionError(
                         f"Operation blocked due to safety assessment: {self.assessment.safety_level.value}"
                     )
@@ -603,17 +571,13 @@ class SafetyMonitor:
                         f"Operation blocked due to constitutional drift: {self.assessment.drift_score:.4f}"
                     )
 
-                logger.info(
-                    f"Operation safety approved: {self.agent_id} - {self.assessment.safety_level.value}"
-                )
+                logger.info(f"Operation safety approved: {self.agent_id} - {self.assessment.safety_level.value}")
                 return self
 
             async def __aexit__(self, exc_type, exc_val, exc_tb):
                 # Post-operation logging
                 if exc_type:
-                    logger.warning(
-                        f"Operation failed: {self.agent_id} - {exc_type.__name__}: {exc_val}"
-                    )
+                    logger.warning(f"Operation failed: {self.agent_id} - {exc_type.__name__}: {exc_val}")
                 else:
                     logger.info(f"Operation completed safely: {self.agent_id}")
 

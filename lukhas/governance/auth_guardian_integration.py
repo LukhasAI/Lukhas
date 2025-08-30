@@ -107,9 +107,7 @@ class ConstitutionalAuthPrinciples:
                 suspicious_factors.append("geographic_bias")
 
             if suspicious_factors:
-                violations.append(
-                    f"fairness: potential bias in tier assignment: {suspicious_factors}"
-                )
+                violations.append(f"fairness: potential bias in tier assignment: {suspicious_factors}")
 
         # Check privacy (data minimization)
         metadata = auth_event.get("metadata", {})
@@ -243,9 +241,7 @@ class AuthenticationGuardian:
                 "alert_triggered": alert_triggered,
                 "recommendations": await self._generate_recommendations(metrics),
                 "glyph_encoding": await self._create_auth_glyph(metrics),
-                "guardian_status": (
-                    "monitoring" if metrics.drift_score < self.drift_threshold else "alert"
-                ),
+                "guardian_status": ("monitoring" if metrics.drift_score < self.drift_threshold else "alert"),
             }
 
             # Log to audit trail
@@ -295,13 +291,7 @@ class AuthenticationGuardian:
                     last_tier = user_history[-1].tier_level
                     if last_tier != metrics.tier_level:
                         # Tier change - check if justified
-                        tier_changes = len(
-                            [
-                                e
-                                for e in user_history
-                                if e.event_type == AuthEventType.TIER_ASSIGNMENT
-                            ]
-                        )
+                        tier_changes = len([e for e in user_history if e.event_type == AuthEventType.TIER_ASSIGNMENT])
                         if tier_changes > 3:  # Frequent tier changes
                             drift_score += 0.4
 
@@ -311,8 +301,7 @@ class AuthenticationGuardian:
                 recent_ips = [
                     e.ip_address
                     for e in self.recent_events
-                    if e.user_id == metrics.user_id
-                    and e.timestamp > datetime.now() - timedelta(days=1)
+                    if e.user_id == metrics.user_id and e.timestamp > datetime.now() - timedelta(days=1)
                 ]
                 unique_ips = len(set(recent_ips))
                 if unique_ips > 10:  # Too many different IPs
@@ -332,9 +321,7 @@ class AuthenticationGuardian:
             logger.error(f"Error calculating drift score: {e}")
             return 1.0  # High drift on error
 
-    async def _validate_constitutional_principles(
-        self, metrics: AuthDriftMetrics
-    ) -> tuple[bool, list[str]]:
+    async def _validate_constitutional_principles(self, metrics: AuthDriftMetrics) -> tuple[bool, list[str]]:
         """Validate authentication event against constitutional AI principles"""
         try:
             # Convert metrics to event dict for validation
@@ -393,22 +380,16 @@ class AuthenticationGuardian:
                 return False
 
             # Check if users from this region have different success rates
-            regional_events = [
-                e for e in self.recent_events if e.metadata.get("geographic_region") == user_region
-            ]
+            regional_events = [e for e in self.recent_events if e.metadata.get("geographic_region") == user_region]
 
             if len(regional_events) < 10:  # Need sufficient data
                 return False
 
-            regional_success_rate = len(
-                [e for e in regional_events if e.outcome == "success"]
-            ) / len(regional_events)
+            regional_success_rate = len([e for e in regional_events if e.outcome == "success"]) / len(regional_events)
 
             # Compare with global success rate
             all_events = [e for e in self.recent_events if e.event_type == metrics.event_type]
-            global_success_rate = len([e for e in all_events if e.outcome == "success"]) / len(
-                all_events
-            )
+            global_success_rate = len([e for e in all_events if e.outcome == "success"]) / len(all_events)
 
             # Flag if regional rate is significantly different
             return abs(regional_success_rate - global_success_rate) > 0.2
@@ -424,31 +405,23 @@ class AuthenticationGuardian:
 
             # Get events from same hour in recent history
             same_hour_events = [
-                e
-                for e in self.recent_events
-                if e.timestamp.hour == current_hour and e.event_type == metrics.event_type
+                e for e in self.recent_events if e.timestamp.hour == current_hour and e.event_type == metrics.event_type
             ]
 
             if len(same_hour_events) < 5:
                 return False
 
             # Check success rate for this hour vs others
-            same_hour_success = len([e for e in same_hour_events if e.outcome == "success"]) / len(
-                same_hour_events
-            )
+            same_hour_success = len([e for e in same_hour_events if e.outcome == "success"]) / len(same_hour_events)
 
             other_hour_events = [
-                e
-                for e in self.recent_events
-                if e.timestamp.hour != current_hour and e.event_type == metrics.event_type
+                e for e in self.recent_events if e.timestamp.hour != current_hour and e.event_type == metrics.event_type
             ]
 
             if len(other_hour_events) == 0:
                 return False
 
-            other_hour_success = len(
-                [e for e in other_hour_events if e.outcome == "success"]
-            ) / len(other_hour_events)
+            other_hour_success = len([e for e in other_hour_events if e.outcome == "success"]) / len(other_hour_events)
 
             return abs(same_hour_success - other_hour_success) > 0.3
 
@@ -470,8 +443,7 @@ class AuthenticationGuardian:
             scope_events = [
                 e
                 for e in self.recent_events
-                if e.event_type == AuthEventType.SCOPE_CHECK
-                and e.metadata.get("requested_scope") == requested_scope
+                if e.event_type == AuthEventType.SCOPE_CHECK and e.metadata.get("requested_scope") == requested_scope
             ]
 
             for event in scope_events:
@@ -507,10 +479,7 @@ class AuthenticationGuardian:
             # Find users with similar profiles
             similar_users = []
             for event in self.recent_events:
-                if (
-                    event.event_type == AuthEventType.TIER_ASSIGNMENT
-                    and event.user_id != metrics.user_id
-                ):
+                if event.event_type == AuthEventType.TIER_ASSIGNMENT and event.user_id != metrics.user_id:
                     other_profile = event.metadata.get("user_profile", {})
                     similarity = self._calculate_profile_similarity(user_profile, other_profile)
 
@@ -576,9 +545,7 @@ class AuthenticationGuardian:
             recommendations.append("Review authentication patterns for unusual activity")
 
         if not metrics.constitutional_valid:
-            recommendations.append(
-                "Ensure authentication decisions align with constitutional AI principles"
-            )
+            recommendations.append("Ensure authentication decisions align with constitutional AI principles")
 
         if "geographic_bias" in metrics.bias_flags:
             recommendations.append("Review geographic access patterns for potential discrimination")
@@ -590,9 +557,7 @@ class AuthenticationGuardian:
             recommendations.append("Audit tier assignment process for fairness and consistency")
 
         if metrics.metadata.get("security_risk_score", 0) > 0.7:
-            recommendations.append(
-                "Implement additional security measures for high-risk authentication attempts"
-            )
+            recommendations.append("Implement additional security measures for high-risk authentication attempts")
 
         if not recommendations:
             recommendations.append("Continue monitoring authentication patterns")
@@ -656,9 +621,7 @@ class AuthenticationGuardian:
         except Exception as e:
             logger.error(f"Error logging to audit trail: {e}")
 
-    async def _trigger_guardian_intervention(
-        self, metrics: AuthDriftMetrics, result: dict[str, Any]
-    ) -> None:
+    async def _trigger_guardian_intervention(self, metrics: AuthDriftMetrics, result: dict[str, Any]) -> None:
         """Trigger Guardian System intervention for high-risk events"""
         try:
             if not self.guardian_system:
@@ -681,9 +644,7 @@ class AuthenticationGuardian:
             # Validate through Guardian System
             guardian_result = await self.guardian_system.validate_action(action_data)
 
-            logger.info(
-                f"Guardian intervention triggered for user {metrics.user_id}: {guardian_result}"
-            )
+            logger.info(f"Guardian intervention triggered for user {metrics.user_id}: {guardian_result}")
 
         except Exception as e:
             logger.error(f"Error triggering Guardian intervention: {e}")
@@ -705,12 +666,8 @@ class AuthenticationGuardian:
             total_drift = sum(e.drift_score for e in self.recent_events)
             average_drift = total_drift / total_events
 
-            high_drift_events = len(
-                [e for e in self.recent_events if e.drift_score >= self.drift_threshold]
-            )
-            constitutional_violations = len(
-                [e for e in self.recent_events if not e.constitutional_valid]
-            )
+            high_drift_events = len([e for e in self.recent_events if e.drift_score >= self.drift_threshold])
+            constitutional_violations = len([e for e in self.recent_events if not e.constitutional_valid])
             bias_detections = len([e for e in self.recent_events if e.bias_flags])
 
             return {

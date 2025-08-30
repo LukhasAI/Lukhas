@@ -40,9 +40,7 @@ class RuntimeSupervisor:
         samples.sort()
         p95_idx = max(0, int(0.95 * (len(samples) - 1)))
         p95 = samples[p95_idx]
-        budget = next(
-            (e.p95_budget_ms for e in self.edges if e.from_id == from_id and e.to_id == to_id), 25.0
-        )
+        budget = next((e.p95_budget_ms for e in self.edges if e.from_id == from_id and e.to_id == to_id), 25.0)
         return p95 <= budget
 
     def should_drop(self, from_id: str, to_id: str) -> bool:

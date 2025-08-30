@@ -274,14 +274,10 @@ class LUKHASAuthIntegrationSystem:
             auth_event = self._convert_to_auth_event_type(event_type)
 
             # Phase 1–4: modular helpers
-            await self._phase_guardian(
-                result, auth_event, user_id, tier_level, outcome, auth_context
-            )
+            await self._phase_guardian(result, auth_event, user_id, tier_level, outcome, auth_context)
             await self._phase_policies(result, tier_level, auth_context)
             self._phase_glyph(result, user_id, tier_level, auth_context, outcome)
-            await self._phase_cross_module(
-                result, user_id, auth_event, auth_context, event_type, outcome, tier_level
-            )
+            await self._phase_cross_module(result, user_id, auth_event, auth_context, event_type, outcome, tier_level)
 
             # Session management + finalize
             await self._phase_session_and_finalize(
@@ -324,9 +320,7 @@ class LUKHASAuthIntegrationSystem:
 
         # Always include core modules for successful authentication
         if outcome == "success":
-            target_modules.extend(
-                [ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN]
-            )
+            target_modules.extend([ModuleType.CONSCIOUSNESS, ModuleType.MEMORY, ModuleType.GUARDIAN])
 
         # Include specific modules based on scopes
         scopes = auth_context.get("scopes", [])
@@ -372,19 +366,14 @@ class LUKHASAuthIntegrationSystem:
         # Update compliance rate
         total_auth = self.integration_metrics.total_authentications
         if total_auth > 0:
-            violations = (
-                self.integration_metrics.policy_violations
-                + self.integration_metrics.constitutional_violations
-            )
+            violations = self.integration_metrics.policy_violations + self.integration_metrics.constitutional_violations
             self.integration_metrics.compliance_rate = max(0.0, 1.0 - (violations / total_auth))
 
         # Update average drift score
         if "guardian" in result.get("components", {}):
             drift_score = result["components"]["guardian"].get("drift_score", 0.0)
             current_avg = self.integration_metrics.drift_score_average
-            self.integration_metrics.drift_score_average = (
-                current_avg * (total_auth - 1) + drift_score
-            ) / total_auth
+            self.integration_metrics.drift_score_average = (current_avg * (total_auth - 1) + drift_score) / total_auth
 
         # Update uptime
         uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
@@ -434,9 +423,7 @@ class LUKHASAuthIntegrationSystem:
             # Check GLYPH registry status
             if self.glyph_enabled and self.glyph_registry:
                 glyph_stats = self.glyph_registry.get_registry_stats()
-                self.health_status.glyph_status = (
-                    "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
-                )
+                self.health_status.glyph_status = "healthy" if glyph_stats["total_glyphs"] > 0 else "unhealthy"
             else:
                 self.health_status.glyph_status = "disabled"
 
@@ -495,35 +482,21 @@ class LUKHASAuthIntegrationSystem:
 
             # Check thresholds
             if self.integration_metrics.drift_score_average >= self.alert_thresholds["drift_score"]:
-                current_alerts.append(
-                    f"High average drift score: {self.integration_metrics.drift_score_average:.3f}"
-                )
+                current_alerts.append(f"High average drift score: {self.integration_metrics.drift_score_average:.3f}")
 
             if self.integration_metrics.compliance_rate < self.alert_thresholds["compliance_rate"]:
-                current_alerts.append(
-                    f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}"
-                )
+                current_alerts.append(f"Low compliance rate: {self.integration_metrics.compliance_rate:.3f}")
 
-            if (
-                self.integration_metrics.constitutional_violations
-                >= self.alert_thresholds["constitutional_violations"]
-            ):
+            if self.integration_metrics.constitutional_violations >= self.alert_thresholds["constitutional_violations"]:
                 current_alerts.append(
                     f"High constitutional violations: {self.integration_metrics.constitutional_violations}"
                 )
 
             if self.integration_metrics.bias_detections >= self.alert_thresholds["bias_detections"]:
-                current_alerts.append(
-                    f"Multiple bias detections: {self.integration_metrics.bias_detections}"
-                )
+                current_alerts.append(f"Multiple bias detections: {self.integration_metrics.bias_detections}")
 
-            if (
-                self.integration_metrics.policy_violations
-                >= self.alert_thresholds["policy_violations"]
-            ):
-                current_alerts.append(
-                    f"High policy violations: {self.integration_metrics.policy_violations}"
-                )
+            if self.integration_metrics.policy_violations >= self.alert_thresholds["policy_violations"]:
+                current_alerts.append(f"High policy violations: {self.integration_metrics.policy_violations}")
 
             self.health_status.active_alerts = current_alerts
 

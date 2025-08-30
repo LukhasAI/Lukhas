@@ -268,9 +268,7 @@ class VivoxWrapper:
             self.candidate_system = None
 
     @matriz_trace("vivox.initialize_consciousness")
-    async def initialize_consciousness(
-        self, context: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def initialize_consciousness(self, context: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Initialize VIVOX consciousness system
 
@@ -292,9 +290,7 @@ class VivoxWrapper:
             if self.config.enable_ethics_validation:
                 ethical_decision = await self._validate_ethics("initialize_consciousness", context)
                 if not ethical_decision.allowed:
-                    return self._blocked_response(
-                        "initialize_consciousness", ethical_decision.reason
-                    )
+                    return self._blocked_response("initialize_consciousness", ethical_decision.reason)
 
             # Initialize VIVOX components if candidate system available
             if self.candidate_system and VIVOX_CIL_ACTIVE:
@@ -312,16 +308,12 @@ class VivoxWrapper:
                             "context": context,
                             "experience_id": initial_experience.experience_id,
                         },
-                        emotional_context=context.get(
-                            "emotional_context", {"valence": 0.0, "arousal": 0.5}
-                        ),
+                        emotional_context=context.get("emotional_context", {"valence": 0.0, "arousal": 0.5}),
                         moral_fingerprint="initialization",
                     )
 
                 # Update state
-                self.state.consciousness_level = initial_experience.awareness_state.get(
-                    "coherence_level", 0.0
-                )
+                self.state.consciousness_level = initial_experience.awareness_state.get("coherence_level", 0.0)
                 self.state.performance_ms = (time.time() - start_time) * 1000
 
                 return {
@@ -348,9 +340,7 @@ class VivoxWrapper:
             return self._error_response("initialize_consciousness", str(e))
 
     @matriz_trace("vivox.update_awareness_state")
-    async def update_awareness_state(
-        self, stimulus: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def update_awareness_state(self, stimulus: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Update consciousness awareness state based on new stimulus
 
@@ -417,9 +407,7 @@ class VivoxWrapper:
             return self._error_response("update_awareness", str(e))
 
     @matriz_trace("vivox.process_memory_access")
-    async def process_memory_access(
-        self, query: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def process_memory_access(self, query: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Process memory access through VIVOX Memory Expansion system
 
@@ -503,9 +491,7 @@ class VivoxWrapper:
             return self._error_response("memory_access", str(e))
 
     @matriz_trace("vivox.reflect_on_state")
-    async def reflect_on_state(
-        self, context: dict[str, Any], mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    async def reflect_on_state(self, context: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Initiate consciousness reflection using VIVOX CIL
 
@@ -534,9 +520,7 @@ class VivoxWrapper:
                 simulation_branches = self._create_simulation_branches(context)
 
                 # Perform z(t) collapse logic for reflection
-                collapsed_action = await self.vivox_cil.implement_z_collapse_logic(
-                    simulation_branches
-                )
+                collapsed_action = await self.vivox_cil.implement_z_collapse_logic(simulation_branches)
 
                 # Extract insights from collapsed action
                 reflection_insights = {
@@ -630,9 +614,7 @@ class VivoxWrapper:
 
     # Memory integration helper methods
 
-    async def _integrate_with_memory(
-        self, conscious_experience: ConsciousExperience
-    ) -> dict[str, Any]:
+    async def _integrate_with_memory(self, conscious_experience: ConsciousExperience) -> dict[str, Any]:
         """Integrate VIVOX consciousness with LUKHAS memory system"""
         if not self.memory_manager:
             return {"status": "memory_unavailable"}

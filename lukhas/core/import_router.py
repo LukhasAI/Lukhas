@@ -12,7 +12,7 @@ This module provides a future-proof import system that handles:
 
 import importlib
 import logging
-from typing import Any, Optional, ClassVar
+from typing import Any, ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -161,9 +161,7 @@ class ModuleRouter:
                 return module
             except ImportError as e:
                 if raise_on_error:
-                    raise ImportError(
-                        f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}"
-                    ) from e
+                    raise ImportError(f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}") from e
                 logger.warning(f"Failed to import '{module_path}': {e}")
                 return None
         elif raise_on_error:

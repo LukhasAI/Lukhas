@@ -21,7 +21,7 @@ import sys
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, ClassVar
 
 import structlog
 from pythonjsonlogger import jsonlogger
@@ -34,7 +34,7 @@ from pythonjsonlogger import jsonlogger
 class SecurityLogFilter(logging.Filter):
     """Filter sensitive information from log messages."""
 
-    SENSITIVE_PATTERNS = [
+    SENSITIVE_PATTERNS: ClassVar[list[str]] = [
         # API keys and tokens
         r'(?i)(api[_-]?key|token|secret|password)\s*[:=]\s*[\'"][^\'"]+[\'"]',
         r"sk-[a-zA-Z0-9]{32,}",  # OpenAI API keys
@@ -132,9 +132,7 @@ class TrinityLogFilter(logging.Filter):
 class LukhasJsonFormatter(jsonlogger.JsonFormatter):
     """Custom JSON formatter for LUKHAS AI logs."""
 
-    def add_fields(
-        self, log_record: dict[str, Any], record: logging.LogRecord, message_dict: dict[str, Any]
-    ) -> None:
+    def add_fields(self, log_record: dict[str, Any], record: logging.LogRecord, message_dict: dict[str, Any]) -> None:
         """Add custom fields to log records."""
         super().add_fields(log_record, record, message_dict)
 

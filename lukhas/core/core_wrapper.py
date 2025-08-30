@@ -240,9 +240,7 @@ class CoreWrapper:
                 metadata={"error": str(e)},
             )
 
-    def create_trinity_glyph(
-        self, emphasis: str = "balanced", mode: str = "dry_run"
-    ) -> GlyphResult:
+    def create_trinity_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
         """
         Create a Trinity Framework glyph for LUKHAS AI operations.
 
@@ -332,9 +330,7 @@ class CoreWrapper:
             Success status
         """
         if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._symbolic_world:
-            logger.info(
-                f"[DRY-RUN] Would link: {symbol1_name} -> {symbol2_name} ({relationship_type})"
-            )
+            logger.info(f"[DRY-RUN] Would link: {symbol1_name} -> {symbol2_name} ({relationship_type})")
             return True
 
         try:
@@ -512,9 +508,7 @@ def get_core() -> CoreWrapper:
 
 
 # Convenience functions for common operations
-def encode_concept(
-    concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run"
-) -> GlyphResult:
+def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
     """Encode a concept using the global core instance"""
     return get_core().encode_concept(concept, emotion, mode)
 
@@ -545,9 +539,7 @@ def register_decision_engine(name: str, impl: DecisionEngine) -> None:
     logger.info(f"Decision engine '{name}' registered")
 
 
-def decide(
-    policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run"
-) -> dict[str, Any]:
+def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
     """
     Make a policy decision using registered decision engines.
 

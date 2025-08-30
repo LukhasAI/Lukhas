@@ -52,9 +52,7 @@ class MethylationModel:
             TagScope.GENETIC: {"stability": 0.8, "inheritance": 0.95},
         }
 
-        logger.info(
-            f"MethylationModel initialized with genetic_decay_factor={genetic_decay_factor}"
-        )
+        logger.info(f"MethylationModel initialized with genetic_decay_factor={genetic_decay_factor}")
 
     def adjust_lifespan(
         self,
@@ -265,9 +263,7 @@ class MethylationModel:
             "genetic_decay_factor": self.genetic_decay_factor,
             "temporal_decay_rate": self.temporal_decay_rate,
             "ethical_preservation_bonus": self.ethical_preservation_bonus,
-            "scope_patterns": {
-                scope.value: pattern for scope, pattern in self.scope_patterns.items()
-            },
+            "scope_patterns": {scope.value: pattern for scope, pattern in self.scope_patterns.items()},
         }
 
 

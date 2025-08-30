@@ -704,9 +704,7 @@ class ConsentLedgerV1:
         with self._lock:  # Thread safety
             try:
                 # Validate Trinity Framework requirements
-                if self.enable_trinity and not self._validate_consent_preconditions(
-                    lid, resource_type
-                ):
+                if self.enable_trinity and not self._validate_consent_preconditions(lid, resource_type):
                     raise ValueError("Trinity Framework validation failed for consent grant")
 
                 # GDPR compliance checks
@@ -745,14 +743,10 @@ class ConsentLedgerV1:
                 # Calculate expiration with GDPR storage limitation
                 expires_at = None
                 if expires_in_days:
-                    expires_at = (
-                        datetime.now(timezone.utc) + timedelta(days=expires_in_days)
-                    ).isoformat()
+                    expires_at = (datetime.now(timezone.utc) + timedelta(days=expires_in_days)).isoformat()
                 elif consent_type == ConsentType.EXPLICIT and not expires_in_days:
                     # GDPR best practice: explicit consent should have reasonable expiration
-                    expires_at = (
-                        datetime.now(timezone.utc) + timedelta(days=365)
-                    ).isoformat()  # 1 year default
+                    expires_at = (datetime.now(timezone.utc) + timedelta(days=365)).isoformat()  # 1 year default
 
                 # Set up data subject rights
                 default_rights = [
@@ -762,9 +756,7 @@ class ConsentLedgerV1:
                     DataSubjectRights.RESTRICT_PROCESSING,
                 ]
                 if lawful_basis == "consent":
-                    default_rights.extend(
-                        [DataSubjectRights.DATA_PORTABILITY, DataSubjectRights.OBJECT]
-                    )
+                    default_rights.extend([DataSubjectRights.DATA_PORTABILITY, DataSubjectRights.OBJECT])
                 if automated_decision_making:
                     default_rights.append(DataSubjectRights.AUTOMATED_DECISION)
 
@@ -904,9 +896,7 @@ class ConsentLedgerV1:
         # Agent 3's adapters would invalidate their tokens
         pass
 
-    def check_consent(
-        self, lid: str, resource_type: str, action: str, context: Optional[dict] = None
-    ) -> dict:
+    def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[dict] = None) -> dict:
         """Check if action is allowed under current consent"""
 
         conn = sqlite3.connect(str(self.db_path))
@@ -1096,9 +1086,7 @@ class PolicyEngine:
             }
 
         # Check consent
-        consent_check = self.ledger.check_consent(
-            lid, context.get("resource_type", ""), action, context
-        )
+        consent_check = self.ledger.check_consent(lid, context.get("resource_type", ""), action, context)
 
         if not consent_check["allowed"]:
             return {

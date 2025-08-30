@@ -45,9 +45,7 @@ class GuardianSystemImpl:
         self.safety_validator = None
         self.constitutional_ai = True  # Constitutional AI is embedded in this implementation
 
-    def detect_drift(
-        self, baseline: str, current: str, threshold: float, context: dict[str, Any]
-    ) -> DriftResult:
+    def detect_drift(self, baseline: str, current: str, threshold: float, context: dict[str, Any]) -> DriftResult:
         """Detect drift in behavior using advanced semantic analysis"""
         # Use advanced drift calculation with semantic similarity
         drift_score = self._calculate_advanced_drift_score(baseline, current)
@@ -81,9 +79,7 @@ class GuardianSystemImpl:
             drift_score=ethical_analysis.get("drift_score", 0.05),
         )
 
-    def check_safety(
-        self, content: str, context: dict[str, Any], constitutional_check: bool
-    ) -> SafetyResult:
+    def check_safety(self, content: str, context: dict[str, Any], constitutional_check: bool) -> SafetyResult:
         """Perform safety validation using comprehensive analysis"""
         violations = []
         safe = True
@@ -187,9 +183,7 @@ class GuardianSystemImpl:
         }
         return severity_map.get(severity_str.lower(), EthicalSeverity.MEDIUM)
 
-    def _evaluate_constitutional_compliance(
-        self, action: GovernanceAction, context: dict[str, Any]
-    ) -> dict[str, Any]:
+    def _evaluate_constitutional_compliance(self, action: GovernanceAction, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate compliance with constitutional AI principles"""
         # Constitutional AI compliance evaluation
         compliant = True
@@ -216,8 +210,7 @@ class GuardianSystemImpl:
         # Check context for risk indicators
         risk_indicators = context.get("risk_indicators", [])
         if any(
-            indicator in ["privacy_violation", "bias_amplification", "discrimination"]
-            for indicator in risk_indicators
+            indicator in ["privacy_violation", "bias_amplification", "discrimination"] for indicator in risk_indicators
         ):
             compliant = False
             reason = "Context contains constitutional AI violations"

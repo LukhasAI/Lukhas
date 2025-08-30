@@ -129,9 +129,7 @@ class MemoryMatrizAdapter:
             "efficiency_rating": "fast" if operation_time_ms < 50 else "slow",
         }
 
-        return self.create_node(
-            node_type="memory:access", state=state, labels=labels, metadata=metadata
-        )
+        return self.create_node(node_type="memory:access", state=state, labels=labels, metadata=metadata)
 
     @emit_node("memory:matriz:consolidation")
     def emit_consolidation(
@@ -245,9 +243,7 @@ class MemoryMatrizAdapter:
         )
 
     @emit_node("memory:matriz:error")
-    def emit_error(
-        self, operation: str, error_message: str, error_type: str, mode: str = "dry_run"
-    ) -> dict[str, Any]:
+    def emit_error(self, operation: str, error_message: str, error_type: str, mode: str = "dry_run") -> dict[str, Any]:
         """Emit MATRIZ node for memory errors"""
 
         state = {
@@ -267,9 +263,7 @@ class MemoryMatrizAdapter:
             "error_context": {"operation": operation, "mode": mode},
         }
 
-        return self.create_node(
-            node_type="memory:error", state=state, labels=labels, metadata=metadata
-        )
+        return self.create_node(node_type="memory:error", state=state, labels=labels, metadata=metadata)
 
 
 # Global adapter instance

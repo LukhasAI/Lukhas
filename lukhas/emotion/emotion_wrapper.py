@@ -127,9 +127,7 @@ class EmotionMemoryIntegration:
             if emotion_type:
                 query_tags.append(emotion_type)
 
-            memories = self._memory_wrapper.query_memories(
-                tags=query_tags, limit=10, memory_type="emotional"
-            )
+            memories = self._memory_wrapper.query_memories(tags=query_tags, limit=10, memory_type="emotional")
 
             patterns = []
             for memory in memories.get("memories", []):
@@ -305,14 +303,10 @@ class AdvancedEmotionWrapper:
 
             # Recall past successful regulations
             if target_state:
-                past_regulations = self._integration.recall_emotional_patterns(
-                    f"regulation_{target_state}"
-                )
+                past_regulations = self._integration.recall_emotional_patterns(f"regulation_{target_state}")
                 if past_regulations:
                     regulation_result["learned_patterns"] = len(past_regulations)
-                    regulation_result["regulation_confidence"] = min(
-                        1.0, len(past_regulations) / 3.0
-                    )
+                    regulation_result["regulation_confidence"] = min(1.0, len(past_regulations) / 3.0)
 
             # Store regulation experience for future learning
             regulation_memory = {
@@ -394,9 +388,7 @@ class AdvancedEmotionWrapper:
                     "ntype": "emotional_insights_generated",
                     "state": {
                         "experience_count": len(patterns),
-                        "dominant_emotion": (
-                            dominant_emotions[0][0] if dominant_emotions else "none"
-                        ),
+                        "dominant_emotion": (dominant_emotions[0][0] if dominant_emotions else "none"),
                     },
                 }
             )

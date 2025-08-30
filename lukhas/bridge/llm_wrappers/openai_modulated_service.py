@@ -232,20 +232,12 @@ class OpenAIModulatedService:
 
     def get_metrics(self) -> dict[str, Any]:
         """Get service metrics"""
-        avg_time = (
-            self._metrics["total_time"] / self._metrics["requests"]
-            if self._metrics["requests"] > 0
-            else 0
-        )
+        avg_time = self._metrics["total_time"] / self._metrics["requests"] if self._metrics["requests"] > 0 else 0
 
         return {
             "total_requests": self._metrics["requests"],
             "total_errors": self._metrics["errors"],
-            "error_rate": (
-                self._metrics["errors"] / self._metrics["requests"]
-                if self._metrics["requests"] > 0
-                else 0
-            ),
+            "error_rate": (self._metrics["errors"] / self._metrics["requests"] if self._metrics["requests"] > 0 else 0),
             "average_response_time": avg_time,
             "total_time": self._metrics["total_time"],
         }

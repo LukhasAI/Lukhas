@@ -116,9 +116,7 @@ class AuthGovernancePolicyEngine:
         """Initialize the governance policy engine"""
         self.policy_rules: dict[str, PolicyRule] = {}
         self.policy_violations: list[PolicyViolation] = []
-        self.category_index: dict[PolicyCategory, set[str]] = {
-            category: set() for category in PolicyCategory
-        }
+        self.category_index: dict[PolicyCategory, set[str]] = {category: set() for category in PolicyCategory}
 
         # Initialize core policies
         self._initialize_core_policies()
@@ -612,9 +610,7 @@ class AuthGovernancePolicyEngine:
 
             # Generate additional recommendations
             if include_recommendations:
-                recommendations.extend(
-                    self._generate_compliance_recommendations(violations, auth_context)
-                )
+                recommendations.extend(self._generate_compliance_recommendations(violations, auth_context))
 
             return PolicyAssessment(
                 compliant=len(violations) == 0,
@@ -634,9 +630,7 @@ class AuthGovernancePolicyEngine:
                 assessment_timestamp=datetime.now(),
             )
 
-    async def _check_policy_compliance(
-        self, policy: PolicyRule, auth_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_policy_compliance(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
         """Check compliance for a specific policy rule"""
         try:
             result = {
@@ -795,9 +789,7 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _check_constitutional_validation(
-        self, auth_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _check_constitutional_validation(self, auth_context: dict[str, Any]) -> dict[str, Any]:
         """Check constitutional AI validation compliance"""
         constitutional_valid = auth_context.get("constitutional_valid", False)
         constitutional_checked = auth_context.get("constitutional_checked", False)
@@ -869,9 +861,7 @@ class AuthGovernancePolicyEngine:
 
         return {"compliant": True}
 
-    async def _generic_policy_check(
-        self, policy: PolicyRule, auth_context: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def _generic_policy_check(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
         """Generic policy compliance check"""
         # Basic check for policy-specific flags in context
         policy_flag = f"{policy.id}_compliant"
@@ -896,10 +886,7 @@ class AuthGovernancePolicyEngine:
         # High-level recommendations based on violation patterns
         violation_types = [v.violation_type for v in violations]
 
-        if (
-            "bias_monitoring_failure" in violation_types
-            or "access_discrimination" in violation_types
-        ):
+        if "bias_monitoring_failure" in violation_types or "access_discrimination" in violation_types:
             recommendations.append("Implement comprehensive bias detection and prevention system")
 
         if "constitutional_violation" in violation_types:
@@ -949,13 +936,9 @@ class AuthGovernancePolicyEngine:
         # Most common violations
         violation_counts = {}
         for violation in recent_violations:
-            violation_counts[violation.policy_rule_id] = (
-                violation_counts.get(violation.policy_rule_id, 0) + 1
-            )
+            violation_counts[violation.policy_rule_id] = violation_counts.get(violation.policy_rule_id, 0) + 1
 
-        summary["most_common_violations"] = dict(
-            sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5]
-        )
+        summary["most_common_violations"] = dict(sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)[:5])
 
         # Resolution rate
         resolved_count = len([v for v in recent_violations if v.resolved_at is not None])

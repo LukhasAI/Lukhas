@@ -72,9 +72,7 @@ class EmotionalMemoryManager:
         if intensity >= self.emotional_threshold:
             self._create_memory_fold(memory)
 
-        logger.debug(
-            f"Stored emotional memory: {memory_id} ({emotion_type}, intensity: {intensity})"
-        )
+        logger.debug(f"Stored emotional memory: {memory_id} ({emotion_type}, intensity: {intensity})")
 
         return memory_id
 
@@ -272,9 +270,7 @@ def get_emotional_memory_manager() -> EmotionalMemoryManager:
 
 
 # Convenience functions
-def store_emotion(
-    content: Any, emotion: str, intensity: float, context: Optional[dict] = None
-) -> str:
+def store_emotion(content: Any, emotion: str, intensity: float, context: Optional[dict] = None) -> str:
     """Store an emotional memory."""
     manager = get_emotional_memory_manager()
     return manager.store_emotional_memory(content, emotion, intensity, context)

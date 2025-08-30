@@ -169,9 +169,7 @@ class QIInspiredProcessor:
         self.collapsed_state = None
 
     @instrument("qi_superposition")
-    def create_superposition(
-        self, options: list[Any], amplitudes: Optional[list[float]] = None
-    ) -> dict[str, Any]:
+    def create_superposition(self, options: list[Any], amplitudes: Optional[list[float]] = None) -> dict[str, Any]:
         """Create quantum-inspired superposition of multiple states"""
         if not QI_ACTIVE:
             emit(
@@ -193,8 +191,7 @@ class QIInspiredProcessor:
 
             superposition = {
                 "states": {
-                    str(i): {"option": options[i], "amplitude": amp}
-                    for i, amp in enumerate(normalized_amplitudes)
+                    str(i): {"option": options[i], "amplitude": amp} for i, amp in enumerate(normalized_amplitudes)
                 },
                 "coherence": 1.0,
                 "created_at": datetime.now(timezone.utc).isoformat(),
@@ -219,9 +216,7 @@ class QIInspiredProcessor:
             return {"error": str(e), "state": "failed"}
 
     @instrument("qi_entanglement")
-    def entangle_modules(
-        self, module_a: dict[str, Any], module_b: dict[str, Any]
-    ) -> dict[str, Any]:
+    def entangle_modules(self, module_a: dict[str, Any], module_b: dict[str, Any]) -> dict[str, Any]:
         """Create quantum-inspired entanglement between modules"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_entanglement_dry_run", "state": {"modules": 2}})
@@ -307,9 +302,7 @@ class BioInspiredProcessor:
         self.adaptation_rate = 0.1
 
     @instrument("bio_neural_oscillator")
-    def create_neural_oscillator(
-        self, frequency: float = 40.0, phase: float = 0.0
-    ) -> dict[str, Any]:
+    def create_neural_oscillator(self, frequency: float = 40.0, phase: float = 0.0) -> dict[str, Any]:
         """Create bio-inspired neural oscillator"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_oscillator_dry_run", "state": {"frequency": frequency}})
@@ -347,9 +340,7 @@ class BioInspiredProcessor:
             return {"error": str(e), "active": False}
 
     @instrument("bio_homeostasis")
-    def maintain_homeostasis(
-        self, system_state: float, target_state: Optional[float] = None
-    ) -> dict[str, Any]:
+    def maintain_homeostasis(self, system_state: float, target_state: Optional[float] = None) -> dict[str, Any]:
         """Maintain bio-inspired homeostasis"""
         if not QI_ACTIVE:
             emit(
@@ -538,9 +529,7 @@ class QIIntegration:
 
             # Create entanglement if modules provided
             if len(entangle_modules) >= 2:
-                entanglement = self._quantum_processor.entangle_modules(
-                    entangle_modules[0], entangle_modules[1]
-                )
+                entanglement = self._quantum_processor.entangle_modules(entangle_modules[0], entangle_modules[1])
                 result["entanglement"] = entanglement
 
             emit(
@@ -714,9 +703,7 @@ class QIWrapper:
             return {"error": str(e), "processed": False}
 
     @instrument("qi_quantum_decision")
-    def make_quantum_decision(
-        self, options: list[Any], context: Optional[dict[str, Any]] = None
-    ) -> dict[str, Any]:
+    def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Make decision using quantum-inspired superposition and collapse"""
         try:
             input_data = {
@@ -815,9 +802,7 @@ class QIWrapper:
                     "ntype": "bio_adaptation_completed",
                     "state": {
                         "adapted": True,
-                        "homeostasis_regulated": bio_result.get("homeostasis", {}).get(
-                            "regulated", False
-                        ),
+                        "homeostasis_regulated": bio_result.get("homeostasis", {}).get("regulated", False),
                         "oscillator_active": bio_result.get("oscillator", {}).get("active", False),
                     },
                 }

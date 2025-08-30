@@ -258,9 +258,7 @@ class ExtremePerformanceAuditLogger:
             await self.initialize()
 
         event_start = time.perf_counter()
-        event_id = (
-            f"ep_{int(time.time() * 1000000)}_{self.events_logged}"  # Optimized ID generation
-        )
+        event_id = f"ep_{int(time.time() * 1000000)}_{self.events_logged}"  # Optimized ID generation
 
         # Create optimized audit event
         event = ExtremePerformanceAuditEvent(
@@ -375,11 +373,7 @@ class ExtremePerformanceAuditLogger:
         severity = (
             AuditSeverity.CRITICAL
             if (drift_score and drift_score >= 0.15)
-            else (
-                AuditSeverity.WARNING
-                if enforcement_type in {"block", "deny", "escalate"}
-                else AuditSeverity.INFO
-            )
+            else (AuditSeverity.WARNING if enforcement_type in {"block", "deny", "escalate"} else AuditSeverity.INFO)
         )
 
         # Add performance-specific details
@@ -451,9 +445,7 @@ class ExtremePerformanceAuditLogger:
         severity = (
             AuditSeverity.CRITICAL
             if "constitutional" in policy_type.lower()
-            else (
-                AuditSeverity.ERROR if "security" in policy_type.lower() else AuditSeverity.WARNING
-            )
+            else (AuditSeverity.ERROR if "security" in policy_type.lower() else AuditSeverity.WARNING)
         )
 
         optimized_details = {
@@ -478,9 +470,7 @@ class ExtremePerformanceAuditLogger:
 
     async def get_performance_dashboard_extreme(self) -> dict[str, Any]:
         """Get extreme performance dashboard"""
-        current_throughput = self.events_logged / max(
-            time.time() - getattr(self, "_start_time", time.time()), 1
-        )
+        current_throughput = self.events_logged / max(time.time() - getattr(self, "_start_time", time.time()), 1)
 
         dashboard = {
             "extreme_performance_metrics": {
@@ -513,17 +503,11 @@ class ExtremePerformanceAuditLogger:
         overall_performance = (
             "extreme"
             if (self.avg_event_time_ms <= 0.5)
-            else (
-                "fast"
-                if (self.avg_event_time_ms <= self.target_latency_ms)
-                else "needs_optimization"
-            )
+            else ("fast" if (self.avg_event_time_ms <= self.target_latency_ms) else "needs_optimization")
         )
 
         dashboard["overall_performance_level"] = overall_performance
-        dashboard["openai_scale_ready"] = (
-            overall_performance in ["extreme", "fast"] and current_throughput >= 1000
-        )
+        dashboard["openai_scale_ready"] = overall_performance in ["extreme", "fast"] and current_throughput >= 1000
 
         return dashboard
 
@@ -571,8 +555,7 @@ class ExtremePerformanceAuditLogger:
                 "total_duration_seconds": benchmark_duration,
                 "throughput_events_per_second": throughput_eps,
                 "avg_latency_ms": (benchmark_duration * 1000) / num_events,
-                "openai_scale_target_met": throughput_eps >= 10000
-                and self.avg_event_time_ms <= 1.0,
+                "openai_scale_target_met": throughput_eps >= 10000 and self.avg_event_time_ms <= 1.0,
             },
             "performance_analysis": await self.get_performance_dashboard_extreme(),
         }
@@ -605,9 +588,7 @@ class ExtremePerformanceAuditLogger:
         print("📊 Final Performance Statistics:")
         print(f"   Events logged: {self.events_logged:,}")
         print(f"   Average event time: {self.avg_event_time_ms:.2f}ms")
-        print(
-            f"   Target achieved: {final_stats['extreme_performance_metrics']['latency_target_met']}"
-        )
+        print(f"   Target achieved: {final_stats['extreme_performance_metrics']['latency_target_met']}")
         print("✅ Extreme performance audit logger shutdown complete")
 
 

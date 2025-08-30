@@ -162,9 +162,7 @@ class IdentityConnector:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module(
-                        "lukhas.governance.security.access_control"
-                    )
+                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
                     self.AccessTier = access_control_module.AccessTier
                     PermissionManager = access_control_module.PermissionManager
                     self.permission_manager = PermissionManager()
@@ -196,9 +194,7 @@ class IdentityConnector:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module(
-                        "lukhas.governance.security.access_control"
-                    )
+                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
                     User = access_control_module.User
                     AccessTier = self.AccessTier  # Use the one we loaded in __init__
                 except (ImportError, AttributeError):
@@ -220,17 +216,13 @@ class IdentityConnector:
 
                 self.users["system_admin"] = system_admin
 
-            async def check_access(
-                self, session_id: str, resource: str, access_type, context: Optional[dict] = None
-            ):
+            async def check_access(self, session_id: str, resource: str, access_type, context: Optional[dict] = None):
                 """Check access with real tier validation"""
                 try:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module(
-                        "lukhas.governance.security.access_control"
-                    )
+                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
                     AccessDecision = access_control_module.AccessDecision
                 except (ImportError, AttributeError):
                     # Fallback if production module not available
@@ -295,9 +287,7 @@ class IdentityConnector:
                 print(f"🛡️ Constitutional enforcement: {action} - {enforcement_type}")
                 return event_id
 
-            async def log_authentication_attempt(
-                self, attempt_result, details, user_id=None, session_id=None
-            ):
+            async def log_authentication_attempt(self, attempt_result, details, user_id=None, session_id=None):
                 event_id = f"auth_{len(self._events)}"
                 self._events.append(
                     {
@@ -425,9 +415,7 @@ class IdentityConnector:
             ) -> str:
                 return "stub_event_id"
 
-            async def log_authentication_attempt(
-                self, attempt_result, details, user_id=None, session_id=None
-            ) -> str:
+            async def log_authentication_attempt(self, attempt_result, details, user_id=None, session_id=None) -> str:
                 return "stub_event_id"
 
             async def log_policy_violation(
@@ -512,9 +500,7 @@ class IdentityConnector:
                                 },
                                 enforcement_action="execution_blocked",
                             )
-                            raise PermissionError(
-                                f"Safety assessment failed: {safety_assessment.safety_level.value}"
-                            )
+                            raise PermissionError(f"Safety assessment failed: {safety_assessment.safety_level.value}")
 
                         # Execute with monitoring
                         return await func(self, agent_id, *args, **kwargs)
@@ -559,10 +545,7 @@ class IdentityConnector:
             "memory",
             "ethics",
         ]
-        if not any(
-            trusted_name in str(type(module_instance).__module__)
-            for trusted_name in trusted_modules
-        ):
+        if not any(trusted_name in str(type(module_instance).__module__) for trusted_name in trusted_modules):
             raise SecurityError(f"Untrusted module source: {type(module_instance).__module__}")
 
         if self._implementation_type == "production":
@@ -578,9 +561,7 @@ class IdentityConnector:
                 return secure_check_access
 
             def create_secure_log_audit(audit_logger):
-                async def secure_log_audit(
-                    action, enforcement_type, details, user_id=None, session_id=None
-                ):
+                async def secure_log_audit(action, enforcement_type, details, user_id=None, session_id=None):
                     if not isinstance(action, str) or not isinstance(enforcement_type, str):
                         raise ValueError("action and enforcement_type must be strings")
                     return await audit_logger.log_constitutional_enforcement(
@@ -630,9 +611,7 @@ class IdentityConnector:
 
             def stub_monitor_safety(agent_id, operation):
                 if not isinstance(agent_id, str) or not isinstance(operation, str):
-                    return self._create_safety_monitor_stub().monitor_operation(
-                        "invalid", "invalid"
-                    )
+                    return self._create_safety_monitor_stub().monitor_operation("invalid", "invalid")
                 return self._create_safety_monitor_stub().monitor_operation(agent_id, operation)
 
             module_instance._check_access = stub_check_access
@@ -688,12 +667,8 @@ class IdentityConnector:
         return {
             "type": self._implementation_type,
             "access_control": ("real" if self._implementation_type == "production" else "stub"),
-            "safety_monitor": (
-                "constitutional_ai" if self._implementation_type == "production" else "stub"
-            ),
-            "audit_logger": (
-                "full_compliance" if self._implementation_type == "production" else "stub"
-            ),
+            "safety_monitor": ("constitutional_ai" if self._implementation_type == "production" else "stub"),
+            "audit_logger": ("full_compliance" if self._implementation_type == "production" else "stub"),
             "features": {
                 "tiered_access_t1_t5": self._implementation_type == "production",
                 "constitutional_ai_safety": self._implementation_type == "production",

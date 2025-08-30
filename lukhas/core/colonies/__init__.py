@@ -81,9 +81,7 @@ for name, cls in colony_types.items():
 
 
 # Helper functions for colony management
-def create_colony(
-    colony_type: str, colony_id: str, capabilities: Optional[list[str]] = None
-) -> BaseColony:
+def create_colony(colony_type: str, colony_id: str, capabilities: Optional[list[str]] = None) -> BaseColony:
     """
     Factory function to create a colony instance.
 
@@ -96,9 +94,7 @@ def create_colony(
         Instance of the requested colony type
     """
     if colony_type not in colony_types:
-        raise ValueError(
-            f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys())}"
-        )
+        raise ValueError(f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys())}")
 
     colony_class = colony_types[colony_type]
     return colony_class(colony_id, capabilities or [])
@@ -185,4 +181,20 @@ class SwarmAgent:
 
 
 # Export public interface
-__all__ = ["BaseColony", "ConsensusResult", "create_colony", "list_available_colonies", "SupervisorAgent", "get_supervisor_agent", "EfficientCommunicationFabric", "get_global_communication_fabric", "MessagePriority", "SwarmAgent", "AIAgentAggregate", "get_global_event_store", "create_ai_tracer", "TagScope", *list(colony_types.keys())]
+__all__ = [
+    "BaseColony",
+    "ConsensusResult",
+    "create_colony",
+    "list_available_colonies",
+    "SupervisorAgent",
+    "get_supervisor_agent",
+    "EfficientCommunicationFabric",
+    "get_global_communication_fabric",
+    "MessagePriority",
+    "SwarmAgent",
+    "AIAgentAggregate",
+    "get_global_event_store",
+    "create_ai_tracer",
+    "TagScope",
+    *list(colony_types.keys()),
+]

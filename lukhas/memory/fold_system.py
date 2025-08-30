@@ -266,9 +266,7 @@ class FoldManager:
                 "cascade_events": cascade_events,
             },
             "uptime_seconds": uptime,
-            "memory_healthy": (
-                len(self.folds) <= self.MAX_FOLDS and prevention_rate >= self.CASCADE_THRESHOLD
-            ),
+            "memory_healthy": (len(self.folds) <= self.MAX_FOLDS and prevention_rate >= self.CASCADE_THRESHOLD),
         }
 
 

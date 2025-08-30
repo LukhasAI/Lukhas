@@ -543,9 +543,7 @@ class AuditLogger:
         # Event type distribution
         event_type_counts = {}
         for event in recent_events:
-            event_type_counts[event.event_type.value] = (
-                event_type_counts.get(event.event_type.value, 0) + 1
-            )
+            event_type_counts[event.event_type.value] = event_type_counts.get(event.event_type.value, 0) + 1
 
         # Severity distribution
         severity_counts = {}
@@ -553,9 +551,7 @@ class AuditLogger:
             severity_counts[event.severity.value] = severity_counts.get(event.severity.value, 0) + 1
 
         # Constitutional events
-        constitutional_events = [
-            e for e in recent_events if e.event_type == AuditEventType.CONSTITUTIONAL_ENFORCEMENT
-        ]
+        constitutional_events = [e for e in recent_events if e.event_type == AuditEventType.CONSTITUTIONAL_ENFORCEMENT]
         drift_events = [e for e in recent_events if e.drift_score is not None]
 
         return {
@@ -588,15 +584,11 @@ class AuditLogger:
                     verification_results["integrity_verified"] += 1
                 else:
                     verification_results["integrity_failed"] += 1
-                    verification_results["errors"].append(
-                        f"Integrity check failed for event {event.event_id}"
-                    )
+                    verification_results["errors"].append(f"Integrity check failed for event {event.event_id}")
 
             except Exception as e:
                 verification_results["integrity_failed"] += 1
-                verification_results["errors"].append(
-                    f"Error verifying event {event.event_id}: {e!s}"
-                )
+                verification_results["errors"].append(f"Error verifying event {event.event_id}: {e!s}")
 
         return verification_results
 

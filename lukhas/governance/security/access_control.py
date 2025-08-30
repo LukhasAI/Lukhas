@@ -176,9 +176,7 @@ class PermissionManager:
 
     def get_permissions_for_tier(self, tier: AccessTier) -> list[Permission]:
         """Get all permissions available to a tier"""
-        return [
-            p for p in self.permissions.values() if p.required_tier.value <= tier.value and p.active
-        ]
+        return [p for p in self.permissions.values() if p.required_tier.value <= tier.value and p.active]
 
 
 class AccessControlEngine:
@@ -247,9 +245,7 @@ class AccessControlEngine:
         if not password_valid:
             user.failed_attempts += 1
             if user.failed_attempts >= self.max_failed_attempts:
-                user.locked_until = datetime.now(timezone.utc) + timedelta(
-                    minutes=self.lockout_duration_minutes
-                )
+                user.locked_until = datetime.now(timezone.utc) + timedelta(minutes=self.lockout_duration_minutes)
                 logger.warning(f"User {username} locked due to failed attempts")
 
             await self._log_access_attempt(username, False, "Invalid password", context)
@@ -324,9 +320,7 @@ class AccessControlEngine:
                 )
 
             # Check session timeout
-            if datetime.now(timezone.utc) - session["created_at"] > timedelta(
-                hours=self.session_timeout_hours
-            ):
+            if datetime.now(timezone.utc) - session["created_at"] > timedelta(hours=self.session_timeout_hours):
                 self.active_sessions.pop(session_id, None)
                 return await self._log_and_return_decision(
                     request,
@@ -353,9 +347,7 @@ class AccessControlEngine:
                     )
 
                 # Check role requirement
-                if permission.required_roles and not permission.required_roles.intersection(
-                    user.roles
-                ):
+                if permission.required_roles and not permission.required_roles.intersection(user.roles):
                     return await self._log_and_return_decision(
                         request,
                         AccessDecision.DENY,
@@ -467,9 +459,7 @@ class AccessControlEngine:
 
         return decision, reason
 
-    async def _log_access_attempt(
-        self, username: str, success: bool, reason: str, context: dict[str, Any]
-    ) -> None:
+    async def _log_access_attempt(self, username: str, success: bool, reason: str, context: dict[str, Any]) -> None:
         """Log authentication attempt"""
         logger.info(f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}")
 
@@ -488,13 +478,9 @@ class AccessControlEngine:
             "roles": list(user.roles),
             "last_login": user.last_login.isoformat() if user.last_login else None,
             "total_access_requests": len(user_logs),
-            "denied_requests": len(
-                [log for log in user_logs if log.decision == AccessDecision.DENY]
-            ),
+            "denied_requests": len([log for log in user_logs if log.decision == AccessDecision.DENY]),
             "avg_processing_time_ms": (
-                sum(log.processing_time_ms for log in user_logs) / len(user_logs)
-                if user_logs
-                else 0
+                sum(log.processing_time_ms for log in user_logs) / len(user_logs) if user_logs else 0
             ),
         }
 
@@ -510,8 +496,7 @@ class AccessControlEngine:
                 for decision in AccessDecision
             },
             "tier_distribution": {
-                tier.name: len([u for u in self.users.values() if u.current_tier == tier])
-                for tier in AccessTier
+                tier.name: len([u for u in self.users.values() if u.current_tier == tier]) for tier in AccessTier
             },
         }
 

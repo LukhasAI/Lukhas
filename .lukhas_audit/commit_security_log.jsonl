@@ -786,3 +786,24 @@ Ready for STEPS_3: Fix failing tests, boost coverage to 40%, reduce errors furth
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-08-30T10:42:34Z","commit":"924b2d67c6018ec98e3ef95d1fd7eef95c1add78","branch":"main","author":"LukhasAI","message":"🔧 Optimize VS Code settings for large repository performance
+
+✅ AI/Copilot Context Optimization:
+- Reduced GitHub Copilot context length to 200 tokens
+- Disabled Codex workspace context to prevent context window overflow
+- Added aggressive file exclusions for better AI performance
+- Limited Codex to 1000 max tokens with no nearby files inclusion
+
+🛡️ Performance Improvements:
+- Enhanced file watching exclusions for large repositories
+- Optimized search exclusions to reduce context scanning
+- Added Ruff formatter configuration with auto-save
+- Disabled conflicting Python formatters/linters
+
+📊 System Updates:
+- Multiple audit reports and documentation updates
+- Enhanced testing coverage across consciousness modules
+- Security and compliance logging improvements
+- Trinity Framework compliance maintained ⚛️🧠🛡️
+
+Fixes context window errors with Codex and improves AI assistant performance in large LUKHAS repository.","security_scan":"pending"}
