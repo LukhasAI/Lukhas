@@ -898,6 +898,7 @@ class ConsentLedgerV1:
 
     def check_consent(self, lid: str, resource_type: str, action: str, context: Optional[dict] = None) -> dict:
         """Check if action is allowed under current consent"""
+        _ = context
 
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
@@ -1167,6 +1168,7 @@ class ContentModerationIntegration:
         Moderate content for safety and ethics
         In production: calls OpenAI Moderation API
         """
+        _ = lid
 
         # Check jailbreak first
         if self.policy_engine._detect_jailbreak(content):

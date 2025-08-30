@@ -122,7 +122,10 @@ class AuthGovernancePolicyEngine:
                 category=PolicyCategory.IDENTITY_MANAGEMENT,
                 name="User Identity Autonomy",
                 description="Users must have control over their identity representation and authentication preferences",
-                requirement="Users can modify authentication methods, update profile information, and control identity visibility",
+                requirement=(
+                    "Users can modify authentication methods, update profile information, "
+                    "and control identity visibility"
+                ),
                 enforcement_level=PolicySeverity.HIGH,
                 tier_applicability=["ALL"],
                 constitutional_basis="Respect for user autonomy and self-determination",
@@ -178,7 +181,9 @@ class AuthGovernancePolicyEngine:
                 category=PolicyCategory.ACCESS_CONTROL,
                 name="Fair Access Determination",
                 description="Access control decisions must be based on legitimate criteria without discrimination",
-                requirement="Access decisions cannot consider protected characteristics or irrelevant personal attributes",
+                requirement=(
+                    "Access decisions cannot consider protected characteristics or irrelevant personal attributes"
+                ),
                 enforcement_level=PolicySeverity.CRITICAL,
                 tier_applicability=["ALL"],
                 constitutional_basis="Equal treatment and non-discrimination principles",

@@ -244,6 +244,7 @@ class ConstitutionalFramework:
         user_intent: str,
     ) -> float:
         """Score compliance with a constitutional principle"""
+        _ = (context, user_intent)
 
         content_lower = content.lower()
 

@@ -31,6 +31,7 @@ except ImportError as e:
             logger.warning("Using fallback IdentityClient")
 
         def verify_user_access(self, user_id: str, tier: str) -> bool:
+            _ = (user_id, tier)
             return True
 
         def log_activity(self, **kwargs) -> None:
@@ -152,6 +153,7 @@ class IdentitySubmoduleBridge:
 
             class FallbackClass:
                 def __init__(self, *args, **kwargs) -> None:
+                    _ = (args, kwargs)
                     logger.warning(f"Using fallback for {name}")
 
             return FallbackClass

@@ -7,6 +7,7 @@ This module intentionally avoids any cross-lane imports from `candidate`.
 """
 
 import importlib
+import importlib.util
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -23,14 +24,14 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
     paths_to_try = [primary_path, *fallback_paths]
 
     for module_path in paths_to_try:
-        try:
-            module = importlib.import_module(module_path)
-            if hasattr(module, item_name):
-                logger.debug(f"Successfully imported {item_name} from {module_path}")
-                return getattr(module, item_name)
-        except ImportError as e:
-            logger.debug(f"Failed to import {item_name} from {module_path}: {e}")
+        spec = importlib.util.find_spec(module_path)
+        if spec is None:
+            logger.debug(f"Module spec not found for {module_path}")
             continue
+        module = importlib.import_module(module_path)
+        if hasattr(module, item_name):
+            logger.debug(f"Successfully imported {item_name} from {module_path}")
+            return getattr(module, item_name)
 
     raise ImportError(f"Could not import {item_name} from any of: {paths_to_try}")
 

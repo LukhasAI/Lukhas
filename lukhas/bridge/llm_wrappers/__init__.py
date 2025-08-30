@@ -9,6 +9,7 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 
 # Module imports
 import logging
+import importlib
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers")
@@ -35,6 +36,14 @@ except ImportError as e:
     OpenAIWrapper = None
 
 # Import other wrappers if they exist
+def _load_optional(wrapper_name: str, class_name: str):
+    try:
+        module = importlib.import_module(f"lukhas.bridge.llm_wrappers.{wrapper_name}")
+        return getattr(module, class_name)
+    except ImportError:
+        logger.debug("Optional wrapper %s not available", wrapper_name)
+        return None
+
 optional_imports = []
 for wrapper_name, class_name in [
     ("anthropic_wrapper", "AnthropicWrapper"),
@@ -42,17 +51,10 @@ for wrapper_name, class_name in [
     ("perplexity_wrapper", "PerplexityWrapper"),
     ("azure_openai_wrapper", "AzureOpenaiWrapper"),
 ]:
-    try:
-        module = __import__(
-            f"lukhas.bridge.llm_wrappers.{wrapper_name}",
-            fromlist=[class_name],
-        )
-        wrapper_class = getattr(module, class_name)
-        globals()[class_name] = wrapper_class
+    wrapper_class = _load_optional(wrapper_name, class_name)
+    globals()[class_name] = wrapper_class
+    if wrapper_class is not None:
         optional_imports.append(class_name)
-    except ImportError:
-        logger.debug("Optional wrapper %s not available", wrapper_name)
-        globals()[class_name] = None
 
 try:
     from .openai_modulated_service import (

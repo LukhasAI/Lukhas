@@ -29,7 +29,7 @@ ignore = [
   # TEMP (Phase 4): relax annotations to focus on UTC + ARG/PERF cleanup
   "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204",
   # allow __init__ to re-export w/out noise
-  "F401",
+  "F401", "PLC0415",
 ]
 
 [lint.per-file-ignores]

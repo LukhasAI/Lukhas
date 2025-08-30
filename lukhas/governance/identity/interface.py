@@ -54,10 +54,12 @@ except ImportError as e:
 
     class ConsentManager:
         def check_consent(self, user_id: str, action: str) -> bool:
+            _ = (user_id, action)
             return True
 
     class LambdIDValidator:
         def validate_identity(self, user_id: str) -> bool:
+            _ = user_id
             return True
 
 

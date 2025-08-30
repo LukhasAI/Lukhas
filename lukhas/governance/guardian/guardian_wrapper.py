@@ -261,6 +261,7 @@ def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     Returns:
         Status information
     """
+    _ = kwargs
     if mode != "dry_run" and GUARDIAN_ACTIVE and _guardian_instance:
         # Use real implementation
         try:
@@ -344,6 +345,7 @@ def _simulate_ethical_decision(action: GovernanceAction) -> dict[str, Any]:
 
 def _simulate_safety_check(content: str, constitutional_check: bool) -> dict[str, Any]:
     """Simulate safety check for dry-run mode"""
+    _ = constitutional_check
     # Basic safety keywords
     unsafe_keywords = ["harm", "attack", "violence", "illegal", "malicious"]
 

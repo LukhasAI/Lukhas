@@ -423,9 +423,11 @@ class IdentityConnector:
             async def log_constitutional_enforcement(
                 self, action, enforcement_type, details, user_id=None, session_id=None
             ) -> str:
+                _ = (action, enforcement_type, details, user_id, session_id)
                 return "stub_event_id"
 
             async def log_authentication_attempt(self, attempt_result, details, user_id=None, session_id=None) -> str:
+                _ = (attempt_result, details, user_id, session_id)
                 return "stub_event_id"
 
             async def log_policy_violation(
@@ -436,6 +438,7 @@ class IdentityConnector:
                 user_id=None,
                 session_id=None,
             ) -> str:
+                _ = (policy_type, violation_details, enforcement_action, user_id, session_id)
                 return "stub_event_id"
 
             def log_event(self, source, event_type, data=None) -> None:
@@ -612,11 +615,13 @@ class IdentityConnector:
         else:
             # Fallback stub behavior with basic validation
             def stub_check_access(session_id, resource, access_type):
+                _ = access_type
                 if not isinstance(session_id, str) or not isinstance(resource, str):
                     return ("deny", "invalid_parameters")
                 return ("allow", "stub")
 
             async def stub_log_audit(*args, **kwargs) -> str:
+                _ = (args, kwargs)
                 return "stub_event_id"
 
             def stub_monitor_safety(agent_id, operation):

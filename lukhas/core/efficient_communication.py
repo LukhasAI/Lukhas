@@ -189,7 +189,7 @@ class EventBus:
     async def start(self) -> None:
         """Start the event bus"""
         self._running = True
-        asyncio.create_task(self._process_messages())
+        self._processor_task = asyncio.create_task(self._process_messages())
         logger.info("Event bus started")
 
     async def stop(self) -> None:

@@ -235,6 +235,7 @@ class ExtremePerformanceIdentityConnector:
 
     async def _execute_tier_check_fast(self, func: Callable, agent_id: str, min_tier: int, *args, **kwargs):
         """Fast tier check implementation for fallback when extreme optimizations not available"""
+        _ = min_tier
         auth_start = time.time()
 
         # Simplified fast authentication
@@ -319,6 +320,7 @@ class ExtremePerformanceIdentityConnector:
         if self.extreme_optimizer:
             # Use extreme performance optimizations
             async def optimized_check_access(session_id: str, resource: str, access_type):
+                _ = access_type
                 if not isinstance(session_id, str) or not isinstance(resource, str):
                     raise ValueError("session_id and resource must be strings")
 
@@ -336,6 +338,7 @@ class ExtremePerformanceIdentityConnector:
                 )
 
             def optimized_monitor_safety(agent_id, operation):
+                _ = (agent_id, operation)
                 # Fast safety monitoring wrapper
                 class OptimizedMonitorContext:
                     def __enter__(self):
@@ -370,6 +373,7 @@ class ExtremePerformanceIdentityConnector:
         else:
             # Standard fallback implementation
             def fallback_check_access(session_id, resource, access_type):
+                _ = (resource, access_type)
                 return (
                     ("allow", "fallback_implementation")
                     if isinstance(session_id, str)
@@ -377,9 +381,11 @@ class ExtremePerformanceIdentityConnector:
                 )
 
             async def fallback_log_audit(*args, **kwargs) -> str:
+                _ = (args, kwargs)
                 return "fallback_event_id"
 
             def fallback_monitor_safety(agent_id, operation):
+                _ = (agent_id, operation)
                 class FallbackContext:
                     def __enter__(self):
                         return self
@@ -512,6 +518,7 @@ class ExtremePerformanceIdentityConnector:
         # Create test decorator
         @self.require_tier_extreme_performance(3)
         async def benchmark_operation(self, agent_id: str):
+            _ = self
             return {"success": True, "agent_id": agent_id, "operation": "benchmark"}
 
         # Run benchmark operations

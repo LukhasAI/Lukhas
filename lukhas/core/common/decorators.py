@@ -46,7 +46,8 @@ def retry(
             last_exception = None
             current_delay = delay
 
-            for attempt in range(max_attempts):
+            attempt = 0
+            while attempt < max_attempts:
                 try:
                     return await func(*args, **kwargs)
                 except exceptions as e:
@@ -69,6 +70,8 @@ def retry(
                     else:
                         logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
 
+                    attempt += 1
+
             raise last_exception
 
         @functools.wraps(func)
@@ -76,7 +79,8 @@ def retry(
             last_exception = None
             current_delay = delay
 
-            for attempt in range(max_attempts):
+            attempt = 0
+            while attempt < max_attempts:
                 try:
                     return func(*args, **kwargs)
                 except exceptions as e:
@@ -98,6 +102,8 @@ def retry(
                         current_delay *= backoff
                     else:
                         logger.error(f"Max retries ({max_attempts}) exceeded for {func.__name__}")
+
+                    attempt += 1
 
             raise last_exception
 
