@@ -1,0 +1,75 @@
+4779	       	[ ] syntax-error
+3779	F821   	[ ] undefined-name
+3371	DTZ005 	[ ] call-datetime-now-without-tzinfo
+3126	ARG002 	[ ] unused-method-argument
+2138	E501   	[ ] line-too-long
+1128	DTZ003 	[ ] call-datetime-utcnow
+ 905	PERF203	[ ] try-except-in-loop
+ 833	E402   	[ ] module-import-not-at-top-of-file
+ 493	RUF013 	[*] implicit-optional
+ 458	PERF401	[ ] manual-list-comprehension
+ 440	SIM102 	[ ] collapsible-if
+ 321	RUF006 	[ ] asyncio-dangling-task
+ 277	B904   	[ ] raise-without-from-inside-except
+ 226	ARG001 	[ ] unused-function-argument
+ 179	RUF012 	[ ] mutable-class-default
+ 174	PERF102	[*] incorrect-dict-iterator
+ 137	SIM108 	[ ] if-else-block-instead-of-if-exp
+ 121	B008   	[ ] function-call-in-default-argument
+ 104	RUF001 	[ ] ambiguous-unicode-character-string
+  83	B007   	[ ] unused-loop-control-variable
+  76	E722   	[ ] bare-except
+  66	PLC2401	[ ] non-ascii-name
+  58	SIM103 	[ ] needless-bool
+  58	RUF005 	[*] collection-literal-concatenation
+  56	ARG005 	[ ] unused-lambda-argument
+  45	F811   	[ ] redefined-while-unused
+  39	E701   	[ ] multiple-statements-on-one-line-colon
+  37	RUF015 	[*] unnecessary-iterable-allocation-for-first-element
+  32	SIM115 	[ ] open-file-with-context-handler
+  30	SIM105 	[ ] suppressible-exception
+  29	PLC2403	[ ] non-ascii-import-name
+  26	DTZ006 	[ ] call-datetime-fromtimestamp
+  25	F601   	[ ] multi-value-repeated-key-literal
+  24	B018   	[ ] useless-expression
+  24	SIM110 	[*] reimplemented-builtin
+  24	UP006  	[*] non-pep585-annotation
+  24	RUF003 	[ ] ambiguous-unicode-character-comment
+  22	ARG004 	[ ] unused-static-method-argument
+  20	E702   	[ ] multiple-statements-on-one-line-semicolon
+  20	F403   	[ ] undefined-local-with-import-star
+  17	F822   	[ ] undefined-export
+  15	B027   	[ ] empty-method-without-abstract-decorator
+  14	UP035  	[ ] deprecated-import
+  13	B028   	[ ] no-explicit-stacklevel
+  12	SIM116 	[ ] if-else-block-instead-of-dict-lookup
+  12	RUF002 	[ ] ambiguous-unicode-character-docstring
+  11	F405   	[ ] undefined-local-with-import-star-usage
+  10	SIM117 	[ ] multiple-with-statements
+  10	E741   	[ ] ambiguous-variable-name
+   8	DTZ007 	[ ] call-datetime-strptime-without-zone
+   7	ANN205 	[ ] missing-return-type-static-method
+   6	I001   	[*] unsorted-imports
+   5	B015   	[ ] useless-comparison
+   5	B023   	[ ] function-uses-loop-variable
+   5	F402   	[ ] import-shadowed-by-loop-var
+   4	SIM113 	[ ] enumerate-for-loop
+   4	SIM118 	[*] in-dict-keys
+   4	PERF403	[ ] manual-dict-comprehension
+   3	DTZ011 	[ ] call-date-today
+   3	W293   	[*] blank-line-with-whitespace
+   3	F841   	[*] unused-variable
+   2	B019   	[ ] cached-instance-method
+   2	SIM401 	[*] if-else-block-instead-of-dict-get
+   2	ARG003 	[ ] unused-class-method-argument
+   2	E721   	[ ] type-comparison
+   2	F823   	[ ] undefined-local
+   2	RUF009 	[ ] function-call-in-dataclass-default-argument
+   1	B011   	[*] assert-false
+   1	B012   	[ ] jump-statement-in-finally
+   1	B024   	[ ] abstract-base-class-without-abstract-method
+   1	B026   	[ ] star-arg-unpacking-after-keyword-arg
+   1	DTZ001 	[ ] call-datetime-without-tzinfo
+   1	SIM101 	[*] duplicate-isinstance-call
+   1	PERF402	[ ] manual-list-copy
+   1	F706   	[ ] return-outside-function
