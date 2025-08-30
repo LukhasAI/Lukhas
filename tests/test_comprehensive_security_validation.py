@@ -57,7 +57,7 @@ class SecurityValidationFramework:
     @classmethod
     def scan_file_for_vulnerabilities(cls, file_path: Path) -> dict[str, list[tuple[int, str]]]:
         """Scan a file for security vulnerabilities."""
-        if not file_path.exists() or not file_path.suffix == ".py":
+        if not file_path.exists() or file_path.suffix != ".py":
             return {}
 
         vulnerabilities = {}
@@ -110,16 +110,12 @@ class TestHardcodedCredentialValidation:
         """Ensure no hardcoded passwords exist in test files."""
         test_dir = Path(__file__).parent
 
-        vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(
-            test_dir, ["**/*.py"]
-        )
+        vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(test_dir, ["**/*.py"])
 
         password_violations = []
         for file_path, vulns in vulnerabilities.items():
             if "hardcoded_passwords" in vulns:
-                password_violations.extend(
-                    [f"{file_path}:{line}" for line, _ in vulns["hardcoded_passwords"]]
-                )
+                password_violations.extend([f"{file_path}:{line}" for line, _ in vulns["hardcoded_passwords"]])
 
         assert len(password_violations) == 0, f"Hardcoded passwords found: {password_violations}"
 
@@ -141,10 +137,7 @@ class TestHardcodedCredentialValidation:
                 for file_path, vulns in vulnerabilities.items():
                     if "hardcoded_tokens" in vulns:
                         token_violations.extend(
-                            [
-                                f"{source_dir.name}/{file_path}:{line}"
-                                for line, _ in vulns["hardcoded_tokens"]
-                            ]
+                            [f"{source_dir.name}/{file_path}:{line}" for line, _ in vulns["hardcoded_tokens"]]
                         )
 
         assert len(token_violations) == 0, f"Hardcoded tokens found: {token_violations}"
@@ -216,22 +209,15 @@ class TestCryptographicSecurityValidation:
 
         for test_dir in test_dirs:
             if test_dir.exists():
-                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(
-                    test_dir, ["**/*.py"]
-                )
+                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(test_dir, ["**/*.py"])
 
                 for file_path, vulns in vulnerabilities.items():
                     if "weak_cryptography" in vulns:
                         weak_crypto_violations.extend(
-                            [
-                                f"{test_dir.name}/{file_path}:{line}"
-                                for line, _ in vulns["weak_cryptography"]
-                            ]
+                            [f"{test_dir.name}/{file_path}:{line}" for line, _ in vulns["weak_cryptography"]]
                         )
 
-        assert len(weak_crypto_violations) == 0, (
-            f"Weak cryptography found: {weak_crypto_violations}"
-        )
+        assert len(weak_crypto_violations) == 0, f"Weak cryptography found: {weak_crypto_violations}"
 
     def test_bcrypt_password_hashing(self):
         """Test bcrypt password hashing implementation."""
@@ -309,17 +295,12 @@ class TestInputValidationSecurity:
 
         for test_dir in test_dirs:
             if test_dir.exists():
-                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(
-                    test_dir, ["**/*.py"]
-                )
+                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(test_dir, ["**/*.py"])
 
                 for file_path, vulns in vulnerabilities.items():
                     if "sql_injection_risks" in vulns:
                         sql_injection_risks.extend(
-                            [
-                                f"{test_dir.name}/{file_path}:{line}"
-                                for line, _ in vulns["sql_injection_risks"]
-                            ]
+                            [f"{test_dir.name}/{file_path}:{line}" for line, _ in vulns["sql_injection_risks"]]
                         )
 
         assert len(sql_injection_risks) == 0, f"SQL injection risks found: {sql_injection_risks}"
@@ -336,17 +317,12 @@ class TestInputValidationSecurity:
 
         for test_dir in test_dirs:
             if test_dir.exists():
-                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(
-                    test_dir, ["**/*.py"]
-                )
+                vulnerabilities = SecurityValidationFramework.scan_directory_for_vulnerabilities(test_dir, ["**/*.py"])
 
                 for file_path, vulns in vulnerabilities.items():
                     if "path_traversal_risks" in vulns:
                         path_traversal_risks.extend(
-                            [
-                                f"{test_dir.name}/{file_path}:{line}"
-                                for line, _ in vulns["path_traversal_risks"]
-                            ]
+                            [f"{test_dir.name}/{file_path}:{line}" for line, _ in vulns["path_traversal_risks"]]
                         )
 
         # Allow some path traversal risks in test files and specific tools
@@ -508,9 +484,7 @@ class TestAuditComplianceSecurity:
         audit = AuditTrail()
 
         # Add security-related violations
-        audit.add_violation(
-            "test/security.py", "hardcoded_credential", "password = 'secret123'", line_no=10
-        )
+        audit.add_violation("test/security.py", "hardcoded_credential", "password = 'secret123'", line_no=10)
 
         # Export audit report
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
@@ -567,9 +541,7 @@ class TestSecurityMetricsAndReporting:
 
         # Verify downward trend in security issues
         issues_over_time = [trend["issues"] for trend in security_trends]
-        assert issues_over_time == sorted(issues_over_time, reverse=True), (
-            "Security issues should decrease over time"
-        )
+        assert issues_over_time == sorted(issues_over_time, reverse=True), "Security issues should decrease over time"
 
         # Current state should have zero critical issues
         current_issues = security_trends[-1]["issues"]
@@ -589,9 +561,7 @@ class TestSecurityMetricsAndReporting:
         total_security_tests = sum(coverage_metrics.values())
 
         # Should have comprehensive security test coverage
-        assert total_security_tests >= 30, (
-            f"Insufficient security test coverage: {total_security_tests}"
-        )
+        assert total_security_tests >= 30, f"Insufficient security test coverage: {total_security_tests}"
 
         # All categories should have tests
         for category, count in coverage_metrics.items():

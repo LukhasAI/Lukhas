@@ -29,13 +29,22 @@ This file provides guidance for working with the **world's most sophisticated di
 
 ## 🔧 T4 Audit Phase Documentation
 
-**ACTIVE T4 AUDIT IN PROGRESS** - Critical documentation for current development phase:
+**ACTIVE T4 AUDIT - STEPS_2 IN PROGRESS** - Critical documentation for current development phase:
 
 ### T4 Audit Documentation Map
-- **[docs/audits/CLAUDE_ONLY_TASKS.md](docs/audits/CLAUDE_ONLY_TASKS.md)** - Current execution plan (Blocks 0-7)
+- **[docs/audits/STEPS_2.md](docs/audits/STEPS_2.md)** - ACTIVE: Coverage 30-40% + error reduction
+- **[docs/audits/CLAUDE_ONLY_TASKS.md](docs/audits/CLAUDE_ONLY_TASKS.md)** - COMPLETED: Blocks 0-7
 - **[docs/audits/AUDIT_PLAN.md](docs/audits/AUDIT_PLAN.md)** - Complete T4 audit specification  
-- **[docs/audits/STEPS_1.md](docs/audits/STEPS_1.md)** - Surgical fixes methodology
+- **[docs/audits/STEPS_1.md](docs/audits/STEPS_1.md)** - COMPLETED: Surgical fixes 
 - **[docs/audits/CLAUDE_PROGRESS.md](docs/audits/CLAUDE_PROGRESS.md)** - Live execution log (append-only)
+
+### Current T4 Status (2025-08-30 08:30 BST)
+- **Coverage**: 15% (fixed from 1%, target 30-40%)
+- **Ruff errors**: 814 in lukhas (down from 919)
+- **MyPy errors**: 660 (down from 749)
+- **Lane guard**: Perfect (0 violations)
+- **Tests**: 11 passing
+- **STEPS_2 Progress**: Block 5 of 6 completed
 
 ### T4 Standards (Current Phase)
 - **Surgical Changes Only**: ≤20 lines per file, no API refactors

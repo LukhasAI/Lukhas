@@ -98,11 +98,7 @@ def _same_origin(url: URL, other: URL) -> bool:
     """
     Return 'True' if the given URLs share the same origin.
     """
-    return (
-        url.scheme == other.scheme
-        and url.host == other.host
-        and _port_or_default(url) == _port_or_default(other)
-    )
+    return url.scheme == other.scheme and url.host == other.host and _port_or_default(url) == _port_or_default(other)
 
 
 class UseClientDefault:
@@ -243,15 +239,10 @@ class BaseClient:
             return url
         return url.copy_with(raw_path=url.raw_path + b"/")
 
-    def _get_proxy_map(
-        self, proxy: ProxyTypes | None, allow_env_proxies: bool
-    ) -> dict[str, Proxy | None]:
+    def _get_proxy_map(self, proxy: ProxyTypes | None, allow_env_proxies: bool) -> dict[str, Proxy | None]:
         if proxy is None:
             if allow_env_proxies:
-                return {
-                    key: None if url is None else Proxy(url=url)
-                    for key, url in get_environment_proxies().items()
-                }
+                return {key: None if url is None else Proxy(url=url) for key, url in get_environment_proxies().items()}
             return {}
         else:
             proxy = Proxy(url=proxy) if isinstance(proxy, (str, URL)) else proxy
@@ -522,9 +513,7 @@ class BaseClient:
         try:
             url = URL(location)
         except InvalidURL as exc:
-            raise RemoteProtocolError(
-                f"Invalid URL in location header: {exc}.", request=request
-            ) from None
+            raise RemoteProtocolError(f"Invalid URL in location header: {exc}.", request=request) from None
 
         # Handle malformed 'Location' headers that are "absolute" form, have no host.
         # See: https://github.com/encode/httpx/issues/771
@@ -569,9 +558,7 @@ class BaseClient:
 
         return headers
 
-    def _redirect_stream(
-        self, request: Request, method: str
-    ) -> SyncByteStream | AsyncByteStream | None:
+    def _redirect_stream(self, request: Request, method: str) -> SyncByteStream | AsyncByteStream | None:
         """
         Return the body that should be used for the redirect request.
         """
@@ -582,11 +569,7 @@ class BaseClient:
 
     def _set_timeout(self, request: Request) -> None:
         if "timeout" not in request.extensions:
-            timeout = (
-                self.timeout
-                if isinstance(self.timeout, UseClientDefault)
-                else Timeout(self.timeout)
-            )
+            timeout = self.timeout if isinstance(self.timeout, UseClientDefault) else Timeout(self.timeout)
             request.extensions = dict(**request.extensions, timeout=timeout.as_dict())
 
 
@@ -674,7 +657,7 @@ class Client(BaseClient):
 
         if http2:
             try:
-                import h2  # noqa
+                import h2
             except ImportError:  # pragma: no cover
                 raise ImportError(
                     "Using http2=True, but the 'h2' package is not installed. "
@@ -900,11 +883,7 @@ class Client(BaseClient):
             raise RuntimeError("Cannot send a request, as the client has been closed.")
 
         self._state = ClientState.OPENED
-        follow_redirects = (
-            self.follow_redirects
-            if isinstance(follow_redirects, UseClientDefault)
-            else follow_redirects
-        )
+        follow_redirects = self.follow_redirects if isinstance(follow_redirects, UseClientDefault) else follow_redirects
 
         self._set_timeout(request)
 
@@ -1380,7 +1359,7 @@ class AsyncClient(BaseClient):
 
         if http2:
             try:
-                import h2  # noqa
+                import h2
             except ImportError:  # pragma: no cover
                 raise ImportError(
                     "Using http2=True, but the 'h2' package is not installed. "
@@ -1607,11 +1586,7 @@ class AsyncClient(BaseClient):
             raise RuntimeError("Cannot send a request, as the client has been closed.")
 
         self._state = ClientState.OPENED
-        follow_redirects = (
-            self.follow_redirects
-            if isinstance(follow_redirects, UseClientDefault)
-            else follow_redirects
-        )
+        follow_redirects = self.follow_redirects if isinstance(follow_redirects, UseClientDefault) else follow_redirects
 
         self._set_timeout(request)
 

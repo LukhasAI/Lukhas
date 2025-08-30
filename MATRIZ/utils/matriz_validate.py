@@ -8,7 +8,7 @@ from collections.abc import Iterable
 from jsonschema import Draft202012Validator
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SCHEMA_PATH = ROOT / "MATRIZ" / "matriz_node_v1.json"
+SCHEMA_PATH = ROOT / "matriz" / "matriz_node_v1.json"
 
 ALLOWED_SCHEMA_REFS = {
     "lukhas://schemas/matriz_node_v1.json",
@@ -58,7 +58,7 @@ def _validate_file(f: pathlib.Path) -> int:
 def main():
     if len(sys.argv) < 2:
         print(
-            "Usage: python -m MATRIZ.utils.matriz_validate <file_or_dir> [...]",
+            "Usage: python -m matriz.utils.matriz_validate <file_or_dir> [...]",
             file=sys.stderr,
         )
         sys.exit(2)

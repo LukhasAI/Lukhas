@@ -3,10 +3,10 @@ Pydantic models for LUKHAS API endpoints.
 """
 
 from .trace_models import (
-    TraceResponse,
     ExecutionTraceResponse,
-    TraceNotFoundResponse,
     TraceErrorResponse,
+    TraceNotFoundResponse,
+    TraceResponse,
     TraceValidationErrorResponse,
 )
 

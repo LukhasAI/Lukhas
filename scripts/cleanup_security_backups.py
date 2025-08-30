@@ -21,7 +21,7 @@ def main():
     print("=" * 40)
 
     # Find all security backup directories
-    backup_dirs = [d for d in os.listdir('.') if d.startswith('.security_backup_20250822_')]
+    backup_dirs = [d for d in os.listdir(".") if d.startswith(".security_backup_20250822_")]
     backup_dirs.sort()
 
     print(f"📊 Found {len(backup_dirs)} security backup directories")
@@ -43,10 +43,10 @@ def main():
         if not backup_path.exists():
             continue
 
-        files = list(backup_path.glob('*'))
+        files = list(backup_path.glob("*"))
 
         # Check if this contains requirements.txt files
-        has_requirements = any('requirements.txt' in f.name for f in files)
+        has_requirements = any("requirements.txt" in f.name for f in files)
 
         if has_requirements:
             requirements_backups.append(backup_dir)
@@ -71,7 +71,7 @@ def main():
             dest_dir.mkdir(exist_ok=True)
 
             # Copy files
-            for file_path in Path(backup_dir).glob('*'):
+            for file_path in Path(backup_dir).glob("*"):
                 if file_path.is_file():
                     shutil.copy2(file_path, dest_dir / file_path.name)
                     print(f"  📋 Preserved: {backup_dir}/{file_path.name}")
@@ -100,7 +100,7 @@ def main():
 
     # Create cleanup report
     report_file = f"security_backup_cleanup_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-    with open(report_file, 'w') as f:
+    with open(report_file, "w") as f:
         f.write("Security Backup Cleanup Report\n")
         f.write(f"Generated: {datetime.now().isoformat()}\n\n")
         f.write(f"Original backup directories: {len(backup_dirs)}\n")

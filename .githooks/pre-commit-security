@@ -15,11 +15,7 @@ def check_dependencies():
     print("🔒 Checking for security vulnerabilities...")
 
     # Quick check with safety
-    result = subprocess.run(
-        ['python3', '-m', 'safety', 'check', '--json'],
-        capture_output=True,
-        text=True
-    )
+    result = subprocess.run(["python3", "-m", "safety", "check", "--json"], capture_output=True, text=True)
 
     if result.returncode == 0:
         print("✅ No security vulnerabilities found")
@@ -28,7 +24,7 @@ def check_dependencies():
     # Parse vulnerabilities
     try:
         data = json.loads(result.stdout)
-        vulns = data.get('vulnerabilities', [])
+        vulns = data.get("vulnerabilities", [])
 
         if vulns:
             print(f"\n❌ Found {len(vulns)} security vulnerabilities:\n")
@@ -62,22 +58,18 @@ def check_secrets():
     print("🔍 Checking for secrets...")
 
     # Use git secrets or gitleaks if available
-    result = subprocess.run(
-        ['git', 'diff', '--cached', '--name-only'],
-        capture_output=True,
-        text=True
-    )
+    result = subprocess.run(["git", "diff", "--cached", "--name-only"], capture_output=True, text=True)
 
-    changed_files = result.stdout.strip().split('\n') if result.stdout else []
+    changed_files = result.stdout.strip().split("\n") if result.stdout else []
 
     # Basic patterns to check
     secret_patterns = [
-        'api_key',
-        'secret_key',
-        'password',
-        'token',
-        'private_key',
-        'aws_access_key',
+        "api_key",
+        "secret_key",
+        "password",
+        "token",
+        "private_key",
+        "aws_access_key",
     ]
 
     for file in changed_files:
@@ -89,16 +81,16 @@ def check_secrets():
                 content = f.read().lower()
 
                 for pattern in secret_patterns:
-                    if pattern in content and '=' in content:
+                    if pattern in content and "=" in content:
                         # Check if it looks like an actual secret assignment
-                        lines = content.split('\n')
+                        lines = content.split("\n")
                         for line in lines:
-                            if pattern in line and '=' in line and not line.strip().startswith('#'):
+                            if pattern in line and "=" in line and not line.strip().startswith("#"):
                                 # Check if value looks like a real secret
-                                parts = line.split('=', 1)
+                                parts = line.split("=", 1)
                                 if len(parts) == 2:
                                     value = parts[1].strip().strip('"').strip("'")
-                                    if len(value) > 10 and not value.startswith('${') and not value.startswith('os.'):
+                                    if len(value) > 10 and not value.startswith("${") and not value.startswith("os."):
                                         print(f"\n⚠️ Potential secret found in {file}")
                                         print(f"   Pattern: {pattern}")
                                         print("   Please review and use environment variables instead")
@@ -115,7 +107,7 @@ def main():
     print("\n🛡️ LUKHAS Security Pre-commit Hook\n")
 
     # Check if we're in CI (skip in CI)
-    if os.environ.get('CI'):
+    if os.environ.get("CI"):
         print("ℹ️ Skipping security checks in CI")
         sys.exit(0)
 
@@ -133,4 +125,5 @@ def main():
 
 if __name__ == "__main__":
     import os
+
     main()
