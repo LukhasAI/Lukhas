@@ -112,7 +112,7 @@ class AIResponse:
 class AIIntegrationManager:
     """Manages task delegation to AI services like Claude, OpenAI, GitHub Copilot."""
 
-    def __init__(:
+    def __init__(
         self,
         workspace_root: Optional[Union[str, Path]] = None,
         config_filename: str = DEFAULT_AI_CONFIG_FILENAME_STR,
@@ -219,8 +219,8 @@ class AIIntegrationManager:
                 content = f.read(max_chars + 100)  # Read bit more
             return (
                 content[:max_chars] + "\n... [TRUNCATED]"
-                if len(content) > max_chars:
-                else content:
+                if len(content) > max_chars
+                else content
             )
         except Exception as e:
             log.error("Error reading file for task.", path=str(full_p), error=str(e))
@@ -246,12 +246,12 @@ class AIIntegrationManager:
             "Content-Type": "application/json",
             "anthropic-version": cfg.get("api_version", "2023-06-01"),
         }
-        files_ctx = "".join(
-            [
-                f"\n\n--- File: {fp} ---\n{await self._read_file_for_task(fp,3500)}"
-                for fp in task.files:
-            ]
-        )
+        # Build files context with proper async handling for consciousness node
+        file_contents = []
+        for fp in task.files:
+            content = await self._read_file_for_task(fp, 3500)
+            file_contents.append(f"\n\n--- File: {fp} ---\n{content}")
+        files_ctx = "".join(file_contents)
         # Generic system prompt
         sys_prompt = "You are LUKHΛS AI assistant. Perform task with precision and symbolic awareness."
         user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
@@ -273,8 +273,8 @@ class AIIntegrationManager:
                     if r.status == 200 and resp_data.get("content"):
                         text = "".join(
                             b["text"]
-                            for b in resp_data["content"]:
-                            if b["type"] == "text":
+                            for b in resp_data["content"]
+                            if b["type"] == "text"
                         )
                         log.info("Claude task OK.", task=task.id, len=len(text))
                         return AIResponse(
@@ -341,25 +341,25 @@ class AIIntegrationManager:
             "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
         }
-        files_ctx = "".join(
-            [
-                f"\n\n--- File: {fp} ---\n{await self._read_file_for_task(fp,1500)}"
-                for fp in task.files:
-            ]
-        )  # Smaller context for OpenAI
-        sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed,"
-    actionable software engineering analysis."
-     user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
-      payload = {
-           "model": cfg.get("model"),
+        # Build files context with proper async handling for consciousness node
+        file_contents = []
+        for fp in task.files:
+            content = await self._read_file_for_task(fp, 1500)
+            file_contents.append(f"\n\n--- File: {fp} ---\n{content}")
+        files_ctx = "".join(file_contents)  # Smaller context for OpenAI
+        
+        sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed, actionable software engineering analysis."
+        user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
+        payload = {
+            "model": cfg.get("model"),
             "messages": [
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-           "max_tokens": cfg.get("max_tokens", 2048),
+            "max_tokens": cfg.get("max_tokens", 2048),
             "temperature": 0.15,
-           }
-       try:
+        }
+        try:
             async with aiohttp.ClientSession() as sess:  # type: ignore
                 # type: ignore
                 async with sess.post(
