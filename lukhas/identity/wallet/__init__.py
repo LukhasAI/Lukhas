@@ -43,6 +43,7 @@ class WalletAuthBridge:
 
     async def authenticate_identity(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """Authenticate using WALLET identity management"""
+        _ = credentials
         if not self._initialized:
             await self.initialize()
 

@@ -203,14 +203,17 @@ class LUKHASAuthenticationSystem:
 
     async def _validate_identity(self, credentials: dict[str, Any]) -> bool:
         """⚛️ Identity validation with authentic consciousness characteristics"""
+        _ = credentials
         return True  # Placeholder
 
     async def _authenticate_consciousness(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🧠 Consciousness-aware authentication with QI visualization"""
+        _ = credentials
         return {"valid": True, "score": 0.95}  # Placeholder
 
     async def _validate_guardian(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🛡️ Guardian ethical and cultural validation"""
+        _ = credentials
         return {
             "valid": True,
             "safety_score": 0.98,

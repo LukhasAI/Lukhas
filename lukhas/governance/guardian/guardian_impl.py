@@ -255,16 +255,18 @@ class GuardianSystemImpl:
             "malicious",
         ]
 
-        for pattern in harmful_patterns:
-            if pattern in content_lower:
-                violations.append(
-                    {
-                        "type": "harmful_content",
-                        "pattern": pattern,
-                        "severity": "high",
-                        "description": f"Detected potentially harmful content pattern: {pattern}",
-                    }
-                )
+        violations.extend(
+            [
+                {
+                    "type": "harmful_content",
+                    "pattern": pattern,
+                    "severity": "high",
+                    "description": f"Detected potentially harmful content pattern: {pattern}",
+                }
+                for pattern in harmful_patterns
+                if pattern in content_lower
+            ]
+        )
 
         # Check for privacy violations
         privacy_patterns = [
@@ -273,16 +275,18 @@ class GuardianSystemImpl:
             "confidential",
             "secret",
         ]
-        for pattern in privacy_patterns:
-            if pattern in content_lower:
-                violations.append(
-                    {
-                        "type": "privacy_violation",
-                        "pattern": pattern,
-                        "severity": "medium",
-                        "description": f"Potential privacy concern: {pattern}",
-                    }
-                )
+        violations.extend(
+            [
+                {
+                    "type": "privacy_violation",
+                    "pattern": pattern,
+                    "severity": "medium",
+                    "description": f"Potential privacy concern: {pattern}",
+                }
+                for pattern in privacy_patterns
+                if pattern in content_lower
+            ]
+        )
 
         return violations
 
@@ -329,8 +333,8 @@ class GuardianSystemImpl:
         violations = []
         unsafe_patterns = ["violence", "harm", "illegal", "attack"]
 
-        for pattern in unsafe_patterns:
-            if pattern in content.lower():
-                violations.append(f"Unsafe pattern detected: {pattern}")
+        violations.extend(
+            [f"Unsafe pattern detected: {pattern}" for pattern in unsafe_patterns if pattern in content.lower()]
+        )
 
         return violations

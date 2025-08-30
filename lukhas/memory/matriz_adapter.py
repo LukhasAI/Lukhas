@@ -21,6 +21,7 @@ try:
 except ImportError:
 
     def emit_node(node_type):
+        _ = node_type
         def decorator(func):
             return func
 

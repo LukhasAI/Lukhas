@@ -150,18 +150,16 @@ class AuditTrail:
 
     def get_timeline(self) -> list[dict[str, Any]]:
         """Get chronological timeline of events"""
-        timeline = []
-        for event in sorted(self.events, key=lambda e: e.timestamp):
-            timeline.append(
-                {
-                    "timestamp": event.timestamp.isoformat(),
-                    "event_type": event.event_type.value,
-                    "action": event.action,
-                    "outcome": event.outcome,
-                    "severity": event.severity.value,
-                }
-            )
-        return timeline
+        return [
+            {
+                "timestamp": event.timestamp.isoformat(),
+                "event_type": event.event_type.value,
+                "action": event.action,
+                "outcome": event.outcome,
+                "severity": event.severity.value,
+            }
+            for event in sorted(self.events, key=lambda e: e.timestamp)
+        ]
 
 
 class AuditLogger:

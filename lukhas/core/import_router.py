@@ -11,6 +11,7 @@ This module provides a future-proof import system that handles:
 """
 
 import importlib
+import importlib.util
 import logging
 from typing import Any, ClassVar, Optional
 
@@ -123,15 +124,14 @@ class ModuleRouter:
 
         # Try each path
         for path in paths_to_try:
-            try:
-                importlib.import_module(path)
-                if path != module_path and module_path not in self._deprecation_warnings:
-                    self._deprecation_warnings.add(module_path)
-                    logger.info(f"Module '{module_path}' resolved to '{path}'")
-                self._resolve_cache[module_path] = path
-                return path
-            except ImportError:
+            if importlib.util.find_spec(path) is None:
                 continue
+            importlib.import_module(path)
+            if path != module_path and module_path not in self._deprecation_warnings:
+                self._deprecation_warnings.add(module_path)
+                logger.info(f"Module '{module_path}' resolved to '{path}'")
+            self._resolve_cache[module_path] = path
+            return path
 
         self._resolve_cache[module_path] = None
         return None

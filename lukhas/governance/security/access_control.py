@@ -404,6 +404,7 @@ class AccessControlEngine:
 
     async def _verify_password(self, user: User, password: str) -> bool:
         """Verify user password (placeholder implementation)"""
+        _ = user
         # In production, this would use proper password hashing (bcrypt, argon2, etc.)
         # For security framework demonstration only
         return len(password) >= 8  # Simplified validation
@@ -411,6 +412,7 @@ class AccessControlEngine:
     async def _verify_mfa_token(self, user: User, token: str) -> bool:
         """Verify MFA token (placeholder implementation)"""
         # In production, this would integrate with TOTP/SMS/Push authentication
+        _ = user
         return len(token) == 6 and token.isdigit()  # Simplified validation
 
     async def _get_required_permissions(self, resource: str, action: str) -> list[Permission]:
@@ -461,6 +463,7 @@ class AccessControlEngine:
 
     async def _log_access_attempt(self, username: str, success: bool, reason: str, context: dict[str, Any]) -> None:
         """Log authentication attempt"""
+        _ = context
         logger.info(f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}")
 
     def get_user_stats(self, user_id: str) -> dict[str, Any]:

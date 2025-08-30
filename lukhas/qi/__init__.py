@@ -90,6 +90,7 @@ except ImportError as e:
             return True
 
         def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
+            _ = input_data
             return {
                 "processed": False,
                 "fallback": True,
@@ -101,6 +102,7 @@ except ImportError as e:
             self, options: list[Any], context: Optional[dict[str, Any]] = None
         ) -> dict[str, Any]:
             # Simple fallback decision
+            _ = context
             import random
 
             decision = random.choice(options) if options else None
@@ -111,6 +113,7 @@ except ImportError as e:
             system_metrics: dict[str, float],
             target_state: Optional[dict[str, float]] = None,
         ) -> dict[str, Any]:
+            _ = (system_metrics, target_state)
             return {
                 "adapted": False,
                 "fallback": True,

@@ -130,9 +130,11 @@ class EmotionMemoryIntegration:
             memories = self._memory_wrapper.query_memories(tags=query_tags, limit=10, memory_type="emotional")
 
             patterns = []
-            for memory in memories.get("memories", []):
-                if memory.get("content", {}).get("type") == "emotional_experience":
-                    patterns.append(memory["content"])
+            patterns = [
+                m["content"]
+                for m in memories.get("memories", [])
+                if m.get("content", {}).get("type") == "emotional_experience"
+            ]
 
             emit(
                 {

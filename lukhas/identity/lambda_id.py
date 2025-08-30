@@ -28,6 +28,7 @@ def authenticate(
     **kwargs,
 ) -> dict[str, Any]:
     """Authenticate with Lambda ID or WebAuthn"""
+    _ = kwargs
     if not isinstance(lid, str) or len(lid) < 3:
         return {"ok": False, "reason": "invalid_lid"}
 
@@ -75,6 +76,7 @@ def verify_passkey(
     registration_id: str, response: dict[str, Any], *, mode: str = "dry_run", **kwargs
 ) -> dict[str, Any]:
     """Verify a WebAuthn passkey registration"""
+    _ = kwargs
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
         result = _webauthn_manager.verify_registration_response(
             registration_id=registration_id, response=response
@@ -92,6 +94,7 @@ def verify_passkey(
 @instrument("AWARENESS", label="auth:list", capability="identity:list")
 def list_credentials(user_id: str, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """List WebAuthn credentials for a user"""
+    _ = kwargs
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
         result = _webauthn_manager.get_user_credentials(user_id)
         return {
@@ -108,6 +111,7 @@ def revoke_credential(
     user_id: str, credential_id: str, *, mode: str = "dry_run", **kwargs
 ) -> dict[str, Any]:
     """Revoke a WebAuthn credential"""
+    _ = kwargs
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
         result = _webauthn_manager.revoke_credential(user_id, credential_id)
         return {

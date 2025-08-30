@@ -29,6 +29,7 @@ try:
 except ImportError:
     # Fallback decorators for development
     def matriz_trace(operation: str):
+        _ = operation
         def decorator(func):
             return func
 
@@ -705,6 +706,7 @@ class VivoxWrapper:
 
     def _fallback_initialization_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Fallback when candidate system unavailable"""
+        _ = context
         return {
             "status": "fallback_initialized",
             "message": "VIVOX candidate system not available",
@@ -717,6 +719,7 @@ class VivoxWrapper:
 
     def _fallback_awareness_response(self, stimulus: dict[str, Any]) -> dict[str, Any]:
         """Fallback awareness processing"""
+        _ = stimulus
         return {
             "status": "fallback_awareness",
             "message": "Basic awareness processing active",
@@ -729,6 +732,7 @@ class VivoxWrapper:
 
     def _fallback_memory_response(self, query: dict[str, Any]) -> dict[str, Any]:
         """Fallback memory processing"""
+        _ = query
         return {
             "status": "fallback_memory",
             "message": "Basic memory processing active",
@@ -741,6 +745,7 @@ class VivoxWrapper:
 
     def _fallback_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Fallback reflection processing"""
+        _ = context
         return {
             "status": "fallback_reflection",
             "message": "Basic reflection processing active",

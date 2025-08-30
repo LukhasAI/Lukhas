@@ -24,6 +24,7 @@ def _try_import_governance_components():
     """Dynamically import governance components to maintain lane architecture"""
     try:
         import importlib
+        import importlib.util
 
         components = {}
 
@@ -37,11 +38,11 @@ def _try_import_governance_components():
         }
 
         for component_name, module_path in component_map.items():
-            try:
-                module = importlib.import_module(module_path)
-                components[component_name] = getattr(module, component_name)
-            except (ImportError, AttributeError):
+            if importlib.util.find_spec(module_path) is None:
                 continue
+            module = importlib.import_module(module_path)
+            if hasattr(module, component_name):
+                components[component_name] = getattr(module, component_name)
 
         return components if components else None
     except Exception:

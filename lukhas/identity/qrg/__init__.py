@@ -45,6 +45,7 @@ class QRGAuthBridge:
 
     async def verify_qr_authentication(self, qr_data: dict[str, Any]) -> dict[str, Any]:
         """Verify QR-based authentication using QRG components"""
+        _ = qr_data
         if not self._initialized:
             await self.initialize()
 

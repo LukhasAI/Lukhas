@@ -41,6 +41,7 @@ def _try_import_candidate_components():
     """Dynamically import candidate components if available"""
     try:
         import importlib
+        import importlib.util
 
         components = {}
 
@@ -54,11 +55,11 @@ def _try_import_candidate_components():
         }
 
         for component_name, module_path in module_map.items():
-            try:
-                module = importlib.import_module(module_path)
-                components[component_name] = getattr(module, component_name)
-            except (ImportError, AttributeError):
+            if importlib.util.find_spec(module_path) is None:
                 continue
+            module = importlib.import_module(module_path)
+            if hasattr(module, component_name):
+                components[component_name] = getattr(module, component_name)
 
         return components if components else None
     except Exception:
@@ -232,13 +233,16 @@ class AuthenticationService:
         # Simple mock implementations
         class MockAccessTierManager:
             def get_user_tier(self, user_id: str) -> str:
+                _ = user_id
                 return "T2_authenticated"
 
             async def assess_tier_promotion(self, user_id: str):
+                _ = user_id
                 return {"tier": "T2_authenticated", "eligible_for_promotion": False}
 
         class MockIdentityValidator:
             async def validate_identity(self, user_data: dict):
+                _ = user_data
                 return {"valid": True, "risk_score": 0.1, "trust_score": 0.8}
 
         class MockQIIdentityManager:
@@ -247,6 +251,7 @@ class AuthenticationService:
 
         class MockAuditLogger:
             async def log_authentication_attempt(self, *args, **kwargs) -> str:
+                _ = (args, kwargs)
                 return f"audit_{time.time()}"
 
         class MockAuthServer:
@@ -627,6 +632,7 @@ class AuthenticationService:
 
     def _authenticate_wallet(self, username: str, signature: str) -> AuthResult:
         """Wallet-based authentication (if available)"""
+        _ = (username, signature)
         if not self.wallet_manager:
             return AuthResult(
                 success=False,
@@ -644,6 +650,7 @@ class AuthenticationService:
 
     def _authenticate_identity(self, username: str, token: str) -> AuthResult:
         """Identity manager authentication (if available)"""
+        _ = (username, token)
         if not self.identity_manager:
             return AuthResult(
                 success=False,

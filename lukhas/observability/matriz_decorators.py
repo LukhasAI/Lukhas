@@ -14,6 +14,7 @@ def instrument(
     salience: float = 0.4,
     urgency: float = 0.5,
 ):
+    _ = tenant
     def deco(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):

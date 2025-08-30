@@ -19,6 +19,7 @@ try:
 except ImportError:
 
     def emit_node(node_type):
+        _ = node_type
         def decorator(func):
             return func
 
@@ -188,11 +189,7 @@ class FoldManager:
         if not fold:
             return []
 
-        chain = []
-        for chain_id in fold.causal_chain:
-            if chain_fold := self.folds.get(chain_id):
-                chain.append(chain_fold)
-
+        chain = [self.folds[chain_id] for chain_id in fold.causal_chain if chain_id in self.folds]
         return chain
 
     @emit_node("memory:consolidation")

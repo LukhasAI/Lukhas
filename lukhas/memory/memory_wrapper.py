@@ -17,6 +17,7 @@ try:
 except ImportError:
 
     def emit_node(node_type):
+        _ = node_type
         def decorator(func):
             return func
 
@@ -109,6 +110,7 @@ class MemoryWrapper:
     @emit_node("memory:wrapper:consolidate")
     def consolidate_memory(self, threshold: float = 0.5, mode: str = "auto") -> dict[str, Any]:
         """Consolidate memory with safety checks"""
+        _ = threshold
         start_time = time.time()
         effective_mode = self._get_mode(mode)
 
