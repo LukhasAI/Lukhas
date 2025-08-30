@@ -84,7 +84,7 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
     class AccessControlEngine:
         """Fallback stub for AccessControlEngine"""
 
-        def __init__(self):
+        def __init__(self) -> None:
             self.tiers = {}
 
         async def get_agent_tier(self, agent_id: str) -> int:
@@ -115,7 +115,7 @@ class IdentityConnector:
     - Future-proof implementation using actual LUKHAS systems
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize with real production implementations"""
 
         if REAL_IMPLEMENTATIONS_AVAILABLE:
@@ -156,7 +156,7 @@ class IdentityConnector:
         class SyncAccessControlEngine:
             """Production-compatible access control without async background tasks"""
 
-            def __init__(self):
+            def __init__(self) -> None:
                 # Import the real permission and role classes dynamically
                 try:
                     import importlib
@@ -275,7 +275,7 @@ class IdentityConnector:
         class SyncAuditLogger:
             """Production audit logger that handles sync/async contexts"""
 
-            def __init__(self):
+            def __init__(self) -> None:
                 self._events = []
 
             async def log_constitutional_enforcement(
@@ -349,7 +349,7 @@ class IdentityConnector:
         """Create access control stub"""
 
         class AccessControlStub:
-            def __init__(self):
+            def __init__(self) -> None:
                 self.tiers = {}
 
             async def get_agent_tier(self, agent_id: str) -> int:

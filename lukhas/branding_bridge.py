@@ -122,7 +122,8 @@ def validate_branding_compliance(text: str) -> list[str]:
     # Check for standalone 'quantum' without qualifier
     if re.search(r"\bquantum\b(?!\s*[-]?(?:inspired|metaphor))", text_lower):
         issues.append(
-            "Standalone 'quantum' should be 'quantum-inspired' unless specifically 'quantum metaphor'"
+            "Standalone 'quantum' should be 'quantum-inspired' unless specifically "
+            "'quantum metaphor'"
         )
 
     return issues
@@ -481,14 +482,14 @@ def get_brand_status() -> dict[str, Any]:
 
 # Module exports
 __all__ = [
-    "BrandContext",
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",
     "IDENTITY_SYMBOL",
-    "LUKHASBrandingBridge",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
     "TRINITY_FRAMEWORK",
+    "BrandContext",
+    "LUKHASBrandingBridge",
     "generate_branded_content",
     "get_brand_status",
     "get_brand_voice",

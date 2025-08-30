@@ -39,7 +39,7 @@ except ImportError:
 class MemoryMatrizAdapter:
     """MATRIZ instrumentation adapter for memory operations"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.node_prefix = "LT-MEM"
         self.version = 1
 

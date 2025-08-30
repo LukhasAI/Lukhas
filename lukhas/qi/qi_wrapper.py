@@ -39,7 +39,7 @@ QI_DRY_RUN = os.getenv("QI_DRY_RUN", "true").lower() == "true"
 class ConstitutionalSafetyGuard:
     """Constitutional AI safety checks following Anthropic's principles"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.principles = [
             "Be helpful, harmless, and honest",
             "Respect human autonomy",
@@ -163,7 +163,7 @@ class ConstitutionalSafetyGuard:
 class QIInspiredProcessor:
     """Quantum-inspired processing with superposition, entanglement, and collapse"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.entanglement_factor = 0.5
         self.superposition_states = {}
         self.collapsed_state = None
@@ -301,7 +301,7 @@ class QIInspiredProcessor:
 class BioInspiredProcessor:
     """Bio-inspired processing with neural oscillators and adaptation"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.oscillators = {}
         self.homeostasis_target = 0.75
         self.adaptation_rate = 0.1
@@ -452,7 +452,7 @@ class BioInspiredProcessor:
 class QIIntegration:
     """Integration layer for quantum-inspired and bio-inspired processing"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._initialized = False
         self._quantum_processor = None
         self._bio_processor = None
@@ -617,7 +617,7 @@ class QIWrapper:
     Implements constitutional AI safety checks and supports both dry-run and active modes.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._integration = QIIntegration()
         self._initialized = False
 

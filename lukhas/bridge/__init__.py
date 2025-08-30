@@ -18,7 +18,13 @@ All connections are secured with OAuth2, circuit breakers, and comprehensive tel
 
 import logging
 import os
-from typing import Any
+from typing import Any, Optional
+
+# Try to import BridgeWrapper at module level
+try:
+    from .bridge_wrapper import BridgeWrapper
+except ImportError:
+    BridgeWrapper = None
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -35,16 +41,14 @@ MODULE_NAME = "bridge"
 _bridge_wrapper_instance = None
 
 
-def get_bridge_wrapper():
+def get_bridge_wrapper() -> Optional[Any]:
     """Get the Bridge wrapper instance (singleton)"""
     global _bridge_wrapper_instance
     if _bridge_wrapper_instance is None:
-        try:
-            from .bridge_wrapper import BridgeWrapper
-
+        if BridgeWrapper is not None:
             _bridge_wrapper_instance = BridgeWrapper()
-        except ImportError as e:
-            logger.warning(f"Failed to import BridgeWrapper: {e}")
+        else:
+            logger.warning("BridgeWrapper not available")
             return None
     return _bridge_wrapper_instance
 

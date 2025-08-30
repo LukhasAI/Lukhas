@@ -50,7 +50,7 @@ class ExtremePerformanceIdentityConnector:
     Replaces the standard IdentityConnector with extreme performance optimizations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize extreme performance identity connector"""
         self.extreme_optimizer = None
         self.performance_mode = "extreme" if EXTREME_OPTIMIZATIONS_AVAILABLE else "standard"

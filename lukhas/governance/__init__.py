@@ -286,75 +286,75 @@ def initialize_governance_system(config=None):
 
 # Export public API
 __all__ = [
-    # Version and info
-    "__version__",
-    "__phase__",
-    "__trinity_framework__",
     "GOVERNANCE_INFO",
-    "get_governance_status",
-    "initialize_governance_system",
-    # Core Guardian System
-    "GuardianSystem",
-    "GuardianSentinel",
-    "GuardianShadowFilter",
-    "Guardian",
-    # Promoted Guardian System Functions
-    "detect_drift",
-    "evaluate_ethics",
-    "check_safety",
-    "get_guardian_status",
-    "EthicalSeverity",
-    "GovernanceAction",
-    "EthicalDecision",
-    "DriftResult",
-    "SafetyResult",
     "GUARDIAN_ACTIVE",
     "GUARDIAN_PROMOTED",
-    # Ethics and Constitutional AI
-    "ConstitutionalAI",
-    "EthicsGuardian",
-    "EthicalEvaluator",
-    "ComplianceDriftMonitor",
     # Audit and Compliance
     "AuditLogger",
     "AuditTrail",
+    "ComplianceDriftMonitor",
+    # Ethics and Constitutional AI
+    "ConstitutionalAI",
+    "DriftResult",
+    "EthicalDecision",
+    "EthicalEvaluator",
+    "EthicalSeverity",
+    "EthicsGuardian",
+    "GovernanceAction",
+    "Guardian",
+    "GuardianSentinel",
+    "GuardianShadowFilter",
+    # Core Guardian System
+    "GuardianSystem",
+    "SafetyResult",
+    "__phase__",
+    "__trinity_framework__",
+    # Version and info
+    "__version__",
+    "check_safety",
+    # Promoted Guardian System Functions
+    "detect_drift",
+    "evaluate_ethics",
+    "get_governance_status",
+    "get_guardian_status",
+    "initialize_governance_system",
 ]
 
 # Phase 7 ID Integration exports (only if available)
 if PHASE_7_AVAILABLE:
     __all__.extend(
         [
-            # Authentication Guardian Integration
-            "AuthenticationGuardian",
-            "AuthEventType",
-            "AuthDriftMetrics",
-            "ConstitutionalAuthPrinciples",
-            # GLYPH Registry
-            "AuthGlyphRegistry",
-            "AuthGlyph",
-            "SymbolicIdentity",
-            "AuthGlyphCategory",
-            "auth_glyph_registry",
-            # Governance Policies
-            "AuthGovernancePolicyEngine",
-            "PolicyRule",
-            "PolicyViolation",
-            "PolicyAssessment",
-            "PolicyCategory",
-            "PolicySeverity",
-            "auth_governance_policy_engine",
             # Cross-Module Integration
             "AuthCrossModuleIntegrator",
-            "TrinityFrameworkIntegration",
-            "AuthModuleMessage",
-            "ModuleAuthContext",
-            "ModuleType",
+            "AuthDriftMetrics",
+            "AuthEventType",
+            "AuthGlyph",
+            "AuthGlyphCategory",
+            # GLYPH Registry
+            "AuthGlyphRegistry",
+            # Governance Policies
+            "AuthGovernancePolicyEngine",
+            "AuthIntegrationMetrics",
             "AuthMessageType",
-            "auth_cross_module_integrator",
+            "AuthModuleMessage",
+            # Authentication Guardian Integration
+            "AuthenticationGuardian",
+            "ConstitutionalAuthPrinciples",
+            "IntegrationHealthStatus",
             # Complete Integration System
             "LUKHASAuthIntegrationSystem",
-            "IntegrationHealthStatus",
-            "AuthIntegrationMetrics",
+            "ModuleAuthContext",
+            "ModuleType",
+            "PolicyAssessment",
+            "PolicyCategory",
+            "PolicyRule",
+            "PolicySeverity",
+            "PolicyViolation",
+            "SymbolicIdentity",
+            "TrinityFrameworkIntegration",
+            "auth_cross_module_integrator",
+            "auth_glyph_registry",
+            "auth_governance_policy_engine",
             "lukhas_auth_integration_system",
         ]
     )

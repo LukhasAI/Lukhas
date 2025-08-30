@@ -51,7 +51,7 @@ class FoldManager:
     MAX_FOLDS = 1000  # Performance limit from CLAUDE.md
     CASCADE_THRESHOLD = 0.997  # 99.7% prevention rate target
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.folds: dict[str, MemoryFold] = {}
         self.active_folds: list[str] = []
         self.cascade_prevention_active = True

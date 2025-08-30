@@ -138,7 +138,7 @@ except ImportError as e:
     class EfficientCommunicationFabric:
         """Placeholder for communication fabric"""
 
-        def __init__(self):
+        def __init__(self) -> None:
             self.messages = []
 
         def send(self, message: Any) -> None:

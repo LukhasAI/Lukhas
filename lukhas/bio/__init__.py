@@ -22,14 +22,12 @@ __description__ = "Biological-inspired processing for LUKHAS AI"
 
 # Export public interface
 __all__ = [
-    # Utilities
-    "BioUtilities",
-    "apply_evolution",
-    "calculate_bio_energy",
-    # Core bio-symbolic
     "BioSymbolic",
     "BioSymbolicOrchestrator",
+    "BioUtilities",
     "SymbolicGlyph",
+    "apply_evolution",
+    "calculate_bio_energy",
     "symbolic_bio_symbolic",
     "symbolic_bio_symbolic_orchestrator",
 ]

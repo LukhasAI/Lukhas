@@ -63,8 +63,8 @@ class PolicyRule:
     constitutional_basis: str
     monitoring_required: bool = True
     automated_enforcement: bool = True
-    remediation_actions: list[str] = None
-    metadata: dict[str, Any] = None
+    remediation_actions: Optional[list[str]] = None
+    metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.remediation_actions is None:
@@ -112,7 +112,7 @@ class AuthGovernancePolicyEngine:
     ΛiD authentication system with ethical oversight and compliance validation.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the governance policy engine"""
         self.policy_rules: dict[str, PolicyRule] = {}
         self.policy_violations: list[PolicyViolation] = []

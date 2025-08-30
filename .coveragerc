@@ -1,0 +1,12 @@
+[run]
+source = lukhas
+branch = True
+omit =
+    */tests/*
+    */.venv/*
+    */.mypy_cache/*
+    */.ruff_cache/*
+
+[report]
+skip_empty = True
+show_missing = True

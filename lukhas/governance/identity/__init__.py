@@ -27,7 +27,7 @@ except ImportError as e:
     # Provide fallback
 
     class IdentityClient:
-        def __init__(self):
+        def __init__(self) -> None:
             logger.warning("Using fallback IdentityClient")
 
         def verify_user_access(self, user_id: str, tier: str) -> bool:
@@ -65,7 +65,7 @@ class IdentityImportBridge:
     Provides deprecation warnings and automatic remapping.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._cache = {}
         self._install_hooks()
 

@@ -35,20 +35,20 @@ from .kernel_bus import (
 OrchestrationHub = KernelBus
 
 __all__ = [
-    # Context bus
-    "build_context",
+    "CONTEXT_BUS_ACTIVE",
+    "ORCHESTRATION_BRANDING_AVAILABLE",
+    "BrandContext",
+    "EventPriority",
     "KernelBus",
     "OrchestrationHub",  # Alias
-    "EventPriority",
-    "get_kernel_bus",
+    # Context bus
+    "build_context",
     "emit",
-    "subscribe",
-    "CONTEXT_BUS_ACTIVE",
     # Branding integration
     "get_brand_voice",
+    "get_kernel_bus",
     "get_trinity_context",
-    "validate_output",
-    "BrandContext",
     "normalize_output_text",
-    "ORCHESTRATION_BRANDING_AVAILABLE",
+    "subscribe",
+    "validate_output",
 ]

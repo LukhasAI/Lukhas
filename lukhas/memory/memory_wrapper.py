@@ -29,7 +29,7 @@ from .fold_system import get_fold_manager
 class MemoryWrapper:
     """Production-safe wrapper for memory operations"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.fold_manager = get_fold_manager()
         self._operation_count = 0
         self._error_count = 0

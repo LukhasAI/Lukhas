@@ -19,7 +19,7 @@ class EmotionalMemoryManager:
     Consolidates functionality from various emotional memory implementations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.emotional_memories: list[dict] = []
         self.emotion_patterns: dict[str, list] = {}
         self.memory_folds: list[dict] = []

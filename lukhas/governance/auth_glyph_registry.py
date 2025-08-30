@@ -98,7 +98,7 @@ class AuthGlyphRegistry:
     enabling cross-module communication and Trinity Framework integration.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the authentication GLYPH registry"""
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.glyph_factory = GlyphFactory() if GlyphFactory else None

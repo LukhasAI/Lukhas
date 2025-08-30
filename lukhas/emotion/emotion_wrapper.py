@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class EmotionMemoryIntegration:
     """Integration layer between emotion processing and memory systems"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._memory_available = False
         self._consciousness_available = False
         self._memory_wrapper = None
@@ -208,7 +208,7 @@ class AdvancedEmotionWrapper:
     Extends basic emotion processing with persistent memory and awareness.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         from lukhas.emotion import EmotionWrapper
 
         self._base_wrapper = EmotionWrapper()

@@ -39,7 +39,7 @@ class GuardianRejectionError(LukhasError):
         ethics_violation: Optional[str] = None,
         suggestion: Optional[str] = None,
         **kwargs,
-    ):
+    ) -> None:
         details = kwargs.get("details", {})
         if ethics_violation:
             details["ethics_violation"] = ethics_violation
@@ -248,7 +248,9 @@ class ResourceExhaustedError(LukhasError):
             details["current_usage"] = current_usage
         if limit is not None:
             details["limit"] = limit
-            details["usage_percentage"] = (current_usage / limit * 100) if limit > 0 else 100
+            details["usage_percentage"] = (
+                (current_usage / limit * 100) if current_usage is not None and limit > 0 else 100
+            )
 
         super().__init__(message=message, error_code="RESOURCE_EXHAUSTED", details=details)
 

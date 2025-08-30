@@ -31,7 +31,7 @@ class ActorRef:
 class ActorSystem:
     """Basic actor system for managing actors"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.actors: dict[str, Actor] = {}
         logger.info("ActorSystem initialized")
 

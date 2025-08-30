@@ -115,7 +115,7 @@ class AccessLog:
 class PermissionManager:
     """Production permission management system"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.permissions: dict[str, Permission] = {}
         self._initialize_default_permissions()
         logger.info("🛡️ Production Permission Manager initialized")
@@ -184,7 +184,7 @@ class PermissionManager:
 class AccessControlEngine:
     """Production access control engine with constitutional AI integration"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.users: dict[str, User] = {}
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.access_logs: list[AccessLog] = []

@@ -692,3 +692,38 @@ Important JSON files now organized together in `/docs/architecture/` for easy ac
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
 {"timestamp":"2025-08-30T05:49:58Z","commit":"91b21d722a673f1f9b3aad0c9c9ca9c940983f93","branch":"main","author":"LukhasAI","message":"deps: add pip-constraints.txt (psycopg2-binary==2.9.9) and document constrained installs","security_scan":"pending"}
+{"timestamp":"2025-08-30T06:07:25Z","commit":"8b7ac5a51f9960a53302716b133fab6716ca058b","branch":"main","author":"LukhasAI","message":"🔧 T4 Audit: Surgical Code Quality Improvements
+
+Applied targeted fixes from STEPS_1.md for immediate quality gates:
+
+## Configuration Updates
+- ✅ Created mypy.ini with pragmatic type checking settings
+- ✅ Enhanced pytest.ini with dotenv integration
+- ✅ Updated .vscode/settings.json for Ruff-first development
+- ✅ Simplified .pre-commit-config.yaml to Ruff+MyPy+gitleaks only
+- ✅ Enhanced ruff.toml to relax ANN rules for non-stable lanes
+
+## Code Hygiene Fixes
+- ✅ Fixed __all__ sorting in lukhas/bio/__init__.py (RUF022)
+- ✅ Added __init__ return type annotations (ANN204)
+- ✅ Fixed datetime.now() timezone awareness (DTZ005)
+- ✅ Moved imports to top-level in branding_bridge.py (PLC0415)
+- ✅ Wrapped long lines with parentheses (E501)
+- ✅ Sorted __all__ exports alphabetically (RUF022)
+
+## Environment Quality
+- ✅ Fresh .venv with Python 3.9
+- ✅ Minimal toolchain: ruff, mypy, pytest, pytest-dotenv
+- ✅ .env file verified and ready
+
+## T4 Standards Met
+- Stable lanes (lukhas/, serve/) prioritized
+- Minimal, low-risk changes only
+- Type safety improvements where critical
+- Import/syntax hygiene maintained
+
+Ready for remaining MyPy triage and pytest validation.
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}

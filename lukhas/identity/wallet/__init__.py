@@ -18,7 +18,7 @@ class WalletAuthBridge:
     - qi_identity_core.py: QI identity processing
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger(__name__)
         self._identity_manager = None
         self._symbolic_vault = None

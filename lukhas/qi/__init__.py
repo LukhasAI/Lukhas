@@ -81,7 +81,7 @@ except ImportError as e:
     class QIWrapper:
         """Fallback QI wrapper when full implementation is unavailable"""
 
-        def __init__(self):
+        def __init__(self) -> None:
             self._initialized = False
 
         def initialize(self) -> bool:
@@ -251,20 +251,20 @@ else:
 
 # Export public interface
 __all__ = [
-    # Core classes
-    "QIWrapper",
-    "get_qi_wrapper",
-    # Processing functions
-    "process_quantum_inspired",
-    "make_quantum_decision",
-    "adapt_bio_inspired",
-    # Module management
-    "initialize_qi_module",
-    "get_qi_status",
-    "validate_qi_module",
     # Feature flags
     "QI_ACTIVE",
     "QI_DRY_RUN",
+    # Core classes
+    "QIWrapper",
+    "adapt_bio_inspired",
+    "get_qi_status",
+    "get_qi_wrapper",
+    # Module management
+    "initialize_qi_module",
+    "make_quantum_decision",
+    # Processing functions
+    "process_quantum_inspired",
+    "validate_qi_module",
 ]
 
 # Conditional exports for when full wrapper is available

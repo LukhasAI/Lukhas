@@ -143,7 +143,7 @@ class TagManager:
     Manages symbolic tags with lifecycle and access control.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.tags: dict[str, SymbolicTag] = {}
         self.tag_index: dict[TagScope, list[str]] = {scope: [] for scope in TagScope}
 

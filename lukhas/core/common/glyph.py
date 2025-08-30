@@ -372,7 +372,7 @@ def create_error_glyph(
 class GLYPHRouter:
     """Simple GLYPH token router"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.routes: dict[str, list[str]] = {}
         self.handlers: dict[str, Any] = {}
 

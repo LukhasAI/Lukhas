@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class ExternalServiceIntegration:
     """Integration layer for external services and APIs"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._dry_run = os.getenv("BRIDGE_DRY_RUN", "true").lower() == "true"
         self._active = os.getenv("BRIDGE_ACTIVE", "false").lower() == "true"
         self._llm_clients = {}
@@ -197,7 +197,7 @@ class ExternalServiceIntegration:
 class MultiModelOrchestrator:
     """Orchestrates multiple AI models for consensus and enhanced processing"""
 
-    def __init__(self, service_integration: ExternalServiceIntegration):
+    def __init__(self, service_integration: ExternalServiceIntegration) -> None:
         self._integration = service_integration
         self._consensus_threshold = 0.7
 
@@ -297,7 +297,7 @@ class BridgeWrapper:
     Provides secure, feature-flagged access to external APIs and AI models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._service_integration = ExternalServiceIntegration()
         self._orchestrator = MultiModelOrchestrator(self._service_integration)
         self._initialized = False

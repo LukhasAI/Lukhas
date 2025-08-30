@@ -27,6 +27,26 @@ This file provides guidance for working with the **world's most sophisticated di
 
 **Quality Target**: Execute at the level that would make Sam Altman (scale), Dario Amodei (safety), and Demis Hassabis (rigor) proud.
 
+## 🔧 T4 Audit Phase Documentation
+
+**ACTIVE T4 AUDIT IN PROGRESS** - Critical documentation for current development phase:
+
+### T4 Audit Documentation Map
+- **[docs/audits/CLAUDE_ONLY_TASKS.md](docs/audits/CLAUDE_ONLY_TASKS.md)** - Current execution plan (Blocks 0-7)
+- **[docs/audits/AUDIT_PLAN.md](docs/audits/AUDIT_PLAN.md)** - Complete T4 audit specification  
+- **[docs/audits/STEPS_1.md](docs/audits/STEPS_1.md)** - Surgical fixes methodology
+- **[docs/audits/CLAUDE_PROGRESS.md](docs/audits/CLAUDE_PROGRESS.md)** - Live execution log (append-only)
+
+### T4 Standards (Current Phase)
+- **Surgical Changes Only**: ≤20 lines per file, no API refactors
+- **Stable Lane Focus**: lukhas/ (production), serve/ (API endpoints)
+- **Type Safety Priority**: Fix None operations, incompatible assignments
+- **UTC Enforcement**: datetime.now(timezone.utc) everywhere
+- **Lane Separation**: No lukhas → candidate imports (use facades/dynamic loading)
+
+### Context Continuity Notes
+This section maintains context across Claude Code session restarts during the intensive T4 audit phase. Remove after T4 completion.
+
 ## Test Commitment
 **Important**: Always run tests and linters after making changes. Aim for 100% test pass rate, with 85% as the minimum acceptable threshold. Fix all failures before committing. Run `npm run validate:all` to check all policies.
 

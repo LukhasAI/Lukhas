@@ -66,7 +66,7 @@ class LUKHASAuthenticationSystem:
     - Cultural intelligence for global safety
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger(__name__)
         self._consciousness_visualizer = None
         self._constitutional_gatekeeper = None

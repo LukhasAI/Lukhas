@@ -35,7 +35,7 @@ class EmotionWrapper:
     - Feature flag control for safe operation
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._initialized = False
         self._emotional_state = {
             "valence": 0.0,  # Positive/negative emotion (-1.0 to 1.0)

@@ -121,7 +121,7 @@ class TrinityFrameworkIntegration:
     Aligns authentication with Trinity Framework principles across all modules.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize Trinity Framework integration"""
         self.trinity_aspects = {
             "identity": "⚛️",  # Identity aspect
@@ -199,7 +199,7 @@ class AuthCrossModuleIntegrator:
     across all LUKHAS AI modules with Trinity Framework alignment.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize cross-module integration system"""
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.kernel_bus = SymbolicKernelBus() if SymbolicKernelBus else None

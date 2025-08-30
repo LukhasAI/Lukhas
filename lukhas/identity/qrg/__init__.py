@@ -19,7 +19,7 @@ class QRGAuthBridge:
     - qi_entropy.py: QI entropy for secure authentication
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.logger = logging.getLogger(__name__)
         self._qrg_core = None
         self._animation_engine = None

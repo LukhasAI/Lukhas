@@ -90,7 +90,7 @@ class ModuleRouter:
         "SupervisorAgent": ("lukhas.core.colonies", "SupervisorAgent"),
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._import_cache = {}
         self._resolve_cache: dict[str, Optional[str]] = {}
         self._deprecation_warnings = set()

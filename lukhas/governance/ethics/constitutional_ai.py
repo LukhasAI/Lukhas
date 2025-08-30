@@ -78,7 +78,7 @@ class ConstitutionalViolation:
 class ConstitutionalFramework:
     """Production constitutional AI framework"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.principles = {
             ConstitutionalPrinciple.HUMAN_DIGNITY: {
                 "weight": 1.0,

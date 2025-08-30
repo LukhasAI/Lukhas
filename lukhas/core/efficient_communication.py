@@ -103,7 +103,7 @@ class MessageRouter:
     based on message characteristics and network conditions
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.routing_table: dict[str, dict[str, Any]] = {}
         self.network_conditions: dict[str, float] = {}
         self.energy_budget = 1000.0  # Available energy units
@@ -175,7 +175,7 @@ class EventBus:
     Optimized for minimal broker load
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.subscribers: dict[str, list[Callable]] = defaultdict(list)
         self.message_queue: asyncio.Queue = asyncio.Queue(maxsize=1000)
         self.stats = {
@@ -495,7 +495,7 @@ class EfficientCommunicationFabric:
 class EnergyMonitor:
     """Monitor and optimize energy consumption"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.total_energy_used = 0.0
         self.energy_history: list[dict[str, Any]] = []
         self.efficiency_targets = {

@@ -138,7 +138,7 @@ class CoreWrapper:
     - Graph-based processing capabilities
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the Core wrapper with Trinity Framework support"""
         self._status = CoreStatus.INACTIVE
         self._trinity_context = {
@@ -567,19 +567,19 @@ def decide(
 
 # Export public interface
 __all__ = [
+    "CoreStatus",
     "CoreWrapper",
     "GlyphResult",
     "SymbolicResult",
-    "CoreStatus",
-    "get_core",
-    "encode_concept",
     "create_trinity_glyph",
+    "decide",
+    "encode_concept",
+    "get_core",
     "get_core_status",
+    "register_actor_system",
+    "register_decision_engine",
     # Registry functions
     "register_glyph_engine",
-    "register_actor_system",
-    "register_symbolic_world",
     "register_symbolic_reasoner",
-    "register_decision_engine",
-    "decide",
+    "register_symbolic_world",
 ]
