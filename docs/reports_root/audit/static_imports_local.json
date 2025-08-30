@@ -1,0 +1,2555 @@
+{
+  "missing_count": 510,
+  "missing": [
+    {
+      "file": "lukhas/governance/consent_ledger_impl.py",
+      "line": 44,
+      "import": "lukhas.core.glyph.glyph_engine"
+    },
+    {
+      "file": "serve/ui/dashboard.py",
+      "line": 22,
+      "import": "lukhas.governance.consent_ledger.ledger_v1"
+    },
+    {
+      "file": "serve/ui/dashboard.py",
+      "line": 23,
+      "import": "lukhas.orchestration.context_bus_enhanced"
+    },
+    {
+      "file": "enterprise/security/t4_security_assessment.py",
+      "line": 38,
+      "import": "lukhas.governance.constitutional_ai"
+    },
+    {
+      "file": "enterprise/security/t4_security_assessment.py",
+      "line": 39,
+      "import": "lukhas.governance.drift_detector"
+    },
+    {
+      "file": "enterprise/security/t4_security_assessment.py",
+      "line": 40,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "enterprise/observability/t4_observability_stack.py",
+      "line": 49,
+      "import": "lukhas.guardian"
+    },
+    {
+      "file": "enterprise/observability/t4_observability_stack.py",
+      "line": 51,
+      "import": "lukhas.trinity"
+    },
+    {
+      "file": "enterprise/performance/trinity_benchmarks.py",
+      "line": 33,
+      "import": "lukhas.guardian"
+    },
+    {
+      "file": "enterprise/performance/trinity_benchmarks.py",
+      "line": 35,
+      "import": "lukhas.trinity"
+    },
+    {
+      "file": "enterprise/infrastructure/t4_orchestrator.py",
+      "line": 18,
+      "import": "enterprise.data.mongodb_atlas_integration"
+    },
+    {
+      "file": "enterprise/validation/t4_enterprise_validator.py",
+      "line": 416,
+      "import": "enterprise.data.mongodb_atlas_integration"
+    },
+    {
+      "file": "enterprise/validation/t4_enterprise_validator.py",
+      "line": 541,
+      "import": "enterprise.data.mongodb_atlas_integration"
+    },
+    {
+      "file": "candidate/modulation/dispatcher.py",
+      "line": 7,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/modulation/lut_adapter.py",
+      "line": 3,
+      "import": "lukhas.feedback.store"
+    },
+    {
+      "file": "candidate/tools/claude_integration/claude_memory_integration.py",
+      "line": 18,
+      "import": "candidate.core.symbolic_tokens"
+    },
+    {
+      "file": "candidate/bio/bio_utilities/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.bio.utils"
+    },
+    {
+      "file": "candidate/bio/bio_engine/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.bio.engine"
+    },
+    {
+      "file": "candidate/bio/bio_hub/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.bio.hub"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 13,
+      "import": "lukhas.core.adapters.module_service_adapter"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 14,
+      "import": "lukhas.core.adapters.seven_agent_adapter"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 15,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 16,
+      "import": "lukhas.core.events.contracts"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 22,
+      "import": "lukhas.core.events.typed_event_bus"
+    },
+    {
+      "file": "candidate/core/bootstrap.py",
+      "line": 23,
+      "import": "lukhas.core.interfaces.services"
+    },
+    {
+      "file": "candidate/core/integrated_system.py",
+      "line": 25,
+      "import": "lukhas.colonies.base"
+    },
+    {
+      "file": "candidate/core/swarm.py",
+      "line": 16,
+      "import": "lukhas.core.minimal_actor"
+    },
+    {
+      "file": "candidate/core/swarm.py",
+      "line": 20,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/core/swarm.py",
+      "line": 21,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/core/swarm.py",
+      "line": 22,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/core/actor_supervision_integration.py",
+      "line": 12,
+      "import": "lukhas.core.supervision"
+    },
+    {
+      "file": "candidate/core/integrator.py",
+      "line": 47,
+      "import": "candidate.core.security.access_control"
+    },
+    {
+      "file": "candidate/core/integrator.py",
+      "line": 51,
+      "import": "candidate.core.security.compliance"
+    },
+    {
+      "file": "candidate/core/integrator.py",
+      "line": 52,
+      "import": "candidate.core.security.qi_auth"
+    },
+    {
+      "file": "candidate/core/integrator.py",
+      "line": 53,
+      "import": "candidate.core.unified_integration"
+    },
+    {
+      "file": "candidate/core/resource_optimization_integration.py",
+      "line": 37,
+      "import": "lukhas.core.interfaces.core_interface"
+    },
+    {
+      "file": "candidate/core/resource_optimization_integration.py",
+      "line": 38,
+      "import": "lukhas.core.interfaces.dependency_injection"
+    },
+    {
+      "file": "candidate/core/resource_optimization_integration.py",
+      "line": 39,
+      "import": "lukhas.memory.memory_optimization"
+    },
+    {
+      "file": "candidate/core/tier_unification_adapter.py",
+      "line": 28,
+      "import": "lukhas.core.identity_integration"
+    },
+    {
+      "file": "candidate/core/tier_unification_adapter.py",
+      "line": 176,
+      "import": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 16,
+      "import": "candidate.core.bio_symbolic_swarm_hub"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 19,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 22,
+      "import": "candidate.core.event_replay_snapshot"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 78,
+      "import": "lukhas.core.bridges.core_consciousness_bridge"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 79,
+      "import": "lukhas.core.bridges.core_safety_bridge"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 548,
+      "import": "candidate.core.event_replay_snapshot"
+    },
+    {
+      "file": "candidate/core/core_hub.py",
+      "line": 597,
+      "import": "candidate.core.event_replay_snapshot"
+    },
+    {
+      "file": "candidate/core/system_init.py",
+      "line": 17,
+      "import": "lukhas.core.config.env_validator"
+    },
+    {
+      "file": "candidate/core/system_init.py",
+      "line": 18,
+      "import": "lukhas.core.module_manager"
+    },
+    {
+      "file": "candidate/core/specialized_colonies.py",
+      "line": 9,
+      "import": "lukhas.core.swarm"
+    },
+    {
+      "file": "candidate/core/consistency_manager.py",
+      "line": 6,
+      "import": "lukhas.core.tiered_state_management"
+    },
+    {
+      "file": "candidate/core/module_registry.py",
+      "line": 54,
+      "import": "lukhas.governance.identity.core.lambd_id_service"
+    },
+    {
+      "file": "candidate/core/notion_sync.py",
+      "line": 706,
+      "import": "candidate.core.config_manager"
+    },
+    {
+      "file": "candidate/core/core_utilities.py",
+      "line": 15,
+      "import": "lukhas.core.swarm"
+    },
+    {
+      "file": "candidate/core/core_utilities.py",
+      "line": 16,
+      "import": "lukhas.core.symbolic_diagnostics.trace_repair_engine"
+    },
+    {
+      "file": "candidate/core/core_utilities.py",
+      "line": 17,
+      "import": "lukhas.core.tiered_state_management"
+    },
+    {
+      "file": "candidate/core/core_utilities.py",
+      "line": 18,
+      "import": "lukhas.memory.core_memory.memory_collapse_verifier"
+    },
+    {
+      "file": "candidate/core/collaboration.py",
+      "line": 9,
+      "import": "lukhas.core.coordination"
+    },
+    {
+      "file": "candidate/core/identity_aware_base_colony.py",
+      "line": 71,
+      "import": "lukhas.consciousness.systems.consciousness_colony_integration"
+    },
+    {
+      "file": "candidate/core/identity_aware_base.py",
+      "line": 180,
+      "import": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "file": "candidate/core/swarm_visualizer.py",
+      "line": 12,
+      "import": "lukhas.core.swarm"
+    },
+    {
+      "file": "candidate/core/observatory.py",
+      "line": 13,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/core/decorators.py",
+      "line": 28,
+      "import": "lukhas.memory.systems.tier_system"
+    },
+    {
+      "file": "candidate/core/decorators.py",
+      "line": 29,
+      "import": "lukhas.memory.systems.tier_system"
+    },
+    {
+      "file": "candidate/core/symbolic_legacy/colony_tag_propagation.py",
+      "line": 5,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/symbolic_legacy/features/collapse/entropy_tracker.py",
+      "line": 50,
+      "import": "lukhas.core.monitoring.drift_monitor"
+    },
+    {
+      "file": "candidate/core/colonies/creativity_colony.py",
+      "line": 9,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/colonies/oracle_colony.py",
+      "line": 35,
+      "import": "candidate.bridge.openai_core_service"
+    },
+    {
+      "file": "candidate/core/colonies/oracle_colony.py",
+      "line": 40,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/colonies/tag_propagation.py",
+      "line": 5,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/colonies/tensor_colony_ops.py",
+      "line": 10,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/colonies/memory_colony.py",
+      "line": 15,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/colonies/memory_colony.py",
+      "line": 17,
+      "import": "lukhas.core.swarm"
+    },
+    {
+      "file": "candidate/core/colonies/base_colony.py",
+      "line": 13,
+      "import": "lukhas.core.colonies.supervisor_agent"
+    },
+    {
+      "file": "candidate/core/colonies/ethics_swarm_colony.py",
+      "line": 61,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/integration/system_coordinator.py",
+      "line": 56,
+      "import": "candidate.core.identity.identity_manager"
+    },
+    {
+      "file": "candidate/core/integration/system_coordinator.py",
+      "line": 63,
+      "import": "lukhas.consciousness.core_consciousness.consciousness_integrator"
+    },
+    {
+      "file": "candidate/core/integration/system_coordinator.py",
+      "line": 68,
+      "import": "lukhas.memory.enhanced_memory_manager"
+    },
+    {
+      "file": "candidate/core/integration/system_coordinator.py",
+      "line": 217,
+      "import": "lukhas.consciousness.core_consciousness.consciousness_integrator"
+    },
+    {
+      "file": "candidate/core/integration/system_coordinator.py",
+      "line": 235,
+      "import": "lukhas.memory.enhanced_memory_manager"
+    },
+    {
+      "file": "candidate/core/integration/executive_decision_integrator.py",
+      "line": 64,
+      "import": "lukhas.memory.privacy_preserving_memory_vault"
+    },
+    {
+      "file": "candidate/core/integration/register_ai_supremacy_modules.py",
+      "line": 14,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/integration/register_ai_supremacy_modules.py",
+      "line": 15,
+      "import": "lukhas.core.interfaces.dependency_injection"
+    },
+    {
+      "file": "candidate/core/integration/register_ai_supremacy_modules.py",
+      "line": 55,
+      "import": "lukhas.consciousness.expansion.consciousness_expansion_engine"
+    },
+    {
+      "file": "candidate/core/integration/pr_security_review_task.py",
+      "line": 35,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/integration/service_discovery.py",
+      "line": 15,
+      "import": "lukhas.core.integration.hub_registry"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/innovation_prioritization_engine.py",
+      "line": 10,
+      "import": "lukhas.core.interfaces"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 18,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 19,
+      "import": "lukhas.core.interfaces"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 20,
+      "import": "lukhas.core.symbolic_engine"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 86,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 575,
+      "import": "lukhas.consciousness.qi_consciousness_integration"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py",
+      "line": 593,
+      "import": "lukhas.consciousness.expansion.consciousness_expansion_engine"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/breakthrough_synthesis_engine.py",
+      "line": 11,
+      "import": "lukhas.core.interfaces"
+    },
+    {
+      "file": "candidate/core/integration/innovation_orchestrator/resource_allocation_optimizer.py",
+      "line": 10,
+      "import": "lukhas.core.interfaces"
+    },
+    {
+      "file": "candidate/core/consciousness/innovation/breakthrough_detector_v2.py",
+      "line": 18,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/consciousness/innovation/breakthrough_detector_v2.py",
+      "line": 19,
+      "import": "lukhas.core.interfaces"
+    },
+    {
+      "file": "candidate/core/consciousness/innovation/breakthrough_detector_v2.py",
+      "line": 20,
+      "import": "lukhas.core.symbolic_engine"
+    },
+    {
+      "file": "candidate/core/consciousness/innovation/breakthrough_detector_v2.py",
+      "line": 115,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/core/architectures/abas/integration/abas_integration_hub.py",
+      "line": 22,
+      "import": "candidate.core.neural_architectures.abas.abas_quantum_specialist_wrapper"
+    },
+    {
+      "file": "candidate/core/bridges/qi_memory_bridge.py",
+      "line": 24,
+      "import": "lukhas.consciousness.reflection.memory_hub"
+    },
+    {
+      "file": "candidate/core/bridges/bio_symbolic_bridge.py",
+      "line": 9,
+      "import": "lukhas.core.integration.hub_registry"
+    },
+    {
+      "file": "candidate/core/bridges/memory_learning_bridge.py",
+      "line": 43,
+      "import": "lukhas.consciousness.reflection.memory_hub"
+    },
+    {
+      "file": "candidate/core/bridges/consciousness_qi_bridge.py",
+      "line": 43,
+      "import": "lukhas.consciousness.reflection.consciousness_hub"
+    },
+    {
+      "file": "candidate/core/bridges/memory_consciousness_bridge.py",
+      "line": 24,
+      "import": "lukhas.consciousness.reflection.consciousness_hub"
+    },
+    {
+      "file": "candidate/core/bridges/memory_consciousness_bridge.py",
+      "line": 27,
+      "import": "lukhas.consciousness.reflection.memory_hub"
+    },
+    {
+      "file": "candidate/core/explainability/decision_explainer.py",
+      "line": 13,
+      "import": "lukhas.core.endocrine"
+    },
+    {
+      "file": "candidate/core/explainability/decision_explainer.py",
+      "line": 14,
+      "import": "lukhas.core.tags"
+    },
+    {
+      "file": "candidate/core/endocrine/hormone_system.py",
+      "line": 14,
+      "import": "lukhas.core.events.contracts"
+    },
+    {
+      "file": "candidate/core/adapters/qi_service_adapter.py",
+      "line": 9,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/adapters/qi_service_adapter.py",
+      "line": 10,
+      "import": "lukhas.core.interfaces.services"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 12,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 13,
+      "import": "lukhas.core.events.contracts"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 14,
+      "import": "lukhas.core.interfaces.services"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 42,
+      "import": "lukhas.memory.fold_system.memory_fold"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 178,
+      "import": "lukhas.consciousness.awareness"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 179,
+      "import": "lukhas.consciousness.unified.auto_consciousness"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 276,
+      "import": "lukhas.consciousness.dream.core.dream_engine"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 529,
+      "import": "lukhas.governance.guardian.guardian_system"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 530,
+      "import": "lukhas.governance.reflector.guardian_reflector"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 622,
+      "import": "candidate.bridge.api_connector"
+    },
+    {
+      "file": "candidate/core/adapters/module_service_adapter.py",
+      "line": 623,
+      "import": "candidate.bridge.protocol_translator"
+    },
+    {
+      "file": "candidate/core/adapters/seven_agent_adapter.py",
+      "line": 10,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/adapters/seven_agent_adapter.py",
+      "line": 11,
+      "import": "lukhas.core.interfaces.services"
+    },
+    {
+      "file": "candidate/core/adapters/seven_agent_adapter.py",
+      "line": 18,
+      "import": "lukhas.core.telemetry"
+    },
+    {
+      "file": "candidate/core/adapters/seven_agent_adapter.py",
+      "line": 167,
+      "import": "lukhas.governance.consent_ledger.ledger_v1"
+    },
+    {
+      "file": "candidate/core/adapters/seven_agent_adapter.py",
+      "line": 462,
+      "import": "candidate.orchestration.context_bus_enhanced"
+    },
+    {
+      "file": "candidate/core/common/base_module.py",
+      "line": 251,
+      "import": "lukhas.governance.client"
+    },
+    {
+      "file": "candidate/core/audit/audit_integration_example.py",
+      "line": 10,
+      "import": "lukhas.core.audit"
+    },
+    {
+      "file": "candidate/core/audit/audit_decision_embedding_engine.py",
+      "line": 20,
+      "import": "lukhas.core.swarm"
+    },
+    {
+      "file": "candidate/core/examples/mailbox_demo.py",
+      "line": 14,
+      "import": "lukhas.core.mailbox"
+    },
+    {
+      "file": "candidate/core/symbolism/archiver.py",
+      "line": 11,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/verifold/verifold_unified.py",
+      "line": 42,
+      "import": "lukhas.core.tier_unification_adapter"
+    },
+    {
+      "file": "candidate/core/orchestration/integration_hub.py",
+      "line": 38,
+      "import": "lukhas.consciousness.reflection.consciousness_hub"
+    },
+    {
+      "file": "candidate/core/orchestration/integration_hub.py",
+      "line": 39,
+      "import": "lukhas.consciousness.reflection.memory_hub"
+    },
+    {
+      "file": "candidate/core/orchestration/integration_hub.py",
+      "line": 42,
+      "import": "lukhas.consciousness.systems.unified_consciousness_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/integration_hub.py",
+      "line": 47,
+      "import": "lukhas.core.core_hub"
+    },
+    {
+      "file": "candidate/core/orchestration/integration_hub.py",
+      "line": 50,
+      "import": "lukhas.core.interfaces.interfaces_hub"
+    },
+    {
+      "file": "candidate/core/orchestration/main_node.py",
+      "line": 73,
+      "import": "candidate.core.common.interfaces.ui.adaptive.adaptive_interface_generator"
+    },
+    {
+      "file": "candidate/core/orchestration/main_node.py",
+      "line": 76,
+      "import": "candidate.core.common.interfaces.ui.multimodal.image_generator"
+    },
+    {
+      "file": "candidate/core/orchestration/main_node.py",
+      "line": 86,
+      "import": "lukhas.governance.identity.core.id_service.identity_manager"
+    },
+    {
+      "file": "candidate/core/orchestration/main_node.py",
+      "line": 91,
+      "import": "lukhas.memory.node"
+    },
+    {
+      "file": "candidate/core/orchestration/golden_trio/trio_orchestrator.py",
+      "line": 18,
+      "import": "lukhas.core.audit.audit_decision_embedding_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 82,
+      "import": "lukhas.governance.dao_governance_node"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 83,
+      "import": "lukhas.memory.enhanced_memory_manager"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 92,
+      "import": "candidate.core.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 93,
+      "import": "candidate.core.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 94,
+      "import": "candidate.core.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/brain_integration.py",
+      "line": 95,
+      "import": "candidate.core.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/autonomous_github_manager.py",
+      "line": 32,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/identity_manager.py",
+      "line": 41,
+      "import": "lukhas.identity.security.trauma_lock"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/lambda_bot_batch_processor.py",
+      "line": 24,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/colony_coordinator.py",
+      "line": 3,
+      "import": "lukhas.core.colonies.governance_colony"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/colony_coordinator.py",
+      "line": 4,
+      "import": "lukhas.core.colonies.reasoning_colony"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/lambdabot_autonomous_workflow_fixer.py",
+      "line": 29,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/autonomous_system.py",
+      "line": 27,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/lambdabot_autonomous_fixer.py",
+      "line": 38,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/lambdabot_autonomous_fixer.py",
+      "line": 39,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/lambdabot_autonomous_fixer.py",
+      "line": 40,
+      "import": "lukhas.core.budget.token_controller"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/cognitive/voice_engine.py",
+      "line": 11,
+      "import": "lukhas.memory.systems.helix_mapper"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/spine/emotional_sorter.py",
+      "line": 49,
+      "import": "candidate.core.modules.nias.emotional_sorter"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/spine/healix_mapper.py",
+      "line": 28,
+      "import": "lukhas.core.identity.vault.lukhas_id"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/spine/healix_mapper.py",
+      "line": 29,
+      "import": "lukhas.emotion_mapper_alt"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/spine/accent_adapter.py",
+      "line": 30,
+      "import": "lukhas.core.identity.vault.lukhas_id"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line": 64,
+      "import": "candidate.orchestration.brain.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line": 65,
+      "import": "candidate.orchestration.brain.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line": 66,
+      "import": "candidate.orchestration.brain.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line": 67,
+      "import": "candidate.orchestration.brain.spine.fold_engine"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/integration/brain_integration.py",
+      "line": 88,
+      "import": "lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/dream_engine/dream_replay_cli.py",
+      "line": 26,
+      "import": "lukhas.core.modules.nias.__init__"
+    },
+    {
+      "file": "candidate/core/orchestration/brain/neural/cognitive_core.py",
+      "line": 39,
+      "import": "candidate.orchestration.brain.attention.qi_attention"
+    },
+    {
+      "file": "candidate/core/governance/governance_colony.py",
+      "line": 6,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/api/api_system.py",
+      "line": 17,
+      "import": "lukhas.core.security.auth"
+    },
+    {
+      "file": "candidate/core/api/api_system.py",
+      "line": 20,
+      "import": "lukhas.core.security.security_integration"
+    },
+    {
+      "file": "candidate/core/api/api_system.py",
+      "line": 50,
+      "import": "lukhas.consciousness.unified.auto_consciousness"
+    },
+    {
+      "file": "candidate/core/api/api_system.py",
+      "line": 63,
+      "import": "lukhas.memory.systems.memory_manager"
+    },
+    {
+      "file": "candidate/core/api/api_system.py",
+      "line": 76,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/core/glyph/glyph_exchange.py",
+      "line": 24,
+      "import": "lukhas.core.glyph.glyph_memory_integration"
+    },
+    {
+      "file": "candidate/core/glyph/glyph_engine.py",
+      "line": 15,
+      "import": "lukhas.core.events.contracts"
+    },
+    {
+      "file": "candidate/core/glyph/glyph_engine.py",
+      "line": 18,
+      "import": "lukhas.core.events.typed_event_bus"
+    },
+    {
+      "file": "candidate/core/glyph/symbolic_contextual_mapping_colony.py",
+      "line": 28,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/glyph/glyph_memory_integration.py",
+      "line": 93,
+      "import": "lukhas.memory.folds.memory_fold"
+    },
+    {
+      "file": "candidate/core/glyph/glyph_memory_integration.py",
+      "line": 96,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/core/symbolic/symbolic_memory_mapper.py",
+      "line": 56,
+      "import": "lukhas.consciousness.reflection.memory_hub"
+    },
+    {
+      "file": "candidate/core/symbolic/symbolic_memory_mapper.py",
+      "line": 57,
+      "import": "lukhas.core.integration.hub_registry"
+    },
+    {
+      "file": "candidate/core/symbolic/drift_tools.py",
+      "line": 54,
+      "import": "lukhas.memory.core"
+    },
+    {
+      "file": "candidate/core/symbolic/drift_tools.py",
+      "line": 55,
+      "import": "lukhas.memory.core_memory.symbolic_glyphs"
+    },
+    {
+      "file": "candidate/core/symbolic/symbolic_drift_tracker.py",
+      "line": 35,
+      "import": "lukhas.core.symbolic.drift.symbolic_drift_tracker"
+    },
+    {
+      "file": "candidate/core/symbolic/trace_drift_tracker.py",
+      "line": 23,
+      "import": "lukhas.core.symbolic.symbolic_drift_tracker"
+    },
+    {
+      "file": "candidate/core/symbolic/loop_engine.py",
+      "line": 21,
+      "import": "lukhas.consciousness.bridge"
+    },
+    {
+      "file": "candidate/core/symbolic/ethical_auditor.py",
+      "line": 69,
+      "import": "lukhas.consciousness.dream.oneiric.oneiric_core.analysis.drift_score"
+    },
+    {
+      "file": "candidate/core/symbolic/symbolic_drift_tracker_trace.py",
+      "line": 35,
+      "import": "lukhas.core.symbolic.drift.symbolic_drift_tracker"
+    },
+    {
+      "file": "candidate/core/symbolic/symbolic_loop_controller.py",
+      "line": 109,
+      "import": "lukhas.consciousness.loop_meta_learning"
+    },
+    {
+      "file": "candidate/core/symbolic/dream_delivery_manager.py",
+      "line": 20,
+      "import": "lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice"
+    },
+    {
+      "file": "candidate/core/symbolic/dream_delivery_manager.py",
+      "line": 61,
+      "import": "lukhas.memory.adapters.creativity_adapter"
+    },
+    {
+      "file": "candidate/core/symbolic/EthicalAuditor.py",
+      "line": 69,
+      "import": "candidate.core.elite.ai_constitution_checker"
+    },
+    {
+      "file": "candidate/core/symbolic/EthicalAuditor.py",
+      "line": 70,
+      "import": "candidate.core.elite.emotional_secure_logger"
+    },
+    {
+      "file": "candidate/core/symbolic/EthicalAuditor.py",
+      "line": 71,
+      "import": "candidate.core.elite.symbolic_trust_scorer"
+    },
+    {
+      "file": "candidate/core/symbolic/vocabulary.py",
+      "line": 27,
+      "import": "lukhas.core.utils.__init__"
+    },
+    {
+      "file": "candidate/core/monitoring/drift_monitor.py",
+      "line": 58,
+      "import": "lukhas.core.symbolic.drift.symbolic_drift_tracker"
+    },
+    {
+      "file": "candidate/core/events/typed_event_bus.py",
+      "line": 14,
+      "import": "lukhas.core.container.service_container"
+    },
+    {
+      "file": "candidate/core/events/typed_event_bus.py",
+      "line": 15,
+      "import": "lukhas.core.events.contracts"
+    },
+    {
+      "file": "candidate/core/modules/nias/__init__.py",
+      "line": 11,
+      "import": "lukhas.core.interfaces.as_agent.sys.nias.dream_recorder"
+    },
+    {
+      "file": "candidate/core/modules/nias/__init__.py",
+      "line": 12,
+      "import": "lukhas.core.interfaces.as_agent.sys.nias.narration_controller"
+    },
+    {
+      "file": "candidate/core/neural/master_integration.py",
+      "line": 39,
+      "import": "lukhas.consciousness.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/master_integration.py",
+      "line": 42,
+      "import": "lukhas.governance.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/master_integration.py",
+      "line": 43,
+      "import": "lukhas.memory.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 168,
+      "import": "lukhas.governance.identity.auth.cognitive_sync_adapter"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 318,
+      "import": "lukhas.consciousness.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 319,
+      "import": "lukhas.memory.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 322,
+      "import": "lukhas.governance.neuroplastic_connector"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 326,
+      "import": "lukhas.consciousness.orchestration_bridge"
+    },
+    {
+      "file": "candidate/core/neural/integrate_isolated_components.py",
+      "line": 327,
+      "import": "lukhas.governance.identity_integration"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 10,
+      "import": "lukhas.core.api.api_server"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 11,
+      "import": "lukhas.core.api.endpoints"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 12,
+      "import": "lukhas.core.api.external_api_handler"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 15,
+      "import": "lukhas.core.interfaces.as_agent.core.agent_handoff"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 16,
+      "import": "lukhas.core.interfaces.as_agent.core.gatekeeper"
+    },
+    {
+      "file": "candidate/core/interfaces/interfaces_hub.py",
+      "line": 17,
+      "import": "lukhas.core.interfaces.as_agent.sys.dast.dast_logger"
+    },
+    {
+      "file": "candidate/core/interfaces/main.py",
+      "line": 22,
+      "import": "lukhas.core.interfaces.voice.edge_voice"
+    },
+    {
+      "file": "candidate/core/interfaces/ui/app.py",
+      "line": 20,
+      "import": "lukhas.core.dashboard_settings"
+    },
+    {
+      "file": "candidate/core/interfaces/ui/app.py",
+      "line": 42,
+      "import": "candidate.core.lukhas_overview_log"
+    },
+    {
+      "file": "candidate/core/interfaces/ui/app.py",
+      "line": 61,
+      "import": "candidate.core.lukhas_widget_engine"
+    },
+    {
+      "file": "candidate/core/interfaces/ui/app.py",
+      "line": 112,
+      "import": "candidate.core.lukhas_agent_handoff"
+    },
+    {
+      "file": "candidate/core/interfaces/ui/components/replay_graphs.py",
+      "line": 23,
+      "import": "lukhas.core.utils.symbolic_utils"
+    },
+    {
+      "file": "candidate/core/interfaces/tools/cli/speak.py",
+      "line": 21,
+      "import": "lukhas.core.compliance.tier_manager"
+    },
+    {
+      "file": "candidate/core/interfaces/logic/agent_self.py",
+      "line": 13,
+      "import": "lukhas.core.lukhas_emotion_log"
+    },
+    {
+      "file": "candidate/core/interfaces/logic/agent_self.py",
+      "line": 14,
+      "import": "lukhas.core.lukhas_widget_engine"
+    },
+    {
+      "file": "candidate/core/interfaces/logic/agent_self.py",
+      "line": 71,
+      "import": "candidate.core.lukhas_self"
+    },
+    {
+      "file": "candidate/core/interfaces/logic/context/context_builder.py",
+      "line": 111,
+      "import": "candidate.core.context.context_builder"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/dashboard_colony_agent.py",
+      "line": 53,
+      "import": "lukhas.core.colonies.base_colony"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/universal_adaptive_dashboard.py",
+      "line": 59,
+      "import": "lukhas.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/universal_adaptive_dashboard.py",
+      "line": 60,
+      "import": "lukhas.core.monitoring.drift_monitor"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/universal_adaptive_dashboard.py",
+      "line": 61,
+      "import": "lukhas.core.oracle_nervous_system"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/universal_adaptive_dashboard.py",
+      "line": 62,
+      "import": "lukhas.memory.systems.healix_memory_core"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/self_healing_manager.py",
+      "line": 63,
+      "import": "lukhas.core.monitoring.drift_monitor"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/core/self_healing_manager.py",
+      "line": 64,
+      "import": "lukhas.memory.systems.healix_memory_core"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/api/websocket_server.py",
+      "line": 68,
+      "import": "lukhas.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "file": "candidate/core/interfaces/dashboard/api/websocket_server.py",
+      "line": 71,
+      "import": "lukhas.core.oracle_nervous_system"
+    },
+    {
+      "file": "candidate/core/interfaces/voice/voice_agent.py",
+      "line": 20,
+      "import": "lukhas.core.emotional_state"
+    },
+    {
+      "file": "candidate/core/interfaces/voice/voice_agent.py",
+      "line": 21,
+      "import": "lukhas.core.event_bus"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/agent_logic/agent_self.py",
+      "line": 13,
+      "import": "lukhas.core.lukhas_emotion_log"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/agent_logic/agent_self.py",
+      "line": 14,
+      "import": "lukhas.core.lukhas_widget_engine"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/agent_logic/agent_self.py",
+      "line": 71,
+      "import": "candidate.core.lukhas_self"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/streamlit/app.py",
+      "line": 19,
+      "import": "lukhas.core.dashboard_settings"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/streamlit/app.py",
+      "line": 41,
+      "import": "candidate.core.lukhas_overview_log"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/streamlit/app.py",
+      "line": 60,
+      "import": "candidate.core.lukhas_widget_engine"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/streamlit/app.py",
+      "line": 111,
+      "import": "candidate.core.lukhas_agent_handoff"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/streamlit/components/replay_graphs.py",
+      "line": 23,
+      "import": "lukhas.core.utils.symbolic_utils"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/core/generate_image.py",
+      "line": 22,
+      "import": "candidate.core.lukhas_render_ai"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/voice_narrator.py",
+      "line": 24,
+      "import": "lukhas.core.utils.symbolic_utils"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/nias_core.py",
+      "line": 24,
+      "import": "lukhas.core.interfaces.as_agent.sys.abas.abas"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/nias_core.py",
+      "line": 25,
+      "import": "lukhas.core.interfaces.as_agent.sys.nias.consent_filter"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/nias_core.py",
+      "line": 26,
+      "import": "lukhas.core.interfaces.as_agent.sys.nias.symbolic_matcher"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/nias_core.py",
+      "line": 29,
+      "import": "lukhas.core.interfaces.as_agent.sys.nias.trace_logger"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/symbolic_reply_generator.py",
+      "line": 71,
+      "import": "candidate.core.modules.nias.symbolic_reply_generator"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/symbolic_matcher.py",
+      "line": 48,
+      "import": "candidate.core.modules.nias.symbolic_matcher"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/consent_filter.py",
+      "line": 46,
+      "import": "candidate.core.modules.nias.consent_filter"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/nias/feedback_loop.py",
+      "line": 68,
+      "import": "candidate.core.modules.nias.feedback_loop"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/dast_core.py",
+      "line": 48,
+      "import": "candidate.core.modules.dast.dast_core"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/store.py",
+      "line": 110,
+      "import": "candidate.core.modules.dast.store"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/store.py",
+      "line": 112,
+      "import": "candidate.core.modules.dast.store"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/partner_sdk.py",
+      "line": 102,
+      "import": "candidate.core.modules.dast.partner_sdk"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/partner_sdk.py",
+      "line": 104,
+      "import": "candidate.core.modules.dast.partner_sdk"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/dast.py",
+      "line": 22,
+      "import": "lukhas.core.interfaces.logic.voice.voice_renderer"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/dast/schedule_manager.py",
+      "line": 45,
+      "import": "candidate.core.modules.dast.schedule_manager"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/sys/abas/abas.py",
+      "line": 42,
+      "import": "candidate.core.modules.abas.abas"
+    },
+    {
+      "file": "candidate/core/interfaces/as_agent/widgets/widget_engine.py",
+      "line": 154,
+      "import": "candidate.core.dashboard_settings"
+    },
+    {
+      "file": "candidate/core/hub_services/service_registry.py",
+      "line": 250,
+      "import": "lukhas.memory.core"
+    },
+    {
+      "file": "candidate/core/hub_services/service_registry.py",
+      "line": 288,
+      "import": "lukhas.consciousness.bridge"
+    },
+    {
+      "file": "candidate/core/router/llm_multiverse_router.py",
+      "line": 19,
+      "import": "candidate.bridge.llm_wrappers.openai_wrapper"
+    },
+    {
+      "file": "candidate/memory/colonies.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.colonies"
+    },
+    {
+      "file": "candidate/memory/fold_universal_bridge.py",
+      "line": 44,
+      "import": "lukhas.consciousness.awareness.awareness_engine"
+    },
+    {
+      "file": "candidate/memory/fold_universal_bridge.py",
+      "line": 45,
+      "import": "lukhas.consciousness.core_consciousness.lambda_mirror"
+    },
+    {
+      "file": "candidate/memory/fold_universal_bridge.py",
+      "line": 53,
+      "import": "candidate.core.bio_systems.bio_simulation_controller"
+    },
+    {
+      "file": "candidate/memory/compression.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.compression"
+    },
+    {
+      "file": "candidate/memory/fold_manager.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.fold"
+    },
+    {
+      "file": "candidate/memory/dna_helix.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.helix"
+    },
+    {
+      "file": "candidate/memory/hippocampal.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.hippocampal"
+    },
+    {
+      "file": "candidate/memory/causal.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.causal"
+    },
+    {
+      "file": "candidate/memory/episodic.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.episodic"
+    },
+    {
+      "file": "candidate/memory/memory_consolidation.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.consolidation"
+    },
+    {
+      "file": "candidate/memory/fold_system.py",
+      "line": 10,
+      "import": "lukhas.accepted.memory.fold"
+    },
+    {
+      "file": "candidate/memory/causal/feedback_propagator.py",
+      "line": 84,
+      "import": "lukhas.emotion.mood_regulator"
+    },
+    {
+      "file": "candidate/memory/learning/systems/symbolic_voice_loop.py",
+      "line": 11,
+      "import": "lukhas.emotion_mapper"
+    },
+    {
+      "file": "candidate/memory/episodic/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.memory.episodic"
+    },
+    {
+      "file": "candidate/memory/memory_consolidation/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.memory.consolidation"
+    },
+    {
+      "file": "candidate/memory/folds/openai_memory_adapter.py",
+      "line": 54,
+      "import": "candidate.bridge.openai_core_service"
+    },
+    {
+      "file": "candidate/memory/folds/unified_memory_core.py",
+      "line": 156,
+      "import": "candidate.memory.systems.emotional_memory"
+    },
+    {
+      "file": "candidate/memory/folds/unified_memory_core.py",
+      "line": 157,
+      "import": "candidate.memory.systems.memory_fold_system"
+    },
+    {
+      "file": "candidate/memory/folds/fold_engine.py",
+      "line": 9,
+      "import": "candidate.orchestration.brain.spine.fold_engine"
+    },
+    {
+      "file": "candidate/memory/fold_manager/__init__.py",
+      "line": 9,
+      "import": "lukhas.accepted.memory.fold"
+    },
+    {
+      "file": "candidate/memory/systems/memory_evolution.py",
+      "line": 54,
+      "import": "candidate.core.docututor.memory_evolution.bio_oscillator"
+    },
+    {
+      "file": "candidate/memory/systems/memory_evolution.py",
+      "line": 57,
+      "import": "candidate.core.docututor.memory_evolution.document_analyzer"
+    },
+    {
+      "file": "candidate/memory/systems/memory_evolution.py",
+      "line": 60,
+      "import": "candidate.core.docututor.memory_evolution.knowledge_adaptation"
+    },
+    {
+      "file": "candidate/memory/systems/memory_evolution.py",
+      "line": 63,
+      "import": "candidate.core.docututor.memory_evolution.usage_learning"
+    },
+    {
+      "file": "candidate/memory/systems/memory_evolution.py",
+      "line": 66,
+      "import": "candidate.core.docututor.memory_evolution.version_control"
+    },
+    {
+      "file": "candidate/memory/systems/integration_example.py",
+      "line": 34,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/memory/systems/memory_collapse_verifier.py",
+      "line": 11,
+      "import": "candidate.core.symbolic.symbolic_tracer"
+    },
+    {
+      "file": "candidate/memory/consolidation/colony_emotion.py",
+      "line": 7,
+      "import": "lukhas.emotion.models"
+    },
+    {
+      "file": "candidate/memory/consolidation/memory_colonies.py",
+      "line": 28,
+      "import": "candidate.core.colonies.memory_colony_enhanced"
+    },
+    {
+      "file": "candidate/memory/consolidation/memory_visualization.py",
+      "line": 37,
+      "import": "candidate.core.common.glyph_processor"
+    },
+    {
+      "file": "candidate/memory/consolidation/memory_visualization.py",
+      "line": 39,
+      "import": "candidate.memory.systems.memory_fold_system"
+    },
+    {
+      "file": "candidate/bridge/adapter.py",
+      "line": 9,
+      "import": "lukhas.accepted.adapters.base"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 41,
+      "import": "candidate.bridge.plugin_base"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 45,
+      "import": "candidate.bridge.plugin_loader"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 46,
+      "import": "candidate.core.registry"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 47,
+      "import": "candidate.core.utils.base_module"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 54,
+      "import": "lukhas.bridge.plugin_base"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 58,
+      "import": "lukhas.bridge.plugin_loader"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 59,
+      "import": "lukhas.core.registry"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 60,
+      "import": "lukhas.core.utils.base_module"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 74,
+      "import": "candidate.core.registry"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 75,
+      "import": "candidate.core.utils.base_module"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 77,
+      "import": "lukhas.core.registry"
+    },
+    {
+      "file": "candidate/bridge/integration_bridge.py",
+      "line": 78,
+      "import": "lukhas.core.utils.base_module"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/perplexity_wrapper.py",
+      "line": 47,
+      "import": "lukhas.branding.terminology"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 485,
+      "import": "lukhas.governance.guardian_sentinel"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 515,
+      "import": "lukhas.governance.guardian_sentinel"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 538,
+      "import": "lukhas.memory.embeddings"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 539,
+      "import": "lukhas.memory.vector_store"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 582,
+      "import": "lukhas.memory.memory_service"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 665,
+      "import": "lukhas.audit.store"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 932,
+      "import": "lukhas.audit.tool_analytics"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/openai_modulated_service.py",
+      "line": 933,
+      "import": "lukhas.tools.tool_executor"
+    },
+    {
+      "file": "candidate/bridge/llm_wrappers/azure_openai_wrapper.py",
+      "line": 44,
+      "import": "lukhas.branding.terminology"
+    },
+    {
+      "file": "candidate/bridge/adapters/service_adapter_base.py",
+      "line": 32,
+      "import": "lukhas.governance.consent_ledger.ledger_v1"
+    },
+    {
+      "file": "candidate/bridge/adapters/service_adapter_base.py",
+      "line": 54,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/bridge/adapters/service_adapter_base.py",
+      "line": 60,
+      "import": "lukhas.memory.service"
+    },
+    {
+      "file": "candidate/bridge/adapters/service_adapter_base.py",
+      "line": 66,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/bridge/voice/cognitive_voice.py",
+      "line": 10,
+      "import": "lukhas.memory.systems.helix_dna"
+    },
+    {
+      "file": "candidate/bridge/voice/interface.py",
+      "line": 26,
+      "import": "candidate.core.voice_profiling"
+    },
+    {
+      "file": "candidate/bridge/voice/interface.py",
+      "line": 27,
+      "import": "candidate.core.voice_profiling"
+    },
+    {
+      "file": "candidate/bridge/voice/interface.py",
+      "line": 28,
+      "import": "candidate.core.voice_safety_guard"
+    },
+    {
+      "file": "candidate/bridge/voice/interface.py",
+      "line": 32,
+      "import": "candidate.core.personality.voice_personality"
+    },
+    {
+      "file": "candidate/bridge/voice/interface.py",
+      "line": 41,
+      "import": "candidate.core.voice_memory_helix"
+    },
+    {
+      "file": "candidate/bridge/api_legacy/core/consciousness.py",
+      "line": 23,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/bridge/api_legacy/commercial/memory_services/memory_api.py",
+      "line": 75,
+      "import": "lukhas.memory.core.qi_memory_manager"
+    },
+    {
+      "file": "candidate/bridge/api_legacy/commercial/memory_services/memory_api.py",
+      "line": 81,
+      "import": "lukhas.memory.core.base_manager"
+    },
+    {
+      "file": "candidate/bridge/api_legacy/commercial/memory_services/memory_api.py",
+      "line": 85,
+      "import": "lukhas.memory.core.base_manager"
+    },
+    {
+      "file": "candidate/bridge/api/memory.py",
+      "line": 57,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/bridge/api/controllers.py",
+      "line": 76,
+      "import": "lukhas.consciousness.consciousness_service"
+    },
+    {
+      "file": "candidate/bridge/api/controllers.py",
+      "line": 80,
+      "import": "lukhas.memory.memory_service"
+    },
+    {
+      "file": "candidate/bridge/api/dream.py",
+      "line": 29,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/bridge/api/flows.py",
+      "line": 26,
+      "import": "candidate.identity.auth_service"
+    },
+    {
+      "file": "candidate/bridge/api/emotion.py",
+      "line": 31,
+      "import": "lukhas.consciousness.reflection.unified_memory_manager"
+    },
+    {
+      "file": "candidate/colony/adapters/consensus_to_dna.py",
+      "line": 3,
+      "import": "lukhas.colony.contracts"
+    },
+    {
+      "file": "candidate/colony/adapters/consensus_to_dna.py",
+      "line": 4,
+      "import": "lukhas.dna.interfaces"
+    },
+    {
+      "file": "candidate/colony/adapters/consensus_to_dna.py",
+      "line": 5,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/consciousness/dream_bridge.py",
+      "line": 12,
+      "import": "lukhas.memory.core"
+    },
+    {
+      "file": "candidate/consciousness/loop_meta_learning.py",
+      "line": 20,
+      "import": "lukhas.memory.core"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_text_delta_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_done_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_part_done_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/openai_oracle_adapter.py",
+      "line": 34,
+      "import": "candidate.bridge.openai_core_service"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_delta_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_item.py",
+      "line": 52,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_done_event.py",
+      "line": 50,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_delta_event.py",
+      "line": 52,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_part_added_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/response_reasoning_summary_text_done_event.py",
+      "line": 49,
+      "import": "candidate.core.models"
+    },
+    {
+      "file": "candidate/consciousness/reasoning/decision/bridge.py",
+      "line": 65,
+      "import": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "file": "candidate/consciousness/expansion/consciousness_expansion_engine.py",
+      "line": 17,
+      "import": "candidate.core.symbolic_engine"
+    },
+    {
+      "file": "candidate/consciousness/expansion/consciousness_expansion_engine.py",
+      "line": 94,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/consciousness/states/openai_consciousness_adapter.py",
+      "line": 25,
+      "import": "candidate.bridge.openai_core_service"
+    },
+    {
+      "file": "candidate/consciousness/states/simulation_controller.py",
+      "line": 67,
+      "import": "candidate.core.bio_systems.bio_oscillator"
+    },
+    {
+      "file": "candidate/consciousness/states/shared_state.py",
+      "line": 82,
+      "import": "candidate.core.identity.vault.lukhas_id"
+    },
+    {
+      "file": "candidate/consciousness/systems/consciousness_colony_integration.py",
+      "line": 15,
+      "import": "candidate.bridge.shared_state"
+    },
+    {
+      "file": "candidate/consciousness/systems/dream_engine/dream_reflection_loop.py",
+      "line": 90,
+      "import": "lukhas.memory.systems.dream_memory_fold"
+    },
+    {
+      "file": "candidate/consciousness/dream/innovation_drift_protection.py",
+      "line": 53,
+      "import": "lukhas.memory.integrity.collapse_hash"
+    },
+    {
+      "file": "candidate/consciousness/dream/innovation_drift_protection.py",
+      "line": 58,
+      "import": "lukhas.memory.temporal.drift_dashboard"
+    },
+    {
+      "file": "candidate/consciousness/dream/core/dream_memory_manager.py",
+      "line": 339,
+      "import": "lukhas.memory.folds.fold_engine"
+    },
+    {
+      "file": "candidate/consciousness/dream/core/dream_replay.py",
+      "line": 108,
+      "import": "candidate.core.modules.nias.dream_replay"
+    },
+    {
+      "file": "candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "line": 49,
+      "import": "candidate.core.bio_systems.qi_inspired_layer"
+    },
+    {
+      "file": "candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "line": 50,
+      "import": "candidate.core.unified_integration"
+    },
+    {
+      "file": "candidate/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py",
+      "line": 51,
+      "import": "lukhas.memory.core_memory.dream_memory_manager"
+    },
+    {
+      "file": "candidate/consciousness/dream/processors/dream_processor.py",
+      "line": 12,
+      "import": "lukhas.memory.systems.helix_dna"
+    },
+    {
+      "file": "candidate/consciousness/dream/engine/dream_engine.py",
+      "line": 22,
+      "import": "lukhas.memory.systems.helix_mapper"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 27,
+      "import": "lukhas.memory.core.base_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 43,
+      "import": "candidate.bridge.symbolic_memory_mapper"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 54,
+      "import": "lukhas.memory.distributed_state_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 58,
+      "import": "lukhas.memory.qi_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 59,
+      "import": "lukhas.memory.voice_memory_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 63,
+      "import": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 74,
+      "import": "lukhas.memory.systems.symbolic_delta_compression"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 85,
+      "import": "lukhas.memory.emotional_memory_manager_unified"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 96,
+      "import": "lukhas.memory.systems.memory_planning_wrapper"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 106,
+      "import": "lukhas.memory.systems.memory_planning_mock"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 116,
+      "import": "lukhas.memory.systems.memory_profiler_wrapper"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 126,
+      "import": "lukhas.memory.systems.memory_profiler_mock"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 137,
+      "import": "lukhas.memory.repair.trauma_repair_wrapper"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 148,
+      "import": "lukhas.memory.systems.multimodal_memory_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 159,
+      "import": "lukhas.memory.colonies.episodic_memory_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 170,
+      "import": "lukhas.memory.systems.memory_tracker_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 546,
+      "import": "lukhas.memory.systems.neurosymbolic_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 683,
+      "import": "lukhas.memory.distributed_state_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 789,
+      "import": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 812,
+      "import": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "file": "candidate/consciousness/reflection/memory_hub.py",
+      "line": 836,
+      "import": "lukhas.memory.systems.memory_helix_golden"
+    },
+    {
+      "file": "candidate/consciousness/reflection/integrated_safety_system.py",
+      "line": 76,
+      "import": "candidate.core.colonies.governance_colony_enhanced"
+    },
+    {
+      "file": "candidate/consciousness/reflection/integrated_safety_system.py",
+      "line": 84,
+      "import": "lukhas.memory.systems.memory_safety_features"
+    },
+    {
+      "file": "candidate/consciousness/reflection/dreamseed_unified.py",
+      "line": 67,
+      "import": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "file": "candidate/consciousness/reflection/dreamseed_unified.py",
+      "line": 290,
+      "import": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "file": "candidate/consciousness/reflection/dreamseed_unified.py",
+      "line": 638,
+      "import": "lukhas.governance.identity.core.user_tier_mapping"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 27,
+      "import": "lukhas.governance.identity.auth_backend.trust_scorer"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 28,
+      "import": "lukhas.governance.identity.core.auth.biometric_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 31,
+      "import": "lukhas.governance.identity.core.qrs_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 32,
+      "import": "lukhas.governance.identity.core.sent.consent_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 33,
+      "import": "lukhas.governance.identity.core.swarm.tier_aware_swarm_hub"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 87,
+      "import": "lukhas.governance.identity.auth_utils.attention_monitor"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 127,
+      "import": "lukhas.governance.identity.auth_utils.grid_size_calculator"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 241,
+      "import": "lukhas.governance.identity.core.brain_identity_integration"
+    },
+    {
+      "file": "candidate/consciousness/reflection/identity_hub.py",
+      "line": 850,
+      "import": "lukhas.governance.identity.auth_utils.attention_monitor"
+    },
+    {
+      "file": "candidate/consciousness/reflection/core.py",
+      "line": 66,
+      "import": "lukhas.memory.structural_conscience"
+    },
+    {
+      "file": "candidate/consciousness/reflection/core.py",
+      "line": 126,
+      "import": "lukhas.memory.structural_conscience"
+    },
+    {
+      "file": "candidate/consciousness/reflection/core.py",
+      "line": 184,
+      "import": "lukhas.memory.structural_conscience"
+    },
+    {
+      "file": "candidate/consciousness/reflection/visionary_orchestrator.py",
+      "line": 66,
+      "import": "candidate.core.advanced_symbolic_loop"
+    },
+    {
+      "file": "candidate/consciousness/reflection/visionary_orchestrator.py",
+      "line": 68,
+      "import": "candidate.core.memory.memory_manager"
+    },
+    {
+      "file": "candidate/consciousness/reflection/qrg_100_percent_coverage.py",
+      "line": 37,
+      "import": "lukhas.qi.steganographic_demo"
+    },
+    {
+      "file": "candidate/consciousness/reflection/privacy_preserving_memory_vault.py",
+      "line": 110,
+      "import": "candidate.core.integration.governance.__init__"
+    },
+    {
+      "file": "candidate/consciousness/reflection/unified_memory_manager.py",
+      "line": 20,
+      "import": "lukhas.memory.memory_fold"
+    },
+    {
+      "file": "candidate/consciousness/reflection/unified_memory_manager.py",
+      "line": 21,
+      "import": "lukhas.memory.systems.memory_visualizer"
+    },
+    {
+      "file": "candidate/compliance/compliance_dashboard.py",
+      "line": 14,
+      "import": "candidate.core.tracing"
+    },
+    {
+      "file": "candidate/compliance/ai_regulatory_framework/global_compliance/international/global_interoperability_engine.py",
+      "line": 17,
+      "import": "candidate.core.symbolic_engine"
+    },
+    {
+      "file": "candidate/compliance/ai_regulatory_framework/global_compliance/international/global_interoperability_engine.py",
+      "line": 91,
+      "import": "lukhas.governance.guardian_system"
+    },
+    {
+      "file": "candidate/qi/qi_integration_manager.py",
+      "line": 44,
+      "import": "candidate.core.unified_integration"
+    },
+    {
+      "file": "candidate/qi/__init__.py",
+      "line": 25,
+      "import": "lukhas.candidate.qim"
+    },
+    {
+      "file": "candidate/qi/bio/swarm.py",
+      "line": 20,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/qi/bio/swarm.py",
+      "line": 47,
+      "import": "lukhas.consciousness.systems.consciousness_colony_integration"
+    },
+    {
+      "file": "candidate/qi/bio/bio_optimizer.py",
+      "line": 78,
+      "import": "candidate.core.bio_systems.qi_inspired_layer"
+    },
+    {
+      "file": "candidate/qi/bio/bio_components.py",
+      "line": 63,
+      "import": "lukhas.bridge.voice.bio_core.oscillator.qi_layer"
+    },
+    {
+      "file": "candidate/qi/bio/bio_components.py",
+      "line": 66,
+      "import": "lukhas.qi.processing.qi_engine"
+    },
+    {
+      "file": "candidate/qi/coordination/orchestration/orchestration_compatibility.py",
+      "line": 16,
+      "import": "candidate.orchestration.brain.bio_symbolic.bio_orchestrator"
+    },
+    {
+      "file": "candidate/qi/processing/qi_coordinator.py",
+      "line": 14,
+      "import": "candidate.core.bridges.quantum_memory_bridge"
+    },
+    {
+      "file": "candidate/qi/processing/qi_coordinator.py",
+      "line": 230,
+      "import": "candidate.core.bridges.consciousness_quantum_bridge"
+    },
+    {
+      "file": "candidate/qi/processing/qi_glyph_registry.py",
+      "line": 15,
+      "import": "lukhas.memory.distributed_state_manager"
+    },
+    {
+      "file": "candidate/qi/collapse/unified_collapse_system.py",
+      "line": 25,
+      "import": "lukhas.consciousness.awareness.symbolic_trace_logger"
+    },
+    {
+      "file": "candidate/qi/collapse/unified_collapse_system.py",
+      "line": 26,
+      "import": "lukhas.memory.systems.memory_collapse_verifier"
+    },
+    {
+      "file": "candidate/qi/collapse/brain_collapse_manager.py",
+      "line": 26,
+      "import": "lukhas.consciousness.awareness.symbolic_trace_logger"
+    },
+    {
+      "file": "candidate/qi/collapse/brain_collapse_manager.py",
+      "line": 27,
+      "import": "lukhas.memory.systems.memory_collapse_verifier"
+    },
+    {
+      "file": "candidate/qi/states/phase_qi_integration.py",
+      "line": 37,
+      "import": "candidate.core.identity.identity_engine"
+    },
+    {
+      "file": "candidate/qi/states/phase_qi_integration.py",
+      "line": 38,
+      "import": "candidate.core.integration.governance.__init__"
+    },
+    {
+      "file": "candidate/qi/states/phase_qi_integration.py",
+      "line": 39,
+      "import": "candidate.core.testing.plugin_test_framework"
+    },
+    {
+      "file": "candidate/qi/states/integration.py",
+      "line": 47,
+      "import": "candidate.core.bio_systems.qi_inspired_layer"
+    },
+    {
+      "file": "candidate/qi/states/integrity_probe.py",
+      "line": 20,
+      "import": "lukhas.memory.core_memory.memory_collapse_verifier"
+    },
+    {
+      "file": "candidate/audit/tool_analytics.py",
+      "line": 14,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/vivox/__init__.py",
+      "line": 25,
+      "import": "lukhas.candidate.vivox"
+    },
+    {
+      "file": "candidate/orchestration/context_bus.py",
+      "line": 29,
+      "import": "lukhas.governance.consent_ledger.ledger_v1"
+    },
+    {
+      "file": "candidate/orchestration/multi_model_orchestration.py",
+      "line": 61,
+      "import": "lukhas.bridge.anthropic_bridge"
+    },
+    {
+      "file": "candidate/orchestration/multi_model_orchestration.py",
+      "line": 62,
+      "import": "lukhas.bridge.google_bridge"
+    },
+    {
+      "file": "candidate/orchestration/multi_model_orchestration.py",
+      "line": 63,
+      "import": "lukhas.bridge.openai_bridge"
+    },
+    {
+      "file": "candidate/orchestration/gpt_colony_orchestrator.py",
+      "line": 23,
+      "import": "candidate.core.colonies.enhanced_colony"
+    },
+    {
+      "file": "candidate/orchestration/gpt_colony_orchestrator.py",
+      "line": 28,
+      "import": "lukhas.consciousness.reflection.openai_modulated_service"
+    },
+    {
+      "file": "candidate/orchestration/brain.py",
+      "line": 9,
+      "import": "lukhas.accepted.orchestrator.brain"
+    },
+    {
+      "file": "candidate/orchestration/agent_orchestrator/intelligence_bridge.py",
+      "line": 19,
+      "import": "lukhas.consciousness.reasoning.advanced_engines.intelligence_engines"
+    },
+    {
+      "file": "candidate/orchestration/brain/unified_cognitive_orchestrator.py",
+      "line": 24,
+      "import": "candidate.core.colonies.advanced_consensus_algorithms"
+    },
+    {
+      "file": "candidate/orchestration/brain/unified_cognitive_orchestrator.py",
+      "line": 43,
+      "import": "candidate.core.glyph.glyph_engine_enhanced"
+    },
+    {
+      "file": "candidate/orchestration/brain/unified_cognitive_orchestrator.py",
+      "line": 49,
+      "import": "lukhas.memory.folds.optimized_fold_engine"
+    },
+    {
+      "file": "candidate/governance/identity/qrg_integration.py",
+      "line": 41,
+      "import": "lukhas.consciousness.core_consciousness.consciousness_engine"
+    },
+    {
+      "file": "candidate/governance/identity/qrg_integration.py",
+      "line": 44,
+      "import": "lukhas.consciousness.core_consciousness.qi_consciousness_visualizer"
+    },
+    {
+      "file": "candidate/governance/identity/unified_login_interface.py",
+      "line": 55,
+      "import": "candidate.core.unified_auth_manager"
+    },
+    {
+      "file": "candidate/governance/identity/auth_backend/websocket_server.py",
+      "line": 68,
+      "import": "lukhas.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "file": "candidate/governance/identity/auth_backend/websocket_server.py",
+      "line": 71,
+      "import": "lukhas.core.oracle_nervous_system"
+    },
+    {
+      "file": "candidate/governance/identity/core/swarm/tier_aware_swarm_hub.py",
+      "line": 15,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/governance/identity/core/colonies/biometric_verification_colony.py",
+      "line": 21,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/governance/identity/core/colonies/consciousness_verification_colony.py",
+      "line": 20,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/governance/identity/core/colonies/dream_verification_colony.py",
+      "line": 22,
+      "import": "candidate.core.enhanced_swarm"
+    },
+    {
+      "file": "candidate/governance/identity/core/health/identity_health_monitor.py",
+      "line": 20,
+      "import": "candidate.core.self_healing"
+    },
+    {
+      "file": "candidate/governance/identity/core/tagging/identity_tag_resolver.py",
+      "line": 26,
+      "import": "candidate.core.tagging_system"
+    },
+    {
+      "file": "candidate/governance/identity/auth_web/websocket_server.py",
+      "line": 68,
+      "import": "lukhas.core.colonies.ethics_swarm_colony"
+    },
+    {
+      "file": "candidate/governance/identity/auth_web/websocket_server.py",
+      "line": 71,
+      "import": "lukhas.core.oracle_nervous_system"
+    },
+    {
+      "file": "candidate/governance/ethics/ethical_drift_detector.py",
+      "line": 32,
+      "import": "candidate.core.symbolic.symbolic_tracer"
+    },
+    {
+      "file": "candidate/governance/ethics/voice_duet.py",
+      "line": 27,
+      "import": "candidate.core.lukhas_emotion_log"
+    },
+    {
+      "file": "candidate/api/perf.py",
+      "line": 20,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/api/metrics.py",
+      "line": 8,
+      "import": "lukhas.metrics"
+    },
+    {
+      "file": "candidate/api/audit.py",
+      "line": 4,
+      "import": "lukhas.audit.store"
+    },
+    {
+      "file": "candidate/api/feedback.py",
+      "line": 7,
+      "import": "lukhas.feedback.store"
+    },
+    {
+      "file": "candidate/api/tools.py",
+      "line": 8,
+      "import": "lukhas.openai.tooling"
+    },
+    {
+      "file": "candidate/api/dna.py",
+      "line": 3,
+      "import": "lukhas.dna.memory_inmem"
+    },
+    {
+      "file": "candidate/api/dna.py",
+      "line": 4,
+      "import": "lukhas.migration.legacy_jsonl"
+    },
+    {
+      "file": "candidate/api/admin.py",
+      "line": 11,
+      "import": "lukhas.audit.analytics_read"
+    },
+    {
+      "file": "candidate/api/admin.py",
+      "line": 17,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 7,
+      "import": "lukhas.api.admin"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 8,
+      "import": "lukhas.api.audit"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 9,
+      "import": "lukhas.api.dna"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 10,
+      "import": "lukhas.api.feedback"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 11,
+      "import": "lukhas.api.incidents"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 12,
+      "import": "lukhas.api.metrics"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 13,
+      "import": "lukhas.api.ops"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 14,
+      "import": "lukhas.api.perf"
+    },
+    {
+      "file": "candidate/api/app.py",
+      "line": 15,
+      "import": "lukhas.api.tools"
+    },
+    {
+      "file": "candidate/api/incidents.py",
+      "line": 10,
+      "import": "lukhas.audit.tool_analytics"
+    },
+    {
+      "file": "candidate/dna/memory_inmem.py",
+      "line": 4,
+      "import": "lukhas.dna.interfaces"
+    },
+    {
+      "file": "candidate/monitoring/unified_dashboard.py",
+      "line": 219,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/monitoring/trigger_flow_example.py",
+      "line": 18,
+      "import": "lukhas.consciousness.unified.auto_consciousness"
+    },
+    {
+      "file": "candidate/monitoring/trigger_flow_example.py",
+      "line": 19,
+      "import": "lukhas.emotion.service"
+    },
+    {
+      "file": "candidate/monitoring/trigger_flow_example.py",
+      "line": 20,
+      "import": "lukhas.memory.memoria"
+    },
+    {
+      "file": "candidate/migration/dual_write.py",
+      "line": 3,
+      "import": "lukhas.dna.interfaces"
+    },
+    {
+      "file": "candidate/migration/dual_write.py",
+      "line": 4,
+      "import": "lukhas.flags"
+    },
+    {
+      "file": "candidate/migration/dual_write.py",
+      "line": 5,
+      "import": "lukhas.migration.legacy_store"
+    },
+    {
+      "file": "candidate/migration/legacy_jsonl.py",
+      "line": 5,
+      "import": "lukhas.migration.legacy_store"
+    },
+    {
+      "file": "candidate/migration/read_strategy.py",
+      "line": 3,
+      "import": "lukhas.dna.interfaces"
+    },
+    {
+      "file": "candidate/migration/read_strategy.py",
+      "line": 4,
+      "import": "lukhas.migration.legacy_store"
+    },
+    {
+      "file": "candidate/emotion/dreamseed_upgrade.py",
+      "line": 49,
+      "import": "lukhas.memory.governance.ethical_drift_governor"
+    },
+    {
+      "file": "candidate/emotion/emotion_hub.py",
+      "line": 95,
+      "import": "lukhas.memory.emotional_memory"
+    },
+    {
+      "file": "candidate/emotion/mood/trust_binder.py",
+      "line": 53,
+      "import": "candidate.core.bio_systems.stability_anchor"
+    },
+    {
+      "file": "candidate/emotion/mood/trust_binder.py",
+      "line": 54,
+      "import": "candidate.core.bio_systems.stress_signal"
+    },
+    {
+      "file": "candidate/emotion/mood/trust_binder.py",
+      "line": 55,
+      "import": "candidate.core.bio_systems.symbolic_entropy"
+    },
+    {
+      "file": "candidate/emotion/mood/recovery_protocol.py",
+      "line": 16,
+      "import": "candidate.core.bio_systems.bio_oscillator"
+    },
+    {
+      "file": "candidate/emotion/mood/recovery_protocol.py",
+      "line": 17,
+      "import": "candidate.core.bio_systems.bio_simulation_controller"
+    }
+  ]
+}

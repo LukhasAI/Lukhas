@@ -1,0 +1,7 @@
+api/__init__.py
+api/api_hub/__init__.py
+api/consciousness_chat_api.py
+api/feedback_api.py
+api/integrated_consciousness_api.py
+api/public/README.md
+api/universal_language_api.py

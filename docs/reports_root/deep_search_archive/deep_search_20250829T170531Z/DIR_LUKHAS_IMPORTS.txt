@@ -1,0 +1,398 @@
+>>> lukhas/__init__.py
+from . import core, governance, identity, observability, orchestration
+
+>>> lukhas/bio/__init__.py
+from .core import (
+from .utilities import BioUtilities, apply_evolution, calculate_bio_energy
+
+>>> lukhas/bio/core/__init__.py
+from .bio_symbolic import (
+
+>>> lukhas/bio/core/bio_symbolic.py
+import logging
+from datetime import datetime
+from enum import Enum
+
+>>> lukhas/bio/utilities.py
+import logging
+import math
+import random
+
+>>> lukhas/branding_bridge.py
+from the main LUKHAS system despite containing 27+ sophisticated brand compliance modules.
+    from lukhas.branding_bridge import (
+import logging
+
+>>> lukhas/bridge/__init__.py
+import logging
+import os
+from typing import Any, Dict, List, Optional
+
+>>> lukhas/bridge/bridge_wrapper.py
+import asyncio
+import logging
+import os
+
+>>> lukhas/bridge/llm_wrappers/__init__.py
+import logging
+    from .unified_openai_client import (
+    from .openai_modulated_service import (  # noqa: F401 (re-export)
+
+>>> lukhas/bridge/llm_wrappers/openai_modulated_service.py
+import logging
+import time
+import uuid
+
+>>> lukhas/bridge/llm_wrappers/unified_openai_client.py
+import logging
+import os
+import uuid
+
+>>> lukhas/consciousness/__init__.py
+from .consciousness_wrapper import (
+
+>>> lukhas/consciousness/consciousness_wrapper.py
+import os
+import time
+from dataclasses import dataclass, field
+
+>>> lukhas/core/__init__.py
+from .actor_system import Actor
+from .actor_system import ActorRef
+from .actor_system import ActorSystem
+
+>>> lukhas/core/actor_system.py
+import logging
+from typing import Any
+from typing import Optional
+
+>>> lukhas/core/colonies/__init__.py
+import importlib
+import logging
+import sys
+
+>>> lukhas/core/common/__init__.py
+from .config import ConfigLoader
+from .config import get_config
+from .decorators import lukhas_tier_required
+
+>>> lukhas/core/common/config.py
+import json
+import os
+from dataclasses import dataclass
+
+>>> lukhas/core/common/decorators.py
+import asyncio
+import functools
+import random
+
+>>> lukhas/core/common/exceptions.py
+from typing import Any
+from typing import Optional
+
+>>> lukhas/core/common/glyph.py
+import json
+import uuid
+from dataclasses import asdict
+
+>>> lukhas/core/common/logger.py
+import json
+import logging
+import sys
+
+>>> lukhas/core/core_wrapper.py
+from __future__ import annotations
+import logging
+import os
+
+>>> lukhas/core/distributed_tracing.py
+import json
+import logging
+import threading
+
+>>> lukhas/core/efficient_communication.py
+import asyncio
+import json
+import logging
+
+>>> lukhas/core/event_sourcing.py
+import json
+import logging
+import sqlite3
+
+>>> lukhas/core/import_router.py
+import importlib
+import logging
+from functools import lru_cache
+
+>>> lukhas/core/policy/__init__.py
+
+>>> lukhas/core/policy/decision.py
+from __future__ import annotations
+from typing import Any
+from lukhas.observability.matriz_decorators import instrument
+
+>>> lukhas/core/supervisor_agent.py
+import logging
+from datetime import datetime
+from typing import Any
+
+>>> lukhas/core/symbolism/__init__.py
+from .methylation_model import MethylationModel
+from .methylation_model import get_methylation_model
+from .tags import SymbolicTag
+
+>>> lukhas/core/symbolism/methylation_model.py
+import logging
+import math
+from datetime import datetime
+
+>>> lukhas/core/symbolism/tags.py
+import logging
+from enum import Enum
+from typing import Any
+
+>>> lukhas/emotion/__init__.py
+import logging
+import os
+from typing import Any, Dict, List, Optional, Tuple
+
+>>> lukhas/emotion/emotion_wrapper.py
+import logging
+from typing import Any, Optional
+from lukhas.observability.matriz_decorators import instrument
+
+>>> lukhas/governance/__init__.py
+    from .guardian import Guardian
+    from .guardian_sentinel import GuardianSentinel
+    from .guardian_shadow_filter import GuardianShadowFilter
+
+>>> lukhas/governance/auth_cross_module_integration.py
+import uuid
+from dataclasses import asdict, dataclass
+from datetime import datetime
+
+>>> lukhas/governance/auth_glyph_registry.py
+import hashlib
+from dataclasses import dataclass
+from datetime import datetime
+
+>>> lukhas/governance/auth_governance_policies.py
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+
+>>> lukhas/governance/auth_guardian_integration.py
+import logging
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+>>> lukhas/governance/auth_integration_system.py
+import asyncio
+import logging
+import uuid
+
+>>> lukhas/governance/consent_ledger.py
+from __future__ import annotations
+import os
+from typing import Any
+
+>>> lukhas/governance/consent_ledger/__init__.py
+from .api import record_consent
+
+>>> lukhas/governance/consent_ledger/api.py
+import os
+import time
+import uuid
+
+>>> lukhas/governance/consent_ledger/providers/__init__.py
+
+>>> lukhas/governance/consent_ledger/providers/null_provider.py
+from typing import Any
+
+>>> lukhas/governance/consent_ledger/registry.py
+from .providers.null_provider import NullConsentProvider
+
+>>> lukhas/governance/consent_ledger_impl.py
+import hashlib
+import hmac
+import json
+
+>>> lukhas/governance/guardian/__init__.py
+from __future__ import annotations
+import os
+from dataclasses import dataclass
+
+>>> lukhas/governance/guardian/core.py
+from __future__ import annotations
+from dataclasses import dataclass
+from enum import Enum
+
+>>> lukhas/governance/guardian/guardian_impl.py
+from __future__ import annotations
+from typing import Any
+from lukhas.governance.guardian.core import (
+
+>>> lukhas/governance/guardian/guardian_wrapper.py
+from __future__ import annotations
+import os
+import uuid
+
+>>> lukhas/governance/guardian_bridge.py
+from __future__ import annotations
+from typing import Any, Dict
+from lukhas.governance.guardian.guardian_wrapper import detect_drift
+
+>>> lukhas/governance/identity/__init__.py
+import importlib
+import logging
+import sys
+
+>>> lukhas/governance/identity/connector.py
+import functools
+from typing import Any, Callable
+from identity.audit_logger import AuditLogger
+
+>>> lukhas/governance/identity/interface.py
+    from identity_interface import IdentityClient
+import os
+import sys
+
+>>> lukhas/identity/__init__.py
+from . import lambda_id, webauthn
+    import sys
+    from identity.identity_core import AccessTier, IdentityCore
+
+>>> lukhas/identity/auth/__init__.py
+import asyncio
+import logging
+from dataclasses import dataclass
+
+>>> lukhas/identity/auth_integration.py
+import logging
+import sys
+from pathlib import Path
+
+>>> lukhas/identity/auth_service.py
+import hashlib
+import hmac
+import json
+
+>>> lukhas/identity/lambda_id.py
+from __future__ import annotations
+import os
+from typing import Any
+
+>>> lukhas/identity/passkey/__init__.py
+from .api import verify_passkey
+
+>>> lukhas/identity/passkey/api.py
+import os
+from typing import Any
+from lukhas.observability.matriz_decorators import instrument
+
+>>> lukhas/identity/passkey/providers/__init__.py
+
+>>> lukhas/identity/passkey/providers/null_webauthn.py
+from typing import Any
+
+>>> lukhas/identity/passkey/registry.py
+from .providers.null_webauthn import NullWebAuthnProvider
+
+>>> lukhas/identity/qrg/__init__.py
+import logging
+import sys
+from pathlib import Path
+
+>>> lukhas/identity/wallet/__init__.py
+import logging
+import sys
+from pathlib import Path
+
+>>> lukhas/identity/webauthn.py
+import base64
+import json
+import secrets
+
+>>> lukhas/memory/__init__.py
+from typing import Any, Dict, List, Optional
+    from .fold_system import FoldManager, MemoryFold
+    from .matriz_adapter import MemoryMatrizAdapter
+
+>>> lukhas/memory/config.py
+import os
+from dataclasses import dataclass
+from typing import Any
+
+>>> lukhas/memory/emotional/__init__.py
+import logging
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+>>> lukhas/memory/fold_system.py
+import time
+import uuid
+from dataclasses import dataclass, field
+
+>>> lukhas/memory/matriz_adapter.py
+import time
+import uuid
+from typing import Any, Optional
+
+>>> lukhas/memory/memory_wrapper.py
+import os
+import time
+from typing import Any, Optional
+
+>>> lukhas/observability/__init__.py
+
+>>> lukhas/observability/matriz_decorators.py
+from __future__ import annotations
+from functools import wraps
+from .matriz_emit import emit, make_node
+
+>>> lukhas/observability/matriz_emit.py
+from __future__ import annotations
+import contextlib
+import json
+
+>>> lukhas/orchestration/__init__.py
+    from lukhas.branding_bridge import (
+from .context_bus import build_context
+from .kernel_bus import (
+
+>>> lukhas/orchestration/context/__init__.py
+from .api import handoff_context
+
+>>> lukhas/orchestration/context/api.py
+import os
+import time
+from typing import Any
+
+>>> lukhas/orchestration/context_bus.py
+from __future__ import annotations
+from typing import Any
+from lukhas.observability.matriz_decorators import instrument
+
+>>> lukhas/orchestration/kernel_bus.py
+from __future__ import annotations
+import logging
+import os
+
+>>> lukhas/qi/__init__.py
+    from lukhas.qi import get_qi_wrapper
+import logging
+import os
+
+>>> lukhas/qi/qi_wrapper.py
+import logging
+import os
+from datetime import datetime, timezone
+
+>>> lukhas/vivox/__init__.py
+from .vivox_wrapper import ConsciousnessLevel, VivoxConfig, VivoxWrapper
+
+>>> lukhas/vivox/vivox_wrapper.py
+import os
+import time
+from dataclasses import dataclass, field

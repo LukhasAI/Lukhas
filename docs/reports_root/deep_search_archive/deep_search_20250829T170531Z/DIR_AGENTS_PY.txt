@@ -1,0 +1,13 @@
+agents/CLAUDE/__init__.py
+agents/CLAUDE/mvp_demo.py
+agents/CLAUDE/workspaces/__init__.py
+agents/CLAUDE/workspaces/consent-compliance-specialist/__init__.py
+agents/CLAUDE/workspaces/consent-compliance-specialist/src/__init__.py
+agents/CLAUDE/workspaces/consent-compliance-specialist/src/consent_ledger.py
+agents/CLAUDE/workspaces/identity-auth-specialist/__init__.py
+agents/CLAUDE/workspaces/identity-auth-specialist/src/__init__.py
+agents/CLAUDE/workspaces/identity-auth-specialist/src/lambda_id.py
+agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/__init__.py
+agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py
+agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/sbom.py
+agents/__init__.py

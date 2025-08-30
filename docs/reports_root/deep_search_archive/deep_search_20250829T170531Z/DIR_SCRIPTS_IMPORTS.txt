@@ -1,0 +1,192 @@
+>>> scripts/__init__.py
+
+>>> scripts/activate_core_systems.py
+import asyncio
+import logging
+import sys
+
+>>> scripts/analysis/agi_module_analyzer.py
+import ast
+import json
+from collections import defaultdict
+
+>>> scripts/analysis/ai_consolidator.py
+import asyncio
+import json
+from pathlib import Path
+
+>>> scripts/analysis/analyze_init_files.py
+import os
+
+>>> scripts/analysis/codebase_analyzer.py
+import json
+import os
+import re
+
+>>> scripts/auto_improve.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/backup_create.py
+import argparse
+import fnmatch
+import hashlib
+
+>>> scripts/brand_validator.py
+import sys
+from pathlib import Path
+
+>>> scripts/cleanup_security_backups.py
+import os
+import shutil
+from datetime import datetime
+
+>>> scripts/colony_dna_smoke.py
+from lukhas.colony.adapters.consensus_to_dna import (
+from lukhas.colony.contracts import ConsensusResult
+from lukhas.dna.memory_inmem import InMemoryHelix
+
+>>> scripts/consolidate_vocabularies_safely.py
+import hashlib
+import os
+from pathlib import Path
+
+>>> scripts/file-organizer.py
+import argparse
+import json
+import logging
+
+>>> scripts/fix_imports.py
+import re
+from pathlib import Path
+    import sys
+
+>>> scripts/fix_security_issues.py
+import asyncio
+import json
+from datetime import datetime
+
+>>> scripts/fix_security_vulnerabilities.py
+import asyncio
+import json
+import os
+
+>>> scripts/fix_specific_syntax_errors.py
+import re
+from pathlib import Path
+    import sys
+
+>>> scripts/fix_syntax_errors.py
+import ast
+import re
+import sys
+
+>>> scripts/integration/__init__.py
+
+>>> scripts/integration/demo_tool_gating.py
+import time
+from typing import Any
+    from lukhas.audit.store import audit_log_write
+
+>>> scripts/integration/demo_tool_governance.py
+import json
+import sys
+import uuid
+
+>>> scripts/integration/governance_extended.py
+
+>>> scripts/kpi_badge.py
+import argparse
+import json
+from pathlib import Path
+
+>>> scripts/lukhas_mcp_server.py
+import asyncio
+import json
+import logging
+
+>>> scripts/lukhas_mcp_server_simple.py
+import asyncio
+import json
+import logging
+
+>>> scripts/migrate_memory_to_dna.py
+import argparse
+import json
+import time
+
+>>> scripts/migrate_top3_to_production.py
+import shutil
+from datetime import datetime
+from pathlib import Path
+
+>>> scripts/ollama_manager.py
+import asyncio
+import subprocess
+import time
+
+>>> scripts/ollama_security_analyzer.py
+import asyncio
+import json
+import subprocess
+
+>>> scripts/report_kpi_backup.py
+import json
+import argparse
+import time
+
+>>> scripts/restore.py
+import argparse
+import json
+import os
+
+>>> scripts/rotate_secrets.py
+import json
+import os
+import re
+
+>>> scripts/run_phase2_validation.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/security-autopilot.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/security-update.py
+import argparse
+import json
+import subprocess
+
+>>> scripts/security_scheduler.py
+import json
+import os
+import subprocess
+
+>>> scripts/transfer_candidate_scanner.py
+from __future__ import annotations
+import contextlib
+import json
+
+>>> scripts/utilities/IMMEDIATE_CONFIG_ANALYSIS.py
+import os
+
+>>> scripts/utilities/__init__.py
+
+>>> scripts/utils/check_stubs.py
+import os
+
+>>> scripts/utils/cleanup_generator.py
+import json
+import re
+from pathlib import Path
+
+>>> scripts/utils/launch_transmission.py
+from transmission_bundle.launch_transmission import *  # noqa: F401,F403
+
+>>> scripts/utils/update_qi_imports.py
+import os
+import re

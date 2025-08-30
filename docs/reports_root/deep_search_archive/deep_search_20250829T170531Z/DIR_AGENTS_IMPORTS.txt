@@ -1,0 +1,37 @@
+>>> agents/CLAUDE/__init__.py
+
+>>> agents/CLAUDE/mvp_demo.py
+import json
+import sys
+import time
+
+>>> agents/CLAUDE/workspaces/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/src/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/src/consent_ledger.py
+import hashlib
+import json
+import sqlite3
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/__init__.py
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/src/__init__.py
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/src/lambda_id.py
+import base64
+import hashlib
+import secrets
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/__init__.py
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/sbom.py
+import json
+import subprocess
+from datetime import datetime
+
+>>> agents/__init__.py

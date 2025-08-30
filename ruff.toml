@@ -1,0 +1,47 @@
+# Ruff as the single source of truth (lint + formatter)
+target-version = "py39"  # adjust if your code is 3.10/3.11
+line-length = 100
+extend-exclude = [
+  ".*build*/", ".*dist*/", ".*venv*/", ".git/", ".mypy_cache/", ".ruff_cache/",
+  "node_modules/", "reports/", "scripts/generated/", "MATRIZ/**/*.json"
+]
+
+[lint]
+select = [
+  "E",    # pycodestyle errors
+  "F",    # pyflakes
+  "W",    # pycodestyle warnings
+  "I",    # isort (import order)
+  "UP",   # pyupgrade (modernize syntax)
+  "B",    # flake8-bugbear (bug-prone patterns)
+  "DTZ",  # flake8-datetimez (tz-aware)
+  "Q",    # flake8-quotes
+  "SIM",  # flake8-simplify
+  "RUF",  # ruff-specific
+  "ARG",  # flake8-unused-arguments
+  "ANN",  # flake8-annotations (lightweight)
+  "PLC",  # pylint conventions (select ones Ruff supports)
+  "PERF", # performance anti-patterns
+]
+ignore = [
+  # relax annotations on tests and dunder inits for now
+  "ANN101", "ANN102", "ANN401",
+  # allow __init__ to re-export w/out noise
+  "F401",
+]
+
+[lint.per-file-ignores]
+"**/__init__.py" = ["F401", "F403"]
+"tests/**" = ["ANN", "S101"]  # tests are less strict
+
+[lint.isort]
+known-first-party = ["lukhas", "matriz"]
+combine-as-imports = true
+
+[format]
+# Ruff’s formatter (no Black) — deterministic, fast
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+skip-magic-trailing-comma = false
