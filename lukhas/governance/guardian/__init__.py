@@ -54,10 +54,10 @@ try:
 except ImportError:
     # Create minimal fallback if bridge is not available
     class GuardianSystem:
-        def __init__(self, drift_threshold=0.15):
+        def __init__(self, drift_threshold=0.15) -> None:
             self.drift_threshold = drift_threshold
 
-        async def check_drift(self, data):
+        async def check_drift(self, data) -> float:
             return 0.05  # Safe default
 
         def get_status(self):

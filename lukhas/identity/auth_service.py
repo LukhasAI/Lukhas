@@ -158,7 +158,7 @@ class AuthenticationService:
     - API key authentication for services
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
         self.config = config or {}
         self.logger = logging.getLogger("auth.service")
 
@@ -188,7 +188,7 @@ class AuthenticationService:
             f"Authentication service initialized with {implementation_type} implementations"
         )
 
-    def _init_storage(self):
+    def _init_storage(self) -> None:
         """Initialize user storage"""
         self.storage_path = Path(self.config.get("storage_path", "data/auth"))
         self.storage_path.mkdir(parents=True, exist_ok=True)
@@ -203,7 +203,7 @@ class AuthenticationService:
         self.users = self._load_json_file(self.users_file, {})
         self._cleanup_expired_sessions()
 
-    def _init_real_identity_components(self):
+    def _init_real_identity_components(self) -> None:
         """Initialize real production-ready identity components"""
         try:
             # Initialize access tier manager for T1-T5 tier system
@@ -228,12 +228,12 @@ class AuthenticationService:
             self.logger.warning(f"Failed to initialize real components, falling back: {e}")
             self._init_fallback_components()
 
-    def _init_fallback_components(self):
+    def _init_fallback_components(self) -> None:
         """Initialize fallback mock implementations"""
 
         # Simple mock implementations
         class MockAccessTierManager:
-            def get_user_tier(self, user_id: str):
+            def get_user_tier(self, user_id: str) -> str:
                 return "T2_authenticated"
 
             async def assess_tier_promotion(self, user_id: str):
@@ -244,11 +244,11 @@ class AuthenticationService:
                 return {"valid": True, "risk_score": 0.1, "trust_score": 0.8}
 
         class MockQIIdentityManager:
-            def create_quantum_identity(self, user_id: str):
+            def create_quantum_identity(self, user_id: str) -> str:
                 return f"qi_{user_id}_{time.time()}"
 
         class MockAuditLogger:
-            async def log_authentication_attempt(self, *args, **kwargs):
+            async def log_authentication_attempt(self, *args, **kwargs) -> str:
                 return f"audit_{time.time()}"
 
         class MockAuthServer:
@@ -264,7 +264,7 @@ class AuthenticationService:
         self.logger.info("⚠️ Using fallback mock implementations")
         self._implementation_type = "fallback"
 
-    def _init_wallet_integration(self):
+    def _init_wallet_integration(self) -> None:
         """Initialize wallet integration if available"""
         if WALLET_AVAILABLE:
             try:
@@ -555,7 +555,7 @@ class AuthenticationService:
                 success=True,
                 user_id=user_id,
                 session_token=session_token,
-                permissions=user_data.get("permissions", ["basic_access"]) + [f"tier_{user_tier}"],
+                permissions=[*user_data.get("permissions", ["basic_access"]), f"tier_{user_tier}"],
                 expires_at=time.time() + self.session_timeout,
                 auth_method="enhanced_identity",
             )
@@ -588,7 +588,7 @@ class AuthenticationService:
             "user_id": user_id,
             "created_at": time.time(),
             "expires_at": expires_at,
-            "permissions": user_data.get("permissions", ["basic_access"]) + [f"tier_{user_tier}"],
+            "permissions": [*user_data.get("permissions", ["basic_access"]), f"tier_{user_tier}"],
             "validation_score": validation_result.get("trust_score", 0.5),
             "risk_score": validation_result.get("risk_score", 0.1),
             "implementation": self._implementation_type,
@@ -783,7 +783,7 @@ class AuthenticationService:
             self.logger.error(f"Error loading {file_path}: {e}")
             return default
 
-    def _save_users(self):
+    def _save_users(self) -> None:
         """Save users to file"""
         try:
             with open(self.users_file, "w") as f:
@@ -791,7 +791,7 @@ class AuthenticationService:
         except Exception as e:
             self.logger.error(f"Error saving users: {e}")
 
-    def _save_sessions(self):
+    def _save_sessions(self) -> None:
         """Save sessions to file"""
         try:
             # Only save non-expired sessions
@@ -869,7 +869,7 @@ class AuthenticationService:
             },
         }
 
-    def _cleanup_expired_sessions(self):
+    def _cleanup_expired_sessions(self) -> None:
         """Remove expired sessions"""
         current_time = time.time()
         expired_tokens = [

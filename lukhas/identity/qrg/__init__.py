@@ -28,7 +28,7 @@ class QRGAuthBridge:
         self._qi_entropy = None
         self._initialized = False
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize QRG components"""
         if self._initialized:
             return
@@ -65,7 +65,7 @@ class QRGAuthBridge:
             self.logger.error("QRG verification failed: %s", e)
             return {"success": False, "error": str(e)}
 
-    async def _load_qrg_components(self):
+    async def _load_qrg_components(self) -> None:
         """Load QRG components"""
         # Components will be loaded dynamically when available
         self.logger.info("QRG components loading deferred until runtime")

@@ -114,7 +114,7 @@ class FoldManager:
             )
             return error_fold
 
-    def _prevent_cascade(self):
+    def _prevent_cascade(self) -> None:
         """Prevent memory cascade by intelligently pruning folds"""
         if not self.cascade_prevention_active:
             return

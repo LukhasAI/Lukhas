@@ -20,11 +20,21 @@ def test_policy_engine_initialization():
 def test_policy_assessment():
     """Test policy assessment creation."""
     try:
-        from lukhas.governance.auth_governance_policies import PolicyAssessment, PolicySeverity
+        from datetime import datetime, timezone
+        from lukhas.governance.auth_governance_policies import PolicyAssessment
 
-        assessment = PolicyAssessment(passed=True, severity=PolicySeverity.LOW, violations=[])
-        assert assessment.passed is True
-        assert assessment.severity == PolicySeverity.LOW
+        # Using all required parameter names from the dataclass
+        assessment = PolicyAssessment(
+            compliant=True, 
+            violations=[], 
+            recommendations=[],
+            risk_score=0.0,
+            assessment_timestamp=datetime.now(timezone.utc)
+        )
+        assert assessment.compliant is True
+        assert assessment.violations == []
+        assert assessment.recommendations == []
+        assert assessment.risk_score == 0.0
 
     except ImportError:
         pytest.skip("Governance policies not available")

@@ -33,7 +33,7 @@ except ImportError as e:
         def verify_user_access(self, user_id: str, tier: str) -> bool:
             return True
 
-        def log_activity(self, **kwargs):
+        def log_activity(self, **kwargs) -> None:
             pass
 
 
@@ -69,7 +69,7 @@ class IdentityImportBridge:
         self._cache = {}
         self._install_hooks()
 
-    def _install_hooks(self):
+    def _install_hooks(self) -> None:
         """Install import hooks for backward compatibility"""
         if "identity" not in sys.modules:
             # Create virtual identity module
@@ -109,7 +109,7 @@ class IdentityImportBridge:
 class IdentitySubmoduleBridge:
     """Bridge for identity submodules"""
 
-    def __init__(self, base_path: str):
+    def __init__(self, base_path: str) -> None:
         self.base_path = base_path
         self._cache = {}
 
@@ -151,7 +151,7 @@ class IdentitySubmoduleBridge:
         if "Manager" in name or "Engine" in name or "Adapter" in name:
 
             class FallbackClass:
-                def __init__(self, *args, **kwargs):
+                def __init__(self, *args, **kwargs) -> None:
                     logger.warning(f"Using fallback for {name}")
 
             return FallbackClass

@@ -119,7 +119,7 @@ class UnifiedOpenAIClient:
         default_model: str = "gpt-4o-mini",
         max_retries: int = 3,
         timeout: float = 60.0,
-    ):
+    ) -> None:
         """
         Initialize the unified OpenAI client.
 

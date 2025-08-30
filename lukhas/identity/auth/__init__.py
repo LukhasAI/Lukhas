@@ -82,7 +82,7 @@ class LUKHASAuthenticationSystem:
             GUARDIAN_SYMBOL: self._validate_guardian,
         }
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize all authentication components"""
         if self._initialized:
             return
@@ -183,22 +183,22 @@ class LUKHASAuthenticationSystem:
             result.metadata = {"error": str(e)}
             return result
 
-    async def _load_consciousness_components(self):
+    async def _load_consciousness_components(self) -> None:
         """Load consciousness-aware authentication components"""
         # These will be dynamically loaded from the consolidated system
         pass
 
-    async def _initialize_wallet_bridge(self):
+    async def _initialize_wallet_bridge(self) -> None:
         """Initialize WALLET integration bridge"""
         # Load and initialize WALLET components
         pass
 
-    async def _initialize_qrg_bridge(self):
+    async def _initialize_qrg_bridge(self) -> None:
         """Initialize QRG integration bridge"""
         # Load and initialize QRG components
         pass
 
-    async def _validate_trinity_framework(self):
+    async def _validate_trinity_framework(self) -> None:
         """Validate Trinity Framework compliance"""
         # Ensure all Trinity components are properly integrated
         pass

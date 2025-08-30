@@ -26,7 +26,7 @@ class WalletAuthBridge:
         self._qi_identity_core = None
         self._initialized = False
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize WALLET components"""
         if self._initialized:
             return
@@ -62,7 +62,7 @@ class WalletAuthBridge:
             self.logger.error("WALLET authentication failed: %s", e)
             return {"success": False, "error": str(e)}
 
-    async def _load_wallet_components(self):
+    async def _load_wallet_components(self) -> None:
         """Load WALLET components"""
         # Components will be loaded dynamically when available
         self.logger.info("WALLET components loading deferred until runtime")

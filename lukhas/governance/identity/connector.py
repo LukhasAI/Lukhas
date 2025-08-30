@@ -7,7 +7,7 @@ Production Implementation using real LUKHAS Constitutional AI and Access Control
 """
 
 import functools
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 
 class SecurityError(Exception):
@@ -59,13 +59,13 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
     class AuditLogger:
         """Fallback stub for AuditLogger"""
 
-        def log_access_denied(self, agent_id, func_name, tier, min_tier):
+        def log_access_denied(self, agent_id, func_name, tier, min_tier) -> None:
             print(f"ACCESS DENIED: {agent_id} tried {func_name} with tier {tier}, needs {min_tier}")
 
-        def log_access_granted(self, agent_id, func_name, tier):
+        def log_access_granted(self, agent_id, func_name, tier) -> None:
             print(f"ACCESS GRANTED: {agent_id} executed {func_name} with tier {tier}")
 
-        def log_event(self, source, event_type, data=None):
+        def log_event(self, source, event_type, data=None) -> None:
             print(f"AUDIT: {source} - {event_type} - {data}")
 
     class SafetyMonitor:
@@ -99,7 +99,7 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
 
 
 # No cross-lane imports from `candidate` in stable lane; provide a stub instead.
-def get_integration_hub():
+def get_integration_hub() -> None:
     """Stub for integration hub to avoid cross-lane import"""
     return None
 
@@ -125,7 +125,7 @@ class IdentityConnector:
             # Fall back to stubs only if real implementations fail
             self._initialize_fallback_stubs()
 
-    def _initialize_real_systems(self):
+    def _initialize_real_systems(self) -> None:
         """Initialize real production systems with lazy async initialization"""
         try:
             # Create access control engine without background tasks
@@ -190,7 +190,7 @@ class IdentityConnector:
 
                 print("🛡️ Sync Access Control Engine initialized")
 
-            def _create_system_admin(self):
+            def _create_system_admin(self) -> None:
                 """Create system administrator user"""
                 try:
                     import importlib
@@ -221,7 +221,7 @@ class IdentityConnector:
                 self.users["system_admin"] = system_admin
 
             async def check_access(
-                self, session_id: str, resource: str, access_type, context: dict = None
+                self, session_id: str, resource: str, access_type, context: Optional[dict] = None
             ):
                 """Check access with real tier validation"""
                 try:
@@ -332,12 +332,12 @@ class IdentityConnector:
                 print(f"⚠️ Policy violation: {policy_type} - {enforcement_action}")
                 return event_id
 
-            def log_event(self, source, event_type, data=None):
+            def log_event(self, source, event_type, data=None) -> None:
                 self._events.append({"source": source, "event_type": event_type, "data": data})
 
         return SyncAuditLogger()
 
-    def _initialize_fallback_stubs(self):
+    def _initialize_fallback_stubs(self) -> None:
         """Initialize fallback stub implementations"""
         self.access_control = self._create_access_control_stub()
         self.safety_monitor = self._create_safety_monitor_stub()
@@ -377,7 +377,7 @@ class IdentityConnector:
 
                 return MonitorContext()
 
-            async def assess_safety(self, content: str, context: dict, user_intent: str = None):
+            async def assess_safety(self, content: str, context: dict, user_intent: Optional[str] = None):
                 # Stub assessment - always safe
                 from dataclasses import dataclass
                 from datetime import datetime
@@ -414,20 +414,20 @@ class IdentityConnector:
         """Create audit logger stub"""
 
         class AuditLoggerStub:
-            def log_identity_event(self, event_type, details=None):
+            def log_identity_event(self, event_type, details=None) -> None:
                 pass
 
-            def log_access_event(self, event_type, details=None):
+            def log_access_event(self, event_type, details=None) -> None:
                 pass
 
             async def log_constitutional_enforcement(
                 self, action, enforcement_type, details, user_id=None, session_id=None
-            ):
+            ) -> str:
                 return "stub_event_id"
 
             async def log_authentication_attempt(
                 self, attempt_result, details, user_id=None, session_id=None
-            ):
+            ) -> str:
                 return "stub_event_id"
 
             async def log_policy_violation(
@@ -437,10 +437,10 @@ class IdentityConnector:
                 enforcement_action,
                 user_id=None,
                 session_id=None,
-            ):
+            ) -> str:
                 return "stub_event_id"
 
-            def log_event(self, source, event_type, data=None):
+            def log_event(self, source, event_type, data=None) -> None:
                 pass
 
         return AuditLoggerStub()
@@ -540,7 +540,7 @@ class IdentityConnector:
 
         return decorator
 
-    async def connect_to_module(self, module_name: str, module_instance: Any):
+    async def connect_to_module(self, module_name: str, module_instance: Any) -> None:
         """Connect identity checks to a module using real implementations with security validation."""
         # Validate inputs
         if not isinstance(module_name, str) or not module_name.strip():
@@ -625,7 +625,7 @@ class IdentityConnector:
                     return ("deny", "invalid_parameters")
                 return ("allow", "stub")
 
-            async def stub_log_audit(*args, **kwargs):
+            async def stub_log_audit(*args, **kwargs) -> str:
                 return "stub_event_id"
 
             def stub_monitor_safety(agent_id, operation):
@@ -639,7 +639,7 @@ class IdentityConnector:
             module_instance._log_audit = stub_log_audit
             module_instance._monitor_safety = stub_monitor_safety
 
-    async def setup_cross_module_auth(self):
+    async def setup_cross_module_auth(self) -> None:
         """Setup authentication for cross-module communication using real systems."""
         auth_config = {
             "core": {"level": "T3_ADVANCED", "method": "constitutional_ai"},
@@ -662,7 +662,7 @@ class IdentityConnector:
                     },
                 )
 
-    async def configure_auth(self, module: str, config: dict[str, str]):
+    async def configure_auth(self, module: str, config: dict[str, str]) -> None:
         """Configure authentication for a specific module using real implementations."""
         # Store auth configuration
         if not hasattr(self, "auth_configs"):

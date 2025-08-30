@@ -120,7 +120,7 @@ class PermissionManager:
         self._initialize_default_permissions()
         logger.info("🛡️ Production Permission Manager initialized")
 
-    def _initialize_default_permissions(self):
+    def _initialize_default_permissions(self) -> None:
         """Initialize default system permissions"""
         default_permissions = [
             Permission(
@@ -201,7 +201,7 @@ class AccessControlEngine:
 
         logger.info("🛡️ Production Access Control Engine initialized")
 
-    def _create_system_admin(self):
+    def _create_system_admin(self) -> None:
         """Create system administrator user"""
         system_admin = User(
             user_id="system_admin",
@@ -469,7 +469,7 @@ class AccessControlEngine:
 
     async def _log_access_attempt(
         self, username: str, success: bool, reason: str, context: dict[str, Any]
-    ):
+    ) -> None:
         """Log authentication attempt"""
         logger.info(f"Auth attempt - User: {username}, Success: {success}, Reason: {reason}")
 

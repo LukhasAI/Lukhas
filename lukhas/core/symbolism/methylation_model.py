@@ -30,7 +30,7 @@ class MethylationModel:
         genetic_decay_factor: float = 0.5,
         temporal_decay_rate: float = 0.1,
         ethical_preservation_bonus: float = 1.5,
-    ):
+    ) -> None:
         """
         Initialize the methylation model.
 

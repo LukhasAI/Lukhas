@@ -39,7 +39,7 @@ except ImportError:
 class WebAuthnCredential:
     """WebAuthn credential data structure"""
 
-    def __init__(self, credential_data: dict):
+    def __init__(self, credential_data: dict) -> None:
         self.credential_id = credential_data.get("credential_id", "")
         self.public_key = credential_data.get("public_key", "")
         self.sign_count = credential_data.get("sign_count", 0)
@@ -68,7 +68,7 @@ class WebAuthnCredential:
 class WebAuthnManager:
     """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: Optional[dict] = None) -> None:
         self.config = config or {}
         self.rp_id = self.config.get("rp_id", "lukhas.ai")
         self.rp_name = self.config.get("rp_name", "LUKHAS AI Identity System")
@@ -593,7 +593,7 @@ class WebAuthnManager:
         except Exception:
             return False  # Deny on error for safety
 
-    def _update_consciousness_patterns(self, user_id: str, action: str):
+    def _update_consciousness_patterns(self, user_id: str, action: str) -> None:
         """🧠 Update consciousness patterns for security analysis"""
         # This would integrate with the consciousness tracking system
         timestamp = datetime.utcnow().isoformat()

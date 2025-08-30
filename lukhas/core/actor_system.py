@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class ActorRef:
     """Reference to an actor (enables location transparency)"""
 
-    def __init__(self, actor_id: str, actor_system: Optional["ActorSystem"] = None):
+    def __init__(self, actor_id: str, actor_system: Optional["ActorSystem"] = None) -> None:
         self.actor_id = actor_id
         self.actor_system = actor_system
 
@@ -67,7 +67,7 @@ def get_global_actor_system() -> ActorSystem:
 class Actor:
     """Base actor class for all actors in the system"""
 
-    def __init__(self, actor_id: str):
+    def __init__(self, actor_id: str) -> None:
         self.actor_id = actor_id
         self.handlers: dict[str, Any] = {}
 
@@ -99,7 +99,7 @@ class AIAgentActor(Actor):
     Lightweight, stateful AI agent that can handle tasks.
     """
 
-    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
+    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None) -> None:
         super().__init__(actor_id)
         self.capabilities = capabilities or []
         self.current_tasks: dict[str, dict] = {}

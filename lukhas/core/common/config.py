@@ -53,7 +53,7 @@ class ModuleConfig:
 class ConfigLoader:
     """Centralized configuration loader"""
 
-    def __init__(self, root_path: Optional[Path] = None):
+    def __init__(self, root_path: Optional[Path] = None) -> None:
         self.root_path = root_path or self._find_project_root()
         self.configs: dict[str, ModuleConfig] = {}
         self._env_loaded = False

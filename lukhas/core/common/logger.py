@@ -7,14 +7,14 @@ Centralized logging configuration for all LUKHAS modules.
 import json
 import logging
 import sys
-from datetime import datetime
-from typing import Optional
+from datetime import datetime, timezone
+from typing import ClassVar, Optional
 
 
 class LukhasFormatter(logging.Formatter):
     """Custom formatter with GLYPH symbols for log levels"""
 
-    SYMBOLS = {
+    SYMBOLS: ClassVar[dict[int, str]] = {
         logging.DEBUG: "🔍",
         logging.INFO: "ℹ️",
         logging.WARNING: "⚠️",
@@ -40,7 +40,7 @@ class JSONFormatter(logging.Formatter):
 
     def format(self, record):
         log_data = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname,
             "module": record.module,
             "function": record.funcName,

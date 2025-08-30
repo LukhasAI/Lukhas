@@ -75,7 +75,7 @@ class ExtremePerformanceIdentityConnector:
             print(f"   Target P95 latency: {self.target_p95_ms}ms")
             print("   Extreme optimizations: Import cache, async audit, async hashing")
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize extreme performance components"""
         if EXTREME_OPTIMIZATIONS_AVAILABLE:
             self.extreme_optimizer = await get_extreme_optimizer()
@@ -279,7 +279,7 @@ class ExtremePerformanceIdentityConnector:
             "timestamp": datetime.utcnow().isoformat(),
         }
 
-    def _update_performance_stats(self, duration_ms: float, success: bool):
+    def _update_performance_stats(self, duration_ms: float, success: bool) -> None:
         """Update performance statistics"""
         self.authentication_count += 1
 
@@ -390,7 +390,7 @@ class ExtremePerformanceIdentityConnector:
                     else ("deny", "invalid_parameters")
                 )
 
-            async def fallback_log_audit(*args, **kwargs):
+            async def fallback_log_audit(*args, **kwargs) -> str:
                 return "fallback_event_id"
 
             def fallback_monitor_safety(agent_id, operation):
@@ -470,7 +470,7 @@ class ExtremePerformanceIdentityConnector:
             "openai_scale_ready": total_setup_time_ms < 10.0,  # <10ms for all modules
         }
 
-    async def _configure_auth_optimized(self, module: str, config: dict[str, str]):
+    async def _configure_auth_optimized(self, module: str, config: dict[str, str]) -> None:
         """Configure authentication for module with performance optimization"""
         if not hasattr(self, "auth_configs"):
             self.auth_configs = {}

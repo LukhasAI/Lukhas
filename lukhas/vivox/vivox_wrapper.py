@@ -220,7 +220,7 @@ class VivoxWrapper:
     - SRM: Self-Reflective Memory for complete audit trail
     """
 
-    def __init__(self, config: Optional[VivoxConfig] = None):
+    def __init__(self, config: Optional[VivoxConfig] = None) -> None:
         """Initialize VIVOX wrapper with safety-first configuration"""
         self.config = config or VivoxConfig()
         self.state = VivoxState(safety_mode=self.config.safety_mode)
@@ -236,7 +236,7 @@ class VivoxWrapper:
         if VIVOX_ACTIVE and self.config.safety_mode != SafetyMode.DRY_RUN:
             self._initialize_candidate_system()
 
-    def _initialize_candidate_system(self):
+    def _initialize_candidate_system(self) -> None:
         """Lazy initialization of candidate VIVOX system"""
         try:
             # Load implementations from registry instead of static imports

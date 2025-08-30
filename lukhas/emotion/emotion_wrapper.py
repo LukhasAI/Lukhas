@@ -27,7 +27,7 @@ class EmotionMemoryIntegration:
         self._consciousness_wrapper = None
 
     @instrument("emotion_memory_init")
-    def initialize_integrations(self):
+    def initialize_integrations(self) -> None:
         """Initialize integrations with memory and consciousness"""
         try:
             # Try to connect to memory system

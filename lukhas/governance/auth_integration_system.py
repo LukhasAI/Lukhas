@@ -94,7 +94,7 @@ class LUKHASAuthIntegrationSystem:
         enable_glyph_registry: bool = True,
         enable_policies: bool = True,
         enable_cross_module: bool = True,
-    ):
+    ) -> None:
         """
         Initialize the complete authentication integration system
 

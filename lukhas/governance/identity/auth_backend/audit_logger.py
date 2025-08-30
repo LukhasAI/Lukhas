@@ -140,11 +140,11 @@ class AuditTrail:
     session_id: Optional[str] = None
     operation_type: str = ""
 
-    def add_event(self, event: AuditEvent):
+    def add_event(self, event: AuditEvent) -> None:
         """Add event to trail"""
         self.events.append(event)
 
-    def complete_trail(self):
+    def complete_trail(self) -> None:
         """Mark trail as completed"""
         self.completed_at = datetime.now(timezone.utc)
 
@@ -167,7 +167,7 @@ class AuditTrail:
 class AuditLogger:
     """Production audit logging system with constitutional AI compliance"""
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
         self.config = config or {}
 
         # Storage configuration
@@ -493,7 +493,7 @@ class AuditLogger:
 
         return trail
 
-    async def _store_event(self, event: AuditEvent):
+    async def _store_event(self, event: AuditEvent) -> None:
         """Store event to persistent storage"""
         try:
             # Convert to JSON and append to file

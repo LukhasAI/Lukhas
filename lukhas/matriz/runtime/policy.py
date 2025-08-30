@@ -16,6 +16,4 @@ class PolicyEngine:
     def evaluate_trigger(self, trigger: Mapping[str, object]) -> bool:
         # TODO: Bind to real constitutional engine. For now, accept unless explicitly forbidden.
         labels = trigger.get("constitution") if isinstance(trigger, Mapping) else None
-        if isinstance(labels, list) and any(lbl == "forbidden" for lbl in labels):
-            return False
-        return True
+        return not (isinstance(labels, list) and any(lbl == "forbidden" for lbl in labels))

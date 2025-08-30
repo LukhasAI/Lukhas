@@ -49,6 +49,4 @@ class RuntimeSupervisor:
         budget = next((e for e in self.edges if e.from_id == from_id and e.to_id == to_id), None)
         if not budget:
             return False
-        if budget.drop_on_breach and not self._within_budget(from_id, to_id):
-            return True
-        return False
+        return bool(budget.drop_on_breach and not self._within_budget(from_id, to_id))

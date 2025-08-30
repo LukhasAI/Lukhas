@@ -20,7 +20,7 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
     """
     Try to import from primary path, fall back to alternatives if needed.
     """
-    paths_to_try = [primary_path] + fallback_paths
+    paths_to_try = [primary_path, *fallback_paths]
 
     for module_path in paths_to_try:
         try:
@@ -54,7 +54,7 @@ class ConsensusResult:
 class BaseColony(ABC):
     """Base class for all agent colonies (stub implementation)"""
 
-    def __init__(self, colony_id: str, capabilities: list[str]):
+    def __init__(self, colony_id: str, capabilities: list[str]) -> None:
         self.colony_id = colony_id
         self.capabilities = capabilities
         self.actors = {}
@@ -129,7 +129,7 @@ except ImportError as e:
     class SupervisorAgent:
         """Placeholder for supervisor agent"""
 
-        def __init__(self, agent_id: str):
+        def __init__(self, agent_id: str) -> None:
             self.agent_id = agent_id
 
     def get_supervisor_agent():
@@ -158,7 +158,7 @@ except ImportError as e:
     class AIAgentAggregate:
         """Placeholder for event sourcing aggregate"""
 
-        def __init__(self, aggregate_id: str, event_store: Any):
+        def __init__(self, aggregate_id: str, event_store: Any) -> None:
             self.aggregate_id = aggregate_id
             self.event_store = event_store
 
@@ -180,24 +180,9 @@ except ImportError as e:
 class SwarmAgent:
     """Placeholder for swarm agent"""
 
-    def __init__(self, agent_id: str):
+    def __init__(self, agent_id: str) -> None:
         self.agent_id = agent_id
 
 
 # Export public interface
-__all__ = [
-    "BaseColony",
-    "ConsensusResult",
-    "create_colony",
-    "list_available_colonies",
-    "SupervisorAgent",
-    "get_supervisor_agent",
-    "EfficientCommunicationFabric",
-    "get_global_communication_fabric",
-    "MessagePriority",
-    "SwarmAgent",
-    "AIAgentAggregate",
-    "get_global_event_store",
-    "create_ai_tracer",
-    "TagScope",
-] + list(colony_types.keys())
+__all__ = ["BaseColony", "ConsensusResult", "create_colony", "list_available_colonies", "SupervisorAgent", "get_supervisor_agent", "EfficientCommunicationFabric", "get_global_communication_fabric", "MessagePriority", "SwarmAgent", "AIAgentAggregate", "get_global_event_store", "create_ai_tracer", "TagScope", *list(colony_types.keys())]

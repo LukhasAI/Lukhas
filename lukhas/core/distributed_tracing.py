@@ -40,17 +40,17 @@ class TraceSpan:
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
-    def finish(self, status: str = "ok"):
+    def finish(self, status: str = "ok") -> None:
         """Mark the span as finished"""
         self.end_time = time.time()
         self.duration = self.end_time - self.start_time
         self.status = status
 
-    def add_tag(self, key: str, value: Any):
+    def add_tag(self, key: str, value: Any) -> None:
         """Add a tag to the span"""
         self.tags[key] = value
 
-    def add_log(self, event: str, fields: dict[str, Any] = None):
+    def add_log(self, event: str, fields: Optional[dict[str, Any]] = None) -> None:
         """Add a log entry to the span"""
         log_entry = {
             "timestamp": time.time(),
@@ -94,7 +94,7 @@ class TraceContext:
             baggage=self.baggage.copy(),
         )
 
-    def set_baggage_item(self, key: str, value: str):
+    def set_baggage_item(self, key: str, value: str) -> None:
         """Set a baggage item that propagates with the trace"""
         self.baggage[key] = value
 
@@ -156,14 +156,14 @@ class TraceCollector:
     Collects and stores trace spans for analysis
     """
 
-    def __init__(self, max_traces: int = 10000):
+    def __init__(self, max_traces: int = 10000) -> None:
         self.max_traces = max_traces
         self.traces: dict[str, list[TraceSpan]] = defaultdict(list)
         self.spans: dict[str, TraceSpan] = {}
         self.completed_traces: deque = deque(maxlen=max_traces)
         self._lock = threading.Lock()
 
-    def add_span(self, span: TraceSpan):
+    def add_span(self, span: TraceSpan) -> None:
         """Add a span to the collector"""
         with self._lock:
             self.spans[span.span_id] = span
@@ -173,7 +173,7 @@ class TraceCollector:
             if span.end_time is not None:
                 self._check_trace_completion(span.trace_id)
 
-    def _check_trace_completion(self, trace_id: str):
+    def _check_trace_completion(self, trace_id: str) -> None:
         """Check if a trace is complete and move to completed traces"""
         trace_spans = self.traces[trace_id]
 
@@ -305,7 +305,7 @@ class DistributedTracer:
     Main tracer for creating and managing distributed traces
     """
 
-    def __init__(self, service_name: str, collector: TraceCollector = None):
+    def __init__(self, service_name: str, collector: TraceCollector = None) -> None:
         self.service_name = service_name
         self.collector = collector or TraceCollector()
         self._current_context: threading.local = threading.local()
@@ -377,7 +377,7 @@ class DistributedTracer:
 
         return context
 
-    def finish_span(self, context: TraceContext, status: str = "ok"):
+    def finish_span(self, context: TraceContext, status: str = "ok") -> None:
         """Finish a span"""
         if context.span_id:
             span = self.collector.spans.get(context.span_id)
@@ -385,7 +385,7 @@ class DistributedTracer:
                 span.finish(status)
                 self.collector.add_span(span)  # Update the collector
 
-    def add_tag(self, context: TraceContext, key: str, value: Any):
+    def add_tag(self, context: TraceContext, key: str, value: Any) -> None:
         """Add a tag to the current span"""
         if context.span_id:
             span = self.collector.spans.get(context.span_id)
@@ -397,7 +397,7 @@ class DistributedTracer:
         context: TraceContext,
         event: str,
         fields: Optional[dict[str, Any]] = None,
-    ):
+    ) -> None:
         """Add a log entry to the current span"""
         if context.span_id:
             span = self.collector.spans.get(context.span_id)
@@ -524,7 +524,7 @@ def create_ai_tracer(agent_id: str) -> AIAgentTracer:
     return AIAgentTracer(f"agent-{agent_id}", get_global_collector())
 
 
-def demo_distributed_tracing():
+def demo_distributed_tracing() -> None:
     """Demonstrate distributed tracing"""
     # Create tracers for different agents
     agent1_tracer = create_ai_tracer("reasoning-001")
@@ -592,7 +592,7 @@ class AgentState:
 class StateSnapshotter:
     """Handles taking and restoring agent state snapshots."""
 
-    def __init__(self, storage_path: str = None):
+    def __init__(self, storage_path: Optional[str] = None) -> None:
         import tempfile
 
         # Use a safe, platform temp dir by default
@@ -639,7 +639,7 @@ class StateSnapshotter:
 class EventReplayer:
     """Replays events from a trace to reconstruct state."""
 
-    def __init__(self, trace_collector: TraceCollector, snapshotter: StateSnapshotter):
+    def __init__(self, trace_collector: TraceCollector, snapshotter: StateSnapshotter) -> None:
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 

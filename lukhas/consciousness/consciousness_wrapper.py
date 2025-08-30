@@ -155,7 +155,7 @@ class ConsciousnessWrapper:
     safety measures and Trinity Framework integration.
     """
 
-    def __init__(self, config: Optional[ConsciousnessConfig] = None):
+    def __init__(self, config: Optional[ConsciousnessConfig] = None) -> None:
         """Initialize consciousness wrapper with safety-first configuration"""
         self.config = config or ConsciousnessConfig()
         self.state = ConsciousnessState(safety_mode=self.config.safety_mode)
@@ -166,7 +166,7 @@ class ConsciousnessWrapper:
         if CONSCIOUSNESS_ACTIVE and self.config.safety_mode != SafetyMode.DRY_RUN:
             self._initialize_candidate_system()
 
-    def _initialize_candidate_system(self):
+    def _initialize_candidate_system(self) -> None:
         """Lazy initialization of candidate consciousness system"""
         # System is now loaded from registry instead of static import
         # Implementations register themselves at runtime

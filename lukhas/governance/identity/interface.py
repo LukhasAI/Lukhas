@@ -73,7 +73,7 @@ class IdentityClient:
     - Validate tier-based access
     """
 
-    def __init__(self, user_id_context=None):
+    def __init__(self, user_id_context=None) -> None:
         """Initialize the identity client with lukhas-id components."""
         self.user_id_context = user_id_context
         try:
@@ -96,22 +96,22 @@ class IdentityClient:
                 self.id_validator = type(
                     "LambdIDValidator",
                     (),
-                    {"validate_identity": lambda self, uid: True},
+                    {"validate_identity": lambda *args: True},
                 )()
         except Exception as e:
             print(f"Warning: Could not initialize identity components: {e}")
             # Fall back to stub implementations
             self.tier_validator = type(
-                "TierValidator", (), {"validate_tier": lambda self, uid, tier: True}
+                "TierValidator", (), {"validate_tier": lambda *args: True}
             )()
             self.activity_logger = type(
-                "ActivityLogger", (), {"log_activity": lambda self, a, b, c: None}
+                "ActivityLogger", (), {"log_activity": lambda *args: None}
             )()
             self.consent_manager = type(
-                "ConsentManager", (), {"check_consent": lambda self, a, b: True}
+                "ConsentManager", (), {"check_consent": lambda *args: True}
             )()
             self.id_validator = type(
-                "LambdIDValidator", (), {"validate_identity": lambda self, a: True}
+                "LambdIDValidator", (), {"validate_identity": lambda *args: True}
             )()
 
     def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:

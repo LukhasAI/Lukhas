@@ -25,15 +25,68 @@
   // Disable other formatters/linters
   "python.formatting.provider": "none",
   "python.linting.enabled": false,
-  
+
   // Disable unittest
   "python.testing.unittestEnabled": false,
-  
+
   "files.exclude": {
     "**/__pycache__": true,
     "**/*.pyc": true,
     ".pytest_cache": true,
     ".mypy_cache": true,
-    ".ruff_cache": true
-  }
+    ".ruff_cache": true,
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.egg-info": true,
+    "**/coverage": true,
+    "**/*.log": true,
+    "**/test-results": true
+  },
+
+  // Codex/AI Assistant Context Optimization
+  "github.copilot.advanced": {
+    "length": 200,
+    "temperature": "",
+    "top_p": "",
+    "inlineSuggestCount": 1
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": false
+  },
+
+  // Additional Context Limiting for Large Repositories
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.venv/**": true,
+    "**/__pycache__/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/.venv": true,
+    "**/__pycache__": true,
+    "**/.git": true
+  },
+
+  // Codex/AI Context Window Management (Aggressive Limiting)
+  "codex.maxTokens": 1000,
+  "codex.includeOpenTabs": false,
+  "codex.includeWorkspaceContext": false,
+  "codex.maxFileSize": 50000,
+  "codex.includeNearbyFiles": false,
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.shareSuggestSelections": false,
+
+  // Additional Codex Performance Settings
+  "github.copilot.chat.localeOverride": "en",
+  "github.copilot.renameSuggestions.enabled": false,
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.editor.iterativeFixMode": false
 }

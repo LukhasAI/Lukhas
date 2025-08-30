@@ -60,7 +60,7 @@ class EventStore:
     Implements the core principle of Event Sourcing
     """
 
-    def __init__(self, db_path: str = ":memory:"):
+    def __init__(self, db_path: str = ":memory:") -> None:
         """Initialize the event store with SQLite backend"""
         self.db_path = db_path
         self.lock = threading.Lock()
@@ -72,7 +72,7 @@ class EventStore:
         """Get the database connection"""
         return self._connection
 
-    def _initialize_database(self):
+    def _initialize_database(self) -> None:
         """Create the events table if it doesn't exist"""
         with self.lock:
             conn = self._get_connection()
@@ -242,14 +242,14 @@ class EventSourcedAggregate(ABC):
     Implements state reconstruction through event replay
     """
 
-    def __init__(self, aggregate_id: str, event_store: EventStore):
+    def __init__(self, aggregate_id: str, event_store: EventStore) -> None:
         self.aggregate_id = aggregate_id
         self.event_store = event_store
         self.version = 0
         self.uncommitted_events: list[Event] = []
         self.replay_events()
 
-    def replay_events(self):
+    def replay_events(self) -> None:
         """
         Reconstruct current state by replaying historical events
         This is the core of Event Sourcing fault recovery
@@ -268,7 +268,7 @@ class EventSourcedAggregate(ABC):
         event_type: str,
         data: dict[str, Any],
         correlation_id: Optional[str] = None,
-    ):
+    ) -> None:
         """
         Raise a new event (not yet committed to store)
         """
@@ -309,14 +309,14 @@ class AIAgentAggregate(EventSourcedAggregate):
     Demonstrates how agent state can be reconstructed from events
     """
 
-    def __init__(self, agent_id: str, event_store: EventStore):
+    def __init__(self, agent_id: str, event_store: EventStore) -> None:
         self.state = "idle"
         self.capabilities = []
         self.memory = {}
         self.active_tasks = []
         super().__init__(agent_id, event_store)
 
-    def apply_event(self, event: Event):
+    def apply_event(self, event: Event) -> None:
         """Apply events to reconstruct agent state"""
         if event.event_type == "AgentCreated":
             self.state = "idle"
@@ -342,7 +342,7 @@ class AIAgentAggregate(EventSourcedAggregate):
             if capability not in self.capabilities:
                 self.capabilities.append(capability)
 
-    def create_agent(self, capabilities: list[str], correlation_id: Optional[str] = None):
+    def create_agent(self, capabilities: list[str], correlation_id: Optional[str] = None) -> None:
         """Create a new agent with specified capabilities"""
         self.raise_event("AgentCreated", {"capabilities": capabilities}, correlation_id)
 
@@ -351,7 +351,7 @@ class AIAgentAggregate(EventSourcedAggregate):
         task_id: str,
         task_data: dict[str, Any],
         correlation_id: Optional[str] = None,
-    ):
+    ) -> None:
         """Assign a task to the agent"""
         self.raise_event(
             "TaskAssigned",
@@ -364,7 +364,7 @@ class AIAgentAggregate(EventSourcedAggregate):
         task_id: str,
         result: dict[str, Any],
         correlation_id: Optional[str] = None,
-    ):
+    ) -> None:
         """Mark a task as completed"""
         self.raise_event(
             "TaskCompleted",
@@ -376,11 +376,11 @@ class AIAgentAggregate(EventSourcedAggregate):
         self,
         memory_update: dict[str, Any],
         correlation_id: Optional[str] = None,
-    ):
+    ) -> None:
         """Update agent's memory"""
         self.raise_event("MemoryUpdated", {"memory_update": memory_update}, correlation_id)
 
-    def add_capability(self, capability: str, correlation_id: Optional[str] = None):
+    def add_capability(self, capability: str, correlation_id: Optional[str] = None) -> None:
         """Add a new capability to the agent"""
         self.raise_event("CapabilityAdded", {"capability": capability}, correlation_id)
 
@@ -391,7 +391,7 @@ class EventReplayService:
     Addresses the auditability and debugging requirements
     """
 
-    def __init__(self, event_store: EventStore):
+    def __init__(self, event_store: EventStore) -> None:
         self.event_store = event_store
 
     def replay_aggregate_to_point_in_time(

@@ -63,7 +63,7 @@ class SymbolicTag:
         permission: TagPermission = TagPermission.PUBLIC,
         metadata: Optional[dict[str, Any]] = None,
         lifespan: Optional[float] = None,
-    ):
+    ) -> None:
         self.tag_id = tag_id
         self.content = content
         self.scope = scope
@@ -75,7 +75,7 @@ class SymbolicTag:
 
         logger.debug(f"Created symbolic tag {tag_id} with scope {scope.value}")
 
-    def is_accessible(self, requester_id: str, requester_privileges: list[str] = None) -> bool:
+    def is_accessible(self, requester_id: str, requester_privileges: Optional[list[str]] = None) -> bool:
         """
         Check if the tag is accessible to the requester.
 
@@ -105,7 +105,7 @@ class SymbolicTag:
 
         return False
 
-    def increment_access(self):
+    def increment_access(self) -> None:
         """Increment the access counter."""
         self.access_count += 1
 
@@ -155,7 +155,7 @@ class TagManager:
         content: Any,
         scope: TagScope,
         permission: TagPermission = TagPermission.PUBLIC,
-        owner_id: str = None,
+        owner_id: Optional[str] = None,
         lifespan: Optional[float] = None,
         metadata: Optional[dict[str, Any]] = None,
     ) -> SymbolicTag:
@@ -196,8 +196,8 @@ class TagManager:
     def get_tag(
         self,
         tag_id: str,
-        requester_id: str = None,
-        requester_privileges: list[str] = None,
+        requester_id: Optional[str] = None,
+        requester_privileges: Optional[list[str]] = None,
     ) -> Optional[SymbolicTag]:
         """
         Retrieve a tag by ID with access control.
@@ -225,8 +225,8 @@ class TagManager:
     def get_tags_by_scope(
         self,
         scope: TagScope,
-        requester_id: str = None,
-        requester_privileges: list[str] = None,
+        requester_id: Optional[str] = None,
+        requester_privileges: Optional[list[str]] = None,
     ) -> list[SymbolicTag]:
         """
         Get all accessible tags within a scope.
@@ -249,7 +249,7 @@ class TagManager:
 
         return accessible_tags
 
-    def remove_tag(self, tag_id: str, requester_id: str = None) -> bool:
+    def remove_tag(self, tag_id: str, requester_id: Optional[str] = None) -> bool:
         """
         Remove a tag.
 

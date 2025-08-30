@@ -7,10 +7,12 @@ import pytest
 def test_policy_rule_default_initialization():
     """Test PolicyRule with default/empty scopes doesn't crash."""
     try:
-        from lukhas.governance.auth_governance_policies import PolicyRule, PolicySeverity
+        from lukhas.governance.auth_governance_policies import PolicyRule, PolicySeverity, PolicyCategory
 
-        # Test with None defaults (should convert to empty lists/dicts)
+        # Test with required fields including id and category
         rule = PolicyRule(
+            id="test_rule_001",
+            category=PolicyCategory.SECURITY_REQUIREMENTS,
             name="test_rule",
             description="Test rule description",
             requirement="Test requirement",
@@ -33,10 +35,12 @@ def test_policy_rule_default_initialization():
 def test_empty_scope_policy_deterministic():
     """Test policies with empty scopes make deterministic decisions."""
     try:
-        from lukhas.governance.auth_governance_policies import PolicyRule, PolicySeverity
+        from lukhas.governance.auth_governance_policies import PolicyRule, PolicySeverity, PolicyCategory
 
-        # Create two identical rules with empty scopes
+        # Create two identical rules with empty scopes - including required id and category
         rule1 = PolicyRule(
+            id="empty_rule_001",
+            category=PolicyCategory.SECURITY_REQUIREMENTS,
             name="empty_rule",
             description="Empty rule",
             requirement="Empty requirement",
@@ -46,6 +50,8 @@ def test_empty_scope_policy_deterministic():
         )
 
         rule2 = PolicyRule(
+            id="empty_rule_002",
+            category=PolicyCategory.SECURITY_REQUIREMENTS,
             name="empty_rule",
             description="Empty rule",
             requirement="Empty requirement",

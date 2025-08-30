@@ -115,7 +115,7 @@ class MessageRouter:
         node_id: str,
         capabilities: Optional[list[str]] = None,
         location: Optional[dict[str, Any]] = None,
-    ):
+    ) -> None:
         """Register a node in the routing table"""
         with self._lock:
             self.routing_table[node_id] = {
@@ -157,7 +157,7 @@ class MessageRouter:
         """Check if we have enough energy budget for the message"""
         return (self.energy_used + message.energy_cost) <= self.energy_budget
 
-    def record_message_sent(self, message: Message, latency: float):
+    def record_message_sent(self, message: Message, latency: float) -> None:
         """Record message statistics for learning"""
         with self._lock:
             self.energy_used += message.energy_cost
@@ -186,21 +186,21 @@ class EventBus:
         }
         self._running = False
 
-    async def start(self):
+    async def start(self) -> None:
         """Start the event bus"""
         self._running = True
         asyncio.create_task(self._process_messages())
         logger.info("Event bus started")
 
-    async def stop(self):
+    async def stop(self) -> None:
         """Stop the event bus"""
         self._running = False
 
-    def subscribe(self, event_type: str, handler: Callable):
+    def subscribe(self, event_type: str, handler: Callable) -> None:
         """Subscribe to events of a specific type"""
         self.subscribers[event_type].append(handler)
 
-    def unsubscribe(self, event_type: str, handler: Callable):
+    def unsubscribe(self, event_type: str, handler: Callable) -> None:
         """Unsubscribe from events"""
         if handler in self.subscribers[event_type]:
             self.subscribers[event_type].remove(handler)
@@ -215,7 +215,7 @@ class EventBus:
             logger.warning("Event bus queue full, dropping message")
             return False
 
-    async def _process_messages(self):
+    async def _process_messages(self) -> None:
         """Process messages from the queue"""
         while self._running:
             try:
@@ -237,7 +237,7 @@ class EventBus:
             except Exception as e:
                 logger.error(f"Error processing message: {e}")
 
-    async def _deliver_message(self, message: Message):
+    async def _deliver_message(self, message: Message) -> None:
         """Deliver message to subscribers"""
         handlers = self.subscribers.get(message.message_type, [])
 
@@ -254,7 +254,7 @@ class EventBus:
         if delivery_tasks:
             await asyncio.gather(*delivery_tasks, return_exceptions=True)
 
-    async def _safe_handle(self, handler: Callable, message: Message):
+    async def _safe_handle(self, handler: Callable, message: Message) -> None:
         """Safely execute a message handler"""
         try:
             if asyncio.iscoroutinefunction(handler):
@@ -271,7 +271,7 @@ class P2PChannel:
     Bypasses the central broker for efficiency
     """
 
-    def __init__(self, local_node_id: str):
+    def __init__(self, local_node_id: str) -> None:
         self.local_node_id = local_node_id
         self.connections: dict[str, dict[str, Any]] = {}
         self.transfer_stats = {
@@ -349,7 +349,7 @@ class EfficientCommunicationFabric:
     for maximum energy efficiency
     """
 
-    def __init__(self, node_id: str):
+    def __init__(self, node_id: str) -> None:
         self.node_id = node_id
         self.router = MessageRouter()
         self.event_bus = EventBus()
@@ -361,12 +361,12 @@ class EfficientCommunicationFabric:
         # Register self in routing table
         self.router.register_node(node_id, ["communication", "routing"])
 
-    async def start(self):
+    async def start(self) -> None:
         """Start the communication fabric"""
         await self.event_bus.start()
         logger.info(f"Communication fabric started for node {self.node_id}")
 
-    async def stop(self):
+    async def stop(self) -> None:
         """Stop the communication fabric"""
         await self.event_bus.stop()
 
@@ -423,7 +423,7 @@ class EfficientCommunicationFabric:
 
         return success
 
-    def subscribe_to_events(self, event_type: str, handler: Callable):
+    def subscribe_to_events(self, event_type: str, handler: Callable) -> None:
         """Subscribe to specific event types"""
         self.event_bus.subscribe(event_type, handler)
 
@@ -503,7 +503,7 @@ class EnergyMonitor:
             "max_hourly_consumption": 100.0,
         }
 
-    def record_energy_usage(self, energy_cost: float):
+    def record_energy_usage(self, energy_cost: float) -> None:
         """Record energy usage for monitoring"""
         self.total_energy_used += energy_cost
         self.energy_history.append(

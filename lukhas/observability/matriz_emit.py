@@ -10,7 +10,7 @@ try:
     from MATRIZ.utils.matriz_validate import validate_node  # adjust path if needed
 except Exception:
 
-    def validate_node(_):
+    def validate_node(_) -> None:
         return None
 
 

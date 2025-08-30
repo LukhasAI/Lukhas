@@ -40,7 +40,7 @@ class KernelBus:
     In dry_run mode, events are logged but not dispatched.
     """
 
-    def __init__(self, max_history: int = 100):
+    def __init__(self, max_history: int = 100) -> None:
         """Initialize the kernel bus"""
         self._subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._event_history: deque = deque(maxlen=max_history)

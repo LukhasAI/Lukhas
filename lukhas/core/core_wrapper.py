@@ -151,7 +151,7 @@ class CoreWrapper:
         if CORE_ACTIVE and not LUKHAS_DRY_RUN_MODE:
             self._initialize_core_system()
 
-    def _initialize_core_system(self):
+    def _initialize_core_system(self) -> None:
         """Initialize the core systems using registry"""
         try:
             self._status = CoreStatus.INITIALIZING

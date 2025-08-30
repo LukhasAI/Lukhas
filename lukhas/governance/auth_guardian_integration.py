@@ -140,7 +140,7 @@ class AuthenticationGuardian:
         drift_threshold: float = 0.15,
         enable_bias_detection: bool = True,
         enable_constitutional_ai: bool = True,
-    ):
+    ) -> None:
         """
         Initialize Authentication Guardian
 
@@ -484,7 +484,7 @@ class AuthenticationGuardian:
                     tier_denials[tier]["denied"] += 1
 
             # Check for unusual denial patterns
-            for _tier, stats in tier_denials.items():
+            for stats in tier_denials.values():
                 if stats["total"] >= 5:  # Sufficient data
                     denial_rate = stats["denied"] / stats["total"]
                     if denial_rate > 0.8:  # High denial rate

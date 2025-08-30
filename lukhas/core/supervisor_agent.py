@@ -19,7 +19,7 @@ class SupervisorAgent:
     for critical operations that require elevated privileges or special handling.
     """
 
-    def __init__(self, supervisor_id: str = "supervisor-1"):
+    def __init__(self, supervisor_id: str = "supervisor-1") -> None:
         self.supervisor_id = supervisor_id
         self.escalation_history: list[dict] = []
         self.max_history = 1000
@@ -128,7 +128,7 @@ class SupervisorAgent:
 
         return analysis
 
-    def _record_escalation(self, escalation: dict[str, Any]):
+    def _record_escalation(self, escalation: dict[str, Any]) -> None:
         """Record escalation in history."""
         self.escalation_history.append(escalation)
 

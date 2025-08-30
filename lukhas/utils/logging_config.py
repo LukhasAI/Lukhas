@@ -133,7 +133,7 @@ class LukhasJsonFormatter(jsonlogger.JsonFormatter):
     """Custom JSON formatter for LUKHAS AI logs."""
 
     def add_fields(
-        self, log_record: Dict[str, Any], record: logging.LogRecord, message_dict: Dict[str, Any]
+        self, log_record: dict[str, Any], record: logging.LogRecord, message_dict: dict[str, Any]
     ) -> None:
         """Add custom fields to log records."""
         super().add_fields(log_record, record, message_dict)
@@ -182,7 +182,7 @@ def get_log_level() -> str:
     return level if level in valid_levels else "INFO"
 
 
-def get_log_config() -> Dict[str, Any]:
+def get_log_config() -> dict[str, Any]:
     """Get comprehensive logging configuration."""
 
     log_level = get_log_level()
@@ -320,7 +320,7 @@ def get_log_config() -> Dict[str, Any]:
 # ======================================================================
 
 
-def setup_logging(config: Optional[Dict[str, Any]] = None) -> None:
+def setup_logging(config: Optional[dict[str, Any]] = None) -> None:
     """Set up comprehensive logging for LUKHAS AI."""
     if config is None:
         config = get_log_config()
@@ -388,7 +388,7 @@ def get_audit_logger() -> logging.Logger:
 class LoggingContext:
     """Context manager for adding structured context to logs."""
 
-    def __init__(self, logger: logging.Logger, **context):
+    def __init__(self, logger: logging.Logger, **context) -> None:
         self.logger = logger
         self.context = context
         self.original_extra = {}
@@ -415,7 +415,7 @@ class LoggingContext:
 class PerformanceLoggingContext:
     """Context manager for performance logging."""
 
-    def __init__(self, logger: logging.Logger, operation: str, **context):
+    def __init__(self, logger: logging.Logger, operation: str, **context) -> None:
         self.logger = logger
         self.operation = operation
         self.context = context

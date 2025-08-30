@@ -151,7 +151,7 @@ class ExtremePerformanceAuditLogger:
     - Connection pooling: Optimized database access
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None) -> None:
         self.config = config or {}
 
         # Extreme performance components
@@ -193,7 +193,7 @@ class ExtremePerformanceAuditLogger:
         print(f"   Target latency: {self.target_latency_ms}ms per event")
         print(f"   Target throughput: {self.target_throughput_eps:,} events/second")
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize extreme performance components"""
         if self._initialized:
             return
@@ -315,7 +315,7 @@ class ExtremePerformanceAuditLogger:
 
         return event_id
 
-    async def _calculate_event_hash_background(self, event: ExtremePerformanceAuditEvent):
+    async def _calculate_event_hash_background(self, event: ExtremePerformanceAuditEvent) -> None:
         """Calculate event hash in background without blocking"""
         try:
             event_hash = await self.hash_calculator.calculate_hash_async(event.to_dict())
@@ -328,7 +328,7 @@ class ExtremePerformanceAuditLogger:
         except Exception as e:
             print(f"⚠️ Background hash calculation failed for {event.event_id}: {e}")
 
-    async def _cache_event_redis_background(self, event: ExtremePerformanceAuditEvent):
+    async def _cache_event_redis_background(self, event: ExtremePerformanceAuditEvent) -> None:
         """Cache event in Redis with fire-and-forget performance"""
         try:
             # Use pipeline for maximum performance
@@ -348,7 +348,7 @@ class ExtremePerformanceAuditLogger:
         except Exception as e:
             print(f"⚠️ Redis cache failed for {event.event_id}: {e}")
 
-    async def _log_to_memory_fallback(self, event: ExtremePerformanceAuditEvent):
+    async def _log_to_memory_fallback(self, event: ExtremePerformanceAuditEvent) -> None:
         """Fast in-memory logging fallback"""
         if not hasattr(self, "_memory_buffer"):
             self._memory_buffer = []
@@ -577,12 +577,12 @@ class ExtremePerformanceAuditLogger:
             "performance_analysis": await self.get_performance_dashboard_extreme(),
         }
 
-    async def force_flush_all(self):
+    async def force_flush_all(self) -> None:
         """Force flush all buffers for immediate persistence"""
         if self.audit_buffer:
             await self.audit_buffer.force_flush()
 
-    async def shutdown_extreme(self):
+    async def shutdown_extreme(self) -> None:
         """Graceful shutdown with performance statistics"""
         print("🛑 Shutting down ExtremePerformanceAuditLogger...")
 

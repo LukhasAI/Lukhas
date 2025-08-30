@@ -152,7 +152,7 @@ class EmotionalMemoryManager:
 
         return emotional_state
 
-    def _create_memory_fold(self, memory: dict):
+    def _create_memory_fold(self, memory: dict) -> None:
         """
         Create a memory fold for significant emotional memories.
 
@@ -237,7 +237,7 @@ class EmotionalMemoryManager:
 
         return consolidated
 
-    def apply_emotional_decay(self, decay_factor: float = 0.99):
+    def apply_emotional_decay(self, decay_factor: float = 0.99) -> None:
         """
         Apply decay to emotional memories over time.
 

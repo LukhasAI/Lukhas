@@ -1,7 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="35" time="3.700" timestamp="2025-08-30T09:21:16.490301+01:00" hostname="g.local"><testcase classname="tests.core.test_exceptions_paths" name="test_exception_none_handling" time="0.016" /><testcase classname="tests.core.test_imports_touch" name="test_imports_touch" time="0.000" /><testcase classname="tests.core.test_time_tz" name="test_bio_symbolic_uses_utc" time="0.002" /><testcase classname="tests.core.test_time_tz" name="test_stable_paths_use_utc" time="0.000" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_initial_drift_score_is_zero" time="0.001" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_no_drift_with_stable_high_compliance" time="0.003" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_drift_detection_with_sudden_drop" time="0.002" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_recalibration_is_triggered" time="0.003" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_escalation_is_triggered" time="0.005" /><testcase classname="tests.governance.test_compliance_drift_monitor" name="test_compliance_history_is_maintained" time="0.003" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_initialization" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_initialization_with_custom_threshold" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_identical_strings" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_completely_different_strings" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_with_partial_overlap" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_with_empty_string" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_safe_action" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_harmful_action" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_risky_context" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_safe_content" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_harmful_content" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_privacy_content" time="0.001" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_safe_content" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_unsafe_content" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_with_constitutional_violation" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_detect_drift_no_drift" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_detect_drift_significant_drift" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_evaluate_compliance_harmful_action" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_evaluate_ethics_compliant_action" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_get_status" time="0.000" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_initialization" time="0.000" /><testcase classname="tests.governance.test_policies_defaults" name="test_policy_engine_initialization" time="0.000" /><testcase classname="tests.governance.test_policies_defaults" name="test_policy_assessment" time="0.000"><failure message="TypeError: __init__() got an unexpected keyword argument 'passed'">tests/governance/test_policies_defaults.py:25: in test_policy_assessment
-    assessment = PolicyAssessment(
-E   TypeError: __init__() got an unexpected keyword argument 'passed'</failure></testcase><testcase classname="tests.governance.test_policies_min" name="test_policy_rule_default_initialization" time="0.000"><failure message="TypeError: __init__() missing 2 required positional arguments: 'id' and 'category'">tests/governance/test_policies_min.py:13: in test_policy_rule_default_initialization
-    rule = PolicyRule(
-E   TypeError: __init__() missing 2 required positional arguments: 'id' and 'category'</failure></testcase><testcase classname="tests.governance.test_policies_min" name="test_empty_scope_policy_deterministic" time="0.000"><failure message="TypeError: __init__() missing 2 required positional arguments: 'id' and 'category'">tests/governance/test_policies_min.py:39: in test_empty_scope_policy_deterministic
-    rule1 = PolicyRule(
-E   TypeError: __init__() missing 2 required positional arguments: 'id' and 'category'</failure></testcase></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="5" failures="0" skipped="0" tests="5" time="0.392" timestamp="2025-08-30T11:40:06.980148+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.bridge.orchestration.test_multi_ai_orchestrator" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/orchestration/test_multi_ai_orchestrator.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+candidate/bridge/orchestration/__init__.py:13: in &lt;module&gt;
+    from .multi_ai_orchestrator import MultiAIOrchestrator
+candidate/bridge/orchestration/multi_ai_orchestrator.py:6: in &lt;module&gt;
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+candidate/bridge/llm_wrappers/unified_openai_client.py:42: in &lt;module&gt;
+    from openai import AsyncOpenAI, OpenAI
+E   ModuleNotFoundError: No module named 'openai'
+
+During handling of the above exception, another exception occurred:
+tests/candidate/bridge/orchestration/test_multi_ai_orchestrator.py:6: in &lt;module&gt;
+    from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+candidate/bridge/orchestration/__init__.py:16: in &lt;module&gt;
+    from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+candidate/bridge/orchestration/multi_ai_orchestrator.py:6: in &lt;module&gt;
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+candidate/bridge/llm_wrappers/unified_openai_client.py:42: in &lt;module&gt;
+    from openai import AsyncOpenAI, OpenAI
+E   ModuleNotFoundError: No module named 'openai'</error></testcase><testcase classname="" name="tests.candidate.tools.test_tool_executor" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/tools/test_tool_executor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/candidate/tools/test_tool_executor.py:6: in &lt;module&gt;
+    from candidate.tools.tool_executor import ToolExecutor
+candidate/tools/tool_executor.py:21: in &lt;module&gt;
+    import aiohttp
+E   ModuleNotFoundError: No module named 'aiohttp'</error></testcase><testcase classname="" name="tests.consent.test_api" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/consent/test_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/consent/test_api.py:6: in &lt;module&gt;
+    from consent.api import ConsentService, get_consent_service, router
+consent/api.py:24: in &lt;module&gt;
+    from .service import (
+consent/service.py:24: in &lt;module&gt;
+    import asyncpg
+E   ModuleNotFoundError: No module named 'asyncpg'</error></testcase><testcase classname="" name="tests.enterprise.api.test_main" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/api/test_main.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+candidate/bridge/orchestration/__init__.py:13: in &lt;module&gt;
+    from .multi_ai_orchestrator import MultiAIOrchestrator
+candidate/bridge/orchestration/multi_ai_orchestrator.py:6: in &lt;module&gt;
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+candidate/bridge/llm_wrappers/unified_openai_client.py:42: in &lt;module&gt;
+    from openai import AsyncOpenAI, OpenAI
+E   ModuleNotFoundError: No module named 'openai'
+
+During handling of the above exception, another exception occurred:
+tests/enterprise/api/test_main.py:8: in &lt;module&gt;
+    from enterprise.api.main import app
+enterprise/api/main.py:9: in &lt;module&gt;
+    from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+candidate/bridge/orchestration/__init__.py:16: in &lt;module&gt;
+    from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+candidate/bridge/orchestration/multi_ai_orchestrator.py:6: in &lt;module&gt;
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+candidate/bridge/llm_wrappers/unified_openai_client.py:42: in &lt;module&gt;
+    from openai import AsyncOpenAI, OpenAI
+E   ModuleNotFoundError: No module named 'openai'</error></testcase><testcase classname="" name="tests.enterprise.compliance.test_compliance_api" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/enterprise/compliance/test_compliance_api.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/enterprise/compliance/test_compliance_api.py:8: in &lt;module&gt;
+    from consent.api import ConsentService, get_consent_service
+consent/api.py:24: in &lt;module&gt;
+    from .service import (
+consent/service.py:24: in &lt;module&gt;
+    import asyncpg
+E   ModuleNotFoundError: No module named 'asyncpg'</error></testcase></testsuite></testsuites>

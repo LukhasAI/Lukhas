@@ -27,7 +27,7 @@ class GuardianSystem:
     to the new modular guardian system components.
     """
 
-    def __init__(self, drift_threshold: float = 0.15):
+    def __init__(self, drift_threshold: float = 0.15) -> None:
         """Initialize the Guardian System with legacy interface"""
         self.drift_threshold = drift_threshold
         self._initialized = True

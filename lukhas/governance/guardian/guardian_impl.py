@@ -31,12 +31,12 @@ class GuardianSystemImpl:
     actual ethics, drift detection, and safety validation.
     """
 
-    def __init__(self, drift_threshold: float = 0.15):
+    def __init__(self, drift_threshold: float = 0.15) -> None:
         """Initialize the Guardian system"""
         self.drift_threshold = drift_threshold
         self._initialize_components()
 
-    def _initialize_components(self):
+    def _initialize_components(self) -> None:
         """Initialize Guardian components"""
         # Use only lukhas/ directory components (no candidate/ imports allowed)
         # All real implementations are in this file as fallback methods

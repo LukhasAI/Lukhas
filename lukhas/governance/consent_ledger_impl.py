@@ -211,7 +211,7 @@ class ConsentLedgerV1:
         self,
         db_path: str = "governance/consent_ledger.db",
         enable_trinity_validation: bool = True,
-    ):
+    ) -> None:
         """Initialize Trinity Framework Consent Ledger with full validation"""
         self.db_path = Path(db_path)
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
@@ -239,7 +239,7 @@ class ConsentLedgerV1:
 
         logging.info("Consent Ledger v1 initialized with Trinity Framework support")
 
-    def _init_database(self):
+    def _init_database(self) -> None:
         """Initialize Trinity Framework database with enhanced security"""
         try:
             conn = sqlite3.connect(
@@ -428,7 +428,7 @@ class ConsentLedgerV1:
 
         return validation_results
 
-    def register_agent_callback(self, agent_name: str, callback: Callable):
+    def register_agent_callback(self, agent_name: str, callback: Callable) -> None:
         """Register callback for agent integration ⚛️🧠🛡️"""
         self.agent_callbacks[agent_name] = callback
         logging.info(f"Registered callback for agent: {agent_name}")
@@ -560,7 +560,7 @@ class ConsentLedgerV1:
 
         return None
 
-    def _notify_agents(self, event_type: str, data: dict[str, Any]):
+    def _notify_agents(self, event_type: str, data: dict[str, Any]) -> None:
         """Notify registered agents of ledger events"""
         for agent_name, callback in self.agent_callbacks.items():
             try:
@@ -568,7 +568,7 @@ class ConsentLedgerV1:
             except Exception as e:
                 logging.error(f"Agent {agent_name} callback failed: {e}")
 
-    def _append_trace(self, trace: ΛTrace):
+    def _append_trace(self, trace: ΛTrace) -> None:
         """Append trace to immutable ledger with Trinity Framework data"""
         conn = sqlite3.connect(str(self.db_path), timeout=30)
         cursor = conn.cursor()
@@ -621,7 +621,7 @@ class ConsentLedgerV1:
         finally:
             conn.close()
 
-    def _insert_trinity_validation(self, trace: ΛTrace):
+    def _insert_trinity_validation(self, trace: ΛTrace) -> None:
         """Insert Trinity validation scores"""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
@@ -898,7 +898,7 @@ class ConsentLedgerV1:
         finally:
             conn.close()
 
-    def _cascade_revocation(self, consent_id: str, lid: str):
+    def _cascade_revocation(self, consent_id: str, lid: str) -> None:
         """Cascade consent revocation to dependent services"""
         # This would trigger webhooks/events to adapters
         # Agent 3's adapters would invalidate their tokens
@@ -978,7 +978,7 @@ class PolicyEngine:
     Implements refusal templates, jailbreak hygiene, duress detection
     """
 
-    def __init__(self, ledger: ConsentLedgerV1):
+    def __init__(self, ledger: ConsentLedgerV1) -> None:
         self.ledger = ledger
         self.policies = self._load_policies()
         self.refusal_templates = self._load_refusal_templates()
@@ -1162,7 +1162,7 @@ class ContentModerationIntegration:
     Implements safety filters and ethical guidelines
     """
 
-    def __init__(self, policy_engine: PolicyEngine):
+    def __init__(self, policy_engine: PolicyEngine) -> None:
         self.policy_engine = policy_engine
         self.categories = [
             "hate",

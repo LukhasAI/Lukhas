@@ -37,7 +37,7 @@ class AuthenticationIntegration:
         self._components = {}
         self._bridges = {}
 
-    async def initialize(self):
+    async def initialize(self) -> None:
         """Initialize all authentication components and bridges"""
         try:
             # Load consolidated auth components
@@ -58,7 +58,7 @@ class AuthenticationIntegration:
             self.logger.error("Integration initialization failed: %s", e)
             raise
 
-    async def _load_consolidated_auth(self):
+    async def _load_consolidated_auth(self) -> None:
         """Load components from consolidated auth system"""
         try:
             # Core consciousness components
@@ -92,7 +92,7 @@ class AuthenticationIntegration:
             self.logger.error("Failed to load consolidated auth: %s", e)
             raise
 
-    async def _load_wallet_components(self):
+    async def _load_wallet_components(self) -> None:
         """Load WALLET components from lambda_products_pack"""
         try:
             wallet_path = LAMBDA_CORE_PATH / "WALLET"
@@ -114,7 +114,7 @@ class AuthenticationIntegration:
             self.logger.error("Failed to load WALLET components: %s", e)
             raise
 
-    async def _load_qrg_components(self):
+    async def _load_qrg_components(self) -> None:
         """Load QRG components from lambda_products_pack"""
         try:
             qrg_path = LAMBDA_CORE_PATH / "QRG"
@@ -137,7 +137,7 @@ class AuthenticationIntegration:
             self.logger.error("Failed to load QRG components: %s", e)
             raise
 
-    async def _initialize_bridges(self):
+    async def _initialize_bridges(self) -> None:
         """Initialize integration bridges between components"""
         try:
             # Initialize WALLET bridge if available

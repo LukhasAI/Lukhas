@@ -460,7 +460,7 @@ class QIIntegration:
         self._candidate_available = False
 
     @instrument("qi_integration_init")
-    def initialize_integrations(self):
+    def initialize_integrations(self) -> None:
         """Initialize QI integrations with candidate module"""
         try:
             # Try to connect to candidate QI module
