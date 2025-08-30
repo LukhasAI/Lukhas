@@ -35,11 +35,11 @@ lanes:
       allow_from: ["lukhas/**","candidate/**","core/**","universal_language/**"]
       deny_from: []
   - name: matriz
-    root: MATRIZ/
+    root: matriz/
     owners: ["@Agent03"]
     depends_on: [core]
     import_rules:
-      allow_from: ["MATRIZ/**","lukhas/**","candidate/**","universal_language/**"]
+      allow_from: ["matriz/**","lukhas/**","candidate/**","universal_language/**"]
       deny_from: []
   - name: archive
     root: archive/
@@ -47,14 +47,14 @@ lanes:
     depends_on: []
     import_rules:
       allow_from: ["archive/**"]
-      deny_from: ["lukhas/**","candidate/**","core/**","MATRIZ/**","universal_language/**"]
+      deny_from: ["lukhas/**","candidate/**","core/**","matriz/**","universal_language/**"]
   - name: quarantine
     root: quarantine/
     owners: ["@Agent04"]
     depends_on: []
     import_rules:
       allow_from: ["quarantine/**"]
-      deny_from: ["lukhas/**","candidate/**","core/**","MATRIZ/**","universal_language/**"]
+      deny_from: ["lukhas/**","candidate/**","core/**","matriz/**","universal_language/**"]
   - name: experimental
     root: experimental/
     owners: ["@Agent05"]

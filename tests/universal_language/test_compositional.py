@@ -1,6 +1,7 @@
 import importlib.util
 import re
 from pathlib import Path
+from typing import Union
 
 
 def _load_module(module_name: str, rel_path: str):
@@ -27,7 +28,7 @@ def _load_module(module_name: str, rel_path: str):
                 domain=None,
                 name: str = "",
                 value: float = 0.0,
-                glyph: str | None = None,
+                glyph: Union[str, None] = None,
             ):
                 self.id, self.domain, self.name, self.value, self.glyph = (
                     id,
