@@ -16,7 +16,7 @@ class LukhasFormatter(logging.Formatter):
 
     SYMBOLS: ClassVar[dict[int, str]] = {
         logging.DEBUG: "🔍",
-        logging.INFO: "ℹ️",
+        logging.INFO: "i",
         logging.WARNING: "⚠️",
         logging.ERROR: "❌",
         logging.CRITICAL: "🚨",
@@ -51,8 +51,11 @@ class JSONFormatter(logging.Formatter):
         }
 
         # Add extra fields
-        for key, value in record.__dict__.items():
-            if key not in [
+        extras = {
+            key: value
+            for key, value in record.__dict__.items()
+            if key
+            not in [
                 "name",
                 "msg",
                 "args",
@@ -71,8 +74,9 @@ class JSONFormatter(logging.Formatter):
                 "relativeCreated",
                 "thread",
                 "threadName",
-            ]:
-                log_data[key] = value
+            ]
+        }
+        log_data.update(extras)
 
         return json.dumps(log_data)
 
@@ -160,8 +164,13 @@ def _configure_logger(logger: logging.Logger) -> None:
         formatter = JSONFormatter()
     else:
         formats = {
-            "standard": "%(symbol)s %(asctime)s %(module_context)s %(name)s - %(levelname)s - %(message)s",
-            "detailed": "%(symbol)s %(asctime)s %(module_context)s [%(name)s:%(funcName)s:%(lineno)d] %(levelname)s - %(message)s",
+            "standard": (
+                "%(symbol)s %(asctime)s %(module_context)s %(name)s - %(levelname)s - %(message)s"
+            ),
+            "detailed": (
+                "%(symbol)s %(asctime)s %(module_context)s "
+                "[%(name)s:%(funcName)s:%(lineno)d] %(levelname)s - %(message)s"
+            ),
             "minimal": "%(symbol)s %(levelname)s - %(message)s",
         }
 

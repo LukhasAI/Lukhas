@@ -285,11 +285,19 @@ class ExtremePerformanceAuditLogger:
         # BACKGROUND HASH CALCULATION (if requested)
         if calculate_hash and self.hash_calculator:
             # Calculate hash asynchronously without blocking
-            _hash_task = asyncio.create_task(self._calculate_event_hash_background(event))
+            if not hasattr(self, "_bg_tasks"):
+                self._bg_tasks = []
+            self._bg_tasks.append(
+                asyncio.create_task(self._calculate_event_hash_background(event))
+            )
 
         # REDIS CACHE (ultra-fast, fire-and-forget)
         if self._redis:
-            _cache_task = asyncio.create_task(self._cache_event_redis_background(event))
+            if not hasattr(self, "_bg_tasks"):
+                self._bg_tasks = []
+            self._bg_tasks.append(
+                asyncio.create_task(self._cache_event_redis_background(event))
+            )
 
         # Performance tracking
         event_duration_ms = (time.perf_counter() - event_start) * 1000

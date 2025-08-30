@@ -560,10 +560,7 @@ class WebAuthnManager:
                 return False
 
             # ⚛️ Identity integrity check
-            if len(user_id) > 100:  # Prevent oversized IDs
-                return False
-
-            return True
+            return len(user_id) <= 100  # Prevent oversized IDs
 
         except Exception:
             return False  # Deny on error for safety
@@ -586,23 +583,27 @@ class WebAuthnManager:
             expired_regs = 0
             expired_auths = 0
 
-            for reg_id, reg_data in list(self.pending_registrations.items()):
+            def _safe_expire_reg(_reg_id: str, reg_data: dict) -> bool:
                 try:
                     expires_at = datetime.fromisoformat(reg_data["expires_at"])
-                    if current_time > expires_at:
-                        del self.pending_registrations[reg_id]
-                        expired_regs += 1
+                    return current_time > expires_at
                 except Exception:
+                    return True
+
+            for reg_id, reg_data in list(self.pending_registrations.items()):
+                if _safe_expire_reg(reg_id, reg_data):
                     del self.pending_registrations[reg_id]
                     expired_regs += 1
 
-            for auth_id, auth_data in list(self.pending_authentications.items()):
+            def _safe_expire_auth(_auth_id: str, auth_data: dict) -> bool:
                 try:
                     expires_at = datetime.fromisoformat(auth_data["expires_at"])
-                    if current_time > expires_at:
-                        del self.pending_authentications[auth_id]
-                        expired_auths += 1
+                    return current_time > expires_at
                 except Exception:
+                    return True
+
+            for auth_id, auth_data in list(self.pending_authentications.items()):
+                if _safe_expire_auth(auth_id, auth_data):
                     del self.pending_authentications[auth_id]
                     expired_auths += 1
 

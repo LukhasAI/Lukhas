@@ -712,7 +712,7 @@ if hub is not None:
 else:
     # Graceful fallback when hub is not available
     status = _identity_connector.get_implementation_status()
-    print("ℹ️ Integration hub not available, using standalone mode")
+    print("Info: Integration hub not available, using standalone mode")
     print(f"✅ Identity Connector initialized: {status['type']} implementation")
     if status["type"] == "production":
         print("🛡️ Constitutional AI Safety: ACTIVE")

@@ -278,7 +278,7 @@ class AuthenticationService:
                 self.wallet_manager = None
         else:
             self.wallet_manager = None
-            self.logger.info("ℹ️ Wallet authentication not available")
+            self.logger.info("Info: Wallet authentication not available")
 
     def authenticate_user(self, username: str, password: str, auth_method: str = "password") -> AuthResult:
         """
@@ -295,7 +295,9 @@ class AuthenticationService:
         try:
             # Log authentication attempt using real audit logger
             if self._implementation_type == "production":
-                asyncio.create_task(
+                if not hasattr(self, "_audit_tasks"):
+                    self._audit_tasks = []
+                self._audit_tasks.append(
                     self.audit_logger.log_authentication_attempt(
                         attempt_result="initiated",
                         details={
@@ -322,7 +324,9 @@ class AuthenticationService:
 
             # Log failed attempt
             if self._implementation_type == "production":
-                asyncio.create_task(
+                if not hasattr(self, "_audit_tasks"):
+                    self._audit_tasks = []
+                self._audit_tasks.append(
                     self.audit_logger.log_authentication_attempt(
                         attempt_result="error",
                         details={

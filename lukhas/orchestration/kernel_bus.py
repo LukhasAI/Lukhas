@@ -169,14 +169,21 @@ class KernelBus:
         """
         handlers = self._subscribers.get(event, [])
 
-        for handler in handlers:
+        def _safe_dispatch(cb, rec):
             try:
-                handler(event_record)
-                self._metrics["handlers_triggered"] += 1
+                cb(rec)
+                return True
             except Exception as e:
                 logger.error(f"Handler error for {event}: {e}")
+                return False
 
-        return len(handlers)
+        triggered = 0
+        for handler in handlers:
+            if _safe_dispatch(handler, event_record):
+                self._metrics["handlers_triggered"] += 1
+                triggered += 1
+
+        return triggered
 
 
 # Global instance (lazy initialization)

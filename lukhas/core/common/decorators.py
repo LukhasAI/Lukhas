@@ -50,7 +50,7 @@ def retry(
             while attempt < max_attempts:
                 try:
                     return await func(*args, **kwargs)
-                except exceptions as e:
+                except exceptions as e:  # noqa: PERF203 # Intentional: retry pattern requires try-except in loop
                     last_exception = e
 
                     if attempt < max_attempts - 1:
@@ -83,7 +83,7 @@ def retry(
             while attempt < max_attempts:
                 try:
                     return func(*args, **kwargs)
-                except exceptions as e:
+                except exceptions as e:  # noqa: PERF203 # Intentional: retry pattern requires try-except in loop
                     last_exception = e
 
                     if attempt < max_attempts - 1:

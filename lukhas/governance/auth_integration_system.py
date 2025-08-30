@@ -219,7 +219,7 @@ class LUKHASAuthIntegrationSystem:
             await self._update_health_status()
 
             # Start background monitoring
-            asyncio.create_task(self._background_monitoring())
+            self._monitor_task = asyncio.create_task(self._background_monitoring())
 
             self.health_status.overall_status = "healthy"
             logger.info(f"Integration system initialized successfully: {self.system_id}")
@@ -273,7 +273,7 @@ class LUKHASAuthIntegrationSystem:
             # Convert event type to AuthEventType
             auth_event = self._convert_to_auth_event_type(event_type)
 
-            # Phase 1–4: modular helpers
+            # Phase 1-4: modular helpers
             await self._phase_guardian(result, auth_event, user_id, tier_level, outcome, auth_context)
             await self._phase_policies(result, tier_level, auth_context)
             self._phase_glyph(result, user_id, tier_level, auth_context, outcome)

@@ -18,10 +18,11 @@ import logging
 import logging.config
 import os
 import sys
+import threading  # Import at top to avoid E402
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, ClassVar, Dict, Optional
+from typing import Any, ClassVar, Optional
 
 import structlog
 from pythonjsonlogger import jsonlogger
@@ -455,8 +456,7 @@ class PerformanceLoggingContext:
 # INITIALIZATION
 # ======================================================================
 
-# Import threading here to avoid circular imports
-import threading
+# Threading import moved to top of file
 
 # Initialize logging on module import
 if not os.getenv("LUKHAS_SKIP_LOG_INIT"):

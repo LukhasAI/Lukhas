@@ -228,7 +228,10 @@ class ConstitutionalFramework:
                 violation_id=str(uuid.uuid4()),
                 principle=principle,
                 severity=threshold - score,
-                description=f"Content violates {principle.value} principle (score: {score:.3f}, threshold: {threshold})",
+                description=(
+                    f"Content violates {principle.value} principle "
+                    f"(score: {score:.3f}, threshold: {threshold})"
+                ),
                 evidence=self._extract_evidence(principle, content),
                 recommended_action=f"Review and modify content to better align with {principle.value}",
             )

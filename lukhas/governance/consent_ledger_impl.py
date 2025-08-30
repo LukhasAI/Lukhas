@@ -563,13 +563,13 @@ class ConsentLedgerV1:
     def _notify_agents(self, event_type: str, data: dict[str, Any]) -> None:
         """Notify registered agents of ledger events"""
         for agent_name, callback in self.agent_callbacks.items():
-            def _safe_invoke(cb, ev, payload):
+            def _safe_invoke(cb, ev, payload, agent_label: str):
                 try:
                     cb(ev, payload)
                 except Exception as e:
-                    logging.error(f"Agent {agent_name} callback failed: {e}")
+                    logging.error(f"Agent {agent_label} callback failed: {e}")
 
-            _safe_invoke(callback, event_type, data)
+            _safe_invoke(callback, event_type, data, agent_name)
 
     def _append_trace(self, trace: ΛTrace) -> None:
         """Append trace to immutable ledger with Trinity Framework data"""

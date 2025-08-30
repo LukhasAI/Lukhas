@@ -32,9 +32,13 @@ def authenticate(
     if not isinstance(lid, str) or len(lid) < 3:
         return {"ok": False, "reason": "invalid_lid"}
 
-    if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
-        # Check if this is a WebAuthn authentication
-        if credential and credential.get("type") == "webauthn":
+    if (
+        mode != "dry_run"
+        and WEBAUTHN_ACTIVE
+        and _webauthn_manager
+        and credential
+        and credential.get("type") == "webauthn"
+    ):
             auth_result = _webauthn_manager.verify_authentication_response(
                 authentication_id=credential.get("authentication_id"),
                 response=credential.get("response", {}),

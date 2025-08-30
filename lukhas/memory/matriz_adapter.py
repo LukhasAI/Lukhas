@@ -33,7 +33,7 @@ except ImportError:
     def make_node(**kwargs):
         return kwargs
 
-    def emit(node) -> None:
+    def emit(_node) -> None:
         pass
 
 

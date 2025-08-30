@@ -252,9 +252,8 @@ class EmotionalMemoryManager:
 
                 # Clean up emotion patterns
                 emotion_type = memory["emotion_type"]
-                if emotion_type in self.emotion_patterns:
-                    if memory["id"] in self.emotion_patterns[emotion_type]:
-                        self.emotion_patterns[emotion_type].remove(memory["id"])
+                if emotion_type in self.emotion_patterns and memory["id"] in self.emotion_patterns[emotion_type]:
+                    self.emotion_patterns[emotion_type].remove(memory["id"])
 
 
 # Global instance for convenience
