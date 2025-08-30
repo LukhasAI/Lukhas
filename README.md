@@ -40,6 +40,19 @@ This repository is primed for a focused Deep Search pass using ChatGPT 5 Pro. Th
   - `make audit-scan` – list of deep search report files
 - Key entry point: `AUDIT/INDEX.md`
 
+## Setup (constraints)
+
+To ensure reproducible installs for platform-sensitive wheels, use constraints:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -U pip wheel setuptools
+pip install -r requirements.txt -c pip-constraints.txt
+```
+
+See `pip-constraints.txt` for pinned wheels (e.g., psycopg2-binary==2.9.9).
+
 ## What’s Generated (Pre‑Search Only)
 
 - `AUDIT/INDEX.md` – anchor with commit/time and pointers to reports
