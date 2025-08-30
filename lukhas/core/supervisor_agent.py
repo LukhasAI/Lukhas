@@ -5,7 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ class SupervisorAgent:
         escalation = {
             "task_id": task_id,
             "colony_id": colony_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "task_data": task_data,
             "supervisor_id": self.supervisor_id,
             "status": "under_review",
@@ -62,7 +62,7 @@ class SupervisorAgent:
             {
                 "review_result": review_result,
                 "status": "reviewed",
-                "reviewed_at": datetime.now().isoformat(),
+                "reviewed_at": datetime.now(timezone.utc).isoformat(),
             }
         )
 

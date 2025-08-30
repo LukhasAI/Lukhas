@@ -32,6 +32,8 @@ try:
 except ImportError:
     # Fallback decorators for development
     def matriz_trace(operation: str):
+        _ = operation
+
         def decorator(func):
             return func
 
@@ -412,6 +414,7 @@ class ConsciousnessWrapper:
 
     def _fallback_awareness_response(self, stimulus: dict[str, Any]) -> dict[str, Any]:
         """Fallback when candidate system unavailable"""
+        _ = stimulus
         return {
             "awareness_level": 0.3,
             "status": "fallback_mode",
@@ -425,6 +428,7 @@ class ConsciousnessWrapper:
 
     def _fallback_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Fallback reflection processing"""
+        _ = context
         return {
             "reflection_status": "fallback",
             "message": "Basic reflection processing active",
@@ -471,6 +475,7 @@ class ConsciousnessWrapper:
 
     async def _validate_ethics(self, action_type: str, context: dict[str, Any]) -> EthicalDecision:
         """Validate action against ethical principles"""
+        _ = action_type, context
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system
 
@@ -492,6 +497,7 @@ class ConsciousnessWrapper:
 
     async def _detect_drift(self, context: dict[str, Any]) -> float:
         """Detect symbolic drift in consciousness state"""
+        _ = context
         # Simplified drift detection for production safety
         # In full implementation, would use comprehensive drift scoring
 

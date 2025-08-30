@@ -255,6 +255,7 @@ def get_governance_status():
 
 
 def initialize_governance_system(config=None):
+    _ = config
     """Initialize the complete governance system"""
     try:
         if not PHASE_7_AVAILABLE:
@@ -271,9 +272,7 @@ def initialize_governance_system(config=None):
             print(f"LUKHAS Governance System initialized: {__phase__}")
             print(f"Trinity Framework: {__trinity_framework__}")
             print("Guardian System v1.0.0 with drift threshold: 0.15")
-            print(
-                f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}"
-            )
+            print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
 
             return integration_system
 

@@ -364,6 +364,7 @@ class AuthenticationService:
             Authentication result
         """
         try:
+            _ = service_name
             # Check if API key exists in users
             api_user = None
             for user_id, user_data in self.users.items():

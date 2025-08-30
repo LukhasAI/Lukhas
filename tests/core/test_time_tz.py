@@ -1,33 +1,31 @@
-"""Test timezone-aware datetime usage in stable code paths."""
+from datetime import timezone
 
-from datetime import datetime, timezone
-
-import pytest
-
-
-@pytest.mark.unit
-def test_bio_symbolic_uses_utc():
-    """Assert bio-symbolic timestamps are UTC."""
-    try:
-        from lukhas.bio.core.bio_symbolic import BioSymbolic
-
-        bio = BioSymbolic()
-        # Check if bio creates timestamp data
-        if hasattr(bio, "timestamp_data") and bio.timestamp_data:
-            timestamp_str = bio.timestamp_data.get("timestamp", "")
-            if timestamp_str:
-                # Parse ISO timestamp and verify UTC
-                parsed_dt = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
-                assert parsed_dt.tzinfo is not None, "Timestamp should be timezone-aware"
-                assert parsed_dt.utctimetuple() == parsed_dt.timetuple(), "Should be UTC"
-    except ImportError:
-        pytest.skip("BioSymbolic not available")
+from lukhas.core.common.logger import JSONFormatter
+from lukhas.memory.emotional import EmotionalMemoryManager
 
 
-@pytest.mark.unit
-def test_stable_paths_use_utc():
-    """Assert stable code paths use timezone.utc for datetime.now()."""
-    # Test that timezone.utc is available and working
-    utc_now = datetime.now(timezone.utc)
-    assert utc_now.tzinfo == timezone.utc
-    assert utc_now.utcoffset().total_seconds() == 0
+def test_logger_jsonformatter_utc_timestamp():
+    formatter = JSONFormatter()
+    record = type(
+        "R",
+        (),
+        {
+            "levelname": "INFO",
+            "module": "x",
+            "funcName": "f",
+            "lineno": 1,
+            "getMessage": lambda self: "msg",
+            "thread": 1,
+            "threadName": "t",
+        },
+    )()
+    out = formatter.format(record)
+    assert "+00:00" in out or "Z" in out
+
+
+def test_emotional_memory_manager_utc_timestamps():
+    mgr = EmotionalMemoryManager()
+    mem_id = mgr.store_emotional_memory("hello", "joy", 0.8)
+    mem = mgr.retrieve_emotional_memory(mem_id)
+    assert mem is not None
+    assert "+00:00" in mem["timestamp"]

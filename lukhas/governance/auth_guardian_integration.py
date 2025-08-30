@@ -21,7 +21,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -203,7 +203,7 @@ class AuthenticationGuardian:
                 user_id=user_id,
                 tier_level=tier_level,
                 outcome=outcome,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 ip_address=context.get("ip_address", ""),
                 user_agent=context.get("user_agent", ""),
                 metadata=context,
@@ -278,7 +278,7 @@ class AuthenticationGuardian:
                     for e in self.recent_events
                     if e.user_id == metrics.user_id
                     and e.event_type == AuthEventType.LOGIN_FAILURE
-                    and e.timestamp > datetime.now() - timedelta(hours=1)
+                    and e.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
                 ]
 
                 if len(recent_failures) > 5:
@@ -301,7 +301,7 @@ class AuthenticationGuardian:
                 recent_ips = [
                     e.ip_address
                     for e in self.recent_events
-                    if e.user_id == metrics.user_id and e.timestamp > datetime.now() - timedelta(days=1)
+                    if e.user_id == metrics.user_id and e.timestamp > datetime.now(timezone.utc) - timedelta(days=1)
                 ]
                 unique_ips = len(set(recent_ips))
                 if unique_ips > 10:  # Too many different IPs
@@ -678,7 +678,7 @@ class AuthenticationGuardian:
                 "bias_detections": bias_detections,
                 "drift_threshold": self.drift_threshold,
                 "status": "alert" if high_drift_events > 0 else "monitoring",
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:

@@ -24,7 +24,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
@@ -143,9 +143,7 @@ class TrinityFrameworkIntegration:
             ModuleType.CORE: "guardian",
         }
 
-    def get_trinity_context_for_module(
-        self, module_type: ModuleType, auth_context: dict[str, Any]
-    ) -> dict[str, str]:
+    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
         """Get Trinity Framework context for specific module"""
         primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
 
@@ -217,7 +215,7 @@ class AuthCrossModuleIntegrator:
             "messages_received": 0,
             "active_sessions": 0,
             "module_connections": 0,
-            "last_updated": datetime.now(),
+            "last_updated": datetime.now(timezone.utc),
         }
 
         # Initialize module adapters
@@ -250,7 +248,7 @@ class AuthCrossModuleIntegrator:
             # Register module
             self.registered_modules[module_type] = {
                 "config": module_config,
-                "registered_at": datetime.now(),
+                "registered_at": datetime.now(timezone.utc),
                 "active": True,
                 "message_count": 0,
                 "last_message": None,
@@ -262,7 +260,7 @@ class AuthCrossModuleIntegrator:
 
             # Update statistics
             self.integration_stats["module_connections"] = len(self.registered_modules)
-            self.integration_stats["last_updated"] = datetime.now()
+            self.integration_stats["last_updated"] = datetime.now(timezone.utc)
 
             # Send registration confirmation
             if auth_glyph_registry:
@@ -277,7 +275,7 @@ class AuthCrossModuleIntegrator:
                     "registration_confirmed",
                     {
                         "glyph": registration_glyph,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     },
                 )
 
@@ -311,9 +309,7 @@ class AuthCrossModuleIntegrator:
             # Send to each target module
             for module_type in target_modules:
                 if module_type in self.registered_modules:
-                    success = await self._send_auth_context_to_module(
-                        module_type, user_id, auth_event, auth_context
-                    )
+                    success = await self._send_auth_context_to_module(module_type, user_id, auth_event, auth_context)
                     results[module_type.value] = success
                 else:
                     results[module_type.value] = False
@@ -328,9 +324,7 @@ class AuthCrossModuleIntegrator:
             print(f"Error propagating auth context: {e}")
             return {}
 
-    async def _create_module_auth_context(
-        self, user_id: str, auth_context: dict[str, Any]
-    ) -> ModuleAuthContext:
+    async def _create_module_auth_context(self, user_id: str, auth_context: dict[str, Any]) -> ModuleAuthContext:
         """Create authentication context for module consumption"""
         # Extract key authentication information
         tier_level = auth_context.get("tier_level", "T1")
@@ -345,12 +339,8 @@ class AuthCrossModuleIntegrator:
                 symbolic_identity = symbolic_identity_obj.composite_glyph
 
         # Determine constitutional and guardian status
-        constitutional_status = (
-            "valid" if auth_context.get("constitutional_valid", True) else "violation"
-        )
-        guardian_status = (
-            "monitoring" if auth_context.get("guardian_monitoring", False) else "inactive"
-        )
+        constitutional_status = "valid" if auth_context.get("constitutional_valid", True) else "violation"
+        guardian_status = "monitoring" if auth_context.get("guardian_monitoring", False) else "inactive"
 
         return ModuleAuthContext(
             module_type=ModuleType.CORE,  # Will be updated per module
@@ -361,7 +351,7 @@ class AuthCrossModuleIntegrator:
             symbolic_identity=symbolic_identity,
             constitutional_status=constitutional_status,
             guardian_status=guardian_status,
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
             metadata=auth_context,
         )
 
@@ -380,9 +370,7 @@ class AuthCrossModuleIntegrator:
                 return False
 
             # Get Trinity context for module
-            trinity_context = self.trinity_integration.get_trinity_context_for_module(
-                module_type, auth_context
-            )
+            trinity_context = self.trinity_integration.get_trinity_context_for_module(module_type, auth_context)
 
             # Create GLYPH message
             glyph_message = "GLYPH[DEFAULT]"
@@ -404,7 +392,7 @@ class AuthCrossModuleIntegrator:
                 glyph_encoding=glyph_message,
                 payload=await adapter["prepare_payload"](auth_context),
                 trinity_context=trinity_context,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 priority=self._determine_message_priority(auth_event),
             )
 
@@ -414,7 +402,7 @@ class AuthCrossModuleIntegrator:
             # Update module statistics
             if success and module_type in self.registered_modules:
                 self.registered_modules[module_type]["message_count"] += 1
-                self.registered_modules[module_type]["last_message"] = datetime.now()
+                self.registered_modules[module_type]["last_message"] = datetime.now(timezone.utc)
 
             return success
 
@@ -496,6 +484,7 @@ class AuthCrossModuleIntegrator:
     ) -> None:
         """Send internal system message"""
         try:
+            _ = message_type
             message = AuthModuleMessage(
                 id=str(uuid.uuid4()),
                 message_type=AuthMessageType.AUTH_SUCCESS,  # Generic type
@@ -506,7 +495,7 @@ class AuthCrossModuleIntegrator:
                 glyph_encoding="GLYPH[SYSTEM]",
                 payload=payload,
                 trinity_context={"aspect": "system", "symbol": "⚙️"},
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 priority="normal",
             )
 
@@ -751,19 +740,17 @@ class AuthCrossModuleIntegrator:
         for module_type in self.registered_modules:
             adapter = self.module_adapters.get(module_type)
             if adapter:
-                module_contexts[module_type.value] = await adapter["prepare_payload"](
-                    context.metadata
-                )
+                module_contexts[module_type.value] = await adapter["prepare_payload"](context.metadata)
 
-        return {
-            "user_id": user_id,
-            "base_context": asdict(context),
-            "module_contexts": module_contexts,
-            "trinity_integration": self.trinity_integration.get_trinity_context_for_module(
-                ModuleType.CORE, context.metadata
-            ),
-            "last_updated": datetime.now().isoformat(),
-        }
+            return {
+                "user_id": user_id,
+                "base_context": asdict(context),
+                "module_contexts": module_contexts,
+                "trinity_integration": self.trinity_integration.get_trinity_context_for_module(
+                    ModuleType.CORE, context.metadata
+                ),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
+            }
 
     async def cleanup_user_contexts(self, user_id: str) -> bool:
         """Clean up authentication contexts for user"""
@@ -799,7 +786,7 @@ class AuthCrossModuleIntegrator:
             "glyph_communication": auth_glyph_registry is not None,
             "kernel_bus_available": self.kernel_bus is not None,
             "statistics": self.integration_stats,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
 

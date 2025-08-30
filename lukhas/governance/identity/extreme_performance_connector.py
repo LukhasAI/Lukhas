@@ -18,7 +18,7 @@ EXPECTED IMPROVEMENT: 83-117ms → <5ms authentication flow (95%+ reduction)
 import asyncio
 import functools
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
 # Import our extreme performance optimizations
@@ -264,7 +264,7 @@ class ExtremePerformanceIdentityConnector:
             "agent_id": agent_id,
             "function": function_name,
             "performance_mode": "fallback",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _update_performance_stats(self, duration_ms: float, success: bool) -> None:

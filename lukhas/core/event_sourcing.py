@@ -25,7 +25,7 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Set up logging
@@ -277,7 +277,7 @@ class EventSourcedAggregate(ABC):
             data=data,
             metadata={
                 "source": self.__class__.__name__,
-                "raised_at": datetime.utcnow().isoformat(),
+                "raised_at": datetime.now(timezone.utc).isoformat(),
             },
             timestamp=time.time(),
             version=self.version + 1,

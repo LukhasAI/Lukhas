@@ -147,6 +147,7 @@ class ExternalServiceIntegration:
     @instrument("bridge_llm_call")
     def call_llm_provider(self, provider: str, prompt: str, **kwargs) -> dict[str, Any]:
         """Call an LLM provider with safety measures"""
+        _ = kwargs  # mark unused optional params without changing API
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
 
@@ -171,6 +172,7 @@ class ExternalServiceIntegration:
     @instrument("bridge_service_call")
     def call_service_adapter(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
         """Call a service adapter with safety measures"""
+        _ = kwargs  # mark unused optional params without changing API
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
 
@@ -202,9 +204,7 @@ class MultiModelOrchestrator:
         self._consensus_threshold = 0.7
 
     @instrument("bridge_consensus_process")
-    async def consensus_process(
-        self, query: str, models: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def consensus_process(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
         """Process query through multiple models and synthesize consensus"""
         if models is None:
             models = ["openai", "anthropic", "gemini"]
@@ -252,9 +252,7 @@ class MultiModelOrchestrator:
             # Simulate async processing delay
             await asyncio.sleep(0.1)
 
-            result = self._integration.call_llm_provider(
-                provider=model, prompt=query, max_tokens=150, temperature=0.7
-            )
+            result = self._integration.call_llm_provider(provider=model, prompt=query, max_tokens=150, temperature=0.7)
 
             return result
 
@@ -328,9 +326,7 @@ class BridgeWrapper:
             return False
 
     @instrument("bridge_multi_model_query")
-    async def multi_model_query(
-        self, query: str, models: Optional[list[str]] = None
-    ) -> dict[str, Any]:
+    async def multi_model_query(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
         """Query multiple AI models and return consensus response"""
         if not self._initialized:
             self.initialize()
@@ -363,9 +359,7 @@ class BridgeWrapper:
             self.initialize()
 
         try:
-            result = self._service_integration.call_service_adapter(
-                service=service, operation=operation, **kwargs
-            )
+            result = self._service_integration.call_service_adapter(service=service, operation=operation, **kwargs)
 
             emit(
                 {

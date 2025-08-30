@@ -72,6 +72,8 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
         """Fallback stub for SafetyMonitor"""
 
         def monitor_operation(self, agent_id, operation):
+            _ = (agent_id, operation)
+
             class MonitorContext:
                 def __enter__(self):
                     return self
@@ -91,6 +93,7 @@ if not REAL_IMPLEMENTATIONS_AVAILABLE:
             return self.tiers.get(agent_id, 1)
 
         async def verify_access(self, agent_id: str, resource: str) -> bool:
+            _ = (agent_id, resource)
             return True
 
     # Simple AccessType enum for fallback
@@ -218,6 +221,7 @@ class IdentityConnector:
 
             async def check_access(self, session_id: str, resource: str, access_type, context: Optional[dict] = None):
                 """Check access with real tier validation"""
+                _ = access_type, context
                 try:
                     import importlib
 
@@ -256,6 +260,7 @@ class IdentityConnector:
 
             async def verify_access(self, agent_id: str, resource: str) -> bool:
                 """Verify access for agent"""
+                _ = resource
                 tier = await self.get_agent_tier(agent_id)
                 return tier >= 2  # Require at least T2
 
@@ -346,9 +351,11 @@ class IdentityConnector:
                 return self.tiers.get(agent_id, 1)
 
             async def verify_access(self, agent_id: str, resource: str) -> bool:
+                _ = (agent_id, resource)
                 return True
 
             async def check_access(self, session_id: str, resource: str, access_type: str):
+                _ = (session_id, resource, access_type)
                 return ("allow", "stub_implementation")
 
         return AccessControlStub()
@@ -358,6 +365,8 @@ class IdentityConnector:
 
         class SafetyMonitorStub:
             def monitor_operation(self, agent_id, operation):
+                _ = (agent_id, operation)
+
                 class MonitorContext:
                     def __enter__(self):
                         return self
@@ -369,8 +378,9 @@ class IdentityConnector:
 
             async def assess_safety(self, content: str, context: dict, user_intent: Optional[str] = None):
                 # Stub assessment - always safe
+                _ = (content, context, user_intent)
                 from dataclasses import dataclass
-                from datetime import datetime
+                from datetime import datetime, timezone
                 from enum import Enum
 
                 class SafetyLevel(Enum):
@@ -395,7 +405,7 @@ class IdentityConnector:
                     mitigation_strategies=[],
                     constitutional_violations=[],
                     recommendations=[],
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                 )
 
         return SafetyMonitorStub()

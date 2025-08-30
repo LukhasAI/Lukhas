@@ -58,6 +58,7 @@ except ImportError:
             self.drift_threshold = drift_threshold
 
         async def check_drift(self, data) -> float:
+            _ = data
             return 0.05  # Safe default
 
         def get_status(self):

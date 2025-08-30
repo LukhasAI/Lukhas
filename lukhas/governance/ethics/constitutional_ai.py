@@ -333,6 +333,7 @@ class ConstitutionalFramework:
 
     async def _assess_harm_probability(self, content: str, context: dict[str, Any]) -> float:
         """Assess probability of harm"""
+        _ = (content, context)
         # Simplified harm assessment
         harm_indicators = ["weapon", "violence", "kill", "destroy", "bomb", "attack"]
         content_lower = content.lower()
@@ -342,6 +343,7 @@ class ConstitutionalFramework:
 
     async def _assess_value_alignment(self, content: str, context: dict[str, Any]) -> float:
         """Assess alignment with human values"""
+        _ = (content, context)
         # Simplified value alignment assessment
         positive_values = ["help", "benefit", "improve", "support", "care", "respect"]
         negative_values = ["exploit", "manipulate", "deceive", "harm"]
@@ -355,6 +357,7 @@ class ConstitutionalFramework:
 
     async def _assess_transparency(self, content: str, context: dict[str, Any]) -> float:
         """Assess transparency level"""
+        _ = (content, context)
         transparency_indicators = ["explain", "transparent", "clear", "open", "honest"]
         content_lower = content.lower()
 
@@ -451,8 +454,7 @@ class ConstitutionalFramework:
         if assessment.transparency_score < 0.7:
             recommendations.append("Enhance transparency and explainability")
 
-        for violation in violations:
-            recommendations.append(f"Address {violation.principle.value} violation: {violation.recommended_action}")
+        recommendations.extend([f"Address {v.principle.value} violation: {v.recommended_action}" for v in violations])
 
         if not recommendations:
             recommendations.append("Content meets constitutional AI safety standards")
@@ -494,8 +496,9 @@ class ConstitutionalFramework:
         if assessment.confidence < 0.7:
             risk_factors.append("Low assessment confidence")
 
-        for violation in violations:
-            risk_factors.append(f"{violation.principle.value} principle violation (severity: {violation.severity:.3f})")
+        risk_factors.extend(
+            [f"{v.principle.value} principle violation (severity: {v.severity:.3f})" for v in violations]
+        )
 
         return risk_factors
 

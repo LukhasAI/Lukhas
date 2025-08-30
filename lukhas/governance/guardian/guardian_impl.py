@@ -47,6 +47,7 @@ class GuardianSystemImpl:
 
     def detect_drift(self, baseline: str, current: str, threshold: float, context: dict[str, Any]) -> DriftResult:
         """Detect drift in behavior using advanced semantic analysis"""
+        _ = context
         # Use advanced drift calculation with semantic similarity
         drift_score = self._calculate_advanced_drift_score(baseline, current)
         threshold_exceeded = drift_score > threshold

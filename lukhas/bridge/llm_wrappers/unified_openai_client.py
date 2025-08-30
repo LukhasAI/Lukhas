@@ -26,6 +26,7 @@ except ImportError:
 
     def retry(*args, **kwargs):
         """Fallback retry decorator"""
+        _ = (args, kwargs)
 
         def decorator(func):
             return func
@@ -34,6 +35,7 @@ except ImportError:
 
     def with_timeout(*args, **kwargs):
         """Fallback timeout decorator"""
+        _ = (args, kwargs)
 
         def decorator(func):
             return func

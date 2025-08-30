@@ -78,6 +78,7 @@ class KernelBus:
         Returns:
             Event emission result
         """
+        _ = kwargs
         event_id = str(uuid.uuid4())
 
         # Create event record
@@ -123,6 +124,7 @@ class KernelBus:
         Returns:
             Subscription result
         """
+        _ = kwargs
         if mode != "dry_run" and self._active:
             self._subscribers[event].append(callback)
             logger.debug(f"📥 Subscribed to: {event}")
@@ -144,6 +146,7 @@ class KernelBus:
         Returns:
             Status information
         """
+        _ = kwargs
         return {
             "ok": True,
             "active": self._active and mode != "dry_run",

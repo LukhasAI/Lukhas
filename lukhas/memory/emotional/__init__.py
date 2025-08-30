@@ -7,7 +7,7 @@ This module consolidates emotional memory functionality from various locations.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -48,11 +48,11 @@ class EmotionalMemoryManager:
         Returns:
             Memory ID
         """
-        memory_id = f"EM_{datetime.now().timestamp()}_{len(self.emotional_memories)}"
+        memory_id = f"EM_{datetime.now(timezone.utc).timestamp()}_{len(self.emotional_memories)}"
 
         memory = {
             "id": memory_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "content": content,
             "emotion_type": emotion_type,
             "intensity": intensity,
@@ -188,7 +188,7 @@ class EmotionalMemoryManager:
         Returns:
             Consolidation summary
         """
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         consolidated = {
             "patterns": {},
             "dominant_emotions": [],

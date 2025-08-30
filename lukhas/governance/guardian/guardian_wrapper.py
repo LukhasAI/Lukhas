@@ -65,6 +65,7 @@ def detect_drift(
     Returns:
         Drift detection result
     """
+    _ = kwargs
     threshold = threshold or DRIFT_THRESHOLD
     context = context or {}
 
@@ -139,6 +140,7 @@ def evaluate_ethics(
     Returns:
         Ethical evaluation result
     """
+    _ = kwargs
     context = context or {}
     correlation_id = str(uuid.uuid4())
 
@@ -202,6 +204,7 @@ def check_safety(
     Returns:
         Safety validation result
     """
+    _ = kwargs
     context = context or {}
     correlation_id = str(uuid.uuid4())
 
@@ -344,10 +347,9 @@ def _simulate_safety_check(content: str, constitutional_check: bool) -> dict[str
     # Basic safety keywords
     unsafe_keywords = ["harm", "attack", "violence", "illegal", "malicious"]
 
-    violations = []
-    for keyword in unsafe_keywords:
-        if keyword in content.lower():
-            violations.append(f"Detected potentially unsafe keyword: {keyword}")
+    violations = [
+        f"Detected potentially unsafe keyword: {keyword}" for keyword in unsafe_keywords if keyword in content.lower()
+    ]
 
     safe = len(violations) == 0
     risk_level = "high" if violations else "low"

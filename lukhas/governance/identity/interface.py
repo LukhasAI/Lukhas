@@ -20,7 +20,7 @@ Usage:
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 try:
@@ -96,15 +96,15 @@ class IdentityClient:
                 self.id_validator = type(
                     "LambdIDValidator",
                     (),
-                    {"validate_identity": lambda *args: True},
+                    {"validate_identity": lambda *_, **__: True},
                 )()
         except Exception as e:
             print(f"Warning: Could not initialize identity components: {e}")
             # Fall back to stub implementations
-            self.tier_validator = type("TierValidator", (), {"validate_tier": lambda *args: True})()
-            self.activity_logger = type("ActivityLogger", (), {"log_activity": lambda *args: None})()
-            self.consent_manager = type("ConsentManager", (), {"check_consent": lambda *args: True})()
-            self.id_validator = type("LambdIDValidator", (), {"validate_identity": lambda *args: True})()
+            self.tier_validator = type("TierValidator", (), {"validate_tier": lambda *_, **__: True})()
+            self.activity_logger = type("ActivityLogger", (), {"log_activity": lambda *_, **__: None})()
+            self.consent_manager = type("ConsentManager", (), {"check_consent": lambda *_, **__: True})()
+            self.id_validator = type("LambdIDValidator", (), {"validate_identity": lambda *_, **__: True})()
 
     def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
         """
@@ -173,7 +173,7 @@ class IdentityClient:
         try:
             enhanced_metadata = {
                 **metadata,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "module": self._get_calling_module(),
             }
             self.activity_logger.log_activity(activity_type, user_id, enhanced_metadata)
@@ -193,7 +193,7 @@ class IdentityClient:
             **metadata,
             "security_event": True,
             "severity": "HIGH",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "module": self._get_calling_module(),
         }
         self.log_activity(f"SECURITY_{event_type}", user_id, security_metadata)

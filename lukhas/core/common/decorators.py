@@ -8,7 +8,7 @@ import asyncio
 import functools
 import secrets
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Callable, Optional, Union
 
 from .exceptions import ModuleTimeoutError
@@ -137,8 +137,7 @@ def with_timeout(timeout: float, error_message: Optional[str] = None) -> Callabl
         # Only works with async functions
         if not asyncio.iscoroutinefunction(func):
             raise TypeError(
-                f"@with_timeout can only be used with async functions, "
-                f"but {func.__name__} is synchronous"
+                f"@with_timeout can only be used with async functions, " f"but {func.__name__} is synchronous"
             )
 
         return wrapper
@@ -175,15 +174,12 @@ def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = N
                 return await func(*args, **kwargs)
             else:
                 logger.warning(
-                    f"Access denied to {func.__name__}: "
-                    f"requires tier {required_tier}, current tier {current_tier}"
+                    f"Access denied to {func.__name__}: " f"requires tier {required_tier}, current tier {current_tier}"
                 )
                 if fallback:
                     return await fallback(*args, **kwargs)
                 else:
-                    raise PermissionError(
-                        f"Function {func.__name__} requires LUKHAS tier {required_tier}"
-                    )
+                    raise PermissionError(f"Function {func.__name__} requires LUKHAS tier {required_tier}")
 
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
@@ -194,15 +190,12 @@ def lukhas_tier_required(tier: Union[int, str], fallback: Optional[Callable] = N
                 return func(*args, **kwargs)
             else:
                 logger.warning(
-                    f"Access denied to {func.__name__}: "
-                    f"requires tier {required_tier}, current tier {current_tier}"
+                    f"Access denied to {func.__name__}: " f"requires tier {required_tier}, current tier {current_tier}"
                 )
                 if fallback:
                     return fallback(*args, **kwargs)
                 else:
-                    raise PermissionError(
-                        f"Function {func.__name__} requires LUKHAS tier {required_tier}"
-                    )
+                    raise PermissionError(f"Function {func.__name__} requires LUKHAS tier {required_tier}")
 
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
@@ -271,15 +264,13 @@ def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> 
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (
-                ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl
-            ):
+            if key in cache and (ttl is None or (datetime.now(timezone.utc) - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
             result = await func(*args, **kwargs)
             cache[key] = result
-            cache_times[key] = datetime.now()
+            cache_times[key] = datetime.now(timezone.utc)
 
             return result
 
@@ -288,15 +279,13 @@ def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> 
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (
-                ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl
-            ):
+            if key in cache and (ttl is None or (datetime.now(timezone.utc) - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
             result = func(*args, **kwargs)
             cache[key] = result
-            cache_times[key] = datetime.now()
+            cache_times[key] = datetime.now(timezone.utc)
 
             return result
 
@@ -354,9 +343,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
-                )
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         @functools.wraps(func)
@@ -388,9 +375,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(
-                    f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}"
-                )
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         if asyncio.iscoroutinefunction(func):
