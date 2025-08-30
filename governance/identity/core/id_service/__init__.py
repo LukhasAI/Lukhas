@@ -17,7 +17,7 @@ class IdentityManager:
         """Get user identity information"""
         return {"user_id": user_id, "tier": "T1"}
 
-    def validate_identity(self, identity_data):
+    def validate_identity(self, _identity_data):
         """Validate identity data"""
         return True
 

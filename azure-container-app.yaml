@@ -1,0 +1,140 @@
+# Azure Container Apps Configuration for LUKHAS AI
+# Deploy command: az containerapp create --yaml azure-container-app.yaml
+
+location: East US
+resourceGroup: Lukhas
+type: Microsoft.ContainerInstance/containerApps
+apiVersion: '2023-05-01'
+
+properties:
+  managedEnvironmentId: /subscriptions/[SUBSCRIPTION-ID]/resourceGroups/Lukhas/providers/Microsoft.App/managedEnvironments/lukhas-env
+  
+  configuration:
+    activeRevisionsMode: Single
+    secrets:
+      - name: "lukhas-id-secret"
+        value: "[LUKHAS_ID_SECRET]"
+      - name: "openai-api-key"
+        value: "[OPENAI_API_KEY]"
+      - name: "anthropic-api-key"
+        value: "[ANTHROPIC_API_KEY]"
+      - name: "google-api-key"
+        value: "[GOOGLE_API_KEY]"
+      - name: "database-url"
+        value: "[DATABASE_URL]"
+    
+    ingress:
+      external: true
+      targetPort: 8000
+      transport: http
+      corsPolicy:
+        allowedOrigins:
+          - "https://lukhas.ai"
+          - "https://www.lukhas.ai"
+          - "https://api.lukhas.ai"
+        allowedMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        allowedHeaders:
+          - "*"
+        exposeHeaders:
+          - "*"
+        maxAge: 3600
+        allowCredentials: true
+    
+    registries:
+      - server: lukhasai.azurecr.io
+        username: lukhasai
+        passwordSecretRef: "acr-password"
+
+  template:
+    containers:
+      - name: lukhas-ai-main
+        image: lukhasai.azurecr.io/lukhas-ai:latest
+        env:
+          - name: LUKHAS_ENVIRONMENT
+            value: "production"
+          - name: LUKHAS_LOG_LEVEL
+            value: "INFO"
+          - name: LUKHAS_ID_SECRET
+            secretRef: "lukhas-id-secret"
+          - name: OPENAI_API_KEY
+            secretRef: "openai-api-key"
+          - name: ANTHROPIC_API_KEY
+            secretRef: "anthropic-api-key"
+          - name: GOOGLE_API_KEY
+            secretRef: "google-api-key"
+          - name: DATABASE_URL
+            secretRef: "database-url"
+          - name: AZURE_CLIENT_ID
+            value: "[AZURE_CLIENT_ID]"
+          - name: AZURE_TENANT_ID
+            value: "[AZURE_TENANT_ID]"
+        resources:
+          cpu: 2.0
+          memory: 4Gi
+        probes:
+          - type: Liveness
+            httpGet:
+              path: "/health"
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          - type: Readiness
+            httpGet:
+              path: "/ready"
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          - type: Startup
+            httpGet:
+              path: "/startup"
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 30
+    
+    scale:
+      minReplicas: 1
+      maxReplicas: 10
+      rules:
+        - name: "http-scale-rule"
+          http:
+            metadata:
+              concurrentRequests: "100"
+        - name: "cpu-scale-rule"
+          custom:
+            type: "cpu"
+            metadata:
+              type: "Utilization"
+              value: "70"
+        - name: "memory-scale-rule"
+          custom:
+            type: "memory"
+            metadata:
+              type: "Utilization" 
+              value: "80"
+
+  identity:
+    type: SystemAssigned
+
+tags:
+  Environment: production
+  Project: LUKHAS-AI
+  ManagedBy: Azure-Container-Apps
+  Version: "2.0.0"
+  Trinity-Framework: "Identity-Consciousness-Guardian"

@@ -1,0 +1,74 @@
+# LUKHAS AI Development Environment Configuration
+
+environment: development
+
+# System Configuration
+system:
+  name: "LUKHAS-AI-DEV"
+  version: "2.0.0-dev"
+  debug: true
+  log_level: "DEBUG"
+  
+# Database Configuration  
+database:
+  url: "postgresql://lukhas:devpass@localhost:5432/lukhas_ai_dev"
+  pool_size: 5
+  max_overflow: 10
+  echo: true # SQL logging in dev
+
+# Cache Configuration
+cache:
+  url: "redis://localhost:6379/0"
+  ttl: 300
+  
+# API Keys (use development/sandbox keys)
+api_keys:
+  openai:
+    # Use tier 1 development limits
+    rate_limit: 100
+    timeout: 30
+  anthropic:
+    rate_limit: 50
+    timeout: 30
+  google:
+    rate_limit: 60
+    timeout: 30
+    
+# Trinity Framework Settings
+trinity_framework:
+  identity:
+    tier_validation: false # Relaxed for dev
+    session_timeout: 3600
+  consciousness:
+    dream_simulation: true
+    creativity_level: 0.8
+    memory_fold_limit: 500 # Reduced for dev
+  guardian:
+    drift_threshold: 0.25 # More lenient
+    audit_level: "basic"
+    
+# MATRIZ Configuration  
+matriz:
+  node_discovery: true
+  trace_verbose: true
+  development_mode: true
+  
+# Development Features
+development:
+  hot_reload: true
+  debug_endpoints: true
+  mock_external_apis: false
+  test_data_generation: true
+  profile_requests: true
+  
+# Resource Limits (Lower for dev)
+resources:
+  memory_limit: "2Gi"
+  cpu_limit: "1.0"
+  
+# Monitoring (Basic for dev)
+monitoring:
+  metrics_enabled: true
+  tracing_enabled: true
+  health_checks: true
+  prometheus_port: 9090

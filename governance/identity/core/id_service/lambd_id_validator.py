@@ -17,7 +17,7 @@ class LambdIdValidator:
         # Basic validation - ΛID should start with Λ
         return lambda_id and lambda_id.startswith("Λ")
 
-    def get_tier_from_lambda_id(self, lambda_id):
+    def get_tier_from_lambda_id(self, _lambda_id):
         """Extract tier information from Lambda ID"""
         # Stub implementation
         return "T1"

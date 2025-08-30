@@ -1,0 +1,130 @@
+# LUKHAS AI Production Environment Configuration
+
+environment: production
+
+# System Configuration
+system:
+  name: "LUKHAS-AI"
+  version: "2.0.0"
+  debug: false
+  log_level: "WARNING"
+  
+# Database Configuration (High Availability)
+database:
+  url: "${DATABASE_PRODUCTION_URL}"
+  pool_size: 20
+  max_overflow: 40
+  echo: false
+  connection_timeout: 30
+  
+# Cache Configuration (High Performance)
+cache:
+  url: "${REDIS_PRODUCTION_URL}"
+  ttl: 1800
+  cluster_mode: true
+  
+# API Keys (production tier with full limits)
+api_keys:
+  openai:
+    rate_limit: 10000
+    timeout: 45
+    retry_attempts: 3
+  anthropic:
+    rate_limit: 5000
+    timeout: 45
+    retry_attempts: 3
+  google:
+    rate_limit: 8000
+    timeout: 45
+    retry_attempts: 3
+    
+# Trinity Framework Settings (Production Hardened)
+trinity_framework:
+  identity:
+    tier_validation: true
+    session_timeout: 3600
+    multi_factor_required: true
+    encryption_at_rest: true
+  consciousness:
+    dream_simulation: true
+    creativity_level: 0.6
+    memory_fold_limit: 1000
+    cascade_prevention: 99.7
+  guardian:
+    drift_threshold: 0.15
+    audit_level: "comprehensive"
+    compliance_checks: true
+    real_time_monitoring: true
+    
+# MATRIZ Configuration (Production Optimized)
+matriz:
+  node_discovery: true
+  trace_verbose: false
+  development_mode: false
+  performance_monitoring: true
+  cognitive_mesh_enabled: true
+  
+# Production Features
+production:
+  auto_scaling: true
+  circuit_breaker: true
+  bulkhead_isolation: true
+  graceful_shutdown: true
+  zero_downtime_deployment: true
+  
+# Resource Limits (Production Scale)
+resources:
+  memory_limit: "8Gi"
+  cpu_limit: "4.0"
+  min_replicas: 3
+  max_replicas: 20
+  
+# High Availability
+high_availability:
+  multi_region: true
+  failover_enabled: true
+  backup_retention_days: 30
+  disaster_recovery: true
+  
+# Monitoring (Enterprise Grade)
+monitoring:
+  metrics_enabled: true
+  tracing_enabled: true
+  health_checks: true
+  alerting_enabled: true
+  sla_monitoring: true
+  anomaly_detection: true
+  prometheus_port: 9090
+  grafana_enabled: true
+  
+# Security Configuration (Enterprise)
+security:
+  tls_enabled: true
+  rate_limiting: true
+  cors_strict: true
+  waf_enabled: true
+  ddos_protection: true
+  vulnerability_scanning: true
+  penetration_testing: true
+  
+# Compliance and Governance
+compliance:
+  gdpr_enabled: true
+  ccpa_enabled: true
+  hipaa_ready: false
+  sox_compliant: false
+  audit_logging: true
+  data_residency_enforcement: true
+  
+# Performance Requirements
+performance:
+  max_response_time: 1000
+  min_availability: 99.9
+  max_error_rate: 0.1
+  
+# Business Continuity
+business_continuity:
+  backup_frequency: "4h"
+  rto_minutes: 60
+  rpo_minutes: 15
+  testing_frequency: "monthly"

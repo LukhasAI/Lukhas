@@ -1,0 +1,52 @@
+# LUKHAS AI MATRIZ Cognitive Node Dockerfile
+# Specialized container for MATRIZ consciousness processing
+
+FROM python:3.11-slim as matriz-base
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    MATRIZ_ENVIRONMENT=production \
+    MATRIZ_LOG_LEVEL=INFO
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create matriz user
+RUN groupadd -r matriz && useradd -r -g matriz matriz
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements for MATRIZ
+COPY requirements.txt ./
+COPY matriz/requirements.txt ./matriz-requirements.txt
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r matriz-requirements.txt
+
+# Copy MATRIZ source code
+COPY --chown=matriz:matriz matriz/ ./matriz/
+COPY --chown=matriz:matriz lukhas/core/ ./lukhas/core/
+COPY --chown=matriz:matriz config/ ./config/
+
+# Create necessary directories
+RUN mkdir -p /app/data /app/logs /app/trace && \
+    chown -R matriz:matriz /app
+
+# Switch to non-root user
+USER matriz
+
+# Expose MATRIZ node port
+EXPOSE 8001
+
+# Health check for MATRIZ node
+HEALTHCHECK --interval=30s --timeout=15s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+# Run MATRIZ API server
+CMD ["python", "-m", "matriz.run_api_server"]

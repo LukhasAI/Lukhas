@@ -1,0 +1,90 @@
+# LUKHAS AI Staging Environment Configuration
+
+environment: staging
+
+# System Configuration
+system:
+  name: "LUKHAS-AI-STAGING"
+  version: "2.0.0-rc"
+  debug: false
+  log_level: "INFO"
+  
+# Database Configuration
+database:
+  url: "${DATABASE_STAGING_URL}"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+  
+# Cache Configuration
+cache:
+  url: "${REDIS_STAGING_URL}"
+  ttl: 900
+  
+# API Keys (staging tier)
+api_keys:
+  openai:
+    rate_limit: 500
+    timeout: 30
+  anthropic:
+    rate_limit: 200
+    timeout: 30
+  google:
+    rate_limit: 300
+    timeout: 30
+    
+# Trinity Framework Settings
+trinity_framework:
+  identity:
+    tier_validation: true
+    session_timeout: 7200
+    multi_factor_required: false
+  consciousness:
+    dream_simulation: true
+    creativity_level: 0.7
+    memory_fold_limit: 800
+  guardian:
+    drift_threshold: 0.20
+    audit_level: "standard"
+    compliance_checks: true
+    
+# MATRIZ Configuration
+matriz:
+  node_discovery: true
+  trace_verbose: false
+  development_mode: false
+  performance_monitoring: true
+  
+# Staging Features
+staging:
+  load_testing: true
+  integration_testing: true
+  security_scanning: true
+  performance_profiling: true
+  
+# Resource Limits (Production-like)
+resources:
+  memory_limit: "4Gi"
+  cpu_limit: "2.0"
+  replicas: 2
+  
+# Monitoring (Full monitoring)
+monitoring:
+  metrics_enabled: true
+  tracing_enabled: true
+  health_checks: true
+  alerting_enabled: true
+  prometheus_port: 9090
+  grafana_enabled: true
+  
+# Security Configuration
+security:
+  tls_enabled: true
+  rate_limiting: true
+  cors_strict: true
+  
+# Quality Gates
+quality_gates:
+  min_test_coverage: 85
+  max_response_time: 2000
+  min_availability: 99.0

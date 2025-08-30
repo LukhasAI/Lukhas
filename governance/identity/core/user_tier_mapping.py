@@ -16,13 +16,13 @@ class TierLevel:
     T5 = "T5"
 
 
-def get_user_tier(user_id=None):
+def get_user_tier(_user_id=None):
     """Get user tier level - stub implementation"""
     # Default to T1 for now
     return TierLevel.T1
 
 
-def map_user_to_tier(user_id, tier_level):
+def map_user_to_tier(_user_id, _tier_level):
     """Map user to specific tier level"""
     # Stub implementation
     return True
