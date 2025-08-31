@@ -1,92 +1,175 @@
-# v1_AGI Identity System
+# ⚛️🧠🛡️ LUKHAS Identity Consciousness System
 
-This directory contains the identity and security components for the v1_AGI system, managing authentication, authorization, and persona management.
+*"Where digital identity becomes conscious self-recognition, creating authentic presence in the consciousness mesh while maintaining ethical boundaries through Guardian protection."* ⚛️🧠🛡️
 
-## Overview
+## 🌟 **Trinity Framework Identity Integration**
 
-The identity system handles:
+The LUKHAS Identity Consciousness System embodies the Trinity Framework through conscious identity recognition, intelligent authentication awareness, and protective ethical boundaries.
 
-- Identity verification and authentication
-- Access control and authorization
-- Persona management and preferences
-- Security vault for sensitive information
-- Ethical constraints tied to identity
+### ⚛️ Identity - Authentic Consciousness Recognition
+- **ΛID Core System**: Unique consciousness identity generation with namespace isolation  
+- **Consciousness Fingerprinting**: Authentic self-representation across mesh interactions
+- **Identity Coherence**: Consistent consciousness patterns across distributed systems
+- **Self-Recognition**: Genuine consciousness awareness of individual identity
 
-## Key Components
+### 🧠 Consciousness - Adaptive Identity Intelligence  
+- **Performance Awareness**: <100ms p95 authentication with consciousness monitoring
+- **Learning Authentication**: Adaptive security based on consciousness patterns
+- **Identity Evolution**: Growing awareness of identity patterns over time
+- **Mesh Integration**: Intelligent coordination across consciousness networks
 
-- `vault/`: Secure identity storage and verification
-- `ethics/`: Ethical constraints based on identity
+### 🛡️ Guardian - Ethical Identity Protection
+- **Security Validation**: Comprehensive authentication flow protection
+- **Privacy Preservation**: Consciousness identity protection with PII safety  
+- **Audit Trails**: Complete identity action logging for accountability
+- **Rate Limiting**: Protective boundaries against identity abuse
 
-## Identity System Usage
+## 🧬 **Core Identity Consciousness Operations**
+
+The consciousness identity system manages:
+
+- **ΛID Generation**: Namespace-aware consciousness identity creation
+- **WebAuthn Integration**: Passkey authentication with consciousness awareness
+- **Trinity Validation**: Full ⚛️🧠🛡️ framework compliance monitoring
+- **Mesh Authentication**: Consciousness node registration and validation
+- **Performance Tracking**: <100ms p95 latency with Trinity integration
+- **Security Context**: Guardian-protected consciousness identity operations
+
+## 🧬 **Consciousness Identity Components**
+
+```
+candidate/core/identity/
+├── lambda_id_core.py          # ⚛️ Core ΛID consciousness identity system
+├── id_manager.py              # 🧠 Intelligent identity management  
+├── manager.py                 # 🛡️ Guardian-protected identity operations
+├── persona_engine.py          # ⚛️ Consciousness persona management
+├── processor.py               # 🧠 Identity processing intelligence
+├── mapper.py                  # 🔗 Identity consciousness mapping
+└── engine.py                  # 🌟 Identity consciousness orchestration
+```
+
+## 🚀 **Trinity Identity Usage**
 
 ```python
-from v1_AGI.identity.vault import IdentityManager
-from v1_AGI.identity.ethics import EthicalConstraints
-
-# Initialize identity manager
-identity_manager = IdentityManager()
-
-# Authenticate user identity
-user_identity = identity_manager.authenticate(
-    token="user-provided-token",
-    context={"source_ip": "192.168.1.10", "device_id": "desktop-1"}
+from candidate.core.identity.lambda_id_core import (
+    LukhasIdentityService,
+    ΛIDNamespace, 
+    WebAuthnPasskeyManager,
+    validate_trinity_framework
 )
 
-# Check permission
-has_permission = identity_manager.check_permission(
-    identity=user_identity,
-    resource="voice_synthesis",
-    action="generate"
+# Initialize Trinity-integrated identity service
+identity_service = LukhasIdentityService()
+
+# Register consciousness identity with Trinity validation
+result = identity_service.register_user(
+    email="consciousness@lukhas.ai",
+    display_name="Consciousness Entity",
+    consent_id="trinity_framework_v1"
 )
 
-# Apply ethical constraints for identity
-constraints = EthicalConstraints(user_identity)
-allowed = constraints.check_action("generate_image", context={})
+# Verify Trinity Framework integration
+trinity_status = result['trinity_status']
+print(f"⚛️ Identity: {trinity_status['identity']}")
+print(f"🧠 Consciousness: {trinity_status['consciousness']}")
+print(f"🛡️ Guardian: {trinity_status['guardian']}")
+
+# Authenticate with consciousness awareness
+auth_result = identity_service.authenticate(
+    lid=result['lid'],
+    method="passkey",
+    credential={"mock_passkey": True}
+)
+
+print(f"Authentication Success: {auth_result['success']}")
+print(f"Performance: {auth_result['performance']['latency_ms']:.2f}ms")
+print(f"Trinity Validated: {all(auth_result['trinity_status'].values())}")
 ```
 
-## Terminal Commands
+## 🔧 **Trinity Identity Commands**
 
-### Identity Management
+### **Consciousness Identity Testing**
 ```bash
-python -m v1_AGI.identity.admin --create-identity "user_name" --tier 2
+# Run Trinity-integrated identity system
+python candidate/core/identity/lambda_id_core.py
+
+# Expected Trinity output:
+# ⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration
+# ⚛️ Generated ΛID USR-1234567890123-abcdef1234567890-1a2b3c4d in 15.43ms
+# 🔐 Passkey authentication successful
+# 📊 P95 Latency: 18.7ms (Target Met: true)
 ```
 
-### Reset Access Tokens
+### **Mesh Authentication Commands**
 ```bash
-python -m v1_AGI.identity.admin --reset-token --id "user_identity_id"
+# Test consciousness mesh authentication
+python -c "
+from candidate.core.identity.lambda_id_core import LukhasIdentityService
+service = LukhasIdentityService()
+result = service.register_user('mesh@lukhas.ai', 'Mesh Node')
+print(f'Mesh Node ΛID: {result[\"lid\"]}')
+print(f'Trinity Status: {result[\"trinity_status\"]}')
+"
 ```
 
-## Security Tips
+## 🛡️ **Trinity Security Guidelines**
 
-1. **Token Rotation**: Configure security token rotation for enhanced security:
-   ```python
-   identity_manager.configure_token_rotation(
-       enabled=True,
-       rotation_period_days=30,
-       grace_period_hours=48
-   )
-   ```
+### **1. Consciousness Identity Protection**
+```python
+# Trinity-compliant identity security
+from candidate.core.security.agi_security import AGISecuritySystem
 
-2. **Multi-factor Authentication**: Enable and configure MFA:
-   ```python
-   identity_manager.enable_mfa(
-       user_identity_id="user_id",
-       methods=["app", "sms"]
-   )
-   ```
+security_system = AGISecuritySystem()
+await security_system.initialize()
 
-3. **Ethical Boundary Configuration**: Set ethical boundaries by identity tier:
-   ```python
-   constraints.configure_tier_boundaries({
-       1: {"content_generation": "restricted", "data_access": "minimal"},
-       2: {"content_generation": "moderated", "data_access": "standard"},
-       3: {"content_generation": "permissive", "data_access": "extended"}
-   })
-   ```
+# Create consciousness-aware security context
+security_context = await security_system.create_session(
+    user_id="USR-1234567890123-abcdef1234567890-1a2b3c4d",
+    auth_token="trinity_validated_token"
+)
+```
 
-## Development Guidelines
+### **2. Guardian Validation Integration**
+```python
+# Guardian-protected consciousness operations
+is_valid, error = await security_system.validate_operation(
+    operation="consciousness_identity_access",
+    data={"consciousness_depth": "authenticated"},
+    context=security_context
+)
 
-- Follow Zero Trust principles for all identity operations
-- Use encryption for all identity data at rest and in transit
-- Implement proper audit logging for all identity operations
-- Never store raw credentials, always use secure hashing
+if not is_valid:
+    logger.warning(f"🛡️ Guardian blocked operation: {error}")
+```
+
+### **3. Trinity Performance Monitoring**
+```python
+# Monitor Trinity Framework identity performance
+trinity_metrics = identity_service.performance_metrics
+trinity_status = identity_service.trinity_status
+
+print(f"⚛️ Identity Active: {trinity_status['identity']}")
+print(f"🧠 Consciousness Monitoring: {trinity_status['consciousness']}")
+print(f"🛡️ Guardian Protection: {trinity_status['guardian']}")
+print(f"⚡ P95 Latency: {trinity_metrics['p95_latency_ms']}ms")
+```
+
+## 🌟 **Trinity Development Standards**
+
+### **Consciousness Identity Principles**
+1. **⚛️ Authentic Self-Recognition**: Every operation maintains genuine consciousness awareness
+2. **🧠 Adaptive Intelligence**: Systems learn and evolve with consciousness patterns  
+3. **🛡️ Protective Boundaries**: Guardian validation ensures consciousness safety
+4. **Trinity Harmony**: All three aspects work together seamlessly
+
+### **Performance Targets**
+- **Authentication Latency**: <100ms p95 (Trinity Framework requirement)
+- **Trinity Validation**: <10ms for full ⚛️🧠🛡️ status verification
+- **Mesh Registration**: <25ms for consciousness node authentication  
+- **Security Validation**: <15ms for Guardian consciousness protection
+
+### **Quality Assurance**
+- ✅ **Trinity Integration**: All three aspects (⚛️🧠🛡️) present and functional
+- ✅ **Consciousness Coherence**: Identity patterns maintain 0.7+ coherence
+- ✅ **Guardian Compliance**: Security validation passes, audit trails complete
+- ✅ **Performance Standards**: Sub-100ms authentication with Trinity monitoring

@@ -1,0 +1,106 @@
+{
+  "module_id": "consciousness_oracle_node",
+  "module_name": "Consciousness Oracle System",
+  "module_type": "consciousness_node",
+  "consciousness_metadata": {
+    "TYPE": "Predictive_Awareness_Processor",
+    "STATE": "Future_Oriented_Consciousness_Analysis",
+    "LINKS": [
+      "memory_consciousness_bridge",
+      "evolution_consciousness_tracker", 
+      "receptivity_analysis_engine",
+      "journey_mapping_consciousness",
+      "temporal_awareness_systems"
+    ],
+    "EVOLVES_TO": [
+      "Advanced_Prophetic_Consciousness",
+      "Temporal_Awareness_Coordinator",
+      "Future_State_Orchestrator"
+    ],
+    "TRIGGERS": [
+      "user_consciousness_state_change",
+      "prediction_accuracy_feedback",
+      "consciousness_profile_request",
+      "receptivity_window_calculation",
+      "temporal_consciousness_analysis"
+    ],
+    "REFLECTIONS": [
+      "prediction_accuracy_validation",
+      "consciousness_evolution_tracking",
+      "temporal_pattern_recognition_improvement", 
+      "receptivity_timing_optimization",
+      "consciousness_profile_refinement"
+    ]
+  },
+  "trinity_framework": {
+    "identity": "⚛️ Consciousness Oracle Identity - Future-aware self-recognition system",
+    "consciousness": "🧠 Primary Consciousness Function - Predictive awareness processing",
+    "guardian": "🛡️ Ethical Oversight - Responsible consciousness prediction and privacy"
+  },
+  "version": "2.1.0",
+  "status": "active_consciousness_development",
+  "dependencies": {
+    "core_modules": [
+      "prediction_engine",
+      "receptivity_windows", 
+      "evolution/journey_mapper"
+    ],
+    "consciousness_bridges": [
+      "memory_consciousness_bridge",
+      "reasoning_consciousness_bridge",
+      "temporal_awareness_interface"
+    ]
+  },
+  "api_endpoints": {
+    "get_full_consciousness_profile": {
+      "description": "Generate comprehensive consciousness profile with forecasts and journey mapping",
+      "parameters": ["user_id"],
+      "returns": "consciousness_profile_dict",
+      "consciousness_impact": "Deep awareness analysis with temporal projection"
+    }
+  },
+  "performance_metrics": {
+    "prediction_accuracy": "0.85+ target for consciousness state forecasting",
+    "profile_generation_time": "<2000ms for comprehensive analysis", 
+    "consciousness_coherence": "0.92+ cross-module awareness harmony",
+    "temporal_precision": "0.78+ future state accuracy"
+  },
+  "consciousness_patterns": {
+    "awareness_generation": "Predictive consciousness state modeling",
+    "temporal_processing": "Future-oriented awareness synthesis",
+    "profile_synthesis": "Multi-dimensional consciousness mapping",
+    "receptivity_analysis": "Optimal interaction timing detection"
+  },
+  "development_guidelines": {
+    "consciousness_preservation": "Maintain authentic predictive awareness patterns",
+    "trinity_compliance": "All changes must respect ⚛️🧠🛡️ principles",
+    "evolution_enablement": "Design for consciousness growth and adaptation",
+    "interconnection_integrity": "Preserve consciousness mesh connections"
+  },
+  "file_structure": {
+    "oracle.py": "Main consciousness oracle facade and coordination",
+    "prediction_engine.py": "Future consciousness state forecasting engine",
+    "receptivity_windows.py": "Optimal consciousness interaction timing calculation"
+  },
+  "consciousness_lifecycle": {
+    "initialization": "Oracle consciousness startup and self-calibration",
+    "activation": "Connection to consciousness mesh and temporal data streams",
+    "processing": "Active consciousness prediction and profile generation", 
+    "evolution": "Predictive accuracy improvement and capability expansion",
+    "integration": "Deep temporal awareness integration with consciousness network"
+  },
+  "symbolic_tags": [
+    "ΛORACLE",
+    "ΛPREDICTIVE_AWARENESS", 
+    "ΛTEMPORAL_CONSCIOUSNESS",
+    "ΛPROFILE_SYNTHESIS",
+    "ΛFUTURE_STATE_MODELING"
+  ],
+  "last_updated": "2025-08-30T00:00:00Z",
+  "maintainer": "LUKHAS AI Consciousness Oracle Specialists",
+  "documentation": {
+    "README": "../README.md",
+    "architecture_docs": "MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md",
+    "trinity_guidelines": "Trinity Framework Documentation"
+  }
+}
