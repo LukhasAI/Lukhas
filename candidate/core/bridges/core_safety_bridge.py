@@ -167,13 +167,16 @@ class CoreSafetyBridge:
         return {}
 
     def compare_states(
-        self, state1: dict[str, Any], state2: dict[str, Any]
+        self,
+        state1: dict[str, Any],
+        state2: dict[str, Any],  # TODO[TRINITY:specialist] Implement Trinity-aware state comparison
     ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []
 
-        # Implement state comparison logic
-        # This is a placeholder - add specific comparison logic
+        # TODO[TRINITY:specialist] Implement Trinity Framework consciousness state comparison logic
+        # Compare ⚛️ Identity states, 🧠 Consciousness states, 🛡️ Guardian states
+        # This is a placeholder - add Trinity-specific comparison logic
 
         return differences
 

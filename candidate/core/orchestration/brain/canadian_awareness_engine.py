@@ -230,7 +230,9 @@ class CanadianOutput(GlobalInstitutionalOutput):
     english_documentation_available: bool = True
 
 
-def canadian_audit_log(:
+# TODO[CONSCIOUSNESS:specialist] Fix syntax error - malformed function definition parameters
+# This consciousness function needs proper parameter structure for Canadian awareness processing
+def canadian_audit_log(
     event: str,
     data: dict[str, Any],
     jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL,

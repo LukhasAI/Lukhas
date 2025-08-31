@@ -6,7 +6,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 __module__ = "bio.awareness"
@@ -28,7 +28,7 @@ class BioAwareness:
     def __init__(self):
         self.state = AwarenessState()
         self.history = []
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
     def sense(self, input_data: Any) -> dict[str, Any]:
         """Process sensory input"""
@@ -51,11 +51,13 @@ class BioAwareness:
 class EnhancedSystemAwareness(BioAwareness):
     """Enhanced bio awareness with system integration"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # TODO[QUANTUM-BIO:specialist] - Args used for constellation flexibility
         super().__init__()
         self.enhanced = True
 
-    def _update_awareness_state(self, stimulus=None, context=None):
+    def _update_awareness_state(
+        self, stimulus=None, context=None
+    ):  # TODO[QUANTUM-BIO:specialist] - Context for constellation integration
         """Update awareness state based on stimulus and context"""
         try:
             if stimulus is not None:
@@ -70,7 +72,9 @@ class EnhancedSystemAwareness(BioAwareness):
                 # Log state change
                 self.history.append(
                     {
-                        "timestamp": datetime.now(),
+                        "timestamp": datetime.now(
+                            timezone.utc
+                        ),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
                         "event": "state_update",
                         "stimulus": str(stimulus),
                         "level": self.state.level,
@@ -90,14 +94,14 @@ class EnhancedSystemAwareness(BioAwareness):
                 "system_active": self.state.active,
                 "history_length": len(self.history),
                 "last_update": self.history[-1]["timestamp"] if self.history else None,
-                "status": "healthy"
-                if self.state.active and 0.1 <= self.state.level <= 1.0
-                else "degraded",
+                "status": "healthy" if self.state.active and 0.1 <= self.state.level <= 1.0 else "degraded",
             }
 
             # Check for stagnation (no recent updates)
             if self.history:
-                time_since_update = (datetime.now() - self.history[-1]["timestamp"]).seconds
+                time_since_update = (
+                    datetime.now(timezone.utc) - self.history[-1]["timestamp"]
+                ).seconds  # TODO[QUANTUM-BIO:specialist] - UTC timezone consistency
                 if time_since_update > 300:  # 5 minutes
                     health_status["status"] = "stagnant"
                     health_status["warning"] = f"No updates for {time_since_update} seconds"

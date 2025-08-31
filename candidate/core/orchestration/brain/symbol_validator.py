@@ -135,7 +135,9 @@ class LukhasComplianceChecker:
     Identifies regulatory violations and provides remediation guidance.
     """
 
-    def __init__(:
+    # TODO[CONSCIOUSNESS:specialist] Fix syntax error - missing 'self' parameter in __init__ method
+    # This consciousness node requires proper initialization for compliance validation
+    def __init__(self
         self,
         workspace_path: str = "/Users/A_G_I/Lukhas",
         critical_only: bool = True,

@@ -6,7 +6,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 
 __module__ = "bio.oscillator"
 __trinity__ = "⚛️🧠🛡️"
@@ -28,7 +28,7 @@ class BaseOscillator(ABC):
     def __init__(self, config: OscillatorConfig = None):
         self.config = config or OscillatorConfig()
         self.state = 0.0
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
     @abstractmethod
     def oscillate(self) -> float:
@@ -38,7 +38,7 @@ class BaseOscillator(ABC):
     def reset(self):
         """Reset oscillator state"""
         self.state = 0.0
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
 
 
 class BioOscillator(BaseOscillator):

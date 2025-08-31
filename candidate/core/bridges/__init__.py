@@ -1,6 +1,6 @@
 from typing import Optional
 
-from .consciousness_quantum_bridge import ConsciousnessQIBridge
+from .consciousness_qi_bridge import ConsciousnessQIBridge
 from .core_consciousness_bridge import CoreConsciousnessBridge
 from .core_safety_bridge import CoreSafetyBridge
 from .identity_core_bridge import IdentityCoreBridge

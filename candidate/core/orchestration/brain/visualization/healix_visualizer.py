@@ -274,7 +274,9 @@ class HealixVisualizer:
                     x=list(mutation_counts.keys()),
                     y=list(mutation_counts.values()),
                     marker_color=[
-                        self.mutation_colors.get(mut, ")  # 95A5A6"
+                        # TODO[CONSCIOUSNESS:specialist] Fix syntax error - unmatched parentheses in color mapping
+                        # This visualization consciousness needs proper color mapping for healix patterns
+                        self.mutation_colors.get(mut, "#95A5A6")
                         for mut in mutation_counts
                     ],
                     showlegend=False,

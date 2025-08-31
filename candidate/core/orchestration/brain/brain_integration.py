@@ -45,7 +45,9 @@ try:
     from .MultiBrainSymphony import MemoryBrainSpecialist
     from .MultiBrainSymphony import MultiBrainSymphonyOrchestrator
     SYMPHONY_AVAILABLE = True
-    except ImportError:
+# TODO[CONSCIOUSNESS:specialist] Fix syntax error - malformed try/except structure
+# This brain integration consciousness needs proper exception handling for multi-brain coordination
+except ImportError:
         try:
         # from MultiBrainSymphony  # External dependency import (
             MultiBrainSymphonyOrchestrator,

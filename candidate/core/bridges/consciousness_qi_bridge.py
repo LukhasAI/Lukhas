@@ -78,9 +78,7 @@ class ConsciousnessQIBridge:
             "qi_error": "consciousness_error_handling",
         }
 
-    async def consciousness_to_quantum(
-        self, event_type: str, data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def consciousness_to_quantum(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
         """Forward event from Consciousness to Quantum system"""
         if not self.is_connected:
             await self.connect()
@@ -199,9 +197,7 @@ class ConsciousnessQIBridge:
 
         return {"state": "superposition", "coherence": 0.8}
 
-    async def handle_quantum_superposition(
-        self, superposition_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_quantum_superposition(self, superposition_data: dict[str, Any]) -> dict[str, Any]:
         """Handle quantum superposition for consciousness multiprocessing"""
         consciousness_data = {
             "processing_mode": "multiprocessing",
@@ -223,9 +219,7 @@ class ConsciousnessQIBridge:
 
         return await self.consciousness_to_quantum("consciousness_decision", qi_data)
 
-    async def handle_quantum_entanglement(
-        self, entanglement_data: dict[str, Any]
-    ) -> dict[str, Any]:
+    async def handle_quantum_entanglement(self, entanglement_data: dict[str, Any]) -> dict[str, Any]:
         """Handle quantum entanglement for consciousness correlation"""
         consciousness_data = {
             "correlation_type": "qi_correlation",
@@ -260,9 +254,11 @@ class ConsciousnessQIBridge:
 
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
-        from datetime import datetime
+        from datetime import datetime, timezone
 
-        return datetime.now().isoformat()
+        return datetime.now(
+            timezone.utc
+        ).isoformat()  # TODO[TRINITY:specialist] UTC enforcement for consciousness bridge temporal sync
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for the bridge"""
