@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     domains: ['localhost', 'lukhas.ai', 'dalleproduse.blob.core.windows.net'],
     formats: ['image/avif', 'image/webp'],

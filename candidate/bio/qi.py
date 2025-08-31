@@ -80,7 +80,7 @@ class NeuroplasticityModulator:
 
 def __validate_module__():
     """Bio quantum function - __validate_module__"""
-    from datetime import datetime
+    from datetime import datetime, timezone  # TODO[QUANTUM-BIO:specialist] - Import timezone for UTC enforcement
 
     """
     Bio-QI Module Validation
@@ -88,7 +88,9 @@ def __validate_module__():
     """
 
     validation_results = {
-        "validation_timestamp": datetime.now().isoformat(),
+        "validation_timestamp": datetime.now(
+            timezone.utc
+        ).isoformat(),  # TODO[QUANTUM-BIO:specialist] - UTC timezone enforcement
         "module_status": "operational",
         "components_tested": [],
         "test_results": {},
@@ -143,11 +145,7 @@ def __validate_module__():
             validation_results["test_results"][name] = {"status": "fail", "error": str(e)}
 
     # Calculate overall health
-    passed_tests = sum(
-        1
-        for result in validation_results["test_results"].values()
-        if result.get("status") == "pass"
-    )
+    passed_tests = sum(1 for result in validation_results["test_results"].values() if result.get("status") == "pass")
     total_tests = len(validation_results["test_results"])
 
     if total_tests > 0:
