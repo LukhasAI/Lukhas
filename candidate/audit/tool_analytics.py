@@ -36,7 +36,7 @@ class ToolCall:
     error: Optional[str] = None
     duration_ms: Optional[int] = None
 
-    def complete(self, status: str, result: Any = None, error: str = None):
+    def complete(self, status: str, result: Any = None, error: Optional[str] = None):
         """Mark tool call as complete"""
         self.end_time = time.time()
         self.duration_ms = int((self.end_time - self.start_time) * 1000)
@@ -96,7 +96,7 @@ class ToolAnalytics:
         call_id: str,
         status: str = "success",
         result: Any = None,
-        error: str = None,
+        error: Optional[str] = None,
     ):
         """Record completion of a tool invocation"""
         # Check if analytics is disabled via flag

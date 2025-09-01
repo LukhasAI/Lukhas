@@ -126,7 +126,7 @@ class LUKHASConsciousnessStore:
         response: str,
         consciousness_level: float,
         model_used: str,
-        metadata: dict[str, Any] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Store a consciousness conversation interaction"""
 
@@ -157,7 +157,7 @@ class LUKHASConsciousnessStore:
         fold_type: str,
         importance_score: float,
         parent_fold: Optional[str] = None,
-        emotional_context: dict[str, float] = None,
+        emotional_context: Optional[dict[str, float]] = None,
     ) -> str:
         """Create a new memory fold with cascade prevention"""
 

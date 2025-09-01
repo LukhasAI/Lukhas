@@ -300,10 +300,7 @@ class PromptModulator:
 
     def _has_high_signal(self, signals: list[Signal], signal_type: SignalType, threshold: float) -> bool:
         """Check if a signal type exceeds threshold"""
-        for signal in signals:
-            if signal.name == signal_type and signal.level >= threshold:
-                return True
-        return False
+        return any(signal.name == signal_type and signal.level >= threshold for signal in signals)
 
     def _get_signal_levels(self, signals: list[Signal]) -> dict[str, float]:
         """Get current levels for all signals"""

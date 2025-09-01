@@ -17,7 +17,7 @@ Bridges the gap between neural and symbolic processing
 """
 
 import logging
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger("v1_AGI.hybrid")
 
@@ -44,8 +44,8 @@ class NeuroSymbolicIntegration:
         self,
         neural_output: dict[str, Any],
         symbolic_output: dict[str, Any],
-        method: str = None,
-        context: dict[str, Any] = None,
+        method: Optional[str] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integrate neural and symbolic processing outputs.
@@ -82,7 +82,7 @@ class NeuroSymbolicIntegration:
         self,
         neural_output: dict[str, Any],
         symbolic_output: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integrate using weighted average of neural and symbolic outputs.
@@ -122,7 +122,7 @@ class NeuroSymbolicIntegration:
         self,
         neural_output: dict[str, Any],
         symbolic_output: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integration that prioritizes symbolic reasoning.
@@ -148,7 +148,7 @@ class NeuroSymbolicIntegration:
         self,
         neural_output: dict[str, Any],
         symbolic_output: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integration that prioritizes neural processing.
@@ -174,7 +174,7 @@ class NeuroSymbolicIntegration:
         self,
         neural_output: dict[str, Any],
         symbolic_output: dict[str, Any],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
         Integration that selects based on confidence scores.

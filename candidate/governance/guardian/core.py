@@ -7,7 +7,7 @@ Minimal implementation to support testing infrastructure.
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class EthicalSeverity(Enum):
@@ -82,7 +82,7 @@ class LucasGovernanceModule:
 
 
 # Utility function for workspace protection
-async def protect_my_workspace(workspace_path: str = None) -> bool:
+async def protect_my_workspace(workspace_path: Optional[str] = None) -> bool:
     """Quick protection function for workspace"""
     # Import locally to avoid circular imports
     import importlib.util

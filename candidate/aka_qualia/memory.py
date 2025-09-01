@@ -29,10 +29,10 @@ class AkaqMemory(ABC):
         self,
         *,
         user_id: str,
-        scene: Dict[str, Any],
-        glyphs: List[Dict[str, Any]],
-        policy: Dict[str, Any],
-        metrics: Dict[str, Any],
+        scene: dict[str, Any],
+        glyphs: list[dict[str, Any]],
+        policy: dict[str, Any],
+        metrics: dict[str, Any],
         cfg_version: str,
     ) -> str:
         """
@@ -55,7 +55,7 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[Dict[str, Any]]:
+    def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
         """
         Get most recent scene for user strictly before timestamp.
 
@@ -71,7 +71,7 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> List[Dict[str, Any]]:
+    def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
         """
         Get reverse-chronological slice of scenes for user.
 
@@ -86,7 +86,7 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> List[Dict[str, Any]]:
+    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
         """
         Find scenes that emitted a specific glyph key.
 
@@ -103,7 +103,7 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def top_drift(self, *, user_id: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def top_drift(self, *, user_id: str, limit: int = 10) -> list[dict[str, Any]]:
         """
         Get scenes with highest drift_phi (temporal incoherence events).
 
@@ -132,7 +132,7 @@ class AkaqMemory(ABC):
         pass
 
     @abstractmethod
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get memory client statistics and health metrics"""
         pass
 

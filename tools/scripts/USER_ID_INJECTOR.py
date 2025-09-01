@@ -10,6 +10,7 @@ import re
 import shutil
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 
 class UserIDInjector:
@@ -60,7 +61,7 @@ class UserIDInjector:
             r"(\.commit\()",
         ]
 
-    def inject_user_tracking(self, target_modules: list[str] = None, dry_run: bool = False):
+    def inject_user_tracking(self, target_modules: Optional[list[str]] = None, dry_run: bool = False):
         """Inject user ID tracking into specified modules."""
         print("🔗 LUKHAS  User ID Injector")
         print("=" * 40)

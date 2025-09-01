@@ -194,7 +194,7 @@ class AdvancedSymbolicDeltaCompressor:
         total_weight = 0.0
         matches = 0
 
-        for _emotion, pattern in self.emotional_patterns.items():
+        for pattern in self.emotional_patterns.values():
             if re.search(pattern, text, re.IGNORECASE):
                 total_weight += 1.0
                 matches += 1
@@ -206,10 +206,9 @@ class AdvancedSymbolicDeltaCompressor:
         base_score = 0.3
 
         # Check for importance markers
-        for _marker, pattern in self.importance_markers.items():
-            if re.search(pattern, full_content, re.IGNORECASE):
-                if text.lower() in full_content.lower():
-                    base_score += 0.2
+        for pattern in self.importance_markers.values():
+            if re.search(pattern, full_content, re.IGNORECASE) and text.lower() in full_content.lower():
+                base_score += 0.2
 
         # Position importance (early mentions often more significant)
         text_position = full_content.lower().find(text.lower())

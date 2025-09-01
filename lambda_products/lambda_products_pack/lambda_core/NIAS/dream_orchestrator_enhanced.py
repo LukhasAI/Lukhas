@@ -700,7 +700,7 @@ class EnhancedDreamOrchestrator:
         logger.info("Shutting down Enhanced Dream Orchestrator")
 
         # Close all sessions
-        for _user_id, session in self.active_sessions.items():
+        for session in self.active_sessions.values():
             session["active"] = False
 
         # Dispose container

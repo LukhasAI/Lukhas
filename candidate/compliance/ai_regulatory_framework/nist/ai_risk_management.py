@@ -204,10 +204,7 @@ class NISTAIRiskManager:
         scores[TrustworthyCharacteristic.SAFE] = safety_score
 
         # Fair and bias-managed
-        if metrics.fairness_metrics:
-            fairness_score = np.mean(list(metrics.fairness_metrics.values()))
-        else:
-            fairness_score = 0.0
+        fairness_score = np.mean(list(metrics.fairness_metrics.values())) if metrics.fairness_metrics else 0.0
         scores[TrustworthyCharacteristic.FAIR_BIAS_MANAGED] = fairness_score
 
         # Explainable and interpretable

@@ -38,7 +38,7 @@ class Console:
     CURSOR_SHOW = "\033[?25h"
 
     @staticmethod
-    def move_cursor(row: int, col: int):
+    def move_cursor(row: int, col: int) -> str:
         return f"\033[{row};{col}H"
 
     @staticmethod

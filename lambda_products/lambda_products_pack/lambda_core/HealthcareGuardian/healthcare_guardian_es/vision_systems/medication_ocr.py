@@ -123,7 +123,7 @@ class MedicationOCRSystem:
         },
     }
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize Medication OCR System
 

@@ -19,7 +19,7 @@ import json
 import pathlib
 import sys
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
@@ -41,7 +41,7 @@ class AuditTrail:
             "scan_mode": "pre_matriz_audit",
         }
 
-    def add_violation(self, file_path: str, violation_type: str, details: str, line_no: int = None):
+    def add_violation(self, file_path: str, violation_type: str, details: str, line_no: int | None = None):
         """Add import violation to audit trail."""
         self.violations.append(
             {

@@ -172,7 +172,10 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
 
             # Create structured dream narrative
             if len(symbols) >= 3:
-                dream = f"A {emotional_modifier} dream unfolds: {symbols[0]} transforms into {symbols[-1]}, while {', '.join(symbols[1:-1])} dance through consciousness"
+                dream = (
+                    f"A {emotional_modifier} dream unfolds: {symbols[0]} transforms into {symbols[-1]}, "
+                    f"while {', '.join(symbols[1:-1])} dance through consciousness"
+                )
             elif len(symbols) == 2:
                 dream = f"In this {emotional_modifier} dream, {symbols[0]} and {symbols[1]} merge into one"
             else:

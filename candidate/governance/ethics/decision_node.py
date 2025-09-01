@@ -159,7 +159,7 @@ class EthicsNode:
 
         # Calculate scores for each principle
         principle_scores = {}
-        for principle, _weight in framework.items():
+        for principle in framework:
             principle_scores[principle] = self._evaluate_principle(principle, action_data, context)
 
         # Calculate weighted average

@@ -66,7 +66,7 @@ class SecurityScanner:
                 }
             )
 
-    def scan_repository(self, repo_path: str, repo_info: dict[str, Any] = None) -> dict[str, Any]:
+    def scan_repository(self, repo_path: str, repo_info: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Comprehensive security scan of repository"""
 
         results = {
@@ -272,7 +272,7 @@ class SecurityScanner:
                 if result["success"] and result["stdout"]:
                     try:
                         audit_data = json.loads(result["stdout"])
-                        for _vuln_id, vuln in audit_data.get("vulnerabilities", {}).items():
+                        for vuln in audit_data.get("vulnerabilities", {}).values():
                             severity = vuln.get("severity", "medium").upper()
                             vulnerabilities.append(
                                 SecurityIssue(

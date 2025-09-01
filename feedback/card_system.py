@@ -86,10 +86,7 @@ class PatternSet:
 
     def matches(self, context: dict[str, Any]) -> bool:
         """Check if pattern matches current context"""
-        for key, value in self.conditions.items():
-            if key not in context or context[key] != value:
-                return False
-        return True
+        return all(not (key not in context or context[key] != value) for key, value in self.conditions.items())
 
 
 @dataclass

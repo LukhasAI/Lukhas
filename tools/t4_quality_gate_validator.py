@@ -420,23 +420,20 @@ class T4QualityGateValidator:
                 return False
 
             # Step 2: Acceptance gate validation
-            if self.mode in ["full", "audit"]:
-                if not self.run_acceptance_gate_validation():
-                    print("❌ Acceptance gate validation failed")
-                    if self.mode == "audit":
-                        return False
+            if self.mode in ["full", "audit"] and not self.run_acceptance_gate_validation():
+                print("❌ Acceptance gate validation failed")
+                if self.mode == "audit":
+                    return False
 
             # Step 3: Security validation
-            if self.mode in ["full", "security"]:
-                if not self.run_security_validation():
-                    print("❌ Security validation failed")
-                    # Continue for now, as we expect some security issues during audit
+            if self.mode in ["full", "security"] and not self.run_security_validation():
+                print("❌ Security validation failed")
+                # Continue for now, as we expect some security issues during audit
 
             # Step 4: Comprehensive test suite
-            if self.mode in ["full"]:
-                if not self.run_comprehensive_test_suite():
-                    print("❌ Comprehensive test suite failed")
-                    # Continue to generate metrics
+            if self.mode in ["full"] and not self.run_comprehensive_test_suite():
+                print("❌ Comprehensive test suite failed")
+                # Continue to generate metrics
 
             # Step 5: Performance benchmarks
             if self.mode in ["full"]:

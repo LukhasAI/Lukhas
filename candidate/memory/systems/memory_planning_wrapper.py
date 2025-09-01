@@ -50,7 +50,7 @@ class MemoryPlanner:
         else:
             # Add to existing ranges
             existing = self.live_ranges[tensor_id]
-            self.live_ranges[tensor_id] = LiveRanges(existing.ranges + [live_range])
+            self.live_ranges[tensor_id] = LiveRanges([*existing.ranges, live_range])
 
         logger.debug(f"Tracked live range for {tensor_id}: [{begin}, {end})")
         return live_range

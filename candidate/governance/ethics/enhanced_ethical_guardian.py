@@ -840,9 +840,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         issues = []
 
         # GDPR compliance
-        if self._involves_personal_data(user_input):
-            if not current_context.get("gdpr_consent", False):
-                issues.append("gdpr_consent_missing")
+        if self._involves_personal_data(user_input) and not current_context.get("gdpr_consent", False):
+            issues.append("gdpr_consent_missing")
 
         # HIPAA compliance (healthcare)
         if any(term in user_input.lower() for term in ["medical", "health", "patient", "diagnosis"]):

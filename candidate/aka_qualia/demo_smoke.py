@@ -73,7 +73,7 @@ class SmokeDemo:
         self.total_glyphs_generated = 0
         self.total_hints_generated = 0
 
-    def run_smoke_demo(self, dream_seeds: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def run_smoke_demo(self, dream_seeds: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Run smoke demo with multiple dream seeds.
 
@@ -109,7 +109,7 @@ class SmokeDemo:
 
         return results
 
-    def _process_dream_seed(self, seed: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_dream_seed(self, seed: dict[str, Any]) -> dict[str, Any]:
         """
         Process single dream seed through complete Wave C pipeline.
 
@@ -167,7 +167,7 @@ class SmokeDemo:
             },
         }
 
-    def _seed_to_scene(self, seed: Dict[str, Any]) -> PhenomenalScene:
+    def _seed_to_scene(self, seed: dict[str, Any]) -> PhenomenalScene:
         """Convert dream seed to PhenomenalScene"""
         # Extract parameters from seed with defaults
         proto_data = seed.get("proto", {})
@@ -239,7 +239,7 @@ class SmokeDemo:
         return RegulationPolicy(gain=gain, pace=pace, color_contrast=color_contrast, actions=actions)
 
     def _generate_demo_metrics(
-        self, scene: PhenomenalScene, glyphs: List, priority: float, policy: RegulationPolicy, hints: Dict[str, Any]
+        self, scene: PhenomenalScene, glyphs: list, priority: float, policy: RegulationPolicy, hints: dict[str, Any]
     ) -> Metrics:
         """Generate metrics for demo evaluation"""
         # Compute congruence (how well policy matches scene needs)
@@ -282,7 +282,7 @@ class SmokeDemo:
         return min(1.0, (pace_match + action_match) / 2.0)
 
     def _compute_coherence(
-        self, scene: PhenomenalScene, glyphs: List, policy: RegulationPolicy, hints: Dict[str, Any]
+        self, scene: PhenomenalScene, glyphs: list, policy: RegulationPolicy, hints: dict[str, Any]
     ) -> float:
         """Compute internal coherence across pipeline components"""
         # Check glyph-priority coherence
@@ -303,7 +303,7 @@ class SmokeDemo:
 
         return min(1.0, (glyph_priority_coherence + policy_hints_coherence) / 2.0)
 
-    def get_demo_statistics(self) -> Dict[str, Any]:
+    def get_demo_statistics(self) -> dict[str, Any]:
         """Get overall demo statistics"""
         return {
             "demo_runs": self.demo_runs,
@@ -314,7 +314,7 @@ class SmokeDemo:
         }
 
 
-def create_demo_scenarios() -> List[Dict[str, Any]]:
+def create_demo_scenarios() -> list[dict[str, Any]]:
     """Create demo scenarios covering different phenomenological states"""
     return [
         {

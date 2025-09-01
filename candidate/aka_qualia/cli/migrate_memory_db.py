@@ -23,7 +23,7 @@ def get_current_schema_version(engine):
         with engine.connect() as conn:
             result = conn.execute(
                 text("""
-                SELECT version FROM akaq_schema_metadata 
+                SELECT version FROM akaq_schema_metadata
                 ORDER BY applied_at DESC LIMIT 1
             """)
             )
@@ -85,7 +85,7 @@ def verify_schema_integrity(engine):
         # Verify scene-glyph relationship
         result = conn.execute(
             text("""
-            SELECT COUNT(*) FROM akaq_glyph g 
+            SELECT COUNT(*) FROM akaq_glyph g
             LEFT JOIN akaq_scene s ON g.scene_id = s.scene_id
             WHERE s.scene_id IS NULL
         """)
@@ -136,13 +136,13 @@ def main():
 Examples:
   # Dry run migration
   python migrate_memory_db.py --db-url sqlite:///akaq_memory.db
-  
+
   # Apply migration
   python migrate_memory_db.py --db-url sqlite:///akaq_memory.db --apply
-  
+
   # Reset and migrate
   python migrate_memory_db.py --db-url sqlite:///akaq_memory.db --reset --apply
-  
+
   # PostgreSQL
   python migrate_memory_db.py --db-url postgresql://user:pass@localhost/akaq_memory --apply
         """,

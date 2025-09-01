@@ -155,7 +155,7 @@ class InterAgentSimulation:
         """Broadcast heartbeat to all agents."""
         heartbeat_results = {}
 
-        for agent_id, _agent in self.agents.items():
+        for agent_id in self.agents:
             try:
                 # Send heartbeat
                 await self.send_message(

@@ -45,7 +45,7 @@ class GuardianSystem:
 
     Provides centralized access to all Guardian components
     with ethical oversight and protection mechanisms.
-    
+
     Constellation Framework Integration:
     - 🛡️ Guardian (Watch Star): Protection and trustworthiness
     - ⚖️ Ethics (North Star): Responsible, transparent, accountable oversight

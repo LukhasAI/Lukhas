@@ -84,7 +84,7 @@ try:
 except ImportError:
     # Create a minimal fallback
     class SimpleDreamEngine:
-        async def generate_dream_sequence(self, daily_data: list = None):
+        async def generate_dream_sequence(self, daily_data: Optional[list] = None):
             return {
                 "dream_sequence": {"narrative": "A peaceful dream state of creative possibility..."},
                 "learning": {"insights": "Creative potential explored"},

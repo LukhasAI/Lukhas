@@ -288,10 +288,7 @@ class VisionaryAGIOrchestrator:
         if config_path and config_path.exists():
             try:
                 with open(config_path) as f:
-                    if config_path.suffix.lower() == ".yaml":
-                        user_config = yaml.safe_load(f)
-                    else:
-                        user_config = json.load(f)
+                    user_config = yaml.safe_load(f) if config_path.suffix.lower() == ".yaml" else json.load(f)
 
                 # Merge with defaults
                 def deep_merge(default, user):

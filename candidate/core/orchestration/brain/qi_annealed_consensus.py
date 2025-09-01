@@ -87,7 +87,7 @@ class QIAnnealedEthicalConsensus:
         self,
         scenario_description: str,
         principle_weights: dict[str, float],
-        constraints: list[dict[str, Any]] = None,
+        constraints: Optional[list[dict[str, Any]]] = None,
     ) -> dict[str, Any]:
         """
         Find optimal consensus between potentially competing ethical principles

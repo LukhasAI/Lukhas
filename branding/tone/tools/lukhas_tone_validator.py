@@ -243,9 +243,8 @@ class LukhasToneValidator:
         # Check document-specific requirements
         requirements = self.DOCUMENT_REQUIREMENTS.get(doc_type, {})
 
-        if "min_poetic" in requirements:
-            if self._calculate_poetic_score(content) < requirements["min_poetic"]:
-                violations.append(f"❌ Insufficient poetic elements (need {requirements['min_poetic']}%+)")
+        if "min_poetic" in requirements and self._calculate_poetic_score(content) < requirements["min_poetic"]:
+            violations.append(f"❌ Insufficient poetic elements (need {requirements['min_poetic']}%+)")
 
         if "forbidden_terms" in requirements:
             for term in requirements["forbidden_terms"]:

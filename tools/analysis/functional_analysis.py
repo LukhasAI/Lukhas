@@ -325,10 +325,7 @@ def main():
     print("\n📊 SYSTEM STATUS:")
     for system, data in capabilities.items():
         status_emoji = "✅" if data["status"] == "functional" else "❌" if data["status"] == "missing" else "⚠️"
-        if data["status"] != "missing":
-            ratio = f" ({data['functionality_ratio']:.1%} functional)"
-        else:
-            ratio = ""
+        ratio = f" ({data['functionality_ratio']:.1%} functional)" if data["status"] != "missing" else ""
         print(f"   {status_emoji} {system}: {data['status']}{ratio}")
 
         if data["capabilities"]:

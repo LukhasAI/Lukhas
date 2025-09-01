@@ -282,10 +282,7 @@ class OpenAITTSAdapter(TTSProviderAdapter):
                 voice = "nova"
 
             # Select model based on quality
-            if request.quality in [TTSQuality.HIGH, TTSQuality.PREMIUM]:
-                model = "tts-1-hd"
-            else:
-                model = "tts-1"
+            model = "tts-1-hd" if request.quality in [TTSQuality.HIGH, TTSQuality.PREMIUM] else "tts-1"
 
             # Make TTS request
             response = await client.audio.speech.create(

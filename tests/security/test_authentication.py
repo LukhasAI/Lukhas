@@ -114,11 +114,11 @@ class TestAPIKeyValidation(unittest.TestCase):
         test_key = generate_api_key("test")
 
         # First requests should pass
-        for i in range(50):
+        for _i in range(50):
             self.assertTrue(_check_rate_limit(test_key))
 
         # Simulate hitting rate limit
-        for i in range(60):  # Exceed the 100 request limit
+        for _i in range(60):  # Exceed the 100 request limit
             _check_rate_limit(test_key)
 
         # Should now fail rate limit
@@ -254,7 +254,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Try multiple failed logins
         login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_WRONG}
 
-        for i in range(6):  # Exceed the 5 attempt limit
+        for _i in range(6):  # Exceed the 5 attempt limit
             response = self.client.post("/api/v2/auth/login", json=login_data, content_type="application/json")
 
         # After multiple failures, account should be locked

@@ -367,7 +367,7 @@ class SymbolicVaultScanner:
         actual_links = defaultdict(int)
 
         # Build co-occurrence matrix
-        for _entry_id, entry in self.memory_snapshots.items():
+        for entry in self.memory_snapshots.values():
             symbols_in_entry = []
 
             # Extract symbols from this entry

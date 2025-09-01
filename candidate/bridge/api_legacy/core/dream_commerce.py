@@ -529,9 +529,8 @@ class DreamCommerceEngine:
                         continue
 
                 # Apply tags filter
-                if filters.tags:
-                    if not any(tag in dream_seed.tags for tag in filters.tags):
-                        continue
+                if filters.tags and not any(tag in dream_seed.tags for tag in filters.tags):
+                    continue
 
                 filtered_seeds.append(dream_seed)
 

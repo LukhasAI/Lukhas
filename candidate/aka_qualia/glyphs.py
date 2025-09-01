@@ -29,7 +29,7 @@ GLYPH_KEYS = {
 }
 
 
-def map_scene_to_glyphs(scene: PhenomenalScene) -> List[PhenomenalGlyph]:
+def map_scene_to_glyphs(scene: PhenomenalScene) -> list[PhenomenalGlyph]:
     """
     Deterministic PhenomenalScene → PhenomenalGlyphs conversion.
 
@@ -142,7 +142,7 @@ def map_scene_to_glyphs(scene: PhenomenalScene) -> List[PhenomenalGlyph]:
     return glyphs
 
 
-def normalize_glyph_keys(glyphs: List[PhenomenalGlyph]) -> List[PhenomenalGlyph]:
+def normalize_glyph_keys(glyphs: list[PhenomenalGlyph]) -> list[PhenomenalGlyph]:
     """
     Normalize glyph keys for fuzzy matching against loop camouflaging.
 
@@ -184,7 +184,7 @@ def normalize_glyph_keys(glyphs: List[PhenomenalGlyph]) -> List[PhenomenalGlyph]
     return normalized_glyphs
 
 
-def compute_glyph_priority(glyphs: List[PhenomenalGlyph], scene: PhenomenalScene) -> float:
+def compute_glyph_priority(glyphs: list[PhenomenalGlyph], scene: PhenomenalScene) -> float:
     """
     Compute routing priority for glyph set based on narrative gravity and risk.
 

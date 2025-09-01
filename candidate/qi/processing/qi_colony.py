@@ -492,7 +492,7 @@ class QIColony(BaseColony):
         """Measure entanglement strength across the colony."""
         entanglement_map = {}
 
-        for agent_id, _partners in self.entanglement_graph.items():
+        for agent_id in self.entanglement_graph:
             agent = self.agents.get(agent_id)
             if isinstance(agent, QIAgent):
                 strength = agent.qi_state.entanglement_strength
@@ -509,9 +509,8 @@ class QIColony(BaseColony):
         low_coherence_agents = []
 
         for agent_id, agent in self.agents.items():
-            if isinstance(agent, QIAgent):
-                if agent.qi_state.coherence < self.coherence_threshold:
-                    low_coherence_agents.append(agent_id)
+            if isinstance(agent, QIAgent) and agent.qi_state.coherence < self.coherence_threshold:
+                low_coherence_agents.append(agent_id)
 
         # Re-initialize low coherence agents
         for agent_id in low_coherence_agents:

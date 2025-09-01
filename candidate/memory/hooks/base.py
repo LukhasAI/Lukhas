@@ -68,13 +68,11 @@ class MemoryItem:
         if not 0.0 <= self.resonance <= 1.0:
             raise ValueError("Resonance must be between 0.0 and 1.0")
 
-        if self.emotional_valence is not None:
-            if not -1.0 <= self.emotional_valence <= 1.0:
-                raise ValueError("Emotional valence must be between -1.0 and 1.0")
+        if self.emotional_valence is not None and not -1.0 <= self.emotional_valence <= 1.0:
+            raise ValueError("Emotional valence must be between -1.0 and 1.0")
 
-        if self.emotional_intensity is not None:
-            if not 0.0 <= self.emotional_intensity <= 1.0:
-                raise ValueError("Emotional intensity must be between 0.0 and 1.0")
+        if self.emotional_intensity is not None and not 0.0 <= self.emotional_intensity <= 1.0:
+            raise ValueError("Emotional intensity must be between 0.0 and 1.0")
 
     def add_to_lineage(self, ancestor_id: str) -> None:
         """Add ancestor to causal lineage"""
@@ -191,10 +189,9 @@ class MemoryHook(ABC):
             return True
 
         # Check compression ratio is reasonable
-        if item.compression_ratio is not None:
-            if item.compression_ratio <= 0 or item.compression_ratio > 100:
-                logger.warning(f"Suspicious compression ratio: {item.compression_ratio}")
-                return False
+        if item.compression_ratio is not None and (item.compression_ratio <= 0 or item.compression_ratio > 100):
+            logger.warning(f"Suspicious compression ratio: {item.compression_ratio}")
+            return False
 
         # Check fold signature exists for compressed items
         if item.fold_signature is None:

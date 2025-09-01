@@ -44,7 +44,7 @@ class AndaluzVoiceEngine:
     Handles dialect recognition and synthesis with medical context
     """
 
-    def __init__(self, config: dict[str, Any] = None, consciousness=None):
+    def __init__(self, config: Optional[dict[str, Any]] = None, consciousness=None):
         """
         Initialize Andaluz voice engine
 

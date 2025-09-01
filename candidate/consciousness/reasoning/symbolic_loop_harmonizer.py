@@ -83,7 +83,9 @@ class SymbolicLoopHarmonizer:
         self.log_dir = Path("lukhas/logs")
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
-    async def harmonize_trace(self, unstable_trace: dict[str, Any], context: dict[str, Any] = None) -> dict[str, Any]:
+    async def harmonize_trace(
+        self, unstable_trace: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Harmonize an unstable reasoning trace
 

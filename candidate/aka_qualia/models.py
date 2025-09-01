@@ -76,7 +76,7 @@ class RiskProfile(BaseModel):
     """TEQ Guardian risk assessment result"""
 
     score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
-    reasons: List[str] = Field(default_factory=list, description="Risk factors identified")
+    reasons: list[str] = Field(default_factory=list, description="Risk factors identified")
     severity: SeverityLevel = Field(description="Severity classification")
 
     @validator("severity")
@@ -103,11 +103,11 @@ class PhenomenalScene(BaseModel):
     proto: ProtoQualia = Field(description="Proto-qualia representation")
     subject: str = Field(description="Scene subject")
     object: str = Field(description="Scene object/focus")
-    context: Dict[str, Any] = Field(default_factory=dict, description="Scene context")
+    context: dict[str, Any] = Field(default_factory=dict, description="Scene context")
     risk: RiskProfile = Field(description="TEQ Guardian risk assessment")
 
     # Audit trail for transforms
-    transform_chain: List[str] = Field(default_factory=list, description="Applied transforms")
+    transform_chain: list[str] = Field(default_factory=list, description="Applied transforms")
     timestamp: Optional[float] = Field(None, description="Scene generation timestamp")
 
 
@@ -115,7 +115,7 @@ class PhenomenalGlyph(BaseModel):
     """GLYPH representation for phenomenological routing"""
 
     key: str = Field(description="GLYPH key following LUKHAS naming")
-    attrs: Dict[str, Any] = Field(default_factory=dict, description="GLYPH attributes")
+    attrs: dict[str, Any] = Field(default_factory=dict, description="GLYPH attributes")
 
     @validator("key")
     def validate_glyph_key(cls, v):
@@ -133,7 +133,7 @@ class RegulationPolicy(BaseModel):
     gain: float = Field(ge=0.0, le=2.0, description="Attention gain modulation")
     pace: float = Field(ge=0.1, le=2.0, description="Temporal pace adjustment")
     color_contrast: Optional[str] = Field(None, description="Color palette override")
-    actions: List[str] = Field(default_factory=list, description="Regulation actions")
+    actions: list[str] = Field(default_factory=list, description="Regulation actions")
 
     @validator("actions")
     def validate_actions(cls, v):

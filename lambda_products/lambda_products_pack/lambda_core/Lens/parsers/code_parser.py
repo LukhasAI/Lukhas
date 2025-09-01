@@ -35,7 +35,7 @@ class CodeParser(BaseParser):
         },
     }
 
-    async def parse(self, file_path: str) -> Dict[str, Any]:
+    async def parse(self, file_path: str) -> dict[str, Any]:
         """Parse code file and extract structure"""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -79,7 +79,7 @@ class CodeParser(BaseParser):
         }
         return language_map.get(extension, "unknown")
 
-    def _extract_elements(self, content: str, language: str) -> Dict[str, List[Dict[str, Any]]]:
+    def _extract_elements(self, content: str, language: str) -> dict[str, list[dict[str, Any]]]:
         """Extract functions, classes, and other elements from code"""
         lines = content.split("\n")
         patterns = self.LANGUAGE_PATTERNS.get(language, {})
@@ -108,8 +108,7 @@ class CodeParser(BaseParser):
                     elements["imports"].append({"statement": import_match.group(1), "line": i + 1})
 
             # Extract comments
-            if "comment" in patterns:
-                if re.search(patterns["comment"], line):
-                    elements["comments"].append({"content": line.strip(), "line": i + 1})
+            if "comment" in patterns and re.search(patterns["comment"], line):
+                elements["comments"].append({"content": line.strip(), "line": i + 1})
 
         return elements

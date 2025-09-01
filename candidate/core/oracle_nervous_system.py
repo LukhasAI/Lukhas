@@ -647,7 +647,7 @@ class OracleNervousSystem:
         while True:
             try:
                 # Check health of all capabilities
-                for _capability_type, capability in self.capabilities.items():
+                for capability in self.capabilities.values():
                     # Simple health check - could be more sophisticated
                     capability.last_health_check = datetime.now()
                     capability.health_status = "operational"  # Would do actual checks
@@ -733,7 +733,7 @@ async def get_oracle_nervous_system() -> OracleNervousSystem:
 async def predict(
     context: dict[str, Any],
     time_horizon: str = "medium",
-    user_id: str = None,
+    user_id: Optional[str] = None,
     **kwargs,
 ) -> NervousSystemResponse:
     """Direct prediction through the Oracle nervous system."""
@@ -754,7 +754,7 @@ async def predict(
 async def prophecy(
     context: dict[str, Any],
     time_horizon: str = "medium",
-    user_id: str = None,
+    user_id: Optional[str] = None,
     **kwargs,
 ) -> NervousSystemResponse:
     """Direct prophecy through the Oracle nervous system."""
@@ -772,7 +772,7 @@ async def prophecy(
     return await system.process_request(request)
 
 
-async def dream(context: dict[str, Any], user_id: str = None, **kwargs) -> NervousSystemResponse:
+async def dream(context: dict[str, Any], user_id: Optional[str] = None, **kwargs) -> NervousSystemResponse:
     """Direct dream generation through the Oracle nervous system."""
     system = await get_oracle_nervous_system()
 

@@ -44,8 +44,9 @@ class DriveAdapter(BaseServiceAdapter):
 
         if refresh_token:
             # Refresh access token
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
                     "https://oauth2.googleapis.com/token",
                     data={
                         "client_id": client_id,
@@ -53,18 +54,19 @@ class DriveAdapter(BaseServiceAdapter):
                         "refresh_token": refresh_token,
                         "grant_type": "refresh_token",
                     },
-                ) as response:
-                    token_data = await response.json()
+                ) as response,
+            ):
+                token_data = await response.json()
 
-                    # Store in vault (Agent 7 integration)
-                    lid = credentials.get("lid")
-                    if lid and "access_token" in token_data:
-                        self.oauth_tokens[lid] = {
-                            "access_token": token_data["access_token"],
-                            "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
-                        }
+                # Store in vault (Agent 7 integration)
+                lid = credentials.get("lid")
+                if lid and "access_token" in token_data:
+                    self.oauth_tokens[lid] = {
+                        "access_token": token_data["access_token"],
+                        "expires_at": datetime.now(timezone.utc).timestamp() + token_data["expires_in"],
+                    }
 
-                    return token_data
+                return token_data
 
         return {"error": "authentication_required"}
 

@@ -447,10 +447,7 @@ class ConsentLedgerV1:
             return False
 
         # Check if resource type is reasonable
-        if len(resource_type) < 1:
-            return False
-
-        return True
+        return not len(resource_type) < 1
 
     def _validate_gdpr_compliance(
         self,
@@ -1000,13 +997,12 @@ class ConsentLedgerV1:
             scopes = json.loads(scopes_json)
 
             # Check expiration
-            if expires_at:
-                if datetime.fromisoformat(expires_at) < datetime.now(timezone.utc):
-                    return {
-                        "allowed": False,
-                        "require_step_up": True,
-                        "reason": "consent_expired",
-                    }
+            if expires_at and datetime.fromisoformat(expires_at) < datetime.now(timezone.utc):
+                return {
+                    "allowed": False,
+                    "require_step_up": True,
+                    "reason": "consent_expired",
+                }
 
             # Check scope
             if action not in scopes:

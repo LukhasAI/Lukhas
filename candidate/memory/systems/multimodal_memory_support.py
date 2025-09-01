@@ -147,7 +147,7 @@ class ImageProcessor:
         if not PIL_AVAILABLE:
             logger.warning("PIL not available - image processing will be limited")
 
-    def process_image(self, image_data: bytes, format_hint: str = None) -> tuple[bytes, ModalityMetadata]:
+    def process_image(self, image_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
         Process image data for optimal AGI memory storage.
 
@@ -306,7 +306,7 @@ class AudioProcessor:
         if not AUDIO_AVAILABLE:
             logger.warning("Audio libraries not available - audio processing will be limited")
 
-    def process_audio(self, audio_data: bytes, format_hint: str = None) -> tuple[bytes, ModalityMetadata]:
+    def process_audio(self, audio_data: bytes, format_hint: Optional[str] = None) -> tuple[bytes, ModalityMetadata]:
         """
         Process audio data for optimal AGI memory storage.
 
@@ -849,8 +849,8 @@ async def create_multimodal_memory(
     image_data: Optional[bytes] = None,
     audio_data: Optional[bytes] = None,
     video_data: Optional[bytes] = None,
-    tags: list[str] = None,
-    metadata: dict[str, Any] = None,
+    tags: Optional[list[str]] = None,
+    metadata: Optional[dict[str, Any]] = None,
     **kwargs,
 ) -> MultiModalMemoryItem:
     """

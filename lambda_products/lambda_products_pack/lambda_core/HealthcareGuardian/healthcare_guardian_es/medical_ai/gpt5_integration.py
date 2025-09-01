@@ -45,7 +45,7 @@ class GPT5HealthcareClient:
     Provides medical AI capabilities with Spanish localization
     """
 
-    def __init__(self, config: dict[str, Any] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize GPT-5 healthcare client
 
@@ -152,7 +152,7 @@ class GPT5HealthcareClient:
             },
         }
 
-    async def process_health_query(self, query: str, user_context: dict = None) -> str:
+    async def process_health_query(self, query: str, user_context: Optional[dict] = None) -> str:
         """
         Process a health query using GPT-5 healthcare capabilities
 
@@ -225,7 +225,7 @@ class GPT5HealthcareClient:
             "4. Tenga su lista de medicamentos a mano"
         )
 
-    def _prepare_medical_context(self, query: str, user_context: dict = None) -> dict:
+    def _prepare_medical_context(self, query: str, user_context: Optional[dict] = None) -> dict:
         """Prepare context for GPT-5 medical query"""
         context = {
             "query": query,
@@ -425,7 +425,7 @@ class GPT5HealthcareClient:
 
         return None
 
-    async def get_medication_schedule(self, user_id: str = None) -> str:
+    async def get_medication_schedule(self, user_id: Optional[str] = None) -> str:
         """
         Get user's medication schedule
 

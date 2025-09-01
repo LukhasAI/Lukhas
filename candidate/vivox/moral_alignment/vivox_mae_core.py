@@ -1284,7 +1284,7 @@ class EthicalFrameworkHarmonizer:
         # Apply harmonization strategies
         harmonization_result = None
 
-        for _strategy_name, strategy_func in self.resolution_strategies.items():
+        for strategy_func in self.resolution_strategies.values():
             try:
                 result = await strategy_func(conflicts, framework_evaluations, action, context)
 

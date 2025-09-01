@@ -725,7 +725,7 @@ class ReplayController:
 
         # Take snapshots of all actors
         snapshot_tasks = []
-        for _actor_id, actor in self.actor_system.actors.items():
+        for actor in self.actor_system.actors.values():
             if isinstance(actor, EventSourcedActor):
                 snapshot_tasks.append(actor.take_snapshot(checkpoint_id))
 

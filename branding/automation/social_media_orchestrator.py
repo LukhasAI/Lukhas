@@ -653,7 +653,7 @@ class SocialMediaOrchestrator:
         )
         return True
 
-    async def publish_approved_posts(self, live_mode: bool = None) -> dict[str, Any]:
+    async def publish_approved_posts(self, live_mode: Optional[bool] = None) -> dict[str, Any]:
         """Publish approved posts with live API integration or simulation"""
         approved_posts = [post for post in self.content_queue if post.approved and not post.published]
 

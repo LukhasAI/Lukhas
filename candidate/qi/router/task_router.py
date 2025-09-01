@@ -140,11 +140,10 @@ class TaskRouter:
 
         # 5) caps & guards
         cap_tokens = out.pop("cap_tokens", None)
-        if cap_tokens is not None and isinstance(cap_tokens, int):
-            if out.get("gen_tokens", 0) > cap_tokens:
-                out["gen_tokens"] = cap_tokens
-                out.setdefault("notes", "")
-                out["notes"] += " | capped gen_tokens"
+        if cap_tokens is not None and isinstance(cap_tokens, int) and out.get("gen_tokens", 0) > cap_tokens:
+            out["gen_tokens"] = cap_tokens
+            out.setdefault("notes", "")
+            out["notes"] += " | capped gen_tokens"
 
         cap_latency = out.pop("cap_latency_ms", None)
         if cap_latency is not None and isinstance(cap_latency, int):
@@ -154,16 +153,15 @@ class TaskRouter:
 
         # 6) min confidence fast path override
         min_fast = out.pop("min_conf_for_fast", None)
-        if min_fast is not None:
-            if out.get("path") == "fast" and calibrated_conf < float(min_fast):
-                # drop to normal settings but keep other overrides
-                fallback = self.conf_router.decide(calibrated_conf=self.conf_router.t_norm + 0.001)
-                # keep temperature from overrides if present
-                for k in ("gen_tokens", "retrieval", "passes", "temperature"):
-                    out[k] = out.get(k, fallback.get(k, out.get(k)))
-                out["path"] = "normal"
-                out.setdefault("notes", "")
-                out["notes"] += " | demoted from fast by min_conf_for_fast"
+        if min_fast is not None and out.get("path") == "fast" and calibrated_conf < float(min_fast):
+            # drop to normal settings but keep other overrides
+            fallback = self.conf_router.decide(calibrated_conf=self.conf_router.t_norm + 0.001)
+            # keep temperature from overrides if present
+            for k in ("gen_tokens", "retrieval", "passes", "temperature"):
+                out[k] = out.get(k, fallback.get(k, out.get(k)))
+            out["path"] = "normal"
+            out.setdefault("notes", "")
+            out["notes"] += " | demoted from fast by min_conf_for_fast"
 
         # 7) force_path if explicitly declared
         force = out.pop("force_path", None)

@@ -564,7 +564,7 @@ class NeuroSymbolicFusionLayer:
             superposition_weights = []
             candidate_patterns = []
 
-            for i, (neural_input, symbolic_input) in enumerate(state_candidates):
+            for _i, (neural_input, symbolic_input) in enumerate(state_candidates):
                 # Calculate quantum-inspired probability amplitude
                 neural_magnitude = np.linalg.norm(neural_input)
                 symbolic_complexity = len(str(symbolic_input))

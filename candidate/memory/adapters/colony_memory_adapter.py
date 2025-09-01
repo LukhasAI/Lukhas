@@ -224,7 +224,7 @@ class ColonyMemoryAdapter:
         content: Any,
         metadata: Optional[MemoryMetadata] = None,
         distributed: bool = False,
-        validate: bool = None,
+        validate: Optional[bool] = None,
         **kwargs,
     ) -> MemoryResponse:
         """Create a new memory through the adapter"""
@@ -255,7 +255,7 @@ class ColonyMemoryAdapter:
         self,
         memory_type: MemoryType,
         memory_id: str,
-        use_cache: bool = None,
+        use_cache: Optional[bool] = None,
         distributed: bool = False,
         **kwargs,
     ) -> MemoryResponse:
@@ -306,7 +306,7 @@ class ColonyMemoryAdapter:
         content: Any = None,
         metadata: Optional[MemoryMetadata] = None,
         distributed: bool = False,
-        validate: bool = None,
+        validate: Optional[bool] = None,
         **kwargs,
     ) -> MemoryResponse:
         """Update a memory through the adapter"""

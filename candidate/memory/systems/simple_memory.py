@@ -11,7 +11,7 @@ import asyncio
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class AgentMemory:
@@ -72,7 +72,7 @@ def append_to_shared_memory(agent_id: str, event_type: str, data: dict[str, Any]
         return False
 
 
-def read_from_shared_memory(agent_id: str, event_type: str = None, limit: int = 100) -> list[dict]:
+def read_from_shared_memory(agent_id: str, event_type: Optional[str] = None, limit: int = 100) -> list[dict]:
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)

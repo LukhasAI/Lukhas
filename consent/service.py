@@ -175,7 +175,7 @@ class ConsentService:
         self,
         request: ConsentGrantRequest,
         client_ip: Optional[str] = None,
-        client_context: dict[str, Any] = None,
+        client_context: Optional[dict[str, Any]] = None,
     ) -> tuple[str, CapabilityToken]:
         """
         Grant consent and issue capability token.
@@ -780,11 +780,10 @@ class ConsentService:
     def _evaluate_enhanced_condition(self, condition: str, context: dict) -> bool:
         """Enhanced condition evaluation with Trinity Framework and governance support"""
         try:
-            if "permission_type in" in condition:
-                if "['admin', 'root', 'critical']" in condition:
-                    perm_check = context["permission_type"] in ["admin", "root", "critical"]
-                    trust_check = "trust_score < 0.8" in condition and context["trust_score"] < 0.8
-                    return perm_check and trust_check
+            if "permission_type in" in condition and "['admin', 'root', 'critical']" in condition:
+                perm_check = context["permission_type"] in ["admin", "root", "critical"]
+                trust_check = "trust_score < 0.8" in condition and context["trust_score"] < 0.8
+                return perm_check and trust_check
             if "trust_score <" in condition:
                 if "trust_score < 0.3" in condition:
                     return context["trust_score"] < 0.3

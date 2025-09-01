@@ -452,7 +452,7 @@ class MemoryReflectionSystem:
         coherence_matrix = {}
 
         for i, fold1 in enumerate(folds):
-            for j, fold2 in enumerate(folds[i + 1 :], i + 1):
+            for _j, fold2 in enumerate(folds[i + 1 :], i + 1):
                 # Calculate coherence between fold pairs
                 coherence = self._calculate_pair_coherence(fold1, fold2)
                 coherence_matrix[f"{fold1.fold_id}_{fold2.fold_id}"] = coherence
@@ -760,7 +760,7 @@ class MemoryReflectionSystem:
             "negative_low": [],
         }
 
-        for i, (v, a, d) in enumerate(emotions):
+        for i, (v, a, _d) in enumerate(emotions):
             if v >= 0 and a >= 0:
                 quadrants["positive_high"].append(fold_ids[i])
             elif v >= 0 and a < 0:

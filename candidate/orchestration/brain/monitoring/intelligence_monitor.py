@@ -595,7 +595,7 @@ class LukhasIntelligenceMonitor:
 
                 # Calculate overall Trinity compliance
                 trinity_scores = []
-                for _component, metrics in self.trinity_metrics.items():
+                for metrics in self.trinity_metrics.values():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
                             m["score"] for m in list(metrics)[-10:] if isinstance(m, dict) and "score" in m

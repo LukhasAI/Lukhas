@@ -8,14 +8,15 @@ AI agent interactions, enabling observability and debugging.
 
 import json
 import logging
+import os
 import threading
 import time
 import uuid
 from collections import defaultdict, deque
+from collections.abc import Generator
 from contextlib import contextmanager
-import os
 from dataclasses import asdict, dataclass, field
-from typing import Any, ContextManager, Dict, Generator, List, Optional
+from typing import Any, ContextManager, Dict, List, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -67,8 +68,8 @@ class TraceContext:
 
     trace_id: str
     correlation_id: str
-    span_stack: List[str]
-    baggage: Dict[str, str] = field(default_factory=dict)
+    span_stack: list[str]
+    baggage: dict[str, str] = field(default_factory=dict)
 
     @property
     def span_id(self) -> Optional[str]:
@@ -259,8 +260,8 @@ class TraceCollector:
             completed_traces = len(self.completed_traces)
             total_spans = len(self.spans)  # Active spans
 
-            operation_counts: "defaultdict[str, int]" = defaultdict(int)
-            service_counts: "defaultdict[str, int]" = defaultdict(int)
+            operation_counts: defaultdict[str, int] = defaultdict(int)
+            service_counts: defaultdict[str, int] = defaultdict(int)
 
             # Count operations and services in active traces
             for spans in self.traces.values():

@@ -355,7 +355,7 @@ class AutonomousAgent:
     async def collaborate_with_agents(self):
         """Collaborate with other agents"""
         # Share knowledge and coordinate tasks
-        for _agent_id, agent in self.collaborators.items():
+        for agent in self.collaborators.values():
             # Share successful strategies
             if self.learning_memory.get("success_rate", 0) > 0.9:
                 await agent.receive_knowledge(self.learning_memory)

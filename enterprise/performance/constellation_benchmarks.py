@@ -15,7 +15,7 @@ import os
 import statistics
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import psutil
@@ -39,9 +39,10 @@ try:
             # Fallback mock for tests
             class ConsciousnessCore:
                 pass
+
+    from lukhas.constellation import ConstellationFramework
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
-    from lukhas.constellation import ConstellationFramework
 
     LUKHAS_AVAILABLE = True
 except ImportError:
@@ -214,7 +215,7 @@ class ConstellationFrameworkBenchmark:
         error_rate = (error_count / total_requests * 100) if total_requests > 0 else 0
 
         metrics = PerformanceMetrics(
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             test_name="constellation_latency_benchmark",
             latency_p50=p50,
             latency_p95=p95,
@@ -272,8 +273,8 @@ class ConstellationFrameworkBenchmark:
         memory_start = time.time()
         await asyncio.sleep(0.004)  # 4ms memory processing
         memory_time = (time.time() - memory_start) * 1000
-        
-        # Vision (🔬) - Analysis processing  
+
+        # Vision (🔬) - Analysis processing
         vision_start = time.time()
         await asyncio.sleep(0.003)  # 3ms vision processing
         vision_time = (time.time() - vision_start) * 1000
@@ -318,7 +319,7 @@ class ConstellationFrameworkBenchmark:
 
                 successful_operations += 1
 
-            except Exception:
+            except Exception:  # noqa: PERF203
                 cascade_count += 1
 
         total_time = time.time() - start_time
@@ -517,7 +518,7 @@ class ConstellationFrameworkBenchmark:
     def save_benchmark_results(self, results: T4BenchmarkResults, filename: Optional[str] = None) -> str:
         """Save benchmark results to file"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"t4_benchmark_results_{timestamp}.json"
 
         output_dir = "/tmp/lukhas_performance_results/"

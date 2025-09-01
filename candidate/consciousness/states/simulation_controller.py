@@ -408,10 +408,9 @@ class BioSimulationController:
             source_hormone = self.hormones.get(interaction.source)
             target_hormone = self.hormones.get(interaction.target)
 
-            if source_hormone and target_hormone:
-                if source_hormone.level >= interaction.threshold:
-                    effect = interaction.effect * (source_hormone.level - interaction.threshold)
-                    target_hormone.update_level(effect * 0.05)
+            if source_hormone and target_hormone and source_hormone.level >= interaction.threshold:
+                effect = interaction.effect * (source_hormone.level - interaction.threshold)
+                target_hormone.update_level(effect * 0.05)
 
     def _check_system_states(self):
         """Check for significant system states and trigger callbacks."""

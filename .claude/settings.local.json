@@ -92,7 +92,9 @@
       "Bash(SKIP=pre-commit git commit -m \"chore: Update Claude settings permissions\")",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/run_c6_tests.py)",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/validate_c6_simple.py)",
-      "Bash(sudo -S git add candidate/aka_qualia/WAVE_C_*.md candidate/aka_qualia/PRODUCTION_*.md candidate/aka_qualia/tests/test_consciousness_ablation.py candidate/aka_qualia/tests/test_ethics_validation.py candidate/aka_qualia/run_c6_tests.py candidate/aka_qualia/validate_c6_simple.py pytest.ini)"
+      "Bash(sudo -S git add candidate/aka_qualia/WAVE_C_*.md candidate/aka_qualia/PRODUCTION_*.md candidate/aka_qualia/tests/test_consciousness_ablation.py candidate/aka_qualia/tests/test_ethics_validation.py candidate/aka_qualia/run_c6_tests.py candidate/aka_qualia/validate_c6_simple.py pytest.ini)",
+      "Bash(gh run view:*)",
+      "Bash(SKIP=pre-commit git commit -m \"fix: Auto-fix 1895 lint errors for Jules agents CI\n\n- Fixed ripgrep missing in CI guard workflow  \n- Applied ruff auto-fixes for DTZ003, E501, ARG002, PERF401\n- Ran ruff-format on 58 files\n- Helping Jules agents complete their missions by fixing CI failures\")"
     ],
     "deny": [],
     "ask": []

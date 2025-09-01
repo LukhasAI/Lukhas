@@ -442,7 +442,7 @@ class OracleColony(BaseColony):
         return response
 
     async def get_temporal_insights(
-        self, context: dict[str, Any], horizons: list[str] = None
+        self, context: dict[str, Any], horizons: Optional[list[str]] = None
     ) -> dict[str, OracleResponse]:
         """Get insights across multiple time horizons."""
         if horizons is None:
@@ -538,7 +538,7 @@ async def predict(context: dict[str, Any], time_horizon: str = "near") -> Oracle
     return await colony.query_oracle(query)
 
 
-async def dream(context: dict[str, Any], user_id: str = None) -> OracleResponse:
+async def dream(context: dict[str, Any], user_id: Optional[str] = None) -> OracleResponse:
     """Direct dream generation function."""
     colony = await get_oracle_colony()
     query = OracleQuery(query_type="dream", context=context, user_id=user_id)

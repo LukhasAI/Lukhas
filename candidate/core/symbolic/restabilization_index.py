@@ -21,6 +21,7 @@ Symbolic Restabilization Index for LUKHAS AGI.
 
 import uuid  # For generating unique IDs for recovery events
 from datetime import datetime
+from typing import Optional
 
 import structlog
 
@@ -90,7 +91,7 @@ class RestabilizationIndex:
 
     # ΛSTABILIZER: Method for assessing the effectiveness of recovery actions.
 
-    def score_recovery(self, symbol_id: str, recovery_event_id: str = None) -> float:
+    def score_recovery(self, symbol_id: str, recovery_event_id: Optional[str] = None) -> float:
         """
         Scores the effectiveness of a recovery event or overall recovery for a symbol.
         Stub method for future implementation.

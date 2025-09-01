@@ -240,7 +240,7 @@ class TestSQLInjectionPrevention:
             scene_data = create_test_scene()
 
             try:
-                scene_id = sql_memory.save(
+                sql_memory.save(
                     user_id=malicious_id,
                     scene=scene_data,
                     glyphs=[],
@@ -251,7 +251,7 @@ class TestSQLInjectionPrevention:
 
                 # If save succeeds, verify the malicious SQL didn't execute
                 # by checking that normal data is still intact
-                test_history = sql_memory.get_scene_history(user_id="safe_user", limit=1)
+                sql_memory.get_scene_history(user_id="safe_user", limit=1)
                 # This would be empty but that's expected - the point is no exception
 
             except (DatabaseError, ValueError) as e:
@@ -463,8 +463,6 @@ class TestErrorPropagation:
     @pytest.mark.fault
     def test_memory_stats_during_failures(self, noop_memory, monkeypatch):
         """Memory stats should track failures correctly"""
-
-        original_save = noop_memory.save
 
         def failing_save(*args, **kwargs):
             noop_memory.save_failures += 1  # Track the failure

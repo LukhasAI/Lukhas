@@ -44,7 +44,7 @@ class PerceptualEncryptor:
 
     def __init__(
         self,
-        master_key: bytes = None,
+        master_key: Optional[bytes] = None,
         protocol: EncryptionProtocol = EncryptionProtocol.HYBRID,
         vector_dimension: int = 512,
     ):

@@ -563,10 +563,7 @@ class ComplianceMonitor:
                     risk_factors.append(f"{framework.value}_high_risk_violation")
 
         # Calculate framework compliance percentage
-        if total_rules > 0:
-            compliance_percentage = (compliant_rules / total_rules) * 100
-        else:
-            compliance_percentage = 100.0
+        compliance_percentage = compliant_rules / total_rules * 100 if total_rules > 0 else 100.0
 
         # Determine framework status
         threshold = self.compliance_thresholds.get(framework, 85.0)
@@ -806,10 +803,7 @@ class ComplianceMonitor:
             total_weighted_score += base_score * weight
             total_weight += weight
 
-        if total_weight > 0:
-            base_compliance_score = total_weighted_score / total_weight
-        else:
-            base_compliance_score = 0.0
+        base_compliance_score = total_weighted_score / total_weight if total_weight > 0 else 0.0
 
         # Apply violation penalties
         violation_penalties = {

@@ -17,6 +17,7 @@ import re
 import secrets
 import tempfile
 from pathlib import Path
+from typing import Optional
 
 import pytest
 
@@ -83,7 +84,7 @@ class SecurityValidationFramework:
 
     @classmethod
     def scan_directory_for_vulnerabilities(
-        cls, directory: Path, patterns: list[str] = None
+        cls, directory: Path, patterns: Optional[list[str]] = None
     ) -> dict[str, dict[str, list[tuple[int, str]]]]:
         """Scan directory for security vulnerabilities."""
         if patterns is None:

@@ -23,7 +23,7 @@ class FederatedModel:
     preserving privacy by keeping user data local.
     """
 
-    def __init__(self, model_id: str, model_type: str, initial_parameters: dict = None):
+    def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
         self.model_id = model_id
         self.model_type = model_type
         self.parameters = initial_parameters or {}
@@ -59,7 +59,7 @@ class FederatedModel:
 
         return True
 
-    def get_parameters(self, client_id: str = None) -> dict:
+    def get_parameters(self, client_id: Optional[str] = None) -> dict:
         """
         Get model parameters, optionally customized for a specific client
 
@@ -112,7 +112,7 @@ class FederatedLearningManager:
     Manages federated learning across multiple clients while preserving privacy.
     """
 
-    def __init__(self, storage_dir: str = None):
+    def __init__(self, storage_dir: Optional[str] = None):
         self.models = {}  # model_id -> FederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
         self.aggregation_threshold = 5  # Min clients before aggregation
@@ -124,7 +124,9 @@ class FederatedLearningManager:
 
         self.load_models()
 
-    def register_model(self, model_id: str, model_type: str, initial_parameters: dict = None) -> FederatedModel:
+    def register_model(
+        self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None
+    ) -> FederatedModel:
         """
         Register a new model for federated learning
 
@@ -144,7 +146,7 @@ class FederatedLearningManager:
         self.save_model(model)
         return model
 
-    def get_model(self, model_id: str, client_id: str = None) -> Optional[dict]:
+    def get_model(self, model_id: str, client_id: Optional[str] = None) -> Optional[dict]:
         """
         Get model parameters for a client
 
@@ -164,7 +166,9 @@ class FederatedLearningManager:
 
         return self.models[model_id].get_parameters(client_id)
 
-    def contribute_gradients(self, model_id: str, client_id: str, gradients: dict, metrics: dict = None) -> bool:
+    def contribute_gradients(
+        self, model_id: str, client_id: str, gradients: dict, metrics: Optional[dict] = None
+    ) -> bool:
         """
         Contribute gradients from a client to update a model
 

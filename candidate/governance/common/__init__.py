@@ -1,5 +1,7 @@
 """Common utilities for governance module"""
 
+from typing import Optional
+
 
 class GlyphIntegrationMixin:
     """
@@ -23,7 +25,7 @@ class GlyphIntegrationMixin:
         }
         return patterns.get(component, ["❓", "⚠️", "🔍"])
 
-    def generate_governance_glyph(self, action: str, context: dict = None) -> str:
+    def generate_governance_glyph(self, action: str, context: Optional[dict] = None) -> str:
         """Generate governance-specific GLYPH"""
         context = context or {}
 

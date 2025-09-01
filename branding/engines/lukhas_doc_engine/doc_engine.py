@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
+from typing import Optional
+
 from database_integration import db
 
 
@@ -113,7 +115,7 @@ class DocEngine:
         coherence = ((trinity_count * 10) + (lukhas_count * 5)) / total_words * 100
         return min(coherence, 100.0)
 
-    def get_knowledge_base(self, topic: str = None, limit: int = 20) -> list:
+    def get_knowledge_base(self, topic: Optional[str] = None, limit: int = 20) -> list:
         """Get knowledge base content from integrated database"""
         if topic:
             # Get content related to topic

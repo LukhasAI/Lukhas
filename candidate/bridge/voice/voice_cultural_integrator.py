@@ -39,7 +39,7 @@ class VoiceCulturalIntegrator:
     to provide holistic cultural awareness capabilities.
     """
 
-    def __init__(self, core_interface=None, config: dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: Optional[dict[str, Any]] = None):
         """
         Initialize the voice cultural integrator.
 

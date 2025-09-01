@@ -26,7 +26,7 @@ class ShardManager:
 
     def move_actor(self, actor_id: str, new_shard_id: int) -> None:
         """Move an actor to a new shard (e.g., after node failure)."""
-        for _shard_id, actors in self.shards.items():
+        for actors in self.shards.values():
             if actor_id in actors:
                 state = actors.pop(actor_id)
                 self.shards[new_shard_id][actor_id] = state
@@ -41,7 +41,7 @@ class ShardManager:
             return state
 
         # Search other shards if actor was rebalanced
-        for _sid, actors in self.shards.items():
+        for actors in self.shards.values():
             if actor_id in actors:
                 return actors[actor_id]
         return None

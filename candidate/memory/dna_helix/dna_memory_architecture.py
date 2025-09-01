@@ -306,7 +306,7 @@ class DNAHelixMemory:
         query_vec = query_state.to_vector()
         similarities = []
 
-        for _node_id, node in self.nodes.items():
+        for node in self.nodes.values():
             node_vec = node.state.to_vector()
             # Cosine similarity
             similarity = np.dot(query_vec, node_vec) / (np.linalg.norm(query_vec) * np.linalg.norm(node_vec) + 1e-10)

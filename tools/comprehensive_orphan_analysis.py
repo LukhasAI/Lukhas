@@ -276,10 +276,7 @@ class ComprehensiveOrphanAnalyzer:
             possible_files.append(str(init_file))
 
         # Try as a direct file
-        if len(parts) > 1:
-            py_file = Path(*parts[:-1]) / f"{parts[-1]}.py"
-        else:
-            py_file = Path(f"{parts[0]}.py")
+        py_file = Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
 
         if (self.root_path / py_file).exists():
             possible_files.append(str(py_file))
@@ -294,10 +291,7 @@ class ComprehensiveOrphanAnalyzer:
             if (self.root_path / init_file).exists():
                 possible_files.append(str(init_file))
 
-            if len(parts) > 1:
-                py_file = Path(*parts[:-1]) / f"{parts[-1]}.py"
-            else:
-                py_file = Path(f"{parts[0]}.py")
+            py_file = Path(*parts[:-1]) / f"{parts[-1]}.py" if len(parts) > 1 else Path(f"{parts[0]}.py")
 
             if (self.root_path / py_file).exists():
                 possible_files.append(str(py_file))

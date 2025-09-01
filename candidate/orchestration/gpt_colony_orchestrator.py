@@ -447,7 +447,7 @@ class GPTColonyOrchestrator:
 
         # Process with all available colonies
         colony_tasks = []
-        for colony_id, _colony in self.colonies.items():
+        for colony_id in self.colonies:
             colony_tasks.append(self._process_with_specific_colony(task, colony_id))
 
         colony_responses = await asyncio.gather(*colony_tasks, return_exceptions=True)
@@ -539,7 +539,7 @@ class GPTColonyOrchestrator:
             return None
 
         # Use first colony (in production, would select based on capabilities)
-        colony_id = list(self.colonies.keys())[0]
+        colony_id = next(iter(self.colonies.keys()))
         return await self._process_with_specific_colony(task, colony_id)
 
     async def _process_with_specific_colony(self, task: OrchestrationTask, colony_id: str) -> Optional[ConsensusResult]:

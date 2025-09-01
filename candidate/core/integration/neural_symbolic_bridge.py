@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:28.128623
 """
 
 import logging
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -26,7 +26,7 @@ class NeuralSymbolicIntegration:
     def process(
         self,
         input_data: Union[str, dict[str, Any]],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input using both neural and symbolic approaches."""
         # Get neural network prediction
@@ -43,7 +43,7 @@ class NeuralSymbolicIntegration:
     def _neural_process(
         self,
         input_data: Union[str, dict[str, Any]],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input using neural networks."""
         # In a real implementation, this would use actual neural models
@@ -61,7 +61,7 @@ class NeuralSymbolicIntegration:
     def _symbolic_process(
         self,
         input_data: Union[str, dict[str, Any]],
-        context: dict[str, Any] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """Process input using symbolic reasoning."""
         # In a real implementation, this would use actual symbolic reasoning

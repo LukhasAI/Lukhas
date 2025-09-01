@@ -251,10 +251,7 @@ def main():
 
                         # Check if file is allowed
                         allowed = False
-                        if allow_patterns:
-                            allowed = any(pattern in rel_path for pattern in allow_patterns)
-                        else:
-                            allowed = True
+                        allowed = any(pattern in rel_path for pattern in allow_patterns) if allow_patterns else True
 
                         # Check if file is denied
                         denied = any(pattern in rel_path for pattern in deny_patterns)

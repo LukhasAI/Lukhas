@@ -166,10 +166,7 @@ def _path_allowed(path: str, allowed: list[str] | None, denied: list[str] | None
                 return False
     if not allowed:
         return True
-    for patt in allowed:
-        if fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\", "/")):
-            return True
-    return False
+    return any(fnmatch.fnmatch(ap, os.path.abspath(patt).replace("\\", "/")) for patt in allowed)
 
 
 def plan_proposals(signals: dict[str, Any], *, config_targets: list[str]) -> list[ChangeProposal]:

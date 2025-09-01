@@ -610,13 +610,12 @@ class QIEthicsEngine:
         }
 
         # Check for consciousness considerations
-        if context.get("consciousness_involved", False):
-            if not context.get("consciousness_respected", True):
-                result["violated"] = True
-                result["score"] = 0.2
-                result["severity"] = EthicalSeverity.HIGH.value
-                result["violation_details"] = "Action does not respect consciousness"
-                result["recommendations"].append("Implement consciousness-aware protocols")
+        if context.get("consciousness_involved", False) and not context.get("consciousness_respected", True):
+            result["violated"] = True
+            result["score"] = 0.2
+            result["severity"] = EthicalSeverity.HIGH.value
+            result["violation_details"] = "Action does not respect consciousness"
+            result["recommendations"].append("Implement consciousness-aware protocols")
 
         # Add to quantum principles
         qi_like_state.qi_principles_active.add("consciousness_respect")

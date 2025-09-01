@@ -105,9 +105,8 @@ class DuplicateAnalyzer:
 
         # Pattern 2: Configuration loading
         for n in ast.walk(node):
-            if isinstance(n, ast.Call):
-                if hasattr(n.func, "id") and "config" in n.func.id.lower():
-                    self.common_patterns["config_loading"].append(f"{file_path}::{node.name}")
+            if isinstance(n, ast.Call) and hasattr(n.func, "id") and "config" in n.func.id.lower():
+                self.common_patterns["config_loading"].append(f"{file_path}::{node.name}")
 
         # Pattern 3: Error handling patterns
         try_count = sum(1 for n in ast.walk(node) if isinstance(n, ast.Try))

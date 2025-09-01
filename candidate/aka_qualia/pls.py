@@ -43,7 +43,7 @@ class PLS:
         if random_seed is not None:
             random.seed(random_seed)
 
-    def encode(self, signals: Dict[str, Any], memory_ctx: Dict[str, Any]) -> PLSLatent:
+    def encode(self, signals: dict[str, Any], memory_ctx: dict[str, Any]) -> PLSLatent:
         """
         Encode multimodal signals + memory context to latent space.
 
@@ -144,7 +144,7 @@ class PLS:
 
     # Private implementation methods
 
-    def _extract_threat_signals(self, signals: Dict[str, Any]) -> float:
+    def _extract_threat_signals(self, signals: dict[str, Any]) -> float:
         """Extract threat level from signals (0-1)"""
         threat = 0.0
 
@@ -171,7 +171,7 @@ class PLS:
 
         return min(threat, 1.0)
 
-    def _extract_soothing_signals(self, signals: Dict[str, Any]) -> float:
+    def _extract_soothing_signals(self, signals: dict[str, Any]) -> float:
         """Extract soothing level from signals (0-1)"""
         soothing = 0.0
 
@@ -191,7 +191,7 @@ class PLS:
 
         return min(soothing, 1.0)
 
-    def _extract_complexity(self, signals: Dict[str, Any]) -> float:
+    def _extract_complexity(self, signals: dict[str, Any]) -> float:
         """Extract signal complexity (0-1)"""
         complexity = 0.0
 
@@ -209,7 +209,7 @@ class PLS:
 
         return min(complexity, 1.0)
 
-    def _extract_familiarity(self, signals: Dict[str, Any], memory_ctx: Dict[str, Any]) -> float:
+    def _extract_familiarity(self, signals: dict[str, Any], memory_ctx: dict[str, Any]) -> float:
         """Extract memory familiarity/resonance (0-1)"""
         if not memory_ctx or "similarity_scores" not in memory_ctx:
             return 0.3  # Default moderate familiarity
@@ -221,7 +221,7 @@ class PLS:
 
         return 0.3
 
-    def _extract_temporal_pressure(self, signals: Dict[str, Any]) -> float:
+    def _extract_temporal_pressure(self, signals: dict[str, Any]) -> float:
         """Extract temporal urgency (0-1)"""
         pressure = 0.0
 
@@ -241,7 +241,7 @@ class PLS:
 
         return min(pressure, 1.0)
 
-    def _extract_agency_signals(self, signals: Dict[str, Any]) -> float:
+    def _extract_agency_signals(self, signals: dict[str, Any]) -> float:
         """Extract agency/control signals (0-1)"""
         agency = 0.5  # Default moderate agency
 

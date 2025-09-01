@@ -15,7 +15,7 @@ import logging
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -30,7 +30,7 @@ class ModuleIntrospector:
     # ΔdriftScore: drift_monitoring_enabled
     """
 
-    def __init__(self, base_path: str = None):
+    def __init__(self, base_path: Optional[str] = None):
         """Initialize introspector with base repository path"""
         self.base_path = Path(base_path) if base_path else Path.cwd()
         self.symbolic_tags = {

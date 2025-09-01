@@ -45,7 +45,7 @@ class DreamLimiter:
         for dream in dreams:
             emotion = self._dominant_emotion(dream)
             if emotion:
-                predicted_window = self.emotion_window + [emotion]
+                predicted_window = [*self.emotion_window, emotion]
                 count = predicted_window.count(emotion)
                 ratio = count / len(predicted_window)
                 self.driftScore = ratio

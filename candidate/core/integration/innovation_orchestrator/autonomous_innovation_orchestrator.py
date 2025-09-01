@@ -653,7 +653,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             await self.breakthrough_synthesis_engine.shutdown()
 
         # Shutdown innovation engines
-        for _engine_name, engine in self.innovation_engines.items():
+        for engine in self.innovation_engines.values():
             if hasattr(engine, "shutdown"):
                 await engine.shutdown()
 

@@ -57,7 +57,9 @@ async def validate_constellation_framework_integration():
 
         # Test ΛID generation with namespace awareness
         test_user = identity_service.register_user(
-            email="constellation@lukhas.ai", display_name="Constellation Test User", consent_id="constellation_validation_v1"
+            email="constellation@lukhas.ai",
+            display_name="Constellation Test User",
+            consent_id="constellation_validation_v1",
         )
 
         lid_generated = test_user["lid"].startswith("USR-")
@@ -140,11 +142,11 @@ async def validate_constellation_framework_integration():
     try:
         # Test innovation processing capability
         innovation_status = identity_service.constellation_status.get("innovation", False)
-        
+
         # Test creative thinking patterns
         creative_metrics = getattr(identity_service, "creative_metrics", {"creativity_score": 0.8})
         innovation_score = creative_metrics.get("creativity_score", 0.0)
-        
+
         # Test adaptive learning
         learning_adaptation = innovation_score > 0.7
 
@@ -169,16 +171,14 @@ async def validate_constellation_framework_integration():
     try:
         # Test ethics system integration
         ethics_status = identity_service.constellation_status.get("compassion", False)
-        
+
         # Test ethical reasoning patterns
         ethical_compliance = True  # Would integrate with actual ethics system
-        
+
         # Test value alignment
         value_alignment_score = 0.95  # Would calculate from actual metrics
 
-        validation_results["ethics_validation"] = (
-            ethics_status and ethical_compliance and value_alignment_score > 0.90
-        )
+        validation_results["ethics_validation"] = ethics_status and ethical_compliance and value_alignment_score > 0.90
 
         print(f"  💎 Ethics System Active: {ethics_status}")
         print(f"  🤝 Ethical Compliance: {ethical_compliance}")
@@ -292,7 +292,9 @@ async def validate_constellation_framework_integration():
     else:
         print("⚠️ PARTIAL: Some Constellation components need attention")
         failed_components = [
-            name for name, status in validation_results.items() if not status and name != "overall_constellation_compliance"
+            name
+            for name, status in validation_results.items()
+            if not status and name != "overall_constellation_compliance"
         ]
         print(f"🔧 Components needing attention: {failed_components}")
 

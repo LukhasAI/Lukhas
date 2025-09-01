@@ -634,11 +634,7 @@ class GlobalInstitutionalModule(ABC):
         # Check adequacy decisions
         adequacy_countries = self.config.adequacy_decisions.get(inputs.primary_jurisdiction.value, [])
 
-        for transfer in inputs.processing_record.cross_border_transfers:
-            if transfer not in adequacy_countries:
-                return False
-
-        return True
+        return all(transfer in adequacy_countries for transfer in inputs.processing_record.cross_border_transfers)
 
     def _build_institutional_audit_trail(
         self, inputs: GlobalInstitutionalInput, result: dict[str, Any]

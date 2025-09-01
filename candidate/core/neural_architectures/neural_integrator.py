@@ -119,7 +119,7 @@ class AdaptiveNeuralNetwork(nn.Module):
     based on learning requirements and performance metrics.
     """
 
-    def __init__(self, input_size: int, output_size: int, hidden_sizes: list[int] = None):
+    def __init__(self, input_size: int, output_size: int, hidden_sizes: Optional[list[int]] = None):
         super().__init__()
         self.input_size = input_size
         self.output_size = output_size

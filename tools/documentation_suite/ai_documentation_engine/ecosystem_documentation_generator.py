@@ -701,7 +701,7 @@ class DocumentationGenerator:
             content += f"{section.content}\n\n"
 
             # Add code examples
-            for i, example in enumerate(section.code_examples):
+            for _i, _example in enumerate(section.code_examples):
                 content += "##"
 
             # Add subsections

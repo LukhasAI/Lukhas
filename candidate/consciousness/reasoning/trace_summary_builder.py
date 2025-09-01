@@ -165,7 +165,7 @@ class TraceSummaryBuilder:
 
             # Add children to queue
             for child in node.children:
-                queue.append((child, path + [node]))
+                queue.append((child, [*path, node]))
 
         # Sort by confidence and depth
         insights.sort(key=lambda x: (x["confidence"], -x["depth"]), reverse=True)
@@ -183,10 +183,7 @@ class TraceSummaryBuilder:
             return True
 
         # Nodes with significant content
-        if isinstance(node.content, dict) and node.content.get("significance", 0) > 0.7:
-            return True
-
-        return False
+        return bool(isinstance(node.content, dict) and node.content.get("significance", 0) > 0.7)
 
     def _trace_decision_path(self, root: TraceNode) -> list[dict[str, Any]]:
         """Trace the main decision path through the reasoning tree"""

@@ -314,7 +314,7 @@ class ABotIntelligentAIRouter:
     def get_available_services(self) -> list[str]:
         """Get list of currently available AI services"""
         available = []
-        for _service_id, service in self.services.items():
+        for service in self.services.values():
             api_key = self._get_keychain_value(service.keychain_service)
             if api_key and len(api_key.strip()) > 10:
                 available.append(service.name)
@@ -412,7 +412,7 @@ if __name__ == "__main__":
     print(f"Available AI services: {len(router.services)}")
 
     # Show all services and their availability
-    for _service_id, service in router.services.items():
+    for service in router.services.values():
         api_key = router._get_keychain_value(service.keychain_service)
         status = "✅" if (api_key and len(api_key.strip()) > 10) else "❌"
         print(f"{status} {service.name} (${service.cost_per_1k_tokens:.4f}/1K tokens)")

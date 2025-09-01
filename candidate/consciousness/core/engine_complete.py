@@ -837,7 +837,7 @@ class AGIConsciousnessEngine:
             logger.error(f"Failed to register agent {agent_id}: {e}")
             return False
 
-    async def broadcast_consciousness_state(self, target_agents: list[str] = None) -> dict[str, Any]:
+    async def broadcast_consciousness_state(self, target_agents: Optional[list[str]] = None) -> dict[str, Any]:
         """Broadcast current consciousness state to registered agents."""
         start_time = datetime.utcnow()
 

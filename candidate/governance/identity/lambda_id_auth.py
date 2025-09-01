@@ -80,7 +80,7 @@ class QISafeHasher:
     """BLAKE2b-based hasher for quantum-safe operations"""
 
     @staticmethod
-    def hash_password(password: str, salt: bytes = None) -> tuple[str, bytes]:
+    def hash_password(password: str, salt: Optional[bytes] = None) -> tuple[str, bytes]:
         """Hash password with BLAKE2b and salt"""
         if salt is None:
             salt = secrets.token_bytes(32)

@@ -16,9 +16,8 @@ def main() -> int:
             if isinstance(n, ast.Import):
                 if any((a.name or "").split(".")[0] == "candidate" for a in n.names):
                     hits.append(f"{p}:{getattr(n, 'lineno', 1)}: import candidate")
-            elif isinstance(n, ast.ImportFrom):
-                if ((n.module or "").split(".")[0]) == "candidate":
-                    hits.append(f"{p}:{getattr(n, 'lineno', 1)}: from candidate import")
+            elif isinstance(n, ast.ImportFrom) and ((n.module or "").split(".")[0]) == "candidate":
+                hits.append(f"{p}:{getattr(n, 'lineno', 1)}: from candidate import")
     if hits:
         print("\n".join(hits))
         return 1

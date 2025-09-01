@@ -229,10 +229,7 @@ class BiometricFusionEngine:
                 modalities_used.append(sample.modality)
 
         # Calculate final fusion confidence
-        if fusion_scores:
-            fusion_confidence = sum(fusion_scores) / len(fusion_scores)
-        else:
-            fusion_confidence = 0.0
+        fusion_confidence = sum(fusion_scores) / len(fusion_scores) if fusion_scores else 0.0
 
         # Generate session vector
         session_vector = self._generate_session_vector(samples, consciousness_state)

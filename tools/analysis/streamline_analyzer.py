@@ -116,9 +116,8 @@ class StreamlineAnalyzer:
                     elif isinstance(node, ast.Import):
                         for alias in node.names:
                             imports[alias.name] += 1
-                    elif isinstance(node, ast.ImportFrom):
-                        if node.module:
-                            imports[node.module] += 1
+                    elif isinstance(node, ast.ImportFrom) and node.module:
+                        imports[node.module] += 1
 
             except Exception:
                 pass  # Skip files with syntax errors

@@ -208,7 +208,7 @@ class BaseModality(abc.ABC):
 class VisionModality(BaseModality):
     """Example vision modality implementation"""
 
-    def __init__(self, modality_id: str = None, camera_index: int = 0):
+    def __init__(self, modality_id: Optional[str] = None, camera_index: int = 0):
         super().__init__(
             modality_id or f"vision_{camera_index}",
             f"Camera {camera_index}",
@@ -296,7 +296,7 @@ class VisionModality(BaseModality):
 class AudioModality(BaseModality):
     """Example audio modality implementation"""
 
-    def __init__(self, modality_id: str = None, device_id: int = 0):
+    def __init__(self, modality_id: Optional[str] = None, device_id: int = 0):
         super().__init__(
             modality_id or f"audio_{device_id}",
             f"Microphone {device_id}",

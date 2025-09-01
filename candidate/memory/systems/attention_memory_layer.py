@@ -570,10 +570,7 @@ class MemoryAttentionOrchestrator:
         }
 
         # Get top attended memories
-        if len(attention_weights.shape) == 1:
-            weights = attention_weights
-        else:
-            weights = attention_weights.mean(axis=0)
+        weights = attention_weights if len(attention_weights.shape) == 1 else attention_weights.mean(axis=0)
 
         top_indices = np.argsort(weights)[-5:][::-1]
 

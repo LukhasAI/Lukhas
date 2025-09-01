@@ -599,7 +599,7 @@ async def demo_observability():
     # Create observable actors
 
     class ObservableAgent(ObservableActor, AIAgentActor):
-        def __init__(self, actor_id: str, capabilities: list[str] = None):
+        def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
             AIAgentActor.__init__(self, actor_id, capabilities)
             ObservableActor.__init__(self, actor_id, collector)
 

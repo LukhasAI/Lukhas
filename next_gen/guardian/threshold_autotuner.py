@@ -413,7 +413,7 @@ class SymbolicThresholdAutotuner:
             return
 
         # Analyze each threshold
-        for _threshold_name, threshold in self.thresholds.items():
+        for threshold in self.thresholds.values():
             # Check cooldown period
             if current_time - threshold.last_adjusted < self.adjustment_cooldown:
                 continue

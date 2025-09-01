@@ -440,10 +440,7 @@ class EnhancedVoiceProcessor:
         recommendations = consciousness_insights.get("recommended_voice_parameters", {})
 
         # Start with recommended parameters or defaults
-        if "parameters" in recommendations:
-            base_params = recommendations["parameters"]
-        else:
-            base_params = VoiceParameters()
+        base_params = recommendations["parameters"] if "parameters" in recommendations else VoiceParameters()
 
         # Apply consciousness-specific adjustments
         consciousness_level = consciousness_insights.get("consciousness_level", 0.5)

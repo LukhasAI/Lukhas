@@ -18,7 +18,7 @@ class _ValidatorHarness(CognitiveNode):
     def process(self, input_data):  # pragma: no cover - not used
         raise NotImplementedError
 
-    def validate_output(self, output):  # pragma: no cover - not used
+    def validate_output(self, output):  # pragma: no cover - not used  # noqa: ARG002
         return True
 
 

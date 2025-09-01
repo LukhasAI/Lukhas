@@ -6,7 +6,7 @@ Comprehensive metrics for measuring reasoning performance and quality
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -51,8 +51,8 @@ class ReasoningMetricsCalculator:
     async def calculate_all_metrics(
         self,
         reasoning_trace: dict[str, Any],
-        memory_context: dict[str, Any] = None,
-        previous_traces: list[dict[str, Any]] = None,
+        memory_context: Optional[dict[str, Any]] = None,
+        previous_traces: Optional[list[dict[str, Any]]] = None,
     ) -> ReasoningMetrics:
         """
         Calculate all reasoning metrics
@@ -163,10 +163,7 @@ class ReasoningMetricsCalculator:
         recall = len(invoked_keys & optimal_keys) / len(optimal_keys)
 
         # F1 score combines precision and recall
-        if precision + recall > 0:
-            f1_score = 2 * (precision * recall) / (precision + recall)
-        else:
-            f1_score = 0.0
+        f1_score = 2 * (precision * recall) / (precision + recall) if precision + recall > 0 else 0.0
 
         # Also consider efficiency - penalize for invoking too many memories
         efficiency_penalty = min(len(invoked_memories) / (2 * len(optimal_memories)), 1.0) if optimal_memories else 0.5
