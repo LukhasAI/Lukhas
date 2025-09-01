@@ -87,7 +87,8 @@
       "Bash(gh pr:*)",
       "Bash(rm:*)",
       "Bash(make:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Read(/Users/A-SYS/.Trash/**)"
     ],
     "deny": [],
     "ask": []
