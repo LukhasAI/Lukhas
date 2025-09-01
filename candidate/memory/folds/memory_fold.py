@@ -691,7 +691,7 @@ class TierManager:
 
         if not has_access:
             logger.warning(
-                f"Tier access denied: User tier {user_tier} < Required {required_level} " f"for operation '{operation}'"
+                f"Tier access denied: User tier {user_tier} < Required {required_level} for operation '{operation}'"
             )
         else:
             logger.debug(f"Tier access granted: User tier {user_tier} for operation '{operation}'")

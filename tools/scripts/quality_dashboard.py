@@ -358,11 +358,11 @@ class QualityDashboard:
 <body>
     <div class="container">
         <h1>🧠 LUKHAS  - Code Quality Dashboard</h1>
-        <div class="timestamp">Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}</div>
+        <div class="timestamp">Last Updated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}</div>
 
         <div class="health-score">
             <h2>Overall Health Score</h2>
-            <div class="score-circle">{metrics['health_score']:.0f}%</div>
+            <div class="score-circle">{metrics["health_score"]:.0f}%</div>
             <p style="margin-top: 15px; color: #666;">
                 Based on linting, type checking, coverage, complexity, and security metrics
             </p>
@@ -373,11 +373,11 @@ class QualityDashboard:
                 <h2>📝 Linting</h2>
                 <div class="metric">
                     <span class="metric-label">Flake8 Issues:</span>
-                    <span class="metric-value {('error' if metrics['flake8']['total'] > 100 else 'warning' if metrics['flake8']['total'] > 50 else 'good')}">{metrics['flake8']['total']}</span>
+                    <span class="metric-value {("error" if metrics["flake8"]["total"] > 100 else "warning" if metrics["flake8"]["total"] > 50 else "good")}">{metrics["flake8"]["total"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Ruff Issues:</span>
-                    <span class="metric-value {('error' if metrics['ruff']['total'] > 100 else 'warning' if metrics['ruff']['total'] > 50 else 'good')}">{metrics['ruff']['total']}</span>
+                    <span class="metric-value {("error" if metrics["ruff"]["total"] > 100 else "warning" if metrics["ruff"]["total"] > 50 else "good")}">{metrics["ruff"]["total"]}</span>
                 </div>
             </div>
 
@@ -385,11 +385,11 @@ class QualityDashboard:
                 <h2>🔍 Type Checking</h2>
                 <div class="metric">
                     <span class="metric-label">Type Errors:</span>
-                    <span class="metric-value {('error' if metrics['mypy']['errors'] > 0 else 'good')}">{metrics['mypy']['errors']}</span>
+                    <span class="metric-value {("error" if metrics["mypy"]["errors"] > 0 else "good")}">{metrics["mypy"]["errors"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Type Warnings:</span>
-                    <span class="metric-value {('warning' if metrics['mypy']['warnings'] > 10 else 'good')}">{metrics['mypy']['warnings']}</span>
+                    <span class="metric-value {("warning" if metrics["mypy"]["warnings"] > 10 else "good")}">{metrics["mypy"]["warnings"]}</span>
                 </div>
             </div>
 
@@ -397,11 +397,11 @@ class QualityDashboard:
                 <h2>🧪 Testing</h2>
                 <div class="metric">
                     <span class="metric-label">Test Count:</span>
-                    <span class="metric-value">{metrics['coverage']['test_count']}</span>
+                    <span class="metric-value">{metrics["coverage"]["test_count"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Coverage:</span>
-                    <span class="metric-value {('error' if metrics['coverage']['coverage_percent'] < 60 else 'warning' if metrics['coverage']['coverage_percent'] < 80 else 'good')}">{metrics['coverage']['coverage_percent']:.1f}%</span>
+                    <span class="metric-value {("error" if metrics["coverage"]["coverage_percent"] < 60 else "warning" if metrics["coverage"]["coverage_percent"] < 80 else "good")}">{metrics["coverage"]["coverage_percent"]:.1f}%</span>
                 </div>
             </div>
 
@@ -409,15 +409,15 @@ class QualityDashboard:
                 <h2>📊 Code Metrics</h2>
                 <div class="metric">
                     <span class="metric-label">Total Lines:</span>
-                    <span class="metric-value">{metrics['loc']['total']:,}</span>
+                    <span class="metric-value">{metrics["loc"]["total"]:,}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Code Lines:</span>
-                    <span class="metric-value">{metrics['loc']['code']:,}</span>
+                    <span class="metric-value">{metrics["loc"]["code"]:,}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Python Files:</span>
-                    <span class="metric-value">{metrics['loc']['files']}</span>
+                    <span class="metric-value">{metrics["loc"]["files"]}</span>
                 </div>
             </div>
 
@@ -425,15 +425,15 @@ class QualityDashboard:
                 <h2>🔐 Security</h2>
                 <div class="metric">
                     <span class="metric-label">High Severity:</span>
-                    <span class="metric-value {('error' if metrics['security']['high'] > 0 else 'good')}">{metrics['security']['high']}</span>
+                    <span class="metric-value {("error" if metrics["security"]["high"] > 0 else "good")}">{metrics["security"]["high"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Medium Severity:</span>
-                    <span class="metric-value {('warning' if metrics['security']['medium'] > 5 else 'good')}">{metrics['security']['medium']}</span>
+                    <span class="metric-value {("warning" if metrics["security"]["medium"] > 5 else "good")}">{metrics["security"]["medium"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Low Severity:</span>
-                    <span class="metric-value">{metrics['security']['low']}</span>
+                    <span class="metric-value">{metrics["security"]["low"]}</span>
                 </div>
             </div>
 
@@ -441,11 +441,11 @@ class QualityDashboard:
                 <h2>🎯 Complexity</h2>
                 <div class="metric">
                     <span class="metric-label">Complex Functions:</span>
-                    <span class="metric-value {('error' if metrics['complexity']['complex_functions'] > 20 else 'warning' if metrics['complexity']['complex_functions'] > 10 else 'good')}">{metrics['complexity']['complex_functions']}</span>
+                    <span class="metric-value {("error" if metrics["complexity"]["complex_functions"] > 20 else "warning" if metrics["complexity"]["complex_functions"] > 10 else "good")}">{metrics["complexity"]["complex_functions"]}</span>
                 </div>
                 <div class="metric">
                     <span class="metric-label">Recommendation:</span>
-                    <span class="metric-value">{'Refactor' if metrics['complexity']['complex_functions'] > 10 else 'Good'}</span>
+                    <span class="metric-value">{"Refactor" if metrics["complexity"]["complex_functions"] > 10 else "Good"}</span>
                 </div>
             </div>
         </div>

@@ -1162,8 +1162,7 @@ class LucasSymbolicValidator:
         await self._calculate_overall_scores(result)
 
         self.logger.info(
-            f"Validation complete for {manifest.name}: "
-            f"Score {result.overall_score:.2f}, Issues: {len(result.issues)}"
+            f"Validation complete for {manifest.name}: Score {result.overall_score:.2f}, Issues: {len(result.issues)}"
         )
 
         return result

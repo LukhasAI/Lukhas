@@ -237,5 +237,5 @@ class OscillatorAdapter:
         avg_latency = np.mean(self.metrics["processing_latency"][-10:])
 
         logger.debug(
-            f"Performance metrics - Sync: {avg_sync:.3f}, " f"Energy: {avg_energy:.3f}, Latency: {avg_latency:.3f}ms"
+            f"Performance metrics - Sync: {avg_sync:.3f}, Energy: {avg_energy:.3f}, Latency: {avg_latency:.3f}ms"
         )

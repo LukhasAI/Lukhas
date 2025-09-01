@@ -241,8 +241,7 @@ def sparse_encode(
             message="Dictionary and X have different numbers of features.",
         )
         raise ValueError(
-            "Dictionary and X have different numbers of features:"
-            f"dictionary.shape: {dictionary.shape} X.shape{X.shape}"
+            f"Dictionary and X have different numbers of features:dictionary.shape: {dictionary.shape} X.shape{X.shape}"
         )
 
     _check_positive_coding(algorithm, positive)
@@ -1259,7 +1258,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         )
 
         if self.verbose:
-            print(f"Minibatch step {step}/{n_steps}: mean batch cost: " f"{batch_cost}, ewa cost: {self._ewa_cost}")
+            print(f"Minibatch step {step}/{n_steps}: mean batch cost: {batch_cost}, ewa cost: {self._ewa_cost}")
 
         dict_diff = linalg.norm(new_dict - old_dict) / self._n_components
         if self.tol > 0 and dict_diff <= self.tol:

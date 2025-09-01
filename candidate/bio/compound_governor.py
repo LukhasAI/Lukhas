@@ -114,7 +114,7 @@ class BioCompoundGovernor:
         self.logger.info("   - Emotional Bio-Oscillators: ✅ ACTIVE")
         self.logger.info("   - System Repair Mechanisms: ✅ ACTIVE")
         self.logger.info("   - Golden Ratio Energy Distribution: ✅ ACTIVE")
-        self.logger.info(f"   - Target Stability: {self.target_stability*100:.1f}%")
+        self.logger.info(f"   - Target Stability: {self.target_stability * 100:.1f}%")
 
     async def regulate_system_stability(self, system_context: Dict[str, Any]) -> SystemStabilityMetrics:
         """RESEARCH: Main stability regulation with all bio-compound integrations"""
@@ -172,10 +172,10 @@ class BioCompoundGovernor:
         if len(self.stability_history) > 200:
             self.stability_history = self.stability_history[-200:]
 
-        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics)*100:.1f}%")
+        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%")
         self.logger.info(f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%")
-        self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability*100:.1f}%")
-        self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence*100:.1f}%")
+        self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability * 100:.1f}%")
+        self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence * 100:.1f}%")
 
         return stability_metrics
 
@@ -339,9 +339,9 @@ class BioCompoundGovernor:
 
         for system, health in health_metrics.items():
             if health < 0.70:
-                alerts.append(f"CRITICAL: {system} health at {health*100:.1f}%")
+                alerts.append(f"CRITICAL: {system} health at {health * 100:.1f}%")
             elif health < 0.80:
-                alerts.append(f"WARNING: {system} degraded to {health*100:.1f}%")
+                alerts.append(f"WARNING: {system} degraded to {health * 100:.1f}%")
 
         if np.mean(list(health_metrics.values())) < 0.75:
             alerts.append("SYSTEM: Overall stability below 75% - repair mode recommended")
@@ -393,15 +393,15 @@ class BioCompoundGovernor:
 
         return {
             "current_state": {
-                "energy_level": f"{self.current_state.energy_level*100:.1f}%",
-                "emotional_resonance": f"{self.current_state.emotional_resonance*100:.1f}%",
-                "repair_capacity": f"{self.current_state.repair_capacity*100:.1f}%",
-                "thermal_load": f"{self.current_state.thermal_load*100:.1f}%",
+                "energy_level": f"{self.current_state.energy_level * 100:.1f}%",
+                "emotional_resonance": f"{self.current_state.emotional_resonance * 100:.1f}%",
+                "repair_capacity": f"{self.current_state.repair_capacity * 100:.1f}%",
+                "thermal_load": f"{self.current_state.thermal_load * 100:.1f}%",
                 "oscillation_frequency": f"{self.current_state.oscillation_frequency:.2f} Hz",
             },
             "stability_metrics": {
-                "average_stability": f"{avg_stability*100:.1f}%",
-                "target_stability": f"{self.target_stability*100:.1f}%",
+                "average_stability": f"{avg_stability * 100:.1f}%",
+                "target_stability": f"{self.target_stability * 100:.1f}%",
                 "trend": stability_trend,
                 "records_analyzed": len(self.stability_history),
             },
@@ -411,7 +411,7 @@ class BioCompoundGovernor:
                 "bio_oscillator_regulation": "Multi-frequency emotional stabilization",
                 "biohybrid_repair": "98% charge retention capacitors",
             },
-            "performance_target": f"Maintaining {self.target_stability*100:.1f}% system stability",
+            "performance_target": f"Maintaining {self.target_stability * 100:.1f}% system stability",
             "validation_status": "Research-validated bio-compound integration",
         }
 
@@ -470,9 +470,9 @@ async def demo_bio_compound_governor():
 
         print(f"Overall Health: {metrics.overall_health.value}")
         print(f"Energy Efficiency: {metrics.energy_efficiency:.1f}%")
-        print(f"Module Coherence: {metrics.module_coherence*100:.1f}%")
-        print(f"Emotional Stability: {metrics.emotional_stability*100:.1f}%")
-        print(f"Repair Effectiveness: {metrics.repair_effectiveness*100:.1f}%")
+        print(f"Module Coherence: {metrics.module_coherence * 100:.1f}%")
+        print(f"Emotional Stability: {metrics.emotional_stability * 100:.1f}%")
+        print(f"Repair Effectiveness: {metrics.repair_effectiveness * 100:.1f}%")
         print(f"Stability Window: {metrics.predicted_stability_window} hours")
 
         if metrics.critical_alerts:
@@ -481,7 +481,7 @@ async def demo_bio_compound_governor():
                 print(f"  - {alert}")
 
         overall_stability = governor._calculate_overall_stability(metrics)
-        print(f"Overall Stability: {overall_stability*100:.1f}%")
+        print(f"Overall Stability: {overall_stability * 100:.1f}%")
 
         # Short delay between scenarios
         await asyncio.sleep(0.1)

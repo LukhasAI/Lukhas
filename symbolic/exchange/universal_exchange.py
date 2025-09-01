@@ -237,7 +237,7 @@ class UniversalSymbolExchange:
                 discovered_symbols.append(symbol)
                 self.universal_vocabulary[symbol] = candidate.confidence
 
-                logger.info(f"Universal symbol discovered: {symbol} " f"(confidence: {candidate.confidence:.2f})")
+                logger.info(f"Universal symbol discovered: {symbol} (confidence: {candidate.confidence:.2f})")
 
         if discovered_symbols:
             # Emit discovery signal

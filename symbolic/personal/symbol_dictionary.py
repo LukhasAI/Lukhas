@@ -430,7 +430,7 @@ def demo_personal_dictionary():
 
         # Get statistics
         stats = dictionary.get_statistics()
-        print(f"📊 Dictionary stats: {stats['total_symbols']} symbols, " f"{stats['total_usage']} total uses")
+        print(f"📊 Dictionary stats: {stats['total_symbols']} symbols, {stats['total_usage']} total uses")
 
         # Export public symbols for universal exchange
         public = dictionary.export_public_symbols()

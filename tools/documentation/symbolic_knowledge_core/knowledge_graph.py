@@ -63,9 +63,7 @@ class SystemKnowledgeGraph:
     def __init__(self):
         self._nodes: dict[str, SKGNode] = {}
         self._relationships: list[SKGRelationship] = []
-        self._edges_from: dict[str, list[SKGRelationship]] = (
-            {}
-        # Source -> relationships
+        self._edges_from: dict[str, list[SKGRelationship]] = {}  # Source -> relationships
         self._edges_to: dict[str, list[SKGRelationship]] = {}  # Target -> relationships
         logger.info("SystemKnowledgeGraph initialized")
 
@@ -81,27 +79,19 @@ class SystemKnowledgeGraph:
 
     def add_relationship(self, relationship: SKGRelationship) -> bool:
         """Add a relationship between nodes. Returns True if successful."""
-        if not (
-            self.get_node(relationship.source_id)
-            and self.get_node(relationship.target_id)
-        ):
+        if not (self.get_node(relationship.source_id) and self.get_node(relationship.target_id)):
             logger.warning("Cannot add relationship: Source or target node missing")
             return False
 
         # Avoid duplicates
         for rel in self._edges_from.get(relationship.source_id, []):
-            if (
-                rel.target_id == relationship.target_id
-                and rel.type == relationship.type
-            ):
+            if rel.target_id == relationship.target_id and rel.type == relationship.type:
                 return True
 
         self._relationships.append(relationship)
         self._edges_from.setdefault(relationship.source_id, []).append(relationship)
         self._edges_to.setdefault(relationship.target_id, []).append(relationship)
-        logger.debug(
-            f"Added relationship: {relationship.source_id} -[{relationship.type}]-> {relationship.target_id}"
-        )
+        logger.debug(f"Added relationship: {relationship.source_id} -[{relationship.type}]-> {relationship.target_id}")
         return True
 
     def get_outgoing_relationships(
@@ -126,9 +116,7 @@ class SystemKnowledgeGraph:
         """Find all nodes of a given type."""
         return [node for node in self._nodes.values() if node.node_type == node_type]
 
-    def find_node_by_name_and_type(
-        self, name: str, node_type: NodeType
-    ) -> Optional[SKGNode]:
+    def find_node_by_name_and_type(self, name: str, node_type: NodeType) -> Optional[SKGNode]:
         """Find a node by its name and type."""
         for node in self._nodes.values():
             if node.name == name and node.node_type == node_type:
@@ -166,13 +154,9 @@ class SystemKnowledgeGraph:
             incoming = self.get_connected_nodes(node_id, rel_type, "incoming")
 
             if outgoing:
-                neighborhood["connections"].append(
-                    {"type": rel_type, "direction": "outgoing", "nodes": outgoing}
-                )
+                neighborhood["connections"].append({"type": rel_type, "direction": "outgoing", "nodes": outgoing})
             if incoming:
-                neighborhood["connections"].append(
-                    {"type": rel_type, "direction": "incoming", "nodes": incoming}
-                )
+                neighborhood["connections"].append({"type": rel_type, "direction": "incoming", "nodes": incoming})
 
         return neighborhood
 

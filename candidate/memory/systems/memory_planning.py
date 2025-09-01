@@ -517,7 +517,7 @@ class BufferGroup:
         )
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.names!r}, is_output={self.is_output}, " f"live_range={self.live_range}"
+        return f"{self.__class__.__name__}({self.names!r}, is_output={self.is_output}, live_range={self.live_range}"
 
 
 @dataclasses.dataclass

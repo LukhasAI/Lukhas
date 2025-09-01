@@ -369,9 +369,9 @@ class TestGlyphMapping:
             assert expected_key in glyph_keys, f"Missing expected glyph: {expected_key}"
 
         # Should NOT trigger soothe_anchor (negative tone, high arousal)
-        assert (
-            GLYPH_KEYS["soothe_anchor"] not in glyph_keys
-        ), "Should not trigger soothe_anchor with negative tone/high arousal"
+        assert GLYPH_KEYS["soothe_anchor"] not in glyph_keys, (
+            "Should not trigger soothe_anchor with negative tone/high arousal"
+        )
 
     def test_no_glyph_triggers(self):
         """Test scene that triggers no glyphs (neutral state)"""
@@ -607,9 +607,9 @@ class TestPaletteMapping:
 
         # Test Japanese culture
         safe_jp = get_safe_palette_recommendation("aka/red", "jp")
-        assert (
-            "aoi" in safe_jp or "midori" in safe_jp or "shiro" in safe_jp
-        ), "Safe Japanese palette should use calming Japanese colors"
+        assert "aoi" in safe_jp or "midori" in safe_jp or "shiro" in safe_jp, (
+            "Safe Japanese palette should use calming Japanese colors"
+        )
 
     def test_palette_harmony(self):
         """Test harmony computation between colorfields"""

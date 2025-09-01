@@ -12,7 +12,7 @@ import os
 import warnings
 
 warnings.warn(
-    "Import 'vivox' is deprecated. " "Please update to 'lukhas.candidate.vivox' and enable feature flag",
+    "Import 'vivox' is deprecated. Please update to 'lukhas.candidate.vivox' and enable feature flag",
     DeprecationWarning,
     stacklevel=2,
 )

@@ -216,7 +216,7 @@ class UnifiedTEQCoupler:
 
         reason = " | ".join(reasons) if reasons else "Allowed"
         logger.info(
-            f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: " f"{'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})"
+            f"[TEQ] {module}.{action} @ risk={risk_level:.2f}: {'✓ ALLOWED' if allowed else '✗ DENIED'} ({reason})"
         )
 
         return allowed, reason, suggestions

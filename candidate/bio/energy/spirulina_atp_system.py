@@ -84,7 +84,7 @@ class SpirulinaPhotosynthethicEngine:
 
         print("🌱 Spirulina Photosynthetic Engine initialized")
         print(f"   - Quantum tunneling efficiency: {self.thylakoid_quantum_efficiency:.1%}")
-        print(f"   - Energy yield: {self.photosynthetic_yield_rate*1e6:.1f} μW/cm²")
+        print(f"   - Energy yield: {self.photosynthetic_yield_rate * 1e6:.1f} μW/cm²")
         print(f"   - Thermal reduction: {self.distribution_efficiency:.1%}")
 
     async def harvest_quantum_energy(self, quantum_input: float, surface_area_cm2: float = 1.0) -> float:
@@ -148,7 +148,7 @@ class ATPSynthesisEngine:
         print("⚡ ATP Synthesis Engine initialized")
         print(f"   - Landauer limit bypass: {self.atp_synthesis_efficiency:.1%}")
         print(f"   - Hybrid output: {self.hybrid_output_uw_cm2} μW/cm²")
-        print(f"   - Synergy boost: {(self.synergy_multiplier-1):.1%}")
+        print(f"   - Synergy boost: {(self.synergy_multiplier - 1):.1%}")
 
     async def synthesize_energy(self, substrate_availability: float, temperature_k: float = 310) -> float:
         """RESEARCH: ATP synthesis with reversible phosphorylation"""

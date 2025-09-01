@@ -208,7 +208,7 @@ class CloudConsolidationService:
                 {
                     "type": "archive_old_files",
                     "description": (
-                        f"Archive {len(old_files)} files older than " f"{request.include_old_threshold_days} days"
+                        f"Archive {len(old_files)} files older than {request.include_old_threshold_days} days"
                     ),
                     "files": [f.id for f in old_files],
                     "savings_bytes": int(archive_size * 0.8),  # Compression savings

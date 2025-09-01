@@ -591,9 +591,7 @@ class MemoryOptimizer:
                 memory_usage = self._get_memory_usage()
 
                 if memory_usage > self.target_memory_bytes * self.memory_threshold:
-                    logger.warning(
-                        f"Memory usage {memory_usage / 1024 / 1024:.1f}MB " f"exceeds threshold, optimizing..."
-                    )
+                    logger.warning(f"Memory usage {memory_usage / 1024 / 1024:.1f}MB exceeds threshold, optimizing...")
                     self._trigger_optimization()
 
                 await asyncio.sleep(5.0)  # Check every 5 seconds

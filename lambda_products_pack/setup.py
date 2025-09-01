@@ -19,9 +19,7 @@ def read_requirements():
     requirements = []
     if os.path.exists("requirements.txt"):
         with open("requirements.txt") as f:
-            requirements = [
-                line.strip() for line in f if line.strip() and not line.startswith("#")
-            ]
+            requirements = [line.strip() for line in f if line.strip() and not line.startswith("#")]
     return requirements
 
 

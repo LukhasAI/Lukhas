@@ -949,7 +949,7 @@ class AnomalyFilterColony(BaseColony):
 
         if result["anomalies_detected"]:
             logger.warning(
-                f"Anomalies detected: {result['anomaly_count']} " f"(confidence: {result['detection_confidence']:.2f})"
+                f"Anomalies detected: {result['anomaly_count']} (confidence: {result['detection_confidence']:.2f})"
             )
         else:
             logger.debug("No anomalies detected in bio-symbolic data")

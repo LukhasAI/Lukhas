@@ -134,9 +134,7 @@ class WΛLLET:
         self.identities[system_did] = system_identity
         self.balances[system_did] = 1000000.0  # System reserve
 
-    async def create_identity(
-        self, profile: dict[str, Any], credentials: Optional[list[str]] = None
-    ) -> ΛiD:
+    async def create_identity(self, profile: dict[str, Any], credentials: Optional[list[str]] = None) -> ΛiD:
         """
         Create a new Lambda Identity (DID)
 
@@ -219,9 +217,7 @@ class WΛLLET:
             raise ValueError(f"Insufficient balance: {balance} < {total_amount}")
 
         # Create transaction
-        tx = await self.ledger.create_transaction(
-            from_did=from_did, to_did=to_did, amount=amount, memo=memo
-        )
+        tx = await self.ledger.create_transaction(from_did=from_did, to_did=to_did, amount=amount, memo=memo)
 
         # Update balances
         self.balances[from_did] -= total_amount
@@ -353,9 +349,7 @@ class Ledger:
         tx_id = str(uuid.uuid4())
 
         # Create signature (simplified)
-        signature = hashlib.sha256(
-            f"{tx_id}{from_did}{to_did}{amount}".encode()
-        ).hexdigest()
+        signature = hashlib.sha256(f"{tx_id}{from_did}{to_did}{amount}".encode()).hexdigest()
 
         # Create transaction
         tx = Transaction(
@@ -379,11 +373,7 @@ class Ledger:
 
     async def get_transactions(self, did: str, limit: int = 10) -> list[Transaction]:
         """Get transactions for a DID"""
-        user_txs = [
-            tx
-            for tx in self.wallet.transactions
-            if tx.from_did == did or tx.to_did == did
-        ]
+        user_txs = [tx for tx in self.wallet.transactions if tx.from_did == did or tx.to_did == did]
 
         # Sort by timestamp descending
         user_txs.sort(key=lambda tx: tx.timestamp, reverse=True)
@@ -394,9 +384,7 @@ class Ledger:
         """Verify the integrity of the transaction chain"""
         for tx in self.chain:
             # Verify signature
-            expected_sig = hashlib.sha256(
-                f"{tx.id}{tx.from_did}{tx.to_did}{tx.amount}".encode()
-            ).hexdigest()
+            expected_sig = hashlib.sha256(f"{tx.id}{tx.from_did}{tx.to_did}{tx.amount}".encode()).hexdigest()
 
             if tx.signature != expected_sig:
                 return False

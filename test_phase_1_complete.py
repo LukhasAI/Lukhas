@@ -19,7 +19,7 @@ sys.path.insert(0, ".")
 
 def print_test_header(test_name: str, description: str):
     """Print formatted test header"""
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print(f"🧪 {test_name}")
     print(f"📝 {description}")
     print("=" * 80)
@@ -190,10 +190,10 @@ async def test_voice_emotion_system():
         target_accuracy = 0.94
         if emotion_recognizer.accuracy_rate >= target_accuracy:
             print_test_result(
-                "SER Accuracy", "PASS", f"{emotion_recognizer.accuracy_rate*100}% (target: {target_accuracy*100}%)"
+                "SER Accuracy", "PASS", f"{emotion_recognizer.accuracy_rate * 100}% (target: {target_accuracy * 100}%)"
             )
         else:
-            print_test_result("SER Accuracy", "FAIL", f"{emotion_recognizer.accuracy_rate*100}% below target")
+            print_test_result("SER Accuracy", "FAIL", f"{emotion_recognizer.accuracy_rate * 100}% below target")
 
         # Test 2: Emotion category coverage
         expected_categories = 10
@@ -262,9 +262,9 @@ async def test_spirulina_atp_system():
         if hasattr(energy_system, "biohybrid_config"):
             retention = energy_system.biohybrid_config.get("charge_retention", 0)
             if retention >= 0.95:
-                print_test_result("Biohybrid Capacitors", "PASS", f"{retention*100}% charge retention")
+                print_test_result("Biohybrid Capacitors", "PASS", f"{retention * 100}% charge retention")
             else:
-                print_test_result("Biohybrid Capacitors", "WARN", f"{retention*100}% charge retention")
+                print_test_result("Biohybrid Capacitors", "WARN", f"{retention * 100}% charge retention")
         else:
             print_test_result("Biohybrid Capacitors", "WARN", "Configuration not accessible")
 
@@ -320,9 +320,9 @@ async def test_collapse_governance_system():
         expected_prevention = 0.92
         actual_prevention = governance.target_drift_prevention
         if actual_prevention >= expected_prevention:
-            print_test_result("Drift Prevention Target", "PASS", f"{actual_prevention*100}% prevention rate")
+            print_test_result("Drift Prevention Target", "PASS", f"{actual_prevention * 100}% prevention rate")
         else:
-            print_test_result("Drift Prevention Target", "WARN", f"{actual_prevention*100}% below target")
+            print_test_result("Drift Prevention Target", "WARN", f"{actual_prevention * 100}% below target")
 
         # Test 2: Ethical tiers
         expected_tiers = 5
@@ -336,9 +336,9 @@ async def test_collapse_governance_system():
         expected_reproducibility = 0.993
         actual_reproducibility = governance.trace_reproducibility
         if actual_reproducibility >= expected_reproducibility:
-            print_test_result("Decision Reproducibility", "PASS", f"{actual_reproducibility*100}% reproducibility")
+            print_test_result("Decision Reproducibility", "PASS", f"{actual_reproducibility * 100}% reproducibility")
         else:
-            print_test_result("Decision Reproducibility", "WARN", f"{actual_reproducibility*100}% below target")
+            print_test_result("Decision Reproducibility", "WARN", f"{actual_reproducibility * 100}% below target")
 
         # Test 4: Ethical vault initialization
         if hasattr(governance, "ethical_vault") and governance.ethical_vault:
@@ -408,9 +408,9 @@ async def test_bio_compound_governor():
         expected_stability = 0.998
         actual_stability = governor.target_stability
         if actual_stability >= expected_stability:
-            print_test_result("Stability Target", "PASS", f"{actual_stability*100}% system stability")
+            print_test_result("Stability Target", "PASS", f"{actual_stability * 100}% system stability")
         else:
-            print_test_result("Stability Target", "WARN", f"{actual_stability*100}% below target")
+            print_test_result("Stability Target", "WARN", f"{actual_stability * 100}% below target")
 
         # Test 2: Energy distribution systems
         expected_systems = 5
@@ -449,7 +449,7 @@ async def test_bio_compound_governor():
         regulation_result = await governor.regulate_system_stability(test_context)
         if regulation_result and regulation_result["overall_stability"] > 0.99:
             print_test_result(
-                "System Regulation", "PASS", f"{regulation_result['overall_stability']*100:.1f}% stability achieved"
+                "System Regulation", "PASS", f"{regulation_result['overall_stability'] * 100:.1f}% stability achieved"
             )
         else:
             print_test_result("System Regulation", "WARN", "Suboptimal regulation performance")
@@ -553,7 +553,7 @@ async def main():
     test_results["Integration"] = await test_integration_validation()
 
     # Print final results
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print("📊 COMPREHENSIVE TEST RESULTS")
     print("=" * 80)
 

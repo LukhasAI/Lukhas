@@ -73,9 +73,7 @@ async def demonstrate_enhanced_vivox():
         )
         states_observed.append(state.name)
         print(f"  Input {i + 1}: {state.name}")
-        print(
-            f"    Emotional: V={test_input['emotional']['valence']:.1f}, " f"A={test_input['emotional']['arousal']:.1f}"
-        )
+        print(f"    Emotional: V={test_input['emotional']['valence']:.1f}, A={test_input['emotional']['arousal']:.1f}")
         print(f"    Context: {list(test_input['context'].keys())}")
 
     print(f"\n  State variety: {len(set(states_observed))} unique states observed")

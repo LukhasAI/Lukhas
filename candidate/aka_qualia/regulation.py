@@ -115,23 +115,23 @@ class RegulationPolicyEngine:
         if scene.proto.arousal > self.thresholds["high_arousal"]:
             actions.append("breathing")
             rationale.append(
-                f'High arousal {scene.proto.arousal:.3f} > {self.thresholds["high_arousal"]} → breathing regulation'
+                f"High arousal {scene.proto.arousal:.3f} > {self.thresholds['high_arousal']} → breathing regulation"
             )
 
         # Rule 2: Low clarity enhancement
         if scene.proto.clarity < self.thresholds["low_clarity"]:
             actions.append("focus-shift")
             rationale.append(
-                f'Low clarity {scene.proto.clarity:.3f} < {self.thresholds["low_clarity"]} → focus enhancement'
+                f"Low clarity {scene.proto.clarity:.3f} < {self.thresholds['low_clarity']} → focus enhancement"
             )
 
         # Rule 3: Risk-based interventions
         if scene.risk.score > self.thresholds["high_risk"]:
             actions.extend(["pause", "reframe"])
-            rationale.append(f'High risk {scene.risk.score:.3f} > {self.thresholds["high_risk"]} → pause+reframe')
+            rationale.append(f"High risk {scene.risk.score:.3f} > {self.thresholds['high_risk']} → pause+reframe")
         elif scene.risk.score > self.thresholds["moderate_risk"]:
             actions.append("reframe")
-            rationale.append(f'Moderate risk {scene.risk.score:.3f} > {self.thresholds["moderate_risk"]} → reframe')
+            rationale.append(f"Moderate risk {scene.risk.score:.3f} > {self.thresholds['moderate_risk']} → reframe")
 
         # Rule 4: Narrative gravity loop prevention
         if scene.proto.narrative_gravity > self.thresholds["high_narrative_gravity"] and scene.proto.clarity < 0.5:
@@ -216,7 +216,7 @@ class RegulationPolicyEngine:
         energy_delta = abs(audit_entry.energy_before - energy_after)
         if energy_delta > self.thresholds["energy_conservation_tolerance"]:
             audit_entry.decision_rationale.append(
-                f'Energy conservation violation: Δ={energy_delta:.4f} > {self.thresholds["energy_conservation_tolerance"]}'
+                f"Energy conservation violation: Δ={energy_delta:.4f} > {self.thresholds['energy_conservation_tolerance']}"
             )
 
         # Update performance metrics

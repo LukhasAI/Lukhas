@@ -181,12 +181,12 @@ class LukhusAI:
                     f"ΛTRACE: AI response received (from dict output). Length: {len(response_content)}."
                 )
                 self.instance_logger.debug(
-                    f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100]+'...'}}"
+                    f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100] + '...'}}"
                 )
                 return str(response_content)  # Ensure string
             elif isinstance(result, str):
                 self.instance_logger.info(f"ΛTRACE: AI response received (direct string). Length: {len(result)}.")
-                self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100]+'...'}")
+                self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100] + '...'}")
                 return result
             else:
                 unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)[:200]}"

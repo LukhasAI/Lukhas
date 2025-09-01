@@ -397,9 +397,7 @@ class ModuleRegistry:
                     config=config,
                 )
                 registered_connections[module] = config
-                logger.info(
-                    f"Registered core connection: {module}({config['type']}, " f"priority: {config['priority']})"
-                )
+                logger.info(f"Registered core connection: {module}({config['type']}, priority: {config['priority']})")
             except Exception as e:
                 logger.error(f"Failed to register connection {module}: {e}")
 

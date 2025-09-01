@@ -500,7 +500,7 @@ class SASHealthcareConnector:
         day = appointment.date.day
         month = months[appointment.date.month]
 
-        response = f"Tiene cita el {day} de {month} a las {appointment.time} " f"con {appointment.doctor_name}. "
+        response = f"Tiene cita el {day} de {month} a las {appointment.time} con {appointment.doctor_name}. "
 
         if appointment.specialty:
             response += f"Es de {appointment.specialty}. "

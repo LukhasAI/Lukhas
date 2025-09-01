@@ -491,9 +491,7 @@ class QIConsensusSystem:
             await self._apply_state_update(proposal)
         else:
             proposal.phase = ConsensusPhase.ABORTED
-            logger.info(
-                f"Proposal {proposal.proposal_id} rejected: " f"{vote_ratio:.2%} < {self.consensus_threshold:.2%}"
-            )
+            logger.info(f"Proposal {proposal.proposal_id} rejected: {vote_ratio:.2%} < {self.consensus_threshold:.2%}")
 
     async def _apply_state_update(self, proposal: ConsensusProposal):
         """Apply accepted state update"""
@@ -517,7 +515,7 @@ class QIConsensusSystem:
         """Notify all components of state change"""
         # In production, this would send actual notifications
         # For now, log the change
-        logger.info(f"State changed: type={new_state.state_type.value}, " f"coherence={new_state.phase_coherence:.3f}")
+        logger.info(f"State changed: type={new_state.state_type.value}, coherence={new_state.phase_coherence:.3f}")
 
     def get_current_state(self) -> Optional[QILikeState]:
         """Get the current consensus state"""

@@ -607,7 +607,7 @@ def performance_context(description: str = "Operation"):
         memory_delta = end_memory - start_memory
 
         logging.info(
-            f"{description} completed in {execution_time:.4f}s, " f"memory delta: {memory_delta / 1024 / 1024:.1f}MB"
+            f"{description} completed in {execution_time:.4f}s, memory delta: {memory_delta / 1024 / 1024:.1f}MB"
         )
 
 

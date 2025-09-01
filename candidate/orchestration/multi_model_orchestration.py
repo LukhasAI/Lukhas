@@ -524,8 +524,7 @@ class MultiModelOrchestrator:
         if responses:
             best_response = max(responses, key=lambda r: r.confidence_score)
             logger.info(
-                f"   Winner: {best_response.model_provider.value} "
-                f"(confidence: {best_response.confidence_score:.3f})"
+                f"   Winner: {best_response.model_provider.value} (confidence: {best_response.confidence_score:.3f})"
             )
             return [best_response]  # Return only the winner
 

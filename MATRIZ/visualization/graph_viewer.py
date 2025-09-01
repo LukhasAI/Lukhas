@@ -41,7 +41,7 @@ try:
     from plotly.subplots import make_subplots
 except ImportError as e:
     raise ImportError(
-        f"Missing required dependencies: {e}. " "Please install with: pip install networkx plotly pandas numpy"
+        f"Missing required dependencies: {e}. Please install with: pip install networkx plotly pandas numpy"
     )
 
 # Configure logging
@@ -453,7 +453,7 @@ class MATRIZGraphViewer:
                 margin={"b": 20, "l": 5, "r": 5, "t": 40},
                 annotations=[
                     {
-                        "text": f"Nodes: {self.graph.number_of_nodes()}, " f"Edges: {self.graph.number_of_edges()}",
+                        "text": f"Nodes: {self.graph.number_of_nodes()}, Edges: {self.graph.number_of_edges()}",
                         "showarrow": False,
                         "xref": "paper",
                         "yref": "paper",

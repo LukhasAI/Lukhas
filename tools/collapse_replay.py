@@ -163,7 +163,7 @@ class CollapseReplayTool:
                 wf.entropy_score = target_entropy
 
             phase_color = self._get_phase_color(phase)
-            print(f"Step {i+1}: Entropy {wf.entropy_score:.3f} - Phase: {phase_color}{phase}\033[0m")
+            print(f"Step {i + 1}: Entropy {wf.entropy_score:.3f} - Phase: {phase_color}{phase}\033[0m")
 
             # Check for collapse conditions
             if phase in ["unstable", "collapse"] and collapse_index < len(session["collapsed_glyphs"]):

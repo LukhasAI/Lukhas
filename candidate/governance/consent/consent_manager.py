@@ -698,7 +698,7 @@ class AdvancedConsentManager:
         # to stop processing based on withdrawn consent
 
         for consent in withdrawn_consents:
-            logger.info(f"🛑 Data processing stopped for user {user_id}, " f"purpose {consent.purpose.purpose_id}")
+            logger.info(f"🛑 Data processing stopped for user {user_id}, purpose {consent.purpose.purpose_id}")
 
             # Add guardian validation for immediate effect
             consent.guardian_validations.append(

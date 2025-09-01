@@ -444,7 +444,7 @@ class PerformanceMonitor:
 
                 if score < 0.3:
                     recommendations.append(
-                        f"Consider removing {provider} from rotation due to poor performance " f"(score: {score:.2f})"
+                        f"Consider removing {provider} from rotation due to poor performance (score: {score:.2f})"
                     )
                 elif score < 0.6:
                     recommendations.append(

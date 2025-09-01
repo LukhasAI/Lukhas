@@ -312,9 +312,7 @@ class QIEthicsMeshIntegrator:
             "timestamp": time.time(),
         }
 
-        logger.debug(
-            f"Entanglement matrix calculated: {len(entanglements)} pairs, " f"avg_strength={avg_entanglement:.3f}"
-        )
+        logger.debug(f"Entanglement matrix calculated: {len(entanglements)} pairs, avg_strength={avg_entanglement:.3f}")
 
         return matrix_result
 
@@ -346,9 +344,7 @@ class QIEthicsMeshIntegrator:
                 )
             elif phase_misalign:
                 conflicts.append(pair_name)
-                logger.warning(
-                    f"Phase misalignment detected: {pair_name} " f"(phase_diff={metrics['phase_diff']:.3f} rad)"
-                )
+                logger.warning(f"Phase misalignment detected: {pair_name} (phase_diff={metrics['phase_diff']:.3f} rad)")
 
         return conflicts
 
@@ -366,7 +362,7 @@ class QIEthicsMeshIntegrator:
             divergence_zones: List of conflicted module pairs
             unified_field: Optional full mesh state
         """
-        logger.info(f"Emitting ethics feedback: coherence={coherence_score:.3f}, " f"conflicts={len(divergence_zones)}")
+        logger.info(f"Emitting ethics feedback: coherence={coherence_score:.3f}, conflicts={len(divergence_zones)}")
 
         # Determine signal types to emit based on conditions
         signals_to_emit = []
@@ -739,7 +735,7 @@ async def demo_quantum_ethics_mesh():
     entanglement_matrix = integrator.calculate_phase_entanglement_matrix(demo_states)
     print("\nPhase Entanglement Matrix:")
     for pair, metrics in entanglement_matrix["entanglements"].items():
-        print(f"  {pair}: strength={metrics['strength']:.3f}, " f"conflict_risk={metrics['conflict_risk']:.3f}")
+        print(f"  {pair}: strength={metrics['strength']:.3f}, conflict_risk={metrics['conflict_risk']:.3f}")
 
     # 3. Detect phase conflicts
     conflicts = integrator.detect_ethics_phase_conflict(entanglement_matrix)

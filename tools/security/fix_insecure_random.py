@@ -237,10 +237,10 @@ class InsecureRandomFixer:
 Generated: {Path(__file__).name}
 
 ## Summary
-- **Total files scanned**: {len(list(self.root_dir.rglob('*.py')))}
-- **Files with insecure random usage**: {len(results['critical']) + len(results['normal'])}
-- **Security-critical files**: {len(results['critical'])}
-- **Normal files**: {len(results['normal'])}
+- **Total files scanned**: {len(list(self.root_dir.rglob("*.py")))}
+- **Files with insecure random usage**: {len(results["critical"]) + len(results["normal"])}
+- **Security-critical files**: {len(results["critical"])}
+- **Normal files**: {len(results["normal"])}
 
 ## Security-Critical Files (Priority 1)
 """

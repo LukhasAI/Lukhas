@@ -103,7 +103,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
         failure_count = len(self.failure_history[actor_id])
 
         if failure_count > self.strategy.max_failures:
-            logger.warning(f"Actor {actor_id} exceeded max failures " f"({failure_count}/{self.strategy.max_failures})")
+            logger.warning(f"Actor {actor_id} exceeded max failures ({failure_count}/{self.strategy.max_failures})")
             return SupervisionDirective.STOP
 
         # Check restart policy
@@ -326,8 +326,7 @@ class SupervisorActor(Actor):
                 self.health_metrics["attempts"] += 1
                 self.health_metrics["health"] += repair_result.get("health_delta", 0.0)
                 logger.info(
-                    f"Self-repair initiated for {child_id}; "
-                    f"health_delta={repair_result.get('health_delta', 0.0):.2f}"
+                    f"Self-repair initiated for {child_id}; health_delta={repair_result.get('health_delta', 0.0):.2f}"
                 )
             except Exception as e:
                 logger.error(f"Self-repair failed for {child_id}: {e}")

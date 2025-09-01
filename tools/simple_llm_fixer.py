@@ -85,7 +85,7 @@ Line: {line_num}
 Error: {code} - {message}
 
 Code context:
-{''.join(f'{start_line + i + 1}: {line}' for i, line in enumerate(context_lines))}
+{"".join(f"{start_line + i + 1}: {line}" for i, line in enumerate(context_lines))}
 
 Provide ONLY the corrected line {line_num}, nothing else:"""
 

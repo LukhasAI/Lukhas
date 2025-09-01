@@ -573,7 +573,7 @@ class LoopStressHarness:
 
         # Congruence improvement requirement
         target_met = "✅" if summary.average_congruence_index >= 0.15 else "❌"
-        print(f"  {target_met} Congruence Index: {summary.average_congruence_index:.3f} " f"(≥0.15 required)")
+        print(f"  {target_met} Congruence Index: {summary.average_congruence_index:.3f} (≥0.15 required)")
 
         # Positive repair requirement
         target_met = "✅" if summary.positive_repair_rate >= 0.70 else "❌"

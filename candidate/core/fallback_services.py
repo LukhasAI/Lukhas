@@ -228,7 +228,7 @@ class FallbackIdentityClient:
     def verify_user_access(self, user_id: str, tier: str) -> bool:
         """Simulate user access verification with fallback response."""
         self.logger.warning(
-            f"ΛTRACE: Fallback verify_user_access called for user '{user_id}', " f"tier '{tier}'. Returning True."
+            f"ΛTRACE: Fallback verify_user_access called for user '{user_id}', tier '{tier}'. Returning True."
         )
         # AIDENTITY: Simulates verification for development
         return True
@@ -236,7 +236,7 @@ class FallbackIdentityClient:
     def log_activity(self, activity: str, user_id: str, metadata: dict[str, Any]) -> None:
         """Simulate activity logging with fallback response."""
         self.logger.warning(
-            f"ΛTRACE: Fallback log_activity: Activity='{activity}', User='{user_id}', " f"Metadata='{metadata}'."
+            f"ΛTRACE: Fallback log_activity: Activity='{activity}', User='{user_id}', Metadata='{metadata}'."
         )
         # AIDENTITY: Simulates activity logging for development
 
