@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import wraps
+from typing import Callable
 
 from .matriz_emit import emit, make_node
 
@@ -13,10 +14,10 @@ def instrument(
     tenant: str = "default",
     salience: float = 0.4,
     urgency: float = 0.5,
-):
+) -> Callable:
     _ = tenant
 
-    def deco(fn):
+    def deco(fn: Callable) -> Callable:
         @wraps(fn)
         def wrapper(*args, **kwargs):
             prov = {

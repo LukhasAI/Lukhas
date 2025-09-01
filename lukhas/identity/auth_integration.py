@@ -34,8 +34,8 @@ class AuthenticationIntegration:
 
     def __init__(self) -> None:
         self.logger = logging.getLogger(__name__)
-        self._components = {}
-        self._bridges = {}
+        self._components: dict[str, Any] = {}
+        self._bridges: dict[str, str] = {}
 
     async def initialize(self) -> None:
         """Initialize all authentication components and bridges"""

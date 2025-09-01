@@ -4,10 +4,10 @@ import sys
 # Ensure repository root is on the path when running from tests/
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from matriz.core.node_interface import CognitiveNode
-from matriz.core.orchestrator import CognitiveOrchestrator
-from matriz.nodes.math_node import MathNode
-from matriz.nodes.validator_node import ValidatorNode
+from MATRIZ.core.node_interface import CognitiveNode
+from MATRIZ.core.orchestrator import CognitiveOrchestrator
+from MATRIZ.nodes.math_node import MathNode
+from MATRIZ.nodes.validator_node import ValidatorNode
 
 
 class _ValidatorHarness(CognitiveNode):

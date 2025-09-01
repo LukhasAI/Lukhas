@@ -6,12 +6,16 @@ import time
 import uuid
 from typing import Any
 
-try:
-    from MATRIZ.utils.matriz_validate import validate_node  # adjust path if needed
-except Exception:
+from typing import Any, TYPE_CHECKING
 
-    def validate_node(_) -> None:
-        return None
+if TYPE_CHECKING:
+    from MATRIZ.utils.matriz_validate import validate_node
+else:
+    try:
+        from MATRIZ.utils.matriz_validate import validate_node
+    except Exception:
+        def validate_node(node: dict[Any, Any]) -> None:
+            return None
 
 
 def make_node(
