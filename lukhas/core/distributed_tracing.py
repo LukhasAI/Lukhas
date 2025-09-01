@@ -14,9 +14,9 @@ import time
 import uuid
 from collections import defaultdict, deque
 from collections.abc import Generator
-from contextlib import contextmanager
+from contextlib import AbstractContextManager, contextmanager
 from dataclasses import asdict, dataclass, field
-from typing import Any, ContextManager, Dict, List, Optional
+from typing import Any, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -440,7 +440,7 @@ class AIAgentTracer(DistributedTracer):
         agent_id: str,
         operation: str,
         task_data: Optional[dict[str, Any]] = None,
-    ) -> ContextManager[TraceContext]:
+    ) -> Generator[TraceContext, None, None]:
         """Trace an AI agent operation"""
         operation_name = f"agent.{operation}"
 
@@ -461,7 +461,7 @@ class AIAgentTracer(DistributedTracer):
 
     def trace_agent_collaboration(
         self, initiator_id: str, target_id: str, collaboration_type: str
-    ) -> ContextManager[TraceContext]:
+    ) -> Generator[TraceContext, None, None]:
         """Trace collaboration between agents"""
         operation_name = f"collaboration.{collaboration_type}"
 
@@ -480,7 +480,7 @@ class AIAgentTracer(DistributedTracer):
 
     def trace_memory_operation(
         self, agent_id: str, operation: str, memory_size: Optional[int] = None
-    ) -> ContextManager[TraceContext]:
+    ) -> Generator[TraceContext, None, None]:
         """Trace memory operations"""
         operation_name = f"memory.{operation}"
 
