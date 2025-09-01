@@ -13,8 +13,8 @@ import time
 import uuid
 from collections import defaultdict, deque
 from contextlib import contextmanager
-from dataclasses import asdict, dataclass
-from typing import Any, Optional
+from dataclasses import asdict, dataclass, field
+from typing import Any, ContextManager, Iterator, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -67,11 +67,7 @@ class TraceContext:
     trace_id: str
     correlation_id: str
     span_stack: list[str]
-    baggage: dict[str, str] = None
-
-    def __post_init__(self):
-        if self.baggage is None:
-            self.baggage = {}
+    baggage: dict[str, str] = field(default_factory=dict)
 
     @property
     def span_id(self) -> Optional[str]:
@@ -262,8 +258,8 @@ class TraceCollector:
             completed_traces = len(self.completed_traces)
             total_spans = len(self.spans)  # Active spans
 
-            operation_counts = defaultdict(int)
-            service_counts = defaultdict(int)
+            operation_counts: dict[str, int] = defaultdict(int)
+            service_counts: dict[str, int] = defaultdict(int)
 
             # Count operations and services in active traces
             for spans in self.traces.values():
@@ -305,7 +301,7 @@ class DistributedTracer:
     Main tracer for creating and managing distributed traces
     """
 
-    def __init__(self, service_name: str, collector: TraceCollector = None) -> None:
+    def __init__(self, service_name: str, collector: Optional[TraceCollector] = None) -> None:
         self.service_name = service_name
         self.collector = collector or TraceCollector()
         self._current_context: threading.local = threading.local()
@@ -409,7 +405,7 @@ class DistributedTracer:
         self,
         operation_name: str,
         parent_context: Optional[TraceContext] = None,
-    ):
+    ) -> Iterator[TraceContext]:
         """Context manager for tracing an operation"""
         context = self.start_span(operation_name, parent_context)
         old_context = getattr(self._current_context, "context", None)
@@ -442,12 +438,12 @@ class AIAgentTracer(DistributedTracer):
         agent_id: str,
         operation: str,
         task_data: Optional[dict[str, Any]] = None,
-    ):
+    ) -> Iterator[TraceContext]:
         """Trace an AI agent operation"""
         operation_name = f"agent.{operation}"
 
         @contextmanager
-        def _trace():
+        def _trace() -> Iterator[TraceContext]:
             with self.trace_operation(operation_name) as context:
                 self.add_tag(context, "agent.id", agent_id)
                 self.add_tag(context, "agent.operation", operation)
@@ -461,12 +457,14 @@ class AIAgentTracer(DistributedTracer):
 
         return _trace()
 
-    def trace_agent_collaboration(self, initiator_id: str, target_id: str, collaboration_type: str):
+    def trace_agent_collaboration(
+        self, initiator_id: str, target_id: str, collaboration_type: str
+    ) -> Iterator[TraceContext]:
         """Trace collaboration between agents"""
         operation_name = f"collaboration.{collaboration_type}"
 
         @contextmanager
-        def _trace():
+        def _trace() -> Iterator[TraceContext]:
             with self.trace_operation(operation_name) as context:
                 self.add_tag(context, "collaboration.initiator", initiator_id)
                 self.add_tag(context, "collaboration.target", target_id)
@@ -478,12 +476,14 @@ class AIAgentTracer(DistributedTracer):
 
         return _trace()
 
-    def trace_memory_operation(self, agent_id: str, operation: str, memory_size: Optional[int] = None):
+    def trace_memory_operation(
+        self, agent_id: str, operation: str, memory_size: Optional[int] = None
+    ) -> Iterator[TraceContext]:
         """Trace memory operations"""
         operation_name = f"memory.{operation}"
 
         @contextmanager
-        def _trace():
+        def _trace() -> Iterator[TraceContext]:
             with self.trace_operation(operation_name) as context:
                 self.add_tag(context, "memory.agent_id", agent_id)
                 self.add_tag(context, "memory.operation", operation)
@@ -543,10 +543,11 @@ def demo_distributed_tracing() -> None:
             time.sleep(0.1)  # Simulate work
 
             # Simulate collaboration with another agent
-            with (
-                agent1_tracer.trace_agent_collaboration("reasoning-001", "memory-001", "knowledge_sharing"),
-                agent2_tracer.trace_memory_operation("memory-001", "retrieve", memory_size=500) as mem_ctx,
-            ):
+            with agent1_tracer.trace_agent_collaboration(
+                "reasoning-001", "memory-001", "knowledge_sharing"
+            ) as collab_ctx, agent2_tracer.trace_memory_operation(
+                "memory-001", "retrieve", memory_size=500
+            ) as mem_ctx:
                 agent2_tracer.add_tag(mem_ctx, "query.type", "semantic_search")
                 time.sleep(0.05)
 
@@ -594,7 +595,7 @@ class StateSnapshotter:
         if not os.path.exists(self.storage_path):
             os.makedirs(self.storage_path)
 
-    def take_snapshot(self, agent_id: str, state_data: dict[str, Any]):
+    def take_snapshot(self, agent_id: str, state_data: dict[str, Any]) -> str:
         """Saves a snapshot of an agent's state."""
         snapshot = AgentState(
             agent_id=agent_id,
@@ -725,12 +726,16 @@ if __name__ == "__main__":
         tracer.add_log(ctx, "state_update", {"tasks_completed": 6, "status": "idle"})
         agent_state.update({"tasks_completed": 6, "status": "idle"})
 
-    trace_id = tracer.get_current_context().trace_id
+    context = tracer.get_current_context()
+    if not context:
+        print("\nError: Could not get current trace context.")
+    else:
+        trace_id = context.trace_id
 
-    # Replay the trace to reconstruct the state
-    try:
-        final_state = replayer.replay_trace(trace_id)
-        print("\nReconstructed state for agent-007:")
-        print(json.dumps(final_state.get("agent-007", {}), indent=2))
-    except Exception as e:
-        print(f"\nError during replay: {e}")
+        # Replay the trace to reconstruct the state
+        try:
+            final_state = replayer.replay_trace(trace_id)
+            print("\nReconstructed state for agent-007:")
+            print(json.dumps(final_state.get("agent-007", {}), indent=2))
+        except Exception as e:
+            print(f"\nError during replay: {e}")

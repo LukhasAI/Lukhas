@@ -80,8 +80,8 @@ class WebAuthnManager:
         self.pending_authentications: dict[str, dict] = {}
 
         # Performance optimization
-        self.validation_cache = {}
-        self.challenge_cache = {}
+        self.validation_cache: dict[str, Any] = {}
+        self.challenge_cache: dict[str, Any] = {}
 
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
@@ -384,8 +384,8 @@ class WebAuthnManager:
                 if credential:
                     break
 
-            if not credential:
-                return {"success": False, "error": "Credential not found"}
+            if not credential or not user_id:
+                return {"success": False, "error": "Credential not found or user_id is missing"}
 
             # Validate user ID if specified
             if pending_auth["user_id"] and pending_auth["user_id"] != user_id:
@@ -643,7 +643,7 @@ class WebAuthnManager:
 
     def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
-        device_dist = {}
+        device_dist: dict[str, int] = {}
         for creds in self.credentials.values():
             for cred in creds:
                 device_type = cred.device_type

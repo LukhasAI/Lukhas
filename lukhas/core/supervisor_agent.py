@@ -90,7 +90,7 @@ class SupervisorAgent:
         Returns:
             Analysis results
         """
-        analysis = {
+        analysis: dict[str, Any] = {
             "complexity": "medium",
             "risk_level": "low",
             "approval": "approved",
