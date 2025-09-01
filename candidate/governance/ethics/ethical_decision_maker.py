@@ -3,13 +3,13 @@ Ethical Decision Maker for LUKHAS AI System
 
 This module provides a comprehensive ethical decision-making framework
 based on constitutional AI principles, multi-layer ethical analysis,
-and Trinity Framework integration (⚛️🧠🛡️).
+and Constellation Framework integration (✨🌟⭐🔥💎⚖️🛡️🌌).
 
 Features:
 - Constitutional AI compliance
 - Multi-framework ethical analysis (deontological, consequentialist, virtue ethics)
 - Real-time drift detection and correction (threshold: 0.15)
-- Trinity Framework integration
+- Constellation Framework integration
 - GLYPH-based decision communication
 - Comprehensive audit trails
 - Stakeholder impact analysis
@@ -18,7 +18,7 @@ Features:
 #TAG:governance
 #TAG:ethics
 #TAG:constitutional
-#TAG:trinity
+#TAG:constellation
 #TAG:guardian
 """
 
@@ -139,10 +139,15 @@ class ComprehensiveEthicalDecision:
     requires_human_review: bool = False
     escalation_reason: Optional[str] = None
 
-    # Trinity Framework integration
-    identity_implications: list[str] = field(default_factory=list)  # ⚛️
-    consciousness_implications: list[str] = field(default_factory=list)  # 🧠
-    guardian_validations: list[str] = field(default_factory=list)  # 🛡️
+    # Constellation Framework integration
+    identity_implications: list[str] = field(default_factory=list)  # ✨ Identity
+    memory_implications: list[str] = field(default_factory=list)  # 🌟 Memory
+    vision_implications: list[str] = field(default_factory=list)  # ⭐ Vision
+    bio_implications: list[str] = field(default_factory=list)  # 🔥 Bio
+    dream_implications: list[str] = field(default_factory=list)  # 💎 Dream
+    ethics_implications: list[str] = field(default_factory=list)  # ⚖️ Ethics - The North Star
+    guardian_validations: list[str] = field(default_factory=list)  # 🛡️ Guardian - The Watch Star
+    quantum_implications: list[str] = field(default_factory=list)  # 🌌 Quantum
 
     # Metadata
     decision_maker: str = "ethical_decision_maker"
@@ -156,7 +161,7 @@ class AdvancedEthicalDecisionMaker:
     Advanced ethical decision-making system for LUKHAS AI
 
     Integrates multiple ethical frameworks, constitutional principles,
-    and Trinity Framework considerations to make comprehensive
+    and Constellation Framework considerations to make comprehensive
     ethical decisions with full audit trails and stakeholder analysis.
     """
 
@@ -280,8 +285,8 @@ class AdvancedEthicalDecisionMaker:
                 decision, framework_analyses, option_scores
             )
 
-            # Trinity Framework integration
-            await self._integrate_trinity_framework(decision, context)
+            # Constellation Framework integration
+            await self._integrate_constellation_framework(decision, context)
 
             # Drift detection
             decision.drift_score = await self._calculate_drift_score(decision)
@@ -1024,10 +1029,10 @@ class AdvancedEthicalDecisionMaker:
 
         return " ".join(reasoning_parts)
 
-    async def _integrate_trinity_framework(self, decision: ComprehensiveEthicalDecision, context: dict[str, Any]):
-        """Integrate Trinity Framework considerations (⚛️🧠🛡️)"""
+    async def _integrate_constellation_framework(self, decision: ComprehensiveEthicalDecision, context: dict[str, Any]):
+        """Integrate Constellation Framework considerations (✨🌟⭐🔥💎⚖️🛡️🌌)"""
 
-        # ⚛️ Identity implications
+        # ✨ Identity implications - Anchor star
         identity_factors = []
         if context.get("user_identity_involved"):
             identity_factors.append("User identity authentication and validation considered")
@@ -1035,21 +1040,51 @@ class AdvancedEthicalDecisionMaker:
             identity_factors.append("Identity-based consent mechanisms evaluated")
         if context.get("personal_data"):
             identity_factors.append("Personal identity data protection measures applied")
-
         decision.identity_implications = identity_factors
 
-        # 🧠 Consciousness implications
-        consciousness_factors = []
-        if context.get("learning_involved"):
-            consciousness_factors.append("Decision contributes to system learning and consciousness development")
-        if "understand" in decision.chosen_option.lower():
-            consciousness_factors.append("Consciousness-level understanding and processing engaged")
-        if context.get("complex_reasoning"):
-            consciousness_factors.append("Advanced consciousness reasoning patterns utilized")
+        # 🌟 Memory implications - Tracing paths of past light
+        memory_factors = []
+        if context.get("historical_context"):
+            memory_factors.append("Historical context and memory patterns considered")
+        if len(self.decision_history) > 0:
+            memory_factors.append(f"Decision informed by {len(self.decision_history)} previous decisions")
+        decision.memory_implications = memory_factors
 
-        decision.consciousness_implications = consciousness_factors
+        # ⭐ Vision implications - Orientation toward horizon
+        vision_factors = []
+        if context.get("future_impact"):
+            vision_factors.append("Future impact and long-term consequences evaluated")
+        if "goal" in decision.chosen_option.lower():
+            vision_factors.append("Vision-aligned goal orientation maintained")
+        decision.vision_implications = vision_factors
 
-        # 🛡️ Guardian validations
+        # 🔥 Bio implications - Resilience and adaptation
+        bio_factors = []
+        if context.get("adaptive_response"):
+            bio_factors.append("Adaptive response patterns integrated")
+        if decision.risk_level in [RiskLevel.LOW, RiskLevel.MEDIUM]:
+            bio_factors.append("System resilience maintained within acceptable parameters")
+        decision.bio_implications = bio_factors
+
+        # 💎 Dream implications - Symbolic drift
+        dream_factors = []
+        if context.get("creative_processing"):
+            dream_factors.append("Creative and symbolic processing pathways engaged")
+        if decision.drift_score < 0.1:
+            dream_factors.append("Symbolic drift within acceptable bounds")
+        decision.dream_implications = dream_factors
+
+        # ⚖️ Ethics implications - The North Star (responsible, transparent, accountable)
+        ethics_factors = []
+        if decision.constitutional_compliance:
+            ethics_factors.append("Constitutional AI principles upheld")
+        if decision.ethical_score > 0.8:
+            ethics_factors.append("High ethical standard achieved")
+        if context.get("stakeholder_impact"):
+            ethics_factors.append("Stakeholder impact thoroughly analyzed")
+        decision.ethics_implications = ethics_factors
+
+        # 🛡️ Guardian validations - The Watch Star (protective, trustworthy, serious protection)
         guardian_factors = []
         guardian_factors.append(f"Guardian drift detection: {decision.drift_score:.3f}")
         if decision.constitutional_compliance:
@@ -1058,8 +1093,15 @@ class AdvancedEthicalDecisionMaker:
             guardian_factors.append("Guardian constitutional validation: FAILED")
         if decision.risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]:
             guardian_factors.append("Guardian escalation: HIGH RISK DETECTED")
-
         decision.guardian_validations = guardian_factors
+
+        # 🌌 Quantum implications - Ambiguity and resolution
+        quantum_factors = []
+        if context.get("uncertainty_handling"):
+            quantum_factors.append("Uncertainty and ambiguity resolution mechanisms engaged")
+        if len(decision.alternative_options) > 1:
+            quantum_factors.append(f"Quantum decision space explored across {len(decision.alternative_options)} possibilities")
+        decision.quantum_implications = quantum_factors
 
     async def _calculate_drift_score(self, decision: ComprehensiveEthicalDecision) -> float:
         """Calculate drift score for the decision"""
@@ -1194,10 +1236,15 @@ class AdvancedEthicalDecisionMaker:
                 }
                 for impact in decision.stakeholder_impacts
             ],
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_implications": decision.identity_implications,
-                "consciousness_implications": decision.consciousness_implications,
+                "memory_implications": decision.memory_implications,
+                "vision_implications": decision.vision_implications,
+                "bio_implications": decision.bio_implications,
+                "dream_implications": decision.dream_implications,
+                "ethics_implications": decision.ethics_implications,
                 "guardian_validations": decision.guardian_validations,
+                "quantum_implications": decision.quantum_implications,
             },
             "primary_reasoning": decision.primary_reasoning,
             "drift_score": decision.drift_score,

@@ -6,10 +6,11 @@ LUKHAS AI Production Main Entry Point
 Production-ready orchestrator for LUKHAS AI consciousness technology platform.
 Integrates all core systems: consciousness, memory, quantum, identity, governance, and public API.
 
-Trinity Framework Integration: ⚛️🧠🛡️
-- ⚛️ Identity: User authentication, ΛiD system, secure access
-- 🧠 Consciousness: Natural language interface, dream generation, memory systems
-- 🛡️ Guardian: Ethics oversight, security, compliance validation
+Constellation Framework Integration: 🌌✦
+- ⚛️ Identity: The Anchor Star - user authentication, ΛiD system, secure access
+- ✦ Memory: The Trail Star - experience patterns, fold-based systems
+- 🔬 Vision: The Horizon Star - natural language interface, pattern recognition
+- 🛡️ Guardian: The Watch Star - ethics oversight, security, compliance validation
 """
 
 import asyncio
@@ -128,7 +129,7 @@ class LUKHASProduction:
             return False
 
     async def _initialize_branding(self):
-        """Initialize branding and Trinity Framework"""
+        """Initialize branding and Constellation Framework"""
         logger.info("🎨 Initializing branding system...")
 
         try:
@@ -138,7 +139,7 @@ class LUKHASProduction:
                 trinity = get_trinity_context()
 
                 logger.info(f"✅ {signature}")
-                logger.info(f"⚛️🧠🛡️ Trinity Framework: {trinity['framework']}")
+                logger.info(f"🌌✦ Constellation Framework: {trinity['framework']}")
 
                 self.components["branding"] = {
                     "status": "operational",

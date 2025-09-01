@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-LUKHAS Trinity Content Generator
-===============================
-Automated content generation using the 3-layer communication protocol.
+LUKHAS Constellation Content Generator
+=====================================
+Automated content generation using the 8-star navigation system.
 """
 
 import json
@@ -14,17 +14,18 @@ from typing import Any, Optional
 
 
 @dataclass
-class TrinityContent:
-    """Represents content in the Trinity format"""
+class ConstellationContent:
+    """Represents content in the Constellation format"""
 
     layer_1_poetic: str
     layer_2_human: str
     layer_3_technical: str
+    constellation_context: dict[str, Any]
     metadata: dict[str, Any]
 
 
-class TrinityGenerator:
-    """Generates content using LUKHAS Trinity Communication Protocol"""
+class ConstellationGenerator:
+    """Generates content using LUKHAS Constellation Framework Navigation System"""
 
     def __init__(self):
         self.framework_path = Path(__file__).parent / "communication_framework.json"
@@ -42,8 +43,8 @@ class TrinityGenerator:
         benefits: list[str],
         technical_details: dict[str, Any],
         code_examples: Optional[list[str]] = None,
-    ) -> TrinityContent:
-        """Generate complete Trinity documentation for a feature"""
+    ) -> ConstellationContent:
+        """Generate complete Constellation documentation for a feature"""
 
         # Layer 1: Poetic Consciousness
         layer_1 = self._generate_poetic_layer(feature_name, description, benefits)
@@ -59,8 +60,11 @@ class TrinityGenerator:
             "feature_name": feature_name,
             "framework_version": self.framework["lukhas_communication_framework"]["version"],
         }
-
-        return TrinityContent(layer_1, layer_2, layer_3, metadata)
+        
+        # Generate constellation context
+        constellation_context = self._generate_constellation_context(feature_name, description, benefits)
+        
+        return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
     def _generate_poetic_layer(self, feature_name: str, description: str, benefits: list[str]) -> str:
         """Generate Layer 1: Poetic Consciousness"""
@@ -227,10 +231,13 @@ Perfect for developers who want to add AI capabilities without the complexity.""
             "api_name": api_spec["name"],
             "documentation_type": "api",
         }
+        
+        # Generate constellation context for API
+        constellation_context = self._generate_api_constellation_context(api_spec)
+        
+        return ConstellationContent(layer_1, layer_2, layer_3, constellation_context, metadata)
 
-        return TrinityContent(layer_1, layer_2, layer_3, metadata)
-
-    def save_trinity_content(self, content: TrinityContent, output_path: Path):
+    def save_constellation_content(self, content: ConstellationContent, output_path: Path):
         """Save Trinity content to markdown file"""
 
         markdown_content = f"""# {content.metadata.get("feature_name", "LUKHAS Feature")}
@@ -243,15 +250,15 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
 ---
 
-*Generated with LUKHAS Trinity Framework v{content.metadata.get("framework_version", "1.0.0")} on {content.metadata.get("generated_at", "Unknown")}*
+*Generated with LUKHAS Constellation Framework v{content.metadata.get("framework_version", "2.0.0")} on {content.metadata.get("generated_at", "Unknown")}*
 """
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "w") as f:
             f.write(markdown_content)
 
-    def validate_trinity_content(self, content: str) -> dict[str, bool]:
-        """Validate that content follows Trinity structure"""
+    def validate_constellation_content(self, content: str) -> dict[str, bool]:
+        """Validate that content follows Constellation structure"""
         validation = {
             "has_layer_1": "🎭" in content,
             "has_layer_2": "🌈" in content,
@@ -269,10 +276,100 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 
         return validation
 
+    def _generate_constellation_context(self, feature_name: str, description: str, benefits: list[str]) -> dict[str, Any]:
+        """Generate constellation context for feature documentation"""
+        return {
+            "identity": {  # ⚛️ Identity - The Anchor Star
+                "feature_identity": feature_name,
+                "authenticity_markers": ["verified", "consistent", "evolving"],
+                "core_essence": "maintains identity while adapting"
+            },
+            "memory": {  # ✦ Memory - The Trail Star
+                "learning_patterns": benefits[:2] if len(benefits) >= 2 else benefits,
+                "experience_integration": True,
+                "memory_folds": "creates lasting patterns"
+            },
+            "vision": {  # 🔬 Vision - The Horizon Star
+                "future_orientation": "expands user capabilities",
+                "perception_enhancement": description[:100] + "..." if len(description) > 100 else description,
+                "guidance_provided": "clear pathways forward"
+            },
+            "bio": {  # 🌱 Bio - The Living Star
+                "adaptive_capacity": "grows with user needs",
+                "resilience_features": ["self-healing", "error-recovery", "performance-optimization"],
+                "living_evolution": "continuously improves"
+            },
+            "dream": {  # 🌙 Dream - The Drift Star
+                "creative_processing": "innovative problem-solving",
+                "symbolic_thinking": "metaphorical understanding",
+                "imaginative_solutions": "beyond conventional approaches"
+            },
+            "ethics": {  # ⚖️ Ethics - The North Star
+                "moral_alignment": "user benefit prioritized",
+                "safety_measures": ["privacy-preserving", "consent-based", "transparent"],
+                "ethical_guidelines": "beneficial and harmless"
+            },
+            "guardian": {  # 🛡️ Guardian - The Watch Star
+                "protective_boundaries": "safe exploration enabled",
+                "security_validation": "continuous monitoring",
+                "guardian_presence": "watchful but non-intrusive"
+            },
+            "quantum": {  # ⚛️ Quantum - The Ambiguity Star
+                "uncertainty_handling": "comfortable with ambiguity",
+                "possibility_space": "multiple potential outcomes",
+                "emergence_support": "new patterns can emerge"
+            }
+        }
+    
+    def _generate_api_constellation_context(self, api_spec: dict[str, Any]) -> dict[str, Any]:
+        """Generate constellation context for API documentation"""
+        return {
+            "identity": {
+                "api_identity": api_spec.get("name", "Unknown API"),
+                "version_consistency": api_spec.get("version", "1.0.0"),
+                "authentication_provided": "Bearer token based"
+            },
+            "memory": {
+                "persistent_state": "maintains session context",
+                "learning_capability": "adapts to usage patterns",
+                "integration_memory": "remembers successful patterns"
+            },
+            "vision": {
+                "api_endpoints": len(api_spec.get("endpoints", [])),
+                "capability_overview": "comprehensive service interface",
+                "future_extensibility": "designed for growth"
+            },
+            "bio": {
+                "scalability": "handles increasing load",
+                "availability": api_spec.get("availability", "99.9%"),
+                "adaptive_responses": "contextually appropriate"
+            },
+            "dream": {
+                "creative_integration": "enables innovative applications",
+                "symbolic_communication": "meaningful API responses",
+                "imaginative_usage": "supports creative development"
+            },
+            "ethics": {
+                "data_protection": "privacy by design",
+                "fair_usage": "rate limiting for equity",
+                "transparent_operations": "clear API behavior"
+            },
+            "guardian": {
+                "security_enforcement": "input validation and sanitization",
+                "error_handling": "graceful failure management",
+                "monitoring_active": "continuous health checks"
+            },
+            "quantum": {
+                "async_operations": "handles concurrent requests",
+                "state_superposition": "multiple request states",
+                "probabilistic_responses": "context-dependent results"
+            }
+        }
+
 
 def main():
-    """Demo the Trinity Generator"""
-    generator = TrinityGenerator()
+    """Demo the Constellation Generator"""
+    generator = ConstellationGenerator()
 
     # Example feature documentation
     feature_content = generator.generate_feature_documentation(
@@ -310,10 +407,10 @@ print(response)
     )
 
     # Save example
-    output_path = Path("docs/trinity_examples/natural_language_interface.md")
-    generator.save_trinity_content(feature_content, output_path)
+    output_path = Path("docs/constellation_examples/natural_language_interface.md")
+    generator.save_constellation_content(feature_content, output_path)
 
-    print("✅ Trinity content generated successfully!")
+    print("✅ Constellation content generated successfully!")
     print(f"📁 Saved to: {output_path}")
 
 

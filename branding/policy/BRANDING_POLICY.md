@@ -17,7 +17,7 @@
   - Alignment with OpenAI, ethics, and compliance
   - Identifying areas for growth and potential blind spots
 
-- All messaging must reflect the Trinity Framework (⚛️🧠🛡️) and use only approved branding, terminology, and glyphs from this directory or as specified in `README_NEXT_GEN.md`.
+- All messaging must reflect the Constellation Framework (8-star navigation system) and use only approved branding, terminology, and glyphs from this directory or as specified in `/branding/constellation/CONSTELLATION_INDEX.md`.
 
 ## 🛡️ Enforcement
 

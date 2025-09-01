@@ -5,21 +5,21 @@
 =====================================
 
 Enables ΛiD authentication system to communicate with other LUKHAS modules
-via GLYPH protocol and Trinity Framework integration. Provides seamless
+via GLYPH protocol and Constellation Framework integration. Provides seamless
 authentication context sharing across consciousness, memory, reasoning,
 and other LUKHAS AI modules.
 
 This module provides:
 - Cross-module GLYPH communication
-- Trinity Framework integration
+- Constellation Framework integration (8-star navigation)
 - Authentication context propagation
 - Module-specific authentication adapters
 - Consciousness-aware authentication
 - Memory-integrated identity persistence
 
 Author: LUKHAS AI System
-Version: 1.0.0
-Trinity Framework: ⚛️🧠🛡️
+Version: 2.0.0
+Constellation Framework: ✨🌟⭐🔥💎⚖️🛡️🌌
 """
 
 import uuid
@@ -87,7 +87,7 @@ class AuthModuleMessage:
     session_id: Optional[str]
     glyph_encoding: str
     payload: dict[str, Any]
-    trinity_context: dict[str, str]
+    constellation_context: dict[str, str]
     timestamp: datetime
     priority: str = "normal"  # low, normal, high, critical
     requires_response: bool = False
@@ -114,19 +114,24 @@ class ModuleAuthContext:
             self.metadata = {}
 
 
-class TrinityFrameworkIntegration:
+class ConstellationFrameworkIntegration:
     """
-    ⚛️🧠🛡️ Trinity Framework Authentication Integration
+    ✨🌟⭐🔥💎⚖️🛡️🌌 Constellation Framework Authentication Integration
 
-    Aligns authentication with Trinity Framework principles across all modules.
+    Aligns authentication with Constellation Framework navigation across all modules.
     """
 
     def __init__(self):
-        """Initialize Trinity Framework integration"""
-        self.trinity_aspects = {
-            "identity": "⚛️",  # Identity aspect
-            "consciousness": "🧠",  # Consciousness aspect
-            "guardian": "🛡️",  # Guardian aspect
+        """Initialize Constellation Framework integration"""
+        self.constellation_stars = {
+            "identity": "⚛️",  # The Anchor Star: Identity rhythm
+            "memory": "✦",  # The Trail Star: Experience fields
+            "vision": "🔬",  # The Horizon Star: Perception and guidance
+            "bio": "🌱",  # The Living Star: Growth and resilience
+            "dream": "🌙",  # The Drift Star: Creative processing
+            "ethics": "⚖️",  # The North Star: Moral alignment
+            "guardian": "🛡️",  # The Watch Star: Protection and safety
+            "quantum": "⚛️",  # The Ambiguity Star: Uncertainty as resource
         }
 
         self.module_trinity_mapping = {
@@ -143,8 +148,8 @@ class TrinityFrameworkIntegration:
             ModuleType.CORE: "guardian",
         }
 
-    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
-        """Get Trinity Framework context for specific module"""
+    def get_constellation_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
+        """Get Constellation Framework context for specific module"""
         primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
 
         # Determine emphasis based on authentication context
@@ -159,12 +164,12 @@ class TrinityFrameworkIntegration:
             "primary_aspect": primary_aspect,
             "emphasis": emphasis,
             "symbol": self.trinity_aspects[emphasis],
-            "framework": "⚛️🧠🛡️",
+            "framework": "✨🌟⭐🔥💎⚖️🛡️🌌",
             "integration_level": self._calculate_integration_level(auth_context),
         }
 
     def _calculate_integration_level(self, auth_context: dict[str, Any]) -> str:
-        """Calculate Trinity Framework integration level"""
+        """Calculate Constellation Framework integration level"""
         score = 0
 
         # Identity integration
@@ -194,14 +199,14 @@ class AuthCrossModuleIntegrator:
     🔗 Authentication Cross-Module Integrator
 
     Manages authentication context sharing and GLYPH communication
-    across all LUKHAS AI modules with Trinity Framework alignment.
+    across all LUKHAS AI modules with Constellation Framework alignment.
     """
 
     def __init__(self):
         """Initialize cross-module integration system"""
         self.glyph_engine = GlyphEngine() if GlyphEngine else None
         self.kernel_bus = SymbolicKernelBus() if SymbolicKernelBus else None
-        self.trinity_integration = TrinityFrameworkIntegration()
+        self.constellation_integration = ConstellationFrameworkIntegration()
 
         # Module registrations and contexts
         self.registered_modules: dict[ModuleType, dict[str, Any]] = {}
@@ -366,8 +371,8 @@ class AuthCrossModuleIntegrator:
             if not adapter:
                 return False
 
-            # Get Trinity context for module
-            trinity_context = self.trinity_integration.get_trinity_context_for_module(module_type, auth_context)
+            # Get Constellation context for module
+            constellation_context = self.constellation_integration.get_constellation_context_for_module(module_type, auth_context)
 
             # Create GLYPH message
             glyph_message = "GLYPH[DEFAULT]"
@@ -388,7 +393,7 @@ class AuthCrossModuleIntegrator:
                 session_id=auth_context.get("session_id"),
                 glyph_encoding=glyph_message,
                 payload=await adapter["prepare_payload"](auth_context),
-                trinity_context=trinity_context,
+                constellation_context=constellation_context,
                 timestamp=datetime.now(),
                 priority=self._determine_message_priority(auth_event),
             )
@@ -464,7 +469,7 @@ class AuthCrossModuleIntegrator:
                 "session_id": message.session_id,
                 "glyph": message.glyph_encoding,
                 "payload": message.payload,
-                "trinity": message.trinity_context,
+                "constellation": message.constellation_context,
                 "timestamp": message.timestamp.isoformat(),
                 "priority": message.priority,
             }
@@ -490,7 +495,7 @@ class AuthCrossModuleIntegrator:
                 session_id=None,
                 glyph_encoding="GLYPH[SYSTEM]",
                 payload=payload,
-                trinity_context={"aspect": "system", "symbol": "⚙️"},
+                constellation_context={"aspect": "system", "symbol": "⚙️"},
                 timestamp=datetime.now(),
                 priority="normal",
             )
@@ -742,7 +747,7 @@ class AuthCrossModuleIntegrator:
             "user_id": user_id,
             "base_context": asdict(context),
             "module_contexts": module_contexts,
-            "trinity_integration": self.trinity_integration.get_trinity_context_for_module(
+            "constellation_integration": self.constellation_integration.get_constellation_context_for_module(
                 ModuleType.CORE, context.metadata
             ),
             "last_updated": datetime.now().isoformat(),
@@ -797,6 +802,6 @@ __all__ = [
     "AuthModuleMessage",
     "ModuleAuthContext",
     "ModuleType",
-    "TrinityFrameworkIntegration",
+    "ConstellationFrameworkIntegration",
     "auth_cross_module_integrator",
 ]
