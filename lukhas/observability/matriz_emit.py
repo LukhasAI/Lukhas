@@ -10,7 +10,7 @@ try:
     from MATRIZ.utils.matriz_validate import validate_node
 except ImportError:
 
-    def validate_node(node: dict[Any, Any]) -> None:
+    def validate_node(node: dict[Any, Any]) -> None:  # noqa: ARG001
         """Fallback if MATRIZ is not available."""
         return None
 
