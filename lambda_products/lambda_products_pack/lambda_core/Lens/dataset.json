@@ -1,0 +1,37 @@
+{
+  "photon_version": "1.0.0",
+  "title": "Analysis of Sales Data (Q3)",
+  "description": "Key metrics and distributions from the quarterly sales CSV.",
+  "nodes": [
+    {
+      "id": "metric-revenue",
+      "kind": "MetricCard",
+      "label": "Total Revenue",
+      "properties": {
+        "title": "Total Revenue",
+        "value": "€1.2M",
+        "change": "+5.2%"
+      }
+    },
+    {
+      "id": "chart-sales-by-region",
+      "kind": "BarCompare",
+      "label": "Sales by Region",
+      "properties": {
+        "title": "Sales by Region",
+        "data": [
+          { "name": "EMEA", "value": 650000 },
+          { "name": "NA", "value": 420000 },
+          { "name": "APAC", "value": 130000 }
+        ]
+      }
+    }
+  ],
+  "edges": [],
+  "layout": {
+    "positions_2d": {
+      "metric-revenue": { "x": 100, "y": 100 },
+      "chart-sales-by-region": { "x": 100, "y": 300 }
+    }
+  }
+}

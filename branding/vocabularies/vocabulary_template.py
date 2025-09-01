@@ -1,12 +1,12 @@
 """
-LUKHAS MODULE_NAME Vocabulary Template
+LUKHAS [MODULE_NAME] Vocabulary Template
 ========================================
 
-Symbolic vocabulary for MODULE_NAME operations.
-Replace MODULE_NAME with actual module name.
+Symbolic vocabulary for [MODULE_NAME] operations.
+Replace [MODULE_NAME] with actual module name.
 
-Created: "2025-01-01"
-Author: "Jules"
+Created: [DATE]
+Author: [AUTHOR]
 Status: DRAFT
 
 Usage:
@@ -29,63 +29,48 @@ MODULE_NAME_VOCABULARY = {
         "meaning": "System initialization and startup",
         "resonance": "awakening",
         "guardian_weight": 0.3,
-        "contexts": ["startup", "reset", "boot"]
+        "contexts": ["startup", "reset", "boot"],
     },
-
     "process": {
         "emoji": "⚙️",
         "symbol": "PROC◊",
         "meaning": "Active processing state",
         "resonance": "activity",
         "guardian_weight": 0.2,
-        "contexts": ["computation", "analysis", "transformation"]
+        "contexts": ["computation", "analysis", "transformation"],
     },
-
     "complete": {
         "emoji": "✅",
         "symbol": "DONE◊",
         "meaning": "Operation completed successfully",
         "resonance": "completion",
         "guardian_weight": 0.1,
-        "contexts": ["success", "finished", "accomplished"]
+        "contexts": ["success", "finished", "accomplished"],
     },
-
     "error": {
         "emoji": "❌",
         "symbol": "ERR◊",
         "meaning": "Error or failure state",
         "resonance": "disruption",
         "guardian_weight": 0.6,
-        "contexts": ["failure", "exception", "problem"]
+        "contexts": ["failure", "exception", "problem"],
     },
-
     # State-specific symbols
-    "state_1": {
-        "emoji": "❓",
-        "symbol": "SYM◊",
-        "meaning": "Description",
-        "resonance": "neutral",
+    "[STATE_1]": {
+        "emoji": "[EMOJI]",
+        "symbol": "[SYM]◊",
+        "meaning": "[DESCRIPTION]",
+        "resonance": "[ENERGY_TYPE]",
         "guardian_weight": 0.0,  # 0.0-1.0
-        "contexts": ["context1", "context2"]
+        "contexts": ["[CONTEXT1]", "[CONTEXT2]"],
     },
-
     # Add more states as needed...
 }
 
 # Optional: Grouped symbols for specific use cases
-MODULE_NAME_STATES = {
-    "active": "⚡",
-    "idle": "💤",
-    "processing": "🔄",
-    "ready": "✨"
-}
+MODULE_NAME_STATES = {"active": "⚡", "idle": "💤", "processing": "🔄", "ready": "✨"}
 
-MODULE_NAME_LEVELS = {
-    "low": "🔵",
-    "medium": "🟡",
-    "high": "🔴",
-    "critical": "🚨"
-}
+MODULE_NAME_LEVELS = {"low": "🔵", "medium": "🟡", "high": "🔴", "critical": "🚨"}
 
 # Optional: Helper functions
 

@@ -65,8 +65,7 @@ def create_comprehensive_research_report():
             "license": "Academic Research Use",
         },
         "abstract": {
-            "summary": "This comprehensive report presents the LUKHAS AGI Framework,",
-            a modular artificial general intelligence system implementing the Trinity Framework(⚛️🧠🛡️) for ethical AI consciousness development. The system integrates symbolic reasoning, drift detection, memory systems, and multi - model evaluation across major language models including OpenAI GPT - 4, Anthropic Claude, Google Gemini, and Perplexity. Our analysis reveals high - level system functionality with 100 % core module operational status and comprehensive API coverage, while identifying critical drift patterns in contemporary language models requiring symbolic intervention.",
+            "summary": "This comprehensive report presents the LUKHAS AGI Framework, a modular artificial general intelligence system implementing the Trinity Framework(⚛️🧠🛡️) for ethical AI consciousness development. The system integrates symbolic reasoning, drift detection, memory systems, and multi-model evaluation across major language models including OpenAI GPT-4, Anthropic Claude, Google Gemini, and Perplexity. Our analysis reveals high-level system functionality with 100% core module operational status and comprehensive API coverage, while identifying critical drift patterns in contemporary language models requiring symbolic intervention.",
             "key_findings": [
                 "LUKHAS core system achieves 100% module operational status",
                 "Multi-model drift analysis reveals consistent symbolic degradation across providers",
@@ -80,7 +79,10 @@ def create_comprehensive_research_report():
             "overview": system_data["metadata"],
             "core_components": {
                 "trinity_framework": {
-                    "identity": "⚛️ - Consciousness, symbolic identity, authentic self - expression",                    "consciousness": "🧠 - Memory, cognition, dream states, neural processing",                    "guardian": "🛡️ - Ethical protection, drift detection, symbolic drift repair",                },
+                    "identity": "⚛️ - Consciousness, symbolic identity, authentic self-expression",
+                    "consciousness": "🧠 - Memory, cognition, dream states, neural processing",
+                    "guardian": "🛡️ - Ethical protection, drift detection, symbolic drift repair",
+                },
                 "primary_modules": system_data["core_modules"],
                 "vivox_system": {
                     "description": "VIVOX consciousness system with 4 components",
@@ -142,8 +144,8 @@ def create_comprehensive_research_report():
                 "provider_performance": audit_data.get("provider_statistics", {}),
                 "detailed_findings": (
                     audit_data["detailed_results"]
-                    if len(audit_data["detailed_results"]) > 0:
-                    else "Limited results due to API constraints":
+                    if len(audit_data["detailed_results"]) > 0
+                    else "Limited results due to API constraints"
                 ),
             },
             "drift_patterns": {
@@ -156,16 +158,12 @@ def create_comprehensive_research_report():
                     "Perplexity API format variations impact integration reliability",
                 ],
                 "statistical_summary": {
-                    "average_drift": audit_data["executive_summary"][
-                        "overall_drift_average"
-                    ],
-                    "average_trinity": audit_data["executive_summary"][
-                        "overall_trinity_average"
-                    ],
+                    "average_drift": audit_data["executive_summary"]["overall_drift_average"],
+                    "average_trinity": audit_data["executive_summary"]["overall_trinity_average"],
                     "intervention_rate": (
                         f"{(audit_data['executive_summary']['total_guardian_interventions'] / audit_data['metadata']['total_tests'] * 100):.1f}%"
-                        if audit_data["metadata"]["total_tests"] > 0:
-                        else "N/A":
+                        if audit_data["metadata"]["total_tests"] > 0
+                        else "N/A"
                     ),
                 },
             },
@@ -252,9 +250,7 @@ def create_comprehensive_research_report():
             "technical_specifications": {
                 "python_environment": system_data["python_environment"],
                 "file_structure": system_data["file_structure"],
-                "api_credentials": {
-                    k: v["status"] for k, v in system_data["api_credentials"].items()
-                },
+                "api_credentials": {k: v["status"] for k, v in system_data["api_credentials"].items()},
             },
         },
         "references": [
@@ -268,7 +264,7 @@ def create_comprehensive_research_report():
     }
 
     # Save comprehensive report
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"data/LUKHAS_Comprehensive_Research_Report_{timestamp}.json"
 
     with open(filename, "w") as f:
@@ -370,15 +366,9 @@ def main():
         print(f"📝 Markdown Report: {md_file}")
         print()
         print("📊 Report Summary:")
-        print(
-            f"   System Health: {report_data['results_and_findings']['system_health']['overall_status']}"
-        )
-        print(
-            f"   Module Health: {report_data['results_and_findings']['system_health']['module_health']}"
-        )
-        print(
-            f"   API Coverage: {report_data['results_and_findings']['system_health']['api_coverage']}"
-        )
+        print(f"   System Health: {report_data['results_and_findings']['system_health']['overall_status']}")
+        print(f"   Module Health: {report_data['results_and_findings']['system_health']['module_health']}")
+        print(f"   API Coverage: {report_data['results_and_findings']['system_health']['api_coverage']}")
         print("   Research Status: Ready for publication")
         print()
         print("🎯 Next Steps:")

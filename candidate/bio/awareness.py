@@ -142,7 +142,7 @@ class EnhancedSystemAwareness(BioAwareness):
         """Handle monitoring errors gracefully"""
         try:
             error_entry = {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "event": "error",
                 "function": function_name,
                 "error": str(error),

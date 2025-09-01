@@ -72,9 +72,7 @@ class PathMigrator:
             if dir_path.exists():
                 for py_file in dir_path.rglob("*.py"):
                     # Skip __pycache__ and other build directories
-                    if "__pycache__" not in str(py_file) and ".venv" not in str(
-                        py_file
-                    ):
+                    if "__pycache__" not in str(py_file) and ".venv" not in str(py_file):
                         python_files.append(py_file)
 
         return python_files
@@ -112,43 +110,30 @@ class PathMigrator:
 
             for old_pattern, new_replacement in self.path_mappings.items():
                 if re.search(old_pattern, updated_content):
-                    updated_content = re.sub(
-                        old_pattern, new_replacement, updated_content
-                    )
+                    updated_content = re.sub(old_pattern, new_replacement, updated_content)
                     changes_made.append(f"{old_pattern} -> {new_replacement}")
 
             # If changes were made, write the file and add import
             if changes_made:
                 # Add import for paths at the top if needed
-                if (
-                    "paths." in updated_content
-                    and "from lukhas_paths import paths" not in updated_content
-                ):
+                if "paths." in updated_content and "from lukhas_paths import paths" not in updated_content:
                     # Find the last import statement or add after initial comments
                     lines = updated_content.split("\n")
                     insert_line = 0
 
-                    for i, line in enumerate(lines):
-                        if line.startswith("import ") or line.startswith("from "):
-                            insert_line = i + 1
-                        elif (
-                            line.strip()
-                            and not line.startswith("# "
-                            and not line.startswith('"""')
-                        ):
-                            break
+                for i, line in enumerate(lines):
+                    if line.startswith("import ") or line.startswith("from "):
+                        insert_line = i + 1
+                    elif line.strip() and not line.startswith("# ") and not line.startswith('"""'):
+                        break
 
-                    lines.insert(insert_line, "from lukhas_paths import paths")
-                    updated_content = "\n".join(lines)
-                    changes_made.append("Added lukhas_paths import")
-
-                # Write the updated file
+                lines.insert(insert_line, "from lukhas_paths import paths")
+                updated_content = "\n".join(lines)
+                changes_made.append("Added lukhas_paths import")  # Write the updated file
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(updated_content)
 
-                self.migration_log.append(
-                    {"file": str(file_path), "changes": changes_made}
-                )
+                self.migration_log.append({"file": str(file_path), "changes": changes_made})
 
                 print(f"✅ Updated {file_path}")
                 for change in changes_made:
@@ -190,9 +175,7 @@ class PathMigrator:
 
         # Save migration log
         if self.migration_log:
-            log_path = (
-                self.project_root / "reports" / "deployment" / "path_migration_log.json"
-            )
+            log_path = self.project_root / "reports" / "deployment" / "path_migration_log.json"
             log_path.parent.mkdir(parents=True, exist_ok=True)
 
             import json

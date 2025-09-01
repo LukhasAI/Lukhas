@@ -164,7 +164,7 @@ class SymbolicNode:
 
     # Method to update performance metrics
 
-    def update_metrics(:
+    def update_metrics(
         self,
         error: float,
         activity: float,
@@ -208,7 +208,7 @@ class SymbolicNode:
 
     # Method to split the node
 
-    def split(:
+    def split(
         self, style: str = "crista_junction", split_ratio: float = 0.5
     ) -> list["SymbolicNode"]:
         """
@@ -222,7 +222,7 @@ class SymbolicNode:
         """
         self.logger.info(
             f"ΛTRACE: Splitting SymbolicNode '{self.node_id}' (Style: {style},"
-                                                               Ratio: {split_ratio: .2f})."
+            f"Ratio: {split_ratio:.2f})."
         )
         if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid:
             self.logger.warning(

@@ -7,7 +7,7 @@ RESTful API for natural language consciousness interaction.
 
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from core.common import get_logger
@@ -333,7 +333,7 @@ async def health_check():
     """Simple health check endpoint"""
     return {
         "status": ("healthy" if nl_interface and nl_interface.operational else "unhealthy"),
-        "timestamp": datetime.now(),
+        "timestamp": datetime.now(timezone.utc),
     }
 
 

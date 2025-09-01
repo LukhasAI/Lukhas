@@ -13,7 +13,6 @@ V2+: Learned/profiled mapper based on cultural psychology research
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Tuple
 
 
 class CultureProfile(str, Enum):

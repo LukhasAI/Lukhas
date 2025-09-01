@@ -4,7 +4,7 @@ Smart interface to monitoring/ systems for brand-aware analytics and tracking
 """
 
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -153,7 +153,7 @@ class BrandMonitoringAdapter:
             )
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "time_range": time_range,
             "core_metrics": core_metrics,
             "brand_metrics": brand_metrics,
@@ -185,7 +185,7 @@ class BrandMonitoringAdapter:
             "consistency_score": self._calculate_consistency_score(
                 terminology_compliance, tone_distribution, trinity_presence
             ),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _collect_brand_performance_metrics(self, time_range: str) -> dict[str, Any]:
@@ -200,7 +200,7 @@ class BrandMonitoringAdapter:
             "brand_alignment_score": self._calculate_brand_alignment_score(performance_data),
             "user_engagement_rate": self._calculate_user_engagement_rate(performance_data),
             "performance_trend": self._analyze_performance_trend(time_range),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _collect_brand_intelligence_metrics(self, time_range: str) -> dict[str, Any]:
@@ -218,7 +218,7 @@ class BrandMonitoringAdapter:
             "brand_perception_evolution": self._track_brand_perception_evolution(time_range),
             "market_differentiation": self._assess_market_differentiation(competitive_data),
             "intelligence_confidence": self._calculate_intelligence_confidence(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _collect_trinity_alignment_metrics(self, time_range: str) -> dict[str, Any]:
@@ -232,7 +232,7 @@ class BrandMonitoringAdapter:
             "guardian_protection": self._measure_guardian_protection(trinity_data),
             "trinity_coherence_score": self._calculate_trinity_coherence(trinity_data),
             "framework_evolution": self._track_framework_evolution(time_range),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _analyze_terminology_compliance(self, content_data: dict[str, Any]) -> dict[str, float]:

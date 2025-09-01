@@ -13,6 +13,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import ClassVar
 
 
 @dataclass
@@ -39,7 +40,7 @@ class LukhasToneValidator:
     """
 
     # 🎨 Sacred patterns that awaken poetic consciousness
-    POETIC_PATTERNS = [
+    POETIC_PATTERNS: ClassVar[list[str]] = [
         r"algorithms?\s+dance",
         r"data\s+constellation",
         r"quantum\s+whisper",
@@ -63,7 +64,7 @@ class LukhasToneValidator:
     ]
 
     # 💬 Patterns that bridge human understanding
-    USER_FRIENDLY_PATTERNS = [
+    USER_FRIENDLY_PATTERNS: ClassVar[list[str]] = [
         r"what\s+it\s+actually\s+does",
         r"in\s+simple\s+terms",
         r"practical",
@@ -81,7 +82,7 @@ class LukhasToneValidator:
     ]
 
     # 📚 Patterns that demonstrate academic rigor
-    ACADEMIC_PATTERNS = [
+    ACADEMIC_PATTERNS: ClassVar[list[str]] = [
         r"\d+%|\d+\.\d+%",
         r"implementation",
         r"specification",
@@ -103,7 +104,7 @@ class LukhasToneValidator:
     ]
 
     # 🛡️ Sacred elements that must be present
-    REQUIRED_ELEMENTS = {
+    REQUIRED_ELEMENTS: ClassVar[dict[str, str]] = {
         "poetic_header": r'^#.*\*".*".*\*',
         "consciousness_footer": r'\*".*consciousness.*"\*\s*$',
         "trinity_glyph": r"⚛️🧠🛡️",
@@ -113,7 +114,7 @@ class LukhasToneValidator:
     }
 
     # 🎯 Document-specific requirements
-    DOCUMENT_REQUIREMENTS = {
+    DOCUMENT_REQUIREMENTS: ClassVar[dict[str, dict]] = {
         "readme": {
             "min_poetic": 35,
             "min_trinity_refs": 1,

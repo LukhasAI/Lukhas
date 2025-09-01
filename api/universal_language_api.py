@@ -7,7 +7,7 @@ high-entropy password generation, and OpenAI integration.
 
 import logging
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from core.colonies.consensus_mechanisms import ConsensusMethod
@@ -236,7 +236,7 @@ async def understand_symbols(
     try:
         # Create orchestration task
         task = OrchestrationTask(
-            task_id=f"understand_{request.user_id}_{datetime.now().timestamp()}",
+            task_id=f"understand_{request.user_id}_{datetime.now(timezone.utc).timestamp()}",
             content=f"Understand symbol: {request.input.dict()}",
             context=request.context,
             mode=OrchestrationMode.COLLABORATIVE,
@@ -408,7 +408,7 @@ async def build_language(
 
         # Process through orchestrator
         task = OrchestrationTask(
-            task_id=f"build_{request.target_meaning}_{datetime.now().timestamp()}",
+            task_id=f"build_{request.target_meaning}_{datetime.now(timezone.utc).timestamp()}",
             content=f"Build universal symbol for: {request.target_meaning}",
             context=combined_input,
             mode=OrchestrationMode.FEDERATED,
@@ -475,7 +475,7 @@ async def colony_consensus(
 
         # Create consensus task
         task = OrchestrationTask(
-            task_id=f"consensus_{datetime.now().timestamp()}",
+            task_id=f"consensus_{datetime.now(timezone.utc).timestamp()}",
             content=request.proposal,
             context={"urgency": request.urgency},
             mode=OrchestrationMode.PARALLEL,
@@ -518,7 +518,7 @@ async def get_statistics(credentials: HTTPAuthorizationCredentials = Depends(sec
             "tasks_completed": orchestrator_stats.get("completed_tasks", 0),
             "active_signals": len(active_signals),
             "performance_metrics": orchestrator_stats.get("metrics", {}),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except Exception as e:

@@ -31,7 +31,7 @@ import statistics
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -271,7 +271,7 @@ class AwarenessMonitoringSystem:
             "average_awareness": 0.0,
             "current_cognitive_load": 0.0,
             "monitoring_uptime": 0.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Analysis engines
@@ -443,7 +443,7 @@ class AwarenessMonitoringSystem:
             # Create snapshot
             snapshot = AwarenessSnapshot(
                 snapshot_id=snapshot_id,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 awareness_level=awareness_level,
                 awareness_score=awareness_score,
                 attention_mode=attention_mode,
@@ -710,7 +710,7 @@ class AwarenessMonitoringSystem:
                 pattern_id=f"cycle_{uuid.uuid4().hex[:8]}",
                 pattern_type="attention_cycling",
                 description=f"High attention switching rate detected: {cycles} changes",
-                detected_at=datetime.now(),
+                detected_at=datetime.now(timezone.utc),
                 duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                 frequency=cycles / len(snapshots),
                 stability=1.0 - (cycles / len(snapshots)),
@@ -736,7 +736,7 @@ class AwarenessMonitoringSystem:
                     pattern_id=f"drift_{uuid.uuid4().hex[:8]}",
                     pattern_type="focus_drift",
                     description="Declining awareness trend detected",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                     frequency=1.0,
                     stability=recent_avg / earlier_avg,
@@ -760,7 +760,7 @@ class AwarenessMonitoringSystem:
                     pattern_id=f"oscillation_{uuid.uuid4().hex[:8]}",
                     pattern_type="load_oscillation",
                     description="Cognitive load oscillation detected",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     duration=timedelta(seconds=len(snapshots) * self.monitoring_interval),
                     frequency=load_variance,
                     stability=1.0 - load_variance,
@@ -817,7 +817,7 @@ class AwarenessMonitoringSystem:
                     insight_type="performance_optimization",
                     title="Performance Below Optimal",
                     description=f"Average performance score {avg_performance:.2f} is below optimal threshold",
-                    generated_at=datetime.now(),
+                    generated_at=datetime.now(timezone.utc),
                     importance_score=0.8,
                     confidence=0.85,
                     novelty=0.6,
@@ -849,7 +849,7 @@ class AwarenessMonitoringSystem:
                     insight_type="attention_improvement",
                     title="Attention Span Instability",
                     description=f"High variance in attention span detected (variance: {span_variance:.3f})",
-                    generated_at=datetime.now(),
+                    generated_at=datetime.now(timezone.utc),
                     importance_score=0.7,
                     confidence=0.8,
                     novelty=0.5,
@@ -881,7 +881,7 @@ class AwarenessMonitoringSystem:
                     insight_type="load_management",
                     title="Frequent High Cognitive Load",
                     description=f"High cognitive load detected in {high_load_count}/{len(load_scores)} measurements",
-                    generated_at=datetime.now(),
+                    generated_at=datetime.now(timezone.utc),
                     importance_score=0.9,
                     confidence=0.9,
                     novelty=0.4,
@@ -961,7 +961,7 @@ class AwarenessMonitoringSystem:
     async def _cleanup_old_data(self):
         """Clean up old monitoring data"""
 
-        cutoff_time = datetime.now() - timedelta(hours=self.snapshot_retention_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.snapshot_retention_hours)
 
         # Clean snapshots
         while self.awareness_snapshots and self.awareness_snapshots[0].timestamp < cutoff_time:
@@ -972,7 +972,7 @@ class AwarenessMonitoringSystem:
             self.attention_patterns.popleft()
 
         # Clean insights (keep longer)
-        insight_cutoff = datetime.now() - timedelta(hours=self.snapshot_retention_hours * 2)
+        insight_cutoff = datetime.now(timezone.utc) - timedelta(hours=self.snapshot_retention_hours * 2)
         while self.consciousness_insights and self.consciousness_insights[0].generated_at < insight_cutoff:
             self.consciousness_insights.popleft()
 
@@ -980,7 +980,7 @@ class AwarenessMonitoringSystem:
         """Get current awareness status"""
 
         if not self.current_awareness:
-            return {"status": "no_data", "timestamp": datetime.now().isoformat()}
+            return {"status": "no_data", "timestamp": datetime.now(timezone.utc).isoformat()}
 
         return {
             "timestamp": self.current_awareness.timestamp.isoformat(),
@@ -1004,7 +1004,7 @@ class AwarenessMonitoringSystem:
         """Generate comprehensive awareness report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
 
@@ -1018,7 +1018,7 @@ class AwarenessMonitoringSystem:
         if not period_snapshots:
             return AwarenessReport(
                 report_id=f"report_{uuid.uuid4().hex[:8]}",
-                generated_at=datetime.now(),
+                generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 total_snapshots=0,
                 average_awareness_score=0.0,
@@ -1069,7 +1069,7 @@ class AwarenessMonitoringSystem:
         # Create report
         report = AwarenessReport(
             report_id=f"report_{uuid.uuid4().hex[:8]}",
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             total_snapshots=len(period_snapshots),
             average_awareness_score=average_awareness_score,
@@ -1092,7 +1092,7 @@ class AwarenessMonitoringSystem:
     async def get_system_metrics(self) -> dict[str, Any]:
         """Get awareness monitoring system metrics"""
 
-        self.system_metrics["last_updated"] = datetime.now().isoformat()
+        self.system_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
         self.system_metrics["monitoring_uptime"] = (
             datetime.now() - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
         ).total_seconds()

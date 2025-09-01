@@ -28,9 +28,9 @@ class DriftTracker:
             window_size: Number of recent measurements to keep
         """
         self.window_size = window_size
-        self.measurements: deque = deque(maxlen=window_size)
-        self.timestamps: deque = deque(maxlen=window_size)
-        self.categories: dict[str, deque] = defaultdict(lambda: deque(maxlen=window_size))
+        self.measurements: deque[float] = deque(maxlen=window_size)
+        self.timestamps: deque[float] = deque(maxlen=window_size)
+        self.categories: dict[str, deque[float]] = defaultdict(lambda: deque(maxlen=window_size))
 
     def record(self, value: float, category: str = "general", metadata: Optional[dict] = None) -> None:
         """Record a drift measurement."""
@@ -46,7 +46,7 @@ class DriftTracker:
             return 0.0
         return self.measurements[-1]
 
-    def get_average_drift(self, category: str = None) -> float:
+    def get_average_drift(self, category: Optional[str] = None) -> float:
         """Get average drift for category or overall."""
         if category and category in self.categories:
             values = list(self.categories[category])

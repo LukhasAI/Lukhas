@@ -277,9 +277,9 @@ class OrganizationScanner:
 
     def get_timestamp(self) -> str:
         """Get current timestamp"""
-        from datetime import datetime
+        from datetime import datetime, timezone
 
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
 
     def execute_scan(self) -> str:
         """Execute complete organization scan"""
@@ -295,9 +295,9 @@ class OrganizationScanner:
         report = self.generate_report()
 
         # Save report
-        from datetime import datetime
+        from datetime import datetime, timezone
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_path = self.workspace_root / f"lukhas_ORGANIZATION_SCAN_REPORT_{timestamp}.md"
 
         with open(report_path, "w", encoding="utf-8") as f:

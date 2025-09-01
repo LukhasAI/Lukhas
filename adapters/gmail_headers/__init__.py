@@ -14,7 +14,7 @@ ACK GUARDRAILS
 """
 
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from consent.service import ConsentService
 
@@ -36,7 +36,7 @@ class EmailHeaderMetadata(ResourceMetadata):
     bcc_addresses: Optional[list[str]] = None
     subject: str
     date_sent: datetime
-    labels: list[str] = []
+    labels: ClassVar[list[str]] = []
     thread_id: str
     message_id: str
     snippet: Optional[str] = None  # First ~150 chars preview
@@ -98,7 +98,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         self,
         capability_token: str,
         parent_id: Optional[str] = None,  # Label/folder ID
-        resource_type: Optional[str] = None,
+        _resource_type: Optional[str] = None,
         limit: int = 100,
     ) -> list[EmailHeaderMetadata]:
         """
@@ -229,8 +229,8 @@ class GmailHeadersAdapter(ServiceAdapter):
         self,
         capability_token: str,
         resource_id: str,
-        new_parent_id: str,
-        new_name: Optional[str] = None,
+        _new_parent_id: str,
+        _new_name: Optional[str] = None,
     ) -> OperationResult:
         """Gmail messages can be labeled but not moved like files"""
         required_scopes = ["email.modify.labels"]
@@ -249,7 +249,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         await self.verify_capability_token(capability_token, required_scopes)
 
         # In production: set up Gmail push notifications
-        watch_id = f"gmail_watch_{datetime.now().timestamp()}"
+        watch_id = f"gmail_watch_{datetime.now(timezone.utc).timestamp()}"
 
         await self._log_operation(
             "watch_resources",

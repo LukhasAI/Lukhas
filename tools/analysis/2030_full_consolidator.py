@@ -8,7 +8,7 @@ import ast
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -311,7 +311,7 @@ class LUKHAS2030Consolidator:
         total_lines_saved = sum(r["potential_savings"]["lines_saved"] for r in self.analysis_results.values())
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "vision": "LUKHAS 2030 - Symbolic General Intelligence",
             "summary": {
                 "total_systems": len(self.consolidation_map),

@@ -56,7 +56,6 @@ def main():
     # Choose compression
     comp = "gz"
     try:
-
         comp = "zst"
     except Exception:
         pass

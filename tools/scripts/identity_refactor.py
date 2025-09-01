@@ -7,7 +7,7 @@ Consolidates identity logic into identity_core.py and removes legacy files
 import json
 import re
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -16,7 +16,7 @@ class IdentityRefactor:
 
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.workspace / f".identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.changes = []
 
     def backup_identity_modules(self):
@@ -261,7 +261,7 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = \
         print("\n📊 Generating refactoring report...")
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "backup_location": str(self.backup_dir),
             "changes": self.changes,
             "new_structure": {

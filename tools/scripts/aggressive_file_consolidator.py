@@ -10,7 +10,7 @@ import json
 import os
 import shutil
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class AggressiveFileConsolidator:
@@ -268,7 +268,7 @@ class AggressiveFileConsolidator:
     def generate_report(self, consolidated_count, empty_dirs_removed):
         """Generate consolidation report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "files_consolidated": consolidated_count,
             "empty_dirs_removed": empty_dirs_removed,
             "moved_files": len(self.moved_files),

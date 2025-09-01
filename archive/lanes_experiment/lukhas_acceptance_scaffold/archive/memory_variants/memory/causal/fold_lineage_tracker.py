@@ -81,6 +81,7 @@ MAX_RECURSION_DEPTH = 10
 
 logger = structlog.get_logger(__name__)
 
+
 class CausationType(Enum):
     """Types of causal relationships between folds."""
 

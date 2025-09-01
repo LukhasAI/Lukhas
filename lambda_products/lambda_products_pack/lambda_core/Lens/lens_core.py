@@ -10,39 +10,13 @@ import json
 import time
 import uuid
 from dataclasses import dataclass
-from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-
-# Symbol types for different content
-class SymbolType(Enum):
-    """Types of symbols in the dashboard"""
-
-    DOCUMENT = "📄"
-    CODE = "💻"
-    DATA = "📊"
-    CONCEPT = "💡"
-    ENTITY = "👤"
-    RELATIONSHIP = "🔗"
-    WARNING = "⚠️"
-    SUCCESS = "✅"
-    PROCESS = "🔄"
-    GLYPH = "🔮"
-
-
-@dataclass
-class GlyphSymbol:
-    """Represents a symbolic element in the dashboard"""
-
-    id: str
-    type: SymbolType
-    content: str
-    metadata: dict[str, Any]
-    position: Optional[tuple[float, float, float]]  # 3D position for AR/VR
-    connections: list[str]  # IDs of connected symbols
-    timestamp: float
-    confidence: float
+# Import modular components
+from .parsers import CodeParser, CSVParser, DataParser, MarkdownParser, PDFParser, TextParser
+from .renderers import Web2DRenderer, XRRenderer
+from .symbols import GlyphSymbol, SymbolGenerator, SymbolType
 
 
 @dataclass
@@ -75,7 +49,8 @@ class ΛLens:
         self.parser_registry = self._init_parsers()
         self.symbol_generator = SymbolGenerator()
         self.relationship_analyzer = RelationshipAnalyzer()
-        self.ar_renderer = ARRenderer()
+        self.web_renderer = Web2DRenderer()
+        self.ar_renderer = XRRenderer()
 
     def _default_config(self) -> dict:
         """Default ΛLens configuration"""
@@ -171,6 +146,8 @@ class ΛLens:
         """Render dashboard in requested format"""
         if dashboard.render_format in ["ar", "vr", "3d"]:
             await self.ar_renderer.render(dashboard)
+        elif dashboard.render_format in ["2d", "web"]:
+            await self.web_renderer.render(dashboard)
 
     async def export_ar(self, dashboard_id: str, output_path: str) -> str:
         """Export dashboard for AR/VR viewing"""
@@ -411,59 +388,6 @@ class ARRenderer:
 
         # Convert to JSON bytes
         return json.dumps(gltf, indent=2).encode("utf-8")
-
-
-# Parser implementations (simplified)
-class BaseParser:
-    """Base class for file parsers"""
-
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        """Parse file and return structured content"""
-        raise NotImplementedError
-
-
-class PDFParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        # Simplified - in production use PDF libraries
-        with open(file_path, "rb") as f:
-            f.read()
-        return {"text": f"PDF content from {file_path}", "pages": 1}
-
-
-class TextParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        with open(file_path, encoding="utf-8") as f:
-            text = f.read()
-        return {"text": text}
-
-
-class CodeParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        with open(file_path, encoding="utf-8") as f:
-            code = f.read()
-        return {"code": code}
-
-
-class DataParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        with open(file_path, encoding="utf-8") as f:
-            data = json.load(f)
-        return {"data": data}
-
-
-class MarkdownParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        with open(file_path, encoding="utf-8") as f:
-            text = f.read()
-        return {"text": text, "format": "markdown"}
-
-
-class CSVParser(BaseParser):
-    async def parse(self, file_path: str) -> dict[str, Any]:
-        # Simplified - in production use CSV libraries
-        with open(file_path, encoding="utf-8") as f:
-            lines = f.readlines()
-        return {"data": {"rows": len(lines), "content": lines[:10]}}
 
 
 # Demo usage

@@ -18,7 +18,7 @@ import os
 import signal
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Add project root to Python path
@@ -337,7 +337,7 @@ class LUKHASProduction:
                 "health_score": health_score,
                 "operational_components": operational_components,
                 "total_components": total_components,
-                "last_health_check": datetime.now().isoformat(),
+                "last_health_check": datetime.now(timezone.utc).isoformat(),
             }
         )
 

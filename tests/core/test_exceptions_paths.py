@@ -1,7 +1,6 @@
 """Test exception module branches for coverage."""
 
 
-
 def test_exception_none_handling():
     """Test exceptions handle None values properly."""
     from lukhas.core.common.exceptions import ResourceExhaustedError

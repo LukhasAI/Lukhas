@@ -1,0 +1,36 @@
+{
+  "photon_version": "1.0.0",
+  "title": "Codebase Overview: l_lens.api",
+  "description": "Call graph and component analysis for the ΛLens API service.",
+  "nodes": [
+    {
+      "id": "func-main",
+      "kind": "Function",
+      "label": "main.py:startup_event"
+    },
+    {
+      "id": "func-validate",
+      "kind": "Function",
+      "label": "endpoints.py:validate_photon"
+    },
+    {
+      "id": "widget-callgraph",
+      "kind": "CallGraph",
+      "label": "API Call Graph",
+      "properties": { "entrypoint": "func-main", "depth": 3 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-1",
+      "source": "func-main",
+      "target": "func-validate",
+      "kind": "calls"
+    }
+  ],
+  "layout": {
+    "positions_2d": {
+      "widget-callgraph": { "x": 50, "y": 50 }
+    }
+  }
+}

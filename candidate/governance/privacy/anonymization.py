@@ -32,7 +32,7 @@ import statistics
 import uuid
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
@@ -237,7 +237,7 @@ class AdvancedAnonymizationEngine:
             "average_risk_score": 0.0,
             "method_usage_stats": {},
             "privacy_budget_consumed": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize standard configurations
@@ -383,7 +383,7 @@ class AdvancedAnonymizationEngine:
         Returns:
             Tuple of (anonymized_dataset, result)
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         operation_id = f"anon_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
@@ -457,7 +457,7 @@ class AdvancedAnonymizationEngine:
 
             # Calculate final metrics
             result.anonymized_records = len(anonymized_data)
-            result.processing_time = (datetime.now() - start_time).total_seconds()
+            result.processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Assess data utility
             result.data_utility = await self._calculate_data_utility(dataset, anonymized_data, config)
@@ -502,7 +502,7 @@ class AdvancedAnonymizationEngine:
                 config_id=config_id,
                 original_records=len(dataset),
                 anonymized_records=len(dataset),
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                 warnings=[f"Anonymization error: {e!s}"],
             )
 
@@ -1117,7 +1117,7 @@ class AdvancedAnonymizationEngine:
             total_budget = self.metrics["privacy_budget_consumed"]
             total_budget[result.config_id] = total_budget.get(result.config_id, 0) + result.epsilon_spent
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self, max_size: int = 1000):
         """Maintain operation history size"""
