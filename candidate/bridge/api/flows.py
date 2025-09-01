@@ -101,16 +101,16 @@ def _validate_password_strength(password: str, policy: Optional[dict] = None) ->
     if len(password) < policy.get("min_length", 8):
         return False, f"Password must be at least {policy.get('min_length', 8)} characters"
 
-    if policy.get("require_uppercase") and not any(c.isupper() for c in password):
+    if policy.get("require_uppercase", True) and not any(c.isupper() for c in password):
         return False, "Password must contain at least one uppercase letter"
 
-    if policy.get("require_lowercase") and not any(c.islower() for c in password):
+    if policy.get("require_lowercase", True) and not any(c.islower() for c in password):
         return False, "Password must contain at least one lowercase letter"
 
-    if policy.get("require_digit") and not any(c.isdigit() for c in password):
+    if policy.get("require_digit", True) and not any(c.isdigit() for c in password):
         return False, "Password must contain at least one digit"
 
-    if policy.get("require_special_char"):
+    if policy.get("require_special_char", True):
         special_chars = policy.get("special_chars", "!@#$%^&*()_+-=[]{}|;:,.<>?")
         if not any(c in special_chars for c in password):
             return False, "Password must contain at least one special character"

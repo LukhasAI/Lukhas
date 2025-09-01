@@ -164,11 +164,11 @@ def create_memory_client(driver: str = "noop", **kwargs) -> AkaqMemory:
         ... )
     """
     if driver == "noop":
-        from memory_noop import NoopMemory
+        from .memory_noop import NoopMemory
 
         return NoopMemory(**kwargs)
     elif driver == "sql":
-        from memory_sql import SqlMemory
+        from .memory_sql import SqlMemory
 
         return SqlMemory(**kwargs)
     else:
