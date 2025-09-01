@@ -64,7 +64,8 @@
       "Read(/Users/agi_dev/to_review/PY_FILES/Technical/**)",
       "Read(/Users/agi_dev/to_review/PY_FILES/**)",
       "Read(/Users/agi_dev/to_review/PY_FILES/**)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
