@@ -1,32 +1,8 @@
-"""
-══════════════════════════════════════════════════════════════════════════════════
-║ 🧠 LUKHAS AI - UNIFIED OPENAI CLIENT
-║ Unified OpenAI integration combining all client features
-║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
-╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: unified_openai_client.py
-║ Path: lukhas/bridge/llm_wrappers/unified_openai_client.py
-║ Version: 2.0.0 | Created: 2025-07-27
-║ Authors: LUKHAS AI Integration Team
-╠══════════════════════════════════════════════════════════════════════════════════
-║ DESCRIPTION
-╠══════════════════════════════════════════════════════════════════════════════════
-║ This unified client combines features from all three previous OpenAI clients:
-║ • Async support and conversation management (from gpt_client.py)
-║ • Comprehensive documentation and error handling (from openai_wrapper.py)
-║ • Task-specific configurations (from openai_client.py)
-║ • Environment variable based configuration (no macOS keychain dependency)
-║
-║ Key Features:
-║ • Async/await support for all operations
-║ • Conversation state management
-║ • Task-specific model selection
-║ • Streaming response support
-║ • Function calling capabilities
-║ • Token optimization
-║ • Comprehensive error handling with retries
-║ • Environment-based configuration
-╚══════════════════════════════════════════════════════════════════════════════════
+"""Unified OpenAI integration for LUKHAS AI.
+
+This file provides a consolidated OpenAI client wrapper used by the
+candidate bridge. The implementation is intentionally conservative and
+typed to reduce static-analysis noise during the migration work.
 """
 
 import asyncio
@@ -36,10 +12,13 @@ import os
 import uuid
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Optional, Union
+from datetime import datetime, timezone
+from typing import Any, ClassVar, Optional, Union
 
-from openai import AsyncOpenAI, OpenAI
+try:
+    from openai import AsyncOpenAI, OpenAI  # type: ignore
+except Exception:  # pragma: no cover - optional runtime dependency
+    AsyncOpenAI = OpenAI = object  # type: ignore
 
 from .base import LLMWrapper
 
@@ -48,9 +27,9 @@ logger = logging.getLogger("ΛTRACE.bridge.unified_openai")
 
 @dataclass
 class ConversationMessage:
-    """Represents a single message in a conversation"""
+    """Represents a single message in a conversation."""
 
-    role: str  # "system", "user", "assistant", "function"
+    role: str
     content: str
     timestamp: str
     message_id: str
@@ -60,7 +39,7 @@ class ConversationMessage:
 
 @dataclass
 class ConversationState:
-    """Represents the state of a conversation"""
+    """Represents the state of a conversation."""
 
     conversation_id: str
     session_id: str
@@ -70,7 +49,7 @@ class ConversationState:
     created_at: str
     updated_at: str
     total_tokens: int = 0
-    max_context_length: int = 8000  # Conservative limit for GPT-4
+    max_context_length: int = 8000
 
 
 class UnifiedOpenAIClient(LLMWrapper):
@@ -80,7 +59,7 @@ class UnifiedOpenAIClient(LLMWrapper):
     """
 
     # Task-specific model configurations
-    TASK_MODELS = {
+    TASK_MODELS: ClassVar[dict[str, str]] = {
         "reasoning": "gpt-4",
         "creativity": "gpt-4",
         "consciousness": "gpt-4",
@@ -92,7 +71,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         "general": "gpt-3.5-turbo",
     }
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None) -> None:
         """
         Initialize the unified OpenAI client.
 
@@ -107,35 +86,33 @@ class UnifiedOpenAIClient(LLMWrapper):
         if not self.api_key:
             raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
 
-        # Initialize clients with organization from .env
-        client_kwargs = {"api_key": self.api_key}
-        if self.organization:
-            client_kwargs["organization"] = self.organization
+        org: Optional[str] = self.organization
+        # initialize client objects if real classes are available
+        try:
+            self.client = OpenAI(api_key=self.api_key, organization=org)  # type: ignore[arg-type]
+            self.async_client = AsyncOpenAI(api_key=self.api_key, organization=org)  # type: ignore[arg-type]
+        except Exception:
+            # Keep fallback placeholders for environments without openai package
+            self.client = None  # type: ignore[assignment]
+            self.async_client = None  # type: ignore[assignment]
 
-        # For sync client
-        self.client = OpenAI(**client_kwargs)
-        self.async_client = AsyncOpenAI(**client_kwargs)
-
-        # Store project ID for headers if needed
         self.project_id = self.project
-
-        # Conversation management
         self.conversations: dict[str, ConversationState] = {}
 
         # Default parameters
-        self.default_temperature = 0.7
-        self.default_max_tokens = 2000
-        self.retry_attempts = 3
-        self.retry_delay = 1.0
+        self.default_temperature: float = 0.7
+        self.default_max_tokens: int = 2000
+        self.retry_attempts: int = 3
+        self.retry_delay: float = 1.0
 
-        logger.info(f"UnifiedOpenAIClient initialized with org: {self.organization}")
+        logger.info("UnifiedOpenAIClient initialized")
 
     # Conversation Management
 
     def create_conversation(self, user_id: str, session_id: str) -> str:
         """Create a new conversation"""
         conversation_id = str(uuid.uuid4())
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(tz=timezone.utc).isoformat()
 
         self.conversations[conversation_id] = ConversationState(
             conversation_id=conversation_id,
@@ -160,17 +137,16 @@ class UnifiedOpenAIClient(LLMWrapper):
         """Add a message to a conversation"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
-
         message = ConversationMessage(
             role=role,
             content=content,
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(tz=timezone.utc).isoformat(),
             message_id=str(uuid.uuid4()),
             function_call=function_call,
         )
 
         self.conversations[conversation_id].messages.append(message)
-        self.conversations[conversation_id].updated_at = datetime.utcnow().isoformat()
+        self.conversations[conversation_id].updated_at = datetime.now(tz=timezone.utc).isoformat()
 
         return message
 
@@ -178,13 +154,12 @@ class UnifiedOpenAIClient(LLMWrapper):
         """Get conversation messages formatted for OpenAI API"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
-
-        messages = []
+        messages: list[dict[str, Any]] = []
         token_count = 0
 
         # Add messages in reverse order until we hit token limit
         for msg in reversed(self.conversations[conversation_id].messages):
-            msg_dict = {"role": msg.role, "content": msg.content}
+            msg_dict: dict[str, Any] = {"role": msg.role, "content": msg.content}
             if msg.function_call:
                 msg_dict["function_call"] = msg.function_call
 
@@ -237,7 +212,8 @@ class UnifiedOpenAIClient(LLMWrapper):
 
         # Select model based on task
         if model is None:
-            model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
+            key = task if task is not None else "general"
+            model = self.TASK_MODELS.get(key, self.TASK_MODELS["general"])
 
         # Set defaults
         temperature = temperature if temperature is not None else self.default_temperature
@@ -265,20 +241,27 @@ class UnifiedOpenAIClient(LLMWrapper):
             params["tool_choice"] = tool_choice
 
         # Execute request with retries
+        last_exc: Optional[BaseException] = None
         for attempt in range(self.retry_attempts):
             try:
+                if self.async_client is None:  # pragma: no cover - runtime fallback
+                    raise RuntimeError("OpenAI async client not available")
+
                 if stream:
                     return await self.async_client.chat.completions.create(**params, stream=True)
-                else:
-                    response = await self.async_client.chat.completions.create(**params)
-                    return response.model_dump()
+                response = await self.async_client.chat.completions.create(**params)
+                # model_dump may not exist on all client objects; fall back to dict()
+                return getattr(response, "model_dump", lambda r=response: dict(r))()
 
-            except Exception as e:
-                logger.error(f"OpenAI API error (attempt {attempt + 1}): {e}")
+            except Exception as exc:  # capture and retry
+                last_exc = exc
+                logger.debug("OpenAI API error (attempt %d): %s", attempt + 1, exc)
                 if attempt < self.retry_attempts - 1:
                     await asyncio.sleep(self.retry_delay * (attempt + 1))
-                else:
-                    raise
+
+        # If we exhausted retries, raise the last exception
+        if last_exc:
+            raise last_exc
 
     def chat_completion_sync(
         self,
@@ -299,6 +282,9 @@ class UnifiedOpenAIClient(LLMWrapper):
         temperature = temperature if temperature is not None else self.default_temperature
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
+        if self.client is None:  # pragma: no cover - runtime fallback
+            raise RuntimeError("OpenAI sync client not available")
+
         response = self.client.chat.completions.create(
             model=model,
             messages=messages,
@@ -307,7 +293,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             **kwargs,
         )
 
-        return response.model_dump()
+        return getattr(response, "model_dump", lambda: dict(response))()
 
     # Task-Specific Methods
 
@@ -376,7 +362,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         return {
             "action": action,
             "assessment": content,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
         }
 
     # Utility Methods
@@ -385,6 +371,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         """Estimate token count for text"""
         # Rough estimation: 4 characters per token
         # In production, use tiktoken library for accurate counting
+        _ = model
         return len(text) // 4
 
     def get_model_info(self, task: Optional[str] = None) -> dict[str, Any]:
@@ -392,7 +379,7 @@ class UnifiedOpenAIClient(LLMWrapper):
         return {
             "task_models": self.TASK_MODELS,
             "selected_model": (self.TASK_MODELS.get(task, self.TASK_MODELS["general"]) if task else None),
-            "organization_id": self.organization_id,
+            "organization": self.organization,
             "project_id": self.project_id,
             "default_temperature": self.default_temperature,
             "default_max_tokens": self.default_max_tokens,
@@ -400,7 +387,10 @@ class UnifiedOpenAIClient(LLMWrapper):
 
     async def close(self):
         """Clean up resources"""
-        await self.async_client.close()
+        if self.async_client is not None:
+            close = getattr(self.async_client, "close", None)
+            if callable(close):
+                await close()
         logger.info("UnifiedOpenAIClient closed")
 
     async def generate_response(self, prompt: str, model: Optional[str] = None, **kwargs) -> tuple[str, str]:

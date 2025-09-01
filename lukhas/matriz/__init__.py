@@ -1,55 +1,47 @@
-"""Compatibility shim: expose the top-level `matriz` package under `lukhas.matriz`.
+"""Compatibility shim: expose the top-level `matriz` package under ``lukhas.matriz``.
 
-This file allows tests and modules that import `lukhas.matriz` to find the
-`matriz` implementation included at the repository root.
+This module prefers an installed ``matriz`` package, otherwise falls back to
+the local repository copy. It also re-exports a small set of runtime symbols
+when available.
 """
+
+import importlib
+import logging
+from typing import Any
+
+logger = logging.getLogger(__name__)
+
 
 try:
     # Prefer the installed/packaged matriz if available
     import matriz as _matriz  # type: ignore
 except Exception:
     # Fallback: try to import from repository root
-    import importlib
-
     _matriz = importlib.import_module("matriz")
 
-# Re-export common symbols for convenience
-from importlib import import_module as _import_module
 
+# Re-export common symbols if present in the upstream package
 __all__ = getattr(_matriz, "__all__", [])
-
 for _name in __all__:
     globals()[_name] = getattr(_matriz, _name)
-"""
-LUKHAS AI MΛTRIZ Module
-======================
 
-Distributed consciousness architecture with cognitive DNA system.
-Implements the MΛTRIZ cognitive framework for consciousness nodes.
 
-Trinity Framework: ⚛️🧠🛡️
-"""
-
-import logging
-
-logger = logging.getLogger(__name__)
-
-# Import runtime components
+# Attempt to import local runtime helpers (optional)
 try:
-    from .runtime.policy import PolicyEngine
-    from .runtime.supervisor import RuntimeSupervisor
+    from .runtime.policy import PolicyEngine  # type: ignore
+    from .runtime.supervisor import RuntimeSupervisor  # type: ignore
 
     # Alias for backward compatibility
     MatrizNode = RuntimeSupervisor
+except Exception as e:  # pragma: no cover - best-effort import
+    logger.info(f"MΛTRIZ runtime components not available: {e}")
+    RuntimeSupervisor = None  # type: ignore
+    PolicyEngine = None  # type: ignore
+    MatrizNode = None  # type: ignore
 
-except ImportError as e:
-    logger.warning(f"Failed to import MΛTRIZ runtime components: {e}")
-    RuntimeSupervisor = None
-    PolicyEngine = None
-    MatrizNode = None
 
-__all__ = [
-    "MatrizNode",  # Alias
+__all__ += [
+    "MatrizNode",
     "PolicyEngine",
     "RuntimeSupervisor",
 ]

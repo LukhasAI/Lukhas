@@ -26,10 +26,10 @@ except ImportError:
 
 # Try importing LUKHAS identity components with real implementations
 try:
-    from .wallet import WalletManager
-
+    from lukhas.identity.wallet import WalletManager
     WALLET_AVAILABLE = True
 except ImportError:
+    WalletManager = None
     WALLET_AVAILABLE = False
 
 # Import real identity management implementations from candidate (if available)
@@ -80,33 +80,24 @@ logger = logging.getLogger(__name__)
 
 # Define placeholder classes for linters when dynamic imports are unavailable
 if "AccessTierManager" not in globals():
-
-    class AccessTierManager:  # type: ignore[no-redef]
-        ...
-
+    class AccessTierManager:
+        pass
 
 if "IdentityValidator" not in globals():
-
-    class IdentityValidator:  # type: ignore[no-redef]
-        ...
-
+    class IdentityValidator:
+        pass
 
 if "QIIdentityManager" not in globals():
-
-    class QIIdentityManager:  # type: ignore[no-redef]
-        ...
-
+    class QIIdentityManager:
+        pass
 
 if "AuditLogger" not in globals():
-
-    class AuditLogger:  # type: ignore[no-redef]
-        ...
-
+    class AuditLogger:
+        pass
 
 if "AuthenticationServer" not in globals():
-
-    class AuthenticationServer:  # type: ignore[no-redef]
-        ...
+    class AuthenticationServer:
+        pass
 
 
 @dataclass
@@ -116,7 +107,7 @@ class AuthResult:
     success: bool
     user_id: Optional[str] = None
     session_token: Optional[str] = None
-    permissions: list[str] = None
+    permissions: Optional[list[str]] = None
     expires_at: Optional[float] = None
     error: Optional[str] = None
     auth_method: str = "unknown"
@@ -133,10 +124,10 @@ class UserProfile:
     user_id: str
     username: str
     email: Optional[str] = None
-    created_at: float = None
+    created_at: Optional[float] = None
     last_login: Optional[float] = None
-    permissions: list[str] = None
-    metadata: dict[str, Any] = None
+    permissions: Optional[list[str]] = None
+    metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.permissions is None:
@@ -183,6 +174,9 @@ class AuthenticationService:
         # Security settings
         self.secret_key = self._get_or_generate_secret()
         self.password_pepper = self.config.get("password_pepper", "lukhas_ai_pepper")
+
+        # Initialize identity manager (for backward compatibility)
+        self.identity_manager: Optional[Any] = None
 
         implementation_type = "production" if REAL_IDENTITY_AVAILABLE else "fallback"
         self.logger.info(f"Authentication service initialized with {implementation_type} implementations")
@@ -236,12 +230,12 @@ class AuthenticationService:
                 _ = user_id
                 return "T2_authenticated"
 
-            async def assess_tier_promotion(self, user_id: str):
+            async def assess_tier_promotion(self, user_id: str) -> dict[str, Any]:
                 _ = user_id
                 return {"tier": "T2_authenticated", "eligible_for_promotion": False}
 
         class MockIdentityValidator:
-            async def validate_identity(self, user_data: dict):
+            async def validate_identity(self, user_data: dict[str, Any]) -> dict[str, Any]:
                 _ = user_data
                 return {"valid": True, "risk_score": 0.1, "trust_score": 0.8}
 
@@ -250,19 +244,19 @@ class AuthenticationService:
                 return f"qi_{user_id}_{time.time()}"
 
         class MockAuditLogger:
-            async def log_authentication_attempt(self, *args, **kwargs) -> str:
-                _ = (args, kwargs)
+            async def log_authentication_attempt(self, attempt_result: str, details: dict[str, Any]) -> str:
+                _ = (attempt_result, details)
                 return f"audit_{time.time()}"
 
         class MockAuthServer:
-            def get_server_status(self):
+            def get_server_status(self) -> dict[str, Any]:
                 return {"status": "mock", "active": True}
 
-        self.access_tier_manager = MockAccessTierManager()
-        self.identity_validator = MockIdentityValidator()
-        self.qi_identity_manager = MockQIIdentityManager()
-        self.audit_logger = MockAuditLogger()
-        self.auth_server = MockAuthServer()
+        self.access_tier_manager = MockAccessTierManager()  # type: ignore[assignment]
+        self.identity_validator = MockIdentityValidator()  # type: ignore[assignment]
+        self.qi_identity_manager = MockQIIdentityManager()  # type: ignore[assignment]
+        self.audit_logger = MockAuditLogger()  # type: ignore[assignment]
+        self.auth_server = MockAuthServer()  # type: ignore[assignment]
 
         self.logger.info("⚠️ Using fallback mock implementations")
         self._implementation_type = "fallback"
@@ -298,7 +292,7 @@ class AuthenticationService:
                 if not hasattr(self, "_audit_tasks"):
                     self._audit_tasks = []
                 self._audit_tasks.append(
-                    self.audit_logger.log_authentication_attempt(
+                    self.audit_logger.log_authentication_attempt(  # type: ignore[attr-defined]
                         attempt_result="initiated",
                         details={
                             "username": username,
@@ -327,7 +321,7 @@ class AuthenticationService:
                 if not hasattr(self, "_audit_tasks"):
                     self._audit_tasks = []
                 self._audit_tasks.append(
-                    self.audit_logger.log_authentication_attempt(
+                    self.audit_logger.log_authentication_attempt(  # type: ignore[attr-defined]
                         attempt_result="error",
                         details={
                             "username": username,
@@ -510,7 +504,7 @@ class AuthenticationService:
         try:
             # Perform real identity validation
             validation_result = asyncio.run(
-                self.identity_validator.validate_identity(
+                self.identity_validator.validate_identity(  # type: ignore[attr-defined]
                     {
                         "user_id": user_id,
                         "username": username,
@@ -527,21 +521,21 @@ class AuthenticationService:
                 )
 
             # Get user's access tier
-            user_tier = self.access_tier_manager.get_user_tier(user_id)
+            user_tier = self.access_tier_manager.get_user_tier(user_id)  # type: ignore[attr-defined]
 
             # Create quantum identity if available
-            qi_identity = self.qi_identity_manager.create_quantum_identity(user_id)
+            qi_identity = self.qi_identity_manager.create_quantum_identity(user_id)  # type: ignore[attr-defined]
 
             # Update last login
             self.users[user_id]["last_login"] = time.time()
             self._save_users()
 
             # Create enhanced session
-            session_token = self._create_enhanced_session_token(user_id, validation_result)
+            session_token = self._create_enhanced_session_token(user_id or "", validation_result)
 
             # Log successful authentication
             asyncio.run(
-                self.audit_logger.log_authentication_attempt(
+                self.audit_logger.log_authentication_attempt(  # type: ignore[attr-defined]
                     attempt_result="success",
                     details={
                         "user_id": user_id,
@@ -584,7 +578,7 @@ class AuthenticationService:
         # Get tier information if available
         user_tier = "T2_authenticated"
         if self._implementation_type == "production":
-            user_tier = self.access_tier_manager.get_user_tier(user_id)
+            user_tier = self.access_tier_manager.get_user_tier(user_id)  # type: ignore[attr-defined]
 
         self.active_sessions[token] = {
             "user_id": user_id,
@@ -623,7 +617,7 @@ class AuthenticationService:
         self._save_users()
 
         # Create session
-        session_token = self._create_session_token(user_id)
+        session_token = self._create_session_token(user_id or "")
 
         return AuthResult(
             success=True,
@@ -811,7 +805,7 @@ class AuthenticationService:
 
     def get_service_status(self) -> dict[str, Any]:
         """Get comprehensive service status including implementation details"""
-        status = {
+        status: dict[str, Any] = {
             "implementation_type": getattr(self, "_implementation_type", "unknown"),
             "components": {
                 "wallet_manager": self.wallet_manager is not None,
@@ -838,7 +832,7 @@ class AuthenticationService:
 
             if hasattr(self, "auth_server"):
                 try:
-                    status["auth_server_status"] = self.auth_server.get_server_status()
+                    status["auth_server_status"] = self.auth_server.get_server_status()  # type: ignore[attr-defined]
                 except Exception as e:
                     status["auth_server_status"] = {
                         "error": "unable_to_get_status",
@@ -890,7 +884,7 @@ def get_auth_service(config: Optional[dict[str, Any]] = None) -> AuthenticationS
 
 
 # Convenience functions
-def authenticate_user(username: str, password: str, **kwargs) -> AuthResult:
+def authenticate_user(username: str, password: str, **kwargs: Any) -> AuthResult:
     """Authenticate user with global service"""
     return get_auth_service().authenticate_user(username, password, **kwargs)
 

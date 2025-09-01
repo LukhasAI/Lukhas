@@ -13,9 +13,11 @@ import re
 import shutil
 import tempfile
 import time
-from datetime import datetime
+from collections.abc import Awaitable
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional, cast
+from bs4 import Tag, ResultSet
 from urllib.parse import urlparse
 
 import aiohttp
@@ -51,7 +53,7 @@ class ToolExecutor:
         self.schedule_queue_dir.mkdir(parents=True, exist_ok=True)
 
         # Rate limiting for browsing
-        self.domain_last_request = {}
+        self.domain_last_request: dict[str, float] = {}
         self.rate_limit_seconds = self.config.get("rate_limit_seconds", 2)
 
         # Track execution metrics
@@ -67,7 +69,7 @@ class ToolExecutor:
 
         # Initialize security configuration and missing attributes
         self.security_config = self._init_security_config()
-        self._request_timestamps = {}
+        self._request_timestamps: dict[str, list[float]] = {}
         self._docker_client = None
         self._active_executions = 0
         self._max_concurrent_executions = 3
@@ -90,7 +92,7 @@ class ToolExecutor:
             args = json.loads(arguments) if isinstance(arguments, str) else arguments
 
             # Route to appropriate handler
-            handlers = {
+            handlers: dict[str, Callable[[dict[str, Any]], Any]] = {
                 "retrieve_knowledge": self._retrieve_knowledge,
                 "open_url": self._open_url,
                 "schedule_task": self._schedule_task,
@@ -139,7 +141,7 @@ class ToolExecutor:
             return "Knowledge retrieval is currently disabled."
 
         query = args.get("query", "")
-        min(args.get("k", 5), 10)  # Cap at 10 results
+        k = min(args.get("k", 5), 10)  # Cap at 10 results
 
         # Integrate with actual RAG/vector store
         try:
@@ -196,7 +198,7 @@ class ToolExecutor:
             logger.error(f"Failed to initialize vector store: {e}")
             self.vector_store = None
 
-    async def _semantic_search(self, query: str, k: int = 5):
+    async def _semantic_search(self, query: str, k: int = 5) -> Optional[Any]:
         """Perform semantic search using vector store"""
         if hasattr(self, "chroma_client") and self.vector_store:
             # ChromaDB semantic search
@@ -211,7 +213,7 @@ class ToolExecutor:
         else:
             return None
 
-    def _format_search_results(self, query: str, results):
+    def _format_search_results(self, query: str, results: Optional[Any]) -> str:
         """Format vector search results"""
         if not results or not results.get("documents"):
             return f"No relevant knowledge found for: {query}"
@@ -293,7 +295,11 @@ class ToolExecutor:
 
             suggestion_text = ". Suggestions: " + "; ".join(suggestions) if suggestions else ""
 
-            return f"No specific knowledge found for query: '{query}'{suggestion_text}. Available topics include: AI ethics, LUKHAS AI, consciousness technology, machine learning, programming, and industry updates."
+            return (
+                f"No specific knowledge found for query: '{query}'{suggestion_text}. "
+                "Available topics include: AI ethics, LUKHAS AI, consciousness technology, "
+                "machine learning, programming, and industry updates."
+            )
 
     async def _open_url(self, args: dict[str, Any]) -> str:
         """
@@ -399,10 +405,10 @@ class ToolExecutor:
             return "Cannot schedule task without a description."
 
         # Create task record
-        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[:8]
+        task_id = hashlib.md5(f"{when}:{note}:{datetime.now(tz=timezone.utc)}".encode()).hexdigest()[:8]
         task_data = {
             "id": task_id,
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(tz=timezone.utc).isoformat(),
             "when": when,
             "note": note,
             "status": "pending",
@@ -715,7 +721,10 @@ RUN chmod +x {filename}
                     content_length = response.headers.get("content-length")
                     if content_length and int(content_length) > self.security_config["max_content_size"]:
                         await self._audit_log("content_too_large", {"url": url, "size": content_length})
-                        return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
+                        return (
+                            f"Content too large ({content_length} bytes). "
+                            f"Maximum allowed: {self.security_config['max_content_size']}"
+                        )
 
                     # Check content type
                     content_type = response.headers.get("content-type", "").lower()
@@ -730,7 +739,10 @@ RUN chmod +x {filename}
                         size += len(chunk)
                         if size > self.security_config["max_content_size"]:
                             await self._audit_log("content_too_large_streaming", {"url": url, "size": size})
-                            return f"Content too large during streaming. Maximum allowed: {self.security_config['max_content_size']}"
+                            return (
+                                f"Content too large during streaming. "
+                                f"Maximum allowed: {self.security_config['max_content_size']}"
+                            )
                         content += chunk
 
                     # Parse and extract content
@@ -797,12 +809,14 @@ RUN chmod +x {filename}
 
             # Fallback to paragraphs and headings
             if not main_content:
-                elements = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10)
-                main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
+                elements = cast(ResultSet[Tag], soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"]))
+                main_content = "\n".join(el.get_text(strip=True) for el in elements)
 
             # Extract metadata
             description = soup.find("meta", attrs={"name": "description"})
-            description_text = description.get("content", "") if description else ""
+            description_text = ""
+            if description and hasattr(description, "get"):
+                description_text = description.get("content", "")
 
             # Format response
             response_parts = [f"Title: {title_text}"]
@@ -830,7 +844,7 @@ RUN chmod +x {filename}
             except Exception as e:
                 logger.error(f"Failed to initialize Docker client: {e}")
                 self._docker_client = None
-                raise RuntimeError(f"Docker not available: {e}")
+                raise RuntimeError(f"Docker not available: {e}") from e
         return self._docker_client
 
     async def _sandboxed_code_execution(self, language: str, source: str) -> str:
@@ -909,7 +923,7 @@ RUN chmod +x {filename}
                     # Run container with timeout
                     container = docker_client.containers.run(
                         image=config["image"],
-                        command=config["command"] + [source],
+                        command=[*config["command"], source],
                         remove=True,
                         stdout=True,
                         stderr=True,
@@ -1070,10 +1084,10 @@ RUN chmod +x {filename}
 
         return True
 
-    async def _audit_log(self, event: str, data: dict[str, Any]):
+    async def _audit_log(self, event: str, data: dict[str, Any]) -> None:
         """Log security and execution events"""
         try:
-            log_entry = {"timestamp": datetime.now().isoformat(), "event": event, "data": data}
+            log_entry = {"timestamp": datetime.now(tz=timezone.utc).isoformat(), "event": event, "data": data}
 
             # Append to audit log
             with open(self.audit_log, "a") as f:
@@ -1096,10 +1110,10 @@ def get_tool_executor(config: Optional[dict[str, Any]] = None) -> ToolExecutor:
 
 
 async def execute_and_resume(
-    client,
+    client: Any,
     messages: list[dict[str, Any]],
     tool_calls: list[dict[str, Any]],
-    **kwargs,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """
     Execute tool calls and resume the conversation.

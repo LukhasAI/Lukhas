@@ -201,13 +201,22 @@ class LUKHASBrandingBridge:
     """
 
     def __init__(self) -> None:
-        self.is_initialized = False
-        self.voice_adapter = None
-        self.validator = None
-        self.monitor = None
-        self.wordsmith = None
-        self.soul = None
-        self.default_context = BrandContext()
+        """Initialize branding bridge instance with optional components.
+
+        Components may be unavailable at import time; annotate as Optional[Any]
+        to keep static type-checkers happy while preserving runtime fallbacks.
+        """
+        self.is_initialized: bool = False
+
+        # Instance components may be unavailable; annotate as Optional[Any]
+        self.voice_adapter: Optional[Any] = None
+        self.validator: Optional[Any] = None
+        self.monitor: Optional[Any] = None
+        self.wordsmith: Optional[Any] = None
+        self.soul: Optional[Any] = None
+
+        # Default brand context
+        self.default_context: BrandContext = BrandContext()
 
     async def initialize(self) -> bool:
         """Initialize the branding bridge and all components"""
@@ -259,11 +268,11 @@ class LUKHASBrandingBridge:
         DEPRECATION: This method name is preserved for backwards compatibility.
         New code should call `get_constellation_context` or `get_bridge().get_constellation_context`.
         """
-        warnings.warn(
-            "get_constellation_context is deprecated and will be removed in a future release; use get_constellation_context()",
-            DeprecationWarning,
-            stacklevel=2,
+        msg = (
+            "get_constellation_context is deprecated and will be removed in a future release; "
+            + "use get_constellation_context()"
         )
+        warnings.warn(msg, DeprecationWarning, stacklevel=2)
         context = {
             "framework": CONSTELLATION_FRAMEWORK,
             "identity": {
@@ -422,156 +431,7 @@ class LUKHASBrandingBridge:
         }
 
 
-def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
-    """Convenience wrapper exposing the new 'constellation' naming.
 
-    Returns the same structure as `get_constellation_context` but makes intent explicit
-    for new code migrating away from the word 'constellation'.
-    """
-    return get_constellation_context(emphasis)
-
-    def validate_output(self, text: str, context: Optional[BrandContext] = None) -> dict[str, Any]:
-        """Validate text output for brand compliance"""
-        if not isinstance(text, str):
-            return {"valid": True, "issues": [], "text": text}
-
-        context = context or self.default_context
-        issues = []
-
-        # Core branding validation
-        if BRANDING_AVAILABLE:
-            try:
-                brand_issues = validate_branding_compliance(text)
-                issues.extend(brand_issues)
-            except Exception as e:
-                logger.warning(f"Brand validation error: {e}")
-
-        # Advanced validation if available
-        if self.validator and context.compliance_level == "strict":
-            try:
-                advanced_issues = self.validator.validate(text)
-                issues.extend(advanced_issues)
-            except Exception as e:
-                logger.warning(f"Advanced validation error: {e}")
-
-        return {
-            "valid": len(issues) == 0,
-            "issues": issues,
-            "text": text,
-            "compliance_level": context.compliance_level,
-        }
-
-    def normalize_output(self, text: str, context: Optional[BrandContext] = None) -> str:
-        """Normalize text output for brand compliance"""
-        if not isinstance(text, str):
-            return text
-
-        context = context or self.default_context
-
-        if not context.terminology_enforcement:
-            return text
-
-        try:
-            if BRANDING_AVAILABLE:
-                return normalize_output(text)
-            else:
-                # Basic fallback normalization
-                text = text.replace("LUKHAS AGI", "LUKHAS AI")
-                text = text.replace("quantum processing", "quantum-inspired")
-                text = text.replace("bio processing", "bio-inspired")
-                return text
-        except Exception as e:
-            logger.warning(f"Output normalization error: {e}")
-            return text
-
-    def get_brand_voice(self, content: str, context: Optional[BrandContext] = None) -> str:
-        """Apply brand voice to content"""
-        context = context or self.default_context
-
-        # Apply normalization first
-        content = self.normalize_output(content, context)
-
-        # Apply voice adaptation if available
-        if self.voice_adapter:
-            try:
-                return self.voice_adapter.adapt_voice(content, context.voice_profile)
-            except Exception as e:
-                logger.warning(f"Voice adaptation error: {e}")
-
-        # Apply creative enhancement if requested and available
-        if context.creative_mode and self.wordsmith:
-            try:
-                return self.wordsmith.enhance_consciousness_voice(content)
-            except Exception as e:
-                logger.warning(f"Creative enhancement error: {e}")
-
-        return content
-
-    def generate_branded_content(self, prompt: str, context: Optional[BrandContext] = None) -> str:
-        """Generate brand-compliant content from prompt"""
-        context = context or self.default_context
-
-        # Use creative components if available and requested
-        if context.creative_mode and self.soul:
-            try:
-                return self.soul.generate_consciousness_content(prompt)
-            except Exception as e:
-                logger.warning(f"Creative generation error: {e}")
-
-        # Use consciousness wordsmith if available
-        if self.wordsmith:
-            try:
-                return self.wordsmith.generate_brand_content(prompt)
-            except Exception as e:
-                logger.warning(f"Wordsmith generation error: {e}")
-
-        # Fallback to prompt with Trinity context
-        constellation = self.get_constellation_context(context.trinity_emphasis)
-        return (
-            f"{prompt}\n\nIntegrating {constellation['framework']} principles: "
-            f"{constellation['identity']['description']}, "
-            f"{constellation['consciousness']['description']}, "
-            f"{constellation['guardian']['description']}"
-        )
-
-    def monitor_brand_drift(self, content: str) -> dict[str, Any]:
-        """Monitor content for brand drift"""
-        if self.monitor:
-            try:
-                return self.monitor.check_drift(content)
-            except Exception as e:
-                logger.warning(f"Brand drift monitoring error: {e}")
-
-        # Basic drift detection
-        drift_indicators = []
-        if "LUKHAS AGI" in content:
-            drift_indicators.append("Incorrect system name (should be LUKHAS AI)")
-        if "quantum processing" in content.lower():
-            drift_indicators.append("Non-approved quantum terminology")
-
-        return {
-            "drift_detected": len(drift_indicators) > 0,
-            "indicators": drift_indicators,
-            "severity": "low" if len(drift_indicators) < 3 else "medium",
-        }
-
-    def get_brand_status(self) -> dict[str, Any]:
-        """Get current branding system status"""
-        return {
-            "initialized": self.is_initialized,
-            "core_branding": BRANDING_AVAILABLE,
-            "advanced_branding": ADVANCED_BRANDING_AVAILABLE,
-            "creative_branding": CREATIVE_BRANDING_AVAILABLE,
-            "system_name": SYSTEM_NAME,
-            "constellation_framework": CONSTELLATION_FRAMEWORK,
-            "components": {
-                "voice_adapter": self.voice_adapter is not None,
-                "validator": self.validator is not None,
-                "monitor": self.monitor is not None,
-                "wordsmith": self.wordsmith is not None,
-                "soul": self.soul is not None,
-            },
-        }
 
 
 # Global bridge instance
@@ -602,6 +462,19 @@ def get_system_signature() -> str:
 
 def get_constellation_context(emphasis: str = "balanced") -> dict[str, Any]:
     """Get Trinity Framework context"""
+    return get_bridge().get_constellation_context(emphasis)
+
+
+def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
+    """Backward-compatible wrapper for older name `get_trinity_context`.
+
+    Emits a DeprecationWarning and delegates to the new `get_constellation_context` API.
+    """
+    warnings.warn(
+        "get_trinity_context is deprecated and will be removed in a future release; use get_constellation_context()",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return get_bridge().get_constellation_context(emphasis)
 
 
@@ -638,19 +511,20 @@ def get_brand_status() -> dict[str, Any]:
 # Module exports
 __all__ = [
     "CONSCIOUSNESS_SYMBOL",
+    "CONSTELLATION_FRAMEWORK",
     "GUARDIAN_SYMBOL",
     "IDENTITY_SYMBOL",
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
-    "CONSTELLATION_FRAMEWORK",
     "BrandContext",
     "LUKHASBrandingBridge",
     "generate_branded_content",
     "get_brand_status",
     "get_brand_voice",
     "get_bridge",
-    "get_system_signature",
     "get_constellation_context",
+    "get_system_signature",
+    "get_trinity_context",
     "initialize_branding",
     "monitor_brand_drift",
     "normalize_output_text",

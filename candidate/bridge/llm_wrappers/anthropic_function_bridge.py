@@ -166,7 +166,10 @@ class AnthropicFunctionBridge:
         ]
 
         # Performance tracking
-        self.metrics = {
+        from typing import Any
+
+        # Explicit types to avoid mypy inferring 'object' for dict values
+        self.metrics: dict[str, Any] = {
             "total_requests": 0,
             "tool_uses": 0,
             "average_latency_ms": 0.0,
@@ -178,7 +181,7 @@ class AnthropicFunctionBridge:
         }
 
         # Rate limiting (Claude has different limits than OpenAI)
-        self.request_times = []
+        self.request_times: list[float] = []
         self.max_requests_per_minute = 50  # Conservative for Claude
 
         logger.info("🤖 Anthropic Function Bridge initialized")

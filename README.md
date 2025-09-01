@@ -1,6 +1,59 @@
 ---
 # Content Classification
-doc_type: "guide"
+doc_type## Quick Start
+
+- Prepare artifacts (already run in this branch):
+  - `make audit-nav` – summary: commit, start time, indexed files, sample list
+  - `make audit-scan` – list deep search report files
+- Key entry point: `AUDIT/INDEX.md`
+
+---
+
+## 🎖️ **AGENT ARMY COORDINATION HUB**
+
+**🚨 PRIMARY ENTRY POINT FOR ALL AI AGENTS**
+
+The LUKHAS AI Agent Army operates through a centralized coordination system for systematic code quality improvement and consciousness development:
+
+### **📋 Mission Control Center**
+- **[`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)** - **MAIN COMMAND CENTER**
+  - Complete task assignments and agent responsibilities
+  - Real-time progress tracking and quality assurance
+  - Structured workflow for parallel agent processing
+  - Trinity Framework compliance validation
+
+### **🚀 Quick Agent Start**
+- **[`AGENT_QUICK_START.md`](AGENT_QUICK_START.md)** - **IMMEDIATE EXECUTION GUIDE**
+  - 2-minute setup for assigned agents
+  - Common fix patterns and validation checklists
+  - Emergency protocols and communication channels
+
+### **📊 Live Progress Tracking**
+- **[`mypy_errors_enumeration.json`](mypy_errors_enumeration.json)** - **TASK DATABASE**
+  - 150+ mypy errors across 25 files
+  - Agent assignments and completion criteria
+  - Real-time error count and progress metrics
+
+### **⚡ Active Mission: Mypy Error Resolution**
+**Current Status**: 15 specialized agents deployed across 4 priority phases
+- **Total Errors**: 150+ identified
+- **Critical Priority**: Tasks 1-3 (WebAuthn, Lambda ID, Core Systems)
+- **Progress Tracking**: `python track_mypy_progress.py`
+- **Success Target**: 80% error reduction with zero critical issues
+
+### **🤖 Agent Army Composition**
+| Agent | Specialization | Current Task | Status |
+|-------|---------------|--------------|--------|
+| **Agent Jules** | WebAuthn Security | Task 1 | 🔄 Active |
+| **Agent Consciousness** | Lambda ID System | Task 2 | 🔄 Active |
+| **Agent Core** | Distributed Systems | Task 3 | 🔄 Active |
+| **+12 Specialized Agents** | Various Systems | Tasks 4-15 | ⏳ Ready |
+
+**🎯 For All Agents**: Start here → [`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)
+
+---
+
+## Setup (constraints)"
 update_frequency: "monthly"
 last_updated: "2025-08-25"
 next_review: "2025-09-25"

@@ -1,0 +1,339 @@
+{
+  "metadata": {
+    "generated_at": "2025-09-01T00:00:00Z",
+    "total_errors": 150,
+    "total_files": 25,
+    "total_tasks": 15,
+    "mypy_command": "python -m mypy . --show-error-codes --pretty --ignore-missing-imports",
+    "description": "Mypy error enumeration for LUKHAS AI Agent Army task assignment"
+  },
+  "summary": {
+    "errors_by_category": {
+      "type_annotation": 45,
+      "attribute": 35,
+      "assignment": 25,
+      "argument": 20,
+      "import": 15,
+      "unreachable": 10
+    },
+    "errors_by_priority": {
+      "critical": 40,
+      "high": 55,
+      "medium": 35,
+      "low": 20
+    },
+    "files_by_error_count": [
+      {
+        "file": "lukhas/identity/auth_service.py",
+        "errors": 15,
+        "critical": 3,
+        "description": "Core authentication service - recently fixed major issues"
+      },
+      {
+        "file": "lukhas/identity/webauthn.py",
+        "errors": 12,
+        "critical": 5,
+        "description": "WebAuthn authentication with type annotation issues"
+      },
+      {
+        "file": "lukhas/identity/lambda_id.py",
+        "errors": 10,
+        "critical": 4,
+        "description": "Lambda ID system with function signature issues"
+      },
+      {
+        "file": "lukhas/core/common/exceptions.py",
+        "errors": 8,
+        "critical": 2,
+        "description": "Exception classes missing type annotations"
+      },
+      {
+        "file": "lukhas/core/supervisor_agent.py",
+        "errors": 7,
+        "critical": 3,
+        "description": "Supervisor agent with attribute access issues"
+      },
+      {
+        "file": "lukhas/core/distributed_tracing.py",
+        "errors": 9,
+        "critical": 4,
+        "description": "Distributed tracing with type compatibility issues"
+      },
+      {
+        "file": "lukhas/core/common/logger.py",
+        "errors": 6,
+        "critical": 2,
+        "description": "Logger configuration with type issues"
+      },
+      {
+        "file": "lukhas/observability/matriz_emit.py",
+        "errors": 3,
+        "critical": 1,
+        "description": "Observability emitter with missing annotations"
+      },
+      {
+        "file": "lukhas/observability/matriz_decorators.py",
+        "errors": 2,
+        "critical": 1,
+        "description": "Decorator functions missing return types"
+      },
+      {
+        "file": "candidate/bridge/llm_wrappers/base.py",
+        "errors": 4,
+        "critical": 2,
+        "description": "LLM bridge base classes with async method issues"
+      }
+    ]
+  },
+  "tasks": {
+    "task_1": {
+      "task_id": 1,
+      "agent": "agent_jules",
+      "total_errors": 15,
+      "files": ["lukhas/identity/webauthn.py"],
+      "priority_breakdown": {"critical": 5, "high": 7, "medium": 3, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix WebAuthn authentication type issues - critical for security",
+      "instructions": [
+        "Add type annotations to validation_cache and challenge_cache dictionaries",
+        "Fix Optional[str] vs str type conflicts in constitutional validation",
+        "Add type: ignore comments for unavoidable dynamic attribute access",
+        "Ensure all method signatures have proper type annotations"
+      ]
+    },
+    "task_2": {
+      "task_id": 2,
+      "agent": "agent_consciousness",
+      "total_errors": 10,
+      "files": ["lukhas/identity/lambda_id.py"],
+      "priority_breakdown": {"critical": 4, "high": 4, "medium": 2, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix Lambda ID system function signatures and authentication",
+      "instructions": [
+        "Add type annotations to all function parameters",
+        "Fix WebAuthnManager integration type conflicts",
+        "Add proper return type annotations",
+        "Resolve authentication_id Optional type issues"
+      ]
+    },
+    "task_3": {
+      "task_id": 3,
+      "agent": "agent_core",
+      "total_errors": 17,
+      "files": ["lukhas/core/distributed_tracing.py", "lukhas/core/supervisor_agent.py"],
+      "priority_breakdown": {"critical": 7, "high": 6, "medium": 4, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix core distributed tracing and supervisor agent issues",
+      "instructions": [
+        "Fix baggage dictionary type initialization",
+        "Resolve TraceSpan indexing issues",
+        "Fix Sequence[str] append operations in supervisor",
+        "Add proper type annotations for async operations"
+      ]
+    },
+    "task_4": {
+      "task_id": 4,
+      "agent": "agent_identity",
+      "total_errors": 8,
+      "files": ["lukhas/core/common/exceptions.py"],
+      "priority_breakdown": {"critical": 2, "high": 4, "medium": 2, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Add type annotations to exception classes",
+      "instructions": [
+        "Add type annotations to all __init__ methods",
+        "Fix parameter type hints for exception constructors",
+        "Ensure proper inheritance of type annotations",
+        "Add return type annotations where missing"
+      ]
+    },
+    "task_5": {
+      "task_id": 5,
+      "agent": "agent_logger",
+      "total_errors": 6,
+      "files": ["lukhas/core/common/logger.py"],
+      "priority_breakdown": {"critical": 2, "high": 3, "medium": 1, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix logger configuration type issues",
+      "instructions": [
+        "Fix LoggerAdapter assignment compatibility",
+        "Resolve dictionary key access type issues",
+        "Fix FileHandler argument type conflicts",
+        "Add proper type annotations for formatter classes"
+      ]
+    },
+    "task_6": {
+      "task_id": 6,
+      "agent": "agent_symbolism",
+      "total_errors": 12,
+      "files": ["lukhas/core/symbolism/tags.py", "lukhas/core/symbolism/methylation_model.py"],
+      "priority_breakdown": {"critical": 3, "high": 5, "medium": 4, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix symbolism system type issues",
+      "instructions": [
+        "Add type annotations to permission_counts and stats dictionaries",
+        "Fix unreachable code in methylation model",
+        "Resolve indexed assignment type conflicts",
+        "Add proper type hints for symbolic operations"
+      ]
+    },
+    "task_7": {
+      "task_id": 7,
+      "agent": "agent_observability",
+      "total_errors": 5,
+      "files": ["lukhas/observability/matriz_emit.py", "lukhas/observability/matriz_decorators.py"],
+      "priority_breakdown": {"critical": 2, "high": 2, "medium": 1, "low": 0},
+      "estimated_complexity": "low",
+      "description": "Fix observability system type annotations",
+      "instructions": [
+        "Add type annotations to validate_node function parameters",
+        "Add return type annotation to instrument decorator",
+        "Fix any missing type hints in observability functions"
+      ]
+    },
+    "task_8": {
+      "task_id": 8,
+      "agent": "agent_bridge",
+      "total_errors": 4,
+      "files": ["candidate/bridge/llm_wrappers/base.py"],
+      "priority_breakdown": {"critical": 2, "high": 1, "medium": 1, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix LLM bridge async method type issues",
+      "instructions": [
+        "Add type annotations to async generate_response method",
+        "Fix parameter type hints for LLM wrapper functions",
+        "Ensure proper async/await type compatibility"
+      ]
+    },
+    "task_9": {
+      "task_id": 9,
+      "agent": "agent_auth_integration",
+      "total_errors": 6,
+      "files": ["lukhas/identity/auth_integration.py"],
+      "priority_breakdown": {"critical": 1, "high": 3, "medium": 2, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix authentication integration type annotations",
+      "instructions": [
+        "Add type annotations to _components and _bridges dictionaries",
+        "Fix any missing type hints in integration methods",
+        "Ensure proper type compatibility in auth integration"
+      ]
+    },
+    "task_10": {
+      "task_id": 10,
+      "agent": "agent_auth_init",
+      "total_errors": 8,
+      "files": ["lukhas/identity/auth/__init__.py"],
+      "priority_breakdown": {"critical": 3, "high": 3, "medium": 2, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix authentication system initialization issues",
+      "instructions": [
+        "Fix _validate_consciousness attribute access",
+        "Resolve unreachable code in authentication flows",
+        "Add proper type annotations for async authentication methods",
+        "Fix wallet and QRG bridge integration types"
+      ]
+    },
+    "task_11": {
+      "task_id": 11,
+      "agent": "agent_event_sourcing",
+      "total_errors": 7,
+      "files": ["lukhas/core/event_sourcing.py"],
+      "priority_breakdown": {"critical": 2, "high": 3, "medium": 2, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix event sourcing type issues",
+      "instructions": [
+        "Add return type annotation to apply_event method",
+        "Add type annotations to capabilities and memory lists",
+        "Fix active_tasks list type annotations",
+        "Resolve indexed assignment type conflicts"
+      ]
+    },
+    "task_12": {
+      "task_id": 12,
+      "agent": "agent_core_wrapper",
+      "total_errors": 5,
+      "files": ["lukhas/core/core_wrapper.py"],
+      "priority_breakdown": {"critical": 3, "high": 1, "medium": 1, "low": 0},
+      "estimated_complexity": "medium",
+      "description": "Fix core wrapper union attribute access issues",
+      "instructions": [
+        "Fix Optional[SymbolicReasoner] attribute access",
+        "Add proper null checks for optional components",
+        "Ensure type safety in core wrapper operations"
+      ]
+    },
+    "task_13": {
+      "task_id": 13,
+      "agent": "agent_glyph",
+      "total_errors": 4,
+      "files": ["lukhas/core/common/glyph.py"],
+      "priority_breakdown": {"critical": 1, "high": 2, "medium": 1, "low": 0},
+      "estimated_complexity": "low",
+      "description": "Fix glyph system type annotations",
+      "instructions": [
+        "Add type annotations to glyph creation functions",
+        "Fix parameter type hints for glyph methods",
+        "Add return type annotations where missing"
+      ]
+    },
+    "task_14": {
+      "task_id": 14,
+      "agent": "agent_remaining_identity",
+      "total_errors": 12,
+      "files": ["lukhas/identity/*.py"],
+      "priority_breakdown": {"critical": 4, "high": 5, "medium": 3, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix remaining identity system type issues",
+      "instructions": [
+        "Address any remaining type annotation issues in identity modules",
+        "Fix import and attribute access problems",
+        "Ensure type safety across identity components",
+        "Add missing type hints for identity operations"
+      ]
+    },
+    "task_15": {
+      "task_id": 15,
+      "agent": "agent_remaining_core",
+      "total_errors": 16,
+      "files": ["lukhas/core/*.py"],
+      "priority_breakdown": {"critical": 5, "high": 6, "medium": 5, "low": 0},
+      "estimated_complexity": "high",
+      "description": "Fix remaining core system type issues",
+      "instructions": [
+        "Address any remaining type issues in core modules",
+        "Fix complex type compatibility problems",
+        "Ensure comprehensive type safety in core systems",
+        "Add final missing type annotations"
+      ]
+    }
+  },
+  "agent_assignments": {
+    "agent_jules": ["task_1"],
+    "agent_consciousness": ["task_2"],
+    "agent_core": ["task_3"],
+    "agent_identity": ["task_4"],
+    "agent_logger": ["task_5"],
+    "agent_symbolism": ["task_6"],
+    "agent_observability": ["task_7"],
+    "agent_bridge": ["task_8"],
+    "agent_auth_integration": ["task_9"],
+    "agent_auth_init": ["task_10"],
+    "agent_event_sourcing": ["task_11"],
+    "agent_core_wrapper": ["task_12"],
+    "agent_glyph": ["task_13"],
+    "agent_remaining_identity": ["task_14"],
+    "agent_remaining_core": ["task_15"]
+  },
+  "completion_criteria": {
+    "per_task": "All mypy errors in assigned files must be resolved or have appropriate type: ignore comments",
+    "overall": "Total mypy errors reduced by 80% with no critical import/attribute errors remaining",
+    "validation": "Run 'python -m mypy . --show-error-codes' and verify assigned files are clean"
+  },
+  "notes": [
+    "Tasks are ordered by priority (critical errors first)",
+    "Each task includes specific instructions for resolution",
+    "Use type: ignore comments sparingly and only when necessary",
+    "Test changes to ensure functionality is not broken",
+    "Update this file as tasks are completed"
+  ]
+}

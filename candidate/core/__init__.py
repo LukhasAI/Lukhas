@@ -10,9 +10,9 @@ and branding compliance for symbolic communication.
 try:
     from lukhas.branding_bridge import (
         CONSCIOUSNESS_SYMBOL,
+        CONSTELLATION_FRAMEWORK,
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
-        CONSTELLATION_FRAMEWORK,
         get_constellation_context,
     )
 

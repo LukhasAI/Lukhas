@@ -135,14 +135,14 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         # Constellation Framework integration
         self.constellation_ethical_weights = {
-            "identity": 0.9,   # ✨ Identity - Anchor star
-            "memory": 0.7,     # 🌟 Memory - Tracing paths
-            "vision": 0.8,     # ⭐ Vision - Orientation
-            "bio": 0.6,        # 🔥 Bio - Resilience
-            "dream": 0.5,      # 💎 Dream - Symbolic drift
-            "ethics": 1.0,     # ⚖️ Ethics - The North Star
-            "guardian": 1.0,   # 🛡️ Guardian - The Watch Star
-            "quantum": 0.6,    # 🌌 Quantum - Ambiguity
+            "identity": 0.9,  # ✨ Identity - Anchor star
+            "memory": 0.7,  # 🌟 Memory - Tracing paths
+            "vision": 0.8,  # ⭐ Vision - Orientation
+            "bio": 0.6,  # 🔥 Bio - Resilience
+            "dream": 0.5,  # 💎 Dream - Symbolic drift
+            "ethics": 1.0,  # ⚖️ Ethics - The North Star
+            "guardian": 1.0,  # 🛡️ Guardian - The Watch Star
+            "quantum": 0.6,  # 🌌 Quantum - Ambiguity
         }
 
         # Reflection and learning state
@@ -428,7 +428,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "escalation_required": compliance_score < 0.5 or "unauthorized_data_processing" in governance_issues,
         }
 
-    async def _analyze_constellation_impact(self, user_input: str, constellation_state: Optional[dict[str, Any]]) -> dict[str, Any]:
+    async def _analyze_constellation_impact(
+        self, user_input: str, constellation_state: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze impact on Constellation Framework components (✨🌟⭐🔥💎⚖️🛡️🌌)"""
         if not constellation_state:
             return {

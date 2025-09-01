@@ -36,7 +36,12 @@ def _get_anthropic_wrapper_class():
                     self.async_client = None
                     logger.warning("Using fallback Anthropic wrapper stub")
 
-                async def generate_response(self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs):
+                async def generate_response(
+                    self,
+                    _prompt: str,
+                    model: str = "claude-3-sonnet-20240229",
+                    **_kwargs: object,
+                ) -> tuple[str, str]:
                     return "Anthropic wrapper not available", model
 
                 def is_available(self) -> bool:
@@ -51,7 +56,7 @@ def _get_anthropic_wrapper_class():
 class AnthropicWrapper:
     """Lazy-loaded facade for AnthropicWrapper"""
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: object, **kwargs: object):
         # Get the actual class and instantiate it
         actual_class = _get_anthropic_wrapper_class()
         return actual_class(*args, **kwargs)

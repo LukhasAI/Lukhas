@@ -94,7 +94,8 @@ class LUKHASConsciousnessMCP:
         # Discover additional modules with consciousness patterns
         for path in self.project_root.rglob("*"):
             if path.is_dir() and any(
-                pattern in path.name.lower() for pattern in ["consciousness", "memory", "quantum", "bio", "constellation"]
+                pattern in path.name.lower()
+                for pattern in ["consciousness", "memory", "quantum", "bio", "constellation"]
             ):
                 modules[path.name] = path
 
