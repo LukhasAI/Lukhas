@@ -72,11 +72,13 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+import structlog
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_DRIFT_RATE = 0.85
 MAX_RECURSION_DEPTH = 10
 
+logger = structlog.get_logger(__name__)
 
 class CausationType(Enum):
     """Types of causal relationships between folds."""
@@ -171,7 +173,6 @@ class FoldLineageTracker:
             causation_id: Unique identifier for this causal relationship
         """
         # JULES05_NOTE: Loop-safe guard added
-        # TODO[T4-AUTOFIX]: Undefined logger - suggest: import logging; logger = logging.getLogger(__name__)
         logger.bind(drift_level=recursion_depth)
         if recursion_depth > MAX_RECURSION_DEPTH:
             logger.warning(
