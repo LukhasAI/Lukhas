@@ -15,7 +15,7 @@ setup(
     name="lukhas-ai",
     version="1.0.0",
     author="LUKHAS AI",
-    description="Production-ready consciousness-aware AI platform with Trinity Framework (⚛️🧠🛡️) - Complete namespace migration",
+    description="Production-ready consciousness-aware AI platform with Constellation Framework (8-star navigation) - Complete namespace migration",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/LukhasAI/Lukhas",

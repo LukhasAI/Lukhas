@@ -502,7 +502,7 @@ async def main():
 
 if __name__ == "__main__":
     print("\n🔧 Starting Full System Integration...")
-    print("This will connect all Lambda Products with Lukhas"
+    print("This will connect all Lambda Products with Lukhas")
     print("Please wait...\n")
 
     try:

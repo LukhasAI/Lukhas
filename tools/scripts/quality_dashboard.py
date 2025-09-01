@@ -6,20 +6,17 @@ Creates an HTML dashboard with real-time code quality metrics
 
 import json
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 class QualityDashboard:
-
     def __init__(self, project_root: Path = None):
         self.project_root = project_root or Path.cwd()
         self.metrics = {}
         self.history_file = self.project_root / "test_results" / "quality_history.json"
-        self.dashboard_file = (
-            self.project_root / "test_results" / "quality_dashboard.html"
-        )
+        self.dashboard_file = self.project_root / "test_results" / "quality_dashboard.html"
 
     def run_command(self, cmd: list[str]) -> tuple:
         """Run command and return output"""
@@ -42,7 +39,7 @@ class QualityDashboard:
         print("📊 Collecting metrics...")
 
         metrics = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "flake8": self.get_flake8_metrics(),
             "ruff": self.get_ruff_metrics(),
             "mypy": self.get_mypy_metrics(),
@@ -75,7 +72,7 @@ class QualityDashboard:
         by_type = {}
 
         for line in lines:
-            if line and not line.startswith("# ":
+            if line and not line.startswith("# "):
                 parts = line.split()
                 if len(parts) >= 2 and parts[0].isdigit():
                     count = int(parts[0])
@@ -96,9 +93,7 @@ class QualityDashboard:
 
     def get_mypy_metrics(self) -> dict:
         """Get MyPy metrics"""
-        code, out, _ = self.run_command(
-            ["mypy", ".", "--ignore-missing-imports", "--no-error-summary"]
-        )
+        code, out, _ = self.run_command(["mypy", ".", "--ignore-missing-imports", "--no-error-summary"])
 
         errors = len([l for l in out.split("\n") if ": error:" in l])
         warnings = len([l for l in out.split("\n") if ": warning:" in l])
@@ -167,7 +162,7 @@ class QualityDashboard:
                         stripped = line.strip()
                         if not stripped:
                             blank_lines += 1
-                        elif stripped.startswith("# ":
+                        elif stripped.startswith("# "):
                             comment_lines += 1
                         else:
                             code_lines += 1
@@ -201,27 +196,9 @@ class QualityDashboard:
         try:
             data = json.loads(out)
             return {
-                "high": len(
-                    [
-                        i
-                        for i in data.get("results", [])
-                        if i.get("issue_severity") == "HIGH"
-                    ]
-                ),
-                "medium": len(
-                    [
-                        i
-                        for i in data.get("results", [])
-                        if i.get("issue_severity") == "MEDIUM"
-                    ]
-                ),
-                "low": len(
-                    [
-                        i
-                        for i in data.get("results", [])
-                        if i.get("issue_severity") == "LOW"
-                    ]
-                ),
+                "high": len([i for i in data.get("results", []) if i.get("issue_severity") == "HIGH"]),
+                "medium": len([i for i in data.get("results", []) if i.get("issue_severity") == "MEDIUM"]),
+                "low": len([i for i in data.get("results", []) if i.get("issue_severity") == "LOW"]),
             }
         except BaseException:
             return {"high": 0, "medium": 0, "low": 0}
@@ -275,9 +252,7 @@ class QualityDashboard:
     def generate_html_dashboard(self, metrics: dict):
         """Generate HTML dashboard"""
         health_color = (
-            "green"
-            if metrics["health_score"] >= 80
-            else "orange" if metrics["health_score"] >= 60 else "red"
+            "green" if metrics["health_score"] >= 80 else "orange" if metrics["health_score"] >= 60 else "red"
         )
 
         html_content = f"""
@@ -383,7 +358,7 @@ class QualityDashboard:
 <body>
     <div class="container">
         <h1>🧠 LUKHAS  - Code Quality Dashboard</h1>
-        <div class="timestamp">Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</div>
+        <div class="timestamp">Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}</div>
 
         <div class="health-score">
             <h2>Overall Health Score</h2>
@@ -506,9 +481,7 @@ class QualityDashboard:
         print("📊 CODE QUALITY SUMMARY")
         print("=" * 60)
         print(f"🎯 Health Score: {metrics['health_score']:.1f}%")
-        print(
-            f"📝 Linting Issues: {metrics['flake8']['total'] + metrics['ruff']['total']}"
-        )
+        print(f"📝 Linting Issues: {metrics['flake8']['total'] + metrics['ruff']['total']}")
         print(f"🔍 Type Errors: {metrics['mypy']['errors']}")
         print(f"🧪 Test Coverage: {metrics['coverage']['coverage_percent']:.1f}%")
         print(f"🔐 Security Issues: {sum(metrics['security'].values())}")

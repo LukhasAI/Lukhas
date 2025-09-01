@@ -9,24 +9,25 @@ with intelligence, safety checks, and comprehensive testing.
 import asyncio
 import json
 import logging
-import subprocess
 import re
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
-from pathlib import Path
-from dataclasses import dataclass
-import requests
-import pkg_resources
-from packaging import version
+import subprocess
 import warnings
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
+
+import pkg_resources
+import requests
+from packaging import version
 
 # Suppress pkg_resources deprecation warning
 warnings.filterwarnings("ignore", category=UserWarning, module="pkg_resources")
 
 # Import LUKHAS AI ΛBot components
 try:
-    from lukhas_ai_lambda_bot.specialists.ΛBotPRReviewer import ΛBotPRReviewer
     from lukhas_ai_lambda_bot.specialists.ABotΛiDSecurity import ΛTraceLogger
+    from lukhas_ai_lambda_bot.specialists.ΛBotPRReviewer import ΛBotPRReviewer
 except ImportError:
     # Fallback trace logger for standalone operation
     class ΛTraceLogger:
@@ -34,11 +35,14 @@ except ImportError:
             logger.info(f"🔍 TRACE: {event} - {data}")
             return f"trace_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
+
 logger = logging.getLogger("ΛBotSecurityHealer")
+
 
 @dataclass
 class SecurityVulnerability:
     """Security vulnerability details"""
+
     package: str
     current_version: str
     vulnerable_versions: str
@@ -50,9 +54,11 @@ class SecurityVulnerability:
     fix_confidence: float = 0.0
     auto_fixable: bool = False
 
+
 @dataclass
 class SecurityFix:
     """Security fix details"""
+
     vulnerability: SecurityVulnerability
     fix_type: str  # 'version_upgrade', 'dependency_replace', 'config_change'
     changes: List[Dict[str, Any]]
@@ -61,6 +67,7 @@ class SecurityFix:
     risk_assessment: str
     success: bool = False
     applied_at: Optional[datetime] = None
+
 
 class ΛBotAutonomousSecurityHealer:
     """
@@ -85,15 +92,15 @@ class ΛBotAutonomousSecurityHealer:
 
         # AI learning patterns
         self.fix_patterns = {
-            'version_upgrade': {'success_rate': 0.95, 'risk_level': 'low'},
-            'dependency_replace': {'success_rate': 0.75, 'risk_level': 'medium'},
-            'config_change': {'success_rate': 0.85, 'risk_level': 'low'}
+            "version_upgrade": {"success_rate": 0.95, "risk_level": "low"},
+            "dependency_replace": {"success_rate": 0.75, "risk_level": "medium"},
+            "config_change": {"success_rate": 0.85, "risk_level": "low"},
         }
 
         # Known safe upgrade patterns
         self.safe_upgrade_patterns = {
-            'patch_version': r'(\d+\.\d+\.)(\d+)',  # X.Y.Z -> X.Y.Z+1
-            'minor_security': r'(\d+\.)(\d+)(\.0)',  # X.Y.0 -> X.Y+1.0 for security
+            "patch_version": r"(\d+\.\d+\.)(\d+)",  # X.Y.Z -> X.Y.Z+1
+            "minor_security": r"(\d+\.)(\d+)(\.0)",  # X.Y.0 -> X.Y+1.0 for security
         }
 
     async def autonomous_security_heal(self, scan_scope: str = "all") -> Dict[str, Any]:
@@ -107,7 +114,7 @@ class ΛBotAutonomousSecurityHealer:
             "autonomous_security_heal_start",
             {"scope": scan_scope, "auto_fix_enabled": self.auto_fix_enabled},
             security_tier=4,
-            encrypt=True
+            encrypt=True,
         )
 
         try:
@@ -138,25 +145,17 @@ class ΛBotAutonomousSecurityHealer:
                 "commit_created": commit_result["success"],
                 "learning_updated": True,
                 "summary": self._generate_heal_summary(vulnerabilities, fix_results),
-                "next_scan_recommended": self._calculate_next_scan_time()
+                "next_scan_recommended": self._calculate_next_scan_time(),
             }
 
-            self.trace_logger.trace_event(
-                "autonomous_security_heal_complete",
-                result,
-                security_tier=4,
-                encrypt=True
-            )
+            self.trace_logger.trace_event("autonomous_security_heal_complete", result, security_tier=4, encrypt=True)
 
             return result
 
         except Exception as e:
             logger.error(f"Autonomous healing failed: {e}")
             self.trace_logger.trace_event(
-                "autonomous_security_heal_error",
-                {"error": str(e)},
-                security_tier=5,
-                encrypt=True
+                "autonomous_security_heal_error", {"error": str(e)}, security_tier=5, encrypt=True
             )
             raise
 
@@ -197,7 +196,7 @@ class ΛBotAutonomousSecurityHealer:
             "LUKHAS AI ΛBot/requirements.txt",
             "LUKHAS AI ΛBot/requirements-simple.txt",
             "requirements-dev.txt",
-            "pyproject.toml"
+            "pyproject.toml",
         ]
 
         for req_file in requirements_files:
@@ -213,12 +212,12 @@ class ΛBotAutonomousSecurityHealer:
         vulnerabilities = []
 
         try:
-            with open(req_file, 'r') as f:
+            with open(req_file) as f:
                 lines = f.readlines()
 
             for line_num, line in enumerate(lines, 1):
                 line = line.strip()
-                if line and not line.startswith(')  # ':
+                if line and not line.startswith("#"):
                     vuln = await self._check_package_vulnerability(line, str(req_file), line_num)
                     if vuln:
                         vulnerabilities.append(vuln)
@@ -228,15 +227,17 @@ class ΛBotAutonomousSecurityHealer:
 
         return vulnerabilities
 
-    async def _check_package_vulnerability(self, package_line: str, file_path: str, line_num: int) -> Optional[SecurityVulnerability]:
+    async def _check_package_vulnerability(
+        self, package_line: str, file_path: str, line_num: int
+    ) -> Optional[SecurityVulnerability]:
         """Check if a specific package has vulnerabilities"""
 
         # Parse package name and version
-        package_match = re.match(r'([a-zA-Z0-9\-_\[\]]+)([><=!]+)?([\d\.]+)?', package_line)
+        package_match = re.match(r"([a-zA-Z0-9\-_\[\]]+)([><=!]+)?([\d\.]+)?", package_line)
         if not package_match:
             return None
 
-        package_name = package_match.group(1).split('[')[0]  # Remove extras like [cryptography]
+        package_name = package_match.group(1).split("[")[0]  # Remove extras like [cryptography]
         current_version = package_match.group(3) if package_match.group(3) else "unknown"
 
         # Check against known vulnerabilities database
@@ -246,14 +247,14 @@ class ΛBotAutonomousSecurityHealer:
             return SecurityVulnerability(
                 package=package_name,
                 current_version=current_version,
-                vulnerable_versions=vuln_data.get('vulnerable_versions', ''),
-                fixed_version=vuln_data.get('fixed_version', ''),
-                severity=vuln_data.get('severity', 'medium'),
-                cve_id=vuln_data.get('cve_id'),
-                description=vuln_data.get('description', ''),
+                vulnerable_versions=vuln_data.get("vulnerable_versions", ""),
+                fixed_version=vuln_data.get("fixed_version", ""),
+                severity=vuln_data.get("severity", "medium"),
+                cve_id=vuln_data.get("cve_id"),
+                description=vuln_data.get("description", ""),
                 affected_files=[file_path],
                 fix_confidence=self._calculate_fix_confidence(package_name, current_version, vuln_data),
-                auto_fixable=self._is_auto_fixable(package_name, current_version, vuln_data)
+                auto_fixable=self._is_auto_fixable(package_name, current_version, vuln_data),
             )
 
         return None
@@ -263,41 +264,41 @@ class ΛBotAutonomousSecurityHealer:
 
         # Known vulnerabilities database (in production, this would query real APIs)
         known_vulns = {
-            'python-jose': {
-                'vulnerable_versions': '< 3.4.0',
-                'fixed_version': '3.4.0',
-                'severity': 'high',
-                'cve_id': 'CVE-2022-29217',
-                'description': 'Algorithm confusion with OpenSSH ECDSA keys'
+            "python-jose": {
+                "vulnerable_versions": "< 3.4.0",
+                "fixed_version": "3.4.0",
+                "severity": "high",
+                "cve_id": "CVE-2022-29217",
+                "description": "Algorithm confusion with OpenSSH ECDSA keys",
             },
-            'cryptography': {
-                'vulnerable_versions': '< 41.0.8',
-                'fixed_version': '41.0.8',
-                'severity': 'medium',
-                'cve_id': 'CVE-2023-50782',
-                'description': 'Cryptographic vulnerability in key handling'
+            "cryptography": {
+                "vulnerable_versions": "< 41.0.8",
+                "fixed_version": "41.0.8",
+                "severity": "medium",
+                "cve_id": "CVE-2023-50782",
+                "description": "Cryptographic vulnerability in key handling",
             },
-            'pillow': {
-                'vulnerable_versions': '< 10.0.1',
-                'fixed_version': '10.0.1',
-                'severity': 'high',
-                'cve_id': 'CVE-2023-50781',
-                'description': 'Buffer overflow in image processing'
+            "pillow": {
+                "vulnerable_versions": "< 10.0.1",
+                "fixed_version": "10.0.1",
+                "severity": "high",
+                "cve_id": "CVE-2023-50781",
+                "description": "Buffer overflow in image processing",
             },
-            'requests': {
-                'vulnerable_versions': '< 2.31.0',
-                'fixed_version': '2.31.0',
-                'severity': 'medium',
-                'cve_id': 'CVE-2023-32681',
-                'description': 'Certificate validation bypass'
-            }
+            "requests": {
+                "vulnerable_versions": "< 2.31.0",
+                "fixed_version": "2.31.0",
+                "severity": "medium",
+                "cve_id": "CVE-2023-32681",
+                "description": "Certificate validation bypass",
+            },
         }
 
         if package.lower() in known_vulns:
             vuln_data = known_vulns[package.lower()]
 
             # Check if current version is vulnerable
-            if self._is_version_vulnerable(version, vuln_data['vulnerable_versions']):
+            if self._is_version_vulnerable(version, vuln_data["vulnerable_versions"]):
                 return vuln_data
 
         return None
@@ -305,14 +306,14 @@ class ΛBotAutonomousSecurityHealer:
     def _is_version_vulnerable(self, current_version: str, vulnerable_pattern: str) -> bool:
         """Check if current version matches vulnerable pattern"""
         try:
-            if '< ' in vulnerable_pattern:
-                max_safe = vulnerable_pattern.replace('< ', '').strip()
+            if "< " in vulnerable_pattern:
+                max_safe = vulnerable_pattern.replace("< ", "").strip()
                 return version.parse(current_version) < version.parse(max_safe)
-            elif '<= ' in vulnerable_pattern:
-                max_safe = vulnerable_pattern.replace('<= ', '').strip()
+            elif "<= " in vulnerable_pattern:
+                max_safe = vulnerable_pattern.replace("<= ", "").strip()
                 return version.parse(current_version) <= version.parse(max_safe)
-            elif '== ' in vulnerable_pattern:
-                exact_vuln = vulnerable_pattern.replace('== ', '').strip()
+            elif "== " in vulnerable_pattern:
+                exact_vuln = vulnerable_pattern.replace("== ", "").strip()
                 return version.parse(current_version) == version.parse(exact_vuln)
         except:
             return False
@@ -323,14 +324,14 @@ class ΛBotAutonomousSecurityHealer:
         confidence = 0.5  # Base confidence
 
         # Higher confidence for well-known packages
-        well_known_packages = ['requests', 'cryptography', 'pillow', 'python-jose', 'flask', 'django']
+        well_known_packages = ["requests", "cryptography", "pillow", "python-jose", "flask", "django"]
         if package.lower() in well_known_packages:
             confidence += 0.3
 
         # Higher confidence for patch version upgrades
         try:
             current_ver = version.parse(current_version)
-            fixed_ver = version.parse(vuln_data['fixed_version'])
+            fixed_ver = version.parse(vuln_data["fixed_version"])
 
             if current_ver.major == fixed_ver.major and current_ver.minor == fixed_ver.minor:
                 confidence += 0.4  # Patch upgrade
@@ -340,7 +341,7 @@ class ΛBotAutonomousSecurityHealer:
             pass
 
         # Lower confidence for high severity issues (need more careful handling)
-        if vuln_data.get('severity') == 'critical':
+        if vuln_data.get("severity") == "critical":
             confidence -= 0.1
 
         return min(1.0, max(0.0, confidence))
@@ -384,7 +385,7 @@ class ΛBotAutonomousSecurityHealer:
                 "action": "replace_version",
                 "old_pattern": f"{vuln.package}[><=!]*{vuln.current_version}",
                 "new_value": f"{vuln.package}>={vuln.fixed_version}",
-                "line_number": await self._find_package_line(file_path, vuln.package)
+                "line_number": await self._find_package_line(file_path, vuln.package),
             }
             changes.append(change)
 
@@ -392,13 +393,13 @@ class ΛBotAutonomousSecurityHealer:
         test_commands = [
             "python -m pip check",  # Check dependency conflicts
             f"python -c 'import {vuln.package.replace('-', '_')}'",  # Test import
-            "python -m pytest tests/ -x --tb=short"  # Run tests if they exist
+            "python -m pytest tests/ -x --tb=short",  # Run tests if they exist
         ]
 
         # Create rollback plan
         rollback_plan = {
             "backup_files": [change["file"] for change in changes],
-            "revert_commands": [f"git checkout HEAD~1 {change['file']}" for change in changes]
+            "revert_commands": [f"git checkout HEAD~1 {change['file']}" for change in changes],
         }
 
         # Risk assessment
@@ -410,7 +411,7 @@ class ΛBotAutonomousSecurityHealer:
             changes=changes,
             test_commands=test_commands,
             rollback_plan=rollback_plan,
-            risk_assessment=risk_assessment
+            risk_assessment=risk_assessment,
         )
 
     def _optimize_fix_order(self, fix_plans: List[SecurityFix]) -> List[SecurityFix]:
@@ -421,18 +422,18 @@ class ΛBotAutonomousSecurityHealer:
             priority = 0
 
             # Higher priority for critical vulnerabilities
-            if fix_plan.vulnerability.severity == 'critical':
+            if fix_plan.vulnerability.severity == "critical":
                 priority += 100
-            elif fix_plan.vulnerability.severity == 'high':
+            elif fix_plan.vulnerability.severity == "high":
                 priority += 50
 
             # Higher priority for high-confidence fixes
             priority += fix_plan.vulnerability.fix_confidence * 20
 
             # Lower priority for risky fixes
-            if fix_plan.risk_assessment == 'high':
+            if fix_plan.risk_assessment == "high":
                 priority -= 30
-            elif fix_plan.risk_assessment == 'medium':
+            elif fix_plan.risk_assessment == "medium":
                 priority -= 10
 
             return -priority  # Negative for descending sort
@@ -486,7 +487,7 @@ class ΛBotAutonomousSecurityHealer:
 
                 if file_path.exists():
                     # Read current content
-                    with open(file_path, 'r') as f:
+                    with open(file_path) as f:
                         content = f.read()
 
                     # Apply regex replacement
@@ -496,7 +497,7 @@ class ΛBotAutonomousSecurityHealer:
                     new_content = re.sub(old_pattern, new_value, content)
 
                     # Write updated content
-                    with open(file_path, 'w') as f:
+                    with open(file_path, "w") as f:
                         f.write(new_content)
 
                     logger.info(f"📝 Updated {file_path}")
@@ -513,12 +514,7 @@ class ΛBotAutonomousSecurityHealer:
 
         for test_command in fix_plan.test_commands:
             try:
-                result = subprocess.run(
-                    test_command.split(),
-                    capture_output=True,
-                    text=True,
-                    timeout=60
-                )
+                result = subprocess.run(test_command.split(), capture_output=True, text=True, timeout=60)
 
                 if result.returncode != 0:
                     logger.warning(f"Test failed: {test_command}")
@@ -548,7 +544,7 @@ class ΛBotAutonomousSecurityHealer:
             "fixes_applied": len(successful_fixes),
             "remaining_vulnerabilities": len(remaining_vulns),
             "system_stable": await self._check_system_stability(),
-            "performance_impact": await self._measure_performance_impact()
+            "performance_impact": await self._measure_performance_impact(),
         }
 
         return validation_result
@@ -572,11 +568,7 @@ class ΛBotAutonomousSecurityHealer:
 
             logger.info("✅ Security fixes committed successfully")
 
-            return {
-                "success": True,
-                "commit_message": commit_message,
-                "fixes_count": len(successful_fixes)
-            }
+            return {"success": True, "commit_message": commit_message, "fixes_count": len(successful_fixes)}
 
         except subprocess.CalledProcessError as e:
             logger.error(f"Failed to commit fixes: {e}")
@@ -603,9 +595,9 @@ class ΛBotAutonomousSecurityHealer:
                 # Update success rate with exponential moving average
                 alpha = 0.1
                 if success:
-                    pattern['success_rate'] = (1 - alpha) * pattern['success_rate'] + alpha * 1.0
+                    pattern["success_rate"] = (1 - alpha) * pattern["success_rate"] + alpha * 1.0
                 else:
-                    pattern['success_rate'] = (1 - alpha) * pattern['success_rate'] + alpha * 0.0
+                    pattern["success_rate"] = (1 - alpha) * pattern["success_rate"] + alpha * 0.0
 
         # Save learning patterns
         await self._save_learning_patterns()
@@ -614,9 +606,9 @@ class ΛBotAutonomousSecurityHealer:
     async def _find_package_line(self, file_path: str, package: str) -> int:
         """Find line number where package is defined"""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 for line_num, line in enumerate(f, 1):
-                    if package in line and not line.strip().startswith('#'):
+                    if package in line and not line.strip().startswith("#"):
                         return line_num
         except:
             pass
@@ -656,11 +648,12 @@ class ΛBotAutonomousSecurityHealer:
         patterns_file = Path("LUKHAS AI ΛBot/config/security_learning_patterns.json")
         patterns_file.parent.mkdir(exist_ok=True)
 
-        with open(patterns_file, 'w') as f:
+        with open(patterns_file, "w") as f:
             json.dump(self.fix_patterns, f, indent=2)
 
-    def _generate_heal_summary(self, vulnerabilities: List[SecurityVulnerability],
-                              fix_results: List[SecurityFix]) -> str:
+    def _generate_heal_summary(
+        self, vulnerabilities: List[SecurityVulnerability], fix_results: List[SecurityFix]
+    ) -> str:
         """Generate human-readable summary"""
         successful = sum(1 for fix in fix_results if fix.success)
         total = len(vulnerabilities)
@@ -692,6 +685,7 @@ class ΛBotAutonomousSecurityHealer:
         # Implementation for Docker, etc.
         return []
 
+
 # CLI Integration
 async def main():
     """Demonstrate autonomous security healing"""
@@ -702,7 +696,7 @@ async def main():
 
     result = await healer.autonomous_security_heal()
 
-    print(f"\n🎯 Healing Session Results:")
+    print("\n🎯 Healing Session Results:")
     print(f"   Vulnerabilities Found: {result['vulnerabilities_found']}")
     print(f"   Fixes Attempted: {result['fixes_attempted']}")
     print(f"   Fixes Successful: {result['fixes_successful']}")
@@ -710,6 +704,7 @@ async def main():
     print(f"   Commit Created: {result['commit_created']}")
     print(f"\n📋 Summary: {result['summary']}")
     print(f"📅 Next Scan: {result['next_scan_recommended']}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

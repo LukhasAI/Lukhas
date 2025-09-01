@@ -16,12 +16,12 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import numpy as np
 
 # Bio-energy system integration
-from .energy.spirulina_atp_system import EnergyHarvestResult, SpirulinaATPHybridSystem
+from .energy.spirulina_atp_system import SpirulinaATPHybridSystem
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

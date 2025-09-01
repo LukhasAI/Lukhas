@@ -46,10 +46,10 @@ from candidate.aka_qualia.models import (
 __version__ = "0.1.0"
 __all__ = [
     "AkaQualia",
-    "ProtoQualia",
-    "RiskProfile",
-    "PhenomenalScene",
-    "PhenomenalGlyph",
-    "RegulationPolicy",
     "Metrics",
+    "PhenomenalGlyph",
+    "PhenomenalScene",
+    "ProtoQualia",
+    "RegulationPolicy",
+    "RiskProfile",
 ]

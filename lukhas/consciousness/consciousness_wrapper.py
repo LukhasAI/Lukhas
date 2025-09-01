@@ -355,7 +355,7 @@ class ConsciousnessWrapper:
                 "dream_active": DREAM_ACTIVE,
                 "reasoning_active": REASONING_ACTIVE,
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": True,  # ⚛️ Identity integration
                 "consciousness": True,  # 🧠 Consciousness processing
                 "guardian": True,  # 🛡️ Guardian protection

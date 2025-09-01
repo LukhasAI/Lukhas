@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-# ΛTAG: codex, drift, harmonizer, trinity_framework
+# ΛTAG: codex, drift, harmonizer, constellation_framework
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)
 # ΛTASK_ID: P2 - Fix Guardian System Dependencies
 

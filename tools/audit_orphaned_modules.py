@@ -32,14 +32,14 @@ class OrphanedModuleAuditor:
             "vivox",
             "qim",
             "NIAS_THEORY",
-            "trinity",
+            "constellation",
             "guardian",
             "lukhas",
         }
 
         # Value indicators in code
         self.value_indicators = {
-            "trinity_framework": ["⚛️", "🧠", "🛡️", "Trinity"],
+            "constellation_framework": ["⚛️", "🧠", "🛡️", "Trinity"],
             "consciousness": ["consciousness", "awareness", "sentience"],
             "agi_concepts": [
                 "AGI",

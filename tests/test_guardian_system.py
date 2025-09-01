@@ -6,7 +6,7 @@ Tests all Guardian System components including:
 - Drift detection with 0.15 threshold monitoring
 - Ethics policy engine with Constitutional AI
 - Audit system with immutable logging
-- Trinity Framework integration (⚛️🧠🛡️)
+- Constellation Framework integration (✨🌟⭐🔥💎🚀🌌🎯)
 - Guardian System integration hub
 
 This test suite validates the complete Guardian System implementation
@@ -98,11 +98,11 @@ class TestConsentLedger:
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
 
-            ledger = ConsentLedgerV1(str(db_path), enable_trinity_validation=True)
+            ledger = ConsentLedgerV1(str(db_path), enable_constellation_validation=True)
 
             assert ledger is not None
             assert ledger.db_path.exists()
-            assert ledger.enable_trinity
+            assert ledger.enable_constellation
 
     async def test_consent_grant_gdpr_compliance(self):
         """Test consent granting with GDPR compliance"""
@@ -445,8 +445,8 @@ class TestEthicsPolicyEngine:
         assert not compliance["compliant"]
         assert len(compliance["violations"]) > 0
 
-    async def test_trinity_framework_integration(self):
-        """Test Trinity Framework integration (⚛️🧠🛡️)"""
+    async def test_constellation_framework_integration(self):
+        """Test Constellation Framework integration (✨🌟⭐🔥💎🚀🌌🎯)"""
 
         engine = ComprehensiveEthicsPolicyEngine()
 
@@ -460,9 +460,12 @@ class TestEthicsPolicyEngine:
         )
 
         assert evaluation is not None
-        # Should have Trinity Framework impact analysis
-        assert evaluation.identity_ethical_impact is not None
-        assert evaluation.consciousness_ethical_impact is not None
+        # Should have Constellation Framework impact analysis
+        assert evaluation.clarity_ethical_impact is not None
+        assert evaluation.wisdom_ethical_impact is not None
+        assert evaluation.courage_ethical_impact is not None
+        assert evaluation.innovation_ethical_impact is not None
+        assert evaluation.compassion_ethical_impact is not None
         assert evaluation.guardian_priority in [
             "normal",
             "elevated",
@@ -658,8 +661,8 @@ class TestGuardianSystemIntegration:
         assert response.validation_time_ms > 0
         assert response.confidence >= 0.0
 
-    async def test_trinity_framework_validation(self):
-        """Test Trinity Framework validation (⚛️🧠🛡️)"""
+    async def test_constellation_framework_validation(self):
+        """Test Constellation Framework validation (✨🌟⭐🔥💎🚀🌌🎯)"""
 
         config = {
             "consent_db_path": ":memory:",
@@ -670,16 +673,18 @@ class TestGuardianSystemIntegration:
         await asyncio.sleep(3)
 
         request = GuardianValidationRequest(
-            request_id=f"trinity_{uuid.uuid4().hex[:8]}",
+            request_id=f"constellation_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(),
-            user_id="trinity_test_user",
-            session_id="trinity_session_456",
-            action="trinity_operation",
+            user_id="constellation_test_user",
+            session_id="constellation_session_456",
+            action="constellation_operation",
             resource="system",
             context={
-                "identity_verification": True,
-                "consciousness_aligned": True,
-                "guardian_approved": True,
+                "clarity_verification": True,
+                "wisdom_aligned": True,
+                "courage_approved": True,
+                "innovation_enabled": True,
+                "compassion_active": True,
                 "helpful": True,
                 "constitutional_compliance": True,
             },
@@ -688,10 +693,12 @@ class TestGuardianSystemIntegration:
         response = await guardian.validate_action(request)
 
         assert response is not None
-        # Trinity validation should be considered in response
-        assert hasattr(response, "identity_validated")
-        assert hasattr(response, "consciousness_aligned")
-        assert hasattr(response, "guardian_approved")
+        # Constellation validation should be considered in response
+        assert hasattr(response, "clarity_validated")
+        assert hasattr(response, "wisdom_aligned")
+        assert hasattr(response, "courage_approved")
+        assert hasattr(response, "innovation_enabled")
+        assert hasattr(response, "compassion_active")
 
     async def test_performance_requirements(self):
         """Test Guardian System meets performance requirements (<250ms)"""

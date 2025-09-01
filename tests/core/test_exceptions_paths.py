@@ -1,7 +1,5 @@
 """Test exception module branches for coverage."""
 
-import pytest
-
 
 def test_exception_none_handling():
     """Test exceptions handle None values properly."""

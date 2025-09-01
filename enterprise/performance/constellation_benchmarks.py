@@ -4,7 +4,7 @@ T4 Enterprise Performance Benchmarking Suite
 ===========================================
 Sam Altman Level: "Ship fast, measure everything, scale exponentially"
 
-Comprehensive performance testing for LUKHAS AI Trinity Framework
+Comprehensive performance testing for LUKHAS AI Constellation Framework
 targeting enterprise-grade scalability and sub-25ms P95 latency.
 """
 
@@ -33,7 +33,7 @@ try:
     from lukhas.consciousness import ConsciousnessCore
     from lukhas.guardian import GuardianSystem
     from lukhas.memory import MemoryFoldSystem
-    from lukhas.trinity import TrinityFramework
+    from lukhas.constellation import ConstellationFramework
 
     LUKHAS_AVAILABLE = True
 except ImportError:
@@ -69,7 +69,7 @@ class PerformanceMetrics:
     error_count: int
     total_requests: int
     test_duration_seconds: float
-    trinity_coherence: float  # Trinity Framework specific metric
+    constellation_coherence: float  # Constellation Framework specific metric
     consciousness_response_ms: float  # Consciousness processing time
     memory_fold_efficiency: float  # Memory system performance
     guardian_validation_ms: float  # Safety system latency
@@ -87,8 +87,8 @@ class T4BenchmarkResults:
     recommendations: list[str]  # Improvement recommendations
 
 
-class TrinityFrameworkBenchmark:
-    """Enterprise performance benchmarking for Trinity Framework"""
+class ConstellationFrameworkBenchmark:
+    """Enterprise performance benchmarking for Constellation Framework"""
 
     def __init__(self, datadog_enabled: bool = True):
         self.metrics_history: list[PerformanceMetrics] = []
@@ -101,32 +101,36 @@ class TrinityFrameworkBenchmark:
         self.test_payloads = self._generate_test_payloads()
 
     def _generate_test_payloads(self) -> list[dict[str, Any]]:
-        """Generate realistic test payloads for Trinity Framework"""
+        """Generate realistic test payloads for Constellation Framework"""
         return [
-            # Identity requests (⚛️)
+            # Identity requests (⚛️ Anchor Star)
             {"type": "identity", "action": "authenticate", "complexity": "simple"},
             {"type": "identity", "action": "verify_credentials", "complexity": "medium"},
             {"type": "identity", "action": "tier_validation", "complexity": "complex"},
-            # Consciousness requests (🧠)
-            {"type": "consciousness", "action": "process_query", "complexity": "simple"},
-            {"type": "consciousness", "action": "dream_generation", "complexity": "medium"},
-            {"type": "consciousness", "action": "deep_reasoning", "complexity": "complex"},
-            # Guardian requests (🛡️)
+            # Memory requests (✦ Trail Star)
+            {"type": "memory", "action": "pattern_recognition", "complexity": "simple"},
+            {"type": "memory", "action": "experience_integration", "complexity": "medium"},
+            {"type": "memory", "action": "memory_fold_creation", "complexity": "complex"},
+            # Vision requests (🔬 Horizon Star)
+            {"type": "vision", "action": "perception_analysis", "complexity": "simple"},
+            {"type": "vision", "action": "future_orientation", "complexity": "medium"},
+            {"type": "vision", "action": "pattern_recognition", "complexity": "complex"},
+            # Guardian requests (🛡️ Watch Star)
             {"type": "guardian", "action": "safety_check", "complexity": "simple"},
             {"type": "guardian", "action": "drift_detection", "complexity": "medium"},
-            {"type": "guardian", "action": "constitutional_validation", "complexity": "complex"},
-            # Integrated Trinity requests
-            {"type": "trinity", "action": "full_pipeline", "complexity": "enterprise"},
+            {"type": "guardian", "action": "protection_validation", "complexity": "complex"},
+            # Integrated Constellation requests
+            {"type": "constellation", "action": "full_navigation", "complexity": "enterprise"},
         ]
 
-    async def benchmark_trinity_latency(
+    async def benchmark_constellation_latency(
         self, concurrent_users: int = 100, duration_seconds: int = 60
     ) -> PerformanceMetrics:
         """
-        Sam Altman Level: Benchmark Trinity Framework latency under load
+        Sam Altman Level: Benchmark Constellation Framework latency under load
         Target: <25ms P95 latency (2x better than current 50ms target)
         """
-        logger.info("🚀 Starting Trinity Framework latency benchmark")
+        logger.info("🚀 Starting Constellation Framework latency benchmark")
         logger.info(f"   Concurrent Users: {concurrent_users}")
         logger.info(f"   Duration: {duration_seconds}s")
         logger.info("   Target P95: <25ms (Sam Altman standard)")
@@ -141,15 +145,15 @@ class TrinityFrameworkBenchmark:
         initial_memory = process.memory_info().rss / 1024 / 1024  # MB
 
         async def single_request():
-            """Single Trinity Framework request simulation"""
+            """Single Constellation Framework request simulation"""
             nonlocal success_count, error_count
 
             request_start = time.time()
 
             try:
-                # Simulate Trinity Framework processing
+                # Simulate Constellation Framework processing
                 if LUKHAS_AVAILABLE:
-                    await self._process_trinity_request()
+                    await self._process_constellation_request()
                 else:
                     # Simulation mode
                     await asyncio.sleep(0.01 + (time.time() % 0.02))  # 10-30ms simulation
@@ -160,13 +164,13 @@ class TrinityFrameworkBenchmark:
 
                 # Send metrics to Datadog
                 if self.datadog_client:
-                    self.datadog_client.histogram("lukhas.trinity.latency", request_time)
-                    self.datadog_client.increment("lukhas.trinity.requests.success")
+                    self.datadog_client.histogram("lukhas.constellation.latency", request_time)
+                    self.datadog_client.increment("lukhas.constellation.requests.success")
 
             except Exception as e:
                 error_count += 1
                 if self.datadog_client:
-                    self.datadog_client.increment("lukhas.trinity.requests.error")
+                    self.datadog_client.increment("lukhas.constellation.requests.error")
                 logger.error(f"Request failed: {e}")
 
         # Generate concurrent load
@@ -203,7 +207,7 @@ class TrinityFrameworkBenchmark:
 
         metrics = PerformanceMetrics(
             timestamp=datetime.now().isoformat(),
-            test_name="trinity_latency_benchmark",
+            test_name="constellation_latency_benchmark",
             latency_p50=p50,
             latency_p95=p95,
             latency_p99=p99,
@@ -216,7 +220,7 @@ class TrinityFrameworkBenchmark:
             error_count=error_count,
             total_requests=total_requests,
             test_duration_seconds=total_time,
-            trinity_coherence=0.95,  # Simulated Trinity coherence
+            constellation_coherence=0.95,  # Simulated Constellation coherence
             consciousness_response_ms=p95 * 0.6,  # Consciousness component
             memory_fold_efficiency=0.997,  # Memory system efficiency
             guardian_validation_ms=p95 * 0.2,  # Guardian validation time
@@ -225,7 +229,7 @@ class TrinityFrameworkBenchmark:
         self.metrics_history.append(metrics)
 
         # Log results
-        logger.info("🎯 Trinity Framework Benchmark Results:")
+        logger.info("🎯 Constellation Framework Benchmark Results:")
         logger.info(f"   P50 Latency: {p50:.2f}ms")
         logger.info(f"   P95 Latency: {p95:.2f}ms ({'✅' if p95 < 25 else '⚠️'} Target: <25ms)")
         logger.info(f"   P99 Latency: {p99:.2f}ms")
@@ -235,9 +239,9 @@ class TrinityFrameworkBenchmark:
 
         return metrics
 
-    async def _process_trinity_request(self) -> dict[str, Any]:
-        """Process a complete Trinity Framework request"""
-        # This would integrate with actual LUKHAS Trinity Framework
+    async def _process_constellation_request(self) -> dict[str, Any]:
+        """Process a complete Constellation Framework request"""
+        # This would integrate with actual LUKHAS Constellation Framework
         # For now, simulate the processing time and components
 
         # Identity validation (⚛️) - Fast lookup
@@ -255,13 +259,26 @@ class TrinityFrameworkBenchmark:
         await asyncio.sleep(0.003)  # 3ms safety validation
         guardian_time = (time.time() - guardian_start) * 1000
 
+        # Additional constellation star processing
+        # Memory (✦) - Pattern processing
+        memory_start = time.time()
+        await asyncio.sleep(0.004)  # 4ms memory processing
+        memory_time = (time.time() - memory_start) * 1000
+        
+        # Vision (🔬) - Analysis processing  
+        vision_start = time.time()
+        await asyncio.sleep(0.003)  # 3ms vision processing
+        vision_time = (time.time() - vision_start) * 1000
+
         return {
             "status": "success",
-            "trinity_coherence": 0.95,
+            "constellation_coherence": 0.95,
             "component_times": {
                 "identity_ms": identity_time,
                 "consciousness_ms": consciousness_time,
                 "guardian_ms": guardian_time,
+                "memory_ms": memory_time,
+                "vision_ms": vision_time,
             },
         }
 
@@ -400,7 +417,7 @@ class TrinityFrameworkBenchmark:
         logger.info("    🏢 Enterprise: Operational Excellence")
 
         # Sam Altman: Performance & Scale
-        performance_metrics = await self.benchmark_trinity_latency(
+        performance_metrics = await self.benchmark_constellation_latency(
             concurrent_users=1000,  # High load test
             duration_seconds=120,  # 2-minute sustained test
         )
@@ -511,7 +528,7 @@ async def main():
     print("🏆 LUKHAS AI T4 Leadership Benchmarking Suite")
     print("=" * 50)
 
-    benchmark = TrinityFrameworkBenchmark()
+    benchmark = ConstellationFrameworkBenchmark()
 
     # Run comprehensive T4 benchmark
     results = await benchmark.run_comprehensive_t4_benchmark()

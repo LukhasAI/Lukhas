@@ -8,7 +8,7 @@ import ast
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class HybridComponentAnalyzer:
@@ -261,7 +261,7 @@ class HybridComponentAnalyzer:
     def generate_hybrid_mapping(self):
         """Generate the final hybrid component mapping"""
         hybrid_map = {
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "modules": {},
             "scenarios": self.scenario_results,
             "hormone_tags": self.identify_hormone_tags(),

@@ -191,7 +191,10 @@ class CloudConsolidationService:
                 recommendations.append(
                     {
                         "type": "remove_duplicates",
-                        "description": f"Remove {len(group.files) - 1} duplicate files, save {self._format_bytes(group.redundant_size)}",
+                        "description": (
+                            f"Remove {len(group.files) - 1} duplicate files, "
+                            f"save {self._format_bytes(group.redundant_size)}"
+                        ),
                         "files": [f.id for f in group.files[1:]],  # Keep first, remove rest
                         "savings_bytes": group.redundant_size,
                         "risk": "low",
@@ -204,7 +207,9 @@ class CloudConsolidationService:
             recommendations.append(
                 {
                     "type": "archive_old_files",
-                    "description": f"Archive {len(old_files)} files older than {request.include_old_threshold_days} days",
+                    "description": (
+                        f"Archive {len(old_files)} files older than " f"{request.include_old_threshold_days} days"
+                    ),
                     "files": [f.id for f in old_files],
                     "savings_bytes": int(archive_size * 0.8),  # Compression savings
                     "risk": "medium",
@@ -349,7 +354,7 @@ class CloudConsolidationService:
         }
 
     async def _execute_remove_duplicates(
-        self, action: dict[str, Any], capability_tokens: dict[str, str]
+        self, action: dict[str, Any], _capability_tokens: dict[str, str]
     ) -> dict[str, Any]:
         """Execute duplicate file removal"""
         # This would require files.delete scope and would actually delete files
@@ -360,7 +365,9 @@ class CloudConsolidationService:
             "message": f"Removed {len(action['files'])} duplicate files",
         }
 
-    async def _execute_archive_files(self, action: dict[str, Any], capability_tokens: dict[str, str]) -> dict[str, Any]:
+    async def _execute_archive_files(
+        self, action: dict[str, Any], _capability_tokens: dict[str, str]
+    ) -> dict[str, Any]:
         """Execute old file archival"""
         # This would move files to archive folders
         return {
@@ -370,7 +377,7 @@ class CloudConsolidationService:
         }
 
     async def _execute_optimize_large_files(
-        self, action: dict[str, Any], capability_tokens: dict[str, str]
+        self, action: dict[str, Any], _capability_tokens: dict[str, str]
     ) -> dict[str, Any]:
         """Execute large file optimization"""
         # This would analyze and potentially compress large files
@@ -425,7 +432,7 @@ async def create_consolidation_plan(
         # Generate execution token if actions are available
         execution_token = None
         if plan.recommended_actions:
-            execution_token = f"exec_{request.lid}_{datetime.now().timestamp()}"
+            execution_token = f"exec_{request.lid}_{datetime.now(timezone.utc).timestamp()}"
 
         message = (
             f"Found {len(plan.duplicate_groups)} duplicate groups, "
@@ -438,7 +445,7 @@ async def create_consolidation_plan(
         return ConsolidationResponse(lid=request.lid, plan=plan, execution_token=execution_token, message=message)
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {e!s}") from e
 
 
 @router.post("/execute")
@@ -492,7 +499,7 @@ async def execute_consolidation_plan(
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Execution failed: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Execution failed: {e!s}") from e
 
 
 @router.get("/services")

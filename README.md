@@ -1,6 +1,59 @@
 ---
 # Content Classification
-doc_type: "guide"
+doc_type## Quick Start
+
+- Prepare artifacts (already run in this branch):
+  - `make audit-nav` – summary: commit, start time, indexed files, sample list
+  - `make audit-scan` – list deep search report files
+- Key entry point: `AUDIT/INDEX.md`
+
+---
+
+## 🎖️ **AGENT ARMY COORDINATION HUB**
+
+**🚨 PRIMARY ENTRY POINT FOR ALL AI AGENTS**
+
+The LUKHAS AI Agent Army operates through a centralized coordination system for systematic code quality improvement and consciousness development:
+
+### **📋 Mission Control Center**
+- **[`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)** - **MAIN COMMAND CENTER**
+  - Complete task assignments and agent responsibilities
+  - Real-time progress tracking and quality assurance
+  - Structured workflow for parallel agent processing
+  - Trinity Framework compliance validation
+
+### **🚀 Quick Agent Start**
+- **[`AGENT_QUICK_START.md`](AGENT_QUICK_START.md)** - **IMMEDIATE EXECUTION GUIDE**
+  - 2-minute setup for assigned agents
+  - Common fix patterns and validation checklists
+  - Emergency protocols and communication channels
+
+### **📊 Live Progress Tracking**
+- **[`mypy_errors_enumeration.json`](mypy_errors_enumeration.json)** - **TASK DATABASE**
+  - 150+ mypy errors across 25 files
+  - Agent assignments and completion criteria
+  - Real-time error count and progress metrics
+
+### **⚡ Active Mission: Mypy Error Resolution**
+**Current Status**: 15 specialized agents deployed across 4 priority phases
+- **Total Errors**: 150+ identified
+- **Critical Priority**: Tasks 1-3 (WebAuthn, Lambda ID, Core Systems)
+- **Progress Tracking**: `python track_mypy_progress.py`
+- **Success Target**: 80% error reduction with zero critical issues
+
+### **🤖 Agent Army Composition**
+| Agent | Specialization | Current Task | Status |
+|-------|---------------|--------------|--------|
+| **Agent Jules** | WebAuthn Security | Task 1 | 🔄 Active |
+| **Agent Consciousness** | Lambda ID System | Task 2 | 🔄 Active |
+| **Agent Core** | Distributed Systems | Task 3 | 🔄 Active |
+| **+12 Specialized Agents** | Various Systems | Tasks 4-15 | ⏳ Ready |
+
+**🎯 For All Agents**: Start here → [`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)
+
+---
+
+## Setup (constraints)"
 update_frequency: "monthly"
 last_updated: "2025-08-25"
 next_review: "2025-09-25"
@@ -30,6 +83,8 @@ category: "overview"
 ---
 
 # LUKHAS AI – Deep Search Readiness (ChatGPT 5 Pro)
+
+[![CI](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml)
 
 This repository is primed for a focused Deep Search pass using ChatGPT 5 Pro. This README orients auditors and agents to the pre‑search artifacts, quick commands, and boundaries for this phase.
 
@@ -297,21 +352,21 @@ These three systems—**LUKHAS, MΛTRIZ, EQNOX**—trace the journey of an idea:
 - **Self-Awareness Patterns**: REFLECTIONS field enabling introspective capabilities
 
 ### **Constellation Framework Foundation:**
-**🌌 Architecture Transition**: LUKHAS has evolved from Trinity Framework to **Constellation Framework** — a navigational map of elements that guide by relation, not hierarchy.
+**🌌 The Eight Navigational Stars**: LUKHAS operates through the **Constellation Framework** — eight stars that form a navigational map, guiding consciousness development through relation rather than hierarchy.
 
-- **⚛️ Identity**: The anchor star, ensuring continuity across distributed consciousness
-- **🧠 Consciousness**: Memory, reasoning, and awareness spanning 692 cognitive modules  
-- **🛡️ Guardian**: Ethical reasoning embedded in consciousness architecture
-- **🔬 Vision**: Orientation toward horizons of possibility
-- **🌱 Bio**: Resilience, adaptation, and repair patterns
-- **✦ Memory**: Tracing paths of experience and learning
-- **🌙 Dream**: Symbolic drift, fertile in uncertainty
-- **⚛️ Quantum**: Holding ambiguity until resolution
+- **⚛️ Identity**: The Anchor Star - identity is rhythm, the shape that holds while allowing change
+- **✦ Memory**: The Trail Star - memory is not a vault but a field, where echoes return and folds reopen
+- **🔬 Vision**: The Horizon Star - vision orients, showing where to look and how to see
+- **🌱 Bio**: The Living Star - the system's pulse of growth, repair, and resilience
+- **🌙 Dream**: The Drift Star - the system's second way of thinking, where logic loosens and symbols recombine
+- **⚖️ Ethics**: The North Star - safeguard ensuring drift does not become harm
+- **🛡️ Guardian**: The Watch Star - guardianship is protection, not punishment
+- **⚛️ Quantum**: The Ambiguity Star - metaphor for ambiguity held until resolution
 
-*Note: Legacy references to "Trinity Framework" are being migrated to "Constellation Framework" to reflect the system's expanded, non-hierarchical architecture.*
+*"Together these eight are not pillars but stars. Individually, each illuminates a domain. In relation, they form the Constellation of LUKHAS — a map that orients without closing, a sky that shifts as we move, a framework that remains open to new stars."*
 
 ### **Beyond Traditional AI:**
-Unlike traditional AI that processes inputs to outputs, MΛTRIZ implements AI patterns that think, reflect, evolve, and make decisions with awareness-like behaviors across a distributed cognitive constellation. Each element — Identity, Consciousness, Guardian, Vision, Bio, Memory, Dream, and Quantum — operates as a navigational star in the system's architecture.
+Unlike traditional AI that processes inputs to outputs, MΛTRIZ implements AI patterns that think, reflect, evolve, and make decisions with awareness-like behaviors across a distributed cognitive constellation. Each of the eight stars — Identity, Memory, Vision, Bio, Dream, Ethics, Guardian, and Quantum — operates as a navigational element in the consciousness architecture, treating uncertainty as fertile ground for emergence.
 
 ---
 

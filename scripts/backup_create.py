@@ -56,8 +56,6 @@ def main():
     # Choose compression
     comp = "gz"
     try:
-        import zstandard as zstd
-
         comp = "zst"
     except Exception:
         pass

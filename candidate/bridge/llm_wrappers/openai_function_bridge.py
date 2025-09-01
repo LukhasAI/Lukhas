@@ -126,7 +126,10 @@ class OpenAIFunctionBridge:
         self.functions: dict[str, FunctionDefinition] = {}
 
         # Performance tracking
-        self.metrics = {
+        from typing import Any
+
+        # explicitly type metrics to avoid mypy inferring 'object' for values
+        self.metrics: dict[str, Any] = {
             "total_requests": 0,
             "function_calls": 0,
             "average_latency_ms": 0.0,
@@ -136,7 +139,7 @@ class OpenAIFunctionBridge:
         }
 
         # Rate limiting
-        self.request_times = []
+        self.request_times: list[float] = []
         self.max_requests_per_minute = 60
 
         logger.info("🚀 OpenAI Function Bridge initialized")

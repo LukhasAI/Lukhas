@@ -10,8 +10,7 @@ Ensures Freud-2025 Wave C specification compliance for routing integration.
 Tests priority monotonicity: higher narrative_gravity ⇒ higher priority
 """
 
-from typing import Any, Dict, List
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -19,7 +18,6 @@ from candidate.aka_qualia.glyphs import GLYPH_KEYS, map_scene_to_glyphs
 from candidate.aka_qualia.models import AgencyFeel, PhenomenalScene, ProtoQualia, RiskGauge, RiskSeverity, TemporalFeel
 from candidate.aka_qualia.router_client import (
     MockRouterClient,
-    RouterClient,
     SymbolicMeshRouterClient,
     compute_routing_priority,
     create_router_client,

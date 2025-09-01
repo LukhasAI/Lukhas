@@ -291,7 +291,7 @@ class DropboxAdapter(ServiceAdapter):
 
         try:
             if self.mock_mode:
-                watch_id = f"dropbox_webhook_{datetime.now().timestamp()}"
+                watch_id = f"dropbox_webhook_{datetime.now(timezone.utc).timestamp()}"
             else:
                 watch_id = await self._setup_dropbox_webhook(watch_request)
 
@@ -427,7 +427,7 @@ class DropboxAdapter(ServiceAdapter):
 
 File Path: {file_path}
 Content Hash: {metadata.content_hash}
-Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 
 Overview
 --------

@@ -63,7 +63,7 @@ def extract_symbolic_glyphs(file_path: Path) -> dict[str, any]:
         glyph_summary["emergency_levels"] = list(set(level_matches))
 
         # Count Trinity Framework references
-        trinity_matches = re.findall(r"⚛️🧠🛡️|trinity", content, re.IGNORECASE)
+        trinity_matches = re.findall(r"⚛️🧠🛡️|constellation", content, re.IGNORECASE)
         glyph_summary["trinity_references"] = len(trinity_matches)
 
     except Exception as e:
@@ -174,7 +174,7 @@ def generate_manifest_hash(manifest_file: str) -> dict[str, any]:
             "pattern_basis": "SHA3-512 hash segments mapped to symbolic glyphs",
             "verification_note": "Visual pattern should remain consistent for unchanged manifest",
         },
-        "trinity_framework": {
+        "constellation_framework": {
             "version": "⚛️🧠🛡️",
             "component": "Guardian System",
             "integrity_status": "VERIFIED",

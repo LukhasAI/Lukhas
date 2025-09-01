@@ -119,8 +119,8 @@ security_sensitive = [
 # Patterns for automatic syntax fixes
 quote_fixes = [
     # Fix curly quotes
-    ["[""]", '"'],     # Double curly quotes
-    ["['']", "'"],     # Single curly quotes
+    [""", '"'],     # Double curly quotes
+    ["'", "'"],     # Single curly quotes
 
     # Fix unicode quotes
     ["\\u201C", '"'],  # Left double quotation mark

@@ -18,7 +18,7 @@ from urllib.parse import urljoin
 import requests
 
 from candidate.aka_qualia.models import PhenomenalScene, RegulationPolicy
-from candidate.aka_qualia.palette import get_safe_palette_recommendation, map_colorfield
+from candidate.aka_qualia.palette import get_safe_palette_recommendation
 
 logger = logging.getLogger(__name__)
 

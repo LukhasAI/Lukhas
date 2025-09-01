@@ -19,7 +19,7 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 try:
     from prometheus_client import (
@@ -241,7 +241,7 @@ class AkaqObservability:
                 "wave": "C",
                 "architecture": "phenomenological_processing",
                 "spec": "freud_2025",
-                "trinity_framework": "identity_consciousness_guardian",
+                "constellation_framework": "identity_consciousness_guardian",
             }
         )
 

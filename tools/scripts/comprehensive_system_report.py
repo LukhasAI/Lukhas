@@ -30,7 +30,7 @@ class LUKHASSystemDiagnostic:
             "metadata": {
                 "report_title": "LUKHAS Comprehensive System Status Report",
                 "report_date": self.report_timestamp,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
                 "version": "1.0",
                 "purpose": "System Health & Research Documentation",
             },
@@ -306,11 +306,12 @@ class LUKHASSystemDiagnostic:
                 }
             )
         elif self.results["python_environment"]["missing_packages"]:
-            issues.append(
-                {"category": "warning", "component": "python_environment",
-                 "issue":
-                 f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
-                 "impact": "Some features may not work", })
+            issues.append({
+                "category": "warning", 
+                "component": "python_environment",
+                "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
+                "impact": "Some features may not work"
+            })
             recommendations.append("Install missing packages with pip install")
 
         # Check core modules

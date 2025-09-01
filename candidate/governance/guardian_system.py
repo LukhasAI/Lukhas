@@ -6,6 +6,8 @@ Aggregated interface for all Guardian system components.
 This module provides a unified API for accessing Guardian components
 that are distributed across the governance module structure.
 
+Integrated with LUKHAS Constellation Framework - Guardian (Watch Star) & Ethics (North Star).
+
 Author: LUKHAS AI System
 Version: 1.0.0
 """
@@ -43,6 +45,10 @@ class GuardianSystem:
 
     Provides centralized access to all Guardian components
     with ethical oversight and protection mechanisms.
+    
+    Constellation Framework Integration:
+    - 🛡️ Guardian (Watch Star): Protection and trustworthiness
+    - ⚖️ Ethics (North Star): Responsible, transparent, accountable oversight
     """
 
     def __init__(self, enable_reflection=True, enable_sentinel=True):

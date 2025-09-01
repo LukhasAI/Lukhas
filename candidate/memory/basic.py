@@ -45,7 +45,7 @@
 
 import uuid
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
@@ -65,13 +65,13 @@ class MemoryEntry:
         self.id = str(uuid.uuid4())
         self.content = content
         self.metadata = metadata or {}
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.accessed_at = self.created_at
         self.access_count = 0
 
     def access(self):
         """Mark this memory as accessed."""
-        self.accessed_at = datetime.now()
+        self.accessed_at = datetime.now(timezone.utc)
         self.access_count += 1
 
     def to_dict(self) -> dict[str, Any]:

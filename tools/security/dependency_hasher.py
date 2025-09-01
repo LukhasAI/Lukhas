@@ -11,7 +11,6 @@ This tool addresses the Guardian Security requirement for dependency pinning wit
 to prevent supply chain attacks and ensure integrity of all dependencies.
 """
 
-import hashlib
 import json
 import subprocess
 import sys

@@ -61,7 +61,7 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 - Ensures compliance with data integrity and security standards.
 
                           🏷️ ΛTAG KEYWORDS
-# MemoryManagement #TrinityFramework #AbstractClass #DataIntegrity
+# MemoryManagement #ConstellationFramework #AbstractClass #DataIntegrity
 # LambdaTracing #ConsciousnessPatterns #GuardianCompliance #QIInspired
 # CognitiveComputation #Extensibility #LUKHAS #ArtificialIntelligence
 ══════════════════════════════════════════════════════════════════════════════════
@@ -419,7 +419,7 @@ class BaseMemoryManager(ABC):
                 "lambda_traces": len(self._lambda_traces),
                 "storage_path": str(self.base_path),
                 "manager_type": self.__class__.__name__,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
                 "memory_efficiency": round((total_memories - deleted_memories) / max(total_memories, 1) * 100, 2),
             }
 
@@ -430,7 +430,7 @@ class BaseMemoryManager(ABC):
             return {
                 "error": str(e),
                 "manager_type": self.__class__.__name__,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
             }
 
     def _extract_identity_context(self, metadata: dict[str, Any]) -> str:

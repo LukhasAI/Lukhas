@@ -21,7 +21,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
-from candidate.aka_qualia.models import Metrics, PhenomenalScene, ProtoQualia
+from candidate.aka_qualia.models import PhenomenalScene, ProtoQualia
 
 
 @dataclass

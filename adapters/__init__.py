@@ -13,7 +13,7 @@ ACK GUARDRAILS
 """
 
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field
@@ -185,7 +185,7 @@ class ServiceAdapter(ABC):
             "success": success,
             "error": error,
             "metadata": metadata,
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
 

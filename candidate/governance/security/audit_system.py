@@ -12,7 +12,7 @@ Features:
 - Compliance-focused audit logging (GDPR, SOC2, etc.)
 - Advanced search and filtering capabilities
 - Automated audit report generation
-- Trinity Framework audit integration (⚛️🧠🛡️)
+- Constellation Framework audit integration (✨🌟⭐🔥💎⚖️🛡️🌌)
 - Threat detection through audit pattern analysis
 - Retention policy management
 - Cross-system audit correlation
@@ -22,7 +22,7 @@ Features:
 #TAG:security
 #TAG:compliance
 #TAG:monitoring
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -65,7 +65,7 @@ class AuditCategory(Enum):
     PRIVACY = "privacy"
     AI_ETHICS = "ai_ethics"
     CONSTITUTIONAL = "constitutional"
-    TRINITY = "trinity"
+    TRINITY = "constellation"
     GOVERNANCE = "governance"
     USER_ACTION = "user_action"
     SYSTEM_EVENT = "system_event"

@@ -20,7 +20,7 @@ Features:
 #TAG:governance
 #TAG:policy
 #TAG:enforcement
-#TAG:trinity
+#TAG:constellation
 #TAG:guardian
 #TAG:compliance
 """
@@ -51,7 +51,7 @@ class PolicyType(Enum):
     USER_CONSENT = "user_consent"  # User consent management
     CONTENT = "content"  # Content moderation
     SYSTEM_BEHAVIOR = "system_behavior"  # System behavior control
-    TRINITY = "trinity"  # Trinity Framework specific
+    TRINITY = "constellation"  # Trinity Framework specific
 
 
 class PolicyScope(Enum):

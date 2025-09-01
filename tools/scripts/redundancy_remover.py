@@ -9,7 +9,7 @@ import ast
 import json
 import logging
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Setup logging
@@ -21,13 +21,9 @@ class RedundancyRemover:
     """Safely removes redundant code"""
 
     def __init__(self, dry_run: bool = True):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.dry_run = dry_run
-        self.backup_dir = (
-            self.root_path
-            / ".redundancy_backup"
-            / datetime.now().strftime("%Y%m%d_%H%M%S")
-        )
+        self.backup_dir = self.root_path / ".redundancy_backup" / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.removed_count = 0
         self.modified_files = set()
 
@@ -96,28 +92,20 @@ class RedundancyRemover:
                             content = re.sub(pattern, "", content)
 
                 # Add import if needed
-                if (
-                    needs_import
-                    and "from system.common.utils import get_logger" not in content
-                ):
+                if needs_import and "from system.common.utils import get_logger" not in content:
                     # Add import after other imports
                     lines = content.split("\n")
                     import_added = False
 
                     for i, line in enumerate(lines):
-                        if (
-                            line.startswith("import ") or line.startswith("from ")
-                        ) and not import_added:
+                        if (line.startswith("import ") or line.startswith("from ")) and not import_added:
                             # Find end of import block
                             j = i
                             while j < len(lines) and (
-                                lines[j].startswith(("import ", "from "))
-                                or lines[j].strip() == ""
+                                lines[j].startswith(("import ", "from ")) or lines[j].strip() == ""
                             ):
                                 j += 1
-                            lines.insert(
-                                j, "from system.common.utils import get_logger"
-                            )
+                            lines.insert(j, "from system.common.utils import get_logger")
                             import_added = True
                             break
 
@@ -143,9 +131,7 @@ class RedundancyRemover:
             except Exception as e:
                 logger.warning(f"   Error processing {py_file}: {e}")
 
-        logger.info(
-            f"   {'Would modify' if self.dry_run else 'Modified'} {modified} files"
-        )
+        logger.info(f"   {'Would modify' if self.dry_run else 'Modified'} {modified} files")
         self.removed_count += modified
 
     def remove_duplicate_functions(self):
@@ -175,17 +161,11 @@ class RedundancyRemover:
 
             for dup in occurrences[1:]:
                 file_path = self.root_path / dup["file"]
-                if self._remove_function_from_file(
-                    file_path, dup["name"], dup["lines"]
-                ):
+                if self._remove_function_from_file(file_path, dup["name"], dup["lines"]):
                     removed += 1
-                    logger.info(
-                        f"   {'Would remove' if self.dry_run else 'Removed'} {dup['name']} from {dup['file']}"
-                    )
+                    logger.info(f"   {'Would remove' if self.dry_run else 'Removed'} {dup['name']} from {dup['file']}")
 
-        logger.info(
-            f"   {'Would remove' if self.dry_run else 'Removed'} {removed} duplicate functions"
-        )
+        logger.info(f"   {'Would remove' if self.dry_run else 'Removed'} {removed} duplicate functions")
         self.removed_count += removed
 
     def consolidate_imports(self):
@@ -234,11 +214,7 @@ class RedundancyRemover:
                         else:
                             import_section.append(line)
                     else:
-                        if (
-                            in_imports
-                            and line.strip()
-                            and not line.startswith(("import ", "from "))
-                        ):
+                        if in_imports and line.strip() and not line.startswith(("import ", "from ")):
                             # End of import section
                             in_imports = False
                             # Write consolidated imports
@@ -247,13 +223,9 @@ class RedundancyRemover:
                                     # Consolidate
                                     all_imports = set()
                                     for imp_line in imports:
-                                        all_imports.update(
-                                            imp.strip() for imp in imp_line.split(",")
-                                        )
+                                        all_imports.update(imp.strip() for imp in imp_line.split(","))
                                     if all_imports:
-                                        new_lines.append(
-                                            f"from {module} import {', '.join(sorted(all_imports))}"
-                                        )
+                                        new_lines.append(f"from {module} import {', '.join(sorted(all_imports))}")
                                 else:
                                     for imp in imports:
                                         new_lines.append(f"from {module} import {imp}")
@@ -276,9 +248,7 @@ class RedundancyRemover:
             except Exception:
                 pass
 
-        logger.info(
-            f"   {'Would consolidate' if self.dry_run else 'Consolidated'} imports in {consolidated} files"
-        )
+        logger.info(f"   {'Would consolidate' if self.dry_run else 'Consolidated'} imports in {consolidated} files")
 
     def remove_unused_imports(self):
         """Remove unused imports"""
@@ -319,9 +289,7 @@ class RedundancyRemover:
                 unused = imports - used_names
 
                 if unused and len(unused) < len(imports):  # Don't remove all imports
-                    logger.info(
-                        f"   Found {len(unused)} unused imports in {py_file.relative_to(self.root_path)}"
-                    )
+                    logger.info(f"   Found {len(unused)} unused imports in {py_file.relative_to(self.root_path)}")
                     cleaned += 1
 
             except Exception:
@@ -357,9 +325,7 @@ class RedundancyRemover:
         backup_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(file_path, backup_path)
 
-    def _remove_function_from_file(
-        self, file_path: Path, func_name: str, lines: tuple[int, int]
-    ) -> bool:
+    def _remove_function_from_file(self, file_path: Path, func_name: str, lines: tuple[int, int]) -> bool:
         """Remove a function from a file"""
         if not file_path.exists():
             return False
@@ -373,9 +339,7 @@ class RedundancyRemover:
             end_line = lines[1] if lines[1] else lines[0]
 
             # Find the actual end of the function (including any trailing whitespace)
-            while (
-                end_line < len(content_lines) and content_lines[end_line].strip() == ""
-            ):
+            while end_line < len(content_lines) and content_lines[end_line].strip() == "":
                 end_line += 1
 
             # Remove the lines
@@ -396,19 +360,15 @@ class RedundancyRemover:
     def generate_report(self):
         """Generate removal report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "dry_run": self.dry_run,
             "removed_count": self.removed_count,
             "modified_files": len(self.modified_files),
             "backup_location": str(self.backup_dir) if not self.dry_run else None,
-            "files_modified": [
-                str(f.relative_to(self.root_path)) for f in sorted(self.modified_files)
-            ][:50],
+            "files_modified": [str(f.relative_to(self.root_path)) for f in sorted(self.modified_files)][:50],
         }
 
-        report_path = (
-            self.root_path / "docs" / "reports" / "redundancy_removal_report.json"
-        )
+        report_path = self.root_path / "docs" / "reports" / "redundancy_removal_report.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(report_path, "w") as f:
@@ -418,9 +378,7 @@ class RedundancyRemover:
 
     def run(self):
         """Run redundancy removal"""
-        logger.info(
-            f"🧹 Starting Redundancy Removal {'(DRY RUN)' if self.dry_run else ''}"
-        )
+        logger.info(f"🧹 Starting Redundancy Removal {'(DRY RUN)' if self.dry_run else ''}")
         logger.info("=" * 80)
 
         if not self.dry_run:

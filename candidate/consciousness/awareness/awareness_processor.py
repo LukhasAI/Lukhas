@@ -555,7 +555,7 @@ class AwarenessProcessor:
 
         # Add Trinity Framework metrics if available
         if hasattr(self, "trinity_metrics"):
-            status["trinity_framework"] = self.trinity_metrics.copy()
+            status["constellation_framework"] = self.trinity_metrics.copy()
 
         # Add alert summary
         if hasattr(self, "active_alerts"):

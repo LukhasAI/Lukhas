@@ -45,11 +45,7 @@ class SimpleLLMCodeFixer:
             if result.stdout:
                 issues = json.loads(result.stdout)
                 # Focus on syntax errors first (E9, F9 codes)
-                critical_issues = [
-                    issue
-                    for issue in issues
-                    if issue.get("code", "").startswith(("E9", "F9"))
-                ][:limit]
+                critical_issues = [issue for issue in issues if issue.get("code", "").startswith(("E9", "F9"))][:limit]
 
                 if not critical_issues:
                     # If no critical, take other high-priority issues
@@ -141,7 +137,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
         print(f"✅ Ollama available with model: {self.model}")
 
         # Get issues to fix
-        issues = self.get_ruff_issues(limit=10# Start small
+        issues = self.get_ruff_issues(limit=10)  # Start small
         print(f"📋 Found {len(issues)} issues to process")
 
         if not issues:
@@ -198,9 +194,7 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Simple LUKHAS Code Fixer")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Analyze without changes"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Analyze without changes")
     parser.add_argument("--autofix", action="store_true", help="Run Ruff autofix only")
 
     args = parser.parse_args()

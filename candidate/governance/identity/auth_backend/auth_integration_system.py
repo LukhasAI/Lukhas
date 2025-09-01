@@ -710,7 +710,7 @@ class LUKHASAuthIntegrationSystem:
             "configuration": self.config,
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "last_updated": datetime.now().isoformat(),
         }
 

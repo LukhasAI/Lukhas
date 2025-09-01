@@ -28,7 +28,7 @@ try:
     from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
-        get_trinity_context,
+        get_constellation_context,
         normalize_output_text,
         validate_output,
     )

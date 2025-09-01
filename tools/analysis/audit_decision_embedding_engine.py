@@ -9,7 +9,7 @@ for tracking and analyzing system decisions within the LUKHAS framework.
 import hashlib
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -73,12 +73,12 @@ class DecisionAuditEngine:
             AuditDecision object
         """
         # Generate unique decision ID
-        decision_id = self._generate_decision_id(decision_type, input_data, datetime.now())
+        decision_id = self._generate_decision_id(decision_type, input_data, datetime.now(timezone.utc))
 
         # Create audit decision
         decision = AuditDecision(
             decision_id=decision_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             decision_type=decision_type,
             input_data=input_data,
             output_data=output_data,

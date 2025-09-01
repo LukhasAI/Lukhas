@@ -310,7 +310,7 @@ class ConsentManager(GlyphIntegrationMixin):
             ),
             TrustPath(
                 path_id="trinity_framework_protected",
-                source="trinity_framework",
+                source="constellation_framework",
                 target="system_components",
                 trust_score=1.0,
                 path_type="direct",
@@ -540,7 +540,7 @@ class ConsentManager(GlyphIntegrationMixin):
     def _is_trinity_protected_resource(self, request: ConsentRequest) -> bool:
         """Check if resource is protected by Trinity Framework"""
         resource = request.target_resource.lower()
-        trinity_resources = ["identity", "consciousness", "guardian", "trinity", "core", "system"]
+        trinity_resources = ["identity", "consciousness", "guardian", "constellation", "core", "system"]
         return any(term in resource for term in trinity_resources)
 
     async def _analyze_trinity_impact(self, request: ConsentRequest) -> dict[str, Any]:

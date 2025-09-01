@@ -18,7 +18,7 @@ Features:
 - Security event correlation and analysis
 - Compliance monitoring across all Trinity components
 
-#TAG:trinity
+#TAG:constellation
 #TAG:monitoring
 #TAG:authentication
 #TAG:api

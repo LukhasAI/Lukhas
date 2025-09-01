@@ -8,10 +8,9 @@ standard node interface helpers (links, triggers, reflections, provenance).
 """
 
 import time
-import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Optional
+from typing import Any
 
 from .node_interface import (
     CognitiveNode,

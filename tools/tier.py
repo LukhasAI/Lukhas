@@ -63,7 +63,8 @@ def print_tier(level):
         return
     tier = TIER_DATA[level]
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print(f"{level}️⃣  TIER {level} — {tier['name'].upper()}")
+    # Use ASCII hyphen-minus instead of Unicode dash for linting
+    print(f"{level}️⃣  TIER {level} - {tier['name'].upper()}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🔓 ACCESS:")
     for item in tier["access"]:
@@ -75,19 +76,20 @@ def print_tier(level):
 
 def main():
     parser = argparse.ArgumentParser(description="🎚️ View or simulate LUCAS AGI symbolic tiers")
-    parser.add_argument("--simulate", type=int, help="Simulate privileges of a given tier (1–5)")
+    parser.add_argument("--simulate", type=int, help="Simulate privileges of a given tier (1-5)")
     args = parser.parse_args()
 
     if args.simulate:
         print(f"\n🔮 SIMULATING TIER {args.simulate}:\n")
         print_tier(args.simulate)
     else:
-        print("\n🎚️ LUCAS AGI — SYMBOLIC TIER OVERVIEW")
+        # Use hyphen instead of EN DASH for lint compliance
+        print("\n🎚️ LUCAS AGI - SYMBOLIC TIER OVERVIEW")
         for i in range(1, 6):
             print_tier(i)
 
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        print("🌿 Tiers reflect symbolic trust — not hierarchy.")
+        print("🌿 Tiers reflect symbolic trust - not hierarchy.")
         print("🔗 Run 'lucasagi-ethics' for full ethics preview.\n")
 
 

@@ -781,7 +781,7 @@ class UnifiedMemory:
             "episodes": len(self.episodic.episodes),
             "causal_links": len(self.causal.causal_graph),
             "colony": self.colony.get_colony_status(),
-            "trinity": "synchronized"
+            "constellation": "synchronized"
         }
 
 # Singleton instance
@@ -894,8 +894,8 @@ def test_unified_memory():
 
     # Test status
     status = memory.get_status()
-    assert "trinity" in status
-    assert status["trinity"] == "synchronized"
+    assert "constellation" in status
+    assert status["constellation"] == "synchronized"
 
 def test_trinity_integration():
     """Test Trinity Framework integration"""

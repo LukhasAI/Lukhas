@@ -386,13 +386,11 @@ def get_audit_logger() -> logging.Logger:
 
 class LoggingContext:
     """Context manager for adding structured context to logs."""
-
-    def __init__(self, logger: logging.Logger, **context) -> None:
+    def __init__(self, logger: logging.Logger, **context: Any) -> None:
         self.logger = logger
         self.context = context
         self.original_extra = {}
-
-    def __enter__(self):
+    def __enter__(self) -> logging.Logger:
         # Store original context if it exists
         if hasattr(self.logger, "_context"):
             self.original_extra = self.logger._context.copy()
@@ -403,7 +401,7 @@ class LoggingContext:
         self.logger._context.update(self.context)
         return self.logger
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type: Optional[type], exc_val: Optional[BaseException], exc_tb: Optional[Any]) -> None:
         # Restore original context
         if self.original_extra:
             self.logger._context = self.original_extra
@@ -418,10 +416,11 @@ class PerformanceLoggingContext:
         self.logger = logger
         self.operation = operation
         self.context = context
-        self.start_time = None
-        self.end_time = None
+        # Annotate timing fields for static type-checkers
+        self.start_time: Optional[float] = None
+        self.end_time: Optional[float] = None
 
-    def __enter__(self):
+    def __enter__(self) -> "PerformanceLoggingContext":
         import time
 
         self.start_time = time.perf_counter()
@@ -431,7 +430,7 @@ class PerformanceLoggingContext:
         )
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         import time
 
         self.end_time = time.perf_counter()

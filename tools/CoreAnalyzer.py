@@ -7,14 +7,14 @@ Recognizes legitimate lukhas functionality vs third-party libraries.
 import os
 import re
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class CoreAnalyzer:
     def __init__(self, workspace_path: str):
         self.workspace_path = workspace_path
         self.Λ_path = os.path.join(workspace_path, "lukhas")
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # Define Λ AI keywords that indicate legitimate core functionality
         self.Λ_keywords = {
@@ -200,7 +200,7 @@ class CoreAnalyzer:
 
         with open(report_path, "w") as f:
             f.write("# lukhas Core AI Analysis Report\n")
-            f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("**Purpose:** Identify actual lukhas AI components vs external packages\n\n")
 
             # Executive Summary

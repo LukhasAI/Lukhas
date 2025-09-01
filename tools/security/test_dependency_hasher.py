@@ -4,7 +4,6 @@
 Test script for Guardian Security Dependency Hasher
 """
 
-import json
 import sys
 import tempfile
 from pathlib import Path

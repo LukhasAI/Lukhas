@@ -15,14 +15,11 @@ Performance benchmarks and stress tests covering:
 Target: Production SLA validation
 """
 
-import asyncio
 import gc
-import random
 import statistics
-import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Dict, List
+from typing import List
 
 import psutil
 import pytest

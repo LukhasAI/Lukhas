@@ -98,8 +98,8 @@ class ModuleEnhancer:
 
         print(f"✅ {module_name.upper()} module enhanced!")
 
-            def create_directory_structure(self, module_name):
-                """Create all necessary directories"""
+    def create_directory_structure(self, module_name):
+        """Create all necessary directories"""
         directories = [
             f"{module_name}/docs",
             f"{module_name}/docs/api",
@@ -113,11 +113,11 @@ class ModuleEnhancer:
             f"{module_name}/examples/advanced"
         ]
 
-                for directory in directories:
+        for directory in directories:
             os.makedirs(directory, exist_ok=True)
 
-                    def create_readme(self, module_name, module_info):
-                        """Create comprehensive README.md"""
+    def create_readme(self, module_name, module_info):
+        """Create comprehensive README.md"""
         readme_content = f"""# {module_name.upper()} Module
 
                         ## Overview

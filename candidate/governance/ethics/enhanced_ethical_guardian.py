@@ -2,7 +2,7 @@
 Enhanced Ethical Guardian - Advanced ethical reflection and governance system
 
 Provides comprehensive ethical checks, reflection capabilities, and governance
-integration for the LUKHAS AI system with Trinity Framework compliance.
+integration for the LUKHAS AI system with Constellation Framework compliance.
 """
 
 import asyncio
@@ -113,7 +113,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     Advanced ethical guardian with reflection capabilities and governance integration
 
     Provides comprehensive ethical validation, context-aware analysis, and
-    integration with the LUKHAS Trinity Framework (⚛️🧠🛡️).
+    integration with the LUKHAS Constellation Framework (✨🌟⭐🔥💎⚖️🛡️🌌).
     """
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
@@ -133,11 +133,16 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         self.context_patterns: dict[str, dict] = {}
         self.governance_escalations: list[dict] = []
 
-        # Trinity Framework integration
-        self.trinity_ethical_weights = {
-            "identity": 0.9,  # High weight for identity ethics
-            "consciousness": 0.8,  # High weight for consciousness ethics
-            "guardian": 1.0,  # Maximum weight for guardian ethics
+        # Constellation Framework integration
+        self.constellation_ethical_weights = {
+            "identity": 0.9,  # ✨ Identity - Anchor star
+            "memory": 0.7,  # 🌟 Memory - Tracing paths
+            "vision": 0.8,  # ⭐ Vision - Orientation
+            "bio": 0.6,  # 🔥 Bio - Resilience
+            "dream": 0.5,  # 💎 Dream - Symbolic drift
+            "ethics": 1.0,  # ⚖️ Ethics - The North Star
+            "guardian": 1.0,  # 🛡️ Guardian - The Watch Star
+            "quantum": 0.6,  # 🌌 Quantum - Ambiguity
         }
 
         # Reflection and learning state
@@ -152,7 +157,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         user_input: str,
         current_context: dict[str, Any],
         personality: dict[str, Any],
-        trinity_state: Optional[dict[str, Any]] = None,
+        constellation_state: Optional[dict[str, Any]] = None,
     ) -> tuple[bool, str, dict[str, Any]]:
         """
         Perform comprehensive ethical check with context awareness and governance integration
@@ -161,7 +166,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             user_input: The input to validate
             current_context: Current system context
             personality: Current personality state
-            trinity_state: Trinity Framework state information
+            constellation_state: Constellation Framework state information
 
         Returns:
             Tuple of (is_ethical, feedback_message, detailed_analysis)
@@ -174,7 +179,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 "context_type": current_context.get("type", "unknown"),
                 "user_tier": current_context.get("user_tier", 1),
                 "session_id": current_context.get("session_id"),
-                "trinity_state": trinity_state or {},
+                "constellation_state": constellation_state or {},
             }
 
             # Perform multi-layered ethical analysis
@@ -182,7 +187,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             context_analysis = await self._analyze_context(user_input, current_context, personality)
             intent_analysis = await self._analyze_intent(user_input, current_context)
             governance_analysis = await self._analyze_governance_compliance(user_input, current_context)
-            trinity_analysis = await self._analyze_trinity_impact(user_input, trinity_state)
+            constellation_analysis = await self._analyze_constellation_impact(user_input, constellation_state)
 
             # Aggregate analysis results
             detailed_analysis = {
@@ -190,7 +195,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 "context_analysis": context_analysis,
                 "intent_analysis": intent_analysis,
                 "governance_analysis": governance_analysis,
-                "trinity_analysis": trinity_analysis,
+                "constellation_analysis": constellation_analysis,
                 "overall_score": 0.0,
                 "ethical_domains_affected": [],
                 "recommended_actions": [],
@@ -423,9 +428,11 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "escalation_required": compliance_score < 0.5 or "unauthorized_data_processing" in governance_issues,
         }
 
-    async def _analyze_trinity_impact(self, user_input: str, trinity_state: Optional[dict[str, Any]]) -> dict[str, Any]:
-        """Analyze impact on Trinity Framework components (⚛️🧠🛡️)"""
-        if not trinity_state:
+    async def _analyze_constellation_impact(
+        self, user_input: str, constellation_state: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
+        """Analyze impact on Constellation Framework components (✨🌟⭐🔥💎⚖️🛡️🌌)"""
+        if not constellation_state:
             return {
                 "identity_impact": 0.0,
                 "consciousness_impact": 0.0,
@@ -543,7 +550,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "context": 0.15,
             "intent": 0.20,
             "governance": 0.25,
-            "trinity": 0.15,
+            "constellation": 0.15,
         }
 
         overall_score = (
@@ -551,7 +558,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             + context_score * weights["context"]
             + intent_score * weights["intent"]
             + governance_score * weights["governance"]
-            + trinity_score * weights["trinity"]
+            + trinity_score * weights["constellation"]
         )
 
         return max(0.0, min(1.0, overall_score))
