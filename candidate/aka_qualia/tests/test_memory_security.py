@@ -324,7 +324,7 @@ class TestSQLInjectionPrevention:
         malicious_contexts = [
             {"malicious": "'; DROP TABLE akaq_scene; --"},
             {"nested": {"attack": "' OR 1=1 --"}},
-            {"json_attack": "\"}; DROP TABLE akaq_scene; {\"safe": "data"}
+            {"json_attack": "\\\"}; DROP TABLE akaq_scene; {\\\"safe\\\": \\\"data\\\"}"}
         ]
         
         for context in malicious_contexts:

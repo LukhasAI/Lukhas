@@ -8,7 +8,6 @@ Demonstrates the observability system integrated with Aka Qualia components.
 
 import json
 import time
-from datetime import datetime, timezone
 
 from memory_noop import NoopMemory
 from monitoring_dashboard import MonitoringDashboard

@@ -11,12 +11,11 @@ quantum-inspired and bio-inspired processing patterns.
 """
 
 import asyncio
-import json
 import logging
 import math
 import time
 from datetime import datetime, timezone
-from typing import Any, Optional, Union
+from typing import Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

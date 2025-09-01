@@ -189,7 +189,7 @@ class CollapseReplayTool:
             if i == len(session["entropy_drift"]) // 2 and session["guardian_flags"]:
                 print(f"\n🛡️ Guardian Alert: {session['guardian_flags'][0]}")
 
-            time.sleep(0.5# Dramatic pause
+            time.sleep(0.5)  # Dramatic pause
 
         print("\n" + "-" * 40 + "\n")
 

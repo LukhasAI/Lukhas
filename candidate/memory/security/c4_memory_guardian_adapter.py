@@ -15,7 +15,7 @@ back to cfg_version" as required by Guardian Security Doctrine v1.0.0.
 import hashlib
 import json
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Optional
 
 try:

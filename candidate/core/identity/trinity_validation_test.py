@@ -14,7 +14,6 @@ from datetime import datetime, timezone
 
 # Trinity Framework imports
 from lambda_id_core import (
-    LambdaIDNamespace,  # Using ASCII alias for ΛIDNamespace
     LukhasIdentityService,
     WebAuthnPasskeyManager,
     validate_trinity_framework,

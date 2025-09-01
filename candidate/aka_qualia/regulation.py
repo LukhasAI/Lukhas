@@ -18,7 +18,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from candidate.aka_qualia.models import PhenomenalScene, ProtoQualia, RegulationPolicy, RiskProfile
+from candidate.aka_qualia.models import PhenomenalScene, RegulationPolicy
 
 
 @dataclass

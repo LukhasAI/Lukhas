@@ -137,7 +137,7 @@ class LukhusAI:
 
     # Human-readable comment: Generates an AI response using the external router.
 
-    def generate_response(:
+    def generate_response(
         self,
         prompt: str,
         task_type: LukhusAITaskType = LukhusAITaskType.GENERAL,
@@ -158,8 +158,8 @@ class LukhusAI:
         TODO: Consider returning a more structured object (e.g., a dataclass with success, data, error_code).
         """
         self.instance_logger.info(
-            f"ΛTRACE: generate_response called. TaskType: {task_type.value},"
-            Debug: {debug}, Prompt(first 50): '{prompt[:50]}...'"
+            f"ΛTRACE: generate_response called. TaskType: {task_type.value}, "
+            f"Debug: {debug}, Prompt(first 50): '{prompt[:50]}...'"
         )
 
         if not self.router_available or multiverse_route is None:
@@ -229,8 +229,8 @@ class LukhusAI:
         )
         enhanced_prompt = (
             f"Programming Language: {language}\nRequest: {prompt}"
-            if language:
-            else prompt:
+            if language
+            else prompt
         )
         return self.generate_response(enhanced_prompt, LukhusAITaskType.CODE)
 
@@ -276,8 +276,8 @@ class LukhusAI:
         )
         enhanced_prompt = (
             f"Context for Analysis:\n{context}\n\nAnalysis Request: {prompt}"
-            if context:
-            else prompt:
+            if context
+            else prompt
         )
         return self.generate_response(
             enhanced_prompt, LukhusAITaskType.ANALYSIS
@@ -297,7 +297,7 @@ class LukhusAI:
 # Human-readable comment: Quick access to code assistance.
 
 
-def ai_code(:
+def ai_code(
     prompt: str, language: str = "", component: str = "LukhusQuickAccess"
 ) -> str:
     """Global convenience function for code assistance."""

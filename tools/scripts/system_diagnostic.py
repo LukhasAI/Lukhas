@@ -66,7 +66,7 @@ class SystemDiagnostic:
                     results[description] = False
             except Exception as e:
                 results[description] = False
-                print(f"❌ Failed to import {module_name}: {str(e)}")
+                print(f"❌ Failed to import {module_name}: {e!s}")
 
         self.results["imports"] = results
         return results
@@ -112,17 +112,15 @@ class SystemDiagnostic:
             # Check if module exists for endpoint
             if "/identity/" in endpoint:
                 status = (
-                    "✅ Ready"
-                    if self.results["imports"].get("Identity API", False):
-                    else "❌ Missing":
+                    "✅ Ready" if self.results["imports"].get("Identity API", False)
+                    else "❌ Missing"
                 )
             elif "/api/meta/" in endpoint:
                 status = (
-                    "✅ Ready"
-                    if self.results["imports"].get("Log Routes", False):
-                    else "❌ Missing":
+                    "✅ Ready" if self.results["imports"].get("Log Routes", False)
+                    else "❌ Missing"
                 )
-            elif endpoint in [:
+            elif endpoint in [
                 "/api/consciousness/state",
                 "/api/memory/explore",
                 "/api/guardian/drift",
@@ -131,15 +129,15 @@ class SystemDiagnostic:
                 # These endpoints are now implemented in symbolic_api.py
                 status = (
                     "✅ Ready"
-                    if self.results["imports"].get("Symbolic API", False):
-                    else "❌ Missing":
+                    if self.results["imports"].get("Symbolic API", False)
+                    else "❌ Missing"
                 )
             else:
                 # Check if symbolic API is available
                 status = (
                     "⚠️ Partial"
-                    if self.results["imports"].get("Symbolic Core", False):
-                    else "❌ Missing":
+                    if self.results["imports"].get("Symbolic Core", False)
+                    else "❌ Missing"
                 )
 
             results[f"{description} ({endpoint})"] = status
@@ -180,9 +178,7 @@ class SystemDiagnostic:
 
             if module_path.exists():
                 file_count = sum(
-                    1
-                    for f in module_path.rglob("*.py"):
-                    if not f.name.startswith("test_"):
+                    1 for f in module_path.rglob("*.py") if not f.name.startswith("test_")
                 )
                 has_init = (module_path / "__init__.py").exists()
 
@@ -238,8 +234,8 @@ class SystemDiagnostic:
         """Generate comprehensive diagnostic report."""
         functionality_percentage = (
             (self.passed_checks / self.total_checks * 100)
-            if self.total_checks > 0:
-            else 0:
+            if self.total_checks > 0
+            else 0
         )
 
         report = f"""
@@ -292,11 +288,13 @@ Passed: {self.passed_checks}
 """
         trinity_ok = all(self.results.get("trinity", {}).values())
         report += f"  Trinity Integration: {'✅ COMPLETE' if trinity_ok else '⚠️ INCOMPLETE'}\n"
-        report += f"  ⚛️ Identity: {self.results['trinity'].get('Identity System',}
-                                                                False) and '✅' or '❌'}\n"
-        report += f"  🧠 Consciousness: {self.results['trinity'].get('Consciousness System', False) and '✅' or '❌'}\n"
-        report += f"  🛡️ Guardian: {self.results['trinity'].get('Guardian System',}
-                                                                False) and '✅' or '❌'}\n"
+        # Individual trinity components
+        identity_ok = self.results.get("trinity", {}).get("Identity System", False)
+        consciousness_ok = self.results.get("trinity", {}).get("Consciousness System", False)
+        guardian_ok = self.results.get("trinity", {}).get("Guardian System", False)
+        report += f"  ⚛️ Identity: {'✅' if identity_ok else '❌'}\n"
+        report += f"  🧠 Consciousness: {'✅' if consciousness_ok else '❌'}\n"
+        report += f"  🛡️ Guardian: {'✅' if guardian_ok else '❌'}\n"
 
         # Summary and recommendations
         report += f"""
@@ -382,8 +380,8 @@ Functionality: {functionality_percentage:.1f}%
         # Return functionality percentage
         functionality = (
             (self.passed_checks / self.total_checks * 100)
-            if self.total_checks > 0:
-            else 0:
+            if self.total_checks > 0
+            else 0
         )
         return functionality
 

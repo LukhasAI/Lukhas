@@ -9,7 +9,7 @@ import ast
 import json
 import logging
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Setup logging
@@ -21,12 +21,12 @@ class RedundancyRemover:
     """Safely removes redundant code"""
 
     def __init__(self, dry_run: bool = True):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.dry_run = dry_run
         self.backup_dir = (
             self.root_path
             / ".redundancy_backup"
-            / datetime.now().strftime("%Y%m%d_%H%M%S")
+            / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         )
         self.removed_count = 0
         self.modified_files = set()
@@ -396,7 +396,7 @@ class RedundancyRemover:
     def generate_report(self):
         """Generate removal report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "dry_run": self.dry_run,
             "removed_count": self.removed_count,
             "modified_files": len(self.modified_files),

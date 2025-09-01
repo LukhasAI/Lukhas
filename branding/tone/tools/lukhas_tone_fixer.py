@@ -123,7 +123,7 @@ This module embodies the LUKHAS Trinity Framework:
 
     def _has_poetic_header(self, content: str) -> bool:
         """Check if document has consciousness-aware header"""
-        return bool(re.search(r'^)  # .*\*".*".*\*', content, re.MULTILINE)
+        return bool(re.search(r'^# .*\*".*".*\*', content, re.MULTILINE))
 
     def _has_consciousness_footer(self, content: str) -> bool:
         """Check if document has Lambda consciousness footer"""

@@ -8,16 +8,13 @@ and implements tiered access for freemium monetization.
 """
 
 import asyncio
-import copy
-import json
 import logging
-import os
 import sys
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 
 # Add the brain directory to import the Enhanced AI Bot
 sys.path.append("/Users/A_G_I/Λ/brain")

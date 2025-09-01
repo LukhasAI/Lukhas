@@ -339,8 +339,9 @@ class MaximumEntropyPasswordGenerator:
     def _generate_quantum_resistant_text(self, length: int) -> str:
         """Generate text resistant to quantum attacks"""
         # SECURITY FIX: Using secure random for password generation
-        from lukhas.security import secure_random
         import string
+
+        from lukhas.security import secure_random
 
         # Use multiple character sets
         sets = [
@@ -455,6 +456,7 @@ class MaximumEntropyPasswordGenerator:
     def _generate_color_symphony(self, count: int) -> list[tuple[int, int, int]]:
         """Generate harmonious color sequence"""
         import colorsys
+
         # SECURITY FIX: Using secure random for password generation
         from lukhas.security import secure_random
 

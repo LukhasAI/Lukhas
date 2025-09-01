@@ -29,9 +29,9 @@
 
 import secrets
 import string
-from typing import Any, List, Optional, Sequence, Union
-import hashlib
-import struct
+from collections.abc import Sequence
+from typing import Any, List, Optional, Union
+
 
 class SecureRandom:
     """Cryptographically secure random number generator.
@@ -92,7 +92,7 @@ class SecureRandom:
             raise IndexError("Cannot choose from an empty sequence")
         return self._secure_random.choice(seq)
 
-    def choices(self, population: Sequence[Any], weights: Optional[Sequence[float]] = None, 
+    def choices(self, population: Sequence[Any], weights: Optional[Sequence[float]] = None,
                 cum_weights: Optional[Sequence[float]] = None, k: int = 1) -> List[Any]:
         """Return a k sized list of population elements chosen with replacement.
         
@@ -171,7 +171,7 @@ class SecureRandom:
         """
         return secrets.token_bytes(nbytes)
 
-    def secure_password(self, length: int = 32, 
+    def secure_password(self, length: int = 32,
                        include_symbols: bool = True,
                        include_numbers: bool = True,
                        include_uppercase: bool = True,
@@ -197,11 +197,11 @@ class SecureRandom:
             charset += string.digits
         if include_symbols:
             charset += "!@#$%^&*()_+-=[]{}|;:,.<>?"
-            
+
         if not charset:
             raise ValueError("At least one character set must be enabled")
-            
-        return ''.join(self.choice(charset) for _ in range(length))
+
+        return "".join(self.choice(charset) for _ in range(length))
 
     def secure_id(self, length: int = 16) -> str:
         """Generate a secure random ID suitable for session IDs, etc.
@@ -213,7 +213,7 @@ class SecureRandom:
             Alphanumeric ID string
         """
         charset = string.ascii_letters + string.digits
-        return ''.join(self.choice(charset) for _ in range(length))
+        return "".join(self.choice(charset) for _ in range(length))
 
     def secure_nonce(self, nbytes: int = 16) -> bytes:
         """Generate a cryptographic nonce.
@@ -298,22 +298,22 @@ def secure_nonce(nbytes: int = 16) -> bytes:
     return secure_random.secure_nonce(nbytes)
 
 __all__ = [
-    'SecureRandom',
-    'secure_random', 
-    'random',
-    'uniform', 
-    'randint',
-    'randrange',
-    'choice',
-    'choices', 
-    'sample',
-    'shuffle',
-    'gauss',
-    'normalvariate',
-    'secure_token',
-    'secure_hex', 
-    'secure_bytes',
-    'secure_password',
-    'secure_id',
-    'secure_nonce'
+    "SecureRandom",
+    "choice",
+    "choices",
+    "gauss",
+    "normalvariate",
+    "randint",
+    "random",
+    "randrange",
+    "sample",
+    "secure_bytes",
+    "secure_hex",
+    "secure_id",
+    "secure_nonce",
+    "secure_password",
+    "secure_random",
+    "secure_token",
+    "shuffle",
+    "uniform"
 ]

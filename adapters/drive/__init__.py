@@ -14,7 +14,7 @@ ACK GUARDRAILS
 
 import hashlib
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 
 from consent.service import ConsentService
 
@@ -38,7 +38,7 @@ class DriveFileMetadata(ResourceMetadata):
     download_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
     is_folder: bool = False
-    permissions: list[dict[str, str]] = []
+    permissions: ClassVar[list[dict[str, str]]] = []
     last_viewed_at: Optional[datetime] = None
 
 
@@ -291,7 +291,7 @@ class DriveAdapter(ServiceAdapter):
 
         try:
             if self.mock_mode:
-                watch_id = f"drive_watch_{datetime.now().timestamp()}"
+                watch_id = f"drive_watch_{datetime.now(timezone.utc).timestamp()}"
             else:
                 watch_id = await self._setup_drive_watch(watch_request)
 
@@ -435,7 +435,7 @@ class DriveAdapter(ServiceAdapter):
         document_content = f"""Project Proposal - LUKHAS Integration
 =====================================
 
-Date: {datetime.now().strftime("%Y-%m-%d")}
+Date: {datetime.now(timezone.utc).strftime("%Y-%m-%d")}
 Author: Gonzo
 File ID: {file_id}
 
@@ -473,14 +473,14 @@ File size: {metadata.size} bytes
             content_type="text/plain",
         )
 
-    def _mock_upload_file(self, parent_id: Optional[str], name: str, content: bytes, content_type: str) -> str:
+    def _mock_upload_file(self, _parent_id: Optional[str], _name: str, content: bytes, _content_type: str) -> str:
         """Mock file upload"""
         # Generate mock file ID based on content hash
         content_hash = hashlib.sha256(content).hexdigest()[:16]  # Changed from MD5 for security
         file_id = f"upload_{content_hash}"
         return file_id
 
-    def _mock_move_file(self, file_id: str, new_parent_id: str, new_name: Optional[str]) -> OperationResult:
+    def _mock_move_file(self, file_id: str, new_parent_id: str, _new_name: Optional[str]) -> OperationResult:
         """Mock file move operation"""
         return OperationResult(success=True, resource_id=file_id, message=f"File moved to folder {new_parent_id}")
 

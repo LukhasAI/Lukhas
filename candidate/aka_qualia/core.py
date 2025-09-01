@@ -13,13 +13,12 @@ Usage:
     result = await aq.step(signals=S, goals=G, ethics_state=E, guardian_state=U, memory_ctx=M)
 """
 
-import asyncio
 import logging
 import time
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from candidate.aka_qualia.glyphs import compute_glyph_priority, map_scene_to_glyphs, normalize_glyph_keys
+from candidate.aka_qualia.glyphs import map_scene_to_glyphs, normalize_glyph_keys
 from candidate.aka_qualia.memory import AkaqMemory, create_memory_client
 from candidate.aka_qualia.metrics import AkaQualiaMetrics, EnergySnapshot
 from candidate.aka_qualia.models import Metrics, PhenomenalGlyph, PhenomenalScene, ProtoQualia, RegulationPolicy

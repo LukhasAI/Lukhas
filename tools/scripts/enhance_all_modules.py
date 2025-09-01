@@ -98,8 +98,8 @@ class ModuleEnhancer:
 
         print(f"✅ {module_name.upper()} module enhanced!")
 
-            def create_directory_structure(self, module_name):
-                """Create all necessary directories"""
+    def create_directory_structure(self, module_name):
+        """Create all necessary directories"""
         directories = [
             f"{module_name}/docs",
             f"{module_name}/docs/api",

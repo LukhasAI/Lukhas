@@ -9,7 +9,7 @@ import json
 import logging
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Configure logging
@@ -34,7 +34,7 @@ class LUKHASTransmission:
     def __init__(self):
         self.base_path = Path(__file__).parent.parent
         self.lukhas_next_gen = self.base_path / "next_gen"
-        self.launch_time = datetime.utcnow()
+        self.launch_time = datetime.now(timezone.utc)
         self.component_status: dict[str, str] = {}
         self.active_processes: list[subprocess.Popen] = []
 
@@ -177,7 +177,7 @@ class LUKHASTransmission:
 
         initial_state = {
             "current_state": "focused",
-            "last_update": datetime.utcnow().isoformat(),
+            "last_update": datetime.now(timezone.utc).isoformat(),
             "state_history": ["focused"],
             "system_phase": "phase_5_guardian",
         }
@@ -312,7 +312,7 @@ class LUKHASTransmission:
         running_components = len([s for s in self.component_status.values() if s == "running"])
 
         # Calculate uptime
-        uptime = datetime.utcnow() - self.launch_time
+        uptime = datetime.now(timezone.utc) - self.launch_time
 
         logger.info("   📡 LUKHAS Next Generation System Status:")
         logger.info(f"      Launch time: {self.launch_time.isoformat()}")
@@ -342,7 +342,7 @@ class LUKHASTransmission:
         transmission_record = {
             "transmission_id": f"lukhas_ng_phase5_{int(self.launch_time.timestamp())}",
             "launch_time": self.launch_time.isoformat(),
-            "completion_time": datetime.utcnow().isoformat(),
+            "completion_time": datetime.now(timezone.utc).isoformat(),
             "system_phase": "phase_5_guardian",
             "components": self.component_status,
             "health_metrics": {
@@ -375,7 +375,7 @@ class LUKHASTransmission:
                 await asyncio.sleep(30)  # Monitor every 30 seconds
 
                 # Simple health check
-                uptime = datetime.utcnow() - self.launch_time
+                uptime = datetime.now(timezone.utc) - self.launch_time
                 logger.info(f"   💚 System healthy - Uptime: {uptime}")
 
         except KeyboardInterrupt:

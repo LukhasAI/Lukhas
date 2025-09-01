@@ -141,7 +141,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
         print(f"✅ Ollama available with model: {self.model}")
 
         # Get issues to fix
-        issues = self.get_ruff_issues(limit=10# Start small
+        issues = self.get_ruff_issues(limit=10)  # Start small
         print(f"📋 Found {len(issues)} issues to process")
 
         if not issues:

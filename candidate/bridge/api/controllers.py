@@ -220,7 +220,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
 # Standardized API Error Handling Function
 
 
-def handle_api_error(:
+def handle_api_error(
     error: Exception, endpoint: str, user_id: Optional[str]
 ) -> dict[str, Any]:
     """
@@ -307,8 +307,8 @@ def ethics_assess_action_endpoint():  # Renamed for clarity:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}',"
-            action: '{data['action']}'."
+            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}', "
+            f"action: '{data['action']}'."
         )
         result = ethics_service.assess_action(
             user_id,
@@ -439,8 +439,8 @@ def memory_retrieve_item_endpoint(memory_id: str):  # Renamed:
     )
     try:
         logger.debug(
-            f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}',
-            memory_id '{memory_id}'."
+            f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}', "
+            f"memory_id '{memory_id}'."
         )
         result = memory_service.retrieve_memory(user_id, memory_id)
         logger.info(
@@ -482,8 +482,8 @@ def memory_search_items_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}',
-            query: '{data['query']}'."
+            f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}', "
+            f"query: '{data['query']}'."
         )
         result = memory_service.search_memory(
             user_id,
@@ -534,8 +534,8 @@ def creativity_generate_content_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}',
-            type: '{data['content_type']}'."
+            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}', "
+            f"type: '{data['content_type']}'."
         )
         result = creativity_service.generate_content(
             user_id,
@@ -567,7 +567,7 @@ def creativity_synthesize_dream_endpoint():  # Renamed:
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (:
+        if (
             not data or "dream_data" not in data
         ):  # Assuming 'dream_data' is the key input
             logger.warning(
@@ -680,8 +680,8 @@ def consciousness_perform_introspection_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}',
-            focus: '{data['focus_area']}'."
+            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}', "
+            f"focus: '{data['focus_area']}'."
         )
         result = consciousness_service.introspect(
             user_id,

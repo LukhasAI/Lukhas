@@ -6,7 +6,32 @@
 
 import json
 
-# import streamlit as st  # TODO: Install or implement streamlit
+# Streamlit support (optional)
+try:
+    import streamlit as st
+    STREAMLIT_AVAILABLE = True
+except ImportError:
+    STREAMLIT_AVAILABLE = False
+    print("⚠️ Streamlit not available for UI features")
+    # Create mock st for syntax checking
+    class MockStreamlit:
+        def __getattr__(self, name): return lambda *args, **kwargs: None
+        sidebar = property(lambda self: self)
+        title = lambda self, *args, **kwargs: None
+        checkbox = lambda self, *args, **kwargs: False
+        selectbox = lambda self, *args, **kwargs: ""
+        text_input = lambda self, *args, **kwargs: ""
+        text_area = lambda self, *args, **kwargs: ""
+        button = lambda self, *args, **kwargs: False
+        tabs = lambda self, *args, **kwargs: [self] * len(args[0])
+        subheader = lambda self, *args, **kwargs: None
+        code = lambda self, *args, **kwargs: None
+        markdown = lambda self, *args, **kwargs: None
+        expander = lambda self, *args, **kwargs: self
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+    st = MockStreamlit()
+
 from dna_link import LucasDNALink
 
 st.sidebar.title("⚙️ Settings & Compliance")
@@ -104,7 +129,7 @@ with tabs[3]:
         selected_type = "reword_draft"
 
 if "result" in locals() and result:
-    st.markdown("##)  #  🧠 Memory Options"
+    st.markdown("### 🧠 Memory Options")
     save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
     mark_qrg = st.checkbox("🔬 Apply QRG Stamp (Symbolic Identity Hash)", value=True)
     forgettable = st.checkbox(

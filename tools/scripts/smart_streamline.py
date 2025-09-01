@@ -10,7 +10,7 @@ import json
 import logging
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +23,7 @@ class SmartStreamline:
     """Smart streamlining that preserves modularization work"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path("/Users/agi_dev/Lukhas")
         self.connectivity_map = defaultdict(set)
         self.import_fixes = []
         self.consolidations = []
@@ -387,7 +387,7 @@ def enhance_import(module_name: str) -> Optional[Any]:
     def generate_report(self) -> dict[str, Any]:
         """Generate analysis report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "import_issues": len(self.import_fixes),
             "suggested_consolidations": len(self.consolidations),
             "import_fixes": self.import_fixes[:20],  # Top 20

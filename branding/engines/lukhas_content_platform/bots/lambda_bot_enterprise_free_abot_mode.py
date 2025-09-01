@@ -98,10 +98,10 @@ def free_abot_session():
                     ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=60)
 
                     if result.stdout:
-                        print(f"🧠 LUKHAS AI ΛBot's free choice: {result.stdout[:300]}...")'
+                        print(f"🧠 LUKHAS AI ΛBot's free choice: {result.stdout[:300]}...")
 
                 except Exception as e:
-                    print(f"🤖 LUKHAS AI ΛBot's free thought interrupted: {e}")'
+                    print(f"🤖 LUKHAS AI ΛBot's free thought interrupted: {e}")
 
             # Check budget status
             print(f"\n💰 Budget check:")

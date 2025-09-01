@@ -85,7 +85,9 @@
       "Bash(gh pr checks:*)",
       "Bash(gh pr merge:*)",
       "Bash(gh pr:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(make:*)",
+      "Bash(bash:*)"
     ],
     "deny": [],
     "ask": []

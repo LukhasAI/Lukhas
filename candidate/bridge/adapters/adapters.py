@@ -13,7 +13,7 @@ legacy DAST implementations, and third-party task management tools.
 
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import aiohttp
@@ -96,7 +96,7 @@ class DASTAdapter:
                 self._cache_result(cache_key, tasks, config.cache_ttl)
 
                 # Update adapter status
-                self.adapters[config.name]["last_sync"] = datetime.now()
+                self.adapters[config.name]["last_sync"] = datetime.now(timezone.utc)
                 self.adapters[config.name]["error_count"] = 0
 
                 return tasks
@@ -384,7 +384,7 @@ class DASTAdapter:
                     "external_id": task["id"],
                     "migrated": True,
                 },
-                "created_at": task.get("created_date", datetime.now().isoformat()),
+                "created_at": task.get("created_date", datetime.now(timezone.utc).isoformat()),
             }
             dast_tasks.append(dast_task)
 
@@ -409,7 +409,7 @@ class DASTAdapter:
             "status": item.get("status", "pending"),
             "tags": ["external"] + item.get("tags", []),
             "context": {"source": "generic_api", "original_data": item},
-            "created_at": item.get("created_at", datetime.now().isoformat()),
+            "created_at": item.get("created_at", datetime.now(timezone.utc).isoformat()),
         }
 
     def _convert_dast_to_jira_format(self, dast_task: dict) -> dict:
@@ -441,7 +441,7 @@ class DASTAdapter:
             "priority": dast_task.get("priority", "medium"),
             "status": dast_task.get("status", "pending"),
             "tags": dast_task.get("tags", []),
-            "created_date": dast_task.get("created_at", datetime.now().isoformat()),
+            "created_date": dast_task.get("created_at", datetime.now(timezone.utc).isoformat()),
         }
 
     # ========================================

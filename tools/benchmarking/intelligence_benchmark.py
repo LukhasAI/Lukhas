@@ -308,7 +308,7 @@ class LukhasIntelligenceBenchmarking:
         for i in range(config.warm_up_iterations):
             try:
                 await self._execute_benchmark_iteration(config, i, is_warmup=True)
-                await asyncio.sleep(0.1# Brief delay between warm-up iterations
+                await asyncio.sleep(0.1)  # Brief delay between warm-up iterations
             except Exception as e:
                 logger.debug(f"Warm-up iteration {i} failed: {e}")
 

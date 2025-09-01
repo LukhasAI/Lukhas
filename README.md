@@ -31,6 +31,8 @@ category: "overview"
 
 # LUKHAS AI – Deep Search Readiness (ChatGPT 5 Pro)
 
+[![CI](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml/badge.svg)](https://github.com/LukhasAI/Lukhas/actions/workflows/ci.yml)
+
 This repository is primed for a focused Deep Search pass using ChatGPT 5 Pro. This README orients auditors and agents to the pre‑search artifacts, quick commands, and boundaries for this phase.
 
 ## Quick Start

@@ -48,4 +48,4 @@ if __name__ == "__main__":
             print(f"  {d}")
 
     if errors > 0:
-        sys.exit(1# Exit with error code if syntax errors found
+        sys.exit(1)  # Exit with error code if syntax errors found

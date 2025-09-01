@@ -12,7 +12,7 @@ import logging
 import subprocess
 import re
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Any, Optional
 from pathlib import Path
 from dataclasses import dataclass
 import requests
@@ -218,7 +218,7 @@ class ΛBotAutonomousSecurityHealer:
 
             for line_num, line in enumerate(lines, 1):
                 line = line.strip()
-                if line and not line.startswith(')  # ':
+                if line and not line.startswith('#'):
                     vuln = await self._check_package_vulnerability(line, str(req_file), line_num)
                     if vuln:
                         vulnerabilities.append(vuln)

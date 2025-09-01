@@ -162,26 +162,26 @@ class SqlMemory(AkaqMemory):
 
             try:
                 # Prepare scene data with privacy measures
-            subject = self._hash_safe(scene.get("subject"))
-            object_field = self._hash_safe(scene.get("object"))
-            proto = scene["proto"]
+                subject = self._hash_safe(scene.get("subject"))
+                object_field = self._hash_safe(scene.get("object"))
+                proto = scene["proto"]
 
-            # Convert proto to vector for similarity (if available)
-            proto_vec = self._proto_to_vector(proto)
-            sanitized_context = self._sanitize_context(scene.get("context", {}))
+                # Convert proto to vector for similarity (if available)
+                proto_vec = self._proto_to_vector(proto)
+                sanitized_context = self._sanitize_context(scene.get("context", {}))
 
-            # Convert proto_vec for storage
-            if self.driver == "postgresql":
-                # PostgreSQL can store vector directly
-                proto_vec_param = proto_vec
-            else:
-                # SQLite stores as JSON string
-                proto_vec_param = json.dumps(proto_vec)
+                # Convert proto_vec for storage
+                if self.driver == "postgresql":
+                    # PostgreSQL can store vector directly
+                    proto_vec_param = proto_vec
+                else:
+                    # SQLite stores as JSON string
+                    proto_vec_param = json.dumps(proto_vec)
 
-            with self.engine.begin() as tx:
-                # Insert scene with all metrics
-                tx.execute(
-                    text("""
+                with self.engine.begin() as tx:
+                    # Insert scene with all metrics
+                    tx.execute(
+                        text("""
                         INSERT INTO akaq_scene (
                             scene_id, user_id, subject, object, proto, proto_vec, risk, context,
                             transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
@@ -225,14 +225,14 @@ class SqlMemory(AkaqMemory):
 
                 tx.commit()
 
-            self.scenes_saved += 1
-            logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
-            
-            # Record observability metrics
-            obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
-            obs.record_scene_processed(status="success")
-            
-            return scene_id
+                self.scenes_saved += 1
+                logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
+                
+                # Record observability metrics
+                obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
+                obs.record_scene_processed(status="success")
+                
+                return scene_id
 
         except Exception as e:
             self.save_failures += 1

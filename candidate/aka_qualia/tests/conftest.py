@@ -11,12 +11,10 @@ Comprehensive fixture setup for testing the C4 memory system with:
 - Performance benchmarking utilities
 """
 
-import asyncio
 import tempfile
 import time
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 from unittest.mock import Mock
 
 import pytest

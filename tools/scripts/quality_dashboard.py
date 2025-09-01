@@ -6,7 +6,7 @@ Creates an HTML dashboard with real-time code quality metrics
 
 import json
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -42,7 +42,7 @@ class QualityDashboard:
         print("📊 Collecting metrics...")
 
         metrics = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "flake8": self.get_flake8_metrics(),
             "ruff": self.get_ruff_metrics(),
             "mypy": self.get_mypy_metrics(),
@@ -75,7 +75,7 @@ class QualityDashboard:
         by_type = {}
 
         for line in lines:
-            if line and not line.startswith("# ":
+            if line and not line.startswith("# "):
                 parts = line.split()
                 if len(parts) >= 2 and parts[0].isdigit():
                     count = int(parts[0])
@@ -167,7 +167,7 @@ class QualityDashboard:
                         stripped = line.strip()
                         if not stripped:
                             blank_lines += 1
-                        elif stripped.startswith("# ":
+                        elif stripped.startswith("# "):
                             comment_lines += 1
                         else:
                             code_lines += 1
@@ -383,7 +383,7 @@ class QualityDashboard:
 <body>
     <div class="container">
         <h1>🧠 LUKHAS  - Code Quality Dashboard</h1>
-        <div class="timestamp">Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</div>
+        <div class="timestamp">Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}</div>
 
         <div class="health-score">
             <h2>Overall Health Score</h2>

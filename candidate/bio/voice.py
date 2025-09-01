@@ -5,7 +5,7 @@ Generated: 2025-08-12T19:38:03.079565
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 __module__ = "bio.voice"
 __trinity__ = "⚛️🧠🛡️"
@@ -27,7 +27,7 @@ class VoiceBioAdapter:
                 self._registered_modules[module_name] = {
                     "instance": module_instance,
                     "active": True,
-                    "registered_at": datetime.now().isoformat(),
+                    "registered_at": datetime.now(timezone.utc).isoformat(),
                     "status": "ready",
                 }
 
@@ -44,7 +44,7 @@ class VoiceBioAdapter:
                 self._registered_modules[module] = {
                     "instance": None,  # Stub implementation
                     "active": False,
-                    "registered_at": datetime.now().isoformat(),
+                    "registered_at": datetime.now(timezone.utc).isoformat(),
                     "status": "stub",
                 }
 
@@ -60,7 +60,7 @@ class VoiceBioAdapter:
             processing_context = {
                 "chunk_size": chunk_size,
                 "bio_enhancement": bio_enhancement,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input_length": len(audio_data) if hasattr(audio_data, "__len__") else 0,
             }
 
@@ -107,7 +107,7 @@ class VoiceBioAdapter:
         optimization_config = {
             "target_latency_ms": target_latency_ms,
             "quality_level": quality_level,  # 'fast', 'balanced', 'quality'
-            "optimization_timestamp": datetime.now().isoformat(),
+            "optimization_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Configure processing based on quality level
@@ -151,7 +151,7 @@ class VoiceBioAdapter:
     def get_voice_metrics(self):
         """Get voice processing performance metrics"""
         metrics = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "registered_modules": len(getattr(self, "_registered_modules", {})),
             "active_modules": sum(
                 1 for m in getattr(self, "_registered_modules", {}).values() if m.get("active", False)

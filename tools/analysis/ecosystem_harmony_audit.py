@@ -10,7 +10,7 @@ import json
 import os
 import statistics
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -26,7 +26,7 @@ class EcosystemHarmonyAuditor:
             "bridge",
         ]
         self.audit_results = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "module_health": {},
             "weak_links": [],
             "underperformers": [],

@@ -44,7 +44,7 @@ def nuclear_fix_file(filepath: Path):
         # 3. Fix missing blank lines around functions/classes
         content = re.sub(r"(\n)(\s*)(class\s+\w+)", r"\n\n\2\3", content)
         content = re.sub(r"(\n)(\s*)(def\s+\w+)", r"\n\n\2\3", content)
-        content = re.sub(r"(\n\n\n+)", r"\n\n", content# Remove excessive blank lines
+        content = re.sub(r"(\n\n\n+)", r"\n\n", content)  # Remove excessive blank lines
 
         # 4. Fix bare except
         content = re.sub(
@@ -72,9 +72,9 @@ def nuclear_fix_file(filepath: Path):
                     else:
                         import_lines.append(line)
                 else:
-                    import_lines.append(line# Keep all from imports for safety
+                    import_lines.append(line)  # Keep all from imports for safety
             else:
-                if line and not line.startswith("# ":
+                if line and not line.startswith("# "):
                     imports_done = True
                 other_lines.append(line)
 

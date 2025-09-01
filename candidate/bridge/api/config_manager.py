@@ -54,8 +54,8 @@ def set_config(new_config: LukhasConfig) -> None:
     )
     if not isinstance(new_config, LukhasConfig):
         logger.error(
-            f"ΛTRACE: set_config() failed. Expected LukhasConfig instance,"
-            got {type(new_config)}."
+            f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, "
+            f"got {type(new_config)}."
         )
         raise TypeError(f"Expected LukhasConfig instance, got {type(new_config)}")
     config = new_config

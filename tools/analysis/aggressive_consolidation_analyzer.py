@@ -8,7 +8,7 @@ import ast
 import json
 import os
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class AggressiveConsolidator:
@@ -164,7 +164,7 @@ class AggressiveConsolidator:
     def generate_consolidation_plan(self):
         """Generate aggressive consolidation plan"""
         plan = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "analysis": {},
             "consolidation_actions": [],
             "hybrid_modules": {},

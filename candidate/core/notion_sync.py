@@ -40,7 +40,7 @@ after this consolidation is complete.
 
 import argparse
 import asyncio
-import datetime
+from datetime import datetime, timezone
 import json
 import logging
 import os
@@ -87,11 +87,25 @@ except ImportError as e:
 # Legacy support for OpenAI integration
 try:
     import openai
-
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
     print("⚠️ OpenAI not available for GPT features")
+
+# Streamlit support (optional)
+try:
+    import streamlit as st
+    STREAMLIT_AVAILABLE = True
+except ImportError:
+    STREAMLIT_AVAILABLE = False
+    print("⚠️ Streamlit not available for UI features")
+
+# Logger setup
+class LambdaLoggerAdapter(logging.LoggerAdapter):
+    def process(self, msg, kwargs):
+        return f"[{LAMBDA_ID}] {msg}", kwargs
+
+logger = LambdaLoggerAdapter(logging.getLogger(__name__), {"lambda_id": LAMBDA_ID})
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # LEGACY STREAMLIT FUNCTIONS - CONSOLIDATED FROM ORIGINAL NOTION_SYNC FILES
@@ -135,7 +149,7 @@ def make_toggle_block(module_name, header_text, usage_text):
                             {
                                 "type": "text",
                                 "text": {
-                                    "content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
                                 },
                             }
                         ]
@@ -271,7 +285,7 @@ def log_audit_with_lid(action: str, metadata: Optional[dict[str, Any]] = None):
     audit_path = Path("reflection/audits")
     audit_path.mkdir(parents=True, exist_ok=True)
     log_file_path = (
-        audit_path / f"audit_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        audit_path / f"audit_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     )
     with log_file_path.open("w") as f:
         json.dump(audit_entry, f, indent=2)
@@ -428,7 +442,7 @@ def run_legacy_streamlit_mode():
 
             # GPT Assistant
             if OPENAI_AVAILABLE:
-                st.markdown("#)  #  🤖 Ask ChatGPT about this module"
+                st.markdown("### 🤖 Ask ChatGPT about this module")
                 user_question = st.text_input(
                     "💬 Enter your question about this module:", ""
                 )
@@ -481,7 +495,7 @@ def run_legacy_streamlit_mode():
                             )
                             answer = response["choices"][0]["message"]["content"]
 
-                        st.markdown("##)  #  💡 GPT Response"
+                        st.markdown("### 💡 GPT Response")
                         st.markdown(f"> {answer}")
 
                         # Extract concepts
@@ -529,7 +543,7 @@ def run_legacy_streamlit_mode():
                                 if len(c.strip()) > 2
                             ]
 
-                            st.markdown("###)  #  🔍 Explore GPT-Generated Concepts:"
+                            st.markdown("### 🔍 Explore GPT-Generated Concepts:")
                             for concept in extracted_concepts:
                                 if st.button(f"🔹 {concept}"):
                                     st.info(

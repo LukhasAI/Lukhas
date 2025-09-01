@@ -8,8 +8,6 @@ Comprehensive test suite for deterministic PhenomenalScene → PhenomenalGlyphs 
 Tests all branches, idempotency, cultural palette mapping, and loop camouflaging defenses.
 """
 
-from typing import Any, Dict
-from unittest.mock import Mock
 
 import pytest
 
@@ -30,8 +28,6 @@ from candidate.aka_qualia.models import (
     TemporalFeel,
 )
 from candidate.aka_qualia.palette import (
-    CultureProfile,
-    PaletteBias,
     compute_palette_harmony,
     get_safe_palette_recommendation,
     map_colorfield,

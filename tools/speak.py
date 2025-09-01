@@ -7,7 +7,7 @@ import argparse
 import asyncio
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from edge_tts import Communicate
 
@@ -31,6 +31,7 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     if not preview:
         os.system(
             "afplay lucas_output.mp3"
+        )
         # For macOS. Use another player for Linux/Win.
 
 
@@ -40,7 +41,7 @@ def log_output(text, tier, voice):
         "text": text,
         "tier": tier,
         "voice": voice,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
     }
     with open(LOG_PATH, "a") as f:
         f.write(json.dumps(entry) + "\n")

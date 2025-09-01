@@ -36,7 +36,7 @@
 import logging
 from dataclasses import dataclass
 from dataclasses import field
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import wraps
 from typing import Any
 from typing import Callable
@@ -123,7 +123,7 @@ class ModuleRegistry:
             f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}"
         )
 
-    def register_module(:
+    def register_module(
         self,
         module_id: str,
         module_instance: Any,
@@ -226,7 +226,7 @@ class ModuleRegistry:
             return None
 
         # Update access metadata
-        module_info.last_accessed = datetime.utcnow()
+        module_info.last_accessed = datetime.now(timezone.utc)
         module_info.access_count += 1
 
         # Log successful access
@@ -284,7 +284,7 @@ class ModuleRegistry:
     def _log_audit(self, action: str, **kwargs):
         """Log an audit entry."""
         entry = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "registry_id": id(self),
             **kwargs,
@@ -341,11 +341,11 @@ class ModuleRegistry:
             "health_status": module_info.health_status,
             "last_accessed": (
                 module_info.last_accessed.isoformat()
-                if module_info.last_accessed:
-                else None:
+                if module_info.last_accessed
+                else None
             ),
             "access_count": module_info.access_count,
-            "uptime": (datetime.utcnow() - module_info.registered_at).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - module_info.registered_at).total_seconds(),
         }
 
     def register_core_connections(self) -> dict[str, dict[str, Any]]:
@@ -414,8 +414,8 @@ class ModuleRegistry:
                 )
                 registered_connections[module] = config
                 logger.info(
-                    f"Registered core connection: {module}({config['type']},"
-                                                           priority: {config['priority']})"
+                    f"Registered core connection: {module}({config['type']}, "
+                    f"priority: {config['priority']})"
                 )
             except Exception as e:
                 logger.error(f"Failed to register connection {module}: {e}")

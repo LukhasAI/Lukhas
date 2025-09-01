@@ -128,21 +128,19 @@ class PathMigrator:
                     lines = updated_content.split("\n")
                     insert_line = 0
 
-                    for i, line in enumerate(lines):
-                        if line.startswith("import ") or line.startswith("from "):
-                            insert_line = i + 1
-                        elif (
-                            line.strip()
-                            and not line.startswith("# "
-                            and not line.startswith('"""')
-                        ):
-                            break
+                for i, line in enumerate(lines):
+                    if line.startswith("import ") or line.startswith("from "):
+                        insert_line = i + 1
+                    elif (
+                        line.strip()
+                        and not line.startswith("# ")
+                        and not line.startswith('"""')
+                    ):
+                        break
 
-                    lines.insert(insert_line, "from lukhas_paths import paths")
-                    updated_content = "\n".join(lines)
-                    changes_made.append("Added lukhas_paths import")
-
-                # Write the updated file
+                lines.insert(insert_line, "from lukhas_paths import paths")
+                updated_content = "\n".join(lines)
+                changes_made.append("Added lukhas_paths import")                # Write the updated file
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(updated_content)
 

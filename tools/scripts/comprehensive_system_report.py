@@ -306,11 +306,12 @@ class LUKHASSystemDiagnostic:
                 }
             )
         elif self.results["python_environment"]["missing_packages"]:
-            issues.append(
-                {"category": "warning", "component": "python_environment",
-                 "issue":
-                 f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
-                 "impact": "Some features may not work", })
+            issues.append({
+                "category": "warning", 
+                "component": "python_environment",
+                "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
+                "impact": "Some features may not work"
+            })
             recommendations.append("Install missing packages with pip install")
 
         # Check core modules

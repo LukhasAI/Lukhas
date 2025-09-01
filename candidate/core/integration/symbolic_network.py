@@ -164,7 +164,7 @@ class SymbolicNode:
 
     # Method to update performance metrics
 
-    def update_metrics(:
+    def update_metrics(
         self,
         error: float,
         activity: float,
@@ -208,7 +208,7 @@ class SymbolicNode:
 
     # Method to split the node
 
-    def split(:
+    def split(
         self, style: str = "crista_junction", split_ratio: float = 0.5
     ) -> list["SymbolicNode"]:
         """

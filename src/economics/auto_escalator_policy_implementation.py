@@ -4,12 +4,10 @@ Auto-Escalator Split Policy - Production Implementation
 Rule-based profit sharing that evolves from 40/60 to 80/20 based on performance
 """
 
-import json
-import math
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 class EscalatorTier(Enum):
@@ -237,7 +235,7 @@ class AutoEscalatorEngine:
             "platform_amount_usd": round(platform_amount_usd, 2),
             "conversion_value_usd": conversion_value_usd,
             "active_bonuses": bonus_details,
-            "calculation_timestamp": datetime.now().isoformat(),
+            "calculation_timestamp": datetime.now(timezone.utc).isoformat(),
             "next_tier": self._get_next_tier(base_tier),
             "tier_progress": self._calculate_tier_progress(user_metrics, base_tier),
         }
@@ -279,7 +277,7 @@ class AutoEscalatorEngine:
                 "new_tier": new_tier.value,
                 "previous_split": f"{self.tier_policies[current_tier].user_share_bps / 100}%",
                 "new_split": f"{self.tier_policies[new_tier].user_share_bps / 100}%",
-                "effective_date": datetime.now().isoformat(),
+                "effective_date": datetime.now(timezone.utc).isoformat(),
                 "promotion_benefits": self._get_tier_benefits(new_tier),
                 "celebration_message": self._get_promotion_message(current_tier, new_tier) if is_promotion else None,
             }
@@ -561,7 +559,7 @@ def demo_auto_escalator():
                 retention_rate=0.2,
                 merchant_satisfaction=3.8,
                 days_active=5,
-                last_activity=datetime.now(),
+                last_activity=datetime.now(timezone.utc),
             ),
         },
         {
@@ -574,7 +572,7 @@ def demo_auto_escalator():
                 retention_rate=0.4,
                 merchant_satisfaction=4.3,
                 days_active=60,
-                last_activity=datetime.now(),
+                last_activity=datetime.now(timezone.utc),
             ),
         },
         {
@@ -587,7 +585,7 @@ def demo_auto_escalator():
                 retention_rate=0.6,
                 merchant_satisfaction=4.8,
                 days_active=200,
-                last_activity=datetime.now(),
+                last_activity=datetime.now(timezone.utc),
             ),
         },
     ]

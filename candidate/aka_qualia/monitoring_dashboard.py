@@ -12,10 +12,10 @@ import threading
 import time
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Any, Dict, List
-from urllib.parse import parse_qs, urlparse
+from typing import Any, Dict
+from urllib.parse import urlparse
 
-from observability import CONTENT_TYPE_LATEST, AkaqMetrics, get_observability
+from observability import CONTENT_TYPE_LATEST, get_observability
 
 
 class DashboardHandler(BaseHTTPRequestHandler):
