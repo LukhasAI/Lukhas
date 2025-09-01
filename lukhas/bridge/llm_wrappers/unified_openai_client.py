@@ -10,7 +10,7 @@ import os
 import uuid
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional, Union
 
 from openai import AsyncOpenAI, OpenAI
@@ -60,7 +60,7 @@ class ConversationMessage:
 
     role: str
     content: str
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -80,7 +80,7 @@ class ConversationState:
     messages: list[ConversationMessage] = field(default_factory=list)
     system_prompt: Optional[str] = None
     max_history: int = 50
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def add_message(self, role: str, content: str, **metadata) -> ConversationMessage:
         """Add a message to the conversation"""
