@@ -14,12 +14,14 @@ Features:
 - <100ms p95 latency for credential validation
 """
 
+from __future__ import annotations
+
 import base64
 import json
 import secrets
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
+from typing import Any
 
 try:
     import importlib.util
@@ -68,7 +70,7 @@ class WebAuthnCredential:
 class WebAuthnManager:
     """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
 
-    def __init__(self, config: Optional[dict] = None) -> None:
+    def __init__(self, config: dict[str, Any] | None = None) -> None:
         self.config = config or {}
         self.rp_id = self.config.get("rp_id", "lukhas.ai")
         self.rp_name = self.config.get("rp_name", "LUKHAS AI Identity System")
@@ -76,12 +78,13 @@ class WebAuthnManager:
 
         # Credential storage (in production, would use database)
         self.credentials: dict[str, list[WebAuthnCredential]] = {}
-        self.pending_registrations: dict[str, dict] = {}
-        self.pending_authentications: dict[str, dict] = {}
+        self.pending_registrations: dict[str, dict[str, Any]] = {}
+        self.pending_authentications: dict[str, dict[str, Any]] = {}
 
         # Performance optimization
-        self.validation_cache = {}
-        self.challenge_cache = {}
+        # ΛTAG: cache_init
+        self.validation_cache: dict[str, Any] = {}
+        self.challenge_cache: dict[str, Any] = {}
 
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
@@ -279,7 +282,7 @@ class WebAuthnManager:
                 "verification_time_ms": ((time.time() - start_time) * 1000 if "start_time" in locals() else 0),
             }
 
-    def generate_authentication_options(self, user_id: Optional[str] = None, tier_level: int = 0) -> dict[str, Any]:
+    def generate_authentication_options(self, user_id: str | None = None, tier_level: int = 0) -> dict[str, Any]:
         """🔓 Generate WebAuthn authentication options"""
         try:
             start_time = time.time()
@@ -372,7 +375,7 @@ class WebAuthnManager:
             # Find credential
             credential_id = response.get("id", "")
             credential = None
-            user_id = None
+            user_id: str | None = None
 
             # Search for credential across users (for usernameless flow)
             for uid, creds in self.credentials.items():
@@ -386,6 +389,8 @@ class WebAuthnManager:
 
             if not credential:
                 return {"success": False, "error": "Credential not found"}
+            if user_id is None:
+                return {"success": False, "error": "User ID not found"}
 
             # Validate user ID if specified
             if pending_auth["user_id"] and pending_auth["user_id"] != user_id:
@@ -643,7 +648,7 @@ class WebAuthnManager:
 
     def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
-        device_dist = {}
+        device_dist: dict[str, int] = {}
         for creds in self.credentials.values():
             for cred in creds:
                 device_type = cred.device_type
