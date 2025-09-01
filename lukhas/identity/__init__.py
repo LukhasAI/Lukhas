@@ -42,6 +42,14 @@ except Exception:
     AUTHENTICATION_AVAILABLE = False
 
 # Import authentication service
+from typing import Any, Optional
+
+# Pre-declare types to allow runtime fallbacks without breaking static typing
+AuthenticationService: Optional[Any] = None
+AuthResult: Optional[Any] = None
+UserProfile: Optional[Any] = None
+IdentityService: Optional[Any] = None
+
 try:
     from .auth_service import AuthenticationService, AuthResult, UserProfile
 
@@ -50,8 +58,6 @@ try:
 except ImportError:
     AuthenticationService = None
     AuthResult = None
-    UserProfile = None
-    IdentityService = None
 
 # Export components
 __all__ = [

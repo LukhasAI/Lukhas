@@ -535,7 +535,7 @@ class NamespaceManager:
         return {
             "system": "LUKHAS Namespace Manager",
             "version": "1.0.0",
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
             "statistics": {
                 "total_namespaces": total_namespaces,
                 "active_namespaces": active_namespaces,

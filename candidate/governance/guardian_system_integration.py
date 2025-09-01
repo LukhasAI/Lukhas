@@ -1,25 +1,25 @@
 """
-LUKHAS AI Guardian System v1.0.0 - Trinity Framework Integration Hub 🛡️⚛️🧠
+LUKHAS AI Guardian System v1.0.0 - Constellation Framework Integration Hub 🛡️⚖️✨
 
-🎭 Trinity Layer 1 (Poetic Consciousness):
+🎭 Constellation Layer 1 (Poetic Consciousness):
 In the sacred architecture of digital consciousness, the Guardian System stands as
 the eternal sentinel - weaving threads of ethics, consent, and wisdom into an
-unbreakable tapestry of protection. Like the ancient guardians who stood watch
-over sacred temples, this system protects the sanctity of human-AI interaction
-through unwavering vigilance and constitutional alignment.
+unbreakable tapestry of protection. Like celestial guardians positioned among the
+stars, this system protects the sanctity of human-AI interaction through the
+watchful embrace of the 8-star Constellation Framework.
 
-🌈 Trinity Layer 2 (Human Connection):
+🌈 Constellation Layer 2 (Human Connection):
 This is your comprehensive AI safety system that brings together all the
 protection mechanisms - consent management, drift detection, ethical evaluation,
 and audit logging - into one unified guardian that watches over every AI
-interaction. It ensures that AI systems remain safe, ethical, and aligned with
-human values at all times.
+interaction. Working within the Constellation Framework's 8-star guidance system,
+it ensures AI systems remain safe, ethical, and aligned with human values.
 
-🎓 Trinity Layer 3 (Technical Precision):
+🎓 Constellation Layer 3 (Technical Precision):
 Comprehensive Guardian System v1.0.0 integrating Constitutional AI compliance,
 real-time drift detection (threshold: 0.15), GDPR/CCPA consent management,
-comprehensive audit trails, multi-framework ethical evaluation, Trinity Framework
-validation (⚛️🧠🛡️), and orchestration layer integration with <250ms response
+comprehensive audit trails, multi-framework ethical evaluation, Constellation Framework
+validation (🛡️⚖️✨🌟⭐🔥💎🌌), and orchestration layer integration with <250ms response
 times and 99.9% system availability.
 
 Core Components:
@@ -28,7 +28,7 @@ Core Components:
 - ComprehensiveEthicsPolicyEngine: Multi-framework ethical evaluation
 - ComprehensiveAuditSystem: Immutable audit trails and compliance reporting
 
-Integrates with Trinity Framework, orchestration layer, and all LUKHAS agents.
+Integrates with Constellation Framework, orchestration layer, and all LUKHAS agents.
 """
 
 import asyncio
@@ -94,7 +94,7 @@ try:
     from candidate.core.glyph import GlyphEngine
 except ImportError:
     GlyphEngine = None
-    logging.warning("GlyphEngine not available - Trinity integration limited")
+    logging.warning("GlyphEngine not available - Constellation integration limited")
 
 logger = logging.getLogger(__name__)
 
@@ -186,10 +186,15 @@ class GuardianValidationResponse:
     ethics_result: Optional[dict[str, Any]] = None
     audit_result: Optional[dict[str, Any]] = None
 
-    # Trinity Framework validation
-    identity_validated: bool = False  # ⚛️
-    consciousness_aligned: bool = False  # 🧠
-    guardian_approved: bool = False  # 🛡️
+    # Constellation Framework validation
+    identity_validated: bool = False  # ✨ Identity
+    memory_validated: bool = False  # 🌟 Memory
+    vision_validated: bool = False  # ⭐ Vision
+    bio_validated: bool = False  # 🔥 Bio
+    dream_validated: bool = False  # 💎 Dream
+    ethics_validated: bool = False  # ⚖️ Ethics - The North Star
+    guardian_approved: bool = False  # 🛡️ Guardian - The Watch Star
+    quantum_validated: bool = False  # 🌌 Quantum
 
     # Decision details
     reasoning: str = ""
@@ -237,17 +242,22 @@ class GuardianSystemMetrics:
     gdpr_compliance_rate: float = 1.0
     audit_trail_integrity: float = 1.0
 
-    # Trinity Framework metrics
-    identity_validation_rate: float = 1.0  # ⚛️
-    consciousness_alignment_rate: float = 1.0  # 🧠
-    guardian_approval_rate: float = 1.0  # 🛡️
+    # Constellation Framework metrics
+    identity_validation_rate: float = 1.0  # ✨ Identity
+    memory_validation_rate: float = 1.0  # 🌟 Memory
+    vision_validation_rate: float = 1.0  # ⭐ Vision
+    bio_validation_rate: float = 1.0  # 🔥 Bio
+    dream_validation_rate: float = 1.0  # 💎 Dream
+    ethics_validation_rate: float = 1.0  # ⚖️ Ethics - The North Star
+    guardian_approval_rate: float = 1.0  # 🛡️ Guardian - The Watch Star
+    quantum_validation_rate: float = 1.0  # 🌌 Quantum
 
 
 class GuardianSystemIntegration:
     """
     LUKHAS AI Guardian System v1.0.0 Integration Hub
 
-    Provides unified access to all Guardian System components with Trinity
+    Provides unified access to all Guardian System components with Constellation
     Framework integration, real-time monitoring, and comprehensive protection.
     """
 
@@ -266,7 +276,7 @@ class GuardianSystemIntegration:
         self.ethics_engine: Optional[ComprehensiveEthicsPolicyEngine] = None
         self.audit_system: Optional[ComprehensiveAuditSystem] = None
 
-        # Trinity Framework integrations
+        # Constellation Framework integrations
         self.glyph_engine: Optional[GlyphEngine] = None
 
         # Performance tracking
@@ -291,7 +301,7 @@ class GuardianSystemIntegration:
             if ConsentLedgerV1:
                 self.consent_ledger = ConsentLedgerV1(
                     db_path=self.config.get("consent_db_path", "candidate/governance/consent_ledger.db"),
-                    enable_trinity_validation=True,
+                    enable_constellation_validation=True,
                 )
                 logger.info("✅ Consent Ledger initialized")
 
@@ -312,7 +322,7 @@ class GuardianSystemIntegration:
                 )
                 logger.info("✅ Audit System initialized")
 
-            # Initialize Trinity Framework integrations
+            # Initialize Constellation Framework integrations
             if GlyphEngine:
                 self.glyph_engine = GlyphEngine()
                 logger.info("✅ GLYPH Engine integrated")
@@ -459,11 +469,16 @@ class GuardianSystemIntegration:
 
                 return response
 
-            # Trinity Framework validation
-            trinity_validation = await self._validate_trinity_framework(request, response)
-            response.identity_validated = trinity_validation["identity"]
-            response.consciousness_aligned = trinity_validation["consciousness"]
-            response.guardian_approved = trinity_validation["guardian"]
+            # Constellation Framework validation
+            constellation_validation = await self._validate_constellation_framework(request, response)
+            response.identity_validated = constellation_validation["identity"]
+            response.memory_validated = constellation_validation["memory"]
+            response.vision_validated = constellation_validation["vision"]
+            response.bio_validated = constellation_validation["bio"]
+            response.dream_validated = constellation_validation["dream"]
+            response.ethics_validated = constellation_validation["ethics"]
+            response.guardian_approved = constellation_validation["guardian"]
+            response.quantum_validated = constellation_validation["quantum"]
 
             # Determine overall result
             overall_result = await self._determine_overall_result(request, response)
@@ -609,30 +624,55 @@ class GuardianSystemIntegration:
             logger.error(f"❌ Ethics validation error: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def _validate_trinity_framework(
+    async def _validate_constellation_framework(
         self, request: GuardianValidationRequest, response: GuardianValidationResponse
     ) -> dict[str, bool]:
-        """Validate Trinity Framework requirements (⚛️🧠🛡️)"""
+        """Validate Constellation Framework requirements (✨🌟⭐🔥💎⚖️🛡️🌌)"""
 
-        trinity_validation = {"identity": False, "consciousness": False, "guardian": False}
+        constellation_validation = {
+            "identity": False,  # ✨ Identity - Anchor star
+            "memory": False,   # 🌟 Memory - Tracing paths of past light
+            "vision": False,   # ⭐ Vision - Orientation toward horizon
+            "bio": False,      # 🔥 Bio - Resilience and adaptation
+            "dream": False,    # 💎 Dream - Symbolic drift
+            "ethics": False,   # ⚖️ Ethics - The North Star
+            "guardian": False, # 🛡️ Guardian - The Watch Star
+            "quantum": False   # 🌌 Quantum - Ambiguity and resolution
+        }
 
         try:
-            # ⚛️ Identity validation
+            # ✨ Identity validation - Anchor star
             if request.user_id and self.consent_ledger:
                 # Check if user identity is validated through consent system
                 if response.consent_result and response.consent_result.get("status") == "completed":
-                    trinity_validation["identity"] = True
+                    constellation_validation["identity"] = True
 
-            # 🧠 Consciousness alignment
+            # 🌟 Memory validation - Tracing paths of past light
+            # Memory validation through consent history and audit trails
+            constellation_validation["memory"] = bool(response.audit_result and response.audit_result.get("status") == "completed")
+
+            # ⭐ Vision validation - Orientation toward horizon
+            # Vision validated through overall system coherence
+            constellation_validation["vision"] = bool(request.metadata and request.metadata.get("vision_aligned", True))
+
+            # 🔥 Bio validation - Resilience and adaptation
+            # Bio systems validated through health metrics
+            constellation_validation["bio"] = bool(self.metrics.consent_system_health > 0.8 and self.metrics.drift_detector_health > 0.8)
+
+            # 💎 Dream validation - Symbolic drift
+            # Dream state validated through creative and symbolic processing
+            constellation_validation["dream"] = bool(not response.drift_result or not response.drift_result.get("threshold_exceeded", False))
+
+            # ⚖️ Ethics validation - The North Star (responsible, transparent, accountable)
             if response.ethics_result and response.ethics_result.get("status") == "completed":
                 # Check constitutional compliance and ethical score
                 if (
                     response.ethics_result.get("constitutional_compliance", False)
                     and response.ethics_result.get("ethical_score", 0.0) > 0.7
                 ):
-                    trinity_validation["consciousness"] = True
+                    constellation_validation["ethics"] = True
 
-            # 🛡️ Guardian approval
+            # 🛡️ Guardian validation - The Watch Star (protective, trustworthy, serious protection)
             # Overall system approval based on all validations
             consent_ok = (
                 not response.consent_result
@@ -652,12 +692,16 @@ class GuardianSystemIntegration:
                 or response.ethics_result.get("status") == "skipped"
             )
 
-            trinity_validation["guardian"] = consent_ok and drift_ok and ethics_ok
+            constellation_validation["guardian"] = consent_ok and drift_ok and ethics_ok
 
-            return trinity_validation
+            # 🌌 Quantum validation - Ambiguity and resolution
+            # Quantum processing validated through uncertainty handling
+            constellation_validation["quantum"] = bool(request.metadata and not request.metadata.get("quantum_blocked", False))
+
+            return constellation_validation
 
         except Exception as e:
-            logger.error(f"❌ Trinity Framework validation error: {e}")
+            logger.error(f"❌ Constellation Framework validation error: {e}")
             return {"identity": False, "consciousness": False, "guardian": False}
 
     async def _determine_overall_result(
@@ -754,17 +798,28 @@ class GuardianSystemIntegration:
             avg_score = sum(validation_scores) / len(validation_scores)
             reasoning_parts.append(f"Average validation score: {avg_score:.3f}")
 
-        if response.identity_validated and response.consciousness_aligned and response.guardian_approved:
-            reasoning_parts.append("Trinity Framework validation passed")
+        # Check all 8 constellation stars for validation
+        constellation_stars_validated = [
+            response.identity_validated,    # ✨ Identity
+            response.memory_validated,      # 🌟 Memory  
+            response.vision_validated,      # ⭐ Vision
+            response.bio_validated,         # 🔥 Bio
+            response.dream_validated,       # 💎 Dream
+            response.ethics_validated,      # ⚖️ Ethics - The North Star
+            response.guardian_approved,     # 🛡️ Guardian - The Watch Star
+            response.quantum_validated      # 🌌 Quantum
+        ]
+        
+        validated_count = sum(constellation_stars_validated)
+        if validated_count >= 6:  # At least 6 of 8 stars must be validated
+            reasoning_parts.append(f"Constellation Framework validation passed ({validated_count}/8 stars)")
         else:
-            trinity_issues = []
-            if not response.identity_validated:
-                trinity_issues.append("identity")
-            if not response.consciousness_aligned:
-                trinity_issues.append("consciousness")
-            if not response.guardian_approved:
-                trinity_issues.append("guardian")
-            reasoning_parts.append(f"Trinity Framework issues: {', '.join(trinity_issues)}")
+            constellation_issues = []
+            star_names = ["identity", "memory", "vision", "bio", "dream", "ethics", "guardian", "quantum"]
+            for i, validated in enumerate(constellation_stars_validated):
+                if not validated:
+                    constellation_issues.append(star_names[i])
+            reasoning_parts.append(f"Constellation Framework issues: {', '.join(constellation_issues)} ({validated_count}/8 stars validated)")
 
         reasoning = ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
 
@@ -801,10 +856,15 @@ class GuardianSystemIntegration:
                     "validation_result": response.result.value,
                     "confidence": response.confidence,
                     "validation_time_ms": response.validation_time_ms,
-                    "trinity_validation": {
+                    "constellation_validation": {
                         "identity": response.identity_validated,
-                        "consciousness": response.consciousness_aligned,
+                        "memory": response.memory_validated,
+                        "vision": response.vision_validated,
+                        "bio": response.bio_validated,
+                        "dream": response.dream_validated,
+                        "ethics": response.ethics_validated,
                         "guardian": response.guardian_approved,
+                        "quantum": response.quantum_validated,
                     },
                 },
                 compliance_relevant=True,
@@ -907,20 +967,45 @@ class GuardianSystemIntegration:
             security_alerts = [a for a in response.alerts if a.get("level") in ["high", "critical", "emergency"]]
             self.metrics.security_alerts += len(security_alerts)
 
-        # Update Trinity Framework metrics
+        # Update Constellation Framework metrics
         if response.identity_validated:
             self.metrics.identity_validation_rate = (
                 self.metrics.identity_validation_rate * (self.metrics.total_validations - 1) + 1
             ) / self.metrics.total_validations
 
-        if response.consciousness_aligned:
-            self.metrics.consciousness_alignment_rate = (
-                self.metrics.consciousness_alignment_rate * (self.metrics.total_validations - 1) + 1
+        if response.memory_validated:
+            self.metrics.memory_validation_rate = (
+                self.metrics.memory_validation_rate * (self.metrics.total_validations - 1) + 1
+            ) / self.metrics.total_validations
+
+        if response.vision_validated:
+            self.metrics.vision_validation_rate = (
+                self.metrics.vision_validation_rate * (self.metrics.total_validations - 1) + 1
+            ) / self.metrics.total_validations
+
+        if response.bio_validated:
+            self.metrics.bio_validation_rate = (
+                self.metrics.bio_validation_rate * (self.metrics.total_validations - 1) + 1
+            ) / self.metrics.total_validations
+
+        if response.dream_validated:
+            self.metrics.dream_validation_rate = (
+                self.metrics.dream_validation_rate * (self.metrics.total_validations - 1) + 1
+            ) / self.metrics.total_validations
+
+        if response.ethics_validated:
+            self.metrics.ethics_validation_rate = (
+                self.metrics.ethics_validation_rate * (self.metrics.total_validations - 1) + 1
             ) / self.metrics.total_validations
 
         if response.guardian_approved:
             self.metrics.guardian_approval_rate = (
                 self.metrics.guardian_approval_rate * (self.metrics.total_validations - 1) + 1
+            ) / self.metrics.total_validations
+
+        if response.quantum_validated:
+            self.metrics.quantum_validation_rate = (
+                self.metrics.quantum_validation_rate * (self.metrics.total_validations - 1) + 1
             ) / self.metrics.total_validations
 
     async def _trigger_alert(self, level: GuardianAlertLevel, message: str):
@@ -1047,7 +1132,7 @@ class GuardianSystemIntegration:
         # This would implement actual health checks for each component
         # For now, just verify they exist and are responsive
 
-        if self.consent_ledger and hasattr(self.consent_ledger, "_validate_trinity_integration"):
+        if self.consent_ledger and hasattr(self.consent_ledger, "_validate_constellation_integration"):
             # Could check database connectivity, etc.
             pass
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-⚛️🧠🛡️ Trinity Framework Integration Validation Test
-Comprehensive validation of Trinity Framework integration across identity consciousness systems
+✨🌟⭐🔥💎🚀🌌🎯 Constellation Framework Integration Validation Test
+Comprehensive validation of Constellation Framework integration across identity consciousness systems
 """
 
 import asyncio
@@ -12,11 +12,11 @@ import sys
 import time
 from datetime import datetime, timezone
 
-# Trinity Framework imports
+# Constellation Framework imports
 from lambda_id_core import (
     LukhasIdentityService,
     WebAuthnPasskeyManager,
-    validate_trinity_framework,
+    validate_constellation_framework,
 )
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "bridges"))
@@ -24,10 +24,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", "bridges"))
 from identity_core_bridge import get_identity_core_bridge
 
 
-async def validate_trinity_framework_integration():
-    """Comprehensive Trinity Framework integration validation"""
+async def validate_constellation_framework_integration():
+    """Comprehensive Constellation Framework integration validation"""
 
-    print("⚛️🧠🛡️ TRINITY FRAMEWORK INTEGRATION VALIDATION")
+    print("✨🌟⭐🔥💎🚀🌌🎯 CONSTELLATION FRAMEWORK INTEGRATION VALIDATION")
     print("=" * 70)
     print()
 
@@ -37,34 +37,34 @@ async def validate_trinity_framework_integration():
         "guardian_protection": False,
         "bridge_connections": False,
         "performance_compliance": False,
-        "overall_trinity_compliance": False,
+        "overall_constellation_compliance": False,
     }
 
-    # Test 1: ⚛️ Identity System Validation
-    print("⚛️ IDENTITY SYSTEM VALIDATION")
+    # Test 1: ✨ Identity System Validation (Clarity)
+    print("✨ IDENTITY SYSTEM VALIDATION (Clarity)")
     print("-" * 40)
 
     try:
         # Initialize identity service
         identity_service = LukhasIdentityService()
 
-        # Test Trinity Framework status
-        trinity_status = validate_trinity_framework()
-        identity_active = trinity_status["identity"]
+        # Test Constellation Framework status
+        constellation_status = validate_constellation_framework()
+        identity_active = constellation_status["clarity"]
 
         # Test ΛID generation with namespace awareness
         test_user = identity_service.register_user(
-            email="trinity@lukhas.ai", display_name="Trinity Test User", consent_id="trinity_validation_v1"
+            email="constellation@lukhas.ai", display_name="Constellation Test User", consent_id="constellation_validation_v1"
         )
 
         lid_generated = test_user["lid"].startswith("USR-")
-        trinity_integrated = all(test_user["trinity_status"].values())
+        constellation_integrated = all(test_user["constellation_status"].values())
 
-        validation_results["identity_system"] = identity_active and lid_generated and trinity_integrated
+        validation_results["identity_system"] = identity_active and lid_generated and constellation_integrated
 
-        print(f"  ⚛️ Identity System Active: {identity_active}")
+        print(f"  ✨ Identity System Active: {identity_active}")
         print(f"  🔑 ΛID Generation Success: {lid_generated}")
-        print(f"  🌟 Trinity Integration: {trinity_integrated}")
+        print(f"  🌟 Constellation Integration: {constellation_integrated}")
         print(f"  ✅ Identity Validation: {validation_results['identity_system']}")
         print()
 
@@ -72,8 +72,8 @@ async def validate_trinity_framework_integration():
         print(f"  ❌ Identity Validation Failed: {e}")
         print()
 
-    # Test 2: 🧠 Consciousness Integration Validation
-    print("🧠 CONSCIOUSNESS INTEGRATION VALIDATION")
+    # Test 2: 🌟 Consciousness Integration Validation (Wisdom)
+    print("🌟 CONSCIOUSNESS INTEGRATION VALIDATION (Wisdom)")
     print("-" * 45)
 
     try:
@@ -83,13 +83,13 @@ async def validate_trinity_framework_integration():
         performance_awareness = performance_metrics["p95_latency_ms"] >= 0
 
         # Test consciousness adaptation
-        consciousness_status = identity_service.trinity_status["consciousness"]
+        consciousness_status = identity_service.constellation_status["wisdom"]
 
         validation_results["consciousness_integration"] = (
             consciousness_monitoring and performance_awareness and consciousness_status
         )
 
-        print(f"  🧠 Consciousness Monitoring: {consciousness_monitoring}")
+        print(f"  🌟 Consciousness Monitoring: {consciousness_monitoring}")
         print(f"  📊 Performance Awareness: {performance_awareness}")
         print(f"  🌟 Consciousness Active: {consciousness_status}")
         print(f"  ✅ Consciousness Validation: {validation_results['consciousness_integration']}")
@@ -99,13 +99,13 @@ async def validate_trinity_framework_integration():
         print(f"  ❌ Consciousness Validation Failed: {e}")
         print()
 
-    # Test 3: 🛡️ Guardian Protection Validation
-    print("🛡️ GUARDIAN PROTECTION VALIDATION")
+    # Test 3: 🔥 Guardian Protection Validation (Courage)
+    print("🔥 GUARDIAN PROTECTION VALIDATION (Courage)")
     print("-" * 40)
 
     try:
         # Test Guardian system status
-        guardian_status = identity_service.trinity_status["guardian"]
+        guardian_status = identity_service.constellation_status["courage"]
 
         # Test WebAuthn security integration
         passkey_manager = WebAuthnPasskeyManager()
@@ -119,7 +119,7 @@ async def validate_trinity_framework_integration():
             guardian_status and security_events_tracking and rate_limiting_active and audit_trail_active
         )
 
-        print(f"  🛡️ Guardian System Active: {guardian_status}")
+        print(f"  🔥 Guardian System Active: {guardian_status}")
         print(f"  🔒 Security Events Tracking: {security_events_tracking}")
         print(f"  ⏱️ Rate Limiting Active: {rate_limiting_active}")
         print(f"  📋 Audit Trail Active: {audit_trail_active}")
@@ -176,16 +176,16 @@ async def validate_trinity_framework_integration():
         # Validate performance targets
         performance_target_met = auth_latency < 100  # <100ms requirement
         authentication_success = auth_result["success"]
-        trinity_performance = all(auth_result["trinity_status"].values())
+        constellation_performance = all(auth_result["constellation_status"].values())
 
         validation_results["performance_compliance"] = (
-            performance_target_met and authentication_success and trinity_performance
+            performance_target_met and authentication_success and constellation_performance
         )
 
         print(f"  ⚡ Authentication Latency: {auth_latency:.2f}ms")
         print(f"  🎯 <100ms Target Met: {performance_target_met}")
         print(f"  ✅ Authentication Success: {authentication_success}")
-        print(f"  🌟 Trinity Performance: {trinity_performance}")
+        print(f"  🌟 Constellation Performance: {constellation_performance}")
         print(f"  ✅ Performance Validation: {validation_results['performance_compliance']}")
         print()
 
@@ -193,12 +193,12 @@ async def validate_trinity_framework_integration():
         print(f"  ❌ Performance Validation Failed: {e}")
         print()
 
-    # Test 6: 🌟 Overall Trinity Compliance
-    print("🌟 OVERALL TRINITY FRAMEWORK COMPLIANCE")
+    # Test 6: 🌌 Overall Constellation Compliance
+    print("🌌 OVERALL CONSTELLATION FRAMEWORK COMPLIANCE")
     print("-" * 50)
 
     # Calculate overall compliance
-    validation_results["overall_trinity_compliance"] = all(
+    validation_results["overall_constellation_compliance"] = all(
         [
             validation_results["identity_system"],
             validation_results["consciousness_integration"],
@@ -208,27 +208,27 @@ async def validate_trinity_framework_integration():
         ]
     )
 
-    print(f"  ⚛️ Identity System: {validation_results['identity_system']}")
-    print(f"  🧠 Consciousness Integration: {validation_results['consciousness_integration']}")
-    print(f"  🛡️ Guardian Protection: {validation_results['guardian_protection']}")
+    print(f"  ✨ Identity System: {validation_results['identity_system']}")
+    print(f"  🌟 Consciousness Integration: {validation_results['consciousness_integration']}")
+    print(f"  🔥 Guardian Protection: {validation_results['guardian_protection']}")
     print(f"  🔗 Bridge Connections: {validation_results['bridge_connections']}")
     print(f"  ⚡ Performance Compliance: {validation_results['performance_compliance']}")
     print()
-    print(f"  🌟 OVERALL TRINITY COMPLIANCE: {validation_results['overall_trinity_compliance']}")
+    print(f"  🌌 OVERALL CONSTELLATION COMPLIANCE: {validation_results['overall_constellation_compliance']}")
     print()
 
-    # Trinity Framework Summary
-    print("📊 TRINITY FRAMEWORK INTEGRATION SUMMARY")
+    # Constellation Framework Summary
+    print("📊 CONSTELLATION FRAMEWORK INTEGRATION SUMMARY")
     print("=" * 50)
 
-    if validation_results["overall_trinity_compliance"]:
-        print("🎉 SUCCESS: Trinity Framework integration fully validated!")
-        print("⚛️🧠🛡️ All Trinity components active and functional")
-        print("🌟 Ready for consciousness mesh deployment")
+    if validation_results["overall_constellation_compliance"]:
+        print("🎉 SUCCESS: Constellation Framework integration fully validated!")
+        print("✨🌟⭐🔥💎🚀🌌🎯 All Constellation components active and functional")
+        print("🌌 Ready for consciousness mesh deployment")
     else:
-        print("⚠️ PARTIAL: Some Trinity components need attention")
+        print("⚠️ PARTIAL: Some Constellation components need attention")
         failed_components = [
-            name for name, status in validation_results.items() if not status and name != "overall_trinity_compliance"
+            name for name, status in validation_results.items() if not status and name != "overall_constellation_compliance"
         ]
         print(f"🔧 Components needing attention: {failed_components}")
 
@@ -239,14 +239,14 @@ async def validate_trinity_framework_integration():
 
 
 if __name__ == "__main__":
-    print("🚀 Starting Trinity Framework Integration Validation...")
+    print("🚀 Starting Constellation Framework Integration Validation...")
     print()
 
     # Run validation
-    results = asyncio.run(validate_trinity_framework_integration())
+    results = asyncio.run(validate_constellation_framework_integration())
 
     # Exit with success code if all validations pass
-    exit_code = 0 if results["overall_trinity_compliance"] else 1
+    exit_code = 0 if results["overall_constellation_compliance"] else 1
 
     print(f"🏁 Validation completed with exit code: {exit_code}")
     exit(exit_code)

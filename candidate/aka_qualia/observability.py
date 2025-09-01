@@ -241,7 +241,7 @@ class AkaqObservability:
                 "wave": "C",
                 "architecture": "phenomenological_processing",
                 "spec": "freud_2025",
-                "trinity_framework": "identity_consciousness_guardian",
+                "constellation_framework": "identity_consciousness_guardian",
             }
         )
 

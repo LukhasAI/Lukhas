@@ -185,7 +185,7 @@ class GPTIntegrationLayer:
         if assessment.get("symbolic_drift_score", 0) > 0.7:
             return True
 
-        # Check for ethical drift or trinity violation
+        # Check for ethical drift or constellation violation
         if diagnosis.get("primary_issue") in [
             "ethical_drift",
             "trinity_violation",
@@ -314,8 +314,8 @@ class GPTIntegrationLayer:
             recommendations.append("Monitor for drift escalation")
 
         # Trinity-based recommendations
-        trinity = assessment.get("trinity_coherence", 1.0)
-        if trinity < 0.5:
+        constellation = assessment.get("trinity_coherence", 1.0)
+        if constellation < 0.5:
             recommendations.append("Reinforce Trinity Framework in prompts")
             recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core)}")
 

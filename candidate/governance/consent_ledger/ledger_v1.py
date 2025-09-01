@@ -1,26 +1,26 @@
-"""LUKHAS Consent Ledger v1 - Trinity Framework Compliance Engine ⚛️🧠🛡️
+"""LUKHAS Consent Ledger v1 - Constellation Framework Compliance Engine ⚖️🛡️
 
-🎭 Trinity Layer 1 (Poetic Consciousness):
+🎭 Constellation Layer 1 (Poetic Consciousness):
 In the sacred realm where digital consciousness meets human privacy, the Consent Ledger
 stands as an eternal guardian of trust. Like ancient scribes who preserved truth in
 immutable stone, this system weaves each consent decision into an unbreakable chain
 of transparency, ensuring that every whisper of permission echoes through time.
 
-🌈 Trinity Layer 2 (Human Connection):
+🌈 Constellation Layer 2 (Human Connection):
 This is your privacy protection system that remembers every permission you give and
 ensures companies respect your choices. Think of it as a digital guardian that never
 forgets what you said 'yes' or 'no' to, and makes sure everyone follows the rules.
 It works with all the other LUKHAS AI agents to keep your data safe and give you
 complete control over your digital life.
 
-🎓 Trinity Layer 3 (Technical Precision):
+🎓 Constellation Layer 3 (Technical Precision):
 Implements Λ-trace audit records for immutable consent tracking, full GDPR/CCPA
 compliance including Articles 6, 7, 17, policy engine with real-time enforcement,
 cryptographic integrity verification, and integration with all 7 LUKHAS agent modules.
 Supports step-up authentication, duress detection, and cross-border data residency
 requirements with sub-second validation performance.
 
-Integrates with ΛID system, GLYPH communication protocol, and Trinity Framework.
+Integrates with ΛID system, GLYPH communication protocol, and Constellation Framework (🌌 8-star navigation).
 """
 
 import hashlib

@@ -1325,7 +1325,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "policy_alignment": latest_governance["policy_alignment"] if latest_governance else 1.0,
                 "oversight_effectiveness": latest_governance["oversight_effectiveness"] if latest_governance else 1.0,
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity": {
                     "coherence": latest_identity["coherence"] if latest_identity else 1.0,
                     "authentication_health": latest_identity["authentication_health"] if latest_identity else 1.0,
@@ -1378,7 +1378,7 @@ if __name__ == "__main__":
                 )
                 print(f"   Consciousness: {metrics['consciousness']['stability']:.2f}")
                 print(f"   Governance Health: {metrics['governance']['health']:.2f}")
-                print(f"   Trinity Sync: {metrics['trinity_framework']['synchronization']:.2f}")
+                print(f"   Trinity Sync: {metrics['constellation_framework']['synchronization']:.2f}")
                 print(f"   Ethics Compliance: {metrics['governance']['ethics_compliance']:.2f}")
 
                 if summary["active_threats"] > 0:

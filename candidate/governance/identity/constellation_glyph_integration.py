@@ -1,20 +1,25 @@
 """
-LUKHAS Identity Trinity Framework & GLYPH Integration
-====================================================
+LUKHAS Identity Constellation Framework & GLYPH Integration
+==========================================================
 
-Validates and enforces Trinity Framework compliance across all identity components.
+Validates and enforces Constellation Framework compliance across all identity components.
 Integrates with GLYPH system for symbolic communication and cross-module messaging.
 
-Trinity Framework Components:
-- ⚛️ Identity: Authenticity, consciousness, symbolic self
-- 🧠 Consciousness: Awareness-based authentication, memory integration
-- 🛡️ Guardian: Ethics, drift detection, security enforcement
+Constellation Framework Stars:
+- ⚛️ Identity: Authenticity rhythm that holds while allowing change
+- ✦ Memory: Experience fields where echoes return and folds reopen
+- 🔬 Vision: Perception that orients and shows how to see
+- 🌱 Bio: System pulse of growth, repair, and resilience
+- 🌙 Dream: Creative thinking where logic loosens and symbols recombine
+- ⚖️ Ethics: Safeguard ensuring drift does not become harm
+- 🛡️ Guardian: Protection that enables rather than constrains
+- ⚛️ Quantum: Metaphor for ambiguity held until resolution
 
 GLYPH Integration:
 - Symbolic token generation for identity operations
 - Cross-module identity event broadcasting
 - Semantic identity resolution
-- Trinity-compliant messaging protocols
+- Constellation-compliant messaging protocols
 
 Compliance Standards:
 - Constitutional AI safety alignment
@@ -22,6 +27,7 @@ Compliance Standards:
 - Memory fold preservation (limit: 1000 folds)
 - Performance targets (<100ms p95 latency)
 - Security validation and audit trails
+- Constellation coherence validation
 """
 
 import hashlib
@@ -31,12 +37,17 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class TrinityComponent(Enum):
-    """Trinity Framework components"""
+class ConstellationStar(Enum):
+    """Constellation Framework stars"""
 
-    IDENTITY = "⚛️"  # Authenticity and symbolic self
-    CONSCIOUSNESS = "🧠"  # Awareness and memory
-    GUARDIAN = "🛡️"  # Ethics and security
+    IDENTITY = "⚛️"  # The Anchor Star: Identity rhythm
+    MEMORY = "✦"  # The Trail Star: Experience fields
+    VISION = "🔬"  # The Horizon Star: Perception and guidance
+    BIO = "🌱"  # The Living Star: Growth and resilience
+    DREAM = "🌙"  # The Drift Star: Creative processing
+    ETHICS = "⚖️"  # The North Star: Moral alignment
+    GUARDIAN = "🛡️"  # The Watch Star: Protection and safety
+    QUANTUM = "⚛️"  # The Ambiguity Star: Uncertainty as resource
 
 
 class GLYPHType(Enum):
@@ -54,7 +65,7 @@ class GLYPHType(Enum):
     LAMBDA_ID_GENERATED = "lambda_id.generated"
     SECURITY_VIOLATION = "security.violation"
     PERFORMANCE_ALERT = "performance.alert"
-    TRINITY_COMPLIANCE_CHECK = "trinity.compliance_check"
+    CONSTELLATION_COHERENCE_CHECK = "constellation.coherence_check"
 
 
 class GLYPHMessage:
@@ -66,7 +77,7 @@ class GLYPHMessage:
         self.source_module = message_data.get("source_module", "identity")
         self.target_modules = message_data.get("target_modules", [])
         self.payload = message_data.get("payload", {})
-        self.trinity_context = message_data.get("trinity_context", {})
+        self.constellation_context = message_data.get("constellation_context", {})
         self.timestamp = message_data.get("timestamp", datetime.utcnow().isoformat())
         self.priority = message_data.get("priority", "normal")  # low, normal, high, critical
         self.ttl_seconds = message_data.get("ttl_seconds", 3600)
@@ -86,7 +97,7 @@ class GLYPHMessage:
             "source_module": self.source_module,
             "target_modules": self.target_modules,
             "payload": self.payload,
-            "trinity_context": self.trinity_context,
+            "constellation_context": self.constellation_context,
             "timestamp": self.timestamp,
             "priority": self.priority,
             "ttl_seconds": self.ttl_seconds,
@@ -103,45 +114,71 @@ class GLYPHMessage:
             return True  # Consider expired if we can't parse timestamp
 
 
-class TrinityValidator:
-    """Trinity Framework compliance validator"""
+class ConstellationValidator:
+    """Constellation Framework coherence validator"""
 
     def __init__(self):
-        self.compliance_rules = {
-            TrinityComponent.IDENTITY: {
-                "required_methods": ["authenticate", "verify_identity", "generate_identity"],
-                "required_properties": ["user_id", "tier_level", "namespace"],
+        self.coherence_rules = {
+            ConstellationStar.IDENTITY: {
+                "required_methods": ["authenticate", "verify_identity", "maintain_rhythm"],
+                "required_properties": ["user_id", "tier_level", "namespace", "identity_continuity"],
                 "performance_targets": {"latency_ms": 100, "throughput_rps": 1000},
-                "security_requirements": [
-                    "input_validation",
-                    "output_sanitization",
-                    "audit_logging",
-                ],
+                "security_requirements": ["input_validation", "output_sanitization", "audit_logging"],
             },
-            TrinityComponent.CONSCIOUSNESS: {
-                "required_methods": ["track_awareness", "update_memory", "consciousness_check"],
-                "required_properties": ["awareness_level", "memory_folds", "cognitive_state"],
-                "integration_points": ["memory_system", "reasoning_engine", "awareness_tracker"],
-                "drift_threshold": 0.15,
+            ConstellationStar.MEMORY: {
+                "required_methods": ["store_experience", "retrieve_patterns", "fold_memories"],
+                "required_properties": ["memory_folds", "experience_fields", "pattern_recognition"],
+                "integration_points": ["identity_system", "vision_system", "experience_tracker"],
+                "efficiency_threshold": 0.997,  # 99.7% efficiency target
             },
-            TrinityComponent.GUARDIAN: {
-                "required_methods": ["validate_ethics", "detect_drift", "enforce_policy"],
-                "required_properties": ["security_level", "policy_compliance", "audit_trail"],
-                "security_controls": ["constitutional_ai", "drift_detection", "access_control"],
-                "violation_actions": ["log", "alert", "block", "escalate"],
+            ConstellationStar.VISION: {
+                "required_methods": ["perceive_patterns", "orient_direction", "expand_awareness"],
+                "required_properties": ["perception_scope", "guidance_clarity", "horizon_visibility"],
+                "analysis_capabilities": ["pattern_detection", "future_orientation", "context_analysis"],
+                "accuracy_threshold": 0.94,  # 94% accuracy target
+            },
+            ConstellationStar.BIO: {
+                "required_methods": ["adapt_behavior", "self_repair", "evolve_capabilities"],
+                "required_properties": ["growth_metrics", "resilience_indicators", "adaptation_state"],
+                "living_characteristics": ["self_healing", "continuous_learning", "adaptive_responses"],
+                "vitality_threshold": 0.85,  # 85% system vitality target
+            },
+            ConstellationStar.DREAM: {
+                "required_methods": ["creative_processing", "symbolic_thinking", "innovative_solutions"],
+                "required_properties": ["creativity_score", "symbolic_depth", "innovation_capacity"],
+                "creative_modes": ["metaphorical_reasoning", "pattern_recombination", "emergent_insights"],
+                "creativity_threshold": 0.75,  # 75% creativity score target
+            },
+            ConstellationStar.ETHICS: {
+                "required_methods": ["validate_ethics", "align_values", "ensure_beneficence"],
+                "required_properties": ["moral_compass", "value_alignment", "ethical_reasoning"],
+                "ethical_controls": ["constitutional_ai", "value_alignment", "harm_prevention"],
+                "alignment_threshold": 0.95,  # 95% ethical alignment target
+            },
+            ConstellationStar.GUARDIAN: {
+                "required_methods": ["protect_boundaries", "detect_threats", "enable_exploration"],
+                "required_properties": ["protection_level", "threat_awareness", "safety_margins"],
+                "protection_modes": ["proactive_safety", "threat_mitigation", "recovery_systems"],
+                "safety_threshold": 0.99,  # 99% safety assurance target
+            },
+            ConstellationStar.QUANTUM: {
+                "required_methods": ["handle_ambiguity", "maintain_superposition", "enable_emergence"],
+                "required_properties": ["uncertainty_tolerance", "possibility_space", "emergence_capacity"],
+                "quantum_behaviors": ["ambiguity_comfort", "multiple_possibilities", "state_superposition"],
+                "emergence_threshold": 0.80,  # 80% emergence capability target
             },
         }
 
-        self.compliance_cache = {}
+        self.coherence_cache = {}
         self.last_validation = {}
 
-    def validate_component_compliance(
+    def validate_star_coherence(
         self,
-        component: TrinityComponent,
-        component_instance: Any,
+        star: ConstellationStar,
+        star_instance: Any,
         operation_context: dict[str, Any],
     ) -> dict[str, Any]:
-        """✅ Validate Trinity component compliance"""
+        """✅ Validate Constellation star coherence"""
         try:
             start_time = time.time()
 
@@ -579,7 +616,7 @@ class GLYPHIntegrator:
         encoding = {
             "primary_symbol": self._get_primary_symbol(glyph_type),
             "context_symbols": self._get_context_symbols(payload),
-            "trinity_symbols": "⚛️🧠🛡️",
+            "constellation_symbols": "✨🌟⭐🔥💎⚖️🛡️🌌",
             "semantic_hash": hashlib.sha256(str(payload).encode()).hexdigest()[:16],
         }
 
@@ -659,7 +696,7 @@ class GLYPHIntegrator:
         return {
             "system": "LUKHAS GLYPH Identity Integration",
             "version": "1.0.0",
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "✨🌟⭐🔥💎⚖️🛡️🌌",
             "message_statistics": self.message_stats,
             "queue_status": {
                 "pending_messages": len(self.message_queue),

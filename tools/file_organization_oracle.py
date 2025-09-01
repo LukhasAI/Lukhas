@@ -66,7 +66,7 @@ class LUKHASFileOrganizationOracle:
                 "api/": ["*API*", "*ENDPOINT*", "*SWAGGER*", "*OPENAPI*"],
                 "compliance/": ["*COMPLIANCE*", "*LEGAL*", "*GDPR*", "*AUDIT*"],
                 "guides/": ["*GUIDE*", "*TUTORIAL*", "*HOWTO*", "*MANUAL*"],
-                "trinity/": ["*TRINITY*", "*FRAMEWORK*"],
+                "constellation/": ["*TRINITY*", "*FRAMEWORK*"],
                 "tasks/": ["*TASK*", "*TODO*", "*PENDING*"],
             },
         },

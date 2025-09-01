@@ -45,7 +45,7 @@ class BioEngine:
             "oscillations": oscillations,
             "symbolic": symbolic_result,
             "awareness": awareness_result,
-            "trinity": "aligned",
+            "constellation": "aligned",
         }
 
     def reset(self):

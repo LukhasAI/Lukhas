@@ -87,7 +87,7 @@ class EntityExtractor:
             ],
             EntityType.METRIC: [
                 (
-                    r"(drift|trinity|entropy|coherence)\s*(?:score|level|value)?\s*[:\s]*([\d.]+)",
+                    r"(drift|constellation|entropy|coherence)\s*(?:score|level|value)?\s*[:\s]*([\d.]+)",
                     "metric_value",
                 ),
                 (r"(\d+(?:\.\d+)?)\s*%", "percentage"),
@@ -112,17 +112,17 @@ class EntityExtractor:
         return {
             "⚛️": {
                 "name": "Identity",
-                "type": "trinity",
+                "type": "constellation",
                 "meaning": "Core authentication and identity",
             },
             "🧠": {
                 "name": "Consciousness",
-                "type": "trinity",
+                "type": "constellation",
                 "meaning": "Awareness and cognition",
             },
             "🛡️": {
                 "name": "Guardian",
-                "type": "trinity",
+                "type": "constellation",
                 "meaning": "Protection and ethics",
             },
             "🔐": {
@@ -207,7 +207,7 @@ class EntityExtractor:
         """Initialize concept mappings."""
         return {
             "drift": ["deviation", "anomaly", "divergence", "misalignment"],
-            "trinity": ["framework", "triad", "three-part", "triadic"],
+            "constellation": ["framework", "triad", "three-part", "triadic"],
             "intervention": [
                 "correction",
                 "adjustment",
@@ -508,7 +508,7 @@ class EntityExtractor:
             elif entity.type == EntityType.TIER:
                 context["tiers"].append(entity.value)
 
-        # Convert trinity components set to list
+        # Convert constellation components set to list
         context["trinity_components"] = list(context["trinity_components"])
 
         # Add summary

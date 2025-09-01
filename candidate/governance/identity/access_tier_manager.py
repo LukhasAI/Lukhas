@@ -29,7 +29,7 @@ Access Tiers:
 #TAG:access_control
 #TAG:tiers
 #TAG:privileges
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -664,7 +664,7 @@ class ComprehensiveAccessTierManager:
             "eligibility": {tier.value: eligible for tier, eligible in eligibility.items()},
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
                 "guardian_status": profile.guardian_status,

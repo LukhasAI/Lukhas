@@ -798,7 +798,7 @@ class OAuth2OIDCProvider:
             "auth_time": int(now.timestamp()),
             "tier": token_data["user_tier"],
             "tier_name": self._get_tier_name(token_data["user_tier"]),
-            "trinity_framework": "⚛️🧠🛡️",
+            "constellation_framework": "⚛️🧠🛡️",
         }
 
         if nonce:

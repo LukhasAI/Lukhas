@@ -23,7 +23,7 @@ Features:
 #TAG:drift
 #TAG:monitoring
 #TAG:constitutional
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio

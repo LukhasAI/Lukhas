@@ -10,6 +10,13 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 # Module imports
 import importlib
 import logging
+from typing import Any, Optional
+
+# Pre-declare wrapper client types for static type-checkers
+UnifiedOpenAIClient: Optional[Any] = None
+GPTClient: Optional[Any] = None
+LukhasOpenAIClient: Optional[Any] = None
+OpenAIWrapper: Optional[Any] = None
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers")
@@ -37,7 +44,7 @@ except ImportError as e:
 
 
 # Import other wrappers if they exist
-def _load_optional(wrapper_name: str, class_name: str):
+def _load_optional(wrapper_name: str, class_name: str) -> Optional[Any]:
     try:
         module = importlib.import_module(f"lukhas.bridge.llm_wrappers.{wrapper_name}")
         return getattr(module, class_name)

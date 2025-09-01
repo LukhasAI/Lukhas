@@ -22,7 +22,7 @@ Features:
 #TAG:regulatory
 #TAG:gdpr
 #TAG:ccpa
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -1100,7 +1100,7 @@ class ComplianceMonitor:
                 for framework, status in latest_assessment.framework_statuses.items()
             },
             "metrics": self.metrics,
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_compliance": latest_assessment.identity_compliance,
                 "consciousness_compliance": latest_assessment.consciousness_compliance,
                 "guardian_validations": latest_assessment.guardian_validations,

@@ -71,19 +71,23 @@ class UnifiedLLMBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
-        self.config = config or {}
-        self.providers = {}
-        self.provider_status = {}
-        self.fallback_chain = ["openai", "anthropic", "gemini", "perplexity"]
-        self.primary_provider = "openai"
+    self.config = config or {}
+    from typing import Any
 
-        # Initialize providers
-        self._initialize_providers()
+    # Explicitly type providers and provider_status to reduce mypy noise
+    self.providers: dict[str, dict[str, Any]] = {}
+    self.provider_status: dict[str, ProviderStatus] = {}
 
-        # Brand prompt templates
-        self.brand_prompts = self._load_brand_prompts()
+    self.fallback_chain = ["openai", "anthropic", "gemini", "perplexity"]
+    self.primary_provider = "openai"
 
-        logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
+    # Initialize providers
+    self._initialize_providers()
+
+    # Brand prompt templates
+    self.brand_prompts = self._load_brand_prompts()
+
+    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
 
     def _initialize_providers(self):
         """Initialize all available LLM providers"""

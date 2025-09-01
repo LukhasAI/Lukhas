@@ -30,7 +30,7 @@
 import secrets
 import string
 from collections.abc import Sequence
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
 
 class SecureRandom:
@@ -98,7 +98,7 @@ class SecureRandom:
         weights: Optional[Sequence[float]] = None,
         cum_weights: Optional[Sequence[float]] = None,
         k: int = 1,
-    ) -> List[Any]:
+    ) -> list[Any]:
         """Return a k sized list of population elements chosen with replacement.
 
         Cryptographically secure replacement for secure_random.choices().
@@ -110,14 +110,14 @@ class SecureRandom:
             pass
         return [self.choice(population) for _ in range(k)]
 
-    def sample(self, population: Sequence[Any], k: int) -> List[Any]:
+    def sample(self, population: Sequence[Any], k: int) -> list[Any]:
         """Return a k length list of unique elements chosen from population.
 
         Cryptographically secure replacement for secure_random.sample().
         """
         return self._secure_random.sample(population, k)
 
-    def shuffle(self, x: List[Any]) -> None:
+    def shuffle(self, x: list[Any]) -> None:
         """Shuffle sequence x in place using secure randomness.
 
         Cryptographically secure replacement for secure_random.shuffle().
@@ -270,17 +270,17 @@ def choices(
     weights: Optional[Sequence[float]] = None,
     cum_weights: Optional[Sequence[float]] = None,
     k: int = 1,
-) -> List[Any]:
+) -> list[Any]:
     """Secure replacement for secure_random.choices()"""
     return secure_random.choices(population, weights, cum_weights, k)
 
 
-def sample(population: Sequence[Any], k: int) -> List[Any]:
+def sample(population: Sequence[Any], k: int) -> list[Any]:
     """Secure replacement for secure_random.sample()"""
     return secure_random.sample(population, k)
 
 
-def shuffle(x: List[Any]) -> None:
+def shuffle(x: list[Any]) -> None:
     """Secure replacement for secure_random.shuffle()"""
     return secure_random.shuffle(x)
 
@@ -311,9 +311,21 @@ def secure_bytes(nbytes: int = 32) -> bytes:
     return secure_random.secure_bytes(nbytes)
 
 
-def secure_password(length: int = 32, **kwargs) -> str:
+def secure_password(
+    length: int = 32,
+    include_symbols: bool = True,
+    include_numbers: bool = True,
+    include_uppercase: bool = True,
+    include_lowercase: bool = True,
+) -> str:
     """Generate secure password"""
-    return secure_random.secure_password(length, **kwargs)
+    return secure_random.secure_password(
+        length,
+        include_symbols=include_symbols,
+        include_numbers=include_numbers,
+        include_uppercase=include_uppercase,
+        include_lowercase=include_lowercase,
+    )
 
 
 def secure_id(length: int = 16) -> str:

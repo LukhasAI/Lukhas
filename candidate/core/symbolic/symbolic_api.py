@@ -243,7 +243,7 @@ def root():
     """Root endpoint with Trinity Framework status"""
     return {
         "message": "Welcome to the LUKHΛS Symbolic API",
-        "trinity_framework": ["⚛️", "🧠", "🛡️"],
+        "constellation_framework": ["⚛️", "🧠", "🛡️"],
         "version": "2.1.0",
         "endpoints": {
             "core": ["/analyze", "/evaluate", "/heal", "/persona-map"],
@@ -252,7 +252,7 @@ def root():
                 "/api/consciousness/state",
                 "/api/memory/explore",
                 "/api/guardian/drift",
-                "/api/trinity/status",
+                "/api/constellation/status",
             ],
             "gpt": ["/gpt/check"],
             "audit": ["/audit/reports"],
@@ -934,7 +934,7 @@ async def get_drift_status():
         raise HTTPException(status_code=500, detail=error_msg)
 
 
-@app.get("/api/trinity/status")
+@app.get("/api/constellation/status")
 async def get_trinity_status():
     """
     Get comprehensive Trinity Framework status across all systems.
@@ -981,12 +981,12 @@ async def get_trinity_status():
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        log_api_call("/api/trinity/status", {}, trinity_status)
+        log_api_call("/api/constellation/status", {}, trinity_status)
         return trinity_status
 
     except Exception as e:
         error_msg = f"Trinity status retrieval failed: {e!s}"
-        log_api_call("/api/trinity/status", {}, {}, error_msg)
+        log_api_call("/api/constellation/status", {}, {}, error_msg)
         raise HTTPException(status_code=500, detail=error_msg)
 
 
@@ -1199,7 +1199,7 @@ async def health():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "trinity": ["⚛️", "🧠", "🛡️"],
+        "constellation": ["⚛️", "🧠", "🛡️"],
         "embedding": "active",
         "healer": "active",
         "timestamp": datetime.now(timezone.utc).isoformat(),

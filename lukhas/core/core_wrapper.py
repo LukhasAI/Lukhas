@@ -466,7 +466,7 @@ class CoreWrapper:
                 "actor_system": self._actor_system is not None,
                 "symbolic_processing": self._symbolic_world is not None,
             },
-            "trinity_framework": self._trinity_context,
+            "constellation_framework": self._trinity_context,
             "feature_flags": {
                 "LUKHAS_DRY_RUN_MODE": LUKHAS_DRY_RUN_MODE,
                 "CORE_ACTIVE": CORE_ACTIVE,

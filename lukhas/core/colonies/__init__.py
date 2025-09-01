@@ -58,7 +58,8 @@ class BaseColony(ABC):
     def __init__(self, colony_id: str, capabilities: list[str]) -> None:
         self.colony_id = colony_id
         self.capabilities = capabilities
-        self.actors = {}
+    # Actors in this colony (agent_id -> agent instance)
+    self.actors: dict[str, Any] = {}
 
     @abstractmethod
     def process(self, task: Any) -> Any:
@@ -70,7 +71,7 @@ class BaseColony(ABC):
 
 
 # Import colony types with fallback
-colony_types = {}
+colony_types: dict[str, type[BaseColony]] = {}
 
 # Stable lane does not import candidate colonies dynamically.
 # If/when stable implementations exist under lukhas.*, they should be added here.
@@ -136,7 +137,8 @@ except ImportError as e:
         """Placeholder for communication fabric"""
 
         def __init__(self) -> None:
-            self.messages = []
+            # Messages queued in the fabric
+            self.messages: list[Any] = []
 
         def send(self, message: Any) -> None:
             self.messages.append(message)

@@ -54,7 +54,7 @@ NEWRELIC_CONFIG = {
         "enabled": True,
     },
     # Custom Attributes for LUKHAS AI
-    "attributes": {"include": ["request.*", "response.*", "lukhas.*", "consciousness.*", "trinity.*"]},
+    "attributes": {"include": ["request.*", "response.*", "lukhas.*", "consciousness.*", "constellation.*"]},
 }
 
 
@@ -88,7 +88,7 @@ class LUKHASNewRelicMonitoring:
             # Set custom attributes
             newrelic.agent.add_custom_attribute("service.name", "LUKHAS AI")
             newrelic.agent.add_custom_attribute("service.version", "2.0.0")
-            newrelic.agent.add_custom_attribute("trinity.framework", "⚛️🧠🛡️")
+            newrelic.agent.add_custom_attribute("constellation.framework", "⚛️🧠🛡️")
             newrelic.agent.add_custom_attribute("deployment.environment", "production")
             newrelic.agent.add_custom_attribute("deployment.platform", "Azure Container Apps")
             newrelic.agent.add_custom_attribute("github.student_pack", True)
@@ -287,7 +287,7 @@ def monitor_trinity_component(component_name: str):
             if newrelic_monitor and newrelic_monitor.enabled:
                 import newrelic.agent
 
-                with newrelic.agent.FunctionTrace(name=f"trinity.{component_name}.{func.__name__}"):
+                with newrelic.agent.FunctionTrace(name=f"constellation.{component_name}.{func.__name__}"):
                     return func(*args, **kwargs)
             return func(*args, **kwargs)
 

@@ -4,7 +4,7 @@ LUKHAS AI Drift Metrics Tracker
 ==============================
 Simple drift tracking system for Guardian System monitoring.
 
-Trinity Framework: ⚛️🧠🛡️
+Constellation Framework: ✨🌟⭐🔥💎🚀🌌🎯
 """
 
 import time
