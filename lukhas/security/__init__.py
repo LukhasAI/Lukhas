@@ -20,23 +20,23 @@
 
 from .secure_random import (
     SecureRandom,
-    secure_random,
-    random,
-    uniform,
-    randint,
-    randrange,
     choice,
     choices,
-    sample,
-    shuffle,
     gauss,
     normalvariate,
-    secure_token,
-    secure_hex,
+    randint,
+    random,
+    randrange,
+    sample,
     secure_bytes,
-    secure_password,
+    secure_hex,
     secure_id,
     secure_nonce,
+    secure_password,
+    secure_random,
+    secure_token,
+    shuffle,
+    uniform,
 )
 
 __all__ = [

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Fix datetime.now() calls to include timezone.utc"""
 
-import os
 import re
 import subprocess
 

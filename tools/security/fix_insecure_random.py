@@ -23,11 +23,10 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-import os
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple, Dict
+from typing import Dict, List, Tuple
 
 # Add lukhas to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))

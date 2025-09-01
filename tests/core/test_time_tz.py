@@ -1,4 +1,3 @@
-from datetime import timezone
 
 from lukhas.core.common.logger import JSONFormatter
 from lukhas.memory.emotional import EmotionalMemoryManager

@@ -4,12 +4,10 @@ Auto-Escalator Split Policy - Production Implementation
 Rule-based profit sharing that evolves from 40/60 to 80/20 based on performance
 """
 
-import json
-import math
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 class EscalatorTier(Enum):

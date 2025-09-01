@@ -18,9 +18,10 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
+from core.common import get_logger
+
 # Import for synchronization
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
-from core.common import get_logger
 from ethics.compliance.engine import ComplianceEngine
 from ethics.governor.dao_controller import DAOController
 from ethics.governor.lambda_governor import LambdaGovernor

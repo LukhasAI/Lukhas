@@ -28,8 +28,6 @@ Features:
 
 import asyncio
 import logging
-# Replaced insecure random with cryptographically secure random for privacy
-from lukhas.security import secure_random
 import statistics
 import uuid
 from collections import Counter, defaultdict
@@ -39,6 +37,9 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
+
+# Replaced insecure random with cryptographically secure random for privacy
+from lukhas.security import secure_random
 
 logger = logging.getLogger(__name__)
 

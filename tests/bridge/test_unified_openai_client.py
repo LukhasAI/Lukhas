@@ -1,14 +1,11 @@
 # Tests for lukhas/bridge/llm_wrappers/unified_openai_client.py
 
 import os
-import uuid
-from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
 from lukhas.bridge.llm_wrappers.unified_openai_client import (
-    ConversationMessage,
     ConversationState,
     UnifiedOpenAIClient,
 )

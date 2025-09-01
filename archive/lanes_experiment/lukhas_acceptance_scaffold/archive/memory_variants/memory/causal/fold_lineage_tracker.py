@@ -72,6 +72,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
 import structlog
 
 # JULES05_NOTE: Loop-safe guard added

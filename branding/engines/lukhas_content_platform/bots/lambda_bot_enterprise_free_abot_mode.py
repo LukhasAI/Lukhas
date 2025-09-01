@@ -4,10 +4,10 @@ Free LUKHAS AI ΛBot Mode - Let LUKHAS AI ΛBot decide what to work on autonomou
 Give LUKHAS AI ΛBot complete freedom to use real API and make decisions
 """
 
+import subprocess
 import sys
 import time
-import subprocess
-import os
+
 sys.path.append('/Users/A_G_I/Λ')
 
 def get_abot_status():
@@ -98,10 +98,10 @@ def free_abot_session():
                     ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=60)
 
                     if result.stdout:
-                        print(f"🧠 LUKHAS AI ΛBot's free choice: {result.stdout[:300]}...")'
+                        print(f"🧠 LUKHAS AI ΛBot's free choice: {result.stdout[:300]}...")
 
                 except Exception as e:
-                    print(f"🤖 LUKHAS AI ΛBot's free thought interrupted: {e}")'
+                    print(f"🤖 LUKHAS AI ΛBot's free thought interrupted: {e}")
 
             # Check budget status
             print(f"\n💰 Budget check:")

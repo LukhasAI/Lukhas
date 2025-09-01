@@ -123,7 +123,7 @@ This module embodies the LUKHAS Trinity Framework:
 
     def _has_poetic_header(self, content: str) -> bool:
         """Check if document has consciousness-aware header"""
-        return bool(re.search(r'^)  # .*\*".*".*\*', content, re.MULTILINE)
+        return bool(re.search(r'^\s*\*".*"\*', content, re.MULTILINE))
 
     def _has_consciousness_footer(self, content: str) -> bool:
         """Check if document has Lambda consciousness footer"""
@@ -136,7 +136,7 @@ This module embodies the LUKHAS Trinity Framework:
         )
 
         # Find first heading and enhance it
-        header_match = re.search(r"^()  # + .+$", content, re.MULTILINE)
+        header_match = re.search(r"^(#+ .+)$", content, re.MULTILINE)
         if header_match:
             original_header = header_match.group(1)
             enhanced_header = f"{original_header}\n\n{header_template} 🌟⚛️🎭"

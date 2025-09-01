@@ -22,8 +22,6 @@ Version: 2.0.0
 import base64
 import hashlib
 import json
-# Replaced insecure random with secure random for consistency
-from lukhas.security import secure_random
 import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
@@ -34,14 +32,16 @@ import numpy as np
 import qrcode
 from PIL import Image, ImageDraw
 
+# Replaced insecure random with secure random for consistency
+from lukhas.security import secure_random
+
 # Import LUKHAS components
 try:
-    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
-    from utils.cultural_safety_checker import CulturalSafetyChecker
-
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
+    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
+    from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 

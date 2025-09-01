@@ -12,8 +12,7 @@ Comprehensive test suite for consciousness module following T4 standards:
 
 import asyncio
 import time
-from typing import Any, Dict
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import patch
 
 import pytest
 

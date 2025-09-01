@@ -11,11 +11,10 @@ RESEARCH VALIDATION: Priority #4 Consciousness Algorithms Analysis
 Performance: 94% emotional state classification accuracy
 """
 
-import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 import numpy as np
 

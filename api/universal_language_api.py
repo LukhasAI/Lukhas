@@ -10,12 +10,12 @@ import math
 from datetime import datetime
 from typing import Any, Optional
 
+from core.colonies.consensus_mechanisms import ConsensusMethod
+from core.colonies.enhanced_colony import EnhancedReasoningColony
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from core.colonies.consensus_mechanisms import ConsensusMethod
-from core.colonies.enhanced_colony import EnhancedReasoningColony
 from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )

@@ -18,9 +18,11 @@
 └────────────────────────────────────────────────────────────────────────────
 """
 
+from typing import List, Optional
+
 import numpy as np
 from qiskit import QuantumCircuit
-from typing import Optional, List, Tuple
+
 
 class QIAssociativeMemoryBank:
     """

@@ -10,7 +10,6 @@ Tests complete data deletion across all LUKHAS consciousness and memory systems.
 Addresses Guardian Security requirement for GDPR erasure validation testing.
 """
 
-import asyncio
 import json
 import sqlite3
 import tempfile
@@ -18,7 +17,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import pytest
 

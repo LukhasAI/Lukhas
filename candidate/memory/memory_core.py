@@ -56,7 +56,6 @@ except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
 
 # Logging setup with optional structlog
 try:
-    import structlog  # type: ignore
 
     from candidate.core.common import get_logger
 
