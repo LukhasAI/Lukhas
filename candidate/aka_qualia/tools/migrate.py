@@ -17,8 +17,20 @@ from typing import Any, Dict
 from urllib.parse import urlparse
 
 try:
-    from sqlalchemy import create_engine, text, MetaData, Table, Column
-    from sqlalchemy import String, Text, Float, Integer, DateTime, JSON, Boolean
+    from sqlalchemy import (
+        JSON,
+        Boolean,
+        Column,
+        DateTime,
+        Float,
+        Integer,
+        MetaData,
+        String,
+        Table,
+        Text,
+        create_engine,
+        text,
+    )
     from sqlalchemy.engine import Engine
     from sqlalchemy.exc import SQLAlchemyError
 except ImportError:
@@ -161,7 +173,7 @@ def apply_migration(engine: Engine, config: Dict[str, Any]) -> None:
     """Apply appropriate migration based on database driver"""
     driver = config["driver"]
     logging.info(f"Applying {driver} migration for Aka Qualia v{MIGRATION_VERSION}")
-    
+
     try:
         with engine.begin() as conn:
             if driver == "postgresql":
@@ -171,51 +183,51 @@ def apply_migration(engine: Engine, config: Dict[str, Any]) -> None:
                     logging.info("pgvector extension detected")
                 except SQLAlchemyError:
                     logging.warning("pgvector not available - installing if possible")
-                
+
                 # Apply PostgreSQL schema
                 schema_sql = POSTGRESQL_SCHEMA.format(version=MIGRATION_VERSION)
                 # Execute as single statement to handle dependencies properly
                 conn.execute(text(schema_sql))
-                
+
                 logging.info("PostgreSQL schema applied successfully")
-                
+
             elif driver == "sqlite":
                 # Apply SQLite schema statement by statement (SQLite needs this)
                 schema_sql = SQLITE_SCHEMA.format(version=MIGRATION_VERSION)
                 statements = []
-                
+
                 # Parse statements more carefully
                 current_statement = []
-                for line in schema_sql.split('\n'):
+                for line in schema_sql.split("\n"):
                     line = line.strip()
-                    if not line or line.startswith('--'):
+                    if not line or line.startswith("--"):
                         continue
-                    
+
                     current_statement.append(line)
-                    
-                    if line.endswith(';'):
-                        statement = ' '.join(current_statement).rstrip(';')
+
+                    if line.endswith(";"):
+                        statement = " ".join(current_statement).rstrip(";")
                         if statement:
                             statements.append(statement)
                         current_statement = []
-                
+
                 # Execute statements in order
                 for statement in statements:
                     try:
                         conn.execute(text(statement))
                     except SQLAlchemyError as e:
                         if "already exists" in str(e):
-                            logging.debug(f"Ignoring existing object: {str(e)}")
+                            logging.debug(f"Ignoring existing object: {e!s}")
                         else:
                             raise
-                
+
                 logging.info("SQLite schema applied successfully")
-                
+
             else:
                 raise ValueError(f"Unsupported database driver: {driver}")
-            
+
             conn.commit()
-            
+
     except SQLAlchemyError as e:
         logging.error(f"Migration failed: {e}")
         raise
@@ -224,35 +236,39 @@ def apply_migration(engine: Engine, config: Dict[str, Any]) -> None:
 def validate_schema(engine: Engine, config: Dict[str, Any]) -> bool:
     """Validate that schema was applied correctly"""
     driver = config["driver"]
-    
+
     try:
         with engine.begin() as conn:
             # Check main tables exist
             if driver == "postgresql":
-                result = conn.execute(text("""
+                result = conn.execute(
+                    text("""
                     SELECT table_name FROM information_schema.tables 
                     WHERE table_schema = 'public' 
                     AND table_name IN ('akaq_scene', 'akaq_glyph')
                     ORDER BY table_name
-                """))
+                """)
+                )
             else:  # SQLite
-                result = conn.execute(text("""
+                result = conn.execute(
+                    text("""
                     SELECT name FROM sqlite_master 
                     WHERE type='table' 
                     AND name IN ('akaq_scene', 'akaq_glyph')
                     ORDER BY name
-                """))
-            
+                """)
+                )
+
             tables = [row[0] for row in result.fetchall()]
-            expected = ['akaq_glyph', 'akaq_scene']
-            
+            expected = ["akaq_glyph", "akaq_scene"]
+
             if tables == expected:
                 logging.info(f"Schema validation passed: {tables}")
                 return True
             else:
                 logging.error(f"Schema validation failed. Expected {expected}, got {tables}")
                 return False
-                
+
     except SQLAlchemyError as e:
         logging.error(f"Schema validation error: {e}")
         return False
@@ -261,32 +277,28 @@ def validate_schema(engine: Engine, config: Dict[str, Any]) -> bool:
 def main():
     """CLI entry point for migration tool"""
     parser = argparse.ArgumentParser(description="Aka Qualia Database Migration Tool")
-    parser.add_argument("--dsn", required=True, 
-                       help="Database connection string (e.g., sqlite:///./data/akaq.db)")
-    parser.add_argument("--validate", action="store_true",
-                       help="Validate schema after migration")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                       help="Enable verbose logging")
-    
+    parser.add_argument("--dsn", required=True, help="Database connection string (e.g., sqlite:///./data/akaq.db)")
+    parser.add_argument("--validate", action="store_true", help="Validate schema after migration")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
+
     args = parser.parse_args()
-    
+
     # Configure logging
     log_level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(level=log_level, 
-                       format="%(asctime)s - %(levelname)s - %(message)s")
-    
+    logging.basicConfig(level=log_level, format="%(asctime)s - %(levelname)s - %(message)s")
+
     # Create engine and detect driver
     engine = create_engine(args.dsn)
     driver = detect_database_driver(args.dsn)
     config = {"driver": driver}
-    
+
     logging.info(f"Starting migration for {driver} database")
     logging.info(f"DSN: {args.dsn}")
-    
+
     try:
         # Apply migration
         apply_migration(engine, config)
-        
+
         # Validate if requested
         if args.validate:
             if validate_schema(engine, config):
@@ -296,7 +308,7 @@ def main():
                 exit(1)
         else:
             logging.info("✅ Migration completed (use --validate to verify)")
-            
+
     except Exception as e:
         logging.error(f"❌ Migration failed: {e}")
         exit(1)

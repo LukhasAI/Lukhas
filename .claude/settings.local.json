@@ -80,7 +80,10 @@
       "Bash(PYTHONPATH=. python -m pytest candidate/aka_qualia/tests/test_memory_unit.py::TestMemoryClientFactory::test_create_noop_memory -v --tb=short)",
       "Bash(PYTHONPATH=. python candidate/aka_qualia/test_simple.py)",
       "Bash(git fetch:*)",
-      "Bash(gh pr list:*)"
+      "Bash(gh pr list:*)",
+      "Bash(SKIP=pre-commit git commit -m \"chore: Update test results and configuration files before PR merge\")",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr merge:*)"
     ],
     "deny": [],
     "ask": []
