@@ -16,7 +16,7 @@ import math
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, Dict, List, Tuple, cast, Callable, Awaitable
 
 import numpy as np
 from PIL import Image
@@ -92,7 +92,7 @@ class HighEntropyPassword:
     def to_secure_string(self) -> str:
         """Convert to secure string representation"""
         # Combine all elements into a high-entropy string
-        combined = []
+        combined: List[str] = []
 
         if ModalityType.TEXT in self.elements:
             combined.append(self.elements[ModalityType.TEXT])
@@ -127,7 +127,7 @@ class MultiModalLanguageBuilder:
         self.concepts: dict[str, UniversalConcept] = {}
 
         # Entropy tracking
-        self.entropy_sources = {
+        self.entropy_sources: Dict[ModalityType, int] = {
             ModalityType.TEXT: 94,  # ASCII printable
             ModalityType.EMOJI: 3664,  # Unicode emojis
             ModalityType.IMAGE: 2**24,  # RGB color space
@@ -139,7 +139,7 @@ class MultiModalLanguageBuilder:
         }
 
         # Feature extractors
-        self.feature_extractors = {
+        self.feature_extractors: Dict[ModalityType, Callable[[Any], Awaitable[ModalityFeatures]]] = {
             ModalityType.TEXT: self._extract_text_features,
             ModalityType.EMOJI: self._extract_emoji_features,
             ModalityType.IMAGE: self._extract_image_features,
@@ -150,13 +150,11 @@ class MultiModalLanguageBuilder:
             ModalityType.RHYTHM: self._extract_rhythm_features,
         }
 
-    async def build_concept(
-        self, meaning: str, inputs: dict[ModalityType, Any]
-    ) -> UniversalConcept:
+    async def build_concept(self, meaning: str, inputs: dict[ModalityType, Any]) -> UniversalConcept:
         """Build a universal concept from multi-modal inputs"""
 
         # Extract features from each modality
-        modality_features = []
+        modality_features: List[ModalityFeatures] = []
         total_entropy = 0.0
 
         for modality, data in inputs.items():
@@ -169,9 +167,7 @@ class MultiModalLanguageBuilder:
         embedding = self._create_embedding(modality_features)
 
         # Generate concept ID
-        concept_id = hashlib.sha256(
-            f"{meaning}_{embedding.tobytes()}".encode()
-        ).hexdigest()[:16]
+        concept_id = hashlib.sha256(f"{meaning}_{embedding.tobytes()}".encode()).hexdigest()[:16]
 
         # Create concept
         concept = UniversalConcept(
@@ -192,9 +188,7 @@ class MultiModalLanguageBuilder:
             {"action": "concept_created", "meaning": meaning, "entropy": total_entropy},
         )
 
-        logger.info(
-            f"Created concept '{meaning}' with {total_entropy:.2f} bits of entropy"
-        )
+        logger.info(f"Created concept '{meaning}' with {total_entropy:.2f} bits of entropy")
 
         return concept
 
@@ -214,26 +208,26 @@ class MultiModalLanguageBuilder:
                 ModalityType.COLOR,
             ]
 
-        password_elements = {}
+        password_elements: Dict[ModalityType, Any] = {}
         current_entropy = 0.0
 
         # Generate text component
         if ModalityType.TEXT in use_modalities:
-            text_length = min(20, max(4, target_entropy // 30))
+            text_length = min(20, max(4, int(target_entropy / 30)))
             text = self._generate_memorable_text(text_length)
             password_elements[ModalityType.TEXT] = text
             current_entropy += len(text) * math.log2(94)
 
         # Generate emoji component
         if ModalityType.EMOJI in use_modalities:
-            emoji_count = min(10, max(3, (target_entropy - current_entropy) // 12))
+            emoji_count = min(10, max(3, int((target_entropy - current_entropy) / 12)))
             emojis = self._select_memorable_emojis(emoji_count)
             password_elements[ModalityType.EMOJI] = emojis
             current_entropy += len(emojis) * math.log2(3664)
 
         # Generate gesture sequence
         if ModalityType.GESTURE in use_modalities:
-            gesture_count = min(5, max(2, (target_entropy - current_entropy) // 10))
+            gesture_count = min(5, max(2, int((target_entropy - current_entropy) / 10)))
             gestures = self._generate_gesture_sequence(gesture_count)
             password_elements[ModalityType.GESTURE] = gestures
             current_entropy += len(gestures) * math.log2(1000)
@@ -245,33 +239,23 @@ class MultiModalLanguageBuilder:
             current_entropy += len(colors) * math.log2(16777216)
 
         # Generate visual hash
-        visual_elements = []
+        visual_elements: List[str] = []
         if ModalityType.EMOJI in password_elements:
             visual_elements.extend(password_elements[ModalityType.EMOJI])
         if ModalityType.COLOR in password_elements:
-            visual_elements.extend(
-                [str(c) for c in password_elements[ModalityType.COLOR]]
-            )
+            visual_elements.extend([str(c) for c in password_elements[ModalityType.COLOR]])
 
         visual_hash = hashlib.sha256("".join(visual_elements).encode()).hexdigest()
 
         # Calculate memorability
-        element_complexity = sum(
-            len(v) if isinstance(v, (list, str)) else 1
-            for v in password_elements.values()
-        )
+        element_complexity = sum(len(v) if isinstance(v, (list, str)) else 1 for v in password_elements.values())
         memorability = max(0.2, min(1.0, 1.0 - (element_complexity / 30)))
 
         # Adjust for memorability weight
         if memorability < memorability_weight:
             # Simplify if too complex
-            if (
-                ModalityType.GESTURE in password_elements
-                and len(password_elements[ModalityType.GESTURE]) > 2
-            ):
-                password_elements[ModalityType.GESTURE] = password_elements[
-                    ModalityType.GESTURE
-                ][:2]
+            if ModalityType.GESTURE in password_elements and len(password_elements[ModalityType.GESTURE]) > 2:
+                password_elements[ModalityType.GESTURE] = password_elements[ModalityType.GESTURE][:2]
 
         # Create password object
         password = HighEntropyPassword(
@@ -290,7 +274,7 @@ class MultiModalLanguageBuilder:
     async def _extract_text_features(self, text: str) -> ModalityFeatures:
         """Extract features from text"""
         # Character frequency analysis
-        char_freq = {}
+        char_freq: Dict[str, int] = {}
         for char in text:
             char_freq[char] = char_freq.get(char, 0) + 1
 
@@ -428,9 +412,7 @@ class MultiModalLanguageBuilder:
             metadata={"sequence_length": len(gestures)},
         )
 
-    async def _extract_color_features(
-        self, colors: list[tuple[int, int, int]]
-    ) -> ModalityFeatures:
+    async def _extract_color_features(self, colors: list[tuple[int, int, int]]) -> ModalityFeatures:
         """Extract features from color pattern"""
         if not colors:
             colors = [(128, 128, 128)]
@@ -499,20 +481,19 @@ class MultiModalLanguageBuilder:
             entropy_bits=entropy,
         )
 
-    def _create_embedding(
-        self, modality_features: list[ModalityFeatures]
-    ) -> np.ndarray:
+    def _create_embedding(self, modality_features: list[ModalityFeatures]) -> np.ndarray:
         """Create unified embedding from multiple modalities"""
         if not modality_features:
             return np.zeros(128)
 
         # Concatenate all features
-        all_features = []
+        all_features: List[float] = []
         for mf in modality_features:
             all_features.extend(mf.features)
 
         # Pad or truncate to fixed size
         embedding_size = 128
+        embedding: np.ndarray
         if len(all_features) > embedding_size:
             embedding = np.array(all_features[:embedding_size])
         else:
@@ -533,20 +514,16 @@ class MultiModalLanguageBuilder:
         consonants = "bcdfghjklmnpqrstvwxyz"
         vowels = "aeiou"
 
-        text = []
+        text: List[str] = []
         for i in range(length):
             if i % 2 == 0:
-                text.append(
-                    random.choice(consonants).upper()
-                    if i == 0
-                    else random.choice(consonants)
-                )
+                text.append(random.choice(consonants).upper() if i == 0 else random.choice(consonants))
             else:
                 text.append(random.choice(vowels))
 
         # Add some numbers and symbols for entropy
         text.append(str(random.randint(0, 99)))
-        text.append(random.choice("!@)  # $%^&*")
+        text.append(random.choice("!@#$%^&*()"))
 
         return "".join(text)
 
@@ -591,7 +568,7 @@ class MultiModalLanguageBuilder:
             "spread",
         ]
 
-        gestures = []
+        gestures: List[Dict[str, Any]] = []
         for _ in range(count):
             gestures.append(
                 {
@@ -609,7 +586,7 @@ class MultiModalLanguageBuilder:
 
         # Use color harmony rules for memorability
         base_hue = random.randint(0, 360)
-        colors = []
+        colors: List[Tuple[int, int, int]] = []
 
         for i in range(count):
             # Complementary, triadic, or analogous colors
@@ -622,12 +599,13 @@ class MultiModalLanguageBuilder:
 
         return colors
 
-    def _hsv_to_rgb(self, h: float, s: float, v: float) -> tuple[int, int, int]:
+    def _hsv_to_rgb(self, h: float, s: float, v: float) -> Tuple[int, int, int]:
         """Convert HSV to RGB color"""
         c = v * s
         x = c * (1 - abs((h / 60) % 2 - 1))
         m = v - c
 
+        r, g, b = 0.0, 0.0, 0.0
         if h < 60:
             r, g, b = c, x, 0
         elif h < 120:
@@ -643,7 +621,7 @@ class MultiModalLanguageBuilder:
 
         return (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
 
-    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
+    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict) -> None:
         """Emit signal through signal bus"""
         signal = Signal(
             name=signal_type,

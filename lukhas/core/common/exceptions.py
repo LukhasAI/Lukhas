@@ -38,7 +38,7 @@ class GuardianRejectionError(LukhasError):
         message: str,
         ethics_violation: Optional[str] = None,
         suggestion: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if ethics_violation:
@@ -58,7 +58,7 @@ class MemoryDriftError(LukhasError):
         memory_id: str,
         drift_level: float,
         threshold: float,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         details.update(
@@ -86,7 +86,7 @@ class ModuleTimeoutError(LukhasError):
         module_name: Optional[str] = None,
         operation: Optional[str] = None,
         timeout_seconds: Optional[float] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if module_name:
@@ -102,7 +102,7 @@ class ModuleTimeoutError(LukhasError):
 class ModuleNotFoundError(LukhasError):
     """Raised when a required module is not available"""
 
-    def __init__(self, module_name: str, **kwargs) -> None:
+    def __init__(self, module_name: str, **kwargs: Any) -> None:
         super().__init__(
             message=f"Module '{module_name}' not found or not initialized",
             error_code="MODULE_NOT_FOUND",
@@ -118,7 +118,7 @@ class ConfigurationError(LukhasError):
         message: str,
         config_key: Optional[str] = None,
         config_file: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if config_key:
@@ -136,7 +136,7 @@ class AuthenticationError(LukhasError):
         self,
         message: str = "Authentication failed",
         auth_method: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if auth_method:
@@ -154,7 +154,7 @@ class AuthorizationError(LukhasError):
         required_tier: Optional[int] = None,
         current_tier: Optional[int] = None,
         required_permission: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if required_tier is not None:
@@ -176,7 +176,7 @@ class ValidationError(LukhasError):
         field: Optional[str] = None,
         value: Optional[Any] = None,
         constraint: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if field:
@@ -197,7 +197,7 @@ class GLYPHError(LukhasError):
         message: str,
         glyph_id: Optional[str] = None,
         glyph_symbol: Optional[str] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = kwargs.get("details", {})
         if glyph_id:
@@ -218,7 +218,7 @@ class CircuitBreakerError(LukhasError):
         failure_count: int,
         threshold: int,
         reset_timeout: float,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = {
             "service_name": service_name,
@@ -240,7 +240,7 @@ class ResourceExhaustedError(LukhasError):
         resource_type: str,
         current_usage: Optional[float] = None,
         limit: Optional[float] = None,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         details = {"resource_type": resource_type, **kwargs.get("details", {})}
 
