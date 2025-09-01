@@ -89,9 +89,7 @@ class SystemHealthAnalyzer:
 
         try:
             # Python version
-            result = subprocess.run(
-                [sys.executable, "--version"], capture_output=True, text=True
-            )
+            result = subprocess.run([sys.executable, "--version"], capture_output=True, text=True)
             python_version = result.stdout.strip()
 
             # Key dependencies
@@ -131,7 +129,7 @@ class SystemHealthAnalyzer:
                 except Exception as e:
                     dependencies[package] = {
                         "version": None,
-                        "status": f"error: {str(e)}",
+                        "status": f"error: {e!s}",
                     }
 
             self.results["python_environment"] = {
@@ -148,9 +146,7 @@ class SystemHealthAnalyzer:
 
         except Exception as e:
             logger.error(f"❌ Python environment analysis failed: {e}")
-            self.results["issues_detected"].append(
-                f"Python environment analysis failed: {e}"
-            )
+            self.results["issues_detected"].append(f"Python environment analysis failed: {e}")
 
     def test_core_modules(self):
         """Test core LUKHAS modules"""
@@ -194,9 +190,7 @@ class SystemHealthAnalyzer:
                         "errors": error_msg,
                     }
                     logger.error(f"❌ {module_name}: Failed - {error_msg}")
-                    self.results["issues_detected"].append(
-                        f"{module_name} import failed: {error_msg}"
-                    )
+                    self.results["issues_detected"].append(f"{module_name} import failed: {error_msg}")
 
             except Exception as e:
                 module_results[module_name] = {
@@ -209,9 +203,7 @@ class SystemHealthAnalyzer:
 
         self.results["core_modules"] = module_results
 
-        working_modules = len(
-            [m for m in module_results.values() if m["status"] == "working"]
-        )
+        working_modules = len([m for m in module_results.values() if m["status"] == "working"])
         logger.info(f"📊 Core Modules: {working_modules}/{len(core_modules)} working")
 
     def check_api_systems(self):
@@ -240,15 +232,11 @@ class SystemHealthAnalyzer:
                         "status_code": response.status_code,
                         "response_data": (
                             response.json()
-                            if response.headers.get("content-type", "").startswith(
-                                "application/json"
-                            )
+                            if response.headers.get("content-type", "").startswith("application/json")
                             else response.text[:200]
                         ),
                     }
-                    logger.info(
-                        f"✅ {api_name}: Online ({response.elapsed.total_seconds():.3f}s)"
-                    )
+                    logger.info(f"✅ {api_name}: Online ({response.elapsed.total_seconds():.3f}s)")
                 else:
                     api_results[api_name] = {
                         "status": "error",
@@ -323,23 +311,16 @@ class SystemHealthAnalyzer:
                 "passed_tests": passed_tests,
                 "failed_tests": failed_tests,
                 "warnings": warnings,
-                "success_rate": (
-                    (passed_tests / total_tests * 100) if total_tests > 0 else 0
-                ),
+                "success_rate": ((passed_tests / total_tests * 100) if total_tests > 0 else 0),
                 "summary_line": summary_line,
                 "execution_time": "< 120s",
                 "exit_code": result.returncode,
             }
 
-            logger.info(
-                f"📊 Tests: {passed_tests} passed, {failed_tests} failed, "
-                f"{warnings} warnings"
-            )
+            logger.info(f"📊 Tests: {passed_tests} passed, {failed_tests} failed, " f"{warnings} warnings")
 
             if failed_tests > 0:
-                self.results["issues_detected"].append(
-                    f"{failed_tests} test failures detected"
-                )
+                self.results["issues_detected"].append(f"{failed_tests} test failures detected")
 
         except Exception as e:
             logger.error(f"❌ Test analysis failed: {e}")
@@ -474,18 +455,12 @@ class SystemHealthAnalyzer:
             else:
                 file_status[filename] = {"exists": False, "error": "File not found"}
                 if filename != ".env":  # .env might be intentionally missing:
-                    self.results["issues_detected"].append(
-                        f"Critical file missing: {filename}"
-                    )
+                    self.results["issues_detected"].append(f"Critical file missing: {filename}")
 
         self.results["file_integrity"] = file_status
 
-        existing_files = len(
-            [f for f in file_status.values() if f.get("exists", False)]
-        )
-        logger.info(
-            f"📊 Critical files: {existing_files}/{len(critical_files)} present"
-        )
+        existing_files = len([f for f in file_status.values() if f.get("exists", False)])
+        logger.info(f"📊 Critical files: {existing_files}/{len(critical_files)} present")
 
     def analyze_performance(self):
         """Analyze system performance metrics"""
@@ -550,19 +525,12 @@ class SystemHealthAnalyzer:
             "critical_systems_working": self.count_working_systems(),
             "api_status": (
                 "online"
-                if any(
-                    api.get("status") == "online"
-                    for api in self.results["api_systems"].values()
-                )
+                if any(api.get("status") == "online" for api in self.results["api_systems"].values())
                 else "offline"
             ),
             "test_success_rate": self.results["test_results"].get("success_rate", 0),
             "vivox_components_working": len(
-                [
-                    v
-                    for v in self.results["vivox_systems"].values()
-                    if v.get("status") == "working"
-                ]
+                [v for v in self.results["vivox_systems"].values() if v.get("status") == "working"]
             ),
             "recommendation_count": len(self.results["recommendations"]),
         }
@@ -574,13 +542,7 @@ class SystemHealthAnalyzer:
         score = 100
 
         # Deduct for failed core modules
-        working_modules = len(
-            [
-                m
-                for m in self.results["core_modules"].values()
-                if m.get("status") == "working"
-            ]
-        )
+        working_modules = len([m for m in self.results["core_modules"].values() if m.get("status") == "working"])
         total_modules = len(self.results["core_modules"])
         if total_modules > 0:
             module_score = (working_modules / total_modules) * 30
@@ -592,13 +554,7 @@ class SystemHealthAnalyzer:
 
         # Deduct for missing critical files
         total_files = len(self.results["file_integrity"])
-        existing_files = len(
-            [
-                f
-                for f in self.results["file_integrity"].values()
-                if f.get("exists", False)
-            ]
-        )
+        existing_files = len([f for f in self.results["file_integrity"].values() if f.get("exists", False)])
         if total_files > 0:
             file_score = (existing_files / total_files) * 20
             score = score - 20 + file_score
@@ -613,31 +569,13 @@ class SystemHealthAnalyzer:
         working = 0
 
         # Core modules
-        working += len(
-            [
-                m
-                for m in self.results["core_modules"].values()
-                if m.get("status") == "working"
-            ]
-        )
+        working += len([m for m in self.results["core_modules"].values() if m.get("status") == "working"])
 
         # APIs
-        working += len(
-            [
-                a
-                for a in self.results["api_systems"].values()
-                if a.get("status") == "online"
-            ]
-        )
+        working += len([a for a in self.results["api_systems"].values() if a.get("status") == "online"])
 
         # VIVOX components
-        working += len(
-            [
-                v
-                for v in self.results["vivox_systems"].values()
-                if v.get("status") == "working"
-            ]
-        )
+        working += len([v for v in self.results["vivox_systems"].values() if v.get("status") == "working"])
 
         return working
 
@@ -647,9 +585,7 @@ class SystemHealthAnalyzer:
 
         # Module recommendations
         failed_modules = [
-            name
-            for name, info in self.results["core_modules"].items()
-            if info.get("status") != "working"
+            name for name, info in self.results["core_modules"].items() if info.get("status") != "working"
         ]
         if failed_modules:
             recommendations.append(f"Fix failed modules: {', '.join(failed_modules)}")
@@ -659,30 +595,17 @@ class SystemHealthAnalyzer:
             recommendations.append("Investigate and fix failing tests")
 
         # API recommendations
-        offline_apis = [
-            name
-            for name, info in self.results["api_systems"].items()
-            if info.get("status") != "online"
-        ]
+        offline_apis = [name for name, info in self.results["api_systems"].items() if info.get("status") != "online"]
         if offline_apis:
             recommendations.append(f"Start offline APIs: {', '.join(offline_apis)}")
 
         # File recommendations
-        missing_files = [
-            name
-            for name, info in self.results["file_integrity"].items()
-            if not info.get("exists", False)
-        ]
+        missing_files = [name for name, info in self.results["file_integrity"].items() if not info.get("exists", False)]
         if missing_files:
             recommendations.append(f"Restore missing files: {', '.join(missing_files)}")
 
         # Performance recommendations
-        if (
-            self.results["performance_metrics"]
-            .get("lukhas_embedding", {})
-            .get("performance_rating")
-            == "slow"
-        ):
+        if self.results["performance_metrics"].get("lukhas_embedding", {}).get("performance_rating") == "slow":
             recommendations.append("Optimize LukhasEmbedding performance")
 
         self.results["recommendations"] = recommendations

@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lukhas.ai/schemas/lens/job.schema.json",
+  "title": "LLens Job",
+  "description": "A contract for a file-to-symbols translation job.",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "description": "Unique identifier for the job.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "source_uri": {
+      "description": "URI of the source file to be processed (e.g., file://, s3://).",
+      "type": "string",
+      "format": "uri"
+    },
+    "source_type": {
+      "description": "The type of the source file.",
+      "type": "string",
+      "enum": ["text", "code", "data", "image", "auto"]
+    },
+    "policies": {
+      "description": "Security and processing policies for this job.",
+      "type": "object",
+      "properties": {
+        "LLM_off": { "type": "boolean", "default": true },
+        "redact_on": { "type": "boolean", "default": false },
+        "offline_only": { "type": "boolean", "default": true }
+      },
+      "required": ["LLM_off", "redact_on", "offline_only"]
+    },
+    "parser_opts": {
+      "description": "Optional parameters for specific parsers.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "object",
+          "properties": { "language": { "type": "string" } }
+        },
+        "data": {
+          "type": "object",
+          "properties": { "delimiter": { "type": "string" } }
+        }
+      }
+    },
+    "target_forms": {
+      "description": "The desired output rendering formats.",
+      "type": "array",
+      "items": { "type": "string", "enum": ["web2d", "xr"] },
+      "minItems": 1
+    },
+    "lid_context": {
+      "description": "Identity and access context from ΛiD.",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "user_tier": {
+          "type": "string",
+          "enum": ["default", "privileged", "admin"]
+        },
+        "consent_log_id": { "type": "string" }
+      },
+      "required": ["user_id", "user_tier"]
+    }
+  },
+  "required": [
+    "source_uri",
+    "source_type",
+    "policies",
+    "target_forms",
+    "lid_context"
+  ]
+}

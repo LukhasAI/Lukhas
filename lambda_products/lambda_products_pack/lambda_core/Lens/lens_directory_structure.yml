@@ -1,0 +1,69 @@
+/lens/                  # Python backend services root init.py
+lens_manager.py         # Orchestrates jobs: parsing -> symbols -> widgets -> rendering
+config/
+contracts/            # Single source of truth for data structures
+job.schema.json     # Contract for file->symbols translation jobs
+photon.schema.json  # Schema for no-code authored GLYPH scenes/dashboards
+widget.schema.json  # Schema for reusable widget presets & their properties
+parsers/                # Modules for interpreting source files
+init.py
+base_parser.py        # Abstract base class for all parsers
+text_parser.py        # Handles PDF, DOCX, MD using outlines and optional LLM summaries
+code_parser.py        # Uses ASTs to extract functions, classes, and call graphs
+data_parser.py        # Analyzes CSV/JSON for schema, stats, and key entities
+image_parser.py       # Extracts metadata (EXIF, OCR) under strict ΛiD policy
+symbols/                # Modules for creating the core GLYPH graph
+init.py
+symbol_generator.py   # Translates parsed content into a graph of GLYPHs
+glyph_types.py        # Defines standard GLYPH kinds (e.g., Person, Function, Topic)
+widgets/                # Modules for mapping symbols to UI components
+init.py
+widget_factory.py     # Suggests/builds widgets based on GLYPH graph patterns
+renderers/              # Modules for creating final output artifacts
+init.py
+web2d_renderer.py     # Generates a JSON model for the React UI
+xr_renderer.py        # Generates a glTF/WebXR scene description
+services/               # Clients for interacting with other Lukhas systems
+init.py
+qrg_client.py         # Reads/writes provenance data to the Quantum Relational Graph
+lid_client.py         # Manages ΛiD permissions and consent logging
+api/                    # Service endpoints
+init.py
+main.py               # FastAPI application entry point
+endpoints.py          # Defines all HTTP routes (/jobs, /photon, etc.)
+schemas.py            # Pydantic models auto-generated from the JSON Schemas
+tests/
+init.py
+test_parsers.py
+test_lens_manager.py
+test_photon_validation.py
+
+/ui/                      # React frontend application
+vite.config.js
+package.json
+index.html
+src/
+main.jsx
+App.jsx
+components/           # Reusable UI components
+Canvas.jsx
+InspectorPanel.jsx
+Palette.jsx
+JsonSchemaForm.jsx  # Renders forms from schemas
+views/                # Top-level application views
+EditorView.jsx
+PreviewView.jsx
+hooks/                # Custom React hooks (e.g., usePhotonState)
+lib/                  # Client-side libraries and utilities
+apiClient.js        # Fetches data from the l_lens backend API
+dnd.js              # Drag-and-drop configurations
+assets/
+
+/infra/                   # Deployment and infrastructure configuration
+Dockerfile.api
+Dockerfile.ui
+docker-compose.yml
+kubernetes/
+api-deployment.yaml
+ui-service.yaml
+
