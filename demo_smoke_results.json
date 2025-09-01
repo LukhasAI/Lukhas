@@ -60,7 +60,7 @@
           "severity": "high"
         },
         "transform_chain": [],
-        "timestamp": 1756688273.9925828
+        "timestamp": 1756689986.432571
       },
       "glyphs": [
         {
@@ -125,8 +125,8 @@
         "neurosis_risk": 0.0,
         "qualia_novelty": 0.8,
         "repair_delta": 0.5,
-        "timestamp": 1756688273.9927008,
-        "episode_id": "demo_1756688273"
+        "timestamp": 1756689986.432744,
+        "episode_id": "demo_1756689986"
       },
       "pipeline_stats": {
         "glyphs_generated": 3,
@@ -176,7 +176,7 @@
           "severity": "none"
         },
         "transform_chain": [],
-        "timestamp": 1756688273.9929311
+        "timestamp": 1756689986.4328241
       },
       "glyphs": [
         {
@@ -211,8 +211,8 @@
         "neurosis_risk": 0.0,
         "qualia_novelty": 0.3,
         "repair_delta": 0.5,
-        "timestamp": 1756688273.993002,
-        "episode_id": "demo_1756688273"
+        "timestamp": 1756689986.4329112,
+        "episode_id": "demo_1756689986"
       },
       "pipeline_stats": {
         "glyphs_generated": 1,
@@ -267,7 +267,7 @@
           "severity": "moderate"
         },
         "transform_chain": [],
-        "timestamp": 1756688273.993034
+        "timestamp": 1756689986.432947
       },
       "glyphs": [
         {
@@ -316,8 +316,8 @@
         "neurosis_risk": 0.0,
         "qualia_novelty": 0.5,
         "repair_delta": 0.5,
-        "timestamp": 1756688273.9931,
-        "episode_id": "demo_1756688273"
+        "timestamp": 1756689986.4330199,
+        "episode_id": "demo_1756689986"
       },
       "pipeline_stats": {
         "glyphs_generated": 2,
@@ -367,7 +367,7 @@
           "severity": "low"
         },
         "transform_chain": [],
-        "timestamp": 1756688273.99313
+        "timestamp": 1756689986.433055
       },
       "glyphs": [
         {
@@ -405,8 +405,8 @@
         "neurosis_risk": 0.0,
         "qualia_novelty": 0.9,
         "repair_delta": 0.5,
-        "timestamp": 1756688273.993192,
-        "episode_id": "demo_1756688273"
+        "timestamp": 1756689986.43312,
+        "episode_id": "demo_1756689986"
       },
       "pipeline_stats": {
         "glyphs_generated": 1,
@@ -417,5 +417,5 @@
       "success": true
     }
   ],
-  "timestamp": 1756688273.993322
+  "timestamp": 1756689986.433397
 }
