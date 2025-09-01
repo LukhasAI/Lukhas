@@ -49,7 +49,7 @@ Usage:
 #TAG:observability
 #TAG:monitoring
 #TAG:dashboard
-#TAG:trinity
+#TAG:constellation
 #TAG:guardian
 """
 

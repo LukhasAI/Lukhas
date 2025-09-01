@@ -173,7 +173,7 @@ __trinity_framework__ = "Identity-Consciousness-Guardian"
 GOVERNANCE_INFO = {
     "version": __version__,
     "phase": __phase__,
-    "trinity_framework": __trinity_framework__,
+    "constellation_framework": __trinity_framework__,
     "guardian_system_version": "1.0.0",
     "drift_threshold": 0.15,
     "constitutional_ai": True,
@@ -229,7 +229,7 @@ def get_governance_status():
     status = {
         "version": __version__,
         "phase": __phase__,
-        "trinity_framework": __trinity_framework__,
+        "constellation_framework": __trinity_framework__,
         "components": {
             "guardian_system": GuardianSystem is not None,
             "constitutional_ai": ConstitutionalAI is not None,

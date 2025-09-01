@@ -23,7 +23,7 @@ Features:
 #TAG:gdpr
 #TAG:privacy
 #TAG:compliance
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio
@@ -827,7 +827,7 @@ class AdvancedConsentManager:
                     "consent_evidence": consent.consent_evidence,
                 },
                 "integrity": {"consent_hash": consent.consent_hash, "signature": consent.signature},
-                "trinity_framework": {
+                "constellation_framework": {
                     "identity_context": consent.identity_context,
                     "consciousness_context": consent.consciousness_context,
                     "guardian_validations": consent.guardian_validations,

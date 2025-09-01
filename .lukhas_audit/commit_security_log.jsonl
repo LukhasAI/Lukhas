@@ -1513,3 +1513,6 @@ Removed invalid external paths causing git repository detection errors:
 This should resolve the VS Code git scanning issues and 'fatal: not a git repository' errors.","security_scan":"pending"}
 {"timestamp":"2025-09-01T18:23:49Z","commit":"6953089f7e3c79f09404e30839ec0fdb0008aa6f","branch":"main","author":"LukhasAI","message":"chore: Update Claude settings permissions","security_scan":"pending"}
 {"timestamp":"2025-09-01T18:24:07Z","commit":"a2497291c3c4d8812d78d55f9b79ec5ffb8605eb","branch":"main","author":"LukhasAI","message":"📊 Update security audit log - Claude settings commit","security_scan":"pending"}
+{"timestamp":"2025-09-01T19:12:25Z","commit":"6ad4ad955a0664ddbe7ddcdd21eea7009ff9d411","branch":"main","author":"LukhasAI","message":"TRINITY → CONSTELLATION migration: Wave C promotion and governance update
+
+Promote Trinity constructs to Constellation naming and ship Wave C deliverables. Includes branding updates, governance and guardian improvements, AKA-Qualia Wave C docs, production promotion package, and tests to validate ethics and consciousness ablations. See TRINITY_TO_CONSTELLATION_MIGRATION_REPORT.md and candidate/aka_qualia/ for details.","security_scan":"pending"}

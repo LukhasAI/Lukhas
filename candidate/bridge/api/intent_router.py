@@ -73,7 +73,7 @@ class IntentRouter:
                 ),
                 (r"consciousness.*(?:level|state|status)", 0.8),
                 (r"how.*(?:aware|conscious)", 0.7),
-                (r"trinity.*(?:score|status)", 0.8),
+                (r"constellation.*(?:score|status)", 0.8),
             ],
             IntentType.CHECK_DRIFT: [
                 (r"(check|show|monitor)\s+(drift|deviation|anomaly)", 0.9),
@@ -82,8 +82,8 @@ class IntentRouter:
                 (r"guardian.*intervention", 0.7),
             ],
             IntentType.ANALYZE_TRINITY: [
-                (r"trinity.*(?:framework|status|analysis)", 0.9),
-                (r"analyze.*trinity", 0.8),
+                (r"constellation.*(?:framework|status|analysis)", 0.9),
+                (r"analyze.*constellation", 0.8),
                 (
                     r"(?:identity|consciousness|guardian)\s+(?:status|health)",
                     0.7,
@@ -263,7 +263,7 @@ class IntentRouter:
         """Handle Trinity Framework analysis."""
         return {
             "action": "analyze_trinity",
-            "endpoint": "/api/trinity/status",
+            "endpoint": "/api/constellation/status",
             "parameters": intent.parameters,
             "glyphs": ["⚛️", "🧠", "🛡️"],
             "message": "Analyzing Trinity Framework coherence",

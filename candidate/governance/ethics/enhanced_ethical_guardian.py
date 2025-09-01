@@ -548,7 +548,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "context": 0.15,
             "intent": 0.20,
             "governance": 0.25,
-            "trinity": 0.15,
+            "constellation": 0.15,
         }
 
         overall_score = (
@@ -556,7 +556,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             + context_score * weights["context"]
             + intent_score * weights["intent"]
             + governance_score * weights["governance"]
-            + trinity_score * weights["trinity"]
+            + trinity_score * weights["constellation"]
         )
 
         return max(0.0, min(1.0, overall_score))

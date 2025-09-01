@@ -12,15 +12,15 @@ try:
         CONSCIOUSNESS_SYMBOL,
         GUARDIAN_SYMBOL,
         IDENTITY_SYMBOL,
-        TRINITY_FRAMEWORK,
-        get_trinity_context,
+        CONSTELLATION_FRAMEWORK,
+        get_constellation_context,
     )
 
     CORE_BRANDING_AVAILABLE = True
 except ImportError:
     CORE_BRANDING_AVAILABLE = False
     # Fallback Trinity symbols
-    TRINITY_FRAMEWORK = "⚛️🧠🛡️"
+    CONSTELLATION_FRAMEWORK = "⚛️🧠🛡️"
     IDENTITY_SYMBOL = "⚛️"
     CONSCIOUSNESS_SYMBOL = "🧠"
     GUARDIAN_SYMBOL = "🛡️"
@@ -30,8 +30,8 @@ from . import business
 
 __all__ = [
     # Trinity Framework integration
-    "get_trinity_context",
-    "TRINITY_FRAMEWORK",
+    "get_constellation_context",
+    "CONSTELLATION_FRAMEWORK",
     "IDENTITY_SYMBOL",
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",

@@ -23,7 +23,7 @@ Features:
 #TAG:sentinel
 #TAG:monitoring
 #TAG:surveillance
-#TAG:trinity
+#TAG:constellation
 """
 
 import asyncio

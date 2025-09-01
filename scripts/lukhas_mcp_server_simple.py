@@ -61,7 +61,7 @@ class LUKHASMCPServer:
                     description="Current identity configuration",
                 ),
                 Resource(
-                    uri="lukhas://trinity/validation",
+                    uri="lukhas://constellation/validation",
                     name="Trinity Framework Status",
                     description="Trinity Framework validation status",
                 ),
@@ -81,7 +81,7 @@ class LUKHASMCPServer:
                             "identity",
                             "monitoring",
                         ],
-                        "trinity_framework": "operational",
+                        "constellation_framework": "operational",
                     },
                     indent=2,
                 )
@@ -107,7 +107,7 @@ class LUKHASMCPServer:
                     indent=2,
                 )
 
-            elif uri == "lukhas://trinity/validation":
+            elif uri == "lukhas://constellation/validation":
                 return json.dumps(
                     {
                         "identity": "⚛️ Active",

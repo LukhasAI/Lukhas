@@ -13,7 +13,7 @@ This module provides real-time monitoring of system health with focus on:
 #TAG:guardian
 #TAG:monitoring
 #TAG:health
-#TAG:trinity
+#TAG:constellation
 #TAG:performance
 """
 
@@ -504,7 +504,7 @@ class SystemHealthMonitor:
                 framework_health = total_health / component_count
 
                 await self._record_metric(
-                    component="trinity",
+                    component="constellation",
                     metric_type=f"{framework_component}_health",
                     value=framework_health,
                     unit="score",
@@ -703,7 +703,7 @@ class SystemHealthMonitor:
                 "baseline_response_time_ms": self.performance_baselines["api_response_time"],
                 "meets_sla": avg_response_time <= self.performance_baselines["api_response_time"],
             },
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_health": trinity_health.get("identity", 0.0),  # ⚛️
                 "consciousness_health": trinity_health.get("consciousness", 0.0),  # 🧠
                 "guardian_health": trinity_health.get("guardian", 0.0),  # 🛡️

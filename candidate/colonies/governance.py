@@ -181,7 +181,7 @@ class GovernanceColony(BaseColony):
         }
 
         # Trinity Framework compliance
-        if policy_name == "trinity_framework":
+        if policy_name == "constellation_framework":
             trinity_elements = ["identity", "consciousness", "guardian"]
             for element in trinity_elements:
                 if not operation.get(f"trinity_{element}", False):

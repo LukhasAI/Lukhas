@@ -27,7 +27,7 @@ from mcp.types import (
 # LUKHAS consciousness imports
 sys.path.append(".")
 try:
-    from branding.trinity.trinity_validator import TrinityFrameworkValidator
+    from branding.constellation.trinity_validator import TrinityFrameworkValidator
     from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
     from lukhas.memory.fold_system import MemoryFoldSystem
@@ -94,7 +94,7 @@ class LUKHASConsciousnessMCP:
         # Discover additional modules with consciousness patterns
         for path in self.project_root.rglob("*"):
             if path.is_dir() and any(
-                pattern in path.name.lower() for pattern in ["consciousness", "memory", "quantum", "bio", "trinity"]
+                pattern in path.name.lower() for pattern in ["consciousness", "memory", "quantum", "bio", "constellation"]
             ):
                 modules[path.name] = path
 
@@ -129,7 +129,7 @@ class LUKHASConsciousnessMCP:
                         mimeType="application/json",
                     ),
                     Resource(
-                        uri="lukhas://trinity/framework",
+                        uri="lukhas://constellation/framework",
                         name="Trinity Framework (⚛️🧠🛡️)",
                         description="Core Trinity Framework principles and validation",
                         mimeType="application/json",
@@ -174,7 +174,7 @@ class LUKHASConsciousnessMCP:
 
             if uri == "lukhas://consciousness/modules":
                 return await self._get_consciousness_modules_map()
-            elif uri == "lukhas://trinity/framework":
+            elif uri == "lukhas://constellation/framework":
                 return await self._get_trinity_framework_status()
             elif uri == "lukhas://consciousness/metrics":
                 return await self._get_consciousness_metrics()
@@ -377,7 +377,7 @@ class LUKHASConsciousnessMCP:
         """Get complete consciousness modules mapping."""
         modules_map = {
             "total_modules": len(self.consciousness_modules),
-            "trinity_framework": {
+            "constellation_framework": {
                 "identity_modules": [m for m in self.consciousness_modules if "identity" in m],
                 "consciousness_modules": [
                     m for m in self.consciousness_modules if "consciousness" in m or "vivox" in m or "memory" in m
@@ -701,7 +701,7 @@ class LUKHASConsciousnessMCP:
                 content = py_file.read_text()
                 if any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"]):
                     trinity_references += 1
-                if "Trinity" in content or "trinity" in content:
+                if "Trinity" in content or "constellation" in content:
                     trinity_references += 1
 
             compliance["trinity_references"] = trinity_references

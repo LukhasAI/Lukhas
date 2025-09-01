@@ -30,7 +30,7 @@ class LUKHASSystemDiagnostic:
             "metadata": {
                 "report_title": "LUKHAS Comprehensive System Status Report",
                 "report_date": self.report_timestamp,
-                "trinity_framework": "⚛️🧠🛡️",
+                "constellation_framework": "⚛️🧠🛡️",
                 "version": "1.0",
                 "purpose": "System Health & Research Documentation",
             },

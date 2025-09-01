@@ -65,7 +65,7 @@ class AuditCategory(Enum):
     PRIVACY = "privacy"
     AI_ETHICS = "ai_ethics"
     CONSTITUTIONAL = "constitutional"
-    TRINITY = "trinity"
+    TRINITY = "constellation"
     GOVERNANCE = "governance"
     USER_ACTION = "user_action"
     SYSTEM_EVENT = "system_event"

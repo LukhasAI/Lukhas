@@ -239,7 +239,7 @@ class ToolExecutor:
 5. Accountability: Clear responsibility chains for AI system outcomes"""
 
         # LUKHAS AI specific knowledge
-        elif "lukhas" in query_lower or "trinity framework" in query_lower:
+        elif "lukhas" in query_lower or "constellation framework" in query_lower:
             return """Retrieved knowledge about LUKHAS AI:
 - Trinity Framework: Identity ⚛️, Consciousness 🧠, Guardian 🛡️
 - Quantum-inspired processing with bio-symbolic adaptation
