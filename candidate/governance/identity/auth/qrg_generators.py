@@ -22,7 +22,8 @@ Version: 2.0.0
 import base64
 import hashlib
 import json
-import random  # Used only for visual effects, not security
+# Replaced insecure random with secure random for consistency
+from lukhas.security import secure_random
 import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
@@ -221,8 +222,8 @@ class ConsciousnessQRGenerator:
 
         # Generate neural-like patterns based on synchrony
         for _i in range(int(pattern.neural_synchrony * 20)):
-            x = random.randint(0, img.width)
-            y = random.randint(0, img.height)
+            x = secure_random.randint(0, img.width)
+            y = secure_random.randint(0, img.height)
             radius = int(pattern.neural_synchrony * 5)
 
             alpha = int(pattern.neural_synchrony * 100)
@@ -707,9 +708,9 @@ class QIQRGenerator:
 
         # Create quantum-like interference patterns
         for _i in range(10):
-            x = random.randint(0, img.width)
-            y = random.randint(0, img.height)
-            radius = random.randint(5, 15)
+            x = secure_random.randint(0, img.width)
+            y = secure_random.randint(0, img.height)
+            radius = secure_random.randint(5, 15)
 
             # Quantum blue color with transparency
             alpha = 30 if level == "high" else 50
@@ -728,8 +729,8 @@ class QIQRGenerator:
 
         # Draw entanglement connections
         for _ in range(5):
-            x1, y1 = random.randint(0, img.width), random.randint(0, img.height)
-            x2, y2 = random.randint(0, img.width), random.randint(0, img.height)
+            x1, y1 = secure_random.randint(0, img.width), secure_random.randint(0, img.height)
+            x2, y2 = secure_random.randint(0, img.width), secure_random.randint(0, img.height)
             draw.line([x1, y1, x2, y2], fill=(255, 0, 255, 40), width=2)
 
         return Image.alpha_composite(img, overlay)
@@ -867,7 +868,7 @@ class LUKHASQRGManager:
         """Extract cultural theme from user profile."""
         return CulturalQRTheme(
             primary_culture=profile.get("primary_culture", "universal"),
-            color_palette=profile.get("color_palette", ["#000000", ")  # FFFFFF"],
+            color_palette=profile.get("color_palette", ["#000000", "#FFFFFF"]),
             symbolic_elements=profile.get("symbolic_elements", ["universal"]),
             pattern_style=profile.get("pattern_style", "geometric"),
             respect_level=profile.get("respect_level", "formal"),

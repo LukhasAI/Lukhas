@@ -23,7 +23,8 @@
 import hashlib
 import json
 import logging
-import random
+# Replaced insecure random with secure random for identity security
+from lukhas.security import secure_random
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -356,9 +357,9 @@ class LambdaIDQRGGenerator:
 
         # Add quantum interference patterns
         for _i in range(8):
-            x = random.randint(0, img.width)
-            y = random.randint(0, img.height)
-            radius = random.randint(2, 6)
+            x = secure_random.randint(0, img.width)
+            y = secure_random.randint(0, img.height)
+            radius = secure_random.randint(2, 6)
 
             draw.ellipse([x - radius, y - radius, x + radius, y + radius], fill=(0, 100, 255, 80))
 

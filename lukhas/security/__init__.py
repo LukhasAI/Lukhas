@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""
+════════════════════════════════════════════════════════════════════════════════
+║ 🛡️ LUKHAS AI - SECURITY MODULE
+║ Core security utilities and cryptographic functions for LUKHAS AI systems
+║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
+╠═══════════════════════════════════════════════════════════════════════════════
+║ Module: __init__.py
+║ Path: lukhas/security/__init__.py
+║ Version: 1.0.0 | Created: 2025-09-01 | Modified: 2025-09-01
+║ Authors: LUKHAS AI Security Team
+╠═══════════════════════════════════════════════════════════════════════════════
+║ DESCRIPTION
+╠═══════════════════════════════════════════════════════════════════════════════
+║ Security module initialization providing centralized access to security
+║ utilities including cryptographically secure random number generation,
+║ password hashing, token generation, and other security primitives.
+╚═══════════════════════════════════════════════════════════════════════════════
+"""
+
+from .secure_random import (
+    SecureRandom,
+    secure_random,
+    random,
+    uniform,
+    randint,
+    randrange,
+    choice,
+    choices,
+    sample,
+    shuffle,
+    gauss,
+    normalvariate,
+    secure_token,
+    secure_hex,
+    secure_bytes,
+    secure_password,
+    secure_id,
+    secure_nonce,
+)
+
+__all__ = [
+    'SecureRandom',
+    'secure_random',
+    'random',
+    'uniform',
+    'randint',
+    'randrange',
+    'choice',
+    'choices',
+    'sample',
+    'shuffle',
+    'gauss',
+    'normalvariate',
+    'secure_token',
+    'secure_hex',
+    'secure_bytes',
+    'secure_password',
+    'secure_id',
+    'secure_nonce',
+]

@@ -28,7 +28,8 @@ Features:
 
 import asyncio
 import logging
-import random
+# Replaced insecure random with cryptographically secure random for privacy
+from lukhas.security import secure_random
 import statistics
 import uuid
 from collections import Counter, defaultdict
@@ -872,7 +873,7 @@ class AdvancedAnonymizationEngine:
                 if isinstance(value, (int, float)):
                     # Add small random perturbation
                     noise_factor = 0.01  # 1% noise
-                    noise = random.uniform(-abs(value) * noise_factor, abs(value) * noise_factor)
+                    noise = secure_random.uniform(-abs(value) * noise_factor, abs(value) * noise_factor)
                     perturbed_record[attr] = value + noise
 
             perturbed_dataset.append(perturbed_record)

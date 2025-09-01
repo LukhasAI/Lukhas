@@ -3,7 +3,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 
 # Core API Framework (FastAPI + Flask Compatibility)
-fastapi>=0.104.1                    # Modern async web framework
+fastapi>=0.109.1                    # Modern async web framework
 flask>=2.3.0                        # Flask compatibility layer
 pydantic>=2.5.0                     # Data validation and settings
 uvicorn[standard]>=0.24.0          # ASGI server implementation
@@ -11,7 +11,7 @@ uvicorn[standard]>=0.24.0          # ASGI server implementation
 # Enhanced Security & Authentication
 cryptography>=41.0.0                # Cryptographic recipes and primitives
 passlib[bcrypt]>=1.7.4              # Password hashing library
-python-jose[cryptography]>=3.3.0    # JWT token handling
+PyJWT[crypto]>=2.8.0                # Secure JWT token handling (replaces python-jose)
 python-multipart>=0.0.6             # Form data parsing
 flask-talisman>=1.1.0               # Security headers
 flask-limiter>=3.5.0                # Rate limiting
@@ -25,7 +25,7 @@ opencv-python>=4.8.1.78             # Computer vision library (optional)
 # Biometric Processing & AI
 face-recognition>=1.3.0             # Face recognition library (optional)
 speechrecognition>=3.10.0           # Speech recognition (optional)
-transformers>=4.35.2                # AI model support (optional)
+transformers>=4.53.0                # AI model support (optional)
 torch>=2.1.1                        # PyTorch for AI (optional)
 scikit-learn>=1.3.2                 # Machine learning library
 
@@ -54,7 +54,7 @@ pandas>=2.1.3                       # Data analysis (optional)
 # Network & HTTP
 flask-cors>=4.0.0                   # CORS support
 requests>=2.31.0                    # HTTP library
-aiohttp>=3.9.0                      # Async HTTP client
+aiohttp>=3.12.14                    # Async HTTP client
 
 # Development & Testing (Enhanced)
 pytest>=7.4.3                       # Testing framework

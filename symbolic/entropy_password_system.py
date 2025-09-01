@@ -338,7 +338,8 @@ class MaximumEntropyPasswordGenerator:
 
     def _generate_quantum_resistant_text(self, length: int) -> str:
         """Generate text resistant to quantum attacks"""
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
         import string
 
         # Use multiple character sets
@@ -358,13 +359,14 @@ class MaximumEntropyPasswordGenerator:
             text.append(secrets.choice(charset))
 
         # Shuffle for unpredictability
-        random.shuffle(text)
+        secure_random.shuffle(text)
 
         return "".join(text)
 
     def _generate_semantic_emoji_sequence(self, count: int) -> list[str]:
         """Generate semantically meaningful emoji sequence"""
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
 
         # Semantic categories that tell a story
         story_elements = [
@@ -379,17 +381,17 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         # Select story elements
-        selected_stories = random.sample(story_elements, min(count, len(story_elements)))
+        selected_stories = secure_random.sample(story_elements, min(count, len(story_elements)))
         emojis = []
 
         for story in selected_stories:
             # Pick one emoji from each story for narrative
-            emojis.append(random.choice(story))
+            emojis.append(secure_random.choice(story))
 
         # Add more if needed
         while len(emojis) < count:
             all_emojis = [e for story in story_elements for e in story]
-            emojis.append(random.choice(all_emojis))
+            emojis.append(secure_random.choice(all_emojis))
 
         return emojis[:count]
 
@@ -426,7 +428,8 @@ class MaximumEntropyPasswordGenerator:
 
     def _generate_gesture_choreography(self, count: int) -> list[dict[str, Any]]:
         """Generate memorable gesture sequence"""
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
 
         # Gesture vocabulary with semantic meaning
         gesture_vocabulary = [
@@ -441,21 +444,22 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         # Select gestures that form a narrative
-        selected = random.sample(gesture_vocabulary, min(count, len(gesture_vocabulary)))
+        selected = secure_random.sample(gesture_vocabulary, min(count, len(gesture_vocabulary)))
 
         # Add pressure variation for extra entropy
         for gesture in selected:
-            gesture["pressure"] = round(random.uniform(0.3, 1.0), 2)
+            gesture["pressure"] = round(secure_random.uniform(0.3, 1.0), 2)
 
         return selected
 
     def _generate_color_symphony(self, count: int) -> list[tuple[int, int, int]]:
         """Generate harmonious color sequence"""
         import colorsys
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
 
         # Start with a base color
-        base_hue = random.random()
+        base_hue = secure_random.random()
         colors = []
 
         # Use color harmony rules
@@ -483,7 +487,8 @@ class MaximumEntropyPasswordGenerator:
 
     def _generate_pattern_matrix(self, size: int) -> list[list[int]]:
         """Generate 2D pattern matrix"""
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
 
         # Create pattern with symmetry for memorability
         pattern = []
@@ -499,7 +504,7 @@ class MaximumEntropyPasswordGenerator:
                 elif (i + j) % 2 == 0:  # Checkerboard
                     val = 3
                 else:
-                    val = random.randint(0, 9)
+                    val = secure_random.randint(0, 9)
 
                 row.append(val)
             pattern.append(row)
@@ -508,7 +513,8 @@ class MaximumEntropyPasswordGenerator:
 
     def _generate_rhythm_sequence(self, count: int) -> list[float]:
         """Generate memorable rhythm pattern"""
-        import random
+        # SECURITY FIX: Using secure random for password generation
+        from lukhas.security import secure_random
 
         # Musical time signatures for memorability
         patterns = [
@@ -520,13 +526,13 @@ class MaximumEntropyPasswordGenerator:
         ]
 
         rhythm = []
-        pattern = random.choice(patterns)
+        pattern = secure_random.choice(patterns)
 
         # Repeat pattern with variations
         for i in range(count):
             base = pattern[i % len(pattern)]
             # Add slight variation for entropy
-            variation = base * random.uniform(0.9, 1.1)
+            variation = base * secure_random.uniform(0.9, 1.1)
             rhythm.append(round(variation, 3))
 
         return rhythm
