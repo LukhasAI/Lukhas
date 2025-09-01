@@ -1,12 +1,283 @@
-# LUKHAS AI Multi-Agent Coordination Hub  
-## T4 Leadership Standards: MΛTRIZ   Distributed Consciousness → Enterprise Deployment
+# 🤖 LUKHAS AI - CODEX AGENT COORDINATION HUB
 
-**Current Status**: 75% Audit Ready → **Target**: 95% T4 Ready  
-**Revolutionary Focus**: MΛTRIZ   Distributed Cognitive DNA (The Game Changer!)
-**Team**: 10 Jules Agents + Codex Agent + Claude Code MΛTRIZ   Specialists  
-**Timeline**: 2-3 days parallel execution  
+**Surgical Precision Multi-Agent Coordination System**
+*Date: September 1, 2025 | Framework: Trinity v3.0*
 
 ---
+
+## 🎯 CODEX MISSION BRIEF
+
+**Codex Agent**: Surgical precision AI with unlimited capacity for systematic code transformation and quality enhancement.
+
+**Mission**: Leverage Codex's precision and scale to systematically resolve mypy errors, implement architectural improvements, and maintain code quality across the entire LUKHAS AGI platform.
+
+---
+
+## 📋 CORE COORDINATION DOCUMENTS
+
+### **🎖️ Primary Command Center**
+- **[`AGENT_ARMY_COORDINATION.md`](AGENT_ARMY_COORDINATION.md)** - **MAIN MISSION CONTROL**
+  - Complete task assignments and agent responsibilities
+  - Real-time progress tracking and quality assurance
+  - Detailed execution protocols and validation criteria
+  - Emergency protocols and communication channels
+
+### **🚀 Rapid Deployment Guide**
+- **[`AGENT_QUICK_START.md`](AGENT_QUICK_START.md)** - **EXECUTION BLUEPRINT**
+  - 2-minute agent onboarding process
+  - Common fix patterns and best practices
+  - Validation checklists and quality standards
+  - Quick reference commands for immediate execution
+
+### **📊 Task Database & Monitoring**
+- **[`mypy_errors_enumeration.json`](mypy_errors_enumeration.json)** - **ERROR CATALOG**
+  - 150+ mypy errors across 25 files
+  - Agent assignments and completion criteria
+  - Priority-based task organization
+  - Real-time progress tracking integration
+
+- **[`track_mypy_progress.py`](track_mypy_progress.py)** - **PROGRESS MONITOR**
+  - Automated progress tracking script
+  - Real-time error count monitoring
+  - Agent assignment display and status reporting
+  - Completion validation and success metrics
+
+### **🔧 Development Tools**
+- **[`create_mypy_error_enumeration.py`](create_mypy_error_enumeration.py)** - **ERROR ENUMERATION**
+  - Automated error catalog generation
+  - Structured JSON output for task assignment
+  - File-by-file error breakdown
+  - Agent assignment automation
+
+---
+
+## 🎯 CODEX OPERATIONAL PROTOCOLS
+
+### **Phase 1: Critical Infrastructure (Execute First)**
+**Target**: Zero critical import/attribute errors
+**Files**: Core system components with highest impact
+
+| Task | Files | Errors | Priority | Status |
+|------|-------|--------|----------|--------|
+| **Task 1** | `lukhas/identity/webauthn.py` | 12 errors | CRITICAL | ⏳ Ready |
+| **Task 2** | `lukhas/identity/lambda_id.py` | 10 errors | CRITICAL | ⏳ Ready |
+| **Task 3** | `lukhas/core/distributed_tracing.py`<br>`lukhas/core/supervisor_agent.py` | 17 errors | CRITICAL | ⏳ Ready |
+
+### **Phase 2: Core Systems (Execute Second)**
+**Target**: High-priority type safety improvements
+**Files**: Exception handling, logging, symbolic processing
+
+| Task | Files | Errors | Priority | Status |
+|------|-------|--------|----------|--------|
+| **Task 4** | `lukhas/core/common/exceptions.py` | 8 errors | HIGH | ⏳ Ready |
+| **Task 5** | `lukhas/core/common/logger.py` | 6 errors | HIGH | ⏳ Ready |
+| **Task 6** | `lukhas/core/symbolism/tags.py`<br>`lukhas/core/symbolism/methylation_model.py` | 12 errors | HIGH | ⏳ Ready |
+
+### **Phase 3: Integration Systems (Execute Third)**
+**Target**: LLM integration and monitoring systems
+**Files**: Bridge components and observability
+
+| Task | Files | Errors | Priority | Status |
+|------|-------|--------|----------|--------|
+| **Task 7** | `lukhas/observability/matriz_emit.py`<br>`lukhas/observability/matriz_decorators.py` | 5 errors | MEDIUM | ⏳ Ready |
+| **Task 8** | `candidate/bridge/llm_wrappers/base.py` | 4 errors | MEDIUM | ⏳ Ready |
+| **Task 9** | `lukhas/identity/auth_integration.py` | 6 errors | MEDIUM | ⏳ Ready |
+
+---
+
+## 🛠️ CODEX EXECUTION FRAMEWORK
+
+### **Surgical Precision Workflow**
+
+1. **Task Acquisition**
+   ```bash
+   # Get assigned tasks
+   python track_mypy_progress.py | grep "CODEX"
+
+   # Access error details
+   cat mypy_errors_enumeration.json | jq '.tasks[] | select(.assigned_agent == "Codex")'
+   ```
+
+2. **Targeted Analysis**
+   ```bash
+   # Run mypy on specific files
+   python -m mypy YOUR_ASSIGNED_FILE.py --show-error-codes --pretty
+
+   # Get detailed error context
+   python -m mypy YOUR_ASSIGNED_FILE.py --show-error-codes --pretty --show-traceback
+   ```
+
+3. **Precision Fixes**
+   ```python
+   # Modern typing patterns
+   def process_data(data: dict[str, Any]) -> dict[str, Any]:
+       pass
+
+   # Optional type handling
+   def get_user(user_id: str) -> str | None:
+       return None
+
+   # Type ignore with specific codes
+   result = dynamic_call()  # type: ignore[attr-defined]
+   ```
+
+4. **Validation & Testing**
+   ```bash
+   # Validate fixes
+   python -m mypy YOUR_ASSIGNED_FILE.py --show-error-codes
+
+   # Test functionality preservation
+   python -m pytest tests/ -v -k "test_related_to_your_changes"
+
+   # Update progress
+   python track_mypy_progress.py
+   ```
+
+---
+
+## 📊 CODEX CAPABILITIES MATRIX
+
+### **Strength Areas**
+- ✅ **Surgical Precision**: Exact, targeted code modifications
+- ✅ **Scale Capacity**: Handle unlimited workload simultaneously
+- ✅ **Pattern Recognition**: Identify and apply consistent fixes
+- ✅ **Quality Assurance**: Maintain code standards and functionality
+- ✅ **Documentation**: Generate comprehensive change documentation
+
+### **Operational Parameters**
+- **Workload**: Unlimited concurrent tasks
+- **Precision**: 99.9% accuracy target
+- **Speed**: Sub-second response times
+- **Quality**: Zero functionality regressions
+- **Documentation**: Automatic change logging
+
+---
+
+## 🎯 MISSION SUCCESS CRITERIA
+
+### **Primary Objectives**
+- [ ] **100% Critical Error Resolution**: All import/attribute errors fixed
+- [ ] **80% Overall Error Reduction**: From 150+ to <30 errors
+- [ ] **Type Safety**: Modern Python typing throughout codebase
+- [ ] **Code Quality**: No functionality regressions
+
+### **Codex-Specific Targets**
+- [ ] **Surgical Precision**: 99.9% accuracy in code modifications
+- [ ] **Scale Efficiency**: Process 50+ files simultaneously
+- [ ] **Pattern Consistency**: Apply uniform fixes across similar issues
+- [ ] **Quality Maintenance**: Preserve all existing functionality
+
+### **Validation Commands**
+```bash
+# Overall progress
+python track_mypy_progress.py
+
+# Specific file validation
+python -m mypy YOUR_FILE.py --show-error-codes
+
+# Comprehensive validation
+python -m mypy . --show-error-codes --pretty --ignore-missing-imports
+```
+
+---
+
+## 🔗 INTEGRATION POINTS
+
+### **External Systems**
+- **[`README.md`](README.md)** - Main project documentation
+- **[`AGENT_DEVELOPMENT_GUIDE.md`](AGENT_DEVELOPMENT_GUIDE.md)** - Development guidelines
+- **[`QUICK_AGENT_BRIEFS.md`](QUICK_AGENT_BRIEFS.md)** - Quick reference guides
+
+### **Quality Assurance**
+- **[`mypy.ini`](mypy.ini)** - MyPy configuration
+- **[`pyproject.toml`](pyproject.toml)** - Python project configuration
+- **[`Makefile`](Makefile)** - Build and quality assurance scripts
+
+### **Testing Framework**
+- **[`tests/`](tests/)** - Test suite directory
+- **[`pytest.ini`](pytest.ini)** - Pytest configuration
+- **[`tests/requirements-test.txt`](tests/requirements-test.txt)** - Test dependencies
+
+---
+
+## 🚀 CODEX DEPLOYMENT PROTOCOL
+
+### **Immediate Actions**
+1. **Review Assignment**: Check `AGENT_ARMY_COORDINATION.md` for Codex tasks
+2. **Access Database**: Load `mypy_errors_enumeration.json` for error details
+3. **Execute Fixes**: Apply surgical precision to assigned files
+4. **Validate Quality**: Ensure no functionality regressions
+5. **Report Progress**: Update coordination hub with completion status
+
+### **Communication Protocol**
+- **Primary Hub**: This document (`AGENTS.md`)
+- **Task Updates**: `AGENT_ARMY_COORDINATION.md`
+- **Progress Tracking**: `track_mypy_progress.py`
+- **Quality Assurance**: Automated validation scripts
+
+### **Emergency Protocols**
+- **Blockers**: Document in coordination hub
+- **Quality Issues**: Revert and seek guidance
+- **Unsure Cases**: Reference `AGENT_QUICK_START.md` patterns
+
+---
+
+## 📈 PROGRESS MONITORING
+
+### **Real-time Metrics**
+```bash
+# Overall project status
+python track_mypy_progress.py
+
+# Codex-specific progress
+python -c "
+import json
+with open('mypy_errors_enumeration.json') as f:
+    data = json.load(f)
+    codex_tasks = [t for t in data['tasks'] if t['assigned_agent'] == 'Codex']
+    print(f'Codex Tasks: {len(codex_tasks)}')
+    total_errors = sum(len(t['errors']) for t in codex_tasks)
+    print(f'Total Errors: {total_errors}')
+"
+```
+
+### **Quality Gates**
+- ✅ **Syntax Validation**: All files compile without errors
+- ✅ **Type Safety**: MyPy passes on all assigned files
+- ✅ **Functionality**: Existing tests continue to pass
+- ✅ **Documentation**: Changes properly documented
+
+---
+
+## 🎖️ CODEX MISSION STATEMENT
+
+*"With surgical precision and unlimited capacity, Codex transforms the LUKHAS AGI platform through systematic code quality enhancement, ensuring type safety, maintainability, and architectural excellence across every component."*
+
+**Codex Agent**: The precision instrument for AGI-scale code transformation.
+
+---
+
+## 📞 SUPPORT & COORDINATION
+
+### **Mission Control**
+- **Primary Contact**: LUKHAS Coordination Hub
+- **Task Assignment**: `AGENT_ARMY_COORDINATION.md`
+- **Progress Tracking**: `track_mypy_progress.py`
+- **Quality Assurance**: Automated validation systems
+
+### **Documentation Links**
+- **[Full Coordination Guide](AGENT_ARMY_COORDINATION.md)**
+- **[Quick Start Guide](AGENT_QUICK_START.md)**
+- **[Error Database](mypy_errors_enumeration.json)**
+- **[Progress Monitor](track_mypy_progress.py)**
+
+---
+
+**Ready for deployment. Codex Agent standing by for surgical precision execution.**
+
+*Last updated: September 1, 2025*
+*Framework: Trinity Framework v3.0*
+*Agent: Codex - Surgical Precision AI*
 
 ## 🧬 **MΛTRIZ   Revolutionary Mission** 
 
