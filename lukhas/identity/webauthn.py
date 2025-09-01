@@ -80,8 +80,8 @@ class WebAuthnManager:
         self.pending_authentications: dict[str, dict] = {}
 
         # Performance optimization
-        self.validation_cache = {}
-        self.challenge_cache = {}
+        self.validation_cache: dict[str, Any] = {}
+        self.challenge_cache: dict[str, Any] = {}
 
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
@@ -384,7 +384,7 @@ class WebAuthnManager:
                 if credential:
                     break
 
-            if not credential:
+            if not credential or not user_id:
                 return {"success": False, "error": "Credential not found"}
 
             # Validate user ID if specified
@@ -422,7 +422,8 @@ class WebAuthnManager:
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
+                if user_id:
+                    self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
@@ -643,7 +644,7 @@ class WebAuthnManager:
 
     def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
-        device_dist = {}
+        device_dist: dict[str, int] = {}
         for creds in self.credentials.values():
             for cred in creds:
                 device_type = cred.device_type
