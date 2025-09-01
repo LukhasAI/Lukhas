@@ -32,11 +32,7 @@ class PDFParser(BaseParser):
                 for page_num in range(len(pdf_reader.pages)):
                     page = pdf_reader.pages[page_num]
                     text = page.extract_text()
-                    text_content.append({
-                        "page_number": page_num + 1,
-                        "content": text,
-                        "characters": len(text)
-                    })
+                    text_content.append({"page_number": page_num + 1, "content": text, "characters": len(text)})
 
                 # Combine all text
                 full_text = "\n".join([page["content"] for page in text_content])
@@ -46,7 +42,7 @@ class PDFParser(BaseParser):
                     "format": "pdf",
                     "pages": text_content,
                     "total_pages": len(text_content),
-                    "file_info": file_info
+                    "file_info": file_info,
                 }
 
         except Exception:
@@ -66,5 +62,5 @@ class PDFParser(BaseParser):
             "format": "pdf",
             "raw_preview": raw_content.hex()[:100],
             "file_info": file_info,
-            "parsing_note": "Install PyPDF2 for full PDF text extraction: pip install PyPDF2"
+            "parsing_note": "Install PyPDF2 for full PDF text extraction: pip install PyPDF2",
         }

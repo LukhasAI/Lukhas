@@ -10,7 +10,6 @@ T2 Tests: TEQ Guardian with severity matrix and golden test cases
 Tests enforce monotonicity, range validation, and falsifiable claims.
 """
 
-
 import pytest
 
 from candidate.aka_qualia.core import AkaQualia

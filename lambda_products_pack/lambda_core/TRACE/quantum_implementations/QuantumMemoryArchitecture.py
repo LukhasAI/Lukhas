@@ -1,20 +1,20 @@
 """
 ┌────────────────────────────────────────────────────────────────────────────
-│ 📦 MODULE      : qi_memory_architecture.py                                
-│ 🧾 DESCRIPTION : QI-enhanced associative memory with superposition        
-│                  storage and Grover's algorithm retrieval                  
-│ 🧩 TYPE        : Memory Module             🔧 VERSION: v1.0.0              
-│ 🖋️ AUTHOR      : G.R.D.M. / Lukhʌs lukhasI     📅 UPDATED: 2025-06-12          
+│ 📦 MODULE      : qi_memory_architecture.py
+│ 🧾 DESCRIPTION : QI-enhanced associative memory with superposition
+│                  storage and Grover's algorithm retrieval
+│ 🧩 TYPE        : Memory Module             🔧 VERSION: v1.0.0
+│ 🖋️ AUTHOR      : G.R.D.M. / Lukhʌs lukhasI     📅 UPDATED: 2025-06-12
 ├────────────────────────────────────────────────────────────────────────────
-│ 📚 DEPENDENCIES:                                                           
-│   - qiskit (quantum-inspired circuits and registers)                      
-│   - numpy (mathematical operations)                                       
-│   - surface code error correction                                         
-│                                                                            
-│ 📘 USAGE INSTRUCTIONS:                                                     
-│   1. Initialize with desired qubit capacity                               
-│   2. Store quantum-inspired states with associations                      
-│   3. Retrieve memories using QI associative recall                        
+│ 📚 DEPENDENCIES:
+│   - qiskit (quantum-inspired circuits and registers)
+│   - numpy (mathematical operations)
+│   - surface code error correction
+│
+│ 📘 USAGE INSTRUCTIONS:
+│   1. Initialize with desired qubit capacity
+│   2. Store quantum-inspired states with associations
+│   3. Retrieve memories using QI associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
 
@@ -28,37 +28,25 @@ class QIAssociativeMemoryBank:
     """
     QI-enhanced associative memory with superposition storage
     """
+
     def __init__(self, capacity_qubits: int = 10):
-        self.capacity = 2 ** capacity_qubits
+        self.capacity = 2**capacity_qubits
         self.memory_register = QuantumRegister(capacity_qubits, "memory")
         self.query_register = QuantumRegister(capacity_qubits, "query")
         self.oracle_circuits: Dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
-        self.error_correction = SurfaceCodeErrorCorrection(
-            physical_qubits_per_logical=17
-        )
+        self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)
 
         # Decoherence mitigation
-        self.decoherence_mitigator = DecoherenceMitigation(
-            strategy="dynamical_decoupling"
-        )
+        self.decoherence_mitigator = DecoherenceMitigation(strategy="dynamical_decoupling")
 
-    async def store_quantum_state(
-        self,
-        memory_id: str,
-        quantum_state: QuantumState,
-        associations: List[str]
-    ):
+    async def store_quantum_state(self, memory_id: str, quantum_state: QuantumState, associations: List[str]):
         """
         Store information in quantum superposition
         """
         # 1. Encode classical data into quantum state
-        encoded_state = await self._encode_to_quantum(
-            memory_id,
-            quantum_state,
-            associations
-        )
+        encoded_state = await self._encode_to_quantum(memory_id, quantum_state, associations)
 
         # 2. Apply error correction encoding
         protected_state = await self.error_correction.encode(encoded_state)
@@ -71,9 +59,7 @@ class QIAssociativeMemoryBank:
         await self.decoherence_mitigator.stabilize(protected_state)
 
     async def quantum_associative_recall(
-        self,
-        query: QuantumQuery,
-        num_iterations: Optional[int] = None
+        self, query: QuantumQuery, num_iterations: Optional[int] = None
     ) -> List[QuantumMemory]:
         """
         Retrieve memories using quantum parallelism
@@ -87,7 +73,7 @@ class QIAssociativeMemoryBank:
 
         # 3. Grover's algorithm iterations
         if num_iterations is None:
-            num_iterations = int(np.pi/4 * np.sqrt(self.capacity))
+            num_iterations = int(np.pi / 4 * np.sqrt(self.capacity))
 
         for _ in range(num_iterations):
             circuit.append(query_oracle, self.memory_register[:])
@@ -99,11 +85,7 @@ class QIAssociativeMemoryBank:
         # 5. Post-process to extract memories
         return self._extract_memories(results, query)
 
-    def _create_grover_oracle(
-        self,
-        memory_id: str,
-        associations: List[str]
-    ) -> QuantumCircuit:
+    def _create_grover_oracle(self, memory_id: str, associations: List[str]) -> QuantumCircuit:
         """
         Create Grover oracle for specific memory pattern
         """

@@ -13,42 +13,26 @@ class JobRequest(BaseModel):
     """Request model for job creation"""
 
     source_type: Optional[str] = Field(
-        default="auto",
-        description="Type of source file",
-        enum=["text", "code", "data", "image", "auto"]
+        default="auto", description="Type of source file", enum=["text", "code", "data", "image", "auto"]
     )
 
     policies: Optional[Dict[str, bool]] = Field(
-        default_factory=lambda: {
-            "LLM_off": True,
-            "redact_on": False,
-            "offline_only": True
-        },
-        description="Security and processing policies"
+        default_factory=lambda: {"LLM_off": True, "redact_on": False, "offline_only": True},
+        description="Security and processing policies",
     )
 
-    parser_opts: Optional[Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Parser-specific options"
-    )
+    parser_opts: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Parser-specific options")
 
     target_forms: Optional[List[str]] = Field(
-        default_factory=lambda: ["web2d"],
-        description="Desired output formats",
-        items={"enum": ["web2d", "xr"]}
+        default_factory=lambda: ["web2d"], description="Desired output formats", items={"enum": ["web2d", "xr"]}
     )
 
     symbol_style: Optional[str] = Field(
-        default="modern",
-        description="Visual style for symbols",
-        enum=["modern", "classic"]
+        default="modern", description="Visual style for symbols", enum=["modern", "classic"]
     )
 
     max_symbols: Optional[int] = Field(
-        default=1000,
-        description="Maximum number of symbols to generate",
-        ge=1,
-        le=10000
+        default=1000, description="Maximum number of symbols to generate", ge=1, le=10000
     )
 
 
@@ -66,18 +50,9 @@ class PhotonNode(BaseModel):
     id: str = Field(..., description="Unique node identifier")
     kind: str = Field(..., description="Node type/kind")
     label: str = Field(..., description="Human-readable label")
-    properties: Optional[Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Node properties"
-    )
-    data_binding: Optional[Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Data binding configuration"
-    )
-    access_tag: Optional[str] = Field(
-        default=None,
-        description="ΛID access tag"
-    )
+    properties: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Node properties")
+    data_binding: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Data binding configuration")
+    access_tag: Optional[str] = Field(default=None, description="ΛID access tag")
 
 
 class PhotonEdge(BaseModel):
@@ -94,56 +69,31 @@ class PhotonLayout(BaseModel):
     """Photon document layout model"""
 
     positions_2d: Optional[Dict[str, Dict[str, float]]] = Field(
-        default_factory=dict,
-        description="2D positions for nodes"
+        default_factory=dict, description="2D positions for nodes"
     )
     positions_3d: Optional[Dict[str, Dict[str, float]]] = Field(
-        default_factory=dict,
-        description="3D positions for nodes"
+        default_factory=dict, description="3D positions for nodes"
     )
 
 
 class PhotonDocument(BaseModel):
     """Complete Photon document model"""
 
-    photon_version: str = Field(
-        default="1.0.0",
-        description="Photon document version"
-    )
+    photon_version: str = Field(default="1.0.0", description="Photon document version")
 
     title: str = Field(..., description="Document title", max_length=100)
 
-    description: str = Field(
-        ...,
-        description="Document description",
-        max_length=500
-    )
+    description: str = Field(..., description="Document description", max_length=500)
 
-    theme: Optional[str] = Field(
-        default="system",
-        description="UI theme",
-        enum=["dark", "light", "system"]
-    )
+    theme: Optional[str] = Field(default="system", description="UI theme", enum=["dark", "light", "system"])
 
-    nodes: List[PhotonNode] = Field(
-        default_factory=list,
-        description="Document nodes"
-    )
+    nodes: List[PhotonNode] = Field(default_factory=list, description="Document nodes")
 
-    edges: List[PhotonEdge] = Field(
-        default_factory=list,
-        description="Document edges"
-    )
+    edges: List[PhotonEdge] = Field(default_factory=list, description="Document edges")
 
-    layout: Optional[PhotonLayout] = Field(
-        default_factory=PhotonLayout,
-        description="Layout configuration"
-    )
+    layout: Optional[PhotonLayout] = Field(default_factory=PhotonLayout, description="Layout configuration")
 
-    provenance: Optional[Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Data provenance information"
-    )
+    provenance: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Data provenance information")
 
 
 class WidgetPreset(BaseModel):
@@ -153,10 +103,7 @@ class WidgetPreset(BaseModel):
     label: str = Field(..., description="Human-readable name")
     description: Optional[str] = Field(default=None, description="Preset description")
     icon: Optional[str] = Field(default=None, description="Icon identifier")
-    properties_schema: Dict[str, Any] = Field(
-        ...,
-        description="JSON Schema for widget properties"
-    )
+    properties_schema: Dict[str, Any] = Field(..., description="JSON Schema for widget properties")
 
 
 class WidgetPresetsResponse(BaseModel):
@@ -168,16 +115,9 @@ class WidgetPresetsResponse(BaseModel):
 class ExportRequest(BaseModel):
     """Request model for dashboard export"""
 
-    format: str = Field(
-        ...,
-        description="Export format",
-        enum=["gltf", "json", "photon"]
-    )
+    format: str = Field(..., description="Export format", enum=["gltf", "json", "photon"])
 
-    options: Optional[Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Export-specific options"
-    )
+    options: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Export-specific options")
 
 
 class HealthResponse(BaseModel):

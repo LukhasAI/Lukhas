@@ -28,11 +28,11 @@ class WidgetFactory:
                     "changeType": {
                         "type": "string",
                         "enum": ["positive", "negative", "neutral"],
-                        "title": "Change Type"
-                    }
+                        "title": "Change Type",
+                    },
                 },
-                "required": ["title", "value"]
-            }
+                "required": ["title", "value"],
+            },
         },
         "BarCompare": {
             "label": "Bar Chart",
@@ -47,20 +47,13 @@ class WidgetFactory:
                         "title": "Data Points",
                         "items": {
                             "type": "object",
-                            "properties": {
-                                "name": {"type": "string"},
-                                "value": {"type": "number"}
-                            }
-                        }
+                            "properties": {"name": {"type": "string"}, "value": {"type": "number"}},
+                        },
                     },
-                    "orientation": {
-                        "type": "string",
-                        "enum": ["horizontal", "vertical"],
-                        "default": "vertical"
-                    }
+                    "orientation": {"type": "string", "enum": ["horizontal", "vertical"], "default": "vertical"},
                 },
-                "required": ["title", "data"]
-            }
+                "required": ["title", "data"],
+            },
         },
         "ForceGraph": {
             "label": "Force Graph",
@@ -78,9 +71,9 @@ class WidgetFactory:
                             "properties": {
                                 "id": {"type": "string"},
                                 "label": {"type": "string"},
-                                "group": {"type": "string"}
-                            }
-                        }
+                                "group": {"type": "string"},
+                            },
+                        },
                     },
                     "links": {
                         "type": "array",
@@ -90,13 +83,13 @@ class WidgetFactory:
                             "properties": {
                                 "source": {"type": "string"},
                                 "target": {"type": "string"},
-                                "value": {"type": "number", "default": 1}
-                            }
-                        }
-                    }
+                                "value": {"type": "number", "default": 1},
+                            },
+                        },
+                    },
                 },
-                "required": ["nodes", "links"]
-            }
+                "required": ["nodes", "links"],
+            },
         },
         "TextBlock": {
             "label": "Text Block",
@@ -107,14 +100,10 @@ class WidgetFactory:
                 "properties": {
                     "title": {"type": "string", "title": "Title"},
                     "content": {"type": "string", "title": "Content"},
-                    "format": {
-                        "type": "string",
-                        "enum": ["plain", "markdown", "html"],
-                        "default": "plain"
-                    }
+                    "format": {"type": "string", "enum": ["plain", "markdown", "html"], "default": "plain"},
                 },
-                "required": ["content"]
-            }
+                "required": ["content"],
+            },
         },
         "CodeSnippet": {
             "label": "Code Snippet",
@@ -126,11 +115,11 @@ class WidgetFactory:
                     "title": {"type": "string", "title": "Title"},
                     "code": {"type": "string", "title": "Code"},
                     "language": {"type": "string", "title": "Language"},
-                    "showLineNumbers": {"type": "boolean", "default": True}
+                    "showLineNumbers": {"type": "boolean", "default": True},
                 },
-                "required": ["code"]
-            }
-        }
+                "required": ["code"],
+            },
+        },
     }
 
     def __init__(self):
@@ -148,7 +137,7 @@ class WidgetFactory:
             SymbolType.WARNING.value: ["MetricCard", "TextBlock"],
             SymbolType.SUCCESS.value: ["MetricCard", "TextBlock"],
             SymbolType.PROCESS.value: ["MetricCard", "ForceGraph"],
-            SymbolType.GLYPH.value: ["TextBlock", "MetricCard"]
+            SymbolType.GLYPH.value: ["TextBlock", "MetricCard"],
         }
 
     def suggest_widgets(self, symbols: List[GlyphSymbol]) -> List[Dict[str, Any]]:
@@ -187,11 +176,7 @@ class WidgetFactory:
             "label": f"{preset['label']} - {symbol.content[:30]}...",
             "properties": self._generate_properties(symbol, widget_type),
             "position": symbol.position,
-            "metadata": {
-                "symbol_type": symbol.type.value,
-                "confidence": symbol.confidence,
-                "created_from": symbol.id
-            }
+            "metadata": {"symbol_type": symbol.type.value, "confidence": symbol.confidence, "created_from": symbol.id},
         }
 
         return config
@@ -217,6 +202,7 @@ class WidgetFactory:
 
         # Try to extract numeric value
         import re
+
         numbers = re.findall(r"\d+\.?\d*", content)
 
         return {
@@ -224,16 +210,12 @@ class WidgetFactory:
             "value": numbers[0] if numbers else content[:20],
             "unit": "",
             "change": "",
-            "changeType": "neutral"
+            "changeType": "neutral",
         }
 
     def _create_text_block_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
         """Create properties for TextBlock widget"""
-        return {
-            "title": symbol.type.value,
-            "content": symbol.content,
-            "format": "plain"
-        }
+        return {"title": symbol.type.value, "content": symbol.content, "format": "plain"}
 
     def _create_code_snippet_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
         """Create properties for CodeSnippet widget"""
@@ -241,7 +223,7 @@ class WidgetFactory:
             "title": "Code",
             "code": symbol.content,
             "language": symbol.metadata.get("language", "text"),
-            "showLineNumbers": True
+            "showLineNumbers": True,
         }
 
     def _create_bar_chart_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
@@ -249,11 +231,8 @@ class WidgetFactory:
         # This is a simplified implementation
         return {
             "title": "Data Comparison",
-            "data": [
-                {"name": "Item 1", "value": 10},
-                {"name": "Item 2", "value": 20}
-            ],
-            "orientation": "vertical"
+            "data": [{"name": "Item 1", "value": 10}, {"name": "Item 2", "value": 20}],
+            "orientation": "vertical",
         }
 
     def _create_force_graph_properties(self, symbol: GlyphSymbol) -> Dict[str, Any]:
@@ -261,13 +240,8 @@ class WidgetFactory:
         # This is a simplified implementation
         return {
             "title": "Relationships",
-            "nodes": [
-                {"id": "1", "label": "Node 1", "group": "A"},
-                {"id": "2", "label": "Node 2", "group": "B"}
-            ],
-            "links": [
-                {"source": "1", "target": "2", "value": 1}
-            ]
+            "nodes": [{"id": "1", "label": "Node 1", "group": "A"}, {"id": "2", "label": "Node 2", "group": "B"}],
+            "links": [{"source": "1", "target": "2", "value": 1}],
         }
 
     def get_widget_presets(self) -> Dict[str, Dict[str, Any]]:

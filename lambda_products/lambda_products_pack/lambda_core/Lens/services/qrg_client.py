@@ -22,15 +22,14 @@ class QRGClient:
         self.session_token = f"qrg_token_{api_key[:8]}"
         return True
 
-    async def store_provenance(self, document_id: str, content: str,
-                              metadata: Optional[Dict[str, Any]] = None) -> str:
+    async def store_provenance(self, document_id: str, content: str, metadata: Optional[Dict[str, Any]] = None) -> str:
         """Store document provenance in QRG"""
         provenance_data = {
             "document_id": document_id,
             "content": content,
             "metadata": metadata or {},
             "timestamp": asyncio.get_event_loop().time(),
-            "source": "ΛLens"
+            "source": "ΛLens",
         }
 
         # Placeholder: In real implementation, send to QRG API
@@ -43,12 +42,7 @@ class QRGClient:
         """Query relationships for a document"""
         # Placeholder: In real implementation, query QRG
         relationships = [
-            {
-                "source": document_id,
-                "target": f"related_doc_{document_id}",
-                "type": "references",
-                "strength": 0.8
-            }
+            {"source": document_id, "target": f"related_doc_{document_id}", "type": "references", "strength": 0.8}
         ]
 
         return relationships
@@ -61,20 +55,21 @@ class QRGClient:
             "related_documents": [],
             "topics": ["AI", "Machine Learning"],
             "entities": ["LUKHAS", "ΛLens"],
-            "last_updated": asyncio.get_event_loop().time()
+            "last_updated": asyncio.get_event_loop().time(),
         }
 
         return context
 
-    async def link_documents(self, source_id: str, target_id: str,
-                           relationship_type: str, strength: float = 1.0) -> bool:
+    async def link_documents(
+        self, source_id: str, target_id: str, relationship_type: str, strength: float = 1.0
+    ) -> bool:
         """Create a link between two documents"""
         link_data = {
             "source": source_id,
             "target": target_id,
             "type": relationship_type,
             "strength": strength,
-            "created_by": "ΛLens"
+            "created_by": "ΛLens",
         }
 
         # Placeholder: Send to QRG API
@@ -90,7 +85,7 @@ class QRGClient:
                 "document_id": f"similar_doc_{i}",
                 "similarity_score": 0.9 - (i * 0.1),
                 "title": f"Similar Document {i}",
-                "content_preview": f"Preview of similar content {i}..."
+                "content_preview": f"Preview of similar content {i}...",
             }
             for i in range(min(limit, 5))
         ]

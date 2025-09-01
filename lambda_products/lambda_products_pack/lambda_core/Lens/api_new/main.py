@@ -15,6 +15,7 @@ except ImportError:
     # Running as script, adjust path
     import os
     import sys
+
     sys.path.append(os.path.dirname(__file__))
     from endpoints import router
 
@@ -24,7 +25,7 @@ app = FastAPI(
     description="Symbolic file transformation API for LUKHAS AI",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Add CORS middleware
@@ -39,25 +40,18 @@ app.add_middleware(
 # Include API routes
 app.include_router(router, prefix="/api/v1", tags=["lens"])
 
+
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {
-        "message": "ΛLens API Server",
-        "version": "1.0.0",
-        "docs": "/docs"
-    }
+    return {"message": "ΛLens API Server", "version": "1.0.0", "docs": "/docs"}
+
 
 @app.get("/health")
 async def health():
     """Health check endpoint"""
     return {"status": "healthy", "service": "ΛLens API"}
 
+
 if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")

@@ -24,16 +24,9 @@ class Web2DRenderer:
             "version": "1.0.0",
             "title": dashboard.metadata.get("title", "ΛLens Dashboard"),
             "description": dashboard.metadata.get("description", ""),
-            "canvas": {
-                "width": self.canvas_width,
-                "height": self.canvas_height
-            },
+            "canvas": {"width": self.canvas_width, "height": self.canvas_height},
             "widgets": [],
-            "layout": {
-                "type": "grid",
-                "columns": 3,
-                "rows": 2
-            }
+            "layout": {"type": "grid", "columns": 3, "rows": 2},
         }
 
         # Convert symbols to widgets
@@ -58,23 +51,18 @@ class Web2DRenderer:
         widget = {
             "id": f"widget_{symbol.id}",
             "type": self._map_symbol_to_widget_type(symbol),
-            "position": {
-                "x": x,
-                "y": y,
-                "width": 300,
-                "height": 200
-            },
+            "position": {"x": x, "y": y, "width": 300, "height": 200},
             "properties": {
                 "title": symbol.type.value,
                 "content": symbol.content,
                 "symbolId": symbol.id,
-                "confidence": symbol.confidence
+                "confidence": symbol.confidence,
             },
             "style": {
                 "backgroundColor": self._get_background_color(symbol.type),
                 "borderColor": self._get_border_color(symbol.confidence),
-                "borderWidth": 2
-            }
+                "borderWidth": 2,
+            },
         }
 
         return widget
@@ -91,7 +79,7 @@ class Web2DRenderer:
             "⚠️": "WarningCard",
             "✅": "SuccessCard",
             "🔄": "ProcessCard",
-            "🔮": "GlyphCard"
+            "🔮": "GlyphCard",
         }
 
         return type_mapping.get(symbol.type.value, "GenericCard")
@@ -108,7 +96,7 @@ class Web2DRenderer:
             "⚠️": "#fff3e0",  # Light orange
             "✅": "#e8f5e8",  # Light green
             "🔄": "#e3f2fd",  # Light blue
-            "🔮": "#f3e5f5"   # Light purple
+            "🔮": "#f3e5f5",  # Light purple
         }
 
         return color_mapping.get(symbol_type.value, "#ffffff")

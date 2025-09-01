@@ -47,9 +47,7 @@ def nuclear_fix_file(filepath: Path):
         content = re.sub(r"(\n\n\n+)", r"\n\n", content)  # Remove excessive blank lines
 
         # 4. Fix bare except
-        content = re.sub(
-            r"except:\s*$", "except Exception:", content, flags=re.MULTILINE
-        )
+        content = re.sub(r"except:\s*$", "except Exception:", content, flags=re.MULTILINE)
 
         # 5. Remove unused imports (aggressive)
         import_lines = []
@@ -57,9 +55,7 @@ def nuclear_fix_file(filepath: Path):
         imports_done = False
 
         for line in content.split("\n"):
-            if not imports_done and (
-                line.startswith("import ") or line.startswith("from ")
-            ):
+            if not imports_done and (line.startswith("import ") or line.startswith("from ")):
                 # Check if this import is used
                 if "import " in line:
                     module = re.search(r"import\s+(\w+)", line)
@@ -197,9 +193,7 @@ def main():
 if __name__ == "__main__":
     import sys
 
-    response = input(
-        "\n⚠️ NUCLEAR MODE: This will DRASTICALLY change your code! Continue? (yes/no): "
-    )
+    response = input("\n⚠️ NUCLEAR MODE: This will DRASTICALLY change your code! Continue? (yes/no): ")
     if response.lower() == "yes":
         main()
     else:

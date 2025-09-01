@@ -208,8 +208,7 @@ class CloudConsolidationService:
                 {
                     "type": "archive_old_files",
                     "description": (
-                        f"Archive {len(old_files)} files older than "
-                        f"{request.include_old_threshold_days} days"
+                        f"Archive {len(old_files)} files older than " f"{request.include_old_threshold_days} days"
                     ),
                     "files": [f.id for f in old_files],
                     "savings_bytes": int(archive_size * 0.8),  # Compression savings
@@ -366,7 +365,9 @@ class CloudConsolidationService:
             "message": f"Removed {len(action['files'])} duplicate files",
         }
 
-    async def _execute_archive_files(self, action: dict[str, Any], _capability_tokens: dict[str, str]) -> dict[str, Any]:
+    async def _execute_archive_files(
+        self, action: dict[str, Any], _capability_tokens: dict[str, str]
+    ) -> dict[str, Any]:
         """Execute old file archival"""
         # This would move files to archive folders
         return {

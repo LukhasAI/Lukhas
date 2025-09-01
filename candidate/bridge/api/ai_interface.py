@@ -86,21 +86,13 @@ class LukhusAITaskType(Enum):
     CREATIVE = "creative"  # Content generation, creative writing, brainstorming
     GENERAL = "general"  # General queries, conversation, summarization, Q&A
     AUDIT = "ethics"  # Specific alias for auditing tasks, routes to ethics model
-    DOCUMENTATION = (
-        "creative"  # Documentation generation, routes to creative/writing model
-    )
-    ANALYSIS = (
-        "code"  # Data analysis, logical reasoning, routes to code/analytical model
-    )
-    SYSTEM = (
-        "system"  # For system-level commands or internal routing logic if supported
-    )
+    DOCUMENTATION = "creative"  # Documentation generation, routes to creative/writing model
+    ANALYSIS = "code"  # Data analysis, logical reasoning, routes to code/analytical model
+    SYSTEM = "system"  # For system-level commands or internal routing logic if supported
 
     @classmethod
     def _missing_(cls, value):  # Handle potential string inputs gracefully:
-        logger.warning(
-            f"ΛTRACE: LukhusAITaskType received an unknown value '{value}'. Defaulting to GENERAL."
-        )
+        logger.warning(f"ΛTRACE: LukhusAITaskType received an unknown value '{value}'. Defaulting to GENERAL.")
         return cls.GENERAL
 
 
@@ -128,9 +120,7 @@ class LukhusAI:
         """
         self.component_name = component_name
         self.router_available = ROUTER_AVAILABLE  # Based on import-time check
-        self.instance_logger = logger.getChild(
-            f"LukhusAI.{self.component_name}"
-        )  # Instance-specific logger
+        self.instance_logger = logger.getChild(f"LukhusAI.{self.component_name}")  # Instance-specific logger
         self.instance_logger.info(
             f"ΛTRACE: LukhusAI instance created for component '{self.component_name}'. Router available: {self.router_available}."
         )
@@ -141,9 +131,7 @@ class LukhusAI:
         self,
         prompt: str,
         task_type: LukhusAITaskType = LukhusAITaskType.GENERAL,
-        model_preference: Optional[
-            str
-        ] = None,  # Note: multiverse_route might not use this directly
+        model_preference: Optional[str] = None,  # Note: multiverse_route might not use this directly
         debug: bool = False,
     ) -> str:
         """
@@ -171,9 +159,7 @@ class LukhusAI:
             # Add component context to prompt for better routing or contextualization
             # by the AI
             enhanced_prompt = f"[Context: Invoked by LUKHAS Component '{self.component_name}']\nTask: {prompt}"
-            self.instance_logger.debug(
-                f"ΛTRACE: Enhanced prompt: '{enhanced_prompt[:100]}...'"
-            )
+            self.instance_logger.debug(f"ΛTRACE: Enhanced prompt: '{enhanced_prompt[:100]}...'")
 
             # Route through multiverse router
             # Assuming multiverse_route handles model_preference if passed, or ignores it.
@@ -199,12 +185,8 @@ class LukhusAI:
                 )
                 return str(response_content)  # Ensure string
             elif isinstance(result, str):
-                self.instance_logger.info(
-                    f"ΛTRACE: AI response received (direct string). Length: {len(result)}."
-                )
-                self.instance_logger.debug(
-                    f"ΛTRACE: Full AI string result (first 100): {result[:100]+'...'}"
-                )
+                self.instance_logger.info(f"ΛTRACE: AI response received (direct string). Length: {len(result)}.")
+                self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100]+'...'}")
                 return result
             else:
                 unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)[:200]}"
@@ -212,7 +194,7 @@ class LukhusAI:
                 return unexpected_type_msg
 
         except Exception as e:
-            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e).__name__} - {str(e)}"
+            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e).__name__} - {e!s}"
             self.instance_logger.error(f"ΛTRACE: {error_msg}", exc_info=True)
             return error_msg
 
@@ -224,14 +206,8 @@ class LukhusAI:
 
     def code_assistance(self, prompt: str, language: str = "") -> str:
         """Generates code or provides coding assistance."""
-        self.instance_logger.info(
-            f"ΛTRACE: code_assistance requested. Language: '{language}'."
-        )
-        enhanced_prompt = (
-            f"Programming Language: {language}\nRequest: {prompt}"
-            if language
-            else prompt
-        )
+        self.instance_logger.info(f"ΛTRACE: code_assistance requested. Language: '{language}'.")
+        enhanced_prompt = f"Programming Language: {language}\nRequest: {prompt}" if language else prompt
         return self.generate_response(enhanced_prompt, LukhusAITaskType.CODE)
 
     # Human-readable comment: Performs security and compliance auditing tasks.
@@ -239,9 +215,7 @@ class LukhusAI:
     def security_audit(self, prompt: str) -> str:
         """Performs security, compliance, or ethical auditing tasks."""
         self.instance_logger.info("ΛTRACE: security_audit requested.")
-        return self.generate_response(
-            prompt, LukhusAITaskType.AUDIT
-        )  # AUDIT aliases to ETHICS
+        return self.generate_response(prompt, LukhusAITaskType.AUDIT)  # AUDIT aliases to ETHICS
 
     # Human-readable comment: Conducts web research and gathers data.
 
@@ -255,9 +229,7 @@ class LukhusAI:
     def documentation_assist(self, prompt: str) -> str:
         """Assists with generating or improving documentation."""
         self.instance_logger.info("ΛTRACE: documentation_assist requested.")
-        return self.generate_response(
-            prompt, LukhusAITaskType.DOCUMENTATION
-        )  # DOCUMENTATION aliases to CREATIVE
+        return self.generate_response(prompt, LukhusAITaskType.DOCUMENTATION)  # DOCUMENTATION aliases to CREATIVE
 
     # Human-readable comment: Generates creative content.
 
@@ -271,17 +243,9 @@ class LukhusAI:
 
     def analysis(self, prompt: str, context: str = "") -> str:
         """Performs analysis and provides insights, potentially with added context."""
-        self.instance_logger.info(
-            f"ΛTRACE: analysis requested. Context provided: {bool(context)}."
-        )
-        enhanced_prompt = (
-            f"Context for Analysis:\n{context}\n\nAnalysis Request: {prompt}"
-            if context
-            else prompt
-        )
-        return self.generate_response(
-            enhanced_prompt, LukhusAITaskType.ANALYSIS
-        )  # ANALYSIS aliases to CODE
+        self.instance_logger.info(f"ΛTRACE: analysis requested. Context provided: {bool(context)}.")
+        enhanced_prompt = f"Context for Analysis:\n{context}\n\nAnalysis Request: {prompt}" if context else prompt
+        return self.generate_response(enhanced_prompt, LukhusAITaskType.ANALYSIS)  # ANALYSIS aliases to CODE
 
     # Human-readable comment: Engages in general conversation.
 
@@ -297,9 +261,7 @@ class LukhusAI:
 # Human-readable comment: Quick access to code assistance.
 
 
-def ai_code(
-    prompt: str, language: str = "", component: str = "LukhusQuickAccess"
-) -> str:
+def ai_code(prompt: str, language: str = "", component: str = "LukhusQuickAccess") -> str:
     """Global convenience function for code assistance."""
     logger.debug(f"ΛTRACE: Global ai_code() called by component '{component}'.")
     ai_instance = LukhusAI(component)
@@ -352,25 +314,17 @@ if __name__ == "__main__":
     # up externally
     if not logging.getLogger("ΛTRACE").handlers:
         main_console_handler = logging.StreamHandler(sys.stdout)
-        main_formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s"
-        )
+        main_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s")
         main_console_handler.setFormatter(main_formatter)
         logging.getLogger("ΛTRACE").addHandler(main_console_handler)
-        logging.getLogger("ΛTRACE").setLevel(
-            logging.INFO
-        )  # Set to INFO or DEBUG for testing
+        logging.getLogger("ΛTRACE").setLevel(logging.INFO)  # Set to INFO or DEBUG for testing
 
     logger.info("ΛTRACE: lukhas_ai_interface.py executed as __main__ for testing.")
     logger.info("🧪 Testing Lukhas AI Interface...")
 
     if not ROUTER_AVAILABLE:
-        logger.error(
-            "ΛTRACE: AI Router not available. Cannot proceed with __main__ tests."
-        )
-        logger.error(
-            "❌ AI Router not available. Aborting tests. Check LUKHAS_AI_ROUTER_PATH and router dependencies."
-        )
+        logger.error("ΛTRACE: AI Router not available. Cannot proceed with __main__ tests.")
+        logger.error("❌ AI Router not available. Aborting tests. Check LUKHAS_AI_ROUTER_PATH and router dependencies.")
         sys.exit(1)
 
     # Test using the LukhusAI class instance
@@ -378,38 +332,26 @@ if __name__ == "__main__":
     ai_instance_test = LukhusAI("TestComponent")
 
     code_prompt = "Write a Python function to add two numbers."
-    logger.info(
-        f"ΛTRACE: __main__ testing code_assistance with prompt: '{code_prompt}'"
-    )
+    logger.info(f"ΛTRACE: __main__ testing code_assistance with prompt: '{code_prompt}'")
     code_response = ai_instance_test.code_assistance(code_prompt, language="Python")
-    logger.info(
-        f"💻 Code Assistance:\nPrompt: '{code_prompt}'\nResponse (first 100 chars): {code_response[:100]}...\n"
-    )
+    logger.info(f"💻 Code Assistance:\nPrompt: '{code_prompt}'\nResponse (first 100 chars): {code_response[:100]}...\n")
 
     chat_prompt = "What is the weather like today?"
     logger.info(f"ΛTRACE: __main__ testing chat with prompt: '{chat_prompt}'")
     chat_response = ai_instance_test.chat(chat_prompt)
-    logger.info(
-        f"💬 General Chat:\nPrompt: '{chat_prompt}'\nResponse (first 100 chars): {chat_response[:100]}...\n"
-    )
+    logger.info(f"💬 General Chat:\nPrompt: '{chat_prompt}'\nResponse (first 100 chars): {chat_response[:100]}...\n")
 
     # Test using global convenience functions
     logger.info("\n--- Testing global convenience functions (LukhusQuickAccess) ---")
-    docs_prompt = (
-        "Explain the purpose of a class constructor in object-oriented programming."
-    )
-    logger.info(
-        f"ΛTRACE: __main__ testing global ai_docs() with prompt: '{docs_prompt}'"
-    )
+    docs_prompt = "Explain the purpose of a class constructor in object-oriented programming."
+    logger.info(f"ΛTRACE: __main__ testing global ai_docs() with prompt: '{docs_prompt}'")
     docs_response_global = ai_docs(docs_prompt)
     logger.info(
         f"📖 Documentation Assist (global):\nPrompt: '{docs_prompt}'\nResponse (first 100 chars): {docs_response_global[:100]}...\n"
     )
 
     research_prompt = "Who won the Nobel Prize in Physics in 2023?"
-    logger.info(
-        f"ΛTRACE: __main__ testing global ai_research() with prompt: '{research_prompt}'"
-    )
+    logger.info(f"ΛTRACE: __main__ testing global ai_research() with prompt: '{research_prompt}'")
     research_response_global = ai_research(research_prompt)
     logger.info(
         f"🌐 Web Research (global):\nPrompt: '{research_prompt}'\nResponse (first 100 chars): {research_response_global[:100]}...\n"

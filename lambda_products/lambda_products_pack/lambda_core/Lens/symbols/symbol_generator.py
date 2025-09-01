@@ -55,12 +55,8 @@ class SymbolGenerator:
                 symbol = GlyphSymbol.create(
                     symbol_type=SymbolType.DOCUMENT,
                     content=para[:200],  # Truncate long paragraphs
-                    metadata={
-                        "index": i,
-                        "length": len(para),
-                        "word_count": len(para.split())
-                    },
-                    confidence=0.8
+                    metadata={"index": i, "length": len(para), "word_count": len(para.split())},
+                    confidence=0.8,
                 )
                 symbols.append(symbol)
 
@@ -71,7 +67,7 @@ class SymbolGenerator:
                         symbol_type=SymbolType.CONCEPT,
                         content=concept,
                         metadata={"source_paragraph": i},
-                        confidence=0.6
+                        confidence=0.6,
                     )
                     symbols.append(concept_symbol)
 
@@ -93,11 +89,8 @@ class SymbolGenerator:
                 symbol = GlyphSymbol.create(
                     symbol_type=symbol_type,
                     content=line.strip(),
-                    metadata={
-                        "line_number": i + 1,
-                        "language": self._detect_language_from_code(code)
-                    },
-                    confidence=0.9
+                    metadata={"line_number": i + 1, "language": self._detect_language_from_code(code)},
+                    confidence=0.9,
                 )
                 symbols.append(symbol)
 
@@ -112,12 +105,8 @@ class SymbolGenerator:
                 symbol = GlyphSymbol.create(
                     symbol_type=SymbolType.DATA,
                     content=f"{key}: {str(value)[:100]}",
-                    metadata={
-                        "key": key,
-                        "type": type(value).__name__,
-                        "value_preview": str(value)[:50]
-                    },
-                    confidence=0.7
+                    metadata={"key": key, "type": type(value).__name__, "value_preview": str(value)[:50]},
+                    confidence=0.7,
                 )
                 symbols.append(symbol)
 
@@ -126,11 +115,8 @@ class SymbolGenerator:
             symbol = GlyphSymbol.create(
                 symbol_type=SymbolType.DATA,
                 content=f"Array with {len(data)} items",
-                metadata={
-                    "length": len(data),
-                    "item_types": list(set(type(item).__name__ for item in data[:10]))
-                },
-                confidence=0.8
+                metadata={"length": len(data), "item_types": list(set(type(item).__name__ for item in data[:10]))},
+                confidence=0.8,
             )
             symbols.append(symbol)
 
@@ -164,7 +150,7 @@ class SymbolGenerator:
             SymbolType.WARNING: "⚠️",
             SymbolType.SUCCESS: "✅",
             SymbolType.PROCESS: "🔄",
-            SymbolType.GLYPH: "🔮"
+            SymbolType.GLYPH: "🔮",
         }
         return icon_map.get(symbol_type, "🔮")
 
@@ -180,7 +166,7 @@ class SymbolGenerator:
             SymbolType.WARNING: "🚨",
             SymbolType.SUCCESS: "✔️",
             SymbolType.PROCESS: "⚡",
-            SymbolType.GLYPH: "✨"
+            SymbolType.GLYPH: "✨",
         }
         return icon_map.get(symbol_type, "✨")
 

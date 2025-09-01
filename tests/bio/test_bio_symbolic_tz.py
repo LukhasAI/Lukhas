@@ -1,6 +1,5 @@
 """Test bio modules use UTC timestamps correctly."""
 
-
 import pytest
 
 

@@ -32,7 +32,7 @@ class LIDClient:
                 "name": user_id,
                 "permissions": ["read", "write", "transform"],
                 "access_level": "standard",
-                "authenticated_at": time.time()
+                "authenticated_at": time.time(),
             }
             return self.current_user
 
@@ -67,7 +67,7 @@ class LIDClient:
             "resource": resource,
             "action": action,
             "metadata": metadata or {},
-            "session_hash": self._generate_session_hash()
+            "session_hash": self._generate_session_hash(),
         }
 
         # Placeholder: In real implementation, send to audit service
@@ -111,7 +111,7 @@ class LIDClient:
             "user_lid": self.current_user["lid"],
             "resource": resource,
             "issued_at": time.time(),
-            "expires_at": time.time() + expires_in
+            "expires_at": time.time() + expires_in,
         }
 
         # Create token hash
@@ -145,7 +145,7 @@ class LIDClient:
                 "timestamp": time.time() - (i * 3600),
                 "user_lid": self.current_user["lid"] if self.current_user else "anonymous",
                 "action": "access",
-                "resource": resource
+                "resource": resource,
             }
             for i in range(min(limit, 10))
         ]

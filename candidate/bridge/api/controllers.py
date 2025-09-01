@@ -792,7 +792,7 @@ def learning_adapt_behavior_endpoint():  # Renamed:
     logger.info(f"ΛTRACE: Request received for {endpoint_path} by user '{user_id}'.")
     try:
         data = request.get_json()
-        if (:
+        if (
             not data
             or "adaptation_context" not in data
             or "behavior_targets" not in data

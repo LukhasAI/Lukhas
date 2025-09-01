@@ -32,9 +32,7 @@ class T4BatchProcessor:
         except Exception:
             return hashlib.md5(str(datetime.now(timezone.utc)).encode()).hexdigest()[:8]
 
-    def create_verification_artifact(
-        self, operation, before_count, after_count, method_used
-    ):
+    def create_verification_artifact(self, operation, before_count, after_count, method_used):
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
@@ -65,9 +63,7 @@ class T4BatchProcessor:
                 cwd=self.base_path,
             )
             lines = result.stdout.strip().split("\n")
-            total_line = [
-                line for line in lines if "Found" in line and "errors" in line
-            ]
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -187,9 +183,7 @@ class T4BatchProcessor:
             "phase1_smart_fix", before_count, phase1_count, "makefile_fix"
         )
 
-        print(
-            f"   📈 Phase 1 Result: {before_count} → {phase1_count} (-{phase1_artifact['improvement']})"
-        )
+        print(f"   📈 Phase 1 Result: {before_count} → {phase1_count} (-{phase1_artifact['improvement']})")
 
         # CONSTITUTIONAL SAFETY: Validate Phase 1 didn't break anything
         print("🛡️ T4: Validating Phase 1 changes")
@@ -216,18 +210,14 @@ class T4BatchProcessor:
             "phase3_imports", phase1_count, phase3_count, "makefile_fix_imports"
         )
 
-        print(
-            f"   📈 Phase 3 Result: {phase1_count} → {phase3_count} (-{phase3_artifact['improvement']})"
-        )
+        print(f"   📈 Phase 3 Result: {phase1_count} → {phase3_count} (-{phase3_artifact['improvement']})")
 
         # SCIENTIFIC RIGOR: Final validation and reporting
         print("\n🧪 T4: Final Validation & Reporting")
         final_count, final_stats = self.get_ruff_stats()
 
         total_improvement = before_count - final_count
-        success_rate = (
-            (total_improvement / before_count) * 100 if before_count > 0 else 0
-        )
+        success_rate = (total_improvement / before_count) * 100 if before_count > 0 else 0
 
         final_artifact = self.create_verification_artifact(
             "complete_t4_batch", before_count, final_count, "t4_lens_framework"
@@ -254,9 +244,7 @@ class T4BatchProcessor:
 
         print("\n💡 Next Steps:")
         if final_count > 5000:
-            print(
-                "   - Consider running batch processor again for additional improvements"
-            )
+            print("   - Consider running batch processor again for additional improvements")
             print("   - Focus on syntax errors first (manual review required)")
         elif final_count > 1000:
             print("   - Run targeted fixes for remaining issue categories")

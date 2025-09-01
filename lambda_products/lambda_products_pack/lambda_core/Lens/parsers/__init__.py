@@ -11,12 +11,4 @@ from .markdown_parser import MarkdownParser
 from .pdf_parser import PDFParser
 from .text_parser import TextParser
 
-__all__ = [
-    "BaseParser",
-    "CSVParser",
-    "CodeParser",
-    "DataParser",
-    "MarkdownParser",
-    "PDFParser",
-    "TextParser"
-]
+__all__ = ["BaseParser", "CSVParser", "CodeParser", "DataParser", "MarkdownParser", "PDFParser", "TextParser"]

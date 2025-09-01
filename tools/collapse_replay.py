@@ -141,9 +141,7 @@ class CollapseReplayTool:
         # Create initial wavefunction
         print(f"Creating wavefunction with template: {template}")
         initial_entropy = session["entropy_drift"][0]["entropy"]
-        wf = wm.create_wavefunction(
-            wf_id="replay_wf", template_name=template, initial_entropy=initial_entropy
-        )
+        wf = wm.create_wavefunction(wf_id="replay_wf", template_name=template, initial_entropy=initial_entropy)
 
         print(f"Initial state: {' + '.join(wf.glyph_superposition)}")
         print(f"Initial entropy: {wf.entropy_score:.3f}")
@@ -165,14 +163,10 @@ class CollapseReplayTool:
                 wf.entropy_score = target_entropy
 
             phase_color = self._get_phase_color(phase)
-            print(
-                f"Step {i+1}: Entropy {wf.entropy_score:.3f} - Phase: {phase_color}{phase}\033[0m"
-            )
+            print(f"Step {i+1}: Entropy {wf.entropy_score:.3f} - Phase: {phase_color}{phase}\033[0m")
 
             # Check for collapse conditions
-            if phase in ["unstable", "collapse"] and collapse_index < len(
-                session["collapsed_glyphs"]
-            ):
+            if phase in ["unstable", "collapse"] and collapse_index < len(session["collapsed_glyphs"]):
                 collapsed_glyph = session["collapsed_glyphs"][collapse_index]
                 print(f"  💥 Collapse triggered → {collapsed_glyph}")
                 collapse_index += 1
@@ -198,16 +192,12 @@ class CollapseReplayTool:
         print(f"  Final entropy: {session['entropy_drift'][-1]['entropy']:.3f}")
         print(f"  Collapse sequence: {' → '.join(session['collapsed_glyphs'])}")
         print(f"  Guardian involvement: {'Yes' if session['guardian_flags'] else 'No'}")
-        print(
-            f"  Final glyph: {session['collapsed_glyphs'][-1] if session['collapsed_glyphs'] else 'None'}"
-        )
+        print(f"  Final glyph: {session['collapsed_glyphs'][-1] if session['collapsed_glyphs'] else 'None'}")
         print(f"  Trinity coherence: {session['trinity_coherence']:.3f}")
 
         # Symbolic interpretation
         print("\n🔮 Symbolic Interpretation:")
-        final_glyph = (
-            session["collapsed_glyphs"][-1] if session["collapsed_glyphs"] else None
-        )
+        final_glyph = session["collapsed_glyphs"][-1] if session["collapsed_glyphs"] else None
         interpretation = self._interpret_glyph(final_glyph)
         print(f"  {interpretation}")
 
@@ -255,9 +245,7 @@ Examples:
     parser.add_argument("--session", type=str, help="Session ID to replay")
     parser.add_argument("--simulate", action="store_true", help="Run simulation replay")
     parser.add_argument("--summary", action="store_true", help="Show session summary")
-    parser.add_argument(
-        "--list-sessions", action="store_true", help="List all available sessions"
-    )
+    parser.add_argument("--list-sessions", action="store_true", help="List all available sessions")
     parser.add_argument(
         "--journal",
         type=str,

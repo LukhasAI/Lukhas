@@ -20,21 +20,15 @@ class XRRenderer:
         """Render dashboard as XR scene"""
         # Create glTF structure
         gltf = {
-            "asset": {
-                "version": "2.0",
-                "generator": "ΛLens XR Renderer 1.0"
-            },
+            "asset": {"version": "2.0", "generator": "ΛLens XR Renderer 1.0"},
             "scene": 0,
-            "scenes": [{
-                "name": "ΛLens Dashboard",
-                "nodes": []
-            }],
+            "scenes": [{"name": "ΛLens Dashboard", "nodes": []}],
             "nodes": [],
             "meshes": [],
             "materials": [],
             "buffers": [],
             "bufferViews": [],
-            "accessors": []
+            "accessors": [],
         }
 
         # Add nodes for each symbol
@@ -64,8 +58,8 @@ class XRRenderer:
                 "symbol_type": symbol.type.value,
                 "content": symbol.content,
                 "confidence": symbol.confidence,
-                "lambda": True
-            }
+                "lambda": True,
+            },
         }
 
         return node
@@ -77,36 +71,84 @@ class XRRenderer:
 
         # Cube vertices (8 vertices)
         vertices = [
-            -0.5, -0.5,  0.5,  # 0
-             0.5, -0.5,  0.5,  # 1
-             0.5,  0.5,  0.5,  # 2
-            -0.5,  0.5,  0.5,  # 3
-            -0.5, -0.5, -0.5,  # 4
-             0.5, -0.5, -0.5,  # 5
-             0.5,  0.5, -0.5,  # 6
-            -0.5,  0.5, -0.5   # 7
+            -0.5,
+            -0.5,
+            0.5,  # 0
+            0.5,
+            -0.5,
+            0.5,  # 1
+            0.5,
+            0.5,
+            0.5,  # 2
+            -0.5,
+            0.5,
+            0.5,  # 3
+            -0.5,
+            -0.5,
+            -0.5,  # 4
+            0.5,
+            -0.5,
+            -0.5,  # 5
+            0.5,
+            0.5,
+            -0.5,  # 6
+            -0.5,
+            0.5,
+            -0.5,  # 7
         ]
 
         # Cube indices (36 indices for 12 triangles)
         indices = [
-            0, 1, 2, 2, 3, 0,  # Front
-            1, 5, 6, 6, 2, 1,  # Right
-            5, 4, 7, 7, 6, 5,  # Back
-            4, 0, 3, 3, 7, 4,  # Left
-            3, 2, 6, 6, 7, 3,  # Top
-            4, 5, 1, 1, 0, 4   # Bottom
+            0,
+            1,
+            2,
+            2,
+            3,
+            0,  # Front
+            1,
+            5,
+            6,
+            6,
+            2,
+            1,  # Right
+            5,
+            4,
+            7,
+            7,
+            6,
+            5,  # Back
+            4,
+            0,
+            3,
+            3,
+            7,
+            4,  # Left
+            3,
+            2,
+            6,
+            6,
+            7,
+            3,  # Top
+            4,
+            5,
+            1,
+            1,
+            0,
+            4,  # Bottom
         ]
 
         mesh = {
             "name": f"mesh_{symbol.id}",
-            "primitives": [{
-                "attributes": {
-                    "POSITION": len(indices) * 2,  # Position accessor index
-                    "NORMAL": len(indices) * 2 + 1  # Normal accessor index
-                },
-                "indices": len(indices) * 2 + 2,  # Index accessor index
-                "material": index
-            }]
+            "primitives": [
+                {
+                    "attributes": {
+                        "POSITION": len(indices) * 2,  # Position accessor index
+                        "NORMAL": len(indices) * 2 + 1,  # Normal accessor index
+                    },
+                    "indices": len(indices) * 2 + 2,  # Index accessor index
+                    "material": index,
+                }
+            ],
         }
 
         return mesh
@@ -124,7 +166,7 @@ class XRRenderer:
             "⚠️": [1.0, 0.8, 0.6, 1.0],  # Light orange
             "✅": [0.6, 1.0, 0.6, 1.0],  # Light green
             "🔄": [0.6, 0.8, 1.0, 1.0],  # Light blue
-            "🔮": [0.8, 0.6, 1.0, 1.0]   # Light purple
+            "🔮": [0.8, 0.6, 1.0, 1.0],  # Light purple
         }
 
         color = base_colors.get(symbol.type.value, [1.0, 1.0, 1.0, 1.0])
@@ -136,12 +178,8 @@ class XRRenderer:
 
         material = {
             "name": f"material_{symbol.id}",
-            "pbrMetallicRoughness": {
-                "baseColorFactor": color,
-                "metallicFactor": 0.0,
-                "roughnessFactor": 0.5
-            },
-            "emissiveFactor": [0.0, 0.0, 0.0]
+            "pbrMetallicRoughness": {"baseColorFactor": color, "metallicFactor": 0.0, "roughnessFactor": 0.5},
+            "emissiveFactor": [0.0, 0.0, 0.0],
         }
 
         return material

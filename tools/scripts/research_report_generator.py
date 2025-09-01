@@ -158,12 +158,8 @@ def create_comprehensive_research_report():
                     "Perplexity API format variations impact integration reliability",
                 ],
                 "statistical_summary": {
-                    "average_drift": audit_data["executive_summary"][
-                        "overall_drift_average"
-                    ],
-                    "average_trinity": audit_data["executive_summary"][
-                        "overall_trinity_average"
-                    ],
+                    "average_drift": audit_data["executive_summary"]["overall_drift_average"],
+                    "average_trinity": audit_data["executive_summary"]["overall_trinity_average"],
                     "intervention_rate": (
                         f"{(audit_data['executive_summary']['total_guardian_interventions'] / audit_data['metadata']['total_tests'] * 100):.1f}%"
                         if audit_data["metadata"]["total_tests"] > 0
@@ -254,9 +250,7 @@ def create_comprehensive_research_report():
             "technical_specifications": {
                 "python_environment": system_data["python_environment"],
                 "file_structure": system_data["file_structure"],
-                "api_credentials": {
-                    k: v["status"] for k, v in system_data["api_credentials"].items()
-                },
+                "api_credentials": {k: v["status"] for k, v in system_data["api_credentials"].items()},
             },
         },
         "references": [
@@ -372,15 +366,9 @@ def main():
         print(f"📝 Markdown Report: {md_file}")
         print()
         print("📊 Report Summary:")
-        print(
-            f"   System Health: {report_data['results_and_findings']['system_health']['overall_status']}"
-        )
-        print(
-            f"   Module Health: {report_data['results_and_findings']['system_health']['module_health']}"
-        )
-        print(
-            f"   API Coverage: {report_data['results_and_findings']['system_health']['api_coverage']}"
-        )
+        print(f"   System Health: {report_data['results_and_findings']['system_health']['overall_status']}")
+        print(f"   Module Health: {report_data['results_and_findings']['system_health']['module_health']}")
+        print(f"   API Coverage: {report_data['results_and_findings']['system_health']['api_coverage']}")
         print("   Research Status: Ready for publication")
         print()
         print("🎯 Next Steps:")

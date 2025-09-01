@@ -13,7 +13,10 @@ try:
 except Exception:
     # Fallback: import by file path if package import fails
     import importlib.util
-    module_path = os.path.join(REPO_ROOT, "lambda_products", "lambda_products_pack", "lambda_core", "Lens", "api_new", "main.py")
+
+    module_path = os.path.join(
+        REPO_ROOT, "lambda_products", "lambda_products_pack", "lambda_core", "Lens", "api_new", "main.py"
+    )
     spec = importlib.util.spec_from_file_location("lens_api_main", module_path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

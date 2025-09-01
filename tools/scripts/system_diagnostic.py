@@ -111,15 +111,9 @@ class SystemDiagnostic:
             self.total_checks += 1
             # Check if module exists for endpoint
             if "/identity/" in endpoint:
-                status = (
-                    "✅ Ready" if self.results["imports"].get("Identity API", False)
-                    else "❌ Missing"
-                )
+                status = "✅ Ready" if self.results["imports"].get("Identity API", False) else "❌ Missing"
             elif "/api/meta/" in endpoint:
-                status = (
-                    "✅ Ready" if self.results["imports"].get("Log Routes", False)
-                    else "❌ Missing"
-                )
+                status = "✅ Ready" if self.results["imports"].get("Log Routes", False) else "❌ Missing"
             elif endpoint in [
                 "/api/consciousness/state",
                 "/api/memory/explore",
@@ -127,18 +121,10 @@ class SystemDiagnostic:
                 "/api/trinity/status",
             ]:
                 # These endpoints are now implemented in symbolic_api.py
-                status = (
-                    "✅ Ready"
-                    if self.results["imports"].get("Symbolic API", False)
-                    else "❌ Missing"
-                )
+                status = "✅ Ready" if self.results["imports"].get("Symbolic API", False) else "❌ Missing"
             else:
                 # Check if symbolic API is available
-                status = (
-                    "⚠️ Partial"
-                    if self.results["imports"].get("Symbolic Core", False)
-                    else "❌ Missing"
-                )
+                status = "⚠️ Partial" if self.results["imports"].get("Symbolic Core", False) else "❌ Missing"
 
             results[f"{description} ({endpoint})"] = status
             if status.startswith("✅"):
@@ -177,18 +163,14 @@ class SystemDiagnostic:
             module_path = Path(module_name)
 
             if module_path.exists():
-                file_count = sum(
-                    1 for f in module_path.rglob("*.py") if not f.name.startswith("test_")
-                )
+                file_count = sum(1 for f in module_path.rglob("*.py") if not f.name.startswith("test_"))
                 has_init = (module_path / "__init__.py").exists()
 
                 health = {
                     "exists": True,
                     "file_count": file_count,
                     "has_init": has_init,
-                    "status": (
-                        "✅ Healthy" if file_count > 5 and has_init else "⚠️ Partial"
-                    ),
+                    "status": ("✅ Healthy" if file_count > 5 and has_init else "⚠️ Partial"),
                     "critical": config["critical"],
                 }
 
@@ -214,9 +196,7 @@ class SystemDiagnostic:
         """Check Trinity Framework integration."""
         checks = {
             "Identity System": self.results["imports"].get("Identity System", False),
-            "Consciousness System": self.results["imports"].get(
-                "Consciousness System", False
-            ),
+            "Consciousness System": self.results["imports"].get("Consciousness System", False),
             "Guardian System": self.results["imports"].get("Governance System", False),
             "Symbolic Core": self.results["imports"].get("Symbolic Core", False),
             "Meta Metrics": self.results["data_files"].get("Meta Metrics", False),
@@ -232,11 +212,7 @@ class SystemDiagnostic:
 
     def generate_report(self) -> str:
         """Generate comprehensive diagnostic report."""
-        functionality_percentage = (
-            (self.passed_checks / self.total_checks * 100)
-            if self.total_checks > 0
-            else 0
-        )
+        functionality_percentage = (self.passed_checks / self.total_checks * 100) if self.total_checks > 0 else 0
 
         report = f"""
 ═══════════════════════════════════════════════════════════════
@@ -378,11 +354,7 @@ Functionality: {functionality_percentage:.1f}%
         print(f"\n📄 Report saved to: {report_path}")
 
         # Return functionality percentage
-        functionality = (
-            (self.passed_checks / self.total_checks * 100)
-            if self.total_checks > 0
-            else 0
-        )
+        functionality = (self.passed_checks / self.total_checks * 100) if self.total_checks > 0 else 0
         return functionality
 
 

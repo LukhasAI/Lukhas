@@ -27,15 +27,14 @@ router = APIRouter()
 # Initialize ΛLens engine
 lens_engine = ΛLens()
 
+
 @router.post("/jobs", response_model=JobResponse)
 async def create_job(
-    background_tasks: BackgroundTasks,
-    file: UploadFile = File(...),
-    request: Optional[JobRequest] = None
+    background_tasks: BackgroundTasks, file: UploadFile = File(...), request: Optional[JobRequest] = None
 ):
     """
     Create a new file transformation job
-    
+
     Upload a file and get a symbolic dashboard
     """
     try:
@@ -53,20 +52,17 @@ async def create_job(
         # Process file in background
         background_tasks.add_task(process_file_job, job_id, temp_path, request)
 
-        return JobResponse(
-            job_id=job_id,
-            status="accepted",
-            message="File transformation job created successfully"
-        )
+        return JobResponse(job_id=job_id, status="accepted", message="File transformation job created successfully")
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create job: {e!s}")
+
 
 @router.get("/jobs/{job_id}")
 async def get_job_status(job_id: str):
     """
     Get job status and results
-    
+
     Returns the current status of a transformation job
     """
     try:
@@ -81,24 +77,21 @@ async def get_job_status(job_id: str):
                     "id": dashboard.id,
                     "symbols_count": len(dashboard.symbols),
                     "relationships_count": len(dashboard.relationships),
-                    "lambda_signature": dashboard.lambda_signature
-                }
+                    "lambda_signature": dashboard.lambda_signature,
+                },
             }
         else:
-            return {
-                "job_id": job_id,
-                "status": "processing",
-                "message": "Job is still being processed"
-            }
+            return {"job_id": job_id, "status": "processing", "message": "Job is still being processed"}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get job status: {e!s}")
+
 
 @router.get("/jobs/{job_id}/photon")
 async def get_photon_document(job_id: str):
     """
     Get the Photon document for a completed job
-    
+
     Returns the interactive dashboard configuration
     """
     try:
@@ -117,11 +110,12 @@ async def get_photon_document(job_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get Photon document: {e!s}")
 
+
 @router.post("/jobs/{job_id}/export")
 async def export_dashboard(job_id: str, format: str = "gltf"):
     """
     Export dashboard in specified format
-    
+
     Supported formats: gltf, json
     """
     try:
@@ -147,6 +141,7 @@ async def export_dashboard(job_id: str, format: str = "gltf"):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to export dashboard: {e!s}")
 
+
 async def process_file_job(job_id: str, file_path: str, request: Optional[JobRequest]):
     """
     Background task to process a file transformation job
@@ -168,6 +163,7 @@ async def process_file_job(job_id: str, file_path: str, request: Optional[JobReq
     except Exception as e:
         print(f"Job {job_id} failed: {e!s}")
 
+
 def dashboard_to_photon(dashboard) -> Dict[str, Any]:
     """
     Convert ΛLens dashboard to Photon document format
@@ -178,9 +174,7 @@ def dashboard_to_photon(dashboard) -> Dict[str, Any]:
         "description": f"Symbolic representation of {dashboard.source_file}",
         "nodes": [],
         "edges": [],
-        "layout": {
-            "positions_2d": {}
-        }
+        "layout": {"positions_2d": {}},
     }
 
     # Convert symbols to nodes
@@ -189,10 +183,7 @@ def dashboard_to_photon(dashboard) -> Dict[str, Any]:
             "id": symbol.id,
             "kind": symbol.type.value,
             "label": symbol.content[:50],
-            "properties": {
-                "content": symbol.content,
-                "confidence": symbol.confidence
-            }
+            "properties": {"content": symbol.content, "confidence": symbol.confidence},
         }
 
         if symbol.metadata:
@@ -204,7 +195,7 @@ def dashboard_to_photon(dashboard) -> Dict[str, Any]:
         if symbol.position:
             photon["layout"]["positions_2d"][symbol.id] = {
                 "x": symbol.position[0] * 100,  # Scale for UI
-                "y": symbol.position[1] * 100
+                "y": symbol.position[1] * 100,
             }
 
     # Convert relationships to edges
@@ -214,7 +205,7 @@ def dashboard_to_photon(dashboard) -> Dict[str, Any]:
             "source": rel["source"],
             "target": rel["target"],
             "kind": rel.get("type", "related"),
-            "label": rel.get("type", "related")
+            "label": rel.get("type", "related"),
         }
         photon["edges"].append(edge)
 

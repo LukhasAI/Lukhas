@@ -95,9 +95,7 @@ class ConsciousnessQRGenerator:
             "transcendent": {"complexity": 1.0, "flow": "fractal", "rhythm": "cosmic"},
         }
 
-    def generate_consciousness_qr(
-        self, data: str, consciousness_pattern: ConsciousnessQRPattern
-    ) -> dict[str, Any]:
+    def generate_consciousness_qr(self, data: str, consciousness_pattern: ConsciousnessQRPattern) -> dict[str, Any]:
         """
         Generate QR code adapted to user's consciousness state.
 
@@ -147,9 +145,7 @@ class ConsciousnessQRGenerator:
             },
         }
 
-    def _calculate_pattern_complexity(
-        self, pattern: ConsciousnessQRPattern
-    ) -> dict[str, int]:
+    def _calculate_pattern_complexity(self, pattern: ConsciousnessQRPattern) -> dict[str, int]:
         """Calculate QR pattern complexity based on consciousness state."""
         base_complexity = pattern.consciousness_level
 
@@ -178,12 +174,12 @@ class ConsciousnessQRGenerator:
 
     def _generate_neural_signature(self, pattern: ConsciousnessQRPattern) -> str:
         """Generate unique neural signature for consciousness state."""
-        signature_data = f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time()}"
+        signature_data = (
+            f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time()}"
+        )
         return hashlib.sha256(signature_data.encode()).hexdigest()[:16]
 
-    def _apply_consciousness_styling(
-        self, qr, pattern: ConsciousnessQRPattern
-    ) -> Image.Image:
+    def _apply_consciousness_styling(self, qr, pattern: ConsciousnessQRPattern) -> Image.Image:
         """Apply consciousness-aware styling to QR code."""
         img = qr.make_image(fill_color="black", back_color="white")
 
@@ -212,9 +208,7 @@ class ConsciousnessQRGenerator:
         else:
             return (255, 215, 0)  # Gold - transcendent
 
-    def _apply_neural_overlay(
-        self, img: Image.Image, pattern: ConsciousnessQRPattern
-    ) -> Image.Image:
+    def _apply_neural_overlay(self, img: Image.Image, pattern: ConsciousnessQRPattern) -> Image.Image:
         """Apply neural synchrony pattern overlay."""
         # Create subtle neural pattern overlay
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
@@ -274,9 +268,7 @@ class CulturalQRGenerator:
         except BaseException:
             self.cultural_checker = None
 
-    def generate_cultural_qr(
-        self, data: str, cultural_theme: CulturalQRTheme
-    ) -> dict[str, Any]:
+    def generate_cultural_qr(self, data: str, cultural_theme: CulturalQRTheme) -> dict[str, Any]:
         """
         Generate culturally-adaptive QR code respecting cultural values.
 
@@ -326,9 +318,7 @@ class CulturalQRGenerator:
             "cultural_metadata": cultural_metadata,
         }
 
-    def _validate_cultural_safety(
-        self, data: str, theme: CulturalQRTheme
-    ) -> dict[str, Any]:
+    def _validate_cultural_safety(self, data: str, theme: CulturalQRTheme) -> dict[str, Any]:
         """Validate cultural safety of QR code content."""
         # Placeholder for cultural safety validation
         return {"is_safe": True, "safety_score": 0.95, "issues": []}
@@ -342,9 +332,7 @@ class CulturalQRGenerator:
         """Apply cultural styling to QR code."""
         # Get cultural theme colors
         primary_color = theme.color_palette[0] if theme.color_palette else "#000000"
-        background_color = (
-            theme.color_palette[1] if len(theme.color_palette) > 1 else "#FFFFFF"
-        )
+        background_color = theme.color_palette[1] if len(theme.color_palette) > 1 else "#FFFFFF"
 
         # Create QR image with cultural colors
         img = qr.make_image(fill_color=primary_color, back_color=background_color)
@@ -360,9 +348,7 @@ class CulturalQRGenerator:
 
         return img
 
-    def _apply_geometric_pattern(
-        self, img: Image.Image, theme: CulturalQRTheme
-    ) -> Image.Image:
+    def _apply_geometric_pattern(self, img: Image.Image, theme: CulturalQRTheme) -> Image.Image:
         """Apply geometric cultural patterns."""
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)
@@ -386,16 +372,12 @@ class CulturalQRGenerator:
 
         return Image.alpha_composite(img, overlay)
 
-    def _apply_organic_pattern(
-        self, img: Image.Image, theme: CulturalQRTheme
-    ) -> Image.Image:
+    def _apply_organic_pattern(self, img: Image.Image, theme: CulturalQRTheme) -> Image.Image:
         """Apply organic cultural patterns."""
         # Add organic flowing patterns
         return img  # Placeholder implementation
 
-    def _apply_ornate_pattern(
-        self, img: Image.Image, theme: CulturalQRTheme
-    ) -> Image.Image:
+    def _apply_ornate_pattern(self, img: Image.Image, theme: CulturalQRTheme) -> Image.Image:
         """Apply ornate decorative patterns."""
         # Add ornate decorative elements
         return img  # Placeholder implementation
@@ -464,9 +446,7 @@ class SteganographicQRGenerator:
             },
         }
 
-    def extract_hidden_data(
-        self, stego_qr_image: Image.Image, steganography_key: str
-    ) -> str:
+    def extract_hidden_data(self, stego_qr_image: Image.Image, steganography_key: str) -> str:
         """
         Extract hidden data from steganographic QR code.
 
@@ -488,9 +468,7 @@ class SteganographicQRGenerator:
     def _generate_stego_key(self) -> str:
         """Generate cryptographically secure steganography key."""
         if self.entropy_sync:
-            return base64.b64encode(
-                self.entropy_sync.generate_quantum_entropy(32)
-            ).decode()
+            return base64.b64encode(self.entropy_sync.generate_quantum_entropy(32)).decode()
         else:
             return base64.b64encode(secrets.token_bytes(32)).decode()
 
@@ -501,9 +479,7 @@ class SteganographicQRGenerator:
         data_bytes = data.encode()
 
         # Simple XOR encryption for demonstration
-        encrypted = bytes(
-            a ^ b for a, b in zip(data_bytes, key_bytes * (len(data_bytes) // 32 + 1))
-        )
+        encrypted = bytes(a ^ b for a, b in zip(data_bytes, key_bytes * (len(data_bytes) // 32 + 1)))
         return encrypted
 
     def _decrypt_hidden_data(self, encrypted_data: bytes, key: str) -> str:
@@ -511,10 +487,7 @@ class SteganographicQRGenerator:
         key_bytes = key.encode()[:32].ljust(32, b"0")
 
         # Simple XOR decryption for demonstration
-        decrypted = bytes(
-            a ^ b
-            for a, b in zip(encrypted_data, key_bytes * (len(encrypted_data) // 32 + 1))
-        )
+        decrypted = bytes(a ^ b for a, b in zip(encrypted_data, key_bytes * (len(encrypted_data) // 32 + 1)))
         return decrypted.decode("utf-8", errors="ignore")
 
     def _embed_hidden_data(self, img: Image.Image, hidden_data: bytes) -> Image.Image:
@@ -532,9 +505,7 @@ class SteganographicQRGenerator:
                 for k in range(4):  # RGBA channels
                     if data_index < len(binary_data):
                         # Modify LSB
-                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(
-                            binary_data[data_index]
-                        )
+                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(binary_data[data_index])
                         data_index += 1
                     else:
                         break
@@ -587,9 +558,7 @@ class QIQRGenerator:
             self.entropy_sync = None
             self.constitutional_gatekeeper = None
 
-    def generate_quantum_qr(
-        self, data: str, qi_security_level: str = "standard"
-    ) -> dict[str, Any]:
+    def generate_quantum_qr(self, data: str, qi_security_level: str = "standard") -> dict[str, Any]:
         """
         Generate QR code with quantum-enhanced security.
 
@@ -646,9 +615,7 @@ class QIQRGenerator:
             "entropy_strength": len(qi_entropy),
             "qi_metadata": {
                 "post_quantum_resistant": True,
-                "constitutional_approved": qi_package.get(
-                    "constitutional_approved", False
-                ),
+                "constitutional_approved": qi_package.get("constitutional_approved", False),
                 "generation_timestamp": time.time(),
                 "qi_coherence": self._measure_quantum_coherence(qi_entropy),
             },
@@ -699,9 +666,7 @@ class QIQRGenerator:
         coherence = min(1.0, entropy_variance / 255.0)
         return round(coherence, 3)
 
-    def _add_quantum_interference_pattern(
-        self, img: Image.Image, level: str
-    ) -> Image.Image:
+    def _add_quantum_interference_pattern(self, img: Image.Image, level: str) -> Image.Image:
         """Add quantum interference pattern overlay."""
         overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
         draw = ImageDraw.Draw(overlay)
@@ -792,12 +757,8 @@ class LUKHASQRGManager:
 
         try:
             if qr_type == QRGType.CONSCIOUSNESS_ADAPTIVE:
-                consciousness_pattern = self._extract_consciousness_pattern(
-                    user_profile
-                )
-                result = self.consciousness_qrg.generate_consciousness_qr(
-                    data, consciousness_pattern
-                )
+                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
+                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
 
             elif qr_type == QRGType.CULTURAL_SYMBOLIC:
                 cultural_theme = self._extract_cultural_theme(user_profile)
@@ -806,9 +767,7 @@ class LUKHASQRGManager:
             elif qr_type == QRGType.STEGANOGRAPHIC:
                 hidden_data = user_profile.get("hidden_data", "")
                 stego_key = user_profile.get("steganography_key")
-                result = self.steganographic_qrg.generate_steganographic_qr(
-                    data, hidden_data, stego_key
-                )
+                result = self.steganographic_qrg.generate_steganographic_qr(data, hidden_data, stego_key)
 
             elif qr_type == QRGType.QUANTUM_ENCRYPTED:
                 security_level = user_profile.get("qi_security_level", "standard")
@@ -816,12 +775,8 @@ class LUKHASQRGManager:
 
             else:
                 # Default to consciousness adaptive
-                consciousness_pattern = self._extract_consciousness_pattern(
-                    user_profile
-                )
-                result = self.consciousness_qrg.generate_consciousness_qr(
-                    data, consciousness_pattern
-                )
+                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
+                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
 
             # Add generation metadata
             result["generation_metadata"] = {
@@ -852,9 +807,7 @@ class LUKHASQRGManager:
                 "fallback_available": True,
             }
 
-    def _extract_consciousness_pattern(
-        self, profile: dict[str, Any]
-    ) -> ConsciousnessQRPattern:
+    def _extract_consciousness_pattern(self, profile: dict[str, Any]) -> ConsciousnessQRPattern:
         """Extract consciousness pattern from user profile."""
         return ConsciousnessQRPattern(
             consciousness_level=profile.get("consciousness_level", 0.5),
@@ -889,12 +842,8 @@ class LUKHASQRGManager:
         return {
             "total_generations": total_generations,
             "qr_type_distribution": qr_types,
-            "last_generation": max(
-                entry["timestamp"] for entry in self.generation_history
-            ),
-            "most_popular_type": (
-                max(qr_types.items(), key=lambda x: x[1])[0] if qr_types else None
-            ),
+            "last_generation": max(entry["timestamp"] for entry in self.generation_history),
+            "most_popular_type": (max(qr_types.items(), key=lambda x: x[1])[0] if qr_types else None),
         }
 
 
@@ -923,9 +872,7 @@ if __name__ == "__main__":
 
     if "error" not in consciousness_qr:
         print("✅ Consciousness QR generated successfully")
-        print(
-            f"   📊 Consciousness level: {consciousness_qr.get('consciousness_level', 'N/A')}"
-        )
+        print(f"   📊 Consciousness level: {consciousness_qr.get('consciousness_level', 'N/A')}")
         print(f"   🧠 Pattern type: {consciousness_qr.get('pattern_type', 'N/A')}")
     else:
         print(f"❌ Consciousness QR failed: {consciousness_qr['error']}")
@@ -959,16 +906,12 @@ if __name__ == "__main__":
         "qi_security_level": "maximum",
     }
 
-    qi_qr = qrg_manager.generate_adaptive_qr(
-        "QUANTUM_SECURE_TOKEN_ABCDEF", qi_profile, QRGType.QUANTUM_ENCRYPTED
-    )
+    qi_qr = qrg_manager.generate_adaptive_qr("QUANTUM_SECURE_TOKEN_ABCDEF", qi_profile, QRGType.QUANTUM_ENCRYPTED)
 
     if "error" not in qi_qr:
         print("✅ Quantum QR generated successfully")
         print(f"   ⚛️ Security level: {qi_qr.get('security_level', 'N/A')}")
-        print(
-            f"   🔐 Entropy strength: {qi_qr.get('entropy_strength', 'N/A')} bytes"
-        )
+        print(f"   🔐 Entropy strength: {qi_qr.get('entropy_strength', 'N/A')} bytes")
     else:
         print(f"❌ Quantum QR failed: {qi_qr['error']}")
 
@@ -979,18 +922,12 @@ if __name__ == "__main__":
         "hidden_data": "SECRET_LUKHAS_DATA_FOR_AGENTS_ONLY",
     }
 
-    stego_qr = qrg_manager.generate_adaptive_qr(
-        "PUBLIC_AUTH_TOKEN_123", stego_profile, QRGType.STEGANOGRAPHIC
-    )
+    stego_qr = qrg_manager.generate_adaptive_qr("PUBLIC_AUTH_TOKEN_123", stego_profile, QRGType.STEGANOGRAPHIC)
 
     if "error" not in stego_qr:
         print("✅ Steganographic QR generated successfully")
-        print(
-            f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A')} chars"
-        )
-        print(
-            f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}"
-        )
+        print(f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A')} chars")
+        print(f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}")
     else:
         print(f"❌ Steganographic QR failed: {stego_qr['error']}")
 

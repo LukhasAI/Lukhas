@@ -84,9 +84,7 @@ class BaseResponse(BaseModel):
     user_context: Optional[dict[str, str]] = None
 
     @classmethod
-    def create_success(
-        cls, data: Any = None, user: AuthContext = None, message: str = None
-    ):
+    def create_success(cls, data: Any = None, user: AuthContext = None, message: str = None):
         """Create successful response with user context."""
         response_data = {"success": True, "message": message, "data": data}
 
@@ -151,9 +149,7 @@ async def basic_protected_endpoint(
         # Log user activity
         logger.info(f"T2 endpoint accessed by user {user.user_id} (tier: {user.tier})")
 
-        return BaseResponse.create_success(
-            data=data, user=user, message="T2+ access granted"
-        )
+        return BaseResponse.create_success(data=data, user=user, message="T2+ access granted")
 
     except Exception as e:
         logger.error(f"Error in T2 endpoint for user {user.user_id}: {e}")
@@ -186,9 +182,7 @@ async def create_content_endpoint(
 
         logger.info(f"Content created by user {user.user_id}")
 
-        return BaseResponse.create_success(
-            data=result, user=user, message="Content created successfully"
-        )
+        return BaseResponse.create_success(data=result, user=user, message="Content created successfully")
 
     except Exception as e:
         logger.error(f"Content creation error for user {user.user_id}: {e}")
@@ -198,9 +192,7 @@ async def create_content_endpoint(
 # ==================== T3 Protected Endpoints (Advanced Tier) ====================
 
 
-@app.post(
-    "/protected/consciousness", response_model=BaseResponse, tags=["T3-Protected"]
-)
+@app.post("/protected/consciousness", response_model=BaseResponse, tags=["T3-Protected"])
 async def consciousness_endpoint(
     request: BaseRequest, user: AuthContext = Depends(require_t3_or_above)
 ) -> BaseResponse:
@@ -231,24 +223,18 @@ async def consciousness_endpoint(
 
         logger.info(f"Consciousness accessed by user {user.user_id} (T3+)")
 
-        return BaseResponse.create_success(
-            data=result, user=user, message="Consciousness processing complete"
-        )
+        return BaseResponse.create_success(data=result, user=user, message="Consciousness processing complete")
 
     except Exception as e:
         logger.error(f"Consciousness error for user {user.user_id}: {e}")
-        return BaseResponse.create_error(
-            f"Consciousness processing failed: {e!s}", user=user
-        )
+        return BaseResponse.create_error(f"Consciousness processing failed: {e!s}", user=user)
 
 
 # ==================== T4 Protected Endpoints (Quantum Tier) ====================
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def qi_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)
-) -> BaseResponse:
+async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.
@@ -275,24 +261,18 @@ async def qi_endpoint(
 
         logger.info(f"Quantum processing accessed by user {user.user_id} (T4+)")
 
-        return BaseResponse.create_success(
-            data=result, user=user, message="Quantum computation complete"
-        )
+        return BaseResponse.create_success(data=result, user=user, message="Quantum computation complete")
 
     except Exception as e:
         logger.error(f"Quantum error for user {user.user_id}: {e}")
-        return BaseResponse.create_error(
-            f"Quantum processing failed: {e!s}", user=user
-        )
+        return BaseResponse.create_error(f"Quantum processing failed: {e!s}", user=user)
 
 
 # ==================== T5 Protected Endpoints (Guardian Tier) ====================
 
 
 @app.post("/protected/admin", response_model=BaseResponse, tags=["T5-Protected"])
-async def admin_endpoint(
-    request: BaseRequest, user: AuthContext = Depends(require_t5)
-) -> BaseResponse:
+async def admin_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t5)) -> BaseResponse:
     """
     T5 Protected admin endpoint.
     Requires Guardian tier (T5) for administrative access.
@@ -320,15 +300,11 @@ async def admin_endpoint(
 
         logger.info(f"Admin action accessed by Guardian user {user.user_id}")
 
-        return BaseResponse.create_success(
-            data=result, user=user, message="Administrative action complete"
-        )
+        return BaseResponse.create_success(data=result, user=user, message="Administrative action complete")
 
     except Exception as e:
         logger.error(f"Admin error for Guardian user {user.user_id}: {e}")
-        return BaseResponse.create_error(
-            f"Administrative action failed: {e!s}", user=user
-        )
+        return BaseResponse.create_error(f"Administrative action failed: {e!s}", user=user)
 
 
 # ==================== Custom Tier Protection Examples ====================
@@ -359,9 +335,7 @@ async def http_exception_handler(request, exc: HTTPException):
     """Custom error handler with user context if available."""
 
     # Try to extract user context from request
-    user_context = (
-        getattr(request.state, "user", None) if hasattr(request, "state") else None
-    )
+    user_context = getattr(request.state, "user", None) if hasattr(request, "state") else None
 
     response_data = {
         "success": False,

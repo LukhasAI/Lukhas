@@ -5,7 +5,7 @@
 ║ Automated script to replace insecure random module usage with secure alternatives
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠═══════════════════════════════════════════════════════════════════════════════
-║ Module: fix_insecure_random.py  
+║ Module: fix_insecure_random.py
 ║ Path: tools/security/fix_insecure_random.py
 ║ Version: 1.0.0 | Created: 2025-09-01
 ║ Authors: LUKHAS AI Security Team
@@ -30,6 +30,7 @@ from typing import Dict, List, Tuple
 
 # Add lukhas to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
 
 class InsecureRandomFixer:
     """Automated fixer for insecure random module usage"""
@@ -62,7 +63,7 @@ class InsecureRandomFixer:
             "entropy",
             "symbolic",
             "guardian",
-            "compliance"
+            "compliance",
         ]
 
         # Files to skip (known to be safe or external dependencies)
@@ -131,7 +132,7 @@ class InsecureRandomFixer:
                     r"^import random\s*$",
                     "# SECURITY FIX: Replaced insecure random with secure random\nfrom lukhas.security import secure_random",
                     content,
-                    flags=re.MULTILINE
+                    flags=re.MULTILINE,
                 )
                 fixes_made += 1
 
@@ -140,7 +141,7 @@ class InsecureRandomFixer:
                 r"^from random import (.+)$",
                 r"# SECURITY FIX: Replaced insecure random imports\nfrom lukhas.security.secure_random import \1",
                 content,
-                flags=re.MULTILINE
+                flags=re.MULTILINE,
             )
 
             # Replace random function calls
@@ -178,10 +179,7 @@ class InsecureRandomFixer:
 
     def scan_directory(self) -> Dict[str, List[Tuple[Path, List[str], bool]]]:
         """Scan directory for Python files with insecure random usage"""
-        results = {
-            "critical": [],
-            "normal": []
-        }
+        results = {"critical": [], "normal": []}
 
         for file_path in self.root_dir.rglob("*.py"):
             if self.should_skip_file(file_path):

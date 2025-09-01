@@ -81,19 +81,14 @@ class SmartStreamline:
                             ]:
                                 # This is a cross-module import - verify it exists
                                 target_path = self.root_path / "/".join(module_parts)
-                                if (
-                                    not target_path.exists()
-                                    and not (target_path.with_suffix(".py")).exists()
-                                ):
+                                if not target_path.exists() and not (target_path.with_suffix(".py")).exists():
                                     self.import_fixes.append(
                                         {
                                             "file": str(relative_path),
                                             "line": node.lineno,
                                             "import": node.module,
                                             "issue": "Module not found",
-                                            "suggested_fix": self._suggest_import_fix(
-                                                node.module
-                                            ),
+                                            "suggested_fix": self._suggest_import_fix(node.module),
                                         }
                                     )
 
@@ -268,9 +263,7 @@ if __name__ == "__main__":
     main()
 '''
 
-        fixer_path = (
-            self.root_path / "tools" / "scripts" / "fix_post_modularization_imports.py"
-        )
+        fixer_path = self.root_path / "tools" / "scripts" / "fix_post_modularization_imports.py"
         with open(fixer_path, "w") as f:
             f.write(fixer_content)
 
@@ -396,9 +389,7 @@ def enhance_import(module_name: str) -> Optional[Any]:
         }
 
         # Save report
-        report_path = (
-            self.root_path / "docs" / "reports" / "smart_streamline_report.json"
-        )
+        report_path = self.root_path / "docs" / "reports" / "smart_streamline_report.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(report_path, "w") as f:
@@ -481,9 +472,7 @@ def enhance_import(module_name: str) -> Optional[Any]:
         if self.import_fixes:
             logger.info("\n🔧 Sample import fixes needed:")
             for fix in self.import_fixes[:5]:
-                logger.info(
-                    f"   {fix['file']}: {fix['import']} → {fix['suggested_fix']}"
-                )
+                logger.info(f"   {fix['file']}: {fix['import']} → {fix['suggested_fix']}")
 
         if report["recommendations"]:
             logger.info("\n💡 Recommendations:")

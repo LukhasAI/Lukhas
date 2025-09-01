@@ -41,12 +41,7 @@ class DataParser(BaseParser):
         # Analyze structure
         structure = self._analyze_structure(data)
 
-        return {
-            "data": data,
-            "format": "json",
-            "structure": structure,
-            "file_info": file_info
-        }
+        return {"data": data, "format": "json", "structure": structure, "file_info": file_info}
 
     async def _parse_yaml(self, file_path: str, file_info: Dict[str, Any]) -> Dict[str, Any]:
         """Parse YAML file"""
@@ -60,12 +55,7 @@ class DataParser(BaseParser):
 
         structure = self._analyze_structure(data)
 
-        return {
-            "data": data,
-            "format": "yaml",
-            "structure": structure,
-            "file_info": file_info
-        }
+        return {"data": data, "format": "yaml", "structure": structure, "file_info": file_info}
 
     async def _parse_xml(self, file_path: str, file_info: Dict[str, Any]) -> Dict[str, Any]:
         """Parse XML file"""
@@ -75,12 +65,7 @@ class DataParser(BaseParser):
         # Convert to dict structure
         data = self._xml_to_dict(root)
 
-        return {
-            "data": data,
-            "format": "xml",
-            "root_tag": root.tag,
-            "file_info": file_info
-        }
+        return {"data": data, "format": "xml", "root_tag": root.tag, "file_info": file_info}
 
     def _analyze_structure(self, data: Any) -> Dict[str, Any]:
         """Analyze the structure of parsed data"""
@@ -89,18 +74,16 @@ class DataParser(BaseParser):
                 "type": "object",
                 "keys": list(data.keys()),
                 "size": len(data),
-                "nested_types": {k: self._get_type_name(v) for k, v in data.items()}
+                "nested_types": {k: self._get_type_name(v) for k, v in data.items()},
             }
         elif isinstance(data, list):
             return {
                 "type": "array",
                 "length": len(data),
-                "element_types": list(set(self._get_type_name(item) for item in data[:10]))  # Sample first 10
+                "element_types": list(set(self._get_type_name(item) for item in data[:10])),  # Sample first 10
             }
         else:
-            return {
-                "type": self._get_type_name(data)
-            }
+            return {"type": self._get_type_name(data)}
 
     def _get_type_name(self, obj: Any) -> str:
         """Get a readable type name for an object"""

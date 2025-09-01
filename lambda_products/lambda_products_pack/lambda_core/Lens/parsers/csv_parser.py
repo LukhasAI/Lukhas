@@ -67,7 +67,7 @@ class CSVParser(BaseParser):
                     "column_types": column_types,
                     "delimiter": delimiter,
                     "encoding": encoding,
-                    "file_info": file_info
+                    "file_info": file_info,
                 }
 
         except Exception as e:
@@ -94,6 +94,7 @@ class CSVParser(BaseParser):
         """Detect file encoding"""
         try:
             import chardet
+
             with open(file_path, "rb") as f:
                 raw_data = f.read(10000)
             result = chardet.detect(raw_data)

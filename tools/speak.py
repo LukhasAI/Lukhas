@@ -29,9 +29,7 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lucas_output.mp3")
     if not preview:
-        os.system(
-            "afplay lucas_output.mp3"
-        )
+        os.system("afplay lucas_output.mp3")
         # For macOS. Use another player for Linux/Win.
 
 
@@ -51,21 +49,15 @@ def main():
     print("\n🎤 LUCAS VOICE MODE — Speak With Intention")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-    parser = argparse.ArgumentParser(
-        description="🎤 Speak via symbolic voice system (Lucas voice)"
-    )
-    parser.add_argument(
-        "text", type=str, nargs="+", help="The phrase Lucas should speak aloud."
-    )
+    parser = argparse.ArgumentParser(description="🎤 Speak via symbolic voice system (Lucas voice)")
+    parser.add_argument("text", type=str, nargs="+", help="The phrase Lucas should speak aloud.")
     parser.add_argument(
         "--emotion",
         type=str,
         default="neutral",
         help="Symbolic emotion voice (gentle, urgent, soft, narrator)",
     )
-    parser.add_argument(
-        "--preview", action="store_true", help="Preview voice without audio playback"
-    )
+    parser.add_argument("--preview", action="store_true", help="Preview voice without audio playback")
     args = parser.parse_args()
 
     tier = get_user_tier()

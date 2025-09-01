@@ -34,9 +34,9 @@ class TextParser(BaseParser):
                     "lines": len(lines),
                     "words": len(words),
                     "sentences": len(sentences),
-                    "characters": len(content)
+                    "characters": len(content),
                 },
-                "file_info": file_info
+                "file_info": file_info,
             }
 
         except UnicodeDecodeError:
@@ -48,7 +48,7 @@ class TextParser(BaseParser):
                 "text": content,
                 "format": "text",
                 "encoding": "latin-1",
-                "file_info": self._get_file_info(file_path)
+                "file_info": self._get_file_info(file_path),
             }
         except Exception as e:
             raise ValueError(f"Failed to parse text file {file_path}: {e!s}")

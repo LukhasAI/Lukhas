@@ -7,6 +7,7 @@ Usage:
 This script ensures the repository root is on PYTHONPATH and launches Uvicorn
 with the canonical application object (`main:app`).
 """
+
 import argparse
 import sys
 from pathlib import Path
@@ -40,9 +41,15 @@ def main() -> None:
     # Import here so PYTHONPATH is set
     try:
         import uvicorn
+
         # main.py provides app as module-level `app`
-        uvicorn.run("lambda_products.lambda_products_pack.lambda_core.Lens.api_new.main:app",
-                    host=args.host, port=args.port, reload=args.reload, workers=args.workers)
+        uvicorn.run(
+            "lambda_products.lambda_products_pack.lambda_core.Lens.api_new.main:app",
+            host=args.host,
+            port=args.port,
+            reload=args.reload,
+            workers=args.workers,
+        )
     except Exception as exc:
         print("Failed to start server:", exc)
         raise

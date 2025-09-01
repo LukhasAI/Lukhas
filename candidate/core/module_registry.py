@@ -34,13 +34,10 @@
 """
 
 import logging
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any
-from typing import Callable
-from typing import Optional
+from typing import Any, Callable, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -56,9 +53,7 @@ try:
 
     TIER_SYSTEM_AVAILABLE = True
 except ImportError:
-    logger.warning(
-        "Tier system components not available. Running without tier enforcement."
-    )
+    logger.warning("Tier system components not available. Running without tier enforcement.")
     TIER_SYSTEM_AVAILABLE = False
 
     # Define fallback
@@ -119,9 +114,7 @@ class ModuleRegistry:
         self.modules: dict[str, ModuleInfo] = {}
         self.identity_client = IdentityClient() if TIER_SYSTEM_AVAILABLE else None
         self.audit_log: list[dict[str, Any]] = []
-        logger.info(
-            f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}"
-        )
+        logger.info(f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}")
 
     def register_module(
         self,
@@ -156,7 +149,8 @@ class ModuleRegistry:
                 # Extract module category from path
                 category = path.split(".")[0] if "." in path else module_id
                 min_tier = self.MODULE_TIER_REQUIREMENTS.get(
-                    category, TierLevel.VISITOR  # Default to Tier 1
+                    category,
+                    TierLevel.VISITOR,  # Default to Tier 1
                 )
 
             # Create module info
@@ -187,9 +181,7 @@ class ModuleRegistry:
                 },
             )
 
-            logger.info(
-                f"Module registered: {name} (ID: {module_id}, Tier: {min_tier})"
-            )
+            logger.info(f"Module registered: {name} (ID: {module_id}, Tier: {min_tier})")
             return True
 
         except Exception as e:
@@ -252,17 +244,13 @@ class ModuleRegistry:
                     raise ValueError(f"Module {module_id} not registered")
 
                 # Use override tier or module default
-                required_tier = (
-                    min_tier if min_tier is not None else module_info.min_tier
-                )
+                required_tier = min_tier if min_tier is not None else module_info.min_tier
 
                 # Check tier access
                 if TIER_SYSTEM_AVAILABLE and self.identity_client:
                     tier_name = f"LAMBDA_TIER_{required_tier}"
                     if not self.identity_client.verify_user_access(user_id, tier_name):
-                        raise PermissionError(
-                            f"Tier {required_tier} required for {module_id}.{func.__name__}"
-                        )
+                        raise PermissionError(f"Tier {required_tier} required for {module_id}.{func.__name__}")
 
                 # Execute function
                 return func(self, user_id, *args, **kwargs)
@@ -339,11 +327,7 @@ class ModuleRegistry:
             "module_id": module_id,
             "name": module_info.name,
             "health_status": module_info.health_status,
-            "last_accessed": (
-                module_info.last_accessed.isoformat()
-                if module_info.last_accessed
-                else None
-            ),
+            "last_accessed": (module_info.last_accessed.isoformat() if module_info.last_accessed else None),
             "access_count": module_info.access_count,
             "uptime": (datetime.now(timezone.utc) - module_info.registered_at).total_seconds(),
         }
@@ -414,8 +398,7 @@ class ModuleRegistry:
                 )
                 registered_connections[module] = config
                 logger.info(
-                    f"Registered core connection: {module}({config['type']}, "
-                    f"priority: {config['priority']})"
+                    f"Registered core connection: {module}({config['type']}, " f"priority: {config['priority']})"
                 )
             except Exception as e:
                 logger.error(f"Failed to register connection {module}: {e}")
@@ -441,9 +424,7 @@ class ModuleRegistry:
                     raise ValueError(f"Missing required field: {field}")
 
             # Log connection
-            self._log_audit(
-                action="connection_registered", module=module, config=config
-            )
+            self._log_audit(action="connection_registered", module=module, config=config)
 
             logger.info(f"Registered connection: {module}")
             return True

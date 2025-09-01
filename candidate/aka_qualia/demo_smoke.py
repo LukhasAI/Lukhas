@@ -267,11 +267,8 @@ class SmokeDemo:
         """Compute congruence between scene state and policy response"""
         # Check if policy pace matches scene urgency
         pace_match = 1.0
-        if (
-            (scene.proto.temporal_feel == TemporalFeel.URGENT
-            and policy.pace < 1.0)
-            or (scene.proto.temporal_feel == TemporalFeel.SUSPENDED
-            and policy.pace > 1.0)
+        if (scene.proto.temporal_feel == TemporalFeel.URGENT and policy.pace < 1.0) or (
+            scene.proto.temporal_feel == TemporalFeel.SUSPENDED and policy.pace > 1.0
         ):
             pace_match = 0.7
 

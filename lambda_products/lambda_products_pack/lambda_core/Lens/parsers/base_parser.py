@@ -28,5 +28,5 @@ class BaseParser(ABC):
             "extension": path.suffix.lower().strip("."),
             "size": stat.st_size,
             "modified": stat.st_mtime,
-            "path": str(path.absolute())
+            "path": str(path.absolute()),
         }

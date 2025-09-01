@@ -40,8 +40,9 @@ class GlyphSymbol:
     confidence: float
 
     @classmethod
-    def create(cls, symbol_type: SymbolType, content: str, metadata: Optional[dict] = None,
-               confidence: float = 1.0) -> "GlyphSymbol":
+    def create(
+        cls, symbol_type: SymbolType, content: str, metadata: Optional[dict] = None, confidence: float = 1.0
+    ) -> "GlyphSymbol":
         """Create a new glyph symbol"""
         return cls(
             id=str(uuid.uuid4()),
@@ -51,7 +52,7 @@ class GlyphSymbol:
             position=None,
             connections=[],
             timestamp=time.time(),
-            confidence=confidence
+            confidence=confidence,
         )
 
     def add_connection(self, symbol_id: str):
@@ -73,5 +74,5 @@ class GlyphSymbol:
             "position": list(self.position) if self.position else None,
             "connections": self.connections,
             "timestamp": self.timestamp,
-            "confidence": self.confidence
+            "confidence": self.confidence,
         }

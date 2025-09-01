@@ -41,11 +41,13 @@ class JobRequest(BaseModel):
     content: Optional[str] = None
     options: Optional[Dict[str, Any]] = {}
 
+
 class JobResponse(BaseModel):
     job_id: str
     status: str
     message: str
     result: Optional[Dict[str, Any]] = None
+
 
 class PhotonDocument(BaseModel):
     id: str
@@ -54,6 +56,7 @@ class PhotonDocument(BaseModel):
     symbols: List[Dict[str, Any]]
     widgets: List[Dict[str, Any]]
     metadata: Dict[str, Any]
+
 
 # Initialize components
 lens_core = LensCore()
@@ -67,9 +70,7 @@ jobs = {}
 
 # Create FastAPI app
 app = FastAPI(
-    title="ΛLens API",
-    description="Symbolic File Transformation and Dashboard Generation API",
-    version="1.0.0"
+    title="ΛLens API", description="Symbolic File Transformation and Dashboard Generation API", version="1.0.0"
 )
 
 # Add CORS middleware
@@ -81,6 +82,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def root():
     """Root endpoint with API information"""
@@ -91,9 +93,10 @@ async def root():
             "/docs - API Documentation",
             "/health - Health Check",
             "/transform - File Transformation",
-            "/jobs/{job_id} - Job Status"
-        ]
+            "/jobs/{job_id} - Job Status",
+        ],
     }
+
 
 @app.get("/health")
 async def health_check():
@@ -105,15 +108,13 @@ async def health_check():
             "lens_core": "active",
             "symbol_generator": "active",
             "widget_factory": "active",
-            "renderers": "active"
-        }
+            "renderers": "active",
+        },
     }
 
+
 @app.post("/transform", response_model=JobResponse)
-async def transform_file(
-    file: UploadFile = File(...),
-    file_type: Optional[str] = None
-):
+async def transform_file(file: UploadFile = File(...), file_type: Optional[str] = None):
     """Transform uploaded file into symbolic dashboard"""
     try:
         # Generate job ID
@@ -134,7 +135,7 @@ async def transform_file(
                 ".json": "data",
                 ".csv": "csv",
                 ".md": "markdown",
-                ".pdf": "pdf"
+                ".pdf": "pdf",
             }
             file_type = file_type_map.get(file_extension, "text")
 
@@ -143,36 +144,30 @@ async def transform_file(
             "status": "processing",
             "file_type": file_type,
             "filename": file.filename,
-            "created_at": datetime.now(timezone.utc).isoformat()
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Process file based on type
         result = await process_file_async(content_str, file_type, job_id)
 
         # Update job with result
-        jobs[job_id].update({
-            "status": "completed",
-            "result": result,
-            "completed_at": datetime.now(timezone.utc).isoformat()
-        })
+        jobs[job_id].update(
+            {"status": "completed", "result": result, "completed_at": datetime.now(timezone.utc).isoformat()}
+        )
 
         return JobResponse(
-            job_id=job_id,
-            status="completed",
-            message=f"Successfully transformed {file.filename}",
-            result=result
+            job_id=job_id, status="completed", message=f"Successfully transformed {file.filename}", result=result
         )
 
     except Exception as e:
         # Update job with error
         if "job_id" in locals():
-            jobs[job_id].update({
-                "status": "failed",
-                "error": str(e),
-                "failed_at": datetime.now(timezone.utc).isoformat()
-            })
+            jobs[job_id].update(
+                {"status": "failed", "error": str(e), "failed_at": datetime.now(timezone.utc).isoformat()}
+            )
 
         raise HTTPException(status_code=500, detail=f"Transformation failed: {e!s}")
+
 
 @app.get("/jobs/{job_id}", response_model=JobResponse)
 async def get_job_status(job_id: str):
@@ -181,12 +176,8 @@ async def get_job_status(job_id: str):
         raise HTTPException(status_code=404, detail="Job not found")
 
     job = jobs[job_id]
-    return JobResponse(
-        job_id=job_id,
-        status=job["status"],
-        message=f"Job {job['status']}",
-        result=job.get("result")
-    )
+    return JobResponse(job_id=job_id, status=job["status"], message=f"Job {job['status']}", result=job.get("result"))
+
 
 async def process_file_async(content: str, file_type: str, job_id: str) -> Dict[str, Any]:
     """Process file content asynchronously"""
@@ -217,30 +208,30 @@ async def process_file_async(content: str, file_type: str, job_id: str) -> Dict[
         widgets = widget_factory.create_widgets(symbols)
 
         # Generate dashboard
-        dashboard = web_renderer.render_dashboard({
-            "title": f"ΛLens Dashboard - {file_type.upper()}",
-            "symbols": symbols,
-            "widgets": widgets,
-            "metadata": {
-                "file_type": file_type,
-                "processed_at": datetime.utcnow().isoformat(),
-                "job_id": job_id
+        dashboard = web_renderer.render_dashboard(
+            {
+                "title": f"ΛLens Dashboard - {file_type.upper()}",
+                "symbols": symbols,
+                "widgets": widgets,
+                "metadata": {"file_type": file_type, "processed_at": datetime.utcnow().isoformat(), "job_id": job_id},
             }
-        })
+        )
 
         return {
             "dashboard": dashboard,
             "symbols_count": len(symbols),
             "widgets_count": len(widgets),
             "file_type": file_type,
-            "processing_time": "completed"
+            "processing_time": "completed",
         }
 
     except Exception as e:
         raise Exception(f"Processing failed: {e!s}")
 
+
 if __name__ == "__main__":
     import uvicorn
+
     print("🚀 Starting ΛLens API Server...")
     print("📡 API will be available at: http://localhost:8000")
     print("📚 Documentation at: http://localhost:8000/docs")

@@ -32,7 +32,7 @@ class CodeParser(BaseParser):
             "class": r"^\s*(?:public|private|protected)?\s*class\s+(\w+)",
             "import": r"^\s*import\s+(.+);",
             "comment": r"^\s*//.*|/\*.*?\*/",
-        }
+        },
     }
 
     async def parse(self, file_path: str) -> Dict[str, Any]:
@@ -56,7 +56,7 @@ class CodeParser(BaseParser):
                 "format": "code",
                 "language": language,
                 "elements": elements,
-                "file_info": file_info
+                "file_info": file_info,
             }
 
         except Exception as e:
@@ -75,7 +75,7 @@ class CodeParser(BaseParser):
             "php": "php",
             "rb": "ruby",
             "go": "go",
-            "rs": "rust"
+            "rs": "rust",
         }
         return language_map.get(extension, "unknown")
 
@@ -84,12 +84,7 @@ class CodeParser(BaseParser):
         lines = content.split("\n")
         patterns = self.LANGUAGE_PATTERNS.get(language, {})
 
-        elements = {
-            "functions": [],
-            "classes": [],
-            "imports": [],
-            "comments": []
-        }
+        elements = {"functions": [], "classes": [], "imports": [], "comments": []}
 
         for i, line in enumerate(lines):
             # Extract functions
@@ -98,37 +93,23 @@ class CodeParser(BaseParser):
                 if func_match:
                     func_name = func_match.group(1) or func_match.group(2) or func_match.group(3)
                     if func_name:
-                        elements["functions"].append({
-                            "name": func_name,
-                            "line": i + 1,
-                            "signature": line.strip()
-                        })
+                        elements["functions"].append({"name": func_name, "line": i + 1, "signature": line.strip()})
 
             # Extract classes
             if "class" in patterns:
                 class_match = re.search(patterns["class"], line)
                 if class_match:
-                    elements["classes"].append({
-                        "name": class_match.group(1),
-                        "line": i + 1,
-                        "signature": line.strip()
-                    })
+                    elements["classes"].append({"name": class_match.group(1), "line": i + 1, "signature": line.strip()})
 
             # Extract imports
             if "import" in patterns:
                 import_match = re.search(patterns["import"], line)
                 if import_match:
-                    elements["imports"].append({
-                        "statement": import_match.group(1),
-                        "line": i + 1
-                    })
+                    elements["imports"].append({"statement": import_match.group(1), "line": i + 1})
 
             # Extract comments
             if "comment" in patterns:
                 if re.search(patterns["comment"], line):
-                    elements["comments"].append({
-                        "content": line.strip(),
-                        "line": i + 1
-                    })
+                    elements["comments"].append({"content": line.strip(), "line": i + 1})
 
         return elements
